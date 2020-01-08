@@ -1,19 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
+  GenericConfigurator,
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
-import { ConfigRouterExtractorService } from '../service/config-router-extractor.service';
+import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
   selector: 'cx-config-previous-next-buttons',
@@ -29,9 +24,6 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
     private configuratorCommonsService: ConfiguratorCommonsService,
     private configRouterExtractorService: ConfigRouterExtractorService
   ) {}
-
-  @Output() nextGroup = new EventEmitter();
-  @Output() previousGroup = new EventEmitter();
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
@@ -52,7 +44,7 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
 
   navigateToNextGroup(configuration: Configurator.Configuration) {
     this.configuratorGroupsService
-      .getNextGroup(configuration.owner)
+      .getNextGroupId(configuration.owner)
       .pipe(take(1))
       .subscribe(groupId =>
         this.configuratorGroupsService.navigateToGroup(configuration, groupId)
@@ -61,22 +53,22 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
 
   navigateToPreviousGroup(configuration: Configurator.Configuration) {
     this.configuratorGroupsService
-      .getPreviousGroup(configuration.owner)
+      .getPreviousGroupId(configuration.owner)
       .pipe(take(1))
       .subscribe(groupId =>
         this.configuratorGroupsService.navigateToGroup(configuration, groupId)
       );
   }
 
-  isFirstGroup(owner: Configurator.Owner): Observable<Boolean> {
+  isFirstGroup(owner: GenericConfigurator.Owner): Observable<Boolean> {
     return this.configuratorGroupsService
-      .getPreviousGroup(owner)
+      .getPreviousGroupId(owner)
       .pipe(map(group => !group));
   }
 
-  isLastGroup(owner: Configurator.Owner): Observable<Boolean> {
+  isLastGroup(owner: GenericConfigurator.Owner): Observable<Boolean> {
     return this.configuratorGroupsService
-      .getNextGroup(owner)
+      .getNextGroupId(owner)
       .pipe(map(group => !group));
   }
 }

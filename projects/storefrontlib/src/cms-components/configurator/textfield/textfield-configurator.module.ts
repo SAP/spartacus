@@ -21,9 +21,14 @@ import { ConfigTextfieldInputFieldComponent } from './config-textfield-input-fie
     CommonModule,
     RouterModule.forChild([
       {
-        path: 'configureTEXTFIELD/:rootProduct',
-        data: { pageLabel: '/configureTEXTFIELD' },
-        component: PageLayoutComponent,
+        path: 'configureTEXTFIELD/:ownerType',
+        children: [
+          {
+            path: 'entityKey/:entityKey',
+            component: PageLayoutComponent,
+            data: { pageLabel: '/configureTEXTFIELD' },
+          },
+        ],
         canActivate: [CmsPageGuard],
       },
     ]),

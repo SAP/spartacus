@@ -87,20 +87,20 @@ export const getCartMergeComplete: MemoizedSelector<
 
 export const getCartEntriesMap: MemoizedSelector<
   StateWithCart,
-  { [entryNumber: number]: OrderEntry }
+  { [code: string]: OrderEntry }
 > = createSelector(
   getCartState,
   getCartEntriesSelector
 );
 
 export const getCartEntrySelectorFactory = (
-  entryNumber: number
+  productCode: string
 ): MemoizedSelector<StateWithCart, OrderEntry> => {
   return createSelector(
     getCartEntriesMap,
     entries => {
       if (entries) {
-        return entries[entryNumber];
+        return entries[productCode];
       }
     }
   );
@@ -112,7 +112,7 @@ export const getCartEntries: MemoizedSelector<
 > = createSelector(
   getCartEntriesMap,
   entities => {
-    return Object.keys(entities).map(entryNumber => entities[entryNumber]);
+    return Object.keys(entities).map(code => entities[code]);
   }
 );
 

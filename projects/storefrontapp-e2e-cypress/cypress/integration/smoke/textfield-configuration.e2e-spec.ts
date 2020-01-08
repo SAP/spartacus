@@ -6,7 +6,9 @@ const testProduct = '1978440_red';
 const configurator = 'TEXTFIELD';
 
 function goToConfigurationPage(configurator, testProduct) {
-  cy.visit(`/electronics-spa/en/USD/configure${configurator}/${testProduct}`);
+  cy.visit(
+    `/electronics-spa/en/USD/configure${configurator}/product/entityKey/${testProduct}`
+  );
 }
 function goToProductDetailsPage(testProduct) {
   cy.visit(`electronics-spa/en/USD/product/${testProduct}/${testProduct}`);

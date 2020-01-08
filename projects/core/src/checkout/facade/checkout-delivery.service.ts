@@ -3,9 +3,9 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
   filter,
-  pluck,
   shareReplay,
   tap,
+  pluck,
   withLatestFrom,
 } from 'rxjs/operators';
 import { CartDataService } from '../../cart/facade/cart-data.service';

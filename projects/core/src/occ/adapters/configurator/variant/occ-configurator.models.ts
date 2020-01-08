@@ -56,6 +56,7 @@ export namespace OccConfigurator {
     groupType?: GroupType;
     id?: string;
     name?: string;
+    subGroups?: Group[];
   }
 
   export interface Characteristic {

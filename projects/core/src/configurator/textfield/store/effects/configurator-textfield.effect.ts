@@ -24,13 +24,10 @@ export class ConfiguratorTextfieldEffects {
     CreateConfiguration | CreateConfigurationSuccess | CreateConfigurationFail
   > = this.actions$.pipe(
     ofType(CREATE_CONFIGURATION),
-    map(
-      (action: { type: string; payload?: { productCode: string } }) =>
-        action.payload
-    ),
+    map((action: CreateConfiguration) => action.payload),
     mergeMap(payload => {
       return this.configuratorTextfieldConnector
-        .createConfiguration(payload.productCode)
+        .createConfiguration(payload.productCode, payload.owner)
         .pipe(
           switchMap((configuration: ConfiguratorTextfield.Configuration) => {
             return [new CreateConfigurationSuccess(configuration)];
@@ -40,6 +37,18 @@ export class ConfiguratorTextfieldEffects {
           )
         );
     })
+  );
+
+  @Effect()
+  addToCartCartProcessIncrement$: Observable<
+    CartActions.CartProcessesIncrement
+  > = this.actions$.pipe(
+    ofType(ADD_TO_CART),
+    map((action: AddToCart) => action.payload),
+    map(
+      (payload: ConfiguratorTextfield.AddToCartParameters) =>
+        new CartActions.CartProcessesIncrement(payload.cartId)
+    )
   );
 
   @Effect()

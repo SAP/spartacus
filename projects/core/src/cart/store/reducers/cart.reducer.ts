@@ -1,4 +1,5 @@
 import { OrderEntry } from '../../../model/order.model';
+import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { CartState } from '../cart-state';
 
@@ -17,14 +18,14 @@ export function reducer(
     | CartActions.CartVoucherAction
 ): CartState {
   switch (action.type) {
-    case CartActions.MERGE_CART: {
+    case DeprecatedCartActions.MERGE_CART: {
       return {
         ...state,
         cartMergeComplete: false,
       };
     }
 
-    case CartActions.MERGE_CART_SUCCESS: {
+    case DeprecatedCartActions.MERGE_CART_SUCCESS: {
       return {
         ...state,
         cartMergeComplete: true,
@@ -32,13 +33,13 @@ export function reducer(
       };
     }
 
-    case CartActions.LOAD_CART_SUCCESS:
-    case CartActions.CREATE_CART_SUCCESS: {
+    case DeprecatedCartActions.LOAD_CART_SUCCESS:
+    case DeprecatedCartActions.CREATE_CART_SUCCESS: {
       const content = { ...action.payload };
       let entries = {};
       if (content.entries) {
         entries = content.entries.reduce(
-          (entryMap: { [entryNumber: number]: any }, entry: OrderEntry) => {
+          (entryMap: { [code: string]: any }, entry: OrderEntry) => {
             return {
               ...entryMap,
               /*
@@ -47,10 +48,10 @@ export function reducer(
               In the case where the detailed once get resolved first, we merge the existing
               data with the new data from the response (to not delete existing detailed data).
               */
-              [entry.entryNumber]:
-                state.entries && state.entries[entry.entryNumber]
+              [entry.product.code]:
+                state.entries && state.entries[entry.product.code]
                   ? {
-                      ...state.entries[entry.entryNumber],
+                      ...state.entries[entry.product.code],
                       ...entry,
                     }
                   : entry,
@@ -75,14 +76,14 @@ export function reducer(
     case CartActions.CART_REMOVE_ENTRY_SUCCESS:
     case CartActions.CART_UPDATE_ENTRY_SUCCESS:
     case CartActions.CART_ADD_ENTRY_SUCCESS:
-    case CartActions.ADD_EMAIL_TO_CART_SUCCESS: {
+    case DeprecatedCartActions.ADD_EMAIL_TO_CART_SUCCESS: {
       return {
         ...state,
         refresh: true,
       };
     }
 
-    case CartActions.RESET_CART_DETAILS: {
+    case DeprecatedCartActions.RESET_CART_DETAILS: {
       return {
         content: {
           guid: state.content.guid,
@@ -95,7 +96,7 @@ export function reducer(
       };
     }
 
-    case CartActions.CLEAR_CART: {
+    case DeprecatedCartActions.CLEAR_CART: {
       return initialState;
     }
   }

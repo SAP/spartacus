@@ -1,0 +1,15 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "incubator-${version}",
+    "commitMessage": "Bumping incubator version to ${version}",
+    "tagAnnotation": "Bumping incubator version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/incubator"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:incubator"
+  }
+}

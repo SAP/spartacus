@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Configurator,
   ConfiguratorCommonsService,
+  GenericConfigurator,
   GlobalMessageService,
   I18nTestingModule,
   RouterState,
@@ -20,7 +21,7 @@ const mockRouterState: any = {
     url: 'host:port/electronics-spa/en/USD/configureCPQCONFIGURATOR',
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
   },
 };
@@ -32,10 +33,10 @@ const productConfiguration: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   owner: {
     id: PRODUCT_CODE,
-    type: Configurator.OwnerType.PRODUCT,
+    type: GenericConfigurator.OwnerType.PRODUCT,
   },
   nextOwner: {
-    type: Configurator.OwnerType.CART_ENTRY,
+    type: GenericConfigurator.OwnerType.CART_ENTRY,
   },
   groups: [
     {
@@ -98,6 +99,7 @@ class MockConfiguratorCommonsService {
   }
   addToCart() {}
   removeConfiguration() {}
+  removeUiState() {}
 }
 
 function performAddToCartOnOverview(
@@ -106,7 +108,7 @@ function performAddToCartOnOverview(
   mockRouterState.state = {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
     url: 'host:port/electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR',
   };
@@ -121,7 +123,7 @@ function performAddToCartWhenAdded(
   classUnderTest: ConfigAddToCartButtonComponent
 ) {
   mockRouterState.state.params = {
-    ownerType: Configurator.OwnerType.CART_ENTRY,
+    ownerType: GenericConfigurator.OwnerType.CART_ENTRY,
     entityKey: CART_ENTRY_KEY,
   };
   classUnderTest.onAddToCart(
@@ -176,6 +178,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
+    spyOn(configuratorCommonsService, 'removeUiState').and.callThrough();
   });
 
   it('should create', () => {
@@ -187,16 +190,21 @@ describe('ConfigAddToCartButtonComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith('cart');
   });
 
-  it('should not remove configuration in case configuration has already been added', () => {
+  it('should not remove configuration for product owner in case configuration has already been added', () => {
     performAddToCartWhenAdded(classUnderTest);
     expect(
       configuratorCommonsService.removeConfiguration
     ).toHaveBeenCalledTimes(0);
   });
 
+  it('should not remove UI state for product owner in case configuration has already been added', () => {
+    performAddToCartWhenAdded(classUnderTest);
+    expect(configuratorCommonsService.removeUiState).toHaveBeenCalledTimes(0);
+  });
+
   it('should not display addToCart message if configuration has already been added', () => {
     mockRouterState.state.params = {
-      ownerType: Configurator.OwnerType.CART_ENTRY,
+      ownerType: GenericConfigurator.OwnerType.CART_ENTRY,
       entityKey: CART_ENTRY_KEY,
     };
     classUnderTest.onAddToCart(
@@ -210,7 +218,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   it('should navigate to overview in case configuration has not been added yet', () => {
     mockRouterState.state.params = {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     };
     classUnderTest.onAddToCart(
       productConfiguration.owner,
@@ -229,7 +237,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   it('should display addToCart message in case configuration has not been added yet', () => {
     mockRouterState.state.params = {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     };
     classUnderTest.onAddToCart(
       productConfiguration.owner,
@@ -242,6 +250,11 @@ describe('ConfigAddToCartButtonComponent', () => {
   it('should navigate to cart in case configuration has not yet been added and process was triggered from overview', () => {
     performAddToCartOnOverview(classUnderTest);
     expect(routingService.go).toHaveBeenCalledWith('cart');
+  });
+
+  it('should remove UI state in case configuration has not yet been added and process was triggered from overview', () => {
+    performAddToCartOnOverview(classUnderTest);
+    expect(configuratorCommonsService.removeUiState).toHaveBeenCalledTimes(1);
   });
 
   it('should remove configuration in case configuration has not yet been added and process was triggered from overview', () => {

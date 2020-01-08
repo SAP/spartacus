@@ -100,4 +100,47 @@ describe('ProductIntroComponent in product', () => {
       expect(result).toBe(tab2);
     });
   });
+
+  describe('Product rating', () => {
+    it('should display rating component when rating is available', () => {
+      productIntroComponent.product$ = of<Product>({ averageRating: 4.5 });
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('cx-star-rating')
+      ).not.toBeNull();
+    });
+
+    it('should not display rating component when rating is unavailable', () => {
+      productIntroComponent.product$ = of<Product>({
+        averageRating: undefined,
+      });
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.nativeElement.querySelector('cx-star-rating')
+      ).toBeNull();
+    });
+
+    it('should display noReviews when rating is unavailable', () => {
+      productIntroComponent.product$ = of<Product>({
+        averageRating: undefined,
+      });
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.innerText).toContain(
+        'productDetails.noReviews'
+      );
+    });
+
+    it('should not display Show Reviews when no reviews available', () => {
+      productIntroComponent.product$ = of<Product>({
+        averageRating: undefined,
+      });
+      productIntroComponent.ngAfterContentChecked = () => {
+        productIntroComponent.reviewsTabAvailable.next(true);
+      };
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
+        'productSummary.showReviews'
+      );
+    });
+  });
 });

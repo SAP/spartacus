@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../../../model/configurator.model';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
@@ -18,7 +19,7 @@ export class ConfiguratorGroupsService {
     private configuratorCommonsService: ConfiguratorCommonsService
   ) {}
 
-  getCurrentGroup(owner: Configurator.Owner): Observable<string> {
+  getCurrentGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getUiState(owner).pipe(
       switchMap(uiState => {
         if (uiState && uiState.currentGroup) {
@@ -40,18 +41,37 @@ export class ConfiguratorGroupsService {
     );
   }
 
+  getCurrentGroup(
+    owner: GenericConfigurator.Owner
+  ): Observable<Configurator.Group> {
+    return this.getCurrentGroupId(owner).pipe(
+      switchMap(currentGroupId => {
+        if (!currentGroupId) {
+          return of(null);
+        }
+        return this.configuratorCommonsService
+          .getConfiguration(owner)
+          .pipe(
+            map(configuration =>
+              this.findCurrentGroup(configuration.groups, currentGroupId)
+            )
+          );
+      })
+    );
+  }
+
   navigateToGroup(configuration: Configurator.Configuration, groupId: string) {
     this.store.dispatch(
       new ConfiguratorActions.ChangeGroup(configuration, groupId)
     );
   }
 
-  setCurrentGroup(owner: Configurator.Owner, groupId: string) {
+  setCurrentGroup(owner: GenericConfigurator.Owner, groupId: string) {
     this.store.dispatch(new UiActions.SetCurrentGroup(owner.key, groupId));
   }
 
-  getNextGroup(owner: Configurator.Owner): Observable<string> {
-    return this.getCurrentGroup(owner).pipe(
+  getNextGroupId(owner: GenericConfigurator.Owner): Observable<string> {
+    return this.getCurrentGroupId(owner).pipe(
       switchMap(currentGroupId => {
         if (!currentGroupId) {
           return of(null);
@@ -60,12 +80,12 @@ export class ConfiguratorGroupsService {
         return this.configuratorCommonsService.getConfiguration(owner).pipe(
           map(configuration => {
             let nextGroup = null;
-            configuration.groups.forEach((group, index) => {
+            configuration.flatGroups.forEach((group, index) => {
               if (
                 group.id === currentGroupId &&
-                configuration.groups[index + 1] //Check if next group exists
+                configuration.flatGroups[index + 1] //Check if next group exists
               ) {
-                nextGroup = configuration.groups[index + 1].id;
+                nextGroup = configuration.flatGroups[index + 1].id;
               }
             });
             return nextGroup;
@@ -76,8 +96,8 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  getPreviousGroup(owner: Configurator.Owner): Observable<string> {
-    return this.getCurrentGroup(owner).pipe(
+  getPreviousGroupId(owner: GenericConfigurator.Owner): Observable<string> {
+    return this.getCurrentGroupId(owner).pipe(
       switchMap(currentGroupId => {
         if (!currentGroupId) {
           return of(null);
@@ -86,12 +106,12 @@ export class ConfiguratorGroupsService {
         return this.configuratorCommonsService.getConfiguration(owner).pipe(
           map(configuration => {
             let nextGroup = null;
-            configuration.groups.forEach((group, index) => {
+            configuration.flatGroups.forEach((group, index) => {
               if (
                 group.id === currentGroupId &&
-                configuration.groups[index - 1] //Check if previous group exists
+                configuration.flatGroups[index - 1] //Check if previous group exists
               ) {
-                nextGroup = configuration.groups[index - 1].id;
+                nextGroup = configuration.flatGroups[index - 1].id;
               }
             });
             return nextGroup;
@@ -100,5 +120,28 @@ export class ConfiguratorGroupsService {
         );
       })
     );
+  }
+
+  ///////////////////////
+  // Helper methods
+  ///////////////////////
+  findCurrentGroup(
+    groups: Configurator.Group[],
+    groupId: String
+  ): Configurator.Group {
+    let currentGroup = groups.find(group => group.id === groupId);
+    if (currentGroup) {
+      return currentGroup;
+    }
+
+    //Call function recursive until group is returned
+    for (let i = 0; i < groups.length; i++) {
+      currentGroup = this.findCurrentGroup(groups[i].subGroups, groupId);
+      if (currentGroup) {
+        return currentGroup;
+      }
+    }
+
+    return null;
   }
 }

@@ -1,7 +1,4 @@
 %cx-config-previous-next-buttons {
-  @include media-breakpoint-up(lg) {
-    background-color: var(--cx-color-background);
-  }
   .cx-config-previous-next-btns {
     padding: 1rem 10px;
     justify-content: space-between;

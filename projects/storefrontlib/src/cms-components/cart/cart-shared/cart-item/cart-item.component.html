@@ -35,6 +35,11 @@
           <div class="cx-label">{{ variant.name }}</div>
           <div class="cx-value">{{ variant.value }}</div>
         </div>
+        <!-- Generic Configuration-->
+        <cx-configure-cart-entry
+          *ngIf="item.product.configurable && !isReadOnly"
+          [cartEntry]="item"
+        ></cx-configure-cart-entry>
       </div>
       <!-- Item Price -->
       <div

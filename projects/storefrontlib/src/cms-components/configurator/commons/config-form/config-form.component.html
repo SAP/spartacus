@@ -1,69 +1,63 @@
 <ng-container *ngIf="configuration$ | async as configuration">
-  <ng-container *ngFor="let group of configuration.groups">
+  <div class="cx-item-list-row cx-config-group-attribute">
     <ng-container *ngIf="currentGroup$ | async as currentGroup">
       <div
         class="cx-item-list-row cx-config-group-attribute"
-        *ngIf="currentGroup === group.id"
+        *ngFor="let attribute of currentGroup.attributes"
       >
+        <div class="cx-config-attribute-header">
+          <cx-config-attribute-header
+            [attribute]="attribute"
+          ></cx-config-attribute-header>
+        </div>
         <div
-          class="cx-item-list-row cx-config-group-attribute"
-          *ngFor="let attribute of group.attributes"
+          class="cx-config-attribute-value cx-config-attribute-value-multi col-xs-12"
+          [class.cx-config-attribute-value-multi]="
+            attribute.uiType === UiType.RADIOBUTTON
+          "
         >
-          <div class="cx-config-attribute-header">
-            <cx-config-attribute-header
-              [attribute]="attribute"
-            ></cx-config-attribute-header>
-          </div>
-          <div
-            class="cx-config-attribute-value cx-config-attribute-value-multi col-xs-12"
-            [class.cx-config-attribute-value-multi]="
-              attribute.uiType === UiType.RADIOBUTTON
-            "
-          >
-            <cx-config-attribute-radio-button
-              *ngIf="attribute.uiType === UiType.RADIOBUTTON"
-              [attribute]="attribute"
-              [group]="group.id"
-              [ownerKey]="configuration.owner.key"
-              (selectionChange)="updateConfiguration($event)"
-            ></cx-config-attribute-radio-button>
-            <cx-config-attribute-checkbox-list
+          <cx-config-attribute-radio-button
+            *ngIf="attribute.uiType === UiType.RADIOBUTTON"
+            [attribute]="attribute"
+            [group]="currentGroup.id"
+            [ownerKey]="configuration.owner.key"
+            (selectionChange)="updateConfiguration($event)"
+          ></cx-config-attribute-radio-button>
+          <cx-config-attribute-drop-down
+            *ngIf="attribute.uiType === UiType.DROPDOWN"
+            [attribute]="attribute"
+            [group]="currentGroup.id"
+            [ownerKey]="configuration.owner.key"
+            (selectionChange)="updateConfiguration($event)"
+          ></cx-config-attribute-drop-down>
+          <cx-config-attribute-input-field
+            *ngIf="attribute.uiType === UiType.STRING"
+            [attribute]="attribute"
+            [group]="currentGroup.id"
+            [ownerKey]="configuration.owner.key"
+            (inputChange)="updateConfiguration($event)"
+          ></cx-config-attribute-input-field>
+          <cx-config-attribute-checkbox-list
               *ngIf="attribute.uiType === UiType.CHECKBOX"
               [attribute]="attribute"
               [group]="group.id"
               [ownerKey]="configuration.owner.key"
               (selectionChange)="updateConfiguration($event)"
             ></cx-config-attribute-checkbox-list>
-            <cx-config-attribute-drop-down
-              *ngIf="attribute.uiType === UiType.DROPDOWN"
-              [attribute]="attribute"
-              [group]="group.id"
-              [ownerKey]="configuration.owner.key"
-              (selectionChange)="updateConfiguration($event)"
-            ></cx-config-attribute-drop-down>
-            <cx-config-attribute-input-field
-              *ngIf="attribute.uiType === UiType.STRING"
-              [attribute]="attribute"
-              [group]="group.id"
-              [ownerKey]="configuration.owner.key"
-              (inputChange)="updateConfiguration($event)"
-            ></cx-config-attribute-input-field>
-            <cx-config-attribute-read-only
-              *ngIf="attribute.uiType === UiType.READ_ONLY"
-              [attribute]="attribute"
-              [group]="group.id"
-            ></cx-config-attribute-read-only>
-            <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
-              'configurator.attribute.notSupported' | cxTranslate
-            }}</em>
-          </div>
-          <div class="cx-config-attribute-footer">
-            <cx-config-attribute-footer
-              [attribute]="attribute"
-            ></cx-config-attribute-footer>
-          </div>
+          <cx-config-attribute-read-only
+            *ngIf="attribute.uiType === UiType.READ_ONLY"
+            [attribute]="attribute"
+            [group]="currentGroup.id"
+          ></cx-config-attribute-read-only>
+          <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
+            'configurator.attribute.notSupported' | cxTranslate
+          }}</em>
         </div>
-      </div>
-    </ng-container>
-  </ng-container>
+        <div class="cx-config-attribute-footer">
+          <cx-config-attribute-footer
+            [attribute]="attribute"
+          ></cx-config-attribute-footer>
+        </div></div
+    ></ng-container>
+  </div>
 </ng-container>

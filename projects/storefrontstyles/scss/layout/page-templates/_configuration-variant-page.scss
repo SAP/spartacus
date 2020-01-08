@@ -8,17 +8,13 @@
   justify-content: center;
   align-content: flex-start;
 
-  @include media-breakpoint-down(md) {
-    background-color: var(--cx-color-background);
-  }
-
   @include media-breakpoint-up(lg) {
     cx-page-slot.VariantConfigMenu {
-      max-width: 25%;
+      max-width: 30%;
     }
 
     cx-page-slot.VariantConfigContent {
-      max-width: 75%;
+      max-width: 70%;
     }
   }
 }

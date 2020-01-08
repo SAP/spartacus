@@ -17,9 +17,13 @@
 
 <div class="cx-product-rating">
   <cx-star-rating
+    *ngIf="product.averageRating"
     [rating]="product?.averageRating"
     [disabled]="true"
   ></cx-star-rating>
+  <div *ngIf="!product.averageRating">
+    {{ 'productDetails.noReviews' | cxTranslate }}
+  </div>
 </div>
 <div class="cx-product-price-container">
   <div class="cx-product-price" aria-label="Product price">
@@ -28,7 +32,7 @@
 </div>
 
 <cx-add-to-cart
-  *ngIf="product.stock.stockLevelStatus !== 'outOfStock'"
+  *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"
   [showQuantity]="false"
   [product]="product"
 ></cx-add-to-cart>

@@ -8,9 +8,10 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { CartActions } from '../../../../cart/store/actions/';
 import { CartModification } from '../../../../model/cart.model';
+import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
+import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import * as fromConfigurationReducers from '../../store/reducers/index';
-import { ConfigUtilsService } from '../../utils/config-utils.service';
 import { ConfiguratorUiActions } from '../actions';
 import * as ConfiguratorActions from '../actions/configurator.action';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
@@ -29,8 +30,8 @@ const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
   status: 404,
 });
-const owner: Configurator.Owner = {
-  type: Configurator.OwnerType.PRODUCT,
+const owner: GenericConfigurator.Owner = {
+  type: GenericConfigurator.OwnerType.PRODUCT,
   id: productCode,
 };
 const productConfiguration: Configurator.Configuration = {
@@ -70,7 +71,7 @@ describe('ConfiguratorEffect', () => {
   let readMock: jasmine.Spy;
   let addToCartMock: jasmine.Spy;
   let configEffects: fromEffects.ConfiguratorEffects;
-  let configuratorUtils: ConfigUtilsService;
+  let configuratorUtils: GenericConfigUtilsService;
 
   let actions$: Observable<any>;
 
@@ -120,8 +121,8 @@ describe('ConfiguratorEffect', () => {
     configEffects = TestBed.get(fromEffects.ConfiguratorEffects as Type<
       fromEffects.ConfiguratorEffects
     >);
-    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
-      ConfigUtilsService
+    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
+      GenericConfigUtilsService
     >);
     configuratorUtils.setOwnerKey(owner);
   });
@@ -380,7 +381,7 @@ describe('ConfiguratorEffect', () => {
   });
 
   describe('Effect addToCart', () => {
-    it('should emit AddToCartSuccess, RemoveUiState and AddOwner on addToCart in case no changes are pending', () => {
+    it('should emit AddToCartSuccess, AddOwner on addToCart in case no changes are pending', () => {
       const payloadInput: Configurator.AddToCartParameters = {
         userId: userId,
         cartId: cartId,
@@ -395,14 +396,13 @@ describe('ConfiguratorEffect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const removeUiState = new ConfiguratorUiActions.RemoveUiState(owner.key);
+
       const removeConfiguration = new ConfiguratorActions.AddNextOwner(
         owner.key,
         '' + entryNumber
       );
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
-        b: removeUiState,
+      const expected = cold('-(cd)', {
         c: removeConfiguration,
         d: cartAddEntrySuccess,
       });
@@ -430,6 +430,31 @@ describe('ConfiguratorEffect', () => {
         b: cartAddEntryFail,
       });
       expect(configEffects.addToCart$).toBeObservable(expected);
+    });
+  });
+
+  describe('Effect addToCartCartProcessIncrement', () => {
+    it('should emit CartProcessesIncrement on addToCart in case no changes are pending', () => {
+      const payloadInput: Configurator.AddToCartParameters = {
+        userId: userId,
+        cartId: cartId,
+        productCode: productCode,
+        quantity: quantity,
+        configId: configId,
+        ownerKey: owner.key,
+      };
+      const action = new ConfiguratorActions.AddToCart(payloadInput);
+      const cartProcessIncrement = new CartActions.CartProcessesIncrement(
+        cartId
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-d', {
+        d: cartProcessIncrement,
+      });
+      expect(configEffects.addToCartCartProcessIncrement$).toBeObservable(
+        expected
+      );
     });
   });
 });

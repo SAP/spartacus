@@ -277,8 +277,23 @@ export class ConfiguratorEffects {
   );
 
   @Effect()
+  addToCartCartProcessIncrement$: Observable<
+    CartActions.CartProcessesIncrement
+  > = this.actions$.pipe(
+    ofType(ADD_TO_CART),
+    map((action: AddToCart) => action.payload),
+    switchMap((payload: Configurator.AddToCartParameters) => {
+      return this.store.pipe(
+        select(ConfiguratorSelectors.getPendingChanges),
+        take(1),
+        filter(pendingChanges => pendingChanges === 0),
+        map(() => new CartActions.CartProcessesIncrement(payload.cartId))
+      );
+    })
+  );
+
+  @Effect()
   addToCart$: Observable<
-    | ConfiguratorUiActions.RemoveUiState
     | ConfiguratorActions.AddNextOwner
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
@@ -294,7 +309,6 @@ export class ConfiguratorEffects {
           return this.configuratorCommonsConnector.addToCart(payload).pipe(
             switchMap((entry: CartModification) => {
               return [
-                new ConfiguratorUiActions.RemoveUiState(payload.ownerKey),
                 new ConfiguratorActions.AddNextOwner(
                   payload.ownerKey,
                   '' + entry.entry.entryNumber

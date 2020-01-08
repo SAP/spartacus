@@ -25,17 +25,16 @@ import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute
 import { ConfigAttributeReadOnlyComponent } from '../commons/config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
-import { ConfigImageComponent } from '../commons/config-image/config-image.component';
+import { ConfigGroupTitleComponent } from '../commons/config-group-title/config-group-title.component';
 import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/config-price-summary.component';
 import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.component';
-import { ConfigTitleComponent } from '../commons/config-title/config-title.component';
-import { ConfigureProductModule } from '../commons/configure-product/configure-product.module';
+import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    ConfigureProductModule,
+    GenericConfiguratorModule,
     ProductModule,
     RouterModule.forChild([
       {
@@ -56,16 +55,12 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
           component: ConfigTabBarComponent,
           guards: [],
         },
+        VariantConfigurationGroupTitle: {
+          component: ConfigGroupTitleComponent,
+          guards: [],
+        },
         VariantConfigurationForm: {
           component: ConfigFormComponent,
-          guards: [],
-        },
-        VariantConfigurationTitleSummary: {
-          component: ConfigTitleComponent,
-          guards: [],
-        },
-        VariantConfigurationImage: {
-          component: ConfigImageComponent,
           guards: [],
         },
         VariantConfigurationMenu: {
@@ -118,7 +113,6 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
           md: {
             slots: [
               'VariantConfigHeader',
-              'VariantConfigTitle',
               'VariantConfigMenu',
               'VariantConfigContent',
               'VariantConfigBottombar',
@@ -127,7 +121,6 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
           xs: {
             slots: [
               'VariantConfigHeader',
-              'VariantConfigTitle',
               'VariantConfigContent',
               'VariantConfigBottombar',
             ],
@@ -147,8 +140,6 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
 
   declarations: [
     ConfigFormComponent,
-    ConfigTitleComponent,
-    ConfigImageComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeCheckBoxListComponent,
@@ -158,14 +149,13 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
+    ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
   ],
   exports: [
     ConfigFormComponent,
-    ConfigTitleComponent,
-    ConfigImageComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeCheckBoxListComponent,
@@ -175,6 +165,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
+    ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
@@ -182,8 +173,6 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
   providers: [UserService],
   entryComponents: [
     ConfigFormComponent,
-    ConfigTitleComponent,
-    ConfigImageComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeCheckBoxListComponent,
@@ -193,6 +182,7 @@ import { ConfigureProductModule } from '../commons/configure-product/configure-p
     ConfigAttributeFooterComponent,
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
+    ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,

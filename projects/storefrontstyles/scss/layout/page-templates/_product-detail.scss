@@ -32,11 +32,18 @@
           grid-row: 3 / 4;
           padding: 0 20px 20px 20px;
         }
+
         cx-configure-product {
           grid-column: 2;
           grid-row: 4 / 5;
           padding: 0 20px 20px 20px;
           margin-top: -15px;
+        }
+
+        cx-stock-notification {
+          grid-column: 2;
+          grid-row: 3 / 4;
+          padding: 20% 20px 20px 20px;
         }
       }
     }

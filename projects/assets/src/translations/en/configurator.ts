@@ -5,6 +5,7 @@ export const configurator = {
       complete: 'Complete',
       configId: 'Configuration ID',
       toconfig: 'Configure',
+      editConfiguration: 'Edit Configuration',
     },
     tabBar: {
       configuration: 'Configuration',
@@ -21,6 +22,7 @@ export const configurator = {
     button: {
       previous: 'Previous',
       next: 'Next',
+      back: 'Back',
     },
     priceSummary: {
       basePrice: 'Base Price',

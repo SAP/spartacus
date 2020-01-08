@@ -8,16 +8,33 @@ export function clickOnConfigureButton() {
   cy.get('cx-configure-product a').click({ force: true });
 }
 
-export function clickOnNextGroupButton() {
+/**
+ * Click on the next group Button and verifies that an element of the next group is displayed
+ *
+ * @param attributeName Attribute name of a attribute of the target group. Will be used to verify that the next group is displayed
+ * @param uiType UI Type of the attribute of the target group. Will be used to verify that the next group is displayed
+ */
+export function clickOnNextGroupButton(attributeName: string, uiType: string) {
   cy.get(nextGroupButtonSelector).click({
     force: true,
   });
+  verifyAttributeIsDisplayed(attributeName, uiType);
 }
 
-export function clickOnPreviousGroupButton() {
+/**
+ * Click on the previous group Button and verifies that an element of the previous group is displayed
+ *
+ * @param attributeName Attribute name of a attribute of the target group. Will be used to verify that the previous group is displayed
+ * @param uiType UI Type of the attribute of the target group. Will be used to verify that the previous group is displayed
+ */
+export function clickOnPreviousGroupButton(
+  attributeName: string,
+  uiType: string
+) {
   cy.get(previousGroupButtonSelector).click({
     force: true,
   });
+  verifyAttributeIsDisplayed(attributeName, uiType);
 }
 
 export function verifyConfigurationPageIsDisplayed() {

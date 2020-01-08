@@ -113,9 +113,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       }),
       map(titles => {
-        const sortedTitles = titles.sort(sortTitles);
+        titles.sort(sortTitles);
         const noneTitle = { code: '', name: 'Title' };
-        return [noneTitle, ...sortedTitles];
+        return [noneTitle, ...titles];
       })
     );
 

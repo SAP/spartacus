@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CartService } from '../../../cart/facade/cart.service';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -19,15 +20,16 @@ const SUCCESS_STATUS = 'SUCCESS';
 export class ConfiguratorTextfieldService {
   constructor(
     protected store: Store<StateWithConfigurationTextfield>,
-    protected cartService: CartService
+    protected activeCartService: ActiveCartService
   ) {}
 
   createConfiguration(
-    productCode: string
+    owner: GenericConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     this.store.dispatch(
       new ConfiguratorActions.CreateConfiguration({
-        productCode: productCode,
+        productCode: owner.id, //owner Id is the product code in this case
+        owner: owner,
       })
     );
 
@@ -55,11 +57,10 @@ export class ConfiguratorTextfieldService {
   }
 
   addToCart(productCode: string) {
-    const cart$ = this.cartService.getOrCreateCart();
-    cart$.pipe(take(1)).subscribe(cart => {
+    this.activeCartService.requireLoadedCart().subscribe(cartState => {
       const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
-        userId: this.getUserId(cart),
-        cartId: this.getCartId(cart),
+        userId: this.getUserId(cartState.value),
+        cartId: this.getCartId(cartState.value),
         productCode: productCode,
         quantity: 1,
       };
@@ -102,6 +103,7 @@ export class ConfiguratorTextfieldService {
   ): ConfiguratorTextfield.Configuration {
     const newConfiguration: ConfiguratorTextfield.Configuration = {
       configurationInfos: [],
+      owner: oldConfiguration.owner,
     };
     oldConfiguration.configurationInfos.forEach(info => {
       if (info.configurationLabel === changedAttribute.configurationLabel) {

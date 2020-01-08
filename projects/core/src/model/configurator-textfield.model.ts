@@ -1,6 +1,9 @@
+import { GenericConfigurator } from './generic-configurator.model';
+
 export namespace ConfiguratorTextfield {
   export interface Configuration {
     configurationInfos: ConfigurationInfo[];
+    owner?: GenericConfigurator.Owner;
   }
 
   export interface ConfigurationInfo {

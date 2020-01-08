@@ -11,6 +11,10 @@ import { EMAIL_PATTERN } from '../../util';
 import { StateWithCart } from '../store/cart-state';
 import { CartSelectors } from '../store/selectors/index';
 
+/**
+ * @deprecated since version 1.4
+ * Replace particular methods usage with replacements from other services
+ */
 @Injectable()
 export class CartDataService {
   private _userId = OCC_USER_ID_ANONYMOUS;
@@ -40,14 +44,26 @@ export class CartDataService {
     return !!this._cart && Object.keys(this._cart).length > 0;
   }
 
+  /**
+   * @deprecated since version 1.4
+   * Use `getOccUserId` from `AuthService` instead
+   */
   get userId(): string {
     return this._userId;
   }
 
+  /**
+   * @deprecated since version 1.4
+   * Use `getActive` from `ActiveCartService` instead
+   */
   get cart(): Cart {
     return this._cart;
   }
 
+  /**
+   * @deprecated since version 1.4
+   * Use `getActiveCartId` from `ActiveCartService` instead
+   */
   get cartId(): string {
     if (this.hasCart) {
       return this.userId === OCC_USER_ID_ANONYMOUS
@@ -56,6 +72,10 @@ export class CartDataService {
     }
   }
 
+  /**
+   * @deprecated since version 1.4
+   * Use `isGuestCart` from `ActiveCartService` instead
+   */
   get isGuestCart(): boolean {
     return (
       this.cart.user &&

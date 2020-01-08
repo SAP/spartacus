@@ -1,0 +1,16 @@
+<ng-container *ngIf="cartEntry">
+  <a
+    [routerLink]="
+      {
+        cxRoute: 'configure' + cartEntry.product.configuratorType,
+        params: {
+          ownerType: ownerTypeCartEntry,
+          entityKey: cartEntry.entryNumber
+        }
+      } | cxUrl
+    "
+    class=""
+    cxAutoFocus
+    >{{ 'configurator.header.editConfiguration' | cxTranslate }}</a
+  >
+</ng-container>

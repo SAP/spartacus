@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
-import { CartService } from '../../../cart/facade/cart.service';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -19,10 +20,10 @@ import * as ConfiguratorSelectors from '../store/selectors/configurator.selector
 export class ConfiguratorCommonsService {
   constructor(
     protected store: Store<StateWithConfiguration>,
-    protected cartService: CartService
+    protected activeCartService: ActiveCartService
   ) {}
 
-  hasConfiguration(owner: Configurator.Owner): Observable<Boolean> {
+  hasConfiguration(owner: GenericConfigurator.Owner): Observable<Boolean> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       map(configuration => this.isConfigurationCreated(configuration))
@@ -30,7 +31,7 @@ export class ConfiguratorCommonsService {
   }
 
   getConfiguration(
-    owner: Configurator.Owner
+    owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
@@ -39,7 +40,7 @@ export class ConfiguratorCommonsService {
   }
 
   getOrCreateConfiguration(
-    owner: Configurator.Owner
+    owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationStateFactory(owner.key)),
@@ -48,7 +49,7 @@ export class ConfiguratorCommonsService {
           !this.isConfigurationCreated(configurationState.value) &&
           configurationState.loading !== true
         ) {
-          if (owner.type === Configurator.OwnerType.PRODUCT) {
+          if (owner.type === GenericConfigurator.OwnerType.PRODUCT) {
             this.store.dispatch(
               new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
             );
@@ -104,7 +105,7 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  getUiState(owner: Configurator.Owner): Observable<UiState> {
+  getOrCreateUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
     return this.store.pipe(
       select(UiSelectors.getUiStateForProduct(owner.key)),
       tap(uiState => {
@@ -116,30 +117,35 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  setUiState(owner: Configurator.Owner, state: UiState) {
+  getUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
+    return this.store.pipe(
+      select(UiSelectors.getUiStateForProduct(owner.key)),
+      filter(uiState => this.isUiStateCreated(uiState))
+    );
+  }
+
+  setUiState(owner: GenericConfigurator.Owner, state: UiState) {
     this.store.dispatch(new UiActions.SetUiState(owner.key, state));
   }
 
-  removeUiState(owner: Configurator.Owner) {
+  removeUiState(owner: GenericConfigurator.Owner) {
     this.store.dispatch(new UiActions.RemoveUiState(owner.key));
   }
 
-  removeConfiguration(owner: Configurator.Owner) {
+  removeConfiguration(owner: GenericConfigurator.Owner) {
     this.store.dispatch(new ConfiguratorActions.RemoveConfiguration(owner.key));
   }
 
   addToCart(productCode: string, configId: string, ownerKey: string) {
-    const cart$ = this.cartService.getOrCreateCart();
-    cart$.pipe(take(1)).subscribe(cart => {
+    this.activeCartService.requireLoadedCart().subscribe(cartState => {
       const addToCartParameters: Configurator.AddToCartParameters = {
-        userId: this.getUserId(cart),
-        cartId: this.getCartId(cart),
+        userId: this.getUserId(cartState.value),
+        cartId: this.getCartId(cartState.value),
         productCode: productCode,
         quantity: 1,
         configId: configId,
         ownerKey: ownerKey,
       };
-
       this.store.dispatch(
         new ConfiguratorActions.AddToCart(addToCartParameters)
       );

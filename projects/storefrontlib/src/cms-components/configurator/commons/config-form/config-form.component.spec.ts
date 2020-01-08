@@ -7,7 +7,8 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
-  ConfigUtilsService,
+  GenericConfigurator,
+  GenericConfigUtilsService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -30,20 +31,64 @@ const mockRouterState: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
   },
 };
-const owner: Configurator.Owner = {
+const owner: GenericConfigurator.Owner = {
   id: PRODUCT_CODE,
-  type: Configurator.OwnerType.PRODUCT,
+  type: GenericConfigurator.OwnerType.PRODUCT,
 };
+const groups: Configurator.Group[] = [
+  {
+    configurable: true,
+    description: 'Core components',
+    groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+    id: '1-CPQ_LAPTOP.1',
+    name: '1',
+    attributes: [
+      {
+        label: 'Expected Number',
+        name: 'EXP_NUMBER',
+        required: true,
+        uiType: Configurator.UiType.NOT_IMPLEMENTED,
+        values: [],
+      },
+      {
+        label: 'Processor',
+        name: 'CPQ_CPU',
+        required: true,
+        selectedSingleValue: 'INTELI5_35',
+        uiType: Configurator.UiType.RADIOBUTTON,
+        values: [],
+      },
+    ],
+  },
+  {
+    configurable: true,
+    description: 'Peripherals & Accessories',
+    groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+    id: '1-CPQ_LAPTOP.2',
+    name: '2',
+    attributes: [],
+  },
+  {
+    configurable: true,
+    description: 'Software',
+    groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+    id: '1-CPQ_LAPTOP.3',
+    name: '3',
+    attributes: [],
+  },
+];
+
 const configRead: Configurator.Configuration = {
   configId: 'a',
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
   owner: owner,
+  groups: groups,
 };
 
 const configRead2: Configurator.Configuration = {
@@ -52,53 +97,7 @@ const configRead2: Configurator.Configuration = {
   complete: true,
   productCode: PRODUCT_CODE,
   owner: owner,
-};
-
-const configCreate: Configurator.Configuration = {
-  configId: '1234-56-7890',
-  owner: owner,
-  groups: [
-    {
-      configurable: true,
-      description: 'Core components',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.1',
-      name: '1',
-      attributes: [
-        {
-          label: 'Expected Number',
-          name: 'EXP_NUMBER',
-          required: true,
-          uiType: Configurator.UiType.NOT_IMPLEMENTED,
-          values: [],
-        },
-        {
-          label: 'Processor',
-          name: 'CPQ_CPU',
-          required: true,
-          selectedSingleValue: 'INTELI5_35',
-          uiType: Configurator.UiType.RADIOBUTTON,
-          values: [],
-        },
-      ],
-    },
-    {
-      configurable: true,
-      description: 'Peripherals & Accessories',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.2',
-      name: '2',
-      attributes: [],
-    },
-    {
-      configurable: true,
-      description: 'Software',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.3',
-      name: '3',
-      attributes: [],
-    },
-  ],
+  groups: groups,
 };
 
 @Component({
@@ -110,7 +109,6 @@ class MockCxIconComponent {
 }
 
 let routerStateObservable = null;
-let configurationObservable = null;
 let configurationCreateObservable = null;
 let currentGroupObservable = null;
 
@@ -121,17 +119,11 @@ class MockRoutingService {
 }
 
 class MockConfiguratorCommonsService {
-  createConfiguration(
-    productCode: string
-  ): Observable<Configurator.Configuration> {
-    configCreate.productCode = productCode;
-    return of(configCreate);
-  }
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return configurationObservable;
-  }
   getOrCreateConfiguration(): Observable<Configurator.Configuration> {
     return configurationCreateObservable;
+  }
+  getOrCreateUiState(): Observable<any> {
+    return of(undefined);
   }
   hasConfiguration(): Observable<boolean> {
     return of(false);
@@ -170,30 +162,25 @@ function checkConfigurationObs(
 function checkCurrentGroupObs(
   component: ConfigFormComponent,
   routerMarbels: string,
-  configurationServiceMarbels: string,
   groupMarbels: string,
   expectedMarbels: string
 ) {
   routerStateObservable = cold(routerMarbels, {
     a: mockRouterState,
   });
-  configurationObservable = cold(configurationServiceMarbels, {
-    x: configRead,
-    y: configRead2,
-  });
   currentGroupObservable = cold(groupMarbels, {
-    u: 'group1',
-    v: 'group2',
+    u: groups[0],
+    v: groups[1],
   });
   component.ngOnInit();
 
   expect(component.currentGroup$).toBeObservable(
-    cold(expectedMarbels, { u: 'group1', v: 'group2' })
+    cold(expectedMarbels, { u: groups[0], v: groups[1] })
   );
 }
 describe('ConfigurationFormComponent', () => {
   let component: ConfigFormComponent;
-  let configuratorUtils: ConfigUtilsService;
+  let configuratorUtils: GenericConfigUtilsService;
   let fixture: ComponentFixture<ConfigFormComponent>;
 
   beforeEach(async(() => {
@@ -238,8 +225,8 @@ describe('ConfigurationFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigFormComponent);
     component = fixture.componentInstance;
-    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
-      ConfigUtilsService
+    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
+      GenericConfigUtilsService
     >);
     configuratorUtils.setOwnerKey(owner);
   });
@@ -261,14 +248,14 @@ describe('ConfigurationFormComponent', () => {
   });
 
   it('should only get the minimum needed 2 emissions of current groups if group service emits slowly', () => {
-    checkCurrentGroupObs(component, 'aa', '---xy', '---uv', '--------uv');
+    checkCurrentGroupObs(component, 'aa', '---uv', '----uv');
   });
 
   it('should get 4 emissions of current groups if configurations service emits fast', () => {
-    checkCurrentGroupObs(component, 'a---a', 'xy', '--uv', '---uv--uv');
+    checkCurrentGroupObs(component, 'a---a', '--uv', '--uv--uv');
   });
 
   it('should get the maximum 8 emissions of current groups if router and config service emit slowly', () => {
-    checkCurrentGroupObs(component, 'a-----a', '--x--y', 'uv', '--uv-uv-uv-uv');
+    checkCurrentGroupObs(component, 'a-----a', 'uv', 'uv----uv');
   });
 });

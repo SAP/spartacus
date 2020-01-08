@@ -7,10 +7,10 @@ import {
 import {
   ConfiguratorTextfield,
   ConfiguratorTextfieldService,
+  GenericConfigurator,
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-textfield-add-to-cart-button',
@@ -28,15 +28,16 @@ export class ConfigTextfieldAddToCartButtonComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onAddToCart() {
-    this.routingService
-      .getRouterState()
-      .pipe(take(1))
-      .subscribe(routerState =>
-        this.configuratorTextfieldService.addToCart(
-          routerState.state.params.rootProduct
-        )
-      );
+  onAddToCart(owner: GenericConfigurator.Owner) {
+    switch (owner.type) {
+      case GenericConfigurator.OwnerType.PRODUCT:
+        this.configuratorTextfieldService.addToCart(owner.id);
+        break;
+      case GenericConfigurator.OwnerType.CART_ENTRY:
+        //TODO:get configuration from cart for change confuration in cart
+        break;
+    }
+
     this.routingService.go({ cxRoute: 'cart' });
   }
 }

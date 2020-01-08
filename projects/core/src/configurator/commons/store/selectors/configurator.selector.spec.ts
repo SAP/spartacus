@@ -1,7 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { ConfigUtilsService } from '../../utils/config-utils.service';
+import { GenericConfigurator } from '../../../../model/generic-configurator.model';
+import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import { ConfiguratorActions } from '../actions';
 import { Configurator } from './../../../../model/configurator.model';
 import {
@@ -13,10 +14,10 @@ import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {
   let store: Store<StateWithConfiguration>;
-  let configuratorUtils: ConfigUtilsService;
+  let configuratorUtils: GenericConfigUtilsService;
   const productCode = 'CONF_LAPTOP';
-  const owner: Configurator.Owner = {
-    type: Configurator.OwnerType.PRODUCT,
+  const owner: GenericConfigurator.Owner = {
+    type: GenericConfigurator.OwnerType.PRODUCT,
     id: productCode,
   };
 
@@ -38,8 +39,8 @@ describe('Configurator selectors', () => {
     });
 
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
-    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
-      ConfigUtilsService
+    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
+      GenericConfigUtilsService
     >);
     configuratorUtils.setOwnerKey(owner);
     spyOn(store, 'dispatch').and.callThrough();

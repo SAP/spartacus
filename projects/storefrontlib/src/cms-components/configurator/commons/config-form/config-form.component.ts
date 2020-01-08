@@ -6,8 +6,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { ConfigRouterExtractorService } from '../service/config-router-extractor.service';
+import { switchMap, take } from 'rxjs/operators';
+import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 import { ConfigFormUpdateEvent } from './config-form.event';
 
 @Component({
@@ -17,7 +17,7 @@ import { ConfigFormUpdateEvent } from './config-form.event';
 })
 export class ConfigFormComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
-  currentGroup$: Observable<string>;
+  currentGroup$: Observable<Configurator.Group>;
 
   public UiType = Configurator.UiType;
 
@@ -36,14 +36,22 @@ export class ConfigFormComponent implements OnInit {
           this.configuratorCommonsService.getOrCreateConfiguration(owner)
         )
       );
+
+    this.configRouterExtractorService
+      .extractConfigurationOwner(this.routingService)
+      .pipe(
+        switchMap(owner =>
+          this.configuratorCommonsService.getOrCreateUiState(owner)
+        ),
+        take(1)
+      )
+      .subscribe();
+
     this.currentGroup$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
         switchMap(owner =>
-          this.configuratorCommonsService.getConfiguration(owner)
-        ),
-        switchMap(configuration =>
-          this.configuratorGroupsService.getCurrentGroup(configuration.owner)
+          this.configuratorGroupsService.getCurrentGroup(owner)
         )
       );
   }

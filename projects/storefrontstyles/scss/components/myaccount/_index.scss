@@ -9,6 +9,7 @@
 @import './consent-management';
 @import './consent-management-form';
 @import './anonymous-consent/index';
+@import './my-interests';
 
 $myaccount-components-whitelist: cx-address-book, cx-address-card,
   cx-order-summary, cx-order-history, cx-order-confirmation-items,
@@ -19,4 +20,4 @@ $myaccount-components-whitelist: cx-address-book, cx-address-card,
   cx-close-account-modal, cx-anonymous-consent-management-banner,
   cx-anonymous-consent-dialog, cx-anonymous-consent-open-dialog,
   cx-consent-management-form, cx-consent-management, cx-forgot-password,
-  cx-tracking-events !default;
+  cx-tracking-events, cx-my-interests !default;

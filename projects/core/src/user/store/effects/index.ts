@@ -3,6 +3,7 @@ import { ClearMiscsDataEffect } from './clear-miscs-data.effect';
 import { ConsignmentTrackingEffects } from './consignment-tracking.effect';
 import { DeliveryCountriesEffects } from './delivery-countries.effect';
 import { ForgotPasswordEffects } from './forgot-password.effect';
+import { NotificationPreferenceEffects } from './notification-preference.effect';
 import { OrderDetailsEffect } from './order-details.effect';
 import { UserPaymentMethodsEffects } from './payment-methods.effect';
 import { RegionsEffects } from './regions.effect';
@@ -15,6 +16,7 @@ import { UserConsentsEffect } from './user-consents.effect';
 import { UserDetailsEffects } from './user-details.effect';
 import { UserOrdersEffect } from './user-orders.effect';
 import { UserRegisterEffects } from './user-register.effect';
+import { ProductInterestsEffect } from './product-interests.effect';
 
 export const effects: any[] = [
   ClearMiscsDataEffect,
@@ -34,12 +36,15 @@ export const effects: any[] = [
   UpdatePasswordEffects,
   UserConsentsEffect,
   ConsignmentTrackingEffects,
+  NotificationPreferenceEffects,
+  ProductInterestsEffect,
 ];
 
 export * from './billing-countries.effect';
 export * from './clear-miscs-data.effect';
 export * from './consignment-tracking.effect';
 export * from './delivery-countries.effect';
+export * from './notification-preference.effect';
 export * from './order-details.effect';
 export * from './payment-methods.effect';
 export * from './regions.effect';
@@ -50,3 +55,4 @@ export * from './user-consents.effect';
 export * from './user-details.effect';
 export * from './user-orders.effect';
 export * from './user-register.effect';
+export * from './product-interests.effect';

@@ -1,4 +1,4 @@
-import { Type } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
@@ -7,12 +7,14 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
-  ConfigUtilsService,
+  GenericConfigurator,
+  GenericConfigUtilsService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -22,7 +24,7 @@ const mockRouterState: any = {
   state: {
     params: {
       entityKey: PRODUCT_CODE,
-      ownerType: Configurator.OwnerType.PRODUCT,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
   },
 };
@@ -30,7 +32,7 @@ const mockRouterState: any = {
 const config: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
-    type: Configurator.OwnerType.PRODUCT,
+    type: GenericConfigurator.OwnerType.PRODUCT,
   },
   configId: CONFIG_ID,
   consistent: true,
@@ -91,7 +93,10 @@ class MockRouter {
 }
 
 class MockConfiguratorGroupService {
-  public navigateToGroup() {}
+  navigateToGroup() {}
+  getCurrentGroup(): Observable<Configurator.Group> {
+    return of(config.groups[0]);
+  }
 }
 
 class MockConfiguratorCommonsService {
@@ -106,18 +111,26 @@ class MockConfiguratorCommonsService {
   }
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
+
 describe('ConfigurationGroupMenuComponent', () => {
   let component: ConfigGroupMenuComponent;
   let fixture: ComponentFixture<ConfigGroupMenuComponent>;
   let configuratorGroupsService: MockConfiguratorGroupService;
   let hamburgerMenuService: HamburgerMenuService;
   let htmlElem: HTMLElement;
-  let configuratorUtils: ConfigUtilsService;
+  let configuratorUtils: GenericConfigUtilsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfigGroupMenuComponent],
+      declarations: [ConfigGroupMenuComponent, MockCxIconComponent],
       providers: [
         HamburgerMenuService,
         {
@@ -150,8 +163,8 @@ describe('ConfigurationGroupMenuComponent', () => {
     hamburgerMenuService = TestBed.get(HamburgerMenuService as Type<
       HamburgerMenuService
     >);
-    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
-      ConfigUtilsService
+    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
+      GenericConfigUtilsService
     >);
     configuratorUtils.setOwnerKey(config.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
@@ -180,7 +193,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    component.click(config, { id: 'groupdId' });
+    component.click(config.groups[1]);
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
   });

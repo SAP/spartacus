@@ -1,4 +1,5 @@
 import { Configurator } from '../../../../model/configurator.model';
+import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import * as ConfiguratorActions from '../actions/configurator.action';
 
 export const initialState: Configurator.Configuration = { configId: '' };
@@ -35,7 +36,7 @@ export function reducer(
     case ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY: {
       const content = { ...action.configuration };
       content.nextOwner = {
-        type: Configurator.OwnerType.CART_ENTRY,
+        type: GenericConfigurator.OwnerType.CART_ENTRY,
         id: action.cartEntryNo,
       };
       const result = {
@@ -86,8 +87,11 @@ export function reducer(
           },
         ],
         owner: {
-          type: Configurator.OwnerType.CART_ENTRY,
-          key: Configurator.OwnerType.CART_ENTRY + '/' + action.cartEntryNumber,
+          type: GenericConfigurator.OwnerType.CART_ENTRY,
+          key:
+            GenericConfigurator.OwnerType.CART_ENTRY +
+            '/' +
+            action.cartEntryNumber,
           id: action.cartEntryNumber,
         },
       };

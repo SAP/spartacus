@@ -167,4 +167,27 @@ describe('ConfiguratorTextfieldEffect', () => {
       expect(configEffects.addToCart$).toBeObservable(expected);
     });
   });
+
+  describe('Textfield effect addToCartCartProcessIncrement', () => {
+    it('should emit CartProcessesIncrement on addToCart', () => {
+      const payloadInput = {
+        userId: userId,
+        cartId: cartId,
+        productCode: productCode,
+        quantity: quantity,
+        configuration: productConfiguration,
+      };
+      const action = new ConfiguratorActions.AddToCart(payloadInput);
+      const cartProcessIncrement = new CartActions.CartProcessesIncrement(
+        cartId
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-c', {
+        c: cartProcessIncrement,
+      });
+      expect(configEffects.addToCartCartProcessIncrement$).toBeObservable(
+        expected
+      );
+    });
+  });
 });

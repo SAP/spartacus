@@ -1,3 +1,4 @@
+import { Action } from '@ngrx/store';
 import { StateLoaderActions } from '../../../../state/utils/index';
 import { CONFIGURATION_TEXTFIELD_DATA } from '../configuration-textfield-state';
 
@@ -34,11 +35,9 @@ export class CreateConfigurationSuccess extends StateLoaderActions.LoaderSuccess
   }
 }
 
-export class UpdateConfiguration extends StateLoaderActions.LoaderLoadAction {
+export class UpdateConfiguration implements Action {
   readonly type = UPDATE_CONFIGURATION;
-  constructor(public payload: any) {
-    super(CONFIGURATION_TEXTFIELD_DATA);
-  }
+  constructor(public payload: any) {}
 }
 
 export class AddToCart extends StateLoaderActions.LoaderLoadAction {

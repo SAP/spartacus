@@ -128,8 +128,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       }),
       map(titles => {
-        const sortedTitles = titles.sort(sortTitles);
-        return sortedTitles;
+        return titles.sort(sortTitles);
       })
     );
 

@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { CartModification } from '../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
 
 export abstract class ConfiguratorTextfieldAdapter {
   /**
@@ -9,7 +10,8 @@ export abstract class ConfiguratorTextfieldAdapter {
    * @param productCode Root product code
    */
   abstract createConfiguration(
-    productCode: string
+    productCode: string,
+    owner: GenericConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration>;
 
   /**

@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { CartModification } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
 
 export abstract class ConfiguratorCommonsAdapter {
   /**
@@ -9,7 +10,7 @@ export abstract class ConfiguratorCommonsAdapter {
    * @param productCode Root product code
    */
   abstract createConfiguration(
-    owner: Configurator.Owner
+    owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -23,7 +24,7 @@ export abstract class ConfiguratorCommonsAdapter {
   abstract readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: Configurator.Owner
+    configurationOwner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration>;
 
   /**

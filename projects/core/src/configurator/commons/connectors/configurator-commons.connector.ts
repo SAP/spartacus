@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartModification } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
-import { ConfigUtilsService } from '../utils/config-utils.service';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 
 @Injectable({
@@ -11,15 +12,15 @@ import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 export class ConfiguratorCommonsConnector {
   constructor(
     protected adapter: ConfiguratorCommonsAdapter,
-    protected configUtilsService: ConfigUtilsService
+    protected configUtilsService: GenericConfigUtilsService
   ) {}
 
   createConfiguration(
     productCode: string
   ): Observable<Configurator.Configuration> {
-    const owner: Configurator.Owner = {
+    const owner: GenericConfigurator.Owner = {
       id: productCode,
-      type: Configurator.OwnerType.PRODUCT,
+      type: GenericConfigurator.OwnerType.PRODUCT,
     };
     this.configUtilsService.setOwnerKey(owner);
     return this.adapter.createConfiguration(owner);
@@ -28,7 +29,7 @@ export class ConfiguratorCommonsConnector {
   readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: Configurator.Owner
+    configurationOwner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.adapter.readConfiguration(
       configId,

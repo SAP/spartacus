@@ -4,10 +4,13 @@ import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CartService } from '../../../cart/facade/cart.service';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
+import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
 import { ConfiguratorUiActions } from '../store/actions/';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import {
@@ -16,15 +19,14 @@ import {
 } from '../store/configuration-state';
 import * as fromReducers from '../store/reducers/index';
 import { ConfiguratorSelectors } from '../store/selectors';
-import { ConfigUtilsService } from '../utils/config-utils.service';
 import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
-const OWNER_PRODUCT: Configurator.Owner = {
+const OWNER_PRODUCT: GenericConfigurator.Owner = {
   id: PRODUCT_CODE,
 
-  type: Configurator.OwnerType.PRODUCT,
+  type: GenericConfigurator.OwnerType.PRODUCT,
 };
 
 const CONFIG_ID = '1234-56-7890';
@@ -69,9 +71,13 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
 };
 
-class MockCartService {
-  getOrCreateCart(): Observable<Cart> {
-    return of(cart);
+const cartState: ProcessesLoaderState<Cart> = {
+  value: cart,
+};
+
+class MockActiveCartService {
+  requireLoadedCart(): Observable<ProcessesLoaderState<Cart>> {
+    return of(cartState);
   }
 }
 
@@ -110,9 +116,47 @@ function callGetOrCreate(serviceUnderTest: ConfiguratorCommonsService) {
   return configurationObs;
 }
 
+function checkReturnsOnlyDefinedUiStates(
+  serviceUnderTest: ConfiguratorCommonsService,
+  functionToTest: Function
+) {
+  const uiStateChanged = { currentGroup: GROUP_ID_1 };
+  const obs = cold('x-y', {
+    x: undefined,
+    y: uiStateChanged,
+  });
+  spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+  const uiStateObs = functionToTest.apply(serviceUnderTest, [
+    productConfiguration.owner,
+  ]);
+
+  expect(uiStateObs).toBeObservable(
+    cold('--y', {
+      y: uiStateChanged,
+    })
+  );
+}
+
+function checkCreatesNewUiStateForUnDefinedUiStates(
+  serviceUnderTest: ConfiguratorCommonsService,
+  functionToTest: Function,
+  store: Store<StateWithConfiguration>,
+  numberOfInvocations: number
+) {
+  const obs = of(undefined);
+  spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+  spyOn(store, 'dispatch').and.callThrough();
+
+  const uiStateObs = functionToTest.apply(serviceUnderTest, [
+    productConfiguration.owner,
+  ]);
+  uiStateObs.subscribe().unsubscribe();
+  expect(store.dispatch).toHaveBeenCalledTimes(numberOfInvocations);
+}
+
 describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
-  let configuratorUtils: ConfigUtilsService;
+  let configuratorUtils: GenericConfigUtilsService;
   let store: Store<StateWithConfiguration>;
 
   beforeEach(async(() => {
@@ -128,8 +172,8 @@ describe('ConfiguratorCommonsService', () => {
         ConfiguratorCommonsService,
 
         {
-          provide: CartService,
-          useClass: MockCartService,
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
       ],
     }).compileComponents();
@@ -138,8 +182,8 @@ describe('ConfiguratorCommonsService', () => {
     serviceUnderTest = TestBed.get(ConfiguratorCommonsService as Type<
       ConfiguratorCommonsService
     >);
-    configuratorUtils = TestBed.get(ConfigUtilsService as Type<
-      ConfigUtilsService
+    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
+      GenericConfigUtilsService
     >);
     configuratorUtils.setOwnerKey(OWNER_PRODUCT);
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
@@ -335,6 +379,42 @@ describe('ConfiguratorCommonsService', () => {
         cold('x-|', {
           x: productConfiguration,
         })
+      );
+    });
+  });
+
+  describe('getUiState', () => {
+    it('should return an observable only for those results from store that are defined', () => {
+      checkReturnsOnlyDefinedUiStates(
+        serviceUnderTest,
+        serviceUnderTest.getUiState
+      );
+    });
+
+    it('should not create a new UI state for yet undefined states', () => {
+      checkCreatesNewUiStateForUnDefinedUiStates(
+        serviceUnderTest,
+        serviceUnderTest.getUiState,
+        store,
+        0
+      );
+    });
+  });
+
+  describe('getOrCreateUiState', () => {
+    it('should return an observable only for those results from store that are defined', () => {
+      checkReturnsOnlyDefinedUiStates(
+        serviceUnderTest,
+        serviceUnderTest.getOrCreateUiState
+      );
+    });
+
+    it('should create a new UI state for yet undefined states', () => {
+      checkCreatesNewUiStateForUnDefinedUiStates(
+        serviceUnderTest,
+        serviceUnderTest.getOrCreateUiState,
+        store,
+        1
       );
     });
   });

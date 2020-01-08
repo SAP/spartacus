@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
+  GenericConfigurator,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
-import { ConfigRouterExtractorService } from '../service/config-router-extractor.service';
+import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
   selector: 'cx-config-add-to-cart-button',
@@ -74,7 +75,7 @@ export class ConfigAddToCartButtonComponent implements OnInit {
   }
 
   onAddToCart(
-    owner: Configurator.Owner,
+    owner: GenericConfigurator.Owner,
     configId: string,
     configuratorType: string
   ) {
@@ -107,6 +108,7 @@ export class ConfigAddToCartButtonComponent implements OnInit {
                 this.displayConfirmationMessage();
               });
               this.configuratorCommonsService.removeConfiguration(owner);
+              this.configuratorCommonsService.removeUiState(owner);
             });
         }
       });
