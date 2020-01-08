@@ -18,7 +18,6 @@ import { ReturnOrderComponent } from './return-order.component';
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
         data: {
-          pageLabel: '/my-account/order/return',
           cxRoute: 'orderReturn',
         },
       },

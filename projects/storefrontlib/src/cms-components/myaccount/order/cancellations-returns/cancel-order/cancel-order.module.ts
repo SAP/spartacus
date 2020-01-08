@@ -2,13 +2,15 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthGuard, CmsConfig, ConfigModule } from '@spartacus/core';
-import { CmsPageGuard } from '../../../../../cms-structure/guards/cms-page.guard';
-import { PageLayoutComponent } from '../../../../../cms-structure/page/page-layout/page-layout.component';
+import {
+  CmsPageGuard,
+  PageLayoutComponent,
+} from 'projects/storefrontlib/src/cms-structure';
+import { AmendOrderActionsModule } from '../amend-order-actions/amend-order-actions.module';
 import { CancelOrReturnItemsModule } from '../cancel-or-return-items/cancel-or-return-items.module';
 import { OrderAmendService } from '../order-amend.service';
 import { OrderCancellationService } from '../order-cancellation.service';
 import { CancelOrderComponent } from './cancel-order.component';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -18,7 +20,6 @@ import { CancelOrderComponent } from './cancel-order.component';
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
         data: {
-          pageLabel: '/my-account/order/cancel',
           cxRoute: 'orderCancel',
         },
       },
@@ -38,6 +39,7 @@ import { CancelOrderComponent } from './cancel-order.component';
       },
     }),
     CancelOrReturnItemsModule,
+    AmendOrderActionsModule,
   ],
   declarations: [CancelOrderComponent],
   exports: [CancelOrderComponent],

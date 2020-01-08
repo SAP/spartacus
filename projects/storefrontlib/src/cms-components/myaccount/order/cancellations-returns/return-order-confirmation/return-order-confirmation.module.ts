@@ -7,11 +7,11 @@ import {
   ConfigModule,
   I18nModule,
 } from '@spartacus/core';
-import { PageLayoutComponent } from '../../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../../cms-structure/guards/cms-page.guard';
+import { PageLayoutComponent } from '../../../../../cms-structure/page/page-layout/page-layout.component';
 import { CancelOrReturnItemsModule } from '../cancel-or-return-items/cancel-or-return-items.module';
+import { OrderReturnGuard } from '../guards/index';
 import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
-import { CancelOrReturnRequestInputGuard } from '../guards/cancel-or-return-request-input.guard';
 
 @NgModule({
   imports: [
@@ -22,7 +22,6 @@ import { CancelOrReturnRequestInputGuard } from '../guards/cancel-or-return-requ
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
         data: {
-          pageLabel: '/my-account/order/return/confirmation',
           cxRoute: 'orderReturnConfirmation',
         },
       },
@@ -31,7 +30,7 @@ import { CancelOrReturnRequestInputGuard } from '../guards/cancel-or-return-requ
       cmsComponents: {
         ReturnOrderConfirmationComponent: {
           component: ReturnOrderConfirmationComponent,
-          guards: [AuthGuard, CancelOrReturnRequestInputGuard],
+          guards: [AuthGuard, OrderReturnGuard],
         },
       },
     }),
