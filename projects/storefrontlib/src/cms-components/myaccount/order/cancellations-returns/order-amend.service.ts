@@ -87,7 +87,7 @@ export abstract class OrderAmendService {
       );
     });
   }
-  protected getFormControl(form, entry: OrderEntry) {
+  protected getFormControl(form, entry: OrderEntry): FormControl {
     return form.get('entries').get(entry.entryNumber.toString());
   }
 
@@ -95,28 +95,29 @@ export abstract class OrderAmendService {
    * As discussed, this calculation is moved to SPA side.
    * The calculation and validation should be in backend facade layer.
    */
-  getEntryPrice(entry: OrderEntry): Price {
-    const qty = entry.quantity; //this.getEntryCancelledOrReturnedQty(entry);
+  getAmendedPrice(entry: OrderEntry): Price {
+    console.log(this.form);
+    const amendedQuantity = this.getFormControl(this.form, entry).value;
+    console.log(amendedQuantity);
+    const ammendedPrice = Object.assign({}, entry.basePrice);
+    console.log(ammendedPrice);
+    ammendedPrice.value =
+      Math.round(entry.basePrice.value * amendedQuantity * 100) / 100;
 
-    const returnedItemsPriceData = Object.assign({}, entry.basePrice);
-
-    returnedItemsPriceData.value =
-      Math.round(entry.basePrice.value * qty * 100) / 100;
-
-    returnedItemsPriceData.formattedValue = formatCurrency(
-      returnedItemsPriceData.value,
+    ammendedPrice.formattedValue = formatCurrency(
+      ammendedPrice.value,
       // TODO: user current language
       'en',
-      getCurrencySymbol(returnedItemsPriceData.currencyIso, 'narrow'),
-      returnedItemsPriceData.currencyIso
+      getCurrencySymbol(ammendedPrice.currencyIso, 'narrow'),
+      ammendedPrice.currencyIso
     );
 
-    return returnedItemsPriceData;
+    return ammendedPrice;
   }
 
   getMaxAmmendQuantity(entry: OrderEntry) {
     return (
-      (this.amendType === OrderAmendType.CANCEL
+      (this.isCancellation()
         ? entry.cancellableQuantity
         : entry.returnableQuantity) || entry.quantity
     );

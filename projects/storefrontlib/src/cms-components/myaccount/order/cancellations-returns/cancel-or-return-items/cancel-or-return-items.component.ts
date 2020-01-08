@@ -28,7 +28,7 @@ export class CancelOrReturnItemsComponent {
   }
 
   getItemPrice(entry: OrderEntry): Price {
-    return this.orderAmendService.getEntryPrice(entry);
+    return this.orderAmendService.getAmendedPrice(entry);
   }
 
   getMaxAmmendQuantity(entry: OrderEntry) {
