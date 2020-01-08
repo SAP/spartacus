@@ -13,6 +13,10 @@ test-results.xml
 docs.tar.gz
 docs.zip
 
+# spartacussampleaddon
+spartacussampleaddon.zip
+spartacussampleaddon.tar.gz
+
 # dependencies
 node_modules/
 package-lock.json
