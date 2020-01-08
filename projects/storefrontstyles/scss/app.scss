@@ -10,7 +10,6 @@
 @import 'cxbase/blocks/bootstrap/reboot';
 @import 'cxbase/blocks/bootstrap/grid';
 @import 'cxbase/blocks/bootstrap/transitions';
-@import 'cxbase/blocks/bootstrap/card';
 
 @import '~@ng-select/ng-select/themes/default.theme.css';
 //bootsrap enhancements (these are things we ARE changing)
@@ -27,6 +26,7 @@
 @import 'cxbase/blocks/carousel';
 @import 'cxbase/blocks/link';
 @import 'cxbase/blocks/dropdown';
+@import 'cxbase/blocks/close';
 //layout
 @import 'cxbase/layout/app';
 @import 'cxbase/layout/page';
