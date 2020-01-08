@@ -19,6 +19,7 @@ import {
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
+import { MyCouponsComponentService } from './my-coupons.component.service';
 
 @Component({
   selector: 'cx-coupon-card',
@@ -136,9 +137,11 @@ describe('MyCouponsComponent', () => {
     'getSubscribeCustomerCouponResultError',
     'getUnsubscribeCustomerCouponResultError',
   ]);
-  const translationService = jasmine.createSpyObj('TranslationService', [
-    'translate',
-  ]);
+
+  const myCouponsComponentService = jasmine.createSpyObj(
+    'MyCouponsComponentService',
+    ['getSortLabels']
+  );
   const subscriptionFail = new BehaviorSubject<boolean>(false);
 
   beforeEach(async(() => {
@@ -156,6 +159,10 @@ describe('MyCouponsComponent', () => {
       ],
       providers: [
         { provide: CustomerCouponService, useValue: customerCouponService },
+        {
+          provide: MyCouponsComponentService,
+          useValue: myCouponsComponentService,
+        },
       ],
     }).compileComponents();
   }));
@@ -185,7 +192,7 @@ describe('MyCouponsComponent', () => {
       subscriptionFail
     );
 
-    translationService.translate.and.returnValue(of(sortLabels));
+    myCouponsComponentService.getSortLabels.and.returnValue(of(sortLabels));
   });
 
   it('should create', () => {

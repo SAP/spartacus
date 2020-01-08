@@ -1,6 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CustomerCoupon, RoutingService } from '@spartacus/core';
+import {
+  CustomerCoupon,
+  RoutingService,
+  TranslationService,
+} from '@spartacus/core';
 import { MyCouponsComponentService } from './my-coupons.component.service';
 
 const couponForAllProduct: CustomerCoupon = {
@@ -18,12 +22,16 @@ const CUSTOMER_COUPON_CODE = ':customerCouponCode:';
 describe('MyCouponsComponentService', () => {
   let service: MyCouponsComponentService;
   let routingService = jasmine.createSpyObj('RoutingService', ['go']);
+  const translationService = jasmine.createSpyObj('TranslationService', [
+    'translate',
+  ]);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         MyCouponsComponentService,
         { provide: RoutingService, useValue: routingService },
+        { provide: TranslationService, useValue: translationService },
       ],
     });
     routingService.go.and.stub();
@@ -31,6 +39,8 @@ describe('MyCouponsComponentService', () => {
       MyCouponsComponentService
     >);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
+
+    translationService.translate.and.stub();
   });
 
   it('should service be created', () => {
@@ -59,5 +69,10 @@ describe('MyCouponsComponentService', () => {
       },
       { couponcode: 'CouponForPartProduct' }
     );
+  });
+
+  it('should translate sort labels', () => {
+    service.getSortLabels();
+    expect(translationService.translate).toHaveBeenCalledTimes(4);
   });
 });

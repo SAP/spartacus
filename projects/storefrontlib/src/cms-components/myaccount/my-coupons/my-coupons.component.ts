@@ -4,10 +4,10 @@ import {
   CustomerCouponService,
   CustomerCouponSearchResult,
   PaginationModel,
-  TranslationService,
 } from '@spartacus/core';
 import { tap, map } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
+import { MyCouponsComponentService } from './my-coupons.component.service';
 
 @Component({
   selector: 'cx-my-coupons',
@@ -60,7 +60,7 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
 
   constructor(
     protected couponService: CustomerCouponService,
-    protected translation: TranslationService
+    protected myCouponsComponentService: MyCouponsComponentService
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +86,7 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
     ]).pipe(
       map(([subscribing, unsubscribing]) => subscribing || unsubscribing)
     );
-    this.sortLabels = this.getSortLabels();
+    this.sortLabels = this.myCouponsComponentService.getSortLabels();
 
     this.subscriptions
       .add(
@@ -109,36 +109,6 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
     if (error) {
       this.couponService.loadCustomerCoupons(this.PAGE_SIZE);
     }
-  }
-
-  private getSortLabels(): Observable<{
-    byStartDateAsc: string;
-    byStartDateDesc: string;
-    byEndDateAsc: string;
-    byEndDateDesc: string;
-  }> {
-    return combineLatest([
-      this.translation.translate('myCoupons.startDateAsc'),
-      this.translation.translate('myCoupons.startDateDesc'),
-      this.translation.translate('myCoupons.endDateAsc'),
-      this.translation.translate('myCoupons.endDateDesc'),
-    ]).pipe(
-      map(
-        ([
-          textByStartDateAsc,
-          textByStartDateDesc,
-          textByEndDateAsc,
-          textByEndDateDesc,
-        ]) => {
-          return {
-            byStartDateAsc: textByStartDateAsc,
-            byStartDateDesc: textByStartDateDesc,
-            byEndDateAsc: textByEndDateAsc,
-            byEndDateDesc: textByEndDateDesc,
-          };
-        }
-      )
-    );
   }
 
   sortChange(sort: string): void {
