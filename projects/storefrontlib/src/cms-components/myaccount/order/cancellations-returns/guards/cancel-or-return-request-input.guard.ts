@@ -1,28 +1,34 @@
 import { Injectable } from '@angular/core';
 import {
+  ActivatedRouteSnapshot,
   CanActivate,
   Router,
   UrlTree,
-  ActivatedRouteSnapshot,
 } from '@angular/router';
-import { OrderCancelOrReturnService } from '../cancel-or-return.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { OrderAmendService } from '../order-amend.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CancelOrReturnRequestInputGuard implements CanActivate {
   constructor(
-    private cancelOrReturnService: OrderCancelOrReturnService,
-    private router: Router
+    private router: Router,
+    protected orderAmendService: OrderAmendService
   ) {}
 
-  canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
-    if (this.cancelOrReturnService.cancelOrReturnRequestInputs.length > 0) {
-      return true;
-    } else {
-      const urlSegments: string[] = route.url.map(seg => seg.path);
-      urlSegments.pop();
-      return this.router.parseUrl(urlSegments.join('/'));
-    }
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
+    return this.orderAmendService.getForm().pipe(
+      map(form => {
+        if (!form.valid) {
+          const urlSegments: string[] = route.url.map(seg => seg.path);
+          urlSegments.pop();
+          return this.router.parseUrl(urlSegments.join('/'));
+        } else {
+          return true;
+        }
+      })
+    );
   }
 }

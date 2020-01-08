@@ -1,6 +1,19 @@
-<h4>
+<form
+  *ngIf="form$ | async as form"
+  [formGroup]="form"
+  (ngSubmit)="submit(form)"
+>
+  <!-- <h4>
   {{ 'orderDetails.cancellationAndReturn.returnNote' | cxTranslate }}
-</h4>
+</h4> -->
+
+  <cx-amend-order-actions
+    *ngIf="orderCode"
+    [orderCode]="orderCode"
+    [isValid]="form.valid"
+    backRoute="orderReturn"
+  ></cx-amend-order-actions>
+  <!--   
 <div class="cx-nav row">
   <div class="col-xs-12 col-md-4 col-lg-3">
     <button class="btn btn-block btn-action" (click)="back()">
@@ -16,17 +29,23 @@
       {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
     </button>
   </div>
-</div>
+</div> -->
 
-<ng-container *ngIf="returnedEntries$ | async as returnedEntries">
   <cx-cancel-or-return-items
-    [entries]="returnedEntries"
-    [confirmRequest]="true"
+    *ngIf="entries$ | async as entries"
+    [entries]="entries"
+    [isConfirmation]="true"
   >
   </cx-cancel-or-return-items>
-</ng-container>
 
-<div class="cx-nav row">
+  <cx-amend-order-actions
+    *ngIf="orderCode"
+    [orderCode]="orderCode"
+    [isValid]="form.valid"
+    backRoute="orderReturn"
+  ></cx-amend-order-actions>
+
+  <!-- <div class="cx-nav row">
   <div class="col-xs-12 col-md-4 col-lg-3">
     <button class="btn btn-block btn-action" (click)="back()">
       {{ 'common.back' | cxTranslate }}
@@ -41,8 +60,9 @@
       {{ 'orderDetails.cancellationAndReturn.submit' | cxTranslate }}
     </button>
   </div>
-</div>
+</div> -->
 
-<h4>
+  <!-- <h4>
   {{ 'orderDetails.cancellationAndReturn.note' | cxTranslate }}
-</h4>
+</h4> -->
+</form>

@@ -1,71 +1,26 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  OnInit,
-  OnDestroy,
-} from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { tap, filter, map } from 'rxjs/operators';
-import { OrderEntry } from '@spartacus/core';
-
-import { OrderDetailsService } from '../../order-details/order-details.service';
-import { OrderCancelOrReturnService } from '../cancel-or-return.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { tap } from 'rxjs/operators';
+import { OrderAmendService } from '../order-amend.service';
 
 @Component({
   selector: 'cx-cancel-order-confirmation',
   templateUrl: './cancel-order-confirmation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CancelOrderConfirmationComponent implements OnInit, OnDestroy {
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected cancelOrReturnService: OrderCancelOrReturnService
-  ) {}
-
+export class CancelOrderConfirmationComponent {
   orderCode: string;
-  isCancelling$ = this.cancelOrReturnService.isCancelling$;
-  subscription: Subscription;
 
-  cancelledEntries$: Observable<
-    OrderEntry[]
-  > = this.orderDetailsService.getOrderDetails().pipe(
-    filter(order => Boolean(order.entries)),
-    tap(order => (this.orderCode = order.code)),
-    map(order => {
-      const cancelledEntries = [];
-      order.entries.forEach(entry => {
-        if (this.cancelOrReturnService.isEntryCancelledOrReturned(entry)) {
-          cancelledEntries.push(entry);
-        }
-      });
-      return cancelledEntries;
-    })
-  );
+  form$ = this.orderAmendService
+    .getForm()
+    .pipe(tap(form => (this.orderCode = form.value.orderCode)));
 
-  ngOnInit(): void {
-    this.subscription = this.cancelOrReturnService.isCancelSuccess$.subscribe(
-      success => {
-        if (success) {
-          this.cancelOrReturnService.cancelSuccess(this.orderCode);
-        }
-      }
-    );
-  }
+  entries$ = this.orderAmendService.getEntries();
 
-  submit(): void {
-    this.cancelOrReturnService.cancelOrder(this.orderCode);
-  }
+  constructor(protected orderAmendService: OrderAmendService) {}
 
-  back(): void {
-    this.cancelOrReturnService.goToOrderCancelOrReturn(
-      'orderCancel',
-      this.orderCode
-    );
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+  submit(form: FormGroup): void {
+    form.disable();
+    this.orderAmendService.save();
   }
 }

@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CancelOrReturnRequestEntryInput } from '@spartacus/core';
-import { OrderCancelOrReturnService } from '../cancel-or-return.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { tap } from 'rxjs/operators';
 import { OrderAmendService } from '../order-amend.service';
 
 @Component({
@@ -8,25 +7,14 @@ import { OrderAmendService } from '../order-amend.service';
   templateUrl: './cancel-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CancelOrderComponent implements OnInit {
-  constructor(
-    protected cancelOrReturnService: OrderCancelOrReturnService,
-    protected orderAmendService: OrderAmendService
-  ) {}
-
+export class CancelOrderComponent {
   orderCode: string;
+
+  form$ = this.orderAmendService
+    .getForm()
+    .pipe(tap(form => (this.orderCode = form.value.orderCode)));
 
   entries$ = this.orderAmendService.getEntries();
 
-  ngOnInit(): void {
-    this.cancelOrReturnService.clearCancelOrReturnRequestInputs();
-  }
-
-  confirmCancel(entryInputs: CancelOrReturnRequestEntryInput[]): void {
-    this.cancelOrReturnService.cancelOrReturnRequestInputs = entryInputs;
-    this.cancelOrReturnService.goToOrderCancelOrReturn(
-      'orderCancelConfirmation',
-      this.orderCode
-    );
-  }
+  constructor(protected orderAmendService: OrderAmendService) {}
 }
