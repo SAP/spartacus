@@ -17,7 +17,7 @@
       *ngIf="(csAgentToken$ | async)?.access_token"
     ></cx-asm-session-timer>
 
-    <a
+    <button
       class="close"
       title="{{ 'asm.hideUi' | cxTranslate }}"
       *ngIf="
@@ -25,7 +25,7 @@
         !(csAgentTokenLoading$ | async)
       "
       (click)="hideUi()"
-    ></a>
+    ></button>
 
     <a
       class="logout"
