@@ -161,7 +161,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should return UIType Not Implemented for unkonwn occ configurator type', () => {
     expect(
       occConfiguratorVariantNormalizer.convertCharacteristicType(
-        OccConfigurator.UiType.CHECK_BOX_LIST
+        OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT
       )
     ).toBe(Configurator.UiType.NOT_IMPLEMENTED);
   });
