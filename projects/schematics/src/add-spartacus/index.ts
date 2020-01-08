@@ -31,7 +31,7 @@ import { Schema as SpartacusOptions } from './schema';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = '^1.3';
+    const spartacusVersion = '^1.4';
     const ngrxVersion = '^8.3.0';
     const angularVersion = getAngularVersion(tree);
 
