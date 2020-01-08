@@ -39,7 +39,6 @@ export function reducer<T>(
         },
       };
     }
-    // TODO:#4603 - in case of `CMS_GET_COMPONENET_FROM_PAGE`, the payload is an array of components. How to handle this case?
     case CmsActions.CMS_GET_COMPONENET_FROM_PAGE:
     case CmsActions.LOAD_CMS_COMPONENT_SUCCESS: {
       return {

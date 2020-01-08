@@ -116,7 +116,6 @@ export class CmsService {
     }
 
     return combineLatest([
-      // TODO:#4603 - filter the next page context? If it doesn't exist, it will result in 'current' and it might override some old current context in the state?
       this.routingService.getNextPageContext(),
       this.store.pipe(
         select(CmsSelectors.componentContextSelectorFactory(uid, context))
@@ -132,7 +131,7 @@ export class CmsService {
             loadingState.loading || loadingState.success || loadingState.error;
           // if the requested context is the same as the one that's currently being navigated to (as it might already been triggered and might be available shortly from page data)
           const couldBeLoadedWithPageData =
-            serializePageContext(nextContext) === context;
+            nextContext && serializePageContext(nextContext) === context;
 
           if (!attemptedLoad && !couldBeLoadedWithPageData) {
             this.store.dispatch(
@@ -225,7 +224,6 @@ export class CmsService {
    * @param pageContext an optional parameter that enables the caller to specify for which context the component should be refreshed.
    * If not specified, 'current' page context is used.
    */
-  // TODO:#4603 - go over this case.
   refreshComponent(uid: string, pageContext?: PageContext): void {
     this.store.dispatch(new CmsActions.LoadCmsComponent(uid, pageContext));
   }

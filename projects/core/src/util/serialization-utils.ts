@@ -4,7 +4,6 @@ import { ErrorModel, HttpErrorModel } from '../model/misc.model';
 import { PageContext } from '../routing/models/page-context.model';
 
 export const CURRENT_CONTEXT_KEY = 'current';
-const PAGE_CONTEXT_SEPARATOR = '-';
 
 export const UNKNOWN_ERROR = {
   error: 'unknown error',
@@ -58,5 +57,5 @@ export function serializePageContext(pageContext: PageContext): string {
     return CURRENT_CONTEXT_KEY;
   }
 
-  return `${pageContext.id}${PAGE_CONTEXT_SEPARATOR}${pageContext.type}`;
+  return `${pageContext.type}-${pageContext.id}`;
 }
