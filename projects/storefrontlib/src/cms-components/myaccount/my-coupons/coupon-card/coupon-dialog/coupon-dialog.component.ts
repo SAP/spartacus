@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
 import { CustomerCoupon } from '@spartacus/core';
@@ -7,7 +7,7 @@ import { CustomerCoupon } from '@spartacus/core';
   selector: 'cx-coupon-dialog',
   templateUrl: './coupon-dialog.component.html',
 })
-export class CouponDialogComponent implements OnInit {
+export class CouponDialogComponent {
   iconTypes = ICON_TYPE;
   coupon: CustomerCoupon;
 
@@ -15,8 +15,6 @@ export class CouponDialogComponent implements OnInit {
   dialog: ElementRef;
 
   constructor(protected modalService: ModalService) {}
-
-  ngOnInit() {}
 
   dismissModal(reason?: any): void {
     this.modalService.dismissActiveModal(reason);

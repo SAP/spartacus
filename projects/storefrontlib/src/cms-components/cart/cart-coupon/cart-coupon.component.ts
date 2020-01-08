@@ -15,12 +15,12 @@ import { Observable, combineLatest } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map, startWith, tap } from 'rxjs/operators';
 
-const MAX_CUSTOMER_COUPON_PAGE = 100;
 @Component({
   selector: 'cx-cart-coupon',
   templateUrl: './cart-coupon.component.html',
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
+  MAX_CUSTOMER_COUPON_PAGE = 100;
   form: FormGroup;
   cartIsLoading$: Observable<boolean>;
   submitDisabled$: Observable<boolean>;
@@ -60,19 +60,23 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private cartVoucherService: CartVoucherService,
     private formBuilder: FormBuilder,
-    private customerCouponService?: CustomerCouponService,
+    protected customerCouponService?: CustomerCouponService,
     protected featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit() {
     if (this.customerCouponService) {
-      this.customerCouponService.loadCustomerCoupons(MAX_CUSTOMER_COUPON_PAGE);
+      this.customerCouponService.loadCustomerCoupons(
+        this.MAX_CUSTOMER_COUPON_PAGE
+      );
     }
     if (this.featureConfig && this.featureConfig.isLevel('1.5')) {
       this.cart$ = combineLatest([
         this.cartService.getActive(),
         this.authService.getOccUserId(),
-        this.customerCouponService.getCustomerCoupons(MAX_CUSTOMER_COUPON_PAGE),
+        this.customerCouponService.getCustomerCoupons(
+          this.MAX_CUSTOMER_COUPON_PAGE
+        ),
       ]).pipe(
         tap(
           ([cart, userId, customerCoupons]: [
@@ -145,7 +149,9 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   protected onError(error: boolean) {
     if (error) {
-      this.customerCouponService.loadCustomerCoupons(MAX_CUSTOMER_COUPON_PAGE);
+      this.customerCouponService.loadCustomerCoupons(
+        this.MAX_CUSTOMER_COUPON_PAGE
+      );
       this.cartVoucherService.resetAddVoucherProcessingState();
     }
   }

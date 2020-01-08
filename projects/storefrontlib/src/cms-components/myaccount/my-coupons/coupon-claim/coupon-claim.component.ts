@@ -15,9 +15,9 @@ export class CouponClaimComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(
-    private couponService: CustomerCouponService,
-    private routingService: RoutingService,
-    private messageService: GlobalMessageService
+    protected couponService: CustomerCouponService,
+    protected routingService: RoutingService,
+    protected messageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {

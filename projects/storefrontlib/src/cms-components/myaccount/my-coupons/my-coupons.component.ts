@@ -59,8 +59,8 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
   }>;
 
   constructor(
-    private couponService: CustomerCouponService,
-    private translation: TranslationService
+    protected couponService: CustomerCouponService,
+    protected translation: TranslationService
   ) {}
 
   ngOnInit(): void {
