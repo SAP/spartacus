@@ -33,7 +33,7 @@ export class OrderReturnService extends OrderAmendService {
       filter(order => !!order.entries),
       map(order =>
         order.entries.filter(
-          entry => entry.entryNumber !== -1 //&& entry.returnableQuantity > 0
+          entry => entry.entryNumber !== -1 && entry.returnableQuantity > 0
         )
       )
     );

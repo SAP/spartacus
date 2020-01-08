@@ -15,7 +15,7 @@ export class ReturnOrderConfirmationComponent {
     .getForm()
     .pipe(tap(form => (this.orderCode = form.value.orderCode)));
 
-  entries$ = this.orderAmendService.getEntries();
+  entries$ = this.orderAmendService.getAmendedEntries();
 
   constructor(protected orderAmendService: OrderAmendService) {}
 
