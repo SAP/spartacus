@@ -6,7 +6,6 @@ import { OrderEntry } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../order-amend.service';
 import { CancelOrderComponent } from './cancel-order.component';
-// import createSpy = jasmine.createSpy;
 
 class MockOrderAmendService {
   getForm() {

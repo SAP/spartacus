@@ -1,18 +1,22 @@
-import { Component, Input, Output, EventEmitter, Type } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, Observable } from 'rxjs';
-import {
-  Order,
-  OrderEntry,
-  CancelOrReturnRequestEntryInput,
-  I18nTestingModule,
-  OrderReturnRequestService,
-} from '@spartacus/core';
-import { OrderDetailsService } from '../../order-details/order-details.service';
-import { OrderCancelOrReturnService } from '../cancel-or-return.service';
+import { I18nTestingModule, Order, OrderEntry } from '@spartacus/core';
+import { of } from 'rxjs';
+import { OrderAmendService } from '../order-amend.service';
 import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
+
 import createSpy = jasmine.createSpy;
+
+@Component({
+  template: '',
+  selector: 'cx-amend-order-actions',
+})
+class MockAmendOrderActionComponent {
+  @Input() orderCode;
+  @Input() isValid;
+}
 
 @Component({
   template: '',
@@ -20,75 +24,48 @@ import createSpy = jasmine.createSpy;
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
-  @Input() confirmRequest = false;
-  @Input() cancelOrder = true;
-  @Output() confirm = new EventEmitter<CancelOrReturnRequestEntryInput[]>();
-}
-
-class MockOrderReturnRequestService {
-  createOrderReturnRequest = jasmine.createSpy();
-  getOrderReturnRequest() {
-    return of();
-  }
-}
-
-class MockOrderCancelOrReturnService {
-  _cancelOrReturnRequestInputs: CancelOrReturnRequestEntryInput[];
-  get cancelOrReturnRequestInputs(): CancelOrReturnRequestEntryInput[] {
-    return this._cancelOrReturnRequestInputs;
-  }
-
-  set cancelOrReturnRequestInputs(values: CancelOrReturnRequestEntryInput[]) {
-    this._cancelOrReturnRequestInputs = values;
-  }
-
-  goToOrderCancelOrReturn = createSpy();
-  returnOrder = createSpy();
-  returnSuccess = createSpy();
-  clearCancelOrReturnRequestInputs = createSpy();
-  clearReturnRequest = createSpy();
-  isEntryCancelledOrReturned(): boolean {
-    return true;
-  }
-  get isReturnSuccess$(): Observable<boolean> {
-    return of(true);
-  }
+  @Input() isConfirmation = false;
 }
 
 const mockOrder: Order = {
-  code: '1',
+  code: '123',
   entries: [{ entryNumber: 0 }, { entryNumber: 3 }],
   created: new Date('2019-02-11T13:02:58+0000'),
-  returnable: true,
+  cancellable: true,
 };
+const mockForm: FormGroup = new FormGroup({});
+const entryGroup = new FormGroup({});
+mockForm.addControl('entries', entryGroup);
+mockForm.addControl('orderCode', new FormControl(mockOrder.code));
+mockOrder.entries.forEach(entry => {
+  const key = entry.entryNumber.toString();
+  entryGroup.addControl(key, new FormControl(0));
+});
 
-class MockOrderDetailsService {
-  getOrderDetails() {
-    return of(mockOrder);
+class MockOrderAmendService {
+  save = createSpy();
+  getForm() {
+    return of(mockForm);
+  }
+  getAmendedEntries() {
+    return of(mockOrder.entries);
   }
 }
 
 describe('ReturnOrderConfirmationComponent', () => {
   let component: ReturnOrderConfirmationComponent;
   let fixture: ComponentFixture<ReturnOrderConfirmationComponent>;
-  let returnService: MockOrderCancelOrReturnService;
+  let service: OrderAmendService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule, ReactiveFormsModule],
       providers: [
-        { provide: OrderDetailsService, useClass: MockOrderDetailsService },
-        {
-          provide: OrderReturnRequestService,
-          useClass: MockOrderReturnRequestService,
-        },
-        {
-          provide: OrderCancelOrReturnService,
-          useClass: MockOrderCancelOrReturnService,
-        },
+        { provide: OrderAmendService, useClass: MockOrderAmendService },
       ],
       declarations: [
         ReturnOrderConfirmationComponent,
+        MockAmendOrderActionComponent,
         MockCancelOrReturnItemsComponent,
       ],
     }).compileComponents();
@@ -97,43 +74,32 @@ describe('ReturnOrderConfirmationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ReturnOrderConfirmationComponent);
     component = fixture.componentInstance;
-
-    returnService = TestBed.get(OrderCancelOrReturnService as Type<
-      OrderCancelOrReturnService
-    >);
+    service = TestBed.get(OrderAmendService as Type<OrderAmendService>);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get returned entries', () => {
-    let returnedEntries: OrderEntry[];
-    component.returnedEntries$
-      .subscribe(value => (returnedEntries = value))
-      .unsubscribe();
-
-    expect(component.orderCode).toEqual('1');
-    expect(returnedEntries).toEqual([{ entryNumber: 0 }, { entryNumber: 3 }]);
-  });
-
-  it('should be able to get return success', () => {
-    component.ngOnInit();
-    expect(returnService.returnSuccess).toHaveBeenCalled();
-  });
-
-  it('should be able to submit', () => {
-    component.submit();
-    expect(returnService.returnOrder).toHaveBeenCalled();
-  });
-
-  it('should be able to back to return order page', () => {
+  it('should have an order code', () => {
     fixture.detectChanges();
-    component.back();
+    component.form$.subscribe().unsubscribe();
+    expect(component.orderCode).toEqual('123');
+  });
 
-    expect(returnService.goToOrderCancelOrReturn).toHaveBeenCalledWith(
-      'orderReturn',
-      '1'
-    );
+  it('should get cancelled entries', () => {
+    let entries: OrderEntry[];
+    component.entries$.subscribe(value => (entries = value)).unsubscribe();
+    expect(entries).toEqual([{ entryNumber: 0 }, { entryNumber: 3 }]);
+  });
+
+  it('should delegate form submission to service', () => {
+    component.submit(mockForm);
+    expect(service.save).toHaveBeenCalled();
+  });
+
+  it('should disable form after submit', () => {
+    component.submit(mockForm);
+    expect(mockForm.disable).toBeTruthy();
   });
 });
