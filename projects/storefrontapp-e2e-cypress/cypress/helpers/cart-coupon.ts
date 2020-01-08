@@ -15,7 +15,7 @@ export const myCouponCode2 = 'midautumn';
 export function addProductToCart(productCode: string) {
   cy.get('cx-searchbox input')
     .clear()
-    .type(`${productCode}{enter}`);
+    .type(`${productCode}{enter}`, { force: true });
   cy.get('cx-add-to-cart')
     .getAllByText(/Add To Cart/i)
     .first()
@@ -156,7 +156,7 @@ export function verifyCouponAndSavedPrice(
 
   //verify saved price
   cy.get('.cx-summary-partials').within(() => {
-    cy.get(':nth-child(4)').should('contain', `You saved: ${savedPrice}`);
+    cy.get('.cx-summary-row').contains(`You saved: ${savedPrice}`);
   });
 }
 
@@ -169,7 +169,7 @@ export function verifyCouponAndSavedPriceInOrder(
 
   //verify saved price
   cy.get('.cx-summary-partials').within(() => {
-    cy.get(':nth-child(4)').should('contain', `You saved: ${savedPrice}`);
+    cy.get('.cx-summary-row').contains(`You saved: ${savedPrice}`);
   });
 }
 
