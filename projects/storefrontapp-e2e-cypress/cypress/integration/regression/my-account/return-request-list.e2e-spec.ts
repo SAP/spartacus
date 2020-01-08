@@ -1,53 +1,53 @@
-import * as methods from '../../../helpers/cancellations-returns';
+import * as orderHistory from '../../../helpers/cancellations-returns';
+import * as checkout from '../../../helpers/checkout-flow';
 
 describe('Return Request List for Cancellations and Returns', () => {
   before(() => {
-    cy.window().then(win => {
-      win.localStorage.clear();
-    });
+    cy.window().then(win => win.sessionStorage.clear());
+    checkout.visitHomePage();
   });
 
-  beforeEach(() => {
-    cy.restoreLocalStorage();
+  it('should register successfully', () => {
+    checkout.registerUser();
   });
 
-  afterEach(() => {
-    cy.saveLocalStorage();
+  it('should go to product page from category page', () => {
+    checkout.goToCheapProductDetailsPage();
   });
 
-  describe('place order', () => {
-    it('add product to cart after registering and logging in', () => {
-      methods.addToCartAnonymous(methods.products[0]);
-    });
-
-    it('should fill in shipping address', () => {
-      methods.fillShipping();
-    });
-
-    it('should pick delivery mode', () => {
-      methods.pickDeliveryMethod();
-    });
-
-    it('should fill payment details', () => {
-      methods.fillPaymentDetails();
-    });
-
-    it('should place order', () => {
-      methods.placeOrder();
-    });
-
-    it('should check review page', () => {
-      methods.reviewOrder();
-    });
+  it('should add product to cart and go to checkout', () => {
+    checkout.addCheapProductToCartAndLogin();
   });
 
-  describe('cancellation', () => {
-    it('should open the return request list tab and see a list', () => {
-      methods.checkReturnRequestList();
-    });
+  it('should fill in address form', () => {
+    checkout.fillAddressFormWithCheapProduct();
+  });
 
-    it('should be able to cancel the order', () => {
-      methods.cancelOrder();
-    });
+  it('should choose delivery', () => {
+    checkout.verifyDeliveryMethod();
+  });
+
+  it('should fill in payment form', () => {
+    checkout.fillPaymentFormWithCheapProduct();
+  });
+
+  it('should review and place order', () => {
+    checkout.placeOrderWithCheapProduct();
+  });
+
+  it('should display summary page', () => {
+    checkout.verifyOrderConfirmationPageWithCheapProduct();
+  });
+
+  it('should be able to check order in order history', () => {
+    checkout.viewOrderHistoryWithCheapProduct();
+  });
+
+  it('should have two tabs: 1 order tab and 1 return tab', () => {
+    orderHistory.checkTabs();
+  });
+
+  it('should fully cancel order', () => {
+    orderHistory.cancelOrder();
   });
 });
