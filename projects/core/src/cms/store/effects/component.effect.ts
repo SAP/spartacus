@@ -33,6 +33,7 @@ export class ComponentEffects {
     )
   );
 
+  // TODO:#4603 - update test
   loadComponent$ = createEffect(
     () => ({ scheduler, debounce = 0 } = {}): Observable<
       | CmsActions.LoadCmsComponentSuccess<CmsComponent>
@@ -40,17 +41,18 @@ export class ComponentEffects {
     > =>
       this.actions$.pipe(
         ofType<CmsActions.LoadCmsComponent>(CmsActions.LOAD_CMS_COMPONENT),
-        bufferDebounceTime(debounce, scheduler),
-        groupBy(actions => this.groupByMultiplePageContext(actions)),
-        mergeMap(groups =>
-          groups.pipe(
-            map(actions => this.groupBySinglePageContext(actions)),
+        groupBy(actions => serializePageContext(actions.pageContext)),
+        mergeMap(actionGroup =>
+          actionGroup.pipe(
+            bufferDebounceTime(debounce, scheduler),
+            map(actions => this.groupByPageContext(actions)),
             mergeMap(group =>
               this.loadComponentsEffect(group.componentUids, group.pageContext)
-            )
+            ),
+            // TODO:#4603 - withdrawOn in this pipe, or in the outer pipe?
+            withdrawOn(this.contextChange$)
           )
-        ),
-        withdrawOn(this.contextChange$)
+        )
       )
   );
 
@@ -117,8 +119,7 @@ export class ComponentEffects {
     );
   }
 
-  // TODO:#4603 - try to re-use `groupByMultiplePageContext()`, if possible
-  private groupBySinglePageContext(
+  private groupByPageContext(
     actions: CmsActions.LoadCmsComponent[]
   ): { pageContext: PageContext; componentUids: string[] } {
     return actions.reduce<{
@@ -132,42 +133,5 @@ export class ComponentEffects {
       },
       { pageContext: undefined, componentUids: [] }
     );
-  }
-
-  private groupByMultiplePageContext(
-    actions: CmsActions.LoadCmsComponent[]
-  ): {
-    // TODO:#4603 - extract to a separate interface?
-    [context: string]: {
-      pageContext: PageContext;
-      componentUids: string[];
-    };
-  } {
-    return actions.reduce<{
-      [context: string]: {
-        pageContext: PageContext;
-        componentUids: string[];
-      };
-    }>((acc, currentAction) => {
-      const pageContext = currentAction.pageContext;
-      const context = serializePageContext(pageContext);
-
-      let value = acc[context];
-      if (!value) {
-        value = acc[context] = {
-          pageContext,
-          componentUids: [],
-        };
-      }
-
-      const componentUids = value.componentUids;
-      componentUids.push(currentAction.payload);
-
-      acc[context] = {
-        ...value,
-        componentUids,
-      };
-      return acc;
-    }, {});
   }
 }

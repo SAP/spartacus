@@ -47,7 +47,7 @@ export function getReducers(): ActionReducerMap<CmsState> {
       }),
     }),
     component: entityLoaderReducer(COMPONENT_ENTITY),
-    componentContext: entityReducer(
+    components: entityReducer(
       COMPONENT_ENTITY,
       fromComponentContextReducer.reducer
     ),

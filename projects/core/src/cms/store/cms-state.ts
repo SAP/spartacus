@@ -5,17 +5,17 @@ import { Page } from '../model/page.model';
 
 export const CMS_FEATURE = 'cms';
 export const NAVIGATION_DETAIL_ENTITY = '[Cms] Navigation Entity';
-// TODO:#4603 - is this a breaking change? :D
-export const COMPONENT_ENTITY = '[Cms] Component Entity';
+// TODO:#4603 - mention in TODO for 2.0
+export const COMPONENT_ENTITY = '[Cms[ Component Entity';
 
 export interface StateWithCms {
   [CMS_FEATURE]: CmsState;
 }
 
 export type ComponentState = EntityLoaderState<any>;
-export type ComponentContextState = EntityState<ComponentContext>;
+export type ComponentsState = EntityState<ComponentsContext>;
 
-export interface ComponentContext {
+export interface ComponentsContext {
   // TODO:#4603 - try to use `CmsComponent` type
   component: any;
   pageContext: {
@@ -42,6 +42,7 @@ export interface PageState {
 export interface CmsState {
   page: PageState;
   component: ComponentState;
-  componentContext: ComponentContextState;
+  components: ComponentsState;
+  // TODO:#4603 - investigate if this `navigation` could be moved inside of the `componentContext` slice. Investigate the reducer and effect
   navigation: EntityLoaderState<NodeItem>;
 }

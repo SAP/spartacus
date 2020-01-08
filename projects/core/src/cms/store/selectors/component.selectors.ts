@@ -7,8 +7,8 @@ import {
 // import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   // CmsState,
-  ComponentContext,
-  ComponentContextState,
+  ComponentsContext,
+  ComponentsState,
   // ComponentState,
   StateWithCms,
 } from '../cms-state';
@@ -34,10 +34,10 @@ import { getCmsState } from './feature.selectors';
 // TODO:#4603 - test
 export const getComponentContextState: MemoizedSelector<
   StateWithCms,
-  ComponentContextState
+  ComponentsState
 > = createSelector(
   getCmsState,
-  state => state.componentContext
+  state => state.components
 );
 
 // export const getComponentEntities: MemoizedSelector<
@@ -68,7 +68,7 @@ export const getComponentContextState: MemoizedSelector<
 // TODO:#4603 - test
 export const componentContextStateSelectorFactory = (
   uid: string
-): MemoizedSelector<StateWithCms, ComponentContext> => {
+): MemoizedSelector<StateWithCms, ComponentsContext> => {
   return createSelector(
     getComponentContextState,
     entities => {
@@ -122,7 +122,7 @@ export const componentContextExistsSelectorFactory = (
 export const componentContextSelectorFactory = (
   uid: string,
   context: string
-): MemoizedSelector<StateWithCms, ComponentContext> => {
+): MemoizedSelector<StateWithCms, ComponentsContext> => {
   return createSelector(
     componentContextStateSelectorFactory(uid),
     componentContextExistsSelectorFactory(uid, context),

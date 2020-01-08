@@ -1,9 +1,9 @@
 import { serializePageContext } from 'projects/core/src/util/serialization-utils';
 import { initialLoaderState } from '../../../state/utils/loader/loader.reducer';
 import { CmsActions } from '../actions/index';
-import { ComponentContext } from '../cms-state';
+import { ComponentsContext } from '../cms-state';
 
-export const initialState: ComponentContext = {
+export const initialState: ComponentsContext = {
   component: undefined,
   pageContext: {},
 };
@@ -12,7 +12,7 @@ export const initialState: ComponentContext = {
 export function reducer<T>(
   state = initialState,
   action: CmsActions.CmsComponentAction<T>
-): ComponentContext {
+): ComponentsContext {
   const context = serializePageContext(action.pageContext);
   switch (action.type) {
     case CmsActions.LOAD_CMS_COMPONENT: {
