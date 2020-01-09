@@ -1,47 +1,21 @@
 import * as orderHistory from '../../../helpers/cancellations-returns';
-import * as checkout from '../../../helpers/checkout-flow';
+import * as orderFlow from '../../../helpers/order-history';
 
 describe('Return Request List for Cancellations and Returns', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    checkout.visitHomePage();
+    cy.requireLoggedIn();
   });
 
-  it('should register successfully', () => {
-    checkout.registerUser();
+  beforeEach(() => {
+    cy.restoreLocalStorage();
   });
 
-  it('should go to product page from category page', () => {
-    checkout.goToCheapProductDetailsPage();
+  afterEach(() => {
+    cy.saveLocalStorage();
   });
 
-  it('should add product to cart and go to checkout', () => {
-    checkout.addCheapProductToCartAndLogin();
-  });
-
-  it('should fill in address form', () => {
-    checkout.fillAddressFormWithCheapProduct();
-  });
-
-  it('should choose delivery', () => {
-    checkout.verifyDeliveryMethod();
-  });
-
-  it('should fill in payment form', () => {
-    checkout.fillPaymentFormWithCheapProduct();
-  });
-
-  it('should review and place order', () => {
-    checkout.placeOrderWithCheapProduct();
-  });
-
-  it('should display summary page', () => {
-    checkout.verifyOrderConfirmationPageWithCheapProduct();
-  });
-
-  it('should be able to check order in order history', () => {
-    checkout.viewOrderHistoryWithCheapProduct();
-  });
+  orderFlow.orderHistoryTest.checkIfOrderIsDisplayed(); // This places order and goes to order history page
 
   it('should have two tabs: 1 order tab and 1 return tab', () => {
     orderHistory.checkTabs();
