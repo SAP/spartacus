@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {PersonalizationContext} from "../model/personalization-context.model";
 
 @Injectable({
@@ -7,14 +7,14 @@ import {PersonalizationContext} from "../model/personalization-context.model";
 })
 export class PersonalizationContextService {
 
-  private context: PersonalizationContext;
+  private subject: Subject<PersonalizationContext> = new BehaviorSubject(null);
 
   getPersonalizationContext(): Observable<PersonalizationContext> {
-    return of(this.context);
+    return this.subject.asObservable();
   }
 
   setPersonalizationContext(context: PersonalizationContext) {
-    this.context = context;
+    this.subject.next(context);
   }
 
 }

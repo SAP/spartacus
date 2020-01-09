@@ -11,15 +11,13 @@ import {tap} from 'rxjs/operators';
 
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PersonalizationContextService } from '../services/personalization-context.service';
-
-
-const PLACEHOLDER_CONTENT_SLOT_KEY = 'PlaceholderContentSlot';
-const PERSONALIZATION_SCRIPT_COMPONENT_KEY = 'PersonalizationScriptComponent';
+import { PersonalizationConfig } from '../config/personalization-config';
 
 @Injectable({ providedIn: 'root' })
 export class OccPersonalizationContextInterceptor implements HttpInterceptor {
 
   constructor(
+    private config: PersonalizationConfig,
     private occEndpoints: OccEndpointsService,
     private personalizationContextService: PersonalizationContextService
   ) {
@@ -34,11 +32,11 @@ export class OccPersonalizationContextInterceptor implements HttpInterceptor {
       next.handle(request).pipe(
         tap(event => {
           if (event instanceof HttpResponse) {
-            let contentSlot = ((event.body.contentSlots || {}).contentSlot || []).find(i => i.slotId === PLACEHOLDER_CONTENT_SLOT_KEY);
+            const contentSlot = ((event.body.contentSlots || {}).contentSlot || []).find(i => i.slotId === this.config.personalization.context.slotId);
             if(!!contentSlot) {
-              let component = ((contentSlot.components || {}).component || []).find(i => i.uid === PERSONALIZATION_SCRIPT_COMPONENT_KEY);
+              const component = ((contentSlot.components || {}).component || []).find(i => i.uid === this.config.personalization.context.componentId);
               if(!!component) {
-                let context = JSON.parse(atob(component.properties.script.data));
+                const context = JSON.parse(atob(component.properties.script.data));
                 context.actions.forEach(action => {
                   Object.keys(action).forEach(key => {
                     action[key] = atob(action[key]);
