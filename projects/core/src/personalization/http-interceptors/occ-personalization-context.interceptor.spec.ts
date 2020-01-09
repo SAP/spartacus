@@ -20,7 +20,7 @@ describe('OccPersonalizationContextInterceptor', () => {
   let httpMock: HttpTestingController;
   const personalizationContextService: PersonalizationContextService = new PersonalizationContextService();
 
-  let personalizationContext = {
+  const personalizationContext = {
     actions:[
       { customization_name: btoa("customization_name1"),
         customization_code: btoa("customization_code1"),
@@ -39,8 +39,8 @@ describe('OccPersonalizationContextInterceptor', () => {
     ],
     segments:[btoa("segment1"), btoa("segment2")]
   };
-  let personalizationContextBase64 = btoa(JSON.stringify(personalizationContext));
-  let scriptComponent = {
+  const personalizationContextBase64 = btoa(JSON.stringify(personalizationContext));
+  const scriptComponent = {
       contentSlots:{
         contentSlot:[
           {slotId: "PlaceholderContentSlot",
