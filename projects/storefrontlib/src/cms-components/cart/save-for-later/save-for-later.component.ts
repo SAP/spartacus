@@ -40,7 +40,7 @@ export class SaveForLaterComponent implements OnInit {
     this.cartLoaded$ = combineLatest([
       this.cartService.getLoaded(),
       this.selectiveCartService.getLoaded(),
-    ]).pipe(map(([cartLoaded, slfLoaded]) => cartLoaded && slfLoaded));
+    ]).pipe(map(([cartLoaded, sflLoaded]) => cartLoaded && sflLoaded));
     this.data$ = this.cmsService.getComponentData(
       'EmptyCartParagraphComponent'
     );

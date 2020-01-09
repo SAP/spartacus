@@ -14,7 +14,6 @@ import { OrderEntry } from '../../model/order.model';
 // ! Do not expose in public API
 // It is a prototype service for selective cart/save for later that can change when implementing that feature
 
-// TODO: Add unit tests, doc comments for that when working on this feature
 @Injectable()
 export class SelectiveCartService {
   private customerId: string;
@@ -109,13 +108,13 @@ export class SelectiveCartService {
   }
 
   addEntry(productCode: string, quantity: number): void {
-    let createInitialized = false;
+    let loadAttempted = false;
     this.cartSelector$
       .pipe(
-        filter(() => !createInitialized),
+        filter(() => !loadAttempted),
         switchMap(cartState => {
           if (this.isEmpty(cartState.value) && !cartState.loading) {
-            createInitialized = true;
+            loadAttempted = true;
             this.load();
           }
           return of(cartState);

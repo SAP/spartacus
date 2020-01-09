@@ -79,7 +79,7 @@ export function moveItem(
   const currentPosition =
     Position.Cart === targetPosition ? Position.SaveForLater : Position.Cart;
   getItem(product, currentPosition).within(() => {
-    cy.get('.cx-slf-btn > .link').click();
+    cy.get('.cx-sfl-btn > .link').click();
   });
   if (!isAnonymous) {
     cy.wait(['@refresh_cart', '@refresh_selectivecart']).spread(

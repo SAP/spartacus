@@ -67,7 +67,7 @@ describe('CartPageLayoutHandler', () => {
       expect(result).toEqual(['test', 'TopContent', 'CenterRightContentSlot']);
     });
 
-    it('should return untouched steam if not on a cart page', () => {
+    it('should return untouched stream if not a cart page template', () => {
       const handler = new CartPageLayoutHandler(
         mockCartService,
         mockSelectiveCartService,
@@ -130,7 +130,7 @@ describe('CartPageLayoutHandler', () => {
       expect(result).toEqual(['test', 'TopContent']);
     });
 
-    it('should return untouched steam if not on a cart page', () => {
+    it('should return untouched stream if not a cart page template', () => {
       const handler = new CartPageLayoutHandler(
         mockCartService,
         mockSelectiveCartService,

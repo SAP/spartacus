@@ -273,7 +273,7 @@ describe('Selective Cart Service', () => {
     );
   });
 
-  it('should call multiCartService remove entry method with active cart', () => {
+  it('should call multiCartService remove entry method with selective cart', () => {
     service['cartId'] = 'cartId';
     service['userId'] = 'userId';
     spyOn(multiCartService, 'removeEntry').and.callThrough();
@@ -288,7 +288,7 @@ describe('Selective Cart Service', () => {
     );
   });
 
-  it('should call multiCartService update entry method with active cart', () => {
+  it('should call multiCartService update entry method with selective cart', () => {
     service['cartId'] = 'cartId';
     service['userId'] = 'userId';
     spyOn(multiCartService, 'updateEntry').and.callThrough();
