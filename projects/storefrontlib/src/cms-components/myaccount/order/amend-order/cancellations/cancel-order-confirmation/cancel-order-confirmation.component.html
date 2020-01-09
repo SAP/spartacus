@@ -3,12 +3,7 @@
   [formGroup]="form"
   (ngSubmit)="submit(form)"
 >
-  <cx-amend-order-actions
-    *ngIf="orderCode"
-    [orderCode]="orderCode"
-    [isValid]="form.valid"
-    backRoute="orderCancel"
-  ></cx-amend-order-actions>
+  <ng-container *ngTemplateOutlet="actions"></ng-container>
 
   <cx-amend-order-items
     *ngIf="entries$ | async as entries"
@@ -17,10 +12,14 @@
   >
   </cx-amend-order-items>
 
-  <cx-amend-order-actions
-    *ngIf="orderCode"
-    [orderCode]="orderCode"
-    [isValid]="form.valid"
-    backRoute="orderCancel"
-  ></cx-amend-order-actions>
+  <ng-container *ngTemplateOutlet="actions"></ng-container>
+
+  <ng-template #actions>
+    <cx-amend-order-actions
+      *ngIf="orderCode"
+      [orderCode]="orderCode"
+      [isValid]="form.valid"
+      backRoute="orderCancel"
+    ></cx-amend-order-actions>
+  </ng-template>
 </form>
