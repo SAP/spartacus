@@ -18,8 +18,6 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-routes/suffix-url-matcher';
 import { TableModule } from '../../../../shared/components/table/table.module';
-// import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
-// import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 
 @NgModule({
   imports: [

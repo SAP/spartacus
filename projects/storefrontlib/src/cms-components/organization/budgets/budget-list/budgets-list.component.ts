@@ -41,7 +41,6 @@ export class BudgetsListComponent implements OnInit {
 
   readonly cxRoute = 'budgetDetails';
   budgetsList$: Observable<any>;
-  isLoaded$: Observable<boolean>;
   private params$: Observable<BudgetSearchConfig>;
 
   protected defaultParams: BudgetSearchConfig = {
@@ -97,9 +96,6 @@ export class BudgetsListComponent implements OnInit {
         )
       )
     );
-
-    // this.isLoaded$ = this.budgetsService.getBudgetsProcess().pipe(map(process => process.success));
-    this.isLoaded$ = of(false);
   }
 
   changeSortCode(sort: string): void {
