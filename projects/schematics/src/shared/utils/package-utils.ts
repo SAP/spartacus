@@ -1,4 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
+import { version } from './../../../package.json';
 
 export function getAngularVersion(tree: Tree): string {
   const buffer = tree.read('package.json');
@@ -7,4 +8,11 @@ export function getAngularVersion(tree: Tree): string {
     return packageJson.dependencies['@angular/core'];
   }
   return '';
+}
+
+export function getSpartacusSchematicsVersion(): string {
+  return version
+    .split('.')
+    .slice(0, 2)
+    .join('.');
 }

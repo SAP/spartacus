@@ -25,13 +25,16 @@ import {
   addImport,
   addToModuleImportsAndCommitChanges,
 } from '../shared/utils/module-file-utils';
-import { getAngularVersion } from '../shared/utils/package-utils';
+import {
+  getAngularVersion,
+  getSpartacusSchematicsVersion,
+} from '../shared/utils/package-utils';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 import { Schema as SpartacusOptions } from './schema';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = '^1.3';
+    const spartacusVersion = getSpartacusSchematicsVersion();
     const ngrxVersion = '^8.3.0';
     const angularVersion = getAngularVersion(tree);
 
@@ -147,7 +150,7 @@ function getStorefrontConfig(options: SpartacusOptions): string {
         fallbackLang: 'en'
       },
       features: {
-        level: '${options.featureLevel}',
+        level: '${options.featureLevel || getSpartacusSchematicsVersion()}',
         anonymousConsents: true
       }
     }`;
