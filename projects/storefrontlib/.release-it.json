@@ -14,7 +14,12 @@
   },
   "github": {
     "release": true,
-    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "assets": [
+      "../../docs.tar.gz",
+      "../../docs.zip",
+      "../../spartacussampledataaddon.zip",
+      "../../spartacussampledataaddon.tar"
+    ],
     "releaseName": "@spartacus/storefront@${version}",
     "releaseNotes": "cd ../../ && npm run --silent release-notes:lib -- --to storefront-${version}"
   }

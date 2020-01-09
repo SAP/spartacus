@@ -46,10 +46,10 @@ const moduleComponents = [
     UrlModule,
     RouterModule.forChild([
       {
-        path: 'guest/order/:orderCode',
+        path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'order' },
+        data: { pageLabel: 'order', cxRoute: 'orderGuest' },
       },
       {
         path: null,
