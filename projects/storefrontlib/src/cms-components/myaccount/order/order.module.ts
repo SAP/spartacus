@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
-import { OrderHistoryModule } from './order-history/order-history.module';
+import { OrderCancellationModule } from './amend-order/cancellations/order-cancellation.module';
+import { OrderReturnModule } from './amend-order/returns/order-return.module';
 import { OrderDetailsModule } from './order-details/order-details.module';
-import { ReturnRequestListModule } from './return-request-list/order-return-request-list.module';
+import { OrderHistoryModule } from './order-history/order-history.module';
 import { ReturnRequestDetailModule } from './return-request-detail/return-request-detail.module';
-import { OrderCancelOrReturnModule } from './cancellations-returns/cancel-or-return.module';
+import { ReturnRequestListModule } from './return-request-list/order-return-request-list.module';
 
 @NgModule({
   imports: [
     OrderHistoryModule,
     OrderDetailsModule,
-    OrderCancelOrReturnModule,
+    OrderCancellationModule,
+    OrderReturnModule,
     ReturnRequestListModule,
     ReturnRequestDetailModule,
   ],
