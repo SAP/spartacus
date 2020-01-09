@@ -8,7 +8,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { OccPersonalizationContextInterceptor } from './occ-personalization-context.interceptor';
 import { PersonalizationContextService } from '../services/personalization-context.service';
-import {PersonalizationConfig} from "@spartacus/core";
+import { PersonalizationConfig } from '@spartacus/core';
 
 const mockPersonalizationConfig: PersonalizationConfig = {
   personalization: {
