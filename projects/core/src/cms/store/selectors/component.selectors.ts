@@ -3,34 +3,91 @@ import { CmsComponent } from '../../../model/cms.model';
 import {
   initialLoaderState,
   LoaderState,
-  // StateEntityLoaderSelectors,
+  StateEntityLoaderSelectors,
   StateEntitySelectors,
   StateLoaderSelectors,
 } from '../../../state/utils/index';
-// import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
-  // CmsState,
+  CmsState,
   ComponentsContext,
   ComponentsState,
-  // ComponentState,
+  ComponentState,
   StateWithCms,
 } from '../cms-state';
 import { getCmsState } from './feature.selectors';
 
-// const getComponentEntitiesSelector = (state: ComponentState): any =>
-//   Object.keys(state.entities).reduce((acc, cur) => {
-//     acc[cur] = state.entities[cur].value;
-//     return acc;
-//   }, {});
+/**
+ * @deprecated as of 2.0, this method will be removed.
+ */
+// TODO(issue:6027) - delete this method
+const getComponentEntitiesSelector = (state: ComponentState): any =>
+  Object.keys(state.entities).reduce((acc, cur) => {
+    acc[cur] = state.entities[cur].value;
+    return acc;
+  }, {});
 
-// TODO:#4603 deprecation - delete and switch to `getComponentContextState()`
-// export const getComponentState: MemoizedSelector<
-//   StateWithCms,
-//   ComponentState
-// > = createSelector(
-//   getCmsState,
-//   (state: CmsState) => state.component
-// );
+/**
+ * @deprecated as of 2.0, this method will be removed in favour of `getComponentsState`
+ */
+// TODO(issue:6027) - delete this method
+export const getComponentState: MemoizedSelector<
+  StateWithCms,
+  ComponentState
+> = createSelector(
+  getCmsState,
+  (state: CmsState) => state.component
+);
+
+/**
+ * @deprecated as of 2.0, this method will be removed.
+ */
+// TODO(issue:6027) - delete this method
+export const getComponentEntities: MemoizedSelector<
+  StateWithCms,
+  { [id: string]: any }
+> = createSelector(
+  getComponentState,
+  getComponentEntitiesSelector
+);
+
+/**
+ * @deprecated as of 2.0, this method will be removed in favour of `componentsLoaderStateSelectorFactory`
+ */
+// TODO(issue:6027) - delete this method
+export const componentStateSelectorFactory = (
+  uid: string
+): MemoizedSelector<StateWithCms, LoaderState<any>> => {
+  return createSelector(
+    getComponentState,
+    entities => {
+      // the whole component entities are empty
+      if (Object.keys(entities.entities).length === 0) {
+        return undefined;
+      } else {
+        return StateEntityLoaderSelectors.entityStateSelector(entities, uid);
+      }
+    }
+  );
+};
+
+/**
+ * @deprecated as of 2.0, this method will be removed in favour of `componentsSelectorFactory`
+ */
+// TODO(issue:6027) - delete this method
+export const componentSelectorFactory = (
+  uid: string
+): MemoizedSelector<StateWithCms, any> => {
+  return createSelector(
+    componentStateSelectorFactory(uid),
+    state => {
+      if (state) {
+        return StateLoaderSelectors.loaderValueSelector(state);
+      } else {
+        return undefined;
+      }
+    }
+  );
+};
 
 // TODO:#4603 - test
 export const getComponentsState: MemoizedSelector<
@@ -40,31 +97,6 @@ export const getComponentsState: MemoizedSelector<
   getCmsState,
   state => state.components
 );
-
-// export const getComponentEntities: MemoizedSelector<
-//   StateWithCms,
-//   { [id: string]: any }
-// > = createSelector(
-//   getComponentState,
-//   getComponentEntitiesSelector
-// );
-
-// TODO:#4603 deprecation - delete and switch to `componentContextStateSelectorFactory()`
-// export const componentStateSelectorFactory = (
-//   uid: string
-// ): MemoizedSelector<StateWithCms, LoaderState<any>> => {
-//   return createSelector(
-//     getComponentState,
-//     entities => {
-//       // the whole component entities are empty
-//       if (Object.keys(entities.entities).length === 0) {
-//         return undefined;
-//       } else {
-//         return StateEntityLoaderSelectors.entityStateSelector(entities, uid);
-//       }
-//     }
-//   );
-// };
 
 // TODO:#4603 - test
 export const componentsContextSelectorFactory = (
@@ -126,24 +158,8 @@ export const componentsContextExistsSelectorFactory = (
   );
 };
 
-// TODO:#4603 deprecation - delete and switch to `componentContextSelectorFactory()`
-// export const componentSelectorFactory = (
-//   uid: string
-// ): MemoizedSelector<StateWithCms, any> => {
-//   return createSelector(
-//     componentStateSelectorFactory(uid),
-//     state => {
-//       if (state) {
-//         return StateLoaderSelectors.loaderValueSelector(state);
-//       } else {
-//         return undefined;
-//       }
-//     }
-//   );
-// };
-
 // TODO:#4603 - test
-export const componentSelectorFactory = (
+export const componentsSelectorFactory = (
   uid: string,
   context: string
 ): MemoizedSelector<StateWithCms, CmsComponent> => {

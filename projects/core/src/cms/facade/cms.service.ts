@@ -132,7 +132,7 @@ export class CmsService {
     );
 
     const component$ = this.store.pipe(
-      select(CmsSelectors.componentSelectorFactory(uid, context)),
+      select(CmsSelectors.componentsSelectorFactory(uid, context)),
       filter(component => Boolean(component))
     ) as Observable<T>;
 
