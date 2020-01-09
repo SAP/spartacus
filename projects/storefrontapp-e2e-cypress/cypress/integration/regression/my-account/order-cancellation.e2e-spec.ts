@@ -1,5 +1,5 @@
-import * as orderHistory from '../../../helpers/cancellations-returns';
-import * as orderFlow from '../../../helpers/order-history';
+import * as orderCancellationsReturns from '../../../helpers/order-cancellations-returns';
+import * as orderHistory from '../../../helpers/order-history';
 
 describe('Place Order', () => {
   before(() => {
@@ -15,15 +15,15 @@ describe('Place Order', () => {
     cy.saveLocalStorage();
   });
 
-  orderFlow.orderHistoryTest.checkIfOrderIsDisplayed(); // This places 2 orders
+  orderHistory.orderHistoryTest.checkIfOrderIsDisplayed(); // This places 2 orders
 });
 
 describe('Return Request List for Cancellations and Returns', () => {
   it('should have two tabs: 1 order tab and 1 return tab', () => {
-    orderHistory.checkTabs();
+    orderCancellationsReturns.checkTabs();
   });
 
   it('should fully cancel order', () => {
-    orderHistory.cancelOrder();
+    orderCancellationsReturns.cancelOrder();
   });
 });
