@@ -4088,6 +4088,12 @@ export namespace Occ {
     BACK_IN_STOCK = 'BACK_IN_STOCK',
   }
 
+  export interface BudgetsList {
+    budgets: Budget[];
+    pagination: PaginationModel;
+    sorts: SortModel[];
+  }
+
   export interface Budget {
     active?: boolean;
     budget?: number;
@@ -4143,5 +4149,17 @@ export namespace Occ {
     titleCode?: string;
     town?: string;
     visibleInAddressBook?: true;
+  }
+
+  export interface B2BUnitNodeList {
+    unitNodes?: Array<B2BUnitNode>;
+  }
+
+  export interface B2BUnitNode {
+    active?: boolean;
+    children?: Array<B2BUnitNode>;
+    id?: string;
+    name?: string;
+    parent?: string;
   }
 }

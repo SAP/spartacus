@@ -52,6 +52,12 @@ import { ProductVariantSelectorModule } from './product/product-variant-selector
 import { StoreFinderModule } from './storefinder/store-finder.module';
 import { UserComponentModule } from './user/user.module';
 import { WishListModule } from './wish-list/wish-list.module';
+import {
+  BudgetsListModule,
+  BudgetDetailsModule,
+  BudgetEditModule,
+  BudgetCreateModule,
+} from './organization/index';
 
 @NgModule({
   imports: [
@@ -101,6 +107,10 @@ import { WishListModule } from './wish-list/wish-list.module';
     NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,
+    BudgetsListModule,
+    BudgetCreateModule,
+    BudgetDetailsModule,
+    BudgetEditModule,
   ],
 })
 export class CmsLibModule {}

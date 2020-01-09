@@ -1,0 +1,9 @@
+<input
+  #inputElement
+  type="date"
+  class="form-control"
+  (input)="onInput($event)"
+  [value]="nativeValue"
+  [min]="getMin()"
+  [max]="getMax()"
+/>

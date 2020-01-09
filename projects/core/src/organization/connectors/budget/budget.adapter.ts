@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { Budget } from '../../../model/budget.model';
 import { BudgetSearchConfig } from '../../model/search-config';
+import { Occ } from '../../../occ/occ-models/occ.models';
 
 export abstract class BudgetAdapter {
   /**
@@ -16,9 +17,13 @@ export abstract class BudgetAdapter {
   abstract loadList(
     userId: string,
     params?: BudgetSearchConfig
-  ): Observable<Budget[]>;
+  ): Observable<Occ.BudgetsList>;
 
   abstract create(userId: string, budget: Budget): Observable<Budget>;
 
-  abstract update(userId: string, budget: Budget): Observable<Budget>;
+  abstract update(
+    userId: string,
+    budgetCode: string,
+    budget: Budget
+  ): Observable<Budget>;
 }

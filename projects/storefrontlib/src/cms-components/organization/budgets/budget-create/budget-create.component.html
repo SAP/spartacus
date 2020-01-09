@@ -1,0 +1,8 @@
+<div class="cx-header">
+  <h3>{{ 'budgetForm.create' | cxTranslate }}</h3>
+</div>
+<cx-budget-form
+  [actionBtnLabel]="'budgetForm.create' | cxTranslate"
+  (submitBudget)="createBudget($event)"
+>
+</cx-budget-form>

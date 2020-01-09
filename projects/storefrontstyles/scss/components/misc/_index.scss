@@ -1,6 +1,8 @@
 @import './card/index';
 @import './paging/index';
 @import './spinner/index';
+@import './search/index';
 @import './icons';
 
-$misc-components-whitelist: cx-icon, cx-spinner, cx-card, cx-pagination !default;
+$misc-components-whitelist: cx-icon, cx-spinner, cx-card, cx-pagination,
+  cx-search !default;

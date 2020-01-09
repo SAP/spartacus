@@ -6,6 +6,9 @@ import { BudgetActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
+  BUDGET_ENTITIES,
+  BUDGET_LISTS,
+  BudgetManagement,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import { BudgetSelectors } from '../selectors/index';
@@ -56,25 +59,28 @@ describe('Budget Selectors', () => {
 
   describe('getBudgetManagementState ', () => {
     it('should return budgets state', () => {
-      let result: EntityLoaderState<Budget>;
+      let result: BudgetManagement;
       store
         .pipe(select(BudgetSelectors.getBudgetManagementState))
         .subscribe(value => (result = value));
 
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
-      expect(result).toEqual({ entities });
+      expect(result).toEqual({
+        [BUDGET_ENTITIES]: { entities },
+        [BUDGET_LISTS]: { entities: {} },
+      });
     });
   });
 
   describe('getBudgets', () => {
     it('should return budgets', () => {
-      let result: { [id: string]: LoaderState<Budget> };
+      let result: EntityLoaderState<Budget>;
       store
         .pipe(select(BudgetSelectors.getBudgetsState))
         .subscribe(value => (result = value));
 
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
-      expect(result).toEqual(entities);
+      expect(result).toEqual({ entities });
     });
   });
 

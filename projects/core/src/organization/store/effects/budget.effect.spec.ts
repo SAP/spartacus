@@ -8,30 +8,14 @@ import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import createSpy = jasmine.createSpy;
 
-import { PageType } from '../../../model/cms.model';
 import { Budget } from '../../../model/budget.model';
 import { defaultOccOrganizationConfig } from '../../../occ/adapters/organization/default-occ-organization-config';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { RoutingService } from '../../../routing/facade/routing.service';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
 import * as fromEffects from './budget.effect';
 import { BudgetSearchConfig } from '../../model/search-config';
 
-const router = {
-  state: {
-    url: '/',
-    queryParams: {},
-    params: {},
-    context: { id: '1', type: PageType.PRODUCT_PAGE },
-    cmsRequired: false,
-  },
-};
-class MockRoutingService {
-  getRouterState() {
-    return of(router);
-  }
-}
 const error = 'error';
 const budgetCode = 'testCode';
 const userId = 'testUser';
@@ -46,10 +30,14 @@ const budget: Budget = {
   orgUnit: { uid: 'ouid', name: 'ouName' },
   costCenters: [],
 };
+const pagination = { currentPage: 1 };
+const sorts = [{ selected: true, name: 'code' }];
 
 class MockBudgetConnector {
   get = createSpy().and.returnValue(of(budget));
-  getList = createSpy().and.returnValue(of([budget]));
+  getList = createSpy().and.returnValue(
+    of({ budgets: [budget], pagination, sorts })
+  );
   create = createSpy().and.returnValue(of(budget));
   update = createSpy().and.returnValue(of(budget));
 }
@@ -80,7 +68,6 @@ describe('Budget Effects', () => {
         { provide: OccConfig, useValue: defaultOccOrganizationConfig },
         fromEffects.BudgetEffects,
         provideMockActions(() => actions$),
-        { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
@@ -120,7 +107,10 @@ describe('Budget Effects', () => {
     it('should return LoadBudgetSuccess action', () => {
       const action = new BudgetActions.LoadBudgets({ userId, params });
       const completion = new BudgetActions.LoadBudgetSuccess([budget]);
-      const completion2 = new BudgetActions.LoadBudgetsSuccess();
+      const completion2 = new BudgetActions.LoadBudgetsSuccess({
+        params,
+        budgetPage: { ids: [budgetCode], pagination, sorts },
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion, c: completion2 });
 
@@ -131,7 +121,7 @@ describe('Budget Effects', () => {
     it('should return LoadBudgetsFail action if budgets not loaded', () => {
       budgetConnector.getList = createSpy().and.returnValue(throwError(error));
       const action = new BudgetActions.LoadBudgets({ userId, params });
-      const completion = new BudgetActions.LoadBudgetsFail(error);
+      const completion = new BudgetActions.LoadBudgetsFail({ error, params });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -165,24 +155,40 @@ describe('Budget Effects', () => {
 
   describe('updateBudget$', () => {
     it('should return UpdateBudgetSuccess action', () => {
-      const action = new BudgetActions.UpdateBudget({ userId, budget });
+      const action = new BudgetActions.UpdateBudget({
+        userId,
+        budgetCode,
+        budget,
+      });
       const completion = new BudgetActions.UpdateBudgetSuccess(budget);
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
       expect(effects.updateBudget$).toBeObservable(expected);
-      expect(budgetConnector.update).toHaveBeenCalledWith(userId, budget);
+      expect(budgetConnector.update).toHaveBeenCalledWith(
+        userId,
+        budgetCode,
+        budget
+      );
     });
 
     it('should return UpdateBudgetFail action if budget not created', () => {
       budgetConnector.update = createSpy().and.returnValue(throwError(error));
-      const action = new BudgetActions.UpdateBudget({ userId, budget });
+      const action = new BudgetActions.UpdateBudget({
+        userId,
+        budgetCode,
+        budget,
+      });
       const completion = new BudgetActions.UpdateBudgetFail(budget.code, error);
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
       expect(effects.updateBudget$).toBeObservable(expected);
-      expect(budgetConnector.update).toHaveBeenCalledWith(userId, budget);
+      expect(budgetConnector.update).toHaveBeenCalledWith(
+        userId,
+        budgetCode,
+        budget
+      );
     });
   });
 });

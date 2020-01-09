@@ -1,0 +1,108 @@
+<ng-container class="container" *ngIf="budget$ | async as budget">
+  <div class="row">
+    <div class="col-md-12 col-lg-6">
+      <div class="cx-header">
+        <h3>{{ 'budget.details' | cxTranslate }}</h3>
+      </div>
+      <div class="row ">
+        <div class="col-6">{{ 'budget.id' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.code }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.parentUnit' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.orgUnit.name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.name' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.startDate' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.startDate | cxDate }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.endDate' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.endDate | cxDate }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.amount' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.budget }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.currency' | cxTranslate }}</div>
+        <div class="col-6">{{ budget.currency.symbol }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'budget.status' | cxTranslate }}</div>
+        <div class="col-6">
+          {{
+            budget.active
+              ? ('budget.active' | cxTranslate)
+              : ('budget.deactivated' | cxTranslate)
+          }}
+        </div>
+      </div>
+      <div class="row">
+        <div *ngIf="budget.active; else enable" class="col-md-12 col-lg-6">
+          <button
+            class="btn btn-secondary btn-block"
+            (click)="update({ active: false })"
+          >
+            {{ 'budget.disable' | cxTranslate }}
+          </button>
+        </div>
+        <ng-template #enable>
+          <div class="col-md-12 col-lg-6">
+            <button
+              class="btn btn-primary btn-block"
+              (click)="update({ active: true })"
+            >
+              {{ 'budget.enable' | cxTranslate }}
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <div class="row">
+        <div class="col-md-12 col-lg-6">
+          <button
+            [routerLink]="
+              {
+                cxRoute: 'budgetEdit',
+                params: budget
+              } | cxUrl
+            "
+            class="btn btn-primary btn-block"
+          >
+            {{ 'budget.edit' | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'budgets'
+              } | cxUrl
+            "
+            class="btn btn-secondary btn-block"
+          >
+            {{ 'budget.back' | cxTranslate }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row section">
+    <div class="col-md-12 col-lg-6">
+      <div class="cx-header">
+        <h3>{{ 'budget.costCenters' | cxTranslate }}</h3>
+      </div>
+      <cx-table
+        [pageSize]="10"
+        [columns]="getCostCenterColumns() | async"
+        [tableData]="budget.costCenters"
+      ></cx-table>
+    </div>
+  </div>
+</ng-container>

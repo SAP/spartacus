@@ -40,6 +40,12 @@ export interface User {
   uid?: string;
 }
 
+export interface ListModel {
+  ids: string[];
+  pagination: PaginationModel;
+  sorts: SortModel[];
+}
+
 export interface PaginationModel {
   currentPage?: number;
   pageSize?: number;

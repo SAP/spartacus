@@ -4,7 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { Budget } from '../../model/budget.model';
+import { Budget, BudgetListModel } from '../../model/budget.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { BudgetActions } from '../store/actions/index';
@@ -13,7 +13,6 @@ import { BudgetService } from './budget.service';
 import { BudgetSearchConfig } from '../model/search-config';
 import {
   AuthService,
-  LoaderState,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '@spartacus/core';
@@ -22,6 +21,13 @@ const userId = 'current';
 const budgetCode = 'testBudget';
 const budget = { code: budgetCode };
 const budget2 = { code: 'testBudget2' };
+const pagination = { currentPage: 1 };
+const sorts = [{ selected: true, name: 'code' }];
+const budgetList: BudgetListModel = {
+  budgets: [budget, budget2],
+  pagination,
+  sorts,
+};
 
 class MockAuthService {
   getOccUserId = createSpy().and.returnValue(of(userId));
@@ -91,7 +97,7 @@ describe('BudgetService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
+      expect(authService.getOccUserId).not.toHaveBeenCalled();
       expect(budgetDetails).toEqual(budget);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new BudgetActions.LoadBudget({ userId, budgetCode })
@@ -103,7 +109,7 @@ describe('BudgetService', () => {
     const params: BudgetSearchConfig = { sort: 'code' };
 
     it('getList() should trigger load budgets when they are not present in the store', () => {
-      let budgets: LoaderState<Budget>;
+      let budgets: BudgetListModel;
       service
         .getList(params)
         .subscribe(data => {
@@ -120,8 +126,17 @@ describe('BudgetService', () => {
 
     it('getList() should be able to get budgets when they are present in the store', () => {
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
-      store.dispatch(new BudgetActions.LoadBudgetsSuccess());
-      let budgets: LoaderState<Budget>;
+      store.dispatch(
+        new BudgetActions.LoadBudgetsSuccess({
+          params,
+          budgetPage: {
+            ids: [budget.code, budget2.code],
+            pagination,
+            sorts,
+          },
+        })
+      );
+      let budgets: BudgetListModel;
       service
         .getList(params)
         .subscribe(data => {
@@ -129,21 +144,8 @@ describe('BudgetService', () => {
         })
         .unsubscribe();
 
-      expect(authService.getOccUserId).toHaveBeenCalled();
-      expect(budgets).toEqual({
-        [budget.code]: {
-          loading: false,
-          error: false,
-          success: true,
-          value: budget,
-        },
-        [budget2.code]: {
-          loading: false,
-          error: false,
-          success: true,
-          value: budget2,
-        },
-      });
+      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(budgets).toEqual(budgetList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new BudgetActions.LoadBudgets({ userId, params })
       );
@@ -163,11 +165,11 @@ describe('BudgetService', () => {
 
   describe('update budget', () => {
     it('update() should should dispatch UpdateBudget action', () => {
-      service.update(budget);
+      service.update(budgetCode, budget);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new BudgetActions.UpdateBudget({ userId, budget })
+        new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
       );
     });
   });

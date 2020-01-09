@@ -1,13 +1,13 @@
-import { LOAD_BUDGETS_PROCESS_ID, BUDGET_FEATURE } from '../organization-state';
-
 import { Budget } from '../../../model/budget.model';
 import {
-  EntityLoadAction,
   EntityFailAction,
+  EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
-import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import { BudgetSearchConfig } from '../../model/search-config';
+import { serializeBudgetSearchConfig } from '../../utils/budgets';
+import { BUDGET_ENTITIES, BUDGET_LISTS } from '../organization-state';
+import { PaginationModel, SortModel } from '../../../model/misc.model';
 
 export const LOAD_BUDGET = '[Budget] Load Budget Data';
 export const LOAD_BUDGET_FAIL = '[Budget] Load Budget Data Fail';
@@ -28,89 +28,107 @@ export const UPDATE_BUDGET_SUCCESS = '[Budget] Update Budget Success';
 export class LoadBudget extends EntityLoadAction {
   readonly type = LOAD_BUDGET;
   constructor(public payload: { userId: string; budgetCode: string }) {
-    super(BUDGET_FEATURE, payload.budgetCode);
+    super(BUDGET_ENTITIES, payload.budgetCode);
   }
 }
 
 export class LoadBudgetFail extends EntityFailAction {
   readonly type = LOAD_BUDGET_FAIL;
   constructor(budgetCode: string, public payload: any) {
-    super(BUDGET_FEATURE, budgetCode, payload);
+    super(BUDGET_ENTITIES, budgetCode, payload);
   }
 }
 
 export class LoadBudgetSuccess extends EntitySuccessAction {
   readonly type = LOAD_BUDGET_SUCCESS;
+
   constructor(public payload: Budget[]) {
-    super(BUDGET_FEATURE, payload.map(budget => budget.code), payload);
+    super(BUDGET_ENTITIES, payload.map(budget => budget.code));
   }
 }
+
+// TODO: create standard for query params serializers
 
 export class LoadBudgets extends EntityLoadAction {
   readonly type = LOAD_BUDGETS;
   constructor(
     public payload: {
       userId: string;
-      params?: BudgetSearchConfig;
+      params: BudgetSearchConfig;
     }
   ) {
-    super(PROCESS_FEATURE, LOAD_BUDGETS_PROCESS_ID);
+    super(BUDGET_LISTS, serializeBudgetSearchConfig(payload.params));
   }
 }
 
 export class LoadBudgetsFail extends EntityFailAction {
   readonly type = LOAD_BUDGETS_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, LOAD_BUDGETS_PROCESS_ID, payload);
+  constructor(public payload: { params: BudgetSearchConfig; error: any }) {
+    super(
+      BUDGET_LISTS,
+      serializeBudgetSearchConfig(payload.params),
+      payload.error
+    );
   }
 }
 
 export class LoadBudgetsSuccess extends EntitySuccessAction {
   readonly type = LOAD_BUDGETS_SUCCESS;
-  constructor() {
-    super(PROCESS_FEATURE, LOAD_BUDGETS_PROCESS_ID);
+  constructor(
+    public payload: {
+      budgetPage: {
+        ids: string[];
+        pagination: PaginationModel;
+        sorts: SortModel[];
+      };
+      params: BudgetSearchConfig;
+    }
+  ) {
+    super(BUDGET_LISTS, serializeBudgetSearchConfig(payload.params));
   }
 }
 
 export class CreateBudget extends EntityLoadAction {
   readonly type = CREATE_BUDGET;
   constructor(public payload: { userId: string; budget: Budget }) {
-    super(BUDGET_FEATURE, payload.budget.code);
+    super(BUDGET_ENTITIES, payload.budget.code);
   }
 }
 
 export class CreateBudgetFail extends EntityFailAction {
   readonly type = CREATE_BUDGET_FAIL;
   constructor(budgetCode: string, public payload: any) {
-    super(BUDGET_FEATURE, budgetCode, payload);
+    super(BUDGET_ENTITIES, budgetCode, payload);
   }
 }
 
 export class CreateBudgetSuccess extends EntitySuccessAction {
   readonly type = CREATE_BUDGET_SUCCESS;
   constructor(public payload: Budget) {
-    super(BUDGET_FEATURE, payload.code, payload);
+    super(BUDGET_ENTITIES, payload.code, payload);
   }
 }
 
 export class UpdateBudget extends EntityLoadAction {
   readonly type = UPDATE_BUDGET;
-  constructor(public payload: { userId: string; budget: Budget }) {
-    super(BUDGET_FEATURE, payload.budget.code);
+  constructor(
+    public payload: { userId: string; budgetCode: string; budget: Budget }
+  ) {
+    super(BUDGET_ENTITIES, payload.budget.code);
   }
 }
 
 export class UpdateBudgetFail extends EntityFailAction {
   readonly type = UPDATE_BUDGET_FAIL;
   constructor(budgetCode: string, public payload: any) {
-    super(BUDGET_FEATURE, budgetCode, payload);
+    super(BUDGET_ENTITIES, budgetCode, payload);
   }
 }
 
 export class UpdateBudgetSuccess extends EntitySuccessAction {
   readonly type = UPDATE_BUDGET_SUCCESS;
   constructor(public payload: Budget) {
-    super(BUDGET_FEATURE, payload.code, payload);
+    super(BUDGET_ENTITIES, payload.code, payload);
   }
 }
 

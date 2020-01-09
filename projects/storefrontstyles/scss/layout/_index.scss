@@ -13,6 +13,7 @@
 @import './page-templates/multistep-checkout-page';
 @import './page-templates/search-results-grid';
 @import './page-templates/store-finder-page';
+@import './page-templates/company-page';
 
 %CheckoutLoginPageTemplate {
   @extend %LoginPageTemplate !optional;

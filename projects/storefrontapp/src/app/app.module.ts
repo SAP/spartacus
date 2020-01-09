@@ -81,7 +81,7 @@ if (!environment.production) {
       },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: ['powertools-spa'],
+        baseSite: ['powertools-spa', 'powertools'],
       },
 
       // custom routing configuration for e2e testing
@@ -96,7 +96,7 @@ if (!environment.production) {
       i18n: {
         resources: translations,
         chunks: translationChunksConfig,
-        fallbackLang: 'en',
+        // fallbackLang: 'en',
       },
       features: {
         level: '1.4',

@@ -1,0 +1,20 @@
+<div class="form-group search-wrapper">
+  <input
+    #queryInput
+    [formControl]="searchBox"
+    (keyup)="onKey($event)"
+    type="text"
+    class="form-control"
+    [placeholder]="placeholder"
+    required
+  />
+  <cx-icon
+    [type]="iconTypes.SEARCH"
+    aria-label="search"
+    class="search"
+    (click)="search()"
+    [ngClass]="{
+      'disabled-action': !(queryInput.value && queryInput.value.length)
+    }"
+  ></cx-icon>
+</div>

@@ -84,5 +84,8 @@ export const b2bLayoutConfig: LayoutConfig = {
     MultiStepCheckoutSummaryPageTemplate: {
       slots: ['TopContent', 'BodyContent', 'SideContent', 'BottomContent'],
     },
+    CompanyPageTemplate: {
+      slots: ['BodyContent'],
+    },
   },
 };

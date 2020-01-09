@@ -1,5 +1,4 @@
-import { PROCESS_FEATURE } from '@spartacus/core';
-import { BUDGET_FEATURE, LOAD_BUDGETS_PROCESS_ID } from '../organization-state';
+import { BUDGET_ENTITIES, BUDGET_LISTS } from '../organization-state';
 import { Budget } from '../../../model/budget.model';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { BudgetActions } from './index';
@@ -10,6 +9,12 @@ const budget: Budget = {
 };
 const userId = 'xxx@xxx.xxx';
 const error = 'anError';
+const params = { currentPage: 2 };
+const query = 'pageSize=&currentPage=2&sort=';
+
+const pagination = { currentPage: 1 };
+const sorts = [{ selected: true, name: 'code' }];
+const budgetPage = { ids: [budgetCode], pagination, sorts };
 
 describe('Budget Actions', () => {
   describe('LoadBudget Actions', () => {
@@ -24,7 +29,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.LOAD_BUDGET,
           payload: { userId, budgetCode },
           meta: StateEntityLoaderActions.entityLoadMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode
           ),
         });
@@ -39,7 +44,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.LOAD_BUDGET_FAIL,
           payload: error,
           meta: StateEntityLoaderActions.entityFailMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode,
             error
           ),
@@ -54,7 +59,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGET_SUCCESS,
           payload: [budget],
-          meta: StateEntityLoaderActions.entitySuccessMeta(BUDGET_FEATURE, [
+          meta: StateEntityLoaderActions.entitySuccessMeta(BUDGET_ENTITIES, [
             budgetCode,
           ]),
         });
@@ -67,46 +72,45 @@ describe('Budget Actions', () => {
       it('should create the action', () => {
         const action = new BudgetActions.LoadBudgets({
           userId,
+          params,
         });
 
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGETS,
-          payload: { userId },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            PROCESS_FEATURE,
-            LOAD_BUDGETS_PROCESS_ID
-          ),
+          payload: { userId, params },
+          meta: StateEntityLoaderActions.entityLoadMeta(BUDGET_LISTS, query),
         });
       });
     });
 
     describe('LoadBudgetsFail', () => {
       it('should create the action', () => {
-        const action = new BudgetActions.LoadBudgetsFail(error);
+        const action = new BudgetActions.LoadBudgetsFail({
+          params,
+          error: { error },
+        });
 
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGETS_FAIL,
-          payload: error,
-          meta: StateEntityLoaderActions.entityFailMeta(
-            PROCESS_FEATURE,
-            LOAD_BUDGETS_PROCESS_ID,
-            error
-          ),
+          payload: { params, error: { error } },
+          meta: StateEntityLoaderActions.entityFailMeta(BUDGET_LISTS, query, {
+            error,
+          }),
         });
       });
     });
 
     describe('LoadBudgetsSuccess', () => {
       it('should create the action', () => {
-        const action = new BudgetActions.LoadBudgetsSuccess();
+        const action = new BudgetActions.LoadBudgetsSuccess({
+          budgetPage,
+          params,
+        });
 
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGETS_SUCCESS,
-          payload: undefined,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            PROCESS_FEATURE,
-            LOAD_BUDGETS_PROCESS_ID
-          ),
+          payload: { budgetPage, params },
+          meta: StateEntityLoaderActions.entitySuccessMeta(BUDGET_LISTS, query),
         });
       });
     });
@@ -121,7 +125,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.CREATE_BUDGET,
           payload: { userId, budget },
           meta: StateEntityLoaderActions.entityLoadMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode
           ),
         });
@@ -136,7 +140,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.CREATE_BUDGET_FAIL,
           payload: error,
           meta: StateEntityLoaderActions.entityFailMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode,
             error
           ),
@@ -152,7 +156,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.CREATE_BUDGET_SUCCESS,
           payload: budget,
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode
           ),
         });
@@ -163,13 +167,17 @@ describe('Budget Actions', () => {
   describe('UpdateBudget Actions', () => {
     describe('UpdateBudget', () => {
       it('should create the action', () => {
-        const action = new BudgetActions.UpdateBudget({ userId, budget });
+        const action = new BudgetActions.UpdateBudget({
+          userId,
+          budgetCode,
+          budget,
+        });
 
         expect({ ...action }).toEqual({
           type: BudgetActions.UPDATE_BUDGET,
-          payload: { userId, budget },
+          payload: { userId, budgetCode, budget },
           meta: StateEntityLoaderActions.entityLoadMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode
           ),
         });
@@ -184,7 +192,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.UPDATE_BUDGET_FAIL,
           payload: error,
           meta: StateEntityLoaderActions.entityFailMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode,
             error
           ),
@@ -200,7 +208,7 @@ describe('Budget Actions', () => {
           type: BudgetActions.UPDATE_BUDGET_SUCCESS,
           payload: budget,
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            BUDGET_FEATURE,
+            BUDGET_ENTITIES,
             budgetCode
           ),
         });
