@@ -33,9 +33,16 @@ export class CdsMerchandisingProductService {
           MerchandisingUserContext
         ]) => {
           return {
-            ...siteContext,
-            ...userContext,
-            pageSize: numberToDisplay,
+            queryParams: {
+              ...siteContext,
+              products: userContext.products,
+              facets: userContext.facets,
+              category: userContext.category,
+              pageSize: numberToDisplay,
+            },
+            headers: {
+              consentReference: userContext.consentReference,
+            },
           };
         }
       ),
