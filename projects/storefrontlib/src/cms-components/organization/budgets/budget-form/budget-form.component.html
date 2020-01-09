@@ -77,7 +77,7 @@
             formControlName="endDate"
             [min]="form.controls['startDate'].value"
             (change)="form.controls['startDate'].updateValueAndValidity()"
-            [eod]="true"
+            [endOfDay]="true"
           ></cx-date-picker>
         </label>
       </div>

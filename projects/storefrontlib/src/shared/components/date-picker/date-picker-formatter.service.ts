@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class DatePickerFormatterService {
   constructor() {}
 
-  toNative(value) {
+  toNative(value: string): string {
     return value ? new Date(value).toISOString().split('T')[0] : null;
   }
 

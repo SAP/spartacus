@@ -40,14 +40,14 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
   max?: string;
 
   @Input()
-  eod = false;
+  endOfDay = false;
 
   constructor(protected dateFormatterService: DatePickerFormatterService) {}
 
   onInput(event) {
     this.value = this.dateFormatterService.toModel(
       event.target.value,
-      this.eod
+      this.endOfDay
     );
     this.nativeValue = event.target.value;
     this.onChange(this.value);
@@ -72,11 +72,11 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
     }
   }
 
-  getMin() {
+  getMin(): string {
     return this.dateFormatterService.toNative(this.min);
   }
 
-  getMax() {
+  getMax(): string {
     return this.dateFormatterService.toNative(this.max);
   }
 
