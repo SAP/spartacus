@@ -48,11 +48,10 @@ export class ComponentEffects {
             map(actions => this.groupByPageContext(actions)),
             mergeMap(group =>
               this.loadComponentsEffect(group.componentUids, group.pageContext)
-            ),
-            // TODO:#4603 - withdrawOn in this pipe, or in the outer pipe?
-            withdrawOn(this.contextChange$)
+            )
           )
-        )
+        ),
+        withdrawOn(this.contextChange$)
       )
   );
 

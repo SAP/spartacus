@@ -1,5 +1,8 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { CmsComponent } from '../../../model/cms.model';
 import {
+  initialLoaderState,
+  LoaderState,
   // StateEntityLoaderSelectors,
   StateEntitySelectors,
   StateLoaderSelectors,
@@ -14,7 +17,7 @@ import {
 } from '../cms-state';
 import { getCmsState } from './feature.selectors';
 
-// TODO:#4603 - carefully choose method names
+// TODO:#4603 - carefully choose method names. Align with the state name
 
 // const getComponentEntitiesSelector = (state: ComponentState): any =>
 //   Object.keys(state.entities).reduce((acc, cur) => {
@@ -83,6 +86,30 @@ export const componentContextStateSelectorFactory = (
 };
 
 // TODO:#4603 - test
+export const componentsLoadingStateSelectorFactory = (
+  uid: string,
+  context: string
+): MemoizedSelector<StateWithCms, LoaderState<boolean>> => {
+  return createSelector(
+    componentContextStateSelectorFactory(uid),
+    componentsContext => {
+      if (!componentsContext) {
+        return initialLoaderState;
+      }
+
+      const loaderState = componentsContext.pageContext[context];
+      return loaderState ? loaderState : initialLoaderState;
+    }
+  );
+};
+
+// 1. create the selector for the loader state flags - based on uid and context (params) . returns LoaderState.
+// if [context: string] is not defined, return the default loader state
+// 2.  componentContextSelectorFactory should return the component only
+
+// using 1 goes to first stream; 2nd goes to 2nd stream
+
+// TODO:#4603 - test
 export const componentContextExistsSelectorFactory = (
   uid: string,
   context: string
@@ -122,13 +149,13 @@ export const componentContextExistsSelectorFactory = (
 export const componentContextSelectorFactory = (
   uid: string,
   context: string
-): MemoizedSelector<StateWithCms, ComponentsContext> => {
+): MemoizedSelector<StateWithCms, CmsComponent> => {
   return createSelector(
     componentContextStateSelectorFactory(uid),
     componentContextExistsSelectorFactory(uid, context),
     (state, exists) => {
       if (state && exists) {
-        return state;
+        return state.component;
       } else {
         return undefined;
       }

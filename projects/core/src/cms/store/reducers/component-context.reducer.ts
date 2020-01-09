@@ -3,6 +3,8 @@ import { initialLoaderState } from '../../../state/utils/loader/loader.reducer';
 import { CmsActions } from '../actions/index';
 import { ComponentsContext } from '../cms-state';
 
+// TODO:#4603 - rename the file to `components.reducer.ts`
+
 export const initialState: ComponentsContext = {
   component: undefined,
   pageContext: {},

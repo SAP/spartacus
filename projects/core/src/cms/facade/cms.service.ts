@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable, of, queueScheduler } from 'rxjs';
+import { combineLatest, Observable, of, queueScheduler, using } from 'rxjs';
 import {
   catchError,
-  distinctUntilChanged,
   filter,
   observeOn,
   pluck,
@@ -16,10 +15,7 @@ import { CmsComponent } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { PageContext } from '../../routing/models/page-context.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
-import {
-  CURRENT_CONTEXT_KEY,
-  serializePageContext,
-} from '../../util/serialization-utils';
+import { serializePageContext } from '../../util/serialization-utils';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
@@ -82,31 +78,25 @@ export class CmsService {
     pageContext?: PageContext
   ): Observable<T> {
     const context = serializePageContext(pageContext);
-
-    let component = this.components[uid];
-    if (!component) {
+    if (!this.components[uid]) {
       // create the component data structure, if it doesn't already exist
-      component = this.components[uid] = {};
-    }
-    // TODO:$4603 - rxjs using() operator?
-    let componentData = component[context];
-    if (!componentData) {
-      // create the component context and create the component data for it
-      componentData = this.components[uid][context] = this.createComponentData(
-        uid,
-        pageContext
-      );
+      this.components[uid] = {};
     }
 
-    return componentData as Observable<T>;
+    const component = this.components[uid];
+    if (!component[context]) {
+      // create the component data and assign it to the component's context
+      component[context] = this.createComponentData(uid, pageContext);
+    }
+
+    return component[context] as Observable<T>;
   }
 
   private createComponentData<T extends CmsComponent>(
     uid: string,
-    pageContext: PageContext
+    pageContext?: PageContext
   ): Observable<T> {
-    const context = serializePageContext(pageContext);
-    if (context === CURRENT_CONTEXT_KEY) {
+    if (!pageContext) {
       return this.routingService.getPageContext().pipe(
         filter(currentContext => Boolean(currentContext)),
         switchMap(currentContext =>
@@ -115,40 +105,38 @@ export class CmsService {
       );
     }
 
-    return combineLatest([
+    const context = serializePageContext(pageContext);
+
+    const loading$ = combineLatest([
       this.routingService.getNextPageContext(),
       this.store.pipe(
-        select(CmsSelectors.componentContextSelectorFactory(uid, context))
+        select(CmsSelectors.componentsLoadingStateSelectorFactory(uid, context))
       ),
     ]).pipe(
       observeOn(queueScheduler),
-      tap(([nextContext, componentContextState]) => {
-        // componentContextState is undefined when the whole components entities are empty.
-        // In this case, we don't load component one by one, but extract component data from cms page
-        if (componentContextState !== undefined) {
-          const loadingState = componentContextState.pageContext[context];
-          const attemptedLoad =
-            loadingState.loading || loadingState.success || loadingState.error;
-          // if the requested context is the same as the one that's currently being navigated to (as it might already been triggered and might be available shortly from page data)
-          const couldBeLoadedWithPageData =
-            nextContext && serializePageContext(nextContext) === context;
+      tap(([nextContext, loadingState]) => {
+        const attemptedLoad =
+          loadingState.loading || loadingState.success || loadingState.error;
+        // if the requested context is the same as the one that's currently being navigated to
+        // (as it might already been triggered and might be available shortly from page data)
+        const couldBeLoadedWithPageData = nextContext
+          ? serializePageContext(nextContext) === context
+          : false;
 
-          if (!attemptedLoad && !couldBeLoadedWithPageData) {
-            this.store.dispatch(
-              new CmsActions.LoadCmsComponent(uid, pageContext)
-            );
-          }
+        if (!attemptedLoad && !couldBeLoadedWithPageData) {
+          this.store.dispatch(
+            new CmsActions.LoadCmsComponent(uid, pageContext)
+          );
         }
-      }),
-      pluck(1),
-      filter(componentContextState => {
-        return (
-          componentContextState &&
-          componentContextState.pageContext[context].success
-        );
-      }),
-      pluck('component'),
-      distinctUntilChanged(),
+      })
+    );
+
+    const component$ = this.store.pipe(
+      select(CmsSelectors.componentContextSelectorFactory(uid, context)),
+      filter(component => Boolean(component))
+    ) as Observable<T>;
+
+    return using(() => loading$.subscribe(), () => component$).pipe(
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
