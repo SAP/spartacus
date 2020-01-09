@@ -16,6 +16,7 @@ import { Product } from '../../model/product.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
 import { FeatureConfigService } from '../../features-config/services/feature-config.service';
+import { ProductScope } from '../model/product-scope';
 
 /**
  * Resolves the page data for the Product Detail Page
@@ -35,7 +36,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
     PageBreadcrumbResolver,
     PageImageResolver {
   protected readonly PRODUCT_SCOPE =
-    this.features && this.features.isLevel('1.4') ? 'details' : '';
+    this.features && this.features.isLevel('1.4') ? ProductScope.DETAILS : '';
 
   // reusable observable for product data based on the current page
   private product$ = this.routingService.getRouterState().pipe(

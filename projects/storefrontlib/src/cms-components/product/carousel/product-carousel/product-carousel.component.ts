@@ -3,6 +3,7 @@ import {
   CmsProductCarouselComponent as model,
   FeatureConfigService,
   Product,
+  ProductScope,
   ProductService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -16,7 +17,7 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
 })
 export class ProductCarouselComponent {
   protected readonly PRODUCT_SCOPE =
-    this.features && this.features.isLevel('1.4') ? 'list' : '';
+    this.features && this.features.isLevel('1.4') ? ProductScope.LIST : '';
 
   private componentData$: Observable<model> = this.componentData.data$.pipe(
     filter(Boolean)

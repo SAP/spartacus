@@ -3,9 +3,10 @@ import {
   Directive,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
-  OnInit,
   Output,
+  SimpleChanges,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
@@ -18,7 +19,7 @@ import { OutletService } from './outlet.service';
 @Directive({
   selector: '[cxOutlet]',
 })
-export class OutletDirective implements OnInit, OnDestroy {
+export class OutletDirective implements OnDestroy, OnChanges {
   @Input() cxOutlet: string;
 
   @Input() cxOutletContext: any;
@@ -57,7 +58,11 @@ export class OutletDirective implements OnInit, OnDestroy {
     private deferLoaderService?: DeferLoaderService
   ) {}
 
-  ngOnInit(): void {
+  private initializeOutlet(): void {
+    this.vcr.clear();
+    this.subscription.unsubscribe();
+    this.subscription = new Subscription();
+
     if (this.cxOutletDefer) {
       this.deferLoading();
     } else {
@@ -65,10 +70,16 @@ export class OutletDirective implements OnInit, OnDestroy {
     }
   }
 
-  private deferLoading() {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.cxOutlet) {
+      this.initializeOutlet();
+    }
+  }
+
+  private deferLoading(): void {
     this.loaded.emit(false);
     const hostElement = this.getHostElement(this.vcr.element.nativeElement);
-    // Allthough the deferLoaderService might emit only once, as long as the hostElement
+    // Although the deferLoaderService might emit only once, as long as the hostElement
     // isn't being loaded, there's no value being emitted. Therefor we need to clean up
     // the subscription on destroy.
     this.subscription.add(
