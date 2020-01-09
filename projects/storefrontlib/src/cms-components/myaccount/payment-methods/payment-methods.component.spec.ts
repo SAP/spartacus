@@ -23,6 +23,9 @@ const mockPayment: PaymentDetails = {
   expiryMonth: '11',
   expiryYear: '2020',
   id: '2',
+  cardType: {
+    code: 'master',
+  },
 };
 
 @Component({

@@ -10,6 +10,15 @@
     padding: 2.5rem 0 0 0;
   }
 
+  .cx-card-img-container {
+    .fab,
+    .fas {
+      &::before {
+        font-size: var(--cx-font-size, 48px);
+      }
+    }
+  }
+
   .cx-existing {
     display: flex;
     padding: 0rem 0 2.5rem 0;
