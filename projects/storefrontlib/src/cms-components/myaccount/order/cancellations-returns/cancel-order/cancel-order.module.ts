@@ -5,7 +5,7 @@ import { AuthGuard, CmsConfig, ConfigModule } from '@spartacus/core';
 import {
   CmsPageGuard,
   PageLayoutComponent,
-} from 'projects/storefrontlib/src/cms-structure';
+} from '../../../../../cms-structure/index';
 import { AmendOrderActionsModule } from '../amend-order-actions/amend-order-actions.module';
 import { CancelOrReturnItemsModule } from '../cancel-or-return-items/cancel-or-return-items.module';
 import { OrderAmendService } from '../order-amend.service';

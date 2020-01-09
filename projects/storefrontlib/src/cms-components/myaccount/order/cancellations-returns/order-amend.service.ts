@@ -33,8 +33,7 @@ export class OrderAmendService {
   /**
    * Returns entries with an amended quantity.
    */
-
-  getAmendedEntries() {
+  getAmendedEntries(): Observable<OrderEntry[]> {
     return this.getForm().pipe(
       switchMap(form => {
         return this.getEntries().pipe(
