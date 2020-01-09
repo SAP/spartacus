@@ -220,4 +220,19 @@ $theme: '' !default;
     outline-offset: 2px;
     border-color: var(--cx-color-secondary);
   }
+
+  //crossbrowser radio button
+  .form-check {
+    input[type='radio'] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+    input[type='radio']::after {
+      visibility: hidden;
+    }
+    input[type='radio']:checked::after {
+      visibility: visible;
+    }
+  }
 }
