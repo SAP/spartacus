@@ -1,4 +1,3 @@
-
 export interface PersonalizationAction {
   customization_name: string;
   customization_code: string;
