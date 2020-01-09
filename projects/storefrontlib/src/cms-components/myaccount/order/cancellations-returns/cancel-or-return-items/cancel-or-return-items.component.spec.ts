@@ -47,7 +47,7 @@ class MockItemCounterComponent {
 }
 
 class MockOrderAmendService {
-  getEntryPrice = createSpy();
+  getAmendedPrice = createSpy();
   getForm() {}
   getMaxAmmendQuantity() {
     return 99;
@@ -57,7 +57,7 @@ class MockOrderAmendService {
 describe('CancelOrReturnItemsComponent', () => {
   let component: CancelOrReturnItemsComponent;
   let fixture: ComponentFixture<CancelOrReturnItemsComponent>;
-  let orderAmendService: MockOrderAmendService;
+  let orderAmendService: OrderAmendService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -95,9 +95,9 @@ describe('CancelOrReturnItemsComponent', () => {
     expect(entryGroup.get('1').value).toEqual(99);
   });
 
-  it('should get item price', () => {
+  it('should call getAmendedPrice', () => {
     component.getItemPrice(mockEntries[0]);
-    expect(orderAmendService.getEntryPrice).toHaveBeenCalledWith(
+    expect(orderAmendService.getAmendedPrice).toHaveBeenCalledWith(
       mockEntries[0]
     );
   });
