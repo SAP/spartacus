@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
-import { OrderDetailsService } from '../order-details';
+import { OrderDetailsService } from '../order-details/order-details.service';
 import { OrderAmendType } from './order-amend.model';
 import { OrderAmendService } from './order-amend.service';
 

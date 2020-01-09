@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Order, OrderEntry, Price } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { OrderDetailsService } from '../order-details';
+import { OrderDetailsService } from '../order-details/order-details.service';
 import { OrderAmendType } from './order-amend.model';
 
 function ValidateQuantity(control: FormControl) {
@@ -17,7 +17,7 @@ function ValidateQuantity(control: FormControl) {
 @Injectable({
   providedIn: 'root',
 })
-export abstract class OrderAmendService {
+export class OrderAmendService {
   protected amendType: OrderAmendType;
   protected form: FormGroup;
   protected lang: 'string';
@@ -27,7 +27,9 @@ export abstract class OrderAmendService {
   /**
    * Returns entries for the given order.
    */
-  abstract getEntries(): Observable<OrderEntry[]>;
+  getEntries(): Observable<OrderEntry[]> {
+    return;
+  }
   /**
    * Returns entries with an amended quantity.
    */
@@ -47,7 +49,7 @@ export abstract class OrderAmendService {
   /**
    * Submits the amended order.
    */
-  abstract save(): void;
+  save(): void {}
 
   getOrder(): Observable<Order> {
     return this.orderDetailsService.getOrderDetails();

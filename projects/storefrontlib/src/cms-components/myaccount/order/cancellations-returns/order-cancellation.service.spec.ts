@@ -7,7 +7,7 @@ import {
   UserOrderService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { OrderDetailsService } from '../order-details';
+import { OrderDetailsService } from '../order-details/order-details.service';
 import { OrderCancellationService } from './order-cancellation.service';
 
 const mockOrder: Order = {
