@@ -23,7 +23,7 @@ export class CancelOrReturnItemsComponent {
 
   setAll(form: FormGroup): void {
     this.entries.forEach(entry =>
-      this.getControl(form, entry).setValue(this.getMaxAmmendQuantity(entry))
+      this.getControl(form, entry).setValue(this.getMaxAmendQuantity(entry))
     );
   }
 
@@ -31,7 +31,7 @@ export class CancelOrReturnItemsComponent {
     return this.orderAmendService.getAmendedPrice(entry);
   }
 
-  getMaxAmmendQuantity(entry: OrderEntry) {
+  getMaxAmendQuantity(entry: OrderEntry) {
     return this.orderAmendService.getMaxAmendQuantity(entry);
   }
 

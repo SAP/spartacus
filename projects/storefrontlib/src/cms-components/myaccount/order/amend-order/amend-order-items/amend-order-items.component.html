@@ -82,7 +82,7 @@
               {{ 'orderDetails.cancellationAndReturn.quantity' | cxTranslate }}
             </div>
             <div class="cx-value">
-              {{ getMaxAmmendQuantity(item) }}
+              {{ getMaxAmendQuantity(item) }}
             </div>
           </div>
           <!-- Amended Quantity -->
@@ -98,7 +98,7 @@
 
             <cx-item-counter
               [min]="0"
-              [max]="getMaxAmmendQuantity(item)"
+              [max]="getMaxAmendQuantity(item)"
               [isValueChangeable]="!isConfirmation"
               [formControl]="getControl(form, item)"
             >

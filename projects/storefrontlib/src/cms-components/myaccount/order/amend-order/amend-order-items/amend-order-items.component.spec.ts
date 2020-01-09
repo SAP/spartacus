@@ -49,7 +49,7 @@ class MockItemCounterComponent {
 class MockOrderAmendService {
   getAmendedPrice = createSpy();
   getForm() {}
-  getMaxAmmendQuantity() {
+  getMaxAmendQuantity() {
     return 99;
   }
 }
