@@ -32,7 +32,7 @@ export class CancelOrReturnItemsComponent {
   }
 
   getMaxAmmendQuantity(entry: OrderEntry) {
-    return this.orderAmendService.getMaxAmmendQuantity(entry);
+    return this.orderAmendService.getMaxAmendQuantity(entry);
   }
 
   isCancellation() {

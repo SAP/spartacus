@@ -146,7 +146,9 @@
     }
   }
 
-  cx-paragraph h4 {
-    text-align: center;
+  @if $theme == 'calydon' {
+    cx-paragraph h4 {
+      text-align: center;
+    }
   }
 }

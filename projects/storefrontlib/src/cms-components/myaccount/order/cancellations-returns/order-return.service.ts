@@ -57,7 +57,6 @@ export class OrderReturnService extends OrderAmendService {
       returnRequestEntryInputs: inputs,
     });
 
-    // // TODO: implement error handling
     this.returnRequestService
       .getReturnRequestSuccess()
       .pipe(first(Boolean))

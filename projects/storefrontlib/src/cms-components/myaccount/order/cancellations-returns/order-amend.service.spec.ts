@@ -91,14 +91,14 @@ describe('OrderAmendService', () => {
 
   it('should return max quantity for cancellable order', () => {
     (<any>service).amendType = OrderAmendType.CANCEL;
-    expect(service.getMaxAmmendQuantity(mockOrder.entries[0])).toEqual(
+    expect(service.getMaxAmendQuantity(mockOrder.entries[0])).toEqual(
       mockOrder.entries[0].cancellableQuantity
     );
   });
 
   it('should return max return quantity for returnable order', () => {
     (<any>service).amendType = OrderAmendType.RETURN;
-    expect(service.getMaxAmmendQuantity(mockOrder.entries[1])).toEqual(
+    expect(service.getMaxAmendQuantity(mockOrder.entries[1])).toEqual(
       mockOrder.entries[1].returnableQuantity
     );
   });

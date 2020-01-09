@@ -84,7 +84,7 @@ describe('OrderCancellationService', () => {
     expect(result.length).toEqual(2);
   });
 
-  it('should return 1 ammended entry', () => {
+  it('should return 1 amended entry', () => {
     let form;
     service
       .getForm()

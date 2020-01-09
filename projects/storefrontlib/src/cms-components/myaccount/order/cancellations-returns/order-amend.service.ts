@@ -14,22 +14,18 @@ function ValidateQuantity(control: FormControl) {
   return q > 0 ? null : { required: true };
 }
 
-@Injectable({
-  providedIn: 'root',
-})
-export class OrderAmendService {
+@Injectable()
+export abstract class OrderAmendService {
   protected amendType: OrderAmendType;
   protected form: FormGroup;
-  protected lang: 'string';
 
   constructor(protected orderDetailsService: OrderDetailsService) {}
 
   /**
    * Returns entries for the given order.
    */
-  getEntries(): Observable<OrderEntry[]> {
-    return;
-  }
+  abstract getEntries(): Observable<OrderEntry[]>;
+
   /**
    * Returns entries with an amended quantity.
    */
@@ -48,7 +44,7 @@ export class OrderAmendService {
   /**
    * Submits the amended order.
    */
-  save(): void {}
+  abstract save(): void;
 
   getOrder(): Observable<Order> {
     return this.orderDetailsService.getOrderDetails();
@@ -82,14 +78,15 @@ export class OrderAmendService {
         new FormControl(0, {
           validators: [
             Validators.min(0),
-            Validators.max(this.getMaxAmmendQuantity(entry)),
+            Validators.max(this.getMaxAmendQuantity(entry)),
           ],
         })
       );
     });
   }
-  protected getFormControl(form, entry: OrderEntry): FormControl {
-    return form.get('entries').get(entry.entryNumber.toString());
+
+  protected getFormControl(form: FormGroup, entry: OrderEntry): FormControl {
+    return <FormControl>form.get('entries').get(entry.entryNumber.toString());
   }
 
   /**
@@ -98,22 +95,22 @@ export class OrderAmendService {
    */
   getAmendedPrice(entry: OrderEntry): Price {
     const amendedQuantity = this.getFormControl(this.form, entry).value;
-    const ammendedPrice = Object.assign({}, entry.basePrice);
-    ammendedPrice.value =
+    const amendedPrice = Object.assign({}, entry.basePrice);
+    amendedPrice.value =
       Math.round(entry.basePrice.value * amendedQuantity * 100) / 100;
 
-    ammendedPrice.formattedValue = formatCurrency(
-      ammendedPrice.value,
+    amendedPrice.formattedValue = formatCurrency(
+      amendedPrice.value,
       // TODO: user current language
       'en',
-      getCurrencySymbol(ammendedPrice.currencyIso, 'narrow'),
-      ammendedPrice.currencyIso
+      getCurrencySymbol(amendedPrice.currencyIso, 'narrow'),
+      amendedPrice.currencyIso
     );
 
-    return ammendedPrice;
+    return amendedPrice;
   }
 
-  getMaxAmmendQuantity(entry: OrderEntry) {
+  getMaxAmendQuantity(entry: OrderEntry) {
     return (
       (this.isCancellation()
         ? entry.cancellableQuantity

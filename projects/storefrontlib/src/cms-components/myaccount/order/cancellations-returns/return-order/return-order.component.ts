@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { OrderEntry } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OrderAmendService } from '../order-amend.service';
 
@@ -14,7 +16,7 @@ export class ReturnOrderComponent {
     .getForm()
     .pipe(tap(form => (this.orderCode = form.value.orderCode)));
 
-  entries$ = this.orderAmendService.getEntries();
+  entries$: Observable<OrderEntry[]> = this.orderAmendService.getEntries();
 
   constructor(protected orderAmendService: OrderAmendService) {}
 }

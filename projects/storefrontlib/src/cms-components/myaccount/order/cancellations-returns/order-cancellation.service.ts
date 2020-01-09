@@ -32,7 +32,7 @@ export class OrderCancellationService extends OrderAmendService {
    */
   getEntries(): Observable<OrderEntry[]> {
     return this.getOrder().pipe(
-      filter(order => !!order.entries),
+      filter(order => Boolean(order)),
       map(order =>
         order.entries.filter(
           entry => entry.entryNumber !== -1 && entry.cancellableQuantity > 0
@@ -58,7 +58,6 @@ export class OrderCancellationService extends OrderAmendService {
       cancellationRequestEntryInputs: inputs,
     });
 
-    // TODO: implement error handling
     this.userOrderService
       .getCancelOrderSuccess()
       .pipe(first(Boolean))

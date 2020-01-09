@@ -17,12 +17,10 @@
     class="btn btn-block btn-primary"
     [class.disabled]="!isValid"
     [routerLink]="
-      isValid
-        ? ({
-            cxRoute: forwardRoute,
-            params: { code: orderCode }
-          } | cxUrl)
-        : []
+      {
+        cxRoute: forwardRoute,
+        params: { code: orderCode }
+      } | cxUrl
     "
   >
     {{ 'common.continue' | cxTranslate }}
