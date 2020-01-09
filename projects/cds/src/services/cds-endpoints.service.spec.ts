@@ -11,7 +11,7 @@ describe('CdsEndpointsService', () => {
   const LANGUAGE = 'en';
   const PAGE_SIZE = 10;
 
-  const MOCK_CDS_CONFIG = {
+  const mockCdsConfig = {
     cds: {
       tenant: 'merchandising-strategy-adapter-test-tenant',
       baseUrl: 'http://some-cds-base-url',
@@ -22,13 +22,13 @@ describe('CdsEndpointsService', () => {
     },
   } as CdsConfig;
 
-  const FULLY_CALCULATED_URL = `${MOCK_CDS_CONFIG.cds.baseUrl}/strategy/${MOCK_CDS_CONFIG.cds.tenant}/strategies/${STRATEGY_ID}/products`;
+  const FULLY_CALCULATED_URL = `${mockCdsConfig.cds.baseUrl}/strategy/${mockCdsConfig.cds.tenant}/strategies/${STRATEGY_ID}/products`;
 
   let cdsEndpointsService: CdsEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: CdsConfig, useValue: MOCK_CDS_CONFIG }],
+      providers: [{ provide: CdsConfig, useValue: mockCdsConfig }],
     });
 
     cdsEndpointsService = TestBed.get(CdsEndpointsService as Type<
@@ -43,7 +43,7 @@ describe('CdsEndpointsService', () => {
   describe('getUrl', () => {
     it('should prepend a known endpoint with the base url, but not replace palceholders when none are provided', () => {
       expect(cdsEndpointsService.getUrl(STRATEGY_PRODUCTS_ENDPOINT_KEY)).toBe(
-        `${MOCK_CDS_CONFIG.cds.baseUrl}/strategy/${MOCK_CDS_CONFIG.cds.tenant}/strategies/\${strategyId}/products`
+        `${mockCdsConfig.cds.baseUrl}/strategy/${mockCdsConfig.cds.tenant}/strategies/\${strategyId}/products`
       );
     });
 
@@ -63,7 +63,7 @@ describe('CdsEndpointsService', () => {
           tenant: ALTERNATIVE_TENANT,
         })
       ).toBe(
-        `${MOCK_CDS_CONFIG.cds.baseUrl}/strategy/${ALTERNATIVE_TENANT}/strategies/${STRATEGY_ID}/products`
+        `${mockCdsConfig.cds.baseUrl}/strategy/${ALTERNATIVE_TENANT}/strategies/${STRATEGY_ID}/products`
       );
     });
 
@@ -85,7 +85,7 @@ describe('CdsEndpointsService', () => {
           placeHolder2: 'value2',
         })
       ).toBe(
-        `${MOCK_CDS_CONFIG.cds.baseUrl}/some-other-url-with-placeholders/value1/value2`
+        `${mockCdsConfig.cds.baseUrl}/some-other-url-with-placeholders/value1/value2`
       );
     });
 
@@ -98,7 +98,7 @@ describe('CdsEndpointsService', () => {
     it('should not prepend an endpoint that already has the configured base url with the configured base url, but should replace placeholders', () => {
       expect(
         cdsEndpointsService.getUrl(
-          `${MOCK_CDS_CONFIG.cds.baseUrl}${MOCK_CDS_CONFIG.cds.endpoints.strategyProducts}`,
+          `${mockCdsConfig.cds.baseUrl}${mockCdsConfig.cds.endpoints.strategyProducts}`,
           { strategyId: STRATEGY_ID }
         )
       ).toBe(FULLY_CALCULATED_URL);
@@ -110,16 +110,18 @@ describe('CdsEndpointsService', () => {
           strategyId: 'ąćę$%',
         })
       ).toBe(
-        `${MOCK_CDS_CONFIG.cds.baseUrl}/strategy/${MOCK_CDS_CONFIG.cds.tenant}/strategies/%C4%85%C4%87%C4%99%24%25/products`
+        `${mockCdsConfig.cds.baseUrl}/strategy/${mockCdsConfig.cds.tenant}/strategies/%C4%85%C4%87%C4%99%24%25/products`
       );
     });
 
     it('should append query parameters to the URL', () => {
       const FULLY_CALCULATED_URL_WITH_QUERY_PARAMS = `${FULLY_CALCULATED_URL}?site=${BASE_SITE}&language=${LANGUAGE}&pageSize=${PAGE_SIZE}`;
-      const STRATEGY_REQUEST: StrategyRequest = {
-        site: 'electronics-spa',
-        language: 'en',
-        pageSize: 10,
+      const strategyRequest: StrategyRequest = {
+        queryParams: {
+          site: 'electronics-spa',
+          language: 'en',
+          pageSize: 10,
+        },
       };
 
       expect(
@@ -128,7 +130,7 @@ describe('CdsEndpointsService', () => {
           {
             strategyId: STRATEGY_ID,
           },
-          STRATEGY_REQUEST
+          strategyRequest.queryParams
         )
       ).toBe(FULLY_CALCULATED_URL_WITH_QUERY_PARAMS);
     });
@@ -137,9 +139,11 @@ describe('CdsEndpointsService', () => {
       const URL = `${FULLY_CALCULATED_URL}?pageSize=${PAGE_SIZE}`;
       const FULLY_CALCULATED_URL_WITH_QUERY_PARAMS = `${FULLY_CALCULATED_URL}?pageSize=${PAGE_SIZE}&site=${BASE_SITE}&language=${LANGUAGE}`;
 
-      const STRATEGY_REQUEST_NO_PAGE_SIZE: StrategyRequest = {
-        site: 'electronics-spa',
-        language: 'en',
+      const strategyRequestNoPageSize: StrategyRequest = {
+        queryParams: {
+          site: 'electronics-spa',
+          language: 'en',
+        },
       };
       expect(
         cdsEndpointsService.getUrl(
@@ -147,7 +151,7 @@ describe('CdsEndpointsService', () => {
           {
             strategyId: STRATEGY_ID,
           },
-          STRATEGY_REQUEST_NO_PAGE_SIZE
+          strategyRequestNoPageSize.queryParams
         )
       ).toBe(FULLY_CALCULATED_URL_WITH_QUERY_PARAMS);
     });
@@ -155,10 +159,12 @@ describe('CdsEndpointsService', () => {
     it('should handle query params that have "null" as the value, and simply not pass them to the request', () => {
       const FULLY_CALCULATED_URL_WITH_QUERY_PARAMS = `${FULLY_CALCULATED_URL}?site=${BASE_SITE}&pageSize=${PAGE_SIZE}`;
 
-      const STRATEGY_REQUEST: StrategyRequest = {
-        site: 'electronics-spa',
-        language: null,
-        pageSize: 10,
+      const strategyRequest: StrategyRequest = {
+        queryParams: {
+          site: 'electronics-spa',
+          language: null,
+          pageSize: 10,
+        },
       };
 
       expect(
@@ -167,7 +173,7 @@ describe('CdsEndpointsService', () => {
           {
             strategyId: STRATEGY_ID,
           },
-          STRATEGY_REQUEST
+          strategyRequest.queryParams
         )
       ).toBe(FULLY_CALCULATED_URL_WITH_QUERY_PARAMS);
     });
@@ -181,7 +187,7 @@ describe('CdsEndpointsService', () => {
           placeHolder2: 'value2',
         })
       ).toBe(
-        `${MOCK_CDS_CONFIG.cds.baseUrl}/some-other-url-with-placeholders/value1/value2`
+        `${mockCdsConfig.cds.baseUrl}/some-other-url-with-placeholders/value1/value2`
       );
     });
   });
