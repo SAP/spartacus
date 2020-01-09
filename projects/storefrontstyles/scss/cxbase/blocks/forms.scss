@@ -221,8 +221,8 @@ $theme: '' !default;
     border-color: var(--cx-color-secondary);
   }
 
-  //crossbrowser radio button
   .form-check {
+    //crossbrowser radio button
     input[type='radio'] {
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -233,6 +233,13 @@ $theme: '' !default;
     }
     input[type='radio']:checked::after {
       visibility: visible;
+    }
+
+    //crossbrowser checkbox button
+    input[type='checkbox'] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
     }
   }
 }
