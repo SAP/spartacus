@@ -2,10 +2,13 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
-import { AUTH_FEATURE, AuthState } from '../store/auth-state';
+import { AuthState, AUTH_FEATURE } from '../store/auth-state';
 import * as fromReducers from '../store/reducers/index';
 import { AuthService } from './auth.service';
 
@@ -130,11 +133,26 @@ describe('AuthService', () => {
     );
   });
 
-  it('should dispatch proper action for logout', () => {
+  it('should dispatch proper actions for logout standard customer', () => {
     spyOn(store, 'dispatch').and.stub();
-
+    const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
+    spyOn(service, 'getUserToken').and.returnValue(of(testToken));
     service.logout();
     expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AuthActions.RevokeUserToken(testToken)
+    );
+  });
+
+  it('should dispatch proper action for logout an emulated customer', () => {
+    spyOn(store, 'dispatch').and.stub();
+    const testToken = { ...mockToken, userId: '123-445-678-90' };
+    spyOn(service, 'getUserToken').and.returnValue(of(testToken));
+    service.logout();
+    expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      new AuthActions.RevokeUserToken(testToken)
+    );
   });
 
   it('should dispatch proper action for refresh the client token', () => {

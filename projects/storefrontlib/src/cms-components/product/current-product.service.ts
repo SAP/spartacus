@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Product, ProductService, RoutingService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  Product,
+  ProductScope,
+  ProductService,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 
@@ -9,14 +15,20 @@ import { filter, map, switchMap } from 'rxjs/operators';
 export class CurrentProductService {
   constructor(
     private routingService: RoutingService,
-    private productService: ProductService
+    private productService: ProductService,
+    protected features?: FeatureConfigService
   ) {}
+
+  protected readonly PRODUCT_SCOPE =
+    this.features && this.features.isLevel('1.4') ? ProductScope.DETAILS : '';
 
   getProduct(): Observable<Product> {
     return this.routingService.getRouterState().pipe(
       map(state => state.state.params['productCode']),
       filter(Boolean),
-      switchMap((productCode: string) => this.productService.get(productCode))
+      switchMap((productCode: string) =>
+        this.productService.get(productCode, this.PRODUCT_SCOPE)
+      )
     );
   }
 }

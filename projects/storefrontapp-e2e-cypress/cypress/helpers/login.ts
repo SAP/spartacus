@@ -37,3 +37,10 @@ export function loginWithBadCredentials() {
     .getErrorAlert()
     .should('contain', 'Bad credentials. Please login again');
 }
+
+export function listenForTokenRevocationReqest(): string {
+  const aliasName = 'tokenRevocation';
+  cy.server();
+  cy.route('POST', '/authorizationserver/oauth/revoke').as(aliasName);
+  return `@${aliasName}`;
+}

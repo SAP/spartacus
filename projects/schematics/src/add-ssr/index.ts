@@ -1,3 +1,4 @@
+import { experimental, strings } from '@angular-devkit/core';
 import {
   apply,
   branchAndMerge,
@@ -14,22 +15,24 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
-import { Schema as SpartacusOptions } from '../add-spartacus/schema';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { appendHtmlElementToHead } from '@angular/cdk/schematics';
 import {
   addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { addImport, importModule } from '../shared/utils/module-file-utils';
+import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import {
   getIndexHtmlPath,
   getPathResultsForFile,
 } from '../shared/utils/file-utils';
-import { appendHtmlElementToHead } from '@angular/cdk/schematics';
-import { experimental, strings } from '@angular-devkit/core';
-import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
+import {
+  addImport,
+  addToModuleImportsAndCommitChanges,
+} from '../shared/utils/module-file-utils';
 import { getAngularVersion } from '../shared/utils/package-utils';
+import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -192,7 +195,11 @@ function modifyAppServerModuleFile(): Rule {
       'ServerTransferStateModule',
       '@angular/platform-server'
     );
-    importModule(tree, appServerModulePath, `ServerTransferStateModule`);
+    addToModuleImportsAndCommitChanges(
+      tree,
+      appServerModulePath,
+      `ServerTransferStateModule`
+    );
     context.logger.log('info', `✅️ Modified app.server.module.ts file.`);
     return tree;
   };

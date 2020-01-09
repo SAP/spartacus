@@ -2,10 +2,15 @@ import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartService, I18nTestingModule } from '@spartacus/core';
+import {
+  CartService,
+  I18nTestingModule,
+  PromotionLocation,
+  FeaturesConfigModule,
+  FeaturesConfig,
+} from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemListComponent } from './cart-item-list.component';
-
 class MockCartService {
   removeEntry() {}
   loadDetails() {}
@@ -14,12 +19,21 @@ class MockCartService {
 
 const mockItems = [
   {
+    id: 0,
+    quantity: 1,
+    entryNumber: 0,
+    product: {
+      id: 0,
+      code: 'PR0000',
+    },
+  },
+  {
     id: 1,
     quantity: 5,
     entryNumber: 1,
     product: {
       id: 1,
-      code: 'PR0000',
+      code: 'PR0001',
     },
   },
 ];
@@ -52,6 +66,8 @@ class MockCartItemComponent {
   @Input() potentialProductPromotions;
   @Input() isReadOnly;
   @Input() cartIsLoading;
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 describe('CartItemListComponent', () => {
@@ -66,9 +82,18 @@ describe('CartItemListComponent', () => {
         RouterTestingModule,
         PromotionsModule,
         I18nTestingModule,
+        FeaturesConfigModule,
       ],
       declarations: [CartItemListComponent, MockCartItemComponent, MockUrlPipe],
-      providers: [{ provide: CartService, useClass: MockCartService }],
+      providers: [
+        { provide: CartService, useClass: MockCartService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -103,7 +128,7 @@ describe('CartItemListComponent', () => {
   });
 
   it('should get potential promotions for product', () => {
-    const item = mockItems[0];
+    const item = mockItems[1];
     const promotions = component.getPotentialProductPromotionsForItem(item);
     expect(promotions).toEqual(mockPotentialProductPromotions);
   });

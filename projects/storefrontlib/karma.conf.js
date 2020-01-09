@@ -21,7 +21,7 @@ module.exports = function(config) {
     },
     reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'dots'],
     coverageIstanbulReporter: {
-      dir: require('path').join(__dirname, '../../coverage'),
+      dir: require('path').join(__dirname, '../../coverage/storefront'),
       reports: ['lcov', 'cobertura', 'text-summary'],
       thresholds: {
         statements: 80,

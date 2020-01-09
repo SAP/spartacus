@@ -8,6 +8,8 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ProductGridItemComponent } from './product-grid-item.component';
+import { I18nTestingModule } from '@spartacus/core';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -52,6 +54,14 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+@Component({
+  selector: 'cx-style-icons',
+  template: 'test',
+})
+export class MockStyleIconsComponent {
+  @Input() variants: any[];
+}
+
 describe('ProductGridItemComponent in product-list', () => {
   let component: ProductGridItemComponent;
   let fixture: ComponentFixture<ProductGridItemComponent>;
@@ -74,7 +84,7 @@ describe('ProductGridItemComponent in product-list', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         ProductGridItemComponent,
         MockMediaComponent,
@@ -82,6 +92,8 @@ describe('ProductGridItemComponent in product-list', () => {
         MockStarRatingComponent,
         MockUrlPipe,
         MockCxIconComponent,
+        MockStyleIconsComponent,
+        MockFeatureLevelDirective,
       ],
     })
       .overrideComponent(ProductGridItemComponent, {
@@ -126,6 +138,23 @@ describe('ProductGridItemComponent in product-list', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-star-rating')
     ).not.toBeNull();
+  });
+
+  it('should not display rating component when rating is unavailable', () => {
+    component.product.averageRating = undefined;
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.nativeElement.querySelector('cx-star-rating')
+    ).toBeNull();
+  });
+
+  it('should display noReviews when rating is unavailable', () => {
+    component.product.averageRating = undefined;
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.nativeElement.querySelector('.cx-product-rating')
+        .textContent
+    ).toContain('productDetails.noReviews');
   });
 
   it('should display add to cart component', () => {

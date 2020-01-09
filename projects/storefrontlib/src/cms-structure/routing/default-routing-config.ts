@@ -39,8 +39,32 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-account/order/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
+  orderGuest: {
+    paths: ['guest/order/:orderCode'],
+    paramsMapping: { orderCode: 'code' },
+  },
   orders: {
     paths: ['my-account/orders'],
+  },
+  orderReturn: {
+    paths: ['my-account/order/:orderCode/return'],
+    paramsMapping: { orderCode: 'code' },
+  },
+  orderReturnConfirmation: {
+    paths: ['my-account/order/:orderCode/return/confirmation'],
+    paramsMapping: { orderCode: 'code' },
+  },
+  orderCancel: {
+    paths: ['my-account/order/:orderCode/cancel'],
+    paramsMapping: { orderCode: 'code' },
+  },
+  orderCancelConfirmation: {
+    paths: ['my-account/order/:orderCode/cancel/confirmation'],
+    paramsMapping: { orderCode: 'code' },
+  },
+  returnRequestDetails: {
+    paths: ['my-account/return-request/:returnCode'],
+    paramsMapping: { returnCode: 'rma' },
   },
 };
 

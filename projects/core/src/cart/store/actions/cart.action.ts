@@ -72,7 +72,9 @@ export class AddEmailToCartSuccess extends StateLoaderActions.LoaderSuccessActio
 
 export class LoadCart extends StateLoaderActions.LoaderLoadAction {
   readonly type = LOAD_CART;
-  constructor(public payload: { userId: string; cartId: string }) {
+  constructor(
+    public payload: { userId: string; cartId: string; extraData?: any }
+  ) {
     super(CART_DATA);
   }
 }

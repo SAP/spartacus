@@ -54,9 +54,9 @@
 ></cx-promotions>
 -->
 
-<div *cxFeatureLevel="'1.3'">
+<ng-container *cxFeatureLevel="'1.3'">
   <cx-applied-coupons
     [vouchers]="cart.appliedVouchers"
     [isReadOnly]="true"
   ></cx-applied-coupons>
-</div>
+</ng-container>

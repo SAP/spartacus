@@ -139,6 +139,6 @@ export function getCouponItemFromCart(couponCode: string) {
 
 export function getCouponItemOrderSummary(couponCode: string) {
   return cy
-    .get('cx-order-summary > div > cx-applied-coupons')
+    .get('cx-order-summary cx-applied-coupons')
     .contains('.cx-applied-coupon-code', couponCode);
 }

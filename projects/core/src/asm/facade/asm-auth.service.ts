@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
-import { UserToken } from '../../auth/models/token-types.model';
+import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
-import { AsmSelectors } from '../store/selectors/index';
-import { StateWithAsm } from '../store/asm-state';
+import { UserToken } from '../../auth/models/token-types.model';
+import { AuthActions } from '../../auth/store/actions';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { AsmActions } from '../store/actions/index';
+import { StateWithAsm } from '../store/asm-state';
+import { AsmSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
@@ -79,6 +81,11 @@ export class AsmAuthService {
    * Logout a customer support agent
    */
   logoutCustomerSupportAgent(): void {
-    this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
+    this.getCustomerSupportAgentToken()
+      .pipe(take(1))
+      .subscribe(userToken => {
+        this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
+        this.store.dispatch(new AuthActions.RevokeUserToken(userToken));
+      });
   }
 }
