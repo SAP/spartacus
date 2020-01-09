@@ -18,7 +18,7 @@ import {
   NAVIGATION_DETAIL_ENTITY,
   StateWithCms,
 } from '../cms-state';
-import * as fromComponentContextReducer from './component-context.reducer';
+import * as fromComponentsReducer from './components.reducer';
 import * as fromNavigation from './navigation-entry-item.reducer';
 import * as fromPageReducer from './page-data.reducer';
 import * as fromPageIndexReducer from './page-index.reducer';
@@ -47,10 +47,7 @@ export function getReducers(): ActionReducerMap<CmsState> {
       }),
     }),
     component: entityLoaderReducer(COMPONENT_ENTITY),
-    components: entityReducer(
-      COMPONENT_ENTITY,
-      fromComponentContextReducer.reducer
-    ),
+    components: entityReducer(COMPONENT_ENTITY, fromComponentsReducer.reducer),
     navigation: entityLoaderReducer<NodeItem>(
       NAVIGATION_DETAIL_ENTITY,
       fromNavigation.reducer

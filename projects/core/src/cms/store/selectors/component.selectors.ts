@@ -17,8 +17,6 @@ import {
 } from '../cms-state';
 import { getCmsState } from './feature.selectors';
 
-// TODO:#4603 - carefully choose method names. Align with the state name
-
 // const getComponentEntitiesSelector = (state: ComponentState): any =>
 //   Object.keys(state.entities).reduce((acc, cur) => {
 //     acc[cur] = state.entities[cur].value;
@@ -35,7 +33,7 @@ import { getCmsState } from './feature.selectors';
 // );
 
 // TODO:#4603 - test
-export const getComponentContextState: MemoizedSelector<
+export const getComponentsState: MemoizedSelector<
   StateWithCms,
   ComponentsState
 > = createSelector(
@@ -69,29 +67,29 @@ export const getComponentContextState: MemoizedSelector<
 // };
 
 // TODO:#4603 - test
-export const componentContextStateSelectorFactory = (
+export const componentsContextSelectorFactory = (
   uid: string
 ): MemoizedSelector<StateWithCms, ComponentsContext> => {
   return createSelector(
-    getComponentContextState,
-    entities => {
-      // the whole component entities are empty
-      if (Object.keys(entities.entities).length === 0) {
+    getComponentsState,
+    componentsState => {
+      // the whole component componentsState are empty
+      if (Object.keys(componentsState.entities).length === 0) {
         return undefined;
       } else {
-        return StateEntitySelectors.entitySelector(entities, uid);
+        return StateEntitySelectors.entitySelector(componentsState, uid);
       }
     }
   );
 };
 
 // TODO:#4603 - test
-export const componentsLoadingStateSelectorFactory = (
+export const componentsLoaderStateSelectorFactory = (
   uid: string,
   context: string
 ): MemoizedSelector<StateWithCms, LoaderState<boolean>> => {
   return createSelector(
-    componentContextStateSelectorFactory(uid),
+    componentsContextSelectorFactory(uid),
     componentsContext => {
       if (!componentsContext) {
         return initialLoaderState;
@@ -103,28 +101,27 @@ export const componentsLoadingStateSelectorFactory = (
   );
 };
 
-// 1. create the selector for the loader state flags - based on uid and context (params) . returns LoaderState.
-// if [context: string] is not defined, return the default loader state
-// 2.  componentContextSelectorFactory should return the component only
-
-// using 1 goes to first stream; 2nd goes to 2nd stream
-
 // TODO:#4603 - test
-export const componentContextExistsSelectorFactory = (
+export const componentsContextExistsSelectorFactory = (
   uid: string,
   context: string
 ): MemoizedSelector<StateWithCms, boolean> => {
   return createSelector(
-    componentContextStateSelectorFactory(uid),
+    componentsContextSelectorFactory(uid),
     state => {
-      if (state) {
-        const componentContext = state.pageContext[context];
-        return componentContext
-          ? StateLoaderSelectors.loaderValueSelector(componentContext)
-          : false;
-      } else {
+      if (!state) {
         return false;
       }
+
+      const loaderState = state.pageContext[context];
+      if (!loaderState) {
+        return false;
+      }
+
+      const exists = StateLoaderSelectors.loaderValueSelector(loaderState);
+      // TODO:#4603 - check
+      // 'exists' variable can be undefined, in which case we want to return false
+      return exists ? exists : false;
     }
   );
 };
@@ -146,13 +143,13 @@ export const componentContextExistsSelectorFactory = (
 // };
 
 // TODO:#4603 - test
-export const componentContextSelectorFactory = (
+export const componentSelectorFactory = (
   uid: string,
   context: string
 ): MemoizedSelector<StateWithCms, CmsComponent> => {
   return createSelector(
-    componentContextStateSelectorFactory(uid),
-    componentContextExistsSelectorFactory(uid, context),
+    componentsContextSelectorFactory(uid),
+    componentsContextExistsSelectorFactory(uid, context),
     (state, exists) => {
       if (state && exists) {
         return state.component;

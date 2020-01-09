@@ -110,7 +110,7 @@ export class CmsService {
     const loading$ = combineLatest([
       this.routingService.getNextPageContext(),
       this.store.pipe(
-        select(CmsSelectors.componentsLoadingStateSelectorFactory(uid, context))
+        select(CmsSelectors.componentsLoaderStateSelectorFactory(uid, context))
       ),
     ]).pipe(
       observeOn(queueScheduler),
@@ -132,7 +132,7 @@ export class CmsService {
     );
 
     const component$ = this.store.pipe(
-      select(CmsSelectors.componentContextSelectorFactory(uid, context)),
+      select(CmsSelectors.componentSelectorFactory(uid, context)),
       filter(component => Boolean(component))
     ) as Observable<T>;
 
