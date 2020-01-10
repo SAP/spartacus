@@ -273,6 +273,26 @@ describe('Selective Cart Service', () => {
     );
   });
 
+  it('should add each entry one by one', () => {
+    spyOn(service, 'addEntry').and.callThrough();
+    service.addEntry('productCode1', 2);
+    service.addEntry('productCode2', 2);
+
+    expect(service['addEntry']).toHaveBeenCalledTimes(2);
+    expect(multiCartService['addEntry']).toHaveBeenCalledWith(
+      OCC_USER_ID_CURRENT,
+      'selectivecart-test-customer-id',
+      'productCode1',
+      2
+    );
+    expect(multiCartService['addEntry']).toHaveBeenCalledWith(
+      OCC_USER_ID_CURRENT,
+      'selectivecart-test-customer-id',
+      'productCode2',
+      2
+    );
+  });
+
   it('should call multiCartService remove entry method with selective cart', () => {
     service['cartId'] = 'cartId';
     service['userId'] = 'userId';

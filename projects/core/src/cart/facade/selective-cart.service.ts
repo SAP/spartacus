@@ -11,9 +11,6 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 import { map, filter, tap, shareReplay, switchMap, take } from 'rxjs/operators';
 import { OrderEntry } from '../../model/order.model';
 
-// ! Do not expose in public API
-// It is a prototype service for selective cart/save for later that can change when implementing that feature
-
 @Injectable()
 export class SelectiveCartService {
   private customerId: string;

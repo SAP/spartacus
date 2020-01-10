@@ -8,7 +8,7 @@ interface TestProduct {
   price?: number;
 }
 
-export enum Position {
+export enum ItemList {
   Cart,
   SaveForLater,
   Order,
@@ -43,8 +43,8 @@ export const products: TestProduct[] = [
   },
 ];
 
-export function getItem(product, position: Position) {
-  if (Position.Cart === position) {
+export function getItem(product, position: ItemList) {
+  if (position === ItemList.Cart) {
     return cy
       .get('cx-cart-details > .cart-details-wrapper > cx-cart-item-list')
       .contains('cx-cart-item', product.code);
@@ -72,12 +72,12 @@ export function stubForCartRefresh() {
 
 export function moveItem(
   product,
-  targetPosition: Position,
+  targetPosition: ItemList,
   isAnonymous: boolean = false
 ) {
   stubForCartsRefresh();
   const currentPosition =
-    Position.Cart === targetPosition ? Position.SaveForLater : Position.Cart;
+    targetPosition === ItemList.Cart ? ItemList.SaveForLater : ItemList.Cart;
   getItem(product, currentPosition).within(() => {
     cy.get('.cx-sfl-btn > .link').click();
   });
@@ -95,7 +95,7 @@ export function moveItem(
   }
 }
 
-export function removeItem(product, position: Position) {
+export function removeItem(product, position: ItemList) {
   stubForCartRefresh();
   getItem(product, position).within(() => {
     cy.get('.cx-remove-btn > .link')
@@ -109,9 +109,9 @@ export function removeItem(product, position: Position) {
     .should('eq', 200);
 }
 
-export function validateProduct(product, qty = 1, position: Position) {
+export function validateProduct(product, qty = 1, position: ItemList) {
   return getItem(product, position).within(() => {
-    if (Position.Cart === position) {
+    if (position === ItemList.Cart) {
       cy.get('.cx-counter-value').should('have.value', `${qty}`);
     } else {
       cy.get('.cx-quantity > .cx-value').should('contain', `${qty}`);
@@ -159,13 +159,13 @@ export function addProductToCart(product) {
     cy.get('.cx-code').should('contain', product.code);
     cy.getByText(/view cart/i).click();
   });
-  validateProduct(product, 1, Position.Cart);
+  validateProduct(product, 1, ItemList.Cart);
 }
 
 export function verifySaveForLaterAsAnonymous() {
   addProductToCart(products[0]);
   cy.visit('/cart');
-  moveItem(products[0], Position.SaveForLater, true);
+  moveItem(products[0], ItemList.SaveForLater, true);
   cy.location('pathname').should('contain', '/login');
 }
 
@@ -173,44 +173,44 @@ export function verifySaveForLaterWhenRelogin() {
   cart.registerCartUser();
   cart.loginCartUser();
   addProductToCart(products[2]);
-  moveItem(products[2], Position.SaveForLater);
+  moveItem(products[2], ItemList.SaveForLater);
   cart.logOutAndEmptyCart();
   cart.loginCartUser();
   cy.visit('/cart');
-  validateProduct(products[2], 1, Position.SaveForLater);
+  validateProduct(products[2], 1, ItemList.SaveForLater);
 }
 
 export function verifySaveForLater() {
   cy.visit('/cart');
   validateCart(0, 0);
   addProductToCart(products[0]);
-  moveItem(products[0], Position.SaveForLater);
+  moveItem(products[0], ItemList.SaveForLater);
   validateCart(0, 1);
   addProductToCart(products[1]);
   addProductToCart(products[2]);
   validateCart(2, 1);
   validateCartPromotion(true);
-  moveItem(products[2], Position.SaveForLater);
+  moveItem(products[2], ItemList.SaveForLater);
   validateCart(1, 2);
   validateCartPromotion(false);
-  moveItem(products[2], Position.Cart);
+  moveItem(products[2], ItemList.Cart);
   validateCartPromotion(true);
   validateCart(2, 1);
   //validate merge
   addProductToCart(products[0]);
   validateCart(3, 1);
-  moveItem(products[0], Position.SaveForLater);
-  validateProduct(products[0], 2, Position.SaveForLater);
+  moveItem(products[0], ItemList.SaveForLater);
+  validateProduct(products[0], 2, ItemList.SaveForLater);
   validateCart(2, 1);
   addProductToCart(products[0]);
-  moveItem(products[0], Position.Cart);
+  moveItem(products[0], ItemList.Cart);
   validateCart(3, 0);
   verifyMiniCartQty(5); //to avoid the cart item quatity is not updated yet
-  validateProduct(products[0], 3, Position.Cart);
+  validateProduct(products[0], 3, ItemList.Cart);
   //remove
-  moveItem(products[0], Position.SaveForLater);
+  moveItem(products[0], ItemList.SaveForLater);
   validateCart(2, 1);
-  removeItem(products[0], Position.SaveForLater);
+  removeItem(products[0], ItemList.SaveForLater);
   validateCart(2, 0);
 }
 
@@ -218,9 +218,9 @@ export function verifyGiftProduct() {
   addProductToCart(products[0]);
   addProductToCart(products[3]);
   verifyMiniCartQty(3);
-  moveItem(products[3], Position.SaveForLater);
+  moveItem(products[3], ItemList.SaveForLater);
   validateCart(1, 2);
-  moveItem(products[3], Position.Cart);
+  moveItem(products[3], ItemList.Cart);
   validateCart(3, 0);
 }
 
@@ -229,10 +229,10 @@ export function verifyPlaceOrder() {
     .auth;
   addProductToCart(products[0]);
   addProductToCart(products[1]);
-  moveItem(products[0], Position.SaveForLater);
+  moveItem(products[0], ItemList.SaveForLater);
   validateCart(1, 1);
   cartCoupon.placeOrder(stateAuth);
   cy.reload();
   validateCart(0, 1);
-  validateProduct(products[0], 1, Position.SaveForLater);
+  validateProduct(products[0], 1, ItemList.SaveForLater);
 }

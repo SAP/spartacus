@@ -161,12 +161,7 @@
       </ng-container>
 
       <div class="col-md-3 col-lg-3 col-xl-3 cx-remove-btn">
-        <button
-          class="link"
-          [class.disabled]="cartIsLoading"
-          [disabled]="cartIsLoading"
-          (click)="removeItem()"
-        >
+        <button class="link" [disabled]="cartIsLoading" (click)="removeItem()">
           {{ 'common.remove' | cxTranslate }}
         </button>
       </div>
