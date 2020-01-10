@@ -59,9 +59,23 @@ export class OccConfiguratorVariantSerializer
       cstic.value = attribute.selectedSingleValue;
     } else if (attribute.uiType === Configurator.UiType.STRING) {
       cstic.value = attribute.userInput;
+    } else if (attribute.uiType === Configurator.UiType.CHECKBOX) {
+      cstic.domainvalues = [];
+      attribute.values.forEach(value => {
+        this.convertValue(value, cstic.domainvalues);
+      });
     }
 
     occCstics.push(cstic);
+  }
+
+  convertValue(value: Configurator.Value, values: OccConfigurator.Value[]) {
+    values.push({
+      key: value.valueCode,
+      langdepname: value.valueDisplay,
+      name: value.name,
+      selected: value.selected,
+    });
   }
 
   convertCharacteristicType(type: Configurator.UiType): OccConfigurator.UiType {
@@ -77,6 +91,10 @@ export class OccConfiguratorVariantSerializer
       }
       case Configurator.UiType.STRING: {
         uiType = OccConfigurator.UiType.STRING;
+        break;
+      }
+      case Configurator.UiType.CHECKBOX: {
+        uiType = OccConfigurator.UiType.CHECK_BOX_LIST;
         break;
       }
       default: {

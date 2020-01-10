@@ -37,6 +37,13 @@
             [ownerKey]="configuration.owner.key"
             (inputChange)="updateConfiguration($event)"
           ></cx-config-attribute-input-field>
+          <cx-config-attribute-checkbox-list
+            *ngIf="attribute.uiType === UiType.CHECKBOX"
+            [attribute]="attribute"
+            [group]="currentGroup.id"
+            [ownerKey]="configuration.owner.key"
+            (selectionChange)="updateConfiguration($event)"
+          ></cx-config-attribute-checkbox-list>
           <cx-config-attribute-read-only
             *ngIf="attribute.uiType === UiType.READ_ONLY"
             [attribute]="attribute"

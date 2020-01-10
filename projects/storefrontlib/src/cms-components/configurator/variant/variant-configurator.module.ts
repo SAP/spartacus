@@ -19,6 +19,7 @@ import { ConfigAddToCartButtonComponent } from '../commons/config-add-to-cart-bu
 import { ConfigAttributeFooterComponent } from '../commons/config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../commons/config-attribute-header/config-attribute-header.component';
 import { ConfigAttributeDropDownComponent } from '../commons/config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
+import { ConfigAttributeCheckBoxListComponent } from '../commons/config-attribute-types/config-attribute-checkbox-list/config-attribute-checkbox-list.component';
 import { ConfigAttributeInputFieldComponent } from '../commons/config-attribute-types/config-attribute-input-field/config-attribute-input-field.component';
 import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigAttributeReadOnlyComponent } from '../commons/config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
@@ -141,6 +142,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigFormComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
+    ConfigAttributeCheckBoxListComponent,
     ConfigAttributeInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
@@ -156,6 +158,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigFormComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
+    ConfigAttributeCheckBoxListComponent,
     ConfigAttributeInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
@@ -172,6 +175,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigFormComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
+    ConfigAttributeCheckBoxListComponent,
     ConfigAttributeInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,

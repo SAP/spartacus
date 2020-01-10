@@ -23,6 +23,7 @@ import { ConfigAttributeRadioButtonComponent } from '../config-attribute-types/c
 import { ConfigAttributeReadOnlyComponent } from '../config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigPreviousNextButtonsComponent } from '../config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigFormComponent } from './config-form.component';
+import { ConfigAttributeCheckBoxListComponent } from '../config-attribute-types/config-attribute-checkbox-list/config-attribute-checkbox-list.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -194,6 +195,7 @@ describe('ConfigurationFormComponent', () => {
         ConfigAttributeDropDownComponent,
         ConfigAttributeReadOnlyComponent,
         ConfigPreviousNextButtonsComponent,
+        ConfigAttributeCheckBoxListComponent,
         MockCxIconComponent,
       ],
       providers: [

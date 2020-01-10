@@ -99,6 +99,7 @@ export class OccConfiguratorVariantNormalizer
     const value: Configurator.Value = {
       valueCode: occValue.key,
       valueDisplay: occValue.langdepname,
+      name: occValue.name,
       selected: occValue.selected,
     };
 
@@ -122,6 +123,10 @@ export class OccConfiguratorVariantNormalizer
       }
       case OccConfigurator.UiType.READ_ONLY: {
         uiType = Configurator.UiType.READ_ONLY;
+        break;
+      }
+      case OccConfigurator.UiType.CHECK_BOX_LIST: {
+        uiType = Configurator.UiType.CHECKBOX;
         break;
       }
       default: {

@@ -20,6 +20,7 @@ export namespace Configurator {
 
   export interface Value {
     valueCode?: string;
+    name?: string;
     valueDisplay?: string;
     description?: string;
     selected?: boolean;
