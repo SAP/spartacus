@@ -48,9 +48,9 @@ export function cancelOrder() {
     .contains('Submit Request')
     .click({ force: true });
 
-  getSuccessAlert().contains('Your cancellation request was submitted');
-
   cy.wait(`@${orderHistoryPage}`);
+
+  getSuccessAlert().contains('Your cancellation request was submitted');
 
   cy.url().should('contain', 'my-account/orders');
 }
