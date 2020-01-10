@@ -44,6 +44,8 @@ export function cancelOrder() {
     .should('not.be.disabled')
     .click({ force: true });
 
+  waitForPage('/my-account/order', 'orderHistoryPage');
+
   cy.get('cx-cancel-order-confirmation button.btn-primary')
     .contains('Submit Request')
     .click({ force: true });
