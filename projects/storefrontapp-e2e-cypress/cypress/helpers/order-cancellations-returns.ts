@@ -3,12 +3,12 @@ import { waitForPage } from './checkout-flow';
 export function checkTabs() {
   cy.get('cx-tab-paragraph-container > h3')
     .eq(1)
-    .contains(/RETURNS \(\d\)/)
+    .contains('RETURNS (0)')
     .click();
 
   cy.get('cx-tab-paragraph-container > h3')
     .first()
-    .contains(/ALL ORDERS \(\d\)/)
+    .contains('ALL ORDERS (2)')
     .click();
 }
 
