@@ -156,7 +156,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected onSuccess(success: boolean) {
+  onSuccess(success: boolean) {
     if (success) {
       this.form.reset();
       this.cartVoucherService.resetAddVoucherProcessingState();
