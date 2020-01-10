@@ -5,6 +5,7 @@ import {
 import * as path from 'path';
 import {
   getAngularVersion,
+  getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
 } from './package-utils';
 
@@ -70,7 +71,17 @@ describe('Package utils', () => {
     it('should return spartacus version', async () => {
       const version = getSpartacusSchematicsVersion();
       expect(version).toBeTruthy();
-      expect(version.length).toEqual(3);
+      expect(version.length).toBeGreaterThanOrEqual(3);
+    });
+  });
+
+  describe('getSpartacusCurrentFeatureLevel', () => {
+    it('should return feature level based on spartacus current version', async () => {
+      const version = getSpartacusSchematicsVersion();
+      const featureLevel = getSpartacusCurrentFeatureLevel();
+      expect(featureLevel).toBeTruthy();
+      expect(featureLevel.length).toEqual(3);
+      expect(featureLevel).toEqual(version.substring(0, 3));
     });
   });
 });

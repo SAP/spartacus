@@ -11,6 +11,10 @@ export function getAngularVersion(tree: Tree): string {
 }
 
 export function getSpartacusSchematicsVersion(): string {
+  return version;
+}
+
+export function getSpartacusCurrentFeatureLevel(): string {
   return version
     .split('.')
     .slice(0, 2)

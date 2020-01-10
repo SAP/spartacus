@@ -27,6 +27,7 @@ import {
 } from '../shared/utils/module-file-utils';
 import {
   getAngularVersion,
+  getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
 } from '../shared/utils/package-utils';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
@@ -150,7 +151,7 @@ function getStorefrontConfig(options: SpartacusOptions): string {
         fallbackLang: 'en'
       },
       features: {
-        level: '${options.featureLevel || getSpartacusSchematicsVersion()}',
+        level: '${options.featureLevel || getSpartacusCurrentFeatureLevel()}',
         anonymousConsents: true
       }
     }`;
