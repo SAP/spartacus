@@ -3,7 +3,9 @@ import { Order, RoutingService, UserOrderService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OrderDetailsService {
   orderCode$: Observable<string>;
   orderLoad$: Observable<{}>;
