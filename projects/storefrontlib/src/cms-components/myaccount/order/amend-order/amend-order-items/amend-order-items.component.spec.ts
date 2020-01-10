@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { OrderAmendService } from '../amend-order.service';
 import { CancelOrReturnItemsComponent } from './amend-order-items.component';
+import { MockFeatureLevelDirective } from '../../../../../shared/test/mock-feature-level-directive';
 import createSpy = jasmine.createSpy;
 
 const mockEntries = [
@@ -72,6 +73,7 @@ describe('CancelOrReturnItemsComponent', () => {
         CancelOrReturnItemsComponent,
         MockMediaComponent,
         MockItemCounterComponent,
+        MockFeatureLevelDirective,
       ],
     }).compileComponents();
   }));

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule, FeaturesConfigModule } from '@spartacus/core';
 import { ItemCounterModule, MediaModule } from '../../../../../shared/index';
 import { CancelOrReturnItemsComponent } from './amend-order-items.component';
 
@@ -12,6 +12,7 @@ import { CancelOrReturnItemsComponent } from './amend-order-items.component';
     I18nModule,
     MediaModule,
     ItemCounterModule,
+    FeaturesConfigModule,
   ],
   declarations: [CancelOrReturnItemsComponent],
   exports: [CancelOrReturnItemsComponent],
