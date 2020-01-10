@@ -59,7 +59,9 @@ export function syncI18nextWithSiteContext(language: LanguageService) {
 
 /**
  * Returns a function appropriate for i18next to make http calls for JSON files.
- * It uses Angular HttpClient under the hood, so it works also in SSR.
+ * See docs for `i18next-xhr-backend`: https://github.com/i18next/i18next-xhr-backend#backend-options
+ *
+ * It uses Angular HttpClient under the hood, so it works in SSR.
  * @param httpClient Angular http client
  */
 export function i18nextGetHttpClient(
