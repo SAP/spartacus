@@ -77,6 +77,7 @@ export class CartDetailsComponent implements OnInit {
     else {
       this.cartLoaded$ = this.cartService.getLoaded();
     }
+    //TODO  remove for #5958 end
     this.orderPromotions$ = this.promotionService.getOrderPromotions(
       this.promotionLocation
     );
@@ -89,7 +90,7 @@ export class CartDetailsComponent implements OnInit {
     }
     return false;
   }
-  //TODO remove feature flag for #5958
+  //TODO remove feature flag for #5958 end
 
   /**
    * @deprecated Since 1.5
