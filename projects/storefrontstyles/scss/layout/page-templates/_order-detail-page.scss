@@ -145,4 +145,10 @@
       background-color: var(--cx-color-inverse);
     }
   }
+
+  @if $theme == 'calydon' {
+    cx-paragraph h4 {
+      text-align: center;
+    }
+  }
 }
