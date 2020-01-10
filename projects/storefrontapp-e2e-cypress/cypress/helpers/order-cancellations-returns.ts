@@ -20,7 +20,9 @@ export function cancelOrder() {
     .contains('In Process')
     .click({ force: true });
 
-  cy.wait(`@${orderHistoryPage}`);
+  cy.wait(`@${orderHistoryPage}`)
+    .its('status')
+    .should('eq', 200);
 
   const cancelOrderPage = waitForPage(
     '/my-account/order/cancel',
@@ -31,7 +33,9 @@ export function cancelOrder() {
     .contains('Cancel Items')
     .click({ force: true });
 
-  cy.wait(`@${cancelOrderPage}`);
+  cy.wait(`@${cancelOrderPage}`)
+    .its('status')
+    .should('eq', 200);
 
   cy.get('button.cx-action-link')
     .contains('Set all quantities to maximum')
@@ -49,13 +53,17 @@ export function cancelOrder() {
     .should('not.be.disabled')
     .click({ force: true });
 
-  cy.wait(`@${cancelConfirmation}`);
+  cy.wait(`@${cancelConfirmation}`)
+    .its('status')
+    .should('eq', 200);
 
   cy.get('cx-cancel-order-confirmation button.btn-primary')
     .contains('Submit Request')
     .click({ force: true });
 
-  cy.wait(`@${orderHistoryPage}`);
+  cy.wait(`@${orderHistoryPage}`)
+    .its('status')
+    .should('eq', 200);
 
   getSuccessAlert().contains('Your cancellation request was submitted');
 

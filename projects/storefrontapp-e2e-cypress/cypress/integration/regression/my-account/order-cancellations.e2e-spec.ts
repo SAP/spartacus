@@ -1,5 +1,5 @@
 import * as orderCancellationsReturns from '../../../helpers/order-cancellations-returns';
-import * as orderHistory from '../../../helpers/order-history';
+import { orderHistoryTest } from '../../../helpers/order-history';
 
 describe.skip('Place Order', () => {
   before(() => {
@@ -15,7 +15,7 @@ describe.skip('Place Order', () => {
     cy.saveLocalStorage();
   });
 
-  orderHistory.orderHistoryTest.checkIfOrderIsDisplayed(); // This places 2 orders
+  orderHistoryTest.checkIfOrderIsDisplayed(); // This places 2 orders
 });
 
 describe.skip('Return Request List for Cancellations and Returns', () => {
