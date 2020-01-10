@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
-import { OrderCancellationModule, OrderReturnModule } from './amend-order';
+import {
+  OrderCancellationModule,
+  OrderReturnModule,
+} from './amend-order/index';
 import { OrderDetailsModule } from './order-details/order-details.module';
 import { OrderHistoryModule } from './order-history/order-history.module';
 import { ReturnRequestDetailModule } from './return-request-detail/return-request-detail.module';
