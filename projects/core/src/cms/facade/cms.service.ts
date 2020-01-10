@@ -98,7 +98,7 @@ export class CmsService {
   ): Observable<T> {
     if (!pageContext) {
       return this.routingService.getPageContext().pipe(
-        filter(currentContext => Boolean(currentContext)),
+        filter(currentContext => !!currentContext),
         switchMap(currentContext =>
           this.getComponentData<T>(uid, currentContext)
         )
@@ -138,7 +138,7 @@ export class CmsService {
       // Removing it causes some components to fail, because they are not checking
       // if the data is actually there. I noticed these that are failing, but there are possibly more:
       // - `tab-paragraph-container.component.ts` when visiting any PDP page
-      filter(component => Boolean(component))
+      filter(component => !!component)
     ) as Observable<T>;
 
     return using(() => loading$.subscribe(), () => component$).pipe(

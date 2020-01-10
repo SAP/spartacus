@@ -35,7 +35,7 @@ if (!environment.production) {
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
-          baseUrl: environment.occBaseUrl,
+          baseUrl: '',
           legacy: false,
         },
       },
