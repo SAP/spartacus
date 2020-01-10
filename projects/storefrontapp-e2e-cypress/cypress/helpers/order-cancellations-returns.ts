@@ -39,12 +39,17 @@ export function cancelOrder() {
 
   cy.get('input.cx-counter-value').should('have.value', '1');
 
+  const cancelConfirmation = waitForPage(
+    'my-account/order/cancel/confirmation',
+    'cancelConfirmation'
+  );
+
   cy.get('button.btn-primary')
     .contains('Continue')
     .should('not.be.disabled')
     .click({ force: true });
 
-  waitForPage('/my-account/order', 'orderHistoryPage');
+  cy.wait(`@${cancelConfirmation}`);
 
   cy.get('cx-cancel-order-confirmation button.btn-primary')
     .contains('Submit Request')
