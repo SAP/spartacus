@@ -14,10 +14,7 @@ export function checkTabs() {
 }
 
 export function cancelOrder() {
-  const orderHistoryPage = waitForPage(
-    '/my-account/order/',
-    'orderHistoryPage'
-  );
+  const orderHistoryPage = waitForPage('/my-account/order', 'orderHistoryPage');
 
   cy.get('cx-order-history a.cx-order-history-value')
     .contains('In Process')
@@ -47,15 +44,13 @@ export function cancelOrder() {
     .should('not.be.disabled')
     .click({ force: true });
 
-  const myOrders = waitForPage('my-account/orders', 'myOrdersPage');
-
   cy.get('cx-cancel-order-confirmation button.btn-primary')
     .contains('Submit Request')
     .click({ force: true });
 
   getSuccessAlert().contains('Your cancellation request was submitted');
 
-  cy.wait(`@${myOrders}`);
+  cy.wait(`@${orderHistoryPage}`);
 
   cy.url().should('contain', 'my-account/orders');
 }
