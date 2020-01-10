@@ -133,6 +133,11 @@ export class CmsService {
 
     const component$ = this.store.pipe(
       select(CmsSelectors.componentsSelectorFactory(uid, context)),
+      // TODO(issue:6027) - this `filter` should be removed.
+      // The reason for removal: with `filter` in place, when moving to a page that has restrictions, we will still emit the previous value.
+      // Removing it causes some components to fail, because they are not checking
+      // if the data is actually there. I noticed these that are failing, but there are possibly more:
+      // - `tab-paragraph-container.component.ts` when visiting any PDP page
       filter(component => Boolean(component))
     ) as Observable<T>;
 
