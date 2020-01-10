@@ -6,6 +6,7 @@ import { COMPONENT_ENTITY } from '../cms-state';
 export const LOAD_CMS_COMPONENT = '[Cms] Load Component';
 export const LOAD_CMS_COMPONENT_FAIL = '[Cms] Load Component Fail';
 export const LOAD_CMS_COMPONENT_SUCCESS = '[Cms] Load Component Success';
+// TODO(issue:6027) - rename the const to `CMS_GET_COMPONENT_FROM_PAGE`
 export const CMS_GET_COMPONENET_FROM_PAGE = '[Cms] Get Component from Page';
 
 // TODO:#4603 - write todos to move the pageContext into the `payload` property
