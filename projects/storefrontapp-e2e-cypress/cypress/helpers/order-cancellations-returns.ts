@@ -40,7 +40,7 @@ export function cancelOrder() {
   cy.get('input.cx-counter-value').should('have.value', '1');
 
   const cancelConfirmation = waitForPage(
-    'my-account/order/cancel/confirmation',
+    '/my-account/order/cancel/confirmation',
     'cancelConfirmation'
   );
 
