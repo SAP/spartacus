@@ -5,6 +5,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 import { CancelOrReturnItemsComponent } from './cancel-or-return-items.component';
 import createSpy = jasmine.createSpy;
+import { MockFeatureLevelDirective } from '../../../../../shared/test/mock-feature-level-directive';
 
 const mockEntries = [
   {
@@ -64,6 +65,7 @@ describe('CancelOrReturnItemsComponent', () => {
         CancelOrReturnItemsComponent,
         MockMediaComponent,
         MockItemCounterComponent,
+        MockFeatureLevelDirective,
       ],
     }).compileComponents();
   }));
