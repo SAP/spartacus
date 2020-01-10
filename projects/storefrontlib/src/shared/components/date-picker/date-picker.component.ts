@@ -9,22 +9,21 @@ import {
 } from '@angular/forms';
 import { DatePickerFormatterService } from './date-picker-formatter.service';
 
-export const DATE_PICKER_ACCESSOR: any = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => DatePickerComponent),
-  multi: true,
-};
-
-export const DATE_PICKER_VALIDATOR: any = {
-  provide: NG_VALIDATORS,
-  useExisting: forwardRef(() => DatePickerComponent),
-  multi: true,
-};
-
 @Component({
   selector: 'cx-date-picker',
   templateUrl: './date-picker.component.html',
-  providers: [DATE_PICKER_ACCESSOR, DATE_PICKER_VALIDATOR],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DatePickerComponent),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => DatePickerComponent),
+      multi: true,
+    },
+  ],
 })
 export class DatePickerComponent implements ControlValueAccessor, Validator {
   value: string;
