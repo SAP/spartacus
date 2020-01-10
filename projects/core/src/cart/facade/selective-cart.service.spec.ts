@@ -256,29 +256,17 @@ describe('Selective Cart Service', () => {
     service.addEntry('productCode', 2);
     expect(multiCartService['loadCart']).toHaveBeenCalled();
   });
-  it('should add entry', () => {
+  it('should add entry one by one ', () => {
     spyOn(multiCartService, 'addEntry').and.callThrough();
     service
       .getCart()
       .subscribe()
       .unsubscribe();
 
-    service.addEntry('productCode', 2);
-
-    expect(multiCartService['addEntry']).toHaveBeenCalledWith(
-      OCC_USER_ID_CURRENT,
-      'selectivecart-test-customer-id',
-      'productCode',
-      2
-    );
-  });
-
-  it('should add each entry one by one', () => {
-    spyOn(service, 'addEntry').and.callThrough();
     service.addEntry('productCode1', 2);
     service.addEntry('productCode2', 2);
 
-    expect(service['addEntry']).toHaveBeenCalledTimes(2);
+    expect(multiCartService['addEntry']).toHaveBeenCalledTimes(2);
     expect(multiCartService['addEntry']).toHaveBeenCalledWith(
       OCC_USER_ID_CURRENT,
       'selectivecart-test-customer-id',
