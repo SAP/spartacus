@@ -21,6 +21,7 @@ export function reducer<T>(
       return {
         ...state,
         pageContext: {
+          ...state.pageContext,
           [context]: {
             ...initialLoaderState,
             loading: true,
@@ -33,6 +34,7 @@ export function reducer<T>(
       return {
         ...state,
         pageContext: {
+          ...state.pageContext,
           [context]: {
             ...initialLoaderState,
             error: true,
@@ -47,6 +49,7 @@ export function reducer<T>(
         ...state,
         component: action.payload,
         pageContext: {
+          ...state.pageContext,
           [context]: {
             ...initialLoaderState,
             success: true,
