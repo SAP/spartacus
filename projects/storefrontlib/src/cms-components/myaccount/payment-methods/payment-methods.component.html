@@ -12,10 +12,7 @@
       </div>
       <div *ngIf="loading$ | async; else cards"><cx-spinner></cx-spinner></div>
       <ng-template #cards>
-        <div
-          *ngIf="paymentMethods$ | async as paymentMethods"
-          class="cx-existing row"
-        >
+        <div class="cx-existing row">
           <div
             class="cx-payment-card col-sm-12 col-md-12 col-lg-6"
             *ngFor="let paymentMethod of paymentMethods"
