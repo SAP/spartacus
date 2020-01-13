@@ -135,10 +135,16 @@ export function validateCart(qtyInCart: Number, qtyInSavedCart: Number) {
       qtyInCart
     );
   }
-  cy.get('cx-save-for-later cx-cart-item-list .cx-item-list-row').should(
-    'have.length',
-    qtyInSavedCart
-  );
+  if (qtyInSavedCart === 0) {
+    cy.get('cx-save-for-later cx-cart-item-list .cx-item-list-row').should(
+      'not.exist'
+    );
+  } else {
+    cy.get('cx-save-for-later cx-cart-item-list .cx-item-list-row').should(
+      'have.length',
+      qtyInSavedCart
+    );
+  }
 }
 
 function verifyMiniCartQty(qty: number) {
