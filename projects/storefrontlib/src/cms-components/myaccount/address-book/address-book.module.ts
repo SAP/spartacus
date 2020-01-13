@@ -17,6 +17,7 @@ import { AddressCardComponent } from './address-card/address-card.component';
 @NgModule({
   imports: [
     CommonModule,
+    CardModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AccountAddressBookComponent: {

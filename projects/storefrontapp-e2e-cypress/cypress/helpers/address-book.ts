@@ -25,25 +25,25 @@ export const assertAddressForm = (
   state?: string
 ): void => {
   state = state ? state : 'CA-QC';
-  cy.get('cx-address-card .card-header').contains('✓ DEFAULT');
-  cy.get('cx-address-card .card-body').within(_ => {
-    cy.get('.cx-address-card-label-name').should(
+  cy.get('cx-card .card-header').contains('✓ DEFAULT');
+  cy.get('cx-card .card-body').within(_ => {
+    cy.get('.cx-card-label-bold').should(
       'contain',
       `${address.firstName} ${address.lastName}`
     );
-    cy.get('.cx-address-card-label')
+    cy.get('.cx-card-label')
       .first()
       .should('contain', address.address.line1);
-    cy.get('.cx-address-card-label')
+    cy.get('.cx-card-label')
       .next()
       .should('contain', address.address.line2);
-    cy.get('.cx-address-card-label')
+    cy.get('.cx-card-label')
       .next()
       .should('contain', `${address.address.city}, ${state}`);
-    cy.get('.cx-address-card-label')
+    cy.get('.cx-card-label')
       .next()
       .should('contain', address.address.postal);
-    cy.get('.cx-address-card-label')
+    cy.get('.cx-card-label')
       .next()
       .should('contain', address.phone);
   });
@@ -63,7 +63,7 @@ export function createNewAddress() {
 }
 
 export function verifyNewAddress() {
-  cy.get('cx-address-card').should('have.length', 1);
+  cy.get('cx-card').should('have.length', 1);
   assertAddressForm(newAddress);
 }
 
@@ -86,7 +86,7 @@ export function editAddress() {
 }
 
 export function verifyEditedAddress() {
-  cy.get('cx-address-card').should('have.length', 1);
+  cy.get('cx-card').should('have.length', 1);
   assertAddressForm(editedAddress);
 }
 
@@ -100,19 +100,19 @@ export function addSecondAddress() {
     .contains(' Add new address ')
     .click({ force: true });
   fillShippingAddress(secondAddress);
-  cy.get('cx-address-card').should('have.length', 2);
+  cy.get('cx-card').should('have.length', 2);
 }
 
 export function setSecondAddressToDefault() {
   cy.get('.set-default').click();
 
-  const firstCard = cy.get('cx-address-card').first();
+  const firstCard = cy.get('cx-card').first();
   firstCard.should('contain', '✓ DEFAULT');
   firstCard.should('contain', 'N Z');
 }
 
 export function deleteExistingAddress() {
-  let firstCard = cy.get('cx-address-card').first();
+  let firstCard = cy.get('cx-card').first();
 
   firstCard.find('.delete').click();
   cy.get('.cx-address-card-delete-msg').should(
@@ -132,10 +132,10 @@ export function deleteExistingAddress() {
   deleteFirstAddress();
   alerts.getSuccessAlert().contains('Address deleted successfully!');
 
-  cy.get('cx-address-card').should('have.length', 1);
+  cy.get('cx-card').should('have.length', 1);
 
   // verify remaining address is now the default one
-  const defaultCard = cy.get('cx-address-card').first();
+  const defaultCard = cy.get('cx-card').first();
   defaultCard.should('contain', '✓ DEFAULT');
   defaultCard.should('contain', 'Baz Qux');
 }
@@ -156,7 +156,7 @@ export function deleteFirstAddress() {
     'fetchAddresses'
   );
 
-  const firstCard = cy.get('cx-address-card').first();
+  const firstCard = cy.get('cx-card').first();
   firstCard.find('.delete').click();
   cy.get('.cx-address-card-delete button.btn-primary').click();
   cy.wait('@deleteAddress')

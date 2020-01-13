@@ -4,11 +4,19 @@ import {
   EventEmitter,
   Input,
   Output,
+  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Address, I18nTestingModule, User } from '@spartacus/core';
+import {
+  Address,
+  I18nTestingModule,
+  User,
+  UserAddressService,
+  CheckoutDeliveryService,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CardModule } from '../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
@@ -46,6 +54,15 @@ class MockComponentService {
   getUserId(): Observable<string> {
     return of(mockUser.uid);
   }
+}
+
+class MockCheckoutDeliveryService {
+  clearCheckoutDeliveryDetails = jasmine.createSpy();
+}
+
+class MockUserAddressService {
+  deleteUserAddress = jasmine.createSpy();
+  setAddressAsDefault = jasmine.createSpy();
 }
 
 @Component({
@@ -99,14 +116,21 @@ describe('AddressBookComponent', () => {
   let component: AddressBookComponent;
   let fixture: ComponentFixture<AddressBookComponent>;
   let el: DebugElement;
+  let userAddressService: UserAddressService;
+  let checkoutDeliveryService: CheckoutDeliveryService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule, I18nTestingModule],
+      imports: [SpinnerModule, I18nTestingModule, CardModule],
       providers: [
         {
           provide: AddressBookComponentService,
           useClass: MockComponentService,
+        },
+        { provide: UserAddressService, useClass: MockUserAddressService },
+        {
+          provide: CheckoutDeliveryService,
+          useClass: MockCheckoutDeliveryService,
         },
       ],
       declarations: [
@@ -122,6 +146,12 @@ describe('AddressBookComponent', () => {
     component = fixture.componentInstance;
     spyOn(component, 'addAddressButtonHandle');
     el = fixture.debugElement;
+    userAddressService = TestBed.get(UserAddressService as Type<
+      UserAddressService
+    >);
+    checkoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
+      CheckoutDeliveryService
+    >);
 
     isLoading.next(false);
     component.ngOnInit();
@@ -139,11 +169,11 @@ describe('AddressBookComponent', () => {
   });
 
   it('should show address cards after loading', () => {
-    expect(el.query(By.css('cx-address-card'))).toBeTruthy();
+    expect(el.query(By.css('cx-card'))).toBeTruthy();
   });
 
   it('should address cards number to be equal with addresses count', () => {
-    expect(el.queryAll(By.css('cx-address-card')).length).toEqual(3);
+    expect(el.queryAll(By.css('cx-card')).length).toEqual(3);
   });
 
   it('should be able to add new address', () => {
@@ -190,5 +220,57 @@ describe('AddressBookComponent', () => {
     component.editAddressCancel();
 
     expect(component.editAddressCancel).toHaveBeenCalledWith();
+  });
+
+  it('should display address data', () => {
+    const element = el.query(By.css('cx-card'));
+    expect(element.nativeElement.textContent).toContain(
+      mockAddress.firstName &&
+        mockAddress.lastName &&
+        mockAddress.line1 &&
+        mockAddress.line2 &&
+        mockAddress.town &&
+        mockAddress.country.isocode &&
+        mockAddress.postalCode
+    );
+  });
+
+  it('should display default label on address default', () => {
+    mockAddress.defaultAddress = true;
+    fixture.detectChanges();
+    const element = el.query(By.css('.card-header'));
+    expect(element.nativeElement.textContent).toContain(
+      ' ✓ addressCard.default '
+    );
+  });
+
+  describe('setAddressAsDefault', () => {
+    it('should set Address as default', () => {
+      component.setAddressAsDefault(mockAddress[0]);
+      expect(userAddressService.setAddressAsDefault).toHaveBeenCalledWith(
+        mockAddress[0]
+      );
+    });
+
+    it('should clear checkout delivery details', () => {
+      component.setAddressAsDefault(mockAddress[0]);
+      expect(
+        checkoutDeliveryService.clearCheckoutDeliveryDetails
+      ).toHaveBeenCalled();
+    });
+  });
+
+  describe('deleteAddress', () => {
+    it('should set delete user Address', () => {
+      component.deleteAddress('1');
+      expect(userAddressService.deleteUserAddress).toHaveBeenCalledWith('1');
+    });
+
+    it('should clear checkout delivery details', () => {
+      component.deleteAddress('1');
+      expect(
+        checkoutDeliveryService.clearCheckoutDeliveryDetails
+      ).toHaveBeenCalled();
+    });
   });
 });

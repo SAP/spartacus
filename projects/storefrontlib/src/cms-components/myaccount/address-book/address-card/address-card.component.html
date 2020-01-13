@@ -42,18 +42,19 @@
       </div>
     </div>
     <div *ngIf="!editMode" class="card-actions">
-      <a
+      <button
         *ngIf="!address?.defaultAddress"
         (click)="setAddressAsDefault(address.id)"
-        class="card-link btn-link set-default"
-        >{{ 'addressCard.setAsDefault' | cxTranslate }}</a
+        class="btn card-link btn-link set-default"
       >
-      <a (click)="openEditFormEvent()" class="card-link btn-link edit">{{
-        'common.edit' | cxTranslate
-      }}</a>
-      <a (click)="setEditMode()" class="card-link btn-link delete">{{
-        'common.delete' | cxTranslate
-      }}</a>
+        {{ 'addressCard.setAsDefault' | cxTranslate }}
+      </button>
+      <button (click)="openEditFormEvent()" class="btn card-link btn-link edit">
+        {{ 'common.edit' | cxTranslate }}
+      </button>
+      <button (click)="setEditMode()" class="btn card-link btn-link delete">
+        {{ 'common.delete' | cxTranslate }}
+      </button>
     </div>
   </div>
 </div>
