@@ -13,7 +13,12 @@ export class PaginationBuilder {
   /**
    * builds a range of pages with potentially
    */
-  paginate(current: number, total: number) {
+  paginate(current: number, total: number): number[] {
+    // return empty array if there's nothing to paginate
+    if (total === 1) {
+      return [];
+    }
+
     const pages: number[] = [];
 
     const start = this.getStartOfRange(current, total);
@@ -50,12 +55,13 @@ export class PaginationBuilder {
       pages.unshift(-1);
     }
 
-    // add 2nd page if we start with 3
+    // add 2nd page if we start with 3, as it doesn't make any sense
+    // to add dots for a single position
     if (pages[0] === 3) {
       pages.unshift(2);
     }
 
-    // always start with the first if we haven't done so far
+    // always add the first if we haven't done so far
     if (pages[0] !== 1) {
       pages.unshift(1);
     }

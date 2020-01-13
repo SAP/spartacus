@@ -1,6 +1,57 @@
 @import '../../theme';
 @import '~bootstrap/scss/pagination';
 
+cx-pagination {
+  display: flex;
+  justify-content: flex-start;
+
+  align-content: center;
+  align-items: stretch;
+
+  height: 48px;
+
+  text-align: center;
+
+  a,
+  a:not([href]):not([tabindex]) {
+    --border-color: var(--cx-color-light);
+
+    color: var(--cx-color-text);
+    cursor: pointer;
+    width: 48px;
+
+    text-align: center;
+
+    border: solid 1px var(--border-color);
+    border-right: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:first-child {
+      border-top-left-radius: 0.25rem;
+      border-bottom-left-radius: 0.25rem;
+    }
+    &:last-child {
+      border-right: solid 1px var(--border-color);
+
+      border-top-right-radius: 0.25rem;
+      border-bottom-right-radius: 0.25rem;
+    }
+
+    &.active,
+    &:hover {
+      background-color: var(--cx-color-primary);
+      color: var(--cx-color-inverse);
+      --border-color: var(--cx-color-primary);
+    }
+    &.active + a {
+      border-left: none;
+    }
+  }
+}
+
 .page-item {
   .page-link {
     @include type(4);
