@@ -9,10 +9,11 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
-import { OutletDirective } from '../../outlet';
+import { OutletDirective } from '../../outlet/index';
 import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { PageSlotComponent } from './page-slot.component';
+import { SkipLinkDirective, SkipLinkConfig } from '../../../layout/a11y/index';
 
 const slotWithOneComp = {
   components: [
@@ -54,6 +55,8 @@ class MockDynamicAttributeService {
 
 class MockCmsMappingService {}
 
+const MockSkipLinkConfig: SkipLinkConfig = { skipLinks: [] };
+
 export class MockDeferLoaderService {
   load(_element: HTMLElement, _options?: any) {
     return of(true);
@@ -83,6 +86,7 @@ describe('PageSlotComponent', () => {
         PageSlotComponent,
         ComponentWrapperDirective,
         OutletDirective,
+        SkipLinkDirective,
       ],
       providers: [
         Renderer2,
@@ -97,6 +101,10 @@ describe('PageSlotComponent', () => {
         {
           provide: DynamicAttributeService,
           useClass: MockDynamicAttributeService,
+        },
+        {
+          provide: SkipLinkConfig,
+          useValue: MockSkipLinkConfig,
         },
         {
           provide: DeferLoaderService,

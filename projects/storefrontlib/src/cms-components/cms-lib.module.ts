@@ -19,16 +19,18 @@ import {
   ForgotPasswordModule,
   MyInterestsModule,
   NotificationPreferenceModule,
+  OrderCancellationModule,
   OrderDetailsModule,
   OrderHistoryModule,
-  OrderCancelOrReturnModule,
-  ReturnRequestListModule,
-  ReturnRequestDetailModule,
+  OrderReturnModule,
   PaymentMethodsModule,
   ResetPasswordModule,
+  ReturnRequestDetailModule,
+  ReturnRequestListModule,
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+  MyCouponsModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -48,6 +50,7 @@ import {
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
+import { ProductVariantSelectorModule } from './product/product-variant-selector/product-variant-selector.module';
 import { StoreFinderModule } from './storefinder/store-finder.module';
 import { UserComponentModule } from './user/user.module';
 import { WishListModule } from './wish-list/wish-list.module';
@@ -69,7 +72,8 @@ import { WishListModule } from './wish-list/wish-list.module';
     QualtricsModule,
     AddressBookModule,
     OrderHistoryModule,
-    OrderCancelOrReturnModule,
+    OrderCancellationModule,
+    OrderReturnModule,
     ReturnRequestListModule,
     ReturnRequestDetailModule,
     ProductListModule,
@@ -89,12 +93,14 @@ import { WishListModule } from './wish-list/wish-list.module';
     StoreFinderModule,
     ProductImagesModule,
     ProductSummaryModule,
+    ProductVariantSelectorModule,
     ProductIntroModule,
     CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    MyCouponsModule,
     WishListModule,
     NotificationPreferenceModule,
     MyInterestsModule,

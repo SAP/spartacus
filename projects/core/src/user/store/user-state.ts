@@ -10,6 +10,7 @@ import {
   ReturnRequestList,
 } from '../../model/order.model';
 import { LoaderState } from '../../state';
+import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { NotificationPreference } from '../../model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
 
@@ -37,6 +38,11 @@ export const USER_RETURN_REQUEST_DETAILS = '[User] Return Request Details';
 export const USER_ORDER_DETAILS = '[User] User Order Details';
 export const REGIONS = '[User] Regions';
 
+export const CUSTOMER_COUPONS = '[User] Customer Coupons';
+export const SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID = 'subscribeCustomerCoupon';
+export const UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID =
+  'unsubscribeCustomerCoupon';
+export const CLAIM_CUSTOMER_COUPON_PROCESS_ID = 'claimCustomerCoupon';
 export const NOTIFICATION_PREFERENCES = '[User] Notification Preferences';
 export const PRODUCT_INTERESTS = '[User] Product Interests';
 
@@ -59,6 +65,7 @@ export interface UserState {
   regions: LoaderState<RegionsState>;
   resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
+  customerCoupons: LoaderState<CustomerCouponSearchResult>;
   notificationPreferences: LoaderState<NotificationPreference[]>;
   productInterests: LoaderState<ProductInterestSearchResult>;
 }
