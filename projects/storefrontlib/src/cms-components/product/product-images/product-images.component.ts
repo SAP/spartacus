@@ -22,7 +22,7 @@ export class ProductImagesComponent {
     )
   );
 
-  thumbs$: Observable<any> = this.product$.pipe(
+  thumbs$: Observable<any[]> = this.product$.pipe(
     map(product => this.createThumbs(product))
   );
 
