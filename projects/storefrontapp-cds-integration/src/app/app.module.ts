@@ -2,11 +2,12 @@ import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
-import { NgModule } from '@angular/core';
+import { NgModule, NgZone } from '@angular/core';
 import {
   BrowserModule,
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { CdsModule } from '@spartacus/cds';
@@ -83,6 +84,7 @@ if (!environment.production) {
             'http://tag.static.stage.context.cloud.sap/js/profile-tag.js',
           configUrl:
             'https://tag.static.stage.context.cloud.sap/config/dfbb97b0-f4d7-11e9-9c99-2125ab7968c6',
+          allowInsecureCookies: true,
         },
       },
     }),
@@ -97,4 +99,13 @@ if (!environment.production) {
 
   bootstrap: [StorefrontComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(router: Router, ngZone: NgZone) {
+    (<any>window)._cy_navigateByUrl = url => {
+      ngZone.run(() => {
+        router.navigateByUrl(url);
+      });
+    };
+    (<any>window).blah = 'test';
+  }
+}
