@@ -13,7 +13,13 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
 
 @Pipe({
@@ -52,28 +58,69 @@ class MockPromotionsComponent {
 }
 
 const mockProduct = {
+  baseOptions: [
+    {
+      selected: {
+        variantOptionQualifiers: [
+          {
+            name: 'Size',
+            value: 'XL',
+          },
+          {
+            name: 'Style',
+            value: 'Red',
+          },
+        ],
+      },
+    },
+  ],
   stock: {
     stockLevelStatus: 'outOfStock',
   },
 };
 
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
+}
+
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let fixture: ComponentFixture<CartItemComponent>;
+  let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FeaturesConfigModule,
+      ],
       declarations: [
         CartItemComponent,
         MockMediaComponent,
         MockItemCounterComponent,
         MockPromotionsComponent,
         MockUrlPipe,
+        MockFeatureLevelDirective,
       ],
       providers: [
         {
           provide: ControlContainer,
+        },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
         },
       ],
     }).compileComponents();
@@ -83,13 +130,15 @@ describe('CartItemComponent', () => {
     fixture = TestBed.createComponent(CartItemComponent);
     cartItemComponent = fixture.componentInstance;
     cartItemComponent.item = {
-      product: {},
+      product: mockProduct,
       updateable: true,
     };
     cartItemComponent.quantityControl = new FormControl('1');
     cartItemComponent.quantityControl.markAsPristine();
     spyOn(cartItemComponent, 'removeItem').and.callThrough();
     fixture.detectChanges();
+    el = fixture.debugElement;
+    spyOn(cartItemComponent.view, 'emit').and.callThrough();
   });
 
   it('should create CartItemComponent', () => {
@@ -131,7 +180,21 @@ describe('CartItemComponent', () => {
 
   it('should call viewItem()', () => {
     cartItemComponent.viewItem();
-
     expect(cartItemComponent.view.emit).toHaveBeenCalledWith();
+  });
+
+  it('should display variant properties', () => {
+    const variants =
+      mockProduct.baseOptions[0].selected.variantOptionQualifiers;
+    fixture.detectChanges();
+
+    expect(el.queryAll(By.css('.cx-property')).length).toEqual(variants.length);
+    variants.forEach(variant => {
+      const infoContainer: HTMLElement = el.query(By.css('.cx-info-container'))
+        .nativeElement;
+      expect(infoContainer.innerText).toContain(
+        `${variant.name}: ${variant.value}`
+      );
+    });
   });
 });

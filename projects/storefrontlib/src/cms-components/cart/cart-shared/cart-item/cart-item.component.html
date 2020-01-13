@@ -28,13 +28,28 @@
           {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
         </div>
         <!-- Variants -->
-        <div
-          *ngFor="let variant of item.product.variantOptionQualifiers"
-          class="cx-property"
-        >
-          <div class="cx-label">{{ variant.name }}</div>
-          <div class="cx-value">{{ variant.value }}</div>
-        </div>
+        <ng-container *cxFeatureLevel="'!1.5'">
+          <div
+            *ngFor="let variant of item.product.variantOptionQualifiers"
+            class="cx-property"
+          >
+            <div class="cx-label">{{ variant.name }}</div>
+            <div class="cx-value">{{ variant.value }}</div>
+          </div>
+        </ng-container>
+        <ng-container *cxFeatureLevel="'1.5'">
+          <div
+            *ngFor="
+              let variant of item.product.baseOptions[0]?.selected
+                ?.variantOptionQualifiers
+            "
+            class="cx-property"
+          >
+            <div class="cx-label" *ngIf="variant.name && variant.value">
+              {{ variant.name }}: {{ variant.value }}
+            </div>
+          </div>
+        </ng-container>
       </div>
       <!-- Item Price -->
       <div
@@ -93,7 +108,17 @@
       {{ 'productSummary.outOfStock' | cxTranslate }}
     </div>
     <!-- Promotion -->
-    <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
+    <ng-container *cxFeatureLevel="'!1.4'">
+      <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
+    </ng-container>
+
+    <ng-container *cxFeatureLevel="'1.4'">
+      <ng-container
+        *ngIf="appliedProductPromotions$ | async as appliedProductPromotions"
+      >
+        <cx-promotions [promotions]="appliedProductPromotions"></cx-promotions>
+      </ng-container>
+    </ng-container>
     <!-- Actions -->
     <div *ngIf="!readonly && item.updateable" class="cx-actions col-12">
       <button

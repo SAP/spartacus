@@ -25,7 +25,7 @@ const mockProduct: Product = {
 };
 
 const mockProduct2: Product = {
-  name: 'mockPrduct2',
+  name: 'mockProduct2',
   code: 'code2',
   stock: { stockLevelStatus: 'inStock' },
 };

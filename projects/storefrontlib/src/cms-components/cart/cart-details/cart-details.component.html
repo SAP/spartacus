@@ -4,14 +4,30 @@
       <div class="cx-total">
         {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
       </div>
-      <cx-promotions
-        [promotions]="getAllPromotionsForCart(cart)"
-      ></cx-promotions>
-      <cx-cart-item-list
-        [items]="entries"
-        [potentialProductPromotions]="cart.potentialProductPromotions"
-        [cartIsLoading]="!(cartLoaded$ | async)"
-      ></cx-cart-item-list>
+
+      <ng-container *cxFeatureLevel="'!1.5'">
+        <cx-promotions
+          [promotions]="getAllPromotionsForCart(cart)"
+        ></cx-promotions>
+
+        <cx-cart-item-list
+          [items]="entries"
+          [cartIsLoading]="!(cartLoaded$ | async)"
+          [potentialProductPromotions]="cart.potentialProductPromotions"
+        ></cx-cart-item-list>
+      </ng-container>
+
+      <ng-container *cxFeatureLevel="'1.5'">
+        <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
+          <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+        </ng-container>
+
+        <cx-cart-item-list
+          [items]="entries"
+          [cartIsLoading]="!(cartLoaded$ | async)"
+          [promotionLocation]="promotionLocation"
+        ></cx-cart-item-list>
+      </ng-container>
     </div>
   </ng-container>
 </ng-container>

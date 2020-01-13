@@ -35,7 +35,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   hasStock = false;
   quantity = 1;
   increment = false;
-
   cartEntry$: Observable<OrderEntry>;
 
   subscription: Subscription;

@@ -1,25 +1,34 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Cart, CartService, OrderEntry } from '@spartacus/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import {
+  Cart,
+  CartService,
+  OrderEntry,
+  PromotionLocation,
+  PromotionResult,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../../../shared/components/modal/index';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
 })
-export class AddedToCartDialogComponent {
+export class AddedToCartDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   entry$: Observable<OrderEntry>;
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
   increment: boolean;
-  modalIsOpen = false;
+  orderPromotions$: Observable<PromotionResult[]>;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   quantity = 0;
+  modalIsOpen = false;
 
   @ViewChild('dialog', { static: false, read: ElementRef })
   dialog: ElementRef;
@@ -29,11 +38,24 @@ export class AddedToCartDialogComponent {
   private quantityControl$: Observable<FormControl>;
 
   constructor(
+    modalService: ModalService,
+    cartService: CartService,
+    // tslint:disable-next-line:unified-signatures
+    promotionService: PromotionService
+  );
+
+  /**
+   * @deprecated Since 1.5
+   * Use promotionService instead of the promotion inputs.
+   * Remove issue: #5670
+   */
+  constructor(modalService: ModalService, cartService: CartService);
+
+  constructor(
     protected modalService: ModalService,
     protected cartService: CartService,
-    protected fb: FormBuilder
+    protected promotionService?: PromotionService
   ) {}
-
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
    * but also updates the entry in case of a changed value.
@@ -67,6 +89,30 @@ export class AddedToCartDialogComponent {
       );
     }
     return this.quantityControl$;
+  }
+
+  ngOnInit() {
+    this.orderPromotions$ = this.promotionService.getOrderPromotions(
+      this.promotionLocation
+    );
+
+    //   this.entry$ = this.entry$.pipe(
+    //     tap(entry => {
+    //       if (entry) {
+    //         const { code } = entry.product;
+    //         if (!this.form.controls[code]) {
+    //           this.form.setControl(code, this.createEntryFormGroup(entry));
+    //         } else {
+    //           const entryForm = this.form.controls[code] as FormGroup;
+    //           entryForm.controls.quantity.setValue(entry.quantity);
+    //         }
+    //         this.form.markAsPristine();
+    //         if (!this.modalIsOpen) {
+    //           this.modalIsOpen = true;
+    //         }
+    //       }
+    //     })
+    //   );
   }
 
   private getFormControl(entry: OrderEntry): FormControl {

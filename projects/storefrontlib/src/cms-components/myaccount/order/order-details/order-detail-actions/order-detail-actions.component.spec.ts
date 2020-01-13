@@ -1,18 +1,16 @@
-import { Pipe, PipeTransform, DebugElement } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   Order,
-  FeaturesConfigModule,
-  FeaturesConfig,
 } from '@spartacus/core';
-
 import { of } from 'rxjs';
-
-import { OrderDetailActionsComponent } from './order-detail-actions.component';
 import { OrderDetailsService } from '../order-details.service';
+import { OrderDetailActionsComponent } from './order-detail-actions.component';
 
 const mockOrder: Order = {
   code: '1',
@@ -80,7 +78,7 @@ describe('OrderDetailActionsComponent', () => {
 
   it('should display return button when order is returnable', () => {
     fixture.detectChanges();
-    const element: DebugElement = el.queryAll(By.css('button'))[1];
+    const element: DebugElement = el.queryAll(By.css('a.btn-action'))[0];
 
     expect(element.nativeElement.textContent).toContain(
       'orderDetails.cancellationAndReturn.returnAction'
@@ -91,7 +89,7 @@ describe('OrderDetailActionsComponent', () => {
     mockOrder.returnable = false;
 
     fixture.detectChanges();
-    const element: DebugElement = el.queryAll(By.css('button'))[1];
+    const element: DebugElement = el.queryAll(By.css('a.btn-action'))[0];
 
     expect(element).toBeUndefined();
   });

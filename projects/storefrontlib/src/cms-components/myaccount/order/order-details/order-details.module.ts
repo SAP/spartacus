@@ -23,6 +23,7 @@ import { OrderDetailItemsComponent } from './order-detail-items/order-detail-ite
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from './order-details.service';
+import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 
 const moduleComponents = [
   OrderDetailActionsComponent,
@@ -41,13 +42,14 @@ const moduleComponents = [
     CommonModule,
     I18nModule,
     FeaturesConfigModule,
+    PromotionsModule,
     UrlModule,
     RouterModule.forChild([
       {
-        path: 'guest/order/:orderCode',
+        path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'order' },
+        data: { pageLabel: 'order', cxRoute: 'orderGuest' },
       },
       {
         path: null,

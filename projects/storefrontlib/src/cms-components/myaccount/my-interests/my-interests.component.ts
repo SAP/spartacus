@@ -10,6 +10,7 @@ import {
   Product,
   ProductInterestEntryRelation,
   ProductInterestSearchResult,
+  ProductScope,
   ProductService,
   TranslationService,
   UserInterestsService,
@@ -112,7 +113,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   private getProduct(
     interest: ProductInterestEntryRelation
   ): Observable<Product> {
-    return this.productService.get(interest.product.code, 'details');
+    return this.productService.get(interest.product.code, ProductScope.DETAILS);
   }
 
   removeInterest(

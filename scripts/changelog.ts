@@ -75,6 +75,7 @@ export default async function run(
     '@spartacus/assets': './projects/assets',
     '@spartacus/schematics': './projects/schematics',
     '@spartacus/incubator': './projects/incubator',
+    '@spartacus/cds': './projects/cds',
   };
 
   const duplexUtil = through(function(chunk, _, callback) {
@@ -278,6 +279,10 @@ if (typeof config.to === 'undefined') {
     case 'incubator':
     case '@spartacus/incubator':
       config.library = '@spartacus/incubator';
+      break;
+    case 'cds':
+    case '@spartacus/cds':
+      config.library = '@spartacus/cds';
       break;
     default:
       config.library = undefined;

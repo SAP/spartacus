@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { CartService, PromotionResult } from '@spartacus/core';
+import {
+  CartService,
+  PromotionLocation,
+  PromotionResult,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Item } from '../cart-item/cart-item.component';
@@ -15,9 +19,12 @@ export class CartItemListComponent {
 
   @Input() hasHeader = true;
 
+  private _items: Item[] = [];
+
   @Input('items')
-  // TODO: currently we're getting a new array of items if the cart changes. pretty annoying as
-  // it forces a repaint on the screen, which is noticable in the UI.
+  // TODO: currently we're getting a new array of items if the cart changes.
+  // pretty annoying as it forces a repaint on the screen,
+  // which is noticable in the UI.
   set items(items: Item[]) {
     this._items = items;
     this.createForm(items);
@@ -26,7 +33,10 @@ export class CartItemListComponent {
     return this._items;
   }
 
+  form: FormGroup;
+
   @Input() potentialProductPromotions: PromotionResult[] = [];
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   @Input('cartIsLoading')
   set setLoading(value: boolean) {
@@ -38,9 +48,6 @@ export class CartItemListComponent {
         : this.form.enable({ emitEvent: false });
     }
   }
-
-  private _items: Item[];
-  form: FormGroup;
 
   constructor(protected cartService: CartService) {}
 

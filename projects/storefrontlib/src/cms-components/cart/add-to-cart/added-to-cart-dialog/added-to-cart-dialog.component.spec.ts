@@ -12,8 +12,11 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartService,
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
+  PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -21,8 +24,9 @@ import { ICON_TYPE } from '../../../../cms-components';
 import { ModalService } from '../../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { AutoFocusDirectiveModule } from '../../../../shared/directives/auto-focus/auto-focus.directive.module';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
-
 class MockCartService {
   getLoaded(): Observable<boolean> {
     return of();
@@ -72,6 +76,7 @@ class MockCartItemComponent {
   @Input() potentialProductPromotions: PromotionResult[];
   @Input() readonly = false;
   @Input() quantityControl: FormControl;
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 @Pipe({
@@ -79,6 +84,14 @@ class MockCartItemComponent {
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
 }
 
 describe('AddedToCartDialogComponent', () => {
@@ -97,6 +110,8 @@ describe('AddedToCartDialogComponent', () => {
         SpinnerModule,
         I18nTestingModule,
         AutoFocusDirectiveModule,
+        PromotionsModule,
+        FeaturesConfigModule,
       ],
       declarations: [
         AddedToCartDialogComponent,
@@ -112,6 +127,16 @@ describe('AddedToCartDialogComponent', () => {
         {
           provide: CartService,
           useClass: MockCartService,
+        },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
         },
       ],
     }).compileComponents();

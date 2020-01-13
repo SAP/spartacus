@@ -52,7 +52,7 @@ export class LoadingScopesService {
   }
 
   /**
-   * Return maxAge for product scope in miliseconds
+   * Return maxAge for product scope in milliseconds
    *
    * @param model
    * @param scope

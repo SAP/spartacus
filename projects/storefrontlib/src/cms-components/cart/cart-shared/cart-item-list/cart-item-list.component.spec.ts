@@ -2,24 +2,38 @@ import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartService, I18nTestingModule } from '@spartacus/core';
+import {
+  CartService,
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+  PromotionLocation,
+} from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemListComponent } from './cart-item-list.component';
-
 class MockCartService {
   updateEntry() {}
 }
 
 const mockItems = [
   {
-    // id: 1,
+    id: 0,
+    quantity: 1,
+    entryNumber: 0,
+    product: {
+      id: 0,
+      code: 'PR0001',
+    },
+    updateable: true,
+  },
+  {
+    id: 1,
     quantity: 5,
     entryNumber: 1,
     product: {
       id: 1,
-      code: 'PR0000',
+      code: 'PR0001',
     },
-    updateable: true,
   },
 ];
 
@@ -40,9 +54,10 @@ const mockPotentialProductPromotions = [
 })
 class MockCartItemComponent {
   @Input() item;
-  @Input() potentialProductPromotions;
   @Input() readonly;
   @Input() quantityControl;
+  @Input() potentialProductPromotions;
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 describe('CartItemListComponent', () => {
@@ -57,9 +72,18 @@ describe('CartItemListComponent', () => {
         RouterTestingModule,
         PromotionsModule,
         I18nTestingModule,
+        FeaturesConfigModule,
       ],
       declarations: [CartItemListComponent, MockCartItemComponent],
-      providers: [{ provide: CartService, useClass: MockCartService }],
+      providers: [
+        { provide: CartService, useClass: MockCartService },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -81,9 +105,8 @@ describe('CartItemListComponent', () => {
 
   it('should return form control with quantity ', () => {
     const item = mockItems[0];
-    item.quantity = 5;
     component.getControl(item).subscribe(control => {
-      expect(control.get('quantity').value).toEqual(5);
+      expect(control.get('quantity').value).toEqual(1);
     });
   });
 
@@ -161,7 +184,7 @@ describe('CartItemListComponent', () => {
   });
 
   it('should get potential promotions for product', () => {
-    const item = mockItems[0];
+    const item = mockItems[1];
     const promotions = component.getPotentialProductPromotionsForItem(item);
     expect(promotions).toEqual(mockPotentialProductPromotions);
   });
