@@ -205,19 +205,25 @@ input[type='radio'] {
 $theme: '' !default;
 @if $theme == 'calydon' {
   :focus {
+    outline-style: solid;
     outline-color: var(--cx-color-visual-focus);
+    outline-width: 2px;
+    outline-offset: 3px;
   }
   .form-control,
   select,
   input {
     &:focus {
-      outline: var(--cx-color-visual-focus) auto 4px;
-      outline-offset: 2px;
+      outline-style: solid;
+      outline-color: var(--cx-color-visual-focus);
+      outline-width: 2px;
+      outline-offset: 3px;
     }
   }
   .ng-select-focused {
-    outline: var(--cx-color-visual-focus) auto 4px;
-    outline-offset: 2px;
-    border-color: var(--cx-color-secondary);
+    outline-style: solid;
+    outline-color: var(--cx-color-visual-focus);
+    outline-width: 2px;
+    outline-offset: 3px;
   }
 }
