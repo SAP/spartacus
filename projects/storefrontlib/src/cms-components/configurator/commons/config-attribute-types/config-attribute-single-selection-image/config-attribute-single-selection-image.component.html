@@ -1,0 +1,65 @@
+<fieldset>
+  <legend style="display: none">{{ attribute.label }}</legend>
+  <div id="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}">
+    <div class="form-check" *ngFor="let value of attribute.values">
+      <div class="cx-config-select-line">
+        <input
+          id="{{
+            uiKeyGenerator.createAttributeValueIdForConfigurator(
+              attribute,
+              value.valueCode
+            )
+          }}"
+          class="form-check-input"
+          type="radio"
+          [formControl]="attributeSingleSelectionImage"
+          [attr.required]="attribute.required"
+          [value]="value.valueCode"
+          name="{{
+            uiKeyGenerator.createAttributeIdForConfigurator(attribute)
+          }}"
+          attr.name="{{
+            uiKeyGenerator.createAttributeIdForConfigurator(attribute)
+          }}"
+          attr.aria-labelledby="{{
+            uiKeyGenerator.createAriaLabelledBy(
+              'label',
+              attribute.name,
+              value.valueCode
+            )
+          }}"
+          [attr.aria-checked]="
+            attributeSingleSelectionImage.value === value.valueCode
+              ? true
+              : false
+          "
+          [attr.checked]="
+            attributeSingleSelectionImage.value === value.valueCode
+              ? 'checked'
+              : null
+          "
+          (change)="onSelect()"
+        />
+        <div class="cx-config-attribute-value-label-container">
+          <label
+            id="{{
+              uiKeyGenerator.createValueUiKey(
+                'label',
+                attribute.name,
+                value.valueCode
+              )
+            }}"
+            for="{{
+              uiKeyGenerator.createAttributeValueIdForConfigurator(
+                attribute,
+                value.valueCode
+              )
+            }}"
+            class="cx-config-attribute-value-label form-check-label form-radio-label"
+            >{{ value.valueDisplay }}</label
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</fieldset>
