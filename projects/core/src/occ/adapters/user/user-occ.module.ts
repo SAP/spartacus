@@ -15,6 +15,8 @@ import { OccUserConsentAdapter } from './occ-user-consent.adapter';
 import { OccUserOrderAdapter } from './occ-user-order.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { OccUserAdapter } from './occ-user.adapter';
+import { CustomerCouponAdapter } from '../../../user/connectors/customer-coupon/customer-coupon.adapter';
+import { OccCustomerCouponAdapter } from '../user/occ-customer-coupon.adapter';
 import { UserNotificationPreferenceAdapter } from '../../../user/connectors/notification-preference/user-notification-preference.adapter';
 import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
 import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
@@ -43,6 +45,7 @@ import { OccReturnRequestNormalizer } from './converters/index';
       useClass: OccUserPaymentAdapter,
     },
     { provide: UserOrderAdapter, useClass: OccUserOrderAdapter },
+    { provide: CustomerCouponAdapter, useClass: OccCustomerCouponAdapter },
     {
       provide: UserNotificationPreferenceAdapter,
       useClass: OccUserNotificationPreferenceAdapter,
