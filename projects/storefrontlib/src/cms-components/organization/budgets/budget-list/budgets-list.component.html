@@ -27,7 +27,7 @@
   </div>
 
   <div class="cx-table-body">
-    <ng-container *ngIf="budgetsList.pagination.totalResults > 0">
+    <ng-container *ngIf="budgetsList.pagination.totalResults > 0; else noData">
       <div class="cx-sort top row">
         <div class="cx-form-group form-group col-sm-12 col-md-4 col-lg-4">
           <cx-sorting
@@ -73,7 +73,7 @@
 
     <!-- NO ORDER CONTAINER -->
     <ng-template #noData>
-      <div class="cx-no-budgetsList row">
+      <div class="cx-no-budgets row">
         <div class="col-sm-12 col-md-6 col-lg-4">
           <div>{{ 'common.noData' | cxTranslate }}</div>
         </div>
