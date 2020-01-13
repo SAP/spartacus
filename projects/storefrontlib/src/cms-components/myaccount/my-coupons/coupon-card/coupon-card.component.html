@@ -1,0 +1,58 @@
+<div class="card">
+  <div class="card-body cx-card-body">
+    <div class="cx-coupon-data">
+      <div class="cx-coupon-card-row top">
+        <div class="cx-coupon-card-head">
+          <span class="card-label-bold cx-coupon-card-id">{{
+            coupon?.couponId
+          }}</span>
+          <span>: {{ coupon?.name }}</span>
+        </div>
+
+        <div class="cx-coupon-status {{ coupon?.status | lowercase }}">
+          {{ 'myCoupons.' + coupon?.status | cxTranslate }}
+        </div>
+      </div>
+
+      <div class="cx-coupon-card-date">
+        <p>{{ 'myCoupons.effectiveTitle' | cxTranslate }}</p>
+        <div class="cx-coupon-date">
+          <div class="cx-coupon-date-start">
+            {{ coupon?.startDate | cxDate: 'medium' }} -&nbsp;
+          </div>
+          <div class="cx-coupon-date-end">
+            {{ coupon?.endDate | cxDate: 'medium' }}
+          </div>
+        </div>
+      </div>
+
+      <a (click)="readMore()" class="cx-card-read-more">{{
+        'myCoupons.readMore' | cxTranslate
+      }}</a>
+
+      <div class="cx-coupon-card-row bottom">
+        <div class="cx-coupon-notification form-check">
+          <label>
+            <input
+              type="checkbox"
+              class="form-check-input"
+              [checked]="coupon?.notificationOn"
+              [class.disabled]="couponSubscriptionLoading$ | async"
+              [disabled]="couponSubscriptionLoading$ | async"
+              (change)="onSubscriptionChange()"
+            />
+            <span class="form-check-label">
+              {{ 'myCoupons.notification' | cxTranslate }}
+            </span>
+          </label>
+        </div>
+
+        <div class="cx-coupon-find-product col-lg-6 col-md-12 col-sm-6">
+          <button class="btn btn-block btn-action" (click)="findProducts()">
+            {{ 'myCoupons.findProducts' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
