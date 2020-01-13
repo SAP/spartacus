@@ -4,6 +4,7 @@ import { I18nTestingModule, ReturnRequest } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
 import { ReturnRequestItemsComponent } from './return-request-items.component';
+import { MockFeatureLevelDirective } from '../../../../../shared/test/mock-feature-level-directive';
 
 const mockReturnRequest: ReturnRequest = {
   rma: 'test',
@@ -31,7 +32,11 @@ describe('ReturnRequestItemsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ReturnRequestItemsComponent, MockMediaComponent],
+      declarations: [
+        ReturnRequestItemsComponent,
+        MockMediaComponent,
+        MockFeatureLevelDirective,
+      ],
       providers: [
         { provide: ReturnRequestService, useClass: MockCheckoutService },
       ],
