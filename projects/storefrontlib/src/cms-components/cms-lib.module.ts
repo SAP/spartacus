@@ -30,6 +30,7 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+  MyCouponsModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -99,6 +100,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    MyCouponsModule,
     WishListModule,
     NotificationPreferenceModule,
     MyInterestsModule,
