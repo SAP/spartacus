@@ -22,14 +22,8 @@ export class ProductImagesComponent {
     )
   );
 
-  isThumbsEmpty: boolean;
-
-  thumbs$: Observable<any[]> = this.product$.pipe(
-    filter(product => Boolean(product.images)),
-    map(product => this.createThumbs(product)),
-    tap(thumbs => {
-      this.isThumbsEmpty = thumbs.length === 0;
-    })
+  thumbs$: Observable<any> = this.product$.pipe(
+    map(product => this.createThumbs(product))
   );
 
   mainImage$ = combineLatest([this.product$, this.mainMediaContainer]).pipe(
