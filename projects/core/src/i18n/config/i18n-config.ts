@@ -42,7 +42,7 @@ export abstract class I18nConfig {
     debug?: boolean;
 
     /**
-     * Mapping that assign keys' namespaces to specific chunks. The main purpose of chunks is to lazy load them.
+     * Mapping that assigns keys' namespaces to specific chunks. The main purpose of chunks is to lazy load them.
      */
     chunks?: {
       [chunk: string]: string[];
