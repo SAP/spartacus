@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AuthService, RoutingService, WindowRef } from '@spartacus/core';
+import {
+  AsmAuthService,
+  AuthService,
+  RoutingService,
+  WindowRef,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { mergeMap, take } from 'rxjs/operators';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
@@ -10,6 +15,7 @@ import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 export class AsmComponentService {
   constructor(
     protected authService: AuthService,
+    protected asmAuthService: AsmAuthService,
     protected routingService: RoutingService,
     protected winRef: WindowRef
   ) {}
@@ -19,10 +25,10 @@ export class AsmComponentService {
       .getUserToken()
       .pipe(take(1))
       .subscribe(token => {
-        if (this.authService.isCustomerEmulationToken(token)) {
+        if (this.asmAuthService.isCustomerEmulationToken(token)) {
           this.logoutCustomer();
         }
-        this.authService.logoutCustomerSupportAgent();
+        this.asmAuthService.logoutCustomerSupportAgent();
       });
   }
 
@@ -36,7 +42,7 @@ export class AsmComponentService {
       .getUserToken()
       .pipe(
         mergeMap(userToken =>
-          of(this.authService.isCustomerEmulationToken(userToken))
+          of(this.asmAuthService.isCustomerEmulationToken(userToken))
         )
       );
   }

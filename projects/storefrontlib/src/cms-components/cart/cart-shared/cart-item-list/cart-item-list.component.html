@@ -18,18 +18,33 @@
 <div [formGroup]="form">
   <div class="cx-item-list-row" *ngFor="let item of items">
     <div class="cx-item-list-items">
-      <cx-cart-item
-        [parent]="form.controls[item.product.code]"
-        [item]="item"
-        [potentialProductPromotions]="
-          getPotentialProductPromotionsForItem(item)
-        "
-        [isReadOnly]="isReadOnly"
-        (remove)="removeEntry($event)"
-        [cartIsLoading]="cartIsLoading"
-        (update)="updateEntry($event)"
-      >
-      </cx-cart-item>
+      <ng-container *cxFeatureLevel="'!1.4'">
+        <cx-cart-item
+          [parent]="form.controls[item.product.code]"
+          [item]="item"
+          [isReadOnly]="isReadOnly"
+          [potentialProductPromotions]="
+            getPotentialProductPromotionsForItem(item)
+          "
+          [cartIsLoading]="cartIsLoading"
+          (remove)="removeEntry($event)"
+          (update)="updateEntry($event)"
+        >
+        </cx-cart-item>
+      </ng-container>
+
+      <ng-container *cxFeatureLevel="'1.4'">
+        <cx-cart-item
+          [parent]="form.controls[item.product.code]"
+          [item]="item"
+          [isReadOnly]="isReadOnly"
+          [promotionLocation]="promotionLocation"
+          [cartIsLoading]="cartIsLoading"
+          (remove)="removeEntry($event)"
+          (update)="updateEntry($event)"
+        >
+        </cx-cart-item>
+      </ng-container>
     </div>
   </div>
 </div>

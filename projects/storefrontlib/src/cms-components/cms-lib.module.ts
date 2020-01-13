@@ -17,10 +17,16 @@ import {
   CloseAccountModule,
   ConsentManagementModule,
   ForgotPasswordModule,
+  MyInterestsModule,
+  NotificationPreferenceModule,
+  OrderCancellationModule,
   OrderDetailsModule,
   OrderHistoryModule,
+  OrderReturnModule,
   PaymentMethodsModule,
   ResetPasswordModule,
+  ReturnRequestDetailModule,
+  ReturnRequestListModule,
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
@@ -39,11 +45,14 @@ import {
   ProductListModule,
   ProductReferencesModule,
   ProductTabsModule,
+  StockNotificationModule,
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
+import { ProductVariantSelectorModule } from './product/product-variant-selector/product-variant-selector.module';
 import { StoreFinderModule } from './storefinder/store-finder.module';
 import { UserComponentModule } from './user/user.module';
+import { WishListModule } from './wish-list/wish-list.module';
 
 @NgModule({
   imports: [
@@ -62,6 +71,10 @@ import { UserComponentModule } from './user/user.module';
     QualtricsModule,
     AddressBookModule,
     OrderHistoryModule,
+    OrderCancellationModule,
+    OrderReturnModule,
+    ReturnRequestListModule,
+    ReturnRequestDetailModule,
     ProductListModule,
     ProductTabsModule,
     ProductCarouselModule,
@@ -79,12 +92,17 @@ import { UserComponentModule } from './user/user.module';
     StoreFinderModule,
     ProductImagesModule,
     ProductSummaryModule,
+    ProductVariantSelectorModule,
     ProductIntroModule,
     CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    WishListModule,
+    NotificationPreferenceModule,
+    MyInterestsModule,
+    StockNotificationModule,
   ],
 })
 export class CmsLibModule {}

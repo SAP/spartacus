@@ -30,4 +30,26 @@ describe('StarRatingComponent in product', () => {
   it('should be created', () => {
     expect(starRatingComponent).toBeTruthy();
   });
+
+  it('should call', () => {
+    spyOn(starRatingComponent, 'setRate');
+    starRatingComponent.ngOnInit();
+    expect(starRatingComponent.setRate).toHaveBeenCalled();
+  });
+
+  it('should call setRate and call through it', () => {
+    spyOn(starRatingComponent, 'setRate').and.callThrough();
+    starRatingComponent.setRate(3, true);
+    expect(starRatingComponent.setRate).toHaveBeenCalled();
+  });
+
+  it('should call saveRate', () => {
+    spyOn(starRatingComponent, 'saveRate').and.callThrough();
+    spyOn(starRatingComponent, 'setRate');
+    starRatingComponent.disabled = false;
+    starRatingComponent.saveRate(3);
+    expect(starRatingComponent.setRate).toHaveBeenCalled();
+    starRatingComponent.disabled = true;
+    starRatingComponent.saveRate(3);
+  });
 });

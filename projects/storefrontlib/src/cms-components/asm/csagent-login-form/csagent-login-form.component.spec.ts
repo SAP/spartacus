@@ -183,7 +183,7 @@ describe('CSAgentLoginFormComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expect(el.query(By.css('div.sap-spinner'))).toBeTruthy();
+      expect(el.query(By.css('div.spinner'))).toBeTruthy();
       expect(el.query(By.css('form'))).toBeFalsy();
     });
   });
@@ -192,7 +192,7 @@ describe('CSAgentLoginFormComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expect(el.query(By.css('div.sap-spinner'))).toBeFalsy();
+      expect(el.query(By.css('div.spinner'))).toBeFalsy();
       expect(el.query(By.css('form'))).toBeTruthy();
     });
   });

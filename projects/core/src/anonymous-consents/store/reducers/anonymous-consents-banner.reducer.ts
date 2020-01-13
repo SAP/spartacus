@@ -8,7 +8,7 @@ export function reducer(
 ): boolean {
   switch (action.type) {
     case AnonymousConsentsActions.TOGGLE_ANONYMOUS_CONSENTS_BANNER_DISMISSED: {
-      return action.visible;
+      return action.dismissed;
     }
   }
 

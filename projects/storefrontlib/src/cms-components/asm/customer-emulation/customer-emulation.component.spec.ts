@@ -75,7 +75,7 @@ describe('CustomerEmulationComponent', () => {
     fixture.detectChanges();
 
     expect(el.query(By.css('input[formcontrolname="customer"]'))).toBeFalsy();
-    expect(el.query(By.css('div.fd-alert'))).toBeTruthy();
+    expect(el.query(By.css('div.asm-alert'))).toBeTruthy();
   });
 
   it("should call logoutCustomer() on 'End Session' button click", () => {
@@ -87,9 +87,7 @@ describe('CustomerEmulationComponent', () => {
     fixture.detectChanges();
 
     //Click button
-    const endSessionButton = fixture.debugElement.query(
-      By.css('.fd-button--negative')
-    );
+    const endSessionButton = fixture.debugElement.query(By.css('button'));
     spyOn(asmComponentService, 'logoutCustomer').and.stub();
     endSessionButton.nativeElement.click();
 

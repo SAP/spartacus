@@ -7,12 +7,13 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
-import { OutletPosition } from './outlet.model';
+import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
 import { OutletService } from './outlet.service';
 
 const OUTLET_NAME_1 = 'OUTLET.1';
 const OUTLET_NAME_2 = 'OUTLET.2';
 const OUTLET_NAME_3 = 'OUTLET.3';
+const OUTLET_NAME_4 = 'OUTLET.4';
 
 @Component({
   template: `
@@ -20,6 +21,10 @@ const OUTLET_NAME_3 = 'OUTLET.3';
     <ng-template cxOutletRef="${OUTLET_NAME_2}" cxOutletPos="before">
     </ng-template>
     <ng-template cxOutletRef="${OUTLET_NAME_3}" cxOutletPos="after">
+    </ng-template>
+    <ng-template cxOutletRef="${OUTLET_NAME_4}" cxOutletPos="before">
+    </ng-template>
+    <ng-template cxOutletRef="${OUTLET_NAME_4}" cxOutletPos="before">
     </ng-template>
   `,
 })
@@ -38,7 +43,7 @@ class AnyComponent {}
 class AnyModule {}
 
 describe('OutletService', () => {
-  let outletService: OutletService;
+  let outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -194,6 +199,31 @@ describe('OutletService', () => {
           outletService.get(OUTLET_NAME_2, OutletPosition.AFTER)
         ).toBeFalsy();
       });
+    });
+  });
+
+  describe('singular vs plural', () => {
+    let fixture: ComponentFixture<TestContainerComponent>;
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(TestContainerComponent);
+      fixture.detectChanges();
+    });
+
+    it('should return a single outlet for existing API usage', () => {
+      expect(
+        outletService.get(OUTLET_NAME_4, OutletPosition.BEFORE) instanceof Array
+      ).toBeFalsy();
+    });
+
+    it('should return an array of outlet templates/components', () => {
+      expect(
+        outletService.get(
+          OUTLET_NAME_4,
+          OutletPosition.BEFORE,
+          USE_STACKED_OUTLETS
+        ) instanceof Array
+      ).toBeTruthy();
     });
   });
 });

@@ -38,6 +38,39 @@ describe('JsonLdScriptFactory', () => {
       const scriptElement = winRef.document.getElementById('json-ld');
       expect(scriptElement.innerHTML).toEqual(`[{"foo":"bar-2"}]`);
     });
+
+    describe('sanitized', () => {
+      it('should sanitize malicious code', () => {
+        service.build([{ foo: 'bar-2<script>alert()</script>' }]);
+        const scriptElement = winRef.document.getElementById('json-ld');
+        expect(scriptElement.innerHTML).toEqual(`[{"foo":"bar-2"}]`);
+      });
+
+      it('should sanitize deep nested malicious code', () => {
+        service.build([
+          {
+            foo: { bar: { deep: 'before <script>alert()</script>and after' } },
+          },
+        ]);
+        const scriptElement = winRef.document.getElementById('json-ld');
+        expect(scriptElement.innerHTML).toEqual(
+          `[{"foo":{"bar":{"deep":"before and after"}}}]`
+        );
+      });
+
+      it('should sanitize everywhere', () => {
+        service.build([
+          {
+            foo: 'clean up <script>alert()</script>please',
+            bar: 'and here <script>alert()</script>as well',
+          },
+        ]);
+        const scriptElement = winRef.document.getElementById('json-ld');
+        expect(scriptElement.innerHTML).toEqual(
+          `[{"foo":"clean up please","bar":"and here as well"}]`
+        );
+      });
+    });
   });
 
   describe('browser', () => {

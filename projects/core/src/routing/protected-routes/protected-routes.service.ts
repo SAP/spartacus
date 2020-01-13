@@ -9,7 +9,12 @@ export class ProtectedRoutesService {
     return this.config && this.config.routing;
   }
 
-  protected get shouldProtect(): boolean {
+  /**
+   * Returns 'protected' property (boolean) from routing config
+   *
+   * @returns boolean
+   */
+  public get shouldProtect(): boolean {
     return this.routingConfig.protected;
   }
 

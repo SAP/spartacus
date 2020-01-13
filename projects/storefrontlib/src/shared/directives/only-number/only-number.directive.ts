@@ -100,8 +100,10 @@ export class OnlyNumberDirective {
    * @param value
    */
   validateValue(value: string): void {
-    value = value.replace(/[^0-9]+/g, '');
-    this.renderer.setProperty(this.hostElement.nativeElement, 'value', value);
+    if (value) {
+      value = value.replace(/[^0-9]+/g, '');
+      this.renderer.setProperty(this.hostElement.nativeElement, 'value', value);
+    }
   }
 
   /**

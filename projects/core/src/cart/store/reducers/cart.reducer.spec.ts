@@ -1,4 +1,5 @@
 import { Cart } from '../../../model/cart.model';
+import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import * as fromCart from './cart.reducer';
 
@@ -16,7 +17,7 @@ describe('Cart reducer', () => {
   describe('MERGE_CART action', () => {
     it('should set cartMergeComplete flag to false', () => {
       const { initialState } = fromCart;
-      const action = new CartActions.MergeCart({});
+      const action = new DeprecatedCartActions.MergeCart({});
       const state = fromCart.reducer(initialState, action);
 
       expect(state.cartMergeComplete).toEqual(false);
@@ -26,7 +27,7 @@ describe('Cart reducer', () => {
   describe('MERGE_CART_SUCCESS action', () => {
     it('should set cartMergeComplete and refresh flag to true ', () => {
       const { initialState } = fromCart;
-      const action = new CartActions.MergeCartSuccess({});
+      const action = new DeprecatedCartActions.MergeCartSuccess({});
       const state = fromCart.reducer(initialState, action);
 
       expect(state.cartMergeComplete).toEqual(true);
@@ -51,7 +52,7 @@ describe('Cart reducer', () => {
       };
       const { initialState } = fromCart;
 
-      const action = new CartActions.CreateCartSuccess(testCart);
+      const action = new DeprecatedCartActions.CreateCartSuccess(testCart);
       const state = fromCart.reducer(initialState, action);
 
       expect(state.content).toEqual(testCart);
@@ -78,7 +79,7 @@ describe('Cart reducer', () => {
 
       const { initialState } = fromCart;
 
-      const action = new CartActions.LoadCartSuccess(testCart);
+      const action = new DeprecatedCartActions.LoadCartSuccess(testCart);
       const state = fromCart.reducer(initialState, action);
 
       delete testCart['entries'];
@@ -138,7 +139,7 @@ describe('Cart reducer', () => {
     it('should set refresh to true', () => {
       const { initialState } = fromCart;
 
-      const action = new CartActions.AddEmailToCartSuccess({});
+      const action = new DeprecatedCartActions.AddEmailToCartSuccess({});
       const state = fromCart.reducer(initialState, action);
       expect(state.refresh).toEqual(true);
     });
@@ -151,7 +152,7 @@ describe('Cart reducer', () => {
       const code = 'code';
       const user = { name: 'user' };
       const modifiedState = { ...initialState, content: { code, guid, user } };
-      const action = new CartActions.ResetCartDetails();
+      const action = new DeprecatedCartActions.ResetCartDetails();
       const state = fromCart.reducer(modifiedState, action);
       expect(state.refresh).toEqual(false);
       expect(state.cartMergeComplete).toEqual(false);
@@ -172,7 +173,7 @@ describe('Cart reducer', () => {
         refresh: true,
         cartMergeComplete: true,
       };
-      const action = new CartActions.ClearCart();
+      const action = new DeprecatedCartActions.ClearCart();
       const state = fromCart.reducer(modifiedState, action);
       expect(state).toEqual(initialState);
     });

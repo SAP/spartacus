@@ -19,5 +19,5 @@ declare global {
 }
 
 Cypress.Commands.add('cxConfig', config => {
-  cy.setCookie('cxConfigE2E', JSON.stringify(config));
+  cy.setCookie('cxConfigE2E', encodeURIComponent(JSON.stringify(config)));
 });

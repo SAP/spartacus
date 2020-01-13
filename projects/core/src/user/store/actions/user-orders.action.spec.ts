@@ -60,4 +60,15 @@ describe('User Orders Actions', () => {
       });
     });
   });
+
+  describe('ClearUserOrders Action', () => {
+    it('should create the action', () => {
+      const action = new UserActions.ClearUserOrders();
+
+      expect({ ...action }).toEqual({
+        type: UserActions.CLEAR_USER_ORDERS,
+        meta: StateLoaderActions.resetMeta(USER_ORDERS),
+      });
+    });
+  });
 });

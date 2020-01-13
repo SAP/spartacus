@@ -1,6 +1,7 @@
 import * as addressBook from '../helpers/address-book';
 import * as checkout from '../helpers/checkout-flow';
 import * as consent from '../helpers/consent-management';
+import * as loginHelper from '../helpers/login';
 import * as profile from '../helpers/update-profile';
 import { login } from './auth-forms';
 let customer: any;
@@ -121,8 +122,11 @@ export function asmTests(isMobile: boolean) {
         cy.get('cx-customer-selection').should('exist');
       });
 
-      it('agent should stop customer emulation using the end session button in the ASM UI', () => {
+      it('agent session should be intact and should be able to start another customer emulation', () => {
         startCustomerEmulation();
+      });
+
+      it('agent should stop customer emulation using the end session button in the ASM UI', () => {
         cy.get('cx-customer-emulation button').click();
         cy.get('cx-customer-emulation').should('not.exist');
         cy.get('cx-customer-selection').should('exist');
@@ -195,7 +199,9 @@ export function asmTests(isMobile: boolean) {
       it('asm ui should only display a message that the session in progress is a regular session.', () => {
         const loginPage = checkout.waitForPage('/login', 'getLoginPage');
         cy.visit('/login?asm=true');
-        cy.wait(`@${loginPage}`);
+        cy.wait(`@${loginPage}`)
+          .its('status')
+          .should('eq', 200);
 
         agentLogin();
         loginCustomerInStorefront();
@@ -204,7 +210,7 @@ export function asmTests(isMobile: boolean) {
         cy.get('cx-csagent-login-form').should('not.exist');
         cy.get('cx-customer-selection').should('not.exist');
         cy.get('cx-customer-emulation').should('exist');
-        cy.get('cx-customer-emulation div.fd-alert').should('exist');
+        cy.get('cx-customer-emulation div.asm-alert').should('exist');
         cy.get('cx-customer-emulation button').should('not.exist');
       });
 
@@ -269,7 +275,7 @@ function startCustomerEmulation(): void {
     .its('status')
     .should('eq', 200);
 
-  cy.get('cx-customer-selection div.results div a').click();
+  cy.get('cx-customer-selection div.asm-results a').click();
   cy.get('button[type="submit"]').click();
 
   cy.wait(userDetailsRequestAlias)
@@ -293,7 +299,11 @@ function loginCustomerInStorefront() {
 }
 
 function agentSignOut() {
+  const tokenRevocationAlias = loginHelper.listenForTokenRevocationReqest();
   cy.get('a[title="Sign Out"]').click();
+  cy.wait(tokenRevocationAlias)
+    .its('status')
+    .should('eq', 200);
   cy.get('cx-csagent-login-form').should('exist');
   cy.get('cx-customer-selection').should('not.exist');
 }

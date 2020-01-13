@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import {
+  concatMap,
   delay,
   filter,
+  map,
   pluck,
   switchMap,
-  map,
-  withLatestFrom,
   take,
-  concatMap,
+  withLatestFrom,
 } from 'rxjs/operators';
 
 import { GlobalMessageConfig } from '../../config/global-message-config';
@@ -26,6 +26,7 @@ import {
   indexOfFirstOccurrence,
 } from '../../../util/compare-equal-objects';
 import { Translatable } from '../../../i18n/translatable';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable()
 export class GlobalMessageEffect {
@@ -64,34 +65,37 @@ export class GlobalMessageEffect {
   @Effect()
   hideAfterDelay$: Observable<
     GlobalMessageActions.RemoveMessage
-  > = this.actions$.pipe(
-    ofType(GlobalMessageActions.ADD_MESSAGE),
-    pluck('payload', 'type'),
-    concatMap((type: GlobalMessageType) => {
-      const config = this.config.globalMessages[type];
-      return this.store.pipe(
-        select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
-        take(1),
-        filter(
-          (count: number) =>
-            config && config.timeout !== undefined && count && count > 0
-        ),
-        delay(config.timeout),
-        switchMap(() =>
-          of(
-            new GlobalMessageActions.RemoveMessage({
-              type,
-              index: 0,
-            })
-          )
-        )
-      );
-    })
-  );
+  > = isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
+    ? this.actions$.pipe(
+        ofType(GlobalMessageActions.ADD_MESSAGE),
+        pluck('payload', 'type'),
+        concatMap((type: GlobalMessageType) => {
+          const config = this.config.globalMessages[type];
+          return this.store.pipe(
+            select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
+            take(1),
+            filter(
+              (count: number) =>
+                config && config.timeout !== undefined && count && count > 0
+            ),
+            delay(config.timeout),
+            switchMap(() =>
+              of(
+                new GlobalMessageActions.RemoveMessage({
+                  type,
+                  index: 0,
+                })
+              )
+            )
+          );
+        })
+      )
+    : EMPTY;
 
   constructor(
     private actions$: Actions,
     private store: Store<StateWithGlobalMessage>,
-    private config: GlobalMessageConfig
+    private config: GlobalMessageConfig,
+    @Inject(PLATFORM_ID) private platformId: any
   ) {}
 }

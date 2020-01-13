@@ -260,7 +260,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   rejectAll(templates: ConsentTemplate[] = []): void {
     const consentsToWithdraw: ConsentTemplate[] = [];
     templates.forEach(template => {
-      if (this.isConsentGiven(template)) {
+      if (this.userConsentService.isConsentGiven(template.currentConsent)) {
         if (this.isRequiredConsent(template)) {
           return;
         }
@@ -303,18 +303,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     return checkTimesLoaded$;
   }
 
-  private isConsentGiven(consentTemplate: ConsentTemplate): boolean {
-    return (
-      Boolean(consentTemplate.currentConsent) &&
-      Boolean(consentTemplate.currentConsent.consentGivenDate) &&
-      !Boolean(consentTemplate.currentConsent.consentWithdrawnDate)
-    );
-  }
-
   allowAll(templates: ConsentTemplate[] = []): void {
     const consentsToGive: ConsentTemplate[] = [];
     templates.forEach(template => {
-      if (this.isConsentWithdrawn(template)) {
+      if (this.userConsentService.isConsentWithdrawn(template.currentConsent)) {
         if (this.isRequiredConsent(template)) {
           return;
         }
@@ -357,13 +349,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     );
 
     return checkTimesLoaded$;
-  }
-
-  private isConsentWithdrawn(consentTemplate: ConsentTemplate): boolean {
-    if (Boolean(consentTemplate.currentConsent)) {
-      return Boolean(consentTemplate.currentConsent.consentWithdrawnDate);
-    }
-    return true;
   }
 
   private isRequiredConsent(template: ConsentTemplate): boolean {

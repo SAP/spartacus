@@ -47,6 +47,7 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
           imageContainer = images[image.imageType];
         }
 
+        const targetImage = { ...image };
         /**
          * Traditionally, in an on-prem world, medias and other backend related calls
          * are hosted at the same platform, but in a cloud setup, applications are are
@@ -54,12 +55,12 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
          * `backend.media.baseUrl` by default, but fallback to `backend.occ.baseUrl`
          * if none provided.
          */
-        image.url =
+        targetImage.url =
           (this.config.backend.media.baseUrl ||
             this.config.backend.occ.baseUrl ||
             '') + image.url;
 
-        imageContainer[image.format] = image;
+        imageContainer[image.format] = targetImage;
       }
     }
     return images;

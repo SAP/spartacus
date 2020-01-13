@@ -2,10 +2,10 @@
   "defaultCommandTimeout": 10000,
   "baseUrl": "http://localhost:4200",
   "projectId": "k3nmep",
-  "requestTimeout": 10000,
+  "requestTimeout": 15000,
   "env": {
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
-    "API_URL": "https://accstorefront.c39j2-walkersde1-d3-public.model-t.cc.commerce.ondemand.com"
+    "API_URL": "https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002"
   }
 }

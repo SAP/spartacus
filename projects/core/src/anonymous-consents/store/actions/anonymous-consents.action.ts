@@ -84,7 +84,7 @@ export class WithdrawAnonymousConsent {
 
 export class ToggleAnonymousConsentsBannerDissmissed {
   readonly type = TOGGLE_ANONYMOUS_CONSENTS_BANNER_DISMISSED;
-  constructor(public visible: boolean) {}
+  constructor(public dismissed: boolean) {}
 }
 
 export class ToggleAnonymousConsentTemplatesUpdated {

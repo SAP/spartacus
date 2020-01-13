@@ -34,7 +34,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   hasStock = false;
   quantity = 1;
   increment = false;
-
   cartEntry$: Observable<OrderEntry>;
 
   subscription: Subscription;
@@ -61,7 +60,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.cd.markForCheck();
     } else if (this.productCode) {
       this.cartEntry$ = this.cartService.getEntry(this.productCode);
-      // force hasStock and quanity for the time being, as we do not have more info:
+      // force hasStock and quantity for the time being, as we do not have more info:
       this.quantity = 1;
       this.hasStock = true;
       this.cd.markForCheck();

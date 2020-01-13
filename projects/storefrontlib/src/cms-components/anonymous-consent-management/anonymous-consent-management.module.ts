@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import {
   CmsConfig,
   ConfigModule,
+  DeferLoadingStrategy,
   FeaturesConfigModule,
   I18nModule,
 } from '@spartacus/core';
@@ -18,6 +19,7 @@ import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-con
       cmsComponents: {
         AnonymousConsentManagementBannerComponent: {
           component: AnonymousConsentManagementBannerComponent,
+          deferLoading: DeferLoadingStrategy.INSTANT,
         },
         AnonymousConsentOpenDialogComponent: {
           component: AnonymousConsentOpenDialogComponent,

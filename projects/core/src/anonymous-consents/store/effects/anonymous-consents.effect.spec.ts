@@ -8,6 +8,7 @@ import { AuthActions, AuthService, UserToken } from '../../../auth/index';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  Consent,
   ConsentTemplate,
 } from '../../../model/consent.model';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
@@ -18,16 +19,17 @@ import { AnonymousConsentsService } from '../../facade/index';
 import { AnonymousConsentsActions } from '../actions/index';
 import * as fromEffect from './anonymous-consents.effect';
 
-class MockUserContentService {
+class MockUserConsentService {
   getConsentsResultSuccess(): Observable<boolean> {
     return of(true);
   }
-
   getConsents(): Observable<ConsentTemplate[]> {
     return of();
   }
-
   loadConsents(): void {}
+  isConsentWithdrawn(_consent: Consent): boolean {
+    return false;
+  }
 }
 
 class MockAnonymousConsentTemplatesConnector {
@@ -153,12 +155,12 @@ describe('AnonymousConsentsEffects', () => {
           useClass: MockAnonymousConsentsService,
         },
         {
-          provide: AnonymousConsentsConfig,
-          useValue: mockAnonymousConsentsConfig,
+          provide: UserConsentService,
+          useClass: MockUserConsentService,
         },
         {
-          provide: UserConsentService,
-          useClass: MockUserContentService,
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
         },
         provideMockActions(() => actions$),
       ],
@@ -262,6 +264,7 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(userConsentService, 'getConsents').and.returnValue(
         of(consentTemplateListMock)
       );
+      spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
 
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
       spyOn(authService, 'getOccUserId').and.returnValue(of('current'));
@@ -297,6 +300,7 @@ describe('AnonymousConsentsEffects', () => {
       spyOn(userConsentService, 'getConsents').and.returnValue(
         of(consentTemplateListMock)
       );
+      spyOn(userConsentService, 'isConsentWithdrawn').and.returnValue(true);
 
       spyOn(userConsentService, 'loadConsents').and.stub();
 
