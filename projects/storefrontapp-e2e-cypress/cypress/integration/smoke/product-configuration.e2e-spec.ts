@@ -6,6 +6,7 @@ import { formats } from '../../sample-data/viewports';
 
 const testProduct = 'WCEM_DEPENDENCY_PC';
 const testProductPricing = 'WEC_DRAGON_CAR';
+const testProductMultiLevel = 'CPQ_HOME_THEATER';
 const configurator = 'CPQCONFIGURATOR';
 
 function goToConfigurationPage(configurator, testProduct) {
@@ -181,6 +182,24 @@ context('Product Configuration', () => {
         'WCEM_DP_SOUND_CARD',
         'radioGroup'
       );
+    });
+
+    it('should navigate using the previous and next button for muli level product', () => {
+      goToConfigurationPage(configurator, testProductMultiLevel);
+      configuration.verifyConfigurationPageIsDisplayed();
+
+      configuration.clickOnNextGroupButton('CPQ_HT_INCLUDE_TV', 'label');
+      configuration.clickOnNextGroupButton('CPQ_HT_RECV_MODEL2', 'dropdown');
+      configuration.clickOnPreviousGroupButton('CPQ_HT_INCLUDE_TV', 'label');
+    });
+
+    it('should navigate using the group menu for muli level product', () => {
+      goToConfigurationPage(configurator, testProductMultiLevel);
+      configuration.verifyConfigurationPageIsDisplayed();
+
+      configuration.clickOnGroup(3);
+      configuration.clickOnGroup(1);
+      configuration.clickOnNextGroupButton('CPQ_HT_RECV_MODEL2', 'dropdown');
     });
   });
 
