@@ -32,11 +32,18 @@ export class OccConfiguratorVariantSerializer
       groupType: this.convertGroupType(source.groupType),
       description: source.description,
       cstics: [],
+      subGroups: [],
     };
-
-    source.attributes.forEach(attribute =>
-      this.convertAttribute(attribute, group.cstics)
-    );
+    if (source.attributes) {
+      source.attributes.forEach(attribute =>
+        this.convertAttribute(attribute, group.cstics)
+      );
+    }
+    if (source.subGroups) {
+      source.subGroups.forEach(subGroup =>
+        this.convertGroup(subGroup, group.subGroups)
+      );
+    }
 
     occGroups.push(group);
   }
@@ -110,6 +117,8 @@ export class OccConfiguratorVariantSerializer
     switch (groupType) {
       case Configurator.GroupType.ATTRIBUTE_GROUP:
         return OccConfigurator.GroupType.CSTIC_GROUP;
+      case Configurator.GroupType.SUB_ITEM_GROUP:
+        return OccConfigurator.GroupType.INSTANCE;
     }
   }
 }

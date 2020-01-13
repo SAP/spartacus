@@ -71,13 +71,13 @@ export class ConfiguratorCommonsService {
   }
 
   updateConfiguration(
-    productCode: string,
+    ownerKey: string,
     groupId: string,
     changedAttribute: Configurator.Attribute
   ): void {
     this.store
       .pipe(
-        select(ConfiguratorSelectors.getConfigurationFactory(productCode)),
+        select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
         take(1)
       )
       .subscribe(configuration => {
@@ -188,18 +188,66 @@ export class ConfiguratorCommonsService {
       owner: configuration.owner,
     };
 
-    const group = configuration.groups.find(
-      currentGroup => currentGroup.id === groupId
+    const groupPath: Configurator.Group[] = [];
+    this.buildGroupPath(groupId, configuration.groups, groupPath);
+    const groupPathLength = groupPath.length;
+    if (groupPathLength === 0) {
+      throw new Error(
+        'At this point we expect that group is available in the configuration: ' +
+          groupId +
+          ', ' +
+          JSON.stringify(configuration.groups.map(cGroup => cGroup.id))
+      );
+    }
+    let currentGroupInExtract: Configurator.Group = this.buildGroupForExtract(
+      groupPath[groupPathLength - 1]
     );
-    if (group) {
-      const changedGroup: Configurator.Group = {
-        groupType: group.groupType,
-        id: group.id,
-        attributes: [changedAttribute],
-      };
-      newConfiguration.groups.push(changedGroup);
+    let currentLeafGroupInExtract: Configurator.Group = currentGroupInExtract;
+    newConfiguration.groups.push(currentGroupInExtract);
+
+    for (let index = groupPath.length - 1; index > 0; index--) {
+      currentLeafGroupInExtract = this.buildGroupForExtract(
+        groupPath[index - 1]
+      );
+      currentGroupInExtract.subGroups = [currentLeafGroupInExtract];
+      currentGroupInExtract = currentLeafGroupInExtract;
     }
 
+    currentLeafGroupInExtract.attributes = [changedAttribute];
     return newConfiguration;
+  }
+
+  buildGroupForExtract(group: Configurator.Group): Configurator.Group {
+    const changedGroup: Configurator.Group = {
+      groupType: group.groupType,
+      id: group.id,
+    };
+    return changedGroup;
+  }
+
+  buildGroupPath(
+    groupId: string,
+    groupList: Configurator.Group[],
+    groupPath: Configurator.Group[]
+  ): boolean {
+    let haveFoundGroup = false;
+    const group: Configurator.Group = groupList.find(
+      currentGroup => currentGroup.id === groupId
+    );
+
+    if (group) {
+      groupPath.push(group);
+      haveFoundGroup = true;
+    } else {
+      groupList
+        .filter(currentGroup => currentGroup.subGroups)
+        .forEach(currentGroup => {
+          if (this.buildGroupPath(groupId, currentGroup.subGroups, groupPath)) {
+            groupPath.push(currentGroup);
+            haveFoundGroup = true;
+          }
+        });
+    }
+    return haveFoundGroup;
   }
 }
