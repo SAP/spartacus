@@ -9,18 +9,6 @@ const form = new FormGroup({
   quantity: new FormControl('1'),
 });
 
-const testData2 = [
-  { incomingValue: -1, adjustedValue: 0, isMaxOrMinValueOrBeyond: true },
-  { incomingValue: 0, adjustedValue: 0, isMaxOrMinValueOrBeyond: true },
-  { incomingValue: 1, adjustedValue: 1, isMaxOrMinValueOrBeyond: false },
-];
-
-const testData3 = [
-  { incomingValue: -1, adjustedValue: -1, isMaxOrMinValueOrBeyond: true },
-  { incomingValue: 0, adjustedValue: 0, isMaxOrMinValueOrBeyond: true },
-  { incomingValue: 1, adjustedValue: 1, isMaxOrMinValueOrBeyond: false },
-];
-
 describe('ItemCounterComponent', () => {
   let component: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
@@ -172,22 +160,6 @@ describe('ItemCounterComponent', () => {
       expect(
         (<HTMLButtonElement>button[1].nativeElement).disabled
       ).toBeTruthy();
-    });
-
-    itemCounterComponent.min = 0;
-    itemCounterComponent.max = 5;
-    testData2.forEach(({ incomingValue, adjustedValue }) => {
-      expect(itemCounterComponent.adjustValueInRange(incomingValue)).toEqual(
-        adjustedValue
-      );
-    });
-
-    itemCounterComponent.min = undefined;
-    itemCounterComponent.max = 5;
-    testData3.forEach(({ incomingValue, adjustedValue }) => {
-      expect(itemCounterComponent.adjustValueInRange(incomingValue)).toEqual(
-        adjustedValue
-      );
     });
   });
 

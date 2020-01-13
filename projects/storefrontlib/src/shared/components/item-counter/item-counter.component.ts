@@ -49,7 +49,7 @@ export class ItemCounterComponent {
   @Input() step = 1;
 
   /**
-   * Inidicatas that the input can be manually set to zero,
+   * Inidicates that the input can be manually set to zero,
    * despite the fact that the input controls will be limited to
    * the minimum. The zero value can be used to remove an item.
    */
@@ -69,8 +69,7 @@ export class ItemCounterComponent {
     HTMLInputElement
   >;
 
-  @HostListener('click')
-  handleClick() {
+  @HostListener('click') handleClick() {
     this.input.nativeElement.focus();
   }
 
