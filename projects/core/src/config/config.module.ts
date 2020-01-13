@@ -19,6 +19,7 @@ import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer/config-in
  * Global Configuration injection token, can be used to inject configuration to any part of the app
  */
 export const Config = new InjectionToken('Configuration');
+export const Config2 = new InjectionToken('Configuration2');
 
 /**
  * Config chunk token, can be used to provide configuration chunk and contribute to the global configuration object.
