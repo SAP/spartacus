@@ -127,7 +127,7 @@ export function validateCartPromotion(hasPromotion: boolean) {
 }
 
 export function validateCart(qtyInCart: Number, qtyInSavedCart: Number) {
-  if (0 === qtyInCart) {
+  if (qtyInCart === 0) {
     cy.getByText('Your shopping cart is empty').should('exist');
   } else {
     cy.get('cx-cart-details cx-cart-item-list .cx-item-list-row').should(
