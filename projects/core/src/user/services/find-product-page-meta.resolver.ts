@@ -5,11 +5,11 @@ import {
   PageMetaResolver,
   PageTitleResolver,
   PageBreadcrumbResolver,
-} from '../../cms';
+} from '../../cms/page';
 import { PageMeta, Page } from '../../cms/model/page.model';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
-import { RoutingService } from '../../routing';
+import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../../product/facade/product-search.service';
 import { AuthService } from '../../auth/facade/auth.service';
 
