@@ -174,6 +174,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'passwordconf', type: TabbingOrderTypes.FORM_FIELD },
     {
+      value: 'newsletter',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
       value: 'termsandconditions',
       type: TabbingOrderTypes.FORM_FIELD,
     },
@@ -509,72 +513,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
-      value: 'Shop all Brands >',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Cameras',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
-      value: 'Canon',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Sony',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Kodak',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Samsung',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Toshiba',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Fujifilm',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Accessories',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
-      value: 'Kingston',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Icidu',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'TDK',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Sweex',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: 'Digital Cameras',
       type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
-      value: 'Shop all Digital Cameras >',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Compact Cameras',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'SLR Cameras',
-      type: TabbingOrderTypes.LINK,
     },
     {
       value: 'Film Cameras',
@@ -591,50 +531,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Accessories',
       type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
-      value: 'Shop all Accessories >',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Gear',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
-      value: 'Camera Flashes',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Tripods',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Camera Lenses',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Flash Memory',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Power Supplies',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Supplies',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
-      value: 'Color Films',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Black & White Films',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Blank Videotapes',
-      type: TabbingOrderTypes.LINK,
     },
   ],
   headerDesktopLoggedIn: [
@@ -721,72 +617,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
-      value: 'Shop all Brands >',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Cameras',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
-      value: 'Canon',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Sony',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Kodak',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Samsung',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Toshiba',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Fujifilm',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Accessories',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
-      value: 'Kingston',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Icidu',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'TDK',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Sweex',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: 'Digital Cameras',
       type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
-      value: 'Shop all Digital Cameras >',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Compact Cameras',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'SLR Cameras',
-      type: TabbingOrderTypes.LINK,
     },
     {
       value: 'Film Cameras',
@@ -803,50 +635,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Accessories',
       type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
-      value: 'Shop all Accessories >',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Gear',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
-      value: 'Camera Flashes',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Tripods',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Camera Lenses',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Flash Memory',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Power Supplies',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Supplies',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
-      value: 'Color Films',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Black & White Films',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Blank Videotapes',
-      type: TabbingOrderTypes.LINK,
     },
   ],
   checkoutReviewOrder: [
