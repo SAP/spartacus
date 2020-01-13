@@ -1,20 +1,10 @@
 export const Navigation = {
   visitHomePage(queryStringParams?: string): void {
-    const homePage = Navigation.waitForPage('homepage', 'getHomePage');
-
     if (queryStringParams) {
       cy.visit(`/?${queryStringParams}`);
     } else {
       cy.visit('/');
     }
-    cy.wait(`@${homePage}`)
-      .its('status')
-      .should('eq', 200);
-  },
-  waitForPage(page: string, alias: string): string {
-    cy.server();
-    cy.route('GET', `/rest/v2/electronics-spa/cms/pages?*${page}*`).as(alias);
-    return alias;
   },
   goToProduct(id): void {
     cy.visit(`/product/${id}`);

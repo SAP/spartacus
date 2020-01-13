@@ -1,5 +1,6 @@
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import { Navigation } from '../../../helpers/navigation';
+import { ProfileTagHelper } from '../../../helpers/vendor/cds/profile-tag';
 const clickstreamevents = 'clickstreamevents';
 describe('Profile-tag component', () => {
   beforeEach(() => {
@@ -17,15 +18,10 @@ describe('Profile-tag component', () => {
     Navigation.visitHomePage();
     clickAllowAllFromBanner();
     await Navigation.SPA.goToProduct(358639);
-    cy.wait(`@${clickstreamevents}`).then(xhr => {
-      console.log(xhr.requestHeaders);
-      console.log('called');
-      expect(xhr.requestHeaders['consent-reference']).not.be.undefined;
-      expect(xhr.requestBody).not.be.undefined;
+    cy.wait(`@${clickstreamevents}.1`).then(xhr => {
+      ProfileTagHelper.assertPageViewEvent(xhr);
     });
-    cy.wait(`@${clickstreamevents}`).then(xhr => {
-      console.log(xhr.requestHeaders);
-      console.log('called');
+    cy.wait(`@${clickstreamevents}.2`).then(xhr => {
       expect(xhr.requestHeaders['consent-reference']).not.be.undefined;
       expect(xhr.requestBody).not.be.undefined;
     });
