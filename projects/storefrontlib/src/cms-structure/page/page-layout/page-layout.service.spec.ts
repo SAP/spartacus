@@ -418,3 +418,45 @@ describe('PageLayoutService', () => {
     });
   });
 });
+
+describe('PageLayoutService', () => {
+  let pageLayoutService: PageLayoutService;
+  let breakpointService: BreakpointService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        PageLayoutService,
+        { provide: CmsService, useClass: MockCmsService },
+        { provide: BreakpointService, useClass: MockBreakpointService },
+        { provide: LayoutConfig, useValue: {} },
+        {
+          provide: PAGE_LAYOUT_HANDLER,
+          useClass: SimplePageLayoutHandler,
+          multi: true,
+        },
+      ],
+    });
+
+    pageLayoutService = TestBed.get(PageLayoutService as Type<
+      PageLayoutService
+    >);
+    breakpointService = TestBed.get(BreakpointService as Type<
+      BreakpointService
+    >);
+  });
+
+  describe('no page layout confguration', () => {
+    it('should not return page slot when there is no layout configuration', () => {
+      spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        of(BREAKPOINT.md)
+      );
+      let results;
+      pageLayoutService
+        .getPageFoldSlot('template')
+        .subscribe(pf => (results = pf))
+        .unsubscribe();
+      expect(results).toBeFalsy();
+    });
+  });
+});

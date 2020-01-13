@@ -42,17 +42,24 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
   readonly position$ = new BehaviorSubject<string>(undefined);
 
-  components$: Observable<ContentSlotComponentData[]> = this.position$.pipe(
-    switchMap(position =>
-      this.cmsService.getContentSlot(position).pipe(
-        tap(slot => this.addSmartEditSlotClass(slot)),
-        map(slot => (slot && slot.components ? slot.components : [])),
-        distinctUntilChanged(
-          (a, b) =>
-            a.length === b.length &&
-            !a.find((el, index) => el.uid !== b[index].uid)
-        )
-      )
+  /**
+   * observable with `ContentSlotData` for the current position
+   *
+   * @deprecated we'll stop supporting this property in 2.0 as
+   * it is not used separately.
+   */
+  readonly slot$: Observable<ContentSlotData> = this.position$.pipe(
+    switchMap(position => this.cmsService.getContentSlot(position)),
+    tap(slot => this.addSmartEditSlotClass(slot))
+  );
+
+  readonly components$: Observable<
+    ContentSlotComponentData[]
+  > = this.slot$.pipe(
+    map(slot => (slot && slot.components ? slot.components : [])),
+    distinctUntilChanged(
+      (a, b) =>
+        a.length === b.length && !a.find((el, index) => el.uid !== b[index].uid)
     )
   );
 

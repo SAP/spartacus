@@ -4,7 +4,7 @@ import { User } from './misc.model';
 export interface VariantOptionQualifier {
   image?: Image;
   name?: string;
-  qualifier?: string;
+  qualifier?: VariantQualifier;
   value?: string;
 }
 
@@ -44,6 +44,12 @@ export interface VariantValueCategory {
   name?: string;
   sequence?: number;
   superCategories?: VariantCategory[];
+}
+
+export enum VariantType {
+  SIZE = 'ApparelSizeVariantProduct',
+  STYLE = 'ApparelStyleVariantProduct',
+  COLOR = 'ElectronicsColorVariantProduct',
 }
 
 export enum PriceType {
@@ -146,7 +152,7 @@ export interface ProductReferences {
 export interface BaseOption {
   options?: VariantOption[];
   selected?: VariantOption;
-  variantType?: string;
+  variantType?: VariantType;
 }
 
 export interface Product {
@@ -176,7 +182,16 @@ export interface Product {
   url?: string;
   variantMatrix?: VariantMatrixElement[];
   variantOptions?: VariantOption[];
-  variantType?: string;
+  variantType?: VariantType;
   volumePrices?: Price[];
   volumePricesFlag?: boolean;
+}
+
+export enum VariantQualifier {
+  SIZE = 'size',
+  STYLE = 'style',
+  COLOR = 'color',
+  THUMBNAIL = 'thumbnail',
+  PRODUCT = 'product',
+  ROLLUP_PROPERTY = 'rollupProperty',
 }

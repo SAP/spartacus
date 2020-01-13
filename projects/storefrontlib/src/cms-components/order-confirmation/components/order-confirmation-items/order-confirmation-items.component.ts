@@ -4,8 +4,14 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CheckoutService, Order } from '@spartacus/core';
+import {
+  CheckoutService,
+  Order,
+  PromotionResult,
+  PromotionLocation,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({
   selector: 'cx-order-confirmation-items',
@@ -13,12 +19,33 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
+  promotionLocation: PromotionLocation = PromotionLocation.Checkout;
   order$: Observable<Order>;
+  orderPromotions$: Observable<PromotionResult[]>;
 
-  constructor(protected checkoutService: CheckoutService) {}
+  constructor(
+    checkoutService: CheckoutService,
+    // tslint:disable-next-line:unified-signatures
+    promotionService: PromotionService
+  );
+
+  /**
+   * @deprecated Since 1.5
+   * Use promotionService instead of the promotion inputs.
+   * Remove issue: #5670
+   */
+  constructor(checkoutService: CheckoutService);
+
+  constructor(
+    protected checkoutService: CheckoutService,
+    protected promotionService?: PromotionService
+  ) {}
 
   ngOnInit() {
     this.order$ = this.checkoutService.getOrderDetails();
+    this.orderPromotions$ = this.promotionService.getOrderPromotions(
+      this.promotionLocation
+    );
   }
 
   ngOnDestroy() {

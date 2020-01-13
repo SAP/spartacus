@@ -1,10 +1,17 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Cart, CartService, OrderEntry } from '@spartacus/core';
+import {
+  Cart,
+  CartService,
+  OrderEntry,
+  PromotionResult,
+  PromotionLocation,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { ModalService } from '../../../../shared/components/modal/index';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({
   selector: 'cx-added-to-cart-dialog',
@@ -17,9 +24,10 @@ export class AddedToCartDialogComponent implements OnInit {
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
   increment: boolean;
-  modalIsOpen = false;
-
+  orderPromotions$: Observable<PromotionResult[]>;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   quantity = 0;
+  modalIsOpen = false;
 
   @ViewChild('dialog', { static: false, read: ElementRef })
   dialog: ElementRef;
@@ -27,9 +35,29 @@ export class AddedToCartDialogComponent implements OnInit {
   form: FormGroup = this.fb.group({});
 
   constructor(
+    modalService: ModalService,
+    cartService: CartService,
+    fb: FormBuilder,
+    // tslint:disable-next-line:unified-signatures
+    promotionService: PromotionService
+  );
+
+  /**
+   * @deprecated Since 1.5
+   * Use promotionService instead of the promotion inputs.
+   * Remove issue: #5670
+   */
+  constructor(
+    modalService: ModalService,
+    cartService: CartService,
+    fb: FormBuilder
+  );
+
+  constructor(
     protected modalService: ModalService,
     protected cartService: CartService,
-    protected fb: FormBuilder
+    protected fb: FormBuilder,
+    protected promotionService?: PromotionService
   ) {}
 
   ngOnInit() {
@@ -49,6 +77,10 @@ export class AddedToCartDialogComponent implements OnInit {
           }
         }
       })
+    );
+
+    this.orderPromotions$ = this.promotionService.getOrderPromotions(
+      this.promotionLocation
     );
   }
 

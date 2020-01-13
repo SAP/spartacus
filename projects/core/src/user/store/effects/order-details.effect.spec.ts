@@ -18,6 +18,12 @@ const mockOrderDetailsParams = {
   orderCode: '00000386',
 };
 
+const mockCancelOrderParams = {
+  userId: 'user15355363988711@ydev.hybris.com',
+  orderCode: '00000386',
+  cancelRequestInput: {},
+};
+
 describe('Order Details effect', () => {
   let orderDetailsEffect: fromOrderDetailsEffect.OrderDetailsEffect;
   let orderConnector: UserOrderConnector;
@@ -70,6 +76,34 @@ describe('Order Details effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(orderDetailsEffect.loadOrderDetails$).toBeObservable(expected);
+    });
+  });
+
+  describe('cancelOrder$', () => {
+    it('should cancel an order', () => {
+      spyOn(orderConnector, 'cancel').and.returnValue(of({}));
+
+      const action = new UserActions.CancelOrder(mockCancelOrderParams);
+
+      const completion = new UserActions.CancelOrderSuccess();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(orderDetailsEffect.cancelOrder$).toBeObservable(expected);
+    });
+
+    it('should handle failures for cancel an order', () => {
+      spyOn(orderConnector, 'cancel').and.returnValue(throwError('Error'));
+
+      const action = new UserActions.CancelOrder(mockCancelOrderParams);
+
+      const completion = new UserActions.CancelOrderFail('Error');
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(orderDetailsEffect.cancelOrder$).toBeObservable(expected);
     });
   });
 });
