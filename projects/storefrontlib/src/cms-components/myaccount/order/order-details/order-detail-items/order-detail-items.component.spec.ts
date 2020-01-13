@@ -74,7 +74,7 @@ const mockOrder: Order = {
 })
 class MockCartItemListComponent {
   @Input()
-  isReadOnly = false;
+  readonly = false;
   @Input()
   hasHeader = true;
   @Input()

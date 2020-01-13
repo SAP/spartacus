@@ -1,19 +1,17 @@
-import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartService,
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   PromotionLocation,
-  FeaturesConfigModule,
-  FeaturesConfig,
 } from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemListComponent } from './cart-item-list.component';
 class MockCartService {
-  removeEntry() {}
-  loadDetails() {}
   updateEntry() {}
 }
 
@@ -24,8 +22,9 @@ const mockItems = [
     entryNumber: 0,
     product: {
       id: 0,
-      code: 'PR0000',
+      code: 'PR0001',
     },
+    updateable: true,
   },
   {
     id: 1,
@@ -49,25 +48,16 @@ const mockPotentialProductPromotions = [
   },
 ];
 
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
-
 @Component({
   template: '',
   selector: 'cx-cart-item',
 })
 class MockCartItemComponent {
-  @Input() parent;
   @Input() item;
+  @Input() readonly;
+  @Input() quantityControl;
   @Input() potentialProductPromotions;
-  @Input() isReadOnly;
-  @Input() cartIsLoading;
-  @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 describe('CartItemListComponent', () => {
@@ -84,7 +74,7 @@ describe('CartItemListComponent', () => {
         I18nTestingModule,
         FeaturesConfigModule,
       ],
-      declarations: [CartItemListComponent, MockCartItemComponent, MockUrlPipe],
+      declarations: [CartItemListComponent, MockCartItemComponent],
       providers: [
         { provide: CartService, useClass: MockCartService },
         {
@@ -103,7 +93,7 @@ describe('CartItemListComponent', () => {
     component = fixture.componentInstance;
     component.items = mockItems;
     component.potentialProductPromotions = mockPotentialProductPromotions;
-    spyOn(cartService, 'removeEntry').and.callThrough();
+
     spyOn(cartService, 'updateEntry').and.callThrough();
 
     fixture.detectChanges();
@@ -113,18 +103,84 @@ describe('CartItemListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should remove entry', () => {
+  it('should return form control with quantity ', () => {
     const item = mockItems[0];
-    expect(component.form.controls[item.product.code]).toBeDefined();
-    component.removeEntry(item);
-    expect(cartService.removeEntry).toHaveBeenCalledWith(item);
-    expect(component.form.controls[item.product.code]).toBeUndefined();
+    component.getControl(item).subscribe(control => {
+      expect(control.get('quantity').value).toEqual(1);
+    });
   });
 
-  it('should update entry', () => {
+  it('should return enabled form group', () => {
     const item = mockItems[0];
-    component.updateEntry({ item, updatedQuantity: 5 });
-    expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 5);
+    let result: FormGroup;
+    component
+      .getControl(item)
+      .subscribe(control => {
+        result = control;
+      })
+      .unsubscribe();
+
+    expect(result.enabled).toEqual(true);
+  });
+
+  it('should return disabled form group when updatable is false', () => {
+    const item = mockItems[0];
+    item.updateable = false;
+    component.items = mockItems;
+    fixture.detectChanges();
+
+    let result: FormGroup;
+    component
+      .getControl(item)
+      .subscribe(control => {
+        result = control;
+      })
+      .unsubscribe();
+
+    expect(result.disabled).toEqual(true);
+  });
+
+  it('should return disabled form group when readonly is true', () => {
+    component.readonly = true;
+    fixture.detectChanges();
+    const item = mockItems[0];
+    let result: FormGroup;
+    component
+      .getControl(item)
+      .subscribe(control => {
+        result = control;
+      })
+      .unsubscribe();
+
+    expect(result.disabled).toEqual(true);
+  });
+
+  it('should call cartService with an updated entry', () => {
+    const item = mockItems[0];
+    component
+      .getControl(item)
+      .subscribe(control => {
+        control.get('quantity').setValue(2);
+        expect(cartService.updateEntry).toHaveBeenCalledWith(
+          item.entryNumber,
+          2
+        );
+      })
+      .unsubscribe();
+  });
+
+  it('should call cartService.updateEntry during a remove with quantity 0', () => {
+    const item = mockItems[0];
+    component
+      .getControl(item)
+      .subscribe(control => {
+        control.get('quantity').setValue(0);
+        expect(cartService.updateEntry).toHaveBeenCalledWith(
+          item.entryNumber,
+          0
+        );
+      })
+      .unsubscribe();
   });
 
   it('should get potential promotions for product', () => {

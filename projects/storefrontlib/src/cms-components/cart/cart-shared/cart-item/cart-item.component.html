@@ -28,7 +28,7 @@
           {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
         </div>
         <!-- Variants -->
-        <ng-container *cxFeatureLevel="'!1.4'">
+        <ng-container *cxFeatureLevel="'!1.5'">
           <div
             *ngFor="let variant of item.product.variantOptionQualifiers"
             class="cx-property"
@@ -37,11 +37,11 @@
             <div class="cx-value">{{ variant.value }}</div>
           </div>
         </ng-container>
-        <ng-container *cxFeatureLevel="'1.4'">
+        <ng-container *cxFeatureLevel="'1.5'">
           <div
             *ngFor="
               let variant of item.product.baseOptions[0]?.selected
-                .variantOptionQualifiers
+                ?.variantOptionQualifiers
             "
             class="cx-property"
           >
@@ -77,20 +77,13 @@
         >
           {{ 'cartItems.quantity' | cxTranslate }}
         </div>
-        <div *ngIf="isReadOnly" class="cx-value">{{ item.quantity }}</div>
-        <div
-          *ngIf="!isReadOnly && parent"
-          class="cx-value"
-          [formGroup]="parent"
-        >
+
+        <div class="cx-value">
           <cx-item-counter
-            [isValueChangeable]="item.updateable"
-            [step]="1"
-            [min]="1"
-            [max]="item.product.stock?.stockLevel || 1000"
-            (update)="updateItem($event)"
-            [cartIsLoading]="cartIsLoading"
-            formControlName="quantity"
+            [control]="quantityControl"
+            [readonly]="!item.updateable || readonly"
+            [max]="item.product.stock?.stockLevel"
+            [allowZero]="true"
           >
           </cx-item-counter>
         </div>
@@ -127,11 +120,10 @@
       </ng-container>
     </ng-container>
     <!-- Actions -->
-    <div *ngIf="!isReadOnly && item.updateable" class="cx-actions col-12">
+    <div *ngIf="!readonly && item.updateable" class="cx-actions col-12">
       <button
         class="link"
-        [class.disabled]="cartIsLoading"
-        [disabled]="cartIsLoading"
+        [disabled]="quantityControl.disabled"
         (click)="removeItem()"
       >
         {{ 'common.remove' | cxTranslate }}

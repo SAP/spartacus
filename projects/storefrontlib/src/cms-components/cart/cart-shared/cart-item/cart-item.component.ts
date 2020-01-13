@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { PromotionResult, PromotionLocation } from '@spartacus/core';
+import { FormControl } from '@angular/forms';
+import { PromotionLocation, PromotionResult } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
@@ -17,30 +17,15 @@ export interface Item {
   templateUrl: './cart-item.component.html',
 })
 export class CartItemComponent implements OnInit {
-  @Input()
-  compact = false;
-  @Input()
-  item: Item;
-  @Input()
-  isReadOnly = false;
-  @Input()
-  cartIsLoading = false;
+  @Input() compact = false;
+  @Input() item: Item;
+  @Input() potentialProductPromotions: any[];
+  @Input() readonly = false;
+  @Input() quantityControl: FormControl;
 
-  @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+  @Output() view = new EventEmitter<any>();
 
-  @Input()
-  potentialProductPromotions: any[];
-
-  @Output()
-  remove = new EventEmitter<any>();
-  @Output()
-  update = new EventEmitter<any>();
-  @Output()
-  view = new EventEmitter<any>();
-
-  @Input()
-  parent: FormGroup;
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   appliedProductPromotions$: Observable<PromotionResult[]>;
 
@@ -62,12 +47,9 @@ export class CartItemComponent implements OnInit {
     );
   }
 
-  updateItem(updatedQuantity: number) {
-    this.update.emit({ item: this.item, updatedQuantity });
-  }
-
   removeItem() {
-    this.remove.emit(this.item);
+    this.quantityControl.setValue(0);
+    this.quantityControl.markAsDirty();
   }
 
   viewItem() {
