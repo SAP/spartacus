@@ -23,7 +23,7 @@ import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 
 const defaultParams: BudgetSearchConfig = {
-  sort: 'byCode',
+  sort: 'byName',
   currentPage: 0,
   pageSize: 5,
 };
@@ -53,8 +53,8 @@ const mockBudgetList: BudgetListModel = {
       orgUnit: { name: 'orgName' },
     },
   ],
-  pagination: { totalResults: 1, sort: 'byCode' },
-  sorts: [{ code: 'byCode', selected: true }],
+  pagination: { totalResults: 1, sort: 'byName' },
+  sorts: [{ code: 'byName', selected: true }],
 };
 
 const mockBudgetUIList = {
@@ -74,8 +74,8 @@ const mockBudgetUIList = {
       parentUnit: 'orgName',
     },
   ],
-  pagination: { totalResults: 1, sort: 'byCode' },
-  sorts: [{ code: 'byCode', selected: true }],
+  pagination: { totalResults: 1, sort: 'byName' },
+  sorts: [{ code: 'byName', selected: true }],
 };
 
 @Pipe({
@@ -99,7 +99,7 @@ class MockRoutingService {
     return of({
       state: {
         queryParams: {
-          sort: 'byCode',
+          sort: 'byName',
           currentPage: '0',
           pageSize: '5',
         },
@@ -183,8 +183,8 @@ describe('BudgetsListComponent', () => {
   it('should display No budgets found page if no budgets are found', () => {
     const emptyBudgetList: any = {
       budgets: [],
-      pagination: { totalResults: 0, sort: 'byCode' },
-      sorts: [{ code: 'byCode', selected: true }],
+      pagination: { totalResults: 0, sort: 'byName' },
+      sorts: [{ code: 'byName', selected: true }],
     };
 
     budgetList.next(emptyBudgetList);
@@ -194,20 +194,28 @@ describe('BudgetsListComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    component.changeSortCode('byName');
-    expect(budgetsService.loadBudgets).toHaveBeenCalledWith({
-      sort: 'byName',
-      currentPage: 0,
-      pageSize: 5,
-    });
+    component['params$'] = of(defaultParams);
+    component.changeSortCode('byCode');
+    expect(routingService.go).toHaveBeenCalledWith(
+      {
+        cxRoute: 'budgets',
+      },
+      {
+        sort: 'byCode',
+      }
+    );
   });
 
   it('should set correctly page', () => {
-    component.pageChange(1);
-    expect(budgetsService.loadBudgets).toHaveBeenCalledWith({
-      sort: 'byCode',
-      currentPage: 1,
-      pageSize: 5,
-    });
+    component['params$'] = of(defaultParams);
+    component.pageChange(2);
+    expect(routingService.go).toHaveBeenCalledWith(
+      {
+        cxRoute: 'budgets',
+      },
+      {
+        currentPage: 2,
+      }
+    );
   });
 });
