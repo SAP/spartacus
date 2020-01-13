@@ -160,13 +160,14 @@ describe('BudgetsListComponent', () => {
 
   it('should read budget list', () => {
     let budgetsList: any;
-    const subscribtion = component.budgetsList$.subscribe(value => {
-      budgetsList = value;
-    });
+    component.budgetsList$
+      .subscribe(value => {
+        budgetsList = value;
+      })
+      .unsubscribe();
     expect(budgetsService.loadBudgets).toHaveBeenCalledWith(defaultParams);
     expect(budgetsService.getList).toHaveBeenCalledWith(defaultParams);
     expect(budgetsList).toEqual(mockBudgetUIList);
-    subscribtion.unsubscribe();
   });
 
   it('should redirect when clicking on budget id', () => {
@@ -217,5 +218,34 @@ describe('BudgetsListComponent', () => {
         currentPage: 2,
       }
     );
+  });
+
+  it('should prepare columns', () => {
+    let columns;
+    component
+      .getColumns()
+      .subscribe(data => (columns = data))
+      .unsubscribe();
+    expect(columns).toEqual([
+      { key: 'code', value: 'budgetsList.code' },
+      { key: 'name', value: 'budgetsList.name' },
+      { key: 'amount', value: 'budgetsList.amount' },
+      { key: 'startEndDate', value: 'budgetsList.startEndDate' },
+      { key: 'parentUnit', value: 'budgetsList.parentUnit' },
+    ]);
+  });
+
+  it('should prepare sort labels', () => {
+    let sortLabels;
+    component
+      .getSortLabels()
+      .subscribe(data => (sortLabels = data))
+      .unsubscribe();
+    expect(sortLabels).toEqual({
+      byUnitName: 'budgetsList.sorting.byUnitName',
+      byName: 'budgetsList.sorting.byName',
+      byCode: 'budgetsList.sorting.byCode',
+      byValue: 'budgetsList.sorting.byValue',
+    });
   });
 });
