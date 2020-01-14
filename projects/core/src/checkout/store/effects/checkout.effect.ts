@@ -103,10 +103,6 @@ export class CheckoutEffects {
         .pipe(
           mergeMap(() => [
             new CheckoutActions.SetDeliveryAddressSuccess(payload.address),
-            new CheckoutActions.ClearCheckoutDeliveryMode({
-              userId: payload.userId,
-              cartId: payload.cartId,
-            }),
             new CheckoutActions.ClearSupportedDeliveryModes(),
             new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
             new CheckoutActions.LoadSupportedDeliveryModes({
