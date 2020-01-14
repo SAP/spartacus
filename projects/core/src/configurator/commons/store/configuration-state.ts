@@ -20,4 +20,5 @@ export interface ConfigurationState {
 
 export interface UiState {
   currentGroup: string;
+  menuParentGroup: string;
 }

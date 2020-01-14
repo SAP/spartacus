@@ -97,6 +97,12 @@ class MockConfiguratorGroupService {
   getCurrentGroup(): Observable<Configurator.Group> {
     return of(config.groups[0]);
   }
+  getMenuParentGroup(): Observable<Configurator.Group> {
+    return of(null);
+  }
+  hasSubGroups(group: Configurator.Group): boolean {
+    return group.subGroups ? group.subGroups.length > 0 : false;
+  }
 }
 
 class MockConfiguratorCommonsService {

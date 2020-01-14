@@ -41,6 +41,27 @@ export class ConfiguratorGroupsService {
     );
   }
 
+  getMenuParentGroup(
+    owner: GenericConfigurator.Owner
+  ): Observable<Configurator.Group> {
+    return this.configuratorCommonsService.getUiState(owner).pipe(
+      map(uiState => uiState.menuParentGroup),
+      switchMap(parentGroupId => {
+        return this.configuratorCommonsService
+          .getConfiguration(owner)
+          .pipe(
+            map(configuration =>
+              this.findCurrentGroup(configuration.groups, parentGroupId)
+            )
+          );
+      })
+    );
+  }
+
+  setMenuParentGroup(owner: GenericConfigurator.Owner, groupId: string) {
+    this.store.dispatch(new UiActions.SetMenuParentGroup(owner.key, groupId));
+  }
+
   getCurrentGroup(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
@@ -61,8 +82,18 @@ export class ConfiguratorGroupsService {
   }
 
   navigateToGroup(configuration: Configurator.Configuration, groupId: string) {
+    const parentGroup = this.findParentGroup(
+      configuration.groups,
+      this.findCurrentGroup(configuration.groups, groupId),
+      null
+    );
+
     this.store.dispatch(
-      new ConfiguratorActions.ChangeGroup(configuration, groupId)
+      new ConfiguratorActions.ChangeGroup(
+        configuration,
+        groupId,
+        parentGroup ? parentGroup.id : null
+      )
     );
   }
 
@@ -143,5 +174,28 @@ export class ConfiguratorGroupsService {
     }
 
     return null;
+  }
+
+  findParentGroup(
+    groups: Configurator.Group[],
+    group: Configurator.Group,
+    parentGroup: Configurator.Group
+  ): Configurator.Group {
+    if (groups.includes(group)) {
+      return parentGroup;
+    }
+
+    //Call function recursive until parent group is returned
+    for (let i = 0; i < groups.length; i++) {
+      if (this.findParentGroup(groups[i].subGroups, group, groups[i])) {
+        return groups[i];
+      }
+    }
+
+    return null;
+  }
+
+  hasSubGroups(group: Configurator.Group): boolean {
+    return group.subGroups ? group.subGroups.length > 0 : false;
   }
 }

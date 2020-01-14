@@ -22,7 +22,7 @@
               >{{ group.description }}
 
               <cx-icon
-                *ngIf="hasSubGroups(group)"
+                *ngIf="configuratorGroupsService.hasSubGroups(group)"
                 [type]="iconTypes.CARET_RIGHT"
               ></cx-icon
             ></a>

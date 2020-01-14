@@ -16,6 +16,7 @@ describe('Configurator selectors', () => {
   const GROUP_ID = 'currentGroupId';
   const uiState: UiState = {
     currentGroup: GROUP_ID,
+    menuParentGroup: null,
   };
 
   beforeEach(() => {

@@ -14,14 +14,20 @@ const PRODUCT_CODE = 'CONF_LAPTOP';
 const GROUP_ID_1 = '1234-56-7891';
 const GROUP_ID_2 = '1234-56-7892';
 const GROUP_ID_3 = '1234-56-7893';
+const GROUP_ID_4 = '1234-56-7894';
 const uiState: UiState = {
   currentGroup: GROUP_ID_2,
+  menuParentGroup: GROUP_ID_3,
 };
 const CONFIG_ID = '1234-56-7890';
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
-  groups: [{ id: GROUP_ID_1 }, { id: GROUP_ID_2 }, { id: GROUP_ID_3 }],
+  groups: [
+    { id: GROUP_ID_1, subGroups: [] },
+    { id: GROUP_ID_2, subGroups: [] },
+    { id: GROUP_ID_3, subGroups: [{ id: GROUP_ID_4 }] },
+  ],
   flatGroups: [{ id: GROUP_ID_1 }, { id: GROUP_ID_2 }, { id: GROUP_ID_3 }],
   owner: {
     id: PRODUCT_CODE,
@@ -85,6 +91,20 @@ describe('ConfiguratorGroupsService', () => {
     });
   });
 
+  it('should get the parentGroup from uiState', () => {
+    spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
+      of(uiState)
+    );
+    const parentGroup = serviceUnderTest.getMenuParentGroup(
+      productConfiguration.owner
+    );
+
+    expect(parentGroup).toBeDefined();
+    parentGroup.subscribe(group => {
+      expect(group).toBe(productConfiguration.groups[2]);
+    });
+  });
+
   it('should get the currentGroup from configuration', () => {
     spyOn(configuratorCommonsService, 'getUiState').and.returnValue(of(null));
     const currentGroup = serviceUnderTest.getCurrentGroupId(
@@ -132,5 +152,33 @@ describe('ConfiguratorGroupsService', () => {
       GROUP_ID_1
     );
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should delegate setting the parent group to the store', () => {
+    serviceUnderTest.setMenuParentGroup(productConfiguration.owner, GROUP_ID_1);
+    const expectedAction = new UiActions.SetMenuParentGroup(
+      productConfiguration.owner.key,
+      GROUP_ID_1
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should find group from group Id', () => {
+    const group = serviceUnderTest.findCurrentGroup(
+      productConfiguration.groups,
+      GROUP_ID_2
+    );
+
+    expect(group).toBe(productConfiguration.groups[1]);
+  });
+
+  it('should find parent group from group', () => {
+    const parentGroup = serviceUnderTest.findParentGroup(
+      productConfiguration.groups,
+      productConfiguration.groups[2].subGroups[0],
+      null
+    );
+
+    expect(parentGroup).toBe(productConfiguration.groups[2]);
   });
 });

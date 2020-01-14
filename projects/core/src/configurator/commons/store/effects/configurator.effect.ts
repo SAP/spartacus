@@ -204,7 +204,7 @@ export class ConfiguratorEffects {
           //setCurrentGroup because in cases where a queue of updates exists with a group navigation in between,
           //we need to ensure that the last update determines the current group.
           new ConfiguratorUiActions.SetCurrentGroup(
-            payload.productCode,
+            payload.owner.key,
             this.getGroupWithAttributes(payload.groups)
           ),
         ])
@@ -238,6 +238,7 @@ export class ConfiguratorEffects {
   @Effect()
   groupChange$: Observable<
     | ConfiguratorUiActions.SetCurrentGroup
+    | ConfiguratorUiActions.SetMenuParentGroup
     | ReadConfigurationFail
     | ReadConfigurationSuccess
   > = this.actions$.pipe(
@@ -260,6 +261,10 @@ export class ConfiguratorEffects {
                   new ConfiguratorUiActions.SetCurrentGroup(
                     action.configuration.owner.key,
                     action.groupId
+                  ),
+                  new ConfiguratorUiActions.SetMenuParentGroup(
+                    action.configuration.owner.key,
+                    action.parentGroupId
                   ),
                   new ReadConfigurationSuccess(configuration),
                 ];
@@ -352,17 +357,18 @@ export class ConfiguratorEffects {
 
   getGroupWithAttributes(groups: Configurator.Group[]): string {
     const groupWithAttributes: Configurator.Group = groups
-      .filter(currentGroup => currentGroup.attributes)
+      .filter(currentGroup => currentGroup.attributes.length > 0)
       .pop();
     let id: string;
     if (groupWithAttributes) {
       id = groupWithAttributes.id;
     } else {
       id = groups
-        .filter(currentGroup => currentGroup.subGroups)
+        .filter(currentGroup => currentGroup.subGroups.length > 0)
         .flatMap(currentGroup =>
           this.getGroupWithAttributes(currentGroup.subGroups)
         )
+        .filter(groupId => groupId) //Filter undefined strings
         .pop();
     }
     return id;

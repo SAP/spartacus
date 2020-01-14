@@ -159,7 +159,8 @@ export class ChangeGroup extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CHANGE_GROUP;
   constructor(
     public configuration: Configurator.Configuration,
-    public groupId: string
+    public groupId: string,
+    public parentGroupId: string
   ) {
     super(CONFIGURATION_DATA, configuration.owner.key);
   }
