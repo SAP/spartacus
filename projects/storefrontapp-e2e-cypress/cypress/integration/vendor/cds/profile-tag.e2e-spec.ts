@@ -1,30 +1,44 @@
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import { Navigation } from '../../../helpers/navigation';
+import { CdsHelper } from '../../../helpers/vendor/cds/cds';
 import { ProfileTagHelper } from '../../../helpers/vendor/cds/profile-tag';
-const clickstreamevents = 'clickstreamevents';
 describe('Profile-tag component', () => {
   beforeEach(() => {
     cy.server();
-    cy.route('POST', '**/clickstreamEvents').as(clickstreamevents);
+    CdsHelper.setUpMocks();
   });
-  // it('Should send an event on a pageview', () => {
-  //   Navigation.visitHomePage();
-  //   clickAllowAllFromBanner();
-  //   cy.wait(`@${clickstreamevents}`).then(_ => {
-  //     expect(true).to.equal(true);
-  //   });
-  // });
-  it('Should send an event on a productview', async () => {
+  it('Should wait for a user to accept consent before sending an event', () => {
+    Navigation.visitHomePage();
+    cy.wait(1000);
+    cy.wait(1).then(() => {
+      expect(Navigation.requestsCount(CdsHelper.clickstreamevents)).to.eq(0);
+    });
+    clickAllowAllFromBanner();
+    cy.wait(`@${CdsHelper.clickstreamevents}`).then(_ => {
+      expect(Navigation.requestsCount(CdsHelper.clickstreamevents)).to.eq(1);
+    });
+  });
+  it('Should send an event on a pageview', () => {
     Navigation.visitHomePage();
     clickAllowAllFromBanner();
-    await Navigation.SPA.goToProduct(358639);
-    cy.wait(`@${clickstreamevents}.1`).then(xhr => {
+    cy.wait(`@${CdsHelper.clickstreamevents}`).then(xhr => {
       ProfileTagHelper.assertPageViewEvent(xhr);
     });
-    cy.wait(`@${clickstreamevents}.2`).then(xhr => {
-      expect(xhr.requestHeaders['consent-reference']).not.be.undefined;
-      expect(xhr.requestBody).not.be.undefined;
+  });
+  it('Should send an event on a productview', () => {
+    Navigation.visitHomePage();
+    clickAllowAllFromBanner();
+    cy.wait(500);
+    Navigation.SPA.goToProduct(358639).then(() => {
+      cy.wait(`@${CdsHelper.clickstreamevents}`).then(xhr => {
+        ProfileTagHelper.assertPageViewEvent(xhr);
+      });
+      cy.wait(`@${CdsHelper.clickstreamevents}`).then(xhr => {
+        ProfileTagHelper.assertProductViewEvent(xhr);
+      });
+      cy.wait(1).then(() => {
+        expect(Navigation.requestsCount(CdsHelper.clickstreamevents)).to.eq(2);
+      });
     });
-    cy.get(`@${clickstreamevents}.all`).should('have.length', 3);
   });
 });

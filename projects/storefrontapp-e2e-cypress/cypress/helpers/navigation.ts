@@ -9,22 +9,21 @@ export const Navigation = {
   goToProduct(id): void {
     cy.visit(`/product/${id}`);
   },
+  requestsCount: alias =>
+    cy.state('requests').filter(a => a.alias === alias).length,
   SPA: {
     navigationId: 1,
-    navigateByUrl(url): Promise<void> {
-      return new Promise((resolve, reject) => {
-        (<any>cy.window()).then(w => {
-          if (!w._cy_navigateByUrl) {
-            reject(`Please implement a method _cy_navigateByUrl on the window which calls the angular
+    navigateByUrl(url) {
+      return (<any>cy.window()).then(w => {
+        if (!w._cy_navigateByUrl) {
+          console.log(`Please implement a method _cy_navigateByUrl on the window which calls the angular
             router navigateByUrl method.`);
-          }
-          w._cy_navigateByUrl(url);
-          resolve();
-        });
+        }
+        w._cy_navigateByUrl(url);
       });
     },
-    async goToProduct(id) {
-      await Navigation.SPA.navigateByUrl(`/product/${id}`);
+    goToProduct(id) {
+      return Navigation.SPA.navigateByUrl(`/product/${id}`);
     },
   },
 };
