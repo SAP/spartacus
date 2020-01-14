@@ -26,6 +26,7 @@ const mockBudget: Budget = {
   budget: 2230,
   currency: {
     symbol: '$',
+    isocode: 'USD',
   },
   startDate: '2010-01-01T00:00:00+0000',
   endDate: '2034-07-12T00:59:59+0000',

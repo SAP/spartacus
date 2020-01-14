@@ -48,8 +48,23 @@ const mockOrgUnits: B2BUnitNodeList = {
       name: 'Org Unit 1',
       parent: 'parentUnit',
     },
+    {
+      active: true,
+      children: [],
+      id: 'unitNode2',
+      name: 'Org Unit 2',
+      parent: 'parentUnit',
+    },
   ],
 };
+
+export function triggerKeyDownEvent(element, which: number, key = ''): void {
+  element.triggerEventHandler('keydown', {
+    which: which,
+    key: key,
+    preventDefault: () => {},
+  });
+}
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
@@ -191,5 +206,54 @@ describe('BudgetFormComponent', () => {
       component.back();
       expect(component.clickBack.emit).toHaveBeenCalled();
     });
+  });
+
+  describe('currencySelected', () => {
+    it('should setup currency', () => {
+      spyOn(component, 'currencySelected').and.callThrough();
+      component.budgetData = mockBudget;
+      component.ngOnInit();
+      console.log(component.form.value);
+      const currencyDropdown = fixture.debugElement.query(
+        By.css('[formcontrolname="isocode"]')
+      );
+      triggerKeyDownEvent(currencyDropdown, 32);
+      fixture.detectChanges();
+      const currencyOtherOption = fixture.debugElement.query(
+        By.css('[ng-reflect-ng-item-label="Euro"]')
+      );
+      currencyOtherOption.nativeElement.dispatchEvent(
+        new MouseEvent('mousedown', { bubbles: true })
+      );
+      expect(component.currencySelected).toHaveBeenCalledWith({
+        isocode: 'EUR',
+      });
+      // fixture.detectChanges();
+      // console.log(component.form.value);
+
+      expect(component.form.controls['currency'].value).toEqual({
+        isocode: 'EUR',
+      });
+    });
+  });
+
+  describe('businessUnitSelected', () => {
+    // it('should setup business unit', () => {
+    //   component.ngOnInit();
+    //
+    //   const businessUnitDropdown = fixture.debugElement.query(
+    //     By.css('[formcontrolname="uid"]')
+    //   );
+    //   businessUnitDropdown.triggerEventHandler('click', null);
+    //   fixture.detectChanges();
+    //
+    //   const orgUnitOption = fixture.debugElement.query(
+    //     By.css('[ng-reflect-ng-item-label="Org Unit 2"]')
+    //   );
+    //   orgUnitOption.triggerEventHandler('click', null);
+    //   expect(
+    //     component.form.controls.orgUnit['controls'].uid.getValue()
+    //   ).toEqual(null);
+    // });
   });
 });
