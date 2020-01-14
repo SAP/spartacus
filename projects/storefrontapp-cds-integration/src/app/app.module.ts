@@ -106,6 +106,5 @@ export class AppModule {
         router.navigateByUrl(url);
       });
     };
-    (<any>window).blah = 'test';
   }
 }

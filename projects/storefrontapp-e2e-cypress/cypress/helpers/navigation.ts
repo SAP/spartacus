@@ -10,14 +10,14 @@ export const Navigation = {
     cy.visit(`/product/${id}`);
   },
   requestsCount: alias =>
-    cy.state('requests').filter(a => a.alias === alias).length,
+    (<any>cy).state('requests').filter(a => a.alias === alias).length,
   SPA: {
     navigationId: 1,
     navigateByUrl(url) {
       return (<any>cy.window()).then(w => {
         if (!w._cy_navigateByUrl) {
-          console.log(`Please implement a method _cy_navigateByUrl on the window which calls the angular
-            router navigateByUrl method.`);
+          console.log(`Please implement a method _cy_navigateByUrl on the window object. This method should call 
+          the angular router navigateByUrl method.`);
         }
         w._cy_navigateByUrl(url);
       });
