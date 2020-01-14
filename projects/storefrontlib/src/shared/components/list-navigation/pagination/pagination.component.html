@@ -4,6 +4,7 @@
     [class.disabled]="isDisabled(0)"
     [routerLink]="pageRoute"
     [queryParams]="getRouteParam(0)"
+    [tabIndex]="isDisabled(0) ? -1 : 0"
     >«</a
   >
   <a
@@ -11,6 +12,7 @@
     [class.disabled]="isDisabled(previous)"
     [routerLink]="pageRoute"
     [queryParams]="getRouteParam(previous)"
+    [tabIndex]="isDisabled(previous) ? -1 : 0"
     >‹</a
   >
 
@@ -24,6 +26,7 @@
     [class.gap]="page.isGap"
     [routerLink]="pageRoute"
     [queryParams]="getRouteParam(page.number - 1)"
+    [tabIndex]="isDisabled(page.number - 1) ? -1 : 0"
   >
     {{ page.isGap ? '...' : page.number }}
   </a>
@@ -33,6 +36,7 @@
     [class.disabled]="isDisabled(next)"
     [routerLink]="pageRoute"
     [queryParams]="getRouteParam(next)"
+    [tabIndex]="isDisabled(next) ? -1 : 0"
     >›</a
   >
 
@@ -41,6 +45,7 @@
     [class.disabled]="isDisabled(last)"
     [routerLink]="pageRoute"
     [queryParams]="getRouteParam(last)"
+    [tabIndex]="isDisabled(last) ? -1 : 0"
     >»</a
   >
 </ng-container>
