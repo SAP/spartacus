@@ -23,6 +23,9 @@ class MockRoutingService {
   isNavigating(): Observable<boolean> {
     return of(false);
   }
+  getNextPageContext(): Observable<PageContext> {
+    return of();
+  }
 }
 
 const mockContentSlot: ContentSlotData = {
@@ -69,28 +72,125 @@ describe('CmsService', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('getComponentData should call the store and trigger component load', inject(
-    [CmsService],
-    (service: CmsService) => {
-      spyOn(service, 'getCurrentPage').and.returnValue(of(page));
+  describe('getComponentData', () => {
+    // TODO(issue:6027) - remove this test
+    // TODO:#6027 - should we remove this test?
+    it('getComponentData should call the store and trigger component load', inject(
+      [CmsService],
+      (service: CmsService) => {
+        spyOn(service, 'getCurrentPage').and.returnValue(of(page));
 
-      const testUid = 'test_uid';
-      const mockSelect = createSpy('select').and.returnValue(() => of({}));
-      spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+        const testUid = 'test_uid';
+        const mockSelect = createSpy('select').and.returnValue(() => of({}));
+        spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-      service
-        .getComponentData(testUid)
-        .pipe(take(1))
-        .subscribe(() => {})
-        .unsubscribe();
+        service
+          .getComponentData(testUid)
+          .pipe(take(1))
+          .subscribe(() => {})
+          .unsubscribe();
 
-      expect(mockSelect).toHaveBeenCalled();
+        expect(mockSelect).toHaveBeenCalled();
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CmsActions.LoadCmsComponent(testUid)
-      );
-    }
-  ));
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CmsActions.LoadCmsComponent(testUid)
+        );
+      }
+    ));
+
+    describe('when pageContext is NOT provided', () => {
+      it('should use the current page context and dispatch LoadCmsComponent', inject(
+        [CmsService],
+        (service: CmsService) => {
+          const currentPageContext: PageContext = {
+            id: 'current',
+            type: PageType.CONTENT_PAGE,
+          };
+          const nextPageContext: PageContext = {
+            id: 'next',
+            type: PageType.CATALOG_PAGE,
+          };
+
+          spyOn(routingService, 'getPageContext').and.returnValue(
+            of(currentPageContext)
+          );
+          spyOn(routingService, 'getNextPageContext').and.returnValue(
+            of(nextPageContext)
+          );
+
+          const mockLoaderState: LoaderState<boolean> = {
+            success: false,
+            loading: false,
+            error: false,
+          };
+          const mockSelect = createSpy('select').and.returnValue(() =>
+            of(mockLoaderState)
+          );
+          spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+
+          const uid = 'mockUid';
+          service
+            .getComponentData(uid)
+            .pipe(take(1))
+            .subscribe(() => {})
+            .unsubscribe();
+
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new CmsActions.LoadCmsComponent(uid, currentPageContext)
+          );
+          expect(routingService.getPageContext).toHaveBeenCalled();
+        }
+      ));
+    });
+    describe('when pageContext is provided', () => {
+      it('should use the provided page context and dispatch LoadCmsComponent', inject(
+        [CmsService],
+        (service: CmsService) => {
+          const specifiedPageContext: PageContext = {
+            id: 'specified',
+            type: PageType.PRODUCT_PAGE,
+          };
+          const currentPageContext: PageContext = {
+            id: 'current',
+            type: PageType.CONTENT_PAGE,
+          };
+          const nextPageContext: PageContext = {
+            id: 'next',
+            type: PageType.CATALOG_PAGE,
+          };
+
+          spyOn(routingService, 'getPageContext').and.returnValue(
+            of(currentPageContext)
+          );
+          spyOn(routingService, 'getNextPageContext').and.returnValue(
+            of(nextPageContext)
+          );
+
+          const mockLoaderState: LoaderState<boolean> = {
+            success: false,
+            loading: false,
+            error: false,
+          };
+          const mockSelect = createSpy('select').and.returnValue(() =>
+            of(mockLoaderState)
+          );
+          spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+
+          const uid = 'mockUid';
+          service
+            .getComponentData(uid, specifiedPageContext)
+            .pipe(take(1))
+            .subscribe(() => {})
+            .unsubscribe();
+
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new CmsActions.LoadCmsComponent(uid, specifiedPageContext)
+          );
+          expect(routingService.getPageContext).not.toHaveBeenCalled();
+        }
+      ));
+    });
+  });
 
   it('getContentSlot should be able to get content slot by position', inject(
     [CmsService],
@@ -196,15 +296,30 @@ describe('CmsService', () => {
     }
   ));
 
-  it('should be able to refresh the cms component by uid', inject(
-    [CmsService],
-    (service: CmsService) => {
-      service.refreshComponent('test_uid');
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CmsActions.LoadCmsComponent('test_uid')
-      );
-    }
-  ));
+  describe('refreshComponent', () => {
+    it('should be able to refresh the cms component by uid', inject(
+      [CmsService],
+      (service: CmsService) => {
+        service.refreshComponent('test_uid');
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CmsActions.LoadCmsComponent('test_uid')
+        );
+      }
+    ));
+    it('should be able to refresh the cms component by uid and provided pageContext', inject(
+      [CmsService],
+      (service: CmsService) => {
+        const pageContext: PageContext = {
+          id: 'xxx',
+          type: PageType.CONTENT_PAGE,
+        };
+        service.refreshComponent('test_uid', pageContext);
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CmsActions.LoadCmsComponent('test_uid', pageContext)
+        );
+      }
+    ));
+  });
 
   it('getPageState should select correct page state', inject(
     [CmsService],
