@@ -41,6 +41,27 @@ export class ConfiguratorGroupsService {
     );
   }
 
+  getMenuParentGroup(
+    owner: GenericConfigurator.Owner
+  ): Observable<Configurator.Group> {
+    return this.configuratorCommonsService.getUiState(owner).pipe(
+      map(uiState => uiState.menuParentGroup),
+      switchMap(parentGroupId => {
+        return this.configuratorCommonsService
+          .getConfiguration(owner)
+          .pipe(
+            map(configuration =>
+              this.findCurrentGroup(configuration.groups, parentGroupId)
+            )
+          );
+      })
+    );
+  }
+
+  setMenuParentGroup(owner: GenericConfigurator.Owner, groupId: string) {
+    this.store.dispatch(new UiActions.SetMenuParentGroup(owner.key, groupId));
+  }
+
   getCurrentGroup(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
@@ -61,8 +82,18 @@ export class ConfiguratorGroupsService {
   }
 
   navigateToGroup(configuration: Configurator.Configuration, groupId: string) {
+    const parentGroup = this.findParentGroup(
+      configuration.groups,
+      this.findCurrentGroup(configuration.groups, groupId),
+      null
+    );
+
     this.store.dispatch(
-      new ConfiguratorActions.ChangeGroup(configuration, groupId)
+      new ConfiguratorActions.ChangeGroup(
+        configuration,
+        groupId,
+        parentGroup ? parentGroup.id : null
+      )
     );
   }
 
@@ -129,19 +160,35 @@ export class ConfiguratorGroupsService {
     groups: Configurator.Group[],
     groupId: String
   ): Configurator.Group {
-    let currentGroup = groups.find(group => group.id === groupId);
+    const currentGroup = groups.find(group => group.id === groupId);
     if (currentGroup) {
       return currentGroup;
     }
 
-    //Call function recursive until group is returned
-    for (let i = 0; i < groups.length; i++) {
-      currentGroup = this.findCurrentGroup(groups[i].subGroups, groupId);
-      if (currentGroup) {
-        return currentGroup;
-      }
+    return groups
+      .map(group => this.findCurrentGroup(group.subGroups, groupId))
+      .filter(foundGroup => foundGroup)
+      .pop();
+  }
+
+  findParentGroup(
+    groups: Configurator.Group[],
+    group: Configurator.Group,
+    parentGroup: Configurator.Group
+  ): Configurator.Group {
+    if (groups.includes(group)) {
+      return parentGroup;
     }
 
-    return null;
+    return groups
+      .map(currentGroup =>
+        this.findParentGroup(currentGroup.subGroups, group, currentGroup)
+      )
+      .filter(foundGroup => foundGroup)
+      .pop();
+  }
+
+  hasSubGroups(group: Configurator.Group): boolean {
+    return group.subGroups ? group.subGroups.length > 0 : false;
   }
 }

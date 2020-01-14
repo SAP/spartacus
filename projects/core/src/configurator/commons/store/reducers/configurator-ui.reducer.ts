@@ -3,6 +3,7 @@ import { UiState } from '../configuration-state';
 
 export const initialState: UiState = {
   currentGroup: null,
+  menuParentGroup: null,
 };
 
 export function reducer(
@@ -21,6 +22,15 @@ export function reducer(
     case ConfiguratorUiActions.SET_CURRENT_GROUP: {
       const newCurrentGroup: string = action.payload;
       const changedState = { currentGroup: newCurrentGroup };
+
+      return {
+        ...state,
+        ...changedState,
+      };
+    }
+    case ConfiguratorUiActions.SET_MENU_PARENT_GROUP: {
+      const newMenuParentGroup: string = action.payload;
+      const changedState = { menuParentGroup: newMenuParentGroup };
 
       return {
         ...state,

@@ -54,7 +54,7 @@ const productConfiguration: Configurator.Configuration = {
       },
     ],
   },
-  groups: [{ id: groupId, attributes: [{ name: 'attrName' }] }],
+  groups: [{ id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] }],
 };
 const cartModification: CartModification = {
   quantity: 1,
@@ -275,7 +275,7 @@ describe('ConfiguratorEffect', () => {
         productConfiguration
       );
       const setCurrentGroup = new ConfiguratorUiActions.SetCurrentGroup(
-        productConfiguration.productCode,
+        productConfiguration.owner.key,
         groupId
       );
 
@@ -335,13 +335,17 @@ describe('ConfiguratorEffect', () => {
     });
   });
   describe('Effect groupChange', () => {
-    it('should emit ReadConfigurationSuccess and SetCurrentGroup on ChangeGroup in case no changes are pending', () => {
+    it('should emit ReadConfigurationSuccess and SetCurrentGroup/SetParentGroup on ChangeGroup in case no changes are pending', () => {
       const payloadInput: Configurator.Configuration = {
         configId: configId,
         productCode: productCode,
         owner: owner,
       };
-      const action = new ConfiguratorActions.ChangeGroup(payloadInput, groupId);
+      const action = new ConfiguratorActions.ChangeGroup(
+        payloadInput,
+        groupId,
+        null
+      );
       const readConfigurationSuccess = new ConfiguratorActions.ReadConfigurationSuccess(
         productConfiguration
       );
@@ -349,11 +353,17 @@ describe('ConfiguratorEffect', () => {
         productConfiguration.owner.key,
         groupId
       );
+      const setMenuParentGroup = new ConfiguratorUiActions.SetMenuParentGroup(
+        productConfiguration.owner.key,
+        null
+      );
+
       actions$ = hot('-a', { a: action });
 
-      const expected = cold('-(bc)', {
+      const expected = cold('-(bcd)', {
         b: setCurrentGroup,
-        c: readConfigurationSuccess,
+        c: setMenuParentGroup,
+        d: readConfigurationSuccess,
       });
       expect(configEffects.groupChange$).toBeObservable(expected);
     });
@@ -365,7 +375,11 @@ describe('ConfiguratorEffect', () => {
         productCode: productCode,
         owner: owner,
       };
-      const action = new ConfiguratorActions.ChangeGroup(payloadInput, groupId);
+      const action = new ConfiguratorActions.ChangeGroup(
+        payloadInput,
+        groupId,
+        null
+      );
       const readConfigurationFail = new ConfiguratorActions.ReadConfigurationFail(
         productConfiguration.owner.key,
         makeErrorSerializable(errorResponse)
@@ -468,7 +482,30 @@ describe('ConfiguratorEffect', () => {
     it('should find group in multi level config', () => {
       const groups: Configurator.Group[] = [
         {
+          attributes: [],
+          subGroups: [
+            {
+              attributes: [],
+              subGroups: [],
+            },
+            {
+              attributes: [],
+              subGroups: [],
+            },
+          ],
+        },
+        {
+          attributes: [],
           subGroups: productConfiguration.groups,
+        },
+        {
+          attributes: [],
+          subGroups: [
+            {
+              attributes: [],
+              subGroups: [],
+            },
+          ],
         },
       ];
       expect(configEffects.getGroupWithAttributes(groups)).toBe(groupId);
@@ -477,10 +514,33 @@ describe('ConfiguratorEffect', () => {
     it('should find no group in multi level config in case no attributes exist at all', () => {
       const groups: Configurator.Group[] = [
         {
+          attributes: [],
+          subGroups: [
+            {
+              attributes: [],
+              subGroups: [],
+            },
+            {
+              attributes: [],
+              subGroups: [],
+            },
+          ],
+        },
+        {
+          attributes: [],
           subGroups: productConfiguration.groups,
         },
+        {
+          attributes: [],
+          subGroups: [
+            {
+              attributes: [],
+              subGroups: [],
+            },
+          ],
+        },
       ];
-      productConfiguration.groups[0].attributes = undefined;
+      productConfiguration.groups[0].attributes = [];
       expect(configEffects.getGroupWithAttributes(groups)).toBeUndefined();
     });
   });
