@@ -34,7 +34,7 @@ interface SearchCriteria {
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
   // TODO: make it configurable
-  protected defaultPageSize = 9;
+  protected defaultPageSize = 10;
 
   protected sub: Subscription;
 

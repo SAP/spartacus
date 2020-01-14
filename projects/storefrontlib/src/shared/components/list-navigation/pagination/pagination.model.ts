@@ -7,10 +7,3 @@ export interface PaginationItem {
   isFirst?: boolean;
   isGap?: boolean;
 }
-
-export enum PaginationItemType {
-  FIRSTPAGE,
-  LASTPAGE,
-  PAGE,
-  GAP,
-}
