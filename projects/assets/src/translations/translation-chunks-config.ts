@@ -33,6 +33,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'updatePasswordForm',
     'updateProfileForm',
     'consentManagementForm',
+    'myCoupons',
     'wishlist',
     'notificationPreference',
     'myInterests',

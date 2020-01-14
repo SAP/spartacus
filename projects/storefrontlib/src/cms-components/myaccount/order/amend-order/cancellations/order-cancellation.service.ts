@@ -44,13 +44,15 @@ export class OrderCancellationService extends OrderAmendService {
   save(): void {
     const orderCode = this.form.value.orderCode;
     const entries = this.form.value.entries;
-    const inputs: CancelOrReturnRequestEntryInput[] = Object.keys(entries).map(
-      entryNumber =>
-        ({
-          orderEntryNumber: Number(entryNumber),
-          quantity: <number>entries[entryNumber],
-        } as CancelOrReturnRequestEntryInput)
-    );
+    const inputs: CancelOrReturnRequestEntryInput[] = Object.keys(entries)
+      .filter(entryNumber => <number>entries[entryNumber] > 0)
+      .map(
+        entryNumber =>
+          ({
+            orderEntryNumber: Number(entryNumber),
+            quantity: <number>entries[entryNumber],
+          } as CancelOrReturnRequestEntryInput)
+      );
 
     this.form.reset();
 
