@@ -10,6 +10,7 @@ export const myAccount = {
     deliveryStatus_PICKUP_COMPLETE: 'Picked up',
     deliveryStatus_SHIPPED: 'Shipped',
     deliveryStatus_CANCELLED: 'Cancelled',
+    deliveryStatus_READY: 'In Process',
     statusDisplay_cancelled: 'Cancelled',
     statusDisplay_cancelling: 'Cancel Pending',
     statusDisplay_completed: 'Completed',
