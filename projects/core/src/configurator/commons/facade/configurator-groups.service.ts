@@ -160,20 +160,15 @@ export class ConfiguratorGroupsService {
     groups: Configurator.Group[],
     groupId: String
   ): Configurator.Group {
-    let currentGroup = groups.find(group => group.id === groupId);
+    const currentGroup = groups.find(group => group.id === groupId);
     if (currentGroup) {
       return currentGroup;
     }
 
-    //Call function recursive until group is returned
-    for (let i = 0; i < groups.length; i++) {
-      currentGroup = this.findCurrentGroup(groups[i].subGroups, groupId);
-      if (currentGroup) {
-        return currentGroup;
-      }
-    }
-
-    return null;
+    return groups
+      .map(group => this.findCurrentGroup(group.subGroups, groupId))
+      .filter(foundGroup => foundGroup)
+      .pop();
   }
 
   findParentGroup(
@@ -185,14 +180,12 @@ export class ConfiguratorGroupsService {
       return parentGroup;
     }
 
-    //Call function recursive until parent group is returned
-    for (let i = 0; i < groups.length; i++) {
-      if (this.findParentGroup(groups[i].subGroups, group, groups[i])) {
-        return groups[i];
-      }
-    }
-
-    return null;
+    return groups
+      .map(currentGroup =>
+        this.findParentGroup(currentGroup.subGroups, group, currentGroup)
+      )
+      .filter(foundGroup => foundGroup)
+      .pop();
   }
 
   hasSubGroups(group: Configurator.Group): boolean {
