@@ -13,6 +13,7 @@ import {
   OrgUnitService,
   Currency,
   CurrencyService,
+  B2BUnitNodeList,
 } from '@spartacus/core';
 
 import { BudgetEditComponent } from './budget-edit.component';
@@ -32,16 +33,28 @@ const mockBudget: Budget = {
   },
   startDate: '2010-01-01T00:00:00+0000',
   endDate: '2034-07-12T00:59:59+0000',
-  orgUnit: { name: 'orgName' },
+  orgUnit: { name: 'Org Unit 1', uid: 'unitNode1' },
   costCenters: [
     { name: 'costCenter1', code: 'cc1', originalCode: 'Cost Center 1' },
     { name: 'costCenter2', code: 'cc2', originalCode: 'Cost Center 2' },
   ],
 };
 
+const mockOrgUnits: B2BUnitNodeList = {
+  unitNodes: [
+    {
+      active: true,
+      children: [],
+      id: 'unitNode1',
+      name: 'Org Unit 1',
+      parent: 'parentUnit',
+    },
+  ],
+};
+
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
-  getList = createSpy('getList').and.returnValue(of([]));
+  getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
 }
 
 class MockBudgetService implements Partial<BudgetService> {
