@@ -1,37 +1,40 @@
 import { Injectable } from '@angular/core';
+import { PaginationItem } from './pagination.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PaginationBuilder {
   // the min range of numbers we generate
-  private range = 3;
-
-  // the least number of pages before and after the current
-  private delta = Math.round((this.range - 1) / 2);
+  protected range = 3;
 
   /**
    * builds a range of pages with potentially
    */
-  paginate(current: number, total: number): number[] {
+  paginate(current: number, total: number): PaginationItem[] {
     // return empty array if there's nothing to paginate
     if (total === 1) {
       return [];
     }
 
-    const pages: number[] = [];
+    const pages: PaginationItem[] = [];
 
     const start = this.getStartOfRange(current, total);
 
     const maxRange = Math.min(this.range, total);
     for (let i = start; i <= start + maxRange - 1; i++) {
-      pages.push(i);
+      pages.push({
+        number: i,
+        isPrimary: true,
+      });
     }
 
-    this.buildStart(pages, start);
-    this.buildEnd(pages, total);
+    this.insertStartItems(pages, start);
+    this.insertEndItems(pages, total);
 
-    return pages;
+    return pages.map(page =>
+      Object.assign(page, { isCurrent: page.number === current })
+    );
   }
 
   /**
@@ -40,8 +43,11 @@ export class PaginationBuilder {
    * current page.
    */
   private getStartOfRange(current: number, total: number): number {
+    // the least number of pages before and after the current
+    const delta = Math.round((this.range - 1) / 2);
+
     // ensure that we start with at least the first page
-    const minStart = Math.max(1, current - this.delta);
+    const minStart = Math.max(1, current - delta);
     // ensures that we start with at least 1 and do not pass the last range
     const maxStart = Math.max(1, total - (this.range - 1));
 
@@ -49,65 +55,66 @@ export class PaginationBuilder {
     return Math.min(maxStart, minStart);
   }
 
-  private buildStart(pages: number[], start: number): void {
-    // add dots if we've skipped more the 1 number
-    if (start > 3) {
-      pages.unshift(-1);
+  /**
+   * Inserts a few elements at the start of the pagination
+   * - the first page always
+   * - the 2nd page if we only skipped the 2nd page
+   * - a gap (dots) in case we skipped numureous pages
+   */
+  private insertStartItems(pages: PaginationItem[], start: number): void {
+    // add a gap if more than 1 number is skipped
+    if (start > this.range) {
+      pages.unshift({
+        isGap: true,
+      });
     }
 
     // add 2nd page if we start with 3, as it doesn't make any sense
     // to add dots for a single position
-    if (pages[0] === 3) {
-      pages.unshift(2);
+    if (this.isPage(pages[0], this.range)) {
+      pages.unshift({
+        number: 2,
+      });
     }
 
     // always add the first if we haven't done so far
-    if (pages[0] !== 1) {
-      pages.unshift(1);
+    if (pages[0].number !== 1) {
+      pages.unshift({
+        number: 1,
+        isFirst: true,
+      });
     }
   }
 
-  private buildEnd(pages: number[], total: number): void {
+  /**
+   * Inserts a few items at the end of the pagination:
+   * - insert the last page
+   * - a gap in case there are more than 1 page being skipped
+   * - filling in the 2nd last page number in case only a single page skipped
+   */
+  private insertEndItems(pages: PaginationItem[], pageLength: number): void {
     // add dots if we only lack 1 number
-    if (pages[pages.length - 1] === total - 2) {
-      pages.push(total - 1);
+    if (this.isPage(pages[pages.length - 1], pageLength - 2)) {
+      pages.push({
+        number: pageLength - 1,
+      });
     }
-    if (pages[pages.length - 1] < total - 2) {
+    if (pages[pages.length - 1].number < pageLength - 2) {
       // if (start + this.range - 1 < total - 1) {
-      pages.push(-1);
+      pages.push({
+        isGap: true,
+      });
     }
 
-    if (pages[pages.length - 1] !== total) {
-      pages.push(total);
+    if (pages[pages.length - 1].number !== pageLength) {
+      pages.push({
+        number: pageLength,
+        isLast: true,
+      });
     }
+  }
+
+  private isPage(page: PaginationItem, pageNumber: number) {
+    return !page.isGap && page.number === pageNumber;
   }
 }
-
-//   paginate(currentPage, lastPage) {
-//     const delta = 1;
-//     const range = [];
-
-//     for (
-//       let i = Math.max(2, currentPage - delta);
-//       i <= Math.min(lastPage - 1, currentPage + delta);
-//       i += 1
-//     ) {
-//       range.push(i);
-//     }
-
-//     if (currentPage - delta > 2) {
-//       range.unshift('...');
-//     }
-
-//     if (currentPage + delta < lastPage - 1) {
-//       range.push('...');
-//     }
-
-//     range.unshift(1);
-
-//     if (lastPage !== 1) range.push(lastPage);
-
-//     console.log(range);
-//     return range;
-//   }
-// }

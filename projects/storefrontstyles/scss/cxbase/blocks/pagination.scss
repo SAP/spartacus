@@ -1,6 +1,3 @@
-@import '../../theme';
-@import '~bootstrap/scss/pagination';
-
 cx-pagination {
   display: flex;
   justify-content: flex-start;
@@ -10,93 +7,61 @@ cx-pagination {
 
   height: 48px;
 
-  text-align: center;
+  a {
+    &:not(.primary) {
+      &:not(.start):not(.end) {
+        display: none;
+      }
+    }
 
-  a,
-  a:not([href]):not([tabindex]) {
     --border-color: var(--cx-color-light);
 
     color: var(--cx-color-text);
-    cursor: pointer;
     width: 48px;
 
-    text-align: center;
-
     border: solid 1px var(--border-color);
-    border-right: none;
+    box-sizing: content-box;
+
+    border-inline-end: none;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
+    transition: background-color 0.3s, color 0.3s;
+
     &:first-child {
+      // this doesn't support directionality!
       border-top-left-radius: 0.25rem;
       border-bottom-left-radius: 0.25rem;
     }
     &:last-child {
-      border-right: solid 1px var(--border-color);
-
+      border-inline-end: solid 1px var(--border-color);
+      // this doesn't support directionality!
       border-top-right-radius: 0.25rem;
       border-bottom-right-radius: 0.25rem;
     }
 
-    &.active,
-    &:hover {
+    &.current {
       background-color: var(--cx-color-primary);
       color: var(--cx-color-inverse);
       --border-color: var(--cx-color-primary);
+      cursor: default;
+      opacity: 1;
     }
-    &.active + a {
-      border-left: none;
-    }
-  }
-}
 
-.page-item {
-  .page-link {
-    @include type(4);
-    padding: 12px 17px 12px 17px;
-    height: 48px;
-    color: var(--cx-color-text);
-    cursor: pointer;
+    &.current,
+    &.disabled,
+    &.gap {
+      pointer-events: none;
+    }
 
     &:hover {
-      background-color: var(--cx-color-primary);
-      color: var(--cx-color-inverse);
-      font-weight: 700;
+      text-decoration: none;
+      background-color: var(--cx-color-background);
     }
-
-    &[aria-label='Previous'],
-    &[aria-label='Next'] {
-      padding: 11px 14px 12px 14px;
-      color: var(--cx-color-secondary);
-
-      &:hover {
-        color: var(--cx-color-inverse);
-      }
-    }
-  }
-
-  &.disabled {
-    .page-link {
-      &[aria-label='Previous'],
-      &[aria-label='Next'] {
-        color: var(--cx-color-light);
-      }
-    }
-  }
-}
-
-//theme calydon cx-base adjustments
-$theme: '' !default;
-@if $theme == 'calydon' {
-  .page-item {
-    &.active {
-      .page-link {
-        border-color: var(--cx-color-primary);
-        background-color: var(--cx-color-primary);
-        color: var(--cx-color-inverse);
-      }
+    &.current + a {
+      border-left: none;
     }
   }
 }
