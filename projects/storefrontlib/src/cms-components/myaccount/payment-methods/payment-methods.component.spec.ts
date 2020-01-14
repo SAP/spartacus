@@ -48,7 +48,7 @@ class MockUserPaymentService {
   setPaymentMethodAsDefault(_paymentMethodId: string): void {}
 }
 
-describe('PaymentMethodsComponent', () => {
+fdescribe('PaymentMethodsComponent', () => {
   let component: PaymentMethodsComponent;
   let fixture: ComponentFixture<PaymentMethodsComponent>;
   let userService: UserPaymentService;
@@ -152,6 +152,9 @@ describe('PaymentMethodsComponent', () => {
       return elem.queryAll(By.css('cx-card .cx-card-label'))[1].nativeElement
         .textContent;
     }
+    function getCardIcon(elem: DebugElement): any {
+      return elem.query(By.css('.cx-card-img-container cx-icon'));
+    }
     component.ngOnInit();
     fixture.detectChanges();
     expect(getCardHeader(el)).toContain('paymentCard.defaultPaymentMethod');
@@ -160,6 +163,7 @@ describe('PaymentMethodsComponent', () => {
     expect(getExpiration(el)).toContain(
       `paymentCard.expires month:${mockPayment.expiryMonth} year:${mockPayment.expiryYear}`
     );
+    expect(getCardIcon(el)).not.toBe(null);
   });
 
   it('should show confirm on delete', () => {
