@@ -12,7 +12,6 @@ export const Navigation = {
   requestsCount: alias =>
     (<any>cy).state('requests').filter(a => a.alias === alias).length,
   SPA: {
-    navigationId: 1,
     navigateByUrl(url) {
       return (<any>cy.window()).then(w => {
         if (!w._cy_navigateByUrl) {
