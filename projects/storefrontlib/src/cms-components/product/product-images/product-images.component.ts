@@ -22,6 +22,8 @@ export class ProductImagesComponent {
     )
   );
 
+  isThumbsEmpty: boolean;
+
   thumbs$: Observable<any[]> = this.product$.pipe(
     map(product => this.createThumbs(product))
   );
