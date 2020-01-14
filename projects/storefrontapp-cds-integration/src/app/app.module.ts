@@ -2,12 +2,11 @@ import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
-import { NgModule, NgZone } from '@angular/core';
+import { NgModule } from '@angular/core';
 import {
   BrowserModule,
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { CdsModule } from '@spartacus/cds';
@@ -99,12 +98,4 @@ if (!environment.production) {
 
   bootstrap: [StorefrontComponent],
 })
-export class AppModule {
-  constructor(router: Router, ngZone: NgZone) {
-    (<any>window)._cy_navigateByUrl = url => {
-      ngZone.run(() => {
-        router.navigateByUrl(url);
-      });
-    };
-  }
-}
+export class AppModule {}

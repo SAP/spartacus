@@ -11,18 +11,4 @@ export const Navigation = {
   },
   requestsCount: alias =>
     (<any>cy).state('requests').filter(a => a.alias === alias).length,
-  SPA: {
-    navigateByUrl(url) {
-      return (<any>cy.window()).then(w => {
-        if (!w._cy_navigateByUrl) {
-          console.log(`Please implement a method _cy_navigateByUrl on the window object. This method should call 
-          the angular router navigateByUrl method.`);
-        }
-        w._cy_navigateByUrl(url);
-      });
-    },
-    goToProduct(id) {
-      return Navigation.SPA.navigateByUrl(`/product/${id}`);
-    },
-  },
 };

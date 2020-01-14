@@ -1,6 +1,7 @@
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import { Navigation } from '../../../helpers/navigation';
 import { CdsHelper } from '../../../helpers/vendor/cds/cds';
+import * as MercahndisingCarousel from '../../../helpers/vendor/cds/merchandising-carousel';
 import { ProfileTagHelper } from '../../../helpers/vendor/cds/profile-tag';
 describe('Profile-tag component', () => {
   beforeEach(() => {
@@ -29,16 +30,15 @@ describe('Profile-tag component', () => {
     Navigation.visitHomePage();
     clickAllowAllFromBanner();
     cy.wait(500);
-    Navigation.SPA.goToProduct(358639).then(() => {
-      cy.wait(`@${CdsHelper.clickstreamevents}`).then(xhr => {
-        ProfileTagHelper.assertPageViewEvent(xhr);
-      });
-      cy.wait(`@${CdsHelper.clickstreamevents}`).then(xhr => {
-        ProfileTagHelper.assertProductViewEvent(xhr);
-      });
-      cy.wait(1).then(() => {
-        expect(Navigation.requestsCount(CdsHelper.clickstreamevents)).to.eq(2);
-      });
+    MercahndisingCarousel.clickOnCarouselItem('779864');
+    cy.wait(`@${CdsHelper.clickstreamevents}`).then(xhr => {
+      ProfileTagHelper.assertPageViewEvent(xhr);
+    });
+    cy.wait(`@${CdsHelper.clickstreamevents}`).then(xhr => {
+      ProfileTagHelper.assertProductViewEvent(xhr);
+    });
+    cy.wait(1).then(() => {
+      expect(Navigation.requestsCount(CdsHelper.clickstreamevents)).to.eq(2);
     });
   });
 });
