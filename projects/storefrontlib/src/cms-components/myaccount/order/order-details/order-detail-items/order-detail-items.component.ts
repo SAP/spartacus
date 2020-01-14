@@ -22,14 +22,32 @@ export class OrderDetailItemsComponent implements OnInit {
 
     this.inProcess$ = this.orderDetailsService
       .getOrderDetails()
-      .pipe(map(x => x.consignments.filter(y => y.status === 'In Progress')));
+      .pipe(
+        map(order =>
+          order.consignments.filter(
+            consignment => consignment.status === 'In Progress'
+          )
+        )
+      );
 
     this.cancel$ = this.orderDetailsService
       .getOrderDetails()
-      .pipe(map(x => x.consignments.filter(y => y.status === 'Cancelled')));
+      .pipe(
+        map(order =>
+          order.consignments.filter(
+            consignment => consignment.status === 'Cancelled'
+          )
+        )
+      );
 
     this.completed$ = this.orderDetailsService
       .getOrderDetails()
-      .pipe(map(x => x.consignments.filter(y => y.status === 'Completed')));
+      .pipe(
+        map(order =>
+          order.consignments.filter(
+            consignment => consignment.status === 'Completed'
+          )
+        )
+      );
   }
 }
