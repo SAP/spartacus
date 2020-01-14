@@ -35,6 +35,7 @@ const mockBudgetList: BudgetListModel = {
       name: 'b1',
       budget: 2230,
       currency: {
+        isocode: 'USD',
         symbol: '$',
       },
       startDate: '2010-01-01T00:00:00+0000',
@@ -46,6 +47,7 @@ const mockBudgetList: BudgetListModel = {
       name: 'b2',
       budget: 2240,
       currency: {
+        isocode: 'USD',
         symbol: '$',
       },
       startDate: '2020-01-01T00:00:00+0000',

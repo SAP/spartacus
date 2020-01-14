@@ -18,6 +18,7 @@ import {
 import { BudgetFormComponent } from './budget-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
+import { By } from '@angular/platform-browser';
 
 const budgetCode = 'b1';
 
@@ -26,6 +27,7 @@ const mockBudget: Budget = {
   name: 'budget1',
   budget: 2230,
   currency: {
+    isocode: 'USD',
     symbol: '$',
   },
   startDate: '2010-01-01T00:00:00+0000',
@@ -144,6 +146,50 @@ describe('BudgetFormComponent', () => {
         .unsubscribe();
       expect(orgUnitService.getList).toHaveBeenCalled();
       expect(businessUnits).toEqual(mockOrgUnits.unitNodes);
+    });
+
+    it('should setup clean form', () => {
+      spyOn(component.form, 'patchValue');
+      component.budgetData = null;
+      component.ngOnInit();
+      expect(component.form.patchValue).not.toHaveBeenCalledWith();
+      expect(component.form.valid).toBeFalsy();
+    });
+
+    it('should setup form for update', () => {
+      spyOn(component.form, 'patchValue').and.callThrough();
+      component.budgetData = mockBudget;
+      component.ngOnInit();
+      expect(component.form.patchValue).toHaveBeenCalledWith(mockBudget);
+      expect(component.form.valid).toBeTruthy();
+    });
+  });
+
+  describe('verifyBudget', () => {
+    it('should not emit value if form is invalid', () => {
+      spyOn(component.submitBudget, 'emit');
+      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
+      submitButton.triggerEventHandler('click', null);
+      expect(component.submitBudget.emit).not.toHaveBeenCalled();
+    });
+
+    it('should emit value if form is valid', () => {
+      spyOn(component.submitBudget, 'emit');
+      component.budgetData = mockBudget;
+      component.ngOnInit();
+      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
+      submitButton.triggerEventHandler('click', null);
+      expect(component.submitBudget.emit).toHaveBeenCalledWith(
+        component.form.value
+      );
+    });
+  });
+
+  describe('back', () => {
+    it('should emit clickBack event', () => {
+      spyOn(component.clickBack, 'emit');
+      component.back();
+      expect(component.clickBack.emit).toHaveBeenCalled();
     });
   });
 });
