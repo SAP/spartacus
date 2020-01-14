@@ -218,7 +218,7 @@ export class ItemCounterComponent
     return this.value >= this.max || this.value <= this.min;
   }
 
-  onInputBlur() {
+  onInputBlur(): void {
     if (this.invalidInput) {
       this.manualChange(this.min);
     }
