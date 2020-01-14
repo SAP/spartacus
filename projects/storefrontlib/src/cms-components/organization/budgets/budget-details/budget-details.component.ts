@@ -22,6 +22,7 @@ export class BudgetDetailsComponent implements OnInit {
     protected translation: TranslationService
   ) {}
 
+  cxRoute = 'costCenters';
   budget$: Observable<Budget>;
   budgetCode$: Observable<string> = this.routingService
     .getRouterState()

@@ -99,6 +99,7 @@
         <h3>{{ 'budget.costCenters' | cxTranslate }}</h3>
       </div>
       <cx-table
+        [cxRoute]="cxRoute"
         [pageSize]="10"
         [columns]="getCostCenterColumns() | async"
         [tableData]="budget.costCenters"
