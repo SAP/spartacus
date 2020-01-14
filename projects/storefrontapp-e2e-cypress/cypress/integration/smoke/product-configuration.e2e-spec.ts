@@ -71,6 +71,28 @@ context('Product Configuration', () => {
       );
     });
 
+    it('Checkboxes should be still selected after group change', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.verifyAttributeValueIsDisplayed(
+        'WCEM_DP_MONITOR_MODEL',
+        'radioGroup',
+        '247E3LSU'
+      );
+      configuration.clickOnNextGroupButton('WCEM_DP_ACCESSORY', 'checkBoxList');
+      configuration.selectAttribute(
+        'WCEM_DP_ACCESSORY',
+        'checkBoxList',
+        'EXT_DD'
+      );
+      configuration.clickOnPreviousGroupButton(
+        'WCEM_DP_MONITOR_MODEL',
+        'radioGroup'
+      );
+      configuration.clickOnNextGroupButton('WCEM_DP_ACCESSORY', 'checkBoxList');
+      configuration.verifyCheckboxIsSelected('WCEM_DP_ACCESSORY', 'EXT_DD');
+    });
+
     it('Value should change on configuration change', () => {
       //TODO:
     });
@@ -184,7 +206,7 @@ context('Product Configuration', () => {
       );
     });
 
-    it('should navigate using the previous and next button for muli level product', () => {
+    it('should navigate using the previous and next button for multi level product', () => {
       goToConfigurationPage(configurator, testProductMultiLevel);
       configuration.verifyConfigurationPageIsDisplayed();
 
@@ -193,7 +215,7 @@ context('Product Configuration', () => {
       configuration.clickOnPreviousGroupButton('CPQ_HT_INCLUDE_TV', 'label');
     });
 
-    it('should navigate using the group menu for muli level product', () => {
+    it('should navigate using the group menu for multi level product', () => {
       goToConfigurationPage(configurator, testProductMultiLevel);
       configuration.verifyConfigurationPageIsDisplayed();
 
