@@ -181,4 +181,13 @@ describe('ConfiguratorGroupsService', () => {
 
     expect(parentGroup).toBe(productConfiguration.groups[2]);
   });
+
+  it('should check if subgroups exist', () => {
+    expect(serviceUnderTest.hasSubGroups(productConfiguration.groups[0])).toBe(
+      false
+    );
+    expect(serviceUnderTest.hasSubGroups(productConfiguration.groups[2])).toBe(
+      true
+    );
+  });
 });
