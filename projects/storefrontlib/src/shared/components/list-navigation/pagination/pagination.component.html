@@ -3,16 +3,18 @@
     class="start"
     [class.disabled]="isDisabled(0)"
     [routerLink]="pageRoute"
-    [queryParams]="getRouteParam(0)"
+    [queryParams]="getQueryParams(0)"
     [tabIndex]="isDisabled(0) ? -1 : 0"
+    (click)="pageChange(0)"
     >«</a
   >
   <a
     class="previous"
     [class.disabled]="isDisabled(previous)"
     [routerLink]="pageRoute"
-    [queryParams]="getRouteParam(previous)"
+    [queryParams]="getQueryParams(previous)"
     [tabIndex]="isDisabled(previous) ? -1 : 0"
+    (click)="pageChange(previous)"
     >‹</a
   >
 
@@ -21,12 +23,11 @@
     [class.disabled]="isDisabled(page.number - 1)"
     [class.primary]="page.isPrimary"
     [class.current]="page.isCurrent"
-    [class.first]="page.isFirst"
-    [class.last]="page.isLast"
     [class.gap]="page.isGap"
     [routerLink]="pageRoute"
-    [queryParams]="getRouteParam(page.number - 1)"
+    [queryParams]="getQueryParams(page.number - 1)"
     [tabIndex]="isDisabled(page.number - 1) ? -1 : 0"
+    (click)="pageChange(page.number - 1)"
   >
     {{ page.isGap ? '...' : page.number }}
   </a>
@@ -35,8 +36,9 @@
     class="next"
     [class.disabled]="isDisabled(next)"
     [routerLink]="pageRoute"
-    [queryParams]="getRouteParam(next)"
+    [queryParams]="getQueryParams(next)"
     [tabIndex]="isDisabled(next) ? -1 : 0"
+    (click)="pageChange(next)"
     >›</a
   >
 
@@ -44,8 +46,9 @@
     class="end"
     [class.disabled]="isDisabled(last)"
     [routerLink]="pageRoute"
-    [queryParams]="getRouteParam(last)"
+    [queryParams]="getQueryParams(last)"
     [tabIndex]="isDisabled(last) ? -1 : 0"
+    (click)="pageChange(last)"
     >»</a
   >
 </ng-container>

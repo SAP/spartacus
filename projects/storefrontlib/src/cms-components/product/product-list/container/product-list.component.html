@@ -24,7 +24,8 @@
                 >
                   <cx-pagination
                     [pagination]="model.pagination"
-                    (viewPageEvent)="viewPage($event)"
+                    queryParam="currentPage"
+                    [defaultPage]="0"
                   ></cx-pagination>
                 </div>
               </div>
@@ -87,10 +88,11 @@
                 aria-label="product search pagination"
               >
                 <div class="cx-pagination">
-                  <!-- <cx-pagination
+                  <cx-pagination
                     [pagination]="model.pagination"
-                    (viewPageEvent)="viewPage($event)"
-                  ></cx-pagination> -->
+                    queryParam="currentPage"
+                    [defaultPage]="0"
+                  ></cx-pagination>
                 </div>
               </div>
               <div class="col-auto ml-auto ml-lg-0">
