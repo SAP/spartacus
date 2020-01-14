@@ -48,7 +48,7 @@ class MockUserPaymentService {
   setPaymentMethodAsDefault(_paymentMethodId: string): void {}
 }
 
-fdescribe('PaymentMethodsComponent', () => {
+describe('PaymentMethodsComponent', () => {
   let component: PaymentMethodsComponent;
   let fixture: ComponentFixture<PaymentMethodsComponent>;
   let userService: UserPaymentService;
