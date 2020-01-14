@@ -58,14 +58,6 @@ const mockOrgUnits: B2BUnitNodeList = {
   ],
 };
 
-export function triggerKeyDownEvent(element, which: number, key = ''): void {
-  element.triggerEventHandler('keydown', {
-    which: which,
-    key: key,
-    preventDefault: () => {},
-  });
-}
-
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
@@ -210,27 +202,9 @@ describe('BudgetFormComponent', () => {
 
   describe('currencySelected', () => {
     it('should setup currency', () => {
-      spyOn(component, 'currencySelected').and.callThrough();
       component.budgetData = mockBudget;
       component.ngOnInit();
-      console.log(component.form.value);
-      const currencyDropdown = fixture.debugElement.query(
-        By.css('[formcontrolname="isocode"]')
-      );
-      triggerKeyDownEvent(currencyDropdown, 32);
-      fixture.detectChanges();
-      const currencyOtherOption = fixture.debugElement.query(
-        By.css('[ng-reflect-ng-item-label="Euro"]')
-      );
-      currencyOtherOption.nativeElement.dispatchEvent(
-        new MouseEvent('mousedown', { bubbles: true })
-      );
-      expect(component.currencySelected).toHaveBeenCalledWith({
-        isocode: 'EUR',
-      });
-      // fixture.detectChanges();
-      // console.log(component.form.value);
-
+      component.currencySelected(mockCurrencies[1]);
       expect(component.form.controls['currency'].value).toEqual({
         isocode: 'EUR',
       });
@@ -238,22 +212,13 @@ describe('BudgetFormComponent', () => {
   });
 
   describe('businessUnitSelected', () => {
-    // it('should setup business unit', () => {
-    //   component.ngOnInit();
-    //
-    //   const businessUnitDropdown = fixture.debugElement.query(
-    //     By.css('[formcontrolname="uid"]')
-    //   );
-    //   businessUnitDropdown.triggerEventHandler('click', null);
-    //   fixture.detectChanges();
-    //
-    //   const orgUnitOption = fixture.debugElement.query(
-    //     By.css('[ng-reflect-ng-item-label="Org Unit 2"]')
-    //   );
-    //   orgUnitOption.triggerEventHandler('click', null);
-    //   expect(
-    //     component.form.controls.orgUnit['controls'].uid.getValue()
-    //   ).toEqual(null);
-    // });
+    it('should setup business unit', () => {
+      component.budgetData = mockBudget;
+      component.ngOnInit();
+      component.businessUnitSelected(mockOrgUnits.unitNodes[1]);
+      expect(component.form.controls['orgUnit'].value).toEqual({
+        uid: 'unitNode2',
+      });
+    });
   });
 });
