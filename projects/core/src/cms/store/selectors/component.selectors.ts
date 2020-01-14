@@ -89,7 +89,6 @@ export const componentSelectorFactory = (
   );
 };
 
-// TODO:#4603 - test
 export const getComponentsState: MemoizedSelector<
   StateWithCms,
   ComponentsState
@@ -98,7 +97,6 @@ export const getComponentsState: MemoizedSelector<
   state => state.components
 );
 
-// TODO:#4603 - test
 export const componentsContextSelectorFactory = (
   uid: string
 ): MemoizedSelector<StateWithCms, ComponentsContext> => {
@@ -115,7 +113,6 @@ export const componentsContextSelectorFactory = (
   );
 };
 
-// TODO:#4603 - test
 export const componentsLoaderStateSelectorFactory = (
   uid: string,
   context: string
@@ -133,7 +130,6 @@ export const componentsLoaderStateSelectorFactory = (
   );
 };
 
-// TODO:#4603 - test
 export const componentsContextExistsSelectorFactory = (
   uid: string,
   context: string
@@ -158,7 +154,6 @@ export const componentsContextExistsSelectorFactory = (
   );
 };
 
-// TODO:#4603 - test
 export const componentsSelectorFactory = (
   uid: string,
   context: string
