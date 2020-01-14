@@ -1,26 +1,18 @@
-import { checkoutWithVariants } from '../../helpers/checkout-with-variants';
-import * as login from '../../helpers/login';
 import { retrieveTokenAndLogin } from '../../helpers/checkout-as-persistent-user';
+import * as login from '../../helpers/login';
+import { checkoutWithVariantsTest } from '../../helpers/checkout-with-variants';
 
-describe('Checkout - With Product Variants', () => {
-  before(() =>
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    })
-  );
-
-  describe('checkout test as a persistent user', () => {
+context('Checkout - With product Variants', () => {
+  describe('Apparel', () => {
     before(() => {
-      retrieveTokenAndLogin();
-      cy.reload();
-      cy.visit('/');
+      configureApparelProduct();
     });
 
     beforeEach(() => {
       cy.restoreLocalStorage();
     });
 
-    checkoutWithVariants();
+    checkoutWithVariantsTest();
 
     afterEach(() => {
       cy.saveLocalStorage();
@@ -31,3 +23,13 @@ describe('Checkout - With Product Variants', () => {
     });
   });
 });
+
+function configureApparelProduct() {
+  cy.window().then(win => win.sessionStorage.clear());
+  cy.cxConfig({
+    context: {
+      baseSite: ['apparel-uk-spa'],
+      currency: ['GBP'],
+    },
+  });
+}

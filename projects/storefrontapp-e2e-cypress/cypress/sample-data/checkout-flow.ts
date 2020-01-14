@@ -36,6 +36,11 @@ export const cheapProduct = {
   code: '280916',
 };
 
+export const variantProduct = {
+  name: 'Sludge Jacket youth col mustard colorblock XL',
+  code: '300410422',
+};
+
 // usa shipping cost
 export const cart = {
   estimatedShipping: '$11.99',
