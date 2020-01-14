@@ -3,6 +3,7 @@ import { Consignment, Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
+import { CONSIGNMENT_STATUS } from './order-consigned-entries/order-consigned-entries.model';
 
 @Component({
   selector: 'cx-order-details-items',
@@ -20,34 +21,35 @@ export class OrderDetailItemsComponent implements OnInit {
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();
 
-    this.inProcess$ = this.orderDetailsService
-      .getOrderDetails()
-      .pipe(
-        map(order =>
-          order.consignments.filter(
-            consignment => consignment.status === 'In Progress'
-          )
-        )
-      );
+    this.inProcess$ = this.orderDetailsService.getOrderDetails().pipe(
+      map(order => {
+        if (Boolean(order.consignments)) {
+          return order.consignments.filter(
+            consignment => consignment.status === CONSIGNMENT_STATUS.READY
+          );
+        }
+      })
+    );
 
-    this.cancel$ = this.orderDetailsService
-      .getOrderDetails()
-      .pipe(
-        map(order =>
-          order.consignments.filter(
-            consignment => consignment.status === 'Cancelled'
-          )
-        )
-      );
+    this.cancel$ = this.orderDetailsService.getOrderDetails().pipe(
+      map(order => {
+        if (Boolean(order.consignments)) {
+          return order.consignments.filter(
+            consignment => consignment.status === CONSIGNMENT_STATUS.CANCELLED
+          );
+        }
+      })
+    );
 
-    this.completed$ = this.orderDetailsService
-      .getOrderDetails()
-      .pipe(
-        map(order =>
-          order.consignments.filter(
-            consignment => consignment.status === 'Completed'
-          )
-        )
-      );
+    this.completed$ = this.orderDetailsService.getOrderDetails().pipe(
+      map(order => {
+        if (Boolean(order.consignments)) {
+          return order.consignments.filter(
+            consignment =>
+              consignment.status === CONSIGNMENT_STATUS.DELIVERY_COMPLETED
+          );
+        }
+      })
+    );
   }
 }

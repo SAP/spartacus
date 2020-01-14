@@ -6,7 +6,6 @@ export const myAccount = {
     shippedOn: 'Shipped on',
     inProcess: 'In process...',
     pending: 'Pending',
-    deliveryStatus: '{{ context }}',
     deliveryStatus_READY_FOR_PICKUP: 'Ready for pickup',
     deliveryStatus_PICKUP_COMPLETE: 'Picked up',
     deliveryStatus_SHIPPED: 'Shipped',
