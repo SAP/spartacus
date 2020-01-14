@@ -208,7 +208,7 @@ $theme: '' !default;
     outline-style: solid;
     outline-color: var(--cx-color-visual-focus);
     outline-width: 2px;
-    outline-offset: 3px;
+    outline-offset: 4px;
   }
   .form-control,
   select,
@@ -217,13 +217,13 @@ $theme: '' !default;
       outline-style: solid;
       outline-color: var(--cx-color-visual-focus);
       outline-width: 2px;
-      outline-offset: 3px;
+      outline-offset: 4px;
     }
   }
   .ng-select-focused {
     outline-style: solid;
     outline-color: var(--cx-color-visual-focus);
     outline-width: 2px;
-    outline-offset: 3px;
+    outline-offset: 4px;
   }
 }
