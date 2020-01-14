@@ -3,29 +3,83 @@
     {{ 'voucher.coupon' | cxTranslate }}
   </div>
   <div class="form-group ">
-    <form (submit)="applyVoucher()" [formGroup]="form">
-      <div class="row">
-        <div class="col-md-8">
-          <input
-            type="text"
-            class="form-control input-coupon-code"
-            id="applyVoucher"
-            formControlName="couponCode"
-            placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
-          />
+    <ng-container *cxFeatureLevel="'1.5'">
+      <form (submit)="applyVoucher()" [formGroup]="form" autocomplete="off">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="cx-apply-voucher">
+              <input
+                #couponInput
+                class="form-control input-coupon-code"
+                id="applyVoucher"
+                formControlName="couponCode"
+                [placeholder]="'voucher.placeholder' | cxTranslate"
+                aria-label="applyVoucher"
+                (focus)="open()"
+                (input)="filter(couponInput.value)"
+                (blur)="close($event)"
+                (keydown.escape)="close($event)"
+                autocomplete="off"
+              />
+
+              <div [class.couponbox-is-active]="couponBoxIsActive">
+                <div
+                  *ngIf="filteredCoupons && filteredCoupons.length > 0"
+                  class="cx-customer-coupons"
+                  (click)="close($event)"
+                >
+                  <div class="coupons" (mousedown)="disableClose()">
+                    <a
+                      *ngFor="let coupon of filteredCoupons"
+                      (click)="applyCustomerCoupon(coupon.couponId)"
+                    >
+                      <div class="coupon-id">{{ coupon.couponId }}</div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <button
+              class="btn btn-block btn-action apply-coupon-button"
+              type="submit"
+              [disabled]="submitDisabled$ | async"
+              [class.disabled]="submitDisabled$ | async"
+            >
+              {{ 'voucher.apply' | cxTranslate }}
+            </button>
+          </div>
         </div>
-        <div class="col-md-4">
-          <button
-            class="btn btn-block btn-action apply-coupon-button"
-            type="submit"
-            [disabled]="submitDisabled$ | async"
-            [class.disabled]="submitDisabled$ | async"
-          >
-            {{ 'voucher.apply' | cxTranslate }}
-          </button>
+      </form>
+    </ng-container>
+
+    <ng-container *cxFeatureLevel="'!1.5'">
+      <form (submit)="applyVoucher()" [formGroup]="form">
+        <div class="row">
+          <div class="col-md-8">
+            <input
+              type="text"
+              class="form-control input-coupon-code"
+              id="applyVoucher"
+              formControlName="couponCode"
+              placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
+            />
+          </div>
+          <div class="col-md-4">
+            <button
+              class="btn btn-block btn-action apply-coupon-button"
+              type="submit"
+              [disabled]="submitDisabled$ | async"
+              [class.disabled]="submitDisabled$ | async"
+            >
+              {{ 'voucher.apply' | cxTranslate }}
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </ng-container>
   </div>
 
   <cx-applied-coupons
