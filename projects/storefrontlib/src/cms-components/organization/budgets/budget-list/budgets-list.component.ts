@@ -106,7 +106,7 @@ export class BudgetsListComponent implements OnInit {
     this.updateQueryParams({ currentPage });
   }
 
-  updateQueryParams(newParams: Partial<BudgetSearchConfig>): void {
+  private updateQueryParams(newParams: Partial<BudgetSearchConfig>): void {
     this.params$
       .pipe(
         map(params => diff(this.defaultParams, { ...params, ...newParams })),

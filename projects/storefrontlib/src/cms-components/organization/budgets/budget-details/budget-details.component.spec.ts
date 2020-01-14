@@ -18,9 +18,11 @@ import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { TableModule } from '../../../../shared/components/table/table.module';
 
+const budgetCode = 'b1';
+
 const mockBudget: Budget = {
-  code: '1',
-  name: 'b1',
+  code: budgetCode,
+  name: 'budget1',
   budget: 2230,
   currency: {
     symbol: '$',
@@ -34,8 +36,8 @@ const mockBudget: Budget = {
   ],
 };
 const mockBudgetUI: any = {
-  code: '1',
-  name: 'b1',
+  code: budgetCode,
+  name: 'budget1',
   budget: 2230,
   currency: {
     symbol: '$',
@@ -59,9 +61,9 @@ class MockUrlPipe implements PipeTransform {
 class MockBudgetService implements Partial<BudgetService> {
   loadBudget = createSpy('loadBudget');
   get = createSpy('get').and.returnValue(of(mockBudget));
+  update = createSpy('update');
 }
 
-const budgetCode = 'b1';
 const mockRouterState = {
   state: {
     params: {
@@ -115,7 +117,6 @@ describe('BudgetDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BudgetDetailsComponent);
     component = fixture.componentInstance;
-    component.ngOnInit();
     fixture.detectChanges();
   });
 
@@ -123,16 +124,49 @@ describe('BudgetDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load budget', () => {
-    let budget: any;
-    component.budget$
-      .subscribe(value => {
-        budget = value;
-      })
-      .unsubscribe();
-    expect(routingService.getRouterState).toHaveBeenCalled();
-    expect(budgetsService.loadBudget).toHaveBeenCalledWith(budgetCode);
-    expect(budgetsService.get).toHaveBeenCalledWith(budgetCode);
-    expect(budget).toEqual(mockBudgetUI);
+  describe('ngOnInit', () => {
+    it('should load budget', () => {
+      component.ngOnInit();
+      let budget: any;
+      component.budget$
+        .subscribe(value => {
+          budget = value;
+        })
+        .unsubscribe();
+      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(budgetsService.loadBudget).toHaveBeenCalledWith(budgetCode);
+      expect(budgetsService.get).toHaveBeenCalledWith(budgetCode);
+      expect(budget).toEqual(mockBudgetUI);
+    });
+  });
+
+  describe('getCostCenterColumns', () => {
+    it('should prepare cost center columns', () => {
+      let columns;
+      component
+        .getCostCenterColumns()
+        .subscribe(data => (columns = data))
+        .unsubscribe();
+      expect(columns).toEqual([
+        { key: 'name', value: 'costCenter.name' },
+        { key: 'description', value: 'costCenter.description' },
+      ]);
+    });
+  });
+
+  describe('update', () => {
+    it('should update budget', () => {
+      component.ngOnInit();
+
+      component.update({ active: false });
+      expect(budgetsService.update).toHaveBeenCalledWith(budgetCode, {
+        active: false,
+      });
+
+      component.update({ active: true });
+      expect(budgetsService.update).toHaveBeenCalledWith(budgetCode, {
+        active: true,
+      });
+    });
   });
 });

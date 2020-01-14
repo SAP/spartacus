@@ -150,35 +150,12 @@ describe('BudgetsListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BudgetsListComponent);
     component = fixture.componentInstance;
-    component.ngOnInit();
+    budgetList.next(mockBudgetList);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should read budget list', () => {
-    let budgetsList: any;
-    component.budgetsList$
-      .subscribe(value => {
-        budgetsList = value;
-      })
-      .unsubscribe();
-    expect(budgetsService.loadBudgets).toHaveBeenCalledWith(defaultParams);
-    expect(budgetsService.getList).toHaveBeenCalledWith(defaultParams);
-    expect(budgetsList).toEqual(mockBudgetUIList);
-  });
-
-  it('should redirect when clicking on budget id', () => {
-    fixture.detectChanges();
-    const rows = fixture.debugElement.queryAll(By.css('.cx-table tbody tr'));
-    rows[1].triggerEventHandler('click', null);
-
-    expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'budgetDetails',
-      params: mockBudgetUIList.budgetsList[1],
-    });
   });
 
   it('should display No budgets found page if no budgets are found', () => {
@@ -194,58 +171,94 @@ describe('BudgetsListComponent', () => {
     expect(fixture.debugElement.query(By.css('.cx-no-budgets'))).not.toBeNull();
   });
 
-  it('should set correctly sort code', () => {
-    component['params$'] = of(defaultParams);
-    component.changeSortCode('byCode');
-    expect(routingService.go).toHaveBeenCalledWith(
-      {
-        cxRoute: 'budgets',
-      },
-      {
-        sort: 'byCode',
-      }
-    );
+  describe('ngOnInit', () => {
+    it('should read budget list', () => {
+      component.ngOnInit();
+      let budgetsList: any;
+      component.budgetsList$
+        .subscribe(value => {
+          budgetsList = value;
+        })
+        .unsubscribe();
+      expect(budgetsService.loadBudgets).toHaveBeenCalledWith(defaultParams);
+      expect(budgetsService.getList).toHaveBeenCalledWith(defaultParams);
+      expect(budgetsList).toEqual(mockBudgetUIList);
+    });
   });
 
-  it('should set correctly page', () => {
-    component['params$'] = of(defaultParams);
-    component.pageChange(2);
-    expect(routingService.go).toHaveBeenCalledWith(
-      {
-        cxRoute: 'budgets',
-      },
-      {
-        currentPage: 2,
-      }
-    );
+  describe('goToBudgetDetail', () => {
+    it('should redirect when clicking on budget id', () => {
+      fixture.detectChanges();
+      const rows = fixture.debugElement.queryAll(By.css('.cx-table tbody tr'));
+      rows[1].triggerEventHandler('click', null);
+
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'budgetDetails',
+        params: mockBudgetUIList.budgetsList[1],
+      });
+    });
   });
 
-  it('should prepare columns', () => {
-    let columns;
-    component
-      .getColumns()
-      .subscribe(data => (columns = data))
-      .unsubscribe();
-    expect(columns).toEqual([
-      { key: 'code', value: 'budgetsList.code' },
-      { key: 'name', value: 'budgetsList.name' },
-      { key: 'amount', value: 'budgetsList.amount' },
-      { key: 'startEndDate', value: 'budgetsList.startEndDate' },
-      { key: 'parentUnit', value: 'budgetsList.parentUnit' },
-    ]);
+  describe('changeSortCode', () => {
+    it('should set correctly sort code', () => {
+      component['params$'] = of(defaultParams);
+      component.changeSortCode('byCode');
+      expect(routingService.go).toHaveBeenCalledWith(
+        {
+          cxRoute: 'budgets',
+        },
+        {
+          sort: 'byCode',
+        }
+      );
+    });
   });
 
-  it('should prepare sort labels', () => {
-    let sortLabels;
-    component
-      .getSortLabels()
-      .subscribe(data => (sortLabels = data))
-      .unsubscribe();
-    expect(sortLabels).toEqual({
-      byUnitName: 'budgetsList.sorting.byUnitName',
-      byName: 'budgetsList.sorting.byName',
-      byCode: 'budgetsList.sorting.byCode',
-      byValue: 'budgetsList.sorting.byValue',
+  describe('pageChange', () => {
+    it('should set correctly page', () => {
+      component['params$'] = of(defaultParams);
+      component.pageChange(2);
+      expect(routingService.go).toHaveBeenCalledWith(
+        {
+          cxRoute: 'budgets',
+        },
+        {
+          currentPage: 2,
+        }
+      );
+    });
+  });
+
+  describe('getColumns', () => {
+    it('should prepare columns', () => {
+      let columns;
+      component
+        .getColumns()
+        .subscribe(data => (columns = data))
+        .unsubscribe();
+      expect(columns).toEqual([
+        { key: 'code', value: 'budgetsList.code' },
+        { key: 'name', value: 'budgetsList.name' },
+        { key: 'amount', value: 'budgetsList.amount' },
+        { key: 'startEndDate', value: 'budgetsList.startEndDate' },
+        { key: 'parentUnit', value: 'budgetsList.parentUnit' },
+      ]);
+    });
+  });
+
+  describe('getSortLabels', () => {
+    it('should prepare sort labels', () => {
+      let sortLabels;
+      component
+        .getSortLabels()
+        .subscribe(data => (sortLabels = data))
+        .unsubscribe();
+      expect(sortLabels).toEqual({
+        byUnitName: 'budgetsList.sorting.byUnitName',
+        byName: 'budgetsList.sorting.byName',
+        byCode: 'budgetsList.sorting.byCode',
+        byValue: 'budgetsList.sorting.byValue',
+      });
     });
   });
 });
