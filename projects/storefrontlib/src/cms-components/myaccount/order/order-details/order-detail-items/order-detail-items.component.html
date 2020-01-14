@@ -1,10 +1,11 @@
 <ng-container *ngIf="order$ | async as order">
   <!-- consigned entries -->
-  <cx-order-consigned-entries
-    *ngIf="inProcess$ | async as inProcess"
-    [order]="order"
-    [consignments]="inProcess"
-  ></cx-order-consigned-entries>
+  <ng-container *ngIf="inProcess$ | async as inProcess">
+    <cx-order-consigned-entries
+      [order]="order"
+      [consignments]="inProcess"
+    ></cx-order-consigned-entries>
+  </ng-container>
 
   <cx-order-consigned-entries
     *ngIf="cancel$ | async as cancel"
