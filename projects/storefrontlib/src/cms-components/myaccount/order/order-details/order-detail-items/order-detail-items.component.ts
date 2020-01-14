@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Consignment, Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
-
-import { Order, Consignment, OrderEntry } from '@spartacus/core';
-
+import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -14,16 +13,23 @@ export class OrderDetailItemsComponent implements OnInit {
 
   order$: Observable<Order>;
 
+  inProcess$: Observable<Consignment[]>;
+  cancel$: Observable<Consignment[]>;
+  completed$: Observable<Consignment[]>;
+
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();
-  }
 
-  getConsignmentProducts(consignment: Consignment): OrderEntry[] {
-    const products: OrderEntry[] = [];
-    consignment.entries.forEach(element => {
-      products.push(element.orderEntry);
-    });
+    this.inProcess$ = this.orderDetailsService
+      .getOrderDetails()
+      .pipe(map(x => x.consignments.filter(y => y.status === 'In Progress')));
 
-    return products;
+    this.cancel$ = this.orderDetailsService
+      .getOrderDetails()
+      .pipe(map(x => x.consignments.filter(y => y.status === 'Cancelled')));
+
+    this.completed$ = this.orderDetailsService
+      .getOrderDetails()
+      .pipe(map(x => x.consignments.filter(y => y.status === 'Completed')));
   }
 }
