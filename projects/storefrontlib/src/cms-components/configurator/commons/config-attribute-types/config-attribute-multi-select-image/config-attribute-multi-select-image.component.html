@@ -4,6 +4,12 @@
 >
   <div
     *ngFor="let value of attribute.values; let i = index"
+    id="{{
+      uiKeyGenerator.createAttributeValueIdForConfigurator(
+        attribute,
+        value.valueCode
+      )
+    }}"
     (click)="onSelect(i)"
     (keyup)="onEnter($event, i)"
     class="cx-config-select col-6 col-sm-3 "
