@@ -120,7 +120,7 @@ class MockConsignmentTrackingComponent {
   orderCode: string;
 }
 
-fdescribe('OrderDetailItemsComponent', () => {
+describe('OrderDetailItemsComponent', () => {
   let component: OrderDetailItemsComponent;
   let fixture: ComponentFixture<OrderDetailItemsComponent>;
   let mockOrderDetailsService: OrderDetailsService;
