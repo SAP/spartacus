@@ -1,16 +1,13 @@
-import { serializePageContext } from 'projects/core/src/util/serialization-utils';
 import { initialLoaderState } from '../../../state/utils/loader/loader.reducer';
+import { serializePageContext } from '../../../util/serialization-utils';
 import { CmsActions } from '../actions/index';
 import { ComponentsContext } from '../cms-state';
-
-// TODO:#4603 - rename the file to `components.reducer.ts`
 
 export const initialState: ComponentsContext = {
   component: undefined,
   pageContext: {},
 };
 
-// TODO:#4603 - test
 export function reducer<T>(
   state = initialState,
   action: CmsActions.CmsComponentAction<T>
