@@ -12,6 +12,7 @@ import {
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
 import { OrderDetailsService } from '../order-details.service';
+import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
 
 const mockOrder: Order = {
@@ -58,7 +59,19 @@ const mockOrder: Order = {
   consignments: [
     {
       code: 'a00000341',
-      status: 'SHIPPED',
+      status: 'READY',
+      statusDate: new Date('2019-02-11T13:05:12+0000'),
+      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
+    },
+    {
+      code: 'a00000343',
+      status: 'DELIVERY_COMPLETED',
+      statusDate: new Date('2019-02-11T13:05:12+0000'),
+      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
+    },
+    {
+      code: 'a00000342',
+      status: 'CANCELLED',
       statusDate: new Date('2019-02-11T13:05:12+0000'),
       entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
     },
@@ -121,6 +134,7 @@ describe('OrderDetailItemsComponent', () => {
         OrderDetailItemsComponent,
         MockCartItemListComponent,
         MockConsignmentTrackingComponent,
+        OrderConsignedEntriesComponent,
       ],
     }).compileComponents();
   }));
@@ -137,7 +151,7 @@ describe('OrderDetailItemsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize ', () => {
+  it('should initialize order ', () => {
     fixture.detectChanges();
     let order: Order;
     component.order$
@@ -146,6 +160,39 @@ describe('OrderDetailItemsComponent', () => {
       })
       .unsubscribe();
     expect(order).toEqual(mockOrder);
+  });
+
+  it('should initialize in process ', () => {
+    fixture.detectChanges();
+    let others: Consignment[];
+    component.others$
+      .subscribe(value => {
+        others = value;
+      })
+      .unsubscribe();
+    expect(others).toEqual([mockOrder.consignments[0]]);
+  });
+
+  it('should initialize completed ', () => {
+    fixture.detectChanges();
+    let completed: Consignment[];
+    component.completed$
+      .subscribe(value => {
+        completed = value;
+      })
+      .unsubscribe();
+    expect(completed).toEqual([mockOrder.consignments[1]]);
+  });
+
+  it('should initialize cancel ', () => {
+    fixture.detectChanges();
+    let cancel: Consignment[];
+    component.cancel$
+      .subscribe(value => {
+        cancel = value;
+      })
+      .unsubscribe();
+    expect(cancel).toEqual([mockOrder.consignments[2]]);
   });
 
   it('should order details item be rendered', () => {

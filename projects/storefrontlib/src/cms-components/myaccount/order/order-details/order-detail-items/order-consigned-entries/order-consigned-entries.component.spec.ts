@@ -6,10 +6,62 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
+  Order,
   PromotionResult,
 } from '@spartacus/core';
 import { CardModule } from '../../../../../../shared/components/card/card.module';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries.component';
+
+const mockOrder: Order = {
+  code: '1',
+  statusDisplay: 'Shipped',
+  deliveryAddress: {
+    firstName: 'John',
+    lastName: 'Smith',
+    line1: 'Buckingham Street 5',
+    line2: '1A',
+    phone: '(+11) 111 111 111',
+    postalCode: 'MA8902',
+    town: 'London',
+    country: {
+      isocode: 'UK',
+    },
+  },
+  deliveryMode: {
+    name: 'Standard order-detail-shipping',
+    description: '3-5 days',
+  },
+  paymentInfo: {
+    accountHolderName: 'John Smith',
+    cardNumber: '************6206',
+    expiryMonth: '12',
+    expiryYear: '2026',
+    cardType: {
+      name: 'Visa',
+    },
+    billingAddress: {
+      firstName: 'John',
+      lastName: 'Smith',
+      line1: 'Buckingham Street 5',
+      line2: '1A',
+      phone: '(+11) 111 111 111',
+      postalCode: 'MA8902',
+      town: 'London',
+      country: {
+        isocode: 'UK',
+      },
+    },
+  },
+  created: new Date('2019-02-11T13:02:58+0000'),
+  consignments: [
+    {
+      code: 'a00000341',
+      status: 'SHIPPED',
+      statusDate: new Date('2019-02-11T13:05:12+0000'),
+      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
+    },
+  ],
+};
 
 @Component({
   selector: 'cx-cart-item-list',
@@ -68,6 +120,8 @@ describe('OrderConsignedEntriesComponent', () => {
     el = fixture.debugElement;
 
     component = fixture.componentInstance;
+    component.order = mockOrder;
+    component.consignments = mockOrder.consignments;
   });
 
   it('should create', () => {
