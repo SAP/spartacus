@@ -1,8 +1,10 @@
 <nav>
-  <ul class="cx-config-menu">
+  <ul class="cx-config-menu" tabindex="0">
     <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
       <li
+        tabindex="0"
         (click)="navigateUp()"
+        (keyup)="navigateUpOnEnter($event)"
         class="cx-config-menu-back"
         *ngIf="parentGroup !== null"
       >
@@ -17,7 +19,12 @@
     <ng-container *ngIf="displayedGroups$ | async as groups">
       <ng-container *ngIf="currentGroup$ | async as currentGroup">
         <ng-container *ngFor="let group of groups">
-          <li (click)="click(group)" class="cx-config-menu-item">
+          <li
+            (click)="click(group)"
+            (keyup)="clickOnEnter($event, group)"
+            class="cx-config-menu-item"
+            tabindex="0"
+          >
             <a [class.active]="currentGroup.id === group.id" role="link"
               >{{ group.description }}
 
