@@ -222,7 +222,10 @@ export class CartEffects {
                 userId: payload.userId,
                 extraData: payload.extraData,
               }),
-              new CartActions.SetFreshCart(cart),
+              new CartActions.SetFreshCart({
+                cart,
+                freshCartId: payload.freshCartId,
+              }),
               ...conditionalActions,
             ];
           }),
@@ -232,7 +235,7 @@ export class CartEffects {
                 makeErrorSerializable(error)
               ),
               new CartActions.CreateMultiCartFail({
-                cartId: payload.cartId,
+                freshCartId: payload.freshCartId,
                 error: makeErrorSerializable(error),
               }),
             ])

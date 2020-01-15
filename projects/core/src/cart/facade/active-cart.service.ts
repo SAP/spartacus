@@ -24,10 +24,9 @@ import {
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import { EMAIL_PATTERN } from '../../util/regex-pattern';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
-import { FRESH_CART_ID } from '../store/actions/multi-cart.action';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
-import { getCartIdByUserId } from '../utils/utils';
+import { getCartIdByUserId, isFreshCartId } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 
 @Injectable()
@@ -102,7 +101,7 @@ export class ActiveCartService {
           isStable &&
           this.isEmpty(cart) &&
           !loaded &&
-          cartId !== FRESH_CART_ID
+          !isFreshCartId(cartId)
         ) {
           this.load(cartId);
         }
@@ -231,7 +230,7 @@ export class ActiveCartService {
     // when all loading flags are false it means that we restored wrong cart id
     // could happen on context change or reload right in the middle on cart create call
     return (
-      this.cartId === FRESH_CART_ID &&
+      isFreshCartId(this.cartId) &&
       (cartState.loading || cartState.success || cartState.error)
     );
   }

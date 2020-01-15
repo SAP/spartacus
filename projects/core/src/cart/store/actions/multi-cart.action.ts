@@ -41,37 +41,35 @@ export const CART_PROCESSES_INCREMENT = '[Multi Cart] Cart Processes Increment';
 export const CART_PROCESSES_DECREMENT = '[Multi Cart] Cart Processes Decrement';
 
 /**
- * To keep track of cart creation process we use cart with `fresh` id.
+ * To keep track of cart creation process we use cart with `fresh-${uuid}` id.
  * After creating cart we switch to entity with `code` or `guid`.
- * We need `fresh` cart entity for loading/error state.
+ * We need `fresh-${uuid}` cart entities for loading/error state.
  */
-export const FRESH_CART_ID = 'fresh';
-
-export class ResetFreshCart extends EntityProcessesLoaderResetAction {
+export class ResetFreshCart extends EntityRemoveAction {
   readonly type = RESET_FRESH_CART;
-  constructor() {
-    super(MULTI_CART_FEATURE, FRESH_CART_ID);
+  constructor(public payload: { freshCartId: string }) {
+    super(MULTI_CART_FEATURE, payload.freshCartId);
   }
 }
 
 export class SetFreshCart extends EntitySuccessAction {
   readonly type = SET_FRESH_CART;
-  constructor(public payload: Cart) {
-    super(MULTI_CART_FEATURE, FRESH_CART_ID, payload);
+  constructor(public payload: { cart: Cart; freshCartId: string }) {
+    super(MULTI_CART_FEATURE, payload.freshCartId, payload.cart);
   }
 }
 
 export class CreateMultiCart extends EntityLoadAction {
   readonly type = CREATE_MULTI_CART;
   constructor(public payload: any) {
-    super(MULTI_CART_FEATURE, FRESH_CART_ID);
+    super(MULTI_CART_FEATURE, payload.freshCartId);
   }
 }
 
 export class CreateMultiCartFail extends EntityFailAction {
   readonly type = CREATE_MULTI_CART_FAIL;
   constructor(public payload: any) {
-    super(MULTI_CART_FEATURE, FRESH_CART_ID);
+    super(MULTI_CART_FEATURE, payload.freshCartId);
   }
 }
 

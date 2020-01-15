@@ -7,7 +7,6 @@ import { OrderEntry } from '../../model/order.model';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { CartActions } from '../store/actions/index';
-import { FRESH_CART_ID } from '../store/actions/multi-cart.action';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
 
@@ -55,6 +54,16 @@ export class MultiCartService {
   }
 
   /**
+   * Simple random fresh cart id generator
+   */
+  private generateFreshCartId(): string {
+    const pseudoUuid = Math.random()
+      .toString(36)
+      .substr(2, 9);
+    return `fresh-${pseudoUuid}`;
+  }
+
+  /**
    * Create or merge cart
    *
    * @param params Object with userId, oldCartId, toMergeCartGuid and extraData
@@ -70,15 +79,19 @@ export class MultiCartService {
     toMergeCartGuid?: string;
     extraData?: any;
   }): Observable<ProcessesLoaderState<Cart>> {
+    // to support creating multiple carts at the same time we need to use different entity for every process
+    // simple random uuid generator is used here for entity names
+    const freshCartId = this.generateFreshCartId();
     this.store.dispatch(
       new DeprecatedCartActions.CreateCart({
         extraData,
         userId,
         oldCartId,
         toMergeCartGuid,
+        freshCartId,
       })
     );
-    return this.getCartEntity(FRESH_CART_ID);
+    return this.getCartEntity(freshCartId);
   }
 
   /**

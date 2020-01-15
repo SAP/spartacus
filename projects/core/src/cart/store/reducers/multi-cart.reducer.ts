@@ -44,9 +44,8 @@ export function cartEntitiesReducer(
     case CartActions.CREATE_MULTI_CART_SUCCESS:
     case CartActions.CREATE_WISH_LIST_SUCCESS:
     case CartActions.LOAD_WISH_LIST_SUCCESS:
-      return action.payload.cart;
     case CartActions.SET_FRESH_CART:
-      return action.payload;
+      return action.payload.cart;
   }
   return state;
 }

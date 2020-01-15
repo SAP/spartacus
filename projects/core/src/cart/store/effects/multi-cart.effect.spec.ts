@@ -94,8 +94,9 @@ describe('Multi Cart effect', () => {
 
   describe('setFreshCart$', () => {
     it('should dispatch reset just after setting', () => {
-      const action = new CartActions.SetFreshCart(testCart);
-      const resetFreshCartCompletion = new CartActions.ResetFreshCart();
+      const payload = { cart: testCart, freshCartId: 'freshCartId' };
+      const action = new CartActions.SetFreshCart(payload);
+      const resetFreshCartCompletion = new CartActions.ResetFreshCart(payload);
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {
         b: resetFreshCartCompletion,

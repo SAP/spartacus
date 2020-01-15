@@ -37,6 +37,8 @@ const testCart: Cart = {
   },
 };
 
+const freshCartId = 'freshCartId';
+
 describe('Cart effect', () => {
   let cartEffects: fromEffects.CartEffects;
   let actions$: Observable<any>;
@@ -210,7 +212,10 @@ describe('Cart effect', () => {
 
   describe('createCart$', () => {
     it('should create a cart', () => {
-      const action = new DeprecatedCartActions.CreateCart({ userId });
+      const action = new DeprecatedCartActions.CreateCart({
+        userId,
+        freshCartId,
+      });
       const createMultiCartSuccessCompletion = new CartActions.CreateMultiCartSuccess(
         {
           cart: testCart,
@@ -218,7 +223,10 @@ describe('Cart effect', () => {
           extraData: undefined,
         }
       );
-      const setFreshCartCompletion = new CartActions.SetFreshCart(testCart);
+      const setFreshCartCompletion = new CartActions.SetFreshCart({
+        cart: testCart,
+        freshCartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -235,6 +243,7 @@ describe('Cart effect', () => {
         extraData: {
           active: true,
         },
+        freshCartId,
       });
       const createCartSuccessCompletion = new DeprecatedCartActions.CreateCartSuccess(
         testCart
@@ -248,7 +257,10 @@ describe('Cart effect', () => {
           },
         }
       );
-      const setFreshCartCompletion = new CartActions.SetFreshCart(testCart);
+      const setFreshCartCompletion = new CartActions.SetFreshCart({
+        cart: testCart,
+        freshCartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcd)', {
@@ -264,6 +276,7 @@ describe('Cart effect', () => {
       const action = new DeprecatedCartActions.CreateCart({
         userId,
         oldCartId: 'testOldCartId',
+        freshCartId,
       });
 
       const createMultiCartCompletion = new CartActions.CreateMultiCartSuccess({
@@ -271,7 +284,10 @@ describe('Cart effect', () => {
         userId,
         extraData: undefined,
       });
-      const setFreshCartCompletion = new CartActions.SetFreshCart(testCart);
+      const setFreshCartCompletion = new CartActions.SetFreshCart({
+        cart: testCart,
+        freshCartId,
+      });
       const mergeCartCompletion = new DeprecatedCartActions.MergeCartSuccess({
         userId,
         cartId: testCart.code,

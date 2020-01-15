@@ -29,8 +29,8 @@ export class MultiCartEffects {
   @Effect()
   setFreshCart$ = this.actions$.pipe(
     ofType(CartActions.SET_FRESH_CART),
-    map(() => {
-      return new CartActions.ResetFreshCart();
+    map((action: CartActions.SetFreshCart) => {
+      return new CartActions.ResetFreshCart(action.payload);
     })
   );
 
