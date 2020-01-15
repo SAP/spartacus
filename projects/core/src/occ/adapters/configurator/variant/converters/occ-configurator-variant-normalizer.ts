@@ -128,6 +128,13 @@ export class OccConfiguratorVariantNormalizer
     images: Configurator.Image[]
   ): void {
     const image: Configurator.Image = {
+      /**
+       * Traditionally, in an on-prem world, medias and other backend related calls
+       * are hosted at the same platform, but in a cloud setup, applications are
+       * typically distributed cross different environments. For media, we use the
+       * `backend.media.baseUrl` by default, but fallback to `backend.occ.baseUrl`
+       * if none provided.
+       */
       url:
         (this.config.backend.media.baseUrl ||
           this.config.backend.occ.baseUrl ||
