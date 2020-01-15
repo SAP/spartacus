@@ -214,5 +214,3 @@ export const myAccount = {
     empty: 'No products in your wish list yet',
   },
 };
-
-// dummy
