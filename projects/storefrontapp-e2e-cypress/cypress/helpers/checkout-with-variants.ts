@@ -6,6 +6,8 @@ export const password = 'Password@123456';
 export const firstName = 'User';
 export const lastName = 'Test';
 export const titleCode = 'mr';
+export const variantSelectorContainer = '.variant-selector';
+export const variantStyleList = `${variantSelectorContainer} ul.variant-list`;
 
 export function retrieveTokenAndLogin() {
   function retrieveAuthToken() {
@@ -91,7 +93,7 @@ export function goToProductVariantPageFromCategory() {
     .find('cx-media')
     .click();
   // click small banner number 6 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-banner:nth-of-type(6) a cx-media').click();
+  cy.get('.Section2 cx-banner:nth-of-type(4) a cx-media').click();
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', variantProduct.code);
   });
@@ -101,6 +103,7 @@ export function goToProductVariantPageFromCategory() {
 }
 
 export function addProductVariantToCart() {
+  cy.get('.variant-selector select').select('M');
   cy.get('cx-item-counter')
     .getByText('+')
     .click();
@@ -113,6 +116,8 @@ export function addProductVariantToCart() {
   });
   cy.get('cx-breadcrumb').should('contain', 'Your Shopping Bag');
 }
+
+export function addMultipleProductVariantsToCart() {}
 
 export function addPaymentMethod() {
   cy.get('.cx-total')
@@ -312,6 +317,22 @@ export function deletePaymentCard() {
     });
 }
 
+export function selectProductVariant() {
+  cy.get('.variant-selector select').select('L');
+
+  cy.get(`${variantStyleList} li.selected-variant`).should('be.visible');
+  cy.get('cx-item-counter')
+    .getByText('+')
+    .click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
+  cy.get('cx-added-to-cart-dialog').within(() => {
+    cy.get('.cx-name .cx-link').should('contain', variantProduct.name);
+    cy.get('.cx-dialog-header .close').click();
+  });
+}
+
 export function checkoutWithVariantsTest() {
   it('should login successfully', () => {
     loginSuccessfully();
@@ -326,6 +347,60 @@ export function checkoutWithVariantsTest() {
   });
 
   it('should add product to cart', () => {
+    addProductVariantToCart();
+  });
+
+  it('should get cartId and add a payment method', () => {
+    addPaymentMethod();
+  });
+
+  it('should proceed to checkout and select shipping address', () => {
+    selectShippingAddress();
+  });
+
+  it('should choose delivery', () => {
+    selectDeliveryMethod();
+  });
+
+  it('should select payment method', () => {
+    selectPaymentMethod();
+  });
+
+  it('should review and place order', () => {
+    verifyAndPlaceOrder();
+  });
+
+  it('should display summary page', () => {
+    displaySummaryPage();
+  });
+
+  it('should delete shipping address', () => {
+    deleteShippingAddress();
+  });
+
+  it('should delete payment card', () => {
+    deletePaymentCard();
+  });
+}
+
+export function checkoutWithMultipleVariantsTest() {
+  it('should login successfully', () => {
+    loginSuccessfully();
+  });
+
+  it('should add a shipping address', () => {
+    addShippingAddress();
+  });
+
+  it('should go to product page from category page', () => {
+    goToProductVariantPageFromCategory();
+  });
+
+  it('should add  first product varinat to cart', () => {
+    selectProductVariant();
+  });
+
+  it('should add second product variant to cart', () => {
     addProductVariantToCart();
   });
 

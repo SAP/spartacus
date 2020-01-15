@@ -37,8 +37,8 @@ export const cheapProduct = {
 };
 
 export const variantProduct = {
-  name: 'Sludge Jacket youth col mustard colorblock XL',
-  code: '300410422',
+  name: 'Beacon Jacket glacier M',
+  code: '300441355',
 };
 
 // usa shipping cost
