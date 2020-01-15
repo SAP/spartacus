@@ -1,4 +1,4 @@
-import { product, variantProduct } from '../sample-data/checkout-flow';
+import { product } from '../sample-data/checkout-flow';
 import { config, login, setSessionData } from '../support/utils/login';
 
 export const username = 'test-user-cypress@ydev.hybris.com';
@@ -98,22 +98,6 @@ export function goToProductPageFromCategory() {
   });
 }
 
-export function goToProductVariantPageFromCategory() {
-  // click big banner
-  cy.get('.Section1 cx-banner cx-generic-link')
-    .first()
-    .find('cx-media')
-    .click();
-  // click small banner number 6 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-banner:nth-of-type(6) a cx-media').click();
-  cy.get('cx-product-intro').within(() => {
-    cy.get('.code').should('contain', variantProduct.code);
-  });
-  cy.get('cx-breadcrumb').within(() => {
-    cy.get('h1').should('contain', variantProduct.name);
-  });
-}
-
 export function addProductToCart() {
   cy.get('cx-item-counter')
     .getByText('+')
@@ -126,20 +110,6 @@ export function addProductToCart() {
     cy.getByText(/view cart/i).click();
   });
   cy.get('cx-breadcrumb').should('contain', 'Your Shopping Cart');
-}
-
-export function addProductVariantToCart() {
-  cy.get('cx-item-counter')
-    .getByText('+')
-    .click();
-  cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
-    .click();
-  cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.get('.cx-name .cx-link').should('contain', variantProduct.name);
-    cy.getByText(/view cart/i).click();
-  });
-  cy.get('cx-breadcrumb').should('contain', 'Your Shopping Bag');
 }
 
 export function addPaymentMethod() {
