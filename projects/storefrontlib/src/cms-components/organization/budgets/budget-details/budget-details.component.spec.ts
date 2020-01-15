@@ -142,20 +142,6 @@ describe('BudgetDetailsComponent', () => {
     });
   });
 
-  describe('getCostCenterColumns', () => {
-    it('should prepare cost center columns', () => {
-      let columns;
-      component
-        .getCostCenterColumns()
-        .subscribe(data => (columns = data))
-        .unsubscribe();
-      expect(columns).toEqual([
-        { key: 'name', value: 'costCenter.name' },
-        { key: 'description', value: 'costCenter.description' },
-      ]);
-    });
-  });
-
   describe('update', () => {
     it('should update budget', () => {
       component.ngOnInit();

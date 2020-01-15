@@ -230,37 +230,4 @@ describe('BudgetsListComponent', () => {
       );
     });
   });
-
-  describe('getColumns', () => {
-    it('should prepare columns', () => {
-      let columns;
-      component
-        .getColumns()
-        .subscribe(data => (columns = data))
-        .unsubscribe();
-      expect(columns).toEqual([
-        { key: 'code', value: 'budgetsList.code' },
-        { key: 'name', value: 'budgetsList.name' },
-        { key: 'amount', value: 'budgetsList.amount' },
-        { key: 'startEndDate', value: 'budgetsList.startEndDate' },
-        { key: 'parentUnit', value: 'budgetsList.parentUnit' },
-      ]);
-    });
-  });
-
-  describe('getSortLabels', () => {
-    it('should prepare sort labels', () => {
-      let sortLabels;
-      component
-        .getSortLabels()
-        .subscribe(data => (sortLabels = data))
-        .unsubscribe();
-      expect(sortLabels).toEqual({
-        byUnitName: 'budgetsList.sorting.byUnitName',
-        byName: 'budgetsList.sorting.byName',
-        byCode: 'budgetsList.sorting.byCode',
-        byValue: 'budgetsList.sorting.byValue',
-      });
-    });
-  });
 });
