@@ -16,12 +16,9 @@ import {
   RoutingService,
   CxDatePipe,
   BudgetSearchConfig,
+  θdiff as diff,
+  θshallowEqualObjects as shallowEqualObjects,
 } from '@spartacus/core';
-
-import {
-  diff,
-  shallowEqualObjects,
-} from '../../../../../../core/src/util/compare-equal-objects';
 
 @Component({
   selector: 'cx-budgets-list',
