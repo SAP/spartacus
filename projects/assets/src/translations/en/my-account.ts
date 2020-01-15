@@ -18,7 +18,7 @@ export const myAccount = {
     deliveryStatus_READY: 'In Process',
     deliveryStatus_DELIVERY_REJECTED: 'Delivery Rejected',
     deliveryStatus_SHIPPED: 'Shipped',
-    deliveryStatus_TAX_NOT_COMMITED: 'Tax Issue',
+    deliveryStatus_TAX_NOT_COMMITTED: 'Tax Issue',
     deliveryStatus_CANCELLED: 'Cancelled',
     statusDisplay_cancelled: 'Cancelled',
     statusDisplay_cancelling: 'Cancel Pending',
