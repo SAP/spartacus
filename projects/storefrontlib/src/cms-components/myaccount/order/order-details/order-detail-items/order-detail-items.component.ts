@@ -3,7 +3,6 @@ import { Consignment, Order, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
-import { CONSIGNMENT_STATUS } from './order-consigned-entries/order-consigned-entries.model';
 
 @Component({
   selector: 'cx-order-details-items',
@@ -12,54 +11,46 @@ import { CONSIGNMENT_STATUS } from './order-consigned-entries/order-consigned-en
 export class OrderDetailItemsComponent implements OnInit {
   constructor(private orderDetailsService: OrderDetailsService) {}
 
+  othersValues = [
+    'IN_TRANSIT',
+    'READY_FOR_PICKUP',
+    'READY_FOR_SHIPPING',
+    'WAITING',
+    'DELIVERING',
+    'PICKPACK',
+    'PAYMENT_NOT_CAPTURED',
+    'READY',
+    'DELIVERY_REJECTED',
+    'SHIPPED',
+    'TAX_NOT_COMMITED',
+  ];
+  completedValues = ['DELIVERY_COMPLETED', 'PICKUP_COMPLETE'];
+  cancelledValues = ['CANCELLED'];
+
   order$: Observable<Order>;
 
   others$: Observable<Consignment[]>;
-  cancel$: Observable<Consignment[]>;
   completed$: Observable<Consignment[]>;
+  cancel$: Observable<Consignment[]>;
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();
 
-    // combineLatest([
-    //   this.getConsignmentStatus(CONSIGNMENT_STATUS.READY),
-    //   this.getConsignmentStatus(CONSIGNMENT_STATUS.CANCELLED),
-    // ]).pipe(
-    //   map(([x, y]) => {
-    //     console.log('ready', x);
-    //     console.log('cancelled', y);
-    //     console.log('ready/cancelled', { ...x, ...y });
+    this.others$ = this.getConsignmentStatus(this.othersValues);
 
-    //     return [...x, ...y];
-    //   })
+    this.completed$ = this.getConsignmentStatus(this.completedValues);
 
-    // merge(
-    //   this.getConsignmentStatus(CONSIGNMENT_STATUS.READY),
-    //   this.getConsignmentStatus(CONSIGNMENT_STATUS.CANCELLED)
-    // );
-
-    // zip(
-    //   this.getConsignmentStatus(CONSIGNMENT_STATUS.READY),
-    //   this.getConsignmentStatus(CONSIGNMENT_STATUS.CANCELLED)
-    // )
-
-    this.others$ = this.getConsignmentStatus(CONSIGNMENT_STATUS.READY);
-
-    this.completed$ = this.getConsignmentStatus(
-      CONSIGNMENT_STATUS.DELIVERY_COMPLETED
-    );
-
-    this.cancel$ = this.getConsignmentStatus(CONSIGNMENT_STATUS.CANCELLED);
+    this.cancel$ = this.getConsignmentStatus(this.cancelledValues);
   }
 
   private getConsignmentStatus(
-    consignmentStatus: CONSIGNMENT_STATUS
+    consignmentStatus: string[]
   ): Observable<Consignment[]> {
     return this.orderDetailsService.getOrderDetails().pipe(
       map(order => {
         if (Boolean(order.consignments)) {
-          return order.consignments.filter(
-            consignment => consignment.status === consignmentStatus
+          return order.consignments.filter(consignment =>
+            consignmentStatus.includes(consignment.status)
           );
         }
       })
