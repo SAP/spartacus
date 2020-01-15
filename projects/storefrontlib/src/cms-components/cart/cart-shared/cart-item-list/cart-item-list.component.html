@@ -15,21 +15,18 @@
   </div>
 </div>
 
-<div [formGroup]="form">
-  <div class="cx-item-list-row" *ngFor="let item of items">
-    <div class="cx-item-list-items">
-      <cx-cart-item
-        [parent]="form.controls[item.product.code]"
-        [item]="item"
-        [potentialProductPromotions]="
-          getPotentialProductPromotionsForItem(item)
-        "
-        [isReadOnly]="isReadOnly"
-        (remove)="removeEntry($event)"
-        [cartIsLoading]="cartIsLoading"
-        (update)="updateEntry($event)"
-      >
-      </cx-cart-item>
-    </div>
+<div class="cx-item-list-row" *ngFor="let item of items; let i = index">
+  <div
+    class="cx-item-list-items"
+    *ngIf="getControl(item) | async as control"
+    [class.is-changed]="control.get('quantity').dirty"
+  >
+    <cx-cart-item
+      [item]="item"
+      [quantityControl]="control.get('quantity')"
+      [readonly]="readonly"
+      [potentialProductPromotions]="getPotentialProductPromotionsForItem(item)"
+    >
+    </cx-cart-item>
   </div>
 </div>

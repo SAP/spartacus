@@ -88,11 +88,25 @@
       class="cx-review-cart-item col-md-12"
       *ngIf="entries$ | async as entries"
     >
-      <cx-cart-item-list
-        [items]="entries"
-        [isReadOnly]="true"
-        [potentialProductPromotions]="cart.potentialProductPromotions"
-      ></cx-cart-item-list>
+      <ng-container *cxFeatureLevel="'!1.5'">
+        <cx-cart-item-list
+          [items]="entries"
+          [readonly]="true"
+          [potentialProductPromotions]="cart.potentialProductPromotions"
+        ></cx-cart-item-list>
+      </ng-container>
+
+      <ng-container *cxFeatureLevel="'1.5'">
+        <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
+          <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+        </ng-container>
+
+        <cx-cart-item-list
+          [items]="entries"
+          [readonly]="true"
+          [promotionLocation]="promotionLocation"
+        ></cx-cart-item-list>
+      </ng-container>
     </div>
   </ng-container>
 </div>

@@ -1,8 +1,25 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
+import {
+  ControlContainer,
+  FormControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
 
 @Pipe({
@@ -26,11 +43,10 @@ class MockMediaComponent {
   selector: 'cx-item-counter',
 })
 class MockItemCounterComponent {
-  @Input() step;
-  @Input() min;
+  @Input() control;
+  @Input() readonly;
   @Input() max;
-  @Input() cartIsLoading;
-  @Input() isValueChangeable;
+  @Input() allowZero;
 }
 
 @Component({
@@ -42,28 +58,69 @@ class MockPromotionsComponent {
 }
 
 const mockProduct = {
+  baseOptions: [
+    {
+      selected: {
+        variantOptionQualifiers: [
+          {
+            name: 'Size',
+            value: 'XL',
+          },
+          {
+            name: 'Style',
+            value: 'Red',
+          },
+        ],
+      },
+    },
+  ],
   stock: {
     stockLevelStatus: 'outOfStock',
   },
 };
 
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
+}
+
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
   let fixture: ComponentFixture<CartItemComponent>;
+  let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FeaturesConfigModule,
+      ],
       declarations: [
         CartItemComponent,
         MockMediaComponent,
         MockItemCounterComponent,
         MockPromotionsComponent,
         MockUrlPipe,
+        MockFeatureLevelDirective,
       ],
       providers: [
         {
           provide: ControlContainer,
+        },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
         },
       ],
     }).compileComponents();
@@ -72,33 +129,36 @@ describe('CartItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);
     cartItemComponent = fixture.componentInstance;
-    cartItemComponent.item = {};
-    cartItemComponent.item.product = mockProduct;
-
-    spyOn(cartItemComponent.remove, 'emit').and.callThrough();
-    spyOn(cartItemComponent.update, 'emit').and.callThrough();
+    cartItemComponent.item = {
+      product: mockProduct,
+      updateable: true,
+    };
+    cartItemComponent.quantityControl = new FormControl('1');
+    cartItemComponent.quantityControl.markAsPristine();
+    spyOn(cartItemComponent, 'removeItem').and.callThrough();
+    fixture.detectChanges();
+    el = fixture.debugElement;
     spyOn(cartItemComponent.view, 'emit').and.callThrough();
   });
 
-  it('should create cart details component', () => {
+  it('should create CartItemComponent', () => {
     expect(cartItemComponent).toBeTruthy();
   });
 
   it('should call removeItem()', () => {
-    cartItemComponent.removeItem();
+    const button: DebugElement = fixture.debugElement.query(By.css('button'));
+    button.nativeElement.click();
+    fixture.detectChanges();
 
-    expect(cartItemComponent.remove.emit).toHaveBeenCalledWith(
-      cartItemComponent.item
-    );
+    expect(cartItemComponent.removeItem).toHaveBeenCalled();
+    expect(cartItemComponent.quantityControl.value).toEqual(0);
   });
 
-  it('should call updateItem()', () => {
-    cartItemComponent.updateItem(2);
-
-    expect(cartItemComponent.update.emit).toHaveBeenCalledWith({
-      item: cartItemComponent.item,
-      updatedQuantity: 2,
-    });
+  it('should mark control "dirty" after removeItem is called', () => {
+    const button: DebugElement = fixture.debugElement.query(By.css('button'));
+    button.nativeElement.click();
+    fixture.detectChanges();
+    expect(cartItemComponent.quantityControl.dirty).toEqual(true);
   });
 
   it('should call isProductOutOfStock()', () => {
@@ -120,7 +180,21 @@ describe('CartItemComponent', () => {
 
   it('should call viewItem()', () => {
     cartItemComponent.viewItem();
-
     expect(cartItemComponent.view.emit).toHaveBeenCalledWith();
+  });
+
+  it('should display variant properties', () => {
+    const variants =
+      mockProduct.baseOptions[0].selected.variantOptionQualifiers;
+    fixture.detectChanges();
+
+    expect(el.queryAll(By.css('.cx-property')).length).toEqual(variants.length);
+    variants.forEach(variant => {
+      const infoContainer: HTMLElement = el.query(By.css('.cx-info-container'))
+        .nativeElement;
+      expect(infoContainer.innerText).toContain(
+        `${variant.name}: ${variant.value}`
+      );
+    });
   });
 });

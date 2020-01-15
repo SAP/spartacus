@@ -6,6 +6,7 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
@@ -20,6 +21,7 @@ import { CartDetailsComponent } from './cart-details.component';
     RouterModule,
     UrlModule,
     PromotionsModule,
+    FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CartComponent: {

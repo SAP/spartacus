@@ -7,12 +7,15 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   Order,
+  PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
+import { PromotionsModule } from '../../../../checkout';
+import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
 
 const mockOrder: Order = {
   code: '1',
@@ -71,7 +74,7 @@ const mockOrder: Order = {
 })
 class MockCartItemListComponent {
   @Input()
-  isReadOnly = false;
+  readonly = false;
   @Input()
   hasHeader = true;
   @Input()
@@ -80,6 +83,8 @@ class MockCartItemListComponent {
   potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading = false;
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.Order;
 }
 
 @Component({
@@ -91,6 +96,14 @@ class MockConsignmentTrackingComponent {
   consignment: Consignment;
   @Input()
   orderCode: string;
+}
+
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
 }
 
 describe('OrderDetailItemsComponent', () => {
@@ -107,7 +120,12 @@ describe('OrderDetailItemsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [CardModule, I18nTestingModule, FeaturesConfigModule],
+      imports: [
+        CardModule,
+        I18nTestingModule,
+        PromotionsModule,
+        FeaturesConfigModule,
+      ],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         {
@@ -115,6 +133,10 @@ describe('OrderDetailItemsComponent', () => {
           useValue: {
             features: { level: '1.1', consignmentTracking: '1.2' },
           },
+        },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService,
         },
       ],
       declarations: [

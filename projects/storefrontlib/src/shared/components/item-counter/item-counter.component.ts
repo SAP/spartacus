@@ -1,219 +1,121 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
-  forwardRef,
+  HostBinding,
+  HostListener,
   Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  Renderer2,
   ViewChild,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  FormControl,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith, tap } from 'rxjs/operators';
 
-const COUNTER_CONTROL_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  /* tslint:disable-next-line */
-  useExisting: forwardRef(() => ItemCounterComponent),
-  multi: true,
-};
-
+/**
+ * Provides a UI to manage the count of the quantity, typically by using
+ * increase and decrease functinality. The item counter expects an input `FormControl`
+ * so that the state of the control can be managed outside of this component.
+ */
 @Component({
   selector: 'cx-item-counter',
   templateUrl: './item-counter.component.html',
-  providers: [COUNTER_CONTROL_ACCESSOR],
+  // do not use OnPush change detection strategy as we would not
+  // get updates of other form control state (disabled). We want to have a
+  // disabled state in order to ensure that the control cannot be used while
+  // the cart is updated.
 })
-export class ItemCounterComponent
-  implements OnInit, ControlValueAccessor, OnChanges, OnDestroy {
-  @ViewChild('itemCounterInput', { static: false })
-  public input: ElementRef;
-  @ViewChild('incrementBtn', { static: false })
-  public incrementBtn: ElementRef;
-  @ViewChild('decrementBtn', { static: false })
-  public decrementBtn: ElementRef;
+export class ItemCounterComponent {
+  /**
+   * Holds the value of the counter, the state of the `FormControl`
+   * can be managed outside of the item counter.
+   */
+  @Input() control: FormControl;
 
-  @Input()
-  value = 0;
-  @Input()
-  step = 1;
-  @Input()
-  min: number;
-  @Input()
-  max: number;
-  @Input()
-  async = false;
-  @Input()
-  cartIsLoading = false;
-  @Input()
-  isValueChangeable = false;
+  /**
+   * This can be used in case an item has a minmum order quantity.
+   * @default 1
+   */
+  @Input() min = 1;
 
-  @Output()
-  update = new EventEmitter<number>();
+  /**
+   * This can be used in case an item has a maximum order quantity.
+   */
+  @Input() max: number;
 
-  focus: boolean;
+  /**
+   * The step is used to increment the count. It is supposed to be a
+   * positive inteteger or float.
+   * @default 1
+   */
+  @Input() step = 1;
 
-  isValueOutOfRange = false;
-  inputValue: FormControl = new FormControl({
-    disabled: this.isValueChangeable,
-  });
+  /**
+   * Inidicates that the input can be manually set to zero,
+   * despite the fact that the input controls will be limited to
+   * the minimum. The zero value can be used to remove an item.
+   */
+  @Input() allowZero = false;
 
-  subscription: Subscription;
+  private _control$: Observable<FormControl>;
 
-  ngOnInit() {
-    this.writeValue(this.min || 0);
-    this.subscription = this.inputValue.valueChanges
-      .pipe(debounceTime(300))
-      .subscribe(value => {
-        if (value) {
-          this.manualChange(Number(value));
-        }
-      });
+  /**
+   * In readonly mode the item counter will only be shown as a label,
+   * the form controls are not rendered.
+   * Please not that readonly is different from the `disabled` form state.
+   * @default false
+   */
+  @HostBinding('class.readonly') @Input() readonly = false;
+
+  @ViewChild('qty', { static: false }) private input: ElementRef<
+    HTMLInputElement
+  >;
+
+  @HostListener('click') handleClick() {
+    this.input.nativeElement.focus();
   }
 
-  ngOnChanges() {
-    if (this.cartIsLoading) {
-      this.inputValue.disable({
-        onlySelf: true,
-        emitEvent: false,
-      });
-    } else {
-      this.inputValue.enable({
-        onlySelf: true,
-        emitEvent: false,
-      });
+  increment() {
+    // it's too early to use the `stepUp` and `stepDown` API...
+    // let's wait for FF: https://caniuse.com/#search=stepUp
+    this.control.setValue(this.control.value + this.step);
+    this.control.markAsDirty();
+  }
+
+  decrement() {
+    this.control.setValue(this.control.value - this.step);
+    this.control.markAsDirty();
+  }
+
+  /**
+   * Returns an observable with the control. The value changes of the
+   * control are intercepted in order to suppress invalid values.
+   */
+  getControl(): Observable<FormControl> {
+    if (!this._control$) {
+      this._control$ = this.control.valueChanges.pipe(
+        startWith(this.control.value),
+        tap(value =>
+          this.control.setValue(this.getValidCount(value), { emitEvent: false })
+        ),
+        map(() => this.control)
+      );
     }
-  }
-
-  constructor(private renderer: Renderer2) {}
-
-  onTouch: Function = () => {};
-  onModelChange: Function = (_rating: number) => {};
-
-  /**
-   * If value is too small it will be set to min, if is too big it will be set to max.
-   */
-  adjustValueInRange(incomingValue: number): number {
-    return this.min !== undefined && incomingValue < this.min
-      ? this.min
-      : this.max !== undefined && incomingValue > this.max
-      ? this.max
-      : incomingValue;
+    return this._control$;
   }
 
   /**
-   * Update model value and refresh input
+   * Validate that the given value is in between
+   * the `min` and `max` value. If the value is out
+   * of  the min/max range, it will be altered.
+   * If `allowZero` is set to true, the 0 value is ignored.
+   *
    */
-  manualChange(newValue: number): void {
-    newValue = this.adjustValueInRange(newValue);
-    this.updateValue(newValue);
-    /* We use the value from the input, however, this value
-      is not the correct value that should be displayed. The correct value to display
-      is this.value, which the parent updates if the async call succeed. If the call
-      fails, then the input will need to display this.value, and not what the user
-      recently typed in */
-    this.renderer.setProperty(this.input.nativeElement, 'value', newValue);
-  }
-
-  onKeyDown(event: KeyboardEvent): void {
-    const handlers = {
-      ArrowDown: () => this.decrement(),
-      ArrowUp: () => this.increment(),
-    };
-
-    if (handlers[event.code]) {
-      handlers[event.code]();
-      event.preventDefault();
-      event.stopPropagation();
+  private getValidCount(value: number) {
+    if (value < this.min && !(value === 0 && this.allowZero)) {
+      value = this.min;
     }
-  }
-
-  onBlur(event: FocusEvent): void {
-    this.focus = false;
-    event.preventDefault();
-    event.stopPropagation();
-    this.onTouch();
-  }
-
-  onFocus(event: FocusEvent): void {
-    this.focus = true;
-    event.preventDefault();
-    event.stopPropagation();
-    this.onTouch();
-  }
-
-  /**
-   * Verify value that it can be incremented, if yes it does that.
-   */
-  increment(): void {
-    this.manualChange(this.value + this.step);
-    this.setFocus(true);
-  }
-
-  /**
-   * Verify value that it can be decremented, if yes it does that.
-   */
-  decrement(): void {
-    this.manualChange(this.value - this.step);
-    this.setFocus(false);
-  }
-
-  // ControlValueAccessor interface
-
-  registerOnTouched(fn: Function): void {
-    this.onTouch = fn;
-  }
-
-  registerOnChange(fn: Function): void {
-    this.onModelChange = fn;
-  }
-
-  writeValue(value: number): void {
-    this.value = value || this.min || 0;
-    this.onModelChange(this.value);
-  }
-
-  /**
-   * Set up new value for input and emit event outside
-   */
-  updateValue(updatedQuantity: number): void {
-    if (!this.async) {
-      // If the async flag is true, then the parent component is responsible for updating the form
-      this.writeValue(updatedQuantity);
+    if (this.max && value > this.max) {
+      value = this.max;
     }
-
-    // Additionally, we emit a change event, so that users may optionally do something on change
-    this.update.emit(updatedQuantity);
-    this.onTouch();
-  }
-
-  /**
-   * Determines which HTML element should have focus at a given time
-   */
-  setFocus(isIncremented: boolean): void {
-    if (this.isMaxOrMinValueOrBeyond()) {
-      this.input.nativeElement.focus();
-    } else if (isIncremented) {
-      this.incrementBtn.nativeElement.focus();
-    } else {
-      this.decrementBtn.nativeElement.focus();
-    }
-  }
-
-  isMaxOrMinValueOrBeyond(): boolean {
-    return this.value >= this.max || this.value <= this.min;
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    return value;
   }
 }

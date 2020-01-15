@@ -6,6 +6,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { OrderHistoryList } from '../../../model/order.model';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
@@ -73,6 +74,19 @@ describe('User Orders effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(userOrdersEffect.loadUserOrders$).toBeObservable(expected);
+    });
+  });
+
+  describe('resetUserOrders$', () => {
+    it('should return a reset action', () => {
+      const action = new SiteContextActions.LanguageChange();
+
+      const completion = new UserActions.ClearUserOrders();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(userOrdersEffect.resetUserOrders$).toBeObservable(expected);
     });
   });
 });

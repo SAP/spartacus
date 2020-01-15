@@ -7,6 +7,7 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { MediaModule } from '../../../../shared/index';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
@@ -49,6 +50,7 @@ const components = [
     UrlModule,
     I18nModule,
     MediaModule,
+    FeaturesConfigModule,
   ],
   declarations: [...components],
   exports: [...components],
