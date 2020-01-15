@@ -2,9 +2,9 @@
   <!-- consigned entries -->
   <div *cxFeatureLevel="'1.4'">
     <cx-order-consigned-entries
-      *ngIf="others$ | async as inProcess"
+      *ngIf="others$ | async as others"
       [order]="order"
-      [consignments]="inProcess"
+      [consignments]="others"
     ></cx-order-consigned-entries>
 
     <cx-order-consigned-entries

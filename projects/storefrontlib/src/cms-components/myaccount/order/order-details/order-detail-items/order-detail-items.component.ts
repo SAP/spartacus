@@ -47,15 +47,18 @@ export class OrderDetailItemsComponent implements OnInit {
     return this.orderDetailsService.getOrderDetails().pipe(
       map(order => {
         if (Boolean(order.consignments)) {
-          return order.consignments.filter(consignment => {
-            console.log('hmm', consignmentStatus);
-            return !consignmentStatus.includes(consignment.status);
-          });
+          return order.consignments.filter(
+            consignment => !consignmentStatus.includes(consignment.status)
+          );
         }
       })
     );
   }
 
+  /**
+   * @deprecated
+   * NOTE: This function will be removed in version 2.0
+   */
   getConsignmentProducts(consignment: Consignment): OrderEntry[] {
     const products: OrderEntry[] = [];
     consignment.entries.forEach(element => {
