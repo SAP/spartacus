@@ -1,4 +1,3 @@
-import { retrieveTokenAndLogin } from '../../helpers/checkout-as-persistent-user';
 import * as login from '../../helpers/login';
 import { checkoutWithVariantsTest } from '../../helpers/checkout-with-variants';
 

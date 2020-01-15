@@ -82,36 +82,6 @@ export function addShippingAddress() {
   });
 }
 
-export function addApparelShippingAddress() {
-  cy.request({
-    method: 'POST',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/apparel-uk-spa/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=GBP`,
-    headers: {
-      Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
-          .token.access_token
-      }`,
-    },
-    body: {
-      defaultAddress: false,
-      titleCode: 'mr',
-      firstName: 'Test',
-      lastName: 'User',
-      line1: '999 de Maisonneuve',
-      line2: '',
-      town: 'Montreal',
-      region: { isocode: 'US-AK' },
-      country: { isocode: 'US' },
-      postalCode: 'H4B3L4',
-      phone: '',
-    },
-  }).then(response => {
-    expect(response.status).to.eq(201);
-  });
-}
-
 export function goToProductPageFromCategory() {
   // click big banner
   cy.get('.Section1 cx-banner cx-generic-link')
@@ -143,6 +113,7 @@ export function goToProductVariantPageFromCategory() {
     cy.get('h1').should('contain', variantProduct.name);
   });
 }
+
 export function addProductToCart() {
   cy.get('cx-item-counter')
     .getByText('+')
@@ -212,47 +183,6 @@ export function addPaymentMethod() {
     });
 }
 
-export function addApparelPaymentMethod() {
-  cy.get('.cx-total')
-    .first()
-    .then($cart => {
-      const cartid = $cart.text().match(/[0-9]+/)[0];
-      cy.request({
-        method: 'POST',
-        url: `${Cypress.env(
-          'API_URL'
-        )}/rest/v2/apparel-uk-spa/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
-        headers: {
-          Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus-local-data')).auth
-              .userToken.token.access_token
-          }`,
-        },
-        body: {
-          accountHolderName: 'test user',
-          cardNumber: '4111111111111111',
-          cardType: { code: 'visa' },
-          expiryMonth: '01',
-          expiryYear: '2125',
-          defaultPayment: true,
-          saved: true,
-          billingAddress: {
-            firstName: 'test',
-            lastName: 'user',
-            titleCode: 'mr',
-            line1: '999 de Maisonneuve',
-            line2: '',
-            town: 'Montreal',
-            postalCode: 'H4B3L4',
-            country: { isocode: 'US' },
-          },
-        },
-      }).then(response => {
-        expect(response.status).to.eq(201);
-      });
-    });
-}
-
 export function selectShippingAddress() {
   cy.server();
 
@@ -274,32 +204,6 @@ export function selectShippingAddress() {
   cy.route(
     'GET',
     '/rest/v2/electronics-spa/cms/pages?*/checkout/delivery-mode*'
-  ).as('getDeliveryPage');
-  cy.get('button.btn-primary').click();
-  cy.wait('@getDeliveryPage');
-}
-
-export function selectApparelShippingAddress() {
-  cy.server();
-
-  cy.route(
-    'GET',
-    '/rest/v2/apparel-uk-spa/cms/pages?*/checkout/shipping-address*'
-  ).as('getShippingPage');
-  cy.getByText(/proceed to checkout/i).click();
-  cy.wait('@getShippingPage');
-
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-  cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
-    .first()
-    .find('.cx-summary-amount')
-    .should('not.be.empty');
-  cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
-  cy.get('.card-header').should('contain', 'Selected');
-
-  cy.route(
-    'GET',
-    '/rest/v2/apparel-uk-spa/cms/pages?*/checkout/delivery-mode*'
   ).as('getDeliveryPage');
   cy.get('button.btn-primary').click();
   cy.wait('@getDeliveryPage');
