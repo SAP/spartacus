@@ -51,7 +51,6 @@ export function makeErrorSerializable(
   return isObject(error) ? UNKNOWN_ERROR : error;
 }
 
-// TODO:4603 - test
 export function serializePageContext(pageContext: PageContext): string {
   if (!pageContext) {
     return CURRENT_CONTEXT_KEY;
