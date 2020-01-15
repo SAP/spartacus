@@ -1,0 +1,21 @@
+%cx-config-attribute-multi-select-image {
+  margin-left: 20px;
+  .cx-config-select {
+    padding: 5px;
+
+    img {
+      padding: 3px;
+    }
+
+    &[aria-checked='true'] {
+      img {
+        border: var(--cx-color-primary) 3px solid;
+      }
+    }
+
+    input.form-input {
+      -webkit-appearance: none;
+      visibility: hidden;
+    }
+  }
+}

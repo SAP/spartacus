@@ -171,6 +171,10 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.CHECKBOX;
         break;
       }
+      case OccConfigurator.UiType.MULTI_SELECTION_IMAGE: {
+        uiType = Configurator.UiType.IMAGE_MULTI_SELECT;
+        break;
+      }
       default: {
         uiType = Configurator.UiType.NOT_IMPLEMENTED;
       }
