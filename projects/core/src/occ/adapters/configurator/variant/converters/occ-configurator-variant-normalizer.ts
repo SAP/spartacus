@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Configurator } from '../../../../../model/configurator.model';
 import { Converter } from '../../../../../util/converter.service';
+import { OccConfig } from '../../../../config/occ-config';
 import { OccConfigurator } from '../occ-configurator.models';
 
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantNormalizer
   implements
     Converter<OccConfigurator.Configuration, Configurator.Configuration> {
-  constructor() {}
+  constructor(protected config: OccConfig) {}
 
   convert(
     source: OccConfigurator.Configuration,
@@ -73,13 +74,22 @@ export class OccConfiguratorVariantNormalizer
       userInput: cstic.formattedValue ? cstic.formattedValue : cstic.value,
       maxlength: cstic.maxlength,
       selectedSingleValue: null,
+      images: [],
     };
+
+    if (cstic.images) {
+      cstic.images.forEach(occImage =>
+        this.convertImage(occImage, attribute.images)
+      );
+    }
+
     if (cstic.domainvalues) {
       cstic.domainvalues.forEach(value =>
         this.convertValue(value, attribute.values)
       );
       this.setSelectedSingleValue(attribute);
     }
+
     attributeList.push(attribute);
   }
 
@@ -101,9 +111,34 @@ export class OccConfiguratorVariantNormalizer
       valueDisplay: occValue.langdepname,
       name: occValue.name,
       selected: occValue.selected,
+      images: [],
     };
 
+    if (occValue.images) {
+      occValue.images.forEach(occImage =>
+        this.convertImage(occImage, value.images)
+      );
+    }
+
     values.push(value);
+  }
+
+  convertImage(
+    occImage: OccConfigurator.Image,
+    images: Configurator.Image[]
+  ): void {
+    const image: Configurator.Image = {
+      url:
+        (this.config.backend.media.baseUrl ||
+          this.config.backend.occ.baseUrl ||
+          '') + occImage.url,
+      altText: occImage.altText,
+      galleryIndex: occImage.galleryIndex,
+      type: this.convertImageType(occImage.imageType),
+      format: this.convertImageFormatType(occImage.format),
+    };
+
+    images.push(image);
   }
 
   convertCharacteristicType(type: OccConfigurator.UiType): Configurator.UiType {
@@ -144,6 +179,26 @@ export class OccConfiguratorVariantNormalizer
         return Configurator.GroupType.ATTRIBUTE_GROUP;
       case OccConfigurator.GroupType.INSTANCE:
         return Configurator.GroupType.SUB_ITEM_GROUP;
+    }
+  }
+
+  convertImageType(
+    imageType: OccConfigurator.ImageType
+  ): Configurator.ImageType {
+    switch (imageType) {
+      case OccConfigurator.ImageType.GALLERY:
+        return Configurator.ImageType.GALLERY;
+      case OccConfigurator.ImageType.PRIMARY:
+        return Configurator.ImageType.PRIMARY;
+    }
+  }
+
+  convertImageFormatType(
+    formatType: OccConfigurator.ImageFormatType
+  ): Configurator.ImageFormatType {
+    switch (formatType) {
+      case OccConfigurator.ImageFormatType.VALUE_IMAGE:
+        return Configurator.ImageFormatType.VALUE_IMAGE;
     }
   }
 }

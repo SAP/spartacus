@@ -16,6 +16,7 @@ export namespace Configurator {
     userInput?: string;
     isLineItem?: boolean;
     maxlength?: number;
+    images?: Image[];
   }
 
   export interface Value {
@@ -28,6 +29,7 @@ export namespace Configurator {
     price?: number;
     productSystemId?: string;
     isCommerceProduct?: boolean;
+    images?: Image[];
   }
 
   export interface Group {
@@ -94,6 +96,13 @@ export namespace Configurator {
     configId: string;
     ownerKey: string;
   }
+  export interface Image {
+    type?: ImageType;
+    format?: ImageFormatType;
+    url?: string;
+    altText?: string;
+    galleryIndex?: number;
+  }
 
   export enum GroupType {
     ATTRIBUTE_GROUP = 'AttributeGroup',
@@ -110,5 +119,14 @@ export namespace Configurator {
     READ_ONLY = 'readonly',
     STRING = 'string',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
+  }
+
+  export enum ImageFormatType {
+    VALUE_IMAGE = 'VALUE_IMAGE',
+  }
+
+  export enum ImageType {
+    PRIMARY = 'PRIMARY',
+    GALLERY = 'GALLERY',
   }
 }
