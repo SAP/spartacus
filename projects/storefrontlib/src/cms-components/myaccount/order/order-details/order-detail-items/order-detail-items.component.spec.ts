@@ -15,6 +15,8 @@ import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
 
+const mockProduct = { product: { code: 'test' } };
+
 const mockOrder: Order = {
   code: '1',
   statusDisplay: 'Shipped',
@@ -67,7 +69,7 @@ const mockOrder: Order = {
       code: 'a00000343',
       status: 'DELIVERY_COMPLETED',
       statusDate: new Date('2019-02-11T13:05:12+0000'),
-      entries: [{ orderEntry: {}, quantity: 4, shippedQuantity: 4 }],
+      entries: [{ orderEntry: mockProduct, quantity: 4, shippedQuantity: 4 }],
     },
     {
       code: 'a00000348',
@@ -118,7 +120,7 @@ class MockConsignmentTrackingComponent {
   orderCode: string;
 }
 
-describe('OrderDetailItemsComponent', () => {
+fdescribe('OrderDetailItemsComponent', () => {
   let component: OrderDetailItemsComponent;
   let fixture: ComponentFixture<OrderDetailItemsComponent>;
   let mockOrderDetailsService: OrderDetailsService;
@@ -223,6 +225,13 @@ describe('OrderDetailItemsComponent', () => {
       })
       .unsubscribe();
     expect(cancel).toContain(mockOrder.consignments[3]);
+  });
+
+  it('should return getConsignmentProducts', () => {
+    const products = component.getConsignmentProducts(
+      mockOrder.consignments[1]
+    );
+    expect(products).toEqual([mockProduct]);
   });
 
   it('should order details item be rendered', () => {

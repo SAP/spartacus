@@ -12,6 +12,8 @@ import {
 import { CardModule } from '../../../../../../shared/components/card/card.module';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries.component';
 
+const mockProduct = { product: { code: 'test' } };
+
 const mockOrder: Order = {
   code: '1',
   statusDisplay: 'Shipped',
@@ -58,7 +60,13 @@ const mockOrder: Order = {
       code: 'a00000341',
       status: 'SHIPPED',
       statusDate: new Date('2019-02-11T13:05:12+0000'),
-      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
+      entries: [
+        {
+          orderEntry: mockProduct,
+          quantity: 1,
+          shippedQuantity: 1,
+        },
+      ],
     },
   ],
 };
@@ -103,7 +111,7 @@ describe('OrderConsignedEntriesComponent', () => {
         {
           provide: FeaturesConfig,
           useValue: {
-            features: { level: '1.1', consignmentTracking: '1.2' },
+            features: { level: '1.4', consignmentTracking: '1.2' },
           },
         },
       ],
@@ -126,6 +134,13 @@ describe('OrderConsignedEntriesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should return getConsignmentProducts', () => {
+    const products = component.getConsignmentProducts(
+      mockOrder.consignments[0]
+    );
+    expect(products).toEqual([mockProduct]);
   });
 
   it('should order consignment entries be rendered', () => {
