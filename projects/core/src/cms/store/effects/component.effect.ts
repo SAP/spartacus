@@ -33,7 +33,6 @@ export class ComponentEffects {
     )
   );
 
-  // TODO:#4603 - update test
   loadComponent$ = createEffect(
     () => ({ scheduler, debounce = 0 } = {}): Observable<
       | CmsActions.LoadCmsComponentSuccess<CmsComponent>

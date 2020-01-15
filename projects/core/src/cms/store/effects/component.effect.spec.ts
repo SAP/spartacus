@@ -2,14 +2,14 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
+import { FeatureConfigService } from '@spartacus/core';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CmsComponent, PageType } from '../../../model/cms.model';
-import { RoutingService } from '../../../routing/index';
+import { PageContext, RoutingService } from '../../../routing/index';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import { CmsActions } from '../actions/index';
 import * as fromEffects from './component.effect';
-import { FeatureConfigService } from '@spartacus/core';
 
 const router = {
   state: {
@@ -28,7 +28,7 @@ class MockRoutingService {
 }
 
 class MockCmsComponentConnector {
-  getList(_uid, _pageContext): Observable<any> {
+  getList(_uid: string, _pageContext: PageContext): Observable<any> {
     return of([]);
   }
 }
@@ -81,25 +81,120 @@ describe('Component Effects', () => {
       ).toBeObservable(expected);
     });
 
-    it('should group component load in specified time frame', () => {
-      const action1 = new CmsActions.LoadCmsComponent('comp1');
-      const action2 = new CmsActions.LoadCmsComponent('comp2');
-      const component2 = { ...component, uid: 'comp2' };
-      const completion1 = new CmsActions.LoadCmsComponentSuccess(component);
-      const completion2 = new CmsActions.LoadCmsComponentSuccess(component2);
-      spyOn(service, 'getList').and.returnValue(
-        cold('---c', { c: [component, component2] })
-      );
+    describe('when no page context is present', () => {
+      it('should group component load in specified time frame', () => {
+        const action1 = new CmsActions.LoadCmsComponent('comp1');
+        const action2 = new CmsActions.LoadCmsComponent('comp2');
+        const component2 = { ...component, uid: 'comp2' };
+        const completion1 = new CmsActions.LoadCmsComponentSuccess(component);
+        const completion2 = new CmsActions.LoadCmsComponentSuccess(component2);
+        spyOn(service, 'getList').and.returnValue(
+          cold('---c', { c: [component, component2] })
+        );
 
-      actions$ = hot('-ab', { a: action1, b: action2 });
-      const expected = cold('-------(ab)', { a: completion1, b: completion2 });
+        actions$ = hot('-ab', { a: action1, b: action2 });
+        const expected = cold('-------(ab)', {
+          a: completion1,
+          b: completion2,
+        });
 
-      expect(
-        effects.loadComponent$({ scheduler: getTestScheduler(), debounce: 20 })
-      ).toBeObservable(expected);
-      expect(service.getList).toHaveBeenCalledWith(['comp1', 'comp2'], {
-        id: '1',
-        type: 'ProductPage',
+        expect(
+          effects.loadComponent$({
+            scheduler: getTestScheduler(),
+            debounce: 20,
+          })
+        ).toBeObservable(expected);
+        expect(service.getList).toHaveBeenCalledWith(
+          ['comp1', 'comp2'],
+          undefined
+        );
+      });
+    });
+    describe('when the same page context is present in all the actions', () => {
+      it('should group component load in specified time frame', () => {
+        const pageContext: PageContext = {
+          id: 'xxx',
+          type: PageType.CONTENT_PAGE,
+        };
+        const action1 = new CmsActions.LoadCmsComponent('comp1', pageContext);
+        const action2 = new CmsActions.LoadCmsComponent('comp2', pageContext);
+        const component2 = { ...component, uid: 'comp2' };
+        const completion1 = new CmsActions.LoadCmsComponentSuccess(
+          component,
+          component.uid,
+          pageContext
+        );
+        const completion2 = new CmsActions.LoadCmsComponentSuccess(
+          component2,
+          component2.uid,
+          pageContext
+        );
+        spyOn(service, 'getList').and.returnValue(
+          cold('---c', { c: [component, component2] })
+        );
+
+        actions$ = hot('-ab', { a: action1, b: action2 });
+        const expected = cold('-------(ab)', {
+          a: completion1,
+          b: completion2,
+        });
+
+        expect(
+          effects.loadComponent$({
+            scheduler: getTestScheduler(),
+            debounce: 20,
+          })
+        ).toBeObservable(expected);
+        expect(service.getList).toHaveBeenCalledWith(
+          ['comp1', 'comp2'],
+          pageContext
+        );
+      });
+    });
+    // TODO:#4603 - fix
+    describe('when different page context is present in the actions', () => {
+      it('should group component load in specified time frame and by the page context', () => {
+        const pageContext1: PageContext = {
+          id: 'first',
+          type: PageType.CONTENT_PAGE,
+        };
+        const pageContext2: PageContext = {
+          id: 'second',
+          type: PageType.CATEGORY_PAGE,
+        };
+        const action1 = new CmsActions.LoadCmsComponent('comp1', pageContext1);
+        const action2 = new CmsActions.LoadCmsComponent('comp2', pageContext2);
+        const component2 = { ...component, uid: 'comp2' };
+        const completion1 = new CmsActions.LoadCmsComponentSuccess(
+          component,
+          component.uid,
+          pageContext1
+        );
+        const completion2 = new CmsActions.LoadCmsComponentSuccess(
+          component2,
+          component2.uid,
+          pageContext2
+        );
+        spyOn(service, 'getList').and.returnValue(
+          cold('---c-d', { c: [component], d: [component2] })
+        );
+
+        actions$ = hot('-ab', { a: action1, b: action2 });
+        const expected = cold('-------a-b', {
+          a: completion1,
+          b: completion2,
+        });
+
+        expect(
+          effects.loadComponent$({
+            scheduler: getTestScheduler(),
+            debounce: 20,
+          })
+        ).toBeObservable(expected);
+        expect(service.getList).toHaveBeenCalledWith(
+          [['comp1'], pageContext1],
+          [['comp2'], pageContext2]
+        );
       });
     });
   });
