@@ -141,6 +141,7 @@ export namespace OccConfigurator {
 
   export enum ImageFormatType {
     VALUE_IMAGE = 'VALUE_IMAGE',
+    CSTIC_IMAGE = 'CSTIC_IMAGE',
   }
 
   export enum ImageType {

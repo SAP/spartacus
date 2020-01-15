@@ -123,6 +123,7 @@ export namespace Configurator {
 
   export enum ImageFormatType {
     VALUE_IMAGE = 'VALUE_IMAGE',
+    ATTRIBUTE_IMAGE = 'ATTRIBUTE_IMAGE',
   }
 
   export enum ImageType {

@@ -206,6 +206,8 @@ export class OccConfiguratorVariantNormalizer
     switch (formatType) {
       case OccConfigurator.ImageFormatType.VALUE_IMAGE:
         return Configurator.ImageFormatType.VALUE_IMAGE;
+      case OccConfigurator.ImageFormatType.CSTIC_IMAGE:
+        return Configurator.ImageFormatType.ATTRIBUTE_IMAGE;
     }
   }
 }
