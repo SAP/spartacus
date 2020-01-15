@@ -1,18 +1,14 @@
-@mixin focusNav {
-  outline: var(--cx-color-visual-focus) auto 4px;
-  outline-offset: 2px;
-}
 
 %cx-navigation-ui-calydon {
   @include media-breakpoint-up(lg) {
     > nav {
       &:focus-within {
-        @include focusNav();
+        @include visible-focus();
       }
 
       > .wrapper .childs[depth='2'] > nav {
         &:not(cx-generic-link):focus-within {
-          @include focusNav();
+          @include visible-focus();
         }
       }
     }
