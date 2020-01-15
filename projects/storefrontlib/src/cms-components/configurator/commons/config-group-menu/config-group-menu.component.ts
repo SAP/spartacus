@@ -71,6 +71,12 @@ export class ConfigGroupMenuComponent implements OnInit {
     );
   }
 
+  clickOnEnter(event, group: Configurator.Group) {
+    if (event.which === 13) {
+      this.click(group); //TODO: fix focus lose when selection with keyboard
+    }
+  }
+
   click(group: Configurator.Group) {
     this.configuration$.pipe(take(1)).subscribe(configuration => {
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
@@ -83,6 +89,12 @@ export class ConfigGroupMenuComponent implements OnInit {
         );
       }
     });
+  }
+
+  navigateUpOnEnter(event) {
+    if (event.which === 13) {
+      this.navigateUp(); //TODO: fix focus lose when selection with keyboard
+    }
   }
 
   navigateUp() {
