@@ -37,9 +37,8 @@ export class ProductListComponentService {
 
   protected sub: Subscription;
 
-  protected readonly RELEVANCE_CATEGORY = ':relevance:category:';
-  protected readonly RELEVANCE_BRAND = ':relevance:brand:';
-
+  protected readonly RELEVANCE_ALLCATEGORIES = ':relevance:allCategories:';
+ 
   constructor(
     protected productSearchService: ProductSearchService,
     protected routing: RoutingService,
@@ -121,10 +120,10 @@ export class ProductListComponentService {
       return query;
     }
     if (categoryCode) {
-      return this.RELEVANCE_CATEGORY + categoryCode;
+      return this.RELEVANCE_ALLCATEGORIES + categoryCode;
     }
     if (brandCode) {
-      return this.RELEVANCE_BRAND + brandCode;
+      return this.RELEVANCE_ALLCATEGORIES + brandCode;
     }
   }
 
