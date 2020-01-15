@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-
 import {
-  Order,
   Consignment,
+  Order,
   OrderEntry,
-  PromotionResult,
   PromotionLocation,
+  PromotionResult,
 } from '@spartacus/core';
-
-import { OrderDetailsService } from '../order-details.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
+import { OrderDetailsService } from '../order-details.service';
+import {
+  cancelledValues,
+  completedValues,
+} from './order-consigned-entries/order-consigned-entries.model';
 
 @Component({
   selector: 'cx-order-details-items',
@@ -38,14 +41,52 @@ export class OrderDetailItemsComponent implements OnInit {
   promotionLocation: PromotionLocation = PromotionLocation.Order;
   order$: Observable<Order>;
   orderPromotions$: Observable<PromotionResult[]>;
+  others$: Observable<Consignment[]>;
+  completed$: Observable<Consignment[]>;
+  cancel$: Observable<Consignment[]>;
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();
     this.orderPromotions$ = this.promotionService.getOrderPromotions(
       this.promotionLocation
     );
+    this.others$ = this.getOtherStatus(...completedValues, ...cancelledValues);
+    this.completed$ = this.getExactStatus(completedValues);
+    this.cancel$ = this.getExactStatus(cancelledValues);
   }
 
+  private getExactStatus(
+    consignmentStatus: string[]
+  ): Observable<Consignment[]> {
+    return this.orderDetailsService.getOrderDetails().pipe(
+      map(order => {
+        if (Boolean(order.consignments)) {
+          return order.consignments.filter(consignment =>
+            consignmentStatus.includes(consignment.status)
+          );
+        }
+      })
+    );
+  }
+
+  private getOtherStatus(
+    ...consignmentStatus: string[]
+  ): Observable<Consignment[]> {
+    return this.orderDetailsService.getOrderDetails().pipe(
+      map(order => {
+        if (Boolean(order.consignments)) {
+          return order.consignments.filter(
+            consignment => !consignmentStatus.includes(consignment.status)
+          );
+        }
+      })
+    );
+  }
+
+  /**
+   * @deprecated
+   * NOTE: This function will be removed in version 2.0
+   */
   getConsignmentProducts(consignment: Consignment): OrderEntry[] {
     const products: OrderEntry[] = [];
     consignment.entries.forEach(element => {
