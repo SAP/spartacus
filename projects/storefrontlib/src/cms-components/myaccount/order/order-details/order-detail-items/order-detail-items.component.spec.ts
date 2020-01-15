@@ -15,22 +15,6 @@ import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
 
-const othersValues = [
-  'IN_TRANSIT',
-  'READY_FOR_PICKUP',
-  'READY_FOR_SHIPPING',
-  'WAITING',
-  'DELIVERING',
-  'PICKPACK',
-  'PAYMENT_NOT_CAPTURED',
-  'READY',
-  'DELIVERY_REJECTED',
-  'SHIPPED',
-  'TAX_NOT_COMMITED',
-];
-const completedValues = ['DELIVERY_COMPLETED', 'PICKUP_COMPLETE'];
-const cancelledValues = ['CANCELLED'];
-
 const mockOrder: Order = {
   code: '1',
   statusDisplay: 'Shipped',
@@ -83,11 +67,23 @@ const mockOrder: Order = {
       code: 'a00000343',
       status: 'DELIVERY_COMPLETED',
       statusDate: new Date('2019-02-11T13:05:12+0000'),
-      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
+      entries: [{ orderEntry: {}, quantity: 4, shippedQuantity: 4 }],
+    },
+    {
+      code: 'a00000348',
+      status: 'PICKUP_COMPLETE',
+      statusDate: new Date('2019-02-11T13:05:12+0000'),
+      entries: [{ orderEntry: {}, quantity: 4, shippedQuantity: 4 }],
     },
     {
       code: 'a00000342',
       status: 'CANCELLED',
+      statusDate: new Date('2019-02-11T13:05:12+0000'),
+      entries: [{ orderEntry: {}, quantity: 0, shippedQuantity: 0 }],
+    },
+    {
+      code: 'a00000349',
+      status: 'OTHERS',
       statusDate: new Date('2019-02-11T13:05:12+0000'),
       entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
     },
@@ -142,7 +138,7 @@ describe('OrderDetailItemsComponent', () => {
         {
           provide: FeaturesConfig,
           useValue: {
-            features: { level: '1.1', consignmentTracking: '1.2' },
+            features: { level: '1.4', consignmentTracking: '1.2' },
           },
         },
       ],
@@ -178,7 +174,7 @@ describe('OrderDetailItemsComponent', () => {
     expect(order).toEqual(mockOrder);
   });
 
-  it('should initialize in process ', () => {
+  it('should initialize others and check if it does not allow valid consignment status', () => {
     fixture.detectChanges();
     let others: Consignment[];
     component.others$
@@ -186,10 +182,26 @@ describe('OrderDetailItemsComponent', () => {
         others = value;
       })
       .unsubscribe();
-    expect(others).toEqual([mockOrder.consignments[0]]);
+
+    expect(others).not.toContain(mockOrder.consignments[1]);
+    expect(others).not.toContain(mockOrder.consignments[2]);
+    expect(others).not.toContain(mockOrder.consignments[3]);
   });
 
-  it('should initialize completed ', () => {
+  it('should initialize others and check if it contains any consignment status', () => {
+    fixture.detectChanges();
+    let others: Consignment[];
+    component.others$
+      .subscribe(value => {
+        others = value;
+      })
+      .unsubscribe();
+
+    expect(others).toContain(mockOrder.consignments[0]);
+    expect(others).toContain(mockOrder.consignments[4]);
+  });
+
+  it('should initialize completed', () => {
     fixture.detectChanges();
     let completed: Consignment[];
     component.completed$
@@ -197,10 +209,12 @@ describe('OrderDetailItemsComponent', () => {
         completed = value;
       })
       .unsubscribe();
-    expect(completed).toEqual([mockOrder.consignments[1]]);
+
+    expect(completed).toContain(mockOrder.consignments[1]);
+    expect(completed).toContain(mockOrder.consignments[2]);
   });
 
-  it('should initialize cancel ', () => {
+  it('should initialize cancel', () => {
     fixture.detectChanges();
     let cancel: Consignment[];
     component.cancel$
@@ -208,7 +222,7 @@ describe('OrderDetailItemsComponent', () => {
         cancel = value;
       })
       .unsubscribe();
-    expect(cancel).toEqual([mockOrder.consignments[2]]);
+    expect(cancel).toContain(mockOrder.consignments[3]);
   });
 
   it('should order details item be rendered', () => {
