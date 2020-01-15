@@ -8,7 +8,6 @@ import {
 
 export function checkForAppliedPromotionsInCartModal() {
   cy.get('.cx-promotions')
-    .first()
     .should('contain', 'EOS450D');
 }
 
@@ -31,7 +30,7 @@ export function addProductToCart() {
 
 export function goToCartDetailsViewFromCartDialog() {
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.getByText(/view cart/i).click();
+    cy.visit(`/cart`);
   });
 }
 
@@ -44,13 +43,14 @@ export function selectShippingAddress() {
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
   cy.get('.card-header').should('contain', 'Selected');
-  cy.get('button.btn-primary').click();
+  cy.visit(`/checkout/delivery-mode`);
 }
 
 export function selectDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-gross').should('be.checked');
   cy.get('button.btn-primary').click();
+  // cannot use cy.visit here, as payment details are unavailable
+  cy.wait(1000);
 }
 
 export function selectPaymentMethod() {
@@ -61,6 +61,8 @@ export function selectPaymentMethod() {
   cy.get('.cx-card-title').should('contain', 'Default Payment Method');
   cy.get('.card-header').should('contain', 'Selected');
   cy.get('button.btn-primary').click();
+  // cannot use cy.visit here, as review order is unavailable
+  cy.wait(1000);
 }
 
 export function goToOrderHistoryDetailsFromSummary() {
@@ -130,20 +132,15 @@ export function removeCartEntry() {
 
 export function checkAppliedPromotionsFordifferentCartTotals() {
   it('Should add to products to the cart', () => {
-    cy.visit('/product/4786113');
+    cy.visit('/product/1934796');
     addProductToCart();
-    cy.visit('/product/918735');
+    cy.visit('/product/1934796');
     addProductToCart();
   });
 
-  it('Should display promotions in users cart view for added product', () => {
+  it('Should display promotions in users cart view for added products', () => {
     goToCartDetailsViewFromCartDialog();
     checkForAppliedCartPromotions(true);
-  });
-
-  it('Should not display promotions in users cart view after removing first product', () => {
-    removeCartEntry();
-    checkForAppliedCartPromotions(false);
   });
 
   after(() => {
