@@ -15,6 +15,22 @@ import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
 
+const othersValues = [
+  'IN_TRANSIT',
+  'READY_FOR_PICKUP',
+  'READY_FOR_SHIPPING',
+  'WAITING',
+  'DELIVERING',
+  'PICKPACK',
+  'PAYMENT_NOT_CAPTURED',
+  'READY',
+  'DELIVERY_REJECTED',
+  'SHIPPED',
+  'TAX_NOT_COMMITED',
+];
+const completedValues = ['DELIVERY_COMPLETED', 'PICKUP_COMPLETE'];
+const cancelledValues = ['CANCELLED'];
+
 const mockOrder: Order = {
   code: '1',
   statusDisplay: 'Shipped',
