@@ -1,0 +1,6 @@
+%cx-banner-calydon {
+  &:focus-within {
+    z-index: 1;
+    box-shadow: 0px 0px 4px 4px var(--cx-color-visual-focus);
+  }
+}
