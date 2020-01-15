@@ -151,7 +151,6 @@ describe('Component Effects', () => {
         );
       });
     });
-    // TODO:#4603 - fix
     describe('when different page context is present in the actions', () => {
       it('should group component load in specified time frame and by the page context', () => {
         const pageContext1: PageContext = {
@@ -175,12 +174,12 @@ describe('Component Effects', () => {
           component2.uid,
           pageContext2
         );
-        spyOn(service, 'getList').and.returnValue(
-          cold('---c-d', { c: [component], d: [component2] })
+        const getListSpy = spyOn(service, 'getList').and.callFake(ids =>
+          cold('---a', { a: [{ ...component, uid: ids[0] }] })
         );
 
         actions$ = hot('-ab', { a: action1, b: action2 });
-        const expected = cold('-------a-b', {
+        const expected = cold('------ab', {
           a: completion1,
           b: completion2,
         });
@@ -191,10 +190,12 @@ describe('Component Effects', () => {
             debounce: 20,
           })
         ).toBeObservable(expected);
-        expect(service.getList).toHaveBeenCalledWith(
+        expect(service.getList).toHaveBeenCalledTimes(2);
+        // check all the arguments for which the method was called (reason: https://github.com/jasmine/jasmine/issues/228#issuecomment-270599719)
+        expect(getListSpy.calls.allArgs()).toEqual([
           [['comp1'], pageContext1],
-          [['comp2'], pageContext2]
-        );
+          [['comp2'], pageContext2],
+        ]);
       });
     });
   });
