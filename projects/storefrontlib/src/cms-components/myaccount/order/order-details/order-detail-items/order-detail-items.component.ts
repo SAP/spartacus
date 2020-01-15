@@ -28,18 +28,14 @@ export class OrderDetailItemsComponent implements OnInit {
   cancelledValues = ['CANCELLED'];
 
   order$: Observable<Order>;
-
   others$: Observable<Consignment[]>;
   completed$: Observable<Consignment[]>;
   cancel$: Observable<Consignment[]>;
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();
-
     this.others$ = this.getConsignmentStatus(this.othersValues);
-
     this.completed$ = this.getConsignmentStatus(this.completedValues);
-
     this.cancel$ = this.getConsignmentStatus(this.cancelledValues);
   }
 
