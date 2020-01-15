@@ -1,3 +1,4 @@
+import { CmsComponent } from '../../model';
 import { EntityState, LoaderState } from '../../state/index';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 import { NodeItem } from '../model/node-item.model';
@@ -16,8 +17,7 @@ export type ComponentState = EntityLoaderState<any>;
 export type ComponentsState = EntityState<ComponentsContext>;
 
 export interface ComponentsContext {
-  // TODO:#4603 - try to use `CmsComponent` type
-  component: any;
+  component: CmsComponent;
   /**
    * Page context stores an information for which context doest the component exist.
    * For example, if `SiteLogoComponent` was successfully loaded for a product page with an ID of 1776948, then this object will have:

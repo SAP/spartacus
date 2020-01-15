@@ -47,7 +47,7 @@ export function reducer<T>(
     case CmsActions.LOAD_CMS_COMPONENT_SUCCESS: {
       return {
         ...state,
-        component: action.payload,
+        component: action.payload as T,
         pageContext: {
           ...state.pageContext,
           [context]: {
