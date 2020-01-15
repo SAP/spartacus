@@ -282,8 +282,10 @@ $theme: '' !default;
   .btn-primary,
   .btn-secondary {
     &:focus {
-      outline: var(--cx-color-visual-focus) auto 6px;
-      outline-offset: 2px;
+      outline-style: solid;
+      outline-color: var(--cx-color-visual-focus);
+      outline-width: 2px;
+      outline-offset: 4px;
     }
   }
 }
