@@ -10,7 +10,9 @@
         </span>
       </div>
       <div *ngIf="consignment?.statusDate" class="cx-list-date">
-        <div>{{ 'orderDetails.shippedOn' | cxTranslate }}&nbsp;</div>
+        <div *cxFeatureLevel="'!1.4'">
+          {{ 'orderDetails.shippedOn' | cxTranslate }}&nbsp;
+        </div>
         <div>{{ consignment?.statusDate | cxDate }}</div>
       </div>
 
