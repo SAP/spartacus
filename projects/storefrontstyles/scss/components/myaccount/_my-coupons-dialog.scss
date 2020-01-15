@@ -1,0 +1,71 @@
+%cx-coupon-dialog {
+  .cx-dialog-item {
+    padding: 0 1rem 0 0;
+  }
+
+  .cx-coupon-description {
+    padding: 1rem 0 1rem 0;
+  }
+
+  .cx-coupon-dialog-date {
+    p {
+      margin: 0rem;
+    }
+    padding: 0 0 1rem 0;
+  }
+  .cx-coupon-dialog-status {
+    padding: 1rem 0 1rem 0;
+    p {
+      margin: 0rem;
+    }
+    .cx-coupon-status {
+      text-transform: uppercase;
+      @include type('5');
+
+      &.effective {
+        color: var(--cx-color-success);
+      }
+      &.expiresoon {
+        color: var(--cx-color-danger);
+      }
+      &.presession {
+        color: var(--cx-color-warning);
+      }
+    }
+  }
+
+  .cx-dialog-header {
+    padding: 2rem 1.75rem 0.85rem;
+    border-width: 0;
+  }
+
+  .cx-dialog-title {
+    @include type('3');
+  }
+
+  .cx-dialog-body {
+    padding: 1rem 1rem 0 1rem;
+    @include media-breakpoint-down(sm) {
+      padding: 0;
+    }
+  }
+
+  .cx-dialog-row {
+    margin: 0;
+    display: flex;
+    padding: 0 0.875rem 2.875rem;
+    max-width: 100%;
+    flex-wrap: wrap;
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      padding: 0;
+    }
+  }
+
+  .cx-dialog-item {
+    @include media-breakpoint-down(sm) {
+      padding: 2rem;
+    }
+  }
+}
