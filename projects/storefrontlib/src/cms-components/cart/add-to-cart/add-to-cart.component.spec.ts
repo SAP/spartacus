@@ -240,7 +240,6 @@ describe('AddToCartComponent', () => {
   it('should hide quantity if showQuantity is set to false', () => {
     addToCartComponent.showQuantity = false;
     fixture.detectChanges();
-    const el = fixture.debugElement;
     const quantityEl = el.query(By.css('.quantity'));
     expect(quantityEl).toBeNull();
   });
