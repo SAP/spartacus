@@ -28,7 +28,11 @@
       name="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}"
     />
 
-    <img src="{{ value.images[0].url }}" alt="{{ value.images[0].altText }}" />
+    <img
+      class="cx-config-attribute-value-img"
+      src="{{ value.images[0].url }}"
+      alt="{{ value.images[0].altText }}"
+    />
 
     <div class="cx-config-attribute-value-label-container">
       <label

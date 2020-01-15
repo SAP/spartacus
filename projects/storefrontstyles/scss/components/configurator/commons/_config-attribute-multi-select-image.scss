@@ -3,12 +3,17 @@
   .cx-config-select {
     padding: 5px;
 
-    img {
+    .cx-config-attribute-value-img {
       padding: 3px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      border-radius: 2px;
     }
 
     &[aria-checked='true'] {
-      img {
+      .cx-config-attribute-value-img {
         border: var(--cx-color-primary) 3px solid;
       }
     }
@@ -16,6 +21,10 @@
     input.form-input {
       -webkit-appearance: none;
       visibility: hidden;
+    }
+
+    .cx-config-attribute-value-label {
+      text-align: center;
     }
   }
 }
