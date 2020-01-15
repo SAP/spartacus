@@ -105,7 +105,7 @@ export class PaymentMethodsComponent implements OnInit {
     this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
   }
 
-  protected getCardIcon(code: string): string {
+  getCardIcon(code: string): string {
     let ccIcon: string;
     if (code === 'visa') {
       ccIcon = this.iconTypes.VISA;

@@ -7,6 +7,7 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { ICON_TYPE } from '../../../cms-components/misc/icon';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentMethodsComponent } from './payment-methods.component';
 
@@ -48,7 +49,7 @@ class MockUserPaymentService {
   setPaymentMethodAsDefault(_paymentMethodId: string): void {}
 }
 
-describe('PaymentMethodsComponent', () => {
+fdescribe('PaymentMethodsComponent', () => {
   let component: PaymentMethodsComponent;
   let fixture: ComponentFixture<PaymentMethodsComponent>;
   let userService: UserPaymentService;
@@ -226,5 +227,18 @@ describe('PaymentMethodsComponent', () => {
     expect(userService.setPaymentMethodAsDefault).toHaveBeenCalledWith(
       mockPayment.id
     );
+  });
+
+  it('should return the proper card icon based on its card type', () => {
+    const otherCardType = 'MockCardType';
+
+    expect(component.getCardIcon('visa')).toBe(ICON_TYPE.VISA);
+    expect(component.getCardIcon('master')).toBe(ICON_TYPE.MASTER_CARD);
+    expect(component.getCardIcon('mastercard_eurocard')).toBe(
+      ICON_TYPE.MASTER_CARD
+    );
+    expect(component.getCardIcon('diners')).toBe(ICON_TYPE.DINERS_CLUB);
+    expect(component.getCardIcon('amex')).toBe(ICON_TYPE.AMEX);
+    expect(component.getCardIcon(otherCardType)).toBe(ICON_TYPE.CREDIT_CARD);
   });
 });
