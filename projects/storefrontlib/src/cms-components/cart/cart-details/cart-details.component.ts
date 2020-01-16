@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  AuthService,
   Cart,
   CartService,
-  OrderEntry,
-  SelectiveCartService,
-  AuthService,
-  RoutingService,
   FeatureConfigService,
-  PromotionResult,
+  OrderEntry,
   PromotionLocation,
+  PromotionResult,
+  RoutingService,
+  SelectiveCartService,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
+import { Item } from '../cart-shared/cart-item/cart-item.component';
 
 @Component({
   selector: 'cx-cart-details',
@@ -27,6 +27,7 @@ export class CartDetailsComponent implements OnInit {
   loggedIn = false;
   orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+  promotions$: Observable<PromotionResult[]>;
 
   constructor(
     cartService: CartService,
@@ -56,6 +57,14 @@ export class CartDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.cart$ = this.cartService.getActive();
+
+    /**
+     * TODO Remove the check for promotion service
+     * Issue: GH-5670
+     */
+    if (this.promotionService) {
+      this.promotions$ = this.promotionService.getOrderPromotionsFromCart();
+    }
 
     this.entries$ = this.cartService
       .getEntries()
