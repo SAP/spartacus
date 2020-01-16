@@ -35,10 +35,15 @@
     />
 
     <img
+      *ngIf="value.images[0]"
       class="cx-config-attribute-value-img"
       src="{{ value.images[0].url }}"
       alt="{{ value.images[0].altText }}"
     />
+    <div
+      *ngIf="!value.images[0]"
+      class="cx-config-attribute-value-img-dummy"
+    ></div>
 
     <div class="cx-config-attribute-value-label-container">
       <label
