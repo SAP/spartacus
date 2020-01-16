@@ -147,7 +147,6 @@ export const componentsContextExistsSelectorFactory = (
       }
 
       const exists = StateLoaderSelectors.loaderValueSelector(loaderState);
-      // TODO:#4603 - check
       // 'exists' variable can be undefined, in which case we want to return false
       return exists ? exists : false;
     }
