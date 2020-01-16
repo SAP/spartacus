@@ -1,4 +1,7 @@
-import { variantProduct } from '../sample-data/checkout-flow';
+import {
+  variantProduct,
+  styleVariantProduct,
+} from '../sample-data/checkout-flow';
 import { login, setSessionData, config } from '../support/utils/login';
 
 export const username = 'user.test@ydev.hybris.com';
@@ -6,8 +9,6 @@ export const password = 'Password@123456';
 export const firstName = 'User';
 export const lastName = 'Test';
 export const titleCode = 'mr';
-export const variantSelectorContainer = '.variant-selector';
-export const variantStyleList = `${variantSelectorContainer} ul.variant-list`;
 
 export function retrieveTokenAndLogin() {
   function retrieveAuthToken() {
@@ -102,11 +103,14 @@ export function goToProductVariantPageFromCategory() {
   });
 }
 
-export function addProductVariantToCart() {
-  cy.get('.variant-selector select').select('M');
-  cy.get('cx-item-counter')
-    .getByText('+')
+export function addPSecondProductVariant() {
+  cy.get(`.variant-selector ul.variant-list li a.colorVariant`)
+    .first()
     .click();
+  cy.wait(10000);
+  cy.get(`.variant-selector ul.variant-list li.selected-variant`).should(
+    'be.visible'
+  );
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
@@ -116,8 +120,6 @@ export function addProductVariantToCart() {
   });
   cy.get('cx-breadcrumb').should('contain', 'Your Shopping Bag');
 }
-
-export function addMultipleProductVariantsToCart() {}
 
 export function addPaymentMethod() {
   cy.get('.cx-total')
@@ -162,7 +164,6 @@ export function addPaymentMethod() {
 
 export function selectShippingAddress() {
   cy.server();
-
   cy.route(
     'GET',
     '/rest/v2/apparel-uk-spa/cms/pages?*/checkout/shipping-address*'
@@ -238,7 +239,7 @@ export function displaySummaryPage() {
       cy.contains('Standard Delivery');
     });
   });
-  cy.get('cx-cart-item .cx-code').should('contain', variantProduct.code);
+  cy.get('cx-cart-item .cx-code').should('contain', styleVariantProduct.code);
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
 
@@ -279,6 +280,7 @@ export function deleteShippingAddress() {
       });
     });
 }
+
 export function deletePaymentCard() {
   // Retrieve the payment ID
   cy.request({
@@ -317,19 +319,22 @@ export function deletePaymentCard() {
     });
 }
 
-export function selectProductVariant() {
-  cy.get('.variant-selector select').select('L');
-
-  cy.get(`${variantStyleList} li.selected-variant`).should('be.visible');
-  cy.get('cx-item-counter')
-    .getByText('+')
+export function addFirstProductVariant() {
+  //add the first product variant
+  cy.get(`.variant-selector ul.variant-list li a.colorVariant`)
+    .last()
     .click();
+  cy.wait(10000);
+  cy.get(`.variant-selector ul.variant-list li.selected-variant`).should(
+    'be.visible'
+  );
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.get('.cx-name .cx-link').should('contain', variantProduct.name);
+    cy.get('.cx-name .cx-link').should('contain', styleVariantProduct.name);
     cy.get('.cx-dialog-header .close').click();
+    cy.wait(1000);
   });
 }
 
@@ -347,7 +352,7 @@ export function checkoutWithVariantsTest() {
   });
 
   it('should add product to cart', () => {
-    addProductVariantToCart();
+    addPSecondProductVariant();
   });
 
   it('should get cartId and add a payment method', () => {
@@ -397,11 +402,11 @@ export function checkoutWithMultipleVariantsTest() {
   });
 
   it('should add  first product varinat to cart', () => {
-    selectProductVariant();
+    addFirstProductVariant();
   });
 
   it('should add second product variant to cart', () => {
-    addProductVariantToCart();
+    addPSecondProductVariant();
   });
 
   it('should get cartId and add a payment method', () => {
