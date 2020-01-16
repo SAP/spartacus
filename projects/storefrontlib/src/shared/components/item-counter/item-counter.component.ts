@@ -105,8 +105,7 @@ export class ItemCounterComponent
    * If value is too small it will be set to min, if is too big it will be set to max.
    */
   adjustValueInRange(incomingValue: number): number {
-    // (GH-3150) Covers case where some items have no max value (e.g. Product #816780 on dev-10)
-    if (this.max === null) return this.min;
+    if (this.max === null || this.max === undefined) return this.min;
 
     return this.min !== undefined && incomingValue < this.min
       ? this.min
@@ -218,7 +217,7 @@ export class ItemCounterComponent
     return this.value >= this.max || this.value <= this.min;
   }
 
-  onInputBlur(): void {
+  validateValueOrDefault(): void {
     if (this.invalidInput) {
       this.manualChange(this.min);
     }
