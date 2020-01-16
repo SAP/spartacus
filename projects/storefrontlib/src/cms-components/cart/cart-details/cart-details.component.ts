@@ -59,7 +59,7 @@ export class CartDetailsComponent implements OnInit {
     this.cart$ = this.cartService.getActive();
 
     /**
-     * Remove the check for promotion service
+     * TODO Remove the check for promotion service
      * Issue: GH-5670
      */
     if (this.promotionService) {
