@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Configurator } from '../../../../../model/configurator.model';
 import { ConverterService } from '../../../../../util/converter.service';
+import { OccConfig } from '../../../../config/occ-config';
 import { OccConfigurator } from '../occ-configurator.models';
 import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-normalizer';
 
@@ -12,14 +13,25 @@ const valueKey2 = 'BE';
 const selectedFlag = true;
 const requiredFlag = true;
 
+const occImage: OccConfigurator.Image = {
+  altText: 'Alternate Text for Image',
+  format: OccConfigurator.ImageFormatType.VALUE_IMAGE,
+  imageType: OccConfigurator.ImageType.PRIMARY,
+  url: 'media?This%20%is%20%a%20%URL',
+};
+
 const occCstic: OccConfigurator.Characteristic = {
   name: csticName,
+  images: [occImage],
 };
 const occCsticWithValues: OccConfigurator.Characteristic = {
   name: csticName,
   required: requiredFlag,
   type: OccConfigurator.UiType.RADIO_BUTTON,
-  domainvalues: [{ key: valueKey }, { key: valueKey2, selected: selectedFlag }],
+  domainvalues: [
+    { key: valueKey, images: [occImage] },
+    { key: valueKey2, selected: selectedFlag },
+  ],
 };
 const configuration: OccConfigurator.Configuration = {
   complete: true,
@@ -44,20 +56,35 @@ class MockConverterService {
   convert() {}
 }
 
+const MockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: 'https://occBackendBaseUrl/',
+      prefix: '',
+    },
+    media: {
+      baseUrl: 'https://mediaBackendBaseUrl/',
+    },
+  },
+};
+
 describe('OccConfiguratorVariantNormalizer', () => {
   let occConfiguratorVariantNormalizer: OccConfiguratorVariantNormalizer;
+  let occConfig: OccConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         OccConfiguratorVariantNormalizer,
         { provide: ConverterService, useClass: MockConverterService },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
 
     occConfiguratorVariantNormalizer = TestBed.get(
       OccConfiguratorVariantNormalizer as Type<OccConfiguratorVariantNormalizer>
     );
+    occConfig = TestBed.get(OccConfig as Type<OccConfig>);
   });
 
   it('should be created', () => {
@@ -178,5 +205,31 @@ describe('OccConfiguratorVariantNormalizer', () => {
         OccConfigurator.GroupType.INSTANCE
       )
     ).toBe(Configurator.GroupType.SUB_ITEM_GROUP);
+  });
+
+  it('should convert image with media URL configured', () => {
+    const images = [];
+
+    occConfiguratorVariantNormalizer.convertImage(occImage, images);
+
+    expect(images.length).toBe(1);
+    expect(images[0].url).toBe(
+      'https://mediaBackendBaseUrl/media?This%20%is%20%a%20%URL'
+    );
+
+    occConfiguratorVariantNormalizer.convertImage(occImage, images);
+    expect(images.length).toBe(2);
+  });
+
+  it('should convert image with no media URL configured', () => {
+    const images = [];
+    occConfig.backend.media.baseUrl = null;
+
+    occConfiguratorVariantNormalizer.convertImage(occImage, images);
+
+    expect(images.length).toBe(1);
+    expect(images[0].url).toBe(
+      'https://occBackendBaseUrl/media?This%20%is%20%a%20%URL'
+    );
   });
 });

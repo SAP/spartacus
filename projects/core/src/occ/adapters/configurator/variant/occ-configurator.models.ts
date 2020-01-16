@@ -68,6 +68,7 @@ export namespace OccConfigurator {
     value?: string;
     formattedValue?: string;
     maxlength?: number;
+    images?: Image[];
   }
 
   export interface Value {
@@ -76,6 +77,7 @@ export namespace OccConfigurator {
     langdepname?: string;
     readonly?: boolean;
     selected?: boolean;
+    images?: Image[];
   }
 
   export interface AddToCartParameters {
@@ -105,6 +107,14 @@ export namespace OccConfigurator {
     characteristic: string;
     value: string;
   }
+  export interface Image {
+    imageType?: ImageType;
+    format?: ImageFormatType;
+    url?: string;
+    altText?: string;
+    galleryIndex?: number;
+  }
+
   export enum GroupType {
     CSTIC_GROUP = 'CSTIC_GROUP',
     INSTANCE = 'INSTANCE',
@@ -127,5 +137,15 @@ export namespace OccConfigurator {
 
   export enum PriceType {
     BUY = 'BUY',
+  }
+
+  export enum ImageFormatType {
+    VALUE_IMAGE = 'VALUE_IMAGE',
+    CSTIC_IMAGE = 'CSTIC_IMAGE',
+  }
+
+  export enum ImageType {
+    PRIMARY = 'PRIMARY',
+    GALLERY = 'GALLERY',
   }
 }

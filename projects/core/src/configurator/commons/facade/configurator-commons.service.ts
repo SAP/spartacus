@@ -186,6 +186,7 @@ export class ConfiguratorCommonsService {
       configId: configuration.configId,
       groups: [],
       owner: configuration.owner,
+      productCode: configuration.productCode,
     };
 
     const groupPath: Configurator.Group[] = [];
