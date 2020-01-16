@@ -15,6 +15,7 @@ export class BudgetDetailsComponent implements OnInit {
     protected budgetsService: BudgetService
   ) {}
 
+  cxRoute = 'costCenters';
   budget$: Observable<Budget>;
   budgetCode$: Observable<string> = this.routingService
     .getRouterState()
