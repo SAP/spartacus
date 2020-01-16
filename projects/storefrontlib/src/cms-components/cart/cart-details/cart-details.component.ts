@@ -58,7 +58,13 @@ export class CartDetailsComponent implements OnInit {
   ngOnInit() {
     this.cart$ = this.cartService.getActive();
 
-    this.promotions$ = this.promotionService.getOrderPromotionsFromCart();
+    /**
+     * Remove the check for promotion service
+     * Issue: GH-5670
+     */
+    if (this.promotionService) {
+      this.promotions$ = this.promotionService.getOrderPromotionsFromCart();
+    }
 
     this.entries$ = this.cartService
       .getEntries()
