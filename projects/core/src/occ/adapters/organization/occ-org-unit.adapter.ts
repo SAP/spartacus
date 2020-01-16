@@ -53,10 +53,10 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   }
 
   protected getOrgUnitEndpoint(userId: string, orgUnitId: string): string {
-    return this.occEndpoints.getUrl('organization', { userId, orgUnitId });
+    return this.occEndpoints.getUrl('orgUnit', { userId, orgUnitId });
   }
 
   protected getOrgUnitsEndpoint(userId: string, params?: any): string {
-    return this.occEndpoints.getUrl('organizations', { userId }, params);
+    return this.occEndpoints.getUrl('orgUnits', { userId }, params);
   }
 }

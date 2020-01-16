@@ -31,7 +31,6 @@ export class BudgetsListComponent implements OnInit {
     protected cxDate: CxDatePipe
   ) {}
 
-  readonly cxRoute = 'budgetDetails';
   budgetsList$: Observable<any>;
   private params$: Observable<BudgetSearchConfig>;
 
@@ -68,6 +67,7 @@ export class BudgetsListComponent implements OnInit {
                 budget.startDate
               )} - ${this.cxDate.transform(budget.endDate)}`,
               parentUnit: budget.orgUnit.name,
+              orgUnitId: budget.orgUnit.uid,
             })),
           }))
         )
@@ -105,12 +105,5 @@ export class BudgetsListComponent implements OnInit {
       currentPage: parseInt(currentPage, 10),
       pageSize: parseInt(pageSize, 10),
     };
-  }
-
-  goToBudgetDetail(budget: Budget): void {
-    this.routingService.go({
-      cxRoute: this.cxRoute,
-      params: budget,
-    });
   }
 }
