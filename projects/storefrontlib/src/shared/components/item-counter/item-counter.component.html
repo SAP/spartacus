@@ -29,7 +29,7 @@
       [formControl]="inputValue"
       [value]="value"
       *ngIf="isValueChangeable"
-      (blur)="onInputBlur()"
+      (blur)="validateValueOrDefault()"
     />
     <div class="cx-counter-value" *ngIf="!isValueChangeable">
       {{ value }}
