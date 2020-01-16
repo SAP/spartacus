@@ -3,7 +3,8 @@
   .cx-config-select {
     padding: 5px;
 
-    .cx-config-attribute-value-img {
+    .cx-config-attribute-value-img,
+    .cx-config-attribute-value-img-dummy {
       padding: 3px;
       display: block;
       margin-left: auto;
@@ -12,8 +13,13 @@
       border-radius: 2px;
     }
 
+    .cx-config-attribute-value-img-dummy {
+      height: 75%;
+    }
+
     &[aria-checked='true'] {
-      .cx-config-attribute-value-img {
+      .cx-config-attribute-value-img,
+      .cx-config-attribute-value-img-dummy {
         border: var(--cx-color-primary) 3px solid;
       }
     }
