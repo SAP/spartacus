@@ -1,16 +1,31 @@
+// %cx-navigation-ui-calydon {
+//   @include media-breakpoint-up(lg) {
+//     > nav {
+//       &:focus-within {
+//         @include visible-focus();
+//       }
+
+//       > .wrapper .childs[depth='2'] > nav {
+//         &:not(cx-generic-link):focus-within {
+//           @include visible-focus();
+//         }
+//       }
+//     }
+//   }
+// }
 
 %cx-navigation-ui-calydon {
   @include media-breakpoint-up(lg) {
-    > nav {
-      &:focus-within {
-        @include visible-focus();
-      }
-
-      > .wrapper .childs[depth='2'] > nav {
-        &:not(cx-generic-link):focus-within {
-          @include visible-focus();
-        }
-      }
+    //targets dropdown category titles
+    [aria-label]:focus {
+      background-color: red;
+      outline-offset: 0;
     }
+
+    //targets dropdownlinks
+
+    //targets single categories
+
+    //targets footer structure
   }
 }
