@@ -142,6 +142,8 @@ export class OccConfiguratorVariantNormalizer
     switch (groupType) {
       case OccConfigurator.GroupType.CSTIC_GROUP:
         return Configurator.GroupType.ATTRIBUTE_GROUP;
+      case OccConfigurator.GroupType.INSTANCE:
+        return Configurator.GroupType.SUB_ITEM_GROUP;
     }
   }
 }

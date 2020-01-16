@@ -165,4 +165,18 @@ describe('OccConfiguratorVariantNormalizer', () => {
       )
     ).toBe(Configurator.UiType.NOT_IMPLEMENTED);
   });
+
+  it('should convert group types properly', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertGroupType(
+        OccConfigurator.GroupType.CSTIC_GROUP
+      )
+    ).toBe(Configurator.GroupType.ATTRIBUTE_GROUP);
+
+    expect(
+      occConfiguratorVariantNormalizer.convertGroupType(
+        OccConfigurator.GroupType.INSTANCE
+      )
+    ).toBe(Configurator.GroupType.SUB_ITEM_GROUP);
+  });
 });
