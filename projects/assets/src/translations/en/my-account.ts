@@ -43,14 +43,9 @@ export const myAccount = {
       setAll: 'Set all quantities to maximum',
       totalPrice: 'Total',
       submit: 'Submit Request',
-      returnNote: 'The following items will be included in the return request.',
-      cancelNote:
-        'The following items will be included in the cancellation request.',
       returnSuccess: 'Your return request ({{rma}}) was submitted',
       cancelSuccess:
         'Your cancellation request was submitted (original order {{orderCode}} will be updated)',
-      note:
-        'Please note that it may take a few moments for your order to reflect the request.',
     },
   },
   orderHistory: {
@@ -132,6 +127,29 @@ export const myAccount = {
         withdrawn: 'Consent successfully withdrawn.',
       },
     },
+  },
+  myCoupons: {
+    noCouponsMessage: 'You have no coupons available.',
+    effectiveTitle: 'Effective:',
+    Effective: 'EFFECTIVE',
+    PreSession: 'EFFECTIVE SOON',
+    ExpireSoon: 'EXPIRING SOON',
+    readMore: 'Read more',
+    notification: 'Notification',
+    findProducts: 'Find Products',
+    status: 'Status:',
+    dialogTitle: 'Coupon',
+    claimCustomerCoupon: 'You have successfully claimed this coupon.',
+    myCoupons: 'My coupons',
+    startDateAsc: 'Start Date (ascending)',
+    startDateDesc: 'Start Date (descending)',
+    endDateAsc: 'End Date (ascending)',
+    endDateDesc: 'End Date (descending)',
+    sortByMostRecent: 'Sort by Most recent',
+    notesPreffix:
+      'You can set your preferred channels for receiving coupon notifications on the ',
+    notesLink: 'Notification Channels',
+    notesSuffix: ' page.',
   },
   notificationPreference: {
     message: 'Select your preferred notification channels',

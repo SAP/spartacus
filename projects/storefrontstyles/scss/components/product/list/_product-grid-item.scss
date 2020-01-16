@@ -1,4 +1,6 @@
 %cx-product-grid-item {
+  display: flex;
+  flex-direction: column;
   .cx-product-search-list {
     border-width: 0 0 1px 0;
     border-style: solid;
@@ -38,19 +40,22 @@
     }
   }
 
-  .cx-product-price {
-    @include type('3');
-    text-align: center;
-    margin: 1rem 0;
+  .cx-product-price-container {
+    flex-grow: 1;
+    .cx-product-price {
+      @include type('3');
+      text-align: center;
+      margin: 1rem 0;
 
-    &.old {
-      color: var(--cx-color-secondary);
-      text-decoration: line-through;
-    }
+      &.old {
+        color: var(--cx-color-secondary);
+        text-decoration: line-through;
+      }
 
-    &.new {
-      margin: 0 0 0 5px;
-      color: var(--cx-color-primary);
+      &.new {
+        margin: 0 0 0 5px;
+        color: var(--cx-color-primary);
+      }
     }
   }
 }
