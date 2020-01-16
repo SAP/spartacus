@@ -63,6 +63,9 @@ describe('Cart', () => {
       cy.visit('/cart');
       alerts.getErrorAlert().should('contain', 'Cart not found');
       cy.get('.cart-details-wrapper .cx-total').contains(`Cart #${cartCode}`);
+      cy.selectUserMenuOption({
+        option: 'Sign Out',
+      });
     });
   });
 
