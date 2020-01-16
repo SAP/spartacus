@@ -1,5 +1,26 @@
 <ng-container class="container" *ngIf="budgetsList$ | async as budgetsList">
-  <!--  <div class="container">-->
+  <ng-template #sortAndPagination>
+    <div class="cx-form-group form-group col-sm-12 col-md-4 col-lg-4">
+      <cx-sorting
+        [sortOptions]="budgetsList.sorts"
+        [sortLabels]="{
+          byUnitName: 'budgetsList.sorting.byUnitName' | cxTranslate,
+          byName: 'budgetsList.sorting.byName' | cxTranslate,
+          byCode: 'budgetsList.sorting.byCode' | cxTranslate,
+          byValue: 'budgetsList.sorting.byValue' | cxTranslate
+        }"
+        [selectedOption]="budgetsList.pagination.sort"
+        (sortListEvent)="changeSortCode($event)"
+      ></cx-sorting>
+    </div>
+    <div class="cx-pagination">
+      <cx-pagination
+        [pagination]="budgetsList.pagination"
+        (viewPageEvent)="pageChange($event)"
+      ></cx-pagination>
+    </div>
+  </ng-template>
+
   <div class="row">
     <div class="col-md-12 col-lg-9">
       <div class="cx-table-header">
@@ -27,53 +48,38 @@
   </div>
 
   <div class="cx-table-body">
-    <ng-container *ngIf="budgetsList.pagination.totalResults > 0">
+    <ng-container *ngIf="budgetsList.pagination.totalResults > 0; else noData">
       <div class="cx-sort top row">
-        <div class="cx-form-group form-group col-sm-12 col-md-4 col-lg-4">
-          <cx-sorting
-            [sortOptions]="budgetsList.sorts"
-            [sortLabels]="getSortLabels() | async"
-            [selectedOption]="budgetsList.pagination.sort"
-            (sortListEvent)="changeSortCode($event)"
-          ></cx-sorting>
-        </div>
-        <div class="cx-pagination">
-          <cx-pagination
-            [pagination]="budgetsList.pagination"
-            (viewPageEvent)="pageChange($event)"
-          ></cx-pagination>
-        </div>
+        <ng-container *ngTemplateOutlet="sortAndPagination"></ng-container>
       </div>
       <!-- TABLE -->
-
       <cx-table
         [tableData]="budgetsList.budgetsList"
         [cxRoute]="cxRoute"
-        [columns]="getColumns() | async"
+        [columns]="[
+          {
+            key: 'code',
+            value: 'budgetsList.code' | cxTranslate
+          },
+          { key: 'name', value: 'budgetsList.name' | cxTranslate },
+          { key: 'amount', value: 'budgetsList.amount' | cxTranslate },
+          {
+            key: 'startEndDate',
+            value: 'budgetsList.startEndDate' | cxTranslate
+          },
+          { key: 'parentUnit', value: 'budgetsList.parentUnit' | cxTranslate }
+        ]"
         (clickDetailsEvent)="goToBudgetDetail($event)"
       ></cx-table>
 
       <div class="cx-sort bottom row">
-        <div class="cx-form-group form-group col-sm-12 col-md-4 col-lg-4">
-          <cx-sorting
-            [sortOptions]="budgetsList.sorts"
-            [sortLabels]="getSortLabels() | async"
-            [selectedOption]="budgetsList.pagination.sort"
-            (sortListEvent)="changeSortCode($event)"
-          ></cx-sorting>
-        </div>
-        <div class="cx-pagination">
-          <cx-pagination
-            [pagination]="budgetsList.pagination"
-            (viewPageEvent)="pageChange($event)"
-          ></cx-pagination>
-        </div>
+        <ng-container *ngTemplateOutlet="sortAndPagination"></ng-container>
       </div>
     </ng-container>
 
     <!-- NO ORDER CONTAINER -->
     <ng-template #noData>
-      <div class="cx-no-budgetsList row">
+      <div class="cx-no-budgets row">
         <div class="col-sm-12 col-md-6 col-lg-4">
           <div>{{ 'common.noData' | cxTranslate }}</div>
         </div>

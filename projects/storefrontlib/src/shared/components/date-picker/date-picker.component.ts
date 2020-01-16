@@ -64,7 +64,7 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
     this.onTouched = fn;
   }
 
-  writeValue(value: any): void {
+  writeValue(value: string): void {
     if (value) {
       this.value = value;
       this.nativeValue = this.dateFormatterService.toNative(value);

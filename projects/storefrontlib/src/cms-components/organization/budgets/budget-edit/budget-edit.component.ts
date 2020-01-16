@@ -25,7 +25,7 @@ export class BudgetEditComponent implements OnInit {
     );
   }
 
-  updateBudget(budget) {
+  updateBudget(budget: Budget) {
     this.budgetCode$
       .pipe(take(1))
       .subscribe(budgetCode => this.budgetsService.update(budgetCode, budget));

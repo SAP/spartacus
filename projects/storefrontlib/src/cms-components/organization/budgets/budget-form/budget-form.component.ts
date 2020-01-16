@@ -80,7 +80,6 @@ export class BudgetFormComponent implements OnInit {
     );
     if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
       this.form.patchValue(this.budgetData);
-      console.log('initBudget', this.form);
     }
   }
 
@@ -97,7 +96,6 @@ export class BudgetFormComponent implements OnInit {
   }
 
   verifyBudget(): void {
-    console.log('verifyBudget', this.form);
     if (!this.form.invalid) {
       this.submitBudget.emit(this.form.value);
     }

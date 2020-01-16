@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'cx-table',
   templateUrl: './table.component.html',
-  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent {
   constructor() {

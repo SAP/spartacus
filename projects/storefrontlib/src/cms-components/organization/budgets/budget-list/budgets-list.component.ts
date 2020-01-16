@@ -14,18 +14,11 @@ import {
   Budget,
   BudgetListModel,
   RoutingService,
-  TranslationService,
   CxDatePipe,
   BudgetSearchConfig,
+  θdiff as diff,
+  θshallowEqualObjects as shallowEqualObjects,
 } from '@spartacus/core';
-import {
-  resolveKeyAndValueBy,
-  resolveObjectBy,
-} from '../../../../../../core/src/util/resolveObject';
-import {
-  diff,
-  shallowEqualObjects,
-} from '../../../../../../core/src/util/compare-equal-objects';
 
 @Component({
   selector: 'cx-budgets-list',
@@ -35,7 +28,6 @@ export class BudgetsListComponent implements OnInit {
   constructor(
     protected routingService: RoutingService,
     protected budgetsService: BudgetService,
-    protected translation: TranslationService,
     protected cxDate: CxDatePipe
   ) {}
 
@@ -47,21 +39,6 @@ export class BudgetsListComponent implements OnInit {
     sort: 'byName',
     currentPage: 0,
     pageSize: 5,
-  };
-
-  private columns = {
-    code: 'budgetsList.code',
-    name: 'budgetsList.name',
-    amount: 'budgetsList.amount',
-    startEndDate: 'budgetsList.startEndDate',
-    parentUnit: 'budgetsList.parentUnit',
-  };
-
-  private sortLabels = {
-    byUnitName: 'budgetsList.sorting.byUnitName',
-    byName: 'budgetsList.sorting.byName',
-    byCode: 'budgetsList.sorting.byCode',
-    byValue: 'budgetsList.sorting.byValue',
   };
 
   ngOnInit(): void {
@@ -106,7 +83,7 @@ export class BudgetsListComponent implements OnInit {
     this.updateQueryParams({ currentPage });
   }
 
-  updateQueryParams(newParams: Partial<BudgetSearchConfig>): void {
+  private updateQueryParams(newParams: Partial<BudgetSearchConfig>): void {
     this.params$
       .pipe(
         map(params => diff(this.defaultParams, { ...params, ...newParams })),
@@ -135,22 +112,5 @@ export class BudgetsListComponent implements OnInit {
       cxRoute: this.cxRoute,
       params: budget,
     });
-  }
-
-  getColumns(): Observable<Array<{ key: string; value: string }>> {
-    return resolveKeyAndValueBy(this.columns, text =>
-      this.translation.translate(text).pipe(take(1))
-    );
-  }
-
-  getSortLabels(): Observable<{
-    byUnitName: string;
-    byName: string;
-    byCode: string;
-    byValue: string;
-  }> {
-    return resolveObjectBy(this.sortLabels, text =>
-      this.translation.translate(text).pipe(take(1))
-    );
   }
 }
