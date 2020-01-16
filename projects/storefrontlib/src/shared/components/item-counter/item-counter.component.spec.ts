@@ -356,7 +356,7 @@ describe('ItemCounterComponent', () => {
     itemCounterComponent.manualChange(null);
     itemCounterComponent.invalidInput = true;
 
-    itemCounterComponent.onInputBlur();
+    itemCounterComponent.validateValueOrDefault();
     expect(itemCounterComponent.min).toBe(mockMinimum);
   });
 });
