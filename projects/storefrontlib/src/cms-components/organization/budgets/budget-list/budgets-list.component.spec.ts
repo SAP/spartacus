@@ -40,7 +40,7 @@ const mockBudgetList: BudgetListModel = {
       },
       startDate: '2010-01-01T00:00:00+0000',
       endDate: '2034-07-12T00:59:59+0000',
-      orgUnit: { name: 'orgName' },
+      orgUnit: { name: 'orgName', uid: 'orgUid' },
     },
     {
       code: '2',
@@ -52,7 +52,7 @@ const mockBudgetList: BudgetListModel = {
       },
       startDate: '2020-01-01T00:00:00+0000',
       endDate: '2024-07-12T00:59:59+0000',
-      orgUnit: { name: 'orgName' },
+      orgUnit: { name: 'orgName', uid: 'orgUid' },
     },
   ],
   pagination: { totalResults: 1, sort: 'byName' },
@@ -67,6 +67,7 @@ const mockBudgetUIList = {
       amount: '2230 $',
       startEndDate: '2010-01-01 - 2034-07-12',
       parentUnit: 'orgName',
+      orgUnitId: 'orgUid',
     },
     {
       code: '2',
@@ -74,6 +75,7 @@ const mockBudgetUIList = {
       amount: '2240 $',
       startEndDate: '2020-01-01 - 2024-07-12',
       parentUnit: 'orgName',
+      orgUnitId: 'orgUid',
     },
   ],
   pagination: { totalResults: 1, sort: 'byName' },
@@ -185,19 +187,6 @@ describe('BudgetsListComponent', () => {
       expect(budgetsService.loadBudgets).toHaveBeenCalledWith(defaultParams);
       expect(budgetsService.getList).toHaveBeenCalledWith(defaultParams);
       expect(budgetsList).toEqual(mockBudgetUIList);
-    });
-  });
-
-  describe('goToBudgetDetail', () => {
-    it('should redirect when clicking on budget id', () => {
-      fixture.detectChanges();
-      const rows = fixture.debugElement.queryAll(By.css('.cx-table tbody tr'));
-      rows[1].triggerEventHandler('click', null);
-
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'budgetDetails',
-        params: mockBudgetUIList.budgetsList[1],
-      });
     });
   });
 

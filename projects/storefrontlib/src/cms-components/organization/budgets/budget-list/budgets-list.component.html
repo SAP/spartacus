@@ -55,11 +55,11 @@
       <!-- TABLE -->
       <cx-table
         [tableData]="budgetsList.budgetsList"
-        [cxRoute]="cxRoute"
         [columns]="[
           {
             key: 'code',
-            value: 'budgetsList.code' | cxTranslate
+            value: 'budgetsList.code' | cxTranslate,
+            cxRoute: 'budgetDetails'
           },
           { key: 'name', value: 'budgetsList.name' | cxTranslate },
           { key: 'amount', value: 'budgetsList.amount' | cxTranslate },
@@ -67,9 +67,12 @@
             key: 'startEndDate',
             value: 'budgetsList.startEndDate' | cxTranslate
           },
-          { key: 'parentUnit', value: 'budgetsList.parentUnit' | cxTranslate }
+          {
+            key: 'parentUnit',
+            value: 'budgetsList.parentUnit' | cxTranslate,
+            cxRoute: 'orgUnit'
+          }
         ]"
-        (clickDetailsEvent)="goToBudgetDetail($event)"
       ></cx-table>
 
       <div class="cx-sort bottom row">

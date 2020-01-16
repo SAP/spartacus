@@ -99,11 +99,17 @@
         <h3>{{ 'budget.costCenters' | cxTranslate }}</h3>
       </div>
       <cx-table
-        [cxRoute]="cxRoute"
         [pageSize]="10"
         [columns]="[
-          { key: 'name', value: 'costCenter.name' | cxTranslate },
-          { key: 'description', value: 'costCenter.description' | cxTranslate }
+          {
+            key: 'name',
+            value: 'costCenter.name' | cxTranslate,
+            cxRoute: 'costCenter'
+          },
+          {
+            key: 'costCenterCode',
+            value: 'costCenter.description' | cxTranslate
+          }
         ]"
         [tableData]="budget.costCenters"
       ></cx-table>

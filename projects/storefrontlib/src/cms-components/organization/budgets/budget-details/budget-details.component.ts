@@ -15,7 +15,6 @@ export class BudgetDetailsComponent implements OnInit {
     protected budgetsService: BudgetService
   ) {}
 
-  cxRoute = 'costCenters';
   budget$: Observable<Budget>;
   budgetCode$: Observable<string> = this.routingService
     .getRouterState()
@@ -32,7 +31,7 @@ export class BudgetDetailsComponent implements OnInit {
           budget.costCenters &&
           budget.costCenters.map(costCenter => ({
             name: costCenter.name,
-            description: costCenter.code,
+            costCenterCode: costCenter.code,
           })),
       }))
     );

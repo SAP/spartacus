@@ -40,8 +40,6 @@ describe('TableComponent', () => {
     component = fixture.componentInstance;
     component.columns = mockColumns;
     component.tableData = mockTableData;
-    component.cxRoute = 'mockRoute';
-    spyOn(component.clickDetailsEvent, 'emit').and.stub();
     fixture.detectChanges();
   });
 
@@ -56,22 +54,13 @@ describe('TableComponent', () => {
       ' Column 1  Column 2  Column 3 '
     );
     expect(rows[0].nativeElement.textContent).toEqual(
-      ' Column 1  cell 1  Column 2  cell 2  Column 3  cell3 '
+      ' Column 1 cell 1 Column 2 cell 2 Column 3 cell3'
     );
     expect(rows[1].nativeElement.textContent).toEqual(
-      ' Column 1  cell 4  Column 2  cell 5  Column 3  cell6 '
+      ' Column 1 cell 4 Column 2 cell 5 Column 3 cell6'
     );
     expect(rows[2].nativeElement.textContent).toEqual(
-      ' Column 1  cell 7  Column 2  cell 8  Column 3  cell9 '
-    );
-  });
-
-  it('should emit value on row click', () => {
-    const rows = fixture.debugElement.queryAll(By.css('.cx-table tbody tr'));
-    rows[1].triggerEventHandler('click', null);
-
-    expect(component.clickDetailsEvent.emit).toHaveBeenCalledWith(
-      mockTableData[1]
+      ' Column 1 cell 7 Column 2 cell 8 Column 3 cell9'
     );
   });
 });

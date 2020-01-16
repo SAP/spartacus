@@ -360,11 +360,23 @@ export interface OccEndpoints {
    *
    * @member {string}
    */
-  organizations?: string;
+  orgUnits?: string;
   /**
    * Endpoint for organization
    *
    * @member {string}
    */
-  organization?: string;
+  orgUnit?: string;
+  /**
+   * Endpoint for costCenter list
+   *
+   * @member {string}
+   */
+  costCenters?: string;
+  /**
+   * Endpoint for costCenter
+   *
+   * @member {string}
+   */
+  costCenter?: string;
 }

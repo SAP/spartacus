@@ -1,30 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'cx-table',
   templateUrl: './table.component.html',
 })
 export class TableComponent {
-  constructor() {
-    this.clickDetailsEvent = new EventEmitter<any>();
-  }
-
   @Input()
   pageSize = 5;
 
   @Input()
-  columns: Array<{ key: string; value: string }>;
+  columns: Array<{ key: string; value: string; cxRoute?: string }>;
 
   @Input()
   tableData: Array<any>;
-
-  @Input()
-  cxRoute: string;
-
-  @Output()
-  clickDetailsEvent: EventEmitter<any>;
-
-  goToDetail(params: any): void {
-    this.clickDetailsEvent.emit(params);
-  }
 }
