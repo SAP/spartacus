@@ -9,3 +9,9 @@
 @import './store-finder-schedule';
 @import './store-finder-map';
 @import './store-finder-store';
+
+$store-finder-components-whitelist: cx-store-finder-list-item,
+  cx-store-finder-grid, cx-store-finder, cx-store-finder-store-description,
+  cx-store-finder-stores-count, cx-store-finder-search-result,
+  cx-store-finder-list, cx-store-finder-search, cx-store-finder-schedule,
+  cx-store-finder-map, cx-store-finder-store !default;

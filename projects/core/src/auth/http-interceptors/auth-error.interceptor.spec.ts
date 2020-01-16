@@ -1,10 +1,10 @@
 import {
+  HTTP_INTERCEPTORS,
   HttpClient,
   HttpHandler,
   HttpHeaders,
   HttpParams,
   HttpRequest,
-  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import {
   HttpClientTestingModule,
@@ -84,7 +84,6 @@ describe('AuthErrorInterceptor', () => {
     httpMock = TestBed.get(HttpTestingController as Type<
       HttpTestingController
     >);
-
     spyOn(userErrorHandlingService, 'handleExpiredUserToken').and.returnValue(
       of({} as any)
     );

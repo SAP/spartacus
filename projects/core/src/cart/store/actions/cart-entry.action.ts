@@ -4,7 +4,6 @@ import { CART_DATA } from '../cart-state';
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';
 export const CART_ADD_ENTRY_SUCCESS = '[Cart-entry] Add Entry Success';
 export const CART_ADD_ENTRY_FAIL = '[Cart-entry] Add Entry Fail';
-
 export const CART_REMOVE_ENTRY = '[Cart-entry] Remove Entry';
 export const CART_REMOVE_ENTRY_SUCCESS = '[Cart-entry] Remove Entry Success';
 export const CART_REMOVE_ENTRY_FAIL = '[Cart-entry] Remove Entry Fail';

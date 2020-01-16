@@ -92,4 +92,11 @@ describe('MediaService', () => {
       'http://mobileUrl 576w, base:tabletUrl 768w, base:desktopUrl 992w'
     );
   });
+
+  it('should return image url if default format is not provided', () => {
+    mockMediaContainer.tablet = null;
+    expect(mediaService.getMedia(mockMediaContainer, 'tablet').src).toBe(
+      `${MockConfig.backend.media.baseUrl}${mockMediaContainer.desktop.url}`
+    );
+  });
 });

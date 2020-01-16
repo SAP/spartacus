@@ -4,18 +4,41 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Page, PageMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
-import { PageTitleResolver } from '../../cms/page/page.resolvers';
+import {
+  PageBreadcrumbResolver,
+  PageTitleResolver,
+} from '../../cms/page/page.resolvers';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { ProductSearchPage } from '../../model/product-search.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../facade/product-search.service';
 
+/**
+ * Resolves the page data for the Product Listing Page
+ * based on the `PageType.CATEGORY_PAGE`.
+ *
+ * The page title, and breadcrumbs are resolved in this implementation only.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryPageMetaResolver extends PageMetaResolver
-  implements PageTitleResolver {
+  implements PageTitleResolver, PageBreadcrumbResolver {
+  // reusable observable for search page data
+  private searchPage$: Observable<
+    ProductSearchPage | Page
+  > = this.cms.getCurrentPage().pipe(
+    filter(Boolean),
+    switchMap((page: Page) =>
+      // only the existence of a plp component tells us if products
+      // are rendered or if this is an ordinary content page
+      this.hasProductListComponent(page)
+        ? this.productSearchService.getResults().pipe(filter(Boolean))
+        : of(page)
+    )
+  );
+
   constructor(
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
@@ -26,7 +49,14 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     this.pageType = PageType.CATEGORY_PAGE;
   }
 
-  resolve(): Observable<PageMeta> {
+  /**
+   * @deprecated since version 1.3
+   *
+   * The resolve method is no longer preferred and will be removed with release 2.0.
+   * The caller `PageMetaService` service is improved to expect all individual resolvers
+   * instead, so that the code is easier extensible.
+   */
+  resolve(): Observable<PageMeta> | any {
     return this.cms.getCurrentPage().pipe(
       filter(Boolean),
       switchMap((page: Page) => {
@@ -53,25 +83,68 @@ export class CategoryPageMetaResolver extends PageMetaResolver
       })
     );
   }
+  resolveTitle(): Observable<string>;
+  /**
+   * @deprecated since version 1.3
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveTitle()` instead
+   */
+  // tslint:disable-next-line: unified-signatures
+  resolveTitle(searchPage: ProductSearchPage): Observable<string>;
+  resolveTitle(searchPage?: ProductSearchPage): Observable<string> {
+    const searchPage$ = searchPage ? of(searchPage) : this.searchPage$;
 
-  resolveTitle(data: ProductSearchPage): Observable<string> {
-    return this.translation.translate('pageMetaResolver.category.title', {
-      count: data.pagination.totalResults,
-      query: data.breadcrumbs[0].facetValueName,
-    });
+    return searchPage$.pipe(
+      filter((page: ProductSearchPage) => !!page.pagination),
+      switchMap(p =>
+        this.translation.translate('pageMetaResolver.category.title', {
+          count: (<ProductSearchPage>p).pagination.totalResults,
+          query: (<ProductSearchPage>p).breadcrumbs[0].facetValueName,
+        })
+      )
+    );
   }
 
+  /**
+   * @deprecated since version 1.3
+   * This method will removed with with 2.0
+   */
   resolveBreadcrumbLabel(): Observable<string> {
     return this.translation.translate('common.home');
   }
 
+  resolveBreadcrumbs(): Observable<any[]>;
+  /**
+   * @deprecated since version 1.3
+   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveTitle()` instead
+   */
+  // tslint:disable-next-line: unified-signatures
   resolveBreadcrumbs(
-    data: ProductSearchPage,
+    searchPage: ProductSearchPage,
     breadcrumbLabel: string
+  ): Observable<any[]>;
+  resolveBreadcrumbs(
+    searchPage?: ProductSearchPage,
+    breadcrumbLabel?: string
   ): Observable<any[]> {
+    const sources =
+      searchPage && breadcrumbLabel
+        ? [of(searchPage), of(breadcrumbLabel)]
+        : [this.searchPage$.pipe(), this.translation.translate('common.home')];
+
+    return combineLatest(sources).pipe(
+      map(([p, label]: [ProductSearchPage, string]) =>
+        p.breadcrumbs
+          ? this.resolveBreadcrumbData(<ProductSearchPage>p, label)
+          : null
+      )
+    );
+  }
+
+  private resolveBreadcrumbData(page: ProductSearchPage, label: string): any[] {
     const breadcrumbs = [];
-    breadcrumbs.push({ label: breadcrumbLabel, link: '/' });
-    for (const br of data.breadcrumbs) {
+    breadcrumbs.push({ label: label, link: '/' });
+
+    for (const br of page.breadcrumbs) {
       if (br.facetCode === 'category') {
         breadcrumbs.push({
           label: br.facetValueName,
@@ -85,15 +158,16 @@ export class CategoryPageMetaResolver extends PageMetaResolver
         });
       }
     }
-    return of(breadcrumbs);
+    return breadcrumbs;
   }
 
   private hasProductListComponent(page: Page): boolean {
-    // ProductListComponent
     return !!Object.keys(page.slots).find(
       key =>
         !!page.slots[key].components.find(
-          comp => comp.typeCode === 'CMSProductListComponent'
+          comp =>
+            comp.typeCode === 'CMSProductListComponent' ||
+            comp.typeCode === 'ProductGridComponent'
         )
     );
   }

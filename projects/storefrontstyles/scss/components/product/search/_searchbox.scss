@@ -24,7 +24,7 @@
       cx-storefront {
         &:before {
           content: '';
-          position: absolute;
+          position: fixed;
           left: 0;
           top: 0;
           width: 100%;
@@ -174,7 +174,8 @@
         font-style: normal;
       }
 
-      &:hover {
+      &:hover,
+      &:focus {
         background: var(--cx-color-light);
         color: currentColor;
       }

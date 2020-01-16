@@ -1,15 +1,15 @@
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import { CartTotalsComponent } from './cart-totals.component';
 import {
   Cart,
-  OrderEntry,
   CartService,
   I18nTestingModule,
+  OrderEntry,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { Input, Component, Pipe, PipeTransform } from '@angular/core';
+import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
+import { CartTotalsComponent } from './cart-totals.component';
 
 const cartMock: Cart = {
   name: 'cart-mock',
@@ -55,7 +55,7 @@ describe('CartTotalsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule, CartCouponModule],
       declarations: [
         CartTotalsComponent,
         MockOrderSummaryComponent,

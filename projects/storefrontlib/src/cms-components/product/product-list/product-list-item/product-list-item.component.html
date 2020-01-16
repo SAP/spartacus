@@ -20,9 +20,13 @@
       [innerHtml]="product.nameHtml"
     ></a>
     <cx-star-rating
+      *ngIf="product.averageRating"
       [rating]="product?.averageRating"
       [disabled]="true"
     ></cx-star-rating>
+    <div *ngIf="!product.averageRating">
+      {{ 'productDetails.noReviews' | cxTranslate }}
+    </div>
     <div class="cx-product-price" aria-label="Product price">
       {{ product.price?.formattedValue }}
     </div>
@@ -34,11 +38,19 @@
       </div>
       <div class="col-12 col-md-4">
         <cx-add-to-cart
-          *ngIf="product.stock.stockLevelStatus !== 'outOfStock'"
+          *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"
           [showQuantity]="false"
-          [productCode]="product.code"
+          [product]="product"
         ></cx-add-to-cart>
       </div>
     </div>
+    <ng-container *cxFeatureLevel="'1.4'">
+      <div class="row" *ngIf="product.variantOptions">
+        <cx-style-icons
+          class="list-style-icons"
+          [variants]="product.variantOptions"
+        ></cx-style-icons>
+      </div>
+    </ng-container>
   </div>
 </div>

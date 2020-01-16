@@ -9,21 +9,11 @@ import {
   RoutingService,
   User,
   UserService,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
 
 import createSpy = jasmine.createSpy;
-
-const mockUserToken: UserToken = {
-  access_token: 'xxx',
-  token_type: 'bearer',
-  refresh_token: 'xxx',
-  expires_in: 1000,
-  scope: ['xxx'],
-  userId: 'xxx',
-};
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
@@ -35,8 +25,8 @@ const mockUserDetails: User = {
 
 class MockAuthService {
   login = createSpy();
-  getUserToken(): Observable<UserToken> {
-    return of(mockUserToken);
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
   }
 }
 class MockRoutingService {
@@ -117,7 +107,8 @@ describe('LoginComponent', () => {
   });
 
   it('should not get user details when token is lacking', () => {
-    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+
     let user;
     component.ngOnInit();
     component.user$.subscribe(result => (user = result));
@@ -144,7 +135,7 @@ describe('LoginComponent', () => {
     });
 
     it('should display the register message when the user is not logged in', () => {
-      spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
       component.ngOnInit();
       fixture.detectChanges();
 

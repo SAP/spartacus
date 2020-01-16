@@ -17,8 +17,10 @@ export enum TabbingOrderTypes {
   NAV_CATEGORY_DROPDOWN = 'navCategoryDropdown',
   CAROUSEL = 'carousel',
   CX_MEDIA = 'cxMedia',
+  CX_ICON = 'cxIcon',
   H3 = 'h3',
   CX_PRODUCT_VIEW = 'cxProductView',
+  INDEX_OF_ELEMENT = 'indexOfElement',
 }
 
 export interface TabbingOrderConfig {
@@ -152,7 +154,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
         '/electronics-spa/en/USD/Open-Catalogue/Cameras/CameraAccessories-%2526-Supplies/CameraFlashes/Light-HVL-20DW2/p/289540',
       type: TabbingOrderTypes.IMG_LINK,
     },
-    { value: '/electronics-spa/en/USD/faq', type: TabbingOrderTypes.IMG_LINK },
+    {
+      value: '/electronics-spa/en/USD/faq',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
   ],
   login: [
     { value: 'userId', type: TabbingOrderTypes.FORM_FIELD },
@@ -168,7 +173,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'email', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'passwordconf', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'newsletter', type: TabbingOrderTypes.FORM_FIELD },
     {
       value: 'termsandconditions',
       type: TabbingOrderTypes.FORM_FIELD,
@@ -220,6 +224,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
     { value: 'Save', type: TabbingOrderTypes.BUTTON },
+  ],
+  wishlist: [
+    {
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
+      type: TabbingOrderTypes.LINK,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Remove', type: TabbingOrderTypes.LINK },
   ],
   footer: [
     {
@@ -338,28 +350,30 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   consentManagement: [
     {
-      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-      value:
-        'This is a sample marketing consent description that will need to be updated or replaced, based on the valid registration consent required.',
+      type: TabbingOrderTypes.LINK,
+      value: 'Clear all',
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+      value: 'Select all',
     },
     {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-      value:
-        'This is a sample persionalization consent description that will need to be updated or replaced.',
+      value: 'I approve to this sample MARKETING consent',
     },
     {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-      value:
-        'This is a sample store user information consent description that will need to be updated or replaced.',
+      value: 'I approve to this sample PERSONALIZATION consent',
+    },
+    {
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+      value: 'I approve to this sample STORE USER INFORMATION consent',
     },
   ],
   addToCart: [
-    { value: 'view cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'proceed to checkout',
-      type: TabbingOrderTypes.BUTTON,
+      type: TabbingOrderTypes.GENERIC_BUTTON,
     },
-    { type: TabbingOrderTypes.GENERIC_BUTTON },
     {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
@@ -370,6 +384,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
     { value: 'view cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'proceed to checkout', type: TabbingOrderTypes.BUTTON },
   ],
   shippingAddressNew: [
     { value: 'isocode', type: TabbingOrderTypes.GENERIC_INPUT },
@@ -477,6 +492,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
     },
     {
       value: 'Sign In / Register',
@@ -650,6 +668,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
     },
     {
       value: 'My Account',
@@ -871,6 +892,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
     {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
       value: '/electronics-spa/en/USD/cart',
       type: TabbingOrderTypes.IMG_LINK,
     },
@@ -1045,6 +1069,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
     },
     {
       value: '/electronics-spa/en/USD/cart',
@@ -1249,116 +1276,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   productListDesktop: [
     {
-      type: TabbingOrderTypes.GENERIC_INPUT,
-    },
-    {
-      value: '«',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '1',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '2',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '3',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '18',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '»',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      type: TabbingOrderTypes.CX_PRODUCT_VIEW,
-    },
-    {
-      value: 'DSC-WX1',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'DSC-WX1',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'EF 100mm f/2.8L Macro IS USM',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'EOS 500D + EF-S 18-55IS + EF-S 55-250IS, kit',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'NP-FV 70',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'ACC-BBV5',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: '32GB SDHC Card',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'FA-EB1AM',
-      type: TabbingOrderTypes.LINK,
-    },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    {
-      type: TabbingOrderTypes.GENERIC_INPUT,
-    },
-    {
-      value: '«',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '1',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '2',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '3',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '18',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '»',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      type: TabbingOrderTypes.CX_PRODUCT_VIEW,
-    },
-    {
       value: 'Stores',
       type: TabbingOrderTypes.LINK,
     },
@@ -1562,6 +1479,116 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Show more...',
       type: TabbingOrderTypes.LINK,
     },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '2',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '3',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '18',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.CX_PRODUCT_VIEW,
+    },
+    {
+      value: ['.cx-product-name', 0],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 1],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 2],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 3],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 4],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 5],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 6],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 7],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 8],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      value: ['.cx-product-name', 9],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
+    },
+    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '2',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '3',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '18',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.CX_PRODUCT_VIEW,
+    },
   ],
   productListMobile: [
     {
@@ -1602,53 +1629,53 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CX_PRODUCT_VIEW,
     },
     {
-      value: 'DSC-WX1',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 0],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'DSC-WX1',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 1],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'EF 100mm f/2.8L Macro IS USM',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 2],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 3],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'EOS 500D + EF-S 18-55IS + EF-S 55-250IS, kit',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 4],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'EOS 500D + 18-55mm IS + EF-S 55-250 IS',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 5],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'NP-FV 70',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 6],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'ACC-BBV5',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 7],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: '32GB SDHC Card',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 8],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {
-      value: 'FA-EB1AM',
-      type: TabbingOrderTypes.LINK,
+      value: ['.cx-product-name', 9],
+      type: TabbingOrderTypes.INDEX_OF_ELEMENT,
     },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     {

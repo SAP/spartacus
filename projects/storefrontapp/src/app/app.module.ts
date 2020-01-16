@@ -9,9 +9,10 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { TestConfigModule } from '@spartacus/core';
+import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
+  JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
@@ -45,6 +46,7 @@ if (!environment.production) {
           'electronics',
           'apparel-de',
           'apparel-uk',
+          'apparel-uk-spa',
         ],
       },
 
@@ -63,15 +65,17 @@ if (!environment.production) {
         fallbackLang: 'en',
       },
       features: {
-        level: '1.2',
+        level: '1.4',
+        anonymousConsents: true,
       },
     }),
+    JsonLdBuilderModule,
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
-
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
+    ConfigModule,
   ],
 
   bootstrap: [StorefrontComponent],

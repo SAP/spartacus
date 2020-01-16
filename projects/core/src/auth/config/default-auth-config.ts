@@ -9,6 +9,7 @@ export const defaultAuthConfig: AuthConfig = {
     occ: {
       endpoints: {
         login: '/authorizationserver/oauth/token',
+        revoke: '/authorizationserver/oauth/revoke',
       },
     },
   },

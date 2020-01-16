@@ -11,3 +11,5 @@ export * from './cart-totals/cart-totals.module';
 export * from './cart.module';
 export * from './mini-cart/mini-cart.component';
 export * from './mini-cart/mini-cart.module';
+export * from './cart-coupon/cart-coupon.component';
+export * from './cart-coupon/cart-coupon.module';

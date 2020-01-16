@@ -1,2 +1,3 @@
 import * as CartSelectors from './cart-group.selectors';
-export { CartSelectors };
+import * as MultiCartSelectors from './multi-cart-group.selectors';
+export { CartSelectors, MultiCartSelectors };

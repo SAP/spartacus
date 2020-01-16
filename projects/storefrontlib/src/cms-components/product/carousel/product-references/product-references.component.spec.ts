@@ -103,6 +103,8 @@ class MockProductReferenceService {
   get(_code: string): Observable<ProductReference[]> {
     return of([mockProductReferences[0], mockProductReferences[1]]);
   }
+
+  cleanReferences(): void {}
 }
 
 describe('ProductReferencesComponent', () => {

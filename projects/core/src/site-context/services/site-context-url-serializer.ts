@@ -1,5 +1,5 @@
-import { DefaultUrlSerializer, UrlTree } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { DefaultUrlSerializer, UrlTree } from '@angular/router';
 import { SiteContextParamsService } from './site-context-params.service';
 
 export interface ParamValuesMap {
@@ -14,7 +14,9 @@ const UrlSplit = /(^[^#?]*)(.*)/; // used to split url into path and query/fragm
 
 @Injectable()
 export class SiteContextUrlSerializer extends DefaultUrlSerializer {
-  private readonly urlEncodingParameters: string[];
+  private get urlEncodingParameters(): string[] {
+    return this.siteContextParams.getUrlEncodingParameters();
+  }
 
   get hasContextInRoutes() {
     return this.urlEncodingParameters.length > 0;
@@ -22,7 +24,6 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
 
   constructor(private siteContextParams: SiteContextParamsService) {
     super();
-    this.urlEncodingParameters = this.siteContextParams.getUrlEncodingParameters();
   }
 
   parse(url: string): UrlTreeWithSiteContext {

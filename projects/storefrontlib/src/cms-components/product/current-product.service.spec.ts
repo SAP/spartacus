@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  FeatureConfigService,
   PageType,
   Product,
   ProductService,
@@ -33,6 +34,10 @@ class MockProductService {
   }
 }
 
+class MockFeatureConfigService {
+  isLevel = () => true;
+}
+
 describe('CurrentProductService', () => {
   let service;
 
@@ -48,6 +53,10 @@ describe('CurrentProductService', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
       ],
     });

@@ -1,6 +1,6 @@
-import pkgVersions from 'npm-package-versions';
 import * as semverExtra from 'semver-extra';
 import * as semver from 'semver';
+import pkgVersions = require('npm-package-versions');
 
 function pkgVersionsPromise(packageName: string) {
   return new Promise((resolve, reject) => {

@@ -1,15 +1,15 @@
 {
   "name": "@spartacus/schematics",
-  "version": "0.1.2-beta.0",
+  "version": "1.3.0",
   "description": "Spartacus schematics",
-  "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "yarn build && jasmine src/**/*_spec.js"
-  },
   "keywords": [
     "spartacus",
     "schematics"
   ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "tsc -p tsconfig.json && jasmine src/**/*_spec.js"
+  },
   "author": "",
   "license": "MIT",
   "schematics": "./src/collection.json",

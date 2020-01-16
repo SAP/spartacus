@@ -3,7 +3,10 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { ProductReviewsConnector } from '@spartacus/core';
+import {
+  GlobalMessage,
+  GlobalMessageService,
+} from '../../../global-message/index';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { Review } from '../../../model/product.model';
@@ -13,6 +16,7 @@ import { ProductActions } from '../actions/index';
 import * as fromEffects from '../effects/product-reviews.effect';
 
 import createSpy = jasmine.createSpy;
+import { ProductReviewsConnector } from '../../connectors/index';
 
 const reviewData: Review[] = [
   {
@@ -38,6 +42,10 @@ class MockProductReviewsConnector {
   get = createSpy('getList').and.returnValue(of(reviewData));
 }
 
+class GlobalMessageServiceMock {
+  add(_message: GlobalMessage): void {}
+}
+
 describe('Product reviews effect', () => {
   let actions$: Observable<Action>;
   let effects: fromEffects.ProductReviewsEffects;
@@ -54,6 +62,7 @@ describe('Product reviews effect', () => {
         { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductReviewsEffects,
         provideMockActions(() => actions$),
+        { provide: GlobalMessageService, useValue: GlobalMessageServiceMock },
       ],
     });
 
@@ -62,7 +71,7 @@ describe('Product reviews effect', () => {
     >);
   });
 
-  describe('loadProductReveiws$', () => {
+  describe('loadProductReviews$', () => {
     it('should return specified product reviews', () => {
       const productCode = '12345';
       const action = new ProductActions.LoadProductReviews(productCode);

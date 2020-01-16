@@ -56,5 +56,14 @@ describe('Product References Actions', () => {
         });
       });
     });
+
+    describe('CLEAN_PRODUCT_REFERENCES', () => {
+      it('should create the action', () => {
+        const action = new ProductActions.CleanProductReferences();
+        expect({ ...action }).toEqual({
+          type: ProductActions.CLEAN_PRODUCT_REFERENCES,
+        });
+      });
+    });
   });
 });

@@ -55,6 +55,7 @@
             *ngSwitchCase="'delete'"
             class="cx-card-link card-link btn-link"
             (click)="delete()"
+            (keydown.enter)="delete()"
             tabindex="0"
             >{{ action.name }}</a
           >
@@ -62,6 +63,7 @@
             *ngSwitchCase="'default'"
             class="cx-card-link card-link btn-link"
             (click)="setDefault()"
+            (keydown.enter)="setDefault()"
             tabindex="0"
             >{{ action.name }}</a
           >
@@ -69,6 +71,7 @@
             *ngSwitchCase="'send'"
             class="cx-card-link card-link btn-link"
             (click)="send()"
+            (keydown.enter)="send()"
             tabindex="0"
             >{{ action.name }}</a
           >
@@ -76,6 +79,7 @@
             *ngSwitchCase="'edit'"
             class="cx-card-link card-link btn-link"
             (click)="edit()"
+            (keydown.enter)="edit()"
             tabindex="0"
             >{{ action.name }}</a
           >

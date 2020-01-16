@@ -43,6 +43,9 @@ class MockCheckoutConfigService {
   getPreviousCheckoutStepUrl(): string {
     return '';
   }
+  getPreferredDeliveryMode(): string {
+    return '';
+  }
 }
 
 const mockActivatedRoute = {
@@ -120,6 +123,50 @@ describe('DeliveryModeComponent', () => {
     component.supportedDeliveryModes$.subscribe(modes => {
       expect(modes).toBe(mockSupportedDeliveryModes);
     });
+  });
+
+  it('should pre-select preferred delivery mode if not chosen before', () => {
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getSupportedDeliveryModes'
+    ).and.returnValue(of(mockSupportedDeliveryModes));
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getSelectedDeliveryMode'
+    ).and.returnValue(of(null));
+    spyOn(
+      mockCheckoutConfigService,
+      'getPreferredDeliveryMode'
+    ).and.returnValue(mockDeliveryMode1.code);
+
+    component.ngOnInit();
+
+    expect(
+      mockCheckoutConfigService.getPreferredDeliveryMode
+    ).toHaveBeenCalledWith(mockSupportedDeliveryModes);
+    expect(component.currentDeliveryModeId).toBe(mockDeliveryMode1.code);
+  });
+
+  it('should select the delivery mode, which has been chosen before', () => {
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getSupportedDeliveryModes'
+    ).and.returnValue(of(mockSupportedDeliveryModes));
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getSelectedDeliveryMode'
+    ).and.returnValue(of(mockDeliveryMode2));
+    spyOn(
+      mockCheckoutConfigService,
+      'getPreferredDeliveryMode'
+    ).and.returnValue(mockDeliveryMode1.code);
+
+    component.ngOnInit();
+
+    expect(
+      mockCheckoutConfigService.getPreferredDeliveryMode
+    ).not.toHaveBeenCalled();
+    expect(component.currentDeliveryModeId).toBe(mockDeliveryMode2.code);
   });
 
   it('should set delivery mode and change step after invoking next()', () => {

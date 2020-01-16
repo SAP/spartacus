@@ -1,8 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { ConsentTemplate } from '@spartacus/core';
-import { LoaderState } from '../../../state';
+import { ConsentTemplate } from '../../../model/index';
+import { LoaderState } from '../../../state/index';
 import { UserActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import { UsersSelectors } from '../selectors/index';
@@ -54,6 +54,19 @@ describe('User consents selectors', () => {
         .unsubscribe();
 
       expect(result).toEqual(consents);
+    });
+  });
+  describe('getConsentByTemplateId', () => {
+    it('should return a consent template with the given template ID', () => {
+      store.dispatch(new UserActions.LoadUserConsentsSuccess(consents));
+
+      let result: ConsentTemplate;
+      store
+        .pipe(select(UsersSelectors.getConsentByTemplateId(consents[0].id)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual(consents[0]);
     });
   });
   describe('getConsentsLoading', () => {

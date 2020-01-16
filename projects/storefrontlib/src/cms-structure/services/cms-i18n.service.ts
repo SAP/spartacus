@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { CmsMappingService } from './cms-mapping.service';
 import { TranslationService, TranslationChunkService } from '@spartacus/core';
 
+/**
+ * Please don't put that service in public API.
+ * */
 @Injectable({
   providedIn: 'root',
 })

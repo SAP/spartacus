@@ -3,6 +3,9 @@ import { CmsConfig } from '@spartacus/core';
 import { Route } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
 
+/**
+ * Please don't put that service in public API.
+ * */
 @Injectable({
   providedIn: 'root',
 })

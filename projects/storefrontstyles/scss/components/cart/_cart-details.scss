@@ -1,0 +1,20 @@
+@import '../../theme';
+
+%cx-cart-details {
+  display: block;
+
+  .cart-details-wrapper {
+    padding: 2rem 0;
+  }
+
+  .cx-total {
+    @include type('4');
+    margin: 0 0 1rem;
+  }
+
+  .cx-promotions {
+    @include type('7');
+    color: var(--cx-color-success);
+    padding: 0.5rem 0;
+  }
+}

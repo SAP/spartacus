@@ -74,7 +74,9 @@ export const orderHistoryTest = {
       cy.route('GET', /sort=byOrderNumber/).as('query_order_asc');
       cy.visit('/my-account/orders');
       cy.get('.top cx-sorting .ng-select').ngSelect('Order Number');
-      cy.wait('@query_order_asc');
+      cy.wait('@query_order_asc')
+        .its('status')
+        .should('eq', 200);
       cy.get('.cx-order-history-code > .cx-order-history-value').then(
         $orders => {
           expect(parseInt($orders[0].textContent, 10)).to.be.lessThan(
@@ -104,7 +106,9 @@ export const orderHistoryTest = {
           .split(' ');
       let dayNumberEN: string;
       cy.visit('/my-account/orders');
-      cy.wait('@getOrderHistoryPage');
+      cy.wait('@getOrderHistoryPage')
+        .its('status')
+        .should('eq', 200);
       switchLanguage('en', isMobile);
 
       cy.get('.cx-order-history-placed > .cx-order-history-value')

@@ -116,5 +116,19 @@ describe('user consent actions', () => {
         });
       });
     });
+    describe('TransferAnonymousConsent', () => {
+      it('should create the action', () => {
+        const payload = {
+          userId,
+          consentTemplateId: 'xxx',
+          consentTemplateVersion: 0,
+        };
+        const action = new UserActions.TransferAnonymousConsent(payload);
+        expect({ ...action }).toEqual({
+          type: UserActions.TRANSFER_ANONYMOUS_CONSENT,
+          payload,
+        });
+      });
+    });
   });
 });

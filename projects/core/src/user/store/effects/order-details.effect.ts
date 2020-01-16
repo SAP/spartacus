@@ -27,6 +27,22 @@ export class OrderDetailsEffect {
     })
   );
 
+  @Effect()
+  cancelOrder$: Observable<UserActions.OrderDetailsAction> = this.actions$.pipe(
+    ofType(UserActions.CANCEL_ORDER),
+    map((action: UserActions.CancelOrder) => action.payload),
+    switchMap(payload => {
+      return this.orderConnector
+        .cancel(payload.userId, payload.orderCode, payload.cancelRequestInput)
+        .pipe(
+          map(_ => new UserActions.CancelOrderSuccess()),
+          catchError(error =>
+            of(new UserActions.CancelOrderFail(makeErrorSerializable(error)))
+          )
+        );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private orderConnector: UserOrderConnector

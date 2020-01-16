@@ -13,10 +13,14 @@
         {{ 'productReview.writeReview' | cxTranslate }}
       </button>
       <cx-star-rating
+        *ngIf="product.averageRating"
         class="rating"
         [rating]="product.averageRating"
         [disabled]="true"
       ></cx-star-rating>
+      <div class="rating" *ngIf="!product.averageRating">
+        {{ 'productDetails.noReviews' | cxTranslate }}
+      </div>
     </div>
 
     <ng-container *ngIf="!isWritingReview; else writeReview">

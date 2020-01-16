@@ -1,77 +1,79 @@
-import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/close-account';
-import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
-import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
-import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
 import { addProduct } from '../../helpers/accessibility/tabbing-order';
-import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
-import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
-import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
-import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
-import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
-import { personalDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/personal-details';
-import { paymentDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/payment-details';
-import {
-  addressBookFormTabbingOrder,
-  addressBookDirectoryTabbingOrder,
-  setupForAddressBookTests,
-} from '../../helpers/accessibility/tabbing-order/address-book';
-import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
-import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
+import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
 import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
 import {
-  checkoutShippingAddressNewTabbingOrder,
-  checkoutShippingAddressExistingTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
+  addressBookDirectoryTabbingOrder,
+  addressBookFormTabbingOrder,
+  setupForAddressBookTests,
+} from '../../helpers/accessibility/tabbing-order/address-book';
+import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
+import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
 import { checkoutDeliveryModeTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
+import {
+  checkoutBillingAddressTabbingOrder,
+  checkoutPaymentDetailsTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
+import { checkoutReviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/review-order';
+import {
+  checkoutShippingAddressExistingTabbingOrder,
+  checkoutShippingAddressNewTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
+import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/close-account';
+import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
+import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
+import { headerTabbingOrder } from '../../helpers/accessibility/tabbing-order/header';
+import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
+import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
+import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/order-details';
 import {
   orderHistoryNoOrdersTabbingOrder,
   orderHistoryWithOrdersTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/order-history';
-import {
-  checkoutPaymentDetailsTabbingOrder,
-  checkoutBillingAddressTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
-import { headerTabbingOrder } from '../../helpers/accessibility/tabbing-order/header';
-import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/order-details';
-import { checkoutReviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/review-order';
-import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
+import { paymentDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/payment-details';
+import { personalDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/personal-details';
 import {
   productListTabbingOrderDesktop,
   productListTabbingOrderMobile,
   productListTabbingOrderMobileFilters,
+  toggleProductView,
 } from '../../helpers/accessibility/tabbing-order/product-list';
+import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
 import { productPageTabsTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page-tabs';
+import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
+import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
+import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
+import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/wishlist';
 
-context("Tabbing order - tests don't require user to be logged in", () => {
+describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
   });
 
-  describe('Header - Desktop (not logged in)', () => {
+  context('Header - Desktop (not logged in)', () => {
     it('should allow to navigate with tab key', () => {
       headerTabbingOrder(config.headerDesktopNotLoggedIn);
     });
   });
 
-  describe('Header - Mobile (not logged in)', () => {
+  context('Header - Mobile (not logged in)', () => {
     it('should allow to navigate with tab key', () => {
       headerTabbingOrder(config.headerMobileNotLoggedIn, true);
     });
   });
 
-  describe('Home page', () => {
+  context('Home page', () => {
     it('should allow to navigate with tab key', () => {
       homeTabbingOrder(config.home);
     });
   });
 
-  describe('Footer', () => {
+  context('Footer', () => {
     it('should allow to navigate with tab key', () => {
       footerTabbingOrder(config.footer);
     });
   });
 
-  describe('Login page', () => {
+  context('Login page', () => {
     it('should allow to navigate with tab key (empty form)', () => {
       loginTabbingOrder(config.login);
     });
@@ -81,25 +83,27 @@ context("Tabbing order - tests don't require user to be logged in", () => {
     });
   });
 
-  describe('Register page', () => {
+  context('Register page', () => {
     it('should allow to navigate with tab key', () => {
       registerTabbingOrder(config.register);
     });
   });
 
-  describe('Reset password', () => {
+  context('Reset password', () => {
     it('should allow to navigate with tab key', () => {
       forgotPasswordTabbingOrder(config.resetPassword);
     });
   });
 
-  describe('Product List', () => {
+  context('Product List', () => {
     it('should allow to navigate with tab key (desktop - list view)', () => {
       productListTabbingOrderDesktop(config.productListDesktop);
     });
 
     it('should allow to navigate with tab key (desktop - grid view)', () => {
-      productListTabbingOrderDesktop(config.productListDesktop, true);
+      toggleProductView(); // switch to grid view
+      productListTabbingOrderDesktop(config.productListDesktop);
+      toggleProductView(); // reset to default (list view)
     });
 
     it('should allow to navigate with tab key (mobile)', () => {
@@ -111,32 +115,32 @@ context("Tabbing order - tests don't require user to be logged in", () => {
     });
   });
 
-  describe('Product Page', () => {
+  context('Product Page', () => {
     it('should allow to navigate with tab key', () => {
       productPageTabbingOrder(config.productPage);
     });
   });
 
-  describe('Product Page Tabs', () => {
+  context('Product Page Tabs', () => {
     it('should allow to navigate with tab key', () => {
       productPageTabsTabbingOrder();
     });
   });
 
-  describe('Add to cart', () => {
+  context('Add to cart', () => {
     it('should allow to navigate with tab key', () => {
       addToCartTabbingOrder(config.addToCart);
     });
   });
 
-  describe('Cart', () => {
+  context('Cart', () => {
     it('should allow to navigate with tab key', () => {
       cartTabbingOrder(config.cart);
     });
   });
 });
 
-context('Tabbing order - tests do require user to be logged in', () => {
+describe('Tabbing order - tests do require user to be logged in', () => {
   before(() => {
     cy.requireLoggedIn();
   });
@@ -149,13 +153,13 @@ context('Tabbing order - tests do require user to be logged in', () => {
     cy.saveLocalStorage();
   });
 
-  describe('Header - Desktop (logged in)', () => {
+  context('Header - Desktop (logged in)', () => {
     it('should allow to navigate with tab key', () => {
       headerTabbingOrder(config.headerDesktopLoggedIn, false, true);
     });
   });
 
-  describe('Header - Mobile (logged in)', () => {
+  context('Header - Mobile (logged in)', () => {
     it('should allow to navigate with tab key', () => {
       headerTabbingOrder(config.headerMobileLoggedIn, true, true);
     });
@@ -172,7 +176,7 @@ context('Tabbing order - tests do require user to be logged in', () => {
       cy.saveLocalStorage();
     });
 
-    describe('Shipping address', () => {
+    context('Shipping address', () => {
       it('should allow to navigate with tab key (add address)', () => {
         checkoutShippingAddressNewTabbingOrder(config.shippingAddressNew);
       });
@@ -185,13 +189,13 @@ context('Tabbing order - tests do require user to be logged in', () => {
       });
     });
 
-    describe('Delivery mode', () => {
+    context('Delivery mode', () => {
       it('should allow to navigate with tab key', () => {
         checkoutDeliveryModeTabbingOrder(config.deliveryMode);
       });
     });
 
-    describe('Payment details', () => {
+    context('Payment details', () => {
       it('should allow to navigate with tab key (card)', () => {
         checkoutPaymentDetailsTabbingOrder(config.paymentDetailsCard);
       });
@@ -201,14 +205,14 @@ context('Tabbing order - tests do require user to be logged in', () => {
       });
     });
 
-    describe('Review order', () => {
+    context('Review order', () => {
       it('should allow to navigate with tab key', () => {
         checkoutReviewOrderTabbingOrder(config.checkoutReviewOrder);
       });
     });
   });
 
-  describe('Order History', () => {
+  context('Order History', () => {
     it('should allow to navigate with tab key (no orders)', () => {
       orderHistoryNoOrdersTabbingOrder(config.orderHistoryNoOrders);
     });
@@ -220,37 +224,37 @@ context('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  describe('Change password', () => {
+  context('Change password', () => {
     it('should allow to navigate with tab key', () => {
       changePasswordTabbingOrder(config.changePassword);
     });
   });
 
-  describe('Personal details', () => {
+  context('Personal details', () => {
     it('should allow to navigate with tab key', () => {
       personalDetailsTabbingOrder(config.personalDetails);
     });
   });
 
-  describe('Update email', () => {
+  context('Update email', () => {
     it('should allow to navigate with tab key', () => {
       updateEmailTabbingOrder(config.updateEmail);
     });
   });
 
-  describe('Close account', () => {
+  context('Close account', () => {
     it('should allow to navigate with tab key', () => {
       closeAccountTabbingOrder(config.closeAccount);
     });
   });
 
-  describe('Consent Management', () => {
+  context('Consent Management', () => {
     it('should allow to navigate with tab key', () => {
       consentManagementTabbingOrder(config.consentManagement);
     });
   });
 
-  describe('Address Book (Form)', () => {
+  context('Address Book (Form)', () => {
     it('should allow to navigate with tab key (Directory)', () => {
       setupForAddressBookTests();
       addressBookFormTabbingOrder(config.addressBookForm);
@@ -261,15 +265,21 @@ context('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  describe('Payment Details', () => {
+  context('Payment Details', () => {
     it('should allow to navigate with tab key', () => {
       paymentDetailsTabbingOrder(config.paymentDetails);
     });
   });
 
-  describe('Order Details', () => {
+  context('Order Details', () => {
     it('should allow to navigate with tab key', () => {
       orderDetailsTabbingOrder(config.orderDetails);
+    });
+  });
+
+  context('Wishlist', () => {
+    it('should allow to navigate with tab key', () => {
+      wishlistTabbingOrder(config.wishlist);
     });
   });
 });

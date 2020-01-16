@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -23,7 +24,23 @@ import {
 
 @Injectable()
 export class UserService {
-  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
+  constructor(
+    store: Store<StateWithUser | StateWithProcess<void>>,
+    // tslint:disable-next-line:unified-signatures
+    authService: AuthService
+  );
+  /**
+   * @deprecated since version 1.3
+   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
+   *  authService: AuthService) instead
+   *
+   *  TODO(issue:#5628) Deprecated since 1.3.0
+   */
+  constructor(store: Store<StateWithUser | StateWithProcess<void>>);
+  constructor(
+    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected authService?: AuthService
+  ) {}
 
   /**
    * Returns a user
@@ -43,7 +60,9 @@ export class UserService {
    * Loads the user's details
    */
   load(): void {
-    this.store.dispatch(new UserActions.LoadUserDetails(OCC_USER_ID_CURRENT));
+    this.withUserId(userId =>
+      this.store.dispatch(new UserActions.LoadUserDetails(userId))
+    );
   }
 
   /**
@@ -103,7 +122,9 @@ export class UserService {
    * Remove user account, that's also called close user's account
    */
   remove(): void {
-    this.store.dispatch(new UserActions.RemoveUser(OCC_USER_ID_CURRENT));
+    this.withUserId(userId =>
+      this.store.dispatch(new UserActions.RemoveUser(userId))
+    );
   }
 
   /**
@@ -167,11 +188,13 @@ export class UserService {
    * @param userDetails to be updated
    */
   updatePersonalDetails(userDetails: User): void {
-    this.store.dispatch(
-      new UserActions.UpdateUserDetails({
-        username: OCC_USER_ID_CURRENT,
-        userDetails,
-      })
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new UserActions.UpdateUserDetails({
+          username: userId,
+          userDetails,
+        })
+      )
     );
   }
 
@@ -231,12 +254,14 @@ export class UserService {
    * Updates the user's email
    */
   updateEmail(password: string, newUid: string): void {
-    this.store.dispatch(
-      new UserActions.UpdateEmailAction({
-        uid: OCC_USER_ID_CURRENT,
-        password,
-        newUid,
-      })
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new UserActions.UpdateEmailAction({
+          uid: userId,
+          password,
+          newUid,
+        })
+      )
     );
   }
 
@@ -280,12 +305,14 @@ export class UserService {
    * @param newPassword the new password
    */
   updatePassword(oldPassword: string, newPassword: string): void {
-    this.store.dispatch(
-      new UserActions.UpdatePassword({
-        userId: OCC_USER_ID_CURRENT,
-        oldPassword,
-        newPassword,
-      })
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new UserActions.UpdatePassword({
+          userId,
+          oldPassword,
+          newPassword,
+        })
+      )
     );
   }
 
@@ -322,5 +349,21 @@ export class UserService {
    */
   resetUpdatePasswordProcessState(): void {
     this.store.dispatch(new UserActions.UpdatePasswordReset());
+  }
+
+  /**
+   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   *
+   */
+  private withUserId(callback: (userId: string) => void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId => callback(userId));
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }

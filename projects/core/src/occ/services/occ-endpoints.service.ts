@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, isDevMode, Optional } from '@angular/core';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
@@ -11,6 +11,8 @@ import { OccConfig } from '../config/occ-config';
 })
 export class OccEndpointsService {
   private activeBaseSite: string;
+
+  private readonly SCOPE_SUFFIX = '_scopes';
 
   constructor(
     private config: OccConfig,
@@ -74,17 +76,20 @@ export class OccEndpointsService {
    * @param endpoint Name of the OCC endpoint key config
    * @param urlParams  URL parameters
    * @param queryParams Query parameters
+   * @param scope
    */
-  getUrl(endpoint: string, urlParams?: object, queryParams?: object): string {
-    if (
-      this.config.backend &&
-      this.config.backend.occ &&
-      this.config.backend.occ.endpoints[endpoint]
-    ) {
-      endpoint = this.config.backend.occ.endpoints[endpoint];
-    }
+  getUrl(
+    endpoint: string,
+    urlParams?: object,
+    queryParams?: object,
+    scope = ''
+  ): string {
+    endpoint = this.getEndpointForScope(endpoint, scope);
 
     if (urlParams) {
+      Object.keys(urlParams).forEach(key => {
+        urlParams[key] = encodeURIComponent(urlParams[key]);
+      });
       endpoint = DynamicTemplate.resolve(endpoint, urlParams);
     }
 
@@ -117,5 +122,26 @@ export class OccEndpointsService {
     }
 
     return this.getEndpoint(endpoint);
+  }
+
+  private getEndpointForScope(endpoint: string, scope: string): string {
+    const endpointsConfig =
+      this.config.backend &&
+      this.config.backend.occ &&
+      this.config.backend.occ.endpoints;
+
+    if (scope) {
+      const endpointConfig = endpointsConfig[`${endpoint}${this.SCOPE_SUFFIX}`];
+      if (endpointConfig && endpointConfig[scope]) {
+        return endpointConfig[scope];
+      }
+      if (isDevMode()) {
+        console.warn(
+          `${endpoint} endpoint configuration missing for scope "${scope}"`
+        );
+      }
+    }
+
+    return endpointsConfig[endpoint] || endpoint;
   }
 }

@@ -18,6 +18,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   UserPaymentService,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -99,7 +100,9 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
-    private modalService: ModalService
+    private modalService: ModalService,
+    // TODO(issue:#5468) Deprecated since 1.5.0
+    protected featureConfig?: FeatureConfigService
   ) {}
 
   ngOnInit() {
@@ -134,7 +137,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     this.addressVerifySub = this.checkoutDeliveryService
       .getAddressVerificationResults()
       .subscribe((results: AddressValidation) => {
-        if (results === 'FAIL') {
+        if (results.decision === 'FAIL') {
           this.checkoutDeliveryService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
           this.next();
@@ -184,7 +187,16 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     this.sameAsShippingAddress = !this.sameAsShippingAddress;
   }
 
+  /**
+   * @deprecated since 1.5.0
+   * This function will be removed as continue button should not be disabled
+   *
+   * TODO(issue:#5468) Deprecated since 1.5.0
+   */
   isContinueButtonDisabled(): boolean {
+    if (this.featureConfig && this.featureConfig.isLevel('1.5')) {
+      return false;
+    }
     return (
       this.payment.invalid ||
       (!this.sameAsShippingAddress && this.billingAddress.invalid)
@@ -199,10 +211,14 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   showSameAsShippingAddressCheckbox(): Observable<boolean> {
     return combineLatest([this.countries$, this.shippingAddress$]).pipe(
       map(([countries, address]) => {
-        return !!countries.filter(
-          (country: Country): boolean =>
-            country.isocode === address.country.isocode
-        ).length;
+        return (
+          address !== undefined &&
+          address.country !== undefined &&
+          !!countries.filter(
+            (country: Country): boolean =>
+              country.isocode === address.country.isocode
+          ).length
+        );
       })
     );
   }

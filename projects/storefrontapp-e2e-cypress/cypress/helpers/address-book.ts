@@ -112,13 +112,6 @@ export function setSecondAddressToDefault() {
 }
 
 export function deleteExistingAddress() {
-  cy.server();
-  cy.route(
-    `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/current/addresses?lang=en&curr=USD`
-  ).as('fetchAddresses');
-
   let firstCard = cy.get('cx-address-card').first();
 
   firstCard.find('.delete').click();
@@ -136,10 +129,7 @@ export function deleteExistingAddress() {
   );
 
   // click delete
-  firstCard = cy.get('cx-address-card').first();
-  firstCard.find('.delete').click();
-  cy.get('.cx-address-card-delete button.btn-primary').click();
-  cy.wait('@fetchAddresses');
+  deleteFirstAddress();
   alerts.getSuccessAlert().contains('Address deleted successfully!');
 
   cy.get('cx-address-card').should('have.length', 1);
@@ -154,6 +144,27 @@ export function verifyAsAnonymous() {
   it('should redirect to login page for anonymous user', () => {
     accessPageAsAnonymous();
   });
+}
+
+export function deleteFirstAddress() {
+  cy.server();
+  cy.route(
+    'DELETE',
+    '/rest/v2/electronics-spa/users/*/addresses/*?lang=en&curr=USD'
+  ).as('deleteAddress');
+  cy.route('/rest/v2/electronics-spa/users/*/addresses?lang=en&curr=USD').as(
+    'fetchAddresses'
+  );
+
+  const firstCard = cy.get('cx-address-card').first();
+  firstCard.find('.delete').click();
+  cy.get('.cx-address-card-delete button.btn-primary').click();
+  cy.wait('@deleteAddress')
+    .its('status')
+    .should('eq', 200);
+  cy.wait('@fetchAddresses')
+    .its('status')
+    .should('eq', 200);
 }
 
 export function addressBookTest() {

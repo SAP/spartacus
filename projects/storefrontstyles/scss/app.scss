@@ -37,11 +37,9 @@
 @import 'cxbase/layout/section';
 @import 'cxbase/layout/container';
 //non-bootstrap blocks and components here below
+@import 'cxbase/blocks/paragraph.scss';
 
 // effects & animations
 @import 'cxbase/animations';
 
 @import 'misc/hamburger';
-
-// components
-@import './sparta-theme';

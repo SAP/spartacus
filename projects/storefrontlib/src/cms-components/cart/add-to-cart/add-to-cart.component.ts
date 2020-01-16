@@ -22,16 +22,28 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() productCode: string;
   @Input() showQuantity = true;
 
+  /**
+   * As long as we do not support #5026, we require product input, as we need
+   *  a reference to the product model to fetch the stock data.
+   */
+  @Input() product: Product;
+
   maxQuantity: number;
   modalRef: ModalRef;
 
   hasStock = false;
   quantity = 1;
   increment = false;
-
   cartEntry$: Observable<OrderEntry>;
 
   subscription: Subscription;
+
+  constructor(
+    cartService: CartService,
+    modalService: ModalService,
+    currentProductService: CurrentProductService,
+    cd: ChangeDetectorRef
+  );
 
   constructor(
     protected cartService: CartService,
@@ -41,32 +53,36 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    if (this.productCode) {
+    if (this.product) {
+      this.productCode = this.product.code;
       this.cartEntry$ = this.cartService.getEntry(this.productCode);
+      this.setStockInfo(this.product);
+      this.cd.markForCheck();
+    } else if (this.productCode) {
+      this.cartEntry$ = this.cartService.getEntry(this.productCode);
+      // force hasStock and quantity for the time being, as we do not have more info:
+      this.quantity = 1;
       this.hasStock = true;
+      this.cd.markForCheck();
     } else {
       this.subscription = this.currentProductService
         .getProduct()
         .pipe(filter(Boolean))
         .subscribe((product: Product) => {
           this.productCode = product.code;
-          this.quantity = 1;
-
-          if (
-            product.stock &&
-            product.stock.stockLevelStatus !== 'outOfStock' &&
-            product.stock.stockLevel > 0
-          ) {
-            this.maxQuantity = product.stock.stockLevel;
-            this.hasStock = true;
-          } else {
-            this.hasStock = false;
-          }
-
+          this.setStockInfo(product);
           this.cartEntry$ = this.cartService.getEntry(this.productCode);
-
           this.cd.markForCheck();
         });
+    }
+  }
+
+  private setStockInfo(product: Product): void {
+    this.quantity = 1;
+    this.hasStock =
+      product.stock && product.stock.stockLevelStatus !== 'outOfStock';
+    if (this.hasStock && product.stock.stockLevel) {
+      this.maxQuantity = product.stock.stockLevel;
     }
   }
 

@@ -16,13 +16,18 @@
 
 <!-- we generate links in a recursive manner -->
 <ng-template #nav let-node="node">
-  <nav (click)="toggleOpen($event)" (mouseenter)="onMouseEnter($event)">
+  <nav
+    (click)="toggleOpen($event)"
+    (mouseenter)="onMouseEnter($event)"
+    (keydown.space)="toggleOpen($event)"
+  >
     <cx-generic-link
       *ngIf="
         node.url && (!node.children || node.children?.length === 0);
         else heading
       "
       [url]="node.url"
+      [target]="node.target"
     >
       {{ node.title }}
       <cx-icon
@@ -45,7 +50,12 @@
 
     <!-- we add a wrapper to allow for better layout handling in CSS -->
     <div class="wrapper" *ngIf="node.children?.length > 0">
-      <cx-generic-link *ngIf="node.url" [url]="node.url" class="all">
+      <cx-generic-link
+        *ngIf="node.url"
+        [url]="node.url"
+        [target]="node.target"
+        class="all"
+      >
         {{ 'navigation.shopAll' | cxTranslate: { navNode: node.title } }}
       </cx-generic-link>
       <div

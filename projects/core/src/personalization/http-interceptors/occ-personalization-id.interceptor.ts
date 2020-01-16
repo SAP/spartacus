@@ -16,7 +16,7 @@ import { isPlatformBrowser } from '@angular/common';
 
 const PERSONALIZATION_ID_KEY = 'personalization-id';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccPersonalizationIdInterceptor implements HttpInterceptor {
   private personalizationId: string;
   private requestHeader: string;

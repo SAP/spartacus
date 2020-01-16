@@ -5,22 +5,29 @@ const PROXY_CONFIG = {
     target: BACKEND_SERVER,
     secure: false,
     changeOrigin: true,
-    logLevel: 'error'
+    logLevel: 'error',
   },
 
   '/authorizationserver': {
     target: BACKEND_SERVER,
     secure: false,
     changeOrigin: true,
-    logLevel: 'error'
+    logLevel: 'error',
   },
 
   '/medias': {
     target: BACKEND_SERVER,
     secure: false,
     changeOrigin: true,
-    logLevel: 'error'
-  }
+    logLevel: 'error',
+  },
+
+  '/assistedservicewebservices': {
+    target: BACKEND_SERVER,
+    secure: false,
+    changeOrigin: true,
+    logLevel: 'error',
+  },
 };
 
 module.exports = PROXY_CONFIG;

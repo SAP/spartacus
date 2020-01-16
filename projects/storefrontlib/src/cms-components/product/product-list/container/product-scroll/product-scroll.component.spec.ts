@@ -1,24 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ProductScrollComponent } from './product-scroll.component';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { ProductGridItemComponent } from '../..';
-import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
-import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
 import {
   Component,
+  DebugElement,
   Input,
   Pipe,
   PipeTransform,
-  DebugElement,
 } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MediaComponent } from '../../../../../shared/components/media';
-import createSpy = jasmine.createSpy;
-import { ProductListComponentService } from '../product-list-component.service';
-import { ViewModes } from '../../product-view/product-view.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ProductGridItemComponent } from '../..';
+import { MediaComponent } from '../../../../../shared/components/media';
+import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
 import { ViewConfig } from '../../../../../shared/config/view-config';
+import { ViewModes } from '../../product-view/product-view.component';
+import { ProductListComponentService } from '../product-list-component.service';
+import { ProductScrollComponent } from './product-scroll.component';
+
+import createSpy = jasmine.createSpy;
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/src/shared/test/mock-feature-level-directive';
 
 const mockModel1: ProductSearchPage = {
   breadcrumbs: [
@@ -133,7 +134,7 @@ class MockUrlPipe implements PipeTransform {
   template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
-  @Input() productCode: string;
+  @Input() product: string;
   @Input() showQuantity: boolean;
 }
 
@@ -144,6 +145,14 @@ export class MockProductListComponentService {
   clearSearchResults = createSpy('clearSearchResults');
   getPageItems = createSpy('getPageItems');
   model$ = createSpy('model$');
+}
+
+@Component({
+  selector: 'cx-style-icons',
+  template: 'test',
+})
+export class MockStyleIconsComponent {
+  @Input() variants: any[];
 }
 
 describe('ProductScrollComponent', () => {
@@ -161,6 +170,8 @@ describe('ProductScrollComponent', () => {
         MediaComponent,
         MockStarRatingComponent,
         MockAddToCartComponent,
+        MockStyleIconsComponent,
+        MockFeatureLevelDirective,
       ],
       imports: [
         InfiniteScrollModule,

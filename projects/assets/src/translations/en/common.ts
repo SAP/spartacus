@@ -48,6 +48,7 @@ export const common = {
   sorting: {
     date: 'Date',
     orderNumber: 'Order Number',
+    rma: 'Return Number',
   },
   httpHandlers: {
     badGateway: 'A server error occurred. Please try again later.',
@@ -62,7 +63,7 @@ export const common = {
     validationErrors: {
       missing: {
         card_cardType:
-          'The credit card selected is not supported. Please select another.',
+          'The selected credit card is not supported. Please select another.',
         card_accountNumber: 'The credit card number entered is not valid.',
         card_cvNumber: 'The security code entered is not valid.',
         card_expirationMonth:
@@ -87,6 +88,10 @@ export const common = {
       invalid: {
         card_expirationMonth:
           'The credit card expiration date entered is not valid.',
+        firstName: 'First Name entered is not valid.',
+        lastName: 'Last Name entered is not valid.',
+        password: 'Password entered is not valid.',
+        uid: 'UID is not valid.',
       },
     },
     cartNotFound: 'Cart not found.',
@@ -98,5 +103,15 @@ export const common = {
   miniLogin: {
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',
+  },
+  skipLink: {
+    skipTo: 'Skip to',
+    labels: {
+      header: 'Header',
+      main: 'Main Content',
+      footer: 'Footer',
+      productFacets: 'Product Facets',
+      productList: 'Product List',
+    },
   },
 };

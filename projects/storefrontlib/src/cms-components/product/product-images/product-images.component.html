@@ -3,6 +3,7 @@
 </ng-container>
 
 <cx-carousel
+  *ngIf="!isThumbsEmpty"
   class="thumbs"
   [items]="thumbs$ | async"
   itemWidth="120px"

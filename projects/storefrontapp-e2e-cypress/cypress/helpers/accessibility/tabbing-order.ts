@@ -1,11 +1,11 @@
-import { TabbingOrderTypes } from './tabbing-order.config';
+import { user } from '../../sample-data/checkout-flow';
+import { register as authRegister } from '../auth-forms';
 import { waitForPage } from '../checkout-flow';
 import { loginUser } from '../login';
-import { register as authRegister } from '../auth-forms';
-import { user } from '../../sample-data/checkout-flow';
+import { TabbingOrderTypes } from './tabbing-order.config';
 
 export interface TabElement {
-  value?: string;
+  value?: string | any[];
   type: TabbingOrderTypes;
 }
 
@@ -102,6 +102,12 @@ export function checkElement(tabElement: TabElement) {
         .should('have.attr', 'alt', tabElement.value);
       return;
     }
+    case TabbingOrderTypes.CX_ICON: {
+      cy.focused()
+        .should('have.prop', 'tagName')
+        .should('eq', 'CX_ICON');
+      return;
+    }
     case TabbingOrderTypes.SELECT: {
       cy.focused()
         .get('select')
@@ -112,8 +118,18 @@ export function checkElement(tabElement: TabElement) {
     case TabbingOrderTypes.NAV_CATEGORY_DROPDOWN: {
       cy.focused()
         .parent()
-        .contains(tabElement.value);
+        .should('contain', tabElement.value);
       break;
+    }
+    case TabbingOrderTypes.INDEX_OF_ELEMENT: {
+      const selector = tabElement.value[0];
+      const index = tabElement.value[1];
+
+      cy.focused().then(focusedElement => {
+        cy.get(selector)
+          .eq(index)
+          .should('match', focusedElement.get()[0]);
+      });
     }
   }
 }
@@ -122,7 +138,7 @@ export function checkAllElements(tabElements: TabElement[]) {
   tabElements.forEach((element: TabElement, index: number) => {
     // skip tabbing on first element
     if (index !== 0) {
-      cy.tab();
+      cy.pressTab();
     }
 
     checkElement(element);

@@ -8,5 +8,18 @@
         "files": ["/favicon.ico", "/index.html", "/*.css", "/*.js"]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "basesites",
+      "urls": [
+        "*/rest/v2/basesites?fields=baseSites\\(uid,defaultLanguage\\(isocode\\),urlEncodingAttributes,urlPatterns,stores\\(currencies\\(isocode\\),defaultCurrency\\(isocode\\),languages\\(isocode\\),defaultLanguage\\(isocode\\)\\)\\)*"
+      ],
+      "cacheConfig": {
+        "maxSize": 1,
+        "maxAge": "1d",
+        "strategy": "performance"
+      }
+    }
   ]
 }
