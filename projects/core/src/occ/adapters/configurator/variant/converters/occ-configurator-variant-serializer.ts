@@ -61,7 +61,8 @@ export class OccConfiguratorVariantSerializer
 
     if (
       attribute.uiType === Configurator.UiType.DROPDOWN ||
-      attribute.uiType === Configurator.UiType.RADIOBUTTON
+      attribute.uiType === Configurator.UiType.RADIOBUTTON ||
+      attribute.uiType === Configurator.UiType.IMAGE_SINGLE_SELECT
     ) {
       cstic.value = attribute.selectedSingleValue;
     } else if (attribute.uiType === Configurator.UiType.STRING) {
@@ -109,6 +110,10 @@ export class OccConfiguratorVariantSerializer
       }
       case Configurator.UiType.IMAGE_MULTI_SELECT: {
         uiType = OccConfigurator.UiType.MULTI_SELECTION_IMAGE;
+        break;
+      }
+      case Configurator.UiType.IMAGE_SINGLE_SELECT: {
+        uiType = OccConfigurator.UiType.SINGLE_SELECTION_IMAGE;
         break;
       }
       default: {

@@ -43,22 +43,23 @@
         <div class="cx-config-attribute-value-label-container">
           <label
             id="{{
-              uiKeyGenerator.createValueUiKey(
-                'label',
-                attribute.name,
-                value.valueCode
-              )
-            }}"
+          uiKeyGenerator.createValueUiKey(
+            'label',
+            attribute.name,
+            value.valueCode
+          )
+        }}"
             for="{{
-              uiKeyGenerator.createAttributeValueIdForConfigurator(
-                attribute,
-                value.valueCode
-              )
-            }}"
-            class="cx-config-attribute-value-label form-check-label form-radio-label"
-            >{{ value.valueDisplay }}</label
+          uiKeyGenerator.createAttributeValueIdForConfigurator(
+            attribute,
+            value.valueCode
+          )
+        }}"
+            class="cx-config-attribute-value-label form-check-label"
+          >{{ value.valueDisplay }}</label
           >
         </div>
+
       </div>
     </div>
   </div>
