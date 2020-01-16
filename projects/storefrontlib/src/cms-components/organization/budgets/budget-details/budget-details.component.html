@@ -106,7 +106,10 @@
             value: 'costCenter.name' | cxTranslate,
             cxRoute: 'costCenter'
           },
-          { key: 'description', value: 'costCenter.description' | cxTranslate }
+          {
+            key: 'costCenterCode',
+            value: 'costCenter.description' | cxTranslate
+          }
         ]"
         [tableData]="budget.costCenters"
       ></cx-table>

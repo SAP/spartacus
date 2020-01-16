@@ -31,7 +31,6 @@ export class BudgetDetailsComponent implements OnInit {
           budget.costCenters &&
           budget.costCenters.map(costCenter => ({
             name: costCenter.name,
-            description: costCenter.code,
             costCenterCode: costCenter.code,
           })),
       }))
