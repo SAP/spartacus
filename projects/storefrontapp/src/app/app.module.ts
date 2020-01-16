@@ -13,10 +13,10 @@ import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   JsonLdBuilderModule,
-  StorefrontComponent,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
-import { TestModule } from '../test-module/test.module';
+import { TestOutletModule } from '../test-outlets/test-outlet.module';
+import { AppComponent } from './app.component';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -70,12 +70,12 @@ if (!environment.production) {
       },
     }),
     JsonLdBuilderModule,
+    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
-    TestModule, // custom test module only for e2e testing
     ...devImports,
     ConfigModule,
   ],
-
-  bootstrap: [StorefrontComponent],
+  declarations: [AppComponent],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
