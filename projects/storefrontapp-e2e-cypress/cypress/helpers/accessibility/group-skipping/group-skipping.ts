@@ -1,9 +1,9 @@
 import {
-  GroupSkipperPageConfig,
-  GroupSkipperConfig,
-} from './group-skipper.config';
+  GroupSkippingConfig,
+  GroupSkippingPageConfig,
+} from './group-skipping.config';
 
-export function testGroupSkipperFromConfig(config: GroupSkipperConfig) {
+export function verifyGroupSkippingFromConfig(config: GroupSkippingConfig) {
   Object.keys(config).forEach(page => {
     describe(page, () => {
       it('should tab through group skippers', () => {
@@ -14,7 +14,7 @@ export function testGroupSkipperFromConfig(config: GroupSkipperConfig) {
 }
 
 export function testGroupSkipperPagesFromConfig(
-  config: GroupSkipperPageConfig
+  config: GroupSkippingPageConfig
 ) {
   cy.visit(config.pageUrl);
 
@@ -30,13 +30,13 @@ export function testGroupSkipperPagesFromConfig(
   }
 
   // Should tab out of group skipper anchors
-  cy.tab();
+  cy.pressTab();
   checkFocusIsNotWithinGroupSkipper();
 }
 
 function checkGroupSkipperAnchorsHaveLoaded(noOfAnchors: number) {
-  cy.get('cx-group-skipper')
-    .find('a')
+  cy.get('cx-skip-link')
+    .find('button')
     .should('have.length', noOfAnchors);
 }
 
@@ -44,15 +44,15 @@ function checkFocusIsWithinGroupSkipper() {
   cy.focused()
     .parent()
     .should('have.prop', 'tagName')
-    .should('eq', 'CX-GROUP-SKIPPER');
+    .should('eq', 'CX-SKIP-LINK');
   cy.focused()
     .should('have.prop', 'tagName')
-    .should('eq', 'A');
+    .should('eq', 'BUTTON');
 }
 
 function checkFocusIsNotWithinGroupSkipper() {
   cy.focused()
     .parent()
     .should('have.prop', 'tagName')
-    .should('not.eq', 'CX-GROUP-SKIPPER');
+    .should('not.eq', 'CX-SKIP-LINK');
 }
