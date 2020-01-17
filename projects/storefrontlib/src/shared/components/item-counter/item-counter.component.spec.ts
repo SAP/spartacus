@@ -348,4 +348,15 @@ describe('ItemCounterComponent', () => {
     expect(itemCounterComponent.decrementBtn).toBeUndefined();
     expect(itemCounterComponent.incrementBtn).toBeUndefined();
   });
+
+  it('should reset counter value to the minimum value on cx-item-counter input blur', () => {
+    const mockMinimum = 1;
+    itemCounterComponent.min = mockMinimum;
+
+    itemCounterComponent.manualChange(null);
+    itemCounterComponent.invalidInput = true;
+
+    itemCounterComponent.validateValueOrDefault();
+    expect(itemCounterComponent.min).toBe(mockMinimum);
+  });
 });
