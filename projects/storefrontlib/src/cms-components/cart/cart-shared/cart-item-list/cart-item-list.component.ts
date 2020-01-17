@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CartService, PromotionResult } from '@spartacus/core';
+import {
+  CartService,
+  PromotionResult,
+  ConsignmentEntry,
+} from '@spartacus/core';
 import { Item } from '../cart-item/cart-item.component';
 
 @Component({
@@ -16,16 +20,27 @@ export class CartItemListComponent implements OnInit {
 
   @Input()
   set items(_items) {
-    this._items = _items;
-    this.items.forEach(item => {
-      const { code } = item.product;
-      if (!this.form.controls[code]) {
-        this.form.setControl(code, this.createEntryFormGroup(item));
-      } else {
-        const entryForm = this.form.controls[code] as FormGroup;
-        entryForm.controls.quantity.setValue(item.quantity);
-      }
-    });
+    if (_items.every(item => item.hasOwnProperty('orderEntry'))) {
+      this._items = _items.map(consignmentEntry => {
+        const entry = Object.assign(
+          {},
+          (consignmentEntry as ConsignmentEntry).orderEntry
+        );
+        entry.quantity = consignmentEntry.quantity;
+        return entry;
+      });
+    } else {
+      this._items = _items;
+      this.items.forEach(item => {
+        const { code } = item.product;
+        if (!this.form.controls[code]) {
+          this.form.setControl(code, this.createEntryFormGroup(item));
+        } else {
+          const entryForm = this.form.controls[code] as FormGroup;
+          entryForm.controls.quantity.setValue(item.quantity);
+        }
+      });
+    }
   }
 
   @Input()
