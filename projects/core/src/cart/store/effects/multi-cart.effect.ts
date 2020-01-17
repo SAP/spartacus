@@ -27,10 +27,10 @@ export class MultiCartEffects {
   );
 
   @Effect()
-  setFreshCart$ = this.actions$.pipe(
-    ofType(CartActions.SET_FRESH_CART),
-    map((action: CartActions.SetFreshCart) => {
-      return new CartActions.ResetFreshCart(action.payload);
+  setTempCart$ = this.actions$.pipe(
+    ofType(CartActions.SET_TEMP_CART),
+    map((action: CartActions.SetTempCart) => {
+      return new CartActions.RemoveTempCart(action.payload);
     })
   );
 

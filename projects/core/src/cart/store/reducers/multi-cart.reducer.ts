@@ -12,7 +12,7 @@ export function activeCartReducer(
   switch (action.type) {
     case CartActions.LOAD_MULTI_CART_SUCCESS:
     case CartActions.CREATE_MULTI_CART_SUCCESS:
-    // point to `fresh` cart when we are creating/merging cart
+    // point to `temp-${uuid}` cart when we are creating/merging cart
     case CartActions.CREATE_MULTI_CART:
       if (
         action.payload &&
@@ -44,7 +44,7 @@ export function cartEntitiesReducer(
     case CartActions.CREATE_MULTI_CART_SUCCESS:
     case CartActions.CREATE_WISH_LIST_SUCCESS:
     case CartActions.LOAD_WISH_LIST_SUCCESS:
-    case CartActions.SET_FRESH_CART:
+    case CartActions.SET_TEMP_CART:
       return action.payload.cart;
   }
   return state;

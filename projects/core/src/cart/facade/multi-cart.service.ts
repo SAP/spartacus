@@ -54,13 +54,13 @@ export class MultiCartService {
   }
 
   /**
-   * Simple random fresh cart id generator
+   * Simple random temp cart id generator
    */
-  private generateFreshCartId(): string {
+  private generateTempCartId(): string {
     const pseudoUuid = Math.random()
       .toString(36)
       .substr(2, 9);
-    return `fresh-${pseudoUuid}`;
+    return `temp-${pseudoUuid}`;
   }
 
   /**
@@ -81,17 +81,17 @@ export class MultiCartService {
   }): Observable<ProcessesLoaderState<Cart>> {
     // to support creating multiple carts at the same time we need to use different entity for every process
     // simple random uuid generator is used here for entity names
-    const freshCartId = this.generateFreshCartId();
+    const tempCartId = this.generateTempCartId();
     this.store.dispatch(
       new DeprecatedCartActions.CreateCart({
         extraData,
         userId,
         oldCartId,
         toMergeCartGuid,
-        freshCartId,
+        tempCartId,
       })
     );
-    return this.getCartEntity(freshCartId);
+    return this.getCartEntity(tempCartId);
   }
 
   /**

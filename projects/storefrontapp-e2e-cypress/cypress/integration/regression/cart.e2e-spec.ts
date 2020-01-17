@@ -49,6 +49,7 @@ describe('Cart', () => {
     cart.loginRegisteredUser();
     cart.addProductWhenLoggedIn(false);
     // Wait to make sure everything was processed, so there won't be any ngrx -> localStorage synchronization
+    // Related issue: #4672
     cy.wait(2000);
     cy.window().then(window => {
       const storage = JSON.parse(

@@ -1,6 +1,6 @@
 import { Cart } from '../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../occ';
-import { getCartIdByUserId, isFreshCartId } from './utils';
+import { getCartIdByUserId, isTempCartId } from './utils';
 
 describe('Cart utils', () => {
   describe('getCartIdByUserId', () => {
@@ -18,17 +18,17 @@ describe('Cart utils', () => {
     });
   });
 
-  describe('isFreshCartId', () => {
-    it('should return true for id starting with "fresh-"', () => {
-      expect(isFreshCartId('fresh-test')).toEqual(true);
+  describe('isTempCartId', () => {
+    it('should return true for id starting with "temp-"', () => {
+      expect(isTempCartId('temp-test')).toEqual(true);
     });
 
     it('should return false for random cart code', () => {
-      expect(isFreshCartId('54374645')).toEqual(false);
+      expect(isTempCartId('54374645')).toEqual(false);
     });
 
-    it('should return false for id "fresh"', () => {
-      expect(isFreshCartId('fresh')).toEqual(false);
+    it('should return false for id "temp"', () => {
+      expect(isTempCartId('temp')).toEqual(false);
     });
   });
 });

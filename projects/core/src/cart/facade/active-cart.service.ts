@@ -26,7 +26,7 @@ import { EMAIL_PATTERN } from '../../util/regex-pattern';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
-import { getCartIdByUserId, isFreshCartId } from '../utils/utils';
+import { getCartIdByUserId, isTempCartId } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 
 @Injectable()
@@ -101,7 +101,7 @@ export class ActiveCartService {
           isStable &&
           this.isEmpty(cart) &&
           !loaded &&
-          !isFreshCartId(cartId)
+          !isTempCartId(cartId)
         ) {
           this.load(cartId);
         }
@@ -150,7 +150,7 @@ export class ActiveCartService {
   getLoaded(): Observable<boolean> {
     // Debounce is used here, to avoid flickering when we switch between different cart entities.
     // For example during `addEntry` method. We might try to load current cart, so `current cart will be then active id.
-    // After load fails we might create new cart so we switch to `fresh` cart entity used when creating cart.
+    // After load fails we might create new cart so we switch to `temp-${uuid}` cart entity used when creating cart.
     // At the end we finally switch to cart `code` for cart id. Between those switches cart `getLoaded` function should not flicker.
     return this.activeCartId$.pipe(
       switchMap(cartId => this.multiCartService.isStable(cartId)),
@@ -230,7 +230,7 @@ export class ActiveCartService {
     // when all loading flags are false it means that we restored wrong cart id
     // could happen on context change or reload right in the middle on cart create call
     return (
-      isFreshCartId(this.cartId) &&
+      isTempCartId(this.cartId) &&
       (cartState.loading || cartState.success || cartState.error)
     );
   }
@@ -281,7 +281,7 @@ export class ActiveCartService {
       }),
       filter(cartState => !cartState.loading),
       filter(cartState => cartState.success || cartState.error),
-      // wait for active cart id to point to code/guid to avoid some work on fresh entity
+      // wait for active cart id to point to code/guid to avoid some work on temp cart entity
       filter(cartState => !this.isCartCreating(cartState)),
       filter(cartState => !this.isEmpty(cartState.value)),
       take(1)

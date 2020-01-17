@@ -144,9 +144,7 @@ describe('MultiCartService', () => {
 
   describe('createCart', () => {
     it('should create cart and return observable with cart', () => {
-      spyOn(service as any, 'generateFreshCartId').and.returnValue(
-        'fresh-uuid'
-      );
+      spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
 
       const results = [];
 
@@ -160,7 +158,7 @@ describe('MultiCartService', () => {
           extraData: undefined,
           oldCartId: undefined,
           toMergeCartGuid: undefined,
-          freshCartId: 'fresh-uuid',
+          tempCartId: 'temp-uuid',
         })
       );
 
@@ -173,9 +171,9 @@ describe('MultiCartService', () => {
       });
 
       store.dispatch(
-        new CartActions.SetFreshCart({
+        new CartActions.SetTempCart({
           cart: testCart,
-          freshCartId: 'fresh-uuid',
+          tempCartId: 'temp-uuid',
         })
       );
 

@@ -22,34 +22,36 @@ const cart: Cart = {
   },
 };
 
-const freshCartId = 'freshCartId';
+const tempCartId = 'tempCartId';
 
 describe('MultiCart Actions', () => {
-  describe('FreshCart Actions', () => {
-    describe('ResetFreshCart', () => {
+  describe('TempCart Actions', () => {
+    describe('RemoveTempCart', () => {
       it('should create the action', () => {
-        const action = new CartActions.ResetFreshCart({ freshCartId });
+        const action = new CartActions.RemoveTempCart({
+          tempCartId: tempCartId,
+        });
         expect({ ...action }).toEqual({
-          type: CartActions.RESET_FRESH_CART,
-          payload: { freshCartId },
+          type: CartActions.REMOVE_TEMP_CART,
+          payload: { tempCartId },
           meta: StateEntityActions.entityRemoveMeta(
             MULTI_CART_FEATURE,
-            freshCartId
+            tempCartId
           ),
         });
       });
     });
 
-    describe('SetFreshCart', () => {
+    describe('SetTempCart', () => {
       it('should create the action', () => {
-        const payload = { cart, freshCartId };
-        const action = new CartActions.SetFreshCart(payload);
+        const payload = { cart, tempCartId };
+        const action = new CartActions.SetTempCart(payload);
         expect({ ...action }).toEqual({
-          type: CartActions.SET_FRESH_CART,
+          type: CartActions.SET_TEMP_CART,
           payload,
           meta: StateEntityLoaderActions.entitySuccessMeta(
             MULTI_CART_FEATURE,
-            freshCartId
+            tempCartId
           ),
         });
       });
@@ -57,13 +59,15 @@ describe('MultiCart Actions', () => {
 
     describe('CreateMultiCart', () => {
       it('should create the action', () => {
-        const action = new CartActions.CreateMultiCart({ freshCartId });
+        const action = new CartActions.CreateMultiCart({
+          tempCartId,
+        });
         expect({ ...action }).toEqual({
           type: CartActions.CREATE_MULTI_CART,
-          payload: { freshCartId },
+          payload: { tempCartId },
           meta: StateEntityLoaderActions.entityLoadMeta(
             MULTI_CART_FEATURE,
-            freshCartId
+            tempCartId
           ),
         });
       });
@@ -71,13 +75,15 @@ describe('MultiCart Actions', () => {
 
     describe('CreateMultiCartFail', () => {
       it('should create the action', () => {
-        const action = new CartActions.CreateMultiCartFail({ freshCartId });
+        const action = new CartActions.CreateMultiCartFail({
+          tempCartId,
+        });
         expect({ ...action }).toEqual({
           type: CartActions.CREATE_MULTI_CART_FAIL,
-          payload: { freshCartId },
+          payload: { tempCartId },
           meta: StateEntityLoaderActions.entityFailMeta(
             MULTI_CART_FEATURE,
-            freshCartId
+            tempCartId
           ),
         });
       });

@@ -184,7 +184,7 @@ export class CartEffects {
     | CartActions.CreateMultiCartSuccess
     | DeprecatedCartActions.CreateCartFail
     | CartActions.CreateMultiCartFail
-    | CartActions.SetFreshCart
+    | CartActions.SetTempCart
   > = this.actions$.pipe(
     ofType(DeprecatedCartActions.CREATE_CART),
     map((action: DeprecatedCartActions.CreateCart) => action.payload),
@@ -222,9 +222,9 @@ export class CartEffects {
                 userId: payload.userId,
                 extraData: payload.extraData,
               }),
-              new CartActions.SetFreshCart({
+              new CartActions.SetTempCart({
                 cart,
-                freshCartId: payload.freshCartId,
+                tempCartId: payload.tempCartId,
               }),
               ...conditionalActions,
             ];
@@ -235,7 +235,7 @@ export class CartEffects {
                 makeErrorSerializable(error)
               ),
               new CartActions.CreateMultiCartFail({
-                freshCartId: payload.freshCartId,
+                tempCartId: payload.tempCartId,
                 error: makeErrorSerializable(error),
               }),
             ])
