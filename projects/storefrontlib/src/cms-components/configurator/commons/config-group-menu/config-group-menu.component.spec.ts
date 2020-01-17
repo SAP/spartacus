@@ -13,6 +13,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
@@ -62,6 +63,26 @@ const config: Configurator.Configuration = {
           values: [],
         },
       ],
+      subGroups: [
+        {
+          configurable: true,
+          description: 'Subgroup 1',
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          id: '1-CPQ_LAPTOP.1.1',
+          name: '5',
+          attributes: [],
+          subGroups: [],
+        },
+        {
+          configurable: true,
+          description: 'Subgroup 2',
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          id: '1-CPQ_LAPTOP.1.2',
+          name: '6',
+          attributes: [],
+          subGroups: [],
+        },
+      ],
     },
     {
       configurable: true,
@@ -70,6 +91,7 @@ const config: Configurator.Configuration = {
       id: '1-CPQ_LAPTOP.2',
       name: '2',
       attributes: [],
+      subGroups: [],
     },
     {
       configurable: true,
@@ -78,6 +100,17 @@ const config: Configurator.Configuration = {
       id: '1-CPQ_LAPTOP.3',
       name: '3',
       attributes: [],
+      subGroups: [
+        {
+          configurable: true,
+          description: 'Software',
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+          id: '1-CPQ_LAPTOP.3._GEN',
+          name: '4',
+          attributes: [],
+          subGroups: [],
+        },
+      ],
     },
   ],
 };
@@ -93,6 +126,10 @@ class MockRouter {
 }
 
 class MockConfiguratorGroupService {
+  setMenuParentGroup() {}
+  findParentGroup() {
+    return null;
+  }
   navigateToGroup() {}
   getCurrentGroup(): Observable<Configurator.Group> {
     return of(config.groups[0]);
@@ -174,6 +211,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     >);
     configuratorUtils.setOwnerKey(config.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
+    spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
     spyOn(hamburgerMenuService, 'toggle').and.stub();
   });
 
@@ -202,5 +240,49 @@ describe('ConfigurationGroupMenuComponent', () => {
     component.click(config.groups[1]);
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
+  });
+
+  it('should condense groups', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(component.condenseGroups(config.groups)[2].id).toBe(
+      config.groups[2].subGroups[0].id
+    );
+  });
+
+  it('should get correct parent group for condensed groups', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    //Condensed case
+    component
+      .getCondensedParentGroup(config.groups[2])
+      .pipe(take(1))
+      .subscribe(group => {
+        expect(group).toBe(null);
+      });
+
+    //Non condensed case
+    component
+      .getCondensedParentGroup(config.groups[0])
+      .pipe(take(1))
+      .subscribe(group => {
+        expect(group).toBe(config.groups[0]);
+      });
+  });
+
+  it('should call correct methods for groups with and without subgroups', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    //Set group
+    component.click(config.groups[2].subGroups[0]);
+    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
+    expect(hamburgerMenuService.toggle).toHaveBeenCalled();
+
+    //Display subgroups
+    component.click(config.groups[0]);
+    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
   });
 });
