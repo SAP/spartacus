@@ -19,15 +19,20 @@ export class CurrentProductService {
     protected features?: FeatureConfigService
   ) {}
 
-  protected readonly PRODUCT_SCOPE =
+  private readonly DEFAULT_PRODUCT_SCOPE =
     this.features && this.features.isLevel('1.4') ? ProductScope.DETAILS : '';
 
-  getProduct(scope?: ProductScope): Observable<Product> {
+  getProduct(
+    scopes?: (ProductScope | string)[] | ProductScope | string
+  ): Observable<Product> {
     return this.routingService.getRouterState().pipe(
       map(state => state.state.params['productCode']),
       filter(Boolean),
       switchMap((productCode: string) =>
-        this.productService.get(productCode, scope || this.PRODUCT_SCOPE)
+        this.productService.get(
+          productCode,
+          scopes || this.DEFAULT_PRODUCT_SCOPE
+        )
       )
     );
   }
