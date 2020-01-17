@@ -197,8 +197,7 @@ context('Product Configuration', () => {
       goToConfigurationPage(configurator, testProductMultiLevel);
       configuration.verifyConfigurationPageIsDisplayed();
 
-      configuration.clickOnGroup(3);
-      configuration.clickOnGroup(1);
+      configuration.clickOnGroup(2);
       configuration.clickOnNextGroupButton('CPQ_HT_RECV_MODEL2', 'dropdown');
     });
   });
