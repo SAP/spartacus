@@ -37,5 +37,4 @@ context('Checkout flow', () => {
   it('should display summary page', () => {
     checkout.verifyOrderConfirmationPageWithCheapProduct();
   });
-
 });
