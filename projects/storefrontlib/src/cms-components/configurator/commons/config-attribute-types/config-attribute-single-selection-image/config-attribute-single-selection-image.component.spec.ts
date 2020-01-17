@@ -39,7 +39,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     component.attribute = {
       name: 'valueName',
       attrCode: 444,
-      uiType: Configurator.UiType.RADIOBUTTON,
+      uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
       selectedSingleValue: 'selectedValue',
       quantity: 1,
     };
@@ -51,8 +51,6 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   });
 
   it('should set selectedSingleValue on init', () => {
-    expect(component.attributeSingleSelectionImage.value).toEqual(
-      'selectedValue'
-    );
+    expect(component.attributeRadioButtonForm.value).toEqual('selectedValue');
   });
 });
