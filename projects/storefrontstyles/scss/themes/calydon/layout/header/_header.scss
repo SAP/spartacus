@@ -1,7 +1,10 @@
 %header-calydon {
   .SiteLogo {
-    a {
+    a:focus {
       display: block;
     }
+  }
+  .NavigationBar {
+    overflow: visible;
   }
 }
