@@ -11,7 +11,7 @@ export const defaultOccProductConfig: OccConfig = {
           list:
             'products/${productCode}?fields=code,name,summary,price(formattedValue),images(DEFAULT,galleryIndex)',
           details:
-            'products/${productCode}?fields=averageRating,purchasable,stock(DEFAULT),description,variantMatrix(DEFAULT),baseOptions(DEFAULT),baseProduct,availableForPickup,variantOptions(DEFAULT),variantType,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,configuratorType,configurable,tags,images(FULL)',
+            'products/${productCode}?fields=averageRating,stock(DEFAULT),description,variantMatrix(DEFAULT),availableForPickup,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,configuratorType,configurable,tags,images(FULL)',
           attributes: 'products/${productCode}?fields=classifications',
           variants:
             'products/${productCode}?fields=purchasable,baseOptions(DEFAULT),baseProduct,variantOptions(DEFAULT),variantType',
