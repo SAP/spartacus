@@ -19,7 +19,7 @@ import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generat
 export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
   constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
-  attributeSingleSelectionImage = new FormControl('');
+  attributeRadioButtonForm = new FormControl('');
 
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
@@ -27,55 +27,16 @@ export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  attributeCheckBoxForms = new Array<FormControl>();
-
   ngOnInit() {
-    for (const value of this.attribute.values) {
-      let attributeCheckBoxForm;
-      if (value.selected === true) {
-        attributeCheckBoxForm = new FormControl(true);
-      } else {
-        attributeCheckBoxForm = new FormControl(false);
-      }
-      this.attributeCheckBoxForms.push(attributeCheckBoxForm);
-    }
+    this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
-  assembleValues(): any[] {
-    const localAssembledValues: any = [];
-
-    for (let i = 0; i < this.attributeCheckBoxForms.length; i++) {
-      const localAttributeValue: Configurator.Value = {};
-      localAttributeValue.valueCode = this.attribute.values[i].valueCode;
-      localAttributeValue.name = this.attribute.values[i].name;
-      localAttributeValue.selected = this.attributeCheckBoxForms[i].value;
-      localAssembledValues.push(localAttributeValue);
-    }
-    return localAssembledValues;
-  }
-
-  onEnter(event, index) {
-    if (event.which !== 13) {
-      return;
-    }
-
-    this.onSelect(index);
-
-    //TODO: fix focus lose when selection with keyboard
-  }
-
-  onSelect(i) {
-    this.attributeCheckBoxForms[i].setValue(
-      !this.attributeCheckBoxForms[i].value
-    );
-
-    const selectedValues = this.assembleValues();
-
+  onSelect() {
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
       changedAttribute: {
         name: this.attribute.name,
-        values: selectedValues,
+        selectedSingleValue: this.attributeRadioButtonForm.value,
         uiType: this.attribute.uiType,
       },
       groupId: this.group,

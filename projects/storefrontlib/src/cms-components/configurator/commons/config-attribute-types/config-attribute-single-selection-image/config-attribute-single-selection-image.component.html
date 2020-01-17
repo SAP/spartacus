@@ -10,14 +10,18 @@
         value.valueCode
       )
     }}"
-    (click)="onSelect(i)"
-    (keyup)="onEnter($event, i)"
     class="cx-config-select col-6 col-sm-3 "
+    (click)="onSelect()"
     [attr.aria-labelledby]="
       uiKeyGenerator.createValueUiKey('label', attribute.name, value.valueCode)
     "
-    role="checkbox"
-    [attr.aria-checked]="attributeCheckBoxForms[i].value"
+    role="radio"
+    [attr.aria-checked]="
+      attributeRadioButtonForm.value === value.valueCode ? true : false
+    "
+    [attr.checked]="
+      attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
+    "
     tabindex="0"
   >
     <input
@@ -27,10 +31,10 @@
           value.valueCode
         ) + '-input'
       }}"
-      type="checkbox"
+      type="radio"
       class="form-input"
       [value]="value.valueCode"
-      [formControl]="attributeCheckBoxForms[i]"
+      [formControl]="attributeRadioButtonForm"
       name="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}"
     />
 
@@ -44,7 +48,6 @@
       *ngIf="!value.images[0]"
       class="cx-config-attribute-value-img-dummy"
     ></div>
-
     <div class="cx-config-attribute-value-label-container">
       <label
         id="{{
@@ -60,8 +63,8 @@
             value.valueCode
           )
         }}"
-        class="cx-config-attribute-value-label form-check-label"
-      >{{ value.valueDisplay }}</label
+        class="cx-config-attribute-value-label form-check-label form-radio-label"
+        >{{ value.valueDisplay }}</label
       >
     </div>
   </div>
