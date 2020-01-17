@@ -20,7 +20,7 @@ export class CartItemListComponent implements OnInit {
 
   @Input()
   set items(_items) {
-    if (_items as ConsignmentEntry[]) {
+    if (_items.every(item => item.hasOwnProperty('orderEntry'))) {
       this._items = _items.map(consignmentEntry => {
         const entry = Object.assign(
           {},

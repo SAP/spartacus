@@ -2,7 +2,7 @@ import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartService, I18nTestingModule } from '@spartacus/core';
+import { CartService, I18nTestingModule, OrderEntry } from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemListComponent } from './cart-item-list.component';
 
@@ -12,13 +12,11 @@ class MockCartService {
   updateEntry() {}
 }
 
-const mockItems = [
+const mockItems: OrderEntry[] = [
   {
-    id: 1,
     quantity: 5,
     entryNumber: 1,
     product: {
-      id: 1,
       code: 'PR0000',
     },
   },
