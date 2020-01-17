@@ -6,9 +6,7 @@
       </div>
 
       <ng-container *cxFeatureLevel="'!1.5'">
-        <cx-promotions
-          [promotions]="getAllPromotionsForCart(cart)"
-        ></cx-promotions>
+        <cx-promotions [promotions]="promotions$ | async"></cx-promotions>
 
         <cx-cart-item-list
           [items]="entries"
