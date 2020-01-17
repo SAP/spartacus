@@ -19,7 +19,7 @@ export class CurrentProductService {
     protected features?: FeatureConfigService
   ) {}
 
-  private readonly DEFAULT_PRODUCT_SCOPE =
+  protected readonly DEFAULT_PRODUCT_SCOPE =
     this.features && this.features.isLevel('1.4') ? ProductScope.DETAILS : '';
 
   getProduct(
