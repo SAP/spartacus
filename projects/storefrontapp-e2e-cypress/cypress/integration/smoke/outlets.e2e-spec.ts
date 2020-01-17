@@ -75,7 +75,8 @@ context('Outlets', () => {
   });
 
   it('should work on cxOutlet input template change', () => {
-    cy.visit('test/outlet/template2?test=true');
+    cy.visit('test/outlet/template');
+    cy.get('cx-test-outlet-template a').click();
     cy.get('.LandingPage2Template').within(() => {
       cy.get('h1').should('contain', 'TestOutletComponent');
       cy.get('a').click();

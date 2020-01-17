@@ -20,7 +20,7 @@ export const linkComponents: {
     flexType: 'CMSLinkComponent',
     name: 'Link',
     linkName: 'Link',
-    url: '/test/outlet/template3',
+    url: '/test/outlet/template',
   },
 };
 
@@ -63,16 +63,6 @@ export function testOutletPagesCmsContentConfig(): CmsStructureConfig {
           ignoreBackend: true,
           pageId: '/test/outlet/template2',
           template: 'LandingPage2Template',
-        },
-        {
-          slots: {
-            Section2A: {
-              componentIds: ['Link1'],
-            },
-          },
-          ignoreBackend: true,
-          pageId: '/test/outlet/template3',
-          template: 'ContentPage1Template',
         },
         {
           slots: {

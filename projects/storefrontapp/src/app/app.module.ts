@@ -13,10 +13,10 @@ import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   JsonLdBuilderModule,
+  StorefrontComponent,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
-import { AppComponent } from './app.component';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -75,7 +75,6 @@ if (!environment.production) {
     ...devImports,
     ConfigModule,
   ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent],
+  bootstrap: [StorefrontComponent],
 })
 export class AppModule {}
