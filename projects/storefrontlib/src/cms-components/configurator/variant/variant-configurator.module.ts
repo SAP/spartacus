@@ -24,6 +24,7 @@ import { ConfigAttributeInputFieldComponent } from '../commons/config-attribute-
 import { ConfigAttributeMultiSelectImageComponent } from '../commons/config-attribute-types/config-attribute-multi-select-image/config-attribute-multi-select-image.component';
 import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigAttributeReadOnlyComponent } from '../commons/config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
+import { ConfigAttributeSingleSelectionImageComponent  } from '../commons/config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
 import { ConfigGroupTitleComponent } from '../commons/config-group-title/config-group-title.component';
@@ -145,6 +146,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeDropDownComponent,
     ConfigAttributeCheckBoxListComponent,
     ConfigAttributeMultiSelectImageComponent,
+    ConfigAttributeSingleSelectionImageComponent,
     ConfigAttributeInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
@@ -162,6 +164,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeDropDownComponent,
     ConfigAttributeCheckBoxListComponent,
     ConfigAttributeMultiSelectImageComponent,
+    ConfigAttributeSingleSelectionImageComponent,
     ConfigAttributeInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
@@ -180,6 +183,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeDropDownComponent,
     ConfigAttributeCheckBoxListComponent,
     ConfigAttributeMultiSelectImageComponent,
+    ConfigAttributeSingleSelectionImageComponent,
     ConfigAttributeInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,

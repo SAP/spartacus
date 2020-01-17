@@ -190,7 +190,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       occConfiguratorVariantNormalizer.convertCharacteristicType(
         OccConfigurator.UiType.SINGLE_SELECTION_IMAGE
       )
-    ).toBe(Configurator.UiType.IMAGE_SINGLE_SELECT);
+    ).toBe(Configurator.UiType.SINGLE_SELECTION_IMAGE);
   });
 
   it('should return UIType Not Implemented for unkonwn occ configurator type', () => {

@@ -176,7 +176,7 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
       case OccConfigurator.UiType.SINGLE_SELECTION_IMAGE: {
-        uiType = Configurator.UiType.IMAGE_SINGLE_SELECT;
+        uiType = Configurator.UiType.SINGLE_SELECTION_IMAGE;
         break;
       }
       default: {
