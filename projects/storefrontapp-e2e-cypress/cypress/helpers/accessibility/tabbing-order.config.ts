@@ -573,42 +573,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
-      value: 'Order History',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Address Book',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Payment Details',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Personal Details',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Password',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Email Address',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Consent Management',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Close Account',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Sign Out',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: '/electronics-spa/en/USD/cart',
       type: TabbingOrderTypes.IMG_LINK,
     },
@@ -874,6 +838,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Wish List',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Address Book',
       type: TabbingOrderTypes.LINK,
     },
@@ -899,6 +867,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Close Account',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'My Interests',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Notification Preference',
       type: TabbingOrderTypes.LINK,
     },
     {
