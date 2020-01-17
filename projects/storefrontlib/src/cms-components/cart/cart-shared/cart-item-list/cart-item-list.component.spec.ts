@@ -2,7 +2,12 @@ import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartService, I18nTestingModule, OrderEntry } from '@spartacus/core';
+import {
+  CartService,
+  I18nTestingModule,
+  OrderEntry,
+  ConsignmentEntry,
+} from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemListComponent } from './cart-item-list.component';
 
@@ -18,6 +23,19 @@ const mockItems: OrderEntry[] = [
     entryNumber: 1,
     product: {
       code: 'PR0000',
+    },
+  },
+];
+
+const mockConsignmentItems: ConsignmentEntry[] = [
+  {
+    quantity: 3,
+    orderEntry: {
+      quantity: 5,
+      entryNumber: 1,
+      product: {
+        code: 'PR0000',
+      },
     },
   },
 ];
@@ -84,6 +102,12 @@ describe('CartItemListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should work with consignment entries', () => {
+    component.items = mockConsignmentItems;
+    expect(component.items[0].quantity).toEqual(3);
+    expect(component.items[0].product.code).toEqual('PR0000');
   });
 
   it('should remove entry', () => {
