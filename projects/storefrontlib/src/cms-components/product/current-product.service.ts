@@ -22,12 +22,12 @@ export class CurrentProductService {
   protected readonly PRODUCT_SCOPE =
     this.features && this.features.isLevel('1.4') ? ProductScope.DETAILS : '';
 
-  getProduct(): Observable<Product> {
+  getProduct(scope?: ProductScope): Observable<Product> {
     return this.routingService.getRouterState().pipe(
       map(state => state.state.params['productCode']),
       filter(Boolean),
       switchMap((productCode: string) =>
-        this.productService.get(productCode, this.PRODUCT_SCOPE)
+        this.productService.get(productCode, scope || this.PRODUCT_SCOPE)
       )
     );
   }
