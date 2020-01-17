@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Consignment, Order, OrderEntry } from '@spartacus/core';
+import { Consignment, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
@@ -15,13 +15,12 @@ import {
 export class OrderDetailItemsComponent implements OnInit {
   constructor(private orderDetailsService: OrderDetailsService) {}
 
-  order$: Observable<Order>;
+  order$ = this.orderDetailsService.getOrderDetails();
   others$: Observable<Consignment[]>;
   completed$: Observable<Consignment[]>;
   cancel$: Observable<Consignment[]>;
 
   ngOnInit() {
-    this.order$ = this.orderDetailsService.getOrderDetails();
     this.others$ = this.getOtherStatus(...completedValues, ...cancelledValues);
     this.completed$ = this.getExactStatus(completedValues);
     this.cancel$ = this.getExactStatus(cancelledValues);
@@ -30,7 +29,7 @@ export class OrderDetailItemsComponent implements OnInit {
   private getExactStatus(
     consignmentStatus: string[]
   ): Observable<Consignment[]> {
-    return this.orderDetailsService.getOrderDetails().pipe(
+    return this.order$.pipe(
       map(order => {
         if (Boolean(order.consignments)) {
           return order.consignments.filter(consignment =>
@@ -44,7 +43,7 @@ export class OrderDetailItemsComponent implements OnInit {
   private getOtherStatus(
     ...consignmentStatus: string[]
   ): Observable<Consignment[]> {
-    return this.orderDetailsService.getOrderDetails().pipe(
+    return this.order$.pipe(
       map(order => {
         if (Boolean(order.consignments)) {
           return order.consignments.filter(
