@@ -38,8 +38,4 @@ context('Checkout flow', () => {
     checkout.verifyOrderConfirmationPageWithCheapProduct();
   });
 
-  it('should be able to check order in order history', () => {
-    checkout.viewOrderHistoryWithCheapProduct();
-    checkout.signOut();
-  });
 });

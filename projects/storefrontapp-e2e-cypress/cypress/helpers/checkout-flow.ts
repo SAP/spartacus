@@ -106,7 +106,7 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
 
 export function verifyDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-gross').should('be.checked');
+  cy.get('#deliveryMode-standard-net').should('be.checked');
   const paymentPage = waitForPage(
     '/checkout/payment-details',
     'getPaymentPage'
@@ -376,24 +376,6 @@ export function verifyOrderConfirmationPageWithCheapProduct() {
     'contain',
     cartWithCheapProduct.totalAndShipping
   );
-}
-
-export function viewOrderHistoryWithCheapProduct() {
-  const orderHistoryPage = waitForPage(
-    '/my-account/orders',
-    'getOrderHistoryPage'
-  );
-  cy.selectUserMenuOption({
-    option: 'Order History',
-  });
-  cy.wait(`@${orderHistoryPage}`)
-    .its('status')
-    .should('eq', 200);
-  cy.get('cx-order-history h3').should('contain', 'Order history');
-  cy.get('.cx-order-history-table tr')
-    .first()
-    .find('.cx-order-history-total .cx-order-history-value')
-    .should('contain', cartWithCheapProduct.totalAndShipping);
 }
 
 export function waitForPage(page: string, alias: string): string {
