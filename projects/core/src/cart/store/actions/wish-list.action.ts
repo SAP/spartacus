@@ -2,13 +2,10 @@ import { Action } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
 import {
   EntityFailAction,
-  EntityLoadAction,
-  EntityResetAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { getCartIdByUserId } from '../../utils/utils';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
-import { FRESH_CART_ID } from './multi-cart.action';
 
 export const CREATE_WISH_LIST = '[Wish List] Create Wish List';
 export const CREATE_WISH_LIST_FAIL = '[Wish List] Create Wish List Fail';
@@ -19,7 +16,7 @@ export const LOAD_WISH_LIST_SUCCESS = '[Wish List] Load Wish List Success';
 
 export const RESET_WISH_LIST_DETAILS = '[Wish List] Reset Wish List';
 
-export class CreateWishList extends EntityLoadAction {
+export class CreateWishList implements Action {
   readonly type = CREATE_WISH_LIST;
   constructor(
     public payload: {
@@ -27,9 +24,7 @@ export class CreateWishList extends EntityLoadAction {
       name?: string;
       description?: string;
     }
-  ) {
-    super(MULTI_CART_FEATURE, FRESH_CART_ID);
-  }
+  ) {}
 }
 
 export class CreateWishListSuccess extends EntitySuccessAction {
@@ -58,17 +53,9 @@ export class LoadWishListSuccess extends EntitySuccessAction {
   }
 }
 
-export class ResetWishListDetails extends EntityResetAction {
-  readonly type = RESET_WISH_LIST_DETAILS;
-  constructor() {
-    super(MULTI_CART_FEATURE, undefined);
-  }
-}
-
 export type WishListActions =
   | CreateWishList
   | CreateWishListSuccess
   | CreateWishListFail
   | LoadWishList
-  | LoadWishListSuccess
-  | ResetWishListDetails;
+  | LoadWishListSuccess;

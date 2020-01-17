@@ -14,7 +14,7 @@ import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import { getCartIdByUserId } from '../../utils/utils';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 
-export const RESET_FRESH_CART = '[Multi Cart] Reset Fresh Cart';
+export const REMOVE_TEMP_CART = '[Multi Cart] Remove Temp Cart';
 
 export const CREATE_MULTI_CART = '[Multi Cart] Create Cart';
 export const CREATE_MULTI_CART_FAIL = '[Multi Cart] Create Cart Fail';
@@ -29,7 +29,7 @@ export const MERGE_MULTI_CART_SUCCESS = '[Multi Cart] Merge Cart Success';
 
 export const RESET_MULTI_CART_DETAILS = '[Multi Cart] Reset Cart Details';
 
-export const SET_FRESH_CART = '[Multi Cart] Set Fresh Cart';
+export const SET_TEMP_CART = '[Multi Cart] Set Temp Cart';
 
 export const REMOVE_CART = '[Multi Cart] Remove Cart';
 
@@ -41,37 +41,35 @@ export const CART_PROCESSES_INCREMENT = '[Multi Cart] Cart Processes Increment';
 export const CART_PROCESSES_DECREMENT = '[Multi Cart] Cart Processes Decrement';
 
 /**
- * To keep track of cart creation process we use cart with `fresh` id.
+ * To keep track of cart creation process we use cart with `temp-${uuid}` id.
  * After creating cart we switch to entity with `code` or `guid`.
- * We need `fresh` cart entity for loading/error state.
+ * We need `temp-${uuid}` cart entities for loading/error state.
  */
-export const FRESH_CART_ID = 'fresh';
-
-export class ResetFreshCart extends EntityProcessesLoaderResetAction {
-  readonly type = RESET_FRESH_CART;
-  constructor() {
-    super(MULTI_CART_FEATURE, FRESH_CART_ID);
+export class RemoveTempCart extends EntityRemoveAction {
+  readonly type = REMOVE_TEMP_CART;
+  constructor(public payload: { tempCartId: string }) {
+    super(MULTI_CART_FEATURE, payload.tempCartId);
   }
 }
 
-export class SetFreshCart extends EntitySuccessAction {
-  readonly type = SET_FRESH_CART;
-  constructor(public payload: Cart) {
-    super(MULTI_CART_FEATURE, FRESH_CART_ID, payload);
+export class SetTempCart extends EntitySuccessAction {
+  readonly type = SET_TEMP_CART;
+  constructor(public payload: { cart: Cart; tempCartId: string }) {
+    super(MULTI_CART_FEATURE, payload.tempCartId, payload.cart);
   }
 }
 
 export class CreateMultiCart extends EntityLoadAction {
   readonly type = CREATE_MULTI_CART;
   constructor(public payload: any) {
-    super(MULTI_CART_FEATURE, FRESH_CART_ID);
+    super(MULTI_CART_FEATURE, payload.tempCartId);
   }
 }
 
 export class CreateMultiCartFail extends EntityFailAction {
   readonly type = CREATE_MULTI_CART_FAIL;
   constructor(public payload: any) {
-    super(MULTI_CART_FEATURE, FRESH_CART_ID);
+    super(MULTI_CART_FEATURE, payload.tempCartId);
   }
 }
 
@@ -169,8 +167,8 @@ export class CartProcessesDecrement extends EntityProcessesDecrementAction {
 }
 
 export type MultiCartActions =
-  | ResetFreshCart
-  | SetFreshCart
+  | RemoveTempCart
+  | SetTempCart
   | CreateMultiCart
   | CreateMultiCartFail
   | CreateMultiCartSuccess
