@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Consignment, OrderEntry } from '@spartacus/core';
+import { Consignment, Order, OrderEntry } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
@@ -15,7 +15,7 @@ import {
 export class OrderDetailItemsComponent implements OnInit {
   constructor(private orderDetailsService: OrderDetailsService) {}
 
-  order$ = this.orderDetailsService.getOrderDetails();
+  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
   others$: Observable<Consignment[]>;
   completed$: Observable<Consignment[]>;
   cancel$: Observable<Consignment[]>;
