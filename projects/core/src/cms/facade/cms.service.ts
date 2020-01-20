@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Observable, of, queueScheduler } from 'rxjs';
 import {
   catchError,
+  distinctUntilChanged,
   filter,
+  observeOn,
   pluck,
   shareReplay,
   switchMap,
@@ -75,6 +77,7 @@ export class CmsService {
           select(CmsSelectors.componentStateSelectorFactory(uid))
         ),
       ]).pipe(
+        observeOn(queueScheduler),
         tap(([isNavigating, componentState]) => {
           // componentState is undefined when the whole components entities are empty.
           // In this case, we don't load component one by one, but extract component data from cms page
@@ -91,6 +94,7 @@ export class CmsService {
         pluck(1),
         filter(componentState => componentState && componentState.success),
         pluck('value'),
+        distinctUntilChanged(),
         shareReplay({ bufferSize: 1, refCount: true })
       );
     }

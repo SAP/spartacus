@@ -22,6 +22,7 @@ import {
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
 import { ProductScrollComponent } from './product-scroll/product-scroll.component';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -103,6 +104,14 @@ export class MockViewConfig {
   };
 }
 
+@Component({
+  selector: 'cx-style-icons',
+  template: 'test',
+})
+export class MockStyleIconsComponent {
+  @Input() variants: any[];
+}
+
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
@@ -146,6 +155,8 @@ describe('ProductListComponent', () => {
         MockUrlPipe,
         MockCxIconComponent,
         ProductScrollComponent,
+        MockStyleIconsComponent,
+        MockFeatureLevelDirective,
       ],
     }).compileComponents();
   }));

@@ -1,6 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Cart,
@@ -8,19 +7,28 @@ import {
   I18nTestingModule,
   Order,
   OrderEntry,
+  PromotionLocation,
   PromotionResult,
+  FeatureConfigService,
+  SelectiveCartService,
+  AuthService,
+  RoutingService,
+  FeaturesConfigModule,
+  FeaturesConfig,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../checkout';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
+import { PromotionService } from '../../../shared/services/promotion/promotion.service';
+import { By } from '@angular/platform-browser';
 
 class MockCartService {
   removeEntry(): void {}
   loadDetails(): void {}
   updateEntry(): void {}
   getActive(): Observable<Cart> {
-    return of<Cart>({ code: '123' });
+    return of<Cart>({ code: '123', totalItems: 1 });
   }
   getEntries(): Observable<OrderEntry[]> {
     return of([{}]);
@@ -28,6 +36,18 @@ class MockCartService {
   getLoaded(): Observable<boolean> {
     return of(true);
   }
+}
+
+export interface CartItemComponentOptions {
+  isSaveForLater?: boolean;
+  optionalBtn?: any;
+}
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
 }
 
 @Component({
@@ -41,6 +61,13 @@ class MockCartItemListComponent {
   potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading: Observable<boolean>;
+  @Input()
+  options: CartItemComponentOptions = {
+    isSaveForLater: false,
+    optionalBtn: null,
+  };
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 @Component({
@@ -58,26 +85,110 @@ class MockCartCouponComponent {
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
+  let cartService: CartService;
+
+  const mockSelectiveCartService = jasmine.createSpyObj(
+    'SelectiveCartService',
+    ['getCart', 'getLoaded', 'removeEntry', 'getEntries', 'addEntry']
+  );
+
+  const mockFeatureConfigService = jasmine.createSpyObj(
+    'FeatureConfigService',
+    ['isEnabled', 'isLevel']
+  );
+  const mockAuthService = jasmine.createSpyObj('AuthService', [
+    'isUserLoggedIn',
+  ]);
+
+  const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
+      imports: [
+        RouterTestingModule,
+        PromotionsModule,
+        I18nTestingModule,
+        FeaturesConfigModule,
+      ],
       declarations: [
         CartDetailsComponent,
         MockCartItemListComponent,
         MockCartCouponComponent,
       ],
-      providers: [{ provide: CartService, useClass: MockCartService }],
+      providers: [
+        { provide: FeatureConfigService, useValue: mockFeatureConfigService },
+        { provide: SelectiveCartService, useValue: mockSelectiveCartService },
+        { provide: AuthService, useValue: mockAuthService },
+        { provide: RoutingService, useValue: mockRoutingService },
+        {
+          provide: CartService,
+          useClass: MockCartService,
+        },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
+        },
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartDetailsComponent);
     component = fixture.componentInstance;
+    cartService = TestBed.get(CartService as Type<CartService>);
   });
 
   it('should create cart details component', () => {
+    mockFeatureConfigService.isEnabled.and.returnValue(false);
+    fixture.detectChanges();
     expect(component).toBeTruthy();
+
+    mockFeatureConfigService.isEnabled.and.returnValue(true);
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+  });
+
+  it('should move to save for later for login user', () => {
+    const mockItem = {
+      quantity: 5,
+      product: {
+        code: 'PR0000',
+      },
+    };
+    mockFeatureConfigService.isLevel.and.returnValue(true);
+    mockFeatureConfigService.isEnabled.and.returnValue(true);
+    mockAuthService.isUserLoggedIn.and.returnValue(of(true));
+    mockSelectiveCartService.addEntry.and.callThrough();
+    mockSelectiveCartService.getLoaded.and.returnValue(of(true));
+    spyOn(cartService, 'removeEntry').and.callThrough();
+    spyOn(cartService, 'getEntries').and.callThrough();
+    spyOn(cartService, 'getLoaded').and.returnValue(of(true));
+    fixture.detectChanges();
+    component.saveForLater(mockItem);
+    expect(cartService.removeEntry).toHaveBeenCalledWith(mockItem);
+    expect(mockSelectiveCartService.addEntry).toHaveBeenCalledWith(
+      mockItem.product.code,
+      mockItem.quantity
+    );
+  });
+
+  it('should go to login page for anonymous user', () => {
+    const mockItem = {
+      quantity: 5,
+      product: {
+        code: 'PR0000',
+      },
+    };
+    mockAuthService.isUserLoggedIn.and.returnValue(false);
+    component.saveForLater(mockItem);
+    fixture.detectChanges();
+    expect(mockRoutingService.go).toHaveBeenCalled();
   });
 
   // potentialOrderPromotions and appliedOrderPromotions tests

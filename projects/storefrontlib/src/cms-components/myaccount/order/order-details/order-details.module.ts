@@ -8,6 +8,7 @@ import {
   FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
+  UrlModule,
 } from '@spartacus/core';
 import { ConsignmentTrackingComponent } from '../../../../cms-components/myaccount/order/order-details/order-detail-items/consignment-tracking/consignment-tracking.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
@@ -15,14 +16,17 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
 import { CardModule } from '../../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
-import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
+import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
+import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from './order-details.service';
+import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 
 const moduleComponents = [
+  OrderDetailActionsComponent,
   OrderDetailHeadlineComponent,
   OrderDetailItemsComponent,
   OrderDetailTotalsComponent,
@@ -38,12 +42,14 @@ const moduleComponents = [
     CommonModule,
     I18nModule,
     FeaturesConfigModule,
+    PromotionsModule,
+    UrlModule,
     RouterModule.forChild([
       {
-        path: 'guest/order/:orderCode',
+        path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'order' },
+        data: { pageLabel: 'order', cxRoute: 'orderGuest' },
       },
       {
         path: null,
@@ -54,6 +60,9 @@ const moduleComponents = [
     ]),
     ConfigModule.withConfig(<CmsConfig | FeaturesConfig>{
       cmsComponents: {
+        AccountOrderDetailsActionsComponent: {
+          component: OrderDetailActionsComponent,
+        },
         AccountOrderDetailsHeadlineComponent: {
           component: OrderDetailHeadlineComponent,
         },

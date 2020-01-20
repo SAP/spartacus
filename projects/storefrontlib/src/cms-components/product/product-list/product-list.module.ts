@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
@@ -21,6 +22,7 @@ import { AddToCartModule } from '../../cart/index';
 import { GenericConfiguratorModule } from '../../configurator/generic/generic-configurator.module';
 import { IconModule } from '../../misc/icon/index';
 import { defaultScrollConfig } from '../config/default-scroll-config';
+import { ProductVariantSelectorModule } from '../product-variant-selector/product-variant-selector.module';
 import { ProductListComponent } from './container/product-list.component';
 import { ProductScrollComponent } from './container/product-scroll/product-scroll.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
@@ -35,6 +37,9 @@ import { ProductViewComponent } from './product-view/product-view.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSProductListComponent: {
+          component: ProductListComponent,
+        },
+        ProductGridComponent: {
           component: ProductListComponent,
         },
         SearchResultsListComponent: {
@@ -58,6 +63,8 @@ import { ProductViewComponent } from './product-view/product-view.component';
     InfiniteScrollModule,
     ViewConfigModule,
     GenericConfiguratorModule,
+    ProductVariantSelectorModule,
+    FeaturesConfigModule,
   ],
   declarations: [
     ProductListComponent,

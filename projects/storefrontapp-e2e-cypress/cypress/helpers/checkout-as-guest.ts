@@ -9,7 +9,9 @@ export function loginAsGuest() {
   cy.get('.register')
     .getByText(/Guest Checkout/i)
     .click();
-  cy.wait(`@${guestLoginPage}`);
+  cy.wait(`@${guestLoginPage}`)
+    .its('status')
+    .should('eq', 200);
   cy.get('cx-checkout-login').within(() => {
     cy.get('[formcontrolname="email"]')
       .clear()
@@ -23,7 +25,9 @@ export function loginAsGuest() {
     '/checkout/shipping-address',
     'getShippingPage'
   );
-  cy.wait(`@${shippingPage}`);
+  cy.wait(`@${shippingPage}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function createAccountFromGuest(password: string) {
@@ -38,5 +42,7 @@ export function createAccountFromGuest(password: string) {
       .type(password);
     cy.get('button[type=submit]').click();
   });
-  cy.wait(`@${homePage}`);
+  cy.wait(`@${homePage}`)
+    .its('status')
+    .should('eq', 200);
 }

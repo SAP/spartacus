@@ -1,0 +1,54 @@
+/**
+ * CSS rules to control above-the-page loading and defer loading 
+ * of additional DOM.
+ */
+@if $theme == 'calydon' {
+  :root {
+    /** 
+     * The transition delay for below-the-fold (btf) elements, before they 
+     * revert to their original real esate.
+     */
+    --btf-delay: 300ms;
+
+    /** 
+     * The real esate of pending elements below-the-fold (btf) is 
+     * influenced to ensure these elements will not intersect the 
+     * view port. 
+     */
+    --btf-min-height: 100vh;
+    --btf-margin-top: 100vh;
+  }
+
+  cx-page-layout {
+    cx-page-slot {
+      transition: margin-top 0s, min-height 0s;
+      // we delay the minimal real estate for pending slots
+      transition-delay: var(--btf-delay);
+
+      min-height: initial;
+      margin-top: initial;
+      &.cx-pending {
+        // we need a minimum height for pending items, as the slot would
+        // otherwise never intersect in the IntersectionObserver.
+        min-height: 1px;
+      }
+    }
+
+    /** 
+     * Select all pending page slots after the pending (!) page-fold, and 
+     * move them below the fold with a margin-top.
+     */
+    cx-page-slot.cx-pending.page-fold ~ cx-page-slot.cx-pending {
+      margin-top: var(--btf-margin-top);
+    }
+
+    /** 
+     * Select all pending page slots after the page-fold, and add
+     * a minimum height so they would not come in the view port all 
+     * at once.
+     */
+    cx-page-slot.page-fold ~ cx-page-slot.cx-pending {
+      min-height: var(--btf-min-height);
+    }
+  }
+}

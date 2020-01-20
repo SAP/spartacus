@@ -31,6 +31,12 @@
   </div>
 </div>
 
+<ng-container *cxFeatureLevel="'1.5'">
+  <div class="cx-style-icons" *ngIf="product.variantOptions">
+    <cx-style-icons [variants]="product.variantOptions"></cx-style-icons>
+  </div>
+</ng-container>
+
 <cx-add-to-cart
   *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"
   [showQuantity]="false"

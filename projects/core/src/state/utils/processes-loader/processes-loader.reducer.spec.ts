@@ -80,12 +80,22 @@ describe('Processes loader reducer', () => {
   describe('POP ACTION', () => {
     it('should decrement processesCount', () => {
       const action = new ProcessesDecrementAction(TEST_ENTITY_TYPE);
-      const state = processesLoaderReducer(TEST_ENTITY_TYPE)(undefined, action);
+      const initialState = {
+        loading: false,
+        error: false,
+        success: false,
+        processesCount: 3,
+        value: undefined,
+      };
+      const state = processesLoaderReducer(TEST_ENTITY_TYPE)(
+        initialState,
+        action
+      );
       const expectedState = {
         loading: false,
         error: false,
         success: false,
-        processesCount: -1,
+        processesCount: 2,
         value: undefined,
       };
       expect(state).toEqual(expectedState);
