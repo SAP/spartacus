@@ -144,10 +144,12 @@ describe('MultiCartService', () => {
 
   describe('createCart', () => {
     it('should create cart and return observable with cart', () => {
-      let result;
+      spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
+
+      const results = [];
 
       service.createCart({ userId: 'userId' }).subscribe(cart => {
-        result = cart;
+        results.push(cart);
       });
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -156,10 +158,11 @@ describe('MultiCartService', () => {
           extraData: undefined,
           oldCartId: undefined,
           toMergeCartGuid: undefined,
+          tempCartId: 'temp-uuid',
         })
       );
 
-      expect(result).toEqual({
+      expect(results[0]).toEqual({
         loading: false,
         error: false,
         success: false,
@@ -167,9 +170,14 @@ describe('MultiCartService', () => {
         processesCount: 0,
       });
 
-      store.dispatch(new CartActions.SetFreshCart(testCart));
+      store.dispatch(
+        new CartActions.SetTempCart({
+          cart: testCart,
+          tempCartId: 'temp-uuid',
+        })
+      );
 
-      expect(result).toEqual({
+      expect(results[1]).toEqual({
         processesCount: 0,
         loading: false,
         error: false,
