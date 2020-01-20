@@ -4,8 +4,9 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { AuthService } from '../../auth';
 import * as fromReducers from '../../cart/store/reducers/index';
-import { OrderEntry } from '../../model';
+import { OrderEntry, User } from '../../model';
 import { Cart } from '../../model/cart.model';
+import { UserService } from '../../user';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
@@ -15,6 +16,12 @@ import createSpy = jasmine.createSpy;
 const userId = 'testUserId';
 const cartCode = 'xxx';
 const productCode = '123';
+const customerId = '1234-5678-abcdef';
+
+const user: User = {
+  uid: userId,
+  customerId,
+};
 
 const testCart: Cart = {
   code: cartCode,
@@ -38,6 +45,10 @@ const mockCartEntry: OrderEntry = {
 
 class MockAuthService {
   getOccUserId = createSpy().and.returnValue(of(userId));
+}
+
+class MockUserService {
+  get = createSpy().and.returnValue(of(user));
 }
 
 class MockMultiCartService {
@@ -65,6 +76,7 @@ describe('WishListService', () => {
         WishListService,
         { provide: AuthService, useClass: MockAuthService },
         { provide: MultiCartService, useClass: MockMultiCartService },
+        { provide: UserService, useClass: MockUserService },
       ],
     });
 
@@ -109,10 +121,11 @@ describe('WishListService', () => {
 
   describe('getWishList', () => {
     it('should create wish list if not loaded', () => {
+      const payload = { userId, customerId };
       service.getWishList().subscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadWishList(userId)
+        new CartActions.LoadWishList(payload)
       );
     });
     it('should return wish list if loaded', done => {
@@ -133,9 +146,11 @@ describe('WishListService', () => {
 
   describe('loadWishList', () => {
     it('should dispatch load wish list action', () => {
-      service.loadWishList(userId);
+      const payload = { userId, customerId };
+
+      service.loadWishList(userId, customerId);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadWishList(userId)
+        new CartActions.LoadWishList(payload)
       );
     });
   });
@@ -156,10 +171,11 @@ describe('WishListService', () => {
     });
 
     it('should call load wish list if not loaded', () => {
+      const payload = { userId, customerId };
       service.addEntry(productCode);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadWishList(userId)
+        new CartActions.LoadWishList(payload)
       );
     });
   });
@@ -178,10 +194,11 @@ describe('WishListService', () => {
     });
 
     it('should call load wish list if not loaded', () => {
+      const payload = { userId, customerId };
       service.removeEntry(mockCartEntry);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadWishList(userId)
+        new CartActions.LoadWishList(payload)
       );
     });
   });
