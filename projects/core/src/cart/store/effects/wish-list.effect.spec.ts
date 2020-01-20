@@ -13,7 +13,7 @@ import { SaveCartConnector } from '../../connectors/save-cart';
 import { CartActions } from '../actions';
 import { StateWithMultiCart } from '../multi-cart-state';
 import * as fromEffects from './wish-list.effect';
-import { WishListEffects } from './wish-list.effect';
+import { WishListEffects, WISHLIST_CART_NAME } from './wish-list.effect';
 import createSpy = jasmine.createSpy;
 
 const userId = 'testUserId';
@@ -37,7 +37,7 @@ const testCart: Cart = {
 
 const wishList: Cart = {
   code: wishListId,
-  name: 'wishlist',
+  name: WISHLIST_CART_NAME,
 };
 
 const saveCartResult: SaveCartResult = {
@@ -124,7 +124,7 @@ describe('Wish List Effect', () => {
 
       const createWishListAction = new CartActions.CreateWishList({
         userId,
-        name: 'wishlist',
+        name: WISHLIST_CART_NAME,
       });
 
       actions$ = hot('-a', { a: action });
