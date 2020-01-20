@@ -7,6 +7,7 @@ import {
   ProductService,
   Product,
   RoutingService,
+  ProductScope,
 } from '@spartacus/core';
 
 @Injectable({
@@ -22,7 +23,9 @@ export class ProductVariantGuard implements CanActivate {
     return this.routingService.getRouterState().pipe(
       map(state => state.nextState.params.productCode),
       filter(Boolean),
-      switchMap((productCode: string) => this.productService.get(productCode)),
+      switchMap((productCode: string) =>
+        this.productService.get(productCode, ProductScope.VARIANTS)
+      ),
       filter(Boolean),
       map((product: Product) => {
         if (!product.purchasable) {

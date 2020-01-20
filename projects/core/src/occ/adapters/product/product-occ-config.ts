@@ -1,8 +1,8 @@
+import { ProductScope } from '../../../product/model/product-scope';
 import {
   LoadingScopeConfig,
   LoadingScopesConfig,
 } from '../../config/loading-scopes-config';
-import { ProductScope } from '../../../product/model/product-scope';
 
 // Improve type-safety and code completion for product loading scopes
 declare module '../../config/loading-scopes-config' {
@@ -14,6 +14,8 @@ declare module '../../config/loading-scopes-config' {
 export interface ProductScopesConfig extends LoadingScopesConfig {
   list?: ProductLoadingScopeConfig;
   details?: ProductLoadingScopeConfig;
+  attributes?: ProductLoadingScopeConfig;
+  variants?: ProductLoadingScopeConfig;
   [scope: string]: ProductLoadingScopeConfig;
 }
 

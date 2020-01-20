@@ -53,7 +53,7 @@ export class OrderDetailItemsComponent implements OnInit {
     this.completed$ = this.getExactStatus(completedValues);
     this.cancel$ = this.getExactStatus(cancelledValues);
   }
-
+  
   private getExactStatus(
     consignmentStatus: string[]
   ): Observable<Consignment[]> {
