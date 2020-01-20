@@ -3,7 +3,7 @@
   class="row"
 >
   <div
-    *ngFor="let value of attribute.values"
+    *ngFor="let value of attribute.values; let i = index"
     id="{{
       uiKeyGenerator.createAttributeValueIdForConfigurator(
         attribute,
@@ -11,7 +11,7 @@
       )
     }}"
     class="cx-config-select col-6 col-sm-3 "
-    (click)="onSelect()"
+    (click)="onSelect(i)"
     [attr.aria-labelledby]="
       uiKeyGenerator.createValueUiKey('label', attribute.name, value.valueCode)
     "
@@ -64,8 +64,7 @@
           )
         }}"
         class="cx-config-attribute-value-label form-check-label form-radio-label"
-        >{{ value.valueDisplay }}</label
-      >
+        >{{ value.valueDisplay }}</label>
     </div>
   </div>
 </div>
