@@ -1,6 +1,7 @@
 import {
   variantProduct,
   styleVariantProduct,
+  productWithoutVariants,
 } from '../sample-data/checkout-flow';
 import { login, setSessionData, config } from '../support/utils/login';
 
@@ -103,11 +104,11 @@ export function goToProductVariantPageFromCategory() {
   });
 }
 
-export function addPSecondProductVariant() {
+export function addProductVariant() {
   cy.get(`.variant-selector ul.variant-list li a.colorVariant`)
     .first()
     .click();
-  cy.wait(10000);
+  cy.wait(3000);
   cy.get(`.variant-selector ul.variant-list li.selected-variant`).should(
     'be.visible'
   );
@@ -239,7 +240,7 @@ export function displaySummaryPage() {
       cy.contains('Standard Delivery');
     });
   });
-  cy.get('cx-cart-item .cx-code').should('contain', styleVariantProduct.code);
+  cy.get('cx-cart-item .cx-code').should('contain', variantProduct.code);
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
 
@@ -319,12 +320,25 @@ export function deletePaymentCard() {
     });
 }
 
-export function addFirstProductVariant() {
-  //add the first product variant
+export function addTwoProductVariantsToCart() {
+  cy.get(`.variant-selector ul.variant-list li a.colorVariant`)
+    .first()
+    .click();
+  cy.wait(3000);
+  cy.get(`.variant-selector ul.variant-list li.selected-variant`).should(
+    'be.visible'
+  );
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
+  cy.get('cx-added-to-cart-dialog').within(() => {
+    cy.get('.cx-name .cx-link').should('contain', variantProduct.name);
+    cy.get('.close').click();
+  });
   cy.get(`.variant-selector ul.variant-list li a.colorVariant`)
     .last()
     .click();
-  cy.wait(10000);
+  cy.wait(3000);
   cy.get(`.variant-selector ul.variant-list li.selected-variant`).should(
     'be.visible'
   );
@@ -333,9 +347,70 @@ export function addFirstProductVariant() {
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', styleVariantProduct.name);
-    cy.get('.cx-dialog-header .close').click();
-    cy.wait(1000);
+    cy.getByText(/view cart/i).click();
   });
+  cy.get('cx-breadcrumb').should('contain', 'Your Shopping Bag');
+}
+
+export function visitProductWithVariantPage() {
+  cy.visit('/apparel-uk-spa/en/GBP');
+  cy.get('.Section1 cx-banner cx-generic-link')
+    .first()
+    .find('cx-media')
+    .click();
+  // click small banner number 4 (would be good if label or alt text would be available)
+  cy.get('.Section2 cx-banner:nth-of-type(4) a cx-media').click();
+  cy.get('cx-product-intro').within(() => {
+    cy.get('.code').should('contain', variantProduct.code);
+  });
+  cy.get('cx-breadcrumb').within(() => {
+    cy.get('h1').should('contain', variantProduct.name);
+  });
+}
+
+export function visitProductWithoutVariantPage() {
+  cy.visit('apparel-uk-spa/en/GBP/product/300611156');
+  cy.get('cx-product-intro').within(() => {
+    cy.get('.code').should('contain', productWithoutVariants.code);
+  });
+  cy.get('cx-breadcrumb').within(() => {
+    cy.get('h1').should('contain', productWithoutVariants.name);
+  });
+}
+
+export function addMutipleProductWithoutVariantToCart() {
+  cy.get('cx-item-counter')
+    .getByText('+')
+    .click();
+  cy.get('cx-add-to-cart')
+    .getByText(/Add To Cart/i)
+    .click();
+  cy.wait(3000);
+  cy.get('cx-added-to-cart-dialog').within(() => {
+    cy.get('.cx-name .cx-link').should('contain', productWithoutVariants.name);
+    cy.getByText(/view cart/i).click();
+  });
+  cy.get('cx-breadcrumb').should('contain', 'Your Shopping Bag');
+}
+
+export function displaySummaryPageForOrderWithMultipleProducts() {
+  cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
+  cy.get('h2').should('contain', 'Thank you for your order!');
+  cy.get('.cx-order-review-summary .row').within(() => {
+    cy.get('.col-lg-3:nth-child(1) .cx-card').should('not.be.empty');
+    cy.get('.col-lg-3:nth-child(2) .cx-card').should('not.be.empty');
+    cy.get('.col-lg-3:nth-child(3) .cx-card').within(() => {
+      cy.contains('Standard Delivery');
+    });
+  });
+  cy.get('cx-cart-item .cx-code').should('contain', variantProduct.code);
+  cy.get('cx-cart-item .cx-code').should('contain', styleVariantProduct.code);
+  cy.get('cx-cart-item .cx-code').should(
+    'contain',
+    productWithoutVariants.code
+  );
+  cy.get('cx-cart-item .cx-quantity').should('contain', 2);
+  cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
 
 export function checkoutWithVariantsTest() {
@@ -351,8 +426,8 @@ export function checkoutWithVariantsTest() {
     goToProductVariantPageFromCategory();
   });
 
-  it('should add product to cart', () => {
-    addPSecondProductVariant();
+  it('should add product variant to cart', () => {
+    addProductVariant();
   });
 
   it('should get cartId and add a payment method', () => {
@@ -379,38 +454,20 @@ export function checkoutWithVariantsTest() {
     displaySummaryPage();
   });
 
-  it('should delete shipping address', () => {
-    deleteShippingAddress();
+  it('should visit the product with variants page', () => {
+    visitProductWithVariantPage();
   });
 
-  it('should delete payment card', () => {
-    deletePaymentCard();
-  });
-}
-
-export function checkoutWithMultipleVariantsTest() {
-  it('should login successfully', () => {
-    loginSuccessfully();
+  it('should add two variants of same product to cart', () => {
+    addTwoProductVariantsToCart();
   });
 
-  it('should add a shipping address', () => {
-    addShippingAddress();
+  it('should visit the product without variants page', () => {
+    visitProductWithoutVariantPage();
   });
 
-  it('should go to product page from category page', () => {
-    goToProductVariantPageFromCategory();
-  });
-
-  it('should add  first product varinat to cart', () => {
-    addFirstProductVariant();
-  });
-
-  it('should add second product variant to cart', () => {
-    addPSecondProductVariant();
-  });
-
-  it('should get cartId and add a payment method', () => {
-    addPaymentMethod();
+  it('should add N number of SKUs to cart', () => {
+    addMutipleProductWithoutVariantToCart();
   });
 
   it('should proceed to checkout and select shipping address', () => {
@@ -429,8 +486,8 @@ export function checkoutWithMultipleVariantsTest() {
     verifyAndPlaceOrder();
   });
 
-  it('should display summary page', () => {
-    displaySummaryPage();
+  it('should display summary page for order with multiple product', () => {
+    displaySummaryPageForOrderWithMultipleProducts();
   });
 
   it('should delete shipping address', () => {
