@@ -1,11 +1,11 @@
 import {
   getFormFieldByValue,
   checkAllElements,
-  TabElement,
   checkoutNextStep,
 } from '../../tabbing-order';
 import { fillShippingAddress } from '../../../checkout-forms';
 import { user } from '../../../../sample-data/checkout-flow';
+import { TabElement } from '../../tabbing-order.model';
 
 export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
   cy.visit('/checkout/shipping-address');

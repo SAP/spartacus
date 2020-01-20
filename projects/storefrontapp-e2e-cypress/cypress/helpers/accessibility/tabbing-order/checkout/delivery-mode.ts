@@ -1,9 +1,6 @@
-import {
-  TabElement,
-  checkAllElements,
-  checkoutNextStep,
-} from '../../tabbing-order';
+import { checkAllElements, checkoutNextStep } from '../../tabbing-order';
 import { user } from '../../../../sample-data/checkout-flow';
+import { TabElement } from '../../tabbing-order.model';
 
 export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
   cy.window().then(win => {

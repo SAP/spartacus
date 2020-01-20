@@ -67,6 +67,7 @@ if (!environment.production) {
       features: {
         level: '1.5',
         anonymousConsents: true,
+        saveForLater: false //todo: enable this (or remove this line) once saveForLater feature is fixed
       },
     }),
     JsonLdBuilderModule,

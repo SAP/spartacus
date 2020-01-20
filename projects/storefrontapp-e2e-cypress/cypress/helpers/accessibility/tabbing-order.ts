@@ -2,12 +2,7 @@ import { user } from '../../sample-data/checkout-flow';
 import { register as authRegister } from '../auth-forms';
 import { waitForPage } from '../checkout-flow';
 import { loginUser } from '../login';
-import { TabbingOrderTypes } from './tabbing-order.config';
-
-export interface TabElement {
-  value?: string | any[];
-  type: TabbingOrderTypes;
-}
+import { TabElement, TabbingOrderTypes } from './tabbing-order.model';
 
 export const testProductUrl = '/product/779841';
 export const testProductListUrl = '/Brands/all/c/brands?currentPage=1';

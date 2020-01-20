@@ -1,4 +1,5 @@
-import { checkAllElements, TabElement } from '../tabbing-order';
+import { checkAllElements } from '../tabbing-order';
+import { TabElement } from '../tabbing-order.model';
 
 export function homeTabbingOrder(config: TabElement[]) {
   cy.visit('/');

@@ -1,6 +1,6 @@
-import { checkAllElements, TabElement } from '../tabbing-order';
+import { checkAllElements } from '../tabbing-order';
 import { doPlaceOrder } from '../../order-history';
-import { TabbingOrderTypes } from '../tabbing-order.config';
+import { TabElement, TabbingOrderTypes } from '../tabbing-order.model';
 
 export function orderHistoryNoOrdersTabbingOrder(config: TabElement[]) {
   cy.visit('/my-account/orders');

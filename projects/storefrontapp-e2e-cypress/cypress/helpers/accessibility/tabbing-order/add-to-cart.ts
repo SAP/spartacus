@@ -1,4 +1,5 @@
-import { checkAllElements, TabElement, testProductUrl } from '../tabbing-order';
+import { checkAllElements, testProductUrl } from '../tabbing-order';
+import { TabElement } from '../tabbing-order.model';
 
 export function addToCartTabbingOrder(config: TabElement[]) {
   cy.visit(testProductUrl);

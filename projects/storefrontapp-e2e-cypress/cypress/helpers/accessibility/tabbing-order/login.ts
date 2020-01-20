@@ -1,10 +1,7 @@
-import {
-  getFormFieldByValue,
-  checkAllElements,
-  TabElement,
-} from '../tabbing-order';
+import { getFormFieldByValue, checkAllElements } from '../tabbing-order';
 import { fillLoginForm } from '../../auth-forms';
 import { user } from '../../../sample-data/checkout-flow';
+import { TabElement } from '../tabbing-order.model';
 
 export function loginTabbingOrder(
   config: TabElement[],

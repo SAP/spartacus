@@ -1,5 +1,6 @@
-import { checkAllElements, TabElement } from '../tabbing-order';
+import { checkAllElements } from '../tabbing-order';
 import { doPlaceOrder } from '../../order-history';
+import { TabElement } from '../tabbing-order.model';
 
 export function paymentDetailsTabbingOrder(config: TabElement[]) {
   doPlaceOrder().then(() =>

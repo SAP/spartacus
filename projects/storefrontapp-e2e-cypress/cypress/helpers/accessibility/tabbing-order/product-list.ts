@@ -1,9 +1,6 @@
-import {
-  checkAllElements,
-  TabElement,
-  testProductListUrl,
-} from '../tabbing-order';
+import { checkAllElements, testProductListUrl } from '../tabbing-order';
 import { formats } from '../../../sample-data/viewports';
+import { TabElement } from '../tabbing-order.model';
 
 export function productListTabbingOrderDesktop(config: TabElement[]) {
   cy.visit(testProductListUrl);

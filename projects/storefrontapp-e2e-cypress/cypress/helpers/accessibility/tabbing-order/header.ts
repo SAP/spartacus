@@ -1,5 +1,6 @@
-import { checkAllElements, TabElement } from '../tabbing-order';
+import { checkAllElements } from '../tabbing-order';
 import { formats } from '../../../sample-data/viewports';
+import { TabElement } from '../tabbing-order.model';
 
 export function headerTabbingOrder(
   config: TabElement[],

@@ -1,13 +1,10 @@
-import {
-  TabElement,
-  checkAllElements,
-  checkoutNextStep,
-} from '../../tabbing-order';
+import { checkAllElements, checkoutNextStep } from '../../tabbing-order';
 import {
   fillPaymentDetails,
   fillBillingAddress,
 } from '../../../checkout-forms';
 import { user } from '../../../../sample-data/checkout-flow';
+import { TabElement } from '../../tabbing-order.model';
 
 export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
   cy.server();
