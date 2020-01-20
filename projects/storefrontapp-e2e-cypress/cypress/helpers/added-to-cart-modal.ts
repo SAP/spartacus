@@ -7,7 +7,7 @@ export function verifyItemCounterOnPDP() {
   cy.get('cx-add-to-cart .cx-counter-value')
     .type('{selectall}{backspace}')
     .type('1000')
-    .should('have.value', '22');
+    .should('have.value', '98');
 
   // check if the '+' button is disabled when the quantity is the maximum 'max stock'
   cy.get('cx-add-to-cart .cx-counter-action')
