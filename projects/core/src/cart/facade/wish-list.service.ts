@@ -13,7 +13,7 @@ import {
 import { AuthService } from '../../auth/facade/auth.service';
 import { Cart, OrderEntry } from '../../model/index';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
-import { UserService } from '../../user';
+import { UserService } from '../../user/facade/user.service';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
