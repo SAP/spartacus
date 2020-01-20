@@ -111,7 +111,7 @@ describe('OrderConsignedEntriesComponent', () => {
         {
           provide: FeaturesConfig,
           useValue: {
-            features: { level: '1.4', consignmentTracking: '1.2' },
+            features: { level: '1.4', consignmentTracking: true },
           },
         },
       ],
@@ -134,13 +134,6 @@ describe('OrderConsignedEntriesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should return getConsignmentProducts', () => {
-    const products = component.getConsignmentProducts(
-      mockOrder.consignments[0]
-    );
-    expect(products).toEqual([mockProduct]);
   });
 
   it('should order consignment entries be rendered', () => {
