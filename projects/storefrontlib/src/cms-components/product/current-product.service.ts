@@ -14,6 +14,18 @@ import { filter, map, switchMap } from 'rxjs/operators';
 })
 export class CurrentProductService {
   constructor(
+    routingService: RoutingService,
+    productService: ProductService,
+    // tslint:disable-next-line: unified-signatures
+    features?: FeatureConfigService
+  );
+
+  /**
+   * @deprecated since 1.4
+   */
+  constructor(routingService: RoutingService, productService: ProductService);
+
+  constructor(
     private routingService: RoutingService,
     private productService: ProductService,
     protected features?: FeatureConfigService
@@ -31,7 +43,11 @@ export class CurrentProductService {
       switchMap((productCode: string) =>
         this.productService.get(
           productCode,
-          scopes || this.DEFAULT_PRODUCT_SCOPE
+          // TODO deprecated since 1.4 - should be replaced with 'scopes || this.DEFAULT_PRODUCT_SCOPE'
+          this.features && this.features.isLevel('1.4')
+            ? scopes || this.DEFAULT_PRODUCT_SCOPE
+            : undefined
+          // deprecated END
         )
       )
     );
