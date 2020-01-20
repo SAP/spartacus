@@ -43,7 +43,11 @@ export class CurrentProductService {
       switchMap((productCode: string) =>
         this.productService.get(
           productCode,
-          scopes || this.DEFAULT_PRODUCT_SCOPE
+          // TODO deprecated since 1.4 - should be replaced with 'scopes || this.DEFAULT_PRODUCT_SCOPE'
+          this.features && this.features.isLevel('1.4')
+            ? scopes || this.DEFAULT_PRODUCT_SCOPE
+            : undefined
+          // deprecated END
         )
       )
     );
