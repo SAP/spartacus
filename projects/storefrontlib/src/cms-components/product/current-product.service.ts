@@ -14,6 +14,18 @@ import { filter, map, switchMap } from 'rxjs/operators';
 })
 export class CurrentProductService {
   constructor(
+    routingService: RoutingService,
+    productService: ProductService,
+    // tslint:disable-next-line: unified-signatures
+    features?: FeatureConfigService
+  );
+
+  /**
+   * @deprecated since 1.4
+   */
+  constructor(routingService: RoutingService, productService: ProductService);
+
+  constructor(
     private routingService: RoutingService,
     private productService: ProductService,
     protected features?: FeatureConfigService
