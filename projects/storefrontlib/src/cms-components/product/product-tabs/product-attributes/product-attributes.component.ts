@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FeatureConfigService, Product, ProductScope } from '@spartacus/core';
+import { Product, ProductScope } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
 
@@ -13,10 +13,7 @@ export class ProductAttributesComponent implements OnInit {
     ProductScope.ATTRIBUTES
   );
 
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected features?: FeatureConfigService
-  ) {}
+  constructor(protected currentProductService: CurrentProductService) {}
 
   // TODO deprecated since 1.4, remove
   ngOnInit() {}
