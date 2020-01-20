@@ -46,6 +46,10 @@ export class OrderDetailItemsComponent implements OnInit {
     );
   }
 
+  /**
+   * @deprecated
+   * NOTE: This function will be removed in version 2.0
+   */
   getConsignmentProducts(consignment: Consignment): OrderEntry[] {
     const products: OrderEntry[] = [];
     consignment.entries.forEach(element => {

@@ -6,6 +6,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { ICON_TYPE } from '../../../cms-components/misc/icon';
 import { Card } from '../../../shared/components/card/card.component';
 
 @Component({
@@ -15,6 +16,7 @@ import { Card } from '../../../shared/components/card/card.component';
 export class PaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string;
+  iconTypes = ICON_TYPE;
   loading$: Observable<boolean>;
 
   constructor(
@@ -46,6 +48,7 @@ export class PaymentMethodsComponent implements OnInit {
     expiryMonth,
     expiryYear,
     cardNumber,
+    cardType,
   }: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentCard.setAsDefault'),
@@ -76,6 +79,7 @@ export class PaymentMethodsComponent implements OnInit {
             text: [cardNumber, textExpires],
             actions,
             deleteMsg: textDeleteConfirmation,
+            img: this.getCardIcon(cardType.code),
           };
 
           return card;
@@ -99,5 +103,22 @@ export class PaymentMethodsComponent implements OnInit {
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
     this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
+  }
+
+  getCardIcon(code: string): string {
+    let ccIcon: string;
+    if (code === 'visa') {
+      ccIcon = this.iconTypes.VISA;
+    } else if (code === 'master' || code === 'mastercard_eurocard') {
+      ccIcon = this.iconTypes.MASTER_CARD;
+    } else if (code === 'diners') {
+      ccIcon = this.iconTypes.DINERS_CLUB;
+    } else if (code === 'amex') {
+      ccIcon = this.iconTypes.AMEX;
+    } else {
+      ccIcon = this.iconTypes.CREDIT_CARD;
+    }
+
+    return ccIcon;
   }
 }
