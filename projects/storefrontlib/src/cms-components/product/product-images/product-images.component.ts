@@ -31,11 +31,7 @@ export class ProductImagesComponent {
 
   thumbs$: Observable<any[]> = this.product$.pipe(
     map(product => this.createThumbs(product)),
-    /**
-     * @deprecated since version 1.5
-     * This tap will no longer be in use.
-     * TODO(issue:#6166).
-     */
+    // TODO: deprecated, remove the below tap (issue:#6166)
     tap(thumbs => {
       this.isThumbsEmpty = thumbs.length === 0;
     })
