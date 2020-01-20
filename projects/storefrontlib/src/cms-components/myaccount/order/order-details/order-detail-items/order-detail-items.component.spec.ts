@@ -12,11 +12,11 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
+import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
+import { PromotionsModule } from '../../../../checkout';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
-import { PromotionsModule } from '../../../../checkout';
-import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
 
 const mockProduct = { product: { code: 'test' } };
 
@@ -158,7 +158,7 @@ describe('OrderDetailItemsComponent', () => {
         {
           provide: FeaturesConfig,
           useValue: {
-            features: { level: '1.4', consignmentTracking: '1.2' },
+            features: { level: '1.4', consignmentTracking: true },
           },
         },
         {

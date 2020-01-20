@@ -111,7 +111,7 @@ describe('OrderConsignedEntriesComponent', () => {
         {
           provide: FeaturesConfig,
           useValue: {
-            features: { level: '1.4', consignmentTracking: '1.2' },
+            features: { level: '1.4', consignmentTracking: true },
           },
         },
       ],

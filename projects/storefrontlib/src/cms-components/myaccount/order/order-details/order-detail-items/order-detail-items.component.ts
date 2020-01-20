@@ -39,14 +39,13 @@ export class OrderDetailItemsComponent implements OnInit {
   ) {}
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
-  order$: Observable<Order>;
+  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
   orderPromotions$: Observable<PromotionResult[]>;
   others$: Observable<Consignment[]>;
   completed$: Observable<Consignment[]>;
   cancel$: Observable<Consignment[]>;
 
   ngOnInit() {
-    this.order$ = this.orderDetailsService.getOrderDetails();
     this.orderPromotions$ = this.promotionService.getOrderPromotions(
       this.promotionLocation
     );
@@ -58,7 +57,7 @@ export class OrderDetailItemsComponent implements OnInit {
   private getExactStatus(
     consignmentStatus: string[]
   ): Observable<Consignment[]> {
-    return this.orderDetailsService.getOrderDetails().pipe(
+    return this.order$.pipe(
       map(order => {
         if (Boolean(order.consignments)) {
           return order.consignments.filter(consignment =>
@@ -72,7 +71,7 @@ export class OrderDetailItemsComponent implements OnInit {
   private getOtherStatus(
     ...consignmentStatus: string[]
   ): Observable<Consignment[]> {
-    return this.orderDetailsService.getOrderDetails().pipe(
+    return this.order$.pipe(
       map(order => {
         if (Boolean(order.consignments)) {
           return order.consignments.filter(

@@ -51,7 +51,7 @@
         </ng-container>
 
         <cx-cart-item-list
-          [items]="getConsignmentProducts(consignment)"
+          [items]="consignment.entries"
           [isReadOnly]="true"
           [promotionLocation]="promotionLocation"
         ></cx-cart-item-list>
