@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { FormGroup } from '@angular/forms';
 import {
   GlobalMessageService,
   Order,
@@ -9,6 +10,7 @@ import {
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderReturnService } from './order-return.service';
+import createSpy = jasmine.createSpy;
 
 const mockOrder: Order = {
   code: '123',
@@ -32,12 +34,30 @@ class MockOrderDetailsService {
   }
 }
 
-class MockOrderReturnRequestService {}
-class MockRoutingService {}
-class MockGlobalMessageService {}
+class MockOrderReturnRequestService {
+  createOrderReturnRequest = createSpy();
+  getReturnRequestSuccess() {
+    return of(true);
+  }
+  getOrderReturnRequest() {
+    return of({ rma: 'rma-number' });
+  }
+}
+
+class MockRoutingService {
+  go = createSpy();
+}
+class MockGlobalMessageService {
+  add = createSpy();
+}
 
 describe('OrderReturnService', () => {
   let service: OrderReturnService;
+  let returnRequestService: OrderReturnRequestService;
+  let globalMessageService: GlobalMessageService;
+  let routingService: MockRoutingService;
+
+  let form: FormGroup;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -63,6 +83,24 @@ describe('OrderReturnService', () => {
     });
 
     service = TestBed.get(OrderReturnService as Type<OrderReturnService>);
+
+    returnRequestService = TestBed.get(OrderReturnRequestService as Type<
+      OrderReturnRequestService
+    >);
+    globalMessageService = TestBed.get(GlobalMessageService as Type<
+      GlobalMessageService
+    >);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+
+    service
+      .getForm()
+      .subscribe(f => (form = f))
+      .unsubscribe();
+
+    form
+      .get('entries')
+      .get('2')
+      .setValue(3);
   });
 
   it('should be created', () => {
@@ -84,17 +122,6 @@ describe('OrderReturnService', () => {
   });
 
   it('should return 1 amended entry', () => {
-    let form;
-    service
-      .getForm()
-      .subscribe(f => (form = f))
-      .unsubscribe();
-
-    form
-      .get('entries')
-      .get('2')
-      .setValue(3);
-
     let result;
 
     service
@@ -103,5 +130,34 @@ describe('OrderReturnService', () => {
       .unsubscribe();
 
     expect(result.length).toEqual(1);
+  });
+
+  it('should save one item', () => {
+    service.save();
+
+    expect(returnRequestService.createOrderReturnRequest).toHaveBeenCalledWith({
+      orderCode: '123',
+      returnRequestEntryInputs: [{ orderEntryNumber: 2, quantity: 3 }],
+    });
+  });
+
+  it('should reset form after saving', () => {
+    service.save();
+
+    expect(form.dirty).toBeFalsy();
+    expect(form.pristine).toBeTruthy();
+  });
+
+  it('should send global message', () => {
+    service.save();
+    expect(globalMessageService.add).toHaveBeenCalled();
+  });
+
+  it('should route to returnRequestDetails', () => {
+    service.save();
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'returnRequestDetails',
+      params: { rma: 'rma-number' },
+    });
   });
 });

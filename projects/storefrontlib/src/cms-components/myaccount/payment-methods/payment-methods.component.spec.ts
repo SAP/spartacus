@@ -7,6 +7,7 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { ICON_TYPE } from '../../../cms-components/misc/icon';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentMethodsComponent } from './payment-methods.component';
 
@@ -23,6 +24,9 @@ const mockPayment: PaymentDetails = {
   expiryMonth: '11',
   expiryYear: '2020',
   id: '2',
+  cardType: {
+    code: 'master',
+  },
 };
 
 @Component({
@@ -149,6 +153,9 @@ describe('PaymentMethodsComponent', () => {
       return elem.queryAll(By.css('cx-card .cx-card-label'))[1].nativeElement
         .textContent;
     }
+    function getCardIcon(elem: DebugElement): any {
+      return elem.query(By.css('.cx-card-img-container cx-icon'));
+    }
     component.ngOnInit();
     fixture.detectChanges();
     expect(getCardHeader(el)).toContain('paymentCard.defaultPaymentMethod');
@@ -157,6 +164,7 @@ describe('PaymentMethodsComponent', () => {
     expect(getExpiration(el)).toContain(
       `paymentCard.expires month:${mockPayment.expiryMonth} year:${mockPayment.expiryYear}`
     );
+    expect(getCardIcon(el)).not.toBe(null);
   });
 
   it('should show confirm on delete', () => {
@@ -219,5 +227,18 @@ describe('PaymentMethodsComponent', () => {
     expect(userService.setPaymentMethodAsDefault).toHaveBeenCalledWith(
       mockPayment.id
     );
+  });
+
+  it('should return the proper card icon based on its card type', () => {
+    const otherCardType = 'MockCardType';
+
+    expect(component.getCardIcon('visa')).toBe(ICON_TYPE.VISA);
+    expect(component.getCardIcon('master')).toBe(ICON_TYPE.MASTER_CARD);
+    expect(component.getCardIcon('mastercard_eurocard')).toBe(
+      ICON_TYPE.MASTER_CARD
+    );
+    expect(component.getCardIcon('diners')).toBe(ICON_TYPE.DINERS_CLUB);
+    expect(component.getCardIcon('amex')).toBe(ICON_TYPE.AMEX);
+    expect(component.getCardIcon(otherCardType)).toBe(ICON_TYPE.CREDIT_CARD);
   });
 });
