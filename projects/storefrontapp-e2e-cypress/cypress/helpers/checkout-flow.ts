@@ -1,17 +1,6 @@
-import {
-  cart,
-  cartWithCheapProduct,
-  cheapProduct,
-  product,
-  user,
-} from '../sample-data/checkout-flow';
+import { cart, cartWithCheapProduct, cheapProduct, product, user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
-import {
-  AddressData,
-  fillPaymentDetails,
-  fillShippingAddress,
-  PaymentDetails,
-} from './checkout-forms';
+import { AddressData, fillPaymentDetails, fillShippingAddress, PaymentDetails } from './checkout-forms';
 
 export function visitHomePage(queryStringParams?: string) {
   const homePage = waitForPage('homepage', 'getHomePage');
@@ -106,7 +95,7 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
 
 export function verifyDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('input[type="radio"]').should('be.checked');
+  cy.get('input[type="radio"]').first().should('be.checked');
   const paymentPage = waitForPage(
     '/checkout/payment-details',
     'getPaymentPage'

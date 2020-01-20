@@ -186,7 +186,9 @@ export function selectDeliveryMethod() {
     '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
   ).as('getPaymentPage');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('input[type="radio"]').should('be.checked');
+  cy.get('input[type="radio"]')
+    .first()
+    .should('be.checked');
   cy.get('button.btn-primary').click();
   cy.wait('@getPaymentPage')
     .its('status')
