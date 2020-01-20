@@ -9,6 +9,13 @@ import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector'
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 
+/**
+ * @deprecated since version 1.4
+ *
+ * spartacus ngrx effects will no longer be a part of public API
+ *
+ * TODO(issue:#5234)
+ */
 @Injectable()
 export class CartEntryEffects {
   private contextChange$ = this.actions$.pipe(

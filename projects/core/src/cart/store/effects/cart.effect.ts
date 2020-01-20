@@ -29,6 +29,13 @@ import {
   getCartHasPendingProcessesSelectorFactory,
 } from '../selectors/multi-cart.selector';
 
+/**
+ * @deprecated since version 1.4
+ *
+ * spartacus ngrx effects will no longer be a part of public API
+ *
+ * TODO(issue:#5234)
+ */
 @Injectable()
 export class CartEffects {
   private contextChange$ = this.actions$.pipe(
