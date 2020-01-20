@@ -100,7 +100,17 @@
       </div>
       <cx-table
         [pageSize]="10"
-        [columns]="getCostCenterColumns() | async"
+        [columns]="[
+          {
+            key: 'name',
+            value: 'costCenter.name' | cxTranslate,
+            cxRoute: 'costCenter'
+          },
+          {
+            key: 'costCenterCode',
+            value: 'costCenter.description' | cxTranslate
+          }
+        ]"
         [tableData]="budget.costCenters"
       ></cx-table>
     </div>

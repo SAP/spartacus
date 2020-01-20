@@ -2,13 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
-import {
-  Budget,
-  BudgetService,
-  RoutingService,
-  TranslationService,
-} from '@spartacus/core';
-import { resolveKeyAndValueBy } from '../../../../../../core/src/util/resolveObject';
+import { Budget, BudgetService, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-budget-details',
@@ -18,19 +12,13 @@ import { resolveKeyAndValueBy } from '../../../../../../core/src/util/resolveObj
 export class BudgetDetailsComponent implements OnInit {
   constructor(
     protected routingService: RoutingService,
-    protected budgetsService: BudgetService,
-    protected translation: TranslationService
+    protected budgetsService: BudgetService
   ) {}
 
   budget$: Observable<Budget>;
   budgetCode$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(map(routingData => routingData.state.params['budgetCode']));
-
-  private costCenterColumns = {
-    name: 'costCenter.name',
-    description: 'costCenter.description',
-  };
 
   ngOnInit(): void {
     this.budget$ = this.budgetCode$.pipe(
@@ -43,15 +31,9 @@ export class BudgetDetailsComponent implements OnInit {
           budget.costCenters &&
           budget.costCenters.map(costCenter => ({
             name: costCenter.name,
-            description: costCenter.code,
+            costCenterCode: costCenter.code,
           })),
       }))
-    );
-  }
-
-  getCostCenterColumns(): Observable<Array<{ key: string; value: string }>> {
-    return resolveKeyAndValueBy(this.costCenterColumns, text =>
-      this.translation.translate(text).pipe(take(1))
     );
   }
 

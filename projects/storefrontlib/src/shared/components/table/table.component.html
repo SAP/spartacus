@@ -6,15 +6,16 @@
       </th>
     </thead>
     <tbody>
-      <tr *ngFor="let row of tableData" (click)="goToDetail(row)">
+      <tr *ngFor="let row of tableData">
         <td class="cx-code" *ngFor="let column of columns">
           <div class="d-md-none cx-label">
             {{ column.value }}
           </div>
           <a
+            *ngIf="column.cxRoute; else text"
             [routerLink]="
               {
-                cxRoute: cxRoute,
+                cxRoute: column.cxRoute,
                 params: row
               } | cxUrl
             "
@@ -22,6 +23,7 @@
           >
             {{ row[column.key] }}
           </a>
+          <ng-template #text>{{ row[column.key] }}</ng-template>
         </td>
       </tr>
     </tbody>

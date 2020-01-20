@@ -4,14 +4,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  CurrencyService,
   CxDatePipe,
   I18nModule,
   UrlModule,
   UserService,
+  OrgUnitService,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { BudgetFormComponent } from './budget-form.component';
-import { OrgUnitService } from '../../../../../../core/src/organization/facade/org-unit.service';
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 
 @NgModule({
@@ -28,7 +29,7 @@ import { DatePickerModule } from '../../../../shared/components/date-picker/date
   ],
   declarations: [BudgetFormComponent],
   exports: [BudgetFormComponent],
-  providers: [UserService, CxDatePipe, OrgUnitService],
+  providers: [UserService, CxDatePipe, CurrencyService, OrgUnitService],
   entryComponents: [BudgetFormComponent],
 })
 export class BudgetFormModule {}

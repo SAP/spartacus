@@ -24,7 +24,7 @@ const orgUnit = {
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // tslint:disable-next-line:no-shadowed-variable
-    (url, { orgUnitId }) => (url === 'organization' ? url + orgUnitId : url)
+    (url, { orgUnitId }) => (url === 'orgUnit' ? url + orgUnitId : url)
   );
 }
 
@@ -64,7 +64,7 @@ describe('OccOrgUnitAdapter', () => {
     it('should load orgUnit details for given orgUnit id', () => {
       service.load(userId, orgUnitId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'organization' + orgUnitId
+        req => req.method === 'GET' && req.url === 'orgUnit' + orgUnitId
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -79,7 +79,7 @@ describe('OccOrgUnitAdapter', () => {
     it('should load orgUnit list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'organizations'
+        req => req.method === 'GET' && req.url === 'orgUnits'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -96,7 +96,7 @@ describe('OccOrgUnitAdapter', () => {
       const mockReq = httpMock.expectOne(
         req =>
           req.method === 'POST' &&
-          req.url === 'organizations' &&
+          req.url === 'orgUnits' &&
           req.body.id === orgUnit.id
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -114,7 +114,7 @@ describe('OccOrgUnitAdapter', () => {
       const mockReq = httpMock.expectOne(
         req =>
           req.method === 'PATCH' &&
-          req.url === 'organization' + orgUnitId &&
+          req.url === 'orgUnit' + orgUnitId &&
           req.body.id === orgUnit.id
       );
       expect(mockReq.cancelled).toBeFalsy();
