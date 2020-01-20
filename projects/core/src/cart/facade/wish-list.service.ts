@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -35,11 +35,18 @@ export class WishListService {
   }
 
   getWishList(): Observable<Cart> {
-    return this.getWishListId().pipe(
+    return combineLatest([
+      this.getWishListId(),
+      this.userService.get(),
+      this.authService.getOccUserId(),
+    ]).pipe(
       distinctUntilChanged(),
-      withLatestFrom(this.authService.getOccUserId(), this.userService.get()),
-      tap(([wishListId, userId, user]) => {
-        if (!Boolean(wishListId) && userId !== OCC_USER_ID_ANONYMOUS && user) {
+      tap(([wishListId, user, userId]) => {
+        if (
+          !Boolean(wishListId) &&
+          userId !== OCC_USER_ID_ANONYMOUS &&
+          Boolean(user.customerId)
+        ) {
           this.loadWishList(userId, user.customerId);
         }
       }),
@@ -58,7 +65,7 @@ export class WishListService {
         distinctUntilChanged(),
         withLatestFrom(this.authService.getOccUserId(), this.userService.get()),
         tap(([wishListId, userId, user]) => {
-          if (!Boolean(wishListId)) {
+          if (!Boolean(wishListId) && user.customerId) {
             this.loadWishList(userId, user.customerId);
           }
         }),
@@ -76,7 +83,7 @@ export class WishListService {
         distinctUntilChanged(),
         withLatestFrom(this.authService.getOccUserId(), this.userService.get()),
         tap(([wishListId, userId, user]) => {
-          if (!Boolean(wishListId)) {
+          if (!Boolean(wishListId) && user.customerId) {
             this.loadWishList(userId, user.customerId);
           }
         }),

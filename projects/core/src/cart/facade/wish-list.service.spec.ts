@@ -6,7 +6,7 @@ import { AuthService } from '../../auth';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { OrderEntry, User } from '../../model';
 import { Cart } from '../../model/cart.model';
-import { UserService } from '../../user';
+import { UserService } from '../../user/index';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
