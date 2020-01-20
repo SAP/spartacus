@@ -15,14 +15,19 @@ describe('Language switch - checkout page', () => {
       win.localStorage.clear();
     });
     cy.requireLoggedIn();
-    siteContextSelector.doPlaceOrder();
-    manipulateCartQuantity();
   });
 
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,
     siteContextSelector.LANGUAGES
   );
+
+  describe('populate cart, history, quantity', () => {
+    it('should have basic data', () => {
+      siteContextSelector.doPlaceOrder();
+      manipulateCartQuantity();
+    });
+  });
 
   describe('checkout page', () => {
     it('should change language in the shipping address url', () => {

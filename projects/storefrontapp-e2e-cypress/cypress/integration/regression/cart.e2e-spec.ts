@@ -78,7 +78,9 @@ describe('Cart', () => {
       `${apiUrl}/rest/v2/electronics-spa/users/current/carts?fields=*`
     ).as('carts');
     cart.loginCartUser();
-    cy.wait('@carts');
+    cy.wait('@carts')
+      .its('status')
+      .should('eq', 200);
     cy.visit('/cart');
     cart.checkProductInCart(cart.products[0]);
 
@@ -98,7 +100,9 @@ describe('Cart', () => {
     cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts/*`).as(
       'cart'
     );
-    cy.wait('@cart');
+    cy.wait('@cart')
+      .its('status')
+      .should('eq', 200);
     cy.visit('/cart');
     cart.checkProductInCart(cart.products[0]);
 
@@ -168,7 +172,9 @@ describe('Cart', () => {
       `${apiUrl}/rest/v2/electronics-spa/users/current/carts/*?fields=*&lang=en&curr=USD`
     ).as('refresh_cart');
     cart.removeCartItem(cart.products[0]);
-    cy.wait('@refresh_cart');
+    cy.wait('@refresh_cart')
+      .its('status')
+      .should('eq', 200);
     cart.removeCartItem(cart.products[1]);
     cart.validateEmptyCart();
   });
@@ -230,7 +236,9 @@ describe('Cart', () => {
       `${apiUrl}/rest/v2/electronics-spa/users/anonymous/carts/*?fields=*&lang=en&curr=USD`
     ).as('refresh_cart');
     cart.removeCartItem(cart.products[0]);
-    cy.wait('@refresh_cart');
+    cy.wait('@refresh_cart')
+      .its('status')
+      .should('eq', 200);
     cart.removeCartItem(cart.products[1]);
     cart.validateEmptyCart();
   });
@@ -249,7 +257,9 @@ describe('Cart', () => {
       },
     }).as('addEntry');
     cart.addToCart();
-    cy.wait('@addEntry');
+    cy.wait('@addEntry')
+      .its('status')
+      .should('eq', 200);
     cy.get('cx-added-to-cart-dialog .modal-header').should(
       'not.contain',
       'Item(s) added to your cart'

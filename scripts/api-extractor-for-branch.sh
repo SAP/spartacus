@@ -24,7 +24,7 @@ fi
 
 # Install dependencies and build lib
 yarn
-yarn build:core:lib
+yarn build:core:lib:cds
 
 # Directory for reports
 rm -rf etc
@@ -43,6 +43,11 @@ fi
 STOREFRONT_CONFIG_PATH="./../scripts/api-extractor-configs/api-extractor-storefrontlib.json"
 if [ "$DIR" = "self" ] ; then
   STOREFRONT_CONFIG_PATH="./scripts/api-extractor-configs/api-extractor-storefrontlib.json"
+fi
+
+CDS_CONFIG_PATH="./../scripts/api-extractor-configs/api-extractor-cds.json"
+if [ "$DIR" = "self" ] ; then
+  CDS_CONFIG_PATH="./scripts/api-extractor-configs/api-extractor-cds.json"
 fi
 
 # @spartacus/assets
@@ -65,5 +70,12 @@ cp "$ASSETS_CONFIG_PATH" ./dist/assets/api-extractor.json
 cp "$STOREFRONT_CONFIG_PATH" ./dist/storefrontlib/api-extractor.json
 (
   cd ./dist/storefrontlib && \
+  api-extractor run --local --verbose
+)
+
+# @spartacus/storefront
+cp "$CDS_CONFIG_PATH" ./dist/cds/api-extractor.json
+(
+  cd ./dist/cds && \
   api-extractor run --local --verbose
 )

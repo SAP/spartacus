@@ -54,19 +54,30 @@ describe('EntityProcessesLoader reducer', () => {
     });
 
     describe('PROCESSES DECREMENT ACTION', () => {
-      it('should increment processesCount state', () => {
+      it('should decrement processesCount state', () => {
         const action = new EntityProcessesDecrementAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITY_ID
         );
+        const initialState = {
+          entities: {
+            [TEST_ENTITY_ID]: {
+              processesCount: 2,
+              loading: false,
+              error: false,
+              success: false,
+              value: undefined,
+            },
+          },
+        };
         const state = entityProcessesLoaderReducer(TEST_ENTITY_TYPE)(
-          undefined,
+          initialState,
           action
         );
         const expectedState = {
           entities: {
             [TEST_ENTITY_ID]: {
-              processesCount: -1,
+              processesCount: 1,
               loading: false,
               error: false,
               success: false,
@@ -157,14 +168,25 @@ describe('EntityProcessesLoader reducer', () => {
           TEST_ENTITY_TYPE,
           TEST_ENTITIES_ID
         );
+        const initialState = {
+          entities: {
+            [TEST_ENTITIES_ID[0]]: {
+              processesCount: 3,
+              loading: false,
+              error: false,
+              success: false,
+              value: undefined,
+            },
+          },
+        };
         const state = entityProcessesLoaderReducer(TEST_ENTITY_TYPE)(
-          undefined,
+          initialState,
           action
         );
         const expectedState = {
           entities: {
             [TEST_ENTITIES_ID[0]]: {
-              processesCount: -1,
+              processesCount: 2,
               loading: false,
               error: false,
               success: false,

@@ -298,5 +298,103 @@ describe('NavigationComponentService', () => {
 
       expect(result.children).toBeFalsy();
     });
+
+    it('should populate _blank target', () => {
+      mockCmsService.getNavigationEntryItems.and.returnValue(
+        of({
+          Id_Super: {
+            linkName: 'entry linkName',
+            url: '/main',
+            target: true,
+          },
+        })
+      );
+
+      let result: NavigationNode;
+      navigationService
+        .getNavigationNode(
+          of({
+            navigationNode: {
+              uid: 'MockNavigationNode001',
+              title: 'root node',
+              entries: [
+                {
+                  itemId: 'Id',
+                  itemSuperType: 'Super',
+                  itemType: 'CMSLinkComponent',
+                },
+              ],
+            } as NavigationNode,
+          })
+        )
+        .subscribe(node => (result = node));
+
+      expect(result.target).toEqual('_blank');
+    });
+
+    it('should not populate _blank target', () => {
+      mockCmsService.getNavigationEntryItems.and.returnValue(
+        of({
+          Id_Super: {
+            linkName: 'entry linkName',
+            url: '/main',
+            target: false,
+          },
+        })
+      );
+
+      let result: NavigationNode;
+      navigationService
+        .getNavigationNode(
+          of({
+            navigationNode: {
+              uid: 'MockNavigationNode001',
+              title: 'root node',
+              entries: [
+                {
+                  itemId: 'Id',
+                  itemSuperType: 'Super',
+                  itemType: 'CMSLinkComponent',
+                },
+              ],
+            } as NavigationNode,
+          })
+        )
+        .subscribe(node => (result = node));
+
+      expect(result.target).toBeFalsy();
+    });
+
+    it('should not populate target if there is no URL', () => {
+      mockCmsService.getNavigationEntryItems.and.returnValue(
+        of({
+          Id_Super: {
+            linkName: 'entry linkName',
+            target: true,
+          },
+        })
+      );
+
+      let result: NavigationNode;
+      navigationService
+        .getNavigationNode(
+          of({
+            navigationNode: {
+              uid: 'MockNavigationNode001',
+              title: 'root node',
+              entries: [
+                {
+                  itemId: 'Id',
+                  itemSuperType: 'Super',
+                  itemType: 'CMSLinkComponent',
+                },
+              ],
+            } as NavigationNode,
+          })
+        )
+        .subscribe(node => (result = node));
+
+      expect(result.target).toBeFalsy();
+    });
   });
 });

@@ -1,12 +1,14 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { of } from 'rxjs';
 import { UserToken } from '../../auth/models/token-types.model';
+import { AuthActions } from '../../auth/store/actions';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { AsmActions } from '../store/actions';
+import { AsmState, ASM_FEATURE } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
 import { AsmAuthService } from './asm-auth.service';
-import { AsmActions } from '../store/actions';
-import { ASM_FEATURE, AsmState } from '../store/asm-state';
 
 const mockToken = {
   userId: 'user@sap.com',
@@ -74,10 +76,15 @@ describe('AsmAuthService', () => {
 
   it('should dispatch proper action for logoutCustomerSupportAgent', () => {
     spyOn(store, 'dispatch').and.stub();
-
+    spyOn(service, 'getCustomerSupportAgentToken').and.returnValue(
+      of(mockToken)
+    );
     service.logoutCustomerSupportAgent();
     expect(store.dispatch).toHaveBeenCalledWith(
       new AsmActions.LogoutCustomerSupportAgent()
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AuthActions.RevokeUserToken(mockToken)
     );
   });
 

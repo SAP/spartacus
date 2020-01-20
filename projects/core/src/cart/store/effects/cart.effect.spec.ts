@@ -100,9 +100,6 @@ describe('Cart effect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const loadCartCompletion = new DeprecatedCartActions.LoadCartSuccess(
-        testCart
-      );
       const loadMultiCartCompletion = new CartActions.LoadMultiCartSuccess({
         cart: testCart,
         userId,
@@ -110,9 +107,8 @@ describe('Cart effect', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: loadCartCompletion,
-        c: loadMultiCartCompletion,
+      const expected = cold('-(b)', {
+        b: loadMultiCartCompletion,
       });
 
       expect(cartEffects.loadCart$).toBeObservable(expected);
@@ -126,9 +122,6 @@ describe('Cart effect', () => {
           addEntries: true,
         },
       });
-      const loadCartCompletion = new DeprecatedCartActions.LoadCartSuccess(
-        testCart
-      );
       const loadMultiCartCompletion = new CartActions.LoadMultiCartSuccess({
         cart: testCart,
         userId,
@@ -138,9 +131,8 @@ describe('Cart effect', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: loadCartCompletion,
-        c: loadMultiCartCompletion,
+      const expected = cold('-(b)', {
+        b: loadMultiCartCompletion,
       });
 
       expect(cartEffects.loadCart$).toBeObservable(expected);
@@ -219,9 +211,6 @@ describe('Cart effect', () => {
   describe('createCart$', () => {
     it('should create a cart', () => {
       const action = new DeprecatedCartActions.CreateCart({ userId });
-      const createCartSuccessCompletion = new DeprecatedCartActions.CreateCartSuccess(
-        testCart
-      );
       const createMultiCartSuccessCompletion = new CartActions.CreateMultiCartSuccess(
         {
           cart: testCart,
@@ -232,10 +221,40 @@ describe('Cart effect', () => {
       const setFreshCartCompletion = new CartActions.SetFreshCart(testCart);
 
       actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: createMultiCartSuccessCompletion,
+        c: setFreshCartCompletion,
+      });
+
+      expect(cartEffects.createCart$).toBeObservable(expected);
+    });
+
+    it('should dispatch CreateCartSuccess action for active cart', () => {
+      const action = new DeprecatedCartActions.CreateCart({
+        userId,
+        extraData: {
+          active: true,
+        },
+      });
+      const createCartSuccessCompletion = new DeprecatedCartActions.CreateCartSuccess(
+        testCart
+      );
+      const createMultiCartSuccessCompletion = new CartActions.CreateMultiCartSuccess(
+        {
+          cart: testCart,
+          userId,
+          extraData: {
+            active: true,
+          },
+        }
+      );
+      const setFreshCartCompletion = new CartActions.SetFreshCart(testCart);
+
+      actions$ = hot('-a', { a: action });
       const expected = cold('-(bcd)', {
-        b: createCartSuccessCompletion,
-        c: createMultiCartSuccessCompletion,
-        d: setFreshCartCompletion,
+        b: createMultiCartSuccessCompletion,
+        c: setFreshCartCompletion,
+        d: createCartSuccessCompletion,
       });
 
       expect(cartEffects.createCart$).toBeObservable(expected);
@@ -247,9 +266,6 @@ describe('Cart effect', () => {
         oldCartId: 'testOldCartId',
       });
 
-      const createCartCompletion = new DeprecatedCartActions.CreateCartSuccess(
-        testCart
-      );
       const createMultiCartCompletion = new CartActions.CreateMultiCartSuccess({
         cart: testCart,
         userId,
@@ -267,12 +283,11 @@ describe('Cart effect', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcdef)', {
-        b: createCartCompletion,
-        c: createMultiCartCompletion,
-        d: setFreshCartCompletion,
-        e: mergeCartCompletion,
-        f: mergeMultiCartCompletion,
+      const expected = cold('-(bcde)', {
+        b: createMultiCartCompletion,
+        c: setFreshCartCompletion,
+        d: mergeCartCompletion,
+        e: mergeMultiCartCompletion,
       });
 
       expect(cartEffects.createCart$).toBeObservable(expected);

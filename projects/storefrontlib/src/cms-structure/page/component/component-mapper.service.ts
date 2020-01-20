@@ -1,3 +1,4 @@
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   ComponentFactoryResolver,
   Inject,
@@ -5,7 +6,6 @@ import {
   PLATFORM_ID,
   Renderer2,
 } from '@angular/core';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { CmsConfig } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })

@@ -37,8 +37,6 @@ export const ADD_EMAIL_TO_MULTI_CART = '[Multi Cart] Add Email';
 export const ADD_EMAIL_TO_MULTI_CART_FAIL = '[Multi Cart] Add Email Fail';
 export const ADD_EMAIL_TO_MULTI_CART_SUCCESS = '[Multi Cart] Add Email Success';
 
-export const SET_ACTIVE_CART_ID = '[Multi Cart] Set Active Cart Id';
-
 export const CART_PROCESSES_INCREMENT = '[Multi Cart] Cart Processes Increment';
 export const CART_PROCESSES_DECREMENT = '[Multi Cart] Cart Processes Decrement';
 
@@ -75,11 +73,6 @@ export class CreateMultiCartFail extends EntityFailAction {
   constructor(public payload: any) {
     super(MULTI_CART_FEATURE, FRESH_CART_ID);
   }
-}
-
-export class SetActiveCartId implements Action {
-  readonly type = SET_ACTIVE_CART_ID;
-  constructor(public payload: string) {}
 }
 
 export class CreateMultiCartSuccess extends EntitySuccessAction {
@@ -178,7 +171,6 @@ export class CartProcessesDecrement extends EntityProcessesDecrementAction {
 export type MultiCartActions =
   | ResetFreshCart
   | SetFreshCart
-  | SetActiveCartId
   | CreateMultiCart
   | CreateMultiCartFail
   | CreateMultiCartSuccess

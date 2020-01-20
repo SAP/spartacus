@@ -10,6 +10,11 @@ import {
 } from '../processes-loader/processes-loader.selectors';
 import { EntityProcessesLoaderState } from './entity-processes-loader-state';
 
+const initialProcessesLoaderState = {
+  ...initialLoaderState,
+  ...initialProcessesState,
+};
+
 export function entityHasPendingProcessesSelector<T>(
   state: EntityProcessesLoaderState<T>,
   id: string
@@ -30,7 +35,5 @@ export function entityProcessesLoaderStateSelector<T>(
   state: EntityProcessesLoaderState<T>,
   id: string
 ): ProcessesLoaderState<T> {
-  return (
-    state.entities[id] || { ...initialLoaderState, ...initialProcessesState }
-  );
+  return state.entities[id] || initialProcessesLoaderState;
 }

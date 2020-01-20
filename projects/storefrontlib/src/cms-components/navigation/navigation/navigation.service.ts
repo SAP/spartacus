@@ -131,11 +131,13 @@ export class NavigationService {
       if (!node.title) {
         node.title = item.linkName;
       }
+      const url = this.getLink(item);
       // only populate the node link if we have a visible node
-      if (node.title) {
-        node.url = this.getLink(item);
-        // if "NEWWINDOW", target is true
-        node.target = item.target;
+      if (node.title && url) {
+        node.url = url;
+        // the backend provide boolean value for the target
+        // in case the link should be opened in a new window
+        node.target = !!item.target ? '_blank' : '';
       }
     }
   }

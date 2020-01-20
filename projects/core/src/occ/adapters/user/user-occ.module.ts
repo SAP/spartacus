@@ -15,6 +15,16 @@ import { OccUserConsentAdapter } from './occ-user-consent.adapter';
 import { OccUserOrderAdapter } from './occ-user-order.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { OccUserAdapter } from './occ-user.adapter';
+import { CustomerCouponAdapter } from '../../../user/connectors/customer-coupon/customer-coupon.adapter';
+import { OccCustomerCouponAdapter } from '../user/occ-customer-coupon.adapter';
+import { UserNotificationPreferenceAdapter } from '../../../user/connectors/notification-preference/user-notification-preference.adapter';
+import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
+import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
+import { UserInterestsAdapter } from '../../../user/connectors/interests/user-interests.adapter';
+import { OccUserInterestsNormalizer } from './converters/occ-user-interests-normalizer';
+import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests/converters';
+import { ORDER_RETURN_REQUEST_NORMALIZER } from '../../../user/connectors/order/converters';
+import { OccReturnRequestNormalizer } from './converters/index';
 
 @NgModule({
   imports: [
@@ -35,6 +45,22 @@ import { OccUserAdapter } from './occ-user.adapter';
       useClass: OccUserPaymentAdapter,
     },
     { provide: UserOrderAdapter, useClass: OccUserOrderAdapter },
+    { provide: CustomerCouponAdapter, useClass: OccCustomerCouponAdapter },
+    {
+      provide: UserNotificationPreferenceAdapter,
+      useClass: OccUserNotificationPreferenceAdapter,
+    },
+    { provide: UserInterestsAdapter, useClass: OccUserInterestsAdapter },
+    {
+      provide: PRODUCT_INTERESTS_NORMALIZER,
+      useExisting: OccUserInterestsNormalizer,
+      multi: true,
+    },
+    {
+      provide: ORDER_RETURN_REQUEST_NORMALIZER,
+      useExisting: OccReturnRequestNormalizer,
+      multi: true,
+    },
   ],
 })
 export class UserOccModule {}

@@ -18,15 +18,26 @@ import { Cart } from '../../../model/cart.model';
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { withdrawOn } from '../../../util/withdraw-on';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
-import { getCartHasPendingProcessesSelectorFactory } from '../selectors/multi-cart.selector';
+import {
+  getActiveCartId,
+  getCartHasPendingProcessesSelectorFactory,
+} from '../selectors/multi-cart.selector';
 
 @Injectable()
 export class CartEffects {
+  private contextChange$ = this.actions$.pipe(
+    ofType(
+      SiteContextActions.CURRENCY_CHANGE,
+      SiteContextActions.LANGUAGE_CHANGE
+    )
+  );
+
   @Effect()
   loadCart$: Observable<
     | DeprecatedCartActions.LoadCartFail
@@ -75,10 +86,26 @@ export class CartEffects {
           return this.cartConnector
             .load(loadCartParams.userId, loadCartParams.cartId)
             .pipe(
-              mergeMap((cart: Cart) => {
+              // TODO: remove with the `cart` store feature
+              withLatestFrom(
+                // TODO: deprecated -> remove check for store in 2.0 when store will be required
+                !this.store
+                  ? of(payload.cartId)
+                  : this.store.pipe(select(getActiveCartId))
+              ),
+              mergeMap(([cart, activeCartId]: [Cart, string]) => {
                 let actions = [];
                 if (cart) {
-                  actions.push(new DeprecatedCartActions.LoadCartSuccess(cart));
+                  // `cart` store branch should only be updated for active cart
+                  // avoid dispatching LoadCartSuccess action on different cart loads
+                  if (
+                    loadCartParams.cartId === activeCartId ||
+                    loadCartParams.cartId === OCC_CART_ID_CURRENT
+                  ) {
+                    actions.push(
+                      new DeprecatedCartActions.LoadCartSuccess(cart)
+                    );
+                  }
                   actions.push(
                     new CartActions.LoadMultiCartSuccess({
                       cart,
@@ -145,7 +172,8 @@ export class CartEffects {
             );
         })
       )
-    )
+    ),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -165,15 +193,15 @@ export class CartEffects {
         .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
           switchMap((cart: Cart) => {
-            const mergeActions = [];
+            const conditionalActions = [];
             if (payload.oldCartId) {
-              mergeActions.push(
+              conditionalActions.push(
                 new DeprecatedCartActions.MergeCartSuccess({
                   userId: payload.userId,
                   cartId: cart.code,
                 })
               );
-              mergeActions.push(
+              conditionalActions.push(
                 new CartActions.MergeMultiCartSuccess({
                   userId: payload.userId,
                   cartId: cart.code,
@@ -181,15 +209,21 @@ export class CartEffects {
                 })
               );
             }
+            // `cart` store branch should only be updated for active cart
+            // avoid dispatching CreateCartSuccess action on different cart loads
+            if (payload.extraData && payload.extraData.active) {
+              conditionalActions.push(
+                new DeprecatedCartActions.CreateCartSuccess(cart)
+              );
+            }
             return [
-              new DeprecatedCartActions.CreateCartSuccess(cart),
               new CartActions.CreateMultiCartSuccess({
                 cart,
                 userId: payload.userId,
                 extraData: payload.extraData,
               }),
               new CartActions.SetFreshCart(cart),
-              ...mergeActions,
+              ...conditionalActions,
             ];
           }),
           catchError(error =>
@@ -204,7 +238,8 @@ export class CartEffects {
             ])
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -224,7 +259,8 @@ export class CartEffects {
           ];
         })
       );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -339,7 +375,8 @@ export class CartEffects {
             ])
           )
         )
-    )
+    ),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
