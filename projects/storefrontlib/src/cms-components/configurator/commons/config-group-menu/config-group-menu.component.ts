@@ -5,7 +5,7 @@ import {
   ConfiguratorGroupsService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
@@ -53,7 +53,8 @@ export class ConfigGroupMenuComponent implements OnInit {
     this.displayedParentGroup$ = this.configuration$.pipe(
       switchMap(configuration =>
         this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
-      )
+      ),
+      switchMap(parentGroup => this.getCondensedParentGroup(parentGroup))
     );
 
     this.displayedGroups$ = this.displayedParentGroup$.pipe(
@@ -61,9 +62,9 @@ export class ConfigGroupMenuComponent implements OnInit {
         return this.configuration$.pipe(
           map(configuration => {
             if (parentGroup) {
-              return parentGroup.subGroups;
+              return this.condenseGroups(parentGroup.subGroups);
             } else {
-              return configuration.groups;
+              return this.condenseGroups(configuration.groups);
             }
           })
         );
@@ -123,5 +124,31 @@ export class ConfigGroupMenuComponent implements OnInit {
         )
       )
     );
+  }
+
+  getCondensedParentGroup(
+    parentGroup: Configurator.Group
+  ): Observable<Configurator.Group> {
+    if (
+      parentGroup &&
+      parentGroup.subGroups &&
+      parentGroup.subGroups.length === 1
+    ) {
+      return this.getParentGroup(parentGroup).pipe(
+        switchMap(group => this.getCondensedParentGroup(group))
+      );
+    } else {
+      return of(parentGroup);
+    }
+  }
+
+  condenseGroups(groups: Configurator.Group[]): Configurator.Group[] {
+    return groups.flatMap(group => {
+      if (group.subGroups.length === 1) {
+        return this.condenseGroups(group.subGroups);
+      } else {
+        return group;
+      }
+    });
   }
 }
