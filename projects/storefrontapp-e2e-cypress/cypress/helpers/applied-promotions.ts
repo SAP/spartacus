@@ -7,8 +7,7 @@ import {
 } from './checkout-as-persistent-user';
 
 export function checkForAppliedPromotionsInCartModal() {
-  cy.get('.cx-promotions')
-    .should('contain', 'EOS450D');
+  cy.get('.cx-promotions').should('contain', 'EOS450D');
 }
 
 export function checkForAppliedPromotions() {
@@ -30,7 +29,7 @@ export function addProductToCart() {
 
 export function goToCartDetailsViewFromCartDialog() {
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.visit(`/cart`);
+    cy.getByText(/view cart/i).click();
   });
 }
 
@@ -141,9 +140,5 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
   it('Should display promotions in users cart view for added products', () => {
     goToCartDetailsViewFromCartDialog();
     checkForAppliedCartPromotions(true);
-  });
-
-  after(() => {
-    removeCartEntry();
   });
 }
