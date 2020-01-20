@@ -6,10 +6,10 @@ import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-product-variant-selector',
-  templateUrl: './product-variant-selector.component.html',
+  templateUrl: './product-variants.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductVariantSelectorComponent implements OnInit {
+export class ProductVariantsComponent implements OnInit {
   constructor(private currentProductService: CurrentProductService) {}
 
   variants: BaseOption[] = [];
