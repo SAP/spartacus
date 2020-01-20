@@ -45,6 +45,7 @@ export class WishListService {
         if (
           !Boolean(wishListId) &&
           userId !== OCC_USER_ID_ANONYMOUS &&
+          Boolean(user) &&
           Boolean(user.customerId)
         ) {
           this.loadWishList(userId, user.customerId);
@@ -65,7 +66,11 @@ export class WishListService {
         distinctUntilChanged(),
         withLatestFrom(this.authService.getOccUserId(), this.userService.get()),
         tap(([wishListId, userId, user]) => {
-          if (!Boolean(wishListId) && user.customerId) {
+          if (
+            !Boolean(wishListId) &&
+            Boolean(user) &&
+            Boolean(user.customerId)
+          ) {
             this.loadWishList(userId, user.customerId);
           }
         }),
@@ -83,7 +88,11 @@ export class WishListService {
         distinctUntilChanged(),
         withLatestFrom(this.authService.getOccUserId(), this.userService.get()),
         tap(([wishListId, userId, user]) => {
-          if (!Boolean(wishListId) && user.customerId) {
+          if (
+            !Boolean(wishListId) &&
+            Boolean(user) &&
+            Boolean(user.customerId)
+          ) {
             this.loadWishList(userId, user.customerId);
           }
         }),
