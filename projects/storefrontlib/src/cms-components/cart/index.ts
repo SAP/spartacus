@@ -13,3 +13,5 @@ export * from './mini-cart/mini-cart.component';
 export * from './mini-cart/mini-cart.module';
 export * from './cart-coupon/cart-coupon.component';
 export * from './cart-coupon/cart-coupon.module';
+export * from './save-for-later/save-for-later.component';
+export * from './save-for-later/save-for-later.module';
