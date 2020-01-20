@@ -23,14 +23,14 @@
     </div>
 
     <div class="cx-list-item col-12">
-      <ng-container *cxFeatureLevel="'1.4'">
+      <ng-container *cxFeatureLevel="'1.5'">
         <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
           <cx-promotions [promotions]="orderPromotions"></cx-promotions>
         </ng-container>
       </ng-container>
 
       <cx-cart-item-list
-        [items]="getConsignmentProducts(consignment)"
+        [items]="consignment.entries"
         [isReadOnly]="true"
         [promotionLocation]="promotionLocation"
       ></cx-cart-item-list>

@@ -24,7 +24,7 @@ export class OrderDetailItemsComponent implements OnInit {
   );
 
   /**
-   * @deprecated Since 1.4
+   * @deprecated Since 1.5
    * Use promotionService instead of the promotion inputs.
    * Remove issue: #5670
    */
@@ -46,6 +46,10 @@ export class OrderDetailItemsComponent implements OnInit {
     );
   }
 
+  /**
+   * @deprecated
+   * NOTE: This function will be removed in version 2.0
+   */
   getConsignmentProducts(consignment: Consignment): OrderEntry[] {
     const products: OrderEntry[] = [];
     consignment.entries.forEach(element => {
