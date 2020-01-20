@@ -122,7 +122,16 @@
       </div>
     </div>
   </div>
-  <div id = "flex" class="row">
+  <div id="flex" class="row">
+    <div class="col-md-12 col-lg-6 mb-3">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="form.invalid"
+        (click)="verifyBudget()"
+      >
+        {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
+      </button>
+    </div>
     <div class="col-md-12 col-lg-6 mb-3" *ngIf="showCancelBtn">
       <a
         class="btn btn-block btn-action"
@@ -132,15 +141,5 @@
         {{ cancelBtnLabel || ('common.cancel' | cxTranslate) }}
       </a>
     </div>
-      <div class="col-md-12 col-lg-6 mb-3">
-        <button
-          class="btn btn-block btn-primary"
-          [disabled]="form.invalid"
-          (click)="verifyBudget()"
-        >
-          {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
-        </button>
-      </div>
-
-    </div>
+  </div>
 </div>
