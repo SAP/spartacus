@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable, of, queueScheduler } from 'rxjs';
+import { combineLatest, Observable, of, queueScheduler, using } from 'rxjs';
 import {
   catchError,
-  distinctUntilChanged,
   filter,
   observeOn,
   pluck,
@@ -16,6 +15,7 @@ import { CmsComponent } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { PageContext } from '../../routing/models/page-context.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
+import { serializePageContext } from '../../util/serialization-utils';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
@@ -30,7 +30,9 @@ export class CmsService {
   private _launchInSmartEdit = false;
 
   private components: {
-    [uid: string]: Observable<CmsComponent>;
+    [uid: string]: {
+      [pageContext: string]: Observable<CmsComponent>;
+    };
   } = {};
 
   constructor(
@@ -67,39 +69,81 @@ export class CmsService {
 
   /**
    * Get CMS component data by uid
-   * @param uid : CMS componet uid
+   * @param uid CMS component uid
+   * @param pageContext if provided, it will be used to lookup (and create, if missing) the component data.
+   * Otherwise, the current page context from the router state will be used instead.
    */
-  getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
+  getComponentData<T extends CmsComponent>(
+    uid: string,
+    pageContext?: PageContext
+  ): Observable<T> {
+    const context = serializePageContext(pageContext);
     if (!this.components[uid]) {
-      this.components[uid] = combineLatest([
-        this.routingService.isNavigating(),
-        this.store.pipe(
-          select(CmsSelectors.componentStateSelectorFactory(uid))
-        ),
-      ]).pipe(
-        observeOn(queueScheduler),
-        tap(([isNavigating, componentState]) => {
-          // componentState is undefined when the whole components entities are empty.
-          // In this case, we don't load component one by one, but extract component data from cms page
-          if (componentState !== undefined) {
-            const attemptedLoad =
-              componentState.loading ||
-              componentState.success ||
-              componentState.error;
-            if (!attemptedLoad && !isNavigating) {
-              this.store.dispatch(new CmsActions.LoadCmsComponent(uid));
-            }
-          }
-        }),
-        pluck(1),
-        filter(componentState => componentState && componentState.success),
-        pluck('value'),
-        distinctUntilChanged(),
-        shareReplay({ bufferSize: 1, refCount: true })
+      // create the component data structure, if it doesn't already exist
+      this.components[uid] = {};
+    }
+
+    const component = this.components[uid];
+    if (!component[context]) {
+      // create the component data and assign it to the component's context
+      component[context] = this.createComponentData(uid, pageContext);
+    }
+
+    return component[context] as Observable<T>;
+  }
+
+  private createComponentData<T extends CmsComponent>(
+    uid: string,
+    pageContext?: PageContext
+  ): Observable<T> {
+    if (!pageContext) {
+      return this.routingService.getPageContext().pipe(
+        filter(currentContext => !!currentContext),
+        switchMap(currentContext =>
+          this.getComponentData<T>(uid, currentContext)
+        )
       );
     }
 
-    return this.components[uid] as Observable<T>;
+    const context = serializePageContext(pageContext);
+
+    const loading$ = combineLatest([
+      this.routingService.getNextPageContext(),
+      this.store.pipe(
+        select(CmsSelectors.componentsLoaderStateSelectorFactory(uid, context))
+      ),
+    ]).pipe(
+      observeOn(queueScheduler),
+      tap(([nextContext, loadingState]) => {
+        const attemptedLoad =
+          loadingState.loading || loadingState.success || loadingState.error;
+        // if the requested context is the same as the one that's currently being navigated to
+        // (as it might already been triggered and might be available shortly from page data)
+        const couldBeLoadedWithPageData = nextContext
+          ? serializePageContext(nextContext) === context
+          : false;
+
+        if (!attemptedLoad && !couldBeLoadedWithPageData) {
+          this.store.dispatch(
+            new CmsActions.LoadCmsComponent(uid, pageContext)
+          );
+        }
+      })
+    );
+
+    const component$ = this.store.pipe(
+      select(CmsSelectors.componentsSelectorFactory(uid, context)),
+      // TODO(issue:6027) - this `filter` should be removed.
+      // The reason for removal: with `filter` in place, when moving to a page that has restrictions, the component data will still emit the previous value.
+      // Removing it causes some components to fail, because they are not checking
+      // if the data is actually there. I noticed these that this component is failing, but there are possibly more:
+      // - `tab-paragraph-container.component.ts` when visiting any PDP page
+      filter(component => !!component)
+    ) as Observable<T>;
+
+    return using(() => loading$.subscribe(), () => component$).pipe(
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
   }
 
   /**
@@ -169,10 +213,12 @@ export class CmsService {
 
   /**
    * Refresh cms component's content
-   * @param uid : component uid
+   * @param uid component uid
+   * @param pageContext an optional parameter that enables the caller to specify for which context the component should be refreshed.
+   * If not specified, 'current' page context is used.
    */
-  refreshComponent(uid: string): void {
-    this.store.dispatch(new CmsActions.LoadCmsComponent(uid));
+  refreshComponent(uid: string, pageContext?: PageContext): void {
+    this.store.dispatch(new CmsActions.LoadCmsComponent(uid, pageContext));
   }
 
   /**
@@ -210,7 +256,7 @@ export class CmsService {
       }),
       filter(entity => {
         if (!entity.hasOwnProperty('value')) {
-          // if we have incomplete state from srr failed load transfer state,
+          // if we have incomplete state from SSR failed load transfer state,
           // we should wait for reload and actual value
           return false;
         }

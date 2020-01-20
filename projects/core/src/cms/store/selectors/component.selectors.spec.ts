@@ -1,9 +1,12 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { CmsComponent } from '../../../model/cms.model';
+import { CmsComponent, PageType } from '../../../model/cms.model';
+import { PageContext } from '../../../routing/index';
+import { initialLoaderState, LoaderState } from '../../../state/index';
+import { serializePageContext } from '../../../util/serialization-utils';
 import { CmsActions } from '../actions/index';
-import { StateWithCms } from '../cms-state';
+import { ComponentsContext, StateWithCms } from '../cms-state';
 import * as fromReducers from '../reducers/index';
 import { CmsSelectors } from '../selectors/index';
 
@@ -29,6 +32,7 @@ describe('Cms Component Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
+  // TODO(issue:6027) - remove this test
   describe('getComponentEntities', () => {
     it('should return components as entities', () => {
       let result;
@@ -45,6 +49,7 @@ describe('Cms Component Selectors', () => {
     });
   });
 
+  // TODO(issue:6027) - remove this test
   describe('componentSelectorFactory', () => {
     it('should return component by uid', () => {
       let result: CmsComponent;
@@ -56,6 +61,292 @@ describe('Cms Component Selectors', () => {
       store.dispatch(new CmsActions.LoadCmsComponentSuccess(component));
 
       expect(result).toEqual(entities['comp1']);
+    });
+  });
+
+  describe('componentsContextSelectorFactory', () => {
+    describe('when the component does not exist in the state', () => {
+      it('should return undefined', () => {
+        const componentUid = 'comp1';
+        let result: ComponentsContext;
+
+        store
+          .pipe(
+            select(CmsSelectors.componentsContextSelectorFactory(componentUid))
+          )
+          .subscribe(value => (result = value));
+
+        expect(result).toEqual(undefined);
+      });
+    });
+    describe('when the component exists in the state', () => {
+      it('should return ComponentsContext by the provided uid', () => {
+        const componentUid = 'comp1';
+        let result: ComponentsContext;
+
+        store
+          .pipe(
+            select(CmsSelectors.componentsContextSelectorFactory(componentUid))
+          )
+          .subscribe(value => (result = value));
+
+        const pageContext: PageContext = {
+          id: 'xxx',
+          type: PageType.CONTENT_PAGE,
+        };
+        store.dispatch(
+          new CmsActions.LoadCmsComponentSuccess(
+            component,
+            componentUid,
+            pageContext
+          )
+        );
+
+        const serializedPageContext = serializePageContext(pageContext);
+        expect(result.component).toEqual({
+          uid: componentUid,
+          typeCode: component.typeCode,
+        });
+        expect(result.pageContext).toEqual({
+          [serializedPageContext]: {
+            loading: false,
+            success: true,
+            error: false,
+            value: true,
+          } as LoaderState<boolean>,
+        });
+      });
+    });
+  });
+
+  describe('componentsLoaderStateSelectorFactory', () => {
+    describe('when the context does not exist', () => {
+      it('should return the default loader state', () => {
+        const componentUid = 'comp1';
+
+        let result: LoaderState<boolean>;
+
+        store
+          .pipe(
+            select(
+              CmsSelectors.componentsLoaderStateSelectorFactory(
+                componentUid,
+                'ContentPage-xxx'
+              )
+            )
+          )
+          .subscribe(value => (result = value));
+
+        expect(result).toEqual(initialLoaderState);
+      });
+    });
+    describe('when the component context state slice exists', () => {
+      describe('when the provided context does not exist', () => {
+        it('should return the initialLoaderState', () => {
+          const componentUid = 'comp1';
+
+          const pageContext: PageContext = {
+            id: 'xxx',
+            type: PageType.CONTENT_PAGE,
+          };
+          store.dispatch(
+            new CmsActions.LoadCmsComponentSuccess(
+              component,
+              componentUid,
+              pageContext
+            )
+          );
+
+          let result: LoaderState<boolean>;
+
+          store
+            .pipe(
+              select(
+                CmsSelectors.componentsLoaderStateSelectorFactory(
+                  componentUid,
+                  'does-not-exist'
+                )
+              )
+            )
+            .subscribe(value => (result = value));
+
+          expect(result).toEqual(initialLoaderState);
+        });
+      });
+      describe('when the context exists', () => {
+        it('should return the loader state for the provided context', () => {
+          const componentUid = 'comp1';
+
+          const pageContext: PageContext = {
+            id: 'xxx',
+            type: PageType.CONTENT_PAGE,
+          };
+          const serializedPageContext = serializePageContext(pageContext);
+          store.dispatch(
+            new CmsActions.LoadCmsComponentSuccess(
+              component,
+              componentUid,
+              pageContext
+            )
+          );
+
+          let result: LoaderState<boolean>;
+
+          store
+            .pipe(
+              select(
+                CmsSelectors.componentsLoaderStateSelectorFactory(
+                  componentUid,
+                  serializedPageContext
+                )
+              )
+            )
+            .subscribe(value => (result = value));
+
+          expect(result).toEqual({
+            success: true,
+            loading: false,
+            error: false,
+            value: true,
+          });
+        });
+      });
+    });
+  });
+
+  describe('componentsContextExistsSelectorFactory', () => {
+    describe('when the context does not exist', () => {
+      it('should return false', () => {
+        const componentUid = 'comp1';
+
+        const pageContext: PageContext = {
+          id: 'xxx',
+          type: PageType.CONTENT_PAGE,
+        };
+
+        store.dispatch(
+          new CmsActions.LoadCmsComponentSuccess(
+            component,
+            componentUid,
+            pageContext
+          )
+        );
+
+        let result: boolean;
+        store
+          .pipe(
+            select(
+              CmsSelectors.componentsContextExistsSelectorFactory(
+                componentUid,
+                'does-not-exist'
+              )
+            )
+          )
+          .subscribe(value => (result = value));
+
+        expect(result).toEqual(false);
+      });
+    });
+    describe('when the context exists', () => {
+      it('should return true', () => {
+        const componentUid = 'comp1';
+
+        const pageContext: PageContext = {
+          id: 'xxx',
+          type: PageType.CONTENT_PAGE,
+        };
+        const serializedPageContext = serializePageContext(pageContext);
+
+        store.dispatch(
+          new CmsActions.LoadCmsComponentSuccess(
+            component,
+            componentUid,
+            pageContext
+          )
+        );
+
+        let result: boolean;
+        store
+          .pipe(
+            select(
+              CmsSelectors.componentsContextExistsSelectorFactory(
+                componentUid,
+                serializedPageContext
+              )
+            )
+          )
+          .subscribe(value => (result = value));
+
+        expect(result).toEqual(true);
+      });
+    });
+  });
+
+  describe('componentsSelectorFactory', () => {
+    describe('when the component exists', () => {
+      it('should return the component', () => {
+        const componentUid = 'comp1';
+
+        const pageContext: PageContext = {
+          id: 'xxx',
+          type: PageType.CONTENT_PAGE,
+        };
+
+        store.dispatch(
+          new CmsActions.LoadCmsComponentSuccess(
+            component,
+            componentUid,
+            pageContext
+          )
+        );
+
+        let result: CmsComponent;
+        store
+          .pipe(
+            select(
+              CmsSelectors.componentsSelectorFactory(
+                componentUid,
+                'does-not-exist'
+              )
+            )
+          )
+          .subscribe(value => (result = value));
+
+        expect(result).toEqual(undefined);
+      });
+    });
+    describe('when the component does not exist', () => {
+      it('should return undefined', () => {
+        const componentUid = 'comp1';
+
+        const pageContext: PageContext = {
+          id: 'xxx',
+          type: PageType.CONTENT_PAGE,
+        };
+        const serializedPageContext = serializePageContext(pageContext);
+
+        store.dispatch(
+          new CmsActions.LoadCmsComponentSuccess(
+            component,
+            componentUid,
+            pageContext
+          )
+        );
+
+        let result: CmsComponent;
+        store
+          .pipe(
+            select(
+              CmsSelectors.componentsSelectorFactory(
+                componentUid,
+                serializedPageContext
+              )
+            )
+          )
+          .subscribe(value => (result = value));
+
+        expect(result).toEqual(component);
+      });
     });
   });
 });
