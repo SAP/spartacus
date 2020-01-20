@@ -5,7 +5,7 @@ import { CurrentProductService } from '../current-product.service';
 import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-product-variant-selector',
+  selector: 'cx-product-variants',
   templateUrl: './product-variants.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
