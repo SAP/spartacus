@@ -1,5 +1,5 @@
-import { OccConfig } from '../../config/occ-config';
 import { ProductScope } from '../../../product/model/product-scope';
+import { OccConfig } from '../../config/occ-config';
 
 export const defaultOccProductConfig: OccConfig = {
   backend: {
@@ -11,7 +11,10 @@ export const defaultOccProductConfig: OccConfig = {
           list:
             'products/${productCode}?fields=code,name,summary,price(formattedValue),images(DEFAULT,galleryIndex)',
           details:
-            'products/${productCode}?fields=averageRating,purchasable,stock(DEFAULT),description,variantMatrix(DEFAULT),baseOptions(DEFAULT),baseProduct,availableForPickup,variantOptions(DEFAULT),variantType,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,configuratorType,configurable,tags,classifications,images(FULL)',
+            'products/${productCode}?fields=averageRating,stock(DEFAULT),description,availableForPickup,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,configuratorType,configurable,tags,images(FULL)',
+          attributes: 'products/${productCode}?fields=classifications',
+          variants:
+            'products/${productCode}?fields=purchasable,baseOptions(DEFAULT),baseProduct,variantOptions(DEFAULT),variantType',
         },
         productReviews: 'products/${productCode}/reviews',
         // Uncomment this when occ gets configured
@@ -29,7 +32,7 @@ export const defaultOccProductConfig: OccConfig = {
     loadingScopes: {
       product: {
         details: {
-          include: [ProductScope.LIST],
+          include: [ProductScope.LIST, ProductScope.VARIANTS],
         },
       },
     },

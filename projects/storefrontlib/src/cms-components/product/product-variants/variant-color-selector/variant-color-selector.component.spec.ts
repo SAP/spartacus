@@ -8,7 +8,7 @@ import {
   RoutingService,
   UrlCommands,
 } from '@spartacus/core';
-import { VariantColorSelectorComponent } from './color-selector.component';
+import { VariantColorSelectorComponent } from './variant-color-selector.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationExtras } from '@angular/router';
 
