@@ -73,4 +73,16 @@ context('Outlets', () => {
       });
     });
   });
+
+  it('should work on cxOutlet input template change', () => {
+    cy.visit('test/outlet/template');
+    cy.get('cx-test-outlet-template a').click();
+    cy.get('.LandingPage2Template').within(() => {
+      cy.get('h1').should('contain', 'TestOutletComponent');
+      cy.get('a').click();
+    });
+    cy.get('.ContentPage1Template').within(() => {
+      cy.get('h1').should('not.exist');
+    });
+  });
 });
