@@ -6,14 +6,14 @@ import {
   UrlModule,
   I18nModule,
 } from '@spartacus/core';
-import { ProductVariantSelectorComponent } from './product-variant-selector.component';
+import { ProductVariantsComponent } from './product-variants.component';
 import { RouterModule } from '@angular/router';
-import { VariantStyleSelectorModule } from './style-selector/style-selector.module';
-import { VariantSizeSelectorModule } from './size-selector/size-selector.module';
-import { VariantColorSelectorModule } from './color-selector/color-selector.module';
-import { VariantStyleIconsModule } from './style-icons/style-icons.module';
+import { VariantStyleSelectorModule } from './variant-style-selector/variant-style-selector.module';
+import { VariantSizeSelectorModule } from './variant-size-selector/variant-size-selector.module';
+import { VariantColorSelectorModule } from './variant-color-selector/variant-color-selector.module';
+import { VariantStyleIconsModule } from './variant-style-icons/variant-style-icons.module';
 import { ProductVariantGuard } from './guards/product-variant.guard';
-import { VariantStyleIconsComponent } from './style-icons/style-icons.component';
+import { VariantStyleIconsComponent } from './variant-style-icons/variant-style-icons.component';
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import { VariantStyleIconsComponent } from './style-icons/style-icons.component'
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductVariantSelectorComponent: {
-          component: ProductVariantSelectorComponent,
+          component: ProductVariantsComponent,
           guards: [ProductVariantGuard],
         },
       },
@@ -34,8 +34,8 @@ import { VariantStyleIconsComponent } from './style-icons/style-icons.component'
     VariantColorSelectorModule,
     VariantStyleIconsModule,
   ],
-  declarations: [ProductVariantSelectorComponent],
-  entryComponents: [ProductVariantSelectorComponent],
+  declarations: [ProductVariantsComponent],
+  entryComponents: [ProductVariantsComponent],
   exports: [VariantStyleIconsComponent],
 })
-export class ProductVariantSelectorModule {}
+export class ProductVariantsModule {}

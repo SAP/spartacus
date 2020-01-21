@@ -7,8 +7,8 @@ import {
 } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-style-selector',
-  templateUrl: './style-selector.component.html',
+  selector: 'cx-variant-style-selector',
+  templateUrl: './variant-style-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantStyleSelectorComponent {
