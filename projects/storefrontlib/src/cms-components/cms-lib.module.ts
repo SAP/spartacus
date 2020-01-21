@@ -19,16 +19,18 @@ import {
   ForgotPasswordModule,
   MyInterestsModule,
   NotificationPreferenceModule,
+  OrderCancellationModule,
   OrderDetailsModule,
   OrderHistoryModule,
-  OrderCancelOrReturnModule,
-  ReturnRequestListModule,
-  ReturnRequestDetailModule,
+  OrderReturnModule,
   PaymentMethodsModule,
   ResetPasswordModule,
+  ReturnRequestDetailModule,
+  ReturnRequestListModule,
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
+  MyCouponsModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -42,13 +44,13 @@ import {
   ProductCarouselModule,
   ProductIntroModule,
   ProductListModule,
-  ProductTabsModule,
   ProductReferencesModule,
+  ProductTabsModule,
   StockNotificationModule,
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
-import { ProductVariantSelectorModule } from './product/product-variant-selector/product-variant-selector.module';
+import { ProductVariantsModule } from './product/product-variants/product-variants.module';
 import { StoreFinderModule } from './storefinder/store-finder.module';
 import { UserComponentModule } from './user/user.module';
 import { WishListModule } from './wish-list/wish-list.module';
@@ -76,7 +78,8 @@ import {
     QualtricsModule,
     AddressBookModule,
     OrderHistoryModule,
-    OrderCancelOrReturnModule,
+    OrderCancellationModule,
+    OrderReturnModule,
     ReturnRequestListModule,
     ReturnRequestDetailModule,
     ProductListModule,
@@ -96,13 +99,14 @@ import {
     StoreFinderModule,
     ProductImagesModule,
     ProductSummaryModule,
-    ProductVariantSelectorModule,
+    ProductVariantsModule,
     ProductIntroModule,
     CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    MyCouponsModule,
     WishListModule,
     NotificationPreferenceModule,
     MyInterestsModule,

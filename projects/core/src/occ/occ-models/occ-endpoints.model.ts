@@ -295,6 +295,24 @@ export interface OccEndpoints {
    */
   cartVoucher?: string;
   /**
+   * Endpoint for coupons
+   *
+   * @member {string}
+   */
+  customerCoupons?: string;
+  /**
+   * Endpoint for claiming coupon
+   *
+   * @member {string}
+   */
+  claimCoupon?: string;
+  /**
+   * Endpoint for coupons
+   *
+   * @member {string}
+   */
+  couponNotification?: string;
+  /**
    * Explicitly saves a cart
    *
    * @member {string}
