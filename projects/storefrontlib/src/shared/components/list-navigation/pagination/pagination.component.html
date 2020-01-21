@@ -1,5 +1,6 @@
 <ng-container *ngIf="pages.length > 0">
   <a
+    *ngIf="config.addStart"
     class="start"
     [class.disabled]="isDisabled(0)"
     [routerLink]="pageRoute"
@@ -9,6 +10,7 @@
     >«</a
   >
   <a
+    *ngIf="config.addPrevious"
     class="previous"
     [class.disabled]="isDisabled(previous)"
     [routerLink]="pageRoute"
@@ -26,13 +28,14 @@
     [class.gap]="page.isGap"
     [routerLink]="pageRoute"
     [queryParams]="getQueryParams(page.number - 1)"
-    [tabIndex]="isDisabled(page.number - 1) ? -1 : 0"
+    [tabIndex]="page.isGap || isDisabled(page.number - 1) ? -1 : 0"
     (click)="pageChange(page.number - 1)"
   >
     {{ page.isGap ? '...' : page.number }}
   </a>
 
   <a
+    *ngIf="config.addNext"
     class="next"
     [class.disabled]="isDisabled(next)"
     [routerLink]="pageRoute"
@@ -43,6 +46,7 @@
   >
 
   <a
+    *ngIf="config.addEnd"
     class="end"
     [class.disabled]="isDisabled(last)"
     [routerLink]="pageRoute"

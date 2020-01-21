@@ -7,9 +7,14 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PaginationModel } from '@spartacus/core';
+import { PaginationConfigService } from './config/pagination-config.service';
 import { PaginationBuilder } from './pagination.builder';
 import { PaginationItem } from './pagination.model';
-
+/**
+ * The pagination component is a generic component that takes care of the typcial
+ * complexity of a full blown pagination UX. The default Spartacus UX is however not
+ * using all the features, but customers might.
+ */
 @Component({
   selector: 'cx-pagination',
   templateUrl: './pagination.component.html',
@@ -42,13 +47,18 @@ export class PaginationComponent {
   pages: PaginationItem[] = [];
   constructor(
     private paginationBuilder: PaginationBuilder,
+    private configService: PaginationConfigService,
     private activatedRoute: ActivatedRoute
   ) {}
 
+  get config() {
+    return this.configService;
+  }
+
   private render(pagination: PaginationModel) {
     this.pages = this.paginationBuilder.paginate(
-      pagination.currentPage + 1,
-      pagination.totalPages
+      pagination.totalPages,
+      pagination.currentPage + 1
     );
   }
 
