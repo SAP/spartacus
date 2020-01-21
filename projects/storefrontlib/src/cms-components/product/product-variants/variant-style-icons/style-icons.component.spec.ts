@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { VariantStyleIconsComponent } from './style-icons.component';
+import { VariantStyleIconsComponent } from './variant-style-icons.component';
 import { OccConfig, VariantOption, VariantQualifier } from '@spartacus/core';
 
 const mockOccBackendUrl = 'abc';
