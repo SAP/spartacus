@@ -7,7 +7,7 @@ import {
   BaseOption,
   VariantType,
 } from '@spartacus/core';
-import { VariantStyleSelectorComponent } from './style-selector.component';
+import { VariantStyleSelectorComponent } from './variant-style-selector.component';
 import { Pipe, PipeTransform } from '@angular/core';
 
 const mockOccBackendUrl = 'abc';
