@@ -1,19 +1,19 @@
-export const ProfileTagHelper = {
+export const profileTagHelper = {
   assertPageViewEvent(xhr: Cypress.WaitXHR) {
-    ProfileTagHelper.assertConsentReference(xhr);
+    profileTagHelper.assertConsentReference(xhr);
     expect(xhr.requestBody['_profile_custom'].schema).to.equal(
       'context/core/pageViewed'
     );
   },
   assertProductViewEvent(xhr: Cypress.WaitXHR) {
-    ProfileTagHelper.assertConsentReference(xhr);
+    profileTagHelper.assertConsentReference(xhr);
     expect(xhr.requestBody['_profile_custom'].schema).to.equal(
       'context/commerce/ProductView'
     );
   },
   assertConsentReference(xhr: Cypress.WaitXHR) {
     expect(xhr.requestHeaders['consent-reference']).to.equal(
-      ProfileTagHelper.consentReferenceResponse.id
+      profileTagHelper.consentReferenceResponse.id
     );
   },
   consentReferenceResponse: {

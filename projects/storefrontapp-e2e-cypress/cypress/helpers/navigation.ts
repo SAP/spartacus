@@ -1,4 +1,4 @@
-export const Navigation = {
+export const navigation = {
   visitHomePage(queryStringParams?: string): void {
     if (queryStringParams) {
       cy.visit(`/?${queryStringParams}`);
