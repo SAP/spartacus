@@ -40,9 +40,7 @@ export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
     if (event.which !== 13) {
       return;
     }
-
     this.onSelect(index);
-
     //TODO: fix focus lose when selection with keyboard
   }
 
