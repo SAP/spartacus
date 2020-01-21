@@ -32,6 +32,8 @@ export function clickAddToCartButton() {
   cy.get(addToCartButtonSelector).click({
     force: true,
   });
+
+  cy.wait(1500);
 }
 
 export function verifyTextfieldProductInCart(productName: string) {

@@ -45,7 +45,6 @@ context('Textfield Configuration', () => {
       configuration.verifyAttributeIsDisplayed('Engraved Text');
       configuration.selectAttribute('Engraved Text', 'Hallo');
       configuration.clickAddToCartButton();
-      cart.waitForCartRefresh();
       cart.verifyCartNotEmpty();
       configuration.verifyTextfieldProductInCart(testProduct);
     });
