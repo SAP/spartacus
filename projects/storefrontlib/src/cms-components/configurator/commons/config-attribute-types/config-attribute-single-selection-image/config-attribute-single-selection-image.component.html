@@ -12,6 +12,7 @@
     }}"
     class="cx-config-select col-6 col-sm-3 "
     (click)="onSelect(i)"
+    [attr.required]="attribute.required"
     [attr.aria-labelledby]="
       uiKeyGenerator.createValueUiKey('label', attribute.name, value.valueCode)
     "

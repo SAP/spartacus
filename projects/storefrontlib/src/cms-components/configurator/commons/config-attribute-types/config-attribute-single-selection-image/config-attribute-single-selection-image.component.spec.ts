@@ -42,6 +42,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
       selectedSingleValue: 'selectedValue',
       quantity: 1,
+      required: false,
     };
     fixture.detectChanges();
   });
