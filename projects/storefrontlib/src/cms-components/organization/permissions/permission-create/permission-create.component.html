@@ -1,0 +1,8 @@
+<div class="cx-header">
+  <h3>{{ 'permissionForm.create' | cxTranslate }}</h3>
+</div>
+<cx-permission-form
+  [actionBtnLabel]="'permissionForm.create' | cxTranslate"
+  (submitPermission)="createPermission($event)"
+>
+</cx-permission-form>

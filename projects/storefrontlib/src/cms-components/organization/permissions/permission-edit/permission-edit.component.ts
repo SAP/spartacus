@@ -1,0 +1,41 @@
+import { Component, OnInit } from '@angular/core';
+import { map, switchMap, take, tap } from 'rxjs/operators';
+import { Permission, PermissionService, RoutingService } from '@spartacus/core';
+import { Observable } from 'rxjs';
+
+@Component({
+  selector: 'cx-permission-edit',
+  templateUrl: './permission-edit.component.html',
+})
+export class PermissionEditComponent implements OnInit {
+  permission$: Observable<Permission>;
+  permissionCode$: Observable<
+    string
+  > = this.routingService
+    .getRouterState()
+    .pipe(map(routingData => routingData.state.params['permissionCode']));
+
+  constructor(
+    protected routingService: RoutingService,
+    protected permissionsService: PermissionService
+  ) {}
+
+  ngOnInit(): void {
+    this.permission$ = this.permissionCode$.pipe(
+      tap(code => this.permissionsService.loadPermission(code)),
+      switchMap(code => this.permissionsService.get(code))
+    );
+  }
+
+  updatePermission(permission: Permission) {
+    this.permissionCode$
+      .pipe(take(1))
+      .subscribe(permissionCode =>
+        this.permissionsService.update(permissionCode, permission)
+      );
+    this.routingService.go({
+      cxRoute: 'permissionDetails',
+      params: permission,
+    });
+  }
+}

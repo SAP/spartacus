@@ -1,0 +1,147 @@
+<div [formGroup]="form">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <label>
+          <span class="label-content required">{{
+            'permissionForm.code.label' | cxTranslate
+          }}</span>
+          <input
+            class="form-control"
+            type="text"
+            required
+            placeholder="{{ 'permissionForm.code.placeholder' | cxTranslate }}"
+            formControlName="code"
+          />
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          <span class="label-content required">{{
+            'permissionForm.name.label' | cxTranslate
+          }}</span>
+          <input
+            type="text"
+            class="form-control"
+            required
+            placeholder="{{ 'permissionForm.name.placeholder' | cxTranslate }}"
+            formControlName="name"
+          />
+        </label>
+      </div>
+
+      <div class="form-group">
+        <ng-container
+          *ngIf="businessUnits$ | async as businessUnits"
+          formGroupName="orgUnit"
+        >
+          <div *ngIf="businessUnits.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'permissionForm.businessUnits.label' | cxTranslate
+              }}</span>
+              <ng-select
+                formControlName="uid"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="businessUnits"
+                bindLabel="name"
+                bindValue="id"
+                (change)="businessUnitSelected($event)"
+              >
+              </ng-select>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <span class="label-content">{{
+            'permissionForm.startDate' | cxTranslate
+          }}</span>
+          <cx-date-picker
+            formControlName="startDate"
+            [max]="form.controls['endDate'].value"
+            (change)="form.controls['endDate'].updateValueAndValidity()"
+          ></cx-date-picker>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <span class="label-content">{{
+            'permissionForm.endDate' | cxTranslate
+          }}</span>
+          <cx-date-picker
+            formControlName="endDate"
+            [min]="form.controls['startDate'].value"
+            (change)="form.controls['startDate'].updateValueAndValidity()"
+            [endOfDay]="true"
+          ></cx-date-picker>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <ng-container
+          *ngIf="currencies$ | async as currencies"
+          formGroupName="currency"
+        >
+          <div *ngIf="currencies.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'permissionForm.currency' | cxTranslate
+              }}</span>
+              <ng-select
+                formControlName="isocode"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="currencies"
+                bindLabel="name"
+                bindValue="isocode"
+                (change)="currencySelected($event)"
+              >
+              </ng-select>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <span class="label-content">{{
+            'permissionForm.amount.label' | cxTranslate
+          }}</span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="{{
+              'permissionForm.amount.placeholder' | cxTranslate
+            }}"
+            formControlName="permission"
+          />
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-6" *ngIf="showCancelBtn">
+      <a
+        class="btn btn-block btn-action"
+        (click)="back()"
+        [routerLink]="routerBackLink | cxUrl"
+      >
+        {{ cancelBtnLabel || ('common.cancel' | cxTranslate) }}
+      </a>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="form.invalid"
+        (click)="verifyPermission()"
+      >
+        {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
+      </button>
+    </div>
+  </div>
+</div>
