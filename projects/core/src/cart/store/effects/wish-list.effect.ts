@@ -18,8 +18,6 @@ import { CartActions } from '../actions';
 import { StateWithMultiCart } from '../multi-cart-state';
 import { MultiCartSelectors } from '../selectors';
 
-export const WISHLIST_CART_NAME = 'spartacus-special-wishlist-saved-cart';
-
 @Injectable()
 export class WishListEffects {
   @Effect()
@@ -71,9 +69,7 @@ export class WishListEffects {
       return this.cartConnector.loadAll(userId).pipe(
         switchMap(carts => {
           if (carts) {
-            const wishList = carts.find(
-              cart => cart.name === WISHLIST_CART_NAME
-            );
+            const wishList = carts.find(cart => cart.name === 'wishlist');
             if (Boolean(wishList)) {
               return [
                 new CartActions.LoadWishListSuccess({
@@ -83,10 +79,7 @@ export class WishListEffects {
               ];
             } else {
               return [
-                new CartActions.CreateWishList({
-                  userId,
-                  name: WISHLIST_CART_NAME,
-                }),
+                new CartActions.CreateWishList({ userId, name: 'wishlist' }),
               ];
             }
           }
