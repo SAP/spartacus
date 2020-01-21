@@ -11,10 +11,6 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 import { map, filter, tap, shareReplay, switchMap, take } from 'rxjs/operators';
 import { OrderEntry } from '../../model/order.model';
 
-// ! Do not expose in public API
-// It is a prototype service for selective cart/save for later that can change when implementing that feature
-
-// TODO: Add unit tests, doc comments for that when working on this feature
 @Injectable()
 export class SelectiveCartService {
   private customerId: string;
@@ -46,16 +42,18 @@ export class SelectiveCartService {
       if (user && user.customerId) {
         this.customerId = user.customerId;
         this.cartId$.next(`selectivecart${this.customerId}`);
+      } else if (user && !user.customerId) {
+        this.cartId$.next(undefined);
       }
     });
 
     this.authService.getOccUserId().subscribe(userId => {
       this.userId = userId;
-      if (this.userId !== OCC_USER_ID_ANONYMOUS) {
-        if (this.isJustLoggedIn(userId)) {
-          this.load();
-        }
+
+      if (this.isJustLoggedIn(userId)) {
+        this.load();
       }
+
       this.previousUserId = userId;
     });
 
@@ -98,20 +96,22 @@ export class SelectiveCartService {
   }
 
   private load() {
-    this.multiCartService.loadCart({
-      userId: this.userId,
-      cartId: this.cartId,
-    });
+    if (this.isLoggedIn(this.userId) && this.cartId) {
+      this.multiCartService.loadCart({
+        userId: this.userId,
+        cartId: this.cartId,
+      });
+    }
   }
 
   addEntry(productCode: string, quantity: number): void {
-    let createInitialized = false;
+    let loadAttempted = false;
     this.cartSelector$
       .pipe(
-        filter(() => !createInitialized),
+        filter(() => !loadAttempted),
         switchMap(cartState => {
           if (this.isEmpty(cartState.value) && !cartState.loading) {
-            createInitialized = true;
+            loadAttempted = true;
             this.load();
           }
           return of(cartState);
@@ -165,6 +165,6 @@ export class SelectiveCartService {
   }
 
   private isLoggedIn(userId: string): boolean {
-    return typeof userId !== 'undefined';
+    return typeof userId !== 'undefined' && userId !== OCC_USER_ID_ANONYMOUS;
   }
 }

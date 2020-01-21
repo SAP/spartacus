@@ -53,10 +53,6 @@ describe('WishList Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CREATE_WISH_LIST,
           payload,
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            MULTI_CART_FEATURE,
-            'fresh'
-          ),
         });
       });
     });
@@ -90,19 +86,6 @@ describe('WishList Actions', () => {
             MULTI_CART_FEATURE,
             payload.cartId,
             payload.error
-          ),
-        });
-      });
-    });
-
-    describe('ResetWishListDetails', () => {
-      it('should create the action', () => {
-        const action = new CartActions.ResetWishListDetails();
-        expect({ ...action }).toEqual({
-          type: CartActions.RESET_WISH_LIST_DETAILS,
-          meta: StateEntityLoaderActions.entityResetMeta(
-            MULTI_CART_FEATURE,
-            undefined
           ),
         });
       });

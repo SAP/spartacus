@@ -1,38 +1,37 @@
-<div class="cx-payment container">
-  <div class="cx-header">
-    <h3>{{ 'paymentMethods.paymentMethods' | cxTranslate }}</h3>
-  </div>
-
-  <div class="cx-body">
-    <div class="cx-msg">
-      {{
-        'paymentMethods.newPaymentMethodsAreAddedDuringCheckout' | cxTranslate
-      }}
+<ng-container *ngIf="paymentMethods$ | async as paymentMethods">
+  <div class="cx-payment container">
+    <div class="cx-header">
+      <h3>{{ 'paymentMethods.paymentMethods' | cxTranslate }}</h3>
     </div>
-    <div *ngIf="loading$ | async; else cards"><cx-spinner></cx-spinner></div>
-    <ng-template #cards>
-      <div
-        *ngIf="paymentMethods$ | async as paymentMethods"
-        class="cx-existing row"
-      >
-        <div
-          class="cx-payment-card col-sm-12 col-md-12 col-lg-6"
-          *ngFor="let paymentMethod of paymentMethods"
-        >
-          <div class="cx-payment-inner">
-            <cx-card
-              [border]="true"
-              [fitToContainer]="true"
-              [content]="getCardContent(paymentMethod) | async"
-              (deleteCard)="deletePaymentMethod(paymentMethod)"
-              (setDefaultCard)="setDefaultPaymentMethod(paymentMethod)"
-              (editCard)="setEdit(paymentMethod)"
-              [editMode]="editCard === paymentMethod.id"
-              (cancelCard)="cancelCard()"
-            ></cx-card>
+
+    <div class="cx-body">
+      <div class="cx-msg">
+        {{
+          'paymentMethods.newPaymentMethodsAreAddedDuringCheckout' | cxTranslate
+        }}
+      </div>
+      <div *ngIf="loading$ | async; else cards"><cx-spinner></cx-spinner></div>
+      <ng-template #cards>
+        <div class="cx-existing row">
+          <div
+            class="cx-payment-card col-sm-12 col-md-12 col-lg-6"
+            *ngFor="let paymentMethod of paymentMethods"
+          >
+            <div class="cx-payment-inner">
+              <cx-card
+                [border]="true"
+                [fitToContainer]="true"
+                [content]="getCardContent(paymentMethod) | async"
+                (deleteCard)="deletePaymentMethod(paymentMethod)"
+                (setDefaultCard)="setDefaultPaymentMethod(paymentMethod)"
+                (editCard)="setEdit(paymentMethod)"
+                [editMode]="editCard === paymentMethod.id"
+                (cancelCard)="cancelCard()"
+              ></cx-card>
+            </div>
           </div>
         </div>
-      </div>
-    </ng-template>
+      </ng-template>
+    </div>
   </div>
-</div>
+</ng-container>
