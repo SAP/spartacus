@@ -1,3 +1,4 @@
+@import './page-fold';
 @import './page-templates/common-template';
 @import './page-templates/landing-page-2';
 @import './page-templates/content-page-1';
@@ -13,6 +14,7 @@
 @import './page-templates/configuration-variant-page';
 @import './page-templates/configuration-variant-overview-page';
 @import './page-templates/configuration-textfield-page';
+@import './page-templates/search-results-grid';
 @import './page-templates/store-finder-page';
 
 %CheckoutLoginPageTemplate {

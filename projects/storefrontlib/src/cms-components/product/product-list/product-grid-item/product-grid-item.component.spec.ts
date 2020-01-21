@@ -8,6 +8,7 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductGridItemComponent } from './product-grid-item.component';
 
 @Component({
@@ -63,6 +64,14 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+@Component({
+  selector: 'cx-style-icons',
+  template: 'test',
+})
+export class MockStyleIconsComponent {
+  @Input() variants: any[];
+}
+
 describe('ProductGridItemComponent in product-list', () => {
   let component: ProductGridItemComponent;
   let fixture: ComponentFixture<ProductGridItemComponent>;
@@ -94,6 +103,8 @@ describe('ProductGridItemComponent in product-list', () => {
         MockStarRatingComponent,
         MockUrlPipe,
         MockCxIconComponent,
+        MockStyleIconsComponent,
+        MockFeatureLevelDirective,
       ],
     })
       .overrideComponent(ProductGridItemComponent, {

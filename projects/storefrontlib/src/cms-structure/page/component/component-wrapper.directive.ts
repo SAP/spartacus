@@ -46,7 +46,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     if (!this.shouldRenderComponent()) {
       return;
     }
-
     if (this.componentMapper.isWebComponent(this.cxComponentWrapper.flexType)) {
       this.launchWebComponent();
     } else {

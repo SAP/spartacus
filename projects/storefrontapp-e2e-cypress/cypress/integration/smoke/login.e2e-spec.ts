@@ -13,7 +13,9 @@ describe('Login', () => {
 
     const tokenRevocationRequestAlias = login.listenForTokenRevocationReqest();
     login.signOutUser();
-    cy.wait(tokenRevocationRequestAlias);
+    cy.wait(tokenRevocationRequestAlias)
+      .its('status')
+      .should('eq', 200);
   });
 
   it('login should fail if password is wrong', () => {

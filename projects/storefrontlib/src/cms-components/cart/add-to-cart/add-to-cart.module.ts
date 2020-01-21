@@ -6,6 +6,7 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
+  FeaturesConfigModule,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/index';
 import { AutoFocusDirectiveModule } from '../../../shared/directives/auto-focus/auto-focus.directive.module';
@@ -13,6 +14,7 @@ import { ItemCounterModule, SpinnerModule } from '../../../shared/index';
 import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
+import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 
 @NgModule({
   imports: [
@@ -20,6 +22,8 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
     CommonModule,
     RouterModule,
     SpinnerModule,
+    PromotionsModule,
+    FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductAddToCartComponent: {

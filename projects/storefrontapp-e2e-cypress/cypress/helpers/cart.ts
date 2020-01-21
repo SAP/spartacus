@@ -102,13 +102,26 @@ export function addToCart() {
     .click({ force: true });
 }
 
-export function waitForCartRefresh() {
+export function registerCartRefreshRoute() {
   cy.server();
 
   cy.route(
     'GET',
-    `/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
+    `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
+}
+
+export function registerCreateCartRoute() {
+  cy.server();
+
+  cy.route(
+    'POST',
+    `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics-spa/users/*/carts?fields=*&lang=en&curr=USD`
+  ).as('create_cart');
 }
 
 export function closeAddedToCartDialog() {
@@ -160,13 +173,15 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 export function removeAllItemsFromCart() {
   const product0 = products[0];
   const product1 = products[1];
-  waitForCartRefresh();
+  registerCartRefreshRoute();
 
   getCartItem(product0.name).within(() => {
     cy.getByText('Remove').click();
   });
 
-  cy.wait('@refresh_cart');
+  cy.wait('@refresh_cart')
+    .its('status')
+    .should('eq', 200);
 
   getCartItem(product1.name).within(() => {
     cy.getByText('Remove').click();
@@ -196,6 +211,7 @@ export function addProductWhenLoggedIn(mobile: boolean) {
   const product = products[1];
 
   goToFirstProductFromSearch(product.code, mobile);
+  cy.wait('@create_cart');
   addToCart();
   checkAddedToCartDialog();
   closeAddedToCartDialog();
@@ -264,11 +280,13 @@ export function manipulateCartQuantity() {
 
   cy.visit(`/product/${product.code}`);
 
-  waitForCartRefresh();
+  registerCartRefreshRoute();
 
   addToCart();
 
-  cy.wait('@refresh_cart');
+  cy.wait('@refresh_cart')
+    .its('status')
+    .should('eq', 200);
 
   checkAddedToCartDialog();
   closeAddedToCartDialog();

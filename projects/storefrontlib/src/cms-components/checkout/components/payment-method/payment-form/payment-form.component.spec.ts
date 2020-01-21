@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Address,
+  AddressValidation,
   CardType,
   CheckoutDeliveryService,
   CheckoutPaymentService,
@@ -25,6 +26,8 @@ const mockBillingCountries: Country[] = [
     name: 'Canada',
   },
 ];
+
+const mockBillingCountriesEmpty: Country[] = [];
 
 const mockBillingAddress: Address = {
   firstName: 'John',
@@ -98,9 +101,13 @@ class MockCheckoutDeliveryService {
   getDeliveryAddress(): Observable<Address> {
     return of(null);
   }
-  getAddressVerificationResults(): Observable<string> {
+  getAddressVerificationResults(): Observable<AddressValidation> {
     return of();
   }
+
+  verifyAddress(_address: Address): void {}
+
+  clearAddressVerificationResults(): void {}
 }
 
 class MockUserPaymentService {
@@ -114,6 +121,27 @@ class MockGlobalMessageService {
   add = createSpy();
 }
 
+const mockSuggestedAddressModalRef: any = {
+  componentInstance: {
+    enteredAddress: '',
+    suggestedAddresses: '',
+  },
+  result: new Promise(resolve => {
+    return resolve(true);
+  }),
+};
+
+class MockModalService {
+  open(): any {
+    return mockSuggestedAddressModalRef;
+  }
+}
+
+const mockAddressValidation: AddressValidation = {
+  decision: 'test address validation',
+  suggestedAddresses: [{ id: 'address1' }],
+};
+
 describe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
   let fixture: ComponentFixture<PaymentFormComponent>;
@@ -122,6 +150,7 @@ describe('PaymentFormComponent', () => {
   let mockUserPaymentService: MockUserPaymentService;
   let mockGlobalMessageService: MockGlobalMessageService;
   let showSameAsShippingAddressCheckboxSpy: jasmine.Spy;
+  let mockModalService: MockModalService;
 
   let controls: {
     payment: FormGroup['controls'];
@@ -133,6 +162,7 @@ describe('PaymentFormComponent', () => {
     mockCheckoutPaymentService = new MockCheckoutPaymentService();
     mockUserPaymentService = new MockUserPaymentService();
     mockGlobalMessageService = new MockGlobalMessageService();
+    mockModalService = new MockModalService();
 
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
@@ -143,7 +173,7 @@ describe('PaymentFormComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
-        { provide: ModalService, useValue: { open: () => {} } },
+        { provide: ModalService, useClass: MockModalService },
         {
           provide: CheckoutPaymentService,
           useValue: mockCheckoutPaymentService,
@@ -230,6 +260,76 @@ describe('PaymentFormComponent', () => {
     });
   });
 
+  it('should call ngOnInit to load billing countries', () => {
+    spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
+      of(mockBillingCountriesEmpty)
+    );
+    component.ngOnInit();
+    component.countries$.subscribe((countries: Country[]) => {
+      expect(countries).toBe(mockBillingCountriesEmpty);
+      expect(mockUserPaymentService.loadBillingCountries).toHaveBeenCalled();
+    });
+  });
+
+  it('should clear address verification result with address verification result "fail"', () => {
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'FAIL',
+    };
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getAddressVerificationResults'
+    ).and.returnValue(of(mockAddressVerificationResult));
+    spyOn(mockCheckoutDeliveryService, 'clearAddressVerificationResults');
+    component.ngOnInit();
+    expect(
+      mockCheckoutDeliveryService.clearAddressVerificationResults
+    ).toHaveBeenCalled();
+  });
+
+  it('should add address with address verification result "accept"', () => {
+    const mockAddressVerificationResult = { decision: 'ACCEPT' };
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getAddressVerificationResults'
+    ).and.returnValue(of(mockAddressVerificationResult));
+    spyOn(component, 'next');
+    component.ngOnInit();
+    expect(component.next).toHaveBeenCalled();
+  });
+
+  it('should clear address verification result with address verification result "reject"', () => {
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'REJECT',
+    };
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getAddressVerificationResults'
+    ).and.returnValue(of(mockAddressVerificationResult));
+    component.ngOnInit();
+    expect(mockGlobalMessageService.add).toHaveBeenCalled();
+  });
+
+  it('should clear address verification result with address verification result "review"', () => {
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'REVIEW',
+    };
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getAddressVerificationResults'
+    ).and.returnValue(of(mockAddressVerificationResult));
+    spyOn(component, 'openSuggestedAddress');
+    component.ngOnInit();
+    expect(component.openSuggestedAddress).toHaveBeenCalled();
+  });
+
+  it('should call showSameAsShippingAddressCheckbox', () => {
+    showSameAsShippingAddressCheckboxSpy.and.callThrough();
+    component.showSameAsShippingAddressCheckbox().subscribe(data => {
+      console.log(data);
+      expect(data).toBeTruthy();
+    });
+  });
+
   it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
     component.payment.value.defaultPayment = false;
     component.toggleDefaultPaymentMethod();
@@ -282,6 +382,46 @@ describe('PaymentFormComponent', () => {
       'zip',
       undefined,
     ]);
+  });
+
+  it('should call toggleSameAsShippingAddress()', () => {
+    spyOn(component, 'toggleSameAsShippingAddress').and.callThrough();
+    component.sameAsShippingAddress = true;
+
+    component.toggleSameAsShippingAddress();
+
+    expect(component.toggleSameAsShippingAddress).toHaveBeenCalled();
+    expect(component.sameAsShippingAddress).toBeFalsy();
+  });
+
+  it('should call verifyAddress()', () => {
+    spyOn(component, 'verifyAddress').and.callThrough();
+    spyOn(component, 'next');
+    spyOn(mockCheckoutDeliveryService, 'verifyAddress');
+
+    component.sameAsShippingAddress = true;
+
+    component.verifyAddress();
+
+    expect(component.verifyAddress).toHaveBeenCalledWith();
+    expect(component.next).toHaveBeenCalled();
+
+    component.sameAsShippingAddress = false;
+    component.verifyAddress();
+    expect(mockCheckoutDeliveryService.verifyAddress).toHaveBeenCalled();
+  });
+
+  it('should call openSuggestedAddress', () => {
+    spyOn(component, 'openSuggestedAddress').and.callThrough();
+    spyOn(mockModalService, 'open').and.callThrough();
+    spyOn(mockCheckoutDeliveryService, 'clearAddressVerificationResults');
+
+    component.openSuggestedAddress(mockAddressValidation);
+    component.suggestedAddressModalRef.result.then(() => {
+      expect(
+        mockCheckoutDeliveryService.clearAddressVerificationResults
+      ).toHaveBeenCalled();
+    });
   });
 
   describe('UI continue button', () => {
@@ -490,6 +630,13 @@ describe('PaymentFormComponent', () => {
       getBackBtn().nativeElement.click();
       fixture.detectChanges();
       expect(component.back).toHaveBeenCalled();
+    });
+
+    it('should call back()', () => {
+      spyOn(component.goBack, 'emit').and.callThrough();
+      component.back();
+
+      expect(component.goBack.emit).toHaveBeenCalledWith();
     });
 
     it('should call "close" function after being clicked', () => {

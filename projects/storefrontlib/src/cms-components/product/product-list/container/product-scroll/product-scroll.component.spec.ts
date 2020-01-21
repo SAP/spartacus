@@ -10,6 +10,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/src/shared/test/mock-feature-level-directive';
 import { ProductGridItemComponent } from '../..';
 import { MediaComponent } from '../../../../../shared/components/media';
 import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
@@ -156,6 +157,14 @@ export class MockProductListComponentService {
   model$ = createSpy('model$');
 }
 
+@Component({
+  selector: 'cx-style-icons',
+  template: 'test',
+})
+export class MockStyleIconsComponent {
+  @Input() variants: any[];
+}
+
 describe('ProductScrollComponent', () => {
   let component: ProductScrollComponent;
   let fixture: ComponentFixture<ProductScrollComponent>;
@@ -172,6 +181,8 @@ describe('ProductScrollComponent', () => {
         MockStarRatingComponent,
         MockAddToCartComponent,
         MockConfigureProductComponent,
+        MockStyleIconsComponent,
+        MockFeatureLevelDirective,
       ],
       imports: [
         InfiniteScrollModule,

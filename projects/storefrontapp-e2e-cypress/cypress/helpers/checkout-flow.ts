@@ -21,7 +21,9 @@ export function visitHomePage(queryStringParams?: string) {
   } else {
     cy.visit('/');
   }
-  cy.wait(`@${homePage}`);
+  cy.wait(`@${homePage}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function signOut() {
@@ -34,9 +36,11 @@ export function registerUser(giveRegistrationConsent = false) {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/Sign in \/ Register/i).click();
   cy.wait(`@${loginPage}`);
+
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.getByText('Register').click();
   cy.wait(`@${registerPage}`);
+
   register(user, giveRegistrationConsent);
   cy.get('cx-breadcrumb').contains('Login');
   return user;
@@ -108,7 +112,9 @@ export function verifyDeliveryMethod() {
     'getPaymentPage'
   );
   cy.get('.cx-checkout-btns button.btn-primary').click();
-  cy.wait(`@${paymentPage}`);
+  cy.wait(`@${paymentPage}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function fillPaymentForm(
@@ -217,7 +223,9 @@ export function clickCheapProductDetailsFromHomePage() {
     .first()
     .find('img')
     .click({ force: true });
-  cy.wait(`@${productPage}`);
+  cy.wait(`@${productPage}`)
+    .its('status')
+    .should('eq', 200);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', cheapProduct.code);
   });
@@ -231,12 +239,15 @@ export function addCheapProductToCartAndLogin() {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
+
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
   );
   loginUser();
-  cy.wait(`@${shippingPage}`);
+  cy.wait(`@${shippingPage}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function addCheapProductToCartAndProceedToCheckout() {
@@ -253,7 +264,9 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer() {
     'getShippingPage'
   );
   cy.getByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingPage}`);
+  cy.wait(`@${shippingPage}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function addCheapProductToCart() {
@@ -278,7 +291,9 @@ export function fillAddressFormWithCheapProduct(
     'getDeliveryPage'
   );
   fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`);
+  cy.wait(`@${deliveryPage}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function fillPaymentFormWithCheapProduct(
@@ -291,7 +306,9 @@ export function fillPaymentFormWithCheapProduct(
     .should('contain', cartWithCheapProduct.totalAndShipping);
   const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.wait(`@${reivewPage}`);
+  cy.wait(`@${reivewPage}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function placeOrderWithCheapProduct() {
@@ -333,7 +350,9 @@ export function placeOrderWithCheapProduct() {
     'getOrderConfirmationPage'
   );
   cy.get('cx-place-order button.btn-primary').click();
-  cy.wait(`@${orderConfirmationPage}`);
+  cy.wait(`@${orderConfirmationPage}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function verifyOrderConfirmationPageWithCheapProduct() {
@@ -367,7 +386,9 @@ export function viewOrderHistoryWithCheapProduct() {
   cy.selectUserMenuOption({
     option: 'Order History',
   });
-  cy.wait(`@${orderHistoryPage}`);
+  cy.wait(`@${orderHistoryPage}`)
+    .its('status')
+    .should('eq', 200);
   cy.get('cx-order-history h3').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()

@@ -50,4 +50,19 @@ export class LoadingScopesService {
 
     return scopes;
   }
+
+  /**
+   * Return maxAge for product scope in milliseconds
+   *
+   * @param model
+   * @param scope
+   */
+  getMaxAge(model: string, scope: string): number {
+    const scopesConfig =
+      this.config &&
+      this.config.backend &&
+      this.config.backend.loadingScopes &&
+      this.config.backend.loadingScopes[model];
+    return (scopesConfig[scope] && scopesConfig[scope].maxAge) * 1000 || 0;
+  }
 }

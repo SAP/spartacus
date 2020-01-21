@@ -14,7 +14,7 @@ export const TEST_CONFIG_COOKIE_NAME = new InjectionToken<string>(
 
 export function parseConfigJSON(config: string) {
   try {
-    return JSON.parse(config);
+    return JSON.parse(decodeURIComponent(config));
   } catch (_) {
     return {};
   }

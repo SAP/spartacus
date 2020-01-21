@@ -61,14 +61,27 @@ export const product = {
     quantity: 'Qty',
     outOfStock: 'Out of stock',
     inStock: 'In stock',
+    selectStyleAndSize: 'Select style and size to check stock',
   },
-  CMSTabParagraphContainer: {
+  TabPanelContainer: {
     tabs: {
       ProductDetailsTabComponent: 'Product Details',
       ProductSpecsTabComponent: 'Specs',
       ProductReviewsTabComponent: 'Reviews',
       deliveryTab: 'Shipping',
     },
+  },
+  variant: {
+    style: 'Style',
+    selectedStyle: 'Selected style',
+    size: 'Size',
+    color: 'Color',
+    sizeGuideLabel: 'Style guide',
+  },
+  addToWishList: {
+    add: 'Add to Wish List',
+    remove: 'Remove from Wish List',
+    anonymous: 'Sign in to add to wish list',
   },
   stockNotification: {
     notifyMe: 'NOTIFY ME',
