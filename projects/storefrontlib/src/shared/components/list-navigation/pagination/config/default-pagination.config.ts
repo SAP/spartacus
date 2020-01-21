@@ -1,6 +1,6 @@
-import { PaginationOptions } from './pagination.config';
+import { PaginationConfig } from './pagination.config';
 
-export const defaultPaginationConfig: PaginationOptions = {
+export const defaultPaginationConfig: PaginationConfig = {
   // pagination: {
   //   rangeCount: 3,
   //   addStart: false,

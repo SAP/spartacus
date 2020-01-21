@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PaginationConfig, PaginationOptions } from './pagination.config';
 
-const DEFAULT_PAGINATION_OPTIONS: PaginationConfig = {
+const DEFAULT_PAGINATION_OPTIONS: PaginationOptions = {
   rangeCount: 3,
 
   addFirst: true,
@@ -25,10 +25,10 @@ const DEFAULT_PAGINATION_OPTIONS: PaginationConfig = {
   providedIn: 'root',
 })
 export class PaginationConfigService {
-  constructor(protected configOptions: PaginationOptions) {}
+  constructor(protected paginationConfig: PaginationConfig) {}
 
-  get config(): PaginationConfig {
-    return this.configOptions.pagination || {};
+  get config(): PaginationOptions {
+    return this.paginationConfig.pagination || {};
   }
   get rangeCount() {
     return this.config.rangeCount || DEFAULT_PAGINATION_OPTIONS.rangeCount;

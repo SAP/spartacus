@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Config, ConfigModule } from '@spartacus/core';
-import { defaultPaginationConfig, PaginationOptions } from './config/index';
+import { defaultPaginationConfig, PaginationConfig } from './config/index';
 import { PaginationComponent } from './pagination.component';
 
 @NgModule({
@@ -11,7 +11,7 @@ import { PaginationComponent } from './pagination.component';
     RouterModule,
     ConfigModule.withConfig(defaultPaginationConfig),
   ],
-  providers: [{ provide: PaginationOptions, useExisting: Config }],
+  providers: [{ provide: PaginationConfig, useExisting: Config }],
   declarations: [PaginationComponent],
   exports: [PaginationComponent],
 })
