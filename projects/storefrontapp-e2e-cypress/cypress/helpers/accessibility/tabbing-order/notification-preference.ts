@@ -1,8 +1,7 @@
-import { checkAllElements, TabElement, getFormFieldByValue } from '../tabbing-order';
+import { checkAllElements, TabElement } from '../tabbing-order';
 
 export function notificationPreferenceTabbingOrder(config: TabElement[]) {
   cy.visit('/my-account/notification-preference');
-  getFormFieldByValue(config[0].value).focus();
+  cy.get('.cx-np-checkbox').first().focus();
   checkAllElements(config);
 }
-
