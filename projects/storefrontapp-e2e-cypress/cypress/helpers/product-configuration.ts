@@ -117,12 +117,23 @@ export function selectAttribute(
     case 'dropdown':
       cy.get(`#${attributeId} ng-select`).ngSelect(valueName);
       return;
-
+    case 'checkBoxList':
+      cy.get(`#${valueId}`).click({ force: true });
+      break;
     case 'input':
       cy.get(`#${valueId}`)
         .clear()
         .type(value);
   }
+}
+
+export function verifyCheckboxIsSelected(
+  attributeName: string,
+  valueName: string
+) {
+  const attributeId = getAttributeId(attributeName, 'checkBoxList');
+  const valueId = `${attributeId}--${valueName}`;
+  cy.get(`#${valueId}`).should('be.checked');
 }
 
 export function verifyGroupMenuIsDisplayed() {
