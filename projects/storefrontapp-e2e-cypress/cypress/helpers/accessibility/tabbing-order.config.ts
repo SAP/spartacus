@@ -1926,4 +1926,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
   ],
+  notificationPreference: [
+    {
+      type: TabbingOrderTypes.GENERIC_CHECKBOX,
+      value: 'email'
+    }
+  ]
 };
