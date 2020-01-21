@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { UrlModule, I18nModule } from '@spartacus/core';
-import { VariantStyleIconsComponent } from './style-icons.component';
+import { VariantColorSelectorComponent } from './variant-color-selector.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [CommonModule, RouterModule, UrlModule, I18nModule],
-  declarations: [VariantStyleIconsComponent],
-  entryComponents: [VariantStyleIconsComponent],
-  exports: [VariantStyleIconsComponent],
+  declarations: [VariantColorSelectorComponent],
+  entryComponents: [VariantColorSelectorComponent],
+  exports: [VariantColorSelectorComponent],
 })
-export class VariantStyleIconsModule {}
+export class VariantColorSelectorModule {}
