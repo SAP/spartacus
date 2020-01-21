@@ -10,11 +10,11 @@ import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 
 /**
- * @deprecated since version 1.4
+ * @deprecated since version 1.5
  *
  * spartacus ngrx effects will no longer be a part of public API
  *
- * TODO(issue:#5234)
+ * TODO(issue:#4507)
  */
 @Injectable()
 export class CartEntryEffects {
