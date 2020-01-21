@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { ProductVariantSelectorComponent } from './product-variant-selector.component';
+import { ProductVariantsComponent } from './product-variants.component';
 import { NavigationExtras } from '@angular/router';
 
 const mockProduct: Product = {
@@ -58,7 +58,7 @@ class MockCurrentProductService {
 }
 
 @Component({
-  selector: 'cx-style-selector',
+  selector: 'cx-variant-style-selector',
   template: '',
 })
 class MockCxStyleSelectorComponent {
@@ -67,7 +67,7 @@ class MockCxStyleSelectorComponent {
 }
 
 @Component({
-  selector: 'cx-size-selector',
+  selector: 'cx-variant-size-selector',
   template: '',
 })
 class MockCxSizeSelectorComponent {
@@ -76,7 +76,7 @@ class MockCxSizeSelectorComponent {
 }
 
 @Component({
-  selector: 'cx-color-selector',
+  selector: 'cx-variant-color-selector',
   template: '',
 })
 class MockCxColorSelectorComponent {
@@ -85,13 +85,13 @@ class MockCxColorSelectorComponent {
 }
 
 describe('ProductVariantSelectorComponent', () => {
-  let component: ProductVariantSelectorComponent;
-  let fixture: ComponentFixture<ProductVariantSelectorComponent>;
+  let component: ProductVariantsComponent;
+  let fixture: ComponentFixture<ProductVariantsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ProductVariantSelectorComponent,
+        ProductVariantsComponent,
         MockUrlPipe,
         MockCxStyleSelectorComponent,
         MockCxSizeSelectorComponent,
@@ -112,7 +112,7 @@ describe('ProductVariantSelectorComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductVariantSelectorComponent);
+    fixture = TestBed.createComponent(ProductVariantsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
