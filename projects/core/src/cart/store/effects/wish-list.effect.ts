@@ -72,11 +72,14 @@ export class WishListEffects {
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_WISH_LIST),
     map((action: CartActions.LoadWishList) => action.payload),
-    concatMap(userId => {
+    concatMap(payload => {
+      const { userId, customerId } = payload;
       return this.cartConnector.loadAll(userId).pipe(
         switchMap(carts => {
           if (carts) {
-            const wishList = carts.find(cart => cart.name === 'wishlist');
+            const wishList = carts.find(
+              cart => cart.name === `wishlist${customerId}`
+            );
             if (Boolean(wishList)) {
               return [
                 new CartActions.LoadWishListSuccess({
@@ -86,7 +89,10 @@ export class WishListEffects {
               ];
             } else {
               return [
-                new CartActions.CreateWishList({ userId, name: 'wishlist' }),
+                new CartActions.CreateWishList({
+                  userId,
+                  name: `wishlist${customerId}`,
+                }),
               ];
             }
           }
