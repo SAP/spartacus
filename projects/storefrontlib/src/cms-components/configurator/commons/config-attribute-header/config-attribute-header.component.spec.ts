@@ -25,6 +25,11 @@ describe('ConfigAttributeHeaderComponent', () => {
   const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
     uiType: Configurator.UiType.RADIOBUTTON,
+    images: [
+      {
+        url: 'someImageURL',
+      },
+    ],
   };
   let htmlElem: HTMLElement;
 
@@ -96,6 +101,10 @@ describe('ConfigAttributeHeaderComponent', () => {
     classUnderTest.attribute.required = true;
     fixture.detectChanges();
     expectElementPresent(htmlElem, '.cx-config-attribute-label-required-icon');
+  });
+
+  it('should render an image', () => {
+    expectElementPresent(htmlElem, '.cx-config-attribute-img');
   });
 });
 
