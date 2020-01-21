@@ -5,7 +5,7 @@ import {
   RoutingService,
   UrlCommands,
 } from '@spartacus/core';
-import { VariantSizeSelectorComponent } from './size-selector.component';
+import { VariantSizeSelectorComponent } from './variant-size-selector.component';
 import { NavigationExtras } from '@angular/router';
 
 class MockRoutingService {

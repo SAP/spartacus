@@ -1,5 +1,7 @@
 ul {
   padding: 0;
+  white-space: nowrap;
+  overflow: hidden;
   li {
     display: inline;
     img {
