@@ -85,6 +85,7 @@ context('Product Configuration', () => {
         'checkBoxList',
         'EXT_DD'
       );
+      cy.wait(1500);
       configuration.clickOnPreviousGroupButton(
         'WCEM_DP_MONITOR_MODEL',
         'radioGroup'
@@ -220,7 +221,10 @@ context('Product Configuration', () => {
       configuration.verifyConfigurationPageIsDisplayed();
 
       configuration.clickOnGroup(2);
-      configuration.clickOnNextGroupButton('CPQ_HT_RECV_MODEL2', 'dropdown');
+      configuration.verifyAttributeIsDisplayed(
+        'CPQ_HT_RECV_MODEL2',
+        'dropdown'
+      );
     });
   });
 
