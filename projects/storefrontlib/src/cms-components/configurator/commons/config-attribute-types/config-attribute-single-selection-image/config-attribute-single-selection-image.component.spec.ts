@@ -38,11 +38,22 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     component = fixture.componentInstance;
     component.attribute = {
       name: 'valueName',
+      label: 'valueLabel',
       attrCode: 444,
       uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
-      selectedSingleValue: 'selectedValue',
+      selectedSingleValue: null,
       quantity: 1,
       required: false,
+      values: [
+        {
+          selected: false,
+          valueCode: 'value_0',
+        },
+        {
+          selected: false,
+          valueCode: 'value_1',
+        },
+      ],
     };
     fixture.detectChanges();
   });
@@ -51,7 +62,13 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should not set selectedSingleValue on init', () => {
+    expect(component.attributeRadioButtonForm.value).toEqual(null);
+  });
+
   it('should set selectedSingleValue on init', () => {
-    expect(component.attributeRadioButtonForm.value).toEqual('selectedValue');
+    this.onSelect(1);
+    fixture.detectChanges();
+    expect(component.attributeRadioButtonForm.value).toEqual('value_1');
   });
 });
