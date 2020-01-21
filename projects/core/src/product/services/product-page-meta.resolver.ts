@@ -10,12 +10,12 @@ import {
   PageImageResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
+import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { Product } from '../../model/product.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
-import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { ProductScope } from '../model/product-scope';
 
 /**
@@ -44,6 +44,23 @@ export class ProductPageMetaResolver extends PageMetaResolver
     filter(code => !!code),
     switchMap(code => this.productService.get(code, this.PRODUCT_SCOPE)),
     filter(Boolean)
+  );
+
+  constructor(
+    routingService: RoutingService,
+    productService: ProductService,
+    translation: TranslationService,
+    // tslint:disable-next-line: unified-signatures
+    features: FeatureConfigService
+  );
+
+  /**
+   * @deprecated since 1.4
+   */
+  constructor(
+    routingService: RoutingService,
+    productService: ProductService,
+    translation: TranslationService
   );
 
   constructor(
