@@ -6,6 +6,7 @@ import {
   CartService,
   CartVoucherService,
   WishListService,
+  SelectiveCartService,
 } from './facade/index';
 import { MultiCartService } from './facade/multi-cart.service';
 import { CartPageMetaResolver } from './services/cart-page-meta.resolver';
@@ -26,6 +27,7 @@ export class CartModule {
         MultiCartService,
         WishListService,
         ActiveCartService,
+        SelectiveCartService,
         {
           provide: PageMetaResolver,
           useExisting: CartPageMetaResolver,
