@@ -1173,14 +1173,6 @@ export namespace Occ {
      * @member {string} [uid]
      */
     uid?: string;
-    /**
-     * @member {string} [active]
-     */
-    active?: boolean;
-    /**
-     * @member {Array} [approvers]
-     */
-    approvers?: [];
   }
 
   /**
@@ -4227,6 +4219,17 @@ export namespace Occ {
     parent?: string;
   }
 
+  export interface B2BUser extends User {
+    /**
+     * @member {string} [active]
+     */
+    active?: boolean;
+    /**
+     * @member {Array} [approvers]
+     */
+    approvers?: [];
+  }
+
   export interface B2BApprovalProcess {
     code?: string;
     name?: string;
@@ -4239,10 +4242,10 @@ export namespace Occ {
     name?: string;
     parentOrgUnit?: string;
     approvalProcess?: B2BApprovalProcess;
-    administrators?: User[];
-    approvers?: User[];
-    customers?: User[];
-    managers?: User[];
+    administrators?: B2BUser[];
+    approvers?: B2BUser[];
+    customers?: B2BUser[];
+    managers?: B2BUser[];
   }
   export interface OrderApprovalPermissionType {
     code?: string;
@@ -4256,6 +4259,7 @@ export namespace Occ {
     QUARTER = 'QUARTER',
     YEAR = 'YEAR',
   }
+
   export interface Permission {
     active?: boolean;
     code?: string;
