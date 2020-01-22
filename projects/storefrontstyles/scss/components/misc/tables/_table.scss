@@ -1,5 +1,5 @@
 %cx-table {
-      .table {
+  .table {
     @include media-breakpoint-down(xs) {
       thead {
         th {
