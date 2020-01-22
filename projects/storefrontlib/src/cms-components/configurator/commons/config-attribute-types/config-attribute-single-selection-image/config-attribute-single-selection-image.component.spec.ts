@@ -25,30 +25,34 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   }));
 
   beforeEach(() => {
-    const image: Value.Image = {
+    const image: Configurator.Image = {
       url: 'url',
-      alt: 'alt',
+      altText: 'altText',
     };
+
+    let localimages: Configurator.Image[];
+    localimages = [];
+
+    localimages.push(image, image, image);
+
     const value1: Configurator.Value = {
       valueCode: '1',
       name: 'val1',
+      valueDisplay: 'display',
       selected: false,
-      required: false,
-      images: image,
+      images: localimages,
     };
     const value2: Configurator.Value = {
       valueCode: '2',
       name: 'val2',
       selected: false,
-      required: false,
-      images: image,
+      images: localimages,
     };
     const value3: Configurator.Value = {
       valueCode: '3',
       name: 'val3',
       selected: false,
-      required: false,
-      images: image,
+      images: localimages,
     };
 
     let localvalues: Configurator.Value[];
@@ -65,6 +69,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       name: 'attributeName',
       attrCode: 444,
       uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
+      required: false,
       values: localvalues,
     };
     fixture.detectChanges();
