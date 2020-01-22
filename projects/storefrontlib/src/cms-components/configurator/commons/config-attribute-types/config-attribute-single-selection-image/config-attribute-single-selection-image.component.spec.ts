@@ -79,7 +79,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set selectedSingleValue on init', () => {
+  it('should set selected image with click', () => {
     this.onSelect(1);
     fixture.detectChanges();
     expect(component.attributeRadioButtonForm.value).toEqual('2');
