@@ -1,9 +1,8 @@
-@import './order-history';
+@import './amend-order-actions';
+@import './amend-order-items';
 @import './order-details-actions';
+@import './order-history';
 @import './order-return-request-list';
-@import './cancel-or-return-items';
-@import './cancel-order-confirmation';
-@import './return-order-confirmation';
+@import './return-request-items';
 @import './return-request-overview';
 @import './return-request-totals';
-@import './return-request-items';
