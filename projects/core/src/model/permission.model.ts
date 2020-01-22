@@ -1,6 +1,9 @@
 import { Currency, PaginationModel, SortModel, User } from './misc.model';
 
-export interface B2BUser extends User {}
+export interface B2BUser extends User {
+  active?: boolean;
+  approvers?: [];
+}
 
 export interface OrgUnitAddress {
   cellphone?: string;
