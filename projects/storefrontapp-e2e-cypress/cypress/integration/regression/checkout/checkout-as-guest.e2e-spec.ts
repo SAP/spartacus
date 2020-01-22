@@ -59,7 +59,7 @@ context('Checkout as guest', () => {
   });
 
   describe('Guest account', () => {
-    it('should be able to check order in order history', () => {
+    xit('should be able to check order in order history', () => {
       checkout.viewOrderHistoryWithCheapProduct();
     });
 

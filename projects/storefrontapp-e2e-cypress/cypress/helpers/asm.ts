@@ -64,7 +64,7 @@ export function asmTests(isMobile: boolean) {
     });
 
     describe('Customer Emulation - My Account', () => {
-      it('agent should be able to check order in order history', () => {
+      xit('agent should be able to check order in order history', () => {
         checkout.viewOrderHistoryWithCheapProduct();
       });
 
@@ -149,7 +149,7 @@ export function asmTests(isMobile: boolean) {
         loginCustomerInStorefront();
         assertCustomerIsSignedIn(isMobile);
       });
-      it('customer should see the order placed by the agent.', () => {
+      xit('customer should see the order placed by the agent.', () => {
         checkout.viewOrderHistoryWithCheapProduct();
       });
 

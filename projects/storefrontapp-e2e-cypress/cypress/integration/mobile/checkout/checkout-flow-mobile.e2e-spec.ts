@@ -1,7 +1,7 @@
 import * as checkout from '../../../helpers/checkout-flow';
 import { checkBanner } from '../../../helpers/homepage';
-import { formats } from '../../../sample-data/viewports';
 import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
+import { formats } from '../../../sample-data/viewports';
 
 function clickHamburger() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
@@ -58,7 +58,7 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
     checkout.verifyOrderConfirmationPageWithCheapProduct();
   });
 
-  it('should be able to check order in order history', () => {
+  xit('should be able to check order in order history', () => {
     clickHamburger();
     checkout.viewOrderHistoryWithCheapProduct();
     clickHamburger();

@@ -378,6 +378,24 @@ export function verifyOrderConfirmationPageWithCheapProduct() {
   );
 }
 
+export function viewOrderHistoryWithCheapProduct() {
+  const orderHistoryPage = waitForPage(
+    '/my-account/orders',
+    'getOrderHistoryPage'
+  );
+  cy.selectUserMenuOption({
+    option: 'Order History',
+  });
+  cy.wait(`@${orderHistoryPage}`)
+    .its('status')
+    .should('eq', 200);
+  cy.get('cx-order-history h3').should('contain', 'Order history');
+  cy.get('.cx-order-history-table tr')
+    .first()
+    .find('.cx-order-history-total .cx-order-history-value')
+    .should('contain', cartWithCheapProduct.totalAndShipping);
+}
+
 export function waitForPage(page: string, alias: string): string {
   cy.server();
   cy.route('GET', `/rest/v2/electronics-spa/cms/pages?*${page}*`).as(alias);
