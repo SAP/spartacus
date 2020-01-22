@@ -54,6 +54,22 @@ export class UserTokenEffects {
     })
   );
 
+  @Effect()
+  revokeUserToken$: Observable<
+    AuthActions.UserTokenAction
+  > = this.actions$.pipe(
+    ofType(AuthActions.REVOKE_USER_TOKEN),
+    map((action: AuthActions.RevokeUserToken) => {
+      return action.payload;
+    }),
+    mergeMap((userToken: UserToken) => {
+      return this.userTokenService.revoke(userToken).pipe(
+        map(() => new AuthActions.RevokeUserTokenSuccess(userToken)),
+        catchError(error => of(new AuthActions.RevokeUserTokenFail(error)))
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private userTokenService: UserAuthenticationTokenService

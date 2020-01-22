@@ -9,14 +9,17 @@ import { AUTH_FEATURE } from '../../../auth/store/auth-state';
 import * as fromAuthReducers from '../../../auth/store/reducers/index';
 import { Cart } from '../../../model/cart.model';
 import { OccConfig } from '../../../occ/config/occ-config';
+import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import * as fromUserReducers from '../../../user/store/reducers/index';
 import { USER_FEATURE } from '../../../user/store/user-state';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { CartDataService } from '../../facade/cart-data.service';
 import * as fromCartReducers from '../../store/reducers/index';
+import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { CART_FEATURE } from '../cart-state';
+import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
 import createSpy = jasmine.createSpy;
 
@@ -33,6 +36,8 @@ const testCart: Cart = {
     value: 0,
   },
 };
+
+const tempCartId = 'tempCartId';
 
 describe('Cart effect', () => {
   let cartEffects: fromEffects.CartEffects;
@@ -68,6 +73,10 @@ describe('Cart effect', () => {
         StoreModule.forFeature(CART_FEATURE, fromCartReducers.getReducers()),
         StoreModule.forFeature(USER_FEATURE, fromUserReducers.getReducers()),
         StoreModule.forFeature(AUTH_FEATURE, fromAuthReducers.getReducers()),
+        StoreModule.forFeature(
+          MULTI_CART_FEATURE,
+          fromCartReducers.getMultiCartReducers()
+        ),
       ],
 
       providers: [
@@ -89,20 +98,97 @@ describe('Cart effect', () => {
 
   describe('loadCart$', () => {
     it('should load a cart', () => {
-      const action = new CartActions.LoadCart({
+      const action = new DeprecatedCartActions.LoadCart({
         userId: userId,
         cartId: cartId,
       });
-      const completion = new CartActions.LoadCartSuccess(testCart);
+      const loadMultiCartCompletion = new CartActions.LoadMultiCartSuccess({
+        cart: testCart,
+        userId,
+        extraData: undefined,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(b)', {
+        b: loadMultiCartCompletion,
+      });
+
+      expect(cartEffects.loadCart$).toBeObservable(expected);
+    });
+
+    it('should complete add entry process when dispatched with extraData', () => {
+      const action = new DeprecatedCartActions.LoadCart({
+        userId,
+        cartId,
+        extraData: {
+          addEntries: true,
+        },
+      });
+      const loadMultiCartCompletion = new CartActions.LoadMultiCartSuccess({
+        cart: testCart,
+        userId,
+        extraData: {
+          addEntries: true,
+        },
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(b)', {
+        b: loadMultiCartCompletion,
+      });
+
+      expect(cartEffects.loadCart$).toBeObservable(expected);
+    });
+
+    it('should remove current cart for current load', () => {
+      const action = new DeprecatedCartActions.LoadCart({
+        userId,
+        cartId: 'current',
+      });
+      const loadCartCompletion = new DeprecatedCartActions.LoadCartSuccess(
+        testCart
+      );
+      const loadMultiCartCompletion = new CartActions.LoadMultiCartSuccess({
+        cart: testCart,
+        userId,
+        extraData: undefined,
+      });
+      const removeCartCompletion = new CartActions.RemoveCart(
+        OCC_CART_ID_CURRENT
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: loadCartCompletion,
+        c: loadMultiCartCompletion,
+        d: removeCartCompletion,
+      });
+
+      expect(cartEffects.loadCart$).toBeObservable(expected);
+    });
+
+    it('return fail actions on empty cart', () => {
+      const action = new DeprecatedCartActions.LoadCart({
+        userId,
+        cartId,
+      });
+      loadMock.and.returnValue(of(null));
+      const loadCartFailCompletion = new DeprecatedCartActions.LoadCartFail({});
+      const loadMultiCartFailCompletion = new CartActions.LoadMultiCartFail({
+        cartId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: loadCartFailCompletion,
+        c: loadMultiCartFailCompletion,
+      });
 
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
 
     it('should clear cart on "Cart not found" error', () => {
-      const action = new CartActions.LoadCart({
+      const action = new DeprecatedCartActions.LoadCart({
         userId,
         cartId,
       });
@@ -113,40 +199,111 @@ describe('Cart effect', () => {
           },
         })
       );
-      const completion = new CartActions.ClearCart();
+      const clearCartCompletion = new DeprecatedCartActions.ClearCart();
+      const removeCartCompletion = new CartActions.RemoveCart(cartId);
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', {
+        b: clearCartCompletion,
+        c: removeCartCompletion,
+      });
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
   });
 
   describe('createCart$', () => {
     it('should create a cart', () => {
-      const action = new CartActions.CreateCart({ userId });
-      const completion = new CartActions.CreateCartSuccess(testCart);
+      const action = new DeprecatedCartActions.CreateCart({
+        userId,
+        tempCartId,
+      });
+      const createMultiCartSuccessCompletion = new CartActions.CreateMultiCartSuccess(
+        {
+          cart: testCart,
+          userId,
+          extraData: undefined,
+        }
+      );
+      const setTempCartCompletion = new CartActions.SetTempCart({
+        cart: testCart,
+        tempCartId: tempCartId,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', {
+        b: createMultiCartSuccessCompletion,
+        c: setTempCartCompletion,
+      });
+
+      expect(cartEffects.createCart$).toBeObservable(expected);
+    });
+
+    it('should dispatch CreateCartSuccess action for active cart', () => {
+      const action = new DeprecatedCartActions.CreateCart({
+        userId,
+        extraData: {
+          active: true,
+        },
+        tempCartId,
+      });
+      const createCartSuccessCompletion = new DeprecatedCartActions.CreateCartSuccess(
+        testCart
+      );
+      const createMultiCartSuccessCompletion = new CartActions.CreateMultiCartSuccess(
+        {
+          cart: testCart,
+          userId,
+          extraData: {
+            active: true,
+          },
+        }
+      );
+      const setTempCartCompletion = new CartActions.SetTempCart({
+        cart: testCart,
+        tempCartId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: createMultiCartSuccessCompletion,
+        c: setTempCartCompletion,
+        d: createCartSuccessCompletion,
+      });
 
       expect(cartEffects.createCart$).toBeObservable(expected);
     });
 
     it('should create and merge cart when oldCartId is provided', () => {
-      const action = new CartActions.CreateCart({
+      const action = new DeprecatedCartActions.CreateCart({
         userId,
         oldCartId: 'testOldCartId',
+        tempCartId,
       });
 
-      const createCartCompletion = new CartActions.CreateCartSuccess(testCart);
-      const mergeCartCompletion = new CartActions.MergeCartSuccess({
+      const createMultiCartCompletion = new CartActions.CreateMultiCartSuccess({
+        cart: testCart,
+        userId,
+        extraData: undefined,
+      });
+      const setTempCartCompletion = new CartActions.SetTempCart({
+        cart: testCart,
+        tempCartId,
+      });
+      const mergeCartCompletion = new DeprecatedCartActions.MergeCartSuccess({
         userId,
         cartId: testCart.code,
       });
+      const mergeMultiCartCompletion = new CartActions.MergeMultiCartSuccess({
+        oldCartId: 'testOldCartId',
+        cartId: testCart.code,
+        userId,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: createCartCompletion,
-        c: mergeCartCompletion,
+      const expected = cold('-(bcde)', {
+        b: createMultiCartCompletion,
+        c: setTempCartCompletion,
+        d: mergeCartCompletion,
+        e: mergeMultiCartCompletion,
       });
 
       expect(cartEffects.createCart$).toBeObservable(expected);
@@ -155,14 +312,15 @@ describe('Cart effect', () => {
 
   describe('mergeCart$', () => {
     it('should merge old cart into the session cart', () => {
-      const action = new CartActions.MergeCart({
+      const action = new DeprecatedCartActions.MergeCart({
         userId: userId,
         cartId: cartId,
       });
-      const completion = new CartActions.CreateCart({
+      const completion = new DeprecatedCartActions.CreateCart({
         userId: userId,
         oldCartId: cartId,
         toMergeCartGuid: 'testGuid',
+        extraData: undefined,
       });
 
       actions$ = hot('-a', { a: action });
@@ -174,10 +332,11 @@ describe('Cart effect', () => {
 
   describe('refresh$', () => {
     const cartChangesSuccessActions = [
-      'MergeCartSuccess',
       'CartAddEntrySuccess',
       'CartUpdateEntrySuccess',
       'CartRemoveEntrySuccess',
+      'CartAddVoucherSuccess',
+      'CartRemoveVoucherSuccess',
     ];
 
     cartChangesSuccessActions.forEach(actionName => {
@@ -186,16 +345,42 @@ describe('Cart effect', () => {
           userId: userId,
           cartId: cartId,
         });
-        const completion = new CartActions.LoadCart({
+        const loadCompletion = new DeprecatedCartActions.LoadCart({
           userId: userId,
           cartId: cartId,
         });
+        const decrementCompletion = new CartActions.CartProcessesDecrement(
+          cartId
+        );
 
         actions$ = hot('-a', { a: action });
-        const expected = cold('-b', { b: completion });
+        const expected = cold('-(bc)', {
+          b: decrementCompletion,
+          c: loadCompletion,
+        });
 
         expect(cartEffects.refresh$).toBeObservable(expected);
       });
+    });
+  });
+
+  describe('refreshWithoutProcesses$', () => {
+    it(`should refresh cart on MergeCartSuccess`, () => {
+      const action = new CartActions.MergeCartSuccess({
+        userId: userId,
+        cartId: cartId,
+      });
+      const loadCompletion = new DeprecatedCartActions.LoadCart({
+        userId: userId,
+        cartId: cartId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', {
+        b: loadCompletion,
+      });
+
+      expect(cartEffects.refreshWithoutProcesses$).toBeObservable(expected);
     });
   });
 
@@ -205,10 +390,14 @@ describe('Cart effect', () => {
     siteContextChangeActions.forEach(actionName => {
       it(`should reset cart details on ${actionName}`, () => {
         const action = new SiteContextActions[actionName]();
-        const completion = new CartActions.ResetCartDetails();
+        const resetCartDetailsCompletion = new DeprecatedCartActions.ResetCartDetails();
+        const resetMultiCartDetailsCompletion = new CartActions.ResetMultiCartDetails();
 
         actions$ = hot('-a', { a: action });
-        const expected = cold('-b', { b: completion });
+        const expected = cold('-(bc)', {
+          b: resetCartDetailsCompletion,
+          c: resetMultiCartDetailsCompletion,
+        });
 
         expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(
           expected
@@ -219,18 +408,29 @@ describe('Cart effect', () => {
 
   describe('addEmail$', () => {
     it('should add email to cart', () => {
-      const action = new CartActions.AddEmailToCart({
+      const action = new DeprecatedCartActions.AddEmailToCart({
         userId: userId,
         cartId: cartId,
         email: 'test@test.com',
       });
-      const completion = new CartActions.AddEmailToCartSuccess({
-        userId,
-        cartId,
-      });
+      const addEmailToCartCompletion = new DeprecatedCartActions.AddEmailToCartSuccess(
+        {
+          userId,
+          cartId,
+        }
+      );
+      const addEmailToMultiCartCompletion = new CartActions.AddEmailToMultiCartSuccess(
+        {
+          userId,
+          cartId,
+        }
+      );
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', {
+        b: addEmailToCartCompletion,
+        c: addEmailToMultiCartCompletion,
+      });
 
       expect(cartEffects.addEmail$).toBeObservable(expected);
     });
@@ -238,8 +438,8 @@ describe('Cart effect', () => {
 
   describe('deleteCart$', () => {
     it('should delete cart', () => {
-      const action = new CartActions.DeleteCart({ userId, cartId });
-      const completion = new CartActions.ClearCart();
+      const action = new DeprecatedCartActions.DeleteCart({ userId, cartId });
+      const completion = new DeprecatedCartActions.ClearCart();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

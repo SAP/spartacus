@@ -1,0 +1,21 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "cds-${version}",
+    "commitMessage": "Bumping cds version to ${version}",
+    "tagAnnotation": "Bumping cds version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/cds"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && ng build cds"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/cds@${version}",
+    "releaseNotes": "cd ../.. && npm run --silent release-notes:cds -- --to cds-${version}"
+  }
+}

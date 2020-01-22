@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { filter, map, take } from 'rxjs/operators';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
@@ -31,7 +34,7 @@ export class AuthService {
 
   /**
    * This function provides the userId the OCC calls should use, depending
-   * on wether there is an active storefront session or not.
+   * on whether there is an active storefront session or not.
    *
    * It returns the userId of the current storefront user or 'anonymous'
    * in the case there are no signed in user in the storefront.
@@ -81,7 +84,14 @@ export class AuthService {
    * Logout a storefront customer
    */
   logout(): void {
-    this.store.dispatch(new AuthActions.Logout());
+    this.getUserToken()
+      .pipe(take(1))
+      .subscribe(userToken => {
+        this.store.dispatch(new AuthActions.Logout());
+        if (Boolean(userToken) && userToken.userId === OCC_USER_ID_CURRENT) {
+          this.store.dispatch(new AuthActions.RevokeUserToken(userToken));
+        }
+      });
   }
 
   /**

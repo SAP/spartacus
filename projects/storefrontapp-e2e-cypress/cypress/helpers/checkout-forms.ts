@@ -61,7 +61,7 @@ export function fillShippingAddress(shippingAddress: AddressData) {
     cy.get('[formcontrolname="phone"]')
       .clear()
       .type(shippingAddress.phone);
-    cy.get('button.btn-primary').click();
+    cy.get('button.btn-primary').click({ force: true });
   });
 }
 
@@ -120,7 +120,12 @@ export function fillPaymentDetails(
       .type(paymentDetails.payment.cvv);
     if (billingAddress) {
       fillBillingAddress(billingAddress);
+    } else {
+      cy.get('input.form-check-input').check();
     }
-    cy.get('button.btn-primary').click();
+
+    cy.get('button.btn.btn-block.btn-primary')
+      .contains('Continue')
+      .click({ force: true });
   });
 }

@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  FeatureConfigService,
   PageType,
   Product,
   ProductService,
@@ -26,11 +27,23 @@ class MockRoutingService {
 }
 
 const mockProduct: Product = { name: 'mockProduct' };
+const mockProductWithAttributes: Product = {
+  name: 'mockProduct',
+  classifications: [{}],
+};
 
 class MockProductService {
-  get(): Observable<Product> {
+  get(_code: string, scope?: string): Observable<Product> {
+    if (scope && scope === 'attributes') {
+      return of(mockProductWithAttributes);
+    }
+
     return of(mockProduct);
   }
+}
+
+class MockFeatureConfigService {
+  isLevel = () => true;
 }
 
 describe('CurrentProductService', () => {
@@ -49,6 +62,10 @@ describe('CurrentProductService', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     });
 
@@ -59,5 +76,11 @@ describe('CurrentProductService', () => {
     let result: Product;
     service.getProduct().subscribe(product => (result = product));
     expect(result).toEqual(mockProduct);
+  });
+
+  it('should fetch product attributes', () => {
+    let result: Product;
+    service.getProduct('attributes').subscribe(product => (result = product));
+    expect(result).toEqual(mockProductWithAttributes);
   });
 });

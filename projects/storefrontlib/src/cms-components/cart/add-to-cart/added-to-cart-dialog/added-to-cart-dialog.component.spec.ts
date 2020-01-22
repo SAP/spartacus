@@ -14,7 +14,10 @@ import {
   CartService,
   I18nTestingModule,
   OrderEntry,
+  PromotionLocation,
   PromotionResult,
+  FeaturesConfigModule,
+  FeaturesConfig,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components';
@@ -22,7 +25,8 @@ import { ModalService } from '../../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { AutoFocusDirectiveModule } from '../../../../shared/directives/auto-focus/auto-focus.directive.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
-
+import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 class MockCartService {
   getLoaded(): Observable<boolean> {
     return of();
@@ -72,13 +76,15 @@ class MockCartItemComponent {
   @Input()
   item: Observable<OrderEntry>;
   @Input()
-  potentialProductPromotions: PromotionResult[];
-  @Input()
   isReadOnly = false;
   @Input()
   cartIsLoading = false;
   @Input()
   parent: FormGroup;
+  @Input()
+  potentialProductPromotions: PromotionResult[];
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 @Pipe({
@@ -86,6 +92,14 @@ class MockCartItemComponent {
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
 }
 
 describe('AddedToCartDialogComponent', () => {
@@ -104,6 +118,8 @@ describe('AddedToCartDialogComponent', () => {
         SpinnerModule,
         I18nTestingModule,
         AutoFocusDirectiveModule,
+        PromotionsModule,
+        FeaturesConfigModule,
       ],
       declarations: [
         AddedToCartDialogComponent,
@@ -119,6 +135,16 @@ describe('AddedToCartDialogComponent', () => {
         {
           provide: CartService,
           useClass: MockCartService,
+        },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
         },
       ],
     }).compileComponents();
@@ -176,6 +202,9 @@ describe('AddedToCartDialogComponent', () => {
       totalPrice: {
         formattedValue: '$100.00',
       },
+      subTotal: {
+        formattedValue: '$100.00',
+      },
     });
     fixture.detectChanges();
     const cartTotalEl = el.query(By.css('.cx-dialog-total')).nativeElement;
@@ -218,5 +247,26 @@ describe('AddedToCartDialogComponent', () => {
     expect(dialogTitleEl.textContent).toEqual(
       ' addToCart.itemsIncrementedInYourCart '
     );
+  });
+
+  it('should not show cart entry', () => {
+    component.loaded$ = of(false);
+    component.modalIsOpen = false;
+    expect(el.query(By.css('cx-cart-item'))).toBeNull();
+  });
+
+  it('should show cart entry', () => {
+    fixture.detectChanges();
+    component.loaded$ = of(true);
+    component.modalIsOpen = false;
+    expect(el.query(By.css('cx-cart-item'))).toBeDefined();
+
+    component.loaded$ = of(true);
+    component.modalIsOpen = true;
+    expect(el.query(By.css('cx-cart-item'))).toBeDefined();
+
+    component.loaded$ = of(false);
+    component.modalIsOpen = true;
+    expect(el.query(By.css('cx-cart-item'))).toBeDefined();
   });
 });

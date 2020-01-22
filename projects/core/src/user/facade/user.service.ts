@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
+import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -32,6 +33,8 @@ export class UserService {
    * @deprecated since version 1.3
    *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
    *  authService: AuthService) instead
+   *
+   *  TODO(issue:#5628) Deprecated since 1.3.0
    */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
   constructor(
@@ -57,13 +60,9 @@ export class UserService {
    * Loads the user's details
    */
   load(): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(new UserActions.LoadUserDetails(occUserId))
-      )
-      .unsubscribe();
+    this.withUserId(userId =>
+      this.store.dispatch(new UserActions.LoadUserDetails(userId))
+    );
   }
 
   /**
@@ -123,13 +122,9 @@ export class UserService {
    * Remove user account, that's also called close user's account
    */
   remove(): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(new UserActions.RemoveUser(occUserId))
-      )
-      .unsubscribe();
+    this.withUserId(userId =>
+      this.store.dispatch(new UserActions.RemoveUser(userId))
+    );
   }
 
   /**
@@ -193,18 +188,14 @@ export class UserService {
    * @param userDetails to be updated
    */
   updatePersonalDetails(userDetails: User): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.UpdateUserDetails({
-            username: occUserId,
-            userDetails,
-          })
-        )
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new UserActions.UpdateUserDetails({
+          username: userId,
+          userDetails,
+        })
       )
-      .unsubscribe();
+    );
   }
 
   /**
@@ -263,19 +254,15 @@ export class UserService {
    * Updates the user's email
    */
   updateEmail(password: string, newUid: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.UpdateEmailAction({
-            uid: occUserId,
-            password,
-            newUid,
-          })
-        )
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new UserActions.UpdateEmailAction({
+          uid: userId,
+          password,
+          newUid,
+        })
       )
-      .unsubscribe();
+    );
   }
 
   /**
@@ -318,19 +305,15 @@ export class UserService {
    * @param newPassword the new password
    */
   updatePassword(oldPassword: string, newPassword: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.UpdatePassword({
-            userId: occUserId,
-            oldPassword,
-            newPassword,
-          })
-        )
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new UserActions.UpdatePassword({
+          userId,
+          oldPassword,
+          newPassword,
+        })
       )
-      .unsubscribe();
+    );
   }
 
   /**
@@ -366,5 +349,21 @@ export class UserService {
    */
   resetUpdatePasswordProcessState(): void {
     this.store.dispatch(new UserActions.UpdatePasswordReset());
+  }
+
+  /**
+   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   *
+   */
+  private withUserId(callback: (userId: string) => void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId => callback(userId));
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }

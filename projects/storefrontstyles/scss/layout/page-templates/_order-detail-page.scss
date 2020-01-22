@@ -53,11 +53,22 @@
       }
     }
 
+    .cx-list {
+      @include media-breakpoint-down(sm) {
+        margin-right: 0;
+        margin-left: 0;
+      }
+    }
+
     .cx-list-status {
       padding: 15px 30px;
       background-color: var(--cx-color-background);
       @include type('4');
       font-weight: bold;
+    }
+
+    .cx-list-date {
+      margin: 0.5rem 0 0;
     }
   }
 
@@ -71,6 +82,10 @@
 
       @include media-breakpoint-up(md) {
         padding: 5px 18px 12px;
+      }
+
+      @include media-breakpoint-down(sm) {
+        margin: 0 -24px;
       }
 
       .cx-card-title {
@@ -96,6 +111,17 @@
 
   cx-order-details-headline {
     order: 1;
+
+    .cx-nav {
+      justify-content: center;
+      padding: 1rem 0;
+
+      .btn-action {
+        @include media-breakpoint-down(sm) {
+          margin: 0 0 1rem;
+        }
+      }
+    }
   }
 
   cx-order-details-items {
@@ -108,5 +134,21 @@
 
   cx-order-details-totals {
     order: 3;
+  }
+
+  cx-order-details-actions {
+    order: 5;
+  }
+
+  cx-tab-paragraph-container {
+    .active {
+      background-color: var(--cx-color-inverse);
+    }
+  }
+
+  @if $theme == 'calydon' {
+    cx-paragraph h4 {
+      text-align: center;
+    }
   }
 }

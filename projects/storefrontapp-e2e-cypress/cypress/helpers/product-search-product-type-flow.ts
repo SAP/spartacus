@@ -32,7 +32,9 @@ export function productTypeFlow(mobile?: string) {
 
   clickFacet('Brand');
 
-  cy.wait('@brand_query');
+  cy.wait('@brand_query')
+    .its('status')
+    .should('eq', 200);
 
   cy.get(resultsTitle).should('contain', '86 results for "sony"');
 
@@ -40,7 +42,9 @@ export function productTypeFlow(mobile?: string) {
 
   clearSelectedFacet(mobile);
 
-  cy.wait('@query1');
+  cy.wait('@query1')
+    .its('status')
+    .should('eq', 200);
 
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
@@ -61,7 +65,9 @@ export function productTypeFlow(mobile?: string) {
 
   clearSelectedFacet(mobile);
 
-  cy.wait('@query2');
+  cy.wait('@query2')
+    .its('status')
+    .should('eq', 200);
 
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
@@ -82,7 +88,9 @@ export function productTypeFlow(mobile?: string) {
 
   clearSelectedFacet(mobile);
 
-  cy.wait('@query3');
+  cy.wait('@query3')
+    .its('status')
+    .should('eq', 200);
 
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
@@ -103,7 +111,9 @@ export function productTypeFlow(mobile?: string) {
 
   clearSelectedFacet(mobile);
 
-  cy.wait('@query4');
+  cy.wait('@query4')
+    .its('status')
+    .should('eq', 200);
 
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 }

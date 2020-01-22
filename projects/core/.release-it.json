@@ -10,6 +10,18 @@
     "publishPath": "./../../dist/core"
   },
   "hooks": {
+    "before:init": "cd ../.. && ./scripts/pre-release.sh",
     "after:version:bump": "cd ../.. && ng build core"
+  },
+  "github": {
+    "release": true,
+    "assets": [
+      "../../docs.tar.gz",
+      "../../docs.zip",
+      "../../spartacussampledataaddon.zip",
+      "../../spartacussampledataaddon.tar"
+    ],
+    "releaseName": "@spartacus/core@${version}",
+    "releaseNotes": "cd ../.. && npm run --silent release-notes:core -- --to core-${version}"
   }
 }

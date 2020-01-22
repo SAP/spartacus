@@ -1,0 +1,42 @@
+%ProductDetailsPageTemplate-calydon {
+  cx-page-slot {
+    &.Summary {
+      @extend .container !optional;
+
+      @include media-breakpoint-up(lg) {
+        grid-template-rows: repeat(2, auto) 1fr;
+
+        cx-product-images {
+          grid-row: 1 / span 5;
+        }
+
+        cx-product-intro {
+          grid-column: 2;
+          grid-row: initial;
+        }
+
+        cx-product-summary {
+          grid-column: 2;
+          grid-row: initial;
+        }
+
+        cx-product-variants {
+          grid-column: 2;
+          grid-row: 3;
+        }
+
+        cx-add-to-cart {
+          grid-column: 2;
+          grid-row: initial;
+          padding: 20px 20px 0 20px;
+        }
+
+        cx-add-to-wishlist {
+          grid-column: 2;
+          grid-row: initial;
+          margin: 0;
+        }
+      }
+    }
+  }
+}

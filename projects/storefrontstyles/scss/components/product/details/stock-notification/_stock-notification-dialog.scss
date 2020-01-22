@@ -1,0 +1,19 @@
+%cx-stock-notification-dialog {
+  .cx-dialog-title {
+    @include type('3');
+  }
+
+  .channels {
+    span {
+      @include type('6');
+    }
+  }
+
+  .container p a {
+    @include type('6');
+    color: var(--cx-color-dark);
+    &:hover {
+      color: var(--cx-color-primary);
+    }
+  }
+}

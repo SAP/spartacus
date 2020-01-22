@@ -20,15 +20,22 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
-import { Schema as SpartacusOptions } from './schema';
-import { addImport, importModule } from '../shared/utils/module-file-utils';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
+import {
+  addImport,
+  addToModuleImportsAndCommitChanges,
+} from '../shared/utils/module-file-utils';
+import {
+  getAngularVersion,
+  getSpartacusCurrentFeatureLevel,
+  getSpartacusSchematicsVersion,
+} from '../shared/utils/package-utils';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
-import { getAngularVersion } from '../shared/utils/package-utils';
+import { Schema as SpartacusOptions } from './schema';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = '^1.1.0';
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
     const ngrxVersion = '^8.3.0';
     const angularVersion = getAngularVersion(tree);
 
@@ -125,23 +132,27 @@ function installPackageJsonDependencies(): Rule {
 }
 
 function getStorefrontConfig(options: SpartacusOptions): string {
-  const baseUrlPart = `baseUrl: '${options.baseUrl}',`;
+  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
+  const contextContent = !options.baseSite
+    ? ''
+    : `
+      context: {
+        baseSite: ['${options.baseSite}']
+      },`;
   return `{
       backend: {
         occ: {${options.useMetaTags ? '' : baseUrlPart}
           prefix: '/rest/v2/'
         }
-      },
-      context: {
-        baseSite: ['${options.baseSite}']
-      },
+      },${contextContent}
       i18n: {
         resources: translations,
         chunks: translationChunksConfig,
         fallbackLang: 'en'
       },
       features: {
-        level: '${options.featureLevel}'
+        level: '${options.featureLevel || getSpartacusCurrentFeatureLevel()}',
+        anonymousConsents: true
       }
     }`;
 }
@@ -166,7 +177,7 @@ function updateAppModule(options: SpartacusOptions): Rule {
     addImport(host, modulePath, 'translationChunksConfig', '@spartacus/assets');
     addImport(host, modulePath, 'B2cStorefrontModule', '@spartacus/storefront');
 
-    importModule(
+    addToModuleImportsAndCommitChanges(
       host,
       modulePath,
       `B2cStorefrontModule.withConfig(${getStorefrontConfig(options)})`

@@ -164,7 +164,9 @@ export function addDifferentProducts(isMobile: Boolean = false) {
       expect(totalPrice).equal('$927.89');
     });
 
-  cy.wait('@getRefreshedCart');
+  cy.wait('@getRefreshedCart')
+    .its('status')
+    .should('eq', 200);
   // delete the last product in cart
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', productName2)
