@@ -10,7 +10,7 @@ import {
   PERMISSIONS_NORMALIZER,
 } from '../../../organization/connectors/permission/converters';
 import { Permission } from '../../../model/permission.model';
-import { PermissionSearchConfig } from '../../../organization/model/search-config';
+import { B2BSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
 import PermissionsList = Occ.PermissionsList;
 
@@ -30,7 +30,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
 
   loadList(
     userId: string,
-    params?: PermissionSearchConfig
+    params?: B2BSearchConfig
   ): Observable<PermissionsList> {
     return this.http
       .get<PermissionsList>(this.getPermissionsEndpoint(userId, params))
@@ -65,7 +65,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
 
   protected getPermissionsEndpoint(
     userId: string,
-    params?: PermissionSearchConfig
+    params?: B2BSearchConfig
   ): string {
     return this.occEndpoints.getUrl('permissions', { userId }, params);
   }

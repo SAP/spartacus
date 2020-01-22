@@ -12,7 +12,7 @@ import {
   getBudgetState,
   getBudgetList,
 } from '../store/selectors/budget.selector';
-import { BudgetSearchConfig } from '../model/search-config';
+import { B2BSearchConfig } from '../model/search-config';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class BudgetService {
     );
   }
 
-  loadBudgets(params?: BudgetSearchConfig) {
+  loadBudgets(params?: B2BSearchConfig) {
     this.withUserId(userId =>
       this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
     );
@@ -55,7 +55,7 @@ export class BudgetService {
     );
   }
 
-  getList(params: BudgetSearchConfig): Observable<BudgetListModel> {
+  getList(params: B2BSearchConfig): Observable<BudgetListModel> {
     return this.getBudgetList(params).pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<BudgetListModel>) => {

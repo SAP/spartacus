@@ -5,7 +5,7 @@ import createSpy = jasmine.createSpy;
 
 import { BudgetAdapter } from './budget.adapter';
 import { BudgetConnector } from './budget.connector';
-import { BudgetSearchConfig } from '../../model/search-config';
+import { B2BSearchConfig } from '../../model/search-config';
 
 const userId = 'userId';
 const budgetCode = 'budgetCode';
@@ -47,7 +47,7 @@ describe('BudgetConnector', () => {
   });
 
   it('should load budgets', () => {
-    const params: BudgetSearchConfig = { sort: 'code' };
+    const params: B2BSearchConfig = { sort: 'code' };
     service.getList(userId, params);
     expect(adapter.loadList).toHaveBeenCalledWith(userId, params);
   });

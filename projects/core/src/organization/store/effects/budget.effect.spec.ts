@@ -14,7 +14,7 @@ import { OccConfig } from '../../../occ/config/occ-config';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
 import * as fromEffects from './budget.effect';
-import { BudgetSearchConfig } from '../../model/search-config';
+import { B2BSearchConfig } from '../../model/search-config';
 
 const error = 'error';
 const budgetCode = 'testCode';
@@ -102,7 +102,7 @@ describe('Budget Effects', () => {
   });
 
   describe('loadBudgets$', () => {
-    const params: BudgetSearchConfig = { sort: 'code' };
+    const params: B2BSearchConfig = { sort: 'code' };
 
     it('should return LoadBudgetSuccess action', () => {
       const action = new BudgetActions.LoadBudgets({ userId, params });

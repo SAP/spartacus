@@ -8,7 +8,7 @@ import {
   RoutingService,
   BudgetService,
   BudgetListModel,
-  BudgetSearchConfig,
+  B2BSearchConfig,
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
@@ -22,7 +22,7 @@ import { BudgetsListComponent } from './budgets-list.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 
-const defaultParams: BudgetSearchConfig = {
+const defaultParams: B2BSearchConfig = {
   sort: 'byName',
   currentPage: 0,
   pageSize: 5,

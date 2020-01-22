@@ -3,7 +3,7 @@ import { Budget, BudgetListModel } from '../../../model/budget.model';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { BudgetSearchConfig } from '../../model/search-config';
+import { B2BSearchConfig } from '../../model/search-config';
 import { serializeBudgetSearchConfig } from '../../utils/budgets';
 import {
   BUDGET_ENTITIES,
@@ -43,7 +43,7 @@ export const getBudgetState = (
 // create service encapsulating denormalization
 
 export const getBudgetList = (
-  params: BudgetSearchConfig
+  params: B2BSearchConfig
 ): MemoizedSelector<StateWithOrganization, LoaderState<BudgetListModel>> =>
   createSelector(
     getBudgetManagementState,
