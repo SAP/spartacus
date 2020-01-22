@@ -25,20 +25,30 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   }));
 
   beforeEach(() => {
+    const image: Value.Image = {
+      url: 'url',
+      alt: 'alt',
+    };
     const value1: Configurator.Value = {
       valueCode: '1',
       name: 'val1',
-      selected: true,
+      selected: false,
+      required: false,
+      images: image,
     };
     const value2: Configurator.Value = {
       valueCode: '2',
       name: 'val2',
       selected: false,
+      required: false,
+      images: image,
     };
     const value3: Configurator.Value = {
       valueCode: '3',
       name: 'val3',
-      selected: true,
+      selected: false,
+      required: false,
+      images: image,
     };
 
     let localvalues: Configurator.Value[];
@@ -62,10 +72,6 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should not set selectedSingleValue on init', () => {
-    expect(component.attributeRadioButtonForm.value).toEqual(null);
   });
 
   it('should set selectedSingleValue on init', () => {
