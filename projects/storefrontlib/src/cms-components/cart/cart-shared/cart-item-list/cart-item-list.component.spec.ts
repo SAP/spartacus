@@ -10,6 +10,8 @@ import {
   PromotionLocation,
   FeaturesConfigModule,
   FeaturesConfig,
+  OrderEntry,
+  ConsignmentEntry,
 } from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemListComponent } from './cart-item-list.component';
@@ -21,23 +23,32 @@ class MockCartService {
   updateEntry() {}
 }
 
-const mockItems = [
+const mockItems: OrderEntry[] = [
   {
-    id: 0,
     quantity: 1,
     entryNumber: 0,
     product: {
-      id: 0,
       code: 'PR0000',
     },
   },
   {
-    id: 1,
     quantity: 5,
     entryNumber: 1,
     product: {
-      id: 1,
       code: 'PR0001',
+    },
+  },
+];
+
+const mockConsignmentItems: ConsignmentEntry[] = [
+  {
+    quantity: 3,
+    orderEntry: {
+      quantity: 5,
+      entryNumber: 1,
+      product: {
+        code: 'PR0000',
+      },
     },
   },
 ];
@@ -141,6 +152,12 @@ describe('CartItemListComponent', () => {
     mockFeatureConfig.isEnabled.and.returnValue(false);
     fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  it('should work with consignment entries', () => {
+    component.items = mockConsignmentItems;
+    expect(component.items[0].quantity).toEqual(3);
+    expect(component.items[0].product.code).toEqual('PR0000');
   });
 
   it('should remove entry', () => {
