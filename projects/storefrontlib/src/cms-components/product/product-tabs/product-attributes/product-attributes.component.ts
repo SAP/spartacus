@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Product } from '@spartacus/core';
-import { CurrentProductService } from '../../current-product.service';
+import { Product, ProductScope } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { CurrentProductService } from '../../current-product.service';
 
 @Component({
   selector: 'cx-product-attributes',
@@ -9,11 +9,12 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductAttributesComponent implements OnInit {
-  product$: Observable<Product>;
+  product$: Observable<Product> = this.currentProductService.getProduct(
+    ProductScope.ATTRIBUTES
+  );
 
   constructor(protected currentProductService: CurrentProductService) {}
 
-  ngOnInit() {
-    this.product$ = this.currentProductService.getProduct();
-  }
+  // TODO deprecated since 1.4, remove
+  ngOnInit() {}
 }
