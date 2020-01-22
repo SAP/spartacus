@@ -38,7 +38,6 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     const value1: Configurator.Value = {
       valueCode: '1',
       name: 'val1',
-      valueDisplay: 'display',
       selected: false,
       images: localimages,
     };
@@ -79,9 +78,18 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set selected image with click', () => {
-    this.onSelect(1);
+  it('should change selected value with click', () => {
+    expect(component.attributeRadioButtonForm.value).toEqual('1');
+    component.onSelect(1);
     fixture.detectChanges();
     expect(component.attributeRadioButtonForm.value).toEqual('2');
   });
+
+  it('should change selected value with keypress enter', () => {
+    expect(component.attributeRadioButtonForm.value).toEqual('1');
+    component.onEnter(13, 1);
+    fixture.detectChanges();
+    expect(component.attributeRadioButtonForm.value).toEqual('2');
+  });
+
 });

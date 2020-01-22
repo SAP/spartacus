@@ -28,13 +28,7 @@ export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   ngOnInit() {
-    let selectedSingleValue: Configurator.Value;
-    selectedSingleValue = this.attribute.values.find(
-      value => value.selected === true
-    );
-    if (selectedSingleValue) {
-      this.attributeRadioButtonForm.setValue(selectedSingleValue.valueCode);
-    }
+    this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
   onEnter(event, index) {
