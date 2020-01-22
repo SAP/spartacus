@@ -1,0 +1,24 @@
+%cx-table {
+  .table {
+    table-layout: fixed;
+
+    td {
+      word-wrap: break-word;
+      max-width: 0;
+    }
+
+    @include media-breakpoint-down(xs) {
+      thead {
+        th {
+          text-align: center;
+          font-size: x-small;
+        }
+      }
+
+      td {
+        text-align: center;
+        font-size: x-small;
+      }
+    }
+  }
+}
