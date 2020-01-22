@@ -35,11 +35,11 @@ export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
     if (event.which !== 13) {
       return;
     }
-    this.onSelect(index);
+    this.onClick(index);
     //TODO: fix focus lose when selection with keyboard
   }
 
-  onSelect(index) {
+  onClick(index) {
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
       changedAttribute: {

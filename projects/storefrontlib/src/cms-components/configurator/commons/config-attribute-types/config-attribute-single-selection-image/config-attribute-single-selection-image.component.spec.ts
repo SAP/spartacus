@@ -84,4 +84,10 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       'selectedSingleValue'
     );
   });
+
+  it('should select ValueCode 1', () => {
+    component.onClick(0);
+    fixture.detectChanges();
+    expect(component.attributeRadioButtonForm.value).toEqual('1');
+  });
 });
