@@ -80,6 +80,8 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   });
 
   it('should init with selectedValue', () => {
-    expect(component.attributeRadioButtonForm.value).toEqual('selectedSingleValue');
+    expect(component.attributeRadioButtonForm.value).toEqual(
+      'selectedSingleValue'
+    );
   });
 });
