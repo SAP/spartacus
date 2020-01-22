@@ -57,11 +57,4 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
   it('should display summary page', () => {
     checkout.verifyOrderConfirmationPageWithCheapProduct();
   });
-
-  it('should be able to check order in order history', () => {
-    clickHamburger();
-    checkout.viewOrderHistoryWithCheapProduct();
-    clickHamburger();
-    checkout.signOut();
-  });
 });
