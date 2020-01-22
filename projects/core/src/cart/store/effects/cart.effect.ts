@@ -29,6 +29,13 @@ import {
   getCartHasPendingProcessesSelectorFactory,
 } from '../selectors/multi-cart.selector';
 
+/**
+ * @deprecated since version 1.5
+ *
+ * spartacus ngrx effects will no longer be a part of public API
+ *
+ * TODO(issue:#4507)
+ */
 @Injectable()
 export class CartEffects {
   private contextChange$ = this.actions$.pipe(
@@ -184,7 +191,7 @@ export class CartEffects {
     | CartActions.CreateMultiCartSuccess
     | DeprecatedCartActions.CreateCartFail
     | CartActions.CreateMultiCartFail
-    | CartActions.SetFreshCart
+    | CartActions.SetTempCart
   > = this.actions$.pipe(
     ofType(DeprecatedCartActions.CREATE_CART),
     map((action: DeprecatedCartActions.CreateCart) => action.payload),
@@ -222,7 +229,10 @@ export class CartEffects {
                 userId: payload.userId,
                 extraData: payload.extraData,
               }),
-              new CartActions.SetFreshCart(cart),
+              new CartActions.SetTempCart({
+                cart,
+                tempCartId: payload.tempCartId,
+              }),
               ...conditionalActions,
             ];
           }),
@@ -232,7 +242,7 @@ export class CartEffects {
                 makeErrorSerializable(error)
               ),
               new CartActions.CreateMultiCartFail({
-                cartId: payload.cartId,
+                tempCartId: payload.tempCartId,
                 error: makeErrorSerializable(error),
               }),
             ])
