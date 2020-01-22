@@ -21,7 +21,7 @@ export class CreateWishList implements Action {
   constructor(
     public payload: {
       userId: string;
-      name?: string;
+      name: string;
       description?: string;
     }
   ) {}
@@ -43,7 +43,7 @@ export class CreateWishListFail extends EntityFailAction {
 
 export class LoadWishList implements Action {
   readonly type = LOAD_WISH_LIST;
-  constructor(public payload: string) {}
+  constructor(public payload: { userId: string; customerId: string }) {}
 }
 
 export class LoadWishListSuccess extends EntitySuccessAction {
