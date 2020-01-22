@@ -69,6 +69,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       attrCode: 444,
       uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
       required: false,
+      selectedSingleValue: 'selectedSingleValue',
       values: localvalues,
     };
     fixture.detectChanges();
@@ -78,17 +79,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should change selected value with click', () => {
-    expect(component.attributeRadioButtonForm.value).toBeUndefined();
-    component.onSelect(1);
-    fixture.detectChanges();
-    expect(component.attributeRadioButtonForm.value).toEqual('2');
-  });
-
-  it('should change selected value with keypress enter', () => {
-    expect(component.attributeRadioButtonForm.value).toBeUndefined();
-    component.onEnter(13, 1);
-    fixture.detectChanges();
-    expect(component.attributeRadioButtonForm.value).toEqual('2');
+  it('should init with selectedValue', () => {
+    expect(component.attributeRadioButtonForm.value).toEqual('selectedValue');
   });
 });
