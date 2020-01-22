@@ -1,10 +1,12 @@
 %CategoryPageTemplate-calydon {
   cx-page-slot {
     cx-banner {
-      a:focus {
+      a {
         display: block;
-        position: sticky;
-        z-index: 1;
+        &:focus {
+          position: relative;
+          z-index: 1;
+        }
       }
     }
   }
