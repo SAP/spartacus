@@ -66,6 +66,11 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-account/return-request/:returnCode'],
     paramsMapping: { returnCode: 'rma' },
   },
+  coupons: { paths: ['my-account/coupons'] },
+  couponClaim: {
+    paths: ['my-account/coupon/claim/:couponCode'],
+    paramsMapping: { couponCode: 'code' },
+  },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {

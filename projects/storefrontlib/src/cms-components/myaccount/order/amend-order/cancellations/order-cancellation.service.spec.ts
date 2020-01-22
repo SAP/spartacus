@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { FormGroup } from '@angular/forms';
 import {
   GlobalMessageService,
   Order,
@@ -9,6 +10,7 @@ import {
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderCancellationService } from './order-cancellation.service';
+import createSpy = jasmine.createSpy;
 
 const mockOrder: Order = {
   code: '123',
@@ -31,12 +33,27 @@ class MockOrderDetailsService {
   }
 }
 
-class MockUserOrderService {}
-class MockRoutingService {}
-class MockGlobalMessageService {}
+class MockUserOrderService {
+  cancelOrder = createSpy();
+  getCancelOrderSuccess() {
+    return of(true);
+  }
+  resetCancelOrderProcessState() {}
+}
+class MockRoutingService {
+  go = createSpy();
+}
+class MockGlobalMessageService {
+  add = createSpy();
+}
 
 describe('OrderCancellationService', () => {
   let service: OrderCancellationService;
+  let userOrderService: UserOrderService;
+  let globalMessageService: GlobalMessageService;
+  let routingService: MockRoutingService;
+
+  let form: FormGroup;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -64,6 +81,22 @@ describe('OrderCancellationService', () => {
     service = TestBed.get(OrderCancellationService as Type<
       OrderCancellationService
     >);
+
+    userOrderService = TestBed.get(UserOrderService as Type<UserOrderService>);
+    globalMessageService = TestBed.get(GlobalMessageService as Type<
+      GlobalMessageService
+    >);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+
+    service
+      .getForm()
+      .subscribe(f => (form = f))
+      .unsubscribe();
+
+    form
+      .get('entries')
+      .get('1')
+      .setValue(3);
   });
 
   it('should be created', () => {
@@ -85,17 +118,6 @@ describe('OrderCancellationService', () => {
   });
 
   it('should return 1 amended entry', () => {
-    let form;
-    service
-      .getForm()
-      .subscribe(f => (form = f))
-      .unsubscribe();
-
-    form
-      .get('entries')
-      .get('1')
-      .setValue(3);
-
     let result;
 
     service
@@ -104,5 +126,33 @@ describe('OrderCancellationService', () => {
       .unsubscribe();
 
     expect(result.length).toEqual(1);
+  });
+
+  it('should save one item', () => {
+    service.save();
+
+    expect(userOrderService.cancelOrder).toHaveBeenCalledWith('123', {
+      cancellationRequestEntryInputs: [{ orderEntryNumber: 1, quantity: 3 }],
+    });
+  });
+
+  it('should reset form after saving', () => {
+    service.save();
+
+    expect(form.dirty).toBeFalsy();
+    expect(form.pristine).toBeTruthy();
+  });
+
+  it('should send global message', () => {
+    service.save();
+    expect(globalMessageService.add).toHaveBeenCalled();
+  });
+
+  it('should route to orders', () => {
+    service.save();
+    expect(routingService.go).toHaveBeenCalled();
+    // With({
+    //   cxRoute: 'orders',
+    // });
   });
 });

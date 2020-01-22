@@ -17,6 +17,7 @@ import { UserConsentsEffect } from './user-consents.effect';
 import { UserDetailsEffects } from './user-details.effect';
 import { UserOrdersEffect } from './user-orders.effect';
 import { UserRegisterEffects } from './user-register.effect';
+import { CustomerCouponEffects } from './customer-coupon.effect';
 import { ProductInterestsEffect } from './product-interests.effect';
 
 export const effects: any[] = [
@@ -37,6 +38,7 @@ export const effects: any[] = [
   UpdatePasswordEffects,
   UserConsentsEffect,
   ConsignmentTrackingEffects,
+  CustomerCouponEffects,
   NotificationPreferenceEffects,
   ProductInterestsEffect,
   OrderReturnRequestEffect,
@@ -58,4 +60,5 @@ export * from './user-consents.effect';
 export * from './user-details.effect';
 export * from './user-orders.effect';
 export * from './user-register.effect';
+export * from './customer-coupon.effect';
 export * from './product-interests.effect';

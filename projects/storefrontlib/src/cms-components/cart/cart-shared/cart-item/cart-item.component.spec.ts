@@ -14,6 +14,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  FeatureConfigService,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
@@ -92,6 +93,11 @@ describe('CartItemComponent', () => {
   let fixture: ComponentFixture<CartItemComponent>;
   let el: DebugElement;
 
+  const featureConfig = jasmine.createSpyObj('FeatureConfigService', [
+    'isEnabled',
+    'isLevel',
+  ]);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -112,6 +118,7 @@ describe('CartItemComponent', () => {
         {
           provide: ControlContainer,
         },
+        { provide: FeatureConfigService, useValue: featureConfig },
         {
           provide: PromotionService,
           useClass: MockPromotionService,
@@ -142,6 +149,16 @@ describe('CartItemComponent', () => {
   });
 
   it('should create CartItemComponent', () => {
+    expect(cartItemComponent).toBeTruthy();
+  });
+
+  it('should create cart details component', () => {
+    featureConfig.isEnabled.and.returnValue(true);
+    expect(cartItemComponent).toBeTruthy();
+
+    fixture.detectChanges();
+
+    featureConfig.isEnabled.and.returnValue(false);
     expect(cartItemComponent).toBeTruthy();
   });
 
