@@ -1,4 +1,4 @@
-//@import './organization-search';
-//
-//
-//$store-finder-components-whitelist: cx-organization-search !default;
+@import './budgets/budget-form';
+@import './budgets/budgets-list';
+
+$organization-components-whitelist: cx-budget-form cx-budgets-list !default;

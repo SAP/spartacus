@@ -1,6 +1,6 @@
 <ng-container class="container" *ngIf="budgetsList$ | async as budgetsList">
   <ng-template #sortAndPagination>
-    <div class="cx-form-group form-group col-sm-12 col-md-4 col-lg-4">
+    <div class="cx-form-group form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
       <cx-sorting
         [sortOptions]="budgetsList.sorts"
         [sortLabels]="{
@@ -13,7 +13,7 @@
         (sortListEvent)="changeSortCode($event)"
       ></cx-sorting>
     </div>
-    <div class="cx-pagination">
+    <div class="cx-pagination cx-textalign">
       <cx-pagination
         [pagination]="budgetsList.pagination"
         (viewPageEvent)="pageChange($event)"
@@ -22,8 +22,8 @@
   </ng-template>
 
   <div class="row">
-    <div class="col-md-12 col-lg-9">
-      <div class="cx-table-header">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+      <div class="cx-table-header cx-textalign">
         <h3>{{ 'budgetsList.budgetManagement' | cxTranslate }}</h3>
       </div>
 
@@ -35,7 +35,7 @@
     </div>
     <div class="col-md-12 col-lg-3">
       <div class="row cx-search-links mb-3">
-        <div class="col-12">
+        <div class="col-12 cx-textalign">
           <button
             [routerLink]="{ cxRoute: 'budgetCreate' } | cxUrl"
             class="btn btn-primary btn-block"

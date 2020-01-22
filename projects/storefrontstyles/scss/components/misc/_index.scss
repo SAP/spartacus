@@ -3,6 +3,7 @@
 @import './spinner/index';
 @import './search/index';
 @import './icons';
+@import './tables/index';
 
 $misc-components-whitelist: cx-icon, cx-spinner, cx-card, cx-pagination,
-  cx-search !default;
+  cx-search, cx-table !default;

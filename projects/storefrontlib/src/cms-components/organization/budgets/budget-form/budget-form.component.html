@@ -122,17 +122,8 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12 col-lg-6" *ngIf="showCancelBtn">
-      <a
-        class="btn btn-block btn-action"
-        (click)="back()"
-        [routerLink]="routerBackLink | cxUrl"
-      >
-        {{ cancelBtnLabel || ('common.cancel' | cxTranslate) }}
-      </a>
-    </div>
-    <div class="col-md-12 col-lg-6">
+  <div class="row buttons">
+    <div class="col-md-12 col-lg-6 mb-3">
       <button
         class="btn btn-block btn-primary"
         [disabled]="form.invalid"
@@ -140,6 +131,15 @@
       >
         {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
       </button>
+    </div>
+    <div class="col-md-12 col-lg-6 mb-3" *ngIf="showCancelBtn">
+      <a
+        class="btn btn-block btn-action"
+        (click)="back()"
+        [routerLink]="routerBackLink | cxUrl"
+      >
+        {{ cancelBtnLabel || ('common.cancel' | cxTranslate) }}
+      </a>
     </div>
   </div>
 </div>
