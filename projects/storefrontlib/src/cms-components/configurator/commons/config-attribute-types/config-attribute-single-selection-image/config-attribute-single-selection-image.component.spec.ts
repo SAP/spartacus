@@ -79,14 +79,14 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   });
 
   it('should change selected value with click', () => {
-    expect(component.attributeRadioButtonForm.value).toBe(null);
+    expect(component.attributeRadioButtonForm.value).toBeUndefined();
     component.onSelect(1);
     fixture.detectChanges();
     expect(component.attributeRadioButtonForm.value).toEqual('2');
   });
 
   it('should change selected value with keypress enter', () => {
-    expect(component.attributeRadioButtonForm.value).toBe(null);
+    expect(component.attributeRadioButtonForm.value).toBeUndefined();
     component.onEnter(13, 1);
     fixture.detectChanges();
     expect(component.attributeRadioButtonForm.value).toEqual('2');
