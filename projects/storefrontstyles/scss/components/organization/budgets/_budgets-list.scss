@@ -6,20 +6,20 @@
     }
   }
 
-  .table {
-    @include media-breakpoint-down(xs) {
-      thead {
-        th {
-          font-size: x-small;
-        }
-      }
+  // .table {
+  //   @include media-breakpoint-down(xs) {
+  //     thead {
+  //       th {
+  //         font-size: x-small;
+  //       }
+  //     }
 
-      td {
-        text-align: center;
-        font-size: x-small;
-        word-wrap: break-word;
-        max-width: 0;
-      }
-    }
-  }
+  //     td {
+  //       text-align: center;
+  //       font-size: x-small;
+  //       word-wrap: break-word;
+  //       max-width: 0;
+  //     }
+  //   }
+  // }
 }
