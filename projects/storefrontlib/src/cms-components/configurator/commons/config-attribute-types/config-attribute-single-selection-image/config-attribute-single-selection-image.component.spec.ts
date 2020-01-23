@@ -84,14 +84,4 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       'selectedSingleValue'
     );
   });
-
-  it('should change with enter key to val2', () => {
-    expect(classUnderTest.attributeRadioButtonForm.value).toEqual(
-      'selectedSingleValue'
-    );
-    const event = { which: 13 };
-    classUnderTest.onEnter(event, 1);
-    fixture.detectChanges();
-    expect(classUnderTest.attributeRadioButtonForm.value).toEqual('2');
-  });
 });
