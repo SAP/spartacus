@@ -73,31 +73,6 @@ describe('CmsService', () => {
   }));
 
   describe('getComponentData', () => {
-    // TODO(issue:6027) - remove this test
-    // TODO:#6027 - should we remove this test?
-    it('getComponentData should call the store and trigger component load', inject(
-      [CmsService],
-      (service: CmsService) => {
-        spyOn(service, 'getCurrentPage').and.returnValue(of(page));
-
-        const testUid = 'test_uid';
-        const mockSelect = createSpy('select').and.returnValue(() => of({}));
-        spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
-
-        service
-          .getComponentData(testUid)
-          .pipe(take(1))
-          .subscribe(() => {})
-          .unsubscribe();
-
-        expect(mockSelect).toHaveBeenCalled();
-
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new CmsActions.LoadCmsComponent(testUid)
-        );
-      }
-    ));
-
     describe('when pageContext is NOT provided', () => {
       it('should use the current page context and dispatch LoadCmsComponent', inject(
         [CmsService],
@@ -132,7 +107,7 @@ describe('CmsService', () => {
           service
             .getComponentData(uid)
             .pipe(take(1))
-            .subscribe(() => {})
+            .subscribe()
             .unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
@@ -180,7 +155,7 @@ describe('CmsService', () => {
           service
             .getComponentData(uid, specifiedPageContext)
             .pipe(take(1))
-            .subscribe(() => {})
+            .subscribe()
             .unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
