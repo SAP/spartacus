@@ -91,6 +91,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     );
     const event = { which: 13 };
     classUnderTest.onEnter(event, 1);
+    fixture.detectChanges();
     expect(classUnderTest.attributeRadioButtonForm.value).toEqual('2');
   });
 });
