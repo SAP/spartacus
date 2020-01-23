@@ -44,9 +44,11 @@ export class ComponentEffects {
         mergeMap(actionGroup =>
           actionGroup.pipe(
             bufferDebounceTime(debounce, scheduler),
-            map(actions => this.groupByPageContext(actions)),
-            mergeMap(group =>
-              this.loadComponentsEffect(group.componentUids, group.pageContext)
+            mergeMap(actions =>
+              this.loadComponentsEffect(
+                actions.map(action => action.payload),
+                actions[0].pageContext
+              )
             )
           )
         ),
@@ -114,22 +116,6 @@ export class ComponentEffects {
           )
         )
       )
-    );
-  }
-
-  private groupByPageContext(
-    actions: CmsActions.LoadCmsComponent[]
-  ): { pageContext: PageContext; componentUids: string[] } {
-    return actions.reduce<{
-      pageContext: PageContext;
-      componentUids: string[];
-    }>(
-      (acc, currentAction) => {
-        const componentUids = acc.componentUids;
-        componentUids.push(currentAction.payload);
-        return { pageContext: currentAction.pageContext, componentUids };
-      },
-      { pageContext: undefined, componentUids: [] }
     );
   }
 }
