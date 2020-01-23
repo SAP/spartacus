@@ -4,7 +4,7 @@ import { entityStateSelector } from '../../../state/utils/entity-loader/entity-l
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { B2BSearchConfig } from '../../model/search-config';
-import { serializeBudgetSearchConfig } from '../../utils/budgets';
+import { serializeB2BSearchConfig } from '../../utils/serializer';
 import {
   BUDGET_ENTITIES,
   BUDGET_FEATURE,
@@ -50,7 +50,7 @@ export const getBudgetList = (
     (state: BudgetManagement) => {
       const list: any = entityStateSelector(
         state[BUDGET_LISTS],
-        serializeBudgetSearchConfig(params)
+        serializeB2BSearchConfig(params)
       );
       if (!list.value || !list.value.ids) {
         return list;

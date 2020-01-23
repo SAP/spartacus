@@ -5,7 +5,7 @@ function nullish(param, defaultValue) {
   return param !== null && param !== undefined ? param : defaultValue;
 }
 
-export function serializeBudgetSearchConfig(config: B2BSearchConfig) {
+export function serializeB2BSearchConfig(config: B2BSearchConfig) {
   return `pageSize=${nullish(config.pageSize, '')}&currentPage=${nullish(
     config.currentPage,
     ''
