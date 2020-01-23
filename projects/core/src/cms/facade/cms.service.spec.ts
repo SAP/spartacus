@@ -4,7 +4,7 @@ import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { PageType } from '../../model/cms.model';
+import { CmsComponent, PageType } from '../../model/cms.model';
 import { PageContext, RoutingService } from '../../routing/index';
 import { LoaderState } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
@@ -71,6 +71,36 @@ describe('CmsService', () => {
   it('should be created', inject([CmsService], (service: CmsService) => {
     expect(service).toBeTruthy();
   }));
+
+  describe('getComponentsData', () => {
+    it('should call getComponentData multiple times', inject(
+      [CmsService],
+      (service: CmsService) => {
+        const uids = ['comp1', 'comp2', 'comp3'];
+        const pageContext: PageContext = {
+          id: 'homepage',
+          type: PageType.CONTENT_PAGE,
+        };
+        const expected: CmsComponent[] = [
+          { uid: 'comp1' },
+          { uid: 'comp2' },
+          { uid: 'comp3' },
+        ];
+        spyOn(service, 'getComponentData').and.returnValues(
+          ...expected.map(component => of(component))
+        );
+
+        let result: CmsComponent[];
+        service
+          .getComponentsData(uids, pageContext)
+          .subscribe(value => (result = value))
+          .unsubscribe();
+
+        expect(result).toEqual(expected);
+        expect(service.getComponentData).toHaveBeenCalledTimes(uids.length);
+      }
+    ));
+  });
 
   describe('getComponentData', () => {
     describe('when pageContext is NOT provided', () => {

@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, of, queueScheduler, using } from 'rxjs';
 import {
   catchError,
+  debounceTime,
   filter,
   observeOn,
   pluck,
@@ -65,6 +66,22 @@ export class CmsService {
           this.store.select(CmsSelectors.getPageData(pageContext))
         )
       );
+  }
+
+  /**
+   * Get CMS component data by uid
+   * @param uids CMS component uids
+   * @param pageContext if provided, it will be used to lookup the component data.
+   * In case the component data is not present, the method will load it.
+   * Otherwise, if the page context is not provided, the current page context from the router state will be used instead.
+   */
+  getComponentsData<T extends CmsComponent>(
+    uids: string[],
+    pageContext?: PageContext
+  ): Observable<T[]> {
+    return combineLatest(
+      uids.map(uid => this.getComponentData(uid, pageContext) as Observable<T>)
+    ).pipe(debounceTime(0));
   }
 
   /**
