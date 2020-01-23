@@ -33,7 +33,7 @@ class MockSkipLinkService {
   };
 }
 
-fdescribe('SkipLinkComponent', () => {
+describe('SkipLinkComponent', () => {
   let skipLinkComponent: SkipLinkComponent;
   let service: SkipLinkService;
   let fixture: ComponentFixture<SkipLinkComponent>;
