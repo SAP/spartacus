@@ -7,7 +7,7 @@ import { ConfigAttributeSingleSelectionImageComponent } from './config-attribute
 import { NgSelectModule } from '@ng-select/ng-select';
 
 describe('ConfigAttributeSingleSelectionImageComponent', () => {
-  let component: ConfigAttributeSingleSelectionImageComponent;
+  let classUnderTest: ConfigAttributeSingleSelectionImageComponent;
   let fixture: ComponentFixture<ConfigAttributeSingleSelectionImageComponent>;
 
   beforeEach(async(() => {
@@ -62,9 +62,9 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     fixture = TestBed.createComponent(
       ConfigAttributeSingleSelectionImageComponent
     );
-    component = fixture.componentInstance;
+    classUnderTest = fixture.componentInstance;
 
-    component.attribute = {
+    classUnderTest.attribute = {
       name: 'attributeName',
       attrCode: 444,
       uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
@@ -76,18 +76,18 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(classUnderTest).toBeTruthy();
   });
 
   it('should init with selectedValue', () => {
-    expect(component.attributeRadioButtonForm.value).toEqual(
+    expect(classUnderTest.attributeRadioButtonForm.value).toEqual(
       'selectedSingleValue'
     );
   });
 
-  it('should select ValueCode 1', async () => {
-    await component.onClick(0);
-    fixture.detectChanges();
-    expect(component.attributeRadioButtonForm.value).toEqual('1');
+  it('should init with selectedValue', () => {
+    const event = { which: 13 };
+    classUnderTest.onEnter(event, 0);
+    expect(classUnderTest.onClick).toHaveBeenCalledWith(0);
   });
 });
