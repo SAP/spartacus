@@ -24,13 +24,13 @@ export interface BudgetManagement {
 }
 
 export interface OrgUnits {
-  [PERMISSION_ENTITIES]?: EntityLoaderState<B2BUnitNode>;
-  [PERMISSION_LISTS]?: EntityLoaderState<ListModel>;
+  [ORG_UNIT_ENTITIES]?: EntityLoaderState<B2BUnitNode>;
+  [ORG_UNIT_LISTS]?: EntityLoaderState<ListModel>;
 }
 
 export interface PermissionManagement {
-  [ORG_UNIT_ENTITIES]?: EntityLoaderState<Permission>;
-  [ORG_UNIT_LISTS]?: EntityLoaderState<ListModel>;
+  [PERMISSION_ENTITIES]?: EntityLoaderState<Permission>;
+  [PERMISSION_LISTS]?: EntityLoaderState<ListModel>;
 }
 
 export interface StateWithOrganization {
