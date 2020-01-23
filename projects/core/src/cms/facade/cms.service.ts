@@ -119,6 +119,7 @@ export class CmsService {
           loadingState.loading || loadingState.success || loadingState.error;
         // if the requested context is the same as the one that's currently being navigated to
         // (as it might already been triggered and might be available shortly from page data)
+        // TODO(issue:3649), TODO(issue:3668) - this optimization could be removed
         const couldBeLoadedWithPageData = nextContext
           ? serializePageContext(nextContext) === context
           : false;
