@@ -151,8 +151,8 @@ describe('SpartacusEventTracker', () => {
       .cartChanged()
       .pipe(tap(_ => timesCalled++))
       .subscribe();
-    cartBehavior.next({ testCart: { id: 123, entries: [] } });
-    cartBehavior.next({ testCart: { id: 13, entries: [] } });
+    cartBehavior.next({ id: 123, entries: [] });
+    cartBehavior.next({ id: 13, entries: [] });
     subscription.unsubscribe();
     expect(timesCalled).toEqual(0);
   });

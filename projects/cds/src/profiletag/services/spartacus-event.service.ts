@@ -44,7 +44,9 @@ export class SpartacusEventService {
    */
   cartChanged(): Observable<{ cart: Cart }> {
     return this.cartService.getActive().pipe(
-      skipWhile(cart => cart.entries.length === 0),
+      skipWhile(
+        cart => typeof cart.entries === 'undefined' || cart.entries.length === 0
+      ),
       map(cart => ({
         cart,
       }))
