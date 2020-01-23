@@ -85,9 +85,12 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     );
   });
 
-  it('should init with selectedValue', () => {
+  it('should change with enter key to val2', () => {
+    expect(classUnderTest.attributeRadioButtonForm.value).toEqual(
+      'selectedSingleValue'
+    );
     const event = { which: 13 };
-    classUnderTest.onEnter(event, 0);
-    expect(classUnderTest.onClick).toHaveBeenCalledWith(0);
+    classUnderTest.onEnter(event, 1);
+    expect(classUnderTest.attributeRadioButtonForm.value).toEqual('2');
   });
 });
