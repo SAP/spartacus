@@ -1,5 +1,7 @@
-import { checkAllElements } from '../tabbing-order';
-import { TabElement } from '../tabbing-order.model';
+import { verifyTabbingOrder } from '../../tabbing-order';
+import { TabElement } from '../../tabbing-order.model';
+
+const containerSelector = '.AccountPageTemplate';
 
 export function wishlistTabbingOrder(config: TabElement[]) {
   cy.server();
@@ -17,8 +19,6 @@ export function wishlistTabbingOrder(config: TabElement[]) {
 
   cy.wait(`@addToWishlist`);
   cy.visit('/my-account/wishlist');
-  cy.get('cx-wish-list-item a:not([tabindex=-1])')
-    .first()
-    .focus(); // focus the first element
-  checkAllElements(config);
+
+  verifyTabbingOrder(containerSelector, config);
 }

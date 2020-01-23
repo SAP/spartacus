@@ -1,10 +1,12 @@
-import { checkAllElements, checkoutNextStep } from '../../tabbing-order';
+import { checkoutNextStep, verifyTabbingOrder } from '../../tabbing-order';
 import {
   fillPaymentDetails,
   fillBillingAddress,
 } from '../../../checkout-forms';
 import { user } from '../../../../sample-data/checkout-flow';
 import { TabElement } from '../../tabbing-order.model';
+
+const containerSelector = '.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
   cy.server();
@@ -23,31 +25,13 @@ export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
   const { payment, fullName } = user;
   fillPaymentDetails({ payment, fullName }, null, false);
 
-  cy.get('label')
-    .contains('Payment Type')
-    .parent()
-    .within(() => {
-      cy.get('input')
-        .first()
-        .focus();
-    });
-
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
 }
 
 export function checkoutBillingAddressTabbingOrder(config: TabElement[]) {
   const { firstName, lastName, phone, address } = user;
   fillBillingAddress({ firstName, lastName, phone, address });
 
-  cy.get('label')
-    .contains('Country')
-    .parent()
-    .within(() => {
-      cy.get('input')
-        .first()
-        .focus();
-    });
-
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
   checkoutNextStep('/checkout/review-order');
 }

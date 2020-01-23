@@ -1,5 +1,7 @@
-import { checkAllElements } from '../tabbing-order';
-import { TabElement } from '../tabbing-order.model';
+import { verifyTabbingOrder } from '../../tabbing-order';
+import { TabElement } from '../../tabbing-order.model';
+
+const containerSelector = '.AccountPageTemplate';
 
 export function setupForAddressBookTests() {
   addAddress();
@@ -15,11 +17,7 @@ export function addressBookFormTabbingOrder(config: TabElement[]) {
 
   selectCountryCanada();
 
-  cy.get('cx-address-book ng-select input')
-    .first()
-    .focus();
-
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
 }
 
 export function addressBookDirectoryTabbingOrder(config: TabElement[]) {
@@ -29,7 +27,7 @@ export function addressBookDirectoryTabbingOrder(config: TabElement[]) {
     .contains('Add new address')
     .focus();
 
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
 }
 
 function addAddress() {

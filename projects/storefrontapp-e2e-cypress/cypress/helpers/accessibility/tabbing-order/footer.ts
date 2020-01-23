@@ -1,11 +1,16 @@
-import { checkAllElements } from '../tabbing-order';
+import { verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
 
-export function footerTabbingOrder(config: TabElement[]) {
-  cy.visit('/login');
-  cy.get('cx-footer-navigation > cx-navigation-ui a')
-    .first()
-    .focus();
+const containerSelector = 'cx-footer-navigation';
 
-  checkAllElements(config);
+export function footerTabbingOrder(config: TabElement[]) {
+  cy.server();
+  cy.route(
+    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
+  ).as('getComponents');
+
+  cy.visit('/login');
+  cy.wait('@getComponents');
+
+  verifyTabbingOrder(containerSelector, config);
 }

@@ -1,6 +1,8 @@
-import { checkAllElements, checkoutNextStep } from '../../tabbing-order';
+import { checkoutNextStep, verifyTabbingOrder } from '../../tabbing-order';
 import { user } from '../../../../sample-data/checkout-flow';
 import { TabElement } from '../../tabbing-order.model';
+
+const containerSelector = '.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
   cy.window().then(win => {
@@ -14,11 +16,6 @@ export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
 
   cy.visit('/checkout/delivery-mode');
 
-  cy.get('input[type=radio][formcontrolname=deliveryModeId]')
-    .first()
-    .focus()
-    .click();
-
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
   checkoutNextStep('/checkout/payment-details');
 }
