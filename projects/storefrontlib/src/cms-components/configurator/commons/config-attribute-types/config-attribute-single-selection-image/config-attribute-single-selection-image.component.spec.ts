@@ -85,10 +85,9 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     );
   });
 
-  it('should select ValueCode 1', () => {
-    component.onClick(0);
+  it('should select ValueCode 1', async () => {
+    await component.onClick(0);
     fixture.detectChanges();
-    component.ngOnInit();
     expect(component.attributeRadioButtonForm.value).toEqual('1');
   });
 });
