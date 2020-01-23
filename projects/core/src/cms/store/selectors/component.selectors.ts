@@ -131,16 +131,25 @@ export const componentsContextExistsSelectorFactory = (
   );
 };
 
+export const componentsDataSelectorFactory = (
+  uid: string
+): MemoizedSelector<StateWithCms, CmsComponent> => {
+  return createSelector(
+    componentsContextSelectorFactory(uid),
+    state => state.component
+  );
+};
+
 export const componentsSelectorFactory = (
   uid: string,
   context: string
 ): MemoizedSelector<StateWithCms, CmsComponent> => {
   return createSelector(
-    componentsContextSelectorFactory(uid),
+    componentsDataSelectorFactory(uid),
     componentsContextExistsSelectorFactory(uid, context),
-    (state, exists) => {
-      if (state && exists) {
-        return state.component;
+    (componentState, exists) => {
+      if (componentState && exists) {
+        return componentState;
       } else {
         return undefined;
       }
