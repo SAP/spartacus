@@ -4,6 +4,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { SkipLinkConfig, SkipLink } from '../config/index';
 import { SkipLinkService } from '../service/skip-link.service';
 import { BehaviorSubject } from 'rxjs';
+import { Type } from '@angular/core';
 
 const mockSkipLinks: SkipLink[] = [
   {
@@ -32,8 +33,9 @@ class MockSkipLinkService {
   };
 }
 
-describe('SkipLinkComponent', () => {
+fdescribe('SkipLinkComponent', () => {
   let skipLinkComponent: SkipLinkComponent;
+  let service: SkipLinkService;
   let fixture: ComponentFixture<SkipLinkComponent>;
 
   beforeEach(async(() => {
@@ -52,7 +54,9 @@ describe('SkipLinkComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SkipLinkComponent);
+    service = TestBed.get(SkipLinkService as Type<SkipLinkService>);
     skipLinkComponent = fixture.componentInstance;
+    skipLinkComponent.skipLinks$ = service.getSkipLinks(); // Don't use async pipe for test
     fixture.detectChanges();
   });
 
