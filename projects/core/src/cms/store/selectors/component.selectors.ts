@@ -102,14 +102,7 @@ export const componentsContextSelectorFactory = (
 ): MemoizedSelector<StateWithCms, ComponentsContext> => {
   return createSelector(
     getComponentsState,
-    componentsState => {
-      // the whole component componentsState are empty
-      if (Object.keys(componentsState.entities).length === 0) {
-        return undefined;
-      } else {
-        return StateEntitySelectors.entitySelector(componentsState, uid);
-      }
-    }
+    componentsState => StateEntitySelectors.entitySelector(componentsState, uid)
   );
 };
 
@@ -119,14 +112,11 @@ export const componentsLoaderStateSelectorFactory = (
 ): MemoizedSelector<StateWithCms, LoaderState<boolean>> => {
   return createSelector(
     componentsContextSelectorFactory(uid),
-    componentsContext => {
-      if (!componentsContext) {
-        return initialLoaderState;
-      }
-
-      const loaderState = componentsContext.pageContext[context];
-      return loaderState ? loaderState : initialLoaderState;
-    }
+    componentsContext =>
+      (componentsContext &&
+        componentsContext.pageContext &&
+        componentsContext.pageContext[context]) ||
+      initialLoaderState
   );
 };
 
@@ -135,21 +125,9 @@ export const componentsContextExistsSelectorFactory = (
   context: string
 ): MemoizedSelector<StateWithCms, boolean> => {
   return createSelector(
-    componentsContextSelectorFactory(uid),
-    state => {
-      if (!state) {
-        return false;
-      }
-
-      const loaderState = state.pageContext[context];
-      if (!loaderState) {
-        return false;
-      }
-
-      const exists = StateLoaderSelectors.loaderValueSelector(loaderState);
-      // 'exists' variable can be undefined, in which case we want to return false
-      return exists ? exists : false;
-    }
+    componentsLoaderStateSelectorFactory(uid, context),
+    loaderState =>
+      StateLoaderSelectors.loaderValueSelector(loaderState) || false
   );
 };
 

@@ -12,9 +12,9 @@ export function reducer<T>(
   state = initialState,
   action: CmsActions.CmsComponentAction<T>
 ): ComponentsContext {
-  const context = serializePageContext(action.pageContext);
   switch (action.type) {
     case CmsActions.LOAD_CMS_COMPONENT: {
+      const context = serializePageContext(action.pageContext);
       return {
         ...state,
         pageContext: {
@@ -28,6 +28,7 @@ export function reducer<T>(
       };
     }
     case CmsActions.LOAD_CMS_COMPONENT_FAIL: {
+      const context = serializePageContext(action.pageContext);
       return {
         ...state,
         pageContext: {
@@ -42,6 +43,7 @@ export function reducer<T>(
     }
     case CmsActions.CMS_GET_COMPONENET_FROM_PAGE:
     case CmsActions.LOAD_CMS_COMPONENT_SUCCESS: {
+      const context = serializePageContext(action.pageContext);
       return {
         ...state,
         component: action.payload as T,
