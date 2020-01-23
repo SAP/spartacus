@@ -70,8 +70,9 @@ export class CmsService {
   /**
    * Get CMS component data by uid
    * @param uid CMS component uid
-   * @param pageContext if provided, it will be used to lookup (and create, if missing) the component data.
-   * Otherwise, the current page context from the router state will be used instead.
+   * @param pageContext if provided, it will be used to lookup the component data.
+   * In case the component data is not present, the method will load it.
+   * Otherwise, if the page context is not provided, the current page context from the router state will be used instead.
    */
   getComponentData<T extends CmsComponent>(
     uid: string,
