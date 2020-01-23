@@ -207,14 +207,14 @@ $theme: '' !default;
   :focus {
     @include visible-focus();
   }
-  .form-control,
-  select,
-  input {
-    &:focus {
-      @include visible-focus();
-    }
-  }
-  .ng-select-focused {
-    @include visible-focus();
-  }
+  // .form-control,
+  // select,
+  // input {
+  //   &:focus {
+  //     @include visible-focus();
+  //   }
+  // }
+  // .ng-select-focused {
+  //   @include visible-focus();
+  // }
 }
