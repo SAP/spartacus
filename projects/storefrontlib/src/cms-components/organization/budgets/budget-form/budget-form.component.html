@@ -65,6 +65,18 @@
             [max]="form.controls['endDate'].value"
             (change)="form.controls['endDate'].updateValueAndValidity()"
           ></cx-date-picker>
+          <span
+            *ngIf="
+              form.controls['startDate'].errors &&
+              form.controls['startDate'].touched
+            "
+          >
+            <span
+              *ngFor="let item of form.controls['startDate'].errors | keyvalue"
+            >
+              {{ item.key }}
+            </span>
+          </span>
         </label>
       </div>
 

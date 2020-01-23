@@ -1,6 +1,10 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-
-import { forwardRef } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  forwardRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALIDATORS,
@@ -40,6 +44,9 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
 
   @Input()
   endOfDay = false;
+
+  @Input()
+  required?: boolean;
 
   constructor(protected dateFormatterService: DatePickerFormatterService) {}
 
