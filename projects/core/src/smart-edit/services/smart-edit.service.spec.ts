@@ -187,7 +187,7 @@ describe('SmartEditService', () => {
       service['getCmsTicket']();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
-        params: { code: 'test product code' },
+        params: { code: 'test product code', name: '' },
       });
     });
 
