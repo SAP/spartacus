@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {  Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { PersonalizationContext } from '../model/personalization-context.model';
-import {filter, map} from "rxjs/operators";
+import { filter, map } from 'rxjs/operators';
 import { PersonalizationConfig } from '../config/personalization-config';
 import { CmsService } from '../../cms/facade/cms.service';
 
@@ -9,24 +9,26 @@ import { CmsService } from '../../cms/facade/cms.service';
   providedIn: 'root',
 })
 export class PersonalizationContextService {
-
   constructor(
     private config: PersonalizationConfig,
     private cmsService: CmsService
-  ) {
-  }
+  ) {}
 
   getPersonalizationContext(): Observable<PersonalizationContext> {
     return this.cmsService.getCurrentPage().pipe(
-      filter(page => page !==  undefined),
+      filter(page => page !== undefined),
       map(page => page.slots[this.config.personalization.context.slotId]),
       filter(slot => slot !== undefined),
-      map(slot => slot.components.find(
-        i => i.uid === this.config.personalization.context.componentId
-      )),
+      map(slot =>
+        slot.components.find(
+          i => i.uid === this.config.personalization.context.componentId
+        )
+      ),
       filter(component => component !== undefined),
-      map(component => this.buildPersonalizationContext(component.properties.script.data))
-    )
+      map(component =>
+        this.buildPersonalizationContext(component.properties.script.data)
+      )
+    );
   }
 
   private buildPersonalizationContext(data: string): PersonalizationContext {
@@ -41,5 +43,4 @@ export class PersonalizationContextService {
     }
     return context;
   }
-
 }

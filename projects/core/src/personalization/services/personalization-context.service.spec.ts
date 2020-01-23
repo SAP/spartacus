@@ -1,13 +1,16 @@
-import {
-  HttpClientTestingModule,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { PersonalizationContextService } from '../services/personalization-context.service';
-import { CmsService, Page, PageType, PersonalizationConfig} from '@spartacus/core';
-import {Observable, of} from "rxjs";
-import {PersonalizationContext} from "../model/personalization-context.model";
+import {
+  CmsService,
+  Page,
+  PageType,
+  PersonalizationConfig,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { PersonalizationContext } from '../model/personalization-context.model';
 
 const mockPersonalizationConfig: PersonalizationConfig = {
   personalization: {
@@ -49,7 +52,7 @@ const mockContentPage: Page = {
   template: 'CartPageTemplate',
   title: 'Shopping Cart',
   slots: {
-    'PlaceholderContentSlot':{
+    PlaceholderContentSlot: {
       components: [
         {
           uid: 'PersonalizationScriptComponent',
@@ -59,8 +62,9 @@ const mockContentPage: Page = {
             },
           },
         },
-      ]
-    }},
+      ],
+    },
+  },
 };
 
 class MockCmsService {
@@ -69,7 +73,7 @@ class MockCmsService {
   }
 }
 
-fdescribe('PersonalizationContextService', () => {
+describe('PersonalizationContextService', () => {
   let service: PersonalizationContextService;
 
   beforeEach(() => {
@@ -82,8 +86,9 @@ fdescribe('PersonalizationContextService', () => {
       ],
     });
 
-    service = TestBed.get(PersonalizationContextService as Type<PersonalizationContextService>);
-
+    service = TestBed.get(PersonalizationContextService as Type<
+      PersonalizationContextService
+    >);
   });
 
   it('should return personalization context if PersonalizationScriptComponent exists', () => {
@@ -98,13 +103,7 @@ fdescribe('PersonalizationContextService', () => {
 
     expect(result.segments[0]).toEqual('segment1');
     expect(result.segments[1]).toEqual('segment2');
-    expect(result.actions[0].customization_code).toEqual(
-      'customization_code1'
-    );
-    expect(result.actions[1].customization_code).toEqual(
-      'customization_code2'
-    );
-
+    expect(result.actions[0].customization_code).toEqual('customization_code1');
+    expect(result.actions[1].customization_code).toEqual('customization_code2');
   });
-
 });
