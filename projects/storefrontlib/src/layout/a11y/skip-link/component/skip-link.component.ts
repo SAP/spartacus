@@ -12,7 +12,7 @@ import { observeOn } from 'rxjs/operators';
 export class SkipLinkComponent {
   skipLinks$: Observable<SkipLink[]> = this.skipLinkService
     .getSkipLinks()
-    .pipe(observeOn(asyncScheduler));
+    .pipe(observeOn(asyncScheduler)); // desynchronize changes on ngOnInit and ngOnDestroy
 
   constructor(private skipLinkService: SkipLinkService) {}
 
