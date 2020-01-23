@@ -10,7 +10,7 @@ import * as fromProcessReducers from '../../process/store/reducers';
 import { BudgetActions } from '../store/actions/index';
 import * as fromReducers from '../store/reducers/index';
 import { BudgetService } from './budget.service';
-import { BudgetSearchConfig } from '../model/search-config';
+import { B2BSearchConfig } from '../model/search-config';
 import {
   AuthService,
   ORGANIZATION_FEATURE,
@@ -106,7 +106,7 @@ describe('BudgetService', () => {
   });
 
   describe('get budgets', () => {
-    const params: BudgetSearchConfig = { sort: 'code' };
+    const params: B2BSearchConfig = { sort: 'code' };
 
     it('getList() should trigger load budgets when they are not present in the store', () => {
       let budgets: BudgetListModel;

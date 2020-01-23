@@ -4145,9 +4145,9 @@ export namespace Occ {
   }
 
   export interface BudgetsList {
-    budgets: Budget[];
-    pagination: PaginationModel;
-    sorts: SortModel[];
+    budgets?: Budget[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
   }
 
   export interface Budget {
@@ -4217,5 +4217,63 @@ export namespace Occ {
     id?: string;
     name?: string;
     parent?: string;
+  }
+
+  export interface B2BUser extends User {
+    /**
+     * @member {string} [active]
+     */
+    active?: boolean;
+    /**
+     * @member {Array} [approvers]
+     */
+    approvers?: [];
+  }
+
+  export interface B2BApprovalProcess {
+    code?: string;
+    name?: string;
+  }
+
+  export interface B2BUnit {
+    active?: boolean;
+    addresses?: Array<OrgUnitAddress>;
+    uid?: string;
+    name?: string;
+    parentOrgUnit?: string;
+    approvalProcess?: B2BApprovalProcess;
+    administrators?: B2BUser[];
+    approvers?: B2BUser[];
+    customers?: B2BUser[];
+    managers?: B2BUser[];
+  }
+  export interface OrderApprovalPermissionType {
+    code?: string;
+    name?: string;
+  }
+
+  export enum Period {
+    DAY = 'DAY',
+    WEEK = 'WEEK',
+    MONTH = 'MONTH',
+    QUARTER = 'QUARTER',
+    YEAR = 'YEAR',
+  }
+
+  export interface Permission {
+    active?: boolean;
+    code?: string;
+    currency?: Currency;
+    orderApprovalPermissionType?: OrderApprovalPermissionType;
+    orgUnit?: B2BUnitNode;
+    periodRange?: Period;
+    selected?: boolean;
+    treshold?: number;
+  }
+
+  export interface PermissionsList {
+    orderApprovalPermissions?: Permission[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
   }
 }

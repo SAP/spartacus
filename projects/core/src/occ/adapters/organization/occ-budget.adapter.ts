@@ -10,7 +10,7 @@ import {
   BUDGETS_NORMALIZER,
 } from '../../../organization/connectors/budget/converters';
 import { Budget } from '../../../model/budget.model';
-import { BudgetSearchConfig } from '../../../organization/model/search-config';
+import { B2BSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
 import BudgetsList = Occ.BudgetsList;
 
@@ -28,10 +28,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 
-  loadList(
-    userId: string,
-    params?: BudgetSearchConfig
-  ): Observable<BudgetsList> {
+  loadList(userId: string, params?: B2BSearchConfig): Observable<BudgetsList> {
     return this.http
       .get<BudgetsList>(this.getBudgetsEndpoint(userId, params))
       .pipe(this.converter.pipeable(BUDGETS_NORMALIZER));
@@ -59,7 +56,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
 
   protected getBudgetsEndpoint(
     userId: string,
-    params?: BudgetSearchConfig
+    params?: B2BSearchConfig
   ): string {
     return this.occEndpoints.getUrl('budgets', { userId }, params);
   }

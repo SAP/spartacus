@@ -3,8 +3,8 @@ import { Budget, BudgetListModel } from '../../../model/budget.model';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { BudgetSearchConfig } from '../../model/search-config';
-import { serializeBudgetSearchConfig } from '../../utils/budgets';
+import { B2BSearchConfig } from '../../model/search-config';
+import { serializeB2BSearchConfig } from '../../utils/serializer';
 import {
   BUDGET_ENTITIES,
   BUDGET_FEATURE,
@@ -43,14 +43,14 @@ export const getBudgetState = (
 // create service encapsulating denormalization
 
 export const getBudgetList = (
-  params: BudgetSearchConfig
+  params: B2BSearchConfig
 ): MemoizedSelector<StateWithOrganization, LoaderState<BudgetListModel>> =>
   createSelector(
     getBudgetManagementState,
     (state: BudgetManagement) => {
       const list: any = entityStateSelector(
         state[BUDGET_LISTS],
-        serializeBudgetSearchConfig(params)
+        serializeB2BSearchConfig(params)
       );
       if (!list.value || !list.value.ids) {
         return list;

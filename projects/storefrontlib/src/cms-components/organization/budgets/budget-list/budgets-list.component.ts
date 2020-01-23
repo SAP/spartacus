@@ -14,7 +14,7 @@ import {
   BudgetListModel,
   RoutingService,
   CxDatePipe,
-  BudgetSearchConfig,
+  B2BSearchConfig,
   θdiff as diff,
   θshallowEqualObjects as shallowEqualObjects,
 } from '@spartacus/core';
@@ -31,9 +31,9 @@ export class BudgetsListComponent implements OnInit {
   ) {}
 
   budgetsList$: Observable<any>;
-  private params$: Observable<BudgetSearchConfig>;
+  private params$: Observable<B2BSearchConfig>;
 
-  protected defaultParams: BudgetSearchConfig = {
+  protected defaultParams: B2BSearchConfig = {
     sort: 'byName',
     currentPage: 0,
     pageSize: 5,
@@ -82,13 +82,13 @@ export class BudgetsListComponent implements OnInit {
     this.updateQueryParams({ currentPage });
   }
 
-  private updateQueryParams(newParams: Partial<BudgetSearchConfig>): void {
+  private updateQueryParams(newParams: Partial<B2BSearchConfig>): void {
     this.params$
       .pipe(
         map(params => diff(this.defaultParams, { ...params, ...newParams })),
         take(1)
       )
-      .subscribe((params: Partial<BudgetSearchConfig>) => {
+      .subscribe((params: Partial<B2BSearchConfig>) => {
         this.routingService.go(
           {
             cxRoute: 'budgets',
@@ -98,7 +98,7 @@ export class BudgetsListComponent implements OnInit {
       });
   }
 
-  private normalizeParams({ sort, currentPage, pageSize }): BudgetSearchConfig {
+  private normalizeParams({ sort, currentPage, pageSize }): B2BSearchConfig {
     return {
       sort,
       currentPage: parseInt(currentPage, 10),
