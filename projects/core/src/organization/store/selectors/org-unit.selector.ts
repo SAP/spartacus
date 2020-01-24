@@ -9,7 +9,6 @@ import {
   StateWithOrganization,
   ORG_UNIT_FEATURE,
   ORG_UNIT_ENTITIES,
-  ORG_UNIT_LIST,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
 import { LIST } from '../../model/search-config';
@@ -49,14 +48,14 @@ export const getOrgUnitList = (): MemoizedSelector<
   createSelector(
     getB2BOrgUnitState,
     (state: OrgUnits) => {
-      const list: any = entityStateSelector(state[ORG_UNIT_LIST], LIST);
+      const list: any = entityStateSelector(state.list, LIST);
       if (!list.value || !list.value.ids) {
         return list;
       }
       const res: LoaderState<B2BUnitNodeList> = Object.assign({}, list, {
         value: {
           values: list.value.ids.map(
-            id => entityStateSelector(state[ORG_UNIT_ENTITIES], id).value
+            id => entityStateSelector(state.entities, id).value
           ),
         },
       });
