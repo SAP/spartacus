@@ -2,7 +2,7 @@ import {
   variantProduct,
   styleVariantProduct,
   productWithoutVariants,
-} from '../sample-data/checkout-flow';
+} from '../sample-data/checkout-with-variants-data';
 import { login, setSessionData, config } from '../support/utils/login';
 
 export const username = 'user.test@ydev.hybris.com';
@@ -227,7 +227,7 @@ export function verifyAndPlaceOrder() {
   );
 
   cy.get('.form-check-input').check();
-  cy.get('button.btn-primary').click();
+  cy.get('button.btn-primary.btn-block').click();
 }
 
 export function displaySummaryPage() {
