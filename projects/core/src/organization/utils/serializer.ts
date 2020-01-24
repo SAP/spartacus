@@ -27,7 +27,7 @@ export function denormalizeB2BSearch<T>(
   if (!list.value || !list.value.ids) {
     return list;
   }
-  const res: LoaderState<EntitiesModel<any>> = Object.assign({}, list, {
+  const res: LoaderState<EntitiesModel<T>> = Object.assign({}, list, {
     value: {
       values: list.value.ids.map(
         code => entityStateSelector(state.entities, code).value
