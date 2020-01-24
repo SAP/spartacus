@@ -4,7 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { Permission, PermissionListModel } from '../../model/permission.model';
+import { Permission, EntitiesModel } from '../../model/permission.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { PermissionActions } from '../store/actions/index';
@@ -23,8 +23,8 @@ const permission = { code: permissionCode };
 const permission2 = { code: 'testPermission2' };
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
-const permissionList: PermissionListModel = {
-  permissions: [permission, permission2],
+const permissionList: EntitiesModel = {
+  values: [permission, permission2],
   pagination,
   sorts,
 };
@@ -111,7 +111,7 @@ describe('PermissionService', () => {
     const params: B2BSearchConfig = { sort: 'code' };
 
     it('getList() should trigger load permissions when they are not present in the store', () => {
-      let permissions: PermissionListModel;
+      let permissions: EntitiesModel;
       service
         .getList(params)
         .subscribe(data => {
@@ -140,7 +140,7 @@ describe('PermissionService', () => {
           },
         })
       );
-      let permissions: PermissionListModel;
+      let permissions: EntitiesModel;
       service
         .getList(params)
         .subscribe(data => {

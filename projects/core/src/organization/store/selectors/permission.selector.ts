@@ -1,13 +1,11 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import {
-  Permission,
-  PermissionListModel,
-} from '../../../model/permission.model';
+import { Permission } from '../../../model/permission.model';
+import { EntitiesModel } from '../../../model/misc.model';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { B2BSearchConfig } from '../../model/search-config';
-import { serializeB2BSearchConfig } from '../../utils/serializer';
+import { denormalizeB2BSearch } from '../../utils/serializer';
 import {
   PERMISSION_ENTITIES,
   PERMISSION_FEATURE,
@@ -48,26 +46,12 @@ export const getPermissionState = (
 
 export const getPermissionList = (
   params: B2BSearchConfig
-): MemoizedSelector<StateWithOrganization, LoaderState<PermissionListModel>> =>
+): MemoizedSelector<
+  StateWithOrganization,
+  LoaderState<EntitiesModel<Permission>>
+> =>
   createSelector(
     getPermissionManagementState,
-    (state: PermissionManagement) => {
-      const list: any = entityStateSelector(
-        state[PERMISSION_LISTS],
-        serializeB2BSearchConfig(params)
-      );
-      if (!list.value || !list.value.ids) {
-        return list;
-      }
-      const res: LoaderState<PermissionListModel> = Object.assign({}, list, {
-        value: {
-          permissions: list.value.ids.map(
-            code => entityStateSelector(state[PERMISSION_ENTITIES], code).value
-          ),
-          pagination: list.value.pagination,
-          sorts: list.value.sorts,
-        },
-      });
-      return res;
-    }
+    (state: PermissionManagement) =>
+      denormalizeB2BSearch(state, PERMISSION_LISTS, PERMISSION_ENTITIES, params)
   );

@@ -1,16 +1,22 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { Budget, BudgetListModel } from '../../../model/budget.model';
+import { Budget } from '../../../model/budget.model';
+import { EntitiesModel } from '../../../model/misc.model';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { B2BSearchConfig } from '../../model/search-config';
-import { serializeB2BSearchConfig } from '../../utils/serializer';
+import {
+  denormalizeB2BSearch,
+  serializeB2BSearchConfig,
+} from '../../utils/serializer';
 import {
   BUDGET_ENTITIES,
   BUDGET_FEATURE,
   BUDGET_LISTS,
   BudgetManagement,
   OrganizationState,
+  PERMISSION_ENTITIES,
+  PERMISSION_LISTS,
   StateWithOrganization,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
@@ -44,26 +50,12 @@ export const getBudgetState = (
 
 export const getBudgetList = (
   params: B2BSearchConfig
-): MemoizedSelector<StateWithOrganization, LoaderState<BudgetListModel>> =>
+): MemoizedSelector<
+  StateWithOrganization,
+  LoaderState<EntitiesModel<Budget>>
+> =>
   createSelector(
     getBudgetManagementState,
-    (state: BudgetManagement) => {
-      const list: any = entityStateSelector(
-        state[BUDGET_LISTS],
-        serializeB2BSearchConfig(params)
-      );
-      if (!list.value || !list.value.ids) {
-        return list;
-      }
-      const res: LoaderState<BudgetListModel> = Object.assign({}, list, {
-        value: {
-          budgets: list.value.ids.map(
-            code => entityStateSelector(state[BUDGET_ENTITIES], code).value
-          ),
-          pagination: list.value.pagination,
-          sorts: list.value.sorts,
-        },
-      });
-      return res;
-    }
+    (state: BudgetManagement) =>
+      denormalizeB2BSearch(state, BUDGET_LISTS, BUDGET_ENTITIES, params)
   );

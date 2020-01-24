@@ -46,6 +46,12 @@ export interface ListModel {
   sorts: SortModel[];
 }
 
+export interface EntitiesModel<T> {
+  values: T[];
+  pagination: PaginationModel;
+  sorts: SortModel[];
+}
+
 export interface PaginationModel {
   currentPage?: number;
   pageSize?: number;

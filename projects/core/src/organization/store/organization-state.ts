@@ -17,6 +17,10 @@ export const PERMISSION_LISTS = 'permission-lists';
 export const ORG_UNIT_FEATURE = 'orgUnit';
 export const ORG_UNIT_ENTITIES = 'orgUnit-entities';
 export const ORG_UNIT_LISTS = 'orgUnit-list';
+//
+// export interface Management {
+//   [key: string]: EntityLoaderState<ListModel> | EntityLoaderState<any>;
+// }
 
 export interface BudgetManagement {
   [BUDGET_ENTITIES]?: EntityLoaderState<Budget>;
@@ -42,3 +46,5 @@ export interface OrganizationState {
   [ORG_UNIT_FEATURE]: OrgUnits;
   [PERMISSION_FEATURE]: PermissionManagement;
 }
+
+export type Management = BudgetManagement | PermissionManagement;

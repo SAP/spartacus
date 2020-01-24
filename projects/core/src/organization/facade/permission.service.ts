@@ -5,7 +5,8 @@ import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
-import { Permission, PermissionListModel } from '../../model/permission.model';
+import { Permission } from '../../model/permission.model';
+import { EntitiesModel } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
 import { PermissionActions } from '../store/actions/index';
 import {
@@ -44,7 +45,7 @@ export class PermissionService {
 
   private getPermissionList(
     params
-  ): Observable<LoaderState<PermissionListModel>> {
+  ): Observable<LoaderState<EntitiesModel<Permission>>> {
     return this.store.select(getPermissionList(params));
   }
 
@@ -61,16 +62,16 @@ export class PermissionService {
     );
   }
 
-  getList(params: B2BSearchConfig): Observable<PermissionListModel> {
+  getList(params: B2BSearchConfig): Observable<EntitiesModel<Permission>> {
     return this.getPermissionList(params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<PermissionListModel>) => {
+      tap((process: LoaderState<EntitiesModel<Permission>>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadPermissions(params);
         }
       }),
       filter(
-        (process: LoaderState<PermissionListModel>) =>
+        (process: LoaderState<EntitiesModel<Permission>>) =>
           process.success || process.error
       ),
       map(result => result.value)

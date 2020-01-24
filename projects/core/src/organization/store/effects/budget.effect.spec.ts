@@ -36,7 +36,7 @@ const sorts = [{ selected: true, name: 'code' }];
 class MockBudgetConnector {
   get = createSpy().and.returnValue(of(budget));
   getList = createSpy().and.returnValue(
-    of({ budgets: [budget], pagination, sorts })
+    of({ values: [budget], pagination, sorts })
   );
   create = createSpy().and.returnValue(of(budget));
   update = createSpy().and.returnValue(of(budget));

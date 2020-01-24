@@ -1,4 +1,4 @@
-import { Currency, PaginationModel, SortModel, User } from './misc.model';
+import { Currency, User } from './misc.model';
 
 export interface B2BUser extends User {
   active?: boolean;
@@ -82,10 +82,4 @@ export interface Permission {
   periodRange?: Period;
   selected?: boolean;
   treshold?: number;
-}
-
-export interface PermissionListModel {
-  permissions: Permission[];
-  pagination: PaginationModel;
-  sorts: SortModel[];
 }
