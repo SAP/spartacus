@@ -23,16 +23,7 @@ export interface Management<Type> {
   entities: EntityLoaderState<Type>;
 }
 
-export interface TestManagement {
-  lists: any;
-}
-
 export interface BudgetManagement extends Management<Budget> {}
-
-// export interface BudgetManagement {
-//   [BUDGET_ENTITIES]?: EntityLoaderState<Budget>;
-//   [BUDGET_LISTS]?: EntityLoaderState<ListModel>;
-// }
 
 export interface OrgUnits {
   [ORG_UNIT_ENTITIES]?: EntityLoaderState<B2BUnitNode>;
@@ -40,11 +31,6 @@ export interface OrgUnits {
 }
 
 export interface PermissionManagement extends Management<Permission> {}
-
-// export interface PermissionManagement {
-//   [PERMISSION_ENTITIES]?: EntityLoaderState<Permission>;
-//   [PERMISSION_LISTS]?: EntityLoaderState<ListModel>;
-// }
 
 export interface StateWithOrganization {
   [ORGANIZATION_FEATURE]: OrganizationState;
@@ -55,5 +41,3 @@ export interface OrganizationState {
   [ORG_UNIT_FEATURE]: OrgUnits;
   [PERMISSION_FEATURE]: PermissionManagement;
 }
-
-// export type Management = BudgetManagement | PermissionManagement;

@@ -47,5 +47,5 @@ export const getBudgetList = (
 > =>
   createSelector(
     getBudgetManagementState,
-    state => denormalizeB2BSearch<Budget>(state, params)
+    (state: BudgetManagement) => denormalizeB2BSearch<Budget>(state, params)
   );
