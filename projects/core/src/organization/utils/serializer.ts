@@ -18,8 +18,6 @@ export function serializeB2BSearchConfig(config: B2BSearchConfig) {
 
 export function denormalizeB2BSearch<T>(
   state: Management<T>,
-  // LISTS: string,
-  // ENTITIES: string,
   params: B2BSearchConfig
 ) {
   const list: any = entityStateSelector(
