@@ -14,7 +14,10 @@ import {
 import { AuthActions } from '../../../auth/store/actions/index';
 import { RoutingService } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import {
+  makeErrorSerializable,
+  serializePageContext,
+} from '../../../util/serialization-utils';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
 import { CmsStructureModel } from '../../model/page.model';
 import { CmsActions } from '../actions/index';
@@ -48,14 +51,17 @@ export class PageEffects {
   loadPageData$: Observable<Action> = this.actions$.pipe(
     ofType(CmsActions.LOAD_CMS_PAGE_DATA),
     map((action: CmsActions.LoadCmsPageData) => action.payload),
-    groupBy(pageContext => pageContext.type + pageContext.id),
+    groupBy(pageContext => serializePageContext(pageContext)),
     mergeMap(group =>
       group.pipe(
         switchMap(pageContext =>
           this.cmsPageConnector.get(pageContext).pipe(
             mergeMap((cmsStructure: CmsStructureModel) => {
               const actions: Action[] = [
-                new CmsActions.CmsGetComponentFromPage(cmsStructure.components),
+                new CmsActions.CmsGetComponentFromPage(
+                  cmsStructure.components,
+                  pageContext
+                ),
                 new CmsActions.LoadCmsPageDataSuccess(
                   pageContext,
                   cmsStructure.page
