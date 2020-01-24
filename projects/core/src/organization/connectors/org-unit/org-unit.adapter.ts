@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
-import { B2BUnitNode, B2BUnitNodeList } from '../../../model/index';
+import { EntitiesModel } from '../../../model/misc.model';
+import { B2BUnitNode } from '../../../model/org-unit.model';
 
 export abstract class OrgUnitAdapter {
   /**
@@ -12,7 +13,10 @@ export abstract class OrgUnitAdapter {
    */
   abstract load(userId: string, orgUnitId: string): Observable<B2BUnitNode>;
 
-  abstract loadList(userId: string, params?: any): Observable<B2BUnitNodeList>;
+  abstract loadList(
+    userId: string,
+    params?: any
+  ): Observable<EntitiesModel<B2BUnitNode>>;
 
   abstract create(
     userId: string,

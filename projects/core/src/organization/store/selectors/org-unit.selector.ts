@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { B2BUnitNode, B2BUnitNodeList } from '../../../model/org-unit.model';
+import { B2BUnitNode } from '../../../model/org-unit.model';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
@@ -12,6 +12,7 @@ import {
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
 import { LIST } from '../../model/search-config';
+import { EntitiesModel } from '@spartacus/core';
 
 export const getB2BOrgUnitState: MemoizedSelector<
   StateWithOrganization,
@@ -43,7 +44,7 @@ export const getOrgUnitState = (
 
 export const getOrgUnitList = (): MemoizedSelector<
   StateWithOrganization,
-  LoaderState<B2BUnitNodeList>
+  LoaderState<EntitiesModel<B2BUnitNode>>
 > =>
   createSelector(
     getB2BOrgUnitState,
@@ -52,13 +53,17 @@ export const getOrgUnitList = (): MemoizedSelector<
       if (!list.value || !list.value.ids) {
         return list;
       }
-      const res: LoaderState<B2BUnitNodeList> = Object.assign({}, list, {
-        value: {
-          values: list.value.ids.map(
-            id => entityStateSelector(state.entities, id).value
-          ),
-        },
-      });
+      const res: LoaderState<EntitiesModel<B2BUnitNode>> = Object.assign(
+        {},
+        list,
+        {
+          value: {
+            values: list.value.ids.map(
+              id => entityStateSelector(state.entities, id).value
+            ),
+          },
+        }
+      );
       return res;
     }
   );

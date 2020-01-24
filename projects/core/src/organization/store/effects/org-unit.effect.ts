@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { B2BUnitNode, B2BUnitNodeList } from '../../../model/org-unit.model';
+import { B2BUnitNode } from '../../../model/org-unit.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { OrgUnitActions } from '../actions/index';
+import { EntitiesModel } from '@spartacus/core';
 
 @Injectable()
 export class OrgUnitEffects {
@@ -42,7 +43,7 @@ export class OrgUnitEffects {
     map((action: OrgUnitActions.LoadOrgUnits) => action.payload),
     switchMap(payload =>
       this.orgUnitConnector.getList(payload.userId).pipe(
-        switchMap((orgUnitsList: B2BUnitNodeList) => {
+        switchMap((orgUnitsList: EntitiesModel<B2BUnitNode>) => {
           // normalization
           // TODO: extract into the same service with denormalization
           const orgUnitsEntities = orgUnitsList.values;

@@ -8,10 +8,10 @@ import {
   B2BUNIT_NORMALIZER,
   B2BUNIT_LIST_NORMALIZER,
 } from '../../../organization/connectors/org-unit/converters';
-import { Occ } from '../../occ-models/occ.models';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
-import B2BUnitNode = Occ.B2BUnitNode;
-import { B2BUnitNodeList } from '../../../model/org-unit.model';
+import { Occ } from '../../occ-models/occ.models';
+import { B2BUnitNode } from '../../../model/org-unit.model';
+import { EntitiesModel } from '../../../model/misc.model';
 
 @Injectable()
 export class OccOrgUnitAdapter implements OrgUnitAdapter {
@@ -23,11 +23,14 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
 
   load(userId: string, orgUnitId: string): Observable<B2BUnitNode> {
     return this.http
-      .get(this.getOrgUnitEndpoint(userId, orgUnitId))
+      .get<Occ.B2BUnitNode>(this.getOrgUnitEndpoint(userId, orgUnitId))
       .pipe(this.converter.pipeable(B2BUNIT_NORMALIZER));
   }
 
-  loadList(userId: string, params?: any): Observable<B2BUnitNodeList> {
+  loadList(
+    userId: string,
+    params?: any
+  ): Observable<EntitiesModel<B2BUnitNode>> {
     return this.http
       .get<Occ.B2BUnitNodeList>(this.getOrgUnitsEndpoint(userId, params))
       .pipe(this.converter.pipeable(B2BUNIT_LIST_NORMALIZER));
@@ -45,10 +48,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     orgUnit: B2BUnitNode
   ): Observable<B2BUnitNode> {
     return this.http
-      .patch<Occ.B2BUnitNode>(
-        this.getOrgUnitEndpoint(userId, orgUnitId),
-        orgUnit
-      )
+      .patch<B2BUnitNode>(this.getOrgUnitEndpoint(userId, orgUnitId), orgUnit)
       .pipe(this.converter.pipeable(B2BUNIT_NORMALIZER));
   }
 
