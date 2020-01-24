@@ -1,17 +1,16 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { Permission } from '../../../model/permission.model';
 import { EntitiesModel } from '../../../model/misc.model';
+import { Permission } from '../../../model/permission.model';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { B2BSearchConfig } from '../../model/search-config';
 import { denormalizeB2BSearch } from '../../utils/serializer';
 import {
+  OrganizationState,
+  PermissionManagement,
   PERMISSION_ENTITIES,
   PERMISSION_FEATURE,
-  PERMISSION_LISTS,
-  PermissionManagement,
-  OrganizationState,
   StateWithOrganization,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
@@ -53,5 +52,5 @@ export const getPermissionList = (
   createSelector(
     getPermissionManagementState,
     (state: PermissionManagement) =>
-      denormalizeB2BSearch(state, PERMISSION_LISTS, PERMISSION_ENTITIES, params)
+      denormalizeB2BSearch<Permission>(state, params)
   );

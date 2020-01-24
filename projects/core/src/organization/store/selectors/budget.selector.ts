@@ -5,18 +5,12 @@ import { entityStateSelector } from '../../../state/utils/entity-loader/entity-l
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { B2BSearchConfig } from '../../model/search-config';
+import { denormalizeB2BSearch } from '../../utils/serializer';
 import {
-  denormalizeB2BSearch,
-  serializeB2BSearchConfig,
-} from '../../utils/serializer';
-import {
+  BudgetManagement,
   BUDGET_ENTITIES,
   BUDGET_FEATURE,
-  BUDGET_LISTS,
-  BudgetManagement,
   OrganizationState,
-  PERMISSION_ENTITIES,
-  PERMISSION_LISTS,
   StateWithOrganization,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
@@ -56,6 +50,5 @@ export const getBudgetList = (
 > =>
   createSelector(
     getBudgetManagementState,
-    (state: BudgetManagement) =>
-      denormalizeB2BSearch(state, BUDGET_LISTS, BUDGET_ENTITIES, params)
+    state => denormalizeB2BSearch<Budget>(state, params)
   );
