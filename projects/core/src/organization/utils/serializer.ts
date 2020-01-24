@@ -1,7 +1,7 @@
 import { EntitiesModel } from '../../model/misc.model';
 import { LoaderState } from '../../state/index';
 import { entityStateSelector } from '../../state/utils/entity-loader/entity-loader.selectors';
-import { B2BSearchConfig } from '../model/search-config';
+import { B2BSearchConfig, ALL } from '../model/search-config';
 import { Management } from '../store/organization-state';
 
 // TODO after update typescript to 3.7 it can be replaced by Nullish Coalescing (??) operator
@@ -18,11 +18,11 @@ export function serializeB2BSearchConfig(config: B2BSearchConfig) {
 
 export function denormalizeB2BSearch<T>(
   state: Management<T>,
-  params: B2BSearchConfig
+  params?: B2BSearchConfig
 ): LoaderState<EntitiesModel<T>> {
   const list: any = entityStateSelector(
     state.list,
-    serializeB2BSearchConfig(params)
+    params ? serializeB2BSearchConfig(params) : ALL
   );
   if (!list.value || !list.value.ids) {
     return list;
@@ -32,9 +32,11 @@ export function denormalizeB2BSearch<T>(
       values: list.value.ids.map(
         code => entityStateSelector(state.entities, code).value
       ),
-      pagination: list.value.pagination,
-      sorts: list.value.sorts,
     },
   });
+  if (params) {
+    res.value.pagination = list.value.pagination;
+    res.value.sorts = list.value.sorts;
+  }
   return res;
 }

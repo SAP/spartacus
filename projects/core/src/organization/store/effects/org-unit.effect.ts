@@ -6,7 +6,7 @@ import { B2BUnitNode } from '../../../model/org-unit.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { OrgUnitActions } from '../actions/index';
-import { EntitiesModel } from '@spartacus/core';
+import { EntitiesModel } from '../../../model/misc.model';
 
 @Injectable()
 export class OrgUnitEffects {

@@ -11,8 +11,8 @@ import {
   ORG_UNIT_ENTITIES,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
-import { ALL } from '../../model/search-config';
-import { EntitiesModel } from '@spartacus/core';
+import { denormalizeB2BSearch } from '../../utils/serializer';
+import { EntitiesModel } from '../../../model/misc.model';
 
 export const getB2BOrgUnitState: MemoizedSelector<
   StateWithOrganization,
@@ -39,31 +39,11 @@ export const getOrgUnitState = (
       entityStateSelector(state, budgetCode)
   );
 
-// TODO: better mechanism for denormalization
-// create service encapsulating denormalization
-
 export const getOrgUnitList = (): MemoizedSelector<
   StateWithOrganization,
   LoaderState<EntitiesModel<B2BUnitNode>>
 > =>
   createSelector(
     getB2BOrgUnitState,
-    (state: OrgUnits) => {
-      const list: any = entityStateSelector(state.list, ALL);
-      if (!list.value || !list.value.ids) {
-        return list;
-      }
-      const res: LoaderState<EntitiesModel<B2BUnitNode>> = Object.assign(
-        {},
-        list,
-        {
-          value: {
-            values: list.value.ids.map(
-              id => entityStateSelector(state.entities, id).value
-            ),
-          },
-        }
-      );
-      return res;
-    }
+    (state: OrgUnits) => denormalizeB2BSearch<B2BUnitNode>(state)
   );
