@@ -604,6 +604,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'add to wish list', type: TabbingOrderTypes.LINK },
   ],
   headerMobileNotLoggedIn: [
     {

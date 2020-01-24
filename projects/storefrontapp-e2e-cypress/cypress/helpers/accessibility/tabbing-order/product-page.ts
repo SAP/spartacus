@@ -1,7 +1,7 @@
 import { testProductUrl, verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
 
-const containerSelector = '.ProductDetailsPageTemplate';
+const containerSelector = '.ProductDetailsPageTemplate .Summary';
 
 export function productPageTabbingOrder(config: TabElement[]) {
   cy.server();
