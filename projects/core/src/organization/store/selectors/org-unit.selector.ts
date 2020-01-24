@@ -11,7 +11,7 @@ import {
   ORG_UNIT_ENTITIES,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
-import { LIST } from '../../model/search-config';
+import { ALL } from '../../model/search-config';
 import { EntitiesModel } from '@spartacus/core';
 
 export const getB2BOrgUnitState: MemoizedSelector<
@@ -49,7 +49,7 @@ export const getOrgUnitList = (): MemoizedSelector<
   createSelector(
     getB2BOrgUnitState,
     (state: OrgUnits) => {
-      const list: any = entityStateSelector(state.list, LIST);
+      const list: any = entityStateSelector(state.list, ALL);
       if (!list.value || !list.value.ids) {
         return list;
       }

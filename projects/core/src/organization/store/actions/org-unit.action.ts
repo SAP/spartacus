@@ -5,7 +5,7 @@ import {
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { ORG_UNIT_ENTITIES, ORG_UNIT_LIST } from '../organization-state';
-import { LIST } from '../../model/search-config';
+import { ALL } from '../../model/search-config';
 
 export const LOAD_ORG_UNIT = '[B2BUnitNode] Load B2BUnitNode Data';
 export const LOAD_ORG_UNIT_FAIL = '[B2BUnitNode] Load B2BUnitNode Data Fail';
@@ -55,14 +55,14 @@ export class LoadOrgUnits extends EntityLoadAction {
       userId: string;
     }
   ) {
-    super(ORG_UNIT_LIST, LIST);
+    super(ORG_UNIT_LIST, ALL);
   }
 }
 
 export class LoadOrgUnitsFail extends EntityFailAction {
   readonly type = LOAD_ORG_UNITS_FAIL;
   constructor(public payload: any) {
-    super(ORG_UNIT_LIST, LIST, payload.error);
+    super(ORG_UNIT_LIST, ALL, payload.error);
   }
 }
 
@@ -70,7 +70,7 @@ export class LoadOrgUnitsSuccess extends EntitySuccessAction {
   readonly type = LOAD_ORG_UNITS_SUCCESS;
   // TODO   constructor(public payload: {orgUnitPage}) {
   constructor(public payload: any) {
-    super(ORG_UNIT_LIST, LIST);
+    super(ORG_UNIT_LIST, ALL);
   }
 }
 

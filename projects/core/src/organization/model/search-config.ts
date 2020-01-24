@@ -4,4 +4,4 @@ export interface B2BSearchConfig {
   sort?: string;
 }
 
-export const LIST = 'list';
+export const ALL = 'all';
