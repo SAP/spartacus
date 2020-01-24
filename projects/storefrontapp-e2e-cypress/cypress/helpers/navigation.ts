@@ -1,10 +1,16 @@
 export const navigation = {
-  visitHomePage(queryStringParams?: string): void {
-    if (queryStringParams) {
-      cy.visit(`/?${queryStringParams}`);
-    } else {
-      cy.visit('/');
-    }
+  visitHomePage({
+    queryStringParams,
+    options,
+  }: {
+    queryStringParams?: string;
+    options?: Partial<Cypress.VisitOptions>;
+  }): void {
+    queryStringParams =
+      !queryStringParams || queryStringParams.indexOf('?') !== -1
+        ? queryStringParams
+        : `?${queryStringParams}`;
+    cy.visit(`/${queryStringParams ? queryStringParams : ''}`, options);
   },
   goToProduct(id): void {
     cy.visit(`/product/${id}`);
