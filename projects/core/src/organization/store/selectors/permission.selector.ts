@@ -40,9 +40,6 @@ export const getPermissionState = (
       entityStateSelector(state, permissionCode)
   );
 
-// TODO: better mechanism for denormalization
-// create service encapsulating denormalization
-
 export const getPermissionList = (
   params: B2BSearchConfig
 ): MemoizedSelector<

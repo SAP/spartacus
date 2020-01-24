@@ -39,9 +39,6 @@ export const getBudgetState = (
     (state: EntityLoaderState<Budget>) => entityStateSelector(state, budgetCode)
   );
 
-// TODO: better mechanism for denormalization
-// create service encapsulating denormalization
-
 export const getBudgetList = (
   params: B2BSearchConfig
 ): MemoizedSelector<
