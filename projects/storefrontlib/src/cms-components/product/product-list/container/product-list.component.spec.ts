@@ -13,6 +13,7 @@ import {
   SpinnerModule,
 } from '../../../../shared';
 import { ViewConfig } from '../../../../shared/config/view-config';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
@@ -22,7 +23,6 @@ import {
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
 import { ProductScrollComponent } from './product-scroll/product-scroll.component';
-import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -180,10 +180,10 @@ describe('ProductListComponent', () => {
     });
   });
 
-  it('viewPage should call service.viewPage', () => {
-    component.viewPage(123);
-    expect(componentService.viewPage).toHaveBeenCalledWith(123);
-  });
+  // it('viewPage should call service.viewPage', () => {
+  //   component.viewPage(123);
+  //   expect(componentService.viewPage).toHaveBeenCalledWith(123);
+  // });
 
   it('sortList should call service.sort', () => {
     component.sortList('testSortCode');
