@@ -59,7 +59,9 @@ context('Checkout as guest', () => {
   });
 
   describe('Guest account', () => {
-    it('should be able to check order in order history', () => {
+    // Test disabled until a new order can appear quickly enough in the order history
+    // to make this test possible.
+    xit('should be able to check order in order history', () => {
       checkout.viewOrderHistoryWithCheapProduct();
     });
 

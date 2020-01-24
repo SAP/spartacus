@@ -1,7 +1,7 @@
 import * as checkout from '../../../helpers/checkout-flow';
 import { checkBanner } from '../../../helpers/homepage';
-import { formats } from '../../../sample-data/viewports';
 import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
+import { formats } from '../../../sample-data/viewports';
 
 function clickHamburger() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
@@ -56,5 +56,14 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
 
   it('should display summary page', () => {
     checkout.verifyOrderConfirmationPageWithCheapProduct();
+  });
+
+  // Test disabled until a new order can appear quickly enough in the order history
+  // to make this test possible.
+  xit('should be able to check order in order history', () => {
+    clickHamburger();
+    checkout.viewOrderHistoryWithCheapProduct();
+    clickHamburger();
+    checkout.signOut();
   });
 });
