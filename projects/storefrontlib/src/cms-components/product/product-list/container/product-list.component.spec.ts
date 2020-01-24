@@ -95,7 +95,7 @@ export class MockViewConfig {
 }
 
 @Component({
-  selector: 'cx-style-icons',
+  selector: 'cx-variant-style-icons',
   template: 'test',
 })
 export class MockStyleIconsComponent {

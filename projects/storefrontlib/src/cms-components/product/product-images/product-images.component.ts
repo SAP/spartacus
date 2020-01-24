@@ -22,10 +22,16 @@ export class ProductImagesComponent {
     )
   );
 
+  /**
+   * @deprecated since version 1.5
+   * This variable will no longer be in use. Use thumbs$ observable instead.
+   * TODO(issue:#6166).
+   */
   isThumbsEmpty: boolean;
 
   thumbs$: Observable<any[]> = this.product$.pipe(
     map(product => this.createThumbs(product)),
+    // TODO: deprecated, remove the below tap (issue:#6166)
     tap(thumbs => {
       this.isThumbsEmpty = thumbs.length === 0;
     })

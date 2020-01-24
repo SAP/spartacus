@@ -193,6 +193,9 @@ describe('AddedToCartDialogComponent', () => {
       totalPrice: {
         formattedValue: '$100.00',
       },
+      subTotal: {
+        formattedValue: '$100.00',
+      },
     });
     fixture.detectChanges();
     const cartTotalEl = el.query(By.css('.cx-dialog-total')).nativeElement;
