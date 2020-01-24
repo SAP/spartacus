@@ -4,7 +4,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { SkipLinkConfig, SkipLink } from '../config/index';
 import { SkipLinkService } from '../service/skip-link.service';
 import { BehaviorSubject } from 'rxjs';
-import { Type } from '@angular/core';
+import { take } from 'rxjs/operators';
 
 const mockSkipLinks: SkipLink[] = [
   {
@@ -35,7 +35,6 @@ class MockSkipLinkService {
 
 describe('SkipLinkComponent', () => {
   let skipLinkComponent: SkipLinkComponent;
-  let service: SkipLinkService;
   let fixture: ComponentFixture<SkipLinkComponent>;
 
   beforeEach(async(() => {
@@ -54,9 +53,7 @@ describe('SkipLinkComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SkipLinkComponent);
-    service = TestBed.get(SkipLinkService as Type<SkipLinkService>);
     skipLinkComponent = fixture.componentInstance;
-    skipLinkComponent.skipLinks$ = service.getSkipLinks(); // Don't use async pipe for test
     fixture.detectChanges();
   });
 
@@ -64,30 +61,38 @@ describe('SkipLinkComponent', () => {
     expect(skipLinkComponent).toBeTruthy();
   });
 
-  it('should render skip links', () => {
-    const element = fixture.debugElement.nativeElement;
-    const buttons = element.querySelectorAll('button');
-    expect(buttons.length).toEqual(3);
-    expect(buttons[0].outerText).toContain(mockSkipLinks[0].i18nKey);
-    expect(buttons[1].outerText).toContain(mockSkipLinks[1].i18nKey);
-    expect(buttons[2].outerText).toContain(mockSkipLinks[2].i18nKey);
+  it('should render skip links', done => {
+    skipLinkComponent.skipLinks$.pipe(take(1)).subscribe(() => {
+      fixture.detectChanges();
+      const element = fixture.debugElement.nativeElement;
+      const buttons = element.querySelectorAll('button');
+      expect(buttons.length).toEqual(3);
+      expect(buttons[0].outerText).toContain(mockSkipLinks[0].i18nKey);
+      expect(buttons[1].outerText).toContain(mockSkipLinks[1].i18nKey);
+      expect(buttons[2].outerText).toContain(mockSkipLinks[2].i18nKey);
+      done();
+    });
   });
 
-  it('should call `scrollToTarget` on button click', () => {
-    const spyComponent = spyOn(skipLinkComponent, 'scrollToTarget');
-    const element = fixture.debugElement.nativeElement;
-    const buttons = element.querySelectorAll('button');
-    expect(buttons.length).toEqual(3);
+  it('should call `scrollToTarget` on button click', done => {
+    skipLinkComponent.skipLinks$.pipe(take(1)).subscribe(() => {
+      fixture.detectChanges();
+      const spyComponent = spyOn(skipLinkComponent, 'scrollToTarget');
+      const element = fixture.debugElement.nativeElement;
+      const buttons = element.querySelectorAll('button');
+      expect(buttons.length).toEqual(3);
 
-    expect(spyComponent).not.toHaveBeenCalled();
+      expect(spyComponent).not.toHaveBeenCalled();
 
-    const mouseEvent = new MouseEvent('mousedown');
+      const mouseEvent = new MouseEvent('mousedown');
 
-    buttons[0].click();
-    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0], mouseEvent);
-    buttons[1].click();
-    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[1], mouseEvent);
-    buttons[2].click();
-    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[2], mouseEvent);
+      buttons[0].click();
+      expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0], mouseEvent);
+      buttons[1].click();
+      expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[1], mouseEvent);
+      buttons[2].click();
+      expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[2], mouseEvent);
+      done();
+    });
   });
 });
