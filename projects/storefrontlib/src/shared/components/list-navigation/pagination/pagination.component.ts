@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PaginationModel } from '@spartacus/core';
-import { PaginationConfigService } from './config/pagination-config.service';
 import { PaginationBuilder } from './pagination.builder';
-import { PaginationItem } from './pagination.model';
+import { PaginationItem, PaginationItemType } from './pagination.model';
+
 /**
- * The pagination component is a generic component that takes care of the typcial
- * complexity of a full blown pagination UX. The default Spartacus UX is however not
- * using all the features, but customers might.
+ * The `PaginationComponent` is a generic component that is used for
+ * all lists in Spartacus that require pagination. The component supports
+ * all common features, which can be configured or hidden by CSS.
  */
 @Component({
   selector: 'cx-pagination',
@@ -45,69 +45,69 @@ export class PaginationComponent {
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
   pages: PaginationItem[] = [];
+
   constructor(
     private paginationBuilder: PaginationBuilder,
-    private configService: PaginationConfigService,
     private activatedRoute: ActivatedRoute
   ) {}
-
-  get config() {
-    return this.configService;
-  }
 
   private render(pagination: PaginationModel) {
     this.pages = this.paginationBuilder.paginate(
       pagination.totalPages,
-      pagination.currentPage + 1
+      pagination.currentPage
     );
   }
 
-  private get current(): number {
-    return this.pagination.currentPage;
-  }
-
-  get previous(): number {
-    return this.current - 1;
-  }
-
-  get next(): number {
-    return this.current + 1;
-  }
-
-  get last(): number {
-    return this.pagination.totalPages - 1;
-  }
-
-  isCurrent(pageNumber): boolean {
-    return pageNumber === this.current;
-  }
-
-  isDisabled(pageNumber): boolean {
+  /**
+   * Inidicates whether the given item is the current item.
+   *
+   * @param item PaginationItem
+   * @returns boolean
+   */
+  isCurrent(item: PaginationItem): boolean {
     return (
-      pageNumber === this.current || pageNumber > this.last || pageNumber < 0
+      item.type === PaginationItemType.PAGE &&
+      item.number === this.pagination.currentPage
     );
   }
 
-  getQueryParams(pageNumber: number): Params {
+  /**
+   * Indicates whether the pagination item is inactive. This is used
+   * to disabled a link or set the tabindex to `-1`.
+   *
+   * Defaults to true
+   *
+   * @param item PaginationItem
+   * @returns returns -1 in case of a disabled
+   */
+  isInactive(item: PaginationItem): boolean {
+    return (
+      !item.hasOwnProperty('number') ||
+      item.number === this.pagination.currentPage
+    );
+  }
+
+  getQueryParams(item: PaginationItem): Params {
     const queryParams = Object.assign(
       {},
       this.activatedRoute.snapshot.queryParams
     );
     if (
       this.queryParam &&
-      pageNumber <= this.last &&
-      pageNumber !== this.current
+      item.number < this.pagination.totalPages &&
+      !this.isCurrent(item)
     ) {
-      queryParams[this.queryParam] = pageNumber;
+      queryParams[this.queryParam] = item.number;
     }
     // omit the page number from the query parameters in case it's the default
+    // to clean up the experience and avoid unnecessary polluting of the URL
     if (queryParams[this.queryParam] === this.defaultPage) {
       delete queryParams[this.queryParam];
     }
     return queryParams;
   }
 
-  pageChange(page: number): void {
-    this.viewPageEvent.emit(page);
+  pageChange(page: PaginationItem): void {
+    this.viewPageEvent.emit(page.number);
   }
 }

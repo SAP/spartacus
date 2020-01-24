@@ -1,58 +1,12 @@
-<ng-container *ngIf="pages.length > 0">
-  <a
-    *ngIf="config.addStart"
-    class="start"
-    [class.disabled]="isDisabled(0)"
-    [routerLink]="pageRoute"
-    [queryParams]="getQueryParams(0)"
-    [tabIndex]="isDisabled(0) ? -1 : 0"
-    (click)="pageChange(0)"
-    >«</a
-  >
-  <a
-    *ngIf="config.addPrevious"
-    class="previous"
-    [class.disabled]="isDisabled(previous)"
-    [routerLink]="pageRoute"
-    [queryParams]="getQueryParams(previous)"
-    [tabIndex]="isDisabled(previous) ? -1 : 0"
-    (click)="pageChange(previous)"
-    >‹</a
-  >
-
-  <a
-    *ngFor="let page of pages"
-    [class.disabled]="isDisabled(page.number - 1)"
-    [class.primary]="page.isPrimary"
-    [class.current]="page.isCurrent"
-    [class.gap]="page.isGap"
-    [routerLink]="pageRoute"
-    [queryParams]="getQueryParams(page.number - 1)"
-    [tabIndex]="page.isGap || isDisabled(page.number - 1) ? -1 : 0"
-    (click)="pageChange(page.number - 1)"
-  >
-    {{ page.isGap ? '...' : page.number }}
-  </a>
-
-  <a
-    *ngIf="config.addNext"
-    class="next"
-    [class.disabled]="isDisabled(next)"
-    [routerLink]="pageRoute"
-    [queryParams]="getQueryParams(next)"
-    [tabIndex]="isDisabled(next) ? -1 : 0"
-    (click)="pageChange(next)"
-    >›</a
-  >
-
-  <a
-    *ngIf="config.addEnd"
-    class="end"
-    [class.disabled]="isDisabled(last)"
-    [routerLink]="pageRoute"
-    [queryParams]="getQueryParams(last)"
-    [tabIndex]="isDisabled(last) ? -1 : 0"
-    (click)="pageChange(last)"
-    >»</a
-  >
-</ng-container>
+<a
+  *ngFor="let item of pages"
+  [class]="item.type"
+  [class.disabled]="isInactive(item)"
+  [class.current]="isCurrent(item)"
+  [routerLink]="pageRoute"
+  [queryParams]="getQueryParams(item)"
+  [tabIndex]="isInactive(item) ? -1 : 0"
+  (click)="pageChange(item)"
+>
+  {{ item.label }}
+</a>
