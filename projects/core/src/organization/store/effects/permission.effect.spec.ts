@@ -22,13 +22,8 @@ const userId = 'testUser';
 const permission: Permission = {
   code: 'testCode',
   active: false,
-  permission: 2,
   currency: {},
-  endDate: 'endDate',
-  startDate: 'startDate',
-  name: 'testName',
-  orgUnit: { uid: 'ouid', name: 'ouName' },
-  costCenters: [],
+  orgUnit: { id: 'ouid', name: 'ouName' },
 };
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
@@ -36,7 +31,7 @@ const sorts = [{ selected: true, name: 'code' }];
 class MockPermissionConnector {
   get = createSpy().and.returnValue(of(permission));
   getList = createSpy().and.returnValue(
-    of({ permissions: [permission], pagination, sorts })
+    of({ orderApprovalPermissions: [permission], pagination, sorts })
   );
   create = createSpy().and.returnValue(of(permission));
   update = createSpy().and.returnValue(of(permission));

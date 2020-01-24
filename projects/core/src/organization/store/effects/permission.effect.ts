@@ -48,7 +48,7 @@ export class PermissionEffects {
         switchMap((permissions: PermissionsList) => {
           // normalization
           // TODO: extract into the same service with denormalization
-          const permissionsEntities = permissions.permissions;
+          const permissionsEntities = permissions.orderApprovalPermissions;
           const permissionPage = {
             ids: permissionsEntities.map(permission => permission.code),
             pagination: permissions.pagination,
