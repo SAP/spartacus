@@ -69,11 +69,16 @@ export class CmsService {
   }
 
   /**
-   * Get CMS component data by uid
-   * @param uids CMS component uids
-   * @param pageContext if provided, it will be used to lookup the component data.
+   * Get CMS components data by uid.
+   *
+   * This method can be safely and optimally used to load multiple components data at the same time.
+   * Calling `getComponentsData` will always result in optimized back-end request as all components will be loaded in one network call.
+   *
    * In case the component data is not present, the method will load it.
-   * Otherwise, if the page context is not provided, the current page context from the router state will be used instead.
+   *
+   * @param uid CMS component uid
+   * @param pageContext if provided, it will be used to lookup the component data.
+   * Otherwise the current page context from the router state will be used instead.
    */
   getComponentsData<T extends CmsComponent>(
     uids: string[],
@@ -85,11 +90,17 @@ export class CmsService {
   }
 
   /**
-   * Get CMS component data by uid
+   * Get CMS component data by uid.
+   *
+   * This method can be safely and optimally used to load multiple components data at the same time.
+   * Calling getComponentData multiple times for different components will always result in optimized
+   * back-end request: all components requested at the same time (in one event loop) will be loaded in one network call.
+   *
+   * In case the component data is not present, the method will load it.
+   *
    * @param uid CMS component uid
    * @param pageContext if provided, it will be used to lookup the component data.
-   * In case the component data is not present, the method will load it.
-   * Otherwise, if the page context is not provided, the current page context from the router state will be used instead.
+   * Otherwise the current page context from the router state will be used instead.
    */
   getComponentData<T extends CmsComponent>(
     uid: string,

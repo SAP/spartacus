@@ -5,6 +5,7 @@ import { CartActions } from './index';
 
 const userId = 'userId';
 const cartId = 'xxx';
+const customerId = '1234-5678-abcdef';
 
 const testCart: Cart = {
   code: cartId,
@@ -17,7 +18,7 @@ describe('WishList Actions', () => {
   describe('Load Wish List Actions', () => {
     describe('LoadWishList', () => {
       it('should create the action', () => {
-        const payload = userId;
+        const payload = { userId, customerId };
         const action = new CartActions.LoadWishList(payload);
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_WISH_LIST,
