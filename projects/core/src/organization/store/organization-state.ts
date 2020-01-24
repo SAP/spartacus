@@ -26,8 +26,8 @@ export interface Management<Type> {
 export interface BudgetManagement extends Management<Budget> {}
 
 export interface OrgUnits {
-  [ORG_UNIT_ENTITIES]?: EntityLoaderState<B2BUnitNode>;
-  [ORG_UNIT_LISTS]?: EntityLoaderState<ListModel>;
+  lists?: EntityLoaderState<ListModel>;
+  entities?: EntityLoaderState<B2BUnitNode>;
 }
 
 export interface PermissionManagement extends Management<Permission> {}

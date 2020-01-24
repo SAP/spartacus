@@ -6,10 +6,10 @@ import { B2BUnitNode } from '../../../model/org-unit.model';
 import { Permission } from '../../../model/permission.model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import {
+  OrganizationState,
   BUDGET_ENTITIES,
   BUDGET_FEATURE,
   BUDGET_LISTS,
-  OrganizationState,
   ORG_UNIT_ENTITIES,
   ORG_UNIT_FEATURE,
   ORG_UNIT_LISTS,
@@ -20,8 +20,6 @@ import {
 import { budgetsListReducer } from './budget.reducer';
 import { orgUnitListReducer } from './org-unit.reducer';
 import { permissionsListReducer } from './permission.reducer';
-
-// TODO: Add scopes for entityLoaders
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -37,11 +35,8 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       ),
     }),
     [ORG_UNIT_FEATURE]: combineReducers({
-      [ORG_UNIT_ENTITIES]: entityLoaderReducer<B2BUnitNode>(ORG_UNIT_ENTITIES),
-      [ORG_UNIT_LISTS]: entityLoaderReducer<ListModel>(
-        ORG_UNIT_LISTS,
-        orgUnitListReducer
-      ),
+      entities: entityLoaderReducer<B2BUnitNode>(ORG_UNIT_ENTITIES),
+      lists: entityLoaderReducer<ListModel>(ORG_UNIT_LISTS, orgUnitListReducer),
     }),
   };
 }

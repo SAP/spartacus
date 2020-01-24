@@ -62,12 +62,13 @@ export class BudgetsListComponent implements OnInit {
             budgetsList: budgetsList.values.map(budget => ({
               code: budget.code,
               name: budget.name,
-              amount: `${budget.budget} ${budget.currency.symbol}`,
+              amount: `${budget.budget} ${budget.currency &&
+                budget.currency.symbol}`,
               startEndDate: `${this.cxDate.transform(
                 budget.startDate
               )} - ${this.cxDate.transform(budget.endDate)}`,
-              parentUnit: budget.orgUnit.name,
-              orgUnitId: budget.orgUnit.uid,
+              parentUnit: budget.orgUnit && budget.orgUnit.name,
+              orgUnitId: budget.orgUnit && budget.orgUnit.uid,
             })),
           }))
         )

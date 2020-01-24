@@ -9,7 +9,6 @@ import { denormalizeB2BSearch } from '../../utils/serializer';
 import {
   OrganizationState,
   PermissionManagement,
-  PERMISSION_ENTITIES,
   PERMISSION_FEATURE,
   StateWithOrganization,
 } from '../organization-state';
@@ -28,7 +27,7 @@ export const getPermissionsState: MemoizedSelector<
   EntityLoaderState<Permission>
 > = createSelector(
   getPermissionManagementState,
-  (state: PermissionManagement) => state && state[PERMISSION_ENTITIES]
+  (state: PermissionManagement) => state && state.entities
 );
 
 export const getPermissionState = (

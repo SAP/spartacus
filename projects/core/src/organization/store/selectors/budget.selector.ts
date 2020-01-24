@@ -8,7 +8,6 @@ import { B2BSearchConfig } from '../../model/search-config';
 import { denormalizeB2BSearch } from '../../utils/serializer';
 import {
   BudgetManagement,
-  BUDGET_ENTITIES,
   BUDGET_FEATURE,
   OrganizationState,
   StateWithOrganization,
@@ -28,7 +27,7 @@ export const getBudgetsState: MemoizedSelector<
   EntityLoaderState<Budget>
 > = createSelector(
   getBudgetManagementState,
-  (state: BudgetManagement) => state && state[BUDGET_ENTITIES]
+  (state: BudgetManagement) => state && state.entities
 );
 
 export const getBudgetState = (
