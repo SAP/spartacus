@@ -4,7 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { B2BUnitNode, B2BUnitNodeList } from '../../model/org-unit.model';
+import { B2BUnitNode } from '../../model/org-unit.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { OrgUnitActions } from '../store/actions/index';
@@ -12,6 +12,7 @@ import * as fromReducers from '../store/reducers/index';
 import { OrgUnitService } from './org-unit.service';
 import {
   AuthService,
+  EntitiesModel,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '@spartacus/core';
@@ -21,7 +22,7 @@ const orgUnitId = 'testOrgUnit';
 const orgUnit = { id: orgUnitId };
 const orgUnit2 = { id: 'testOrgUnit2' };
 
-const orgUnitList: B2BUnitNodeList = {
+const orgUnitList: EntitiesModel<B2BUnitNode> = {
   values: [orgUnit, orgUnit2],
 };
 
@@ -105,7 +106,7 @@ describe('OrgUnitService', () => {
 
   describe('get orgUnits', () => {
     it('getList() should trigger load orgUnits when they are not present in the store', () => {
-      let orgUnits: B2BUnitNodeList;
+      let orgUnits: EntitiesModel<B2BUnitNode>;
       service
         .getList()
         .subscribe(data => {
@@ -131,7 +132,7 @@ describe('OrgUnitService', () => {
           },
         })
       );
-      let orgUnits: B2BUnitNodeList;
+      let orgUnits: EntitiesModel<B2BUnitNode>;
       service
         .getList()
         .subscribe(data => {
