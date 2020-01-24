@@ -36,21 +36,6 @@ export const cheapProduct = {
   code: '280916',
 };
 
-export const variantProduct = {
-  name: 'Beacon Jacket glacier M',
-  code: '300441355',
-};
-
-export const styleVariantProduct = {
-  name: 'Beacon Jacket lime M',
-  code: '300441360',
-};
-
-export const productWithoutVariants = {
-  name: 'Wrappers Delight Tote Women fire red Uni',
-  code: '300611156',
-};
-
 // usa shipping cost
 export const cart = {
   estimatedShipping: '$11.99',
