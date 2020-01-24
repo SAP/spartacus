@@ -9,9 +9,9 @@ import {
   BUDGET_NORMALIZER,
   BUDGETS_NORMALIZER,
 } from '../../../organization/connectors/budget/converters';
-import { Budget } from '../../../model/budget.model';
 import { B2BSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
+import { Budget } from '../../../model/budget.model';
 import BudgetsList = Occ.BudgetsList;
 
 @Injectable()

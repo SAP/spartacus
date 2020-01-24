@@ -1,4 +1,4 @@
-import { BUDGET_ENTITIES, BUDGET_LISTS } from '../organization-state';
+import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
 import { Budget } from '../../../model/budget.model';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { BudgetActions } from './index';
@@ -78,7 +78,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGETS,
           payload: { userId, params },
-          meta: StateEntityLoaderActions.entityLoadMeta(BUDGET_LISTS, query),
+          meta: StateEntityLoaderActions.entityLoadMeta(BUDGET_LIST, query),
         });
       });
     });
@@ -93,7 +93,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGETS_FAIL,
           payload: { params, error: { error } },
-          meta: StateEntityLoaderActions.entityFailMeta(BUDGET_LISTS, query, {
+          meta: StateEntityLoaderActions.entityFailMeta(BUDGET_LIST, query, {
             error,
           }),
         });
@@ -110,7 +110,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGETS_SUCCESS,
           payload: { budgetPage, params },
-          meta: StateEntityLoaderActions.entitySuccessMeta(BUDGET_LISTS, query),
+          meta: StateEntityLoaderActions.entitySuccessMeta(BUDGET_LIST, query),
         });
       });
     });

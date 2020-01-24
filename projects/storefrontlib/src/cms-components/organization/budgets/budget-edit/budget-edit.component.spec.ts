@@ -42,7 +42,7 @@ const mockBudget: Budget = {
 };
 
 const mockOrgUnits: B2BUnitNodeList = {
-  unitNodes: [
+  values: [
     {
       active: true,
       children: [],

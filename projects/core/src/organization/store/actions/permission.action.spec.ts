@@ -1,4 +1,4 @@
-import { PERMISSION_ENTITIES, PERMISSION_LISTS } from '../organization-state';
+import { PERMISSION_ENTITIES, PERMISSION_LIST } from '../organization-state';
 import { Permission } from '../../../model/permission.model';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { PermissionActions } from './index';
@@ -84,10 +84,7 @@ describe('Permission Actions', () => {
         expect({ ...action }).toEqual({
           type: PermissionActions.LOAD_PERMISSIONS,
           payload: { userId, params },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            PERMISSION_LISTS,
-            query
-          ),
+          meta: StateEntityLoaderActions.entityLoadMeta(PERMISSION_LIST, query),
         });
       });
     });
@@ -103,7 +100,7 @@ describe('Permission Actions', () => {
           type: PermissionActions.LOAD_PERMISSIONS_FAIL,
           payload: { params, error: { error } },
           meta: StateEntityLoaderActions.entityFailMeta(
-            PERMISSION_LISTS,
+            PERMISSION_LIST,
             query,
             {
               error,
@@ -124,7 +121,7 @@ describe('Permission Actions', () => {
           type: PermissionActions.LOAD_PERMISSIONS_SUCCESS,
           payload: { permissionPage, params },
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            PERMISSION_LISTS,
+            PERMISSION_LIST,
             query
           ),
         });

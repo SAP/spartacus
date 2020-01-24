@@ -8,25 +8,25 @@ export const ORGANIZATION_FEATURE = 'organization';
 
 export const BUDGET_FEATURE = 'budget';
 export const BUDGET_ENTITIES = 'budget-entities';
-export const BUDGET_LISTS = 'budget-lists';
+export const BUDGET_LIST = 'budget-list';
 
 export const PERMISSION_FEATURE = 'permission';
 export const PERMISSION_ENTITIES = 'permission-entities';
-export const PERMISSION_LISTS = 'permission-lists';
+export const PERMISSION_LIST = 'permission-list';
 
 export const ORG_UNIT_FEATURE = 'orgUnit';
 export const ORG_UNIT_ENTITIES = 'orgUnit-entities';
-export const ORG_UNIT_LISTS = 'orgUnit-list';
+export const ORG_UNIT_LIST = 'orgUnit-list';
 
 export interface Management<Type> {
-  lists: EntityLoaderState<ListModel>;
+  list: EntityLoaderState<ListModel>;
   entities: EntityLoaderState<Type>;
 }
 
 export interface BudgetManagement extends Management<Budget> {}
 
 export interface OrgUnits {
-  lists?: EntityLoaderState<ListModel>;
+  list?: EntityLoaderState<ListModel>;
   entities?: EntityLoaderState<B2BUnitNode>;
 }
 

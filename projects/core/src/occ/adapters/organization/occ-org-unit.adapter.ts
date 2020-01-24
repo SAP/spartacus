@@ -11,7 +11,7 @@ import {
 import { Occ } from '../../occ-models/occ.models';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
 import B2BUnitNode = Occ.B2BUnitNode;
-import B2BUnitNodeList = Occ.B2BUnitNodeList;
+import { B2BUnitNodeList } from '../../../model/org-unit.model';
 
 @Injectable()
 export class OccOrgUnitAdapter implements OrgUnitAdapter {

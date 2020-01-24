@@ -67,7 +67,7 @@ describe('OrgUnit Selectors', () => {
       );
       expect(result).toEqual({
         entities: { entities },
-        lists: { entities: {} },
+        list: { entities: {} },
       });
     });
   });

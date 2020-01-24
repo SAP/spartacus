@@ -65,7 +65,7 @@ describe('Budget Selectors', () => {
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
       expect(result).toEqual({
         entities: { entities },
-        lists: { entities: {} },
+        list: { entities: {} },
       });
     });
   });

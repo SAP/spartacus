@@ -1,7 +1,5 @@
 import { Observable } from 'rxjs';
-import { B2BUnitNode } from 'projects/core/src/model/index';
-import { Occ } from '../../../occ/occ-models/occ.models';
-import B2BUnitNodeList = Occ.B2BUnitNodeList;
+import { B2BUnitNode, B2BUnitNodeList } from '../../../model/index';
 
 export abstract class OrgUnitAdapter {
   /**

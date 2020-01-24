@@ -40,7 +40,7 @@ const mockBudget: Budget = {
 };
 
 const mockOrgUnits: B2BUnitNodeList = {
-  unitNodes: [
+  values: [
     {
       active: true,
       children: [],
@@ -152,7 +152,7 @@ describe('BudgetFormComponent', () => {
         })
         .unsubscribe();
       expect(orgUnitService.getList).toHaveBeenCalled();
-      expect(businessUnits).toEqual(mockOrgUnits.unitNodes);
+      expect(businessUnits).toEqual(mockOrgUnits.values);
     });
 
     it('should setup clean form', () => {
@@ -215,7 +215,7 @@ describe('BudgetFormComponent', () => {
     it('should setup business unit', () => {
       component.budgetData = mockBudget;
       component.ngOnInit();
-      component.businessUnitSelected(mockOrgUnits.unitNodes[1]);
+      component.businessUnitSelected(mockOrgUnits.values[1]);
       expect(component.form.controls['orgUnit'].value).toEqual({
         uid: 'unitNode2',
       });

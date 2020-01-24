@@ -6,7 +6,7 @@ import {
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { B2BSearchConfig } from '../../model/search-config';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
-import { PERMISSION_ENTITIES, PERMISSION_LISTS } from '../organization-state';
+import { PERMISSION_ENTITIES, PERMISSION_LIST } from '../organization-state';
 import { PaginationModel, SortModel } from '../../../model/misc.model';
 
 export const LOAD_PERMISSION = '[Permission] Load Permission Data';
@@ -60,7 +60,7 @@ export class LoadPermissions extends EntityLoadAction {
       params: B2BSearchConfig;
     }
   ) {
-    super(PERMISSION_LISTS, serializeB2BSearchConfig(payload.params));
+    super(PERMISSION_LIST, serializeB2BSearchConfig(payload.params));
   }
 }
 
@@ -68,7 +68,7 @@ export class LoadPermissionsFail extends EntityFailAction {
   readonly type = LOAD_PERMISSIONS_FAIL;
   constructor(public payload: { params: B2BSearchConfig; error: any }) {
     super(
-      PERMISSION_LISTS,
+      PERMISSION_LIST,
       serializeB2BSearchConfig(payload.params),
       payload.error
     );
@@ -87,7 +87,7 @@ export class LoadPermissionsSuccess extends EntitySuccessAction {
       params: B2BSearchConfig;
     }
   ) {
-    super(PERMISSION_LISTS, serializeB2BSearchConfig(payload.params));
+    super(PERMISSION_LIST, serializeB2BSearchConfig(payload.params));
   }
 }
 

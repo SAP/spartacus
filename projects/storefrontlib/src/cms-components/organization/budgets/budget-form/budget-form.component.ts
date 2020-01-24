@@ -76,7 +76,7 @@ export class BudgetFormComponent implements OnInit {
     this.currencies$ = this.currencyService.getAll();
     this.businessUnits$ = this.orgUnitService.getList().pipe(
       filter(Boolean),
-      map((list: B2BUnitNodeList) => list.unitNodes)
+      map((list: B2BUnitNodeList) => list.values)
     );
     if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
       this.form.patchValue(this.budgetData);

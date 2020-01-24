@@ -19,9 +19,9 @@ export function serializeB2BSearchConfig(config: B2BSearchConfig) {
 export function denormalizeB2BSearch<T>(
   state: Management<T>,
   params: B2BSearchConfig
-) {
+): LoaderState<EntitiesModel<T>> {
   const list: any = entityStateSelector(
-    state.lists,
+    state.list,
     serializeB2BSearchConfig(params)
   );
   if (!list.value || !list.value.ids) {

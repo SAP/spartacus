@@ -65,7 +65,7 @@ describe('Permission Selectors', () => {
       );
       expect(result).toEqual({
         entities: { entities },
-        lists: { entities: {} },
+        list: { entities: {} },
       });
     });
   });

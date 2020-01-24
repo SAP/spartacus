@@ -19,7 +19,7 @@ export class OccOrgUnitListNormalizer
     if (target === undefined) {
       target = {
         ...(source as any),
-        unitNodes: source.unitNodes.map(unitNode => ({
+        values: source.unitNodes.map(unitNode => ({
           ...this.converter.convert(unitNode, B2BUNIT_NORMALIZER),
         })),
       };

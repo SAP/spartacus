@@ -6,7 +6,7 @@ import {
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { B2BSearchConfig } from '../../model/search-config';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
-import { BUDGET_ENTITIES, BUDGET_LISTS } from '../organization-state';
+import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
 import { PaginationModel, SortModel } from '../../../model/misc.model';
 
 export const LOAD_BUDGET = '[Budget] Load Budget Data';
@@ -57,18 +57,14 @@ export class LoadBudgets extends EntityLoadAction {
       params: B2BSearchConfig;
     }
   ) {
-    super(BUDGET_LISTS, serializeB2BSearchConfig(payload.params));
+    super(BUDGET_LIST, serializeB2BSearchConfig(payload.params));
   }
 }
 
 export class LoadBudgetsFail extends EntityFailAction {
   readonly type = LOAD_BUDGETS_FAIL;
   constructor(public payload: { params: B2BSearchConfig; error: any }) {
-    super(
-      BUDGET_LISTS,
-      serializeB2BSearchConfig(payload.params),
-      payload.error
-    );
+    super(BUDGET_LIST, serializeB2BSearchConfig(payload.params), payload.error);
   }
 }
 
@@ -84,7 +80,7 @@ export class LoadBudgetsSuccess extends EntitySuccessAction {
       params: B2BSearchConfig;
     }
   ) {
-    super(BUDGET_LISTS, serializeB2BSearchConfig(payload.params));
+    super(BUDGET_LIST, serializeB2BSearchConfig(payload.params));
   }
 }
 

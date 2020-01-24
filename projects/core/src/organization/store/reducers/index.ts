@@ -9,13 +9,13 @@ import {
   OrganizationState,
   BUDGET_ENTITIES,
   BUDGET_FEATURE,
-  BUDGET_LISTS,
+  BUDGET_LIST,
   ORG_UNIT_ENTITIES,
   ORG_UNIT_FEATURE,
-  ORG_UNIT_LISTS,
+  ORG_UNIT_LIST,
   PERMISSION_ENTITIES,
   PERMISSION_FEATURE,
-  PERMISSION_LISTS,
+  PERMISSION_LIST,
 } from '../organization-state';
 import { budgetsListReducer } from './budget.reducer';
 import { orgUnitListReducer } from './org-unit.reducer';
@@ -25,18 +25,18 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
     [BUDGET_FEATURE]: combineReducers({
       entities: entityLoaderReducer<Budget>(BUDGET_ENTITIES),
-      lists: entityLoaderReducer<ListModel>(BUDGET_LISTS, budgetsListReducer),
+      list: entityLoaderReducer<ListModel>(BUDGET_LIST, budgetsListReducer),
     }),
     [PERMISSION_FEATURE]: combineReducers({
       entities: entityLoaderReducer<Permission>(PERMISSION_ENTITIES),
-      lists: entityLoaderReducer<ListModel>(
-        PERMISSION_LISTS,
+      list: entityLoaderReducer<ListModel>(
+        PERMISSION_LIST,
         permissionsListReducer
       ),
     }),
     [ORG_UNIT_FEATURE]: combineReducers({
       entities: entityLoaderReducer<B2BUnitNode>(ORG_UNIT_ENTITIES),
-      lists: entityLoaderReducer<ListModel>(ORG_UNIT_LISTS, orgUnitListReducer),
+      list: entityLoaderReducer<ListModel>(ORG_UNIT_LIST, orgUnitListReducer),
     }),
   };
 }

@@ -22,7 +22,7 @@ const orgUnit = { id: orgUnitId };
 const orgUnit2 = { id: 'testOrgUnit2' };
 
 const orgUnitList: B2BUnitNodeList = {
-  unitNodes: [orgUnit, orgUnit2],
+  values: [orgUnit, orgUnit2],
 };
 
 class MockAuthService {

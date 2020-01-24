@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrgUnitAdapter } from './org-unit.adapter';
-import { B2BUnitNode } from 'projects/core/src/model';
-import { Occ } from '../../../occ/occ-models/occ.models';
-import B2BUnitNodeList = Occ.B2BUnitNodeList;
+import { B2BUnitNode, B2BUnitNodeList } from '../../../model/org-unit.model';
 
 @Injectable({
   providedIn: 'root',
