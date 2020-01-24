@@ -68,7 +68,7 @@ export class CmsService {
   }
 
   /**
-   * Get CMS component data by uid.
+   * Get CMS component data by uid
    *
    * This method can be safely and optimally used to load multiple components data at the same time.
    * Calling getComponentData multiple times for different components will always result in optimized
