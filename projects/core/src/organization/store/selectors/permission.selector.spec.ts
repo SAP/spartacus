@@ -6,8 +6,6 @@ import { PermissionActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
-  PERMISSION_ENTITIES,
-  PERMISSION_LISTS,
   PermissionManagement,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
@@ -66,8 +64,8 @@ describe('Permission Selectors', () => {
         new PermissionActions.LoadPermissionSuccess([permission, permission2])
       );
       expect(result).toEqual({
-        [PERMISSION_ENTITIES]: { entities },
-        [PERMISSION_LISTS]: { entities: {} },
+        entities: { entities },
+        lists: { entities: {} },
       });
     });
   });
