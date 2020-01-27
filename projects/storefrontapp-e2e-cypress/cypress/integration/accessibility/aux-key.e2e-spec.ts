@@ -9,38 +9,108 @@ context('Auxiliary Keys', () => {
         cy.get('cx-navigation-ui')
           .find('nav')
           .should('have.length', 30);
-        cy.wait(2000);
-        cy.get('cx-navigation-ui nav')
-          .first()
-          .get('span')
+        cy.get('cx-navigation-ui nav h5')
+          .contains('Brands')
+          .should('be.visible');
+        cy.get('cx-navigation-ui nav span')
           .first()
           .focus()
-          .type(' ');
-        cy.wait(2000);
-        cy.get('cx-generic-link')
-          .contains('Shop all Brands >')
-          .should('be.visible');
+          .type(' ')
+          .parent()
+          .should('contain.text', 'Shop all Brands');
       });
     });
 
-    xit('should tab through menu items', () => {
-      // TODO: Waiting on Navigation UI Refactor
+    it('should tab through menu items', () => {
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Shop all Brands');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Canon');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Sony');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Kodak');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Samsung');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Toshiba');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Fujifilm');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Kingston');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Icidu');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'TDK');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Sweex');
     });
 
     it('should close menu with space key', () => {
-      cy.type(' ');
-      cy.get('cx-generic-link')
-        .contains('Shop all Brands >')
+      cy.focused().type(' ');
+      cy.get('cx-navigation-ui nav span')
+        .first()
+        .parent()
+        .contains('Shop all Brands')
         .should('not.be.visible');
     });
   });
 
-  xdescribe('My Account Navigation', () => {
-    it('should open menu with space key', () => {});
+  describe('My Account Navigation', () => {
+    before(() => {
+      cy.requireLoggedIn();
+      cy.visit('/');
+    });
 
-    xit('should tab through menu items', () => {});
+    it('should open menu with space key', () => {
+      cy.get('cx-page-layout[section="header"]').within(() => {
+        cy.get(
+          'cx-navigation-ui[ng-reflect-ng-class="accNavComponent"] nav span'
+        )
+          .first()
+          .focus()
+          .type(' ');
+        cy.get('cx-generic-link')
+          .contains('Order History')
+          .should('be.visible');
+      });
+    });
 
-    it('should close menu with space key', () => {});
+    it('should tab through menu items', () => {
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Order History');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Wish List');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Address Book');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Payment Details');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Personal Details');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Password');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Email Address');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Consent Management');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Close Account');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'My Interests');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Notification Preference');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'My Coupons');
+      cy.pressTab();
+      cy.focused().should('contain.text', 'Sign Out');
+    });
+
+    it('should close menu with space key', () => {
+      cy.focused().trigger('keydown', { key: 'Space' });
+      cy.get('cx-generic-link')
+        .contains('Order History')
+        .should('not.be.visible');
+    });
   });
 
   describe('Search Bar', () => {
@@ -100,4 +170,8 @@ context('Auxiliary Keys', () => {
 
     it('should go to link with Enter key', () => {});
   });
+
+  xdescribe('Item Counter', () => {});
+
+  xdescribe('Skip Links', () => {});
 });
