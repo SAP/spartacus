@@ -67,8 +67,9 @@ export const organization = {
       placeholder: 'Amount',
     },
     message: {
-      endDate: 'End Date must be after ',
-      startDate: 'Start must be before ',
+      required: 'Value is required',
+      rangeOverflow: 'Date must be before {{date}}',
+      rangeUnderflow: 'Date must be after {{date}}',
     },
   },
 };
