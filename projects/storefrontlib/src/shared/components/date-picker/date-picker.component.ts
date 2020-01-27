@@ -48,6 +48,8 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
   @Input()
   required?: boolean;
 
+  invalid = false;
+
   constructor(protected dateFormatterService: DatePickerFormatterService) {}
 
   onInput(event) {
@@ -88,8 +90,12 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
 
   validate(): { [key: string]: any } {
     if (this.input && !this.input.nativeElement.validity.valid) {
+      this.invalid = true;
       const validity = this.input.nativeElement.validity;
       const validators: { [key: string]: boolean } = {};
+      // if (validity.valueMissing) {
+      //   validators.required = true;
+      // }
       if (validity.rangeOverflow) {
         validators.rangeOverflow = true;
       }
@@ -98,5 +104,6 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
       }
       return validators;
     }
+    this.invalid = false;
   }
 }
