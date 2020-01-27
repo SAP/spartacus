@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Permission } from '../../../model/permission.model';
 import { B2BSearchConfig } from '../../model/search-config';
-import { Occ } from '../../../occ/occ-models/occ.models';
+import { EntitiesModel } from '../../../model/misc.model';
 
 export abstract class PermissionAdapter {
   /**
@@ -17,7 +17,7 @@ export abstract class PermissionAdapter {
   abstract loadList(
     userId: string,
     params?: B2BSearchConfig
-  ): Observable<Occ.PermissionsList>;
+  ): Observable<EntitiesModel<Permission>>;
 
   abstract create(
     userId: string,

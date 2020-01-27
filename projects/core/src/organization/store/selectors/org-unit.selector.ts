@@ -8,7 +8,6 @@ import {
   OrganizationState,
   StateWithOrganization,
   ORG_UNIT_FEATURE,
-  ORG_UNIT_ENTITIES,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
 import { denormalizeB2BSearch } from '../../utils/serializer';
@@ -27,16 +26,16 @@ export const getOrgUnitsState: MemoizedSelector<
   EntityLoaderState<B2BUnitNode>
 > = createSelector(
   getB2BOrgUnitState,
-  (state: OrgUnits) => state && state[ORG_UNIT_ENTITIES]
+  (state: OrgUnits) => state && state.entities
 );
 
 export const getOrgUnitState = (
-  budgetCode: string
+  orgUnitId: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<B2BUnitNode>> =>
   createSelector(
     getOrgUnitsState,
     (state: EntityLoaderState<B2BUnitNode>) =>
-      entityStateSelector(state, budgetCode)
+      entityStateSelector(state, orgUnitId)
   );
 
 export const getOrgUnitList = (): MemoizedSelector<

@@ -28,7 +28,7 @@ const orgUnit: B2BUnitNode = {
 
 class MockOrgUnitConnector {
   get = createSpy().and.returnValue(of(orgUnit));
-  getList = createSpy().and.returnValue(of({ unitNodes: [orgUnit] }));
+  getList = createSpy().and.returnValue(of({ values: [orgUnit] }));
   create = createSpy().and.returnValue(of(orgUnit));
   update = createSpy().and.returnValue(of(orgUnit));
 }

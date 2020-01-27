@@ -46,12 +46,12 @@ export class OrgUnitEffects {
         switchMap((orgUnitsList: EntitiesModel<B2BUnitNode>) => {
           // normalization
           // TODO: extract into the same service with denormalization
-          const orgUnitsEntities = orgUnitsList.values;
+          const entities = orgUnitsList.values;
           const orgUnitPage = {
-            ids: orgUnitsEntities.map(unitNode => unitNode.id),
+            ids: entities.map(unitNode => unitNode.id),
           };
           return [
-            new OrgUnitActions.LoadOrgUnitSuccess(orgUnitsEntities),
+            new OrgUnitActions.LoadOrgUnitSuccess(entities),
             new OrgUnitActions.LoadOrgUnitsSuccess({
               orgUnitPage,
             }),

@@ -3,11 +3,10 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Permission } from '../../../model/permission.model';
-import { Occ } from '../../../occ/occ-models/occ.models';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { PermissionConnector } from '../../connectors/permission/permission.connector';
 import { PermissionActions } from '../actions/index';
-import PermissionsList = Occ.PermissionsList;
+import { EntitiesModel } from '@spartacus/core';
 
 @Injectable()
 export class PermissionEffects {
@@ -45,17 +44,17 @@ export class PermissionEffects {
     map((action: PermissionActions.LoadPermissions) => action.payload),
     switchMap(payload =>
       this.permissionConnector.getList(payload.userId, payload.params).pipe(
-        switchMap((permissions: PermissionsList) => {
+        switchMap((permissions: EntitiesModel<Permission>) => {
           // normalization
           // TODO: extract into the same service with denormalization
-          const permissionsEntities = permissions.orderApprovalPermissions;
+          const entities = permissions.values;
           const permissionPage = {
-            ids: permissionsEntities.map(permission => permission.code),
+            ids: entities.map(permission => permission.code),
             pagination: permissions.pagination,
             sorts: permissions.sorts,
           };
           return [
-            new PermissionActions.LoadPermissionSuccess(permissionsEntities),
+            new PermissionActions.LoadPermissionSuccess(entities),
             new PermissionActions.LoadPermissionsSuccess({
               permissionPage,
               params: payload.params,

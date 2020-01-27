@@ -31,7 +31,7 @@ const sorts = [{ selected: true, name: 'code' }];
 class MockPermissionConnector {
   get = createSpy().and.returnValue(of(permission));
   getList = createSpy().and.returnValue(
-    of({ orderApprovalPermissions: [permission], pagination, sorts })
+    of({ values: [permission], pagination, sorts })
   );
   create = createSpy().and.returnValue(of(permission));
   update = createSpy().and.returnValue(of(permission));
