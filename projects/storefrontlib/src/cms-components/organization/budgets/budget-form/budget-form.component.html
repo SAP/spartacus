@@ -64,6 +64,10 @@
             formControlName="startDate"
             [max]="form.controls['endDate'].value"
             (change)="form.controls['endDate'].updateValueAndValidity()"
+            [invalid]="
+              form.controls['startDate'].touched &&
+              form.controls['startDate'].invalid
+            "
           ></cx-date-picker>
           <div
             class="is-invalid"
@@ -93,23 +97,29 @@
                 [min]="form.controls['startDate'].value"
                 (change)="form.controls['startDate'].updateValueAndValidity()"
                 [endOfDay]="true"
+                [invalid]="
+                  form.controls['endDate'].touched &&
+                  form.controls['endDate'].invalid
+                "
               ></cx-date-picker>
               <div
                 class="is-invalid"
                 *ngIf="
-              form.controls['endDate'].touched &&
-              form.controls['endDate'].invalid
-            "
+                  form.controls['endDate'].touched &&
+                  form.controls['endDate'].invalid
+                "
               >
-            <span
-              *ngFor="let error of form.controls['endDate'].errors | keyvalue"
-            >
-              {{
-              'budgetForm.message.' + error.key
-                | cxTranslate
-                : { date: form.controls['startDate'].value | cxDate }
-              }}
-            </span>
+                <span
+                  *ngFor="
+                    let error of form.controls['endDate'].errors | keyvalue
+                  "
+                >
+                  {{
+                    'budgetForm.message.' + error.key
+                      | cxTranslate
+                        : { date: form.controls['startDate'].value | cxDate }
+                  }}
+                </span>
               </div>
             </label>
           </div>
