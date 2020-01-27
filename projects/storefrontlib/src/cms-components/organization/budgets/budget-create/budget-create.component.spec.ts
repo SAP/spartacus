@@ -13,7 +13,8 @@ import {
   OrgUnitService,
   Currency,
   CurrencyService,
-  B2BUnitNodeList,
+  EntitiesModel,
+  B2BUnitNode,
 } from '@spartacus/core';
 
 import { BudgetCreateComponent } from './budget-create.component';
@@ -41,7 +42,7 @@ const mockBudget: Budget = {
   ],
 };
 
-const mockOrgUnits: B2BUnitNodeList = {
+const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
   values: [
     {
       active: true,
