@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -13,6 +13,7 @@ import {
 import { AuthService } from '../../auth/facade/auth.service';
 import { Cart, OrderEntry } from '../../model/index';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import { UserService } from '../../user/facade/user.service';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
@@ -23,6 +24,7 @@ export class WishListService {
   constructor(
     protected store: Store<StateWithMultiCart>,
     protected authService: AuthService,
+    protected userService: UserService,
     protected multiCartService: MultiCartService
   ) {}
 
@@ -33,12 +35,20 @@ export class WishListService {
   }
 
   getWishList(): Observable<Cart> {
-    return this.getWishListId().pipe(
+    return combineLatest([
+      this.getWishListId(),
+      this.userService.get(),
+      this.authService.getOccUserId(),
+    ]).pipe(
       distinctUntilChanged(),
-      withLatestFrom(this.authService.getOccUserId()),
-      tap(([wishListId, userId]) => {
-        if (!Boolean(wishListId) && userId !== OCC_USER_ID_ANONYMOUS) {
-          this.loadWishList(userId);
+      tap(([wishListId, user, userId]) => {
+        if (
+          !Boolean(wishListId) &&
+          userId !== OCC_USER_ID_ANONYMOUS &&
+          Boolean(user) &&
+          Boolean(user.customerId)
+        ) {
+          this.loadWishList(userId, user.customerId);
         }
       }),
       filter(([wishListId]) => Boolean(wishListId)),
@@ -46,18 +56,22 @@ export class WishListService {
     );
   }
 
-  loadWishList(userId: string): void {
-    this.store.dispatch(new CartActions.LoadWishList(userId));
+  loadWishList(userId: string, customerId: string): void {
+    this.store.dispatch(new CartActions.LoadWishList({ userId, customerId }));
   }
 
   addEntry(productCode: string): void {
     this.getWishListId()
       .pipe(
         distinctUntilChanged(),
-        withLatestFrom(this.authService.getOccUserId()),
-        tap(([wishListId, userId]) => {
-          if (!Boolean(wishListId)) {
-            this.loadWishList(userId);
+        withLatestFrom(this.authService.getOccUserId(), this.userService.get()),
+        tap(([wishListId, userId, user]) => {
+          if (
+            !Boolean(wishListId) &&
+            Boolean(user) &&
+            Boolean(user.customerId)
+          ) {
+            this.loadWishList(userId, user.customerId);
           }
         }),
         filter(([wishListId]) => Boolean(wishListId)),
@@ -72,10 +86,14 @@ export class WishListService {
     this.getWishListId()
       .pipe(
         distinctUntilChanged(),
-        withLatestFrom(this.authService.getOccUserId()),
-        tap(([wishListId, userId]) => {
-          if (!Boolean(wishListId)) {
-            this.loadWishList(userId);
+        withLatestFrom(this.authService.getOccUserId(), this.userService.get()),
+        tap(([wishListId, userId, user]) => {
+          if (
+            !Boolean(wishListId) &&
+            Boolean(user) &&
+            Boolean(user.customerId)
+          ) {
+            this.loadWishList(userId, user.customerId);
           }
         }),
         filter(([wishListId]) => Boolean(wishListId)),

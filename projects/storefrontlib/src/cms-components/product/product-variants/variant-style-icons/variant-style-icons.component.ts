@@ -13,9 +13,9 @@ import {
 } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-style-icons',
-  templateUrl: './style-icons.component.html',
-  styleUrls: ['./style-icons.component.scss'],
+  selector: 'cx-variant-style-icons',
+  templateUrl: './variant-style-icons.component.html',
+  styleUrls: ['./variant-style-icons.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantStyleIconsComponent implements OnInit {
