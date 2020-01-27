@@ -23,6 +23,8 @@ export const common = {
     search: {
       title: '{{count}} result for "{{query}}"',
       title_plural: '{{count}} results for "{{query}}"',
+      findProductTitle: '{{count}} result for coupon "{{coupon}}"',
+      findProductTitle_plural: '{{count}} results for coupon "{{coupon}}"',
     },
     product: {
       description: '{{description}}',
