@@ -7,22 +7,6 @@ describe('Profile-tag component', () => {
     cy.server();
     cdsHelper.setUpMocks();
   });
-  it('should wait for a user to accept consent and then send a ConsentChanged event', () => {
-    navigation.visitHomePage({
-      options: {
-        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
-      },
-    });
-    cy.get('cx-profiletag');
-    profileTagHelper.triggerLoaded();
-    anonymousConsents.clickAllowAllFromBanner();
-    cy.window().then(win => {
-      expect((<any>win).Y_TRACKING.eventLayer[0]).to.have.property('name');
-      expect((<any>win).Y_TRACKING.eventLayer[0]['name']).to.equal(
-        'ConsentChanged'
-      );
-    });
-  });
   it('should send a Navigated event when a navigation occurs', () => {
     navigation.visitHomePage({
       options: {
@@ -40,6 +24,22 @@ describe('Profile-tag component', () => {
     );
     cy.window().then(win => {
       expect((<any>win).Y_TRACKING.eventLayer[0]['name']).to.equal('Navigated');
+    });
+  });
+  it('should wait for a user to accept consent and then send a ConsentChanged event', () => {
+    navigation.visitHomePage({
+      options: {
+        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
+      },
+    });
+    cy.get('cx-profiletag');
+    profileTagHelper.triggerLoaded();
+    anonymousConsents.clickAllowAllFromBanner();
+    cy.window().then(win => {
+      expect((<any>win).Y_TRACKING.eventLayer[0]).to.have.property('name');
+      expect((<any>win).Y_TRACKING.eventLayer[0]['name']).to.equal(
+        'ConsentChanged'
+      );
     });
   });
 });
