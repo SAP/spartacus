@@ -11,11 +11,11 @@ import { Configurator } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 @Component({
-  selector: 'cx-config-attribute-multi-select-image',
-  templateUrl: './config-attribute-multi-select-image.component.html',
+  selector: 'cx-config-attribute-multi-selection-image',
+  templateUrl: './config-attribute-multi-selection-image.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigAttributeMultiSelectImageComponent implements OnInit {
+export class ConfigAttributeMultiSelectionImageComponent implements OnInit {
   constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   @Input() attribute: Configurator.Attribute;

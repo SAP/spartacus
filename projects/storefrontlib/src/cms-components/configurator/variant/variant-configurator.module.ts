@@ -21,7 +21,7 @@ import { ConfigAttributeHeaderComponent } from '../commons/config-attribute-head
 import { ConfigAttributeCheckBoxListComponent } from '../commons/config-attribute-types/config-attribute-checkbox-list/config-attribute-checkbox-list.component';
 import { ConfigAttributeDropDownComponent } from '../commons/config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
 import { ConfigAttributeInputFieldComponent } from '../commons/config-attribute-types/config-attribute-input-field/config-attribute-input-field.component';
-import { ConfigAttributeMultiSelectImageComponent } from '../commons/config-attribute-types/config-attribute-multi-select-image/config-attribute-multi-select-image.component';
+import { ConfigAttributeMultiSelectionImageComponent } from '../commons/config-attribute-types/config-attribute-multi-selection-image/config-attribute-multi-selection-image.component';
 import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigAttributeReadOnlyComponent } from '../commons/config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigAttributeSingleSelectionImageComponent } from '../commons/config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
@@ -145,7 +145,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeCheckBoxListComponent,
-    ConfigAttributeMultiSelectImageComponent,
+    ConfigAttributeMultiSelectionImageComponent,
     ConfigAttributeSingleSelectionImageComponent,
     ConfigAttributeInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
@@ -163,7 +163,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeCheckBoxListComponent,
-    ConfigAttributeMultiSelectImageComponent,
+    ConfigAttributeMultiSelectionImageComponent,
     ConfigAttributeSingleSelectionImageComponent,
     ConfigAttributeInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
@@ -182,7 +182,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeCheckBoxListComponent,
-    ConfigAttributeMultiSelectImageComponent,
+    ConfigAttributeMultiSelectionImageComponent,
     ConfigAttributeSingleSelectionImageComponent,
     ConfigAttributeInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
