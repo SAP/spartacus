@@ -12,3 +12,9 @@
   tabindex="0"
   >{{ attribute.label }}</label
 >
+<img
+  *ngIf="attribute.images[0]"
+  class="cx-config-attribute-img"
+  src="{{ attribute.images[0].url }}"
+  alt="{{ attribute.images[0].altText }}"
+/>
