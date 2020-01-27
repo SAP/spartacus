@@ -6,7 +6,13 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import {
   B2BUnitNode,
   B2BUnitNodeList,
@@ -51,19 +57,22 @@ export class BudgetFormComponent implements OnInit {
   @Output()
   clickBack = new EventEmitter<any>();
 
-  form: FormGroup = this.fb.group({
-    code: ['', Validators.required],
-    name: ['', Validators.required],
-    orgUnit: this.fb.group({
-      uid: [null, Validators.required],
-    }),
-    startDate: ['', Validators.required],
-    endDate: ['', Validators.required],
-    currency: this.fb.group({
-      isocode: [null, Validators.required],
-    }),
-    budget: ['', Validators.required],
-  });
+  form: FormGroup = this.fb.group(
+    {
+      code: ['', Validators.required],
+      name: ['', Validators.required],
+      orgUnit: this.fb.group({
+        uid: [null, Validators.required],
+      }),
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      currency: this.fb.group({
+        isocode: [null, Validators.required],
+      }),
+      budget: ['', Validators.required],
+    },
+    { validator: this.checkDate }
+  );
 
   constructor(
     private fb: FormBuilder,
@@ -97,6 +106,22 @@ export class BudgetFormComponent implements OnInit {
   verifyBudget(): void {
     if (!this.form.invalid) {
       this.submitBudget.emit(this.form.value);
+    }
+  }
+
+  isDateValid(formControlName1: string, formControlName2: string): boolean {
+    return (
+      this.form.get(formControlName1).touched &&
+      this.form.get(formControlName1).dirty &&
+      this.form.get(formControlName2).touched &&
+      this.form.get(formControlName2).dirty &&
+      this.form.hasError('NotValidDate')
+    );
+  }
+
+  private checkDate(ac: AbstractControl): ValidationErrors {
+    if (ac.get('startDate').value > ac.get('endDate').value) {
+      return { NotValidDate: true };
     }
   }
 }
