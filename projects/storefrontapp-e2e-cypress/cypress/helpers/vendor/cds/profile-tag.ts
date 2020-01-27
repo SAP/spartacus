@@ -14,6 +14,7 @@ export const profileTagHelper = {
   },
   triggerLoaded() {
     cy.window().then(win => {
+      cy.log('dispatching event');
       const event = new CustomEvent('profiletag_loaded');
       win.dispatchEvent(event);
     });

@@ -1,5 +1,4 @@
-import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
-import * as checkout from '../../../helpers/checkout-flow';
+import * as anonymousConsents from '../../../helpers/anonymous-consents';
 import { navigation } from '../../../helpers/navigation';
 import { cdsHelper } from '../../../helpers/vendor/cds/cds';
 import { profileTagHelper } from '../../../helpers/vendor/cds/profile-tag';
@@ -9,19 +8,14 @@ describe('Profile-tag component', () => {
     cdsHelper.setUpMocks();
   });
   it('should wait for a user to accept consent and then send a ConsentChanged event', () => {
-    const homePage = checkout.waitForPage('homepage', 'getHomePage');
     navigation.visitHomePage({
       options: {
         onBeforeLoad: profileTagHelper.interceptProfileTagJs,
       },
     });
-    cy.wait(`@${homePage}`);
+    cy.get('cx-profiletag');
     profileTagHelper.triggerLoaded();
-    cy.window().then(win => {
-      const event = new CustomEvent('profiletag_loaded');
-      win.dispatchEvent(event);
-    });
-    clickAllowAllFromBanner();
+    anonymousConsents.clickAllowAllFromBanner();
     cy.window().then(win => {
       expect((<any>win).Y_TRACKING.eventLayer[0]).to.have.property('name');
       expect((<any>win).Y_TRACKING.eventLayer[0]['name']).to.equal(
@@ -30,18 +24,20 @@ describe('Profile-tag component', () => {
     });
   });
   it('should send a Navigated event when a navigation occurs', () => {
-    const homePage = checkout.waitForPage('homepage', 'getHomePage');
     navigation.visitHomePage({
       options: {
         onBeforeLoad: profileTagHelper.interceptProfileTagJs,
       },
     });
-    cy.wait(`@${homePage}`);
+    cy.get('cx-profiletag');
     profileTagHelper.triggerLoaded();
-    cy.get('.item.active')
+    cy.get('.Section1.has-components')
       .first()
       .click();
-    cy.location('pathname', { timeout: 1000 }).should('include', '/product');
+    cy.location('pathname', { timeout: 2000 }).should(
+      'include',
+      '/OpenCatalogue'
+    );
     cy.window().then(win => {
       expect((<any>win).Y_TRACKING.eventLayer[0]['name']).to.equal('Navigated');
     });
