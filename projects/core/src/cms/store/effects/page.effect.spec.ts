@@ -13,6 +13,7 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
 import { CmsStructureModel, Page } from '../../model/page.model';
 import { CmsActions } from '../actions/index';
+import { CMS_FEATURE } from '../cms-state';
 import * as fromEffects from './page.effect';
 
 export function mockDateNow(): number {
@@ -94,7 +95,7 @@ describe('Page Effects', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
+        StoreModule.forFeature(CMS_FEATURE, fromCmsReducer.getReducers()),
       ],
       providers: [
         { provide: RoutingService, useClass: RoutingServiceMock },
@@ -119,7 +120,8 @@ describe('Page Effects', () => {
         const action = new CmsActions.LoadCmsPageData(context);
 
         const completion1 = new CmsActions.CmsGetComponentFromPage(
-          componentsMock
+          componentsMock,
+          context
         );
         const completion2 = new CmsActions.LoadCmsPageDataSuccess(
           context,
