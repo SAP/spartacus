@@ -73,14 +73,9 @@ export class OrgUnitService {
   }
 
   private withUserId(callback: (userId: string) => void): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(userId => callback(userId));
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
-      callback(OCC_USER_ID_CURRENT);
-    }
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(userId => callback(userId));
   }
 }
