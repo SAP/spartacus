@@ -109,19 +109,19 @@ export class BudgetFormComponent implements OnInit {
     }
   }
 
-  isDateValid(formControlName1: string, formControlName2: string): boolean {
-    return (
-      this.form.get(formControlName1).touched &&
-      this.form.get(formControlName1).dirty &&
-      this.form.get(formControlName2).touched &&
-      this.form.get(formControlName2).dirty &&
-      this.form.hasError('NotValidDate')
-    );
-  }
+  // isDateValid(formControlName1: string, formControlName2: string): boolean {
+  //   return (
+  //     this.form.get(formControlName1).touched &&
+  //     this.form.get(formControlName1).dirty &&
+  //     this.form.get(formControlName2).touched &&
+  //     this.form.get(formControlName2).dirty &&
+  //     this.form.hasError('NotValidDate')
+  //   );
+  // }
 
-  private checkDate(ac: AbstractControl): ValidationErrors {
-    if (ac.get('startDate').value > ac.get('endDate').value) {
-      return { NotValidDate: true };
-    }
-  }
+  // private checkDate(ac: AbstractControl): ValidationErrors {
+  //   if (ac.get('startDate').value > ac.get('endDate').value) {
+  //     return { NotValidDate: true };
+  //   }
+  // }
 }
