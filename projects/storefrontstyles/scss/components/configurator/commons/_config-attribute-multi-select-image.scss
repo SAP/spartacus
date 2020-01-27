@@ -2,6 +2,7 @@
   margin-left: 20px;
   .cx-config-select {
     padding: 5px;
+    cursor: pointer;
 
     .cx-config-attribute-value-img,
     .cx-config-attribute-value-img-dummy {
@@ -11,6 +12,7 @@
       margin-right: auto;
       max-width: 75%;
       border-radius: 2px;
+      border: transparent 3px solid;
     }
 
     .cx-config-attribute-value-img-dummy {
