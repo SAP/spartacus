@@ -1,5 +1,4 @@
-import { CmsStructureConfig } from '@spartacus/core';
-import { ContentSlotComponentData } from '@spartacus/core';
+import { CmsStructureConfig, ContentSlotComponentData } from '@spartacus/core';
 
 export const paragraphComponents: {
   [key: string]: ContentSlotComponentData | any;
@@ -12,11 +11,25 @@ export const paragraphComponents: {
   },
 };
 
+export const linkComponents: {
+  [key: string]: ContentSlotComponentData | any;
+} = {
+  Link1: {
+    uid: 'Link1',
+    typeCode: 'CMSLinkComponent',
+    flexType: 'CMSLinkComponent',
+    name: 'Link',
+    linkName: 'Link',
+    url: '/test/outlet/template',
+  },
+};
+
 export function testOutletPagesCmsContentConfig(): CmsStructureConfig {
   return {
     cmsStructure: {
       components: {
         ...paragraphComponents,
+        ...linkComponents,
       },
       pages: [
         {
@@ -40,6 +53,16 @@ export function testOutletPagesCmsContentConfig(): CmsStructureConfig {
           ignoreBackend: true,
           pageId: '/test/outlet/template',
           template: 'ContentPage1Template',
+        },
+        {
+          slots: {
+            Section2A: {
+              componentIds: ['Link1'],
+            },
+          },
+          ignoreBackend: true,
+          pageId: '/test/outlet/template2',
+          template: 'LandingPage2Template',
         },
         {
           slots: {

@@ -1,0 +1,6 @@
+@import '../../../theme';
+@import './order-detail-items';
+
+%cx-order-consigned-entries {
+  @extend %cx-order-detail-items;
+}
