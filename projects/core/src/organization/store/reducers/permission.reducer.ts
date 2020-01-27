@@ -19,7 +19,7 @@ export function permissionsListReducer(
 ): any {
   switch (action.type) {
     case PermissionActions.LOAD_PERMISSIONS_SUCCESS:
-      return action.payload.permissionPage;
+      return action.payload.page;
   }
   return state;
 }

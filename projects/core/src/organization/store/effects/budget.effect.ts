@@ -7,6 +7,7 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
 import { EntitiesModel } from '@spartacus/core';
+import { normalizeListPage } from '../../utils/serializer';
 
 @Injectable()
 export class BudgetEffects {
@@ -44,18 +45,11 @@ export class BudgetEffects {
     switchMap(payload =>
       this.budgetConnector.getList(payload.userId, payload.params).pipe(
         switchMap((budgets: EntitiesModel<Budget>) => {
-          // normalization
-          // TODO: extract into the same service with denormalization
-          const entities = budgets.values;
-          const budgetPage = {
-            ids: entities.map(budget => budget.code),
-            pagination: budgets.pagination,
-            sorts: budgets.sorts,
-          };
+          const { values, page } = normalizeListPage(budgets, 'code');
           return [
-            new BudgetActions.LoadBudgetSuccess(entities),
+            new BudgetActions.LoadBudgetSuccess(values),
             new BudgetActions.LoadBudgetsSuccess({
-              budgetPage,
+              page,
               params: payload.params,
             }),
           ];

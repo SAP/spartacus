@@ -7,6 +7,7 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { PermissionConnector } from '../../connectors/permission/permission.connector';
 import { PermissionActions } from '../actions/index';
 import { EntitiesModel } from '@spartacus/core';
+import { normalizeListPage } from '../../utils/serializer';
 
 @Injectable()
 export class PermissionEffects {
@@ -45,18 +46,11 @@ export class PermissionEffects {
     switchMap(payload =>
       this.permissionConnector.getList(payload.userId, payload.params).pipe(
         switchMap((permissions: EntitiesModel<Permission>) => {
-          // normalization
-          // TODO: extract into the same service with denormalization
-          const entities = permissions.values;
-          const permissionPage = {
-            ids: entities.map(permission => permission.code),
-            pagination: permissions.pagination,
-            sorts: permissions.sorts,
-          };
+          const { values, page } = normalizeListPage(permissions, 'code');
           return [
-            new PermissionActions.LoadPermissionSuccess(entities),
+            new PermissionActions.LoadPermissionSuccess(values),
             new PermissionActions.LoadPermissionsSuccess({
-              permissionPage,
+              page,
               params: payload.params,
             }),
           ];

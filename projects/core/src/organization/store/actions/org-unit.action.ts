@@ -6,6 +6,7 @@ import {
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { ORG_UNIT_ENTITIES, ORG_UNIT_LIST } from '../organization-state';
 import { ALL } from '../../model/search-config';
+import { ListModel } from '@spartacus/core';
 
 export const LOAD_ORG_UNIT = '[B2BUnitNode] Load B2BUnitNode Data';
 export const LOAD_ORG_UNIT_FAIL = '[B2BUnitNode] Load B2BUnitNode Data Fail';
@@ -68,8 +69,7 @@ export class LoadOrgUnitsFail extends EntityFailAction {
 
 export class LoadOrgUnitsSuccess extends EntitySuccessAction {
   readonly type = LOAD_ORG_UNITS_SUCCESS;
-  // TODO   constructor(public payload: {orgUnitPage}) {
-  constructor(public payload: any) {
+  constructor(public payload: { page: ListModel }) {
     super(ORG_UNIT_LIST, ALL);
   }
 }

@@ -7,7 +7,7 @@ import {
 import { B2BSearchConfig } from '../../model/search-config';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
 import { PERMISSION_ENTITIES, PERMISSION_LIST } from '../organization-state';
-import { PaginationModel, SortModel } from '../../../model/misc.model';
+import { ListModel } from '../../../model/misc.model';
 
 export const LOAD_PERMISSION = '[Permission] Load Permission Data';
 export const LOAD_PERMISSION_FAIL = '[Permission] Load Permission Data Fail';
@@ -79,11 +79,7 @@ export class LoadPermissionsSuccess extends EntitySuccessAction {
   readonly type = LOAD_PERMISSIONS_SUCCESS;
   constructor(
     public payload: {
-      permissionPage: {
-        ids: string[];
-        pagination: PaginationModel;
-        sorts: SortModel[];
-      };
+      page: ListModel;
       params: B2BSearchConfig;
     }
   ) {

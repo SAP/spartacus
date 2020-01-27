@@ -7,7 +7,7 @@ import {
 import { B2BSearchConfig } from '../../model/search-config';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
 import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
-import { PaginationModel, SortModel } from '../../../model/misc.model';
+import { ListModel } from '../../../model/misc.model';
 
 export const LOAD_BUDGET = '[Budget] Load Budget Data';
 export const LOAD_BUDGET_FAIL = '[Budget] Load Budget Data Fail';
@@ -72,11 +72,7 @@ export class LoadBudgetsSuccess extends EntitySuccessAction {
   readonly type = LOAD_BUDGETS_SUCCESS;
   constructor(
     public payload: {
-      budgetPage: {
-        ids: string[];
-        pagination: PaginationModel;
-        sorts: SortModel[];
-      };
+      page: ListModel;
       params: B2BSearchConfig;
     }
   ) {

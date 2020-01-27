@@ -7,6 +7,7 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { OrgUnitActions } from '../actions/index';
 import { EntitiesModel } from '../../../model/misc.model';
+import { normalizeListPage } from '../../utils/serializer';
 
 @Injectable()
 export class OrgUnitEffects {
@@ -44,16 +45,11 @@ export class OrgUnitEffects {
     switchMap(payload =>
       this.orgUnitConnector.getList(payload.userId).pipe(
         switchMap((orgUnitsList: EntitiesModel<B2BUnitNode>) => {
-          // normalization
-          // TODO: extract into the same service with denormalization
-          const entities = orgUnitsList.values;
-          const orgUnitPage = {
-            ids: entities.map(unitNode => unitNode.id),
-          };
+          const { values, page } = normalizeListPage(orgUnitsList, 'id');
           return [
-            new OrgUnitActions.LoadOrgUnitSuccess(entities),
+            new OrgUnitActions.LoadOrgUnitSuccess(values),
             new OrgUnitActions.LoadOrgUnitsSuccess({
-              orgUnitPage,
+              page,
             }),
           ];
         }),

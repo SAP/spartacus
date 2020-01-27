@@ -19,7 +19,7 @@ export function budgetsListReducer(
 ): any {
   switch (action.type) {
     case BudgetActions.LOAD_BUDGETS_SUCCESS:
-      return action.payload.budgetPage;
+      return action.payload.page;
   }
   return state;
 }

@@ -1,4 +1,4 @@
-import { EntitiesModel } from '../../model/misc.model';
+import { EntitiesModel, ListModel } from '../../model/misc.model';
 import { LoaderState } from '../../state/index';
 import { entityStateSelector } from '../../state/utils/entity-loader/entity-loader.selectors';
 import { B2BSearchConfig, ALL } from '../model/search-config';
@@ -39,4 +39,21 @@ export function denormalizeB2BSearch<T>(
     res.value.sorts = list.value.sorts;
   }
   return res;
+}
+
+export function normalizeListPage<T>(
+  list: EntitiesModel<T>,
+  id: string
+): { values: T[]; page: ListModel } {
+  const values = list.values;
+  const page: ListModel = {
+    ids: values.map(data => data[id]),
+  };
+  if (list.pagination) {
+    page.pagination = list.pagination;
+  }
+  if (list.sorts) {
+    page.sorts = list.sorts;
+  }
+  return { values, page };
 }
