@@ -1,8 +1,14 @@
+import * as authentication from './auth-forms';
+
 export function loginUsingUserWithOrder() {
   const username = 'test-user-with-orders@ydev.hybris.com';
   const password = 'Password123.';
-  cy.login(username, password);
   cy.visit('/');
+
+  cy.visit('/login');
+
+  authentication.login(username, password);
+
   cy.get('.cx-login-greet').should('contain', 'Test User');
 }
 
