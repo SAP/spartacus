@@ -1,8 +1,8 @@
-import { formats } from '../../../sample-data/viewports';
-import { product } from '../../../sample-data/checkout-flow';
 import { doPlaceOrder, orderHistoryTest } from '../../../helpers/order-history';
+import { product } from '../../../sample-data/checkout-flow';
+import { formats } from '../../../sample-data/viewports';
 
-describe(`${formats.mobile.width +
+describe.skip(`${formats.mobile.width +
   1}p resolution - Order History with orders`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
@@ -23,7 +23,8 @@ describe(`${formats.mobile.width +
   orderHistoryTest.checkCorrectDateFormat(true);
 });
 
-describe(`${formats.mobile.width + 1}p resolution - Order details page`, () => {
+describe.skip(`${formats.mobile.width +
+  1}p resolution - Order details page`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
