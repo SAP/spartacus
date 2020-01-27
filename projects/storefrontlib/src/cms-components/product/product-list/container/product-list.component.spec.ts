@@ -180,11 +180,6 @@ describe('ProductListComponent', () => {
     });
   });
 
-  // it('viewPage should call service.viewPage', () => {
-  //   component.viewPage(123);
-  //   expect(componentService.viewPage).toHaveBeenCalledWith(123);
-  // });
-
   it('sortList should call service.sort', () => {
     component.sortList('testSortCode');
     expect(componentService.sort).toHaveBeenCalledWith('testSortCode');
