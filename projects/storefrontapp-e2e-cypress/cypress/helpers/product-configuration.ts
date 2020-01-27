@@ -112,13 +112,13 @@ export function selectAttribute(
 
   switch (uiType) {
     case 'radioGroup':
+    case 'checkBoxList':
+    case 'multi_selection_image':
+    case 'single_selection_image':
       cy.get(`#${valueId}`).click({ force: true });
       break;
     case 'dropdown':
       cy.get(`#${attributeId} ng-select`).ngSelect(valueName);
-      return;
-    case 'checkBoxList':
-      cy.get(`#${valueId}`).click({ force: true });
       break;
     case 'input':
       cy.get(`#${valueId}`)
@@ -134,6 +134,26 @@ export function verifyCheckboxIsSelected(
   const attributeId = getAttributeId(attributeName, 'checkBoxList');
   const valueId = `${attributeId}--${valueName}`;
   cy.get(`#${valueId}`).should('be.checked');
+}
+
+export function verifyImageIsSelected(
+  attributeName: string,
+  uiType: string,
+  valueName: string
+) {
+  const attributeId = getAttributeId(attributeName, uiType);
+  const valueId = `${attributeId}--${valueName}-input`;
+  cy.get(`#${valueId}`).should('be.checked');
+}
+
+export function verifyImageIsNotSelected(
+  attributeName: string,
+  uiType: string,
+  valueName: string
+) {
+  const attributeId = getAttributeId(attributeName, uiType);
+  const valueId = `${attributeId}--${valueName}-input`;
+  cy.get(`#${valueId}`).should('not.be.checked');
 }
 
 export function verifyGroupMenuIsDisplayed() {

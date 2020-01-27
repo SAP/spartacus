@@ -71,6 +71,78 @@ context('Product Configuration', () => {
       );
     });
 
+    it('Image Attribute Types - Multi Selection', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+
+      configuration.clickOnGroup(4);
+
+      configuration.verifyAttributeIsDisplayed(
+        'WCEM_DP_RADIO_BUTTON',
+        'radioGroup'
+      );
+
+      configuration.selectAttribute(
+        'CPQ_HT_VIDEO_SOURCES',
+        'multi_selection_image',
+        'ATV'
+      );
+
+      configuration.selectAttribute(
+        'CPQ_HT_VIDEO_SOURCES',
+        'multi_selection_image',
+        'AFT'
+      );
+
+      //Both Images should be selected in multi select type
+      configuration.verifyImageIsSelected(
+        'CPQ_HT_VIDEO_SOURCES',
+        'multi_selection_image',
+        'ATV'
+      );
+      configuration.verifyImageIsSelected(
+        'CPQ_HT_VIDEO_SOURCES',
+        'multi_selection_image',
+        'AFT'
+      );
+    });
+
+    it('Image Attribute Types - Single Selection', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+
+      configuration.clickOnGroup(4);
+
+      configuration.verifyAttributeIsDisplayed(
+        'WCEM_DP_RADIO_BUTTON',
+        'radioGroup'
+      );
+
+      configuration.selectAttribute(
+        'CPQ_HT_SPK_MODEL',
+        'single_selection_image',
+        'YM_NS_F160'
+      );
+
+      configuration.selectAttribute(
+        'CPQ_HT_SPK_MODEL',
+        'single_selection_image',
+        'YM_NS_C700'
+      );
+
+      //Only one image should be selected
+      configuration.verifyImageIsNotSelected(
+        'CPQ_HT_SPK_MODEL',
+        'single_selection_image',
+        'YM_NS_F160'
+      );
+      configuration.verifyImageIsSelected(
+        'CPQ_HT_SPK_MODEL',
+        'single_selection_image',
+        'YM_NS_C700'
+      );
+    });
+
     it('Checkboxes should be still selected after group change', () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
