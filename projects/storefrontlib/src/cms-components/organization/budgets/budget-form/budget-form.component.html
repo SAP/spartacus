@@ -65,32 +65,36 @@
             [max]="form.controls['endDate'].value"
             (change)="form.controls['endDate'].updateValueAndValidity()"
           ></cx-date-picker>
-          <span
-            *ngIf="
-              form.controls['startDate'].errors &&
-              form.controls['startDate'].touched
-            "
-          >
-            <span
-              *ngFor="let item of form.controls['startDate'].errors | keyvalue"
-            >
-              {{ item.key }}
-            </span>
-          </span>
-        </label>
-      </div>
 
-      <div class="form-group">
-        <label>
-          <span class="label-content">{{
-            'budgetForm.endDate' | cxTranslate
-          }}</span>
-          <cx-date-picker
-            formControlName="endDate"
-            [min]="form.controls['startDate'].value"
-            (change)="form.controls['startDate'].updateValueAndValidity()"
-            [endOfDay]="true"
-          ></cx-date-picker>
+          <div class="form-group">
+            <label>
+              <span class="label-content">{{
+                'budgetForm.endDate' | cxTranslate
+              }}</span>
+              <cx-date-picker
+                formControlName="endDate"
+                [min]="form.controls['startDate'].value"
+                (change)="form.controls['startDate'].updateValueAndValidity()"
+                [endOfDay]="true"
+              ></cx-date-picker>
+              <span
+                *ngIf="
+                  form.controls['endDate'].errors &&
+                  form.controls['endDate'].touched
+                "
+              >
+                <span
+                  *ngFor="
+                    let item of form.controls['endDate'].errors | keyvalue
+                  "
+                >
+                  <span> {{ form.controls['endDate'].value | cxDate }}</span>
+                  <span>{{ 'budgetForm.message.endDate' | cxTranslate }}</span>
+                  <span> {{ form.controls['startDate'].value | cxDate }}</span>
+                </span>
+              </span>
+            </label>
+          </div>
         </label>
       </div>
 

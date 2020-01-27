@@ -66,5 +66,8 @@ export const organization = {
       label: 'Budget amount',
       placeholder: 'Amount',
     },
+    message: {
+      endDate: ' Start Date must be after End Date ',
+    }
   },
 };
