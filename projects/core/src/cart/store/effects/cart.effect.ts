@@ -265,6 +265,7 @@ export class CartEffects {
               oldCartId: payload.cartId,
               toMergeCartGuid: currentCart ? currentCart.guid : undefined,
               extraData: payload.extraData,
+              tempCartId: payload.tempCartId,
             }),
           ];
         })
