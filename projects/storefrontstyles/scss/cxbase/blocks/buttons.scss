@@ -275,14 +275,12 @@ button {
 }
 
 //theme calydon cx-base adjustments
-// $theme: '' !default;
-// @if $theme == 'calydon' {
-//   button,
-//   .btn,
-//   .btn-primary,
-//   .btn-secondary {
-//     &:focus {
-//       @include visible-focus();
-//     }
-//   }
-// }
+$theme: '' !default;
+@if $theme == 'calydon' {
+  button,
+  .btn {
+    &:focus {
+      @include visible-focus();
+    }
+  }
+}
