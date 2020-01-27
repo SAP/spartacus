@@ -113,7 +113,8 @@ export function selectAttribute(
   switch (uiType) {
     case 'radioGroup':
     case 'checkBoxList':
-    case 'image_multi_select':
+    case 'multi_selection_image':
+    case 'single_selection_image':
       cy.get(`#${valueId}`).click({ force: true });
       break;
     case 'dropdown':
@@ -137,11 +138,22 @@ export function verifyCheckboxIsSelected(
 
 export function verifyImageIsSelected(
   attributeName: string,
+  uiType: string,
   valueName: string
 ) {
-  const attributeId = getAttributeId(attributeName, 'image_multi_select');
+  const attributeId = getAttributeId(attributeName, uiType);
   const valueId = `${attributeId}--${valueName}-input`;
   cy.get(`#${valueId}`).should('be.checked');
+}
+
+export function verifyImageIsNotSelected(
+  attributeName: string,
+  uiType: string,
+  valueName: string
+) {
+  const attributeId = getAttributeId(attributeName, uiType);
+  const valueId = `${attributeId}--${valueName}-input`;
+  cy.get(`#${valueId}`).should('not.be.checked');
 }
 
 export function verifyGroupMenuIsDisplayed() {
