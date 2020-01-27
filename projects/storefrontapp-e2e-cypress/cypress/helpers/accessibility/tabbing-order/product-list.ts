@@ -7,8 +7,8 @@ const containerSelector = '.ProductListPageTemplate';
 export function productListTabbingOrderDesktop(config: TabElement[]) {
   cy.visit(testProductListUrl);
 
-  // cy.get('cx-breadcrumb').should('contain', 'Home');
-  // cy.get('cx-breadcrumb').should('contain', 'Brands');
+  cy.get('cx-breadcrumb').should('contain', 'Home');
+  cy.get('cx-breadcrumb').should('contain', 'Brands');
 
   verifyTabbingOrder(containerSelector, config);
 }
