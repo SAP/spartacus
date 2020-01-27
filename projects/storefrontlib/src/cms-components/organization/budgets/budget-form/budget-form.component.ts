@@ -17,8 +17,8 @@ import {
   UrlCommandRoute,
   B2BUnitNode,
   OrgUnitService,
+  EntitiesModel,
 } from '@spartacus/core';
-import { EntitiesModel } from '../../../../../../core/src/model/misc.model';
 
 @Component({
   selector: 'cx-budget-form',
