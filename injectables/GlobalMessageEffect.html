@@ -61,6 +61,7 @@
 
 
 
+
             <section>
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
@@ -98,12 +99,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, store: <a href="../interfaces/StateWithGlobalMessage.html">Store<StateWithGlobalMessage></a>, config: <a href="../interfaces/GlobalMessage.html">GlobalMessageConfig</a>)</code>
+<code>constructor(actions$: Actions, store: Store<StateWithGlobalMessage>, config: <a href="../interfaces/GlobalMessage.html">GlobalMessageConfig</a>, platformId: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:90</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:93</a></div>
                             </td>
                         </tr>
 
@@ -136,7 +137,7 @@
                                                         <td>store</td>
                                                   
                                                         <td>
-                                                                    <code><a href="../interfaces/StateWithGlobalMessage.html" target="_self" >Store&lt;StateWithGlobalMessage&gt;</a></code>
+                                                                    <code>Store&lt;StateWithGlobalMessage&gt;</code>
                                                         </td>
                                                   
                                                     <td>
@@ -148,7 +149,19 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                    <code><a href="../interfaces/GlobalMessage.html" target="_self" >GlobalMessageConfig</a></code>
+                                                                        <code><a href="../interfaces/GlobalMessage.html" target="_self" >GlobalMessageConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>platformId</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -178,50 +191,45 @@
                         <a name="hideAfterDelay$"></a>
                         <span class="name">
                             <b>
-                            hideAfterDelay$
-                            </b>
+                            hideAfterDelay$</b>
                             <a href="#hideAfterDelay$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <code>hideAfterDelay$:     <code><a href="../interfaces/GlobalMessage.html" target="_self" >Observable&lt;GlobalMessageActions.RemoveMessage&gt;</a></code>
-</code>
-                    </td>
-                </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code><a href="../interfaces/GlobalMessage.html" target="_self" >Observable&lt;GlobalMessageActions.RemoveMessage&gt;</a></code>
+                            <i>Type : </i>        <code><a href="../interfaces/GlobalMessage.html" target="_self" >Observable&lt;GlobalMessageActions.RemoveMessage&gt;</a></code>
 
                         </td>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>this.actions$.pipe(
-    ofType(GlobalMessageActions.ADD_MESSAGE),
-    pluck(&#x27;payload&#x27;, &#x27;type&#x27;),
-    concatMap((type: GlobalMessageType) &#x3D;&gt; {
-      const config &#x3D; this.config.globalMessages[type];
-      return this.store.pipe(
-        select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
-        take(1),
-        filter(
-          (count: number) &#x3D;&gt;
-            config &amp;&amp; config.timeout !&#x3D;&#x3D; undefined &amp;&amp; count &amp;&amp; count &gt; 0
-        ),
-        delay(config.timeout),
-        switchMap(() &#x3D;&gt;
-          of(
-            new GlobalMessageActions.RemoveMessage({
-              type,
-              index: 0,
-            })
-          )
-        )
-      );
-    })
-  )</code>
+                            <i>Default value : </i><code>isPlatformBrowser(this.platformId) // we don&#x27;t want to run this logic when doing SSR
+    ? this.actions$.pipe(
+        ofType(GlobalMessageActions.ADD_MESSAGE),
+        pluck(&#x27;payload&#x27;, &#x27;type&#x27;),
+        concatMap((type: GlobalMessageType) &#x3D;&gt; {
+          const config &#x3D; this.config.globalMessages[type];
+          return this.store.pipe(
+            select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
+            take(1),
+            filter(
+              (count: number) &#x3D;&gt;
+                config &amp;&amp; config.timeout !&#x3D;&#x3D; undefined &amp;&amp; count &amp;&amp; count &gt; 0
+            ),
+            delay(config.timeout),
+            switchMap(() &#x3D;&gt;
+              of(
+                new GlobalMessageActions.RemoveMessage({
+                  type,
+                  index: 0,
+                })
+              )
+            )
+          );
+        })
+      )
+    : EMPTY</code>
                         </td>
                     </tr>
                     <tr>
@@ -235,7 +243,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:65</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:66</a></div>
                             </td>
                         </tr>
 
@@ -249,21 +257,14 @@
                         <a name="removeDuplicated$"></a>
                         <span class="name">
                             <b>
-                            removeDuplicated$
-                            </b>
+                            removeDuplicated$</b>
                             <a href="#removeDuplicated$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <code>removeDuplicated$:     <code><a href="../interfaces/GlobalMessage.html" target="_self" >Observable&lt;GlobalMessageActions.RemoveMessage&gt;</a></code>
-</code>
-                    </td>
-                </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code><a href="../interfaces/GlobalMessage.html" target="_self" >Observable&lt;GlobalMessageActions.RemoveMessage&gt;</a></code>
+                            <i>Type : </i>        <code><a href="../interfaces/GlobalMessage.html" target="_self" >Observable&lt;GlobalMessageActions.RemoveMessage&gt;</a></code>
 
                         </td>
                     </tr>
@@ -310,7 +311,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -323,19 +324,19 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, PLATFORM_ID } from &#x27;@angular/core&#x27;;
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { Observable, of } from &#x27;rxjs&#x27;;
+import { EMPTY, Observable, of } from &#x27;rxjs&#x27;;
 import {
+  concatMap,
   delay,
   filter,
+  map,
   pluck,
   switchMap,
-  map,
-  withLatestFrom,
   take,
-  concatMap,
+  withLatestFrom,
 } from &#x27;rxjs/operators&#x27;;
 
 import { GlobalMessageConfig } from &#x27;../../config/global-message-config&#x27;;
@@ -351,6 +352,7 @@ import {
   indexOfFirstOccurrence,
 } from &#x27;../../../util/compare-equal-objects&#x27;;
 import { Translatable } from &#x27;../../../i18n/translatable&#x27;;
+import { isPlatformBrowser } from &#x27;@angular/common&#x27;;
 
 @Injectable()
 export class GlobalMessageEffect {
@@ -389,35 +391,38 @@ export class GlobalMessageEffect {
   @Effect()
   hideAfterDelay$: Observable&lt;
     GlobalMessageActions.RemoveMessage
-  &gt; &#x3D; this.actions$.pipe(
-    ofType(GlobalMessageActions.ADD_MESSAGE),
-    pluck(&#x27;payload&#x27;, &#x27;type&#x27;),
-    concatMap((type: GlobalMessageType) &#x3D;&gt; {
-      const config &#x3D; this.config.globalMessages[type];
-      return this.store.pipe(
-        select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
-        take(1),
-        filter(
-          (count: number) &#x3D;&gt;
-            config &amp;&amp; config.timeout !&#x3D;&#x3D; undefined &amp;&amp; count &amp;&amp; count &gt; 0
-        ),
-        delay(config.timeout),
-        switchMap(() &#x3D;&gt;
-          of(
-            new GlobalMessageActions.RemoveMessage({
-              type,
-              index: 0,
-            })
-          )
-        )
-      );
-    })
-  );
+  &gt; &#x3D; isPlatformBrowser(this.platformId) // we don&#x27;t want to run this logic when doing SSR
+    ? this.actions$.pipe(
+        ofType(GlobalMessageActions.ADD_MESSAGE),
+        pluck(&#x27;payload&#x27;, &#x27;type&#x27;),
+        concatMap((type: GlobalMessageType) &#x3D;&gt; {
+          const config &#x3D; this.config.globalMessages[type];
+          return this.store.pipe(
+            select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
+            take(1),
+            filter(
+              (count: number) &#x3D;&gt;
+                config &amp;&amp; config.timeout !&#x3D;&#x3D; undefined &amp;&amp; count &amp;&amp; count &gt; 0
+            ),
+            delay(config.timeout),
+            switchMap(() &#x3D;&gt;
+              of(
+                new GlobalMessageActions.RemoveMessage({
+                  type,
+                  index: 0,
+                })
+              )
+            )
+          );
+        })
+      )
+    : EMPTY;
 
   constructor(
     private actions$: Actions,
     private store: Store&lt;StateWithGlobalMessage&gt;,
-    private config: GlobalMessageConfig
+    private config: GlobalMessageConfig,
+    @Inject(PLATFORM_ID) private platformId: any
   ) {}
 }
 </code></pre>
@@ -431,6 +436,7 @@ export class GlobalMessageEffect {
 
 
 
+                   
 
 
 

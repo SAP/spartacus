@@ -68,7 +68,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                    <code><a href="../interfaces/SiteContext.html" target="_self" >SiteContextConfig</a></code>
+                        <code><a href="../interfaces/SiteContext.html" target="_self" >SiteContextConfig</a></code>
             </p>
 
 
@@ -120,16 +120,9 @@
                         <span class="name">
                             <b>
                                 <span class="modifier">Optional</span>
-                            backend
-                            </b>
+                            backend</b>
                             <a href="#backend"><span class="icon ion-ios-link"></span></a>
                         </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <code>backend:     <code>literal type</code>
-</code>
                     </td>
                 </tr>
                     <tr>
@@ -140,7 +133,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/occ/config/occ-config.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">projects/core/src/occ/config/occ-config.ts:6</a></div>
                             </td>
                         </tr>
 
@@ -155,16 +148,9 @@
                         <span class="name">
                             <b>
                                 <span class="modifier">Optional</span>
-                            context
-                            </b>
+                            context</b>
                             <a href="#context"><span class="icon ion-ios-link"></span></a>
                         </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <code>context:     <code>literal type</code>
-</code>
                     </td>
                 </tr>
                     <tr>
@@ -175,13 +161,14 @@
                     </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Inherited from     <code><a href="../interfaces/SiteContext.html" target="_self" >SiteContextConfig</a></code>
+                                    <div class="io-line">Inherited from         <code><a href="../interfaces/SiteContext.html" target="_self" >SiteContextConfig</a></code>
 </div>
                                 </td>
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in SiteContextConfig:2</div>
+                                    <div class="io-line">Defined in         <code><a href="../interfaces/SiteContext.html#source" target="_self" >SiteContextConfig:2</a></code>
+</div>
                             </td>
                         </tr>
 
@@ -202,19 +189,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SiteContextConfig } from &#x27;../../site-context/config/site-context-config&#x27;;
 import { OccEndpoints } from &#x27;../occ-models/occ-endpoints.model&#x27;;
-
-export interface LoadingScopesConfig {
-  [scope: string]: {
-    /**
-     * Specify scopes that should be included with this scope
-     */
-    include?: string[];
-    /**
-     * Max age for the scope in seconds
-     */
-    maxAge?: number;
-  };
-}
+import { LoadingScopes } from &#x27;./loading-scopes-config&#x27;;
 
 export abstract class OccConfig extends SiteContextConfig {
   backend?: {
@@ -232,10 +207,7 @@ export abstract class OccConfig extends SiteContextConfig {
        */
       baseUrl?: string;
     };
-    loadingScopes?: {
-      product?: LoadingScopesConfig;
-      [model: string]: LoadingScopesConfig;
-    };
+    loadingScopes?: LoadingScopes;
   };
 }
 </code></pre>
@@ -244,6 +216,7 @@ export abstract class OccConfig extends SiteContextConfig {
 
 
 
+                   
 
 
 

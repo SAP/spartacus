@@ -69,7 +69,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                    <code><a href="../interfaces/ProductInterestSearchResult.html" target="_self" >ProductInterestSearchResult</a></code>
+                        <code><a href="../interfaces/ProductInterestSearchResult.html" target="_self" >ProductInterestSearchResult</a></code>
             </p>
 
         <section>
@@ -150,6 +150,7 @@ import {
   Product,
   ProductInterestEntryRelation,
   ProductInterestSearchResult,
+  ProductScope,
   ProductService,
   TranslationService,
   UserInterestsService,
@@ -252,7 +253,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   private getProduct(
     interest: ProductInterestEntryRelation
   ): Observable&lt;Product&gt; {
-    return this.productService.get(interest.product.code, &#x27;details&#x27;);
+    return this.productService.get(interest.product.code, ProductScope.DETAILS);
   }
 
   removeInterest(
@@ -293,6 +294,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 </div>
 
 
+                   
 
 
 

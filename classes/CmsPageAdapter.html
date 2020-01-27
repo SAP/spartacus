@@ -108,91 +108,91 @@ in order to load CMS structure from third-party CMS system.</p>
 
             <section>
     
-        <h3 id="methods">
-            Methods
-        </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="load"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Abstract</span>
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="load"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Abstract</span>
                             load
-                            </b>
-                            <a href="#load"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                            <span class="modifier-icon icon ion-ios-reset"></span>
-                        <code>load(pageContext: <a href="../interfaces/Page.html">PageContext</a>)</code>
-                    </td>
-                </tr>
+                        </b>
+                        <a href="#load"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>load(pageContext: <a href="../interfaces/Page.html">PageContext</a>)</code>
+                </td>
+            </tr>
 
 
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/cms/connectors/page/cms-page.adapter.ts:17</a></div>
-                            </td>
-                        </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">projects/core/src/cms/connectors/page/cms-page.adapter.ts:17</a></div>
+                </td>
+            </tr>
 
 
-                <tr>
-                    <td class="col-md-4">
-                            <div class="io-description"><p>Abstract method must be used to load the page structure for a given <code>PageContext</code>.
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Abstract method must be used to load the page structure for a given <code>PageContext</code>.
 The page can be loaded from alternative sources, as long as the structure
 converts to the <code>CmsStructureModel</code>.</p>
 </div>
 
-                            <div class="io-description">
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                                    <td>Description</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>pageContext</td>
-                                                        <td>
-                                                                    <code><a href="../interfaces/Page.html" target="_self" >PageContext</a></code>
-                                                        </td>
-                                                    
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>pageContext</td>
+                                    <td>
+                                                <code><a href="../interfaces/Page.html" target="_self" >PageContext</a></code>
+                                    </td>
 
-                                                        <td>
-                                                                <code><p>The <code>PageContext</code> holding the page Id.</p>
-</code>
-                                                        </td>
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                            <div>
-                            </div>
-                            <div class="io-description">
-                                <b>Returns : </b>    <code><a href="../interfaces/CmsStructureModel.html" target="_self" >Observable&lt;CmsStructureModel&gt;</a></code>
+                                    <td>
+                                        No
+                                    </td>
 
-                            </div>
-                                <div class="io-description">
-                                    
-                                </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+                                    <td>
+                                        <p>The <code>PageContext</code> holding the page Id.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CmsStructureModel.html" target="_self" >Observable&lt;CmsStructureModel&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
-
 
 
 
@@ -226,6 +226,7 @@ export abstract class CmsPageAdapter {
 
 
 
+                   
 
 
 

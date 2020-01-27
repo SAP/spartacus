@@ -61,6 +61,7 @@
 
 
 
+
             <section>
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
@@ -101,12 +102,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, cartConnector: <a href="../injectables/CartConnector.html">CartConnector</a>, saveCartConnector: <a href="../injectables/SaveCartConnector.html">SaveCartConnector</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, store: <a href="../interfaces/StateWithMultiCart.html">Store<StateWithMultiCart></a>)</code>
+<code>constructor(actions$: Actions, cartConnector: <a href="../injectables/CartConnector.html">CartConnector</a>, saveCartConnector: <a href="../injectables/SaveCartConnector.html">SaveCartConnector</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, store: Store<StateWithMultiCart>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:119</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:125</a></div>
                             </td>
                         </tr>
 
@@ -139,7 +140,7 @@
                                                         <td>cartConnector</td>
                                                   
                                                         <td>
-                                                                    <code><a href="../injectables/CartConnector.html" target="_self" >CartConnector</a></code>
+                                                                        <code><a href="../injectables/CartConnector.html" target="_self" >CartConnector</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -151,7 +152,7 @@
                                                         <td>saveCartConnector</td>
                                                   
                                                         <td>
-                                                                    <code><a href="../injectables/SaveCartConnector.html" target="_self" >SaveCartConnector</a></code>
+                                                                        <code><a href="../injectables/SaveCartConnector.html" target="_self" >SaveCartConnector</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -163,7 +164,7 @@
                                                         <td>authService</td>
                                                   
                                                         <td>
-                                                                    <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -175,7 +176,7 @@
                                                         <td>store</td>
                                                   
                                                         <td>
-                                                                    <code><a href="../interfaces/StateWithMultiCart.html" target="_self" >Store&lt;StateWithMultiCart&gt;</a></code>
+                                                                    <code>Store&lt;StateWithMultiCart&gt;</code>
                                                         </td>
                                                   
                                                     <td>
@@ -205,21 +206,14 @@
                         <a name="createWishList$"></a>
                         <span class="name">
                             <b>
-                            createWishList$
-                            </b>
+                            createWishList$</b>
                             <a href="#createWishList$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <code>createWishList$:     <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;CartActions.CreateWishListSuccess | CartActions.CreateWishListFail&gt;</a></code>
-</code>
-                    </td>
-                </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;CartActions.CreateWishListSuccess | CartActions.CreateWishListFail&gt;</a></code>
+                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#CartAction" target="_self" >Observable&lt;CartActions.CreateWishListSuccess | CartActions.CreateWishListFail&gt;</a></code>
 
                         </td>
                     </tr>
@@ -285,21 +279,14 @@
                         <a name="loadWishList$"></a>
                         <span class="name">
                             <b>
-                            loadWishList$
-                            </b>
+                            loadWishList$</b>
                             <a href="#loadWishList$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <code>loadWishList$:     <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;CartActions.LoadWishListSuccess | CartActions.CreateWishList | CartActions.LoadCartFail&gt;</a></code>
-</code>
-                    </td>
-                </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;CartActions.LoadWishListSuccess | CartActions.CreateWishList | CartActions.LoadCartFail&gt;</a></code>
+                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#CartAction" target="_self" >Observable&lt;CartActions.LoadWishListSuccess | CartActions.CreateWishList | CartActions.LoadCartFail&gt;</a></code>
 
                         </td>
                     </tr>
@@ -308,11 +295,14 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(CartActions.LOAD_WISH_LIST),
     map((action: CartActions.LoadWishList) &#x3D;&gt; action.payload),
-    concatMap(userId &#x3D;&gt; {
+    concatMap(payload &#x3D;&gt; {
+      const { userId, customerId } &#x3D; payload;
       return this.cartConnector.loadAll(userId).pipe(
         switchMap(carts &#x3D;&gt; {
           if (carts) {
-            const wishList &#x3D; carts.find(cart &#x3D;&gt; cart.name &#x3D;&#x3D;&#x3D; &#x27;wishlist&#x27;);
+            const wishList &#x3D; carts.find(
+              cart &#x3D;&gt; cart.name &#x3D;&#x3D;&#x3D; &#x60;wishlist${customerId}&#x60;
+            );
             if (Boolean(wishList)) {
               return [
                 new CartActions.LoadWishListSuccess({
@@ -322,7 +312,10 @@
               ];
             } else {
               return [
-                new CartActions.CreateWishList({ userId, name: &#x27;wishlist&#x27; }),
+                new CartActions.CreateWishList({
+                  userId,
+                  name: &#x60;wishlist${customerId}&#x60;,
+                }),
               ];
             }
           }
@@ -360,21 +353,14 @@
                         <a name="resetWishList$"></a>
                         <span class="name">
                             <b>
-                            resetWishList$
-                            </b>
+                            resetWishList$</b>
                             <a href="#resetWishList$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <code>resetWishList$:     <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;CartActions.LoadWishListSuccess | CartActions.LoadCartFail&gt;</a></code>
-</code>
-                    </td>
-                </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;CartActions.LoadWishListSuccess | CartActions.LoadCartFail&gt;</a></code>
+                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#CartAction" target="_self" >Observable&lt;CartActions.LoadWishListSuccess | CartActions.LoadCartFail&gt;</a></code>
 
                         </td>
                     </tr>
@@ -416,7 +402,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:95</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:101</a></div>
                             </td>
                         </tr>
 
@@ -496,11 +482,14 @@ export class WishListEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(CartActions.LOAD_WISH_LIST),
     map((action: CartActions.LoadWishList) &#x3D;&gt; action.payload),
-    concatMap(userId &#x3D;&gt; {
+    concatMap(payload &#x3D;&gt; {
+      const { userId, customerId } &#x3D; payload;
       return this.cartConnector.loadAll(userId).pipe(
         switchMap(carts &#x3D;&gt; {
           if (carts) {
-            const wishList &#x3D; carts.find(cart &#x3D;&gt; cart.name &#x3D;&#x3D;&#x3D; &#x27;wishlist&#x27;);
+            const wishList &#x3D; carts.find(
+              cart &#x3D;&gt; cart.name &#x3D;&#x3D;&#x3D; &#x60;wishlist${customerId}&#x60;
+            );
             if (Boolean(wishList)) {
               return [
                 new CartActions.LoadWishListSuccess({
@@ -510,7 +499,10 @@ export class WishListEffects {
               ];
             } else {
               return [
-                new CartActions.CreateWishList({ userId, name: &#x27;wishlist&#x27; }),
+                new CartActions.CreateWishList({
+                  userId,
+                  name: &#x60;wishlist${customerId}&#x60;,
+                }),
               ];
             }
           }
@@ -568,6 +560,7 @@ export class WishListEffects {
 
 
 
+                   
 
 
 

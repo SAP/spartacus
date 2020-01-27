@@ -61,6 +61,7 @@
 
 
 
+
             <section>
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
@@ -108,39 +109,40 @@
 
             <section>
     
-        <h3 id="methods">
-            Methods
-        </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="toJsRegExp"></a>
-                        <span class="name">
-                            <b>
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toJsRegExp"></a>
+                    <span class="name">
+                        <b>
                             toJsRegExp
-                            </b>
-                            <a href="#toJsRegExp"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
+                        </b>
+                        <a href="#toJsRegExp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
 <code>toJsRegExp(javaSyntax: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
 
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/core/src/occ/config-loader/java-reg-exp-converter.ts:32</a></div>
-                            </td>
-                        </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">projects/core/src/occ/config-loader/java-reg-exp-converter.ts:32</a></div>
+                </td>
+            </tr>
 
 
-                <tr>
-                    <td class="col-md-4">
-                            <div class="io-description"><p>Converts RegExp from Java syntax to Javascript, by recognizing Java regexp modifiers
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Converts RegExp from Java syntax to Javascript, by recognizing Java regexp modifiers
 and converting them to the Javascript ones (i.e. case insensitive mode: <code>(?i)PATTERN</code> -&gt; <code>/pattern/i</code>)</p>
 <p><strong>CAUTION!</strong> Not all features and modifiers of Java regexps are valid in Javascript!
 If unsupported feature or modifier is used, then <code>null</code> will be returned instead of Javascript RegExp.</p>
@@ -151,47 +153,46 @@ If unsupported feature or modifier is used, then <code>null</code> will be retur
 </ul>
 </div>
 
-                            <div class="io-description">
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>javaSyntax</td>
-                                                        <td>
-                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                                        </td>
-                                                    
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>javaSyntax</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                            <div>
-                            </div>
-                            <div class="io-description">
-                                <b>Returns : </b>    <code>RegExp</code>
+                                    <td>
+                                        No
+                                    </td>
 
-                            </div>
-                                <div class="io-description">
-                                    
-                                </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>RegExp</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
-
             <section>
     
         <h3 id="inputs">
@@ -206,16 +207,9 @@ If unsupported feature or modifier is used, then <code>null</code> will be retur
                             <b>
                                 <span class="modifier">Private</span>
                                 <span class="modifier">Readonly</span>
-                            EXTRACT_JAVA_REGEXP_MODIFIERS
-                            </b>
+                            EXTRACT_JAVA_REGEXP_MODIFIERS</b>
                             <a href="#EXTRACT_JAVA_REGEXP_MODIFIERS"><span class="icon ion-ios-link"></span></a>
                         </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span><code>EXTRACT_JAVA_REGEXP_MODIFIERS:     <code>RegExp</code>
-</code>
                     </td>
                 </tr>
                     <tr>
@@ -245,10 +239,11 @@ If unsupported feature or modifier is used, then <code>null</code> will be retur
 <li>or multiple combined:  <code>(?iu)PATTERN</code></li>
 <li>(more modifiers in the official Java docs <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html</a>)</li>
 </ul>
-<p>This pattern extracts 3 parts from the input string, i.e. for <code>(?iu)PATTERN</code>:</p>
-<div><pre class="line-numbers"><code class="language-none">1. original modifiers syntax, i.e. `(?iu)` (or undefined if no modifiers present)
-2. extracted modifiers, i.e. `iu` (or undefined if no modifiers present)
-3. the rest of the regexp, i.e. `PATTERN`</code></pre></div></div>
+<p>This pattern extracts 3 parts from the input string, i.e. for <code>(?iu)PATTERN</code>:
+    1. original modifiers syntax, i.e. <code>(?iu)</code> (or undefined if no modifiers present)
+    2. extracted modifiers, i.e. <code>iu</code> (or undefined if no modifiers present)
+    3. the rest of the regexp, i.e. <code>PATTERN</code></p>
+</div>
                     </td>
                 </tr>
 
@@ -320,6 +315,7 @@ export class JavaRegExpConverter {
 
 
 
+                   
 
 
 

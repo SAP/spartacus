@@ -75,86 +75,86 @@
 
         <section>
     
-        <h3 id="methods">
-            Methods
-        </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="forRoot"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Static</span>
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="forRoot"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
                             forRoot
-                            </b>
-                            <a href="#forRoot"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                            <span class="modifier-icon icon ion-ios-reset"></span>
-                        <code>forRoot(options: <a href="../interfaces/TestConfigModuleOptions.html">TestConfigModuleOptions</a>)</code>
-                    </td>
-                </tr>
+                        </b>
+                        <a href="#forRoot"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>forRoot(options: <a href="../interfaces/TestConfigModuleOptions.html">TestConfigModuleOptions</a>)</code>
+                </td>
+            </tr>
 
 
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/core/src/config/test-config.module.ts:53</a></div>
-                            </td>
-                        </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">projects/core/src/config/test-config.module.ts:53</a></div>
+                </td>
+            </tr>
 
 
-                <tr>
-                    <td class="col-md-4">
-                            <div class="io-description"><p>Injects JSON config from the cookie of the given name.</p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Injects JSON config from the cookie of the given name.</p>
 <p>Be aware of the cookie limitations (4096 bytes).</p>
 <p>CAUTION: DON&#39;T USE IT IN PRODUCTION! IT HASN&#39;T BEEN REVIEWED FOR SECURITY ISSUES.</p>
 </div>
 
-                            <div class="io-description">
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>options</td>
-                                                        <td>
-                                                                    <code><a href="../interfaces/TestConfigModuleOptions.html" target="_self" >TestConfigModuleOptions</a></code>
-                                                        </td>
-                                                    
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../interfaces/TestConfigModuleOptions.html" target="_self" >TestConfigModuleOptions</a></code>
+                                    </td>
 
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                            <div>
-                            </div>
-                            <div class="io-description">
-                                <b>Returns : </b>    <code><a href="../miscellaneous/variables.html#Config" target="_self" >ModuleWithProviders&lt;TestConfigModule&gt;</a></code>
+                                    <td>
+                                        No
+                                    </td>
 
-                            </div>
-                                <div class="io-description">
-                                    
-                                </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >ModuleWithProviders&lt;TestConfigModule&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
-
     </div>
 
 
@@ -175,7 +175,7 @@ export const TEST_CONFIG_COOKIE_NAME &#x3D; new InjectionToken&lt;string&gt;(
 
 export function parseConfigJSON(config: string) {
   try {
-    return JSON.parse(decodeURIComponent(config));
+    return JSON.parse(config);
   } catch (_) {
     return {};
   }
@@ -243,6 +243,7 @@ export class TestConfigModule {
 
 
 
+                   
 
 
 

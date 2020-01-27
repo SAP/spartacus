@@ -119,7 +119,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>basePrice:     <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                        <code>basePrice:         <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -127,7 +127,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                                         </td>
                                     </tr>
@@ -153,7 +153,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>product:     <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                        <code>product:         <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -161,7 +161,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                                         </td>
                                     </tr>
@@ -187,7 +187,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>quantity:     <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                        <code>quantity:         <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -195,7 +195,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                                         </td>
                                     </tr>
@@ -221,7 +221,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>totalPrice:     <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                        <code>totalPrice:         <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -229,7 +229,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                                         </td>
                                     </tr>
@@ -255,7 +255,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>updateable:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                        <code>updateable:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -263,7 +263,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                                         </td>
                                     </tr>
@@ -286,9 +286,6 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, OnInit, Output } from &#x27;@angular/core&#x27;;
 import { FormGroup } from &#x27;@angular/forms&#x27;;
-import { PromotionResult, PromotionLocation } from &#x27;@spartacus/core&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { PromotionService } from &#x27;../../../../shared/services/promotion/promotion.service&#x27;;
 
 export interface Item {
   product?: any;
@@ -308,15 +305,11 @@ export class CartItemComponent implements OnInit {
   @Input()
   item: Item;
   @Input()
+  potentialProductPromotions: any[];
+  @Input()
   isReadOnly &#x3D; false;
   @Input()
   cartIsLoading &#x3D; false;
-
-  @Input()
-  promotionLocation: PromotionLocation &#x3D; PromotionLocation.ActiveCart;
-
-  @Input()
-  potentialProductPromotions: any[];
 
   @Output()
   remove &#x3D; new EventEmitter&lt;any&gt;();
@@ -328,16 +321,7 @@ export class CartItemComponent implements OnInit {
   @Input()
   parent: FormGroup;
 
-  appliedProductPromotions$: Observable&lt;PromotionResult[]&gt;;
-
-  constructor(protected promotionService: PromotionService) {}
-
-  ngOnInit() {
-    this.appliedProductPromotions$ &#x3D; this.promotionService.getProductPromotionForEntry(
-      this.item,
-      this.promotionLocation
-    );
-  }
+  ngOnInit() {}
 
   isProductOutOfStock(product) {
     // TODO Move stocklevelstatuses across the app to an enum
@@ -365,6 +349,7 @@ export class CartItemComponent implements OnInit {
 </div>
 
 
+                   
 
 
 

@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/occ/config/occ-config.ts</code>
+            <code>projects/core/src/occ/config/loading-scopes-config.ts</code>
         </p>
 
 
@@ -74,13 +74,13 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <code>[scope: string]:    <code>literal type</code>
+                        <code>[scope: string]:        <code><a href="../interfaces/LoadingScopeConfig.html" target="_self" >LoadingScopeConfig</a></code>
 </code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="4" class="link-to-prism">projects/core/src/occ/config/occ-config.ts:4</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/occ/config/loading-scopes-config.ts:12</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -91,49 +91,30 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SiteContextConfig } from &#x27;../../site-context/config/site-context-config&#x27;;
-import { OccEndpoints } from &#x27;../occ-models/occ-endpoints.model&#x27;;
-
-export interface LoadingScopesConfig {
-  [scope: string]: {
-    /**
-     * Specify scopes that should be included with this scope
-     */
-    include?: string[];
-    /**
-     * Max age for the scope in seconds
-     */
-    maxAge?: number;
-  };
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface LoadingScopeConfig {
+  /**
+   * Specify scopes that should be included with this scope
+   */
+  include?: string[];
+  /**
+   * Max age for the scope in seconds
+   */
+  maxAge?: number;
 }
 
-export abstract class OccConfig extends SiteContextConfig {
-  backend?: {
-    occ?: {
-      baseUrl?: string;
-      prefix?: string;
-      endpoints?: OccEndpoints;
-      legacy?: boolean;
-    };
-    media?: {
-      /**
-       * Media URLs are typically relative, so that the host can be configured.
-       * Configurable media baseURLs are useful for SEO, multi-site,
-       * switching environments, etc.
-       */
-      baseUrl?: string;
-    };
-    loadingScopes?: {
-      product?: LoadingScopesConfig;
-      [model: string]: LoadingScopesConfig;
-    };
-  };
+export interface LoadingScopesConfig {
+  [scope: string]: LoadingScopeConfig;
+}
+
+export interface LoadingScopes {
+  [model: string]: LoadingScopesConfig;
 }
 </code></pre>
     </div>
 </div>
 
 
+                   
 
 
 

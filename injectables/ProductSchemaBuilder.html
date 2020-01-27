@@ -70,6 +70,7 @@ using the <code>JSONLD_PRODUCT_BUILDER</code> token.</p>
             </p>
 
 
+
             <section>
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
@@ -108,7 +109,7 @@ using the <code>JSONLD_PRODUCT_BUILDER</code> token.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(currentProduct: <a href="../injectables/ProductService.html">CurrentProductService</a>, builders: <a href="../interfaces/Product.html">JsonLdBuilder<Product>[]</a>)</code>
+<code>constructor(currentProduct: <a href="../injectables/CurrentProductService.html">CurrentProductService</a>, builders: JsonLdBuilder<Product>[])</code>
                     </td>
                 </tr>
                         <tr>
@@ -134,7 +135,7 @@ using the <code>JSONLD_PRODUCT_BUILDER</code> token.</p>
                                                         <td>currentProduct</td>
                                                   
                                                         <td>
-                                                                    <code><a href="../injectables/ProductService.html" target="_self" >CurrentProductService</a></code>
+                                                                        <code><a href="../injectables/CurrentProductService.html" target="_self" >CurrentProductService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -146,7 +147,7 @@ using the <code>JSONLD_PRODUCT_BUILDER</code> token.</p>
                                                         <td>builders</td>
                                                   
                                                         <td>
-                                                                    <code><a href="../interfaces/Product.html" target="_self" >JsonLdBuilder&lt;Product&gt;[]</a></code>
+                                                                    <code>JsonLdBuilder&lt;Product&gt;[]</code>
                                                         </td>
                                                   
                                                     <td>
@@ -165,120 +166,121 @@ using the <code>JSONLD_PRODUCT_BUILDER</code> token.</p>
 
             <section>
     
-        <h3 id="methods">
-            Methods
-        </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="build"></a>
-                        <span class="name">
-                            <b>
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="build"></a>
+                    <span class="name">
+                        <b>
                             build
-                            </b>
-                            <a href="#build"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
+                        </b>
+                        <a href="#build"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
 <code>build()</code>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
 
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/builders/product/product-schema.builder.ts:25</a></div>
-                            </td>
-                        </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/builders/product/product-schema.builder.ts:25</a></div>
+                </td>
+            </tr>
 
 
-                <tr>
-                    <td class="col-md-4">
+            <tr>
+                <td class="col-md-4">
 
-                            <div class="io-description">
-                                <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
 
-                            </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="collect"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Protected</span>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collect"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
                             collect
-                            </b>
-                            <a href="#collect"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                            <span class="modifier-icon icon ion-ios-reset"></span>
-                        <code>collect(product: <a href="../interfaces/Product.html">Product</a>)</code>
-                    </td>
-                </tr>
+                        </b>
+                        <a href="#collect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>collect(product: <a href="../interfaces/Product.html">Product</a>)</code>
+                </td>
+            </tr>
 
 
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/builders/product/product-schema.builder.ts:39</a></div>
-                            </td>
-                        </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/builders/product/product-schema.builder.ts:39</a></div>
+                </td>
+            </tr>
 
 
-                <tr>
-                    <td class="col-md-4">
+            <tr>
+                <td class="col-md-4">
 
-                            <div class="io-description">
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>product</td>
-                                                        <td>
-                                                                    <code><a href="../interfaces/Product.html" target="_self" >Product</a></code>
-                                                        </td>
-                                                    
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>product</td>
+                                    <td>
+                                                <code><a href="../interfaces/Product.html" target="_self" >Product</a></code>
+                                    </td>
 
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                            <div>
-                            </div>
-                            <div class="io-description">
-                                <b>Returns : </b>    <code>Observable[]</code>
+                                    <td>
+                                        No
+                                    </td>
 
-                            </div>
-                                <div class="io-description">
-                                    
-                                </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
-
 
     </div>
 
@@ -349,6 +351,7 @@ export class ProductSchemaBuilder implements SchemaBuilder {
 
 
 
+                   
 
 
 
