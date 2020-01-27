@@ -71,6 +71,26 @@ context('Product Configuration', () => {
       );
     });
 
+    it('Image Attribute Types', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+
+      configuration.clickOnGroup(4);
+
+      configuration.verifyAttributeIsDisplayed(
+        'WCEM_DP_RADIO_BUTTON',
+        'radioGroup'
+      );
+
+      configuration.selectAttribute(
+        'CPQ_HT_VIDEO_SOURCES',
+        'image_multi_select',
+        'ATV'
+      );
+
+      configuration.verifyImageIsSelected('CPQ_HT_VIDEO_SOURCES', 'ATV');
+    });
+
     it('Checkboxes should be still selected after group change', () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
