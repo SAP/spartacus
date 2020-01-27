@@ -56,6 +56,13 @@
             [ownerKey]="configuration.owner.key"
             (selectionChange)="updateConfiguration($event)"
           ></cx-config-attribute-multi-select-image>
+          <cx-config-attribute-single-selection-image
+            *ngIf="attribute.uiType === UiType.SINGLE_SELECTION_IMAGE"
+            [attribute]="attribute"
+            [group]="currentGroup.id"
+            [ownerKey]="configuration.owner.key"
+            (selectionChange)="updateConfiguration($event)"
+          ></cx-config-attribute-single-selection-image>
           <em *ngIf="attribute.uiType === UiType.NOT_IMPLEMENTED">{{
             'configurator.attribute.notSupported' | cxTranslate
           }}</em>

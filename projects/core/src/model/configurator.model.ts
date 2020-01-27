@@ -120,6 +120,7 @@ export namespace Configurator {
     STRING = 'string',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
     IMAGE_MULTI_SELECT = 'image_multi_select',
+    SINGLE_SELECTION_IMAGE = 'single_selection_image',
   }
 
   export enum ImageFormatType {

@@ -23,6 +23,7 @@ import { ConfigAttributeInputFieldComponent } from '../config-attribute-types/co
 import { ConfigAttributeMultiSelectImageComponent } from '../config-attribute-types/config-attribute-multi-select-image/config-attribute-multi-select-image.component';
 import { ConfigAttributeRadioButtonComponent } from '../config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigAttributeReadOnlyComponent } from '../config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
+import { ConfigAttributeSingleSelectionImageComponent } from '../config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
 import { ConfigPreviousNextButtonsComponent } from '../config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigFormComponent } from './config-form.component';
 
@@ -198,6 +199,7 @@ describe('ConfigurationFormComponent', () => {
         ConfigPreviousNextButtonsComponent,
         ConfigAttributeCheckBoxListComponent,
         ConfigAttributeMultiSelectImageComponent,
+        ConfigAttributeSingleSelectionImageComponent,
         MockCxIconComponent,
       ],
       providers: [
