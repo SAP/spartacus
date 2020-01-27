@@ -61,14 +61,15 @@ export class OccConfiguratorVariantSerializer
 
     if (
       attribute.uiType === Configurator.UiType.DROPDOWN ||
-      attribute.uiType === Configurator.UiType.RADIOBUTTON
+      attribute.uiType === Configurator.UiType.RADIOBUTTON ||
+      attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
       cstic.value = attribute.selectedSingleValue;
     } else if (attribute.uiType === Configurator.UiType.STRING) {
       cstic.value = attribute.userInput;
     } else if (
       attribute.uiType === Configurator.UiType.CHECKBOX ||
-      attribute.uiType === Configurator.UiType.IMAGE_MULTI_SELECT
+      attribute.uiType === Configurator.UiType.MULTI_SELECTION_IMAGE
     ) {
       cstic.domainvalues = [];
       attribute.values.forEach(value => {
@@ -107,8 +108,12 @@ export class OccConfiguratorVariantSerializer
         uiType = OccConfigurator.UiType.CHECK_BOX_LIST;
         break;
       }
-      case Configurator.UiType.IMAGE_MULTI_SELECT: {
+      case Configurator.UiType.MULTI_SELECTION_IMAGE: {
         uiType = OccConfigurator.UiType.MULTI_SELECTION_IMAGE;
+        break;
+      }
+      case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
+        uiType = OccConfigurator.UiType.SINGLE_SELECTION_IMAGE;
         break;
       }
       default: {

@@ -45,6 +45,14 @@ describe('OccConfiguratorVariantNormalizer', () => {
             uiType: Configurator.UiType.RADIOBUTTON,
             values: [],
           },
+          {
+            label: 'RAM',
+            name: 'CPQ_RAM',
+            required: false,
+            selectedSingleValue: '32GB',
+            uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
+            values: [],
+          },
         ],
       },
       {
@@ -90,6 +98,13 @@ describe('OccConfiguratorVariantNormalizer', () => {
             required: true,
             type: OccConfigurator.UiType.RADIO_BUTTON,
             value: 'INTELI5_35',
+          },
+          {
+            name: 'CPQ_RAM',
+            langdepname: 'RAM',
+            required: false,
+            type: OccConfigurator.UiType.SINGLE_SELECTION_IMAGE,
+            value: '32GB',
           },
         ],
       },

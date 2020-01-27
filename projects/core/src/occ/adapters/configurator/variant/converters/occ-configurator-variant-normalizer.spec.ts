@@ -185,6 +185,14 @@ describe('OccConfiguratorVariantNormalizer', () => {
     ).toBe(Configurator.UiType.CHECKBOX);
   });
 
+  it('should return UIType Checkbox for Checkbox occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertCharacteristicType(
+        OccConfigurator.UiType.SINGLE_SELECTION_IMAGE
+      )
+    ).toBe(Configurator.UiType.SINGLE_SELECTION_IMAGE);
+  });
+
   it('should return UIType Not Implemented for unkonwn occ configurator type', () => {
     expect(
       occConfiguratorVariantNormalizer.convertCharacteristicType(

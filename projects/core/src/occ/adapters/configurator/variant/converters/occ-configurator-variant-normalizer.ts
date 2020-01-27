@@ -172,7 +172,11 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
       case OccConfigurator.UiType.MULTI_SELECTION_IMAGE: {
-        uiType = Configurator.UiType.IMAGE_MULTI_SELECT;
+        uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
+        break;
+      }
+      case OccConfigurator.UiType.SINGLE_SELECTION_IMAGE: {
+        uiType = Configurator.UiType.SINGLE_SELECTION_IMAGE;
         break;
       }
       default: {

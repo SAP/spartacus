@@ -119,7 +119,8 @@ export namespace Configurator {
     READ_ONLY = 'readonly',
     STRING = 'string',
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
-    IMAGE_MULTI_SELECT = 'image_multi_select',
+    MULTI_SELECTION_IMAGE = 'multi_selection_image',
+    SINGLE_SELECTION_IMAGE = 'single_selection_image',
   }
 
   export enum ImageFormatType {
