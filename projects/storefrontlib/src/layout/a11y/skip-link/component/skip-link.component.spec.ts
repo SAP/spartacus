@@ -4,7 +4,6 @@ import { I18nTestingModule } from '@spartacus/core';
 import { SkipLinkConfig, SkipLink } from '../config/index';
 import { SkipLinkService } from '../service/skip-link.service';
 import { BehaviorSubject } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 const mockSkipLinks: SkipLink[] = [
   {
@@ -51,48 +50,41 @@ describe('SkipLinkComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(SkipLinkComponent);
     skipLinkComponent = fixture.componentInstance;
-    fixture.detectChanges();
+
+    fixture.detectChanges(); // run async pipe on skipLinks$
+    await fixture.whenStable(); // wait for async emmision of skipLinks$
+    fixture.detectChanges(); // consume emitted value
   });
 
   it('should be created', () => {
     expect(skipLinkComponent).toBeTruthy();
   });
 
-  it('should render skip links', done => {
-    skipLinkComponent.skipLinks$.pipe(take(1)).subscribe(() => {
-      fixture.detectChanges();
-      const element = fixture.debugElement.nativeElement;
-      const buttons = element.querySelectorAll('button');
-      expect(buttons.length).toEqual(3);
-      expect(buttons[0].outerText).toContain(mockSkipLinks[0].i18nKey);
-      expect(buttons[1].outerText).toContain(mockSkipLinks[1].i18nKey);
-      expect(buttons[2].outerText).toContain(mockSkipLinks[2].i18nKey);
-      done();
-    });
+  it('should render skip links', () => {
+    const element = fixture.debugElement.nativeElement;
+    const buttons = element.querySelectorAll('button');
+    expect(buttons.length).toEqual(3);
+    expect(buttons[0].outerText).toContain(mockSkipLinks[0].i18nKey);
+    expect(buttons[1].outerText).toContain(mockSkipLinks[1].i18nKey);
+    expect(buttons[2].outerText).toContain(mockSkipLinks[2].i18nKey);
   });
 
-  it('should call `scrollToTarget` on button click', done => {
-    skipLinkComponent.skipLinks$.pipe(take(1)).subscribe(() => {
-      fixture.detectChanges();
-      const spyComponent = spyOn(skipLinkComponent, 'scrollToTarget');
-      const element = fixture.debugElement.nativeElement;
-      const buttons = element.querySelectorAll('button');
-      expect(buttons.length).toEqual(3);
+  it('should call `scrollToTarget` on button click', () => {
+    const spyComponent = spyOn(skipLinkComponent, 'scrollToTarget');
+    const element = fixture.debugElement.nativeElement;
+    const buttons = element.querySelectorAll('button');
+    expect(buttons.length).toEqual(3);
+    expect(spyComponent).not.toHaveBeenCalled();
 
-      expect(spyComponent).not.toHaveBeenCalled();
-
-      const mouseEvent = new MouseEvent('mousedown');
-
-      buttons[0].click();
-      expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0], mouseEvent);
-      buttons[1].click();
-      expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[1], mouseEvent);
-      buttons[2].click();
-      expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[2], mouseEvent);
-      done();
-    });
+    const mouseEvent = new MouseEvent('mousedown');
+    buttons[0].click();
+    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0], mouseEvent);
+    buttons[1].click();
+    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[1], mouseEvent);
+    buttons[2].click();
+    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[2], mouseEvent);
   });
 });
