@@ -95,6 +95,23 @@ export class MultiCartService {
   }
 
   /**
+   * Merge provided cart to current user cart
+   *
+   * @param params Object with userId, cartId and extraData
+   */
+  mergeToCurrentCart({ userId, cartId, extraData }) {
+    const tempCartId = this.generateTempCartId();
+    this.store.dispatch(
+      new DeprecatedCartActions.MergeCart({
+        userId,
+        cartId,
+        extraData,
+        tempCartId,
+      })
+    );
+  }
+
+  /**
    * Load cart
    *
    * @param params Object with userId, cartId and extraData
