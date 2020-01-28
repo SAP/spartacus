@@ -101,6 +101,7 @@ export namespace OccConfigurator {
     id: string;
     groupDescription: string;
     characteristicValues: CharacteristicOverview[];
+    subGroups?: GroupOverview[];
   }
 
   export interface CharacteristicOverview {
