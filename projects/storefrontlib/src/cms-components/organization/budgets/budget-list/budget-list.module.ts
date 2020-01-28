@@ -13,7 +13,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { BudgetsListComponent } from './budgets-list.component';
+import { BudgetListComponent } from './budget-list.component';
 import { TableModule } from '../../../../shared/components/table/table.module';
 
 @NgModule({
@@ -41,4 +41,4 @@ import { TableModule } from '../../../../shared/components/table/table.module';
   providers: [UserService, CxDatePipe],
   entryComponents: [BudgetsListComponent],
 })
-export class BudgetsListModule {}
+export class BudgetListModule {}

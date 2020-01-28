@@ -16,10 +16,6 @@ import {
   EntitiesModel,
   B2BSearchConfig,
   Permission,
-  Currency,
-  B2BUnitNode,
-  OrderApprovalPermissionType,
-  Period,
   θdiff as diff,
   θshallowEqualObjects as shallowEqualObjects,
 } from '@spartacus/core';

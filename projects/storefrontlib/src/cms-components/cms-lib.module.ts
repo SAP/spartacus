@@ -55,10 +55,14 @@ import { StoreFinderModule } from './storefinder/store-finder.module';
 import { UserComponentModule } from './user/user.module';
 import { WishListModule } from './wish-list/wish-list.module';
 import {
-  BudgetsListModule,
+  BudgetListModule,
   BudgetDetailsModule,
   BudgetEditModule,
   BudgetCreateModule,
+  PermissionListModule,
+  PermissionDetailsModule,
+  PermissionEditModule,
+  PermissionCreateModule,
 } from './organization/index';
 
 @NgModule({
@@ -111,10 +115,14 @@ import {
     NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,
-    BudgetsListModule,
+    BudgetListModule,
     BudgetCreateModule,
     BudgetDetailsModule,
     BudgetEditModule,
+    PermissionListModule,
+    PermissionDetailsModule,
+    PermissionEditModule,
+    PermissionCreateModule,
   ],
 })
 export class CmsLibModule {}

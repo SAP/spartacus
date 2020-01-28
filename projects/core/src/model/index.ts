@@ -17,3 +17,4 @@ export * from './notification-preference.model';
 export * from './product-interest.model';
 export * from './budget.model';
 export * from './org-unit.model';
+export * from './permission.model';
