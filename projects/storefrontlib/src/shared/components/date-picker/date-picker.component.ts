@@ -93,9 +93,6 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
     if (this.input && !this.input.nativeElement.validity.valid) {
       const validity = this.input.nativeElement.validity;
       const validators: { [key: string]: boolean } = {};
-      // if (validity.valueMissing) {
-      //   validators.required = true;
-      // }
       if (validity.rangeOverflow) {
         validators.rangeOverflow = true;
       }

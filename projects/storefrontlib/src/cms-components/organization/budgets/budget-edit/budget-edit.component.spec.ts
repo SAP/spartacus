@@ -15,6 +15,7 @@ import {
   CurrencyService,
   EntitiesModel,
   B2BUnitNode,
+  LanguageService,
 } from '@spartacus/core';
 
 import { BudgetEditComponent } from './budget-edit.component';
@@ -105,6 +106,12 @@ class MockRoutingConfig {
   }
 }
 
+class LanguageServiceStub {
+  getActive(): Observable<string> {
+    return of();
+  }
+}
+
 describe('BudgetEditComponent', () => {
   let component: BudgetEditComponent;
   let fixture: ComponentFixture<BudgetEditComponent>;
@@ -116,6 +123,10 @@ describe('BudgetEditComponent', () => {
       imports: [I18nTestingModule, BudgetFormModule, RouterTestingModule],
       declarations: [BudgetEditComponent],
       providers: [
+        {
+          provide: LanguageService,
+          useClass: LanguageServiceStub,
+        },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CurrencyService, useValue: MockCurrencyService },
