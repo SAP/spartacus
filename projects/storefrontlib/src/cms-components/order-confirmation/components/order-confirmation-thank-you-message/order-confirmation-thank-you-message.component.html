@@ -9,14 +9,16 @@
   <div class="cx-order-confirmation-message">
     <h2>{{ 'checkoutOrderConfirmation.thankYou' | cxTranslate }}</h2>
     <p>
-      {{ 'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate }}
+      {{ 'checkoutOrderConfirmation.isnvoiceHasBeenSentByEmail' | cxTranslate }}
     </p>
     <!-- <a href="#" class="btn-link">Print Page</a> -->
   </div>
 
   <div *ngIf="isGuestCustomer">
-    <cx-guest-register-form [guid]="orderGuid" [email]="order.paymentInfo.billingAddress.email">
-    </cx-guest-register-form>
+    <cx-guest-register-form
+      [guid]="orderGuid"
+      [email]="order.paymentInfo.billingAddress.email"
+    ></cx-guest-register-form>
   </div>
 
   <cx-add-to-home-screen-banner></cx-add-to-home-screen-banner>
