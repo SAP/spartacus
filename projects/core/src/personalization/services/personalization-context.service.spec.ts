@@ -29,7 +29,7 @@ const personalizationContext = {
       variation_name: btoa('variation_name1'),
       variation_code: btoa('variation_code1'),
       action_name: btoa('action_name1'),
-      action_code: btoa('action_code1'),
+      action_type: btoa('action_type1'),
     },
     {
       customization_name: btoa('customization_name2'),
@@ -37,7 +37,7 @@ const personalizationContext = {
       variation_name: btoa('variation_name2'),
       variation_code: btoa('variation_code2'),
       action_name: btoa('action_name2'),
-      action_code: btoa('action_code2'),
+      action_type: btoa('action_type2'),
     },
   ],
   segments: [btoa('segment1'), btoa('segment2')],
@@ -103,5 +103,9 @@ describe('PersonalizationContextService', () => {
     expect(result.segments[1]).toEqual('segment2');
     expect(result.actions[0].customization_code).toEqual('customization_code1');
     expect(result.actions[1].customization_code).toEqual('customization_code2');
+    expect(result.actions[0].variation_name).toEqual('variation_name1');
+    expect(result.actions[0].variation_code).toEqual('variation_code1');
+    expect(result.actions[0].action_name).toEqual('action_name1');
+    expect(result.actions[0].action_type).toEqual('action_type1');
   });
 });
