@@ -4,4 +4,11 @@
     flex-direction: row-reverse;
     flex-wrap: wrap;
   }
+
+  ng-select.ng-invalid.ng-touched .ng-select-container {
+    
+    border-color: red;
+    border-style:solid;
+    
+}
 }
