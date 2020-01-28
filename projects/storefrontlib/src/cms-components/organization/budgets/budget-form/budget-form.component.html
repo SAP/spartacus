@@ -165,6 +165,8 @@
             class="form-control"
             placeholder="{{ 'budgetForm.amount.placeholder' | cxTranslate }}"
             formControlName="budget"
+            [class.is-invalid]="form.controls['name'].touched &&
+            form.controls['name'].invalid"
           />
         </label>
       </div>
