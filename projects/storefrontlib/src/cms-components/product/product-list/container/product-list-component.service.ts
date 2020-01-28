@@ -33,12 +33,13 @@ interface SearchCriteria {
 
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
+  // TODO: make it configurable
   protected defaultPageSize = 10;
 
   protected sub: Subscription;
 
   protected readonly RELEVANCE_ALLCATEGORIES = ':relevance:allCategories:';
- 
+
   constructor(
     protected productSearchService: ProductSearchService,
     protected routing: RoutingService,
