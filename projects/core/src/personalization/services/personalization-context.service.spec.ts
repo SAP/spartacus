@@ -1,4 +1,3 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
@@ -16,7 +15,7 @@ const mockPersonalizationConfig: PersonalizationConfig = {
   personalization: {
     enabled: true,
     context: {
-      slotId: 'PlaceholderContentSlot',
+      slotPosition: 'PlaceholderContentSlot',
       componentId: 'PersonalizationScriptComponent',
     },
   },
@@ -78,7 +77,6 @@ describe('PersonalizationContextService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       providers: [
         PersonalizationContextService,
         { provide: PersonalizationConfig, useValue: mockPersonalizationConfig },

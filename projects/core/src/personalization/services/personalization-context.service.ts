@@ -4,28 +4,34 @@ import { PersonalizationContext } from '../model/personalization-context.model';
 import { filter, map } from 'rxjs/operators';
 import { PersonalizationConfig } from '../config/personalization-config';
 import { CmsService } from '../../cms/facade/cms.service';
+import { Page } from '../../cms/model/page.model';
+import { ContentSlotData } from '../../cms/model/content-slot-data.model';
+import { ContentSlotComponentData } from '../../cms/model/content-slot-component-data.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PersonalizationContextService {
   constructor(
-    private config: PersonalizationConfig,
-    private cmsService: CmsService
+    protected config: PersonalizationConfig,
+    protected cmsService: CmsService
   ) {}
 
   getPersonalizationContext(): Observable<PersonalizationContext> {
     return this.cmsService.getCurrentPage().pipe(
-      filter(page => page !== undefined),
-      map(page => page.slots[this.config.personalization.context.slotId]),
-      filter(slot => slot !== undefined),
-      map(slot =>
+      filter(Boolean),
+      map(
+        (page: Page) =>
+          page.slots[this.config.personalization.context.slotPosition]
+      ),
+      filter(Boolean),
+      map((slot: ContentSlotData) =>
         slot.components.find(
           i => i.uid === this.config.personalization.context.componentId
         )
       ),
-      filter(component => component !== undefined),
-      map(component =>
+      filter(Boolean),
+      map((component: ContentSlotComponentData) =>
         this.buildPersonalizationContext(component.properties.script.data)
       )
     );
