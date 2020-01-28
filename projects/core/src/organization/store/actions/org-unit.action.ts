@@ -5,7 +5,7 @@ import {
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { ORG_UNIT_ENTITIES, ORG_UNIT_LIST } from '../organization-state';
-import { ALL } from '../../model/search-config';
+import { ALL } from '../../utils/serializer';
 import { ListModel } from '../../../model/misc.model';
 
 export const LOAD_ORG_UNIT = '[B2BUnitNode] Load B2BUnitNode Data';

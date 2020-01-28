@@ -1,13 +1,15 @@
 import { EntitiesModel, ListModel } from '../../model/misc.model';
 import { LoaderState } from '../../state/index';
 import { entityStateSelector } from '../../state/utils/entity-loader/entity-loader.selectors';
-import { B2BSearchConfig, ALL } from '../model/search-config';
+import { B2BSearchConfig } from '../model/search-config';
 import { Management } from '../store/organization-state';
 
 // TODO after update typescript to 3.7 it can be replaced by Nullish Coalescing (??) operator
 function nullish(param, defaultValue) {
   return param !== null && param !== undefined ? param : defaultValue;
 }
+
+export const ALL = 'all';
 
 export function serializeB2BSearchConfig(config: B2BSearchConfig) {
   return `pageSize=${nullish(config.pageSize, '')}&currentPage=${nullish(
