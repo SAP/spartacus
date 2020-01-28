@@ -40,6 +40,11 @@
 $theme: '' !default;
 @if $theme == 'calydon' {
   .page-item {
+    .page-link {
+      &:focus {
+        @include visible-focus();
+      }
+    }
     &.active {
       .page-link {
         border-color: var(--cx-color-primary);
