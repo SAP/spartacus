@@ -3,11 +3,11 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Budget } from '../../../model/budget.model';
-import { Occ } from '../../../occ/occ-models/occ.models';
+import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
-import BudgetsList = Occ.BudgetsList;
+import { normalizeListPage } from '../../utils/serializer';
 
 @Injectable()
 export class BudgetEffects {
@@ -24,10 +24,10 @@ export class BudgetEffects {
         }),
         catchError(error =>
           of(
-            new BudgetActions.LoadBudgetFail(
+            new BudgetActions.LoadBudgetFail({
               budgetCode,
-              makeErrorSerializable(error)
-            )
+              error: makeErrorSerializable(error),
+            })
           )
         )
       );
@@ -44,19 +44,12 @@ export class BudgetEffects {
     map((action: BudgetActions.LoadBudgets) => action.payload),
     switchMap(payload =>
       this.budgetConnector.getList(payload.userId, payload.params).pipe(
-        switchMap((budgets: BudgetsList) => {
-          // normalization
-          // TODO: extract into the same service with denormalization
-          const budgetsEntities = budgets.budgets;
-          const budgetPage = {
-            ids: budgetsEntities.map(budget => budget.code),
-            pagination: budgets.pagination,
-            sorts: budgets.sorts,
-          };
+        switchMap((budgets: EntitiesModel<Budget>) => {
+          const { values, page } = normalizeListPage(budgets, 'code');
           return [
-            new BudgetActions.LoadBudgetSuccess(budgetsEntities),
+            new BudgetActions.LoadBudgetSuccess(values),
             new BudgetActions.LoadBudgetsSuccess({
-              budgetPage,
+              page,
               params: payload.params,
             }),
           ];
@@ -84,10 +77,10 @@ export class BudgetEffects {
         map(data => new BudgetActions.CreateBudgetSuccess(data)),
         catchError(error =>
           of(
-            new BudgetActions.CreateBudgetFail(
-              payload.budget.code,
-              makeErrorSerializable(error)
-            )
+            new BudgetActions.CreateBudgetFail({
+              budgetCode: payload.budget.code,
+              error: makeErrorSerializable(error),
+            })
           )
         )
       )
@@ -107,10 +100,10 @@ export class BudgetEffects {
           map(data => new BudgetActions.UpdateBudgetSuccess(data)),
           catchError(error =>
             of(
-              new BudgetActions.UpdateBudgetFail(
-                payload.budget.code,
-                makeErrorSerializable(error)
-              )
+              new BudgetActions.UpdateBudgetFail({
+                budgetCode: payload.budget.code,
+                error: makeErrorSerializable(error),
+              })
             )
           )
         )

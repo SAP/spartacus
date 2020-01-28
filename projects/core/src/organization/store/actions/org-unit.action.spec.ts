@@ -1,7 +1,7 @@
-import { ORG_UNIT_ENTITIES, ORG_UNIT_LISTS } from '../organization-state';
+import { ORG_UNIT_ENTITIES, ORG_UNIT_LIST } from '../organization-state';
 import { B2BUnitNode } from '../../../model/org-unit.model';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
-import { LIST } from '../../model/search-config';
+import { ALL } from '../../utils/serializer';
 import { OrgUnitActions } from './index';
 
 const orgUnitId = 'testOrgUnitId';
@@ -13,7 +13,7 @@ const error = 'anError';
 
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
-const orgUnitPage = { ids: [orgUnitId], pagination, sorts };
+const page = { ids: [orgUnitId], pagination, sorts };
 
 describe('OrgUnit Actions', () => {
   describe('LoadOrgUnit Actions', () => {
@@ -37,11 +37,11 @@ describe('OrgUnit Actions', () => {
 
     describe('LoadOrgUnitFail', () => {
       it('should create the action', () => {
-        const action = new OrgUnitActions.LoadOrgUnitFail(orgUnitId, error);
+        const action = new OrgUnitActions.LoadOrgUnitFail({ orgUnitId, error });
 
         expect({ ...action }).toEqual({
           type: OrgUnitActions.LOAD_ORG_UNIT_FAIL,
-          payload: error,
+          payload: { orgUnitId, error },
           meta: StateEntityLoaderActions.entityFailMeta(
             ORG_UNIT_ENTITIES,
             orgUnitId,
@@ -76,7 +76,7 @@ describe('OrgUnit Actions', () => {
         expect({ ...action }).toEqual({
           type: OrgUnitActions.LOAD_ORG_UNITS,
           payload: { userId },
-          meta: StateEntityLoaderActions.entityLoadMeta(ORG_UNIT_LISTS, LIST),
+          meta: StateEntityLoaderActions.entityLoadMeta(ORG_UNIT_LIST, ALL),
         });
       });
     });
@@ -90,7 +90,7 @@ describe('OrgUnit Actions', () => {
         expect({ ...action }).toEqual({
           type: OrgUnitActions.LOAD_ORG_UNITS_FAIL,
           payload: { error: { error } },
-          meta: StateEntityLoaderActions.entityFailMeta(ORG_UNIT_LISTS, LIST, {
+          meta: StateEntityLoaderActions.entityFailMeta(ORG_UNIT_LIST, ALL, {
             error,
           }),
         });
@@ -100,16 +100,13 @@ describe('OrgUnit Actions', () => {
     describe('LoadOrgUnitsSuccess', () => {
       it('should create the action', () => {
         const action = new OrgUnitActions.LoadOrgUnitsSuccess({
-          orgUnitPage,
+          page,
         });
 
         expect({ ...action }).toEqual({
           type: OrgUnitActions.LOAD_ORG_UNITS_SUCCESS,
-          payload: { orgUnitPage },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            ORG_UNIT_LISTS,
-            LIST
-          ),
+          payload: { page },
+          meta: StateEntityLoaderActions.entitySuccessMeta(ORG_UNIT_LIST, ALL),
         });
       });
     });

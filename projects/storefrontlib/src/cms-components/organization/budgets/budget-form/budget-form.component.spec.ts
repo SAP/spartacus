@@ -12,7 +12,8 @@ import {
   OrgUnitService,
   Currency,
   CurrencyService,
-  B2BUnitNodeList,
+  EntitiesModel,
+  B2BUnitNode,
 } from '@spartacus/core';
 
 import { BudgetFormComponent } from './budget-form.component';
@@ -39,8 +40,8 @@ const mockBudget: Budget = {
   ],
 };
 
-const mockOrgUnits: B2BUnitNodeList = {
-  unitNodes: [
+const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
+  values: [
     {
       active: true,
       children: [],
@@ -152,7 +153,7 @@ describe('BudgetFormComponent', () => {
         })
         .unsubscribe();
       expect(orgUnitService.getList).toHaveBeenCalled();
-      expect(businessUnits).toEqual(mockOrgUnits.unitNodes);
+      expect(businessUnits).toEqual(mockOrgUnits.values);
     });
 
     it('should setup clean form', () => {
@@ -215,7 +216,7 @@ describe('BudgetFormComponent', () => {
     it('should setup business unit', () => {
       component.budgetData = mockBudget;
       component.ngOnInit();
-      component.businessUnitSelected(mockOrgUnits.unitNodes[1]);
+      component.businessUnitSelected(mockOrgUnits.values[1]);
       expect(component.form.controls['orgUnit'].value).toEqual({
         uid: 'unitNode2',
       });

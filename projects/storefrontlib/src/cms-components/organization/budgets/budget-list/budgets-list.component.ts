@@ -11,12 +11,13 @@ import {
 
 import {
   BudgetService,
-  BudgetListModel,
   RoutingService,
   CxDatePipe,
-  BudgetSearchConfig,
+  EntitiesModel,
+  B2BSearchConfig,
   θdiff as diff,
   θshallowEqualObjects as shallowEqualObjects,
+  Budget,
 } from '@spartacus/core';
 
 @Component({
@@ -31,9 +32,9 @@ export class BudgetsListComponent implements OnInit {
   ) {}
 
   budgetsList$: Observable<any>;
-  private params$: Observable<BudgetSearchConfig>;
+  private params$: Observable<B2BSearchConfig>;
 
-  protected defaultParams: BudgetSearchConfig = {
+  protected defaultParams: B2BSearchConfig = {
     sort: 'byName',
     currentPage: 0,
     pageSize: 5,
@@ -55,18 +56,19 @@ export class BudgetsListComponent implements OnInit {
       switchMap(params =>
         this.budgetsService.getList(params).pipe(
           filter(Boolean),
-          map((budgetsList: BudgetListModel) => ({
+          map((budgetsList: EntitiesModel<Budget>) => ({
             sorts: budgetsList.sorts,
             pagination: budgetsList.pagination,
-            budgetsList: budgetsList.budgets.map(budget => ({
+            budgetsList: budgetsList.values.map(budget => ({
               code: budget.code,
               name: budget.name,
-              amount: `${budget.budget} ${budget.currency.symbol}`,
+              amount: `${budget.budget} ${budget.currency &&
+                budget.currency.symbol}`,
               startEndDate: `${this.cxDate.transform(
                 budget.startDate
               )} - ${this.cxDate.transform(budget.endDate)}`,
-              parentUnit: budget.orgUnit.name,
-              orgUnitId: budget.orgUnit.uid,
+              parentUnit: budget.orgUnit && budget.orgUnit.name,
+              orgUnitId: budget.orgUnit && budget.orgUnit.uid,
             })),
           }))
         )
@@ -82,13 +84,13 @@ export class BudgetsListComponent implements OnInit {
     this.updateQueryParams({ currentPage });
   }
 
-  private updateQueryParams(newParams: Partial<BudgetSearchConfig>): void {
+  private updateQueryParams(newParams: Partial<B2BSearchConfig>): void {
     this.params$
       .pipe(
         map(params => diff(this.defaultParams, { ...params, ...newParams })),
         take(1)
       )
-      .subscribe((params: Partial<BudgetSearchConfig>) => {
+      .subscribe((params: Partial<B2BSearchConfig>) => {
         this.routingService.go(
           {
             cxRoute: 'budgets',
@@ -98,7 +100,7 @@ export class BudgetsListComponent implements OnInit {
       });
   }
 
-  private normalizeParams({ sort, currentPage, pageSize }): BudgetSearchConfig {
+  private normalizeParams({ sort, currentPage, pageSize }): B2BSearchConfig {
     return {
       sort,
       currentPage: parseInt(currentPage, 10),

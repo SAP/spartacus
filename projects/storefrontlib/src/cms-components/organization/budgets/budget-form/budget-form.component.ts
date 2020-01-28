@@ -7,17 +7,18 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
 import {
-  B2BUnitNode,
-  B2BUnitNodeList,
   Budget,
   Currency,
   CurrencyService,
-  OrgUnitService,
   UrlCommandRoute,
+  B2BUnitNode,
+  OrgUnitService,
+  EntitiesModel,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-budget-form',
@@ -51,22 +52,19 @@ export class BudgetFormComponent implements OnInit {
   @Output()
   clickBack = new EventEmitter<any>();
 
-  form: FormGroup = this.fb.group(
-    {
-      code: ['', Validators.required],
-      name: ['', Validators.required],
-      orgUnit: this.fb.group({
-        uid: [null, Validators.required],
-      }),
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      currency: this.fb.group({
-        isocode: [null, Validators.required],
-      }),
-      budget: ['', Validators.required],
-    }
-    // { validator: this.checkDate }
-  );
+  form: FormGroup = this.fb.group({
+    code: ['', Validators.required],
+    name: ['', Validators.required],
+    orgUnit: this.fb.group({
+      uid: [null, Validators.required],
+    }),
+    startDate: ['', Validators.required],
+    endDate: ['', Validators.required],
+    currency: this.fb.group({
+      isocode: [null, Validators.required],
+    }),
+    budget: ['', Validators.required],
+  });
 
   constructor(
     private fb: FormBuilder,
@@ -78,7 +76,7 @@ export class BudgetFormComponent implements OnInit {
     this.currencies$ = this.currencyService.getAll();
     this.businessUnits$ = this.orgUnitService.getList().pipe(
       filter(Boolean),
-      map((list: B2BUnitNodeList) => list.unitNodes)
+      map((list: EntitiesModel<B2BUnitNode>) => list.values)
     );
     if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
       this.form.patchValue(this.budgetData);
@@ -102,20 +100,4 @@ export class BudgetFormComponent implements OnInit {
       this.submitBudget.emit(this.form.value);
     }
   }
-
-  // isDateValid(formControlName1: string, formControlName2: string): boolean {
-  //   return (
-  //     this.form.get(formControlName1).touched &&
-  //     this.form.get(formControlName1).dirty &&
-  //     this.form.get(formControlName2).touched &&
-  //     this.form.get(formControlName2).dirty &&
-  //     this.form.hasError('NotValidDate')
-  //   );
-  // }
-
-  // private checkDate(ac: AbstractControl): ValidationErrors {
-  //   if (ac.get('startDate').value > ac.get('endDate').value) {
-  //     return { NotValidDate: true };
-  //   }
-  // }
 }

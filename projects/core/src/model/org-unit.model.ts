@@ -5,6 +5,3 @@ export interface B2BUnitNode {
   name?: string;
   parent?: string;
 }
-export interface B2BUnitNodeList {
-  unitNodes?: Array<B2BUnitNode>;
-}

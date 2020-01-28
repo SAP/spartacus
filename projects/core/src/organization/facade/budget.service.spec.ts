@@ -4,13 +4,14 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { Budget, BudgetListModel } from '../../model/budget.model';
+import { Budget } from '../../model/budget.model';
+import { EntitiesModel } from '../../model/misc.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { BudgetActions } from '../store/actions/index';
 import * as fromReducers from '../store/reducers/index';
 import { BudgetService } from './budget.service';
-import { BudgetSearchConfig } from '../model/search-config';
+import { B2BSearchConfig } from '../model/search-config';
 import {
   AuthService,
   ORGANIZATION_FEATURE,
@@ -23,8 +24,8 @@ const budget = { code: budgetCode };
 const budget2 = { code: 'testBudget2' };
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
-const budgetList: BudgetListModel = {
-  budgets: [budget, budget2],
+const budgetList: EntitiesModel<Budget> = {
+  values: [budget, budget2],
   pagination,
   sorts,
 };
@@ -106,10 +107,10 @@ describe('BudgetService', () => {
   });
 
   describe('get budgets', () => {
-    const params: BudgetSearchConfig = { sort: 'code' };
+    const params: B2BSearchConfig = { sort: 'code' };
 
     it('getList() should trigger load budgets when they are not present in the store', () => {
-      let budgets: BudgetListModel;
+      let budgets: EntitiesModel<Budget>;
       service
         .getList(params)
         .subscribe(data => {
@@ -129,14 +130,14 @@ describe('BudgetService', () => {
       store.dispatch(
         new BudgetActions.LoadBudgetsSuccess({
           params,
-          budgetPage: {
+          page: {
             ids: [budget.code, budget2.code],
             pagination,
             sorts,
           },
         })
       );
-      let budgets: BudgetListModel;
+      let budgets: EntitiesModel<Budget>;
       service
         .getList(params)
         .subscribe(data => {

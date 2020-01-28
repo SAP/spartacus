@@ -1,10 +1,4 @@
-import { Currency, PaginationModel, SortModel } from './misc.model';
-
-export interface BudgetListModel {
-  budgets: Budget[];
-  pagination: PaginationModel;
-  sorts: SortModel[];
-}
+import { Currency } from './misc.model';
 
 export interface Budget {
   active?: boolean;

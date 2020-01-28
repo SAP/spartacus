@@ -7,11 +7,12 @@ import {
   I18nTestingModule,
   RoutingService,
   BudgetService,
-  BudgetListModel,
-  BudgetSearchConfig,
+  EntitiesModel,
+  B2BSearchConfig,
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
+  Budget,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -22,14 +23,14 @@ import { BudgetsListComponent } from './budgets-list.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 
-const defaultParams: BudgetSearchConfig = {
+const defaultParams: B2BSearchConfig = {
   sort: 'byName',
   currentPage: 0,
   pageSize: 5,
 };
 
-const mockBudgetList: BudgetListModel = {
-  budgets: [
+const mockBudgetList: EntitiesModel<Budget> = {
+  values: [
     {
       code: '1',
       name: 'b1',
@@ -163,8 +164,8 @@ describe('BudgetsListComponent', () => {
   });
 
   it('should display No budgets found page if no budgets are found', () => {
-    const emptyBudgetList: any = {
-      budgets: [],
+    const emptyBudgetList: EntitiesModel<Budget> = {
+      values: [],
       pagination: { totalResults: 0, sort: 'byName' },
       sorts: [{ code: 'byName', selected: true }],
     };
