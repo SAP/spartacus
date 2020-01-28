@@ -3,7 +3,11 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import { getAngularVersion } from './package-utils';
+import {
+  getAngularVersion,
+  getSpartacusCurrentFeatureLevel,
+  getSpartacusSchematicsVersion,
+} from './package-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -58,8 +62,26 @@ describe('Package utils', () => {
         packageJsonObject.dependencies['@angular/core'] = testVersion;
         appTree.overwrite('package.json', JSON.stringify(packageJsonObject));
         const version = getAngularVersion(appTree);
-        expect(version).toBeTruthy(testVersion);
+        expect(version).toEqual(testVersion);
       }
+    });
+  });
+
+  describe('getSpartacusSchematicsVersion', () => {
+    it('should return spartacus version', async () => {
+      const version = getSpartacusSchematicsVersion();
+      expect(version).toBeTruthy();
+      expect(version.length).toBeGreaterThanOrEqual(3);
+    });
+  });
+
+  describe('getSpartacusCurrentFeatureLevel', () => {
+    it('should return feature level based on spartacus current version', async () => {
+      const version = getSpartacusSchematicsVersion();
+      const featureLevel = getSpartacusCurrentFeatureLevel();
+      expect(featureLevel).toBeTruthy();
+      expect(featureLevel.length).toEqual(3);
+      expect(featureLevel).toEqual(version.substring(0, 3));
     });
   });
 });
