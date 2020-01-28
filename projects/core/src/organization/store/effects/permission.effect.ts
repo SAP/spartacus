@@ -3,10 +3,10 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Permission } from '../../../model/permission.model';
+import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { PermissionConnector } from '../../connectors/permission/permission.connector';
 import { PermissionActions } from '../actions/index';
-import { EntitiesModel } from '@spartacus/core';
 import { normalizeListPage } from '../../utils/serializer';
 
 @Injectable()

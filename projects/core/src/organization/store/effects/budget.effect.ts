@@ -3,10 +3,10 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Budget } from '../../../model/budget.model';
+import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { BudgetConnector } from '../../connectors/budget/budget.connector';
 import { BudgetActions } from '../actions/index';
-import { EntitiesModel } from '@spartacus/core';
 import { normalizeListPage } from '../../utils/serializer';
 
 @Injectable()

@@ -6,7 +6,7 @@ import {
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { ORG_UNIT_ENTITIES, ORG_UNIT_LIST } from '../organization-state';
 import { ALL } from '../../model/search-config';
-import { ListModel } from '@spartacus/core';
+import { ListModel } from '../../../model/misc.model';
 
 export const LOAD_ORG_UNIT = '[B2BUnitNode] Load B2BUnitNode Data';
 export const LOAD_ORG_UNIT_FAIL = '[B2BUnitNode] Load B2BUnitNode Data Fail';
