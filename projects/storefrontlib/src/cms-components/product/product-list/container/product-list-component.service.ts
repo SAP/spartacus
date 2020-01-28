@@ -39,7 +39,7 @@ export class ProductListComponentService {
   protected sub: Subscription;
 
   protected readonly RELEVANCE_ALLCATEGORIES = ':relevance:allCategories:';
- 
+
   constructor(
     protected productSearchService: ProductSearchService,
     protected routing: RoutingService,

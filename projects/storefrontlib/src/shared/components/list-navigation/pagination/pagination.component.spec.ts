@@ -212,8 +212,6 @@ describe('PaginationComponent', () => {
     });
 
     describe('no pages', () => {
-      beforeEach(() => {});
-
       it('should not have any pagination items', () => {
         component.pagination = {
           currentPage: 0,
