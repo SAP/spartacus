@@ -6,7 +6,8 @@ import { B2BUnitNode } from '../../../model/org-unit.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { OrgUnitActions } from '../actions/index';
-import { Occ } from '../../../occ/occ-models/occ.models';
+import { EntitiesModel } from '../../../model/misc.model';
+import { normalizeListPage } from '../../utils/serializer';
 
 @Injectable()
 export class OrgUnitEffects {
@@ -23,10 +24,10 @@ export class OrgUnitEffects {
         }),
         catchError(error =>
           of(
-            new OrgUnitActions.LoadOrgUnitFail(
+            new OrgUnitActions.LoadOrgUnitFail({
               orgUnitId,
-              makeErrorSerializable(error)
-            )
+              error: makeErrorSerializable(error),
+            })
           )
         )
       );
@@ -43,17 +44,12 @@ export class OrgUnitEffects {
     map((action: OrgUnitActions.LoadOrgUnits) => action.payload),
     switchMap(payload =>
       this.orgUnitConnector.getList(payload.userId).pipe(
-        switchMap((orgUnitsList: Occ.B2BUnitNodeList) => {
-          // normalization
-          // TODO: extract into the same service with denormalization
-          const orgUnitsEntities = orgUnitsList.unitNodes;
-          const orgUnitPage = {
-            ids: orgUnitsEntities.map(unitNode => unitNode.id),
-          };
+        switchMap((orgUnitsList: EntitiesModel<B2BUnitNode>) => {
+          const { values, page } = normalizeListPage(orgUnitsList, 'id');
           return [
-            new OrgUnitActions.LoadOrgUnitSuccess(orgUnitsEntities),
+            new OrgUnitActions.LoadOrgUnitSuccess(values),
             new OrgUnitActions.LoadOrgUnitsSuccess({
-              orgUnitPage,
+              page,
             }),
           ];
         }),

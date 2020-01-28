@@ -20,7 +20,7 @@ const error = 'error';
 const budgetCode = 'testCode';
 const userId = 'testUser';
 const budget: Budget = {
-  code: 'testCode',
+  code: budgetCode,
   active: false,
   budget: 2,
   currency: {},
@@ -36,7 +36,7 @@ const sorts = [{ selected: true, name: 'code' }];
 class MockBudgetConnector {
   get = createSpy().and.returnValue(of(budget));
   getList = createSpy().and.returnValue(
-    of({ budgets: [budget], pagination, sorts })
+    of({ values: [budget], pagination, sorts })
   );
   create = createSpy().and.returnValue(of(budget));
   update = createSpy().and.returnValue(of(budget));
@@ -92,7 +92,10 @@ describe('Budget Effects', () => {
     it('should return LoadBudgetFail action if budget not updated', () => {
       budgetConnector.get = createSpy().and.returnValue(throwError(error));
       const action = new BudgetActions.LoadBudget({ userId, budgetCode });
-      const completion = new BudgetActions.LoadBudgetFail(budgetCode, error);
+      const completion = new BudgetActions.LoadBudgetFail({
+        budgetCode,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -108,8 +111,8 @@ describe('Budget Effects', () => {
       const action = new BudgetActions.LoadBudgets({ userId, params });
       const completion = new BudgetActions.LoadBudgetSuccess([budget]);
       const completion2 = new BudgetActions.LoadBudgetsSuccess({
+        page: { ids: [budgetCode], pagination, sorts },
         params,
-        budgetPage: { ids: [budgetCode], pagination, sorts },
       });
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion, c: completion2 });
@@ -144,7 +147,10 @@ describe('Budget Effects', () => {
     it('should return CreateBudgetFail action if budget not created', () => {
       budgetConnector.create = createSpy().and.returnValue(throwError(error));
       const action = new BudgetActions.CreateBudget({ userId, budget });
-      const completion = new BudgetActions.CreateBudgetFail(budget.code, error);
+      const completion = new BudgetActions.CreateBudgetFail({
+        budgetCode,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -179,7 +185,10 @@ describe('Budget Effects', () => {
         budgetCode,
         budget,
       });
-      const completion = new BudgetActions.UpdateBudgetFail(budget.code, error);
+      const completion = new BudgetActions.UpdateBudgetFail({
+        budgetCode,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 

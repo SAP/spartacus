@@ -3,8 +3,7 @@ import { Observable } from 'rxjs';
 import { Permission } from '../../../model/permission.model';
 import { PermissionAdapter } from './permission.adapter';
 import { B2BSearchConfig } from '../../model/search-config';
-import { Occ } from '../../../occ/occ-models/occ.models';
-import PermissionsList = Occ.PermissionsList;
+import { EntitiesModel } from '../../../model/misc.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +18,7 @@ export class PermissionConnector {
   getList(
     userId: string,
     params?: B2BSearchConfig
-  ): Observable<PermissionsList> {
+  ): Observable<EntitiesModel<Permission>> {
     return this.adapter.loadList(userId, params);
   }
 

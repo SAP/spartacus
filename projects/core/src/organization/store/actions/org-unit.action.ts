@@ -4,8 +4,9 @@ import {
   EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
-import { ORG_UNIT_ENTITIES, ORG_UNIT_LISTS } from '../organization-state';
-import { LIST } from '../../model/search-config';
+import { ORG_UNIT_ENTITIES, ORG_UNIT_LIST } from '../organization-state';
+import { ALL } from '../../utils/serializer';
+import { ListModel } from '../../../model/misc.model';
 
 export const LOAD_ORG_UNIT = '[B2BUnitNode] Load B2BUnitNode Data';
 export const LOAD_ORG_UNIT_FAIL = '[B2BUnitNode] Load B2BUnitNode Data Fail';
@@ -35,8 +36,8 @@ export class LoadOrgUnit extends EntityLoadAction {
 
 export class LoadOrgUnitFail extends EntityFailAction {
   readonly type = LOAD_ORG_UNIT_FAIL;
-  constructor(orgUnitId: string, public payload: any) {
-    super(ORG_UNIT_ENTITIES, orgUnitId, payload);
+  constructor(public payload: { orgUnitId: string; error: any }) {
+    super(ORG_UNIT_ENTITIES, payload.orgUnitId, payload.error);
   }
 }
 
@@ -55,22 +56,21 @@ export class LoadOrgUnits extends EntityLoadAction {
       userId: string;
     }
   ) {
-    super(ORG_UNIT_LISTS, LIST);
+    super(ORG_UNIT_LIST, ALL);
   }
 }
 
 export class LoadOrgUnitsFail extends EntityFailAction {
   readonly type = LOAD_ORG_UNITS_FAIL;
   constructor(public payload: any) {
-    super(ORG_UNIT_LISTS, LIST, payload.error);
+    super(ORG_UNIT_LIST, ALL, payload.error);
   }
 }
 
 export class LoadOrgUnitsSuccess extends EntitySuccessAction {
   readonly type = LOAD_ORG_UNITS_SUCCESS;
-  // TODO   constructor(public payload: {orgUnitPage}) {
-  constructor(public payload: any) {
-    super(ORG_UNIT_LISTS, LIST);
+  constructor(public payload: { page: ListModel }) {
+    super(ORG_UNIT_LIST, ALL);
   }
 }
 

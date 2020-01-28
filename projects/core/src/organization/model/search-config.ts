@@ -3,5 +3,3 @@ export interface B2BSearchConfig {
   currentPage?: number;
   sort?: string;
 }
-
-export const LIST = 'list';

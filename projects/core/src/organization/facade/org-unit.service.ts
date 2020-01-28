@@ -11,8 +11,7 @@ import {
   getOrgUnitState,
   getOrgUnitList,
 } from '../store/selectors/org-unit.selector';
-import { B2BUnitNode, B2BUnitNodeList } from '../../model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { B2BUnitNode, EntitiesModel } from '../../model';
 
 @Injectable()
 export class OrgUnitService {
@@ -37,7 +36,9 @@ export class OrgUnitService {
     return this.store.select(getOrgUnitState(orgUnitId));
   }
 
-  private getOrgUnitsList(): Observable<LoaderState<B2BUnitNodeList>> {
+  private getOrgUnitsList(): Observable<
+    LoaderState<EntitiesModel<B2BUnitNode>>
+  > {
     return this.store.select(getOrgUnitList());
   }
 
@@ -54,16 +55,16 @@ export class OrgUnitService {
     );
   }
 
-  getList(): Observable<B2BUnitNodeList> {
+  getList(): Observable<EntitiesModel<B2BUnitNode>> {
     return this.getOrgUnitsList().pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<B2BUnitNodeList>) => {
+      tap((process: LoaderState<EntitiesModel<B2BUnitNode>>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadOrgUnits();
         }
       }),
       filter(
-        (process: LoaderState<B2BUnitNodeList>) =>
+        (process: LoaderState<EntitiesModel<B2BUnitNode>>) =>
           process.success || process.error
       ),
       map(result => result.value)
@@ -71,14 +72,9 @@ export class OrgUnitService {
   }
 
   private withUserId(callback: (userId: string) => void): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(userId => callback(userId));
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
-      callback(OCC_USER_ID_CURRENT);
-    }
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(userId => callback(userId));
   }
 }

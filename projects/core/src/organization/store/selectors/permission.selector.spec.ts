@@ -1,28 +1,26 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { Budget } from '../../../model/budget.model';
-import { BudgetActions } from '../actions/index';
+import { Permission } from '../../../model/permission.model';
+import { PermissionActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
-  BudgetManagement,
+  PermissionManagement,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
-import { BudgetSelectors } from '../selectors/index';
+import { PermissionSelectors } from '../selectors/index';
 import { EntityLoaderState, LoaderState } from '@spartacus/core';
 
-describe('Budget Selectors', () => {
+describe('Permission Selectors', () => {
   let store: Store<StateWithOrganization>;
 
   const code = 'testCode';
-  const budget: Budget = {
+  const permission: Permission = {
     code,
-    name: 'testBudget',
   };
-  const budget2: Budget = {
+  const permission2: Permission = {
     code: 'testCode2',
-    name: 'testBudget2',
   };
 
   const entities = {
@@ -30,13 +28,13 @@ describe('Budget Selectors', () => {
       loading: false,
       error: false,
       success: true,
-      value: budget,
+      value: permission,
     },
     testCode2: {
       loading: false,
       error: false,
       success: true,
-      value: budget2,
+      value: permission2,
     },
   };
 
@@ -55,14 +53,16 @@ describe('Budget Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getBudgetManagementState ', () => {
-    it('should return budgets state', () => {
-      let result: BudgetManagement;
+  describe('getPermissionManagementState ', () => {
+    it('should return permissions state', () => {
+      let result: PermissionManagement;
       store
-        .pipe(select(BudgetSelectors.getBudgetManagementState))
+        .pipe(select(PermissionSelectors.getPermissionManagementState))
         .subscribe(value => (result = value));
 
-      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
+      store.dispatch(
+        new PermissionActions.LoadPermissionSuccess([permission, permission2])
+      );
       expect(result).toEqual({
         entities: { entities },
         list: { entities: {} },
@@ -70,26 +70,30 @@ describe('Budget Selectors', () => {
     });
   });
 
-  describe('getBudgets', () => {
-    it('should return budgets', () => {
-      let result: EntityLoaderState<Budget>;
+  describe('getPermissions', () => {
+    it('should return permissions', () => {
+      let result: EntityLoaderState<Permission>;
       store
-        .pipe(select(BudgetSelectors.getBudgetsState))
+        .pipe(select(PermissionSelectors.getPermissionsState))
         .subscribe(value => (result = value));
 
-      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
+      store.dispatch(
+        new PermissionActions.LoadPermissionSuccess([permission, permission2])
+      );
       expect(result).toEqual({ entities });
     });
   });
 
-  describe('getBudget', () => {
-    it('should return budget by id', () => {
-      let result: LoaderState<Budget>;
+  describe('getPermission', () => {
+    it('should return permission by id', () => {
+      let result: LoaderState<Permission>;
       store
-        .pipe(select(BudgetSelectors.getBudgetState(code)))
+        .pipe(select(PermissionSelectors.getPermissionState(code)))
         .subscribe(value => (result = value));
 
-      store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
+      store.dispatch(
+        new PermissionActions.LoadPermissionSuccess([permission, permission2])
+      );
       expect(result).toEqual(entities.testCode);
     });
   });

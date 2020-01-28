@@ -9,10 +9,10 @@ import {
   BUDGET_NORMALIZER,
   BUDGETS_NORMALIZER,
 } from '../../../organization/connectors/budget/converters';
-import { Budget } from '../../../model/budget.model';
 import { B2BSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
-import BudgetsList = Occ.BudgetsList;
+import { Budget } from '../../../model/budget.model';
+import { EntitiesModel } from '../../../model/misc.model';
 
 @Injectable()
 export class OccBudgetAdapter implements BudgetAdapter {
@@ -24,13 +24,16 @@ export class OccBudgetAdapter implements BudgetAdapter {
 
   load(userId: string, budgetCode: string): Observable<Budget> {
     return this.http
-      .get(this.getBudgetEndpoint(userId, budgetCode))
+      .get<Occ.Budget>(this.getBudgetEndpoint(userId, budgetCode))
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 
-  loadList(userId: string, params?: B2BSearchConfig): Observable<BudgetsList> {
+  loadList(
+    userId: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<Budget>> {
     return this.http
-      .get<BudgetsList>(this.getBudgetsEndpoint(userId, params))
+      .get<Occ.BudgetsList>(this.getBudgetsEndpoint(userId, params))
       .pipe(this.converter.pipeable(BUDGETS_NORMALIZER));
   }
 

@@ -11,12 +11,13 @@ import {
 
 import {
   BudgetService,
-  BudgetListModel,
   RoutingService,
   CxDatePipe,
+  EntitiesModel,
   B2BSearchConfig,
   θdiff as diff,
   θshallowEqualObjects as shallowEqualObjects,
+  Budget,
 } from '@spartacus/core';
 
 @Component({
@@ -55,18 +56,19 @@ export class BudgetsListComponent implements OnInit {
       switchMap(params =>
         this.budgetsService.getList(params).pipe(
           filter(Boolean),
-          map((budgetsList: BudgetListModel) => ({
+          map((budgetsList: EntitiesModel<Budget>) => ({
             sorts: budgetsList.sorts,
             pagination: budgetsList.pagination,
-            budgetsList: budgetsList.budgets.map(budget => ({
+            budgetsList: budgetsList.values.map(budget => ({
               code: budget.code,
               name: budget.name,
-              amount: `${budget.budget} ${budget.currency.symbol}`,
+              amount: `${budget.budget} ${budget.currency &&
+                budget.currency.symbol}`,
               startEndDate: `${this.cxDate.transform(
                 budget.startDate
               )} - ${this.cxDate.transform(budget.endDate)}`,
-              parentUnit: budget.orgUnit.name,
-              orgUnitId: budget.orgUnit.uid,
+              parentUnit: budget.orgUnit && budget.orgUnit.name,
+              orgUnitId: budget.orgUnit && budget.orgUnit.uid,
             })),
           }))
         )

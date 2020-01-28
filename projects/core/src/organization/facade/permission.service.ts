@@ -5,51 +5,55 @@ import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
-import { Budget } from '../../model/budget.model';
+import { Permission } from '../../model/permission.model';
 import { EntitiesModel } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
-import { BudgetActions } from '../store/actions/index';
+import { PermissionActions } from '../store/actions/index';
 import {
-  getBudgetState,
-  getBudgetList,
-} from '../store/selectors/budget.selector';
+  getPermissionState,
+  getPermissionList,
+} from '../store/selectors/permission.selector';
 import { B2BSearchConfig } from '../model/search-config';
 
 @Injectable()
-export class BudgetService {
+export class PermissionService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
     protected authService: AuthService
   ) {}
 
-  loadBudget(budgetCode: string) {
+  loadPermission(permissionCode: string) {
     this.withUserId(userId =>
-      this.store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }))
+      this.store.dispatch(
+        new PermissionActions.LoadPermission({ userId, permissionCode })
+      )
     );
   }
 
-  loadBudgets(params?: B2BSearchConfig) {
+  loadPermissions(params?: B2BSearchConfig) {
     this.withUserId(userId =>
-      this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
+      this.store.dispatch(
+        new PermissionActions.LoadPermissions({ userId, params })
+      )
     );
   }
 
-  private getBudgetState(budgetCode: string) {
-    return this.store.select(getBudgetState(budgetCode));
+  private getPermissionState(permissionCode: string) {
+    return this.store.select(getPermissionState(permissionCode));
   }
 
-  private getBudgetList(
+  private getPermissionList(
     params
-  ): Observable<LoaderState<EntitiesModel<Budget>>> {
-    return this.store.select(getBudgetList(params));
+  ): Observable<LoaderState<EntitiesModel<Permission>>> {
+    return this.store.select(getPermissionList(params));
   }
 
-  get(budgetCode: string): Observable<Budget> {
-    return this.getBudgetState(budgetCode).pipe(
+  get(permissionCode: string): Observable<Permission> {
+    return this.getPermissionState(permissionCode).pipe(
       observeOn(queueScheduler),
       tap(state => {
         if (!(state.loading || state.success || state.error)) {
-          this.loadBudget(budgetCode);
+          this.loadPermission(permissionCode);
         }
       }),
       filter(state => state.success || state.error),
@@ -57,32 +61,38 @@ export class BudgetService {
     );
   }
 
-  getList(params: B2BSearchConfig): Observable<EntitiesModel<Budget>> {
-    return this.getBudgetList(params).pipe(
+  getList(params: B2BSearchConfig): Observable<EntitiesModel<Permission>> {
+    return this.getPermissionList(params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<Budget>>) => {
+      tap((process: LoaderState<EntitiesModel<Permission>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadBudgets(params);
+          this.loadPermissions(params);
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<Budget>>) =>
+        (process: LoaderState<EntitiesModel<Permission>>) =>
           process.success || process.error
       ),
       map(result => result.value)
     );
   }
 
-  create(budget: Budget) {
+  create(permission: Permission) {
     this.withUserId(userId =>
-      this.store.dispatch(new BudgetActions.CreateBudget({ userId, budget }))
+      this.store.dispatch(
+        new PermissionActions.CreatePermission({ userId, permission })
+      )
     );
   }
 
-  update(budgetCode: string, budget: Budget) {
+  update(permissionCode: string, permission: Permission) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
+        new PermissionActions.UpdatePermission({
+          userId,
+          permissionCode,
+          permission,
+        })
       )
     );
   }

@@ -6,8 +6,6 @@ import { OrgUnitActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
-  ORG_UNIT_ENTITIES,
-  ORG_UNIT_LISTS,
   OrgUnits,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
@@ -68,8 +66,8 @@ describe('OrgUnit Selectors', () => {
         new OrgUnitActions.LoadOrgUnitSuccess([orgUnit, orgUnit2])
       );
       expect(result).toEqual({
-        [ORG_UNIT_ENTITIES]: { entities },
-        [ORG_UNIT_LISTS]: { entities: {} },
+        entities: { entities },
+        list: { entities: {} },
       });
     });
   });

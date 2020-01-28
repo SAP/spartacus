@@ -1,50 +1,52 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { Budget } from '../../../model/budget.model';
 import { EntitiesModel } from '../../../model/misc.model';
+import { Permission } from '../../../model/permission.model';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { B2BSearchConfig } from '../../model/search-config';
 import { denormalizeB2BSearch } from '../../utils/serializer';
 import {
-  BudgetManagement,
-  BUDGET_FEATURE,
   OrganizationState,
+  PermissionManagement,
+  PERMISSION_FEATURE,
   StateWithOrganization,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
 
-export const getBudgetManagementState: MemoizedSelector<
+export const getPermissionManagementState: MemoizedSelector<
   StateWithOrganization,
-  BudgetManagement
+  PermissionManagement
 > = createSelector(
   getOrganizationState,
-  (state: OrganizationState) => state[BUDGET_FEATURE]
+  (state: OrganizationState) => state[PERMISSION_FEATURE]
 );
 
-export const getBudgetsState: MemoizedSelector<
+export const getPermissionsState: MemoizedSelector<
   StateWithOrganization,
-  EntityLoaderState<Budget>
+  EntityLoaderState<Permission>
 > = createSelector(
-  getBudgetManagementState,
-  (state: BudgetManagement) => state && state.entities
+  getPermissionManagementState,
+  (state: PermissionManagement) => state && state.entities
 );
 
-export const getBudgetState = (
-  budgetCode: string
-): MemoizedSelector<StateWithOrganization, LoaderState<Budget>> =>
+export const getPermissionState = (
+  permissionCode: string
+): MemoizedSelector<StateWithOrganization, LoaderState<Permission>> =>
   createSelector(
-    getBudgetsState,
-    (state: EntityLoaderState<Budget>) => entityStateSelector(state, budgetCode)
+    getPermissionsState,
+    (state: EntityLoaderState<Permission>) =>
+      entityStateSelector(state, permissionCode)
   );
 
-export const getBudgetList = (
+export const getPermissionList = (
   params: B2BSearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
-  LoaderState<EntitiesModel<Budget>>
+  LoaderState<EntitiesModel<Permission>>
 > =>
   createSelector(
-    getBudgetManagementState,
-    (state: BudgetManagement) => denormalizeB2BSearch<Budget>(state, params)
+    getPermissionManagementState,
+    (state: PermissionManagement) =>
+      denormalizeB2BSearch<Permission>(state, params)
   );
