@@ -1,3 +1,5 @@
+<!-- 2.0.x -->
+
 <div [ngClass]="compact ? 'cx-compact row' : 'row'">
   <!-- Item Image -->
   <div class="col-2 cx-image-container">
@@ -77,12 +79,11 @@
         >
           {{ 'cartItems.quantity' | cxTranslate }}
         </div>
-
         <div class="cx-value">
           <cx-item-counter
             [control]="quantityControl"
             [readonly]="!item.updateable || readonly"
-            [max]="item.product.stock?.stockLevel"
+            [max]="item.product.stock?.stockLevel || 1000"
             [allowZero]="true"
           >
           </cx-item-counter>
@@ -135,58 +136,48 @@
         <cx-promotions [promotions]="appliedProductPromotions"></cx-promotions>
       </ng-container>
     </ng-container>
+
     <!-- Actions -->
-    <<<<<<< HEAD
-    <div *ngIf="!readonly && item.updateable" class="cx-actions col-12">
-      <button
-        class="link"
-        [disabled]="quantityControl.disabled"
-        (click)="removeItem()"
-      >
-        {{ 'common.remove' | cxTranslate }}
-      </button>
-      =======
+    <div
+      *ngIf="(!readonly || options.isSaveForLater) && item.updateable"
+      class="cx-actions col-12"
+    >
+      <ng-container *ngIf="!isProductOutOfStock(item.product)">
+        <ng-container
+          *ngTemplateOutlet="
+            options.optionalBtn;
+            context: {
+              $implicit: { loading: quantityControl.disabled, item: item }
+            }
+          "
+        ></ng-container>
+      </ng-container>
 
-      <div
-        *ngIf="(!isReadOnly || options.isSaveForLater) && item.updateable"
-        class="cx-actions col-12"
-      >
-        <ng-container *ngIf="!isProductOutOfStock(item.product)">
-          <ng-container
-            *ngTemplateOutlet="
-              options.optionalBtn;
-              context: { $implicit: { loading: cartIsLoading, item: item } }
-            "
-          ></ng-container>
-        </ng-container>
-
-        <div class="col-md-3 col-lg-3 col-xl-3 cx-remove-btn">
-          <button
-            class="link"
-            [disabled]="cartIsLoading"
-            (click)="removeItem()"
-          >
-            {{ 'common.remove' | cxTranslate }}
-          </button>
-        </div>
-        >>>>>>> develop
+      <div class="col-md-3 cx-remove-btn">
+        <button
+          class="link"
+          [disabled]="quantityControl.disabled"
+          (click)="removeItem()"
+        >
+          {{ 'common.remove' | cxTranslate }}
+        </button>
       </div>
     </div>
   </div>
-
-  <ng-template #total>
-    <div
-      *ngIf="item.totalPrice"
-      class="cx-total"
-      [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
-    >
-      <div
-        class="cx-label"
-        [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
-      >
-        {{ 'cartItems.total' | cxTranslate }}
-      </div>
-      <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
-    </div>
-  </ng-template>
 </div>
+
+<ng-template #total>
+  <div
+    *ngIf="item.totalPrice"
+    class="cx-total"
+    [ngClass]="compact ? '' : ' col-md-3 col-xl-2'"
+  >
+    <div
+      class="cx-label"
+      [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+    >
+      {{ 'cartItems.total' | cxTranslate }}
+    </div>
+    <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
+  </div>
+</ng-template>
