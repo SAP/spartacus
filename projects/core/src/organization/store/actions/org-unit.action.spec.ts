@@ -1,7 +1,7 @@
 import { ORG_UNIT_ENTITIES, ORG_UNIT_LIST } from '../organization-state';
 import { B2BUnitNode } from '../../../model/org-unit.model';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
-import { ALL } from '../../model/search-config';
+import { ALL } from '../../utils/serializer';
 import { OrgUnitActions } from './index';
 
 const orgUnitId = 'testOrgUnitId';
