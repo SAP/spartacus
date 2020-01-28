@@ -24,6 +24,23 @@ context('Applied promotions', () => {
     });
 
     appliedPromotions.checkAppliedPromotionsForLoggedUser();
+  });
+
+  describe('Applied promotions for different cart totals', () => {
+    before(() => {
+      retrieveTokenAndLogin();
+      cy.reload();
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
     appliedPromotions.checkAppliedPromotionsFordifferentCartTotals();
+
   });
 });

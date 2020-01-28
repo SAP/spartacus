@@ -8,7 +8,6 @@ import {
 
 export function checkForAppliedPromotionsInCartModal() {
   cy.get('.cx-promotions')
-    .first()
     .should('contain', 'EOS450D');
 }
 
@@ -21,9 +20,6 @@ export function checkForAppliedPromotions() {
 }
 
 export function addProductToCart() {
-  cy.get('cx-item-counter')
-    .getByText('+')
-    .click();
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
@@ -39,7 +35,6 @@ export function selectShippingAddress() {
   cy.getByText(/proceed to checkout/i).click();
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
-    .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
@@ -65,7 +60,6 @@ export function selectPaymentMethod() {
 
 export function goToOrderHistoryDetailsFromSummary() {
   cy.get('.cx-page-title')
-    .first()
     .then(el => {
       const orderNumber = el.text().match(/\d+/)[0];
       cy.visit(`/my-account/order/${orderNumber}`);
@@ -111,28 +105,25 @@ export function checkAppliedPromotionsForLoggedUser() {
 export function checkForAppliedCartPromotions(shouldContainPromotion) {
   if (shouldContainPromotion) {
     cy.get('.cx-promotions')
-      .first()
       .should('contain', '200');
   } else {
     cy.get('.cx-promotions')
-      .first()
       .should('not.contain', '200');
   }
 }
 
 export function removeCartEntry() {
   cy.get('.cx-item-list-items')
-    .first()
     .within(() => {
       cy.getByText(/Remove/i).click();
     });
 }
 
 export function checkAppliedPromotionsFordifferentCartTotals() {
-  it('Should add to products to the cart', () => {
-    cy.visit('/product/4786113');
+  it('Should add two products to the cart', () => {
+    cy.visit('/product/358639');
     addProductToCart();
-    cy.visit('/product/918735');
+    cy.visit('/product/1934796');
     addProductToCart();
   });
 
