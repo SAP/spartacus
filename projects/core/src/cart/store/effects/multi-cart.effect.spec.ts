@@ -92,15 +92,16 @@ describe('Multi Cart effect', () => {
     });
   });
 
-  describe('setFreshCart$', () => {
+  describe('setTempCart$', () => {
     it('should dispatch reset just after setting', () => {
-      const action = new CartActions.SetFreshCart(testCart);
-      const resetFreshCartCompletion = new CartActions.ResetFreshCart();
+      const payload = { cart: testCart, tempCartId: 'tempCartId' };
+      const action = new CartActions.SetTempCart(payload);
+      const removeTempCartCompletion = new CartActions.RemoveTempCart(payload);
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {
-        b: resetFreshCartCompletion,
+        b: removeTempCartCompletion,
       });
-      expect(cartEffects.setFreshCart$).toBeObservable(expected);
+      expect(cartEffects.setTempCart$).toBeObservable(expected);
     });
   });
 

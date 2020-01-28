@@ -1,0 +1,18 @@
+<ng-container *ngIf="form$ | async as form">
+  <ng-container *ngTemplateOutlet="actions"></ng-container>
+
+  <cx-amend-order-items *ngIf="entries$ | async as entries" [entries]="entries">
+  </cx-amend-order-items>
+
+  <ng-container *ngTemplateOutlet="actions"></ng-container>
+
+  <ng-template #actions>
+    <cx-amend-order-actions
+      *ngIf="orderCode"
+      [orderCode]="orderCode"
+      [isValid]="form.valid"
+      backRoute="orderDetails"
+      forwardRoute="orderCancelConfirmation"
+    ></cx-amend-order-actions>
+  </ng-template>
+</ng-container>

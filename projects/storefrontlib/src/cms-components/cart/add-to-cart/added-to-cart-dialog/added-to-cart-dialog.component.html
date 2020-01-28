@@ -50,11 +50,11 @@
               }}
             </div>
 
-            <div>{{ cart.totalPrice?.formattedValue }}</div>
+            <div>{{ cart.subTotal?.formattedValue }}</div>
           </div>
 
           <!-- Promotions -->
-          <ng-container *cxFeatureLevel="'1.4'">
+          <ng-container *cxFeatureLevel="'1.5'">
             <div
               class="cx-dialog-promotions"
               *ngIf="orderPromotions$ | async as orderPromotions"

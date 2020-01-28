@@ -21,6 +21,7 @@ describe('Cart', () => {
   });
 
   it('should add product to cart as anonymous and merge when logged in', () => {
+    cart.registerCreateCartRoute();
     cart.loginRegisteredUser();
     cart.addProductWhenLoggedIn(false);
     cart.logOutAndNavigateToEmptyCart();
@@ -44,8 +45,12 @@ describe('Cart', () => {
   });
 
   it('should be loaded for logged user after "cart not found" error', () => {
+    cart.registerCreateCartRoute();
     cart.loginRegisteredUser();
     cart.addProductWhenLoggedIn(false);
+    // Wait to make sure everything was processed, so there won't be any ngrx -> localStorage synchronization
+    // Related issue: #4672
+    cy.wait(2000);
     cy.window().then(window => {
       const storage = JSON.parse(
         window.localStorage.getItem('spartacus-local-data')
@@ -59,6 +64,9 @@ describe('Cart', () => {
       cy.visit('/cart');
       alerts.getErrorAlert().should('contain', 'Cart not found');
       cy.get('.cart-details-wrapper .cx-total').contains(`Cart #${cartCode}`);
+      cy.selectUserMenuOption({
+        option: 'Sign Out',
+      });
     });
   });
 

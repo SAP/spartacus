@@ -52,3 +52,15 @@ export function setSessionData(data) {
   });
   return data;
 }
+
+export function retrieveAuthToken() {
+  return cy.request({
+    method: 'POST',
+    url: config.tokenUrl,
+    body: {
+      ...config.client,
+      grant_type: 'client_credentials',
+    },
+    form: true,
+  });
+}
