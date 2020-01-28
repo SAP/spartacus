@@ -99,6 +99,21 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   permissions: {
     paths: ['my-company/organization-management/manage-permissions'],
   },
+  permissionCreate: {
+    paths: ['my-company/organization-management/manage-permissions/create'],
+  },
+  permissionDetails: {
+    paths: [
+      'my-company/organization-management/manage-permissions/:permissionCode',
+    ],
+    paramsMapping: { permissionCode: 'code' },
+  },
+  permissionEdit: {
+    paths: [
+      'my-company/organization-management/manage-permissions/edit/:permissionCode',
+    ],
+    paramsMapping: { permissionCode: 'code' },
+  },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {

@@ -21,12 +21,12 @@ import {
 } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-et-list',
+  selector: 'cx-budget-list',
   templateUrl: './budget-list.component.html',
 })
 export class BudgetListComponent implements OnInit {
   constructor(
-    protected routingServibudgce: RoutingService,
+    protected routingService: RoutingService,
     protected budgetsService: BudgetService,
     protected cxDate: CxDatePipe
   ) {}

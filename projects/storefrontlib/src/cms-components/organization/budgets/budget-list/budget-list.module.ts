@@ -22,7 +22,7 @@ import { TableModule } from '../../../../shared/components/table/table.module';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ManageBudgetsListComponent: {
-          component: BudgetsListComponent,
+          component: BudgetListComponent,
           guards: [AuthGuard],
         },
       },
@@ -36,9 +36,9 @@ import { TableModule } from '../../../../shared/components/table/table.module';
     TableModule,
     ReactiveFormsModule,
   ],
-  declarations: [BudgetsListComponent],
-  exports: [BudgetsListComponent],
+  declarations: [BudgetListComponent],
+  exports: [BudgetListComponent],
   providers: [UserService, CxDatePipe],
-  entryComponents: [BudgetsListComponent],
+  entryComponents: [BudgetListComponent],
 })
 export class BudgetListModule {}

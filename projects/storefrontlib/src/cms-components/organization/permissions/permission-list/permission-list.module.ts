@@ -13,7 +13,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { PermissionsListComponent } from './permission-list.component';
+import { PermissionListComponent } from './permission-list.component';
 import { TableModule } from '../../../../shared/components/table/table.module';
 
 @NgModule({
@@ -22,7 +22,7 @@ import { TableModule } from '../../../../shared/components/table/table.module';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ManagePermissionsListComponent: {
-          component: PermissionsListComponent,
+          component: PermissionListComponent,
           guards: [AuthGuard],
         },
       },
@@ -36,9 +36,9 @@ import { TableModule } from '../../../../shared/components/table/table.module';
     TableModule,
     ReactiveFormsModule,
   ],
-  declarations: [PermissionsListComponent],
-  exports: [PermissionsListComponent],
+  declarations: [PermissionListComponent],
+  exports: [PermissionListComponent],
   providers: [UserService, CxDatePipe],
-  entryComponents: [PermissionsListComponent],
+  entryComponents: [PermissionListComponent],
 })
 export class PermissionListModule {}

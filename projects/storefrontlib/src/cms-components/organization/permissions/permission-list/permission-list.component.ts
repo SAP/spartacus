@@ -21,10 +21,10 @@ import {
 } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-permissions-list',
-  templateUrl: './permissions-list.component.html',
+  selector: 'cx-permission-list',
+  templateUrl: './permission-list.component.html',
 })
-export class PermissionsListComponent implements OnInit {
+export class PermissionListComponent implements OnInit {
   constructor(
     protected routingService: RoutingService,
     protected permissionsService: PermissionService,

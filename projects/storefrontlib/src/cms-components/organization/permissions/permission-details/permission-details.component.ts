@@ -29,12 +29,6 @@ export class PermissionDetailsComponent implements OnInit {
       filter(Boolean),
       map((permission: Permission) => ({
         ...permission,
-        costCenters:
-          permission.costCenters &&
-          permission.costCenters.map(costCenter => ({
-            name: costCenter.name,
-            costCenterCode: costCenter.code,
-          })),
       }))
     );
   }
