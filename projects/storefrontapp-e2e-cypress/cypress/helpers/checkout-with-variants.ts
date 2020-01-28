@@ -2,14 +2,9 @@ import {
   variantProduct,
   styleVariantProduct,
   productWithoutVariants,
+  user,
 } from '../sample-data/checkout-with-variants-data';
 import { login, setSessionData, config } from '../support/utils/login';
-
-export const username = 'user.test@ydev.hybris.com';
-export const password = 'Password@123456';
-export const firstName = 'User';
-export const lastName = 'Test';
-export const titleCode = 'mr';
 
 export function retrieveTokenAndLogin() {
   function retrieveAuthToken() {
@@ -24,10 +19,10 @@ export function retrieveTokenAndLogin() {
     });
   }
 
-  login(username, password, false).then(res => {
+  login(user.email, user.password, false).then(res => {
     if (res.status === 200) {
       // User is already registered - only set session in localStorage
-      setSessionData({ ...res.body, userId: username });
+      setSessionData({ ...res.body, userId: user.email });
     } else {
       // User needs to be registered
       retrieveAuthToken().then(response =>
@@ -35,11 +30,11 @@ export function retrieveTokenAndLogin() {
           method: 'POST',
           url: config.newUserUrl,
           body: {
-            firstName: firstName,
-            lastName: lastName,
-            password: password,
-            titleCode: titleCode,
-            uid: username,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            password: user.password,
+            titleCode: 'mr',
+            uid: user.email,
           },
           headers: {
             Authorization: `bearer ` + response.body.access_token,
@@ -52,7 +47,7 @@ export function retrieveTokenAndLogin() {
 
 export function loginSuccessfully() {
   retrieveTokenAndLogin();
-  cy.login('user.test@ydev.hybris.com', 'Password@123456');
+  cy.login(user.email, user.password);
   cy.visit('/');
   cy.get('.cx-login-greet').should('contain', 'User Test');
 }
@@ -60,9 +55,9 @@ export function loginSuccessfully() {
 export function addShippingAddress() {
   cy.request({
     method: 'POST',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/apparel-uk-spa/users/user.test@ydev.hybris.com/addresses?lang=en&curr=GBP`,
+    url: `${Cypress.env('API_URL')}/rest/v2/apparel-uk-spa/users/${
+      user.email
+    }/addresses?lang=en&curr=GBP`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
@@ -129,9 +124,9 @@ export function addPaymentMethod() {
       const cartid = $cart.text().match(/[0-9]+/)[0];
       cy.request({
         method: 'POST',
-        url: `${Cypress.env(
-          'API_URL'
-        )}/rest/v2/apparel-uk-spa/users/user.test@ydev.hybris.com/carts/${cartid}/paymentdetails`,
+        url: `${Cypress.env('API_URL')}/rest/v2/apparel-uk-spa/users/${
+          user.email
+        }/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth
@@ -248,9 +243,9 @@ export function deleteShippingAddress() {
   // Retrieve the address ID
   cy.request({
     method: 'GET',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/apparel-uk-spa/users/user.test@ydev.hybris.com/addresses?lang=en&curr=GBP`,
+    url: `${Cypress.env('API_URL')}/rest/v2/apparel-uk-spa/users/${
+      user.email
+    }/addresses?lang=en&curr=GBP`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
@@ -267,9 +262,9 @@ export function deleteShippingAddress() {
       // Delete the address
       cy.request({
         method: 'DELETE',
-        url: `${Cypress.env(
-          'API_URL'
-        )}/rest/v2/apparel-uk-spa/users/user.test@ydev.hybris.com/addresses/${id}?lang=en&curr=GBP`,
+        url: `${Cypress.env('API_URL')}/rest/v2/apparel-uk-spa/users/${
+          user.email
+        }/addresses/${id}?lang=en&curr=GBP`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth
@@ -286,9 +281,9 @@ export function deletePaymentCard() {
   // Retrieve the payment ID
   cy.request({
     method: 'GET',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/apparel-uk-spa/users/user.test@ydev.hybris.com/paymentdetails?saved=true&lang=en&curr=GBP`,
+    url: `${Cypress.env('API_URL')}/rest/v2/apparel-uk-spa/users/${
+      user.email
+    }/paymentdetails?saved=true&lang=en&curr=GBP`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
@@ -305,9 +300,9 @@ export function deletePaymentCard() {
       // Delete the payment
       cy.request({
         method: 'DELETE',
-        url: `${Cypress.env(
-          'API_URL'
-        )}/rest/v2/apparel-uk-spa/users/user.test@ydev.hybris.com/paymentdetails/${id}?lang=en&curr=GBP`,
+        url: `${Cypress.env('API_URL')}/rest/v2/apparel-uk-spa/users/${
+          user.email
+        }/paymentdetails/${id}?lang=en&curr=GBP`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth
