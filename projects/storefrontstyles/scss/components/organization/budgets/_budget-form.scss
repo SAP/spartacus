@@ -5,10 +5,10 @@
     flex-wrap: wrap;
   }
 
-  ng-select.ng-invalid.ng-touched .ng-select-container {
-    
+  ng-select.invalid .ng-select-container {
+
     border-color: red;
     border-style:solid;
-    
+
 }
 }
