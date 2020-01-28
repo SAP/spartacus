@@ -45,7 +45,7 @@ export function placeOrder(stateAuth: any) {
       return cy.requirePlacedOrder(stateAuth, cartId);
     });
 }
-export function varifyOrderHistory(
+export function verifyOrderHistory(
   orderData: any,
   couponCode?: string,
   totalPrice?: string,
@@ -70,7 +70,7 @@ export function verifyCouponAndPromotion(
   //verify price
   cy.get('.cx-summary-partials').within(() => {
     cy.get('.cx-summary-amount').should('contain', totalPrice);
-    cy.get(':nth-child(4)').should('contain', `You saved: ${savedPrice}`);
+    cy.get(':nth-child(5)').should('contain', `You saved: ${savedPrice}`);
   });
 }
 
