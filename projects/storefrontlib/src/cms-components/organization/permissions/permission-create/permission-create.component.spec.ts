@@ -6,28 +6,30 @@ import { Observable, of } from 'rxjs';
 import {
   I18nTestingModule,
   RoutingService,
-  BudgetService,
+  PermissionService,
   RoutesConfig,
   RoutingConfig,
-  Budget,
+  Permission,
   OrgUnitService,
   Currency,
   CurrencyService,
-  B2BUnitNodeList,
+  EntitiesModel,
+  B2BUnitNode,
+  LanguageService,
 } from '@spartacus/core';
 
-import { BudgetCreateComponent } from './budget-create.component';
+import { PermissionCreateComponent } from './permission-create.component';
 import createSpy = jasmine.createSpy;
-import { BudgetFormModule } from '../permission-form/budget-form.module';
+import { PermissionFormModule } from '../permission-form/permission-form.module';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
 
-const budgetCode = 'b1';
+const permissionCode = 'b1';
 
-const mockBudget: Budget = {
-  code: budgetCode,
-  name: 'budget1',
-  budget: 2230,
+const mockPermission: Permission = {
+  code: permissionCode,
+  name: 'permission1',
+  permission: 2230,
   currency: {
     isocode: 'USD',
     symbol: '$',
@@ -41,8 +43,8 @@ const mockBudget: Budget = {
   ],
 };
 
-const mockOrgUnits: B2BUnitNodeList = {
-  unitNodes: [
+const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
+  values: [
     {
       active: true,
       children: [],
@@ -58,14 +60,14 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
 }
 
-class MockBudgetService implements Partial<BudgetService> {
+class MockPermissionService implements Partial<PermissionService> {
   create = createSpy('create');
 }
 
 const mockRouterState = {
   state: {
     params: {
-      budgetCode,
+      permissionCode,
     },
   },
 };
@@ -102,31 +104,43 @@ class MockRoutingConfig {
   }
 }
 
-describe('BudgetCreateComponent', () => {
-  let component: BudgetCreateComponent;
-  let fixture: ComponentFixture<BudgetCreateComponent>;
-  let budgetsService: MockBudgetService;
+class LanguageServiceStub {
+  getActive(): Observable<string> {
+    return of();
+  }
+}
+
+describe('PermissionCreateComponent', () => {
+  let component: PermissionCreateComponent;
+  let fixture: ComponentFixture<PermissionCreateComponent>;
+  let permissionsService: MockPermissionService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, BudgetFormModule, RouterTestingModule],
-      declarations: [BudgetCreateComponent],
+      imports: [I18nTestingModule, PermissionFormModule, RouterTestingModule],
+      declarations: [PermissionCreateComponent],
       providers: [
+        {
+          provide: LanguageService,
+          useClass: LanguageServiceStub,
+        },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CurrencyService, useValue: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: BudgetService, useClass: MockBudgetService },
+        { provide: PermissionService, useClass: MockPermissionService },
       ],
     }).compileComponents();
 
-    budgetsService = TestBed.get(BudgetService as Type<BudgetService>);
+    permissionsService = TestBed.get(PermissionService as Type<
+      PermissionService
+    >);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BudgetCreateComponent);
+    fixture = TestBed.createComponent(PermissionCreateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -135,13 +149,13 @@ describe('BudgetCreateComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('createBudget', () => {
-    it('should create budget', () => {
-      component.createBudget(mockBudget);
-      expect(budgetsService.create).toHaveBeenCalledWith(mockBudget);
+  describe('createPermission', () => {
+    it('should create permission', () => {
+      component.createPermission(mockPermission);
+      expect(permissionsService.create).toHaveBeenCalledWith(mockPermission);
       expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'budgetDetails',
-        params: mockBudget,
+        cxRoute: 'permissionDetails',
+        params: mockPermission,
       });
     });
   });

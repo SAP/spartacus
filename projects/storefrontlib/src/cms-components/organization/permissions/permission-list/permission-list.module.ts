@@ -13,7 +13,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { PermissionsListComponent } from './permission-list.component';
+import { PermissionsListComponent } from './permissions-list.component';
 import { TableModule } from '../../../../shared/components/table/table.module';
 
 @NgModule({

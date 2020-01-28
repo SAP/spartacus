@@ -7,25 +7,26 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import {
   I18nTestingModule,
-  BudgetService,
-  Budget,
+  PermissionService,
+  Permission,
   OrgUnitService,
   Currency,
   CurrencyService,
-  B2BUnitNodeList,
+  EntitiesModel,
+  B2BUnitNode,
 } from '@spartacus/core';
 
-import { BudgetFormComponent } from './budget-form.component';
+import { PermissionFormComponent } from './permission-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
 
-const budgetCode = 'b1';
+const permissionCode = 'b1';
 
-const mockBudget: Budget = {
-  code: budgetCode,
-  name: 'budget1',
-  budget: 2230,
+const mockPermission: Permission = {
+  code: permissionCode,
+  name: 'permission1',
+  permission: 2230,
   currency: {
     isocode: 'USD',
     symbol: '$',
@@ -39,8 +40,8 @@ const mockBudget: Budget = {
   ],
 };
 
-const mockOrgUnits: B2BUnitNodeList = {
-  unitNodes: [
+const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
+  values: [
     {
       active: true,
       children: [],
@@ -63,9 +64,9 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
 }
 
-class MockBudgetService implements Partial<BudgetService> {
-  loadBudget = createSpy('loadBudget');
-  get = createSpy('get').and.returnValue(of(mockBudget));
+class MockPermissionService implements Partial<PermissionService> {
+  loadPermission = createSpy('loadPermission');
+  get = createSpy('get').and.returnValue(of(mockPermission));
   update = createSpy('update');
 }
 
@@ -93,9 +94,9 @@ class MockCurrencyService implements Partial<CurrencyService> {
   }
 }
 
-describe('BudgetFormComponent', () => {
-  let component: BudgetFormComponent;
-  let fixture: ComponentFixture<BudgetFormComponent>;
+describe('PermissionFormComponent', () => {
+  let component: PermissionFormComponent;
+  let fixture: ComponentFixture<PermissionFormComponent>;
   let orgUnitService: OrgUnitService;
   let currencyService: CurrencyService;
 
@@ -108,11 +109,11 @@ describe('BudgetFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [BudgetFormComponent, MockUrlPipe],
+      declarations: [PermissionFormComponent, MockUrlPipe],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: BudgetService, useClass: MockBudgetService },
+        { provide: PermissionService, useClass: MockPermissionService },
       ],
     }).compileComponents();
 
@@ -121,7 +122,7 @@ describe('BudgetFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BudgetFormComponent);
+    fixture = TestBed.createComponent(PermissionFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -152,12 +153,12 @@ describe('BudgetFormComponent', () => {
         })
         .unsubscribe();
       expect(orgUnitService.getList).toHaveBeenCalled();
-      expect(businessUnits).toEqual(mockOrgUnits.unitNodes);
+      expect(businessUnits).toEqual(mockOrgUnits.values);
     });
 
     it('should setup clean form', () => {
       spyOn(component.form, 'patchValue');
-      component.budgetData = null;
+      component.permissionData = null;
       component.ngOnInit();
       expect(component.form.patchValue).not.toHaveBeenCalledWith();
       expect(component.form.valid).toBeFalsy();
@@ -165,28 +166,28 @@ describe('BudgetFormComponent', () => {
 
     it('should setup form for update', () => {
       spyOn(component.form, 'patchValue').and.callThrough();
-      component.budgetData = mockBudget;
+      component.permissionData = mockPermission;
       component.ngOnInit();
-      expect(component.form.patchValue).toHaveBeenCalledWith(mockBudget);
+      expect(component.form.patchValue).toHaveBeenCalledWith(mockPermission);
       expect(component.form.valid).toBeTruthy();
     });
   });
 
-  describe('verifyBudget', () => {
+  describe('verifyPermission', () => {
     it('should not emit value if form is invalid', () => {
-      spyOn(component.submitBudget, 'emit');
+      spyOn(component.submitPermission, 'emit');
       const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
       submitButton.triggerEventHandler('click', null);
-      expect(component.submitBudget.emit).not.toHaveBeenCalled();
+      expect(component.submitPermission.emit).not.toHaveBeenCalled();
     });
 
     it('should emit value if form is valid', () => {
-      spyOn(component.submitBudget, 'emit');
-      component.budgetData = mockBudget;
+      spyOn(component.submitPermission, 'emit');
+      component.permissionData = mockPermission;
       component.ngOnInit();
       const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
       submitButton.triggerEventHandler('click', null);
-      expect(component.submitBudget.emit).toHaveBeenCalledWith(
+      expect(component.submitPermission.emit).toHaveBeenCalledWith(
         component.form.value
       );
     });
@@ -202,7 +203,7 @@ describe('BudgetFormComponent', () => {
 
   describe('currencySelected', () => {
     it('should setup currency', () => {
-      component.budgetData = mockBudget;
+      component.permissionData = mockPermission;
       component.ngOnInit();
       component.currencySelected(mockCurrencies[1]);
       expect(component.form.controls['currency'].value).toEqual({
@@ -213,9 +214,9 @@ describe('BudgetFormComponent', () => {
 
   describe('businessUnitSelected', () => {
     it('should setup business unit', () => {
-      component.budgetData = mockBudget;
+      component.permissionData = mockPermission;
       component.ngOnInit();
-      component.businessUnitSelected(mockOrgUnits.unitNodes[1]);
+      component.businessUnitSelected(mockOrgUnits.values[1]);
       expect(component.form.controls['orgUnit'].value).toEqual({
         uid: 'unitNode2',
       });

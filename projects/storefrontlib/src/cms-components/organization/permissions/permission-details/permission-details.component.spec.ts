@@ -6,24 +6,24 @@ import { of } from 'rxjs';
 import {
   I18nTestingModule,
   RoutingService,
-  BudgetService,
+  PermissionService,
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
-  Budget,
+  Permission,
 } from '@spartacus/core';
 
-import { BudgetDetailsComponent } from './budget-details.component';
+import { PermissionDetailsComponent } from './permission-details.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { TableModule } from '../../../../shared/components/table/table.module';
 
-const budgetCode = 'b1';
+const permissionCode = 'b1';
 
-const mockBudget: Budget = {
-  code: budgetCode,
-  name: 'budget1',
-  budget: 2230,
+const mockPermission: Permission = {
+  code: permissionCode,
+  name: 'permission1',
+  permission: 2230,
   currency: {
     symbol: '$',
     isocode: 'USD',
@@ -36,10 +36,10 @@ const mockBudget: Budget = {
     { name: 'costCenter2', code: 'cc2' },
   ],
 };
-const mockBudgetUI: any = {
-  code: budgetCode,
-  name: 'budget1',
-  budget: 2230,
+const mockPermissionUI: any = {
+  code: permissionCode,
+  name: 'permission1',
+  permission: 2230,
   currency: {
     isocode: 'USD',
     symbol: '$',
@@ -60,16 +60,16 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockBudgetService implements Partial<BudgetService> {
-  loadBudget = createSpy('loadBudget');
-  get = createSpy('get').and.returnValue(of(mockBudget));
+class MockPermissionService implements Partial<PermissionService> {
+  loadPermission = createSpy('loadPermission');
+  get = createSpy('get').and.returnValue(of(mockPermission));
   update = createSpy('update');
 }
 
 const mockRouterState = {
   state: {
     params: {
-      budgetCode,
+      permissionCode,
     },
   },
 };
@@ -94,30 +94,32 @@ class MockCxDatePipe {
   }
 }
 
-describe('BudgetDetailsComponent', () => {
-  let component: BudgetDetailsComponent;
-  let fixture: ComponentFixture<BudgetDetailsComponent>;
-  let budgetsService: MockBudgetService;
+describe('PermissionDetailsComponent', () => {
+  let component: PermissionDetailsComponent;
+  let fixture: ComponentFixture<PermissionDetailsComponent>;
+  let permissionsService: MockPermissionService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, TableModule, I18nTestingModule],
-      declarations: [BudgetDetailsComponent, MockUrlPipe],
+      declarations: [PermissionDetailsComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: BudgetService, useClass: MockBudgetService },
+        { provide: PermissionService, useClass: MockPermissionService },
       ],
     }).compileComponents();
 
-    budgetsService = TestBed.get(BudgetService as Type<BudgetService>);
+    permissionsService = TestBed.get(PermissionService as Type<
+      PermissionService
+    >);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BudgetDetailsComponent);
+    fixture = TestBed.createComponent(PermissionDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -127,32 +129,34 @@ describe('BudgetDetailsComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should load budget', () => {
+    it('should load permission', () => {
       component.ngOnInit();
-      let budget: any;
-      component.budget$
+      let permission: any;
+      component.permission$
         .subscribe(value => {
-          budget = value;
+          permission = value;
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(budgetsService.loadBudget).toHaveBeenCalledWith(budgetCode);
-      expect(budgetsService.get).toHaveBeenCalledWith(budgetCode);
-      expect(budget).toEqual(mockBudgetUI);
+      expect(permissionsService.loadPermission).toHaveBeenCalledWith(
+        permissionCode
+      );
+      expect(permissionsService.get).toHaveBeenCalledWith(permissionCode);
+      expect(permission).toEqual(mockPermissionUI);
     });
   });
 
   describe('update', () => {
-    it('should update budget', () => {
+    it('should update permission', () => {
       component.ngOnInit();
 
       component.update({ active: false });
-      expect(budgetsService.update).toHaveBeenCalledWith(budgetCode, {
+      expect(permissionsService.update).toHaveBeenCalledWith(permissionCode, {
         active: false,
       });
 
       component.update({ active: true });
-      expect(budgetsService.update).toHaveBeenCalledWith(budgetCode, {
+      expect(permissionsService.update).toHaveBeenCalledWith(permissionCode, {
         active: true,
       });
     });

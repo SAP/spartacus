@@ -16,9 +16,10 @@ import {
   CurrencyService,
   UrlCommandRoute,
   B2BUnitNode,
-  B2BUnitNodeList,
   OrgUnitService,
+  EntitiesModel,
 } from '@spartacus/core';
+import { FormUtils } from '../../../../shared/utils/forms/form-utils';
 
 @Component({
   selector: 'cx-permission-form',
@@ -52,9 +53,11 @@ export class PermissionFormComponent implements OnInit {
   @Output()
   clickBack = new EventEmitter<any>();
 
+  submitClicked = false;
+
   form: FormGroup = this.fb.group({
-    code: [''],
-    name: [''],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
     orgUnit: this.fb.group({
       uid: [null, Validators.required],
     }),
@@ -76,7 +79,7 @@ export class PermissionFormComponent implements OnInit {
     this.currencies$ = this.currencyService.getAll();
     this.businessUnits$ = this.orgUnitService.getList().pipe(
       filter(Boolean),
-      map((list: B2BUnitNodeList) => list.unitNodes)
+      map((list: EntitiesModel<B2BUnitNode>) => list.values)
     );
     if (this.permissionData && Object.keys(this.permissionData).length !== 0) {
       this.form.patchValue(this.permissionData);
@@ -96,8 +99,17 @@ export class PermissionFormComponent implements OnInit {
   }
 
   verifyPermission(): void {
+    this.submitClicked = true;
     if (!this.form.invalid) {
       this.submitPermission.emit(this.form.value);
     }
+  }
+
+  isNotValid(formControlName: string): boolean {
+    return FormUtils.isNotValidField(
+      this.form,
+      formControlName,
+      this.submitClicked
+    );
   }
 }

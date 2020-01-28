@@ -11,10 +11,15 @@ import {
 
 import {
   PermissionService,
-  PermissionListModel,
   RoutingService,
   CxDatePipe,
-  PermissionSearchConfig,
+  EntitiesModel,
+  B2BSearchConfig,
+  Permission,
+  Currency,
+  B2BUnitNode,
+  OrderApprovalPermissionType,
+  Period,
   θdiff as diff,
   θshallowEqualObjects as shallowEqualObjects,
 } from '@spartacus/core';
@@ -31,9 +36,9 @@ export class PermissionsListComponent implements OnInit {
   ) {}
 
   permissionsList$: Observable<any>;
-  private params$: Observable<PermissionSearchConfig>;
+  private params$: Observable<B2BSearchConfig>;
 
-  protected defaultParams: PermissionSearchConfig = {
+  protected defaultParams: B2BSearchConfig = {
     sort: 'byName',
     currentPage: 0,
     pageSize: 5,
@@ -55,18 +60,13 @@ export class PermissionsListComponent implements OnInit {
       switchMap(params =>
         this.permissionsService.getList(params).pipe(
           filter(Boolean),
-          map((permissionsList: PermissionListModel) => ({
+          map((permissionsList: EntitiesModel<Permission>) => ({
             sorts: permissionsList.sorts,
             pagination: permissionsList.pagination,
-            permissionsList: permissionsList.permissions.map(permission => ({
+            permissionsList: permissionsList.values.map(permission => ({
               code: permission.code,
-              name: permission.name,
-              amount: `${permission.permission} ${permission.currency.symbol}`,
-              startEndDate: `${this.cxDate.transform(
-                permission.startDate
-              )} - ${this.cxDate.transform(permission.endDate)}`,
-              parentUnit: permission.orgUnit.name,
-              orgUnitId: permission.orgUnit.uid,
+              treshold: `${permission.treshold} ${permission.currency &&
+                permission.currency.symbol}`,
             })),
           }))
         )
@@ -82,13 +82,13 @@ export class PermissionsListComponent implements OnInit {
     this.updateQueryParams({ currentPage });
   }
 
-  private updateQueryParams(newParams: Partial<PermissionSearchConfig>): void {
+  private updateQueryParams(newParams: Partial<B2BSearchConfig>): void {
     this.params$
       .pipe(
         map(params => diff(this.defaultParams, { ...params, ...newParams })),
         take(1)
       )
-      .subscribe((params: Partial<PermissionSearchConfig>) => {
+      .subscribe((params: Partial<B2BSearchConfig>) => {
         this.routingService.go(
           {
             cxRoute: 'permissions',
@@ -98,11 +98,7 @@ export class PermissionsListComponent implements OnInit {
       });
   }
 
-  private normalizeParams({
-    sort,
-    currentPage,
-    pageSize,
-  }): PermissionSearchConfig {
+  private normalizeParams({ sort, currentPage, pageSize }): B2BSearchConfig {
     return {
       sort,
       currentPage: parseInt(currentPage, 10),

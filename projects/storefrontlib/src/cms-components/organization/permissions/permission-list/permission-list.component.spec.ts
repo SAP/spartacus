@@ -6,34 +6,35 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   RoutingService,
-  BudgetService,
-  BudgetListModel,
-  BudgetSearchConfig,
+  PermissionService,
+  EntitiesModel,
+  B2BSearchConfig,
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
+  Permission,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { TableModule } from '../../../../shared/components/table/table.module';
 
-import { BudgetsListComponent } from './budgets-list.component';
+import { PermissionsListComponent } from './permissions-list.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 
-const defaultParams: BudgetSearchConfig = {
+const defaultParams: B2BSearchConfig = {
   sort: 'byName',
   currentPage: 0,
   pageSize: 5,
 };
 
-const mockBudgetList: BudgetListModel = {
-  budgets: [
+const mockPermissionList: EntitiesModel<Permission> = {
+  values: [
     {
       code: '1',
       name: 'b1',
-      budget: 2230,
+      permission: 2230,
       currency: {
         isocode: 'USD',
         symbol: '$',
@@ -45,7 +46,7 @@ const mockBudgetList: BudgetListModel = {
     {
       code: '2',
       name: 'b2',
-      budget: 2240,
+      permission: 2240,
       currency: {
         isocode: 'USD',
         symbol: '$',
@@ -59,8 +60,8 @@ const mockBudgetList: BudgetListModel = {
   sorts: [{ code: 'byName', selected: true }],
 };
 
-const mockBudgetUIList = {
-  budgetsList: [
+const mockPermissionUIList = {
+  permissionsList: [
     {
       code: '1',
       name: 'b1',
@@ -89,12 +90,12 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-const budgetList = new BehaviorSubject(mockBudgetList);
+const permissionList = new BehaviorSubject(mockPermissionList);
 
-class MockBudgetService implements Partial<BudgetService> {
-  loadBudgets = createSpy('loadBudgets');
+class MockPermissionService implements Partial<PermissionService> {
+  loadPermissions = createSpy('loadPermissions');
 
-  getList = createSpy('getList').and.returnValue(budgetList);
+  getList = createSpy('getList').and.returnValue(permissionList);
 }
 
 class MockRoutingService {
@@ -124,10 +125,10 @@ class MockCxDatePipe {
   }
 }
 
-describe('BudgetsListComponent', () => {
-  let component: BudgetsListComponent;
-  let fixture: ComponentFixture<BudgetsListComponent>;
-  let budgetsService: MockBudgetService;
+describe('PermissionsListComponent', () => {
+  let component: PermissionsListComponent;
+  let fixture: ComponentFixture<PermissionsListComponent>;
+  let permissionsService: MockPermissionService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -138,23 +139,25 @@ describe('BudgetsListComponent', () => {
         TableModule,
         I18nTestingModule,
       ],
-      declarations: [BudgetsListComponent, MockUrlPipe],
+      declarations: [PermissionsListComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: BudgetService, useClass: MockBudgetService },
+        { provide: PermissionService, useClass: MockPermissionService },
       ],
     }).compileComponents();
 
-    budgetsService = TestBed.get(BudgetService as Type<BudgetService>);
+    permissionsService = TestBed.get(PermissionService as Type<
+      PermissionService
+    >);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BudgetsListComponent);
+    fixture = TestBed.createComponent(PermissionsListComponent);
     component = fixture.componentInstance;
-    budgetList.next(mockBudgetList);
+    permissionList.next(mockPermissionList);
     fixture.detectChanges();
   });
 
@@ -162,31 +165,35 @@ describe('BudgetsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display No budgets found page if no budgets are found', () => {
-    const emptyBudgetList: any = {
-      budgets: [],
+  it('should display No permissions found page if no permissions are found', () => {
+    const emptyPermissionList: EntitiesModel<Permission> = {
+      values: [],
       pagination: { totalResults: 0, sort: 'byName' },
       sorts: [{ code: 'byName', selected: true }],
     };
 
-    budgetList.next(emptyBudgetList);
+    permissionList.next(emptyPermissionList);
     fixture.detectChanges();
 
-    expect(fixture.debugElement.query(By.css('.cx-no-budgets'))).not.toBeNull();
+    expect(
+      fixture.debugElement.query(By.css('.cx-no-permissions'))
+    ).not.toBeNull();
   });
 
   describe('ngOnInit', () => {
-    it('should read budget list', () => {
+    it('should read permission list', () => {
       component.ngOnInit();
-      let budgetsList: any;
-      component.budgetsList$
+      let permissionsList: any;
+      component.permissionsList$
         .subscribe(value => {
-          budgetsList = value;
+          permissionsList = value;
         })
         .unsubscribe();
-      expect(budgetsService.loadBudgets).toHaveBeenCalledWith(defaultParams);
-      expect(budgetsService.getList).toHaveBeenCalledWith(defaultParams);
-      expect(budgetsList).toEqual(mockBudgetUIList);
+      expect(permissionsService.loadPermissions).toHaveBeenCalledWith(
+        defaultParams
+      );
+      expect(permissionsService.getList).toHaveBeenCalledWith(defaultParams);
+      expect(permissionsList).toEqual(mockPermissionUIList);
     });
   });
 
@@ -196,7 +203,7 @@ describe('BudgetsListComponent', () => {
       component.changeSortCode('byCode');
       expect(routingService.go).toHaveBeenCalledWith(
         {
-          cxRoute: 'budgets',
+          cxRoute: 'permissions',
         },
         {
           sort: 'byCode',
@@ -211,7 +218,7 @@ describe('BudgetsListComponent', () => {
       component.pageChange(2);
       expect(routingService.go).toHaveBeenCalledWith(
         {
-          cxRoute: 'budgets',
+          cxRoute: 'permissions',
         },
         {
           currentPage: 2,
