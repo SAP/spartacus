@@ -7,13 +7,13 @@ export function verifyGroupSkippingFromConfig(config: GroupSkippingConfig) {
   Object.keys(config).forEach(page => {
     describe(page, () => {
       it('should tab through group skippers', () => {
-        testGroupSkipperPagesFromConfig(config[page]);
+        verifyGroupSkippingOnPageFromConfig(config[page]);
       });
     });
   });
 }
 
-export function testGroupSkipperPagesFromConfig(
+export function verifyGroupSkippingOnPageFromConfig(
   config: GroupSkippingPageConfig
 ) {
   cy.visit(config.pageUrl);
@@ -25,7 +25,7 @@ export function testGroupSkipperPagesFromConfig(
 
   // Should tab through anchor tags
   for (let i = 0; i < config.expectedSkipperCount; i++) {
-    cy.tab();
+    cy.pressTab();
     checkFocusIsWithinGroupSkipper();
   }
 
