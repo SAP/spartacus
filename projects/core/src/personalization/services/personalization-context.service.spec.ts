@@ -65,7 +65,6 @@ const mockContentPage: Page = {
     },
   },
 };
-
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of(mockContentPage);
