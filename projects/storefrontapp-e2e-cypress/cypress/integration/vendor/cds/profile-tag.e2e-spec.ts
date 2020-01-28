@@ -2,7 +2,13 @@ import * as anonymousConsents from '../../../helpers/anonymous-consents';
 import { navigation } from '../../../helpers/navigation';
 import { cdsHelper } from '../../../helpers/vendor/cds/cds';
 import { profileTagHelper } from '../../../helpers/vendor/cds/profile-tag';
+import * as loginHelper from '../../../helpers/login';
+
 describe('Profile-tag component', () => {
+  beforeEach(() => {
+    cy.server();
+    cdsHelper.setUpMocks();
+  });  
   beforeEach(() => {
     cy.server();
     cdsHelper.setUpMocks();
@@ -42,4 +48,31 @@ describe('Profile-tag component', () => {
       );
     });
   });
+  it.only('should call the login endpont of EC on a successful login', () => {
+    const alias = 'loginNotification';
+    cy.route('*/users/current/loginnotification').as(alias)
+
+    waitForCMSComponents();
+    loginHelper.registerUser();
+    loginHelper.loginUser();
+
+    cy.wait(`@${alias}`).then((xhr) => {
+      cy.log('retreived the response');
+      cy.log(JSON.stringify(xhr));
+    })    
+
+  }); 
+
+  it('should not call the login endpont of EC on a failed login', () => {
+    loginHelper.loginWithBadCredentials();
+  });  
+
+  function waitForCMSComponents(timeout=5000) {
+    navigation.visitHomePage({
+      options: {
+        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
+      },
+    });
+    cy.get('cx-profiletag', {timeout});    
+  }
 });

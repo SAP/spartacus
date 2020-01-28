@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { OccEndpointsService } from '@spartacus/core';
 import { merge, Observable } from 'rxjs';
 import { filter, mapTo, switchMap, tap } from 'rxjs/operators';
 import {
@@ -17,12 +19,15 @@ export class ProfileTagInjectorService {
   private injectionsEvents$: Observable<boolean> = merge(
     this.notifyProfileTagOfConsentGranted(),
     this.notifyProfileTagOfCartChange(),
-    this.notifyProfileTagOfPageLoaded()
+    this.notifyProfileTagOfPageLoaded(),
+    this.notifyEcOfLoginSuccessful()
   );
 
   constructor(
     private profileTagEventTracker: ProfileTagEventService,
-    private spartacusEventTracker: SpartacusEventService
+    private spartacusEventTracker: SpartacusEventService,
+    protected http: HttpClient,
+    private occEndpoints: OccEndpointsService    
   ) {}
 
   track(): Observable<boolean> {
@@ -63,4 +68,15 @@ export class ProfileTagInjectorService {
       })
     );
   }
+
+  private notifyEcOfLoginSuccessful(): Observable<boolean> {
+    return this.spartacusEventTracker.loginSuccessful().pipe(
+      switchMap(_ => {
+        return this.http.post(
+          `${this.occEndpoints.getBaseEndpoint()}/users/current/loginnotification`,
+          {}
+        ).pipe(mapTo(true));
+      })
+    );
+  } 
 }
