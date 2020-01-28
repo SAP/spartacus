@@ -1,15 +1,14 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { Budget, BudgetListModel } from '../../../model/budget.model';
+import { Budget } from '../../../model/budget.model';
+import { EntitiesModel } from '../../../model/misc.model';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { BudgetSearchConfig } from '../../model/search-config';
-import { serializeBudgetSearchConfig } from '../../utils/budgets';
+import { B2BSearchConfig } from '../../model/search-config';
+import { denormalizeB2BSearch } from '../../utils/serializer';
 import {
-  BUDGET_ENTITIES,
-  BUDGET_FEATURE,
-  BUDGET_LISTS,
   BudgetManagement,
+  BUDGET_FEATURE,
   OrganizationState,
   StateWithOrganization,
 } from '../organization-state';
@@ -28,7 +27,7 @@ export const getBudgetsState: MemoizedSelector<
   EntityLoaderState<Budget>
 > = createSelector(
   getBudgetManagementState,
-  (state: BudgetManagement) => state && state[BUDGET_ENTITIES]
+  (state: BudgetManagement) => state && state.entities
 );
 
 export const getBudgetState = (
@@ -39,31 +38,13 @@ export const getBudgetState = (
     (state: EntityLoaderState<Budget>) => entityStateSelector(state, budgetCode)
   );
 
-// TODO: better mechanism for denormalization
-// create service encapsulating denormalization
-
 export const getBudgetList = (
-  params: BudgetSearchConfig
-): MemoizedSelector<StateWithOrganization, LoaderState<BudgetListModel>> =>
+  params: B2BSearchConfig
+): MemoizedSelector<
+  StateWithOrganization,
+  LoaderState<EntitiesModel<Budget>>
+> =>
   createSelector(
     getBudgetManagementState,
-    (state: BudgetManagement) => {
-      const list: any = entityStateSelector(
-        state[BUDGET_LISTS],
-        serializeBudgetSearchConfig(params)
-      );
-      if (!list.value || !list.value.ids) {
-        return list;
-      }
-      const res: LoaderState<BudgetListModel> = Object.assign({}, list, {
-        value: {
-          budgets: list.value.ids.map(
-            code => entityStateSelector(state[BUDGET_ENTITIES], code).value
-          ),
-          pagination: list.value.pagination,
-          sorts: list.value.sorts,
-        },
-      });
-      return res;
-    }
+    (state: BudgetManagement) => denormalizeB2BSearch<Budget>(state, params)
   );

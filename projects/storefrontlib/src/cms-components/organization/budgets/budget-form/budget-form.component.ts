@@ -16,8 +16,8 @@ import {
   CurrencyService,
   UrlCommandRoute,
   B2BUnitNode,
-  B2BUnitNodeList,
   OrgUnitService,
+  EntitiesModel,
 } from '@spartacus/core';
 
 @Component({
@@ -76,7 +76,7 @@ export class BudgetFormComponent implements OnInit {
     this.currencies$ = this.currencyService.getAll();
     this.businessUnits$ = this.orgUnitService.getList().pipe(
       filter(Boolean),
-      map((list: B2BUnitNodeList) => list.unitNodes)
+      map((list: EntitiesModel<B2BUnitNode>) => list.values)
     );
     if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
       this.form.patchValue(this.budgetData);

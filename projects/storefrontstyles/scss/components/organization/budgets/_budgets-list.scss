@@ -1,0 +1,8 @@
+%cx-budgets-list {
+  .cx-textalign {
+    @include media-breakpoint-down(xs) {
+      text-align: center;
+      margin: auto;
+    }
+  }
+}

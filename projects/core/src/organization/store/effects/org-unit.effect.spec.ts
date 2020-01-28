@@ -28,7 +28,7 @@ const orgUnit: B2BUnitNode = {
 
 class MockOrgUnitConnector {
   get = createSpy().and.returnValue(of(orgUnit));
-  getList = createSpy().and.returnValue(of({ unitNodes: [orgUnit] }));
+  getList = createSpy().and.returnValue(of({ values: [orgUnit] }));
   create = createSpy().and.returnValue(of(orgUnit));
   update = createSpy().and.returnValue(of(orgUnit));
 }
@@ -83,7 +83,10 @@ describe('OrgUnit Effects', () => {
     it('should return LoadOrgUnitFail action if orgUnit not updated', () => {
       orgUnitConnector.get = createSpy().and.returnValue(throwError(error));
       const action = new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId });
-      const completion = new OrgUnitActions.LoadOrgUnitFail(orgUnitId, error);
+      const completion = new OrgUnitActions.LoadOrgUnitFail({
+        orgUnitId,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -97,7 +100,7 @@ describe('OrgUnit Effects', () => {
       const action = new OrgUnitActions.LoadOrgUnits({ userId });
       const completion = new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]);
       const completion2 = new OrgUnitActions.LoadOrgUnitsSuccess({
-        orgUnitPage: { ids: [orgUnitId] },
+        page: { ids: [orgUnitId] },
       });
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion, c: completion2 });

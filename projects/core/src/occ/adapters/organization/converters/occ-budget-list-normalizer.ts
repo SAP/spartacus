@@ -5,18 +5,22 @@ import {
   ConverterService,
 } from '../../../../util/converter.service';
 import { BUDGET_NORMALIZER } from '../../../../organization/connectors/budget/converters';
-import { BudgetListModel } from '../../../../model/budget.model';
+import { EntitiesModel } from '../../../../model/misc.model';
+import { Budget } from '../../../../model/budget.model';
 
 @Injectable()
 export class OccBudgetListNormalizer
-  implements Converter<Occ.BudgetsList, BudgetListModel> {
+  implements Converter<Occ.BudgetsList, EntitiesModel<Budget>> {
   constructor(private converter: ConverterService) {}
 
-  convert(source: Occ.BudgetsList, target?: BudgetListModel): BudgetListModel {
+  convert(
+    source: Occ.BudgetsList,
+    target?: EntitiesModel<Budget>
+  ): EntitiesModel<Budget> {
     if (target === undefined) {
       target = {
         ...(source as any),
-        budgets: source.budgets.map(budget => ({
+        values: source.budgets.map(budget => ({
           ...this.converter.convert(budget, BUDGET_NORMALIZER),
         })),
       };

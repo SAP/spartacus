@@ -9,10 +9,10 @@ import {
   PERMISSION_NORMALIZER,
   PERMISSIONS_NORMALIZER,
 } from '../../../organization/connectors/permission/converters';
-import { Permission } from '../../../model/permission.model';
-import { PermissionSearchConfig } from '../../../organization/model/search-config';
+import { B2BSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
-import PermissionsList = Occ.PermissionsList;
+import { Permission } from '../../../model/permission.model';
+import { EntitiesModel } from '../../../model/misc.model';
 
 @Injectable()
 export class OccPermissionAdapter implements PermissionAdapter {
@@ -24,16 +24,16 @@ export class OccPermissionAdapter implements PermissionAdapter {
 
   load(userId: string, permissionCode: string): Observable<Permission> {
     return this.http
-      .get(this.getPermissionEndpoint(userId, permissionCode))
+      .get<Occ.Permission>(this.getPermissionEndpoint(userId, permissionCode))
       .pipe(this.converter.pipeable(PERMISSION_NORMALIZER));
   }
 
   loadList(
     userId: string,
-    params?: PermissionSearchConfig
-  ): Observable<PermissionsList> {
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<Permission>> {
     return this.http
-      .get<PermissionsList>(this.getPermissionsEndpoint(userId, params))
+      .get<Occ.PermissionsList>(this.getPermissionsEndpoint(userId, params))
       .pipe(this.converter.pipeable(PERMISSIONS_NORMALIZER));
   }
 
@@ -65,7 +65,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
 
   protected getPermissionsEndpoint(
     userId: string,
-    params?: PermissionSearchConfig
+    params?: B2BSearchConfig
   ): string {
     return this.occEndpoints.getUrl('permissions', { userId }, params);
   }

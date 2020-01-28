@@ -6,8 +6,6 @@ import { BudgetActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
-  BUDGET_ENTITIES,
-  BUDGET_LISTS,
   BudgetManagement,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
@@ -66,8 +64,8 @@ describe('Budget Selectors', () => {
 
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
       expect(result).toEqual({
-        [BUDGET_ENTITIES]: { entities },
-        [BUDGET_LISTS]: { entities: {} },
+        entities: { entities },
+        list: { entities: {} },
       });
     });
   });

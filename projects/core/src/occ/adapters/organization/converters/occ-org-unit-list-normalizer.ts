@@ -5,21 +5,22 @@ import {
   ConverterService,
 } from '../../../../util/converter.service';
 import { B2BUNIT_NORMALIZER } from '../../../../organization/connectors/org-unit/converters';
-import { B2BUnitNodeList } from '../../../../model/org-unit.model';
+import { B2BUnitNode } from '../../../../model/org-unit.model';
+import { EntitiesModel } from '../../../../model/misc.model';
 
 @Injectable()
 export class OccOrgUnitListNormalizer
-  implements Converter<Occ.B2BUnitNodeList, B2BUnitNodeList> {
+  implements Converter<Occ.B2BUnitNodeList, EntitiesModel<B2BUnitNode>> {
   constructor(private converter: ConverterService) {}
 
   convert(
     source: Occ.B2BUnitNodeList,
-    target?: B2BUnitNodeList
-  ): B2BUnitNodeList {
+    target?: EntitiesModel<B2BUnitNode>
+  ): EntitiesModel<B2BUnitNode> {
     if (target === undefined) {
       target = {
         ...(source as any),
-        unitNodes: source.unitNodes.map(unitNode => ({
+        values: source.unitNodes.map(unitNode => ({
           ...this.converter.convert(unitNode, B2BUNIT_NORMALIZER),
         })),
       };

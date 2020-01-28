@@ -42,8 +42,14 @@ export interface User {
 
 export interface ListModel {
   ids: string[];
-  pagination: PaginationModel;
-  sorts: SortModel[];
+  pagination?: PaginationModel;
+  sorts?: SortModel[];
+}
+
+export interface EntitiesModel<T> {
+  values: T[];
+  pagination?: PaginationModel;
+  sorts?: SortModel[];
 }
 
 export interface PaginationModel {
