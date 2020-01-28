@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Cart, CartService, ConsentService, OrderEntry } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Cart, CartService, ConsentService } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 
@@ -42,14 +42,10 @@ export class SpartacusEventService {
   /**
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
-  cartChanged(): Observable<{ entries: OrderEntry[]; cart: Cart }> {
-    return combineLatest([
-      this.cartService.getEntries(),
-      this.cartService.getActive(),
-    ]).pipe(
-      skipWhile(([entries]) => entries.length === 0),
-      map(([entries, cart]) => ({
-        entries,
+  cartChanged(): Observable<{ cart: Cart }> {
+    return this.cartService.getActive().pipe(
+      skipWhile(cart => !Boolean(cart.entries) || cart.entries.length === 0),
+      map(cart => ({
         cart,
       }))
     );

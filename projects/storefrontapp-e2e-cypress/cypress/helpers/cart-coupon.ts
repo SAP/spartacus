@@ -1,17 +1,90 @@
 import { user } from '../sample-data/checkout-flow';
 
+export const productCode1 = '300938';
+export const couponCode1 = 'CouponForCart';
+export const productCode2 = '493683';
+export const couponCode2 = 'CouponForProduct';
+export const productCode3 = '1986316';
+export const couponCode3 = 'FreeGiftCoupon';
+export const giftProductCode = '443175';
+
+export const productCode4 = '1934793';
+export const myCouponCode1 = 'springfestival';
+export const myCouponCode2 = 'midautumn';
+
 export function addProductToCart(productCode: string) {
   cy.get('cx-searchbox input')
     .clear()
-    .type(`${productCode}{enter}`);
+    .type(`${productCode}{enter}`, { force: true });
   cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
+    .getAllByText(/Add To Cart/i)
+    .first()
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-code').should('contain', productCode);
     cy.getByText(/view cart/i).click();
   });
 }
+
+export function verifyEmptyCoupons() {
+  cy.get('.cx-customer-coupons').should('not.exist');
+}
+
+export function verifyMyCoupons() {
+  cy.get('.cx-customer-coupons .coupon-id').should('have.length', 2);
+  cy.get('.cx-customer-coupons .coupon-id').should('contain', myCouponCode1);
+  cy.get('.cx-customer-coupons .coupon-id').should('contain', myCouponCode2);
+}
+
+export function filterAndApplyMyCoupons(
+  filterCode: string,
+  couponCode: string
+) {
+  cy.get('#applyVoucher').type(filterCode);
+  cy.get('.cx-customer-coupons .coupon-id').should('have.length', 1);
+  cy.get('.cx-customer-coupons .coupon-id').should('contain', couponCode);
+  cy.get('.cx-customer-coupons a').click({ force: true });
+  cy.get('cx-global-message').should(
+    'contain',
+    `${couponCode} has been applied`
+  );
+  getCouponItemFromCart(couponCode).should('exist');
+  cy.get('.cx-customer-coupons .coupon-id').should('not.contain', couponCode);
+  verifyMyCouponsAfterApply(couponCode);
+}
+
+export function verifyMyCouponsAfterApply(couponCode: string) {
+  navigateToCheckoutPage();
+  navigateToCartPage();
+  getCouponItemFromCart(couponCode).should('exist');
+  cy.get('.cx-customer-coupons .coupon-id').should('not.contain', couponCode);
+}
+
+export function claimCoupon(couponCode: string) {
+  cy.request({
+    method: 'POST',
+    url: `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics-spa/users/current/customercoupons/${couponCode}/claim`,
+    headers: {
+      Authorization: `bearer ${
+        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
+          .token.access_token
+      }`,
+    },
+  }).then(response => {
+    expect(response.status).to.eq(201);
+  });
+}
+
+export function applyMyCouponAsAnonymous(couponCode: string) {
+  addProductToCart(productCode4);
+  cy.get('#applyVoucher').type(couponCode);
+  cy.get('.col-md-4 > .btn').click();
+  getCouponItemFromCart(couponCode).should('not.exist');
+  cy.get('cx-global-message .alert').should('exist');
+}
+
 export function applyCoupon(couponCode: string) {
   cy.get('#applyVoucher').type(couponCode);
   cy.get('.col-md-4 > .btn').click();
@@ -45,7 +118,7 @@ export function placeOrder(stateAuth: any) {
       return cy.requirePlacedOrder(stateAuth, cartId);
     });
 }
-export function varifyOrderHistory(
+export function verifyOrderHistory(
   orderData: any,
   couponCode?: string,
   totalPrice?: string,
@@ -72,6 +145,45 @@ export function verifyCouponAndPromotion(
     cy.get('.cx-summary-amount').should('contain', totalPrice);
     cy.get(':nth-child(4)').should('contain', `You saved: ${savedPrice}`);
   });
+}
+
+export function verifyCouponAndSavedPrice(
+  couponCode: string,
+  savedPrice: string
+) {
+  //verify coupon in cart
+  getCouponItemFromCart(couponCode).should('exist');
+
+  //verify saved price
+  cy.get('.cx-summary-partials').within(() => {
+    cy.get('.cx-summary-row').contains(`You saved: ${savedPrice}`);
+  });
+}
+
+export function verifyCouponAndSavedPriceInOrder(
+  couponCode: string,
+  savedPrice: string
+) {
+  //verify coupon in order
+  getCouponItemOrderSummary(couponCode).should('exist');
+
+  //verify saved price
+  cy.get('.cx-summary-partials').within(() => {
+    cy.get('.cx-summary-row').contains(`You saved: ${savedPrice}`);
+  });
+}
+
+export function verifyOrderHistoryForCouponAndPrice(
+  orderData: any,
+  couponCode?: string,
+  savedPrice?: string
+) {
+  navigateToOrderHistoryPage(orderData);
+  if (couponCode) {
+    verifyCouponAndSavedPriceInOrder(couponCode, savedPrice);
+  } else {
+    verifyNoCouponInOrderHistory();
+  }
 }
 
 export function verifyGiftProductCoupon(productCode: string) {
@@ -120,10 +232,6 @@ export function navigateToCartPage() {
 export function navigateToOrderHistoryPage(orderData: any) {
   cy.visit('my-account/orders');
   cy.get('cx-order-history h3').should('contain', 'Order history');
-  cy.get('.cx-order-history-total > .cx-order-history-value').should(
-    'contain',
-    orderData.body.totalPrice.formattedValue
-  );
   cy.get('.cx-order-history-code  ').within(() => {
     cy.get('.cx-order-history-value')
       .should('contain', orderData.body.code)
@@ -141,4 +249,41 @@ export function getCouponItemOrderSummary(couponCode: string) {
   return cy
     .get('cx-order-summary cx-applied-coupons')
     .contains('.cx-applied-coupon-code', couponCode);
+}
+
+export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
+  const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
+    .auth;
+  addProductToCart(productCode4);
+  verifyEmptyCoupons();
+  claimCoupon(myCouponCode1);
+  claimCoupon(myCouponCode2);
+
+  navigateToCartPage();
+  verifyMyCoupons();
+  filterAndApplyMyCoupons('autumn', myCouponCode2);
+  applyCoupon(couponCode1);
+  //don't verify the total price which easy to changed by sample data
+  verifyCouponAndSavedPrice(myCouponCode2, '$30');
+
+  placeOrder(stateAuth).then(orderData => {
+    verifyOrderHistoryForCouponAndPrice(orderData, myCouponCode2, '$30');
+  });
+}
+
+export function verifyCustomerCouponRemoving() {
+  const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
+    .auth;
+  claimCoupon(myCouponCode2);
+  addProductToCart(productCode4);
+  filterAndApplyMyCoupons('autumn', myCouponCode2);
+  verifyCouponAndSavedPrice(myCouponCode2, '$20');
+
+  navigateToCheckoutPage();
+  navigateToCartPage();
+  removeCoupon(myCouponCode2);
+
+  placeOrder(stateAuth).then(orderData => {
+    verifyOrderHistory(orderData);
+  });
 }

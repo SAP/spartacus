@@ -8,5 +8,6 @@ export interface FeatureToggles {
     level?: string;
     consignmentTracking?: boolean;
     anonymousConsents?: boolean;
+    saveForLater?: boolean;
   };
 }
