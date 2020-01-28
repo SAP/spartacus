@@ -24,10 +24,10 @@ export class BudgetEffects {
         }),
         catchError(error =>
           of(
-            new BudgetActions.LoadBudgetFail(
+            new BudgetActions.LoadBudgetFail({
               budgetCode,
-              makeErrorSerializable(error)
-            )
+              error: makeErrorSerializable(error),
+            })
           )
         )
       );
@@ -77,10 +77,10 @@ export class BudgetEffects {
         map(data => new BudgetActions.CreateBudgetSuccess(data)),
         catchError(error =>
           of(
-            new BudgetActions.CreateBudgetFail(
-              payload.budget.code,
-              makeErrorSerializable(error)
-            )
+            new BudgetActions.CreateBudgetFail({
+              budgetCode: payload.budget.code,
+              error: makeErrorSerializable(error),
+            })
           )
         )
       )
@@ -100,10 +100,10 @@ export class BudgetEffects {
           map(data => new BudgetActions.UpdateBudgetSuccess(data)),
           catchError(error =>
             of(
-              new BudgetActions.UpdateBudgetFail(
-                payload.budget.code,
-                makeErrorSerializable(error)
-              )
+              new BudgetActions.UpdateBudgetFail({
+                budgetCode: payload.budget.code,
+                error: makeErrorSerializable(error),
+              })
             )
           )
         )

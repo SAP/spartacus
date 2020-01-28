@@ -14,7 +14,7 @@ const query = 'pageSize=&currentPage=2&sort=';
 
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
-const budgetPage = { ids: [budgetCode], pagination, sorts };
+const page = { ids: [budgetCode], pagination, sorts };
 
 describe('Budget Actions', () => {
   describe('LoadBudget Actions', () => {
@@ -38,11 +38,11 @@ describe('Budget Actions', () => {
 
     describe('LoadBudgetFail', () => {
       it('should create the action', () => {
-        const action = new BudgetActions.LoadBudgetFail(budgetCode, error);
+        const action = new BudgetActions.LoadBudgetFail({ budgetCode, error });
 
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGET_FAIL,
-          payload: error,
+          payload: { budgetCode, error },
           meta: StateEntityLoaderActions.entityFailMeta(
             BUDGET_ENTITIES,
             budgetCode,
@@ -103,13 +103,13 @@ describe('Budget Actions', () => {
     describe('LoadBudgetsSuccess', () => {
       it('should create the action', () => {
         const action = new BudgetActions.LoadBudgetsSuccess({
-          budgetPage,
+          page,
           params,
         });
 
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGETS_SUCCESS,
-          payload: { budgetPage, params },
+          payload: { page, params },
           meta: StateEntityLoaderActions.entitySuccessMeta(BUDGET_LIST, query),
         });
       });
@@ -134,11 +134,17 @@ describe('Budget Actions', () => {
 
     describe('CreateBudgetFail', () => {
       it('should create the action', () => {
-        const action = new BudgetActions.CreateBudgetFail(budgetCode, error);
+        const action = new BudgetActions.CreateBudgetFail({
+          budgetCode,
+          error,
+        });
 
         expect({ ...action }).toEqual({
           type: BudgetActions.CREATE_BUDGET_FAIL,
-          payload: error,
+          payload: {
+            budgetCode,
+            error,
+          },
           meta: StateEntityLoaderActions.entityFailMeta(
             BUDGET_ENTITIES,
             budgetCode,
@@ -186,11 +192,17 @@ describe('Budget Actions', () => {
 
     describe('UpdateBudgetFail', () => {
       it('should create the action', () => {
-        const action = new BudgetActions.UpdateBudgetFail(budgetCode, error);
+        const action = new BudgetActions.UpdateBudgetFail({
+          budgetCode,
+          error,
+        });
 
         expect({ ...action }).toEqual({
           type: BudgetActions.UPDATE_BUDGET_FAIL,
-          payload: error,
+          payload: {
+            budgetCode,
+            error,
+          },
           meta: StateEntityLoaderActions.entityFailMeta(
             BUDGET_ENTITIES,
             budgetCode,

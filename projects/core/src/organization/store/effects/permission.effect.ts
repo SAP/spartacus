@@ -25,10 +25,10 @@ export class PermissionEffects {
         }),
         catchError(error =>
           of(
-            new PermissionActions.LoadPermissionFail(
+            new PermissionActions.LoadPermissionFail({
               permissionCode,
-              makeErrorSerializable(error)
-            )
+              error: makeErrorSerializable(error),
+            })
           )
         )
       );
@@ -79,10 +79,10 @@ export class PermissionEffects {
         map(data => new PermissionActions.CreatePermissionSuccess(data)),
         catchError(error =>
           of(
-            new PermissionActions.CreatePermissionFail(
-              payload.permission.code,
-              makeErrorSerializable(error)
-            )
+            new PermissionActions.CreatePermissionFail({
+              permissionCode: payload.permission.code,
+              error: makeErrorSerializable(error),
+            })
           )
         )
       )
@@ -103,10 +103,10 @@ export class PermissionEffects {
           map(data => new PermissionActions.UpdatePermissionSuccess(data)),
           catchError(error =>
             of(
-              new PermissionActions.UpdatePermissionFail(
-                payload.permission.code,
-                makeErrorSerializable(error)
-              )
+              new PermissionActions.UpdatePermissionFail({
+                permissionCode: payload.permission.code,
+                error: makeErrorSerializable(error),
+              })
             )
           )
         )

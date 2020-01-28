@@ -14,7 +14,6 @@ import {
   getBudgetList,
 } from '../store/selectors/budget.selector';
 import { B2BSearchConfig } from '../model/search-config';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 
 @Injectable()
 export class BudgetService {

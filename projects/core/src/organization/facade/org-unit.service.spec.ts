@@ -127,7 +127,7 @@ describe('OrgUnitService', () => {
       );
       store.dispatch(
         new OrgUnitActions.LoadOrgUnitsSuccess({
-          orgUnitPage: {
+          page: {
             ids: [orgUnit.id, orgUnit2.id],
           },
         })

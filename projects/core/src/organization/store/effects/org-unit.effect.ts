@@ -24,10 +24,10 @@ export class OrgUnitEffects {
         }),
         catchError(error =>
           of(
-            new OrgUnitActions.LoadOrgUnitFail(
+            new OrgUnitActions.LoadOrgUnitFail({
               orgUnitId,
-              makeErrorSerializable(error)
-            )
+              error: makeErrorSerializable(error),
+            })
           )
         )
       );

@@ -36,8 +36,8 @@ export class LoadOrgUnit extends EntityLoadAction {
 
 export class LoadOrgUnitFail extends EntityFailAction {
   readonly type = LOAD_ORG_UNIT_FAIL;
-  constructor(orgUnitId: string, public payload: any) {
-    super(ORG_UNIT_ENTITIES, orgUnitId, payload);
+  constructor(public payload: { orgUnitId: string; error: any }) {
+    super(ORG_UNIT_ENTITIES, payload.orgUnitId, payload.error);
   }
 }
 

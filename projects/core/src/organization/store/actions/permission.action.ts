@@ -37,20 +37,17 @@ export class LoadPermission extends EntityLoadAction {
 
 export class LoadPermissionFail extends EntityFailAction {
   readonly type = LOAD_PERMISSION_FAIL;
-  constructor(permissionCode: string, public payload: any) {
-    super(PERMISSION_ENTITIES, permissionCode, payload);
+  constructor(public payload: { permissionCode: string; error: any }) {
+    super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
   }
 }
 
 export class LoadPermissionSuccess extends EntitySuccessAction {
   readonly type = LOAD_PERMISSION_SUCCESS;
-
   constructor(public payload: Permission[]) {
     super(PERMISSION_ENTITIES, payload.map(permission => permission.code));
   }
 }
-
-// TODO: create standard for query params serializers
 
 export class LoadPermissions extends EntityLoadAction {
   readonly type = LOAD_PERMISSIONS;
@@ -96,8 +93,8 @@ export class CreatePermission extends EntityLoadAction {
 
 export class CreatePermissionFail extends EntityFailAction {
   readonly type = CREATE_PERMISSION_FAIL;
-  constructor(permissionCode: string, public payload: any) {
-    super(PERMISSION_ENTITIES, permissionCode, payload);
+  constructor(public payload: { permissionCode: string; error: any }) {
+    super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
   }
 }
 
@@ -123,8 +120,8 @@ export class UpdatePermission extends EntityLoadAction {
 
 export class UpdatePermissionFail extends EntityFailAction {
   readonly type = UPDATE_PERMISSION_FAIL;
-  constructor(permissionCode: string, public payload: any) {
-    super(PERMISSION_ENTITIES, permissionCode, payload);
+  constructor(public payload: { permissionCode: string; error: any }) {
+    super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
   }
 }
 

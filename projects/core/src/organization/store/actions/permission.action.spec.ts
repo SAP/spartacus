@@ -14,7 +14,7 @@ const query = 'pageSize=&currentPage=2&sort=';
 
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
-const permissionPage = { ids: [permissionCode], pagination, sorts };
+const page = { ids: [permissionCode], pagination, sorts };
 
 describe('Permission Actions', () => {
   describe('LoadPermission Actions', () => {
@@ -38,14 +38,17 @@ describe('Permission Actions', () => {
 
     describe('LoadPermissionFail', () => {
       it('should create the action', () => {
-        const action = new PermissionActions.LoadPermissionFail(
+        const action = new PermissionActions.LoadPermissionFail({
           permissionCode,
-          error
-        );
+          error,
+        });
 
         expect({ ...action }).toEqual({
           type: PermissionActions.LOAD_PERMISSION_FAIL,
-          payload: error,
+          payload: {
+            permissionCode,
+            error,
+          },
           meta: StateEntityLoaderActions.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionCode,
@@ -113,13 +116,13 @@ describe('Permission Actions', () => {
     describe('LoadPermissionsSuccess', () => {
       it('should create the action', () => {
         const action = new PermissionActions.LoadPermissionsSuccess({
-          permissionPage,
+          page,
           params,
         });
 
         expect({ ...action }).toEqual({
           type: PermissionActions.LOAD_PERMISSIONS_SUCCESS,
-          payload: { permissionPage, params },
+          payload: { page, params },
           meta: StateEntityLoaderActions.entitySuccessMeta(
             PERMISSION_LIST,
             query
@@ -150,14 +153,17 @@ describe('Permission Actions', () => {
 
     describe('CreatePermissionFail', () => {
       it('should create the action', () => {
-        const action = new PermissionActions.CreatePermissionFail(
+        const action = new PermissionActions.CreatePermissionFail({
           permissionCode,
-          error
-        );
+          error,
+        });
 
         expect({ ...action }).toEqual({
           type: PermissionActions.CREATE_PERMISSION_FAIL,
-          payload: error,
+          payload: {
+            permissionCode,
+            error,
+          },
           meta: StateEntityLoaderActions.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionCode,
@@ -207,14 +213,17 @@ describe('Permission Actions', () => {
 
     describe('UpdatePermissionFail', () => {
       it('should create the action', () => {
-        const action = new PermissionActions.UpdatePermissionFail(
+        const action = new PermissionActions.UpdatePermissionFail({
           permissionCode,
-          error
-        );
+          error,
+        });
 
         expect({ ...action }).toEqual({
           type: PermissionActions.UPDATE_PERMISSION_FAIL,
-          payload: error,
+          payload: {
+            permissionCode,
+            error,
+          },
           meta: StateEntityLoaderActions.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionCode,

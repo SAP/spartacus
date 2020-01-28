@@ -134,7 +134,7 @@ describe('PermissionService', () => {
       store.dispatch(
         new PermissionActions.LoadPermissionsSuccess({
           params,
-          permissionPage: {
+          page: {
             ids: [permission.code, permission2.code],
             pagination,
             sorts,

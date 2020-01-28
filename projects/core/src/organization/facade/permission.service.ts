@@ -14,7 +14,6 @@ import {
   getPermissionList,
 } from '../store/selectors/permission.selector';
 import { B2BSearchConfig } from '../model/search-config';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 
 @Injectable()
 export class PermissionService {

@@ -130,7 +130,7 @@ describe('BudgetService', () => {
       store.dispatch(
         new BudgetActions.LoadBudgetsSuccess({
           params,
-          budgetPage: {
+          page: {
             ids: [budget.code, budget2.code],
             pagination,
             sorts,

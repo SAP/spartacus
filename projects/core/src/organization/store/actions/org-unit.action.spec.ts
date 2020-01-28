@@ -13,7 +13,7 @@ const error = 'anError';
 
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
-const orgUnitPage = { ids: [orgUnitId], pagination, sorts };
+const page = { ids: [orgUnitId], pagination, sorts };
 
 describe('OrgUnit Actions', () => {
   describe('LoadOrgUnit Actions', () => {
@@ -37,11 +37,11 @@ describe('OrgUnit Actions', () => {
 
     describe('LoadOrgUnitFail', () => {
       it('should create the action', () => {
-        const action = new OrgUnitActions.LoadOrgUnitFail(orgUnitId, error);
+        const action = new OrgUnitActions.LoadOrgUnitFail({ orgUnitId, error });
 
         expect({ ...action }).toEqual({
           type: OrgUnitActions.LOAD_ORG_UNIT_FAIL,
-          payload: error,
+          payload: { orgUnitId, error },
           meta: StateEntityLoaderActions.entityFailMeta(
             ORG_UNIT_ENTITIES,
             orgUnitId,
@@ -100,12 +100,12 @@ describe('OrgUnit Actions', () => {
     describe('LoadOrgUnitsSuccess', () => {
       it('should create the action', () => {
         const action = new OrgUnitActions.LoadOrgUnitsSuccess({
-          orgUnitPage,
+          page,
         });
 
         expect({ ...action }).toEqual({
           type: OrgUnitActions.LOAD_ORG_UNITS_SUCCESS,
-          payload: { orgUnitPage },
+          payload: { page },
           meta: StateEntityLoaderActions.entitySuccessMeta(ORG_UNIT_LIST, ALL),
         });
       });

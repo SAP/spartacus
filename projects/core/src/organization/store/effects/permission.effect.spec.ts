@@ -20,7 +20,7 @@ const error = 'error';
 const permissionCode = 'testCode';
 const userId = 'testUser';
 const permission: Permission = {
-  code: 'testCode',
+  code: permissionCode,
   active: false,
   currency: {},
   orgUnit: { id: 'ouid', name: 'ouName' },
@@ -100,10 +100,10 @@ describe('Permission Effects', () => {
         userId,
         permissionCode,
       });
-      const completion = new PermissionActions.LoadPermissionFail(
+      const completion = new PermissionActions.LoadPermissionFail({
         permissionCode,
-        error
-      );
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -125,7 +125,7 @@ describe('Permission Effects', () => {
       ]);
       const completion2 = new PermissionActions.LoadPermissionsSuccess({
         params,
-        permissionPage: { ids: [permissionCode], pagination, sorts },
+        page: { ids: [permissionCode], pagination, sorts },
       });
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion, c: completion2 });
@@ -178,10 +178,10 @@ describe('Permission Effects', () => {
         userId,
         permission,
       });
-      const completion = new PermissionActions.CreatePermissionFail(
-        permission.code,
-        error
-      );
+      const completion = new PermissionActions.CreatePermissionFail({
+        permissionCode,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -223,10 +223,10 @@ describe('Permission Effects', () => {
         permissionCode,
         permission,
       });
-      const completion = new PermissionActions.UpdatePermissionFail(
-        permission.code,
-        error
-      );
+      const completion = new PermissionActions.UpdatePermissionFail({
+        permissionCode,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 

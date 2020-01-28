@@ -12,7 +12,6 @@ import {
   getOrgUnitList,
 } from '../store/selectors/org-unit.selector';
 import { B2BUnitNode, EntitiesModel } from '../../model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 
 @Injectable()
 export class OrgUnitService {
