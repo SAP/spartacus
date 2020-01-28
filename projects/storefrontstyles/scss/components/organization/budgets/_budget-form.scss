@@ -4,4 +4,9 @@
     flex-direction: row-reverse;
     flex-wrap: wrap;
   }
+
+  ng-select.invalid .ng-select-container {
+    border-color: red;
+    border-style: solid;
+  }
 }

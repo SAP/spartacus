@@ -97,7 +97,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-company/organization-management/cost-center/:costCenterCode'],
   },
   permissions: {
-    paths: ['my-company/organization-management/permissions'],
+    paths: ['my-company/organization-management/manage-permissions'],
   },
 };
 

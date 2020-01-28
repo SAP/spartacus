@@ -19,6 +19,7 @@ import {
   OrgUnitService,
   EntitiesModel,
 } from '@spartacus/core';
+import { FormUtils } from '../../../../shared/utils/forms/form-utils';
 
 @Component({
   selector: 'cx-budget-form',
@@ -52,9 +53,11 @@ export class BudgetFormComponent implements OnInit {
   @Output()
   clickBack = new EventEmitter<any>();
 
+  submitClicked = false;
+
   form: FormGroup = this.fb.group({
-    code: [''],
-    name: [''],
+    code: ['', Validators.required],
+    name: ['', Validators.required],
     orgUnit: this.fb.group({
       uid: [null, Validators.required],
     }),
@@ -96,8 +99,17 @@ export class BudgetFormComponent implements OnInit {
   }
 
   verifyBudget(): void {
+    this.submitClicked = true;
     if (!this.form.invalid) {
       this.submitBudget.emit(this.form.value);
     }
+  }
+
+  isNotValid(formControlName: string): boolean {
+    return FormUtils.isNotValidField(
+      this.form,
+      formControlName,
+      this.submitClicked
+    );
   }
 }

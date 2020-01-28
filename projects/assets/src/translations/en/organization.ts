@@ -66,5 +66,10 @@ export const organization = {
       label: 'Budget amount',
       placeholder: 'Amount',
     },
+    message: {
+      required: 'Value is required',
+      rangeOverflow: 'Date must be before {{date}}',
+      rangeUnderflow: 'Date must be after {{date}}',
+    },
   },
 };
