@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { PaginationConfig } from './config';
+import { PaginationConfig } from './config/pagination.config';
 import { PaginationBuilder } from './pagination.builder';
 import {
   PaginationItem,

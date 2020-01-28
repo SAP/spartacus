@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PaginationConfig } from './config';
+import { PaginationConfig } from './config/pagination.config';
 import { PaginationComponent } from './pagination.component';
 import { PaginationItemType } from './pagination.model';
 
