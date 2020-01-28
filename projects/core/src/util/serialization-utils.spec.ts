@@ -1,6 +1,12 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { HttpErrorModel } from '../model';
-import { makeErrorSerializable, UNKNOWN_ERROR } from './serialization-utils';
+import { HttpErrorModel, PageType } from '../model/index';
+import { PageContext } from '../routing/index';
+import {
+  CURRENT_CONTEXT_KEY,
+  makeErrorSerializable,
+  serializePageContext,
+  UNKNOWN_ERROR,
+} from './serialization-utils';
 
 describe('serialization-utils', () => {
   describe('makeErrorSerializable', () => {
@@ -87,6 +93,24 @@ describe('serialization-utils', () => {
         const result = makeErrorSerializable(error);
         expect(result).toEqual(UNKNOWN_ERROR);
       });
+    });
+  });
+
+  describe('serializePageContext', () => {
+    describe('when undefined is provided', () => {
+      it(`should return ${CURRENT_CONTEXT_KEY}`, () => {
+        expect(serializePageContext(undefined)).toEqual(CURRENT_CONTEXT_KEY);
+      });
+    });
+
+    it(`should return serialize the given page context`, () => {
+      const pageContext: PageContext = {
+        id: 'homepage',
+        type: PageType.CONTENT_PAGE,
+      };
+      expect(serializePageContext(pageContext)).toEqual(
+        `${pageContext.type}-${pageContext.id}`
+      );
     });
   });
 });

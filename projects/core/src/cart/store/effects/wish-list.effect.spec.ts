@@ -20,6 +20,7 @@ const userId = 'testUserId';
 const cartName = 'name';
 const cartDescription = 'description';
 const wishListId = 'xxxx';
+const customerId = '1234-5678-abcdef';
 
 const testCart: Cart = {
   code: 'xxx',
@@ -37,7 +38,7 @@ const testCart: Cart = {
 
 const wishList: Cart = {
   code: wishListId,
-  name: 'wishlist',
+  name: `wishlist${customerId}`,
 };
 
 const saveCartResult: SaveCartResult = {
@@ -118,13 +119,15 @@ describe('Wish List Effect', () => {
 
   describe('loadWishList$', () => {
     it('should create wish list if it does NOT exist', () => {
+      const payload = { userId, customerId };
+
       spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart]));
 
-      const action = new CartActions.LoadWishList(userId);
+      const action = new CartActions.LoadWishList(payload);
 
       const createWishListAction = new CartActions.CreateWishList({
         userId,
-        name: 'wishlist',
+        name: `wishlist${customerId}`,
       });
 
       actions$ = hot('-a', { a: action });
@@ -133,9 +136,11 @@ describe('Wish List Effect', () => {
       expect(wishListEffect.loadWishList$).toBeObservable(expected);
     });
     it('should dispatch load wish list success if it exists', () => {
+      const payload = { userId, customerId };
+
       spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart, wishList]));
 
-      const action = new CartActions.LoadWishList(userId);
+      const action = new CartActions.LoadWishList(payload);
 
       const loadWishListSuccessAction = new CartActions.LoadWishListSuccess({
         cart: wishList,
