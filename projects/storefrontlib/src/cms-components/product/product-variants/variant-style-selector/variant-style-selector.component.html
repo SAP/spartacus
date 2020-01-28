@@ -15,7 +15,10 @@
       >
         <a
           [routerLink]="
-            { cxRoute: 'product', params: { code: v.code } } | cxUrl
+            {
+              cxRoute: 'product',
+              params: { code: v.code, name: product?.name }
+            } | cxUrl
           "
           class="colorVariant"
         >
