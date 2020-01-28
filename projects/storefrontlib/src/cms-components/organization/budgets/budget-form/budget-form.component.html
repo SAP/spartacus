@@ -12,6 +12,8 @@
             required
             placeholder="{{ 'budgetForm.code.placeholder' | cxTranslate }}"
             formControlName="code"
+            [class.is-invalid]="form.controls['code'].touched &&
+            form.controls['code'].invalid"
           />
         </label>
       </div>
@@ -26,6 +28,8 @@
             required
             placeholder="{{ 'budgetForm.name.placeholder' | cxTranslate }}"
             formControlName="name"
+            [class.is-invalid]="form.controls['name'].touched &&
+            form.controls['name'].invalid"
           />
         </label>
       </div>
@@ -157,7 +161,7 @@
             'budgetForm.amount.label' | cxTranslate
           }}</span>
           <input
-            type="text"
+            type="number"
             class="form-control"
             placeholder="{{ 'budgetForm.amount.placeholder' | cxTranslate }}"
             formControlName="budget"
