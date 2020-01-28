@@ -315,11 +315,13 @@ describe('Cart effect', () => {
       const action = new DeprecatedCartActions.MergeCart({
         userId: userId,
         cartId: cartId,
+        tempCartId: 'temp-uuid',
       });
       const completion = new DeprecatedCartActions.CreateCart({
         userId: userId,
         oldCartId: cartId,
         toMergeCartGuid: 'testGuid',
+        tempCartId: 'temp-uuid',
         extraData: undefined,
       });
 
