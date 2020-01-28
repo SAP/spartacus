@@ -1,4 +1,6 @@
+import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import {
   combineLatest,
@@ -21,15 +23,13 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { deepMerge } from '../../config/utils/deep-merge';
 import { Product } from '../../model/product.model';
+import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
+import { withdrawOn } from '../../util/withdraw-on';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
-import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
-import { deepMerge } from '../../config/utils/deep-merge';
-import { withdrawOn } from '../../util/withdraw-on';
-import { Actions, ofType } from '@ngrx/effects';
-import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',

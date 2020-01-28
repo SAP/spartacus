@@ -43,6 +43,21 @@ export class ProductCarouselComponent {
   );
 
   constructor(
+    componentData: CmsComponentData<model>,
+    productService: ProductService,
+    // tslint:disable-next-line: unified-signatures
+    features?: FeatureConfigService
+  );
+
+  /**
+   * @deprecated since 1.4
+   */
+  constructor(
+    componentData: CmsComponentData<model>,
+    productService: ProductService
+  );
+
+  constructor(
     protected componentData: CmsComponentData<model>,
     protected productService: ProductService,
     protected features?: FeatureConfigService

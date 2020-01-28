@@ -15,12 +15,12 @@ describe('ProfileTagInjector', () => {
   let profileTagInjector: ProfileTagInjectorService;
   let addTrackerBehavior: Subject<Event>;
   let profileTagEventTrackerMock: ProfileTagEventService;
-  let cartBehavior: Subject<{ entries: OrderEntry[]; cart: Cart }>;
+  let cartBehavior: Subject<{ cart: Cart }>;
   let consentBehavior: Subject<boolean>;
   let navigatedBehavior: Subject<boolean>;
   let spartacusEventTrackerMock: SpartacusEventService;
   function setVariables() {
-    cartBehavior = new ReplaySubject<{ entries: OrderEntry[]; cart: Cart }>();
+    cartBehavior = new ReplaySubject<{ cart: Cart }>();
     consentBehavior = new ReplaySubject<boolean>();
     navigatedBehavior = new ReplaySubject<boolean>();
     addTrackerBehavior = new ReplaySubject<Event>();
@@ -89,9 +89,9 @@ describe('ProfileTagInjector', () => {
   it('Should notify profile tag of cart change', () => {
     const subscription = profileTagInjector.track().subscribe();
     const cartEntry: OrderEntry[] = [{ entryNumber: 7 }];
-    const testCart = <Cart>{ testCart: { id: 123 } };
+    const testCart = <Cart>{ testCart: { id: 123, entries: cartEntry } };
     addTrackerBehavior.next(new CustomEvent('test'));
-    cartBehavior.next({ entries: cartEntry, cart: testCart });
+    cartBehavior.next({ cart: testCart });
 
     subscription.unsubscribe();
     expect(
@@ -99,9 +99,7 @@ describe('ProfileTagInjector', () => {
     ).toHaveBeenCalled();
     expect(
       profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
-    ).toHaveBeenCalledWith(
-      new CartChangedPushEvent({ entries: cartEntry, cart: testCart })
-    );
+    ).toHaveBeenCalledWith(new CartChangedPushEvent({ cart: testCart }));
   });
 
   it('Should notify profile tag of page loaded', () => {

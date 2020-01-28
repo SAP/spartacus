@@ -1,41 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 import { from, merge, Observable, of } from 'rxjs';
+import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
+import { AuthActions } from '../../../auth/store/actions/index';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
+import { CmsComponent } from '../../../model/cms.model';
+import { PageContext } from '../../../routing/index';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { bufferDebounceTime } from '../../../util/buffer-debounce-time';
 import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  withLatestFrom,
-} from 'rxjs/operators';
-import { PageContext, RoutingService } from '../../../routing/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+  makeErrorSerializable,
+  serializePageContext,
+} from '../../../util/serialization-utils';
+import { withdrawOn } from '../../../util/withdraw-on';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import { CmsActions } from '../actions/index';
-import { bufferDebounceTime } from '../../../util/buffer-debounce-time';
-import { AuthActions } from '../../../auth/store/actions/index';
-import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { withdrawOn } from '../../../util/withdraw-on';
-import { Action } from '@ngrx/store';
-import { CmsComponent } from '../../../model/cms.model';
-import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 
 @Injectable()
 export class ComponentEffects {
   constructor(
     private actions$: Actions,
     private cmsComponentLoader: CmsComponentConnector,
-    private routingService: RoutingService,
     private featureConfigService: FeatureConfigService
   ) {}
-
-  private currentPageContext$: Observable<
-    PageContext
-  > = this.routingService.getRouterState().pipe(
-    filter(routerState => routerState !== undefined),
-    map(routerState => routerState.state.context)
-  );
 
   private contextChange$: Observable<Action> = this.actions$.pipe(
     ofType(
@@ -51,12 +39,18 @@ export class ComponentEffects {
       | CmsActions.LoadCmsComponentFail
     > =>
       this.actions$.pipe(
-        ofType(CmsActions.LOAD_CMS_COMPONENT),
-        map((action: CmsActions.LoadCmsComponent) => action.payload),
-        bufferDebounceTime(debounce, scheduler),
-        withLatestFrom(this.currentPageContext$),
-        mergeMap(([componentUids, pageContext]) =>
-          this.loadComponentsEffect(componentUids, pageContext)
+        ofType<CmsActions.LoadCmsComponent>(CmsActions.LOAD_CMS_COMPONENT),
+        groupBy(actions => serializePageContext(actions.pageContext)),
+        mergeMap(actionGroup =>
+          actionGroup.pipe(
+            bufferDebounceTime(debounce, scheduler),
+            mergeMap(actions =>
+              this.loadComponentsEffect(
+                actions.map(action => action.payload),
+                actions[0].pageContext
+              )
+            )
+          )
         ),
         withdrawOn(this.contextChange$)
       )
@@ -76,13 +70,18 @@ export class ComponentEffects {
           this.cmsComponentLoader.get(componentUid, pageContext).pipe(
             map(
               component =>
-                new CmsActions.LoadCmsComponentSuccess(component, component.uid)
+                new CmsActions.LoadCmsComponentSuccess(
+                  component,
+                  component.uid,
+                  pageContext
+                )
             ),
             catchError(error =>
               of(
                 new CmsActions.LoadCmsComponentFail(
                   componentUid,
-                  makeErrorSerializable(error)
+                  makeErrorSerializable(error),
+                  pageContext
                 )
               )
             )
@@ -97,7 +96,11 @@ export class ComponentEffects {
         from(
           components.map(
             component =>
-              new CmsActions.LoadCmsComponentSuccess(component, component.uid)
+              new CmsActions.LoadCmsComponentSuccess(
+                component,
+                component.uid,
+                pageContext
+              )
           )
         )
       ),
@@ -107,7 +110,8 @@ export class ComponentEffects {
             uid =>
               new CmsActions.LoadCmsComponentFail(
                 uid,
-                makeErrorSerializable(error)
+                makeErrorSerializable(error),
+                pageContext
               )
           )
         )
