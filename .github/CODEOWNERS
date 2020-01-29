@@ -155,4 +155,4 @@
 #  CODEOWNERS Owners owners ...
 # ================================================
 
-/.github/CODEOWNERS                                                      @dunqan @SAP/spartacus-global-approvers
+/.github/CODEOWNERS                                                      @dunqan @SAP/spartacus-global-owners
