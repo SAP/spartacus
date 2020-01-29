@@ -30,7 +30,10 @@ export class ProductVariantGuard implements CanActivate {
       map((product: Product) => {
         if (!product.purchasable) {
           const variant = this.findVariant(product.variantOptions);
-          this.routingService.goByUrl(`product/${variant.code}`);
+          this.routingService.go({
+            cxRoute: 'product',
+            params: { code: variant.code, name: product.name },
+          });
           return false;
         } else {
           return true;
