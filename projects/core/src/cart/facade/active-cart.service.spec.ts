@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
@@ -13,11 +13,8 @@ import {
   OCC_USER_ID_CURRENT,
   OCC_USER_ID_GUEST,
 } from '../../occ/utils/occ-constants';
-import { StateWithProcess } from '../../process';
 import * as fromProcessReducers from '../../process/store/reducers/index';
 import { ProcessesLoaderState } from '../../state';
-import { StateWithMultiCart } from '../store';
-import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { ActiveCartService } from './active-cart.service';
 import { MultiCartService } from './multi-cart.service';
 
@@ -44,6 +41,7 @@ class MultiCartServiceStub {
   removeEntry() {}
   getEntries() {}
   createCart() {}
+  mergeToCurrentCart() {}
   addEntry() {}
   isStable() {}
 }
@@ -57,7 +55,6 @@ const mockCartEntry: OrderEntry = {
 describe('ActiveCartService', () => {
   let service: ActiveCartService;
   let multiCartService: MultiCartService;
-  let store: Store<StateWithMultiCart | StateWithProcess<void>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -77,9 +74,6 @@ describe('ActiveCartService', () => {
     });
     service = TestBed.get(ActiveCartService as Type<ActiveCartService>);
     multiCartService = TestBed.get(MultiCartService as Type<MultiCartService>);
-    store = TestBed.get(Store as Type<
-      Store<StateWithMultiCart | StateWithProcess<void>>
-    >);
   });
 
   describe('getActive', () => {
@@ -268,19 +262,18 @@ describe('ActiveCartService', () => {
     });
 
     it('should dispatch merge for non guest cart', () => {
-      spyOn(store, 'dispatch').and.callFake(() => {});
+      spyOn(multiCartService, 'mergeToCurrentCart').and.stub();
+
       service['userId'] = 'userId';
       service['loadOrMerge']('cartId');
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.MergeCart({
-          userId: 'userId',
-          cartId: 'cartId',
-          extraData: {
-            active: true,
-          },
-        })
-      );
+      expect(multiCartService.mergeToCurrentCart).toHaveBeenCalledWith({
+        userId: 'userId',
+        cartId: 'cartId',
+        extraData: {
+          active: true,
+        },
+      });
     });
   });
 
