@@ -1,25 +1,25 @@
 import * as anonymousConsents from '../../../helpers/anonymous-consents';
+import * as loginHelper from '../../../helpers/login';
 import { navigation } from '../../../helpers/navigation';
 import { cdsHelper } from '../../../helpers/vendor/cds/cds';
 import { profileTagHelper } from '../../../helpers/vendor/cds/profile-tag';
-import * as loginHelper from '../../../helpers/login';
 
-describe('Profile-tag component', () => {
-  beforeEach(() => {
-    cy.server();
-    cdsHelper.setUpMocks();
-  });  
-  beforeEach(() => {
-    cy.server();
-    cdsHelper.setUpMocks();
+function visitHomePage() {
+  return navigation.visitHomePage({
+    options: {
+      onBeforeLoad: profileTagHelper.interceptProfileTagJs,
+    },
   });
+}
+
+beforeEach(() => {
+  cy.server();
+  cdsHelper.setUpMocks();
+});
+describe.skip('Profile-tag component', () => {
   it('should send a Navigated event when a navigation occurs', () => {
-    navigation.visitHomePage({
-      options: {
-        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
-      },
-    });
-    cy.get('cx-profiletag');
+    visitHomePage();
+    profileTagHelper.waitForCMSComponents();
     profileTagHelper.triggerLoaded();
     cy.get('.Section1.has-components')
       .first()
@@ -33,12 +33,8 @@ describe('Profile-tag component', () => {
     });
   });
   it('should wait for a user to accept consent and then send a ConsentChanged event', () => {
-    navigation.visitHomePage({
-      options: {
-        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
-      },
-    });
-    cy.get('cx-profiletag');
+    visitHomePage();
+    profileTagHelper.waitForCMSComponents();
     profileTagHelper.triggerLoaded();
     anonymousConsents.clickAllowAllFromBanner();
     cy.window().then(win => {
@@ -48,31 +44,37 @@ describe('Profile-tag component', () => {
       );
     });
   });
-  it.only('should call the login endpont of EC on a successful login', () => {
+});
+describe.skip('login notification', () => {
+  it('should call the login endpont of EC on a successful login', () => {
     const alias = 'loginNotification';
-    cy.route('*/users/current/loginnotification').as(alias)
-
-    waitForCMSComponents();
+    cy.route('POST', '**/users/current/loginnotification**').as(alias);
+    visitHomePage();
+    profileTagHelper.waitForCMSComponents();
+    profileTagHelper.triggerLoaded();
+    profileTagHelper.triggerConsentReferenceLoaded();
     loginHelper.registerUser();
     loginHelper.loginUser();
 
-    cy.wait(`@${alias}`).then((xhr) => {
-      cy.log('retreived the response');
-      cy.log(JSON.stringify(xhr));
-    })    
-
-  }); 
+    cy.wait(`@${alias}`).then(xhr => {
+      expect(xhr.request.headers['X-Profile-Tag-Debug']).not.to.be.undefined;
+      expect(xhr.request.headers['X-Consent-Reference']).to.eq(
+        profileTagHelper.testCr
+      );
+    });
+  });
 
   it('should not call the login endpont of EC on a failed login', () => {
+    const loginAlias = 'loginNotification';
+    cy.route('POST', '**/users/current/loginnotification**').as(loginAlias);
+    visitHomePage();
+    profileTagHelper.waitForCMSComponents();
+    profileTagHelper.triggerLoaded();
+    profileTagHelper.triggerConsentReferenceLoaded();
+    loginHelper.registerUser();
     loginHelper.loginWithBadCredentials();
-  });  
-
-  function waitForCMSComponents(timeout=5000) {
-    navigation.visitHomePage({
-      options: {
-        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
-      },
+    visitHomePage().then(() => {
+      expect(navigation.requestsCount(loginAlias)).eq(0);
     });
-    cy.get('cx-profiletag', {timeout});    
-  }
+  });
 });

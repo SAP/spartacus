@@ -5,15 +5,15 @@ export const navigation = {
   }: {
     queryStringParams?: string;
     options?: Partial<Cypress.VisitOptions>;
-  }): void {
+  }): Cypress.Chainable<Window> {
     queryStringParams =
       !queryStringParams || queryStringParams.indexOf('?') !== -1
         ? queryStringParams
         : `?${queryStringParams}`;
-    cy.visit(`/${queryStringParams ? queryStringParams : ''}`, options);
+    return cy.visit(`/${queryStringParams ? queryStringParams : ''}`, options);
   },
-  goToProduct(id): void {
-    cy.visit(`/product/${id}`);
+  goToProduct(id): Cypress.Chainable<Window> {
+    return cy.visit(`/product/${id}`);
   },
   requestsCount: alias =>
     (<any>cy).state('requests').filter(a => a.alias === alias).length,
