@@ -47,7 +47,7 @@ class MockProductService {
   }
 }
 
-fdescribe('ProductVariantGuard', () => {
+describe('ProductVariantGuard', () => {
   let guard: ProductVariantGuard;
   let productService: ProductService;
   let routingService: RoutingService;
