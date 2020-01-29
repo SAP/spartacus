@@ -1,3 +1,5 @@
+import { testProductUrl } from '../../helpers/accessibility/tabbing-order';
+
 context('Auxiliary Keys', () => {
   describe('Category Navigation', () => {
     before(() => {
@@ -15,9 +17,12 @@ context('Auxiliary Keys', () => {
         cy.get('cx-navigation-ui nav span')
           .first()
           .focus()
-          .type(' ')
-          .parent()
-          .should('contain.text', 'Shop all Brands');
+          .type(' ');
+        // cy.wait(2000);
+        cy.get('cx-navigation-ui nav div[class="wrapper"]')
+          // .contains('Shop all Brands')
+          .should('be.visible');
+        // .should('contain.text', 'Shop all Brands');
       });
     });
 
@@ -100,8 +105,6 @@ context('Auxiliary Keys', () => {
       cy.pressTab();
       cy.focused().should('contain.text', 'Notification Preference');
       cy.pressTab();
-      cy.focused().should('contain.text', 'My Coupons');
-      cy.pressTab();
       cy.focused().should('contain.text', 'Sign Out');
     });
 
@@ -171,7 +174,52 @@ context('Auxiliary Keys', () => {
     it('should go to link with Enter key', () => {});
   });
 
-  xdescribe('Item Counter', () => {});
+  describe.only('Item Counter', () => {
+    before(() => {
+      cy.visit(testProductUrl);
+    });
 
-  xdescribe('Skip Links', () => {});
+    it('should increment counter with ArrowUp key', () => {
+      cy.wait(3000);
+      cy.get('cx-item-counter')
+        .find('input')
+        .should('have.value', '1')
+        .focus();
+      cy.wait(3000);
+      cy.focused().type('{uparrow}'); //trigger('keydown', { key: 'ArrowUp' });
+      cy.wait(3000);
+      cy.focused().should('have.value', '2');
+    });
+
+    it('should decrement counter with ArrowDown key', () => {});
+  });
+
+  describe('Skip Links', () => {
+    before(() => {
+      cy.visit('/');
+      cy.wait(3000);
+      cy.get('body').focus();
+      cy.pressTab();
+      cy.wait(3000);
+      cy.focused().should('contain.text', 'Skip to Header');
+    });
+
+    it('should navigate with ArrowRight key', () => {
+      cy.focused().trigger('keydown', { key: 'ArrowRight' });
+      cy.focused().should('contain.text', 'Skip to Main Content');
+      cy.focused().trigger('keydown', { key: 'ArrowRight' });
+      cy.focused().should('contain.text', 'Skip to Footer');
+      cy.focused().trigger('keydown', { key: 'ArrowRight' });
+      cy.focused().should('contain.text', 'Skip to Footer');
+    });
+
+    it('should navigate with ArrowLeft key', () => {
+      cy.focused().trigger('keydown', { key: 'ArrowLeft' });
+      cy.focused().should('contain.text', 'Skip to Main Content');
+      cy.focused().trigger('keydown', { key: 'ArrowLeft' });
+      cy.focused().should('contain.text', 'Skip to Header');
+      cy.focused().trigger('keydown', { key: 'ArrowLeft' });
+      cy.focused().should('contain.text', 'Skip to Header');
+    });
+  });
 });
