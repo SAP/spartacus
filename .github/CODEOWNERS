@@ -133,7 +133,7 @@
 # ================================================
 #  Spartacus Core
 # ================================================
-/projects/core/**                                                        @SAP/spartacus-core-owners @SAP/spartacus-global-owners
+/projects/core/src/**                                                        @SAP/spartacus-core-owners @SAP/spartacus-global-owners
 
 # ================================================
 #  Spartacus Styles
