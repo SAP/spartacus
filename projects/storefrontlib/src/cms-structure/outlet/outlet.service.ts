@@ -79,6 +79,49 @@ export class OutletService<T = TemplateRef<any>> {
     return templateRef;
   }
 
+  /**
+   *
+   * Removes a single or multiple objects from the given outlet for the specified position.
+   * Not providing a `componentType` will remove all objects for te given outlet and position
+   *
+   * @param outlet The outlet reference
+   * @param [position=OutletPosition.REPLACE] The outlet position, `OutletPosition.before`, `OutletPosition.AFTER` or `OutletPosition.REPLACE` (Default to REPLACE)
+   * @param [componentType] The component type to remove (ex: ModalComponent)
+   */
+  remove(
+    outlet: string,
+    position: OutletPosition = OutletPosition.REPLACE,
+    componentType?: any
+  ): void {
+    console.log(this.templatesRefsBefore);
+    switch (position) {
+      case OutletPosition.BEFORE:
+        this.removeFromStore(this.templatesRefsBefore, outlet, componentType);
+        break;
+      case OutletPosition.AFTER:
+        this.removeFromStore(this.templatesRefsAfter, outlet, componentType);
+        break;
+      default:
+        this.removeFromStore(this.templatesRefs, outlet, componentType);
+    }
+  }
+
+  private removeFromStore(
+    store: Map<string, (T)[]>,
+    outlet: string,
+    componentType: any
+  ): void {
+    if (Boolean(componentType)) {
+      const existing = store.get(outlet) || [];
+      const newValue: T[] = existing.filter(
+        element => (element as any).componentType === componentType
+      );
+      store.set(outlet, newValue);
+    } else {
+      store.set(outlet, []);
+    }
+  }
+
   private store(store: Map<string, (T)[]>, outlet: string, value: T) {
     const existing = store.get(outlet) || [];
     const newValue: T[] = existing.concat([value]);

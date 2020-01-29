@@ -9,7 +9,7 @@ import {
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
-import { ModalService } from '../../modal/index';
+import { ModalComponentService } from '../../modal/new/modal-component.service';
 
 @Component({
   selector: 'cx-anonymous-consent-dialog',
@@ -31,8 +31,8 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
 
   constructor(
     private config: AnonymousConsentsConfig,
-    private modalService: ModalService,
-    private anonymousConsentsService: AnonymousConsentsService
+    private anonymousConsentsService: AnonymousConsentsService,
+    protected modalComponentService: ModalComponentService
   ) {
     if (Boolean(this.config.anonymousConsents)) {
       this.showLegalDescription = this.config.anonymousConsents.showLegalDescriptionInDialog;
@@ -48,8 +48,8 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     this.loading$ = this.anonymousConsentsService.getLoadTemplatesLoading();
   }
 
-  closeModal(reason?: any): void {
-    this.modalService.closeActiveModal(reason);
+  closeModal(): void {
+    this.modalComponentService.close();
   }
 
   rejectAll(): void {
@@ -73,7 +73,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         )
         .subscribe()
     );
-    this.closeModal('rejectAll');
+    this.closeModal();
   }
 
   allowAll(): void {
@@ -100,7 +100,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         )
         .subscribe()
     );
-    this.closeModal('allowAll');
+    this.closeModal();
   }
 
   private isRequiredConsent(template: ConsentTemplate): boolean {
