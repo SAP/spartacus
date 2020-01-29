@@ -1,7 +1,7 @@
 import { doPlaceOrder, orderHistoryTest } from '../../../helpers/order-history';
 import { product } from '../../../sample-data/checkout-flow';
 
-describe.skip('Order History with orders', () => {
+describe('Order History with orders', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
@@ -20,7 +20,7 @@ describe.skip('Order History with orders', () => {
   orderHistoryTest.checkCorrectDateFormat();
 });
 
-describe.skip('Order details page', () => {
+describe('Order details page', () => {
   before(() => {
     cy.requireLoggedIn();
   });
