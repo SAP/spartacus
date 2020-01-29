@@ -5,7 +5,6 @@
     "baseUrl": "../node_modules",
     "types": [
       "cypress",
-      "cypress-testing-library/typings",
       "@types/testing-library__cypress"
     ],
     "target": "es5",
