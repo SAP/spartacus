@@ -6,12 +6,13 @@ import { Type } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 const mockPurchasableProduct = {
+  name: 'purchasableProduct',
   productCode: 'purchasableTest123',
   purchasable: true,
 };
 
 const mockNonPurchasableProduct = {
-  productName: 'purchasableProduct',
+  name: 'nonPurchasableProduct',
   productCode: 'purchasableTest123',
   purchasable: false,
   variantOptions: [
@@ -87,7 +88,7 @@ describe('ProductVariantGuard', () => {
 
     guard.canActivate().subscribe(val => {
       expect(val).toBeFalsy();
-      expect(routingService.go).toHaveBeenCalled();
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'product', params: {code: 'mock_code_3', name: 'nonPurchasableProduct'}});
       done();
     });
   });
