@@ -33,7 +33,6 @@
 #  - Each codeowners team must have write access to the repo, otherwise their reviews won't count.
 
 
-
 # ================================================
 #  GitHub username registry
 #  (just to make this file easier to understand)
@@ -49,19 +48,15 @@
 #  developpeurweb - Miguel Estrada
 
 
-
 # ===========================================================
 #  @SAP/spartacus-global-owners
 # ===========================================================
 #  Used for approving minor changes, large-scale refactorings, and emergency situations.
-#  (secret team to avoid review requests, it also doesn't inherit from @angular/framework because nested teams can't be secret)
+#  (secret team to avoid review requests)
 #
 #   - tobi-or-not-tobi
 #   - dunqan
 #   - hackergil
-
-
-
 
 
 # ===========================================================
@@ -77,7 +72,6 @@
 #   - znikola
 
 
-
 # ===========================================================
 #  @SAP/spartacus-style-owners
 # ===========================================================
@@ -88,7 +82,6 @@
 #   - developpeurweb
 
 
-
 # ===========================================================
 #  @SAP/spartacus-cart-owners
 # ===========================================================
@@ -96,7 +89,6 @@
 #   - tobi-or-not-tobi
 #   - Platonn
 #   - marlass
-
 
 
 # ===========================================================
@@ -138,7 +130,7 @@
 # ================================================
 #  Spartacus Styles
 # ================================================
-/projects/storefrontstyles/**                                            @SAP/spartacus-style-owners @SAP/spartacus-global-owners
+/projects/storefrontstyles/src/**                                            @SAP/spartacus-style-owners @SAP/spartacus-global-owners
 
 # ================================================
 #  Cart Functionality
