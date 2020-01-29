@@ -34,19 +34,36 @@ const convertedOverview: Configurator.Overview = {
   ],
 };
 
+const subGroups: OccConfigurator.GroupOverview[] = [
+  {
+    id: '3',
+    groupDescription: 'SubGroup',
+    characteristicValues: [{ characteristic: 'C3', value: 'V3' }],
+    subGroups: [
+      {
+        id: '4',
+        groupDescription: 'SubGroupLevel2',
+        characteristicValues: null,
+      },
+    ],
+  },
+];
+
+const group1: OccConfigurator.GroupOverview = {
+  id: '1',
+  groupDescription: 'Group 1',
+  characteristicValues: [
+    {
+      characteristic: 'C1',
+      value: 'V1',
+    },
+  ],
+};
+
 const overview: OccConfigurator.Overview = {
   id: '1234-4568',
   groups: [
-    {
-      id: '1',
-      groupDescription: 'Group 1',
-      characteristicValues: [
-        {
-          characteristic: 'C1',
-          value: 'V1',
-        },
-      ],
-    },
+    group1,
     {
       id: '2',
       groupDescription: 'Group 2',
@@ -93,5 +110,30 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should convert the overview', () => {
     const result = occConfiguratorVariantOverviewNormalizer.convert(overview);
     expect(result).toEqual(convertedOverview);
+  });
+
+  it('should cover sub groups', () => {
+    overview.groups[0].subGroups = subGroups;
+    const result = occConfiguratorVariantOverviewNormalizer.convert(overview);
+    expect(result.groups.length).toBe(4);
+  });
+
+  it('should be able to handle groups without attributes', () => {
+    group1.subGroups = null;
+    group1.characteristicValues = null;
+    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
+      group1
+    );
+    expect(result.length).toBe(1);
+    expect(result[0].id).toBe(group1.id);
+  });
+
+  it('should be able to handle groups with subgroups', () => {
+    group1.subGroups = subGroups;
+
+    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
+      group1
+    );
+    expect(result.length).toBe(3);
   });
 });
