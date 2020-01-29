@@ -63,7 +63,12 @@
         [columns]="[
           {
             key: 'code',
-            value: 'permissionsList.code' | cxTranslate
+            value: 'permissionsList.code' | cxTranslate,
+            cxRoute: 'permissionDetails'
+          },
+          {
+            key: 'threshold',
+            value: 'permissionsList.threshold' | cxTranslate
           }
         ]"
       ></cx-table>

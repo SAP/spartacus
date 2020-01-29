@@ -18,20 +18,22 @@ export class PermissionEffects {
   > = this.actions$.pipe(
     ofType(PermissionActions.LOAD_PERMISSION),
     map((action: PermissionActions.LoadPermission) => action.payload),
-    switchMap(({ userId, permissionCode }) => {
-      return this.permissionConnector.get(userId, permissionCode).pipe(
-        map((permission: Permission) => {
-          return new PermissionActions.LoadPermissionSuccess([permission]);
-        }),
-        catchError(error =>
-          of(
-            new PermissionActions.LoadPermissionFail({
-              permissionCode,
-              error: makeErrorSerializable(error),
-            })
+    switchMap(({ userId, orderApprovalPermissionCode }) => {
+      return this.permissionConnector
+        .get(userId, orderApprovalPermissionCode)
+        .pipe(
+          map((permission: Permission) => {
+            return new PermissionActions.LoadPermissionSuccess([permission]);
+          }),
+          catchError(error =>
+            of(
+              new PermissionActions.LoadPermissionFail({
+                orderApprovalPermissionCode,
+                error: makeErrorSerializable(error),
+              })
+            )
           )
-        )
-      );
+        );
     })
   );
 

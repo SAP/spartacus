@@ -22,10 +22,13 @@ export class PermissionService {
     protected authService: AuthService
   ) {}
 
-  loadPermission(permissionCode: string) {
+  loadPermission(orderApprovalPermissionCode: string) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new PermissionActions.LoadPermission({ userId, permissionCode })
+        new PermissionActions.LoadPermission({
+          userId,
+          orderApprovalPermissionCode,
+        })
       )
     );
   }

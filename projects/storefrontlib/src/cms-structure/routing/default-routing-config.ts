@@ -104,13 +104,13 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   permissionDetails: {
     paths: [
-      'my-company/organization-management/manage-permissions/:permissionCode',
+      'my-company/organization-management/manage-permission/:permissionCode',
     ],
     paramsMapping: { permissionCode: 'code' },
   },
   permissionEdit: {
     paths: [
-      'my-company/organization-management/manage-permissions/edit/:permissionCode',
+      'my-company/organization-management/manage-permission/edit/:permissionCode',
     ],
     paramsMapping: { permissionCode: 'code' },
   },

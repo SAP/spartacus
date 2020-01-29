@@ -12,7 +12,10 @@ export abstract class PermissionAdapter {
    * @param userId The `userId` for given permissionManagement
    * @param permissionCode The `permissionCode` for given permissionManagement
    */
-  abstract load(userId: string, permissionCode: string): Observable<Permission>;
+  abstract load(
+    userId: string,
+    orderApprovalPermissionCode: string
+  ): Observable<Permission>;
 
   abstract loadList(
     userId: string,
