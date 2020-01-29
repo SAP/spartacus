@@ -88,7 +88,13 @@ describe('ProductVariantGuard', () => {
 
     guard.canActivate().subscribe(val => {
       expect(val).toBeFalsy();
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'product', params: {code: mockNonPurchasableProduct.variantOptions[0].code, name: mockNonPurchasableProduct.name}});
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'product',
+        params: {
+          code: mockNonPurchasableProduct.variantOptions[0].code,
+          name: mockNonPurchasableProduct.name,
+        },
+      });
       done();
     });
   });
