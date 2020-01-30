@@ -13,9 +13,8 @@ import { OrderEntry } from '../../model/order.model';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 
-
 @Injectable()
-export class SelectiveCartService{
+export class SelectiveCartService {
   private customerId: string;
   private userId: string;
   private cartId: string;
@@ -43,7 +42,6 @@ export class SelectiveCartService{
     multiCartService: MultiCartService,
     baseSiteService: BaseSiteService,
     featureConfig: FeatureConfigService
-
   );
   /**
    * @deprecated Since 1.5
@@ -65,7 +63,6 @@ export class SelectiveCartService{
     protected baseSiteService?: BaseSiteService,
     protected featureConfig?: FeatureConfigService
   ) {
-
     if (this.baseSiteService) {
       this.baseSiteService
         .getActive()
@@ -76,13 +73,14 @@ export class SelectiveCartService{
       this.userService.get().subscribe(user => {
         if (user && user.customerId) {
           this.customerId = user.customerId;
-          this.cartId$.next(`selectivecart${this.activeBaseSite}${this.customerId}`);
+          this.cartId$.next(
+            `selectivecart${this.activeBaseSite}${this.customerId}`
+          );
         } else if (user && !user.customerId) {
           this.cartId$.next(undefined);
         }
       });
-    }
-    else{
+    } else {
       this.userService.get().subscribe(user => {
         if (user && user.customerId) {
           this.customerId = user.customerId;
@@ -92,7 +90,6 @@ export class SelectiveCartService{
         }
       });
     }
-
 
     this.authService.getOccUserId().subscribe(userId => {
       this.userId = userId;
