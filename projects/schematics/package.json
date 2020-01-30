@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -24,5 +24,14 @@
     "@types/node": "^10.14.19",
     "jasmine": "^3.5.0",
     "typescript": "3.5.3"
+  },
+  "ng-update": {
+    "migrations": "./src/migrations/migrations.json",
+    "packageGroup": [
+      "@spartacus/core",
+      "@spartacus/storefront",
+      "@spartacus/styles",
+      "@spartacus/cds"
+    ]
   }
 }

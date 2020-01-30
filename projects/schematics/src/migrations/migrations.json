@@ -1,0 +1,9 @@
+{
+  "schematics": {
+    "migration-v2-cms-components-state-01": {
+      "version": "2",
+      "factory": "./2_0/update-cms-components-state#updateCmsComponentsState",
+      "description": "Update CMS components state to v2"
+    }
+  }
+}
