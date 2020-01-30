@@ -41,8 +41,8 @@ describe('VariantSizeSelectorComponent', () => {
   it('should send emit', () => {
     spyOn(component, 'changeSize').and.stub();
 
-    component.changeSize('test');
+    component.changeSize('code', 'name');
 
-    expect(component.changeSize).toHaveBeenCalledWith('test');
+    expect(component.changeSize).toHaveBeenCalledWith('code', 'name');
   });
 });
