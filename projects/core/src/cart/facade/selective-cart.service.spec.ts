@@ -93,7 +93,7 @@ describe('Selective Cart Service', () => {
         { provide: MultiCartService, useClass: MultiCartServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
         { provide: UserService, useClass: UserServiceStup },
-        { provide: BaseSiteService, useClass: BaseSiteServiceStub}
+        { provide: BaseSiteService, useClass: BaseSiteServiceStub },
       ],
     });
 
