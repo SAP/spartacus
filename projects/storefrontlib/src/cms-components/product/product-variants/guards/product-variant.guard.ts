@@ -1,6 +1,6 @@
 import { CanActivate, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {
   VariantOption,
@@ -30,10 +30,20 @@ export class ProductVariantGuard implements CanActivate {
       map((product: Product) => {
         if (!product.purchasable) {
           const variant = this.findVariant(product.variantOptions);
-          this.routingService.go({
-            cxRoute: 'product',
-            params: { code: variant.code, name: product.name },
-          });
+          this.productService
+            .get(variant.code, ProductScope.LIST)
+            .pipe(
+              // add comment
+              filter(Boolean),
+              take(1)
+            )
+            .subscribe((_product: Product) => {
+              console.log(_product.name);
+              this.routingService.go({
+                cxRoute: 'product',
+                params: { code: variant.code, name: _product.name },
+              });
+            });
           return false;
         } else {
           return true;
