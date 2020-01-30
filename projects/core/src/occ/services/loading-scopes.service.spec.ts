@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { LoadingScopesService } from './loading-scopes.service';
 import { OccConfig } from '@spartacus/core';
 
-fdescribe('LoadingScopesService', () => {
+describe('LoadingScopesService', () => {
   let service: LoadingScopesService;
 
   const mockConfig: OccConfig = {
