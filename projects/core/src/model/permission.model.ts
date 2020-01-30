@@ -1,5 +1,5 @@
 import { Currency, User } from './misc.model';
-import { B2BUnitNode } from './org-unit.model';
+// import { B2BUnitNode } from './org-unit.model';
 import { OrgUnitAddress } from './budget.model';
 
 export interface B2BUser extends User {
@@ -64,7 +64,7 @@ export interface B2BUnit {
   managers?: B2BUser[];
 }
 export interface OrderApprovalPermissionType {
-  code?: string;
+  code: string;
   name?: string;
 }
 
@@ -77,11 +77,11 @@ export enum Period {
 }
 export interface Permission {
   active?: boolean;
-  code?: string;
+  code: string;
   currency?: Currency;
   orderApprovalPermissionType?: OrderApprovalPermissionType;
-  orgUnit?: B2BUnitNode;
+  orgUnit?: B2BUnit;
   periodRange?: Period;
   selected?: boolean;
-  treshold?: number;
+  threshold?: number;
 }

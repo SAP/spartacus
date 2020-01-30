@@ -18,6 +18,21 @@ export const organization = {
       byValue: 'Value',
     },
   },
+
+  permissionsList: {
+    code: 'Code',
+    permissionManagement: 'Persmission Management',
+    threshold: 'Threshold Value',
+    sortByMostRecent: 'sortByMostRecent',
+    sorting: {
+      byUnitName: 'Unit Name',
+      byName: 'Name',
+      byCode: 'Code',
+      byValue: 'Value',
+    },
+    create: 'Create new Permission',
+  },
+
   budget: {
     details: 'Budget details',
     id: 'ID',
