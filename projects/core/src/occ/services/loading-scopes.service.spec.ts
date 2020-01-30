@@ -20,6 +20,9 @@ describe('LoadingScopesService', () => {
             include: ['base', 'list'],
             maxAge: 60,
           },
+          zczapy: {
+            include: ['order', 'detail', 'list'],
+          },
         },
       },
     },
@@ -60,6 +63,11 @@ describe('LoadingScopesService', () => {
     it('should keep proper order of included scopes', () => {
       const result = service.expand('product', ['order', 'list']);
       expect(result).toEqual(['order', 'base', 'list']);
+    });
+
+    it('should behave predictably for complex cases', () => {
+      const result = service.expand('product', ['order', 'zczapy', 'detail']);
+      expect(result).toEqual(['order', 'zczapy', 'base', 'list', 'detail']);
     });
   });
 
