@@ -15,6 +15,7 @@ import { SelectiveCartService } from './selective-cart.service';
 import { MultiCartService } from './multi-cart.service';
 import { User, OrderEntry } from '../../model';
 import { UserService } from '../../user';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 
 const TEST_USER_ID = 'test@test.com';
 const TEST_CUSTOMER_ID = '-test-customer-id';
@@ -63,10 +64,19 @@ class UserServiceStup {
   }
 }
 
+class BaseSiteServiceStub {
+  getActive(): Observable<string> {
+    return of();
+  }
+}
+
 describe('Selective Cart Service', () => {
   let service: SelectiveCartService;
   let multiCartService: MultiCartService;
   let store: Store<StateWithMultiCart | StateWithProcess<void>>;
+  let baseSiteService: BaseSiteService;
+
+  const site = 'electronics-spa';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -83,11 +93,13 @@ describe('Selective Cart Service', () => {
         { provide: MultiCartService, useClass: MultiCartServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
         { provide: UserService, useClass: UserServiceStup },
+        { provide: BaseSiteService, useClass: BaseSiteServiceStub}
       ],
     });
 
     service = TestBed.get(SelectiveCartService as Type<SelectiveCartService>);
     multiCartService = TestBed.get(MultiCartService as Type<MultiCartService>);
+    baseSiteService = TestBed.get(BaseSiteService as Type<BaseSiteService>);
     store = TestBed.get(Store as Type<
       Store<StateWithMultiCart | StateWithProcess<void>>
     >);
@@ -99,6 +111,7 @@ describe('Selective Cart Service', () => {
       error: false,
     });
     spyOn(store, 'dispatch').and.stub();
+    spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
   });
 
   it('should not return cart when loading', () => {
