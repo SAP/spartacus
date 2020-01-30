@@ -36,7 +36,7 @@ export class LoadingScopesService {
           scopesConfig[expandedScopes[i]] &&
           scopesConfig[expandedScopes[i]].include;
         if (includedScopes) {
-          for (const includedScope of includedScopes) {
+          for (const includedScope of [...includedScopes].reverse()) {
             if (!expandedScopes.includes(includedScope)) {
               expandedScopes.push(includedScope);
             }

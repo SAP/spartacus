@@ -17,7 +17,7 @@ describe('LoadingScopesService', () => {
             include: ['list'],
           },
           order: {
-            include: ['base'],
+            include: ['base', 'list'],
             maxAge: 60,
           },
         },
@@ -55,6 +55,11 @@ describe('LoadingScopesService', () => {
     it('should not duplicate scopes', () => {
       const result = service.expand('product', ['detail', 'order', 'base']);
       expect(result).toEqual(['list', 'detail', 'order', 'base']);
+    });
+
+    it('should keep proper order of included scopes', () => {
+      const result = service.expand('product', ['order']);
+      expect(result).toEqual(['base', 'list', 'order']);
     });
   });
 
