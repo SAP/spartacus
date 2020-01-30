@@ -87,7 +87,7 @@ describe('ProductLoadingService', () => {
         expect(result).toEqual({ code, name: 'test' });
       });
 
-      it('should emit partial product data', async () => {
+      it('should not emit partial product data', async () => {
         // only one scope is loaded
         store.dispatch(
           new ProductActions.LoadProductSuccess(
@@ -100,7 +100,7 @@ describe('ProductLoadingService', () => {
           .get(code, ['scope1', 'scope2'])
           .pipe(take(1))
           .toPromise();
-        expect(result).toEqual({ code, name: 'test' });
+        expect(result).toEqual(undefined);
       });
 
       it('should take into account order of scopes', async () => {

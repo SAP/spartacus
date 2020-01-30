@@ -56,9 +56,10 @@ export class ProductLoadingService {
         scopes.map(scope => this.products[productCode][scope])
       ).pipe(
         auditTime(0),
-        map(
-          productParts =>
-            productParts.find(Boolean) && deepMerge({}, ...productParts)
+        map(productParts =>
+          productParts.every(Boolean)
+            ? deepMerge({}, ...productParts)
+            : undefined
         )
       );
     } else {
