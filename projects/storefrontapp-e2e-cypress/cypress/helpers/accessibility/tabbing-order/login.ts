@@ -6,7 +6,7 @@ import { TabElement } from '../tabbing-order.model';
 const containerSelector = '.LoginPageTemplate';
 
 export function loginTabbingOrder(
-  elements: TabElement[],
+  config: TabElement[],
   prefillForm: boolean = false
 ) {
   cy.visit('/login');
@@ -16,5 +16,5 @@ export function loginTabbingOrder(
     fillLoginForm({ username, password });
   }
 
-  verifyTabbingOrder(containerSelector, elements);
+  verifyTabbingOrder(containerSelector, config);
 }
