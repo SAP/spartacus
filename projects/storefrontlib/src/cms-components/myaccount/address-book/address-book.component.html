@@ -30,7 +30,9 @@
           [content]="getCardContent(address) | async"
           (editCard)="editAddressButtonHandle(address)"
           (setDefaultCard)="setAddressAsDefault(address.id)"
-          (deleteCard)="deleteAddress(address.id)"
+          (deleteCard)="setEdit(address.id)"
+          [editMode]="address.id === editCard"
+          (cancelCard)="cancelCard()"
         ></cx-card>
       </div>
     </div>
@@ -50,6 +52,7 @@
         [setAsDefaultField]="!((addresses$ | async).length === 0)"
         (submitAddress)="addAddressSubmit($event)"
         (backToAddress)="addAddressCancel()"
+        (cancelCard)="cancelCard()"
       ></cx-address-form>
     </section>
   </ng-container>

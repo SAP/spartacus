@@ -122,7 +122,7 @@ export function deleteExistingAddress() {
     .get('a')
     .contains('Delete')
     .click();
-  cy.get('.cx-address-card-delete-msg').should(
+  cy.get('.cx-card-delete-msg').should(
     'contain',
     'Are you sure you want to delete this address?'
   );
@@ -130,7 +130,7 @@ export function deleteExistingAddress() {
   // click cancel
   cy.get('.btn-secondary').should('contain', 'Cancel');
   cy.get('.btn-secondary').click();
-  cy.get('.cx-address-card-delete-msg').should(
+  cy.get('.cx-card-delete-msg').should(
     'not.contain',
     'Are you sure you want to delete this address?'
   );
@@ -139,10 +139,10 @@ export function deleteExistingAddress() {
   deleteFirstAddress();
   alerts.getSuccessAlert().contains('Address deleted successfully!');
 
-  cy.get('cx-address-card').should('have.length', 1);
+  cy.get('cx-card').should('have.length', 1);
 
   // verify remaining address is now the default one
-  const defaultCard = cy.get('cx-address-card').first();
+  const defaultCard = cy.get('cx-card').first();
   defaultCard.should('contain', '✓ DEFAULT');
   defaultCard.should('contain', 'Baz Qux');
 }
@@ -163,9 +163,9 @@ export function deleteFirstAddress() {
     'fetchAddresses'
   );
 
-  const firstCard = cy.get('cx-address-card').first();
-  firstCard.find('.delete').click();
-  cy.get('.cx-address-card-delete button.btn-primary').click();
+  const firstCard = cy.get('cx-card').first();
+  firstCard.contains('Delete').click();
+  cy.get('.cx-card-delete button.btn-primary').click();
   cy.wait('@deleteAddress')
     .its('status')
     .should('eq', 200);

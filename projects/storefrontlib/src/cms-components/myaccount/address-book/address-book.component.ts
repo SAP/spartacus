@@ -22,6 +22,7 @@ export class AddressBookComponent implements OnInit {
 
   showAddAddressForm = false;
   showEditAddressForm = false;
+  editCard: string;
 
   constructor(
     public service: AddressBookComponentService,
@@ -71,34 +72,44 @@ export class AddressBookComponent implements OnInit {
       this.translation.translate('addressCard.setAsDefault'),
       this.translation.translate('common.delete'),
       this.translation.translate('common.edit'),
+      this.translation.translate('addressBook.areYouSureToDeleteAddress'),
     ]).pipe(
-      map(([defaultText, setAsDefaultText, textDelete, textEdit]) => {
-        let region = '';
+      map(
+        ([
+          defaultText,
+          setAsDefaultText,
+          textDelete,
+          textEdit,
+          textVerifyDeleteMsg,
+        ]) => {
+          let region = '';
 
-        if (address.region && address.region.isocode) {
-          region = address.region.isocode + ', ';
+          if (address.region && address.region.isocode) {
+            region = address.region.isocode + ', ';
+          }
+
+          const actions: { name: string; event: string }[] = [];
+          if (!address.defaultAddress) {
+            actions.push({ name: setAsDefaultText, event: 'default' });
+          }
+          actions.push({ name: textEdit, event: 'edit' });
+          actions.push({ name: textDelete, event: 'delete' });
+
+          return {
+            textBold: address.firstName + ' ' + address.lastName,
+            text: [
+              address.line1,
+              address.line2,
+              address.town + ', ' + region + address.country.isocode,
+              address.postalCode,
+              address.phone,
+            ],
+            actions: actions,
+            header: address.defaultAddress ? `✓ ${defaultText}` : '',
+            deleteMsg: textVerifyDeleteMsg,
+          };
         }
-
-        const actions: { name: string; event: string }[] = [];
-        if (!address.defaultAddress) {
-          actions.push({ name: setAsDefaultText, event: 'default' });
-        }
-        actions.push({ name: textEdit, event: 'edit' });
-        actions.push({ name: textDelete, event: 'delete' });
-
-        return {
-          textBold: address.firstName + ' ' + address.lastName,
-          text: [
-            address.line1,
-            address.line2,
-            address.town + ', ' + region + address.country.isocode,
-            address.postalCode,
-            address.phone,
-          ],
-          actions: actions,
-          header: address.defaultAddress ? `✓ ${defaultText}` : '',
-        };
-      })
+      )
     );
   }
 
@@ -110,5 +121,17 @@ export class AddressBookComponent implements OnInit {
   deleteAddress(addressId: string): void {
     this.userAddressService.deleteUserAddress(addressId);
     this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
+  }
+
+  setEdit(addressId: string): void {
+    if (this.editCard !== addressId) {
+      this.editCard = addressId;
+    } else {
+      this.deleteAddress(addressId);
+    }
+  }
+
+  cancelCard(): void {
+    this.editCard = null;
   }
 }
