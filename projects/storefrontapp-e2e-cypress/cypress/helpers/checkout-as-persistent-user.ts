@@ -52,12 +52,13 @@ export function loginSuccessfully() {
   cy.get('.cx-login-greet').should('contain', 'Test User');
 }
 
-export function addShippingAddress() {
+export function addShippingAddress(site:string='electronics-spa', currency:string='USD',isocode:string='US') {
+  if(site)
   cy.request({
     method: 'POST',
     url: `${Cypress.env(
       'API_URL'
-    )}/rest/v2/electronics-spa/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
+    )}/rest/v2/${site}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=${currency}`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
@@ -72,8 +73,7 @@ export function addShippingAddress() {
       line1: '999 de Maisonneuve',
       line2: '',
       town: 'Montreal',
-      region: { isocode: 'US-AK' },
-      country: { isocode: 'US' },
+      country: { isocode: isocode },
       postalCode: 'H4B3L4',
       phone: '',
     },
@@ -82,19 +82,19 @@ export function addShippingAddress() {
   });
 }
 
-export function goToProductPageFromCategory() {
+export function goToProductPageFromCategory(item:any=product,bannerNumber:string='6') {
   // click big banner
   cy.get('.Section1 cx-banner cx-generic-link')
     .first()
     .find('cx-media')
     .click();
   // click small banner number 6 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-banner:nth-of-type(6) a cx-media').click();
+  cy.get(`.Section2 cx-banner:nth-of-type(${bannerNumber}) a cx-media`).click();
   cy.get('cx-product-intro').within(() => {
-    cy.get('.code').should('contain', product.code);
+    cy.get('.code').should('contain', item.code);
   });
   cy.get('cx-breadcrumb').within(() => {
-    cy.get('h1').should('contain', product.name);
+    cy.get('h1').should('contain', item.name);
   });
 }
 
@@ -112,7 +112,7 @@ export function addProductToCart() {
   cy.get('cx-breadcrumb').should('contain', 'Your Shopping Cart');
 }
 
-export function addPaymentMethod() {
+export function addPaymentMethod(site:string='electronics-spa', isocode:string='US') {
   cy.get('.cx-total')
     .first()
     .then($cart => {
@@ -121,7 +121,7 @@ export function addPaymentMethod() {
         method: 'POST',
         url: `${Cypress.env(
           'API_URL'
-        )}/rest/v2/electronics-spa/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
+        )}/rest/v2/${site}/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth
@@ -144,7 +144,7 @@ export function addPaymentMethod() {
             line2: '',
             town: 'Montreal',
             postalCode: 'H4B3L4',
-            country: { isocode: 'US' },
+            country: { isocode: isocode },
           },
         },
       }).then(response => {
@@ -153,12 +153,12 @@ export function addPaymentMethod() {
     });
 }
 
-export function selectShippingAddress() {
+export function selectShippingAddress(site:string='electronics-spa') {
   cy.server();
 
   cy.route(
     'GET',
-    '/rest/v2/electronics-spa/cms/pages?*/checkout/shipping-address*'
+    `/rest/v2/${site}/cms/pages?*/checkout/shipping-address*`
   ).as('getShippingPage');
   cy.getByText(/proceed to checkout/i).click();
   cy.wait('@getShippingPage');
@@ -173,20 +173,20 @@ export function selectShippingAddress() {
 
   cy.route(
     'GET',
-    '/rest/v2/electronics-spa/cms/pages?*/checkout/delivery-mode*'
+    `/rest/v2/${site}/cms/pages?*/checkout/delivery-mode*`
   ).as('getDeliveryPage');
   cy.get('button.btn-primary').click();
   cy.wait('@getDeliveryPage');
 }
 
-export function selectDeliveryMethod() {
+export function selectDeliveryMethod(site:string='electronics-spa') {
   cy.server();
   cy.route(
     'GET',
-    '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
+    `/rest/v2/${site}/cms/pages?*/checkout/payment-details*`
   ).as('getPaymentPage');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-gross').should('be.checked');
+  cy.get('#deliveryMode-standard-net').should('be.checked');
   cy.get('button.btn-primary').click();
   cy.wait('@getPaymentPage')
     .its('status')
@@ -218,10 +218,10 @@ export function verifyAndPlaceOrder() {
   );
 
   cy.get('.form-check-input').check();
-  cy.get('button.btn-primary').click();
+  cy.get('button.btn-primary.btn-block').click();
 }
 
-export function displaySummaryPage() {
+export function displaySummaryPage(code:string=product.code) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
   cy.get('.cx-order-review-summary .row').within(() => {
@@ -231,17 +231,17 @@ export function displaySummaryPage() {
       cy.contains('Standard Delivery');
     });
   });
-  cy.get('cx-cart-item .cx-code').should('contain', product.code);
+  cy.get('cx-cart-item .cx-code').should('contain', code);
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
 
-export function deleteShippingAddress() {
+export function deleteShippingAddress(site:string='electronics',currency:string='USD') {
   // Retrieve the address ID
   cy.request({
     method: 'GET',
     url: `${Cypress.env(
       'API_URL'
-    )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
+    )}/rest/v2/${site}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=${currency}`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
@@ -260,7 +260,7 @@ export function deleteShippingAddress() {
         method: 'DELETE',
         url: `${Cypress.env(
           'API_URL'
-        )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/addresses/${id}?lang=en&curr=USD`,
+        )}/rest/v2/${site}/users/test-user-cypress@ydev.hybris.com/addresses/${id}?lang=en&curr=${currency}`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth
@@ -272,13 +272,13 @@ export function deleteShippingAddress() {
       });
     });
 }
-export function deletePaymentCard() {
+export function deletePaymentCard(site:string='electronics',currency:string='USD') {
   // Retrieve the payment ID
   cy.request({
     method: 'GET',
     url: `${Cypress.env(
       'API_URL'
-    )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/paymentdetails?saved=true&lang=en&curr=USD`,
+    )}/rest/v2/${site}/users/test-user-cypress@ydev.hybris.com/paymentdetails?saved=true&lang=en&curr=${currency}`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
@@ -297,7 +297,7 @@ export function deletePaymentCard() {
         method: 'DELETE',
         url: `${Cypress.env(
           'API_URL'
-        )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/paymentdetails/${id}?lang=en&curr=USD`,
+        )}/rest/v2/${site}/users/test-user-cypress@ydev.hybris.com/paymentdetails/${id}?lang=en&curr=${currency}`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth

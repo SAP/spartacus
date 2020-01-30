@@ -2,102 +2,8 @@ import {
   variantProduct,
   styleVariantProduct,
   productWithoutVariants,
-  user,
 } from '../sample-data/checkout-with-variants-data';
-import { login, setSessionData, config } from '../support/utils/login';
-
-export function retrieveTokenAndLogin() {
-  function retrieveAuthToken() {
-    return cy.request({
-      method: 'POST',
-      url: config.tokenUrl,
-      body: {
-        ...config.client,
-        grant_type: 'client_credentials',
-      },
-      form: true,
-    });
-  }
-
-  login(user.email, user.password, false).then(res => {
-    if (res.status === 200) {
-      // User is already registered - only set session in localStorage
-      setSessionData({ ...res.body, userId: user.email });
-    } else {
-      // User needs to be registered
-      retrieveAuthToken().then(response =>
-        cy.request({
-          method: 'POST',
-          url: config.newUserUrl,
-          body: {
-            firstName: user.firstName,
-            lastName: user.lastName,
-            password: user.password,
-            titleCode: 'mr',
-            uid: user.email,
-          },
-          headers: {
-            Authorization: `bearer ` + response.body.access_token,
-          },
-        })
-      );
-    }
-  });
-}
-
-export function loginSuccessfully() {
-  retrieveTokenAndLogin();
-  cy.login(user.email, user.password);
-  cy.visit('/');
-  cy.get('.cx-login-greet').should('contain', 'User Test');
-}
-
-export function addShippingAddress() {
-  cy.request({
-    method: 'POST',
-    url: `${Cypress.env('API_URL')}/rest/v2/apparel-uk-spa/users/${
-      user.email
-    }/addresses?lang=en&curr=GBP`,
-    headers: {
-      Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
-          .token.access_token
-      }`,
-    },
-    body: {
-      defaultAddress: false,
-      title: 'mrs',
-      firstName: 'John',
-      lastName: 'Smith',
-      line1: 'Buckingham Street 5',
-      line2: '1A',
-      phone: '(+11) 111 111 111',
-      postalCode: 'MA8902',
-      town: 'London',
-      country: {
-        isocode: 'GB',
-      },
-    },
-  }).then(response => {
-    expect(response.status).to.eq(201);
-  });
-}
-
-export function goToProductVariantPageFromCategory() {
-  // click big banner
-  cy.get('.Section1 cx-banner cx-generic-link')
-    .first()
-    .find('cx-media')
-    .click();
-  // click small banner number 6 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-banner:nth-of-type(4) a cx-media').click();
-  cy.get('cx-product-intro').within(() => {
-    cy.get('.code').should('contain', variantProduct.code);
-  });
-  cy.get('cx-breadcrumb').within(() => {
-    cy.get('h1').should('contain', variantProduct.name);
-  });
-}
+import { loginSuccessfully, addShippingAddress, addPaymentMethod, selectShippingAddress, selectDeliveryMethod, verifyAndPlaceOrder, selectPaymentMethod, deleteShippingAddress, deletePaymentCard, goToProductPageFromCategory, displaySummaryPage } from './checkout-as-persistent-user';
 
 export function addProductVariant() {
   cy.get(`.variant-selector ul.variant-list li a.colorVariant`)
@@ -117,209 +23,10 @@ export function addProductVariant() {
   cy.get('cx-breadcrumb').should('contain', 'Your Shopping Bag');
 }
 
-export function addPaymentMethod() {
-  cy.get('.cx-total')
-    .first()
-    .then($cart => {
-      const cartid = $cart.text().match(/[0-9]+/)[0];
-      cy.request({
-        method: 'POST',
-        url: `${Cypress.env('API_URL')}/rest/v2/apparel-uk-spa/users/${
-          user.email
-        }/carts/${cartid}/paymentdetails`,
-        headers: {
-          Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus-local-data')).auth
-              .userToken.token.access_token
-          }`,
-        },
-        body: {
-          accountHolderName: 'user test',
-          cardNumber: '4111111111111111',
-          cardType: { code: 'visa' },
-          expiryMonth: '01',
-          expiryYear: '2125',
-          defaultPayment: true,
-          saved: true,
-          billingAddress: {
-            firstName: 'user',
-            lastName: 'test',
-            titleCode: 'mr',
-            line1: '999 de Maisonneuve',
-            line2: '',
-            town: 'Montreal',
-            postalCode: 'H4B3L4',
-            country: { isocode: 'US' },
-          },
-        },
-      }).then(response => {
-        expect(response.status).to.eq(201);
-      });
-    });
-}
-
-export function selectShippingAddress() {
-  cy.server();
-  cy.route(
-    'GET',
-    '/rest/v2/apparel-uk-spa/cms/pages?*/checkout/shipping-address*'
-  ).as('getShippingPage');
-  cy.getByText(/proceed to checkout/i).click();
-  cy.wait('@getShippingPage');
-
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-  cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
-    .first()
-    .find('.cx-summary-amount')
-    .should('not.be.empty');
-  cy.get('.cx-card-title').should('contain', 'Shipping Address');
-  cy.get('.card-header').should('contain', 'Selected');
-
-  cy.route(
-    'GET',
-    '/rest/v2/apparel-uk-spa/cms/pages?*/checkout/delivery-mode*'
-  ).as('getDeliveryPage');
-  cy.get('button.btn-primary').click();
-  cy.wait('@getDeliveryPage');
-}
-
-export function selectDeliveryMethod() {
-  cy.server();
-  cy.route(
-    'GET',
-    '/rest/v2/apparel-uk-spa/cms/pages?*/checkout/payment-details*'
-  ).as('getPaymentPage');
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-gross').should('be.checked');
-  cy.get('button.btn-primary').click();
-  cy.wait('@getPaymentPage')
-    .its('status')
-    .should('eq', 200);
-}
-
-export function selectPaymentMethod() {
-  cy.get('.cx-checkout-title').should('contain', 'Payment');
-  cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
-    .find('.cx-summary-amount')
-    .should('not.be.empty');
-  cy.get('.cx-card-title').should('contain', 'Default Payment Method');
-  cy.get('.card-header').should('contain', 'Selected');
-  cy.get('button.btn-primary').click();
-}
-
-export function verifyAndPlaceOrder() {
-  cy.get('.cx-review-title').should('contain', 'Review');
-  cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Ship To')
-    .find('.cx-card-container')
-    .should('not.be.empty');
-  cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Shipping Method')
-    .find('.cx-card-label-bold')
-    .should('contain', 'Standard Delivery');
-  cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
-    'not.be.empty'
-  );
-
-  cy.get('.form-check-input').check();
-  cy.get('button.btn-primary.btn-block').click();
-}
-
-export function displaySummaryPage() {
-  cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
-  cy.get('h2').should('contain', 'Thank you for your order!');
-  cy.get('.cx-order-review-summary .row').within(() => {
-    cy.get('.col-lg-3:nth-child(1) .cx-card').should('not.be.empty');
-    cy.get('.col-lg-3:nth-child(2) .cx-card').should('not.be.empty');
-    cy.get('.col-lg-3:nth-child(3) .cx-card').within(() => {
-      cy.contains('Standard Delivery');
-    });
-  });
-  cy.get('cx-cart-item .cx-code').should('contain', variantProduct.code);
-  cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
-}
-
-export function deleteShippingAddress() {
-  // Retrieve the address ID
-  cy.request({
-    method: 'GET',
-    url: `${Cypress.env('API_URL')}/rest/v2/apparel-uk-spa/users/${
-      user.email
-    }/addresses?lang=en&curr=GBP`,
-    headers: {
-      Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
-          .token.access_token
-      }`,
-    },
-  })
-    .then(response => {
-      const addressResp = response.body.addresses;
-      expect(addressResp[0]).to.have.property('id');
-      return addressResp[0].id;
-    })
-    .then(id => {
-      // Delete the address
-      cy.request({
-        method: 'DELETE',
-        url: `${Cypress.env('API_URL')}/rest/v2/apparel-uk-spa/users/${
-          user.email
-        }/addresses/${id}?lang=en&curr=GBP`,
-        headers: {
-          Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus-local-data')).auth
-              .userToken.token.access_token
-          }`,
-        },
-      }).then(response => {
-        expect(response.status).to.eq(200);
-      });
-    });
-}
-
-export function deletePaymentCard() {
-  // Retrieve the payment ID
-  cy.request({
-    method: 'GET',
-    url: `${Cypress.env('API_URL')}/rest/v2/apparel-uk-spa/users/${
-      user.email
-    }/paymentdetails?saved=true&lang=en&curr=GBP`,
-    headers: {
-      Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
-          .token.access_token
-      }`,
-    },
-  })
-    .then(response => {
-      const paymentResp = response.body.payments;
-      expect(paymentResp[0]).to.have.property('id');
-      return paymentResp[0].id;
-    })
-    .then(id => {
-      // Delete the payment
-      cy.request({
-        method: 'DELETE',
-        url: `${Cypress.env('API_URL')}/rest/v2/apparel-uk-spa/users/${
-          user.email
-        }/paymentdetails/${id}?lang=en&curr=GBP`,
-        headers: {
-          Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus-local-data')).auth
-              .userToken.token.access_token
-          }`,
-        },
-      }).then(response => {
-        expect(response.status).to.eq(200);
-      });
-    });
-}
-
 export function addTwoProductVariantsToCart() {
   cy.get(`.variant-selector ul.variant-list li a.colorVariant`)
     .first()
     .click();
-  cy.wait(3000);
   cy.get(`.variant-selector ul.variant-list li.selected-variant`).should(
     'be.visible'
   );
@@ -329,11 +36,12 @@ export function addTwoProductVariantsToCart() {
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', variantProduct.name);
     cy.get('.close').click();
+    cy.wait(5000);
   });
   cy.get(`.variant-selector ul.variant-list li a.colorVariant`)
     .last()
     .click();
-  cy.wait(3000);
+  cy.wait(5000);
   cy.get(`.variant-selector ul.variant-list li.selected-variant`).should(
     'be.visible'
   );
@@ -345,22 +53,6 @@ export function addTwoProductVariantsToCart() {
     cy.getByText(/view cart/i).click();
   });
   cy.get('cx-breadcrumb').should('contain', 'Your Shopping Bag');
-}
-
-export function visitProductWithVariantPage() {
-  cy.visit('/apparel-uk-spa/en/GBP');
-  cy.get('.Section1 cx-banner cx-generic-link')
-    .first()
-    .find('cx-media')
-    .click();
-  // click small banner number 4 (would be good if label or alt text would be available)
-  cy.get('.Section2 cx-banner:nth-of-type(4) a cx-media').click();
-  cy.get('cx-product-intro').within(() => {
-    cy.get('.code').should('contain', variantProduct.code);
-  });
-  cy.get('cx-breadcrumb').within(() => {
-    cy.get('h1').should('contain', variantProduct.name);
-  });
 }
 
 export function visitProductWithoutVariantPage() {
@@ -414,11 +106,11 @@ export function checkoutWithVariantsTest() {
   });
 
   it('should add a shipping address', () => {
-    addShippingAddress();
+    addShippingAddress('apparel-uk-spa','GBP','GB');
   });
 
   it('should go to product page from category page', () => {
-    goToProductVariantPageFromCategory();
+    goToProductPageFromCategory(variantProduct,'4');
   });
 
   it('should add product variant to cart', () => {
@@ -426,15 +118,15 @@ export function checkoutWithVariantsTest() {
   });
 
   it('should get cartId and add a payment method', () => {
-    addPaymentMethod();
+    addPaymentMethod('apparel-uk-spa');
   });
 
   it('should proceed to checkout and select shipping address', () => {
-    selectShippingAddress();
+    selectShippingAddress('apparel-uk-spa');
   });
 
   it('should choose delivery', () => {
-    selectDeliveryMethod();
+    selectDeliveryMethod('apparel-uk-spa');
   });
 
   it('should select payment method', () => {
@@ -446,11 +138,12 @@ export function checkoutWithVariantsTest() {
   });
 
   it('should display summary page', () => {
-    displaySummaryPage();
+    displaySummaryPage(variantProduct.code);
   });
 
   it('should visit the product with variants page', () => {
-    visitProductWithVariantPage();
+    cy.visit('/apparel-uk-spa/en/GBP');
+    goToProductPageFromCategory(variantProduct,'4');
   });
 
   it('should add two variants of same product to cart', () => {
@@ -466,11 +159,11 @@ export function checkoutWithVariantsTest() {
   });
 
   it('should proceed to checkout and select shipping address', () => {
-    selectShippingAddress();
+    selectShippingAddress('apparel-uk-spa');
   });
 
   it('should choose delivery', () => {
-    selectDeliveryMethod();
+    selectDeliveryMethod('apparel-uk-spa');
   });
 
   it('should select payment method', () => {
@@ -486,10 +179,10 @@ export function checkoutWithVariantsTest() {
   });
 
   it('should delete shipping address', () => {
-    deleteShippingAddress();
+    deleteShippingAddress('apparel-uk','GBP');
   });
 
   it('should delete payment card', () => {
-    deletePaymentCard();
+    deletePaymentCard('apparel-uk','GBP');
   });
 }

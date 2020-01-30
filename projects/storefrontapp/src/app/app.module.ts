@@ -39,6 +39,9 @@ if (!environment.production) {
           legacy: false,
         },
       },
+      checkout: {
+        guest: true,
+    },
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: [
@@ -48,6 +51,7 @@ if (!environment.production) {
           'apparel-uk',
           'apparel-uk-spa',
         ],
+        //currency:['GBP'],
       },
 
       // custom routing configuration for e2e testing
