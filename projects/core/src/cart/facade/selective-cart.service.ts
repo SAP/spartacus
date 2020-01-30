@@ -48,7 +48,7 @@ export class SelectiveCartService{
   /**
    * @deprecated Since 1.5
    * Add baseSiteService.
-   * Remove issue: 
+   * Remove issue:6329
    */
   constructor(
     store: Store<StateWithMultiCart>,
