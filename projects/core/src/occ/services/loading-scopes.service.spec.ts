@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { LoadingScopesService } from './loading-scopes.service';
 import { OccConfig } from '@spartacus/core';
 
-describe('LoadingScopesService', () => {
+fdescribe('LoadingScopesService', () => {
   let service: LoadingScopesService;
 
   const mockConfig: OccConfig = {
@@ -66,8 +66,37 @@ describe('LoadingScopesService', () => {
     });
 
     it('should behave predictably for complex cases', () => {
-      const result = service.expand('product', ['order', 'zczapy', 'detail']);
-      expect(result).toEqual(['order', 'zczapy', 'base', 'list', 'detail']);
+      expect(service.expand('product', ['order', 'zczapy', 'detail'])).toEqual([
+        'order',
+        'zczapy',
+        'base',
+        'list',
+        'detail',
+      ]);
+
+      expect(service.expand('product', ['order', 'zczapy'])).toEqual([
+        'order',
+        'detail',
+        'base',
+        'list',
+        'zczapy',
+      ]);
+
+      expect(service.expand('product', ['zczapy'])).toEqual([
+        'order',
+        'detail',
+        'base',
+        'list',
+        'zczapy',
+      ]);
+
+      expect(service.expand('product', ['zczapy', 'order'])).toEqual([
+        'detail',
+        'zczapy',
+        'base',
+        'list',
+        'order',
+      ]);
     });
   });
 

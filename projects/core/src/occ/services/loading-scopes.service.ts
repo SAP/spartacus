@@ -28,7 +28,6 @@ export class LoadingScopesService {
 
     if (scopesConfig) {
       let i = 0;
-
       const expandedScopes = [...scopes].reverse(); // to ensure proper scopes merging order
 
       while (i < expandedScopes.length) {
@@ -36,9 +35,11 @@ export class LoadingScopesService {
           scopesConfig[expandedScopes[i]] &&
           scopesConfig[expandedScopes[i]].include;
         if (includedScopes) {
+          let j = i + 1;
           for (const includedScope of [...includedScopes].reverse()) {
             if (!expandedScopes.includes(includedScope)) {
-              expandedScopes.splice(i + 1, 0, includedScope);
+              expandedScopes.splice(j, 0, includedScope);
+              j++;
             }
           }
         }
