@@ -78,6 +78,5 @@ export interface CmsState {
   page: PageState;
   component: ComponentState;
   components: ComponentsState;
-  // TODO:#4603 - investigate if this `navigation` could be moved inside of the `componentContext` slice. Investigate the reducer and effect
   navigation: EntityLoaderState<NodeItem>;
 }

@@ -282,11 +282,35 @@ describe('Cms Component Selectors', () => {
     });
   });
 
+  describe('componentsDataSelectorFactory', () => {
+    it('should return the component', () => {
+      const componentUid = 'comp1';
+      const pageContext: PageContext = {
+        id: 'xxx',
+        type: PageType.CONTENT_PAGE,
+      };
+
+      store.dispatch(
+        new CmsActions.LoadCmsComponentSuccess(
+          component,
+          componentUid,
+          pageContext
+        )
+      );
+
+      let result: CmsComponent;
+      store
+        .pipe(select(CmsSelectors.componentsDataSelectorFactory(componentUid)))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(component);
+    });
+  });
+
   describe('componentsSelectorFactory', () => {
     describe('when the component exists', () => {
       it('should return the component', () => {
         const componentUid = 'comp1';
-
         const pageContext: PageContext = {
           id: 'xxx',
           type: PageType.CONTENT_PAGE,

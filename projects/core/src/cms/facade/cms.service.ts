@@ -69,9 +69,16 @@ export class CmsService {
 
   /**
    * Get CMS component data by uid
+   *
+   * This method can be safely and optimally used to load multiple components data at the same time.
+   * Calling getComponentData multiple times for different components will always result in optimized
+   * back-end request: all components requested at the same time (in one event loop) will be loaded in one network call.
+   *
+   * In case the component data is not present, the method will load it.
+   * Otherwise, if the page context is not provided, the current page context from the router state will be used instead.
+   *
    * @param uid CMS component uid
-   * @param pageContext if provided, it will be used to lookup (and create, if missing) the component data.
-   * Otherwise, the current page context from the router state will be used instead.
+   * @param pageContext if provided, it will be used to lookup the component data.
    */
   getComponentData<T extends CmsComponent>(
     uid: string,
@@ -119,6 +126,7 @@ export class CmsService {
           loadingState.loading || loadingState.success || loadingState.error;
         // if the requested context is the same as the one that's currently being navigated to
         // (as it might already been triggered and might be available shortly from page data)
+        // TODO(issue:3649), TODO(issue:3668) - this optimization could be removed
         const couldBeLoadedWithPageData = nextContext
           ? serializePageContext(nextContext) === context
           : false;

@@ -14,11 +14,12 @@ import { ConsignmentTrackingComponent } from '../../../../cms-components/myaccou
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CardModule } from '../../../../shared/components/card/card.module';
-import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
+import { SpinnerModule } from '../../../../shared/components/index';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
-import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
-import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
+import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
+import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
+import { OrderConsignedEntriesComponent } from './order-detail-items/order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
@@ -33,6 +34,7 @@ const moduleComponents = [
   OrderDetailShippingComponent,
   TrackingEventsComponent,
   ConsignmentTrackingComponent,
+  OrderConsignedEntriesComponent,
 ];
 
 @NgModule({

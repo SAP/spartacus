@@ -1,4 +1,4 @@
-import { Cart, OrderEntry } from '@spartacus/core';
+import { Cart } from '@spartacus/core';
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
@@ -36,7 +36,6 @@ export enum ProfileTagEventNames {
 }
 
 interface ProfileTagCart {
-  entries: OrderEntry[];
   cart: Cart;
 }
 
