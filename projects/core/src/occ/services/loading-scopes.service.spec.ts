@@ -54,12 +54,12 @@ describe('LoadingScopesService', () => {
 
     it('should not duplicate scopes', () => {
       const result = service.expand('product', ['detail', 'order', 'base']);
-      expect(result).toEqual(['list', 'detail', 'order', 'base']);
+      expect(result).toEqual(['detail', 'list', 'order', 'base']);
     });
 
     it('should keep proper order of included scopes', () => {
-      const result = service.expand('product', ['order']);
-      expect(result).toEqual(['base', 'list', 'order']);
+      const result = service.expand('product', ['order', 'list']);
+      expect(result).toEqual(['order', 'base', 'list']);
     });
   });
 

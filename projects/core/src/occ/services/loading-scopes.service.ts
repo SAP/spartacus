@@ -38,7 +38,7 @@ export class LoadingScopesService {
         if (includedScopes) {
           for (const includedScope of [...includedScopes].reverse()) {
             if (!expandedScopes.includes(includedScope)) {
-              expandedScopes.push(includedScope);
+              expandedScopes.splice(i + 1, 0, includedScope);
             }
           }
         }
