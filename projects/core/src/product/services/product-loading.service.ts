@@ -60,7 +60,8 @@ export class ProductLoadingService {
           productParts.every(Boolean)
             ? deepMerge({}, ...productParts)
             : undefined
-        )
+        ),
+        distinctUntilChanged()
       );
     } else {
       return this.products[productCode][scopes[0]];
