@@ -3,7 +3,19 @@ import {
   styleVariantProduct,
   productWithoutVariants,
 } from '../sample-data/checkout-with-variants-data';
-import { loginSuccessfully, addShippingAddress, addPaymentMethod, selectShippingAddress, selectDeliveryMethod, verifyAndPlaceOrder, selectPaymentMethod, deleteShippingAddress, deletePaymentCard, goToProductPageFromCategory, displaySummaryPage } from './checkout-as-persistent-user';
+import {
+  loginSuccessfully,
+  addShippingAddress,
+  addPaymentMethod,
+  selectShippingAddress,
+  selectDeliveryMethod,
+  verifyAndPlaceOrder,
+  selectPaymentMethod,
+  deleteShippingAddress,
+  deletePaymentCard,
+  goToProductPageFromCategory,
+  displaySummaryPage,
+} from './checkout-as-persistent-user';
 
 export function addProductVariant() {
   cy.get(`.variant-selector ul.variant-list li a.colorVariant`)
@@ -106,11 +118,11 @@ export function checkoutWithVariantsTest() {
   });
 
   it('should add a shipping address', () => {
-    addShippingAddress('apparel-uk-spa','GBP','GB');
+    addShippingAddress('apparel-uk-spa', 'GBP', 'GB');
   });
 
   it('should go to product page from category page', () => {
-    goToProductPageFromCategory(variantProduct,'4');
+    goToProductPageFromCategory(variantProduct, '4');
   });
 
   it('should add product variant to cart', () => {
@@ -143,7 +155,7 @@ export function checkoutWithVariantsTest() {
 
   it('should visit the product with variants page', () => {
     cy.visit('/apparel-uk-spa/en/GBP');
-    goToProductPageFromCategory(variantProduct,'4');
+    goToProductPageFromCategory(variantProduct, '4');
   });
 
   it('should add two variants of same product to cart', () => {
@@ -179,10 +191,10 @@ export function checkoutWithVariantsTest() {
   });
 
   it('should delete shipping address', () => {
-    deleteShippingAddress('apparel-uk','GBP');
+    deleteShippingAddress('apparel-uk', 'GBP');
   });
 
   it('should delete payment card', () => {
-    deletePaymentCard('apparel-uk','GBP');
+    deletePaymentCard('apparel-uk', 'GBP');
   });
 }

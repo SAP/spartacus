@@ -5,14 +5,21 @@ import {
   displaySummaryPageForOrderWithMultipleProducts,
   addProductVariant,
 } from './checkout-with-variants';
-import { user, variantProduct } from '../sample-data/checkout-with-variants-data';
+import {
+  user,
+  variantProduct,
+} from '../sample-data/checkout-with-variants-data';
 import {
   fillShippingAddress,
   AddressData,
   fillPaymentDetails,
   PaymentDetails,
 } from './checkout-forms';
-import { goToProductPageFromCategory, verifyAndPlaceOrder, displaySummaryPage } from './checkout-as-persistent-user';
+import {
+  goToProductPageFromCategory,
+  verifyAndPlaceOrder,
+  displaySummaryPage,
+} from './checkout-as-persistent-user';
 
 export function checkoutAsGuestWithVariantsTest() {
   it('should add product to cart and go to login', () => {
@@ -49,7 +56,7 @@ export function checkoutAsGuestWithVariantsTest() {
 
   it('should visit the product with variants page', () => {
     cy.visit('/apparel-uk-spa/en/GBP');
-    goToProductPageFromCategory(variantProduct,'4');
+    goToProductPageFromCategory(variantProduct, '4');
   });
 
   it('should add two variants of same product to cart', () => {
@@ -95,7 +102,7 @@ export function checkoutAsGuestWithVariantsTest() {
 
 export function addProductToCart() {
   cy.visit('/');
-  goToProductPageFromCategory(variantProduct,'4');
+  goToProductPageFromCategory(variantProduct, '4');
   addProductVariant();
 }
 
