@@ -52,6 +52,10 @@ export const groupSkippingConfigMyAccount: GroupSkippingConfig = {
     pageUrl: '/my-account/payment-details',
     expectedSkipperCount: 3,
   },
+  notificationPreference: {
+    pageUrl: '/my-account/notification-preference',
+    expectedSkipperCount: 3,
+  },
 };
 
 export const groupSkippingConfigCheckout: GroupSkippingConfig = {
