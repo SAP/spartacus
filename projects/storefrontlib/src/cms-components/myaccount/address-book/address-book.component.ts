@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
 import { AddressBookComponentService } from './address-book.component.service';
-import { Card } from '@spartacus/storefront';
+import { Card } from '../../../shared/components/card';
 import { map } from 'rxjs/operators';
 
 @Component({
