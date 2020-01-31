@@ -21,7 +21,7 @@ import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 
 @Component({
-  selector: 'cx-page-slot',
+  selector: 'cx-page-slot,[cx-page-slot]',
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
