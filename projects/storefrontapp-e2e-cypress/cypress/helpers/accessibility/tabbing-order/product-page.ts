@@ -1,4 +1,7 @@
-import { checkAllElements, TabElement, testProductUrl } from '../tabbing-order';
+import { testProductUrl, verifyTabbingOrder } from '../tabbing-order';
+import { TabElement } from '../tabbing-order.model';
+
+const containerSelector = '.ProductDetailsPageTemplate .Summary';
 
 export function productPageTabbingOrder(config: TabElement[]) {
   cy.server();
@@ -17,12 +20,7 @@ export function productPageTabbingOrder(config: TabElement[]) {
     .contains('+')
     .click();
 
-  cy.get('cx-product-images cx-carousel')
-    .find('cx-media')
-    .first()
-    .focus();
-
   cy.wait('@reviews');
 
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
 }

@@ -1,11 +1,9 @@
-import {
-  getFormFieldByValue,
-  checkAllElements,
-  TabElement,
-  checkoutNextStep,
-} from '../../tabbing-order';
+import { checkoutNextStep, verifyTabbingOrder } from '../../tabbing-order';
 import { fillShippingAddress } from '../../../checkout-forms';
 import { user } from '../../../../sample-data/checkout-flow';
+import { TabElement } from '../../tabbing-order.model';
+
+const containerSelector = '.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
   cy.visit('/checkout/shipping-address');
@@ -13,22 +11,14 @@ export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
   const { firstName, lastName, phone, address } = user;
   fillShippingAddress({ firstName, lastName, phone, address }, false);
 
-  getFormFieldByValue(config[0].value).within(() => {
-    cy.get('input')
-      .first()
-      .focus();
-  });
-
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
   checkoutNextStep('/checkout/delivery-mode');
 }
 
 export function checkoutShippingAddressExistingTabbingOrder(
   config: TabElement[]
 ) {
-  cy.getAllByText('Add New Address')
-    .first()
-    .focus();
+  cy.visit('/checkout/shipping-address');
 
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
 }
