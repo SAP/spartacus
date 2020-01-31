@@ -3,11 +3,14 @@ import {
   ComponentFactoryResolver,
   Injectable,
 } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
   OutletPosition,
   OutletService,
 } from '../../../../cms-structure/outlet/index';
+
+export const MODAL_OPEN_CLASS = 'cx-modal-open';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +21,8 @@ export class ModalComponentService {
 
   constructor(
     protected componentFactoryResolver: ComponentFactoryResolver,
-    protected outletService: OutletService<ComponentFactory<any>>
+    protected outletService: OutletService<ComponentFactory<any>>,
+    protected windowRef: WindowRef
   ) {}
 
   get opened(): Observable<boolean> {
@@ -39,9 +43,16 @@ export class ModalComponentService {
     this.outletService.remove('cx-generic-modal', OutletPosition.BEFORE);
     this._opened.next(false);
     this._component.next(null);
+    this.clearConfigs();
   }
 
   get component(): Observable<string> {
     return this._component.asObservable();
+  }
+
+  private clearConfigs(): void {
+    if (this.windowRef.document.body.classList.contains(MODAL_OPEN_CLASS)) {
+      this.windowRef.document.body.classList.remove(MODAL_OPEN_CLASS);
+    }
   }
 }

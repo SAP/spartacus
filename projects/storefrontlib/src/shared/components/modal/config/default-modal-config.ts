@@ -4,7 +4,7 @@ export const DEFAULT_MODAL_CONFIG: ModalConfig = {
   modal: {
     AnonymousConsentDialogComponent: {
       overlayClickClose: true,
-      pageScrollLock: false,
+      pageScrollLock: true,
     },
   },
 };
