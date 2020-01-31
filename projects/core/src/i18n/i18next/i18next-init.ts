@@ -1,3 +1,4 @@
+import { isPlatformServer } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import i18next from 'i18next';
 import i18nextXhrBackend from 'i18next-xhr-backend';
@@ -8,7 +9,9 @@ import { TranslationResources } from '../translation-resources';
 export function i18nextInit(
   configInit: ConfigInitializerService,
   languageService: LanguageService,
-  httpClient: HttpClient
+  httpClient: HttpClient,
+  platform: string,
+  serverRequestHost: string
 ): () => Promise<any> {
   return () =>
     configInit.getStableConfig('i18n').then(config => {
@@ -22,8 +25,13 @@ export function i18nextInit(
       };
       if (config.i18n.backend) {
         i18next.use(i18nextXhrBackend);
+        const loadPath = getLoadPath(
+          config.i18n.backend.loadPath,
+          platform,
+          serverRequestHost
+        );
         const backend = {
-          loadPath: config.i18n.backend.loadPath || undefined,
+          loadPath,
           ajax: i18nextGetHttpClient(httpClient),
         };
         i18nextConfig = { ...i18nextConfig, backend };
@@ -75,4 +83,35 @@ export function i18nextGetHttpClient(
         error => callback(null, { status: error.status })
       );
   };
+}
+
+/**
+ * Resolves the relative path to the absolute one in SSR, using the server request host.
+ * It's needed, because Angular Universal doesn't support relative URLs in HttpClient. See Angular issues:
+ * - https://github.com/angular/angular/issues/19224
+ * - https://github.com/angular/universal/issues/858
+ */
+export function getLoadPath(
+  path: string = '',
+  platform: string,
+  serverRequestHost: string = ''
+): string {
+  if (!path) {
+    return undefined;
+  }
+  if (
+    isPlatformServer(platform) &&
+    serverRequestHost &&
+    !path.match(/^http(s)?:\/\//)
+  ) {
+    if (path.startsWith('/')) {
+      path = path.slice(1);
+    }
+    if (path.startsWith('./')) {
+      path = path.slice(2);
+    }
+    const result = serverRequestHost + '/' + path;
+    return result;
+  }
+  return path;
 }
