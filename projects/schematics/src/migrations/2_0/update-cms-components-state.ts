@@ -1,11 +1,12 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { InsertChange } from '@schematics/angular/utility/change';
+import { Change } from '@schematics/angular/utility/change';
 import {
   commitChanges,
   getPathResultsForFile,
   getTsSourceFile,
   insertCommentAboveMethodCall,
   InsertDirection,
+  replaceMethodUsage,
 } from '../../shared/utils/file-utils';
 
 const GET_COMPONENT_STATE_OLD_API = 'getComponentState';
@@ -20,6 +21,9 @@ const COMPONENT_STATE_SELECTOR_FACTORY_OLD_API =
 const COMPONENT_STATE_SELECTOR_FACTORY_NEW_API =
   'componentsLoaderStateSelectorFactory';
 export const COMPONENT_STATE_SELECTOR_FACTORY_COMMENT = `// TODO: '${COMPONENT_STATE_SELECTOR_FACTORY_OLD_API}' has been removed. Please try '${COMPONENT_STATE_SELECTOR_FACTORY_NEW_API}' instead.`;
+
+export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
+export const COMPONENT_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 
 // TODO:#6027 - add type safety to options?
 export function updateCmsComponentsState(_options: any): Rule {
@@ -46,11 +50,18 @@ export function updateCmsComponentsState(_options: any): Rule {
         COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
         `${COMPONENT_STATE_SELECTOR_FACTORY_COMMENT}\n`
       );
+      const componentSelectorFactoryReplacedMethods = replaceMethodUsage(
+        sourcePath,
+        source,
+        COMPONENT_SELECTOR_FACTORY_OLD_API,
+        COMPONENT_SELECTOR_FACTORY_NEW_API
+      );
 
-      const changes: InsertChange[] = [
+      const changes: Change[] = [
         ...getComponentStateComments,
         ...getComponentEntitiesComments,
         ...componentStateSelectorFactoryComments,
+        ...componentSelectorFactoryReplacedMethods,
       ];
 
       if (changes.length) {

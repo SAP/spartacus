@@ -7,6 +7,8 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
 import {
+  COMPONENT_SELECTOR_FACTORY_NEW_API,
+  COMPONENT_SELECTOR_FACTORY_OLD_API,
   COMPONENT_STATE_SELECTOR_FACTORY_COMMENT,
   GET_COMPONENT_ENTITIES_COMMENT,
   GET_COMPONENT_STATE_COMMENT,
@@ -29,7 +31,7 @@ const GET_COMPONENT_STATE_TEST_CLASS = `
       getComponentState1(): void {
         this.store
           .pipe(select(CmsSelectors.getComponentState))
-          .subscribe(console.log);
+          .subscribe();
       }
 
       getComponentState2(): Observable<EntityLoaderState<any>> {
@@ -51,7 +53,7 @@ const GET_COMPONENT_ENTITIES_TEST_CLASS = `
       getComponentEntities1(): void {
         this.store
           .pipe(select(CmsSelectors.getComponentEntities))
-          .subscribe(console.log);
+          .subscribe();
       }
 
       getComponentEntities2(): Observable<{ [id: string]: any }> {
@@ -77,7 +79,7 @@ const COMPONENT_STATE_SELECTOR_FACTORY_TEST_CLASS = `
       componentStateSelectorFactory1(): void {
         this.store
           .pipe(select(CmsSelectors.componentStateSelectorFactory('sample-uid')))
-          .subscribe(console.log);
+          .subscribe();
       }
 
       componentStateSelectorFactory2(): Observable<LoaderState<any>> {
@@ -94,8 +96,33 @@ const COMPONENT_STATE_SELECTOR_FACTORY_TEST_CLASS = `
       }
     }
 `;
+const COMPONENT_SELECTOR_FACTORY_TEST_CLASS = `
+    import { MemoizedSelector, select, Store } from '@ngrx/store';
+    import { CmsComponent, CmsSelectors, StateWithCms } from '@spartacus/core';
+    import { Observable } from 'rxjs';
 
-describe('updateCmsComponentsState', () => {
+    export class TestClass {
+      constructor(private store: Store<StateWithCms>) {}
+
+      componentSelectorFactory1(): void {
+        this.store
+          .pipe(select(CmsSelectors.componentSelectorFactory('sample-uid')))
+          .subscribe();
+      }
+
+      componentSelectorFactory2(): Observable<CmsComponent> {
+        return this.store.pipe(
+          select(CmsSelectors.componentSelectorFactory('sample-uid'))
+        );
+      }
+
+      componentSelectorFactory3(): MemoizedSelector<StateWithCms, CmsComponent> {
+        return CmsSelectors.componentSelectorFactory('sample-uid');
+      }
+    }
+`;
+
+describe('updateCmsComponentsState migration', () => {
   let host = new TempScopedNodeJsSyncHost();
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
@@ -149,8 +176,8 @@ describe('updateCmsComponentsState', () => {
 
     const content = appTree.readContent('/index.ts');
     const regex = new RegExp(GET_COMPONENT_STATE_COMMENT, 'g');
-    const commentNumber = (content.match(regex) || []).length;
-    expect(commentNumber).toEqual(3);
+    const commentOccurrences = (content.match(regex) || []).length;
+    expect(commentOccurrences).toEqual(3);
   });
 
   it('getComponentEntities', async () => {
@@ -160,8 +187,8 @@ describe('updateCmsComponentsState', () => {
 
     const content = appTree.readContent('/index.ts');
     const regex = new RegExp(GET_COMPONENT_ENTITIES_COMMENT, 'g');
-    const commentNumber = (content.match(regex) || []).length;
-    expect(commentNumber).toEqual(3);
+    const commentOccurrences = (content.match(regex) || []).length;
+    expect(commentOccurrences).toEqual(3);
   });
 
   it('componentStateSelectorFactory', async () => {
@@ -171,8 +198,22 @@ describe('updateCmsComponentsState', () => {
 
     const content = appTree.readContent('/index.ts');
     const regex = new RegExp(COMPONENT_STATE_SELECTOR_FACTORY_COMMENT, 'g');
-    const commentNumber = (content.match(regex) || []).length;
-    expect(commentNumber).toEqual(3);
+    const commentOccurrences = (content.match(regex) || []).length;
+    expect(commentOccurrences).toEqual(3);
+  });
+
+  it('componentSelectorFactory', async () => {
+    writeFile('/index.ts', COMPONENT_SELECTOR_FACTORY_TEST_CLASS);
+
+    await runMigration();
+
+    const content = appTree.readContent('/index.ts');
+    const regexNewApi = new RegExp(COMPONENT_SELECTOR_FACTORY_NEW_API, 'g');
+    const newApiOccurrences = (content.match(regexNewApi) || []).length;
+    expect(content.includes(`${COMPONENT_SELECTOR_FACTORY_OLD_API}(`)).toEqual(
+      false
+    );
+    expect(newApiOccurrences).toEqual(3);
   });
 
   function writeFile(filePath: string, contents: string): void {

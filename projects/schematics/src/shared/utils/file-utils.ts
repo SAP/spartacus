@@ -2,7 +2,11 @@ import { experimental, strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
 import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
-import { Change, InsertChange } from '@schematics/angular/utility/change';
+import {
+  Change,
+  InsertChange,
+  ReplaceChange,
+} from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
 
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
@@ -67,13 +71,25 @@ export function commitChanges(
 
   const recorder = host.beginUpdate(path);
   changes.forEach(change => {
-    const pos = (change as InsertChange).pos;
-    const toAdd = (change as InsertChange).toAdd;
+    if (change instanceof InsertChange) {
+      const pos = change.pos;
+      const toAdd = change.toAdd;
+      if (insertDirection === InsertDirection.LEFT) {
+        recorder.insertLeft(pos, toAdd);
+      } else {
+        recorder.insertRight(pos, toAdd);
+      }
+    } else if (change instanceof ReplaceChange) {
+      const pos = change['pos'];
+      const oldText = change['oldText'];
+      const newText = change['newText'];
 
-    if (insertDirection === InsertDirection.LEFT) {
-      recorder.insertLeft(pos, toAdd);
-    } else {
-      recorder.insertRight(pos, toAdd);
+      recorder.remove(pos, oldText.length);
+      if (insertDirection === InsertDirection.LEFT) {
+        recorder.insertLeft(pos, newText);
+      } else {
+        recorder.insertRight(pos, newText);
+      }
     }
   });
   host.commitUpdate(recorder);
@@ -129,15 +145,9 @@ export function insertCommentAboveMethodCall(
   methodName: string,
   comment: string
 ): InsertChange[] {
-  const nodes = getSourceNodes(source);
-  const callExpressions = nodes
-    .filter(n => n.kind === ts.SyntaxKind.Identifier)
-    .filter(n => n.getText() === methodName);
-
+  const callExpressionNodes = findIdentifierNodes(source, methodName);
   const changes: InsertChange[] = [];
-  callExpressions.forEach(n => {
-    // const parent = getStatementParent(n);
-    // changes.push(new InsertChange(sourcePath, parent.getFullStart(), comment));
+  callExpressionNodes.forEach(n => {
     changes.push(
       new InsertChange(
         sourcePath,
@@ -149,23 +159,34 @@ export function insertCommentAboveMethodCall(
   return changes;
 }
 
-// function getStatementParent(node: ts.Node): ts.Node {
-//   if (
-//     node.kind === ts.SyntaxKind.ExpressionStatement ||
-//     node.kind === ts.SyntaxKind.ReturnStatement
-//   ) {
-//     return node;
-//   }
-//   const parent = node.parent;
-//   if (!parent) {
-//     return node;
-//   }
-
-//   return getStatementParent(parent);
-// }
-
 // TODO:#6027 - test
-export function getLineStartFromTSFile(
+export function replaceMethodUsage(
+  sourcePath: string,
+  source: ts.SourceFile,
+  oldMethod: string,
+  newMethod: string
+): ReplaceChange[] {
+  const callExpressionNodes = findIdentifierNodes(source, oldMethod);
+  const changes: ReplaceChange[] = [];
+  callExpressionNodes.forEach(n =>
+    changes.push(
+      new ReplaceChange(sourcePath, n.getStart(), oldMethod, newMethod)
+    )
+  );
+  return changes;
+}
+
+function findIdentifierNodes(
+  source: ts.SourceFile,
+  methodName: string
+): ts.Node[] {
+  const nodes = getSourceNodes(source);
+  return nodes
+    .filter(n => n.kind === ts.SyntaxKind.Identifier)
+    .filter(n => n.getText() === methodName);
+}
+
+function getLineStartFromTSFile(
   source: ts.SourceFile,
   position: number
 ): number {
