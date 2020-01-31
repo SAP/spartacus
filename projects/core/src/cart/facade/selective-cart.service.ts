@@ -39,7 +39,7 @@ export class SelectiveCartService {
     protected userService: UserService,
     protected authService: AuthService,
     protected multiCartService: MultiCartService,
-    protected baseSiteService?: BaseSiteService
+    protected baseSiteService: BaseSiteService
   ) {
     if (this.baseSiteService) {
       this.baseSiteService
@@ -48,7 +48,7 @@ export class SelectiveCartService {
     }
 
     this.userService.get().subscribe(user => {
-      if (user && user.customerId) {
+      if (user && user.customerId && this.activeBaseSite) {
         this.customerId = user.customerId;
         this.cartId$.next(
           `selectivecart${this.activeBaseSite}${this.customerId}`
