@@ -26,9 +26,15 @@ import { IntersectionOptions } from '../../../layout/loading/intersection.model'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageSlotComponent implements OnInit, OnDestroy {
-  // need to have this host binding at the top as it will override the entire class
-  @HostBinding('class') @Input() set position(position: string) {
+  /**
+   * The position is used to find the CMS page slot (and optional outlet)
+   * that is rendered in the PageSlotComponent. Furthermore, the position
+   * is added as a CSS class name to the host element.
+   */
+  @Input()
+  set position(position: string) {
     this.position$.next(position);
+    this.renderer.addClass(this.hostElement.nativeElement, position);
   }
   get position(): string {
     return this.position$.value;
