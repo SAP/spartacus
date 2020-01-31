@@ -1,16 +1,14 @@
-import { checkAllElements, TabElement, testProductUrl } from '../tabbing-order';
+import { testProductUrl, verifyTabbingOrder } from '../tabbing-order';
+import { TabElement } from '../tabbing-order.model';
+
+const containerSelector = '.CartPageTemplate';
 
 export function cartTabbingOrder(config: TabElement[]) {
   addCartItemsAndLoadCart();
 
   cy.get('cx-cart-item-list .cx-counter-value:not([disabled])'); // wait until counter is accessible
 
-  // Assert cart items
-  cy.get('cx-cart-details .cx-name a')
-    .first()
-    .focus();
-
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
 }
 
 function addCartItemsAndLoadCart() {

@@ -1,4 +1,7 @@
-import { checkAllElements, TabElement } from '../../tabbing-order';
+import { verifyTabbingOrder } from '../../tabbing-order';
+import { TabElement } from '../../tabbing-order.model';
+
+const containerSelector = '.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutReviewOrderTabbingOrder(config: TabElement[]) {
   cy.visit('/checkout/review-order');
@@ -10,9 +13,5 @@ export function checkoutReviewOrderTabbingOrder(config: TabElement[]) {
       cy.get('input').click();
     });
 
-  cy.getAllByText(/Edit shipping address/i)
-    .first()
-    .focus();
-
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
 }

@@ -1,4 +1,7 @@
-import { checkAllElements, TabElement, testProductUrl } from '../tabbing-order';
+import { testProductUrl, verifyTabbingOrder } from '../tabbing-order';
+import { TabElement } from '../tabbing-order.model';
+
+const containerSelector = 'cx-added-to-cart-dialog';
 
 export function addToCartTabbingOrder(config: TabElement[]) {
   cy.visit(testProductUrl);
@@ -13,9 +16,5 @@ export function addToCartTabbingOrder(config: TabElement[]) {
   cy.get('cx-cart-item'); // wait for cart modal to render
   cy.get('cx-added-to-cart-dialog .cx-counter-value:not([disabled])'); // wait until counter is accessible after clicking '+'
 
-  cy.get('button.close')
-    .first()
-    .focus();
-
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
 }

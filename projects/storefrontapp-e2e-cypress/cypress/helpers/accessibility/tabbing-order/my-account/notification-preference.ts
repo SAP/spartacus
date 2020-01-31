@@ -1,4 +1,4 @@
-import { checkAllElements, TabElement } from '../tabbing-order';
+import { checkAllElements, TabElement } from '../../tabbing-order';
 
 export function notificationPreferenceTabbingOrder(config: TabElement[]) {
   cy.visit('/my-account/notification-preference');
