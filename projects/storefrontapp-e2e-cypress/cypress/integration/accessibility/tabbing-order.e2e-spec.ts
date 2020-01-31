@@ -43,6 +43,7 @@ import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/reset-password';
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
+import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -221,6 +222,12 @@ describe('Tabbing order - tests do require user to be logged in', () => {
       cy.window().then(win => win.sessionStorage.clear());
       cy.requireLoggedIn();
       orderHistoryWithOrdersTabbingOrder();
+    });
+  });
+
+  context('Notification preference', () => {
+    it('should allow to navigate with tab key', () => {
+      notificationPreferenceTabbingOrder(config.notificationPreference);
     });
   });
 
