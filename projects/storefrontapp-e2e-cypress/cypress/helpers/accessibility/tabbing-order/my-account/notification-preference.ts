@@ -1,9 +1,10 @@
-import { checkAllElements, TabElement } from '../../tabbing-order';
+import { verifyTabbingOrder } from '../../tabbing-order';
+import { TabElement } from '../../tabbing-order.model';
+
+const containerSelector = '.AccountPageTemplate';
 
 export function notificationPreferenceTabbingOrder(config: TabElement[]) {
   cy.visit('/my-account/notification-preference');
-  cy.get('.form-check-input')
-    .first()
-    .focus();
-  checkAllElements(config);
+
+  verifyTabbingOrder(containerSelector, config);
 }
