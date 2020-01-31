@@ -58,9 +58,7 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
     checkout.verifyOrderConfirmationPageWithCheapProduct();
   });
 
-  // Test disabled until a new order can appear quickly enough in the order history
-  // to make this test possible.
-  xit('should be able to check order in order history', () => {
+  it('should be able to check order in order history', () => {
     clickHamburger();
     checkout.viewOrderHistoryWithCheapProduct();
     clickHamburger();
