@@ -25,17 +25,19 @@ SKIP_BUILD="$1"
 
 cd ..
 if [[ -z "$SKIP_BUILD" ]]; then
-rm -rf dist
-yarn build:core:lib:cds
+  rm -rf dist
+  yarn build:core:lib:cds
 fi
 cd dist
 
 if [[ -z "$SKIP_BUILD" ]]; then
-ng build
-fi
+  cd ../projects/storefrontstyles
+  ng build
+  cd ../../dist
 
-if [[ -z "$SKIP_BUILD" ]]; then
-yarn build
+  cd ../projects/schematics
+  yarn build 
+  cd ../../dist
 fi
 
 doItFor "core"

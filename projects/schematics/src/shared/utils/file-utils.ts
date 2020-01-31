@@ -1,6 +1,7 @@
 import { experimental, strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
+import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 import { Change, InsertChange } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
 
@@ -119,6 +120,59 @@ export function injectService(
     : strings.camelize(serviceName);
   const toAdd = `private ${propertyName}: ${strings.classify(serviceName)}`;
   return new InsertChange(path, parameterListNode.pos, toAdd);
+}
+
+// TODO:#6027 - test
+export function insertCommentAboveMethodCall(
+  sourcePath: string,
+  source: ts.SourceFile,
+  methodName: string,
+  comment: string
+): InsertChange[] {
+  const nodes = getSourceNodes(source);
+  const callExpressions = nodes
+    .filter(n => n.kind === ts.SyntaxKind.Identifier)
+    .filter(n => n.getText() === methodName);
+
+  const changes: InsertChange[] = [];
+  callExpressions.forEach(n => {
+    // const parent = getStatementParent(n);
+    // changes.push(new InsertChange(sourcePath, parent.getFullStart(), comment));
+    changes.push(
+      new InsertChange(
+        sourcePath,
+        getLineStartFromTSFile(source, n.getFullStart()),
+        comment
+      )
+    );
+  });
+  return changes;
+}
+
+// function getStatementParent(node: ts.Node): ts.Node {
+//   if (
+//     node.kind === ts.SyntaxKind.ExpressionStatement ||
+//     node.kind === ts.SyntaxKind.ReturnStatement
+//   ) {
+//     return node;
+//   }
+//   const parent = node.parent;
+//   if (!parent) {
+//     return node;
+//   }
+
+//   return getStatementParent(parent);
+// }
+
+// TODO:#6027 - test
+export function getLineStartFromTSFile(
+  source: ts.SourceFile,
+  position: number
+): number {
+  const lac = source.getLineAndCharacterOfPosition(position);
+  const lineStart = source.getPositionOfLineAndCharacter(lac.line, 0);
+
+  return lineStart;
 }
 
 // as this is copied from https://github.com/angular/angular-cli/blob/master/packages/schematics/angular/app-shell/index.ts#L211, no need to test Angular's code
