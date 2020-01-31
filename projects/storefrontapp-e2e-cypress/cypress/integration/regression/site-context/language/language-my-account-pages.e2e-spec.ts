@@ -32,6 +32,7 @@ describe('Language switch - my-account pages', () => {
       );
     });
 
+    // TODO: once we get a working order in oms instantly
     xit('should change language in the page', () => {
       siteContextSelector.siteContextChange(
         orderPath,
