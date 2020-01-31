@@ -1,4 +1,7 @@
-import { checkAllElements, TabElement } from '../tabbing-order';
+import { verifyTabbingOrder } from '../tabbing-order';
+import { TabElement } from '../tabbing-order.model';
+
+const containerSelector = '.LandingPage2Template';
 
 export function homeTabbingOrder(config: TabElement[]) {
   cy.visit('/');
@@ -8,9 +11,5 @@ export function homeTabbingOrder(config: TabElement[]) {
     .find('img')
     .should('have.length', 18);
 
-  cy.get('.Section1 a')
-    .first()
-    .focus();
-
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
 }

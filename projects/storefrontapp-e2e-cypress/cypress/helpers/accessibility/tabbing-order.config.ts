@@ -1,31 +1,4 @@
-import { TabElement } from './tabbing-order';
-
-export enum TabbingOrderTypes {
-  FORM_FIELD = 'formField',
-  LINK = 'link',
-  BUTTON = 'button',
-  NG_SELECT = 'ngSelect',
-  GENERIC_CHECKBOX = 'genericCheckbox',
-  CHECKBOX_WITH_LABEL = 'checkboxWithLabel',
-  IMG_LINK = 'imgLink',
-  GENERIC_INPUT = 'genericInput',
-  GENERIC_BUTTON = 'genericButton',
-  GENERIC_NG_SELECT = 'genericNgSelect',
-  ITEM_COUNTER = 'itemCounter',
-  RADIO = 'radio',
-  SELECT = 'select',
-  NAV_CATEGORY_DROPDOWN = 'navCategoryDropdown',
-  CAROUSEL = 'carousel',
-  CX_MEDIA = 'cxMedia',
-  CX_ICON = 'cxIcon',
-  H3 = 'h3',
-  CX_PRODUCT_VIEW = 'cxProductView',
-  INDEX_OF_ELEMENT = 'indexOfElement',
-}
-
-export interface TabbingOrderConfig {
-  [name: string]: TabElement[];
-}
+import { TabbingOrderTypes, TabbingOrderConfig } from './tabbing-order.model';
 
 export const tabbingOrderConfig: TabbingOrderConfig = {
   home: [
@@ -631,6 +604,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'add to wish list', type: TabbingOrderTypes.LINK },
   ],
   headerMobileNotLoggedIn: [
     {
