@@ -7,8 +7,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
 import {
-  COMPONENT_SELECTOR_FACTORY_NEW_API,
-  COMPONENT_SELECTOR_FACTORY_OLD_API,
+  COMPONENT_SELECTOR_FACTORY_COMMENT,
   COMPONENT_STATE_SELECTOR_FACTORY_COMMENT,
   GET_COMPONENT_ENTITIES_COMMENT,
   GET_COMPONENT_STATE_COMMENT,
@@ -208,12 +207,10 @@ describe('updateCmsComponentsState migration', () => {
     await runMigration();
 
     const content = appTree.readContent('/index.ts');
-    const regexNewApi = new RegExp(COMPONENT_SELECTOR_FACTORY_NEW_API, 'g');
-    const newApiOccurrences = (content.match(regexNewApi) || []).length;
-    expect(content.includes(`${COMPONENT_SELECTOR_FACTORY_OLD_API}(`)).toEqual(
-      false
-    );
-    expect(newApiOccurrences).toEqual(3);
+    console.log(content);
+    const regex = new RegExp(COMPONENT_SELECTOR_FACTORY_COMMENT, 'g');
+    const commentOccurrences = (content.match(regex) || []).length;
+    expect(commentOccurrences).toEqual(3);
   });
 
   function writeFile(filePath: string, contents: string): void {
