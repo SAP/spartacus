@@ -11,7 +11,6 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 import { map, filter, tap, shareReplay, switchMap, take } from 'rxjs/operators';
 import { OrderEntry } from '../../model/order.model';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
-import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 
 @Injectable()
 export class SelectiveCartService {
@@ -36,32 +35,11 @@ export class SelectiveCartService {
   );
 
   constructor(
-    store: Store<StateWithMultiCart>,
-    userService: UserService,
-    authService: AuthService,
-    multiCartService: MultiCartService,
-    baseSiteService: BaseSiteService,
-    featureConfig: FeatureConfigService
-  );
-  /**
-   * @deprecated Since 1.5
-   * Add baseSiteService.
-   * Remove issue:6329
-   */
-  constructor(
-    store: Store<StateWithMultiCart>,
-    userService: UserService,
-    authService: AuthService,
-    multiCartService: MultiCartService
-  );
-
-  constructor(
     protected store: Store<StateWithMultiCart>,
     protected userService: UserService,
     protected authService: AuthService,
     protected multiCartService: MultiCartService,
     protected baseSiteService?: BaseSiteService,
-    protected featureConfig?: FeatureConfigService
   ) {
     if (this.baseSiteService) {
       this.baseSiteService
@@ -69,7 +47,6 @@ export class SelectiveCartService {
         .subscribe(value => (this.activeBaseSite = value));
     }
 
-    if (this.featureConfig && this.featureConfig.isLevel('1.5')) {
       this.userService.get().subscribe(user => {
         if (user && user.customerId) {
           this.customerId = user.customerId;
@@ -80,16 +57,6 @@ export class SelectiveCartService {
           this.cartId$.next(undefined);
         }
       });
-    } else {
-      this.userService.get().subscribe(user => {
-        if (user && user.customerId) {
-          this.customerId = user.customerId;
-          this.cartId$.next(`selectivecart${this.customerId}`);
-        } else if (user && !user.customerId) {
-          this.cartId$.next(undefined);
-        }
-      });
-    }
 
     this.authService.getOccUserId().subscribe(userId => {
       this.userId = userId;

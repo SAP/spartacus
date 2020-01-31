@@ -16,7 +16,6 @@ import { MultiCartService } from './multi-cart.service';
 import { User, OrderEntry } from '../../model';
 import { UserService } from '../../user';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
-import { FeaturesConfigModule, FeaturesConfig } from '@spartacus/core';
 
 const TEST_USER_ID = 'test@test.com';
 const TEST_CUSTOMER_ID = '-test-customer-id';
@@ -88,7 +87,6 @@ describe('Selective Cart Service', () => {
           fromReducers.getMultiCartReducers()
         ),
         StoreModule.forFeature('process', fromProcessReducers.getReducers()),
-        FeaturesConfigModule,
       ],
       providers: [
         SelectiveCartService,
@@ -96,12 +94,6 @@ describe('Selective Cart Service', () => {
         { provide: AuthService, useClass: AuthServiceStub },
         { provide: UserService, useClass: UserServiceStup },
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.5' },
-          },
-        },
       ],
     });
 
