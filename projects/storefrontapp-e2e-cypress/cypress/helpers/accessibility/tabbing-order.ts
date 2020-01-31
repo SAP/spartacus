@@ -74,14 +74,6 @@ export function verifyTabElement(tabElement: TabElement) {
       cy.focused().should('have.attr', 'href', tabElement.value);
       break;
     }
-    case TabbingOrderTypes.ITEM_COUNTER: {
-      cy.focused()
-        .parentsUntil('cx-item-counter')
-        .within(() => {
-          cy.get('input').should('have.attr', 'name', 'value');
-        });
-      break;
-    }
     case TabbingOrderTypes.RADIO: {
       cy.focused()
         .should('have.attr', 'type', 'radio')
