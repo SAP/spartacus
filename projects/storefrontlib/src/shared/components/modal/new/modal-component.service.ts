@@ -14,6 +14,7 @@ import {
 })
 export class ModalComponentService {
   private _opened = new BehaviorSubject<boolean>(false);
+  private _component = new BehaviorSubject<string>(null);
 
   constructor(
     protected componentFactoryResolver: ComponentFactoryResolver,
@@ -30,10 +31,17 @@ export class ModalComponentService {
       component
     );
     this.outletService.add('cx-generic-modal', factory, OutletPosition.BEFORE);
+    console.log(component.name);
+    this._component.next(component.name);
   }
 
   close(): void {
     this.outletService.remove('cx-generic-modal', OutletPosition.BEFORE);
     this._opened.next(false);
+    this._component.next(null);
+  }
+
+  get component(): Observable<string> {
+    return this._component.asObservable();
   }
 }

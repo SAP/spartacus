@@ -93,7 +93,6 @@ export class OutletService<T = TemplateRef<any>> {
     position: OutletPosition = OutletPosition.REPLACE,
     componentType?: any
   ): void {
-    console.log(this.templatesRefsBefore);
     switch (position) {
       case OutletPosition.BEFORE:
         this.removeFromStore(this.templatesRefsBefore, outlet, componentType);

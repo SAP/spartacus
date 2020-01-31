@@ -1,5 +1,6 @@
-<ng-container *ngIf="$open | async">
+<ng-container *ngIf="$modal | async">
   <div class="modal-dialog">
     <ng-template cxOutlet="cx-generic-modal"></ng-template>
   </div>
+  <div class="modal-overlay" (click)="close()"></div>
 </ng-container>
