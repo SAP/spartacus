@@ -1,5 +1,6 @@
-import { Renderer2, Type } from '@angular/core';
+import { Component, Renderer2, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import {
   CmsConfig,
   CmsService,
@@ -69,6 +70,20 @@ const MockCmsConfig: CmsConfig = {
   },
 };
 
+@Component({
+  template: `
+    <cx-page-slot position="section" class="host classes"></cx-page-slot>
+  `,
+})
+export class MockHostComponent {}
+
+@Component({
+  template: `
+    <div cx-page-slot position="section" class="host classes"></div>
+  `,
+})
+export class MockHostWithDivComponent {}
+
 describe('PageSlotComponent', () => {
   let pageSlotComponent: PageSlotComponent;
   let fixture: ComponentFixture<PageSlotComponent>;
@@ -83,6 +98,8 @@ describe('PageSlotComponent', () => {
         PageSlotComponent,
         ComponentWrapperDirective,
         OutletDirective,
+        MockHostComponent,
+        MockHostWithDivComponent,
       ],
       providers: [
         Renderer2,
@@ -122,6 +139,42 @@ describe('PageSlotComponent', () => {
 
   it('should be created', () => {
     expect(pageSlotComponent).toBeTruthy();
+  });
+
+  describe('use as an attribute selector', () => {
+    let el: HTMLElement;
+    beforeEach(() => {
+      const compFixture = TestBed.createComponent(MockHostWithDivComponent);
+      compFixture.detectChanges();
+      el = compFixture.debugElement.query(By.css('[cx-page-slot]'))
+        .nativeElement;
+    });
+    it('should get a position class', () => {
+      expect(el.classList).toContain('host');
+    });
+
+    it('should keep existing classes', () => {
+      expect(el.classList).toContain('host');
+      expect(el.classList).toContain('classes');
+      expect(el.classList).toContain('section');
+    });
+  });
+
+  describe('use as an element selector', () => {
+    let el: HTMLElement;
+    beforeEach(() => {
+      const compFixture = TestBed.createComponent(MockHostComponent);
+      compFixture.detectChanges();
+      el = compFixture.debugElement.query(By.css('cx-page-slot')).nativeElement;
+    });
+    it('should get a position class', () => {
+      expect(el.classList).toContain('host');
+    });
+    it('should keep existing classes', () => {
+      expect(el.classList).toContain('host');
+      expect(el.classList).toContain('classes');
+      expect(el.classList).toContain('section');
+    });
   });
 
   describe('slot position class', () => {
