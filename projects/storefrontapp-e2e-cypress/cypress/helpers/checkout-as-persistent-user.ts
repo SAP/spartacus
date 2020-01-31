@@ -57,33 +57,32 @@ export function addShippingAddress(
   currency: string = 'USD',
   isocode: string = 'US'
 ) {
-  if (site)
-    cy.request({
-      method: 'POST',
-      url: `${Cypress.env(
-        'API_URL'
-      )}/rest/v2/${site}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=${currency}`,
-      headers: {
-        Authorization: `bearer ${
-          JSON.parse(localStorage.getItem('spartacus-local-data')).auth
-            .userToken.token.access_token
-        }`,
-      },
-      body: {
-        defaultAddress: false,
-        titleCode: 'mr',
-        firstName: 'Test',
-        lastName: 'User',
-        line1: '999 de Maisonneuve',
-        line2: '',
-        town: 'Montreal',
-        country: { isocode: isocode },
-        postalCode: 'H4B3L4',
-        phone: '',
-      },
-    }).then(response => {
-      expect(response.status).to.eq(201);
-    });
+  cy.request({
+    method: 'POST',
+    url: `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/${site}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=${currency}`,
+    headers: {
+      Authorization: `bearer ${
+        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
+          .token.access_token
+      }`,
+    },
+    body: {
+      defaultAddress: false,
+      titleCode: 'mr',
+      firstName: 'Test',
+      lastName: 'User',
+      line1: '999 de Maisonneuve',
+      line2: '',
+      town: 'Montreal',
+      country: { isocode: isocode },
+      postalCode: 'H4B3L4',
+      phone: '',
+    },
+  }).then(response => {
+    expect(response.status).to.eq(201);
+  });
 }
 
 export function goToProductPageFromCategory(
