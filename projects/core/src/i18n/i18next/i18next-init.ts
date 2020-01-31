@@ -110,7 +110,7 @@ export function getLoadPath(
     if (path.startsWith('./')) {
       path = path.slice(2);
     }
-    const result = serverRequestHost + '/' + path;
+    const result = `${serverRequestHost}/${path}`;
     return result;
   }
   return path;
