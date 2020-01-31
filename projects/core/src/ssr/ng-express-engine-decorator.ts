@@ -1,5 +1,5 @@
 import { NgModuleFactory, StaticProvider, Type } from '@angular/core';
-import { SERVER_REQUEST_HOST, SERVER_REQUEST_URL } from './ssr.providers';
+import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from './ssr.providers';
 
 /**
  * These are the allowed options for the engine
@@ -76,16 +76,16 @@ export function getServerRequestProviders(
       useValue: getRequestUrl(options.req),
     },
     {
-      provide: SERVER_REQUEST_HOST,
-      useValue: getRequestHost(options.req),
+      provide: SERVER_REQUEST_ORIGIN,
+      useValue: getRequestOrigin(options.req),
     },
   ];
 }
 
 function getRequestUrl(req: any): string {
-  return getRequestHost(req) + req.originalUrl;
+  return getRequestOrigin(req) + req.originalUrl;
 }
 
-function getRequestHost(req: any): string {
+function getRequestOrigin(req: any): string {
   return req.protocol + '://' + req.get('host');
 }

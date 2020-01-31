@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { LanguageService } from '../../site-context/facade/language.service';
-import { SERVER_REQUEST_HOST } from '../../ssr/ssr.providers';
+import { SERVER_REQUEST_ORIGIN } from '../../ssr/ssr.providers';
 import { i18nextInit } from './i18next-init';
 
 export const i18nextProviders: Provider[] = [
@@ -19,7 +19,7 @@ export const i18nextProviders: Provider[] = [
       LanguageService,
       HttpClient,
       PLATFORM_ID,
-      [new Optional(), SERVER_REQUEST_HOST],
+      [new Optional(), SERVER_REQUEST_ORIGIN],
     ],
     multi: true,
   },

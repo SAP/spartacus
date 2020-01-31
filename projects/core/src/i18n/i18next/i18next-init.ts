@@ -11,7 +11,7 @@ export function i18nextInit(
   languageService: LanguageService,
   httpClient: HttpClient,
   platform: string,
-  serverRequestHost: string
+  serverRequestOrigin: string
 ): () => Promise<any> {
   return () =>
     configInit.getStableConfig('i18n').then(config => {
@@ -28,7 +28,7 @@ export function i18nextInit(
         const loadPath = getLoadPath(
           config.i18n.backend.loadPath,
           platform,
-          serverRequestHost
+          serverRequestOrigin
         );
         const backend = {
           loadPath,
@@ -86,7 +86,7 @@ export function i18nextGetHttpClient(
 }
 
 /**
- * Resolves the relative path to the absolute one in SSR, using the server request host.
+ * Resolves the relative path to the absolute one in SSR, using the server request's origin.
  * It's needed, because Angular Universal doesn't support relative URLs in HttpClient. See Angular issues:
  * - https://github.com/angular/angular/issues/19224
  * - https://github.com/angular/universal/issues/858
@@ -94,14 +94,14 @@ export function i18nextGetHttpClient(
 export function getLoadPath(
   path: string = '',
   platform: string,
-  serverRequestHost: string = ''
+  serverRequestOrigin: string = ''
 ): string {
   if (!path) {
     return undefined;
   }
   if (
     isPlatformServer(platform) &&
-    serverRequestHost &&
+    serverRequestOrigin &&
     !path.match(/^http(s)?:\/\//)
   ) {
     if (path.startsWith('/')) {
@@ -110,7 +110,7 @@ export function getLoadPath(
     if (path.startsWith('./')) {
       path = path.slice(2);
     }
-    const result = `${serverRequestHost}/${path}`;
+    const result = `${serverRequestOrigin}/${path}`;
     return result;
   }
   return path;

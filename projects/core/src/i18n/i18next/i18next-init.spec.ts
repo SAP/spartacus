@@ -48,14 +48,14 @@ describe('i18nextGetHttpClient should return a http client that', () => {
 
 describe('getLoadPath', () => {
   describe('in non-server platform', () => {
-    const serverRequestHost = null;
+    const serverRequestOrigin = null;
     const platform = 'non-server';
 
     describe('with relative path starting with "./"', () => {
       const path = './path';
 
       it('should return the original path', () => {
-        expect(getLoadPath(path, platform, serverRequestHost)).toBe(path);
+        expect(getLoadPath(path, platform, serverRequestOrigin)).toBe(path);
       });
     });
 
@@ -63,7 +63,7 @@ describe('getLoadPath', () => {
       const path = '/path';
 
       it('should return the original path', () => {
-        expect(getLoadPath(path, platform, serverRequestHost)).toBe(path);
+        expect(getLoadPath(path, platform, serverRequestOrigin)).toBe(path);
       });
     });
 
@@ -71,7 +71,7 @@ describe('getLoadPath', () => {
       const path = 'path';
 
       it('should return the original path', () => {
-        expect(getLoadPath(path, platform, serverRequestHost)).toBe(path);
+        expect(getLoadPath(path, platform, serverRequestOrigin)).toBe(path);
       });
     });
 
@@ -79,7 +79,7 @@ describe('getLoadPath', () => {
       const path = 'http://path';
 
       it('should return the original path', () => {
-        expect(getLoadPath(path, platform, serverRequestHost)).toBe(path);
+        expect(getLoadPath(path, platform, serverRequestOrigin)).toBe(path);
       });
     });
 
@@ -87,20 +87,20 @@ describe('getLoadPath', () => {
       const path = 'https://path';
 
       it('should return the original path', () => {
-        expect(getLoadPath(path, platform, serverRequestHost)).toBe(path);
+        expect(getLoadPath(path, platform, serverRequestOrigin)).toBe(path);
       });
     });
   });
 
   describe('in server platform', () => {
-    const serverRequestHost = 'http://server.com';
+    const serverRequestOrigin = 'http://server.com';
     const platform = 'server';
 
     describe('with relative path starting with "./"', () => {
       const path = './path';
 
-      it('should return the original path prepended with server request host', () => {
-        expect(getLoadPath(path, platform, serverRequestHost)).toBe(
+      it('should return the original path prepended with server request origin', () => {
+        expect(getLoadPath(path, platform, serverRequestOrigin)).toBe(
           'http://server.com/path'
         );
       });
@@ -109,8 +109,8 @@ describe('getLoadPath', () => {
     describe('with relative path starting with "/"', () => {
       const path = '/path';
 
-      it('should return the original path prepended with server request host', () => {
-        expect(getLoadPath(path, platform, serverRequestHost)).toBe(
+      it('should return the original path prepended with server request origin', () => {
+        expect(getLoadPath(path, platform, serverRequestOrigin)).toBe(
           'http://server.com/path'
         );
       });
@@ -119,8 +119,8 @@ describe('getLoadPath', () => {
     describe('with relative path starting with ""', () => {
       const path = 'path';
 
-      it('should return the original path prepended with server request host', () => {
-        expect(getLoadPath(path, platform, serverRequestHost)).toBe(
+      it('should return the original path prepended with server request origin', () => {
+        expect(getLoadPath(path, platform, serverRequestOrigin)).toBe(
           'http://server.com/path'
         );
       });
@@ -130,7 +130,7 @@ describe('getLoadPath', () => {
       const path = 'http://path';
 
       it('should return the original path', () => {
-        expect(getLoadPath(path, platform, serverRequestHost)).toBe(path);
+        expect(getLoadPath(path, platform, serverRequestOrigin)).toBe(path);
       });
     });
 
@@ -138,7 +138,7 @@ describe('getLoadPath', () => {
       const path = 'https://path';
 
       it('should return the original path', () => {
-        expect(getLoadPath(path, platform, serverRequestHost)).toBe(path);
+        expect(getLoadPath(path, platform, serverRequestOrigin)).toBe(path);
       });
     });
   });

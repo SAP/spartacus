@@ -10,6 +10,6 @@ export const SERVER_REQUEST_URL = new InjectionToken<string>(
 /**
  * The url of the server request host when running SSR
  * */
-export const SERVER_REQUEST_HOST = new InjectionToken<string>(
-  'SERVER_REQUEST_HOST'
+export const SERVER_REQUEST_ORIGIN = new InjectionToken<string>(
+  'SERVER_REQUEST_ORIGIN'
 );
