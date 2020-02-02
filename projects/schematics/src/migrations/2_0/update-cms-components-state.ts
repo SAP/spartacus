@@ -8,25 +8,28 @@ import {
   InsertDirection,
 } from '../../shared/utils/file-utils';
 
-const GET_COMPONENT_STATE_OLD_API = 'getComponentState';
-const GET_COMPONENTS_STATE_NEW_API = 'getComponentsState';
-export const GET_COMPONENT_STATE_COMMENT = `// TODO: '${GET_COMPONENT_STATE_OLD_API}' has been removed. Please try '${GET_COMPONENTS_STATE_NEW_API}' instead.`;
+export const GET_COMPONENT_STATE_OLD_API = 'getComponentState';
+export const GET_COMPONENTS_STATE_NEW_API = 'getComponentsState';
 
 const GET_COMPONENT_ENTITIES_OLD_API = 'getComponentEntities';
 export const GET_COMPONENT_ENTITIES_COMMENT = `// TODO: '${GET_COMPONENT_ENTITIES_OLD_API}' has been removed, please use some of the newer API methods.`;
 
-const COMPONENT_STATE_SELECTOR_FACTORY_OLD_API =
+export const COMPONENT_STATE_SELECTOR_FACTORY_OLD_API =
   'componentStateSelectorFactory';
-const COMPONENT_STATE_SELECTOR_FACTORY_NEW_API =
+export const COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API =
   'componentsLoaderStateSelectorFactory';
-export const COMPONENT_STATE_SELECTOR_FACTORY_COMMENT = `// TODO: '${COMPONENT_STATE_SELECTOR_FACTORY_OLD_API}' has been removed. Please try '${COMPONENT_STATE_SELECTOR_FACTORY_NEW_API}' instead.`;
 
-const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
-const COMPONENT_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
-export const COMPONENT_SELECTOR_FACTORY_COMMENT = `// TODO: '${COMPONENT_SELECTOR_FACTORY_OLD_API}' has been removed. Please try '${COMPONENT_SELECTOR_FACTORY_NEW_API}' instead.`;
+export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
+export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 
-// TODO:#6027 - add type safety to options?
-export function updateCmsComponentsState(_options: any): Rule {
+export function buildComment(
+  oldApiMethod: string,
+  newApiMethod: string
+): string {
+  return `// TODO: '${oldApiMethod}' has been removed. Please try '${newApiMethod}' instead.`;
+}
+
+export function updateCmsComponentsState(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const filePaths = getPathResultsForFile(tree, '.ts');
     for (const sourcePath of filePaths) {
@@ -36,7 +39,10 @@ export function updateCmsComponentsState(_options: any): Rule {
         sourcePath,
         source,
         GET_COMPONENT_STATE_OLD_API,
-        `${GET_COMPONENT_STATE_COMMENT}\n`
+        `${buildComment(
+          GET_COMPONENT_STATE_OLD_API,
+          GET_COMPONENTS_STATE_NEW_API
+        )}\n`
       );
       const getComponentEntitiesComments = insertCommentAboveMethodCall(
         sourcePath,
@@ -48,13 +54,19 @@ export function updateCmsComponentsState(_options: any): Rule {
         sourcePath,
         source,
         COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
-        `${COMPONENT_STATE_SELECTOR_FACTORY_COMMENT}\n`
+        `${buildComment(
+          COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
+          COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API
+        )}\n`
       );
       const componentSelectorFactoryComments = insertCommentAboveMethodCall(
         sourcePath,
         source,
         COMPONENT_SELECTOR_FACTORY_OLD_API,
-        `${COMPONENT_SELECTOR_FACTORY_COMMENT}\n`
+        `${buildComment(
+          COMPONENT_SELECTOR_FACTORY_OLD_API,
+          COMPONENTS_SELECTOR_FACTORY_NEW_API
+        )}\n`
       );
 
       const changes: Change[] = [
