@@ -22,9 +22,7 @@ describe('Cart Coupon', () => {
     cartCoupon.applyCoupon(couponCode1);
     cartCoupon.verifyCouponAndPromotion(couponCode1, '$104.12', '$10');
     cartCoupon.placeOrder(stateAuth).then(orderData => {
-      // Test disabled until a new order can appear quickly enough in the order history
-      // to make this test possible.
-      // cartCoupon.verifyOrderHistory(orderData, couponCode1, '$104.12', '$10');
+      cartCoupon.verifyOrderHistory(orderData, couponCode1, '$104.12', '$10');
     });
   });
 
@@ -35,9 +33,7 @@ describe('Cart Coupon', () => {
     cartCoupon.applyCoupon(couponCode2);
     cartCoupon.verifyCouponAndPromotion(couponCode2, '$88.84', '$29.61');
     cartCoupon.placeOrder(stateAuth).then(orderData => {
-      // Test disabled until a new order can appear quickly enough in the order history
-      // to make this test possible.
-      // cartCoupon.verifyOrderHistory(orderData, couponCode2, '$88.84', '$29.61');
+      cartCoupon.verifyOrderHistory(orderData, couponCode2, '$88.84', '$29.61');
     });
   });
 
@@ -49,9 +45,7 @@ describe('Cart Coupon', () => {
     cartCoupon.verifyGiftProductCoupon(giftProductCode);
     cartCoupon.verifyCouponAndPromotion(couponCode3, '$1,914.23', '$20');
     cartCoupon.placeOrder(stateAuth).then(orderData => {
-      // Test disabled until a new order can appear quickly enough in the order history
-      // to make this test possible.
-      // cartCoupon.verifyOrderHistory(orderData, couponCode3, '$1,914.23', '$20');
+      cartCoupon.verifyOrderHistory(orderData, couponCode3, '$1,914.23', '$20');
     });
   });
 
@@ -72,9 +66,7 @@ describe('Cart Coupon', () => {
     cartCoupon.removeCoupon(couponCode1);
 
     cartCoupon.placeOrder(stateAuth).then(orderData => {
-      // Test disabled until a new order can appear quickly enough in the order history
-      // to make this test possible.
-      // cartCoupon.verifyOrderHistory(orderData);
+      cartCoupon.verifyOrderHistory(orderData);
     });
   });
 });
