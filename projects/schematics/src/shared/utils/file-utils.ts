@@ -160,7 +160,7 @@ export function insertCommentAboveMethodCall(
 }
 
 // TODO:#6027 - test
-export function replaceMethodUsage(
+export function renameIdentifierNode(
   sourcePath: string,
   source: ts.SourceFile,
   oldMethod: string,

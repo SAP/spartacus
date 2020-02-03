@@ -136,7 +136,9 @@ const ALL_TEST_CASES_CLASS = `
     import { Observable } from 'rxjs';
 
     export class TestClass {
-      constructor(private store: Store<StateWithCms>) {}
+      constructor(private store: Store<StateWithCms>) {
+        console.log(CmsActions.CMS_GET_COMPONENET_FROM_PAGE);
+      }
 
       getComponentState1(): void {
         this.store.pipe(select(CmsSelectors.getComponentState)).subscribe();
@@ -187,6 +189,14 @@ const ALL_TEST_CASES_CLASS = `
       }
       componentSelectorFactory3(): MemoizedSelector<StateWithCms, CmsComponent> {
         return CmsSelectors.componentSelectorFactory('sample-uid');
+      }
+    }
+`;
+const ACTION_CONST_TEST_CLASS = `
+    import { CmsActions } from '@spartacus/core';
+    export class TestClass {
+      constructor() {
+        console.log(CmsActions.CMS_GET_COMPONENET_FROM_PAGE);
       }
     }
 `;
@@ -298,12 +308,29 @@ describe('updateCmsComponentsState migration', () => {
     expect(commentOccurrences).toEqual(3);
   });
 
-  it('all selectors in one class', async () => {
+  it('should rename CMS_GET_COMPONENET_FROM_PAGE to CMS_GET_COMPONENT_FROM_PAGE', async () => {
+    writeFile('/src/index.ts', ACTION_CONST_TEST_CLASS);
+
+    await runMigration();
+
+    const content = appTree.readContent('/src/index.ts');
+
+    const regexOld = new RegExp('CMS_GET_COMPONENET_FROM_PAGE', 'g');
+    const oldOccurrences = (content.match(regexOld) || []).length;
+    expect(oldOccurrences).toEqual(0);
+
+    const regexNew = new RegExp('CMS_GET_COMPONENT_FROM_PAGE', 'g');
+    const newOccurrences = (content.match(regexNew) || []).length;
+    expect(newOccurrences).toEqual(1);
+  });
+
+  it('all cms changes in one class', async () => {
     writeFile('/src/index.ts', ALL_TEST_CASES_CLASS);
 
     await runMigration();
 
     const content = appTree.readContent('/src/index.ts');
+    console.log(content);
     const getComponentStateRegex = new RegExp(
       buildComment(GET_COMPONENT_STATE_OLD_API, GET_COMPONENTS_STATE_NEW_API),
       'g'
@@ -342,6 +369,22 @@ describe('updateCmsComponentsState migration', () => {
       content.match(componentSelectorFactoryRegex) || []
     ).length;
     expect(componentSelectorFactoryOccurrences).toEqual(3);
+    const regexCmsActionConstOld = new RegExp(
+      'CMS_GET_COMPONENET_FROM_PAGE',
+      'g'
+    );
+    const cmsActionConstOccurrencesOld = (
+      content.match(regexCmsActionConstOld) || []
+    ).length;
+    expect(cmsActionConstOccurrencesOld).toEqual(0);
+    const regexCmsActionConstNew = new RegExp(
+      'CMS_GET_COMPONENT_FROM_PAGE',
+      'g'
+    );
+    const cmsActionConstOccurrencesNew = (
+      content.match(regexCmsActionConstNew) || []
+    ).length;
+    expect(cmsActionConstOccurrencesNew).toEqual(1);
   });
 
   function writeFile(filePath: string, contents: string): void {

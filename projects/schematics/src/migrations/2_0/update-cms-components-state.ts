@@ -1,6 +1,9 @@
 import { Change } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
-import { insertCommentAboveMethodCall } from '../../shared/utils/file-utils';
+import {
+  insertCommentAboveMethodCall,
+  renameIdentifierNode,
+} from '../../shared/utils/file-utils';
 
 export const GET_COMPONENT_STATE_OLD_API = 'getComponentState';
 export const GET_COMPONENTS_STATE_NEW_API = 'getComponentsState';
@@ -71,4 +74,17 @@ export function updateCmsComponentsState(
   );
 
   return changes;
+}
+
+// TODO:#6027 - test
+export function renameCmsGetComponentFromPageConstant(
+  sourcePath: string,
+  source: ts.SourceFile
+): Change[] {
+  return renameIdentifierNode(
+    sourcePath,
+    source,
+    'CMS_GET_COMPONENET_FROM_PAGE',
+    'CMS_GET_COMPONENT_FROM_PAGE'
+  );
 }
