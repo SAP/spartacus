@@ -29,11 +29,11 @@ export class VariantSizeSelectorComponent {
 
   changeSize(code: string): void {
     if (code) {
-      // consider adding 'route' scope
       this.productService
         .get(code, ProductScope.LIST)
         .pipe(
-          // add comment
+          // below call might looks redundant but in fact this data is going to be loaded anyways
+          // we're just calling it earlier and storing
           filter(Boolean),
           take(1)
         )
