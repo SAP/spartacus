@@ -91,18 +91,27 @@ Install angular schematics globally: `npm install -g @angular-devkit/schematics-
 
 ### Developing update schematics
 
-#### Update schematic structure
+#### The update schematic structure
 
-The `projects/schematics/src/migrations/migrations.json` file contains all the migration for all Spartacus versions:
+The `projects/schematics/src/migrations/migrations.json` file contains all migration for all Spartacus versions:
 
 - _name_ property is important for developers to quickly understand what the migration script is doing. By convention, the migration _name_ should follow `migration-v<version>-<migration-feature-name>-<sequence-number>` pattern, where:
   - _version_ should indicate for which Spartacus version the migration is intended.
   - _migration-feature-name_ is a short name that describes what the migration is doing.
   - _sequence-number_ is the sequence number in which the migrations should be executed
-  - An example is _migration-v2-cms-components-state_ which updates the _cms components state_ in Spartacus v2.
+  - An example is _migration-v2-check-all-files-01_.
 - _version_ is important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project.
 - _factory_ - points to the specific migration script.
 - _description_ - a short free-form description field for developers.
+
+#### Adding migration scripts
+
+It's a common case that the script you are writing will have to check every _.ts_ file in the customer's code base.
+
+For this reason, there is _migration-v2-check-all-files-01_ update script defined in `projects/schematics/src/migrations/migrations.json` which iterates through all the customer's _.ts_ files in only _one_ loop and executes all other migration scripts for each file (see `projects/schematics/src/migrations/2_0/check-all-files.ts`).
+If you are writing such a migration script that has to check all the customer's files, due to performance reasons it's recommended that you create a new migration file (similar to `projects/schematics/src/migrations/2_0/update-cms-components-state.ts`) and just call its methods from _check-all-files.ts_.
+
+Otherwise, you need to perform a migration task on a specific (e.g. _app.module.ts_), then feel free to define your migration script directly in `projects/schematics/src/migrations/migrations.json`.
 
 #### Testing update schematic
 
