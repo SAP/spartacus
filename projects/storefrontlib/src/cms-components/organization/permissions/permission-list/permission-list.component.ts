@@ -63,10 +63,11 @@ export class PermissionListComponent implements OnInit {
               code: permission.code,
               threshold: `${permission.threshold} ${permission.currency &&
                 permission.currency.symbol}`,
-                orderType: permission.orderApprovalPermissionType.name,
-                parentUnit: permission.orgUnit.parentOrgUnit,
-                timePeriod: permission.periodRange,
-            }))
+              orderType: permission.orderApprovalPermissionType.name,
+              parentUnit: permission.orgUnit && permission.orgUnit.name,
+              timePeriod: permission.periodRange,
+              orgUnitId: permission.orgUnit && permission.orgUnit.uid,
+            })),
           }))
         )
       )

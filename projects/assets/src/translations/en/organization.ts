@@ -113,7 +113,7 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     costCenters: 'Cost Centers',
-    threshold: 'Threshold Amount'
+    threshold: 'Threshold Amount',
   },
 
   permissionForm: {
