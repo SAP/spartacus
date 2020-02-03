@@ -49,15 +49,6 @@ if (!environment.production) {
           'apparel-uk-spa',
         ],
       },
-
-      // custom routing configuration for e2e testing
-      routing: {
-        routes: {
-          product: {
-            paths: ['product/:productCode/:name', 'product/:productCode'],
-          },
-        },
-      },
       // we bring in static translations to be up and running soon right away
       i18n: {
         resources: translations,

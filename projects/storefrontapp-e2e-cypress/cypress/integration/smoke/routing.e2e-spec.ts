@@ -1,6 +1,19 @@
 context('Configurable routing', () => {
   const PRODUCT_ID = '1992693';
   const PRODUCT_NAME = 'DSC-T90';
+
+  beforeEach(() => {
+    cy.cxConfig({
+      routing: {
+        routes: {
+          product: {
+            paths: ['product/:productCode/:name', 'product/:productCode'],
+          },
+        },
+      },
+    });
+  });
+
   it('should show product page by product ID', () => {
     cy.visit(`/product/${PRODUCT_ID}`);
     cy.get('cx-breadcrumb').within(() => {
