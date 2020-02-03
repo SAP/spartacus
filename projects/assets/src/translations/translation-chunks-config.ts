@@ -71,5 +71,5 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'register',
     'checkoutLogin',
   ],
-  organization: ['budgetsList', 'budget', 'costCenter', 'budgetForm','permissionsList'],
+  organization: ['budgetsList', 'budget', 'costCenter', 'budgetForm','permissionsList','permissionForm','permission'],
 };

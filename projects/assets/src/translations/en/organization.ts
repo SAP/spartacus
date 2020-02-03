@@ -19,20 +19,6 @@ export const organization = {
     },
   },
 
-  permissionsList: {
-    code: 'Code',
-    permissionManagement: 'Persmission Management',
-    threshold: 'Threshold Value',
-    sortByMostRecent: 'sortByMostRecent',
-    sorting: {
-      byUnitName: 'Unit Name',
-      byName: 'Name',
-      byCode: 'Code',
-      byValue: 'Value',
-    },
-    create: 'Create new Permission',
-  },
-
   budget: {
     details: 'Budget details',
     id: 'ID',
@@ -54,10 +40,12 @@ export const organization = {
     deactivated: 'Deactivated',
     costCenters: 'Cost Centers',
   },
+
   costCenter: {
     name: 'Name',
     description: 'Description',
   },
+
   budgetForm: {
     create: 'Create Budget',
     edit: 'Edit Budget',
@@ -79,6 +67,76 @@ export const organization = {
     currency: 'Currency',
     amount: {
       label: 'Budget amount',
+      placeholder: 'Amount',
+    },
+    message: {
+      required: 'Value is required',
+      rangeOverflow: 'Date must be before {{date}}',
+      rangeUnderflow: 'Date must be after {{date}}',
+    },
+  },
+
+  permissionsList: {
+    code: 'Code',
+    permissionManagement: 'Persmission Management',
+    threshold: 'Threshold Value',
+    type: 'Type',
+    timePeriod: 'Time Period',
+    parentUnit: 'Parent Unit',
+    sortByMostRecent: 'sortByMostRecent',
+    sorting: {
+      byUnitName: 'Unit Name',
+      byName: 'Name',
+      byCode: 'Code',
+      byValue: 'Value',
+    },
+    create: 'Create new Permission',
+  },
+
+  permission: {
+    details: 'Permission details',
+    id: 'ID',
+    name: 'Permission Name',
+    amount: 'Amount',
+    currency: 'Currency',
+    startDate: 'Start date',
+    endDate: 'End date',
+    costCenter: 'Cost center',
+    parentUnit: 'Parent Unit',
+    sortByMostRecent: 'sortByMostRecent',
+    noBudgets: 'No budgets',
+    edit: 'Edit',
+    disable: 'Disable',
+    enable: 'Enable',
+    status: 'Status',
+    back: 'Back to list',
+    active: 'Active',
+    deactivated: 'Deactivated',
+    costCenters: 'Cost Centers',
+    threshold: 'Threshold Amount'
+  },
+
+  permissionForm: {
+    create: 'Create Permission',
+    edit: 'Edit Permission',
+    update: 'Update Permission',
+    code: {
+      label: 'Permission ID',
+      placeholder: 'Code',
+    },
+    name: {
+      label: 'Permission name',
+      placeholder: 'Name',
+    },
+    businessUnits: {
+      label: 'Parent business unit',
+      placeholder: 'Select business unit',
+    },
+    startDate: 'Start date',
+    endDate: 'End date',
+    currency: 'Currency',
+    amount: {
+      label: 'Permission amount',
       placeholder: 'Amount',
     },
     message: {
