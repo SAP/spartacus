@@ -21,6 +21,7 @@ import { FeatureToggles } from './feature-toggles';
 import { SkipLinkConfig } from './layout/a11y/skip-link/config/index';
 import { LayoutConfig } from './layout/config/layout-config';
 import { PaginationConfig } from './shared/components/list-navigation/pagination/index';
+import { ModalConfig } from './shared/components/modal/config/modal-config';
 import { ViewConfig } from './shared/config/view-config';
 
 export type StorefrontConfig =
@@ -45,5 +46,5 @@ export type StorefrontConfig =
   | FeatureToggles
   | AsmConfig
   | SkipLinkConfig
-  | ModalConfigs
+  | ModalConfig
   | PaginationConfig;
