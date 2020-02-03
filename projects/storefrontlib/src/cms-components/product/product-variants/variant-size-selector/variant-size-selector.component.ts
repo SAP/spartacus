@@ -21,11 +21,11 @@ export class VariantSizeSelectorComponent {
   @Input()
   variants: BaseOption;
 
-  changeSize(code: string): void {
+  changeSize(code: string, name: string): void {
     if (code) {
       this.routingService.go({
         cxRoute: 'product',
-        params: { code },
+        params: { code, name },
       });
     }
     return null;

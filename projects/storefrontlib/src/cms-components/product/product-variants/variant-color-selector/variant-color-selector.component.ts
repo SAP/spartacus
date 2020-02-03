@@ -1,10 +1,10 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
+  BaseOption,
   Product,
   RoutingService,
-  BaseOption,
-  VariantQualifier,
   VariantOptionQualifier,
+  VariantQualifier,
 } from '@spartacus/core';
 
 @Component({
@@ -21,11 +21,11 @@ export class VariantColorSelectorComponent {
   @Input()
   variants: BaseOption;
 
-  changeColor(code: string): void {
+  changeColor(code: string, name: string): void {
     if (code) {
       this.routingService.go({
         cxRoute: 'product',
-        params: { code },
+        params: { code, name },
       });
     }
     return null;
