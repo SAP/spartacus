@@ -187,6 +187,27 @@ describe('MultiCartService', () => {
     });
   });
 
+  describe('mergeToCurrentCart', () => {
+    it('should merge cart', () => {
+      spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
+
+      service.mergeToCurrentCart({
+        userId: 'userId',
+        cartId: 'cartId',
+        extraData: {},
+      });
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new DeprecatedCartActions.MergeCart({
+          userId: 'userId',
+          extraData: {},
+          cartId: 'cartId',
+          tempCartId: 'temp-uuid',
+        })
+      );
+    });
+  });
+
   describe('loadCart', () => {
     it('should dispatch load cart action', () => {
       service.loadCart({

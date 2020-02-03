@@ -1,10 +1,10 @@
 <ng-container *ngIf="order$ | async as order">
-  <header class="cx-page-header">
+  <div class="cx-page-header">
     <h1 class="cx-page-title">
       {{ 'checkoutOrderConfirmation.confirmationOfOrder' | cxTranslate }}
       {{ order.code }}
     </h1>
-  </header>
+  </div>
 
   <div class="cx-order-confirmation-message">
     <h2>{{ 'checkoutOrderConfirmation.thankYou' | cxTranslate }}</h2>

@@ -20,7 +20,7 @@ import { PWAModuleConfig } from './cms-structure/pwa/index';
 import { FeatureToggles } from './feature-toggles';
 import { SkipLinkConfig } from './layout/a11y/skip-link/config/index';
 import { LayoutConfig } from './layout/config/layout-config';
-import { ModalConfig } from './shared/components/modal/config/modal-config';
+import { PaginationConfig } from './shared/components/list-navigation/pagination/index';
 import { ViewConfig } from './shared/config/view-config';
 
 export type StorefrontConfig =
@@ -45,4 +45,5 @@ export type StorefrontConfig =
   | FeatureToggles
   | AsmConfig
   | SkipLinkConfig
-  | ModalConfig;
+  | ModalConfigs
+  | PaginationConfig;
