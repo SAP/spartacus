@@ -24,8 +24,6 @@ export const COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API =
 export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
 export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 
-// TODO:#6027 - rename method and file back to the generic name.
-// TODO:#6027 - do the same for migration script name in the json file and update the test file
 export function updateCmsComponentState(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     let cmsComponentSelectorsChangesMade = false;
@@ -109,7 +107,6 @@ export function updateCmsComponentState(): Rule {
   };
 }
 
-// TODO:#6027 - test
 export function renameCmsGetComponentFromPageConstant(
   sourcePath: string,
   source: ts.SourceFile

@@ -204,7 +204,7 @@ const ALL_TEST_CASES_CLASS = `
     }
 `;
 
-describe('updateCmsComponentsState migration', () => {
+describe('updateCmsComponentState migration', () => {
   let host = new TempScopedNodeJsSyncHost();
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
