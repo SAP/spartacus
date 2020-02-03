@@ -60,7 +60,7 @@ class MockProductService {
   }
 }
 
-fdescribe('VariantStyleSelectorComponent', () => {
+describe('VariantStyleSelectorComponent', () => {
   let component: VariantStyleSelectorComponent;
   let fixture: ComponentFixture<VariantStyleSelectorComponent>;
 
