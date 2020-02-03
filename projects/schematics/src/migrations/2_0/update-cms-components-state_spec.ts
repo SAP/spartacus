@@ -131,19 +131,6 @@ const ACTION_CONST_TEST_CLASS = `
       }
     }
 `;
-const COMPONENT_ENTITY_CONST_TEST_CLASS = `
-    import {
-      CmsActions,
-      PageContext,
-      StateEntityLoaderActions
-    } from '@spartacus/core';
-    export class LoadCmsComponent extends StateEntityLoaderActions.EntityLoadAction {
-      readonly type = CmsActions.LOAD_CMS_COMPONENT;
-      constructor(public payload: string, public pageContext?: PageContext) {
-        super('[Cms[ Component Entity', payload);
-      }
-    }
-`;
 const ALL_TEST_CASES_CLASS = `
     import { MemoizedSelector, select, Store } from '@ngrx/store';
     import {
@@ -213,12 +200,6 @@ const ALL_TEST_CASES_CLASS = `
       }
       componentSelectorFactory3(): MemoizedSelector<StateWithCms, CmsComponent> {
         return CmsSelectors.componentSelectorFactory('sample-uid');
-      }
-    }
-    export class LoadCmsComponent extends StateEntityLoaderActions.EntityLoadAction {
-      readonly type = CmsActions.LOAD_CMS_COMPONENT;
-      constructor(public payload: string, public pageContext?: PageContext) {
-        super('[Cms[ Component Entity', payload);
       }
     }
 `;
@@ -346,22 +327,6 @@ describe('updateCmsComponentsState migration', () => {
     expect(newOccurrences).toEqual(1);
   });
 
-  it(`should rename '[Cms[ Component Entity' to '[Cms] Component Entity'`, async () => {
-    writeFile('/src/index.ts', COMPONENT_ENTITY_CONST_TEST_CLASS);
-
-    await runMigration();
-
-    const content = appTree.readContent('/src/index.ts');
-
-    const regexOld = new RegExp('\\[Cms\\[ Component Entity', 'g');
-    const oldOccurrences = (content.match(regexOld) || []).length;
-    expect(oldOccurrences).toEqual(0);
-
-    const regexNew = new RegExp('\\[Cms\\] Component Entity', 'g');
-    const newOccurrences = (content.match(regexNew) || []).length;
-    expect(newOccurrences).toEqual(1);
-  });
-
   it('ultimate test', async () => {
     writeFile('/src/index.ts', ALL_TEST_CASES_CLASS);
 
@@ -424,24 +389,6 @@ describe('updateCmsComponentsState migration', () => {
       content.match(regexCmsActionConstNew) || []
     ).length;
     expect(cmsActionConstOccurrencesNew).toEqual(1);
-
-    const cmsComponentConstRegexOld = new RegExp(
-      '\\[Cms\\[ Component Entity',
-      'g'
-    );
-    const cmsComponentConstOccurrencesOld = (
-      content.match(cmsComponentConstRegexOld) || []
-    ).length;
-    expect(cmsComponentConstOccurrencesOld).toEqual(0);
-
-    const cmsComponentConstRegexNew = new RegExp(
-      '\\[Cms\\] Component Entity',
-      'g'
-    );
-    const cmsComponentConstOccurrencesNew = (
-      content.match(cmsComponentConstRegexNew) || []
-    ).length;
-    expect(cmsComponentConstOccurrencesNew).toEqual(1);
   });
 
   function writeFile(filePath: string, contents: string): void {
