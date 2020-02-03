@@ -145,7 +145,11 @@ export function insertCommentAboveMethodCall(
   methodName: string,
   comment: string
 ): InsertChange[] {
-  const callExpressionNodes = findIdentifierNodes(source, methodName);
+  const callExpressionNodes = findNodesByTextAndKind(
+    source,
+    methodName,
+    ts.SyntaxKind.Identifier
+  );
   const changes: InsertChange[] = [];
   callExpressionNodes.forEach(n => {
     changes.push(
@@ -166,7 +170,11 @@ export function renameIdentifierNode(
   oldMethod: string,
   newMethod: string
 ): ReplaceChange[] {
-  const callExpressionNodes = findIdentifierNodes(source, oldMethod);
+  const callExpressionNodes = findNodesByTextAndKind(
+    source,
+    oldMethod,
+    ts.SyntaxKind.Identifier
+  );
   const changes: ReplaceChange[] = [];
   callExpressionNodes.forEach(n =>
     changes.push(
@@ -176,14 +184,41 @@ export function renameIdentifierNode(
   return changes;
 }
 
-function findIdentifierNodes(
+// TODO:#6027 - test
+export function renameStringLiteralNode(
+  sourcePath: string,
   source: ts.SourceFile,
-  methodName: string
+  oldStringLiteral: string,
+  newStringLiteral: string
+): ReplaceChange[] {
+  const stringLiteralNodes = findNodesByTextAndKind(
+    source,
+    oldStringLiteral,
+    ts.SyntaxKind.StringLiteral
+  );
+  const changes: ReplaceChange[] = [];
+  stringLiteralNodes.forEach(n =>
+    changes.push(
+      new ReplaceChange(
+        sourcePath,
+        n.getStart(),
+        oldStringLiteral,
+        newStringLiteral
+      )
+    )
+  );
+  return changes;
+}
+
+function findNodesByTextAndKind(
+  source: ts.SourceFile,
+  text: string,
+  syntaxKind: ts.SyntaxKind
 ): ts.Node[] {
   const nodes = getSourceNodes(source);
   return nodes
-    .filter(n => n.kind === ts.SyntaxKind.Identifier)
-    .filter(n => n.getText() === methodName);
+    .filter(n => n.kind === syntaxKind)
+    .filter(n => n.getText() === text);
 }
 
 function getLineStartFromTSFile(

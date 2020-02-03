@@ -123,6 +123,27 @@ const COMPONENT_SELECTOR_FACTORY_TEST_CLASS = `
       }
     }
 `;
+const ACTION_CONST_TEST_CLASS = `
+    import { CmsActions } from '@spartacus/core';
+    export class TestClass {
+      constructor() {
+        console.log(CmsActions.CMS_GET_COMPONENET_FROM_PAGE);
+      }
+    }
+`;
+const COMPONENT_ENTITY_CONST_TEST_CLASS = `
+    import {
+      CmsActions,
+      PageContext,
+      StateEntityLoaderActions
+    } from '@spartacus/core';
+    export class LoadCmsComponent extends StateEntityLoaderActions.EntityLoadAction {
+      readonly type = CmsActions.LOAD_CMS_COMPONENT;
+      constructor(public payload: string, public pageContext?: PageContext) {
+        super('[Cms[ Component Entity', payload);
+      }
+    }
+`;
 const ALL_TEST_CASES_CLASS = `
     import { MemoizedSelector, select, Store } from '@ngrx/store';
     import {
@@ -131,7 +152,10 @@ const ALL_TEST_CASES_CLASS = `
       ComponentState,
       EntityLoaderState,
       LoaderState,
-      StateWithCms
+      StateWithCms,
+      CmsActions,
+      PageContext,
+      StateEntityLoaderActions
     } from '@spartacus/core';
     import { Observable } from 'rxjs';
 
@@ -191,12 +215,10 @@ const ALL_TEST_CASES_CLASS = `
         return CmsSelectors.componentSelectorFactory('sample-uid');
       }
     }
-`;
-const ACTION_CONST_TEST_CLASS = `
-    import { CmsActions } from '@spartacus/core';
-    export class TestClass {
-      constructor() {
-        console.log(CmsActions.CMS_GET_COMPONENET_FROM_PAGE);
+    export class LoadCmsComponent extends StateEntityLoaderActions.EntityLoadAction {
+      readonly type = CmsActions.LOAD_CMS_COMPONENT;
+      constructor(public payload: string, public pageContext?: PageContext) {
+        super('[Cms[ Component Entity', payload);
       }
     }
 `;
@@ -308,7 +330,7 @@ describe('updateCmsComponentsState migration', () => {
     expect(commentOccurrences).toEqual(3);
   });
 
-  it('should rename CMS_GET_COMPONENET_FROM_PAGE to CMS_GET_COMPONENT_FROM_PAGE', async () => {
+  it(`should rename 'CMS_GET_COMPONENET_FROM_PAGE' to 'CMS_GET_COMPONENT_FROM_PAGE'`, async () => {
     writeFile('/src/index.ts', ACTION_CONST_TEST_CLASS);
 
     await runMigration();
@@ -324,12 +346,29 @@ describe('updateCmsComponentsState migration', () => {
     expect(newOccurrences).toEqual(1);
   });
 
-  it('all cms changes in one class', async () => {
+  it(`should rename '[Cms[ Component Entity' to '[Cms] Component Entity'`, async () => {
+    writeFile('/src/index.ts', COMPONENT_ENTITY_CONST_TEST_CLASS);
+
+    await runMigration();
+
+    const content = appTree.readContent('/src/index.ts');
+
+    const regexOld = new RegExp('\\[Cms\\[ Component Entity', 'g');
+    const oldOccurrences = (content.match(regexOld) || []).length;
+    expect(oldOccurrences).toEqual(0);
+
+    const regexNew = new RegExp('\\[Cms\\] Component Entity', 'g');
+    const newOccurrences = (content.match(regexNew) || []).length;
+    expect(newOccurrences).toEqual(1);
+  });
+
+  it('ultimate test', async () => {
     writeFile('/src/index.ts', ALL_TEST_CASES_CLASS);
 
     await runMigration();
 
     const content = appTree.readContent('/src/index.ts');
+
     const getComponentStateRegex = new RegExp(
       buildComment(GET_COMPONENT_STATE_OLD_API, GET_COMPONENTS_STATE_NEW_API),
       'g'
@@ -372,6 +411,7 @@ describe('updateCmsComponentsState migration', () => {
       'CMS_GET_COMPONENET_FROM_PAGE',
       'g'
     );
+
     const cmsActionConstOccurrencesOld = (
       content.match(regexCmsActionConstOld) || []
     ).length;
@@ -384,6 +424,24 @@ describe('updateCmsComponentsState migration', () => {
       content.match(regexCmsActionConstNew) || []
     ).length;
     expect(cmsActionConstOccurrencesNew).toEqual(1);
+
+    const cmsComponentConstRegexOld = new RegExp(
+      '\\[Cms\\[ Component Entity',
+      'g'
+    );
+    const cmsComponentConstOccurrencesOld = (
+      content.match(cmsComponentConstRegexOld) || []
+    ).length;
+    expect(cmsComponentConstOccurrencesOld).toEqual(0);
+
+    const cmsComponentConstRegexNew = new RegExp(
+      '\\[Cms\\] Component Entity',
+      'g'
+    );
+    const cmsComponentConstOccurrencesNew = (
+      content.match(cmsComponentConstRegexNew) || []
+    ).length;
+    expect(cmsComponentConstOccurrencesNew).toEqual(1);
   });
 
   function writeFile(filePath: string, contents: string): void {

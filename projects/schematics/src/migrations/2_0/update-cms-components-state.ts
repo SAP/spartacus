@@ -3,6 +3,7 @@ import * as ts from 'typescript';
 import {
   insertCommentAboveMethodCall,
   renameIdentifierNode,
+  renameStringLiteralNode,
 } from '../../shared/utils/file-utils';
 
 export const GET_COMPONENT_STATE_OLD_API = 'getComponentState';
@@ -86,5 +87,18 @@ export function renameCmsGetComponentFromPageConstant(
     source,
     'CMS_GET_COMPONENET_FROM_PAGE',
     'CMS_GET_COMPONENT_FROM_PAGE'
+  );
+}
+
+// TODO:#6027 - test
+export function renameComponentEntityConstant(
+  sourcePath: string,
+  source: ts.SourceFile
+): Change[] {
+  return renameStringLiteralNode(
+    sourcePath,
+    source,
+    `'[Cms[ Component Entity'`,
+    `'[Cms] Component Entity'`
   );
 }
