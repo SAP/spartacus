@@ -184,32 +184,6 @@ export function renameIdentifierNode(
   return changes;
 }
 
-// TODO:#6027 - test
-export function renameStringLiteralNode(
-  sourcePath: string,
-  source: ts.SourceFile,
-  oldStringLiteral: string,
-  newStringLiteral: string
-): ReplaceChange[] {
-  const stringLiteralNodes = findNodesByTextAndKind(
-    source,
-    oldStringLiteral,
-    ts.SyntaxKind.StringLiteral
-  );
-  const changes: ReplaceChange[] = [];
-  stringLiteralNodes.forEach(n =>
-    changes.push(
-      new ReplaceChange(
-        sourcePath,
-        n.getStart(),
-        oldStringLiteral,
-        newStringLiteral
-      )
-    )
-  );
-  return changes;
-}
-
 function findNodesByTextAndKind(
   source: ts.SourceFile,
   text: string,
