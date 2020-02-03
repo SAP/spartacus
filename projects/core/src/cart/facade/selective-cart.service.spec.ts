@@ -74,9 +74,6 @@ describe('Selective Cart Service', () => {
   let service: SelectiveCartService;
   let multiCartService: MultiCartService;
   let store: Store<StateWithMultiCart | StateWithProcess<void>>;
-  let baseSiteService: BaseSiteService;
-
-  const site = 'electronics-spa';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -99,7 +96,6 @@ describe('Selective Cart Service', () => {
 
     service = TestBed.get(SelectiveCartService as Type<SelectiveCartService>);
     multiCartService = TestBed.get(MultiCartService as Type<MultiCartService>);
-    baseSiteService = TestBed.get(BaseSiteService as Type<BaseSiteService>);
     store = TestBed.get(Store as Type<
       Store<StateWithMultiCart | StateWithProcess<void>>
     >);
@@ -111,7 +107,6 @@ describe('Selective Cart Service', () => {
       error: false,
     });
     spyOn(store, 'dispatch').and.stub();
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
   });
 
   it('should not return cart when loading', () => {

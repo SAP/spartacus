@@ -5,7 +5,7 @@ import { MultiCartService } from './multi-cart.service';
 import { UserService } from '../../user/facade/user.service';
 import { AuthService } from '../../auth/facade/auth.service';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
-import { Observable, of, BehaviorSubject, combineLatest } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { Cart } from '../../model/cart.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { map, filter, tap, shareReplay, switchMap, take } from 'rxjs/operators';
@@ -21,6 +21,7 @@ export class SelectiveCartService {
   private cartId$: BehaviorSubject<string> = new BehaviorSubject<string>(
     undefined
   );
+  private activeBaseSite: string;
 
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
     'PREVIOUS_USER_ID_INITIAL_VALUE';
@@ -40,19 +41,20 @@ export class SelectiveCartService {
     protected multiCartService: MultiCartService,
     protected baseSiteService: BaseSiteService
   ) {
-    combineLatest([
-      this.userService.get(),
-      this.baseSiteService.getActive(),
-    ]).pipe(
-      map(([user, activeBaseSite]) => {
-        if (user && user.customerId && activeBaseSite) {
-          this.customerId = user.customerId;
-          this.cartId$.next(`selectivecart${activeBaseSite}${this.customerId}`);
-        } else if (user && !user.customerId) {
-          this.cartId$.next(undefined);
-        }
-      })
-    );
+    this.baseSiteService
+      .getActive()
+      .subscribe(value => (this.activeBaseSite = value));
+
+    this.userService.get().subscribe(user => {
+      if (user && user.customerId && this.activeBaseSite) {
+        this.customerId = user.customerId;
+        this.cartId$.next(
+          `selectivecart${this.activeBaseSite}${this.customerId}`
+        );
+      } else if (user && !user.customerId) {
+        this.cartId$.next(undefined);
+      }
+    });
 
     this.authService.getOccUserId().subscribe(userId => {
       this.userId = userId;
