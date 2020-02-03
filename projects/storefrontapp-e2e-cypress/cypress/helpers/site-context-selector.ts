@@ -42,8 +42,11 @@ export const FULL_BASE_URL_EN_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_E
 export const FULL_BASE_URL_EN_JPY = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_JPY}`;
 export const FULL_BASE_URL_DE_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_DE}/${CURRENCY_USD}`;
 
-const PRODUCT_ID_1 = '280916';
-const PRODUCT_ID_2 = '1687508';
+const PRODUCT_1_ID = '280916';
+const PRODUCT_1_NAME =
+  'Web%20Camera%20%28100KpixelM%20CMOS,%20640X480,%20USB%201.1%29%20Black';
+const PRODUCT_2_ID = '1687508';
+const PRODUCT_2_NAME = 'Remote%20Control%20Tripod%20VCT-80AV';
 export const PRODUCT_NAME_CART_DE = 'Digitalkamera';
 export const PRODUCT_NAME_DETAILS_DE = 'Stativ mit Fernbedienung';
 export const PRODUCT_NAME_SEARCH_DE =
@@ -53,8 +56,8 @@ export const MONTH_DE = new Date().toLocaleDateString('de-DE', {
   month: 'long',
 });
 
-export const PRODUCT_PATH_1 = `/product/${PRODUCT_ID_1}`;
-export const PRODUCT_PATH_2 = `/product/${PRODUCT_ID_2}`;
+export const PRODUCT_PATH_1 = `/product/${PRODUCT_1_ID}/${PRODUCT_1_NAME}`;
+export const PRODUCT_PATH_2 = `/product/${PRODUCT_2_ID}/${PRODUCT_2_NAME}`;
 export const CART_PATH = '/cart';
 const myAccount = 'my-account';
 export const ADDRESS_BOOK_PATH = `/${myAccount}/address-book`;
