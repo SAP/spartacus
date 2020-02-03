@@ -5,7 +5,10 @@ import {
   BaseOption,
   VariantQualifier,
   VariantOptionQualifier,
+  ProductService,
+  ProductScope,
 } from '@spartacus/core';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-variant-size-selector',
@@ -13,7 +16,10 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantSizeSelectorComponent {
-  constructor(private routingService: RoutingService) {}
+  constructor(
+    private productService: ProductService,
+    private routingService: RoutingService
+  ) {}
 
   @Input()
   product: Product;
@@ -21,12 +27,22 @@ export class VariantSizeSelectorComponent {
   @Input()
   variants: BaseOption;
 
-  changeSize(code: string, name: string): void {
+  changeSize(code: string): void {
     if (code) {
-      this.routingService.go({
-        cxRoute: 'product',
-        params: { code, name },
-      });
+      this.productService
+        .get(code, ProductScope.LIST)
+        .pipe(
+          // below call might looks redundant but in fact this data is going to be loaded anyways
+          // we're just calling it earlier and storing
+          filter(Boolean),
+          take(1)
+        )
+        .subscribe((product: Product) => {
+          this.routingService.go({
+            cxRoute: 'product',
+            params: product,
+          });
+        });
     }
     return null;
   }
