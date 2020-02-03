@@ -330,7 +330,6 @@ describe('updateCmsComponentsState migration', () => {
     await runMigration();
 
     const content = appTree.readContent('/src/index.ts');
-    console.log(content);
     const getComponentStateRegex = new RegExp(
       buildComment(GET_COMPONENT_STATE_OLD_API, GET_COMPONENTS_STATE_NEW_API),
       'g'
