@@ -4,6 +4,7 @@ import {
   BaseOption,
   VariantQualifier,
   VariantOptionQualifier,
+  Product,
 } from '@spartacus/core';
 
 @Component({
@@ -15,6 +16,9 @@ export class VariantStyleSelectorComponent {
   constructor(private config: OccConfig) {}
 
   variantQualifier = VariantQualifier;
+
+  @Input()
+  product: Product;
 
   @Input()
   variants: BaseOption;

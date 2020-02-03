@@ -1,8 +1,9 @@
 <ng-container>
   <div class="variant-selector">
     <div class="variant-name">{{ 'variant.color' | cxTranslate }}:</div>
+
     <select
-      (change)="changeColor($event.target.value)"
+      (change)="changeColor($event.target.value, product?.name)"
       class="form-control variant-select"
     >
       <option
