@@ -1,8 +1,8 @@
 {
   "schematics": {
-    "migration-v2-check-all-files-01": {
+    "migration-v2-update-cms-component-state-01": {
       "version": "2",
-      "factory": "./2_0/check-all-files#checkAllFiles",
+      "factory": "./2_0/update-cms-component-state#updateCmsComponentState",
       "description": "Update CMS components state to v2"
     }
   }

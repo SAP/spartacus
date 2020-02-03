@@ -15,7 +15,7 @@ import {
   GET_COMPONENTS_STATE_NEW_API,
   GET_COMPONENT_ENTITIES_COMMENT,
   GET_COMPONENT_STATE_OLD_API,
-} from './update-cms-components-state';
+} from './update-cms-component-state';
 
 const GET_COMPONENT_STATE_TEST_CLASS = `  
     import { MemoizedSelector, select, Store } from '@ngrx/store';
@@ -400,7 +400,11 @@ describe('updateCmsComponentsState migration', () => {
 
   function runMigration(): Promise<UnitTestTree> {
     return schematicRunner
-      .runSchematicAsync('migration-v2-check-all-files-01', {}, appTree)
+      .runSchematicAsync(
+        'migration-v2-update-cms-component-state-01',
+        {},
+        appTree
+      )
       .toPromise();
   }
 });
