@@ -1,4 +1,5 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { Change } from '@schematics/angular/utility/change';
 import {
   commitChanges,
   getPathResultsForFile,
@@ -27,12 +28,6 @@ export function checkAllFiles(): Rule {
       );
       if (renamedCmsGetComponentFromPageAction.length) {
         renamedCmsGetComponentFromPageActionChangesMade = true;
-        commitChanges(
-          tree,
-          sourcePath,
-          renamedCmsGetComponentFromPageAction,
-          InsertDirection.RIGHT
-        );
       }
 
       const renamedComponentEntityConstant = renameComponentEntityConstant(
@@ -41,12 +36,6 @@ export function checkAllFiles(): Rule {
       );
       if (renamedComponentEntityConstant.length) {
         renamedComponentEntityConstantChangesMade = true;
-        commitChanges(
-          tree,
-          sourcePath,
-          renamedComponentEntityConstant,
-          InsertDirection.RIGHT
-        );
       }
 
       const updateCmsComponentsChanges = updateCmsComponentsState(
@@ -55,13 +44,14 @@ export function checkAllFiles(): Rule {
       );
       if (updateCmsComponentsChanges.length) {
         updateCmsComponentsChangesMade = true;
-        commitChanges(
-          tree,
-          sourcePath,
-          updateCmsComponentsChanges,
-          InsertDirection.RIGHT
-        );
       }
+
+      const changes: Change[] = [
+        ...renamedCmsGetComponentFromPageAction,
+        ...renamedComponentEntityConstant,
+        ...updateCmsComponentsChanges,
+      ];
+      commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
     }
 
     if (updateCmsComponentsChangesMade) {

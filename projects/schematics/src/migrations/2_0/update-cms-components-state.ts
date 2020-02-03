@@ -95,10 +95,17 @@ export function renameComponentEntityConstant(
   sourcePath: string,
   source: ts.SourceFile
 ): Change[] {
-  return renameStringLiteralNode(
+  const singleQuoteChanges = renameStringLiteralNode(
     sourcePath,
     source,
     `'[Cms[ Component Entity'`,
     `'[Cms] Component Entity'`
   );
+  const doubleQuoteChanges = renameStringLiteralNode(
+    sourcePath,
+    source,
+    `"[Cms[ Component Entity"`,
+    `"[Cms] Component Entity"`
+  );
+  return [...singleQuoteChanges, ...doubleQuoteChanges];
 }
