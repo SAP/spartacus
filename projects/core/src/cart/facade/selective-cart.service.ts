@@ -40,18 +40,19 @@ export class SelectiveCartService {
     protected multiCartService: MultiCartService,
     protected baseSiteService: BaseSiteService
   ) {
-      combineLatest([this.userService.get(), this.baseSiteService.getActive()]).pipe(
-        map(([user, activeBaseSite]) => {
-          if (user && user.customerId && activeBaseSite) {
-            this.customerId = user.customerId;
-            this.cartId$.next(
-              `selectivecart${activeBaseSite}${this.customerId}`
-            );
-          } else if (user && !user.customerId) {
-            this.cartId$.next(undefined);
-          }
-        })
-      );
+    combineLatest([
+      this.userService.get(),
+      this.baseSiteService.getActive(),
+    ]).pipe(
+      map(([user, activeBaseSite]) => {
+        if (user && user.customerId && activeBaseSite) {
+          this.customerId = user.customerId;
+          this.cartId$.next(`selectivecart${activeBaseSite}${this.customerId}`);
+        } else if (user && !user.customerId) {
+          this.cartId$.next(undefined);
+        }
+      })
+    );
 
     this.authService.getOccUserId().subscribe(userId => {
       this.userId = userId;
