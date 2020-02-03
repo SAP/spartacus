@@ -1,7 +1,7 @@
 <ng-template
   [cxOutlet]="position"
   [cxOutletContext]="{ components$: components$ }"
-  [cxSkipLink]="position$ | async"
+  [cxSkipLink]="position"
 >
   <ng-template
     *ngFor="let component of components$ | async"
