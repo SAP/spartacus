@@ -40,7 +40,7 @@ export class VariantSizeSelectorComponent {
         .subscribe((product: Product) => {
           this.routingService.go({
             cxRoute: 'product',
-            params: { code, name: product.name },
+            params: product,
           });
         });
     }

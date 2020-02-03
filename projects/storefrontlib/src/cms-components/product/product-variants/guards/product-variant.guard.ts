@@ -41,7 +41,7 @@ export class ProductVariantGuard implements CanActivate {
               console.log(_product.name);
               this.routingService.go({
                 cxRoute: 'product',
-                params: { code: variant.code, name: _product.name },
+                params: _product,
               });
             });
           return false;
