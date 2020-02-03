@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  occBaseUrl: 'https://panda2.prod.chinaacc2.b2c.ydev.hybris.com:9002',
+  occBaseUrl: '',
 };
