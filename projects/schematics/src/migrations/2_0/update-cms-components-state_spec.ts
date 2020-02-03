@@ -218,7 +218,8 @@ describe('updateCmsComponentsState migration', () => {
       '/angular.json',
       JSON.stringify({
         projects: {
-          t: {
+          sourceRoot: 'src',
+          test: {
             architect: { build: { options: { tsConfig: './tsconfig.json' } } },
           },
         },
@@ -239,11 +240,11 @@ describe('updateCmsComponentsState migration', () => {
   });
 
   it('getComponentState', async () => {
-    writeFile('/index.ts', GET_COMPONENT_STATE_TEST_CLASS);
+    writeFile('/src/index.ts', GET_COMPONENT_STATE_TEST_CLASS);
 
     await runMigration();
 
-    const content = appTree.readContent('/index.ts');
+    const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(
       buildComment(GET_COMPONENT_STATE_OLD_API, GET_COMPONENTS_STATE_NEW_API),
       'g'
@@ -253,22 +254,22 @@ describe('updateCmsComponentsState migration', () => {
   });
 
   it('getComponentEntities', async () => {
-    writeFile('/index.ts', GET_COMPONENT_ENTITIES_TEST_CLASS);
+    writeFile('/src/index.ts', GET_COMPONENT_ENTITIES_TEST_CLASS);
 
     await runMigration();
 
-    const content = appTree.readContent('/index.ts');
+    const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(GET_COMPONENT_ENTITIES_COMMENT, 'g');
     const commentOccurrences = (content.match(regex) || []).length;
     expect(commentOccurrences).toEqual(3);
   });
 
   it('componentStateSelectorFactory', async () => {
-    writeFile('/index.ts', COMPONENT_STATE_SELECTOR_FACTORY_TEST_CLASS);
+    writeFile('/src/index.ts', COMPONENT_STATE_SELECTOR_FACTORY_TEST_CLASS);
 
     await runMigration();
 
-    const content = appTree.readContent('/index.ts');
+    const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(
       buildComment(
         COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
@@ -281,11 +282,11 @@ describe('updateCmsComponentsState migration', () => {
   });
 
   it('componentSelectorFactory', async () => {
-    writeFile('/index.ts', COMPONENT_SELECTOR_FACTORY_TEST_CLASS);
+    writeFile('/src/index.ts', COMPONENT_SELECTOR_FACTORY_TEST_CLASS);
 
     await runMigration();
 
-    const content = appTree.readContent('/index.ts');
+    const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(
       buildComment(
         COMPONENT_SELECTOR_FACTORY_OLD_API,
@@ -298,11 +299,11 @@ describe('updateCmsComponentsState migration', () => {
   });
 
   it('all selectors in one class', async () => {
-    writeFile('/index.ts', ALL_TEST_CASES_CLASS);
+    writeFile('/src/index.ts', ALL_TEST_CASES_CLASS);
 
     await runMigration();
 
-    const content = appTree.readContent('/index.ts');
+    const content = appTree.readContent('/src/index.ts');
     const getComponentStateRegex = new RegExp(
       buildComment(GET_COMPONENT_STATE_OLD_API, GET_COMPONENTS_STATE_NEW_API),
       'g'
@@ -352,7 +353,7 @@ describe('updateCmsComponentsState migration', () => {
 
   function runMigration(): Promise<UnitTestTree> {
     return schematicRunner
-      .runSchematicAsync('migration-v2-cms-components-state-01', {}, appTree)
+      .runSchematicAsync('migration-v2-check-all-files-01', {}, appTree)
       .toPromise();
   }
 });
