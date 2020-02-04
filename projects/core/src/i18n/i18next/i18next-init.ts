@@ -1,4 +1,3 @@
-import { isPlatformServer } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import i18next from 'i18next';
 import i18nextXhrBackend from 'i18next-xhr-backend';
@@ -10,7 +9,6 @@ export function i18nextInit(
   configInit: ConfigInitializerService,
   languageService: LanguageService,
   httpClient: HttpClient,
-  platform: string,
   serverRequestOrigin: string
 ): () => Promise<any> {
   return () =>
@@ -27,7 +25,6 @@ export function i18nextInit(
         i18next.use(i18nextXhrBackend);
         const loadPath = getLoadPath(
           config.i18n.backend.loadPath,
-          platform,
           serverRequestOrigin
         );
         const backend = {
@@ -91,19 +88,11 @@ export function i18nextGetHttpClient(
  * - https://github.com/angular/angular/issues/19224
  * - https://github.com/angular/universal/issues/858
  */
-export function getLoadPath(
-  path: string = '',
-  platform: string,
-  serverRequestOrigin: string = ''
-): string {
+export function getLoadPath(path: string, serverRequestOrigin: string): string {
   if (!path) {
     return undefined;
   }
-  if (
-    isPlatformServer(platform) &&
-    serverRequestOrigin &&
-    !path.match(/^http(s)?:\/\//)
-  ) {
+  if (serverRequestOrigin && !path.match(/^http(s)?:\/\//)) {
     if (path.startsWith('/')) {
       path = path.slice(1);
     }

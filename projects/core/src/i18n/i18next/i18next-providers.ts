@@ -1,10 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import {
-  APP_INITIALIZER,
-  Optional,
-  PLATFORM_ID,
-  Provider,
-} from '@angular/core';
+import { APP_INITIALIZER, Optional, Provider } from '@angular/core';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { SERVER_REQUEST_ORIGIN } from '../../ssr/ssr.providers';
@@ -18,7 +13,6 @@ export const i18nextProviders: Provider[] = [
       ConfigInitializerService,
       LanguageService,
       HttpClient,
-      PLATFORM_ID,
       [new Optional(), SERVER_REQUEST_ORIGIN],
     ],
     multi: true,
