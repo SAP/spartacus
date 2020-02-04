@@ -51,6 +51,8 @@ export const myAccount = {
         'Your cancellation request was submitted (original order {{orderCode}} will be updated)',
       note:
         'Please note that it may take a few moments for your order to reflect the request.',
+      noCancellableItems:
+        'There are currently no cancellable items. Please return to the order details page and check your order status.',
     },
   },
   orderHistory: {

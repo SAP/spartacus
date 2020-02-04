@@ -11,6 +11,8 @@ import {
   OrderEntry,
   CancelOrReturnRequestEntryInput,
   Price,
+  GlobalMessageService,
+  GlobalMessageType,
 } from '@spartacus/core';
 import { OrderCancelOrReturnService } from '../cancel-or-return.service';
 
@@ -33,7 +35,8 @@ export class CancelOrReturnItemsComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private cancelOrReturnService: OrderCancelOrReturnService
+    private cancelOrReturnService: OrderCancelOrReturnService,
+    private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +58,12 @@ export class CancelOrReturnItemsComponent implements OnInit {
     });
 
     this.disableEnableConfirm();
+    if (this.entries.length < 1) {
+      this.globalMessageService.add(
+        { key: 'orderDetails.cancellationAndReturn.noCancellableItems' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
   }
 
   setAll(): void {
@@ -92,10 +101,12 @@ export class CancelOrReturnItemsComponent implements OnInit {
   }
 
   protected disableEnableConfirm(): void {
-    for (const input of this.form.value.entryInput) {
-      if (input.quantity > 0) {
-        this.disableConfirmBtn = false;
-        return;
+    if (this.entries.length > 0) {
+      for (const input of this.form.value.entryInput) {
+        if (input.quantity > 0) {
+          this.disableConfirmBtn = false;
+          return;
+        }
       }
     }
     this.disableConfirmBtn = true;
