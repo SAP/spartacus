@@ -6,6 +6,7 @@ import { ConfigModule } from '../../../config/config.module';
 import { BudgetAdapter } from '../../../organization/connectors/budget/budget.adapter';
 import { PermissionAdapter } from '../../../organization/connectors/permission/permission.adapter';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
+import { CostCenterAdapter } from '../../../organization/connectors/cost-center/cost-center.adapter';
 import {
   BUDGET_NORMALIZER,
   BUDGETS_NORMALIZER,

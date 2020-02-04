@@ -1,4 +1,6 @@
 import { Currency } from './misc.model';
+import { B2BUnit } from './org-unit.model';
+import { CostCenter } from './cost-center.model';
 
 export interface Budget {
   active?: boolean;
@@ -8,51 +10,6 @@ export interface Budget {
   endDate?: string;
   startDate?: string;
   name?: string;
-  orgUnit?: OrgUnit;
+  orgUnit?: B2BUnit;
   costCenters?: CostCenter[];
-}
-
-export interface CostCenter {
-  active?: string;
-  code?: string;
-  name?: string;
-  originalCode?: string;
-  unit?: OrgUnit;
-}
-
-export interface OrgUnit {
-  uid?: string;
-  name?: string;
-  addresses?: OrgUnitAddress[];
-}
-
-export interface OrgUnitAddress {
-  cellphone?: string;
-  companyName?: string;
-  country?: {
-    isocode?: string;
-    name?: string;
-  };
-  defaultAddress?: true;
-  district?: string;
-  email?: string;
-  firstName?: string;
-  formattedAddress?: string;
-  id?: string;
-  lastName?: string;
-  line1?: string;
-  line2?: string;
-  phone?: string;
-  postalCode?: string;
-  region?: {
-    countryIso?: string;
-    isocode?: string;
-    isocodeShort?: string;
-    name?: string;
-  };
-  shippingAddress?: true;
-  title?: string;
-  titleCode?: string;
-  town?: string;
-  visibleInAddressBook?: true;
 }

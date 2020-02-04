@@ -4158,22 +4158,18 @@ export namespace Occ {
     endDate?: string;
     startDate?: string;
     name?: string;
-    orgUnit?: OrgUnit;
+    orgUnit?: B2BUnit;
     costCenters?: CostCenter[];
   }
 
   export interface CostCenter {
     active?: string;
+    activeFlag: boolean;
     code?: string;
+    currency?: Currency;
     name?: string;
     originalCode?: string;
-    unit?: OrgUnit;
-  }
-
-  export interface OrgUnit {
-    uid?: string;
-    name?: string;
-    addresses?: OrgUnitAddress[];
+    unit?: B2BUnit;
   }
 
   export interface OrgUnitAddress {
@@ -4208,25 +4204,19 @@ export namespace Occ {
   }
 
   export interface B2BUnitNodeList {
-    unitNodes?: Array<B2BUnitNode>;
+    unitNodes?: B2BUnitNode[];
   }
 
   export interface B2BUnitNode {
     active?: boolean;
-    children?: Array<B2BUnitNode>;
+    children?: B2BUnitNode[];
     id?: string;
     name?: string;
     parent?: string;
   }
 
   export interface B2BUser extends User {
-    /**
-     * @member {string} [active]
-     */
     active?: boolean;
-    /**
-     * @member {Array} [approvers]
-     */
     approvers?: [];
   }
 
@@ -4237,7 +4227,7 @@ export namespace Occ {
 
   export interface B2BUnit {
     active?: boolean;
-    addresses?: Array<OrgUnitAddress>;
+    addresses?: OrgUnitAddress[];
     uid?: string;
     name?: string;
     parentOrgUnit?: string;
@@ -4273,6 +4263,12 @@ export namespace Occ {
 
   export interface PermissionsList {
     orderApprovalPermissions?: Permission[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
+  export interface CostCentersList {
+    costCenters: CostCenter[];
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }
