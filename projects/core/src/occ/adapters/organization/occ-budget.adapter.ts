@@ -39,7 +39,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
 
   create(userId: string, budget: Budget): Observable<Budget> {
     return this.http
-      .post<Budget>(this.getBudgetsEndpoint(userId), budget)
+      .post<Occ.Budget>(this.getBudgetsEndpoint(userId), budget)
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 
@@ -49,7 +49,7 @@ export class OccBudgetAdapter implements BudgetAdapter {
     budget: Budget
   ): Observable<Budget> {
     return this.http
-      .patch<Budget>(this.getBudgetEndpoint(userId, budgetCode), budget)
+      .patch<Occ.Budget>(this.getBudgetEndpoint(userId, budgetCode), budget)
       .pipe(this.converter.pipeable(BUDGET_NORMALIZER));
   }
 
