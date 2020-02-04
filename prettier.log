@@ -1,6 +1,0 @@
-yarn run v1.16.0
-$ prettier --config ./.prettierrc --list-different "projects/**/*{.ts,.js,.json,.scss,.html}"
-projects/core/src/occ/config-loader/occ-config-loader.service.spec.ts
-projects/core/src/routing/store/effects/router.effect.spec.ts
-error Command failed with exit code 1.
-info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
