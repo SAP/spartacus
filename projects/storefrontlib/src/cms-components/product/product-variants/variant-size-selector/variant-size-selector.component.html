@@ -2,7 +2,7 @@
   <div class="variant-selector">
     <div class="variant-name">{{ 'variant.size' | cxTranslate }}:</div>
     <select
-      (change)="changeSize($event.target.value, product?.name)"
+      (change)="changeSize($event.target.value)"
       class="form-control variant-select"
     >
       <option
