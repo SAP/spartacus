@@ -64,7 +64,7 @@ describe('Wish list', () => {
     });
 
     it('should add product to cart, to wish list and checkout', () => {
-      cy.visit(getProductUrl(${cart.products[0].code}));
+      cy.visit(getProductUrl(cart.products[0].code));
       cart.addToCart();
       cart.closeAddedToCartDialog();
       wishList.verifyProductInWishList(wishList.products[1]);
