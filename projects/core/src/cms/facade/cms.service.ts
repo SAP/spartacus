@@ -15,7 +15,7 @@ import { CmsComponent } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { PageContext } from '../../routing/models/page-context.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
-import { serializePageContext } from '../../util/serialization-utils';
+import { serializePageContextForState } from '../../util/serialization-utils';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
@@ -84,7 +84,7 @@ export class CmsService {
     uid: string,
     pageContext?: PageContext
   ): Observable<T> {
-    const context = serializePageContext(pageContext);
+    const context = serializePageContextForState(pageContext);
     if (!this.components[uid]) {
       // create the component data structure, if it doesn't already exist
       this.components[uid] = {};
@@ -112,7 +112,7 @@ export class CmsService {
       );
     }
 
-    const context = serializePageContext(pageContext);
+    const context = serializePageContextForState(pageContext);
 
     const loading$ = combineLatest([
       this.routingService.getNextPageContext(),
@@ -128,7 +128,7 @@ export class CmsService {
         // (as it might already been triggered and might be available shortly from page data)
         // TODO(issue:3649), TODO(issue:3668) - this optimization could be removed
         const couldBeLoadedWithPageData = nextContext
-          ? serializePageContext(nextContext) === context
+          ? serializePageContextForState(nextContext) === context
           : false;
 
         if (!attemptedLoad && !couldBeLoadedWithPageData) {

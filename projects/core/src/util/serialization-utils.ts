@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { isObject } from '../config/utils/deep-merge';
+import { PageType } from '../model';
 import { ErrorModel, HttpErrorModel } from '../model/misc.model';
 import { PageContext } from '../routing/models/page-context.model';
 
@@ -51,10 +52,39 @@ export function makeErrorSerializable(
   return isObject(error) ? UNKNOWN_ERROR : error;
 }
 
+/**
+ *
+ * Fully serializes the provided page context.
+ * The pattern used for serialization is: `pageContext.type-pageContext.id`.
+ *
+ * This method is useful for grouping streams by page context.
+ *
+ * @param pageContext to serialize
+ */
 export function serializePageContext(pageContext: PageContext): string {
   if (!pageContext) {
     return CURRENT_CONTEXT_KEY;
   }
 
   return `${pageContext.type}-${pageContext.id}`;
+}
+
+/**
+ * Serializes the provided page context in a suitable way for the Spartacus' state.
+ *
+ * This means that the method will not append the provided page context's ID if it's of type CONTENT_PAGE.
+ * Otherwise, `serializePageContext()` will be used.
+ *
+ * @param pageContext to serialize
+ */
+export function serializePageContextForState(pageContext: PageContext): string {
+  if (!pageContext) {
+    return CURRENT_CONTEXT_KEY;
+  }
+
+  if (pageContext.type === PageType.CONTENT_PAGE) {
+    return `${pageContext.type}`;
+  }
+
+  return serializePageContext(pageContext);
 }

@@ -4,7 +4,7 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import { CmsComponent, PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { initialLoaderState, LoaderState } from '../../../state/index';
-import { serializePageContext } from '../../../util/serialization-utils';
+import { serializePageContextForState } from '../../../util/serialization-utils';
 import { CmsActions } from '../actions/index';
 import { ComponentsContext, StateWithCms } from '../cms-state';
 import * as fromReducers from '../reducers/index';
@@ -102,7 +102,7 @@ describe('Cms Component Selectors', () => {
           )
         );
 
-        const serializedPageContext = serializePageContext(pageContext);
+        const serializedPageContext = serializePageContextForState(pageContext);
         expect(result.component).toEqual({
           uid: componentUid,
           typeCode: component.typeCode,
@@ -181,7 +181,9 @@ describe('Cms Component Selectors', () => {
             id: 'xxx',
             type: PageType.CONTENT_PAGE,
           };
-          const serializedPageContext = serializePageContext(pageContext);
+          const serializedPageContext = serializePageContextForState(
+            pageContext
+          );
           store.dispatch(
             new CmsActions.LoadCmsComponentSuccess(
               component,
@@ -255,7 +257,7 @@ describe('Cms Component Selectors', () => {
           id: 'xxx',
           type: PageType.CONTENT_PAGE,
         };
-        const serializedPageContext = serializePageContext(pageContext);
+        const serializedPageContext = serializePageContextForState(pageContext);
 
         store.dispatch(
           new CmsActions.LoadCmsComponentSuccess(
@@ -356,7 +358,7 @@ describe('Cms Component Selectors', () => {
           id: 'xxx',
           type: PageType.CONTENT_PAGE,
         };
-        const serializedPageContext = serializePageContext(pageContext);
+        const serializedPageContext = serializePageContextForState(pageContext);
 
         store.dispatch(
           new CmsActions.LoadCmsComponentSuccess(
