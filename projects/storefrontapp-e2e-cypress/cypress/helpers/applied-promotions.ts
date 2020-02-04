@@ -112,6 +112,10 @@ export function checkForAppliedCartPromotions(shouldContainPromotion) {
   }
 }
 
+export function decreaseQuantityOfCartEntry() {
+  cy.get('.cx-counter-action').first().click();
+}
+
 export function removeCartEntry() {
   cy.get('.cx-item-list-items')
     .within(() => {
@@ -121,9 +125,9 @@ export function removeCartEntry() {
 
 export function checkAppliedPromotionsFordifferentCartTotals() {
   it('Should add two products to the cart', () => {
-    cy.visit('/product/358639');
+    cy.visit('/product/266685');
     addProductToCart();
-    cy.visit('/product/1934796');
+    cy.visit('/product/289540');
     addProductToCart();
   });
 
@@ -133,7 +137,7 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
   });
 
   it('Should not display promotions in users cart view after removing first product', () => {
-    removeCartEntry();
+    decreaseQuantityOfCartEntry();
     checkForAppliedCartPromotions(false);
   });
 
