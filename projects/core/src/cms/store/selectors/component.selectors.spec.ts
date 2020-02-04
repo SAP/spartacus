@@ -283,7 +283,7 @@ describe('Cms Component Selectors', () => {
   });
 
   describe('componentsDataSelectorFactory', () => {
-    it('should return the component when the state exists', () => {
+    it('should return the component', () => {
       const componentUid = 'comp1';
       const pageContext: PageContext = {
         id: 'xxx',
@@ -304,15 +304,6 @@ describe('Cms Component Selectors', () => {
         .subscribe(value => (result = value));
 
       expect(result).toEqual(component);
-    });
-    it('should return undefined when the state does not exist', () => {
-      const componentUid = 'comp1';
-      let result: CmsComponent;
-      store
-        .pipe(select(CmsSelectors.componentsDataSelectorFactory(componentUid)))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual(undefined);
     });
   });
 
