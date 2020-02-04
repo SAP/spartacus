@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class FocusTrapService {
-  focusableSelectors = [
+  focusableSelectors: string[] = [
     `a[href]:not([tabindex='-1'])`,
     `area[href]:not([tabindex='-1'])`,
     `input:not([disabled]):not([tabindex='-1'])`,
@@ -18,7 +18,7 @@ export class FocusTrapService {
 
   constructor() {}
 
-  getTrapHandler(target: HTMLElement) {
+  getTrapHandler(target: HTMLElement): Function {
     const root: Document = <Document>target.getRootNode();
     const focusableElements: HTMLElement[] = Array.from(<
       NodeListOf<HTMLElement>

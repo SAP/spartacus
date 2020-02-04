@@ -10,7 +10,7 @@ import { FocusTrapService } from '../service/focus-trap.service';
   selector: '[cxFocusTrap]',
 })
 export class FocusTrapDirective implements AfterContentInit, OnDestroy {
-  trapHandler;
+  trapHandler: any;
 
   constructor(
     private elRef: ElementRef<HTMLElement>,
