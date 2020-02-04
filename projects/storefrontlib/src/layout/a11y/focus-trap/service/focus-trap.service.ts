@@ -18,36 +18,34 @@ export class FocusTrapService {
 
   constructor() {}
 
-  add(target: HTMLElement): void {
+  getTrapHandler(target: HTMLElement) {
     const root: Document = <Document>target.getRootNode();
-    const focusableElements = Array.from(<NodeListOf<HTMLElement>>(
-      target.querySelectorAll(this.focusableSelectors.join(','))
-    )).filter(element => element.offsetParent !== null);
+    const focusableElements: HTMLElement[] = Array.from(<
+      NodeListOf<HTMLElement>
+    >target.querySelectorAll(this.focusableSelectors.join(','))).filter(
+      element => element.offsetParent !== null
+    );
 
-    const firstFocusableEl: HTMLElement = focusableElements[0];
-    const lastFocusableEl: HTMLElement =
-      focusableElements[focusableElements.length - 1];
+    const first: HTMLElement = focusableElements[0];
+    const last: HTMLElement = focusableElements[focusableElements.length - 1];
 
-    root.addEventListener('keydown', (e: KeyboardEvent) => {
+    const trapHandler = (e: KeyboardEvent) => {
       if (e.key === 'Tab') {
         if (e.shiftKey) {
           // Wrap first to last element on SHIFT+TAB keypress
-          if (root.activeElement === firstFocusableEl) {
-            lastFocusableEl.focus();
+          if (root.activeElement === first) {
+            last.focus();
             e.preventDefault();
           }
         } else {
           // Wrap last to first element on TAB keypress
-          if (root.activeElement === lastFocusableEl) {
-            firstFocusableEl.focus();
+          if (root.activeElement === last) {
+            first.focus();
             e.preventDefault();
           }
         }
       }
-    });
-  }
-
-  remove(target: HTMLElement): void {
-    console.log('removed');
+    };
+    return trapHandler;
   }
 }
