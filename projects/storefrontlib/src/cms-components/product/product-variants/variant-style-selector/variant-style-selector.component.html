@@ -13,18 +13,12 @@
           'selected-variant': v.code === variants?.selected.code
         }"
       >
-        <a
-          [routerLink]="
-            { cxRoute: 'product', params: { code: v.code } } | cxUrl
-          "
-          class="colorVariant"
-        >
-          <img
-            src="{{ getVariantThumbnailUrl(v.variantOptionQualifiers) }}"
-            title="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
-            alt="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
-          />
-        </a>
+        <img
+          (click)="changeStyle(v.code)"
+          src="{{ getVariantThumbnailUrl(v.variantOptionQualifiers) }}"
+          title="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
+          alt="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
+        />
       </li>
     </ul>
   </div>

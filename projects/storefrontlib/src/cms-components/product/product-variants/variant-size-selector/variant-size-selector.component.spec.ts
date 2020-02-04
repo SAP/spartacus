@@ -4,9 +4,12 @@ import {
   I18nTestingModule,
   RoutingService,
   UrlCommands,
+  Product,
+  ProductService,
 } from '@spartacus/core';
 import { VariantSizeSelectorComponent } from './variant-size-selector.component';
 import { NavigationExtras } from '@angular/router';
+import { Observable, of } from 'rxjs';
 
 class MockRoutingService {
   go(
@@ -16,6 +19,11 @@ class MockRoutingService {
   ): void {}
 }
 
+class MockProductService {
+  get(): Observable<Product> {
+    return of();
+  }
+}
 describe('VariantSizeSelectorComponent', () => {
   let component: VariantSizeSelectorComponent;
   let fixture: ComponentFixture<VariantSizeSelectorComponent>;
@@ -24,7 +32,13 @@ describe('VariantSizeSelectorComponent', () => {
     TestBed.configureTestingModule({
       declarations: [VariantSizeSelectorComponent],
       imports: [RouterTestingModule, I18nTestingModule],
-      providers: [{ provide: RoutingService, useClass: MockRoutingService }],
+      providers: [
+        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -41,8 +55,8 @@ describe('VariantSizeSelectorComponent', () => {
   it('should send emit', () => {
     spyOn(component, 'changeSize').and.stub();
 
-    component.changeSize('test');
+    component.changeSize('code');
 
-    expect(component.changeSize).toHaveBeenCalledWith('test');
+    expect(component.changeSize).toHaveBeenCalledWith('code');
   });
 });
