@@ -1,0 +1,243 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { StoreModule } from '@ngrx/store';
+import { Observable, of, throwError } from 'rxjs';
+import { cold, hot } from 'jasmine-marbles';
+import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
+import createSpy = jasmine.createSpy;
+
+import { CostCenter } from '../../../model/cost-center.model';
+import { defaultOccOrganizationConfig } from '../../../occ/adapters/organization/default-occ-organization-config';
+import { OccConfig } from '../../../occ/config/occ-config';
+import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
+import { CostCenterActions } from '../actions/index';
+import * as fromEffects from './cost-center.effect';
+import { B2BSearchConfig } from '../../model/search-config';
+
+const error = 'error';
+const costCenterCode = 'testCode';
+const userId = 'testUser';
+const costCenter: CostCenter = {
+  code: costCenterCode,
+  activeFlag: false,
+  active: 'yeees',
+  originalCode: 'orgCode',
+  name: 'testName',
+  unit: { uid: 'ouid', name: 'ouName' },
+};
+const pagination = { currentPage: 1 };
+const sorts = [{ selected: true, name: 'code' }];
+
+class MockCostCenterConnector {
+  get = createSpy().and.returnValue(of(costCenter));
+  getList = createSpy().and.returnValue(
+    of({ values: [costCenter], pagination, sorts })
+  );
+  create = createSpy().and.returnValue(of(costCenter));
+  update = createSpy().and.returnValue(of(costCenter));
+}
+
+describe('CostCenter Effects', () => {
+  let actions$: Observable<CostCenterActions.CostCenterAction>;
+  let costCenterConnector: CostCenterConnector;
+  let effects: fromEffects.CostCenterEffects;
+  let expected: TestColdObservable;
+
+  const mockCostCenterState = {
+    details: {
+      entities: {
+        testLoadedCode: { loading: false, value: costCenter },
+        testLoadingCode: { loading: true, value: null },
+      },
+    },
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        StoreModule.forRoot({ costCenter: () => mockCostCenterState }),
+      ],
+      providers: [
+        { provide: CostCenterConnector, useClass: MockCostCenterConnector },
+        { provide: OccConfig, useValue: defaultOccOrganizationConfig },
+        fromEffects.CostCenterEffects,
+        provideMockActions(() => actions$),
+      ],
+    });
+
+    effects = TestBed.get(fromEffects.CostCenterEffects as Type<
+      fromEffects.CostCenterEffects
+    >);
+    costCenterConnector = TestBed.get(CostCenterConnector as Type<
+      CostCenterConnector
+    >);
+    expected = null;
+  });
+
+  describe('loadCostCenter$', () => {
+    it('should return LoadCostCenterSuccess action', () => {
+      const action = new CostCenterActions.LoadCostCenter({
+        userId,
+        costCenterCode,
+      });
+      const completion = new CostCenterActions.LoadCostCenterSuccess([
+        costCenter,
+      ]);
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadCostCenter$).toBeObservable(expected);
+      expect(costCenterConnector.get).toHaveBeenCalledWith(
+        userId,
+        costCenterCode
+      );
+    });
+
+    it('should return LoadCostCenterFail action if costCenter not updated', () => {
+      costCenterConnector.get = createSpy().and.returnValue(throwError(error));
+      const action = new CostCenterActions.LoadCostCenter({
+        userId,
+        costCenterCode,
+      });
+      const completion = new CostCenterActions.LoadCostCenterFail({
+        costCenterCode,
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadCostCenter$).toBeObservable(expected);
+      expect(costCenterConnector.get).toHaveBeenCalledWith(
+        userId,
+        costCenterCode
+      );
+    });
+  });
+
+  describe('loadCostCenters$', () => {
+    const params: B2BSearchConfig = { sort: 'code' };
+
+    it('should return LoadCostCenterSuccess action', () => {
+      const action = new CostCenterActions.LoadCostCenters({ userId, params });
+      const completion = new CostCenterActions.LoadCostCenterSuccess([
+        costCenter,
+      ]);
+      const completion2 = new CostCenterActions.LoadCostCentersSuccess({
+        page: { ids: [costCenterCode], pagination, sorts },
+        params,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-(bc)', { b: completion, c: completion2 });
+
+      expect(effects.loadCostCenters$).toBeObservable(expected);
+      expect(costCenterConnector.getList).toHaveBeenCalledWith(userId, params);
+    });
+
+    it('should return LoadCostCentersFail action if costCenters not loaded', () => {
+      costCenterConnector.getList = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new CostCenterActions.LoadCostCenters({ userId, params });
+      const completion = new CostCenterActions.LoadCostCentersFail({
+        error,
+        params,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadCostCenters$).toBeObservable(expected);
+      expect(costCenterConnector.getList).toHaveBeenCalledWith(userId, params);
+    });
+  });
+
+  describe('createCostCenter$', () => {
+    it('should return CreateCostCenterSuccess action', () => {
+      const action = new CostCenterActions.CreateCostCenter({
+        userId,
+        costCenter,
+      });
+      const completion = new CostCenterActions.CreateCostCenterSuccess(
+        costCenter
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.createCostCenter$).toBeObservable(expected);
+      expect(costCenterConnector.create).toHaveBeenCalledWith(
+        userId,
+        costCenter
+      );
+    });
+
+    it('should return CreateCostCenterFail action if costCenter not created', () => {
+      costCenterConnector.create = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new CostCenterActions.CreateCostCenter({
+        userId,
+        costCenter,
+      });
+      const completion = new CostCenterActions.CreateCostCenterFail({
+        costCenterCode,
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.createCostCenter$).toBeObservable(expected);
+      expect(costCenterConnector.create).toHaveBeenCalledWith(
+        userId,
+        costCenter
+      );
+    });
+  });
+
+  describe('updateCostCenter$', () => {
+    it('should return UpdateCostCenterSuccess action', () => {
+      const action = new CostCenterActions.UpdateCostCenter({
+        userId,
+        costCenterCode,
+        costCenter,
+      });
+      const completion = new CostCenterActions.UpdateCostCenterSuccess(
+        costCenter
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.updateCostCenter$).toBeObservable(expected);
+      expect(costCenterConnector.update).toHaveBeenCalledWith(
+        userId,
+        costCenterCode,
+        costCenter
+      );
+    });
+
+    it('should return UpdateCostCenterFail action if costCenter not created', () => {
+      costCenterConnector.update = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new CostCenterActions.UpdateCostCenter({
+        userId,
+        costCenterCode,
+        costCenter,
+      });
+      const completion = new CostCenterActions.UpdateCostCenterFail({
+        costCenterCode,
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.updateCostCenter$).toBeObservable(expected);
+      expect(costCenterConnector.update).toHaveBeenCalledWith(
+        userId,
+        costCenterCode,
+        costCenter
+      );
+    });
+  });
+});

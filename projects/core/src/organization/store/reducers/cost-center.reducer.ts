@@ -1,0 +1,25 @@
+import { CostCenter } from '../../../model/cost-center.model';
+import { LoaderAction } from '../../../state/utils/loader/loader.action';
+import * as CostCenterActions from '../actions/cost-center.action';
+
+export const costCentersInitialState = undefined;
+
+export function costCentersEntitiesReducer(
+  state = costCentersInitialState,
+  action: LoaderAction
+): CostCenter {
+  switch (action.type) {
+  }
+  return state;
+}
+
+export function costCentersListReducer(
+  state = costCentersInitialState,
+  action: LoaderAction
+): any {
+  switch (action.type) {
+    case CostCenterActions.LOAD_COST_CENTERS_SUCCESS:
+      return action.payload.page;
+  }
+  return state;
+}
