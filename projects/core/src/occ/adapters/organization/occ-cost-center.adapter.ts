@@ -39,7 +39,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
 
   create(userId: string, costCenter: CostCenter): Observable<CostCenter> {
     return this.http
-      .post<CostCenter>(this.getCostCentersEndpoint(userId), costCenter)
+      .post<Occ.CostCenter>(this.getCostCentersEndpoint(userId), costCenter)
       .pipe(this.converter.pipeable(COST_CENTER_NORMALIZER));
   }
 
@@ -49,7 +49,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
     costCenter: CostCenter
   ): Observable<CostCenter> {
     return this.http
-      .patch<CostCenter>(
+      .patch<Occ.CostCenter>(
         this.getCostCenterEndpoint(userId, costCenterCode),
         costCenter
       )
