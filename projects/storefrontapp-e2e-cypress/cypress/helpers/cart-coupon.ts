@@ -45,7 +45,7 @@ export function placeOrder(stateAuth: any) {
       return cy.requirePlacedOrder(stateAuth, cartId);
     });
 }
-export function varifyOrderHistory(
+export function verifyOrderHistory(
   orderData: any,
   couponCode?: string,
   totalPrice?: string,
@@ -70,7 +70,7 @@ export function verifyCouponAndPromotion(
   //verify price
   cy.get('.cx-summary-partials').within(() => {
     cy.get('.cx-summary-amount').should('contain', totalPrice);
-    cy.get(':nth-child(4)').should('contain', `You saved: ${savedPrice}`);
+    cy.get(':nth-child(5)').should('contain', `You saved: ${savedPrice}`);
   });
 }
 
@@ -95,7 +95,7 @@ export function verifyCouponInOrderHistory(
   cy.get('.cx-summary-partials > .cx-summary-row').should('have.length', 5);
   cy.get('.cx-summary-partials').within(() => {
     cy.get('.cx-summary-amount').should('contain', totalPrice);
-    cy.get(':nth-child(4)').should('contain', `You saved: ${savedPrice}`);
+    cy.get(':nth-child(5)').should('contain', `You saved: ${savedPrice}`);
   });
 }
 
@@ -103,7 +103,7 @@ export function verifyNoCouponInOrderHistory() {
   cy.get('cx-order-summary > cx-applied-coupons').should('not.exist');
   cy.get('.cx-summary-partials > .cx-summary-row').should('have.length', 4);
   cy.get('.cx-summary-partials').within(() => {
-    cy.get(':nth-child(4)').should('not.contain', 'You saved');
+    cy.get(':nth-child(5)').should('not.contain', 'You saved');
   });
 }
 
