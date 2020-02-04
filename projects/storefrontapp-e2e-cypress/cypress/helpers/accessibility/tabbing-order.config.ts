@@ -1929,7 +1929,81 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   notificationPreference: [
     {
       type: TabbingOrderTypes.GENERIC_CHECKBOX,
-      value: 'email'
-    }
-  ]
+      value: 'email',
+    },
+  ],
+  myInterests: [
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'REMOVE',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  stockNotificationNotLogin: [
+    {
+      value: 'Sign In / Register',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  stockNotificationNoEnabledPreference: [
+    {
+      value: 'Notification Channels',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  stockNotificationSubscribed: [
+    {
+      value: 'STOP NOTIFICATION',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
+  stockNotification: [
+    {
+      value: 'NOTIFY ME',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
+  stockNotificationDialog: [
+    {
+      value: 'Notification Preference',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'My Interests',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'OK',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
 };

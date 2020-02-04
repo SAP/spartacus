@@ -44,6 +44,14 @@ import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/wishlist';
 import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/notification-preference';
+import { productInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-interests';
+import {
+  stockNotificationTabbingOrder,
+  stockNotificationNoEnbaledPreferenceTabbingOrder,
+  stockNotificationNotLoginTabbingOrder,
+  stockNotificationProductSubscribedTabbingOrder,
+  stockNotificationDialogTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/stock-notification';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -284,9 +292,49 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  context.only('Notification Preference', () => {
+  context('Notification Preference', () => {
     it('should allow to navigate with tab key', () => {
       notificationPreferenceTabbingOrder(config.notificationPreference);
     });
+  });
+
+  context.only('Product Interest', () => {
+    it('should allow to navigate with tab key', () => {
+      productInterestTabbingOrder(config.myInterests);
+    });
+  });
+});
+
+context('Stock Notification', () => {
+  before(() => {
+    cy.window().then(win => win.sessionStorage.clear());
+  });
+
+  it('should allow to navigate with tab key (not login)', () => {
+    stockNotificationNotLoginTabbingOrder(config.stockNotificationNotLogin);
+  });
+
+  it('should allow to navigate with tab key (no enabled notification preference)', () => {
+    cy.requireLoggedIn();
+    stockNotificationNoEnbaledPreferenceTabbingOrder(
+      config.stockNotificationNoEnabledPreference
+    );
+  });
+
+  it('should allow to navigate with tab key (product was been subscribed)', () => {
+    cy.requireLoggedIn();
+    stockNotificationProductSubscribedTabbingOrder(
+      config.stockNotificationSubscribed
+    );
+  });
+
+  it('should allow to navigate with tab key (dialog)', () => {
+    cy.requireLoggedIn();
+    stockNotificationDialogTabbingOrder(config.stockNotificationDialog);
+  });
+
+  it('should allow to navigate with tab key', () => {
+    cy.requireLoggedIn();
+    stockNotificationTabbingOrder(config.stockNotification);
   });
 });

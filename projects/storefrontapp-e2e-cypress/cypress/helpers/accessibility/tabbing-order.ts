@@ -140,7 +140,6 @@ export function checkAllElements(tabElements: TabElement[]) {
     if (index !== 0) {
       cy.pressTab();
     }
-
     checkElement(element);
   });
 }
