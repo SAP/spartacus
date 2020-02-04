@@ -93,11 +93,41 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   orgUnit: {
     paths: ['my-company/organization-management/org-unit/:orgUnitId'],
   },
-  costCenter: {
-    paths: ['my-company/organization-management/cost-center/:costCenterCode'],
+  costCenters: {
+    paths: ['my-company/organization-management/manage-costcenters'],
+  },
+  costCenterCreate: {
+    paths: ['my-company/organization-managements/manage-costcenters/create'],
+  },
+  costCenterDetails: {
+    paths: [
+      'my-company/organization-management/manage-costcenter/:costCenterCode',
+    ],
+    paramsMapping: { costCenterCode: 'code' },
+  },
+  costCenterEdit: {
+    paths: [
+      'my-company/organization-management/manage-costcenter/edit/:costCenterCode',
+    ],
+    paramsMapping: { costCenterCode: 'code' },
   },
   permissions: {
     paths: ['my-company/organization-management/manage-permissions'],
+  },
+  permissionCreate: {
+    paths: ['my-company/organization-management/manage-permissions/create'],
+  },
+  permissionDetails: {
+    paths: [
+      'my-company/organization-management/manage-permission/:permissionCode',
+    ],
+    paramsMapping: { permissionCode: 'code' },
+  },
+  permissionEdit: {
+    paths: [
+      'my-company/organization-management/manage-permission/edit/:permissionCode',
+    ],
+    paramsMapping: { permissionCode: 'code' },
   },
 };
 
