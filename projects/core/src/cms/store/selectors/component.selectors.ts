@@ -136,7 +136,7 @@ export const componentsDataSelectorFactory = (
 ): MemoizedSelector<StateWithCms, CmsComponent> => {
   return createSelector(
     componentsContextSelectorFactory(uid),
-    state => state.component
+    state => (state ? state.component : undefined)
   );
 };
 
