@@ -4164,7 +4164,7 @@ export namespace Occ {
 
   export interface CostCenter {
     active?: string;
-    activeFlag: boolean;
+    activeFlag?: boolean;
     code?: string;
     currency?: Currency;
     name?: string;
