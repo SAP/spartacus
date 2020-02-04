@@ -23,7 +23,7 @@ export class ProductVariantGuard implements CanActivate {
     return this.routingService.getRouterState().pipe(
       map(state => state.nextState.params.productCode),
       switchMap((productCode: string) => {
-        if (productCode) {
+        if (Boolean(productCode)) {
           return this.productService.get(productCode, ProductScope.VARIANTS);
         } else {
           return of(undefined);

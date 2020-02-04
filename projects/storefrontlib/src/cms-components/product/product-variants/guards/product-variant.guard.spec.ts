@@ -50,8 +50,8 @@ class MockProductService {
 
 describe('ProductVariantGuard', () => {
   let guard: ProductVariantGuard;
-  let productService: MockProductService;
-  let routingService: MockRoutingService;
+  let productService: ProductService;
+  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -102,7 +102,7 @@ describe('ProductVariantGuard', () => {
         nextState: {
           params: {},
         },
-      })
+      } as any)
     );
 
     guard.canActivate().subscribe(val => {
