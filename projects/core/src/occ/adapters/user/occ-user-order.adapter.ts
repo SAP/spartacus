@@ -157,7 +157,6 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       orderCode,
       consignmentCode,
     });
-    console.log('url', url);
     return this.http
       .get<ConsignmentTracking>(url)
       .pipe(this.converter.pipeable(CONSIGNMENT_TRACKING_NORMALIZER));
