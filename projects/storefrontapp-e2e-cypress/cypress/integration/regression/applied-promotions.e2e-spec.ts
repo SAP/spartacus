@@ -41,6 +41,5 @@ context('Applied promotions', () => {
     });
 
     appliedPromotions.checkAppliedPromotionsFordifferentCartTotals();
-
   });
 });

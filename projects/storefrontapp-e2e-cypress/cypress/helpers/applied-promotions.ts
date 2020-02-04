@@ -7,8 +7,7 @@ import {
 } from './checkout-as-persistent-user';
 
 export function checkForAppliedPromotionsInCartModal() {
-  cy.get('.cx-promotions')
-    .should('contain', 'EOS450D');
+  cy.get('.cx-promotions').should('contain', 'EOS450D');
 }
 
 export function checkForAppliedPromotions() {
@@ -59,11 +58,10 @@ export function selectPaymentMethod() {
 }
 
 export function goToOrderHistoryDetailsFromSummary() {
-  cy.get('.cx-page-title')
-    .then(el => {
-      const orderNumber = el.text().match(/\d+/)[0];
-      cy.visit(`/my-account/order/${orderNumber}`);
-    });
+  cy.get('.cx-page-title').then(el => {
+    const orderNumber = el.text().match(/\d+/)[0];
+    cy.visit(`/my-account/order/${orderNumber}`);
+  });
 }
 
 export function checkAppliedPromotionsForLoggedUser() {
@@ -104,23 +102,22 @@ export function checkAppliedPromotionsForLoggedUser() {
 
 export function checkForAppliedCartPromotions(shouldContainPromotion) {
   if (shouldContainPromotion) {
-    cy.get('.cx-promotions')
-      .should('contain', '200');
+    cy.get('.cx-promotions').should('contain', '200');
   } else {
-    cy.get('.cx-promotions')
-      .should('not.contain', '200');
+    cy.get('.cx-promotions').should('not.contain', '200');
   }
 }
 
 export function decreaseQuantityOfCartEntry() {
-  cy.get('.cx-counter-action').first().click();
+  cy.get('.cx-counter-action')
+    .first()
+    .click();
 }
 
 export function removeCartEntry() {
-  cy.get('.cx-item-list-items')
-    .within(() => {
-      cy.getByText(/Remove/i).click();
-    });
+  cy.get('.cx-item-list-items').within(() => {
+    cy.getByText(/Remove/i).click();
+  });
 }
 
 export function checkAppliedPromotionsFordifferentCartTotals() {
