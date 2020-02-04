@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Currency, User } from './misc.model';
 // import { B2BUnitNode } from './org-unit.model';
 import { OrgUnitAddress } from './budget.model';
@@ -63,6 +64,11 @@ export interface B2BUnit {
   customers?: B2BUser[];
   managers?: B2BUser[];
 }
+=======
+import { Currency } from './misc.model';
+import { B2BUnit } from './org-unit.model';
+
+>>>>>>> 8902e5cfed8bb22e0b4b53d5f2c043a26d1e184d
 export interface OrderApprovalPermissionType {
   code: string;
   name?: string;
@@ -75,6 +81,7 @@ export enum Period {
   QUARTER = 'QUARTER',
   YEAR = 'YEAR',
 }
+
 export interface Permission {
   active?: boolean;
   code: string;

@@ -48,7 +48,10 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     orgUnit: B2BUnitNode
   ): Observable<B2BUnitNode> {
     return this.http
-      .patch<B2BUnitNode>(this.getOrgUnitEndpoint(userId, orgUnitId), orgUnit)
+      .patch<Occ.B2BUnitNode>(
+        this.getOrgUnitEndpoint(userId, orgUnitId),
+        orgUnit
+      )
       .pipe(this.converter.pipeable(B2BUNIT_NORMALIZER));
   }
 

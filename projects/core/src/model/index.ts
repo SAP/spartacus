@@ -18,3 +18,7 @@ export * from './product-interest.model';
 export * from './budget.model';
 export * from './org-unit.model';
 export * from './permission.model';
+<<<<<<< HEAD
+=======
+export * from './cost-center.model';
+>>>>>>> 8902e5cfed8bb22e0b4b53d5f2c043a26d1e184d

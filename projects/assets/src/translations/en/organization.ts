@@ -132,6 +132,7 @@ export const organization = {
       label: 'Parent business unit',
       placeholder: 'Select business unit',
     },
+    type: 'Type',
     startDate: 'Start date',
     endDate: 'End date',
     currency: 'Currency',

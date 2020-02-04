@@ -44,7 +44,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
 
   create(userId: string, permission: Permission): Observable<Permission> {
     return this.http
-      .post<Permission>(this.getPermissionsEndpoint(userId), permission)
+      .post<Occ.Permission>(this.getPermissionsEndpoint(userId), permission)
       .pipe(this.converter.pipeable(PERMISSION_NORMALIZER));
   }
 
@@ -54,7 +54,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
     permission: Permission
   ): Observable<Permission> {
     return this.http
-      .patch<Permission>(
+      .patch<Occ.Permission>(
         this.getPermissionEndpoint(userId, permissionCode),
         permission
       )

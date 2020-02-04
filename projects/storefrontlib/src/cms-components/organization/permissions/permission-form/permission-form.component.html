@@ -63,6 +63,38 @@
 
       <div class="form-group">
         <ng-container
+          *ngIf="list$ | async as businessUnits"
+          formGroupName="type"
+        >
+          <div *ngIf="businessUnits">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'permissionForm.type' | cxTranslate
+              }}</span>
+              <ng-select
+                formControlName="typeid"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="businessUnits"
+                bindLabel="name"
+                bindValue="id"
+                [class.invalid]="isNotValid('orgUnit')"
+              >
+              </ng-select>
+              <ng-container
+                *ngIf="isNotValid('orgUnit')"
+                [ngTemplateOutlet]="validation"
+                [ngTemplateOutletContext]="{
+                  control: form.controls.orgUnit['controls']['typeid']
+                }"
+              ></ng-container>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
+        <ng-container
           *ngIf="businessUnits$ | async as businessUnits"
           formGroupName="orgUnit"
         >

@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import {
@@ -29,6 +29,7 @@ import { FormUtils } from '../../../../shared/utils/forms/form-utils';
 export class PermissionFormComponent implements OnInit {
   businessUnits$: Observable<B2BUnitNode[]>;
   currencies$: Observable<Currency[]>;
+  list$: Observable<{ id: string; name: string }[]>;
 
   @Input()
   permissionData: Permission;
@@ -58,6 +59,9 @@ export class PermissionFormComponent implements OnInit {
   form: FormGroup = this.fb.group({
     code: ['', Validators.required],
     name: ['', Validators.required],
+    type: this.fb.group({
+      typeid: [null, Validators.required],
+    }),
     orgUnit: this.fb.group({
       uid: [null, Validators.required],
     }),
@@ -76,6 +80,18 @@ export class PermissionFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.list$ = of([
+      {
+        id: 'B2BOrderThresholdPermission',
+        name: 'Allowed Order Threshold (per order)',
+      },
+      { id: 'B2BBudgetExceededPermission', 
+        name: 'Budget Exceeded Permission' },
+      {
+        id: 'B2BOrderThresholdTimespanPermission',
+        name: 'Allowed Order Threshold (per timespan)',
+      },
+    ]);
     this.currencies$ = this.currencyService.getAll();
     this.businessUnits$ = this.orgUnitService.getList().pipe(
       filter(Boolean),
