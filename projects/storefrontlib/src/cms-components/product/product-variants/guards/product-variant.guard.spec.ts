@@ -50,8 +50,8 @@ class MockProductService {
 
 describe('ProductVariantGuard', () => {
   let guard: ProductVariantGuard;
-  let productService: ProductService;
-  let routingService: RoutingService;
+  let productService: MockProductService;
+  let routingService: MockRoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -82,7 +82,7 @@ describe('ProductVariantGuard', () => {
     });
   });
 
-  it('should return true if product is purchasable', done => {
+  it('should return false and redirect if product is non-purchasable', done => {
     spyOn(productService, 'get').and.returnValue(of(mockNonPurchasableProduct));
     spyOn(routingService, 'go').and.stub();
 
@@ -92,6 +92,21 @@ describe('ProductVariantGuard', () => {
         cxRoute: 'product',
         params: mockNonPurchasableProduct,
       });
+      done();
+    });
+  });
+
+  it('should return true if there is no productCode in route parameter', done => {
+    spyOn(routingService, 'getRouterState').and.returnValue(
+      of({
+        nextState: {
+          params: {},
+        },
+      })
+    );
+
+    guard.canActivate().subscribe(val => {
+      expect(val).toBeTruthy();
       done();
     });
   });
