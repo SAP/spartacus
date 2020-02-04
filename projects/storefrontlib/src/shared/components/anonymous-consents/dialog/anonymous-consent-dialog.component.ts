@@ -86,7 +86,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
             templates.forEach(template => {
               const consent = this.getCorrespondingConsent(template, consents);
               if (
-                consent.consentState == null ||
+                (consent && consent.consentState == null) ||
                 this.anonymousConsentsService.isConsentWithdrawn(consent)
               ) {
                 if (this.isRequiredConsent(template)) {

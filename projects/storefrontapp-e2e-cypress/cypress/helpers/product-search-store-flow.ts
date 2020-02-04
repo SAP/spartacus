@@ -22,7 +22,7 @@ export function productStoreFlow(mobile?: string) {
 
   waitAndGetFirstProductFromXHR(queries.q1)
     .then(firstItem => {
-      cy.get(resultsTitle).should('contain', '77 results for "canon"');
+      cy.get(resultsTitle).should('contain', '73 results for "canon"');
 
       cy.get('cx-product-list-item').should(
         'have.length',
@@ -64,7 +64,7 @@ export function productStoreFlow(mobile?: string) {
     .then(() => waitAndGetFirstProductFromXHR(queries.q4))
     .then(firstItem => {
       cy.get('.page-item.active > .page-link').should('contain', '1');
-      cy.get(resultsTitle).should('contain', '45 results for "canon"');
+      cy.get(resultsTitle).should('contain', '44 results for "canon"');
 
       checkFirstItem(firstItem);
       createProductQuery(queries.q5);
@@ -80,7 +80,7 @@ export function productStoreFlow(mobile?: string) {
     })
     .then(() => waitAndGetFirstProductFromXHR(queries.q5))
     .then(() => {
-      cy.get(resultsTitle).should('contain', '77 results for "canon"');
+      cy.get(resultsTitle).should('contain', '73 results for "canon"');
 
       // Add product to cart from search listing page
       cy.get('cx-add-to-cart:first button').click({ force: true });

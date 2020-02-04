@@ -23,7 +23,7 @@ export function productPricingFlow() {
 
   cy.get('cx-breadcrumb h1').should(
     'contain',
-    '47 results for Digital Compacts'
+    '43 results for Digital Compacts'
   );
 
   cy.get(productItemSelector).should(
