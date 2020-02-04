@@ -5,6 +5,7 @@ import {
   deleteShippingAddress,
   verifyAndPlaceOrder,
 } from './checkout-as-persistent-user';
+import { apiUrl } from '../support/utils/login';
 
 export function checkForAppliedPromotionsInCartModal() {
   cy.get('.cx-promotions').should('contain', 'EOS450D');
@@ -22,6 +23,13 @@ export function addProductToCart() {
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
+  cy.server();
+  cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts/*`).as(
+    'cart'
+  );
+  cy.wait(`@cart`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function goToCartDetailsViewFromCartDialog() {
@@ -124,7 +132,7 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
   it('Should add two products to the cart', () => {
     cy.visit('/product/266685');
     addProductToCart();
-    cy.visit('/product/289540');
+    cy.visit('/product/266685');
     addProductToCart();
   });
 
