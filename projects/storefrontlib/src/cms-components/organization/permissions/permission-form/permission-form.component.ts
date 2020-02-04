@@ -7,18 +7,18 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-
 import {
-  Permission,
+  B2BUnitNode,
   Currency,
   CurrencyService,
-  UrlCommandRoute,
-  B2BUnitNode,
-  OrgUnitService,
   EntitiesModel,
+  OrderApprovalPermissionType,
+  OrgUnitService,
+  Permission,
+  UrlCommandRoute,
 } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { FormUtils } from '../../../../shared/utils/forms/form-utils';
 
 @Component({
@@ -29,7 +29,7 @@ import { FormUtils } from '../../../../shared/utils/forms/form-utils';
 export class PermissionFormComponent implements OnInit {
   businessUnits$: Observable<B2BUnitNode[]>;
   currencies$: Observable<Currency[]>;
-  list$: Observable<{ id: string; name: string }[]>;
+  typeList$: Observable<OrderApprovalPermissionType[]>;
 
   @Input()
   permissionData: Permission;
@@ -58,19 +58,16 @@ export class PermissionFormComponent implements OnInit {
 
   form: FormGroup = this.fb.group({
     code: ['', Validators.required],
-    name: ['', Validators.required],
-    type: this.fb.group({
-      typeid: [null, Validators.required],
+    orderApprovalPermissionType: this.fb.group({
+      code: [null, Validators.required],
     }),
     orgUnit: this.fb.group({
       uid: [null, Validators.required],
     }),
-    startDate: ['', Validators.required],
-    endDate: ['', Validators.required],
     currency: this.fb.group({
       isocode: [null, Validators.required],
     }),
-    permission: ['', Validators.required],
+    threshold: ['', Validators.required],
   });
 
   constructor(
@@ -80,15 +77,17 @@ export class PermissionFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.list$ = of([
+    this.typeList$ = of([
       {
-        id: 'B2BOrderThresholdPermission',
+        code: 'B2BOrderThresholdPermission',
         name: 'Allowed Order Threshold (per order)',
       },
-      { id: 'B2BBudgetExceededPermission', 
-        name: 'Budget Exceeded Permission' },
       {
-        id: 'B2BOrderThresholdTimespanPermission',
+        code: 'B2BBudgetExceededPermission',
+        name: 'Budget Exceeded Permission',
+      },
+      {
+        code: 'B2BOrderThresholdTimespanPermission',
         name: 'Allowed Order Threshold (per timespan)',
       },
     ]);
@@ -108,6 +107,12 @@ export class PermissionFormComponent implements OnInit {
 
   businessUnitSelected(orgUnit: B2BUnitNode): void {
     this.form.controls.orgUnit['controls'].uid.setValue(orgUnit.id);
+  }
+
+  typeSelected(orderApprovalPermissionType: OrderApprovalPermissionType): void {
+    this.form.controls.orderApprovalPermissionType['controls'].code.setValue(
+      orderApprovalPermissionType.code
+    );
   }
 
   back(): void {
