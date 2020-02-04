@@ -2,12 +2,18 @@ import * as anonymousConsents from '../../../helpers/anonymous-consents';
 import { navigation } from '../../../helpers/navigation';
 import { cdsHelper } from '../../../helpers/vendor/cds/cds';
 import { profileTagHelper } from '../../../helpers/vendor/cds/profile-tag';
-describe.skip('Profile-tag component', () => {
+describe('Profile-tag component', () => {
   beforeEach(() => {
     cy.server();
     cdsHelper.setUpMocks();
+    cy.on('uncaught:exception', err => {
+      cy.log(`message: ${err.message}
+      stack: ${err.stack}`);
+      return false;
+    });
   });
   it('should send a Navigated event when a navigation occurs', () => {
+    // navigation.visitHomePage({});
     navigation.visitHomePage({
       options: {
         onBeforeLoad: profileTagHelper.interceptProfileTagJs,
@@ -27,6 +33,7 @@ describe.skip('Profile-tag component', () => {
     });
   });
   it('should wait for a user to accept consent and then send a ConsentChanged event', () => {
+    // navigation.visitHomePage({});
     navigation.visitHomePage({
       options: {
         onBeforeLoad: profileTagHelper.interceptProfileTagJs,

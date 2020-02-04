@@ -1,7 +1,7 @@
 export const profileTagHelper = {
   interceptProfileTagJs(contentWindow) {
     const oldAppendChild = contentWindow.document.head.appendChild;
-    contentWindow.document.head.appendChild = <T extends Node>(newChild): T => {
+    contentWindow.document.head.appendChild = function(newChild) {
       if (
         newChild &&
         (<HTMLScriptElement>(<any>newChild)).src &&
@@ -9,7 +9,7 @@ export const profileTagHelper = {
       ) {
         return newChild;
       }
-      return oldAppendChild(newChild);
+      return oldAppendChild.call(this, newChild);
     };
   },
   triggerLoaded() {
