@@ -166,3 +166,12 @@ export function selectProductSizeVariantWithoutStock() {
 
   cy.get('cx-add-to-cart .quantity .info').should('contain', 'Out of stock');
 }
+
+/**
+ * Returns URL to the Product Details Page by product code.
+ * The required product name URL param is fake.
+ * @param code product code
+ */
+export function getProductUrl(code: string | number): string {
+  return `product/${code}/test-name`;
+}

@@ -1,5 +1,6 @@
-import { retrieveTokenAndLogin } from '../../helpers/checkout-as-persistent-user';
 import * as appliedPromotions from '../../helpers/applied-promotions';
+import { retrieveTokenAndLogin } from '../../helpers/checkout-as-persistent-user';
+import { getProductUrl } from '../../helpers/product-details';
 
 context('Applied promotions', () => {
   before(() =>
@@ -12,7 +13,7 @@ context('Applied promotions', () => {
     before(() => {
       retrieveTokenAndLogin();
       cy.reload();
-      cy.visit('/product/1382080');
+      cy.visit(getProductUrl(1382080));
     });
 
     beforeEach(() => {

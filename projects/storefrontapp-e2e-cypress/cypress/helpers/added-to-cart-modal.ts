@@ -1,3 +1,5 @@
+import { getProductUrl } from './product-details';
+
 export const productId = '3595723';
 export const productId2 = '4812254';
 export const productName2 = '500D + 18-55mm IS + EF-S 55-250 IS';
@@ -28,7 +30,7 @@ export function verifyItemCounterOnPDP() {
 
 export function addSameProductTwice() {
   // add a product to cart
-  cy.visit(`/product/${productId}`);
+  cy.visit(getProductUrl(productId));
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
@@ -178,7 +180,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
 }
 
 export function refreshPage() {
-  cy.visit(`/product/${productId}`);
+  cy.visit(getProductUrl(productId));
 
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
@@ -216,7 +218,7 @@ export function increaseProductQtyOnPDP() {
     );
   }
 
-  cy.visit(`/product/${productId}`);
+  cy.visit(getProductUrl(productId));
 
   // increase the quantity to 2 and add it to cart
   cy.get('cx-add-to-cart .cx-counter-action')

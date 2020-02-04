@@ -9,6 +9,7 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { getProductUrl } from './product-details';
 import { generateMail, randomString } from './user';
 
 interface TestProduct {
@@ -66,7 +67,7 @@ export function waitForGetWishList() {
 export function addToWishListAnonymous(product: TestProduct) {
   const productPage = waitForPage(product.code, 'productPage');
 
-  cy.visit(`/product/${product.code}`);
+  cy.visit(getProductUrl(product.code));
 
   cy.wait(`@${productPage}`);
 
@@ -94,7 +95,7 @@ export function addToWishListFromPage() {
 export function addToWishList(product: TestProduct) {
   const productPage = waitForPage(product.code, 'productPage');
 
-  cy.visit(`/product/${product.code}`);
+  cy.visit(getProductUrl(product.code));
 
   cy.wait(`@${productPage}`);
 

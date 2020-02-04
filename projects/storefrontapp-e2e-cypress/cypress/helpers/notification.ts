@@ -1,6 +1,7 @@
-import { generateMail, randomString } from './user';
-import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
+import { login } from './auth-forms';
+import { getProductUrl } from './product-details';
+import { generateMail, randomString } from './user';
 
 export const normalProductCode = '1978440_green';
 export const productCodeList = [
@@ -109,7 +110,7 @@ export function verifyStockNotificationAsGuest() {
 }
 
 export function navigateToPDP(productCode: string) {
-  cy.visit(`/electronics-spa/en/USD/product/${productCode}`);
+  cy.visit(`/electronics-spa/en/USD/${getProductUrl(productCode)}`);
 }
 
 export function verifyStockNotificationWithoutChannel() {

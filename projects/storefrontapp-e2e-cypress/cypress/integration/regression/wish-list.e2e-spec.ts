@@ -1,4 +1,5 @@
 import * as cart from '../../helpers/cart';
+import { getProductUrl } from '../../helpers/product-details';
 import * as wishList from '../../helpers/wish-list';
 
 describe('Wish list', () => {
@@ -63,7 +64,7 @@ describe('Wish list', () => {
     });
 
     it('should add product to cart, to wish list and checkout', () => {
-      cy.visit(`/product/${cart.products[0].code}`);
+      cy.visit(getProductUrl(${cart.products[0].code}));
       cart.addToCart();
       cart.closeAddedToCartDialog();
       wishList.verifyProductInWishList(wishList.products[1]);

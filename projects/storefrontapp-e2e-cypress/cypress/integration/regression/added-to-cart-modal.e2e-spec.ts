@@ -1,11 +1,12 @@
 import * as addedToCartModal from '../../helpers/added-to-cart-modal';
+import { getProductUrl } from '../../helpers/product-details';
 
 describe('Added to cart modal', () => {
   before(() => {
     cy.window().then(win => {
       win.sessionStorage.clear();
     });
-    cy.visit(`/product/${addedToCartModal.productId}`);
+    cy.visit(getProductUrl(addedToCartModal.productId));
   });
 
   it('testing itemCounter on PDP', () => {

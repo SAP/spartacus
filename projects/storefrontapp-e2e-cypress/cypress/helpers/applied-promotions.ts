@@ -5,6 +5,7 @@ import {
   deleteShippingAddress,
   verifyAndPlaceOrder,
 } from './checkout-as-persistent-user';
+import { getProductUrl } from './product-details';
 
 export function checkForAppliedPromotionsInCartModal() {
   cy.get('.cx-promotions').should('contain', 'EOS450D');
@@ -131,9 +132,9 @@ export function removeCartEntry() {
 
 export function checkAppliedPromotionsFordifferentCartTotals() {
   it('Should add to products to the cart', () => {
-    cy.visit('/product/1934796');
+    cy.visit(getProductUrl(1934796));
     addProductToCart();
-    cy.visit('/product/1934796');
+    cy.visit(getProductUrl(1934796));
     addProductToCart();
   });
 

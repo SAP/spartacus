@@ -1,5 +1,6 @@
 import * as cart from '../../helpers/cart';
 import * as alerts from '../../helpers/global-message';
+import { getProductUrl } from '../../helpers/product-details';
 import { apiUrl, login } from '../../support/utils/login';
 
 describe('Cart', () => {
@@ -74,7 +75,7 @@ describe('Cart', () => {
     cy.server();
     cart.registerCartUser();
     cart.loginCartUser();
-    cy.visit(`/product/${cart.products[0].code}`);
+    cy.visit(getProductUrl(cart.products[0].code));
     cart.addToCart();
     cart.checkAddedToCartDialog();
     cart.closeAddedToCartDialog();
@@ -100,7 +101,7 @@ describe('Cart', () => {
   it('should load cart saved in browser storage', () => {
     cy.server();
     cart.loginCartUser();
-    cy.visit(`/product/${cart.products[0].code}`);
+    cy.visit(getProductUrl(cart.products[0].code));
     cart.addToCart();
     cart.checkAddedToCartDialog();
     cart.closeAddedToCartDialog();
@@ -137,7 +138,7 @@ describe('Cart', () => {
       });
     });
     cart.loginCartUser();
-    cy.visit(`/product/${cart.products[0].code}`);
+    cy.visit(getProductUrl(cart.products[0].code));
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
     login(
       cart.cartUser.registrationData.email,
@@ -204,7 +205,7 @@ describe('Cart', () => {
       });
     });
     cart.loginCartUser();
-    cy.visit(`/product/${cart.products[0].code}`);
+    cy.visit(getProductUrl(cart.products[0].code));
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
     cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts?*`).as(
       'cart'
@@ -225,11 +226,11 @@ describe('Cart', () => {
 
   it('should use existing cart when adding new entries', () => {
     cy.server();
-    cy.visit(`/product/${cart.products[0].code}`);
+    cy.visit(getProductUrl(cart.products[0].code));
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
     cart.addToCart();
     cart.checkAddedToCartDialog();
-    cy.visit(`/product/${cart.products[1].code}`);
+    cy.visit(getProductUrl(cart.products[1].code));
     cy.get('cx-breadcrumb h1').contains(cart.products[1].name);
     cart.addToCart();
     cart.checkAddedToCartDialog(2);
@@ -254,7 +255,7 @@ describe('Cart', () => {
   // will fail right now, as this is not fixed yet
   it.skip("shouldn't show added to cart dialog when entry couldn't be added", () => {
     cy.server();
-    cy.visit(`/product/${cart.products[0].code}`);
+    cy.visit(getProductUrl(cart.products[0].code));
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
     cy.route({
       url: `${apiUrl}/rest/v2/electronics-spa/users/anonymous/carts/*/entries*`,

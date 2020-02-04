@@ -1,3 +1,4 @@
+import { getProductUrl } from '../../../helpers/product-details';
 import * as merchandisingCarousel from '../../../helpers/vendor/cds/merchandising-carousel';
 import { switchSiteContext } from '../../../support/utils/switch-site-context';
 import {
@@ -65,7 +66,9 @@ function testBrandPage(
 
 function testPDPPage(productId: string): void {
   cy.visit(
-    `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}/product/${productId}`
+    `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${
+      merchandisingCarousel.DEFAULT_CURRENCY
+    }/${getProductUrl(productId)}`
   );
 
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(

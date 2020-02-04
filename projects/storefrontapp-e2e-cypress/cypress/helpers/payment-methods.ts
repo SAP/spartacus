@@ -5,6 +5,7 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { getProductUrl } from './product-details';
 
 export const secondPayment: PaymentDetails = {
   fullName: 'Bar Foo',
@@ -41,7 +42,7 @@ export function paymentDetailCard() {
 
   // go to product page
   const productId = '3595723';
-  cy.visit(`/product/${productId}`);
+  cy.visit(getProductUrl(productId));
 
   // add product to cart and go to checkout
   cy.get('cx-add-to-cart')
@@ -90,7 +91,7 @@ export function addSecondaryPaymentCard() {
 
   // go to product page
   const productId = '3595723';
-  cy.visit(`/product/${productId}`);
+  cy.visit(getProductUrl(productId));
   // add product to cart and go to checkout
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)

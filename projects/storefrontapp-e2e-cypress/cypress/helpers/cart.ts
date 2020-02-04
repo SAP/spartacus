@@ -1,5 +1,6 @@
 import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
+import { getProductUrl } from './product-details';
 import { generateMail, randomString } from './user';
 
 interface TestProduct {
@@ -278,7 +279,7 @@ export function logOutAndEmptyCart() {
 export function manipulateCartQuantity() {
   const product = products[1];
 
-  cy.visit(`/product/${product.code}`);
+  cy.visit(getProductUrl(product.code));
 
   registerCartRefreshRoute();
 
@@ -311,7 +312,7 @@ export function manipulateCartQuantity() {
 export function outOfStock() {
   const product = products[3];
 
-  cy.visit(`/product/${product.code}`);
+  cy.visit(getProductUrl(product.code));
 
   cy.get('cx-add-to-cart .quantity').should('contain', 'Out of stock');
   cy.get('cx-add-to-cart cx-add-to-cart button').should('not.exist');

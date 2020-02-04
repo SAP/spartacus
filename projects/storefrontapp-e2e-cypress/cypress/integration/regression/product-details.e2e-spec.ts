@@ -1,4 +1,5 @@
 import * as productDetails from '../../helpers/product-details';
+import { getProductUrl } from '../../helpers/product-details';
 import { formats } from '../../sample-data/viewports';
 
 function productDetailsTest() {
@@ -49,7 +50,7 @@ function configureDefaultProduct() {
       currency: ['USD'],
     },
   });
-  cy.visit('/product/266685');
+  cy.visit(getProductUrl(266685));
 }
 
 function configureApparelProduct() {
@@ -60,7 +61,7 @@ function configureApparelProduct() {
       currency: ['GBP'],
     },
   });
-  cy.visit('/product/100191');
+  cy.visit(getProductUrl(100191));
 }
 
 context('Product details', () => {
