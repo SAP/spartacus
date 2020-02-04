@@ -52,6 +52,7 @@ import {
   stockNotificationProductSubscribedTabbingOrder,
   stockNotificationDialogTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/stock-notification';
+import { consignmentTrackingTabbingOrder } from '../../helpers/accessibility/tabbing-order/consignment-tracking';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -145,6 +146,12 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
   context('Cart', () => {
     it('should allow to navigate with tab key', () => {
       cartTabbingOrder(config.cart);
+    });
+  });
+
+  context('Stock Notification', () => {
+    it('should allow to navigate with tab key (not login)', () => {
+      stockNotificationNotLoginTabbingOrder(config.stockNotificationNotLogin);
     });
   });
 });
@@ -298,43 +305,37 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  context.only('Product Interest', () => {
+  context('Product Interest', () => {
     it('should allow to navigate with tab key', () => {
       productInterestTabbingOrder(config.myInterests);
     });
   });
-});
 
-context('Stock Notification', () => {
-  before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+  context('Stock Notification', () => {
+    it('should allow to navigate with tab key (no enabled notification preference)', () => {
+      stockNotificationNoEnbaledPreferenceTabbingOrder(
+        config.stockNotificationNoEnabledPreference
+      );
+    });
+
+    it('should allow to navigate with tab key (product was been subscribed)', () => {
+      stockNotificationProductSubscribedTabbingOrder(
+        config.stockNotificationSubscribed
+      );
+    });
+
+    it('should allow to navigate with tab key (dialog)', () => {
+      stockNotificationDialogTabbingOrder(config.stockNotificationDialog);
+    });
+
+    it('should allow to navigate with tab key', () => {
+      stockNotificationTabbingOrder(config.stockNotification);
+    });
   });
 
-  it('should allow to navigate with tab key (not login)', () => {
-    stockNotificationNotLoginTabbingOrder(config.stockNotificationNotLogin);
-  });
-
-  it('should allow to navigate with tab key (no enabled notification preference)', () => {
-    cy.requireLoggedIn();
-    stockNotificationNoEnbaledPreferenceTabbingOrder(
-      config.stockNotificationNoEnabledPreference
-    );
-  });
-
-  it('should allow to navigate with tab key (product was been subscribed)', () => {
-    cy.requireLoggedIn();
-    stockNotificationProductSubscribedTabbingOrder(
-      config.stockNotificationSubscribed
-    );
-  });
-
-  it('should allow to navigate with tab key (dialog)', () => {
-    cy.requireLoggedIn();
-    stockNotificationDialogTabbingOrder(config.stockNotificationDialog);
-  });
-
-  it('should allow to navigate with tab key', () => {
-    cy.requireLoggedIn();
-    stockNotificationTabbingOrder(config.stockNotification);
+  context('Consignment Tracking', () => {
+    it('should allow to navigate with tab key', () => {
+      consignmentTrackingTabbingOrder(config.consignmentTracking);
+    });
   });
 });
