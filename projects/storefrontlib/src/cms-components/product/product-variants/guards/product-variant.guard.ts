@@ -30,7 +30,7 @@ export class ProductVariantGuard implements CanActivate {
         }
       }),
       map((product: Product) => {
-        if (product && !product.purchasable) {
+        if (Boolean(product) && !product.purchasable) {
           const variant = this.findVariant(product.variantOptions);
           // below call might looks redundant but in fact this data is going to be loaded anyways
           // we're just calling it earlier and storing
