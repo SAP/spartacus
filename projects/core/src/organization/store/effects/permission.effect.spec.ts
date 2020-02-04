@@ -23,7 +23,7 @@ const permission: Permission = {
   code: permissionCode,
   active: false,
   currency: {},
-  orgUnit: { id: 'ouid', name: 'ouName' },
+  orgUnit: { uid: 'ouid', name: 'ouName' },
 };
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];

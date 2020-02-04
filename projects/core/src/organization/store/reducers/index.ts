@@ -1,9 +1,12 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap, combineReducers } from '@ngrx/store';
-import { Budget } from '../../../model/budget.model';
-import { ListModel } from '../../../model/misc.model';
-import { B2BUnitNode } from '../../../model/org-unit.model';
-import { Permission } from '../../../model/permission.model';
+import {
+  Budget,
+  B2BUnitNode,
+  ListModel,
+  Permission,
+  CostCenter,
+} from '../../../model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import {
   OrganizationState,
@@ -16,10 +19,14 @@ import {
   PERMISSION_ENTITIES,
   PERMISSION_FEATURE,
   PERMISSION_LIST,
+  COST_CENTER_FEATURE,
+  COST_CENTER_ENTITIES,
+  COST_CENTER_LIST,
 } from '../organization-state';
 import { budgetsListReducer } from './budget.reducer';
 import { orgUnitListReducer } from './org-unit.reducer';
 import { permissionsListReducer } from './permission.reducer';
+import { costCentersListReducer } from './cost-center.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -37,6 +44,13 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
     [ORG_UNIT_FEATURE]: combineReducers({
       entities: entityLoaderReducer<B2BUnitNode>(ORG_UNIT_ENTITIES),
       list: entityLoaderReducer<ListModel>(ORG_UNIT_LIST, orgUnitListReducer),
+    }),
+    [COST_CENTER_FEATURE]: combineReducers({
+      entities: entityLoaderReducer<CostCenter>(COST_CENTER_ENTITIES),
+      list: entityLoaderReducer<ListModel>(
+        COST_CENTER_LIST,
+        costCentersListReducer
+      ),
     }),
   };
 }
