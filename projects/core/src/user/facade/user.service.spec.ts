@@ -89,6 +89,7 @@ describe('UserService', () => {
         new UserActions.LoadUserDetails(OCC_USER_ID_CURRENT)
       );
     });
+    
     it('should not load anonymous user details', () => {
       const authService = TestBed.get(AuthService as Type<AuthService>);
       spyOn(authService, 'getOccUserId').and.returnValue(
