@@ -115,7 +115,7 @@ export class NavigationUIComponent implements OnDestroy {
     }
   }
 
-  getColumnCount(length): number {
+  getColumnCount(length: number): number {
     return Math.round(length / (this.wrapAfter || length));
   }
 
