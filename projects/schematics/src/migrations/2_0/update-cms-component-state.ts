@@ -3,7 +3,17 @@ import { getProjectTsConfigPaths } from '@angular/core/schematics/utils/project_
 import { Change } from '@schematics/angular/utility/change';
 import { relative } from 'path';
 import * as ts from 'typescript';
-import { TODO_SPARTACUS } from '../../shared/constants';
+import {
+  COMPONENTS_SELECTOR_FACTORY_NEW_API,
+  COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API,
+  COMPONENT_SELECTOR_FACTORY_OLD_API,
+  COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
+  GET_COMPONENTS_STATE_NEW_API,
+  GET_COMPONENT_ENTITIES_COMMENT,
+  GET_COMPONENT_ENTITIES_OLD_API,
+  GET_COMPONENT_STATE_OLD_API,
+  TODO_SPARTACUS,
+} from '../../shared/constants';
 import {
   commitChanges,
   getAllTsSourceFiles,
@@ -11,20 +21,6 @@ import {
   InsertDirection,
   renameIdentifierNode,
 } from '../../shared/utils/file-utils';
-
-export const GET_COMPONENT_STATE_OLD_API = 'getComponentState';
-export const GET_COMPONENTS_STATE_NEW_API = 'getComponentsState';
-
-const GET_COMPONENT_ENTITIES_OLD_API = 'getComponentEntities';
-export const GET_COMPONENT_ENTITIES_COMMENT = `// ${TODO_SPARTACUS} '${GET_COMPONENT_ENTITIES_OLD_API}' has been removed, please use some of the newer API methods.`;
-
-export const COMPONENT_STATE_SELECTOR_FACTORY_OLD_API =
-  'componentStateSelectorFactory';
-export const COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API =
-  'componentsLoaderStateSelectorFactory';
-
-export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
-export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 
 export function updateCmsComponentState(): Rule {
   return (tree: Tree, context: SchematicContext) => {

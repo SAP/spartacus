@@ -7,7 +7,6 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
 import {
-  buildComment,
   COMPONENTS_SELECTOR_FACTORY_NEW_API,
   COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API,
   COMPONENT_SELECTOR_FACTORY_OLD_API,
@@ -15,7 +14,8 @@ import {
   GET_COMPONENTS_STATE_NEW_API,
   GET_COMPONENT_ENTITIES_COMMENT,
   GET_COMPONENT_STATE_OLD_API,
-} from './update-cms-component-state';
+} from '../../shared/constants';
+import { buildComment } from './update-cms-component-state';
 
 const GET_COMPONENT_STATE_TEST_CLASS = `  
     import { MemoizedSelector, select, Store } from '@ngrx/store';
