@@ -1,7 +1,7 @@
 import { CmsComponent, PageType } from '../../../model/index';
 import { PageContext } from '../../../routing/index';
 import { initialLoaderState } from '../../../state/utils/loader/loader.reducer';
-import { serializePageContext } from '../../../util/serialization-utils';
+import { serializePageContext } from '../../utils/cms-utils';
 import { CmsActions } from '../actions/index';
 import { ComponentsContext } from '../cms-state';
 import * as fromComponents from './components.reducer';
@@ -37,7 +37,7 @@ describe('Components Reducer', () => {
       const action = new CmsActions.LoadCmsComponent('xxx', pageContext);
       const state = fromComponents.reducer(initialState, action);
 
-      const serializedPageContext = serializePageContext(pageContext);
+      const serializedPageContext = serializePageContext(pageContext, true);
       expect(state).toEqual({
         ...initialState,
         pageContext: {
@@ -65,7 +65,7 @@ describe('Components Reducer', () => {
       );
       const state = fromComponents.reducer(initialState, action);
 
-      const serializedPageContext = serializePageContext(pageContext);
+      const serializedPageContext = serializePageContext(pageContext, true);
       expect(state).toEqual({
         ...initialState,
         pageContext: {
@@ -95,7 +95,7 @@ describe('Components Reducer', () => {
       );
       const state = fromComponents.reducer(initialState, action);
 
-      const serializedPageContext = serializePageContext(pageContext);
+      const serializedPageContext = serializePageContext(pageContext, true);
       expect(state).toEqual({
         ...initialState,
         component: [component] as any,
@@ -127,7 +127,7 @@ describe('Components Reducer', () => {
       );
       const state = fromComponents.reducer(initialState, action);
 
-      const serializedPageContext = serializePageContext(pageContext);
+      const serializedPageContext = serializePageContext(pageContext, true);
       expect(state).toEqual({
         ...initialState,
         component,

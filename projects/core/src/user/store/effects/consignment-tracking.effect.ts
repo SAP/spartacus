@@ -3,9 +3,9 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
 
 @Injectable()
 export class ConsignmentTrackingEffects {
@@ -17,7 +17,11 @@ export class ConsignmentTrackingEffects {
     map((action: UserActions.LoadConsignmentTracking) => action.payload),
     switchMap(payload => {
       return this.userOrderConnector
-        .getConsignmentTracking(payload.orderCode, payload.consignmentCode)
+        .getConsignmentTracking(
+          payload.userId,
+          payload.orderCode,
+          payload.consignmentCode
+        )
         .pipe(
           map(
             (tracking: ConsignmentTracking) =>

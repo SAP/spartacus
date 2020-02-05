@@ -1,3 +1,4 @@
+import { apiUrl } from '../support/utils/login';
 import {
   addPaymentMethod,
   addShippingAddress,
@@ -6,25 +7,31 @@ import {
   verifyAndPlaceOrder,
 } from './checkout-as-persistent-user';
 
-export function checkForAppliedPromotionsInCartModal() {
-  cy.get('.cx-promotions').should('contain', 'EOS450D');
+export const eosCameraProductName = 'EOS450D';
+
+export function checkForAppliedPromotionsInCartModal(productName: string) {
+  cy.get('.cx-promotions').should('contain', productName);
 }
 
 export function checkForAppliedPromotions() {
   cy.get('.cx-item-list-row')
-    .should('contain', 'EOS450D')
+    .should('contain', eosCameraProductName)
     .within(() => {
-      checkForAppliedPromotionsInCartModal();
+      checkForAppliedPromotionsInCartModal(eosCameraProductName);
     });
 }
 
 export function addProductToCart() {
-  cy.get('cx-item-counter')
-    .getByText('+')
-    .click();
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
+  cy.server();
+  cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts/*`).as(
+    'cart'
+  );
+  cy.wait(`@cart`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function goToCartDetailsViewFromCartDialog() {
@@ -37,7 +44,6 @@ export function selectShippingAddress() {
   cy.getByText(/proceed to checkout/i).click();
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
-    .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
@@ -47,6 +53,7 @@ export function selectShippingAddress() {
 
 export function selectDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  cy.get('#deliveryMode-standard-net').should('be.checked');
   cy.get('button.btn-primary').click();
   // cannot use cy.visit here, as payment details are unavailable
   cy.wait(1000);
@@ -65,18 +72,16 @@ export function selectPaymentMethod() {
 }
 
 export function goToOrderHistoryDetailsFromSummary() {
-  cy.get('.cx-page-title')
-    .first()
-    .then(el => {
-      const orderNumber = el.text().match(/\d+/)[0];
-      cy.visit(`/my-account/order/${orderNumber}`);
-    });
+  cy.get('.cx-page-title').then(el => {
+    const orderNumber = el.text().match(/\d+/)[0];
+    cy.visit(`/my-account/order/${orderNumber}`);
+  });
 }
 
 export function checkAppliedPromotionsForLoggedUser() {
   it('Should display promotions for product in modal after adding to cart', () => {
     addProductToCart();
-    checkForAppliedPromotionsInCartModal();
+    checkForAppliedPromotionsInCartModal(eosCameraProductName);
   });
 
   it('Should display promotions in users cart view for added product', () => {
@@ -111,34 +116,45 @@ export function checkAppliedPromotionsForLoggedUser() {
 
 export function checkForAppliedCartPromotions(shouldContainPromotion) {
   if (shouldContainPromotion) {
-    cy.get('.cx-promotions')
-      .first()
-      .should('contain', '200');
+    cy.get('.cx-promotions').should('contain', '200');
   } else {
-    cy.get('.cx-promotions')
-      .first()
-      .should('not.contain', '200');
+    cy.get('.cx-promotions').should('not.contain', '200');
   }
 }
 
-export function removeCartEntry() {
-  cy.get('.cx-item-list-items')
+export function decreaseQuantityOfCartEntry() {
+  cy.get('.cx-counter-action')
     .first()
-    .within(() => {
-      cy.getByText(/Remove/i).click();
-    });
+    .click();
+}
+
+export function removeCartEntry() {
+  cy.get('.cx-item-list-items').within(() => {
+    cy.getByText(/Remove/i).click();
+  });
 }
 
 export function checkAppliedPromotionsFordifferentCartTotals() {
-  it('Should add to products to the cart', () => {
-    cy.visit('/product/1934796');
+  const batteryProductCode = '266685';
+
+  it('Should add two products to the cart', () => {
+    cy.visit(`/product/${batteryProductCode}`);
     addProductToCart();
-    cy.visit('/product/1934796');
+    cy.visit(`/product/${batteryProductCode}`);
     addProductToCart();
   });
 
   it('Should display promotions in users cart view for added products', () => {
     goToCartDetailsViewFromCartDialog();
     checkForAppliedCartPromotions(true);
+  });
+
+  it('Should not display promotions in users cart view after removing first product', () => {
+    decreaseQuantityOfCartEntry();
+    checkForAppliedCartPromotions(false);
+  });
+
+  after(() => {
+    removeCartEntry();
   });
 }

@@ -1,9 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { isObject } from '../config/utils/deep-merge';
 import { ErrorModel, HttpErrorModel } from '../model/misc.model';
-import { PageContext } from '../routing/models/page-context.model';
-
-export const CURRENT_CONTEXT_KEY = 'current';
 
 export const UNKNOWN_ERROR = {
   error: 'unknown error',
@@ -49,12 +46,4 @@ export function makeErrorSerializable(
   }
 
   return isObject(error) ? UNKNOWN_ERROR : error;
-}
-
-export function serializePageContext(pageContext: PageContext): string {
-  if (!pageContext) {
-    return CURRENT_CONTEXT_KEY;
-  }
-
-  return `${pageContext.type}-${pageContext.id}`;
 }
