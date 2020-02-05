@@ -546,7 +546,7 @@ describe('updateCmsComponentState migration', () => {
   function runMigration(): Promise<UnitTestTree> {
     return schematicRunner
       .runSchematicAsync(
-        'migration-v2-update-cms-component-state-01',
+        'migration-v2-update-cms-component-state-02',
         {},
         appTree
       )

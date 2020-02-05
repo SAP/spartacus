@@ -99,7 +99,7 @@ The `projects/schematics/src/migrations/migrations.json` file contains all migra
   - _version_ should indicate for which Spartacus version the migration is intended.
   - _migration-feature-name_ is a short name that describes what the migration is doing.
   - _sequence-number_ is the sequence number in which the migrations should be executed
-  - An example is _migration-v2-update-cms-component-state-01_.
+  - An example is _migration-v2-update-cms-component-state-02_.
 - _version_ is important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project.
 - _factory_ - points to the specific migration script.
 - _description_ - a short free-form description field for developers.
@@ -140,3 +140,7 @@ When doing iterative development of the update schematic, it's for the best to d
   - make sure that the version of the `@spartacus/schematics` package is lower than the currently developed one. E.g. if you are developing an update schematic for v3, make sure that the version of `@spartacus/schematics` is set to i.e. `"^2.0.0"`. Commit the changes if necessary.
   - remove the old `node_modules` and install the dependencies again - `rm -rf node_modules/ && yarn`
   - run the `ng update @spartacus/core @spartacus/storefront --force` command
+
+#### Validations
+
+If some validations are required to be ran before actually upgrading the Spartacus version, the `projects/schematics/src/migrations/2_0/validate.ts` "migration script" can be used.
