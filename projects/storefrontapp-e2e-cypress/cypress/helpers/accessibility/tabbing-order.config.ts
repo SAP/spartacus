@@ -2024,5 +2024,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
-  consignmentTrackingEvents: [],
+  consignmentTrackingEvents: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
 };
