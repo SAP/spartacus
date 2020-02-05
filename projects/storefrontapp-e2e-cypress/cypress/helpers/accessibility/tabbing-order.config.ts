@@ -1900,4 +1900,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
   ],
+  coupons: [
+    { value: 'couponCode', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'Apply', type: TabbingOrderTypes.BUTTON },
+  ],
 };
