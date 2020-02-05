@@ -14,12 +14,10 @@ import {
 import { AuthActions } from '../../../auth/store/actions/index';
 import { RoutingService } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import {
-  makeErrorSerializable,
-  serializePageContext,
-} from '../../../util/serialization-utils';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
 import { CmsStructureModel } from '../../model/page.model';
+import { serializePageContext } from '../../utils/cms-utils';
 import { CmsActions } from '../actions/index';
 
 @Injectable()
