@@ -3,7 +3,10 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import { getProjectTsConfigPaths } from '@angular/core/schematics/utils/project_tsconfig_paths';
-import { InsertChange } from '@schematics/angular/utility/change';
+import {
+  InsertChange,
+  ReplaceChange,
+} from '@schematics/angular/utility/change';
 import * as path from 'path';
 import * as ts from 'typescript';
 import { UTF_8 } from '../constants';
@@ -111,10 +114,35 @@ describe('File utils', () => {
   });
 
   describe('commitChanges', () => {
-    it('should commit provided changes', async () => {
+    it('should commit provided InsertChanges', async () => {
       const filePath = 'src/index.html';
       const change = 'xxx';
       const testChange = new InsertChange(filePath, 0, change);
+      const result = commitChanges(
+        appTree,
+        filePath,
+        [testChange],
+        InsertDirection.LEFT
+      );
+
+      expect(result).toBeFalsy();
+      const buffer = appTree.read(filePath);
+      expect(buffer).toBeTruthy();
+      if (buffer) {
+        const content = buffer.toString(UTF_8);
+        expect(content).toContain(change);
+      }
+    });
+    it('should commit provided ReplaceChange', async () => {
+      const filePath = '/src/app/app.component.ts';
+      const change = 'ChangedAppComponent';
+
+      const testChange = new ReplaceChange(
+        filePath,
+        173,
+        'AppComponent',
+        change
+      );
       const result = commitChanges(
         appTree,
         filePath,
