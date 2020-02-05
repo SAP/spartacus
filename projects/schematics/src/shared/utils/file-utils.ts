@@ -156,7 +156,7 @@ export function injectService(
 }
 
 // TODO:#6027 - test
-export function insertCommentAboveMethodCall(
+export function insertCommentAboveIdentifier(
   sourcePath: string,
   source: ts.SourceFile,
   methodName: string,

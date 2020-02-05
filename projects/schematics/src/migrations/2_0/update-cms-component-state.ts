@@ -25,7 +25,7 @@ import {
 import {
   commitChanges,
   getAllTsSourceFiles,
-  insertCommentAboveMethodCall,
+  insertCommentAboveIdentifier,
   InsertDirection,
   renameIdentifierNode,
 } from '../../shared/utils/file-utils';
@@ -46,7 +46,7 @@ export function updateCmsComponentState(): Rule {
         // adding comments for selectors
         let selectorCommentChanges: Change[] = [];
         if (isImported(source, CMS_SELECTORS, SPARTACUS_CORE)) {
-          const getComponentStateComments = insertCommentAboveMethodCall(
+          const getComponentStateComments = insertCommentAboveIdentifier(
             sourcePath,
             source,
             GET_COMPONENT_STATE_OLD_API,
@@ -55,13 +55,13 @@ export function updateCmsComponentState(): Rule {
               GET_COMPONENTS_STATE_NEW_API
             )}\n`
           );
-          const getComponentEntitiesComments = insertCommentAboveMethodCall(
+          const getComponentEntitiesComments = insertCommentAboveIdentifier(
             sourcePath,
             source,
             GET_COMPONENT_ENTITIES_OLD_API,
             `${GET_COMPONENT_ENTITIES_COMMENT}\n`
           );
-          const componentStateSelectorFactoryComments = insertCommentAboveMethodCall(
+          const componentStateSelectorFactoryComments = insertCommentAboveIdentifier(
             sourcePath,
             source,
             COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
@@ -70,7 +70,7 @@ export function updateCmsComponentState(): Rule {
               COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API
             )}\n`
           );
-          const componentSelectorFactoryComments = insertCommentAboveMethodCall(
+          const componentSelectorFactoryComments = insertCommentAboveIdentifier(
             sourcePath,
             source,
             COMPONENT_SELECTOR_FACTORY_OLD_API,
@@ -92,26 +92,25 @@ export function updateCmsComponentState(): Rule {
 
         let actionCommentChanges: Change[] = [];
         if (isImported(source, CMS_ACTIONS, SPARTACUS_CORE)) {
-          // TODO:#6027 - rename 'insertCommentAboveMethodCall' to something else. Include identifier in the name?
-          const loadCmsActionComments = insertCommentAboveMethodCall(
+          const loadCmsActionComments = insertCommentAboveIdentifier(
             sourcePath,
             source,
             LOAD_CMS_COMPONENT_CLASS,
             `${buildActionComment(LOAD_CMS_COMPONENT_CLASS)}\n`
           );
-          const loadCmsActionFailComments = insertCommentAboveMethodCall(
+          const loadCmsActionFailComments = insertCommentAboveIdentifier(
             sourcePath,
             source,
             LOAD_CMS_COMPONENT_FAIL_CLASS,
             `${buildActionComment(LOAD_CMS_COMPONENT_FAIL_CLASS)}\n`
           );
-          const loadCmsActionSuccessComments = insertCommentAboveMethodCall(
+          const loadCmsActionSuccessComments = insertCommentAboveIdentifier(
             sourcePath,
             source,
             LOAD_CMS_COMPONENT_SUCCESS_CLASS,
             `${buildActionComment(LOAD_CMS_COMPONENT_SUCCESS_CLASS)}\n`
           );
-          const cmsGetComponentFromPageComments = insertCommentAboveMethodCall(
+          const cmsGetComponentFromPageComments = insertCommentAboveIdentifier(
             sourcePath,
             source,
             CMS_GET_COMPONENT_FROM_PAGE,
