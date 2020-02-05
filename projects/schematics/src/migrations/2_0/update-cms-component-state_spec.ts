@@ -131,6 +131,13 @@ const ACTION_CONST_TEST_CLASS = `
       }
     }
 `;
+const ACTION_CONST_TEST_NO_SPARTACUS_IMPORT_CLASS = `
+    export class TestClass {
+      constructor() {
+        console.log(CmsActions.CMS_GET_COMPONENET_FROM_PAGE);
+      }
+    }
+`;
 const ALL_TEST_CASES_CLASS = `
     import { MemoizedSelector, select, Store } from '@ngrx/store';
     import {
@@ -325,6 +332,22 @@ describe('updateCmsComponentState migration', () => {
     const regexNew = new RegExp('CMS_GET_COMPONENT_FROM_PAGE', 'g');
     const newOccurrences = (content.match(regexNew) || []).length;
     expect(newOccurrences).toEqual(1);
+  });
+
+  it('should NOT do the update if there is no Spartacus import present', async () => {
+    writeFile('/src/index.ts', ACTION_CONST_TEST_NO_SPARTACUS_IMPORT_CLASS);
+
+    await runMigration();
+
+    const content = appTree.readContent('/src/index.ts');
+
+    const regexOld = new RegExp('CMS_GET_COMPONENET_FROM_PAGE', 'g');
+    const oldOccurrences = (content.match(regexOld) || []).length;
+    expect(oldOccurrences).toEqual(1);
+
+    const regexNew = new RegExp('CMS_GET_COMPONENT_FROM_PAGE', 'g');
+    const newOccurrences = (content.match(regexNew) || []).length;
+    expect(newOccurrences).toEqual(0);
   });
 
   it('ultimate test', async () => {

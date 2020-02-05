@@ -1,9 +1,12 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { getProjectTsConfigPaths } from '@angular/core/schematics/utils/project_tsconfig_paths';
+import { isImported } from '@schematics/angular/utility/ast-utils';
 import { Change } from '@schematics/angular/utility/change';
 import { relative } from 'path';
 import * as ts from 'typescript';
 import {
+  CMS_ACTIONS,
+  CMS_SELECTORS,
   COMPONENTS_SELECTOR_FACTORY_NEW_API,
   COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API,
   COMPONENT_SELECTOR_FACTORY_OLD_API,
@@ -12,6 +15,7 @@ import {
   GET_COMPONENT_ENTITIES_COMMENT,
   GET_COMPONENT_ENTITIES_OLD_API,
   GET_COMPONENT_STATE_OLD_API,
+  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../shared/constants';
 import {
@@ -35,56 +39,63 @@ export function updateCmsComponentState(): Rule {
         const sourcePath = relative(basePath, source.fileName);
 
         // adding comments for selectors
-        const getComponentStateComments = insertCommentAboveMethodCall(
-          sourcePath,
-          source,
-          GET_COMPONENT_STATE_OLD_API,
-          `${buildComment(
+        let selectorCommentChanges: Change[] = [];
+        if (isImported(source, CMS_SELECTORS, SPARTACUS_CORE)) {
+          const getComponentStateComments = insertCommentAboveMethodCall(
+            sourcePath,
+            source,
             GET_COMPONENT_STATE_OLD_API,
-            GET_COMPONENTS_STATE_NEW_API
-          )}\n`
-        );
-        const getComponentEntitiesComments = insertCommentAboveMethodCall(
-          sourcePath,
-          source,
-          GET_COMPONENT_ENTITIES_OLD_API,
-          `${GET_COMPONENT_ENTITIES_COMMENT}\n`
-        );
-        const componentStateSelectorFactoryComments = insertCommentAboveMethodCall(
-          sourcePath,
-          source,
-          COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
-          `${buildComment(
+            `${buildComment(
+              GET_COMPONENT_STATE_OLD_API,
+              GET_COMPONENTS_STATE_NEW_API
+            )}\n`
+          );
+          const getComponentEntitiesComments = insertCommentAboveMethodCall(
+            sourcePath,
+            source,
+            GET_COMPONENT_ENTITIES_OLD_API,
+            `${GET_COMPONENT_ENTITIES_COMMENT}\n`
+          );
+          const componentStateSelectorFactoryComments = insertCommentAboveMethodCall(
+            sourcePath,
+            source,
             COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
-            COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API
-          )}\n`
-        );
-        const componentSelectorFactoryComments = insertCommentAboveMethodCall(
-          sourcePath,
-          source,
-          COMPONENT_SELECTOR_FACTORY_OLD_API,
-          `${buildComment(
+            `${buildComment(
+              COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
+              COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API
+            )}\n`
+          );
+          const componentSelectorFactoryComments = insertCommentAboveMethodCall(
+            sourcePath,
+            source,
             COMPONENT_SELECTOR_FACTORY_OLD_API,
-            COMPONENTS_SELECTOR_FACTORY_NEW_API
-          )}\n`
-        );
-        const selectorCommentChanges = [
-          ...getComponentStateComments,
-          ...getComponentEntitiesComments,
-          ...componentStateSelectorFactoryComments,
-          ...componentSelectorFactoryComments,
-        ];
-        if (selectorCommentChanges.length) {
-          cmsComponentSelectorsChangesMade = true;
+            `${buildComment(
+              COMPONENT_SELECTOR_FACTORY_OLD_API,
+              COMPONENTS_SELECTOR_FACTORY_NEW_API
+            )}\n`
+          );
+          selectorCommentChanges = [
+            ...getComponentStateComments,
+            ...getComponentEntitiesComments,
+            ...componentStateSelectorFactoryComments,
+            ...componentSelectorFactoryComments,
+          ];
+          if (selectorCommentChanges.length) {
+            cmsComponentSelectorsChangesMade = true;
+          }
         }
 
         // Renaming the constant
-        const renameCmsGetComponentFromPageConstantChanges = renameCmsGetComponentFromPageConstant(
-          sourcePath,
-          source
-        );
-        if (renameCmsGetComponentFromPageConstantChanges.length) {
-          renamedCmsGetComponentFromPageActionChangesMade = true;
+        let renameCmsGetComponentFromPageConstantChanges: Change[] = [];
+        if (isImported(source, CMS_ACTIONS, SPARTACUS_CORE)) {
+          const constantChanges = renameCmsGetComponentFromPageConstant(
+            sourcePath,
+            source
+          );
+          renameCmsGetComponentFromPageConstantChanges = constantChanges;
+          if (renameCmsGetComponentFromPageConstantChanges.length) {
+            renamedCmsGetComponentFromPageActionChangesMade = true;
+          }
         }
 
         const allChanges: Change[] = [
