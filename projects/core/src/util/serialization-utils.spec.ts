@@ -1,13 +1,6 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { HttpErrorModel, PageType } from '../model/index';
-import { PageContext } from '../routing/index';
-import {
-  CURRENT_CONTEXT_KEY,
-  makeErrorSerializable,
-  serializePageContext,
-  serializePageContextForState,
-  UNKNOWN_ERROR,
-} from './serialization-utils';
+import { HttpErrorModel } from '../model/index';
+import { makeErrorSerializable, UNKNOWN_ERROR } from './serialization-utils';
 
 describe('serialization-utils', () => {
   describe('makeErrorSerializable', () => {
@@ -93,56 +86,6 @@ describe('serialization-utils', () => {
 
         const result = makeErrorSerializable(error);
         expect(result).toEqual(UNKNOWN_ERROR);
-      });
-    });
-  });
-
-  describe('serializePageContext', () => {
-    describe('when undefined is provided', () => {
-      it(`should return ${CURRENT_CONTEXT_KEY}`, () => {
-        expect(serializePageContext(undefined)).toEqual(CURRENT_CONTEXT_KEY);
-      });
-    });
-
-    it(`should return serialize the given page context`, () => {
-      const pageContext: PageContext = {
-        id: 'homepage',
-        type: PageType.CONTENT_PAGE,
-      };
-      expect(serializePageContext(pageContext)).toEqual(
-        `${pageContext.type}-${pageContext.id}`
-      );
-    });
-  });
-
-  describe('serializePageContextForState', () => {
-    describe('when undefined is provided', () => {
-      it(`should return ${CURRENT_CONTEXT_KEY}`, () => {
-        expect(serializePageContextForState(undefined)).toEqual(
-          CURRENT_CONTEXT_KEY
-        );
-      });
-    });
-    describe('when the provided page context is of CONTENT_PAGE type', () => {
-      it('should serialize just the type, and not the ID', () => {
-        const pageContext: PageContext = {
-          id: 'homepage',
-          type: PageType.CONTENT_PAGE,
-        };
-        expect(serializePageContextForState(pageContext)).toEqual(
-          'ContentPage'
-        );
-      });
-    });
-    describe('when the provided page context is NOT of CONTENT_PAGE type', () => {
-      it('should use to serializePageContext method to fully serialize the provided page context', () => {
-        const pageContext: PageContext = {
-          id: '12345',
-          type: PageType.PRODUCT_PAGE,
-        };
-        expect(serializePageContextForState(pageContext)).toEqual(
-          serializePageContext(pageContext)
-        );
       });
     });
   });
