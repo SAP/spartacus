@@ -16,6 +16,10 @@ export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_CONFIG = 'CmsConfig';
 export const CMS_SELECTORS = 'CmsSelectors';
 export const CMS_ACTIONS = 'CmsActions';
+export const LOAD_CMS_COMPONENT_CLASS = 'LoadCmsComponent';
+export const LOAD_CMS_COMPONENT_FAIL_CLASS = 'LoadCmsComponentFail';
+export const LOAD_CMS_COMPONENT_SUCCESS_CLASS = 'LoadCmsComponentSuccess';
+export const CMS_GET_COMPONENT_FROM_PAGE = 'CmsGetComponentFromPage';
 /***** Classes end *****/
 
 /***** Properties start *****/

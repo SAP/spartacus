@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
 import {
+  CMS_GET_COMPONENT_FROM_PAGE,
   COMPONENTS_SELECTOR_FACTORY_NEW_API,
   COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API,
   COMPONENT_SELECTOR_FACTORY_OLD_API,
@@ -14,8 +15,14 @@ import {
   GET_COMPONENTS_STATE_NEW_API,
   GET_COMPONENT_ENTITIES_COMMENT,
   GET_COMPONENT_STATE_OLD_API,
+  LOAD_CMS_COMPONENT_CLASS,
+  LOAD_CMS_COMPONENT_FAIL_CLASS,
+  LOAD_CMS_COMPONENT_SUCCESS_CLASS,
 } from '../../shared/constants';
-import { buildComment } from './update-cms-component-state';
+import {
+  buildActionComment,
+  buildMethodComment,
+} from './update-cms-component-state';
 
 const GET_COMPONENT_STATE_TEST_CLASS = `  
     import { MemoizedSelector, select, Store } from '@ngrx/store';
@@ -135,6 +142,23 @@ const ACTION_CONST_TEST_NO_SPARTACUS_IMPORT_CLASS = `
     export class TestClass {
       constructor() {
         console.log(CmsActions.CMS_GET_COMPONENET_FROM_PAGE);
+      }
+    }
+`;
+const CMS_COMPONENT_ACTIONS_TEST_CLASS = `
+    import { CmsActions } from '@spartacus/core';
+    export class Test {
+      loadCmsComponent(): void {
+        console.log(new CmsActions.LoadCmsComponent('xxx'));
+      }
+      loadCmsComponentFail(): void {
+        console.log(new CmsActions.LoadCmsComponentFail('xxx', 'xxx'));
+      }
+      loadCmsComponentSuccess(): void {
+        console.log(new CmsActions.LoadCmsComponentSuccess({}, 'xxx'));
+      }
+      cmsGetComponentFromPage(): void {
+        console.log(new CmsActions.CmsGetComponentFromPage([]));
       }
     }
 `;
@@ -266,7 +290,10 @@ describe('updateCmsComponentState migration', () => {
 
     const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(
-      buildComment(GET_COMPONENT_STATE_OLD_API, GET_COMPONENTS_STATE_NEW_API),
+      buildMethodComment(
+        GET_COMPONENT_STATE_OLD_API,
+        GET_COMPONENTS_STATE_NEW_API
+      ),
       'g'
     );
     const commentOccurrences = (content.match(regex) || []).length;
@@ -291,7 +318,7 @@ describe('updateCmsComponentState migration', () => {
 
     const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(
-      buildComment(
+      buildMethodComment(
         COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
         COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API
       ),
@@ -308,7 +335,7 @@ describe('updateCmsComponentState migration', () => {
 
     const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(
-      buildComment(
+      buildMethodComment(
         COMPONENT_SELECTOR_FACTORY_OLD_API,
         COMPONENTS_SELECTOR_FACTORY_NEW_API
       ),
@@ -350,6 +377,51 @@ describe('updateCmsComponentState migration', () => {
     expect(newOccurrences).toEqual(0);
   });
 
+  // TODO:#6027 - add this test to the ultimate test class
+  it('should add comments for CMS component actions', async () => {
+    writeFile('/src/index.ts', CMS_COMPONENT_ACTIONS_TEST_CLASS);
+
+    await runMigration();
+
+    const content = appTree.readContent('/src/index.ts');
+
+    const loadCmsComponentRegex = new RegExp(
+      `^${buildActionComment(LOAD_CMS_COMPONENT_CLASS)}$`,
+      'gm'
+    );
+    const loadCmsComponentOccurrences = (
+      content.match(loadCmsComponentRegex) || []
+    ).length;
+    expect(loadCmsComponentOccurrences).toEqual(1);
+
+    const loadCmsComponentFailRegex = new RegExp(
+      buildActionComment(LOAD_CMS_COMPONENT_FAIL_CLASS),
+      'g'
+    );
+    const loadCmsComponentFailOccurrences = (
+      content.match(loadCmsComponentFailRegex) || []
+    ).length;
+    expect(loadCmsComponentFailOccurrences).toEqual(1);
+
+    const loadCmsComponentSuccessRegex = new RegExp(
+      buildActionComment(LOAD_CMS_COMPONENT_SUCCESS_CLASS),
+      'g'
+    );
+    const loadCmsComponentSuccessOccurrences = (
+      content.match(loadCmsComponentSuccessRegex) || []
+    ).length;
+    expect(loadCmsComponentSuccessOccurrences).toEqual(1);
+
+    const cmsGetComponentFromPageRegex = new RegExp(
+      buildActionComment(CMS_GET_COMPONENT_FROM_PAGE),
+      'g'
+    );
+    const cmsGetComponentFromPageRegexOccurrences = (
+      content.match(cmsGetComponentFromPageRegex) || []
+    ).length;
+    expect(cmsGetComponentFromPageRegexOccurrences).toEqual(1);
+  });
+
   it('ultimate test', async () => {
     writeFile('/src/index.ts', ALL_TEST_CASES_CLASS);
 
@@ -358,7 +430,10 @@ describe('updateCmsComponentState migration', () => {
     const content = appTree.readContent('/src/index.ts');
 
     const getComponentStateRegex = new RegExp(
-      buildComment(GET_COMPONENT_STATE_OLD_API, GET_COMPONENTS_STATE_NEW_API),
+      buildMethodComment(
+        GET_COMPONENT_STATE_OLD_API,
+        GET_COMPONENTS_STATE_NEW_API
+      ),
       'g'
     );
     const getComponentEntitiesRegex = new RegExp(
@@ -366,14 +441,14 @@ describe('updateCmsComponentState migration', () => {
       'g'
     );
     const componentStateSelectorFactoryRegex = new RegExp(
-      buildComment(
+      buildMethodComment(
         COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
         COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API
       ),
       'g'
     );
     const componentSelectorFactoryRegex = new RegExp(
-      buildComment(
+      buildMethodComment(
         COMPONENT_SELECTOR_FACTORY_OLD_API,
         COMPONENTS_SELECTOR_FACTORY_NEW_API
       ),

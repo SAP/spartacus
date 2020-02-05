@@ -6,6 +6,7 @@ import { relative } from 'path';
 import * as ts from 'typescript';
 import {
   CMS_ACTIONS,
+  CMS_GET_COMPONENT_FROM_PAGE,
   CMS_SELECTORS,
   COMPONENTS_SELECTOR_FACTORY_NEW_API,
   COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API,
@@ -15,6 +16,9 @@ import {
   GET_COMPONENT_ENTITIES_COMMENT,
   GET_COMPONENT_ENTITIES_OLD_API,
   GET_COMPONENT_STATE_OLD_API,
+  LOAD_CMS_COMPONENT_CLASS,
+  LOAD_CMS_COMPONENT_FAIL_CLASS,
+  LOAD_CMS_COMPONENT_SUCCESS_CLASS,
   SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../shared/constants';
@@ -30,6 +34,7 @@ export function updateCmsComponentState(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     let cmsComponentSelectorsChangesMade = false;
     let renamedCmsGetComponentFromPageActionChangesMade = false;
+    let cmsActionsChangesMade = false;
 
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree);
@@ -45,7 +50,7 @@ export function updateCmsComponentState(): Rule {
             sourcePath,
             source,
             GET_COMPONENT_STATE_OLD_API,
-            `${buildComment(
+            `${buildMethodComment(
               GET_COMPONENT_STATE_OLD_API,
               GET_COMPONENTS_STATE_NEW_API
             )}\n`
@@ -60,7 +65,7 @@ export function updateCmsComponentState(): Rule {
             sourcePath,
             source,
             COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
-            `${buildComment(
+            `${buildMethodComment(
               COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
               COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API
             )}\n`
@@ -69,7 +74,7 @@ export function updateCmsComponentState(): Rule {
             sourcePath,
             source,
             COMPONENT_SELECTOR_FACTORY_OLD_API,
-            `${buildComment(
+            `${buildMethodComment(
               COMPONENT_SELECTOR_FACTORY_OLD_API,
               COMPONENTS_SELECTOR_FACTORY_NEW_API
             )}\n`
@@ -82,6 +87,45 @@ export function updateCmsComponentState(): Rule {
           ];
           if (selectorCommentChanges.length) {
             cmsComponentSelectorsChangesMade = true;
+          }
+        }
+
+        let actionCommentChanges: Change[] = [];
+        if (isImported(source, CMS_ACTIONS, SPARTACUS_CORE)) {
+          // TODO:#6027 - rename 'insertCommentAboveMethodCall' to something else. Include identifier in the name?
+          const loadCmsActionComments = insertCommentAboveMethodCall(
+            sourcePath,
+            source,
+            LOAD_CMS_COMPONENT_CLASS,
+            `${buildActionComment(LOAD_CMS_COMPONENT_CLASS)}\n`
+          );
+          const loadCmsActionFailComments = insertCommentAboveMethodCall(
+            sourcePath,
+            source,
+            LOAD_CMS_COMPONENT_FAIL_CLASS,
+            `${buildActionComment(LOAD_CMS_COMPONENT_FAIL_CLASS)}\n`
+          );
+          const loadCmsActionSuccessComments = insertCommentAboveMethodCall(
+            sourcePath,
+            source,
+            LOAD_CMS_COMPONENT_SUCCESS_CLASS,
+            `${buildActionComment(LOAD_CMS_COMPONENT_SUCCESS_CLASS)}\n`
+          );
+          const cmsGetComponentFromPageComments = insertCommentAboveMethodCall(
+            sourcePath,
+            source,
+            CMS_GET_COMPONENT_FROM_PAGE,
+            `${buildActionComment(CMS_GET_COMPONENT_FROM_PAGE)}\n`
+          );
+
+          actionCommentChanges = [
+            ...loadCmsActionComments,
+            ...loadCmsActionFailComments,
+            ...loadCmsActionSuccessComments,
+            ...cmsGetComponentFromPageComments,
+          ];
+          if (actionCommentChanges.length) {
+            cmsActionsChangesMade = true;
           }
         }
 
@@ -101,6 +145,7 @@ export function updateCmsComponentState(): Rule {
         const allChanges: Change[] = [
           ...selectorCommentChanges,
           ...renameCmsGetComponentFromPageConstantChanges,
+          ...actionCommentChanges,
         ];
         if (allChanges.length) {
           commitChanges(tree, sourcePath, allChanges, InsertDirection.RIGHT);
@@ -111,6 +156,9 @@ export function updateCmsComponentState(): Rule {
     if (cmsComponentSelectorsChangesMade) {
       context.logger.info('Added comments for CMS component selectors');
     }
+    if (cmsActionsChangesMade) {
+      context.logger.info('Added comments for CMS actions');
+    }
     if (renamedCmsGetComponentFromPageActionChangesMade) {
       context.logger.info(
         `Renamed action constant from 'CMS_GET_COMPONENET_FROM_PAGE' to 'CMS_GET_COMPONENT_FROM_PAGE'`
@@ -120,7 +168,7 @@ export function updateCmsComponentState(): Rule {
   };
 }
 
-export function renameCmsGetComponentFromPageConstant(
+function renameCmsGetComponentFromPageConstant(
   sourcePath: string,
   source: ts.SourceFile
 ): Change[] {
@@ -132,9 +180,13 @@ export function renameCmsGetComponentFromPageConstant(
   );
 }
 
-export function buildComment(
+export function buildMethodComment(
   oldApiMethod: string,
   newApiMethod: string
 ): string {
   return `// ${TODO_SPARTACUS} '${oldApiMethod}' has been removed. Please try '${newApiMethod}' instead.`;
+}
+
+export function buildActionComment(actionName: string): string {
+  return `// ${TODO_SPARTACUS} please convert all the parameters to a 'payload' object's properties for '${actionName}' action`;
 }
