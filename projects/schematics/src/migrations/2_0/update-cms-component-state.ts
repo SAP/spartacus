@@ -1,10 +1,12 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { getProjectTsConfigPaths } from '@angular/core/schematics/utils/project_tsconfig_paths';
 import { Change } from '@schematics/angular/utility/change';
+import { relative } from 'path';
 import * as ts from 'typescript';
+import { TODO_SPARTACUS } from '../../shared/constants';
 import {
   commitChanges,
-  getPathResultsForFile,
-  getTsSourceFile,
+  getAllTsSourceFiles,
   insertCommentAboveMethodCall,
   InsertDirection,
   renameIdentifierNode,
@@ -14,7 +16,7 @@ export const GET_COMPONENT_STATE_OLD_API = 'getComponentState';
 export const GET_COMPONENTS_STATE_NEW_API = 'getComponentsState';
 
 const GET_COMPONENT_ENTITIES_OLD_API = 'getComponentEntities';
-export const GET_COMPONENT_ENTITIES_COMMENT = `// TODO: '${GET_COMPONENT_ENTITIES_OLD_API}' has been removed, please use some of the newer API methods.`;
+export const GET_COMPONENT_ENTITIES_COMMENT = `// ${TODO_SPARTACUS} '${GET_COMPONENT_ENTITIES_OLD_API}' has been removed, please use some of the newer API methods.`;
 
 export const COMPONENT_STATE_SELECTOR_FACTORY_OLD_API =
   'componentStateSelectorFactory';
@@ -29,69 +31,73 @@ export function updateCmsComponentState(): Rule {
     let cmsComponentSelectorsChangesMade = false;
     let renamedCmsGetComponentFromPageActionChangesMade = false;
 
-    const filePaths = getPathResultsForFile(tree, '.ts', '/src');
-    for (const sourcePath of filePaths) {
-      const source = getTsSourceFile(tree, sourcePath);
+    const basePath = process.cwd();
+    const { buildPaths } = getProjectTsConfigPaths(tree);
+    for (const tsconfigPath of buildPaths) {
+      const sourceFiles = getAllTsSourceFiles(tsconfigPath, tree, basePath);
+      for (const source of sourceFiles) {
+        const sourcePath = relative(basePath, source.fileName);
 
-      // adding comments for selectors
-      const getComponentStateComments = insertCommentAboveMethodCall(
-        sourcePath,
-        source,
-        GET_COMPONENT_STATE_OLD_API,
-        `${buildComment(
+        // adding comments for selectors
+        const getComponentStateComments = insertCommentAboveMethodCall(
+          sourcePath,
+          source,
           GET_COMPONENT_STATE_OLD_API,
-          GET_COMPONENTS_STATE_NEW_API
-        )}\n`
-      );
-      const getComponentEntitiesComments = insertCommentAboveMethodCall(
-        sourcePath,
-        source,
-        GET_COMPONENT_ENTITIES_OLD_API,
-        `${GET_COMPONENT_ENTITIES_COMMENT}\n`
-      );
-      const componentStateSelectorFactoryComments = insertCommentAboveMethodCall(
-        sourcePath,
-        source,
-        COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
-        `${buildComment(
+          `${buildComment(
+            GET_COMPONENT_STATE_OLD_API,
+            GET_COMPONENTS_STATE_NEW_API
+          )}\n`
+        );
+        const getComponentEntitiesComments = insertCommentAboveMethodCall(
+          sourcePath,
+          source,
+          GET_COMPONENT_ENTITIES_OLD_API,
+          `${GET_COMPONENT_ENTITIES_COMMENT}\n`
+        );
+        const componentStateSelectorFactoryComments = insertCommentAboveMethodCall(
+          sourcePath,
+          source,
           COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
-          COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API
-        )}\n`
-      );
-      const componentSelectorFactoryComments = insertCommentAboveMethodCall(
-        sourcePath,
-        source,
-        COMPONENT_SELECTOR_FACTORY_OLD_API,
-        `${buildComment(
+          `${buildComment(
+            COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
+            COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API
+          )}\n`
+        );
+        const componentSelectorFactoryComments = insertCommentAboveMethodCall(
+          sourcePath,
+          source,
           COMPONENT_SELECTOR_FACTORY_OLD_API,
-          COMPONENTS_SELECTOR_FACTORY_NEW_API
-        )}\n`
-      );
-      const selectorCommentChanges = [
-        ...getComponentStateComments,
-        ...getComponentEntitiesComments,
-        ...componentStateSelectorFactoryComments,
-        ...componentSelectorFactoryComments,
-      ];
-      if (selectorCommentChanges.length) {
-        cmsComponentSelectorsChangesMade = true;
-      }
+          `${buildComment(
+            COMPONENT_SELECTOR_FACTORY_OLD_API,
+            COMPONENTS_SELECTOR_FACTORY_NEW_API
+          )}\n`
+        );
+        const selectorCommentChanges = [
+          ...getComponentStateComments,
+          ...getComponentEntitiesComments,
+          ...componentStateSelectorFactoryComments,
+          ...componentSelectorFactoryComments,
+        ];
+        if (selectorCommentChanges.length) {
+          cmsComponentSelectorsChangesMade = true;
+        }
 
-      // Renaming the constant
-      const renameCmsGetComponentFromPageConstantChanges = renameCmsGetComponentFromPageConstant(
-        sourcePath,
-        source
-      );
-      if (renameCmsGetComponentFromPageConstantChanges.length) {
-        renamedCmsGetComponentFromPageActionChangesMade = true;
-      }
+        // Renaming the constant
+        const renameCmsGetComponentFromPageConstantChanges = renameCmsGetComponentFromPageConstant(
+          sourcePath,
+          source
+        );
+        if (renameCmsGetComponentFromPageConstantChanges.length) {
+          renamedCmsGetComponentFromPageActionChangesMade = true;
+        }
 
-      const allChanges: Change[] = [
-        ...selectorCommentChanges,
-        ...renameCmsGetComponentFromPageConstantChanges,
-      ];
-      if (allChanges.length) {
-        commitChanges(tree, sourcePath, allChanges, InsertDirection.RIGHT);
+        const allChanges: Change[] = [
+          ...selectorCommentChanges,
+          ...renameCmsGetComponentFromPageConstantChanges,
+        ];
+        if (allChanges.length) {
+          commitChanges(tree, sourcePath, allChanges, InsertDirection.RIGHT);
+        }
       }
     }
 
@@ -123,5 +129,5 @@ export function buildComment(
   oldApiMethod: string,
   newApiMethod: string
 ): string {
-  return `// TODO: '${oldApiMethod}' has been removed. Please try '${newApiMethod}' instead.`;
+  return `// ${TODO_SPARTACUS} '${oldApiMethod}' has been removed. Please try '${newApiMethod}' instead.`;
 }

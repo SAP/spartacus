@@ -2,6 +2,7 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import { getProjectTsConfigPaths } from '@angular/core/schematics/utils/project_tsconfig_paths';
 import { InsertChange } from '@schematics/angular/utility/change';
 import * as path from 'path';
 import * as ts from 'typescript';
@@ -9,6 +10,7 @@ import { UTF_8 } from '../constants';
 import {
   commitChanges,
   defineProperty,
+  getAllTsSourceFiles,
   getIndexHtmlPath,
   getPathResultsForFile,
   getTsSourceFile,
@@ -67,6 +69,23 @@ describe('File utils', () => {
 
       expect(tsFile).toBeTruthy();
       expect(tsFileName).toEqual('test.ts');
+    });
+  });
+
+  describe('getAllTsSourceFiles', () => {
+    it('should return all .ts files', () => {
+      const basePath = '/src';
+      const { buildPaths } = getProjectTsConfigPaths(appTree);
+      let tsFilesFound = false;
+      for (const tsconfigPath of buildPaths) {
+        const sourceFiles = getAllTsSourceFiles(
+          tsconfigPath,
+          appTree,
+          basePath
+        );
+        tsFilesFound = sourceFiles.length !== 0;
+      }
+      expect(tsFilesFound).toEqual(true);
     });
   });
 

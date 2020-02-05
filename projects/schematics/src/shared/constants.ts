@@ -13,3 +13,5 @@ export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_CONFIG = 'CmsConfig';
 
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
+
+export const TODO_SPARTACUS = 'TODO:Spartacus -';
