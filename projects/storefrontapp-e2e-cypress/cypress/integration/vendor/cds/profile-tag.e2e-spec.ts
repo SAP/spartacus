@@ -29,8 +29,6 @@ describe.skip('Profile-tag component', () => {
     cy.wait(`@${categoryPage}`)
       .its('status')
       .should('eq', 200);
-
-    cy.location('pathname').should('include', '/OpenCatalogue');
     cy.window().then(win => {
       expect((<any>win).Y_TRACKING.eventLayer[0]['name']).to.equal('Navigated');
     });
