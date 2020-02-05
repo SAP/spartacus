@@ -26,16 +26,6 @@ export class CartDataService {
     this.authService.getOccUserId().subscribe(userId => {
       this._userId = userId;
     });
-    // this.authService
-    //   .getUserToken()
-    //   .pipe(filter(userToken => this.userId !== userToken.userId))
-    //   .subscribe(userToken => {
-    //     if (Object.keys(userToken).length !== 0) {
-    //       this._userId = userToken.userId;
-    //     } else {
-    //       this._userId = OCC_USER_ID_ANONYMOUS;
-    //     }
-    //   });
 
     this.store.pipe(select(CartSelectors.getCartContent)).subscribe(cart => {
       this._cart = cart;

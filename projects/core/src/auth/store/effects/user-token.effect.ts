@@ -29,7 +29,6 @@ export class UserTokenEffects {
           const date = new Date();
           date.setSeconds(date.getSeconds() + token.expires_in);
           token.expiration_time = date.toJSON();
-          // token.userId = OCC_USER_ID_CURRENT;
           return [
             new AuthActions.LoadUserTokenSuccess(token),
             new OccUserIdActions.SetOccUserId(OCC_CART_ID_CURRENT),

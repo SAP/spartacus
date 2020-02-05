@@ -26,16 +26,5 @@ export class NotCheckoutAuthGuard implements CanActivate {
         return !isLoggedIn;
       })
     );
-    // return this.authService.getUserToken().pipe(
-    //   map(token => {
-    //     if (token.access_token) {
-    //       this.routingService.go({ cxRoute: 'home' });
-    //     } else if (this.cartService.isGuestCart()) {
-    //       this.routingService.go({ cxRoute: 'cart' });
-    //       return false;
-    //     }
-    //     return !token.access_token;
-    //   })
-    // );
   }
 }
