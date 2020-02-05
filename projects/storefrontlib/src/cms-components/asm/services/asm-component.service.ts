@@ -22,10 +22,10 @@ export class AsmComponentService {
 
   logoutCustomerSupportAgentAndCustomer(): void {
     this.authService
-      .getUserToken()
+      .getOccUserId()
       .pipe(take(1))
-      .subscribe(token => {
-        if (this.asmAuthService.isCustomerEmulationToken(token)) {
+      .subscribe(userId => {
+        if (this.asmAuthService.isCustomerEmulated(userId)) {
           this.logoutCustomer();
         }
         this.asmAuthService.logoutCustomerSupportAgent();
@@ -39,18 +39,16 @@ export class AsmComponentService {
 
   isCustomerEmulationSessionInProgress(): Observable<boolean> {
     return this.authService
-      .getUserToken()
+      .getOccUserId()
       .pipe(
-        mergeMap(userToken =>
-          of(this.asmAuthService.isCustomerEmulationToken(userToken))
-        )
+        mergeMap(userId => of(this.asmAuthService.isCustomerEmulated(userId)))
       );
   }
 
   /**
    * We're currently only removing the persisted storage in the browser
    * to ensure the ASM experience isn't loaded on the next visit. There are a few
-   * optimsiations we could think of:
+   * optimizations we could think of:
    * - drop the `asm` parameter from the URL, in case it's still there
    * - remove the generated UI from the DOM (outlets currently do not support this)
    */

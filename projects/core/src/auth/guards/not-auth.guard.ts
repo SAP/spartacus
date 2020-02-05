@@ -28,13 +28,5 @@ export class NotAuthGuard implements CanActivate {
         return !loggedIn;
       })
     );
-    return this.authService.getUserToken().pipe(
-      map(token => {
-        if (token.access_token) {
-          this.routingService.go({ cxRoute: 'home' });
-        }
-        return !token.access_token;
-      })
-    );
   }
 }

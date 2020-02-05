@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { OccUserIdService } from '../occ-user-id/facade/occ-user-id.service';
@@ -48,15 +45,6 @@ export class AuthService {
    */
   getOccUserId(): Observable<string> {
     return this.occUserIdService.getUserId();
-    return this.getUserToken().pipe(
-      map(userToken => {
-        if (!!userToken && !!userToken.userId) {
-          return userToken.userId;
-        } else {
-          return OCC_USER_ID_ANONYMOUS;
-        }
-      })
-    );
   }
 
   /**

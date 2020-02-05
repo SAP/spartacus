@@ -4,8 +4,12 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { UserToken } from '../../auth/models/token-types.model';
+import { OccUserIdService } from '../../auth/occ-user-id/facade/occ-user-id.service';
 import { AuthActions } from '../../auth/store/actions';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { AsmActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/selectors/index';
@@ -16,7 +20,8 @@ import { AsmSelectors } from '../store/selectors/index';
 export class AsmAuthService {
   constructor(
     protected store: Store<StateWithAsm>,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected occUserIdService: OccUserIdService
   ) {}
 
   /**
@@ -45,20 +50,16 @@ export class AsmAuthService {
   ): void {
     this.authService.authorizeWithToken({
       ...customerSupportAgentToken,
-      userId: customerId,
     });
+    this.occUserIdService.setUserId(customerId);
   }
 
   /**
-   * Utility function to determine if a given token is a customer emulation session token.
-   * @param userToken
+   * Utility function to determine if a customer emulation session is in progress.
+   * @param userId
    */
-  isCustomerEmulationToken(userToken: UserToken): boolean {
-    return (
-      Boolean(userToken) &&
-      Boolean(userToken.userId) &&
-      userToken.userId !== OCC_USER_ID_CURRENT
-    );
+  isCustomerEmulated(userId: string): boolean {
+    return userId !== OCC_USER_ID_ANONYMOUS && userId !== OCC_USER_ID_CURRENT;
   }
 
   /**

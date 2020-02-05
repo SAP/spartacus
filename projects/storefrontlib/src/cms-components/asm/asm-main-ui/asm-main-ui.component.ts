@@ -9,6 +9,7 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
+  OCC_USER_ID_ANONYMOUS,
   RoutingService,
   User,
   UserService,
@@ -45,10 +46,10 @@ export class AsmMainUiComponent implements OnInit {
   ngOnInit(): void {
     this.csAgentToken$ = this.asmAuthService.getCustomerSupportAgentToken();
     this.csAgentTokenLoading$ = this.asmAuthService.getCustomerSupportAgentTokenLoading();
-    this.customer$ = this.authService.getUserToken().pipe(
-      switchMap(token => {
-        if (token && !!token.access_token) {
-          this.handleCustomerSessionStartRedirection(token);
+    this.customer$ = this.authService.getOccUserId().pipe(
+      switchMap(userId => {
+        if (userId !== OCC_USER_ID_ANONYMOUS) {
+          this.handleCustomerSessionStartRedirection(userId);
           return this.userService.get();
         } else {
           return of(undefined);
@@ -57,10 +58,10 @@ export class AsmMainUiComponent implements OnInit {
     );
   }
 
-  private handleCustomerSessionStartRedirection(token: UserToken): void {
+  private handleCustomerSessionStartRedirection(userId: string): void {
     if (
       this.startingCustomerSession &&
-      this.asmAuthService.isCustomerEmulationToken(token)
+      this.asmAuthService.isCustomerEmulated(userId)
     ) {
       this.startingCustomerSession = false;
       this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
