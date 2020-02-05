@@ -46,7 +46,7 @@ export class CartService {
     this._activeCart$ = combineLatest([
       this.store.select(CartSelectors.getCartContent),
       this.store.select(CartSelectors.getCartLoading),
-      this.authService.getUserToken(),
+      this.authService.getOccUserId(),
       this.store.select(CartSelectors.getCartLoaded),
     ]).pipe(
       // combineLatest emits multiple times on each property update instead of one emit
@@ -54,19 +54,17 @@ export class CartService {
       // for this asyncScheduler is used here
       debounceTime(0),
       filter(([, loading]) => !loading),
-      tap(([cart, , userToken, loaded]) => {
-        if (this.isJustLoggedIn(userToken.userId)) {
+      tap(([cart, , userId, loaded]) => {
+        if (this.isJustLoggedIn(userId)) {
           this.loadOrMerge();
         } else if (
           (this.isCreated(cart) && this.isIncomplete(cart)) ||
-          (this.isLoggedIn(userToken.userId) &&
-            !this.isCreated(cart) &&
-            !loaded) // try to load current cart for logged in user (loaded flag to prevent infinite loop when user doesn't have cart)
+          (this.isLoggedIn(userId) && !this.isCreated(cart) && !loaded) // try to load current cart for logged in user (loaded flag to prevent infinite loop when user doesn't have cart)
         ) {
           this.load();
         }
 
-        this.previousUserId = userToken.userId;
+        this.previousUserId = userId;
       }),
       filter(
         ([cart]) =>

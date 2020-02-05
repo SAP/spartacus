@@ -38,11 +38,13 @@ export class GuestRegisterFormComponent implements OnDestroy {
       this.guestRegisterForm.value.password
     );
     if (!this.subscription) {
-      this.subscription = this.authService.getUserToken().subscribe(token => {
-        if (token.access_token) {
-          this.routingService.go({ cxRoute: 'home' });
-        }
-      });
+      this.subscription = this.authService
+        .isUserLoggedIn()
+        .subscribe(isLoggedIn => {
+          if (isLoggedIn) {
+            this.routingService.go({ cxRoute: 'home' });
+          }
+        });
     }
   }
 

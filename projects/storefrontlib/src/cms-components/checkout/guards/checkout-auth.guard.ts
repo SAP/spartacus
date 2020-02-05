@@ -6,7 +6,6 @@ import {
   CartService,
   RoutingService,
   User,
-  UserToken,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -26,11 +25,11 @@ export class CheckoutAuthGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return combineLatest([
-      this.authService.getUserToken(),
+      this.authService.isUserLoggedIn(),
       this.cartService.getAssignedUser(),
     ]).pipe(
-      map(([token, user]: [UserToken, User]) => {
-        if (!token.access_token) {
+      map(([isLoggedIn, user]: [boolean, User]) => {
+        if (!isLoggedIn) {
           if (this.cartService.isGuestCart()) {
             return Boolean(user);
           }
@@ -41,7 +40,7 @@ export class CheckoutAuthGuard implements CanActivate {
           }
           this.authRedirectService.reportAuthGuard();
         }
-        return !!token.access_token;
+        return isLoggedIn;
       })
     );
   }

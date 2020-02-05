@@ -8,6 +8,7 @@ import {
 } from '../../occ/utils/occ-constants';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ClientToken, UserToken } from '../models/token-types.model';
+import { OccUserIdService } from '../occ-user-id/facade/occ-user-id.service';
 import { AuthActions } from '../store/actions/index';
 import { StateWithAuth } from '../store/auth-state';
 import { AuthSelectors } from '../store/selectors/index';
@@ -16,7 +17,10 @@ import { AuthSelectors } from '../store/selectors/index';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(protected store: Store<StateWithAuth>) {}
+  constructor(
+    protected store: Store<StateWithAuth>,
+    protected occUserIdService: OccUserIdService
+  ) {}
 
   /**
    * Loads a new user token
@@ -43,6 +47,7 @@ export class AuthService {
    * asm customer emulation session, the userId will be the customerId.
    */
   getOccUserId(): Observable<string> {
+    return this.occUserIdService.getUserId();
     return this.getUserToken().pipe(
       map(userToken => {
         if (!!userToken && !!userToken.userId) {

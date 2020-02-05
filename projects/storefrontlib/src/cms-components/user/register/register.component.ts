@@ -151,8 +151,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
             })
         );
         this.subscription.add(
-          this.auth.getUserToken().subscribe(data => {
-            if (data && data.access_token) {
+          this.auth.isUserLoggedIn().subscribe(isLoggedIn => {
+            if (isLoggedIn) {
               this.globalMessageService.remove(
                 GlobalMessageType.MSG_TYPE_ERROR
               );

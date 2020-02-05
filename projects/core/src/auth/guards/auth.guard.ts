@@ -19,6 +19,15 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
+    return this.authService.isUserLoggedIn().pipe(
+      map((loggedIn: boolean) => {
+        if (!loggedIn) {
+          this.authRedirectService.reportAuthGuard();
+          this.routingService.go({ cxRoute: 'login' });
+        }
+        return loggedIn;
+      })
+    );
     return this.authService.getUserToken().pipe(
       map((token: UserToken) => {
         if (!token.access_token) {

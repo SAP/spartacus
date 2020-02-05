@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { filter } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Cart } from '../../model/cart.model';
 import {
@@ -24,16 +23,19 @@ export class CartDataService {
     protected store: Store<StateWithCart>,
     protected authService: AuthService
   ) {
-    this.authService
-      .getUserToken()
-      .pipe(filter(userToken => this.userId !== userToken.userId))
-      .subscribe(userToken => {
-        if (Object.keys(userToken).length !== 0) {
-          this._userId = userToken.userId;
-        } else {
-          this._userId = OCC_USER_ID_ANONYMOUS;
-        }
-      });
+    this.authService.getOccUserId().subscribe(userId => {
+      this._userId = userId;
+    });
+    // this.authService
+    //   .getUserToken()
+    //   .pipe(filter(userToken => this.userId !== userToken.userId))
+    //   .subscribe(userToken => {
+    //     if (Object.keys(userToken).length !== 0) {
+    //       this._userId = userToken.userId;
+    //     } else {
+    //       this._userId = OCC_USER_ID_ANONYMOUS;
+    //     }
+    //   });
 
     this.store.pipe(select(CartSelectors.getCartContent)).subscribe(cart => {
       this._cart = cart;
