@@ -6,7 +6,6 @@ import {
   combineReducers,
   MetaReducer,
 } from '@ngrx/store';
-import { OCC_USER_ID_ANONYMOUS } from 'projects/core/src/occ';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { ClientToken } from '../../models/token-types.model';
 import { occUserIdReducer } from '../../occ-user-id/store/reducers/occ-user-id.reducer';
@@ -39,7 +38,6 @@ export function clearAuthState(
       state = {
         ...state,
         userToken: undefined,
-        occUserId: OCC_USER_ID_ANONYMOUS,
       };
     }
     return reducer(state, action);

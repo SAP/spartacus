@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../occ/index';
@@ -40,7 +40,17 @@ export class UserService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
     protected authService?: AuthService
-  ) {}
+  ) {
+    this.authService
+      .getOccUserId()
+      .pipe(
+        distinctUntilChanged(),
+        filter(userId => userId !== OCC_USER_ID_ANONYMOUS)
+      )
+      .subscribe(() => {
+        this.load();
+      });
+  }
 
   /**
    * Returns a user
