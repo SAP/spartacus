@@ -153,6 +153,7 @@ describe('UserOrderService', () => {
     service.loadConsignmentTracking('orderCode', 'consignmentCode');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadConsignmentTracking({
+        userId: OCC_USER_ID_CURRENT,
         orderCode: 'orderCode',
         consignmentCode: 'consignmentCode',
       })
