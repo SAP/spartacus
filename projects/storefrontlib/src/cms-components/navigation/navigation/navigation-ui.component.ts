@@ -115,6 +115,10 @@ export class NavigationUIComponent implements OnDestroy {
     }
   }
 
+  getColumnCount(length: number): number {
+    return Math.round(length / (this.wrapAfter || length));
+  }
+
   focusAfterPreviousClicked(event: MouseEvent) {
     const target: HTMLElement = <HTMLElement>(
       (event.target || event.relatedTarget)

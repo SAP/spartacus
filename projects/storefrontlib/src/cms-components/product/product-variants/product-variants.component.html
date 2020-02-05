@@ -2,7 +2,6 @@
   <div class="variant-section" *ngIf="product.baseOptions?.length">
     <cx-variant-style-selector
       *ngIf="variants[variantType.STYLE]"
-      [product]="product"
       [variants]="variants[variantType.STYLE]"
     ></cx-variant-style-selector>
     <cx-variant-size-selector
