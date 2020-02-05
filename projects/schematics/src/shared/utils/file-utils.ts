@@ -155,16 +155,15 @@ export function injectService(
   return new InsertChange(path, parameterListNode.pos, toAdd);
 }
 
-// TODO:#6027 - test
 export function insertCommentAboveIdentifier(
   sourcePath: string,
   source: ts.SourceFile,
-  methodName: string,
+  identifierName: string,
   comment: string
 ): InsertChange[] {
   const callExpressionNodes = findNodesByTextAndKind(
     source,
-    methodName,
+    identifierName,
     ts.SyntaxKind.Identifier
   );
   const changes: InsertChange[] = [];
@@ -180,23 +179,20 @@ export function insertCommentAboveIdentifier(
   return changes;
 }
 
-// TODO:#6027 - test
 export function renameIdentifierNode(
   sourcePath: string,
   source: ts.SourceFile,
-  oldMethod: string,
-  newMethod: string
+  oldName: string,
+  newName: string
 ): ReplaceChange[] {
   const callExpressionNodes = findNodesByTextAndKind(
     source,
-    oldMethod,
+    oldName,
     ts.SyntaxKind.Identifier
   );
   const changes: ReplaceChange[] = [];
   callExpressionNodes.forEach(n =>
-    changes.push(
-      new ReplaceChange(sourcePath, n.getStart(), oldMethod, newMethod)
-    )
+    changes.push(new ReplaceChange(sourcePath, n.getStart(), oldName, newName))
   );
   return changes;
 }

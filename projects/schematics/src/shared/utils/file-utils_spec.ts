@@ -18,7 +18,9 @@ import {
   getPathResultsForFile,
   getTsSourceFile,
   injectService,
+  insertCommentAboveIdentifier,
   InsertDirection,
+  renameIdentifierNode,
 } from './file-utils';
 import { getProjectFromWorkspace } from './workspace-utils';
 
@@ -192,6 +194,39 @@ describe('File utils', () => {
       );
       expect(result).toBeTruthy();
       expect(result.toAdd).toEqual(`private dummyProperty: DummyService`);
+    });
+  });
+
+  describe('insertCommentAboveIdentifier', () => {
+    it('should return the InsertChanges', async () => {
+      const filePath = '/src/app/app.component.ts';
+      const source = getTsSourceFile(appTree, filePath);
+      const identifierName = 'AppComponent';
+      const commentToInsert = 'comment';
+
+      const changes = insertCommentAboveIdentifier(
+        filePath,
+        source,
+        identifierName,
+        commentToInsert
+      );
+      expect(changes).toEqual([
+        new InsertChange(filePath, 161, commentToInsert),
+      ]);
+    });
+  });
+
+  describe('renameIdentifierNode', () => {
+    it('should return the ReplaceChange', async () => {
+      const filePath = '/src/app/app.component.ts';
+      const source = getTsSourceFile(appTree, filePath);
+      const oldName = 'AppComponent';
+      const newName = 'NewAppComponent';
+
+      const changes = renameIdentifierNode(filePath, source, oldName, newName);
+      expect(changes).toEqual([
+        new ReplaceChange(filePath, 174, oldName, newName),
+      ]);
     });
   });
 });
