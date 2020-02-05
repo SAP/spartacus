@@ -5,12 +5,11 @@ import { MultiCartService } from './multi-cart.service';
 import { UserService } from '../../user/facade/user.service';
 import { AuthService } from '../../auth/facade/auth.service';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
-import { Observable, of, BehaviorSubject, combineLatest } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { Cart } from '../../model/cart.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { map, filter, tap, shareReplay, switchMap, take } from 'rxjs/operators';
 import { OrderEntry } from '../../model/order.model';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
 
 @Injectable()
 export class SelectiveCartService {
@@ -37,16 +36,12 @@ export class SelectiveCartService {
     protected store: Store<StateWithMultiCart>,
     protected userService: UserService,
     protected authService: AuthService,
-    protected multiCartService: MultiCartService,
-    protected baseSiteService: BaseSiteService
+    protected multiCartService: MultiCartService
   ) {
-    combineLatest([
-      this.userService.get(),
-      this.baseSiteService.getActive(),
-    ]).subscribe(([user, activeBaseSite]) => {
-      if (user && user.customerId && activeBaseSite) {
+    this.userService.get().subscribe(user => {
+      if (user && user.customerId) {
         this.customerId = user.customerId;
-        this.cartId$.next(`selectivecart${activeBaseSite}${this.customerId}`);
+        this.cartId$.next(`selectivecart${this.customerId}`);
       } else if (user && !user.customerId) {
         this.cartId$.next(undefined);
       }
