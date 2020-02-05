@@ -18,12 +18,7 @@ describe('Cart Coupon', () => {
       '$10'
     );
     cartCoupon.placeOrder(stateAuth).then(orderData => {
-      cartCoupon.verifyOrderHistory(
-        orderData,
-        cartCoupon.couponCode1,
-        '$104.12',
-        '$10'
-      );
+      cartCoupon.verifyOrderHistory(orderData, couponCode1, '$104.12', '$10');
     });
   });
 
@@ -38,12 +33,7 @@ describe('Cart Coupon', () => {
       '$29.61'
     );
     cartCoupon.placeOrder(stateAuth).then(orderData => {
-      cartCoupon.verifyOrderHistory(
-        orderData,
-        cartCoupon.couponCode2,
-        '$88.84',
-        '$29.61'
-      );
+      cartCoupon.verifyOrderHistory(orderData, couponCode2, '$88.84', '$29.61');
     });
   });
 
@@ -59,12 +49,7 @@ describe('Cart Coupon', () => {
       '$20'
     );
     cartCoupon.placeOrder(stateAuth).then(orderData => {
-      cartCoupon.verifyOrderHistory(
-        orderData,
-        cartCoupon.couponCode3,
-        '$1,914.23',
-        '$20'
-      );
+      cartCoupon.verifyOrderHistory(orderData, couponCode3, '$1,914.23', '$20');
     });
   });
 

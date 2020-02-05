@@ -18,7 +18,7 @@ export function productTypeFlow(mobile?: string) {
 
   cy.get('cx-searchbox input[aria-label="search"]').type('sony{enter}');
 
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+  cy.get(resultsTitle).should('contain', '127 results for "sony"');
 
   cy.get(productItemSelector).should(
     'have.length',
@@ -36,7 +36,7 @@ export function productTypeFlow(mobile?: string) {
     .its('status')
     .should('eq', 200);
 
-  cy.get(resultsTitle).should('contain', '86 results for "sony"');
+  cy.get(resultsTitle).should('contain', '82 results for "sony"');
 
   createProductQuery('query1');
 
@@ -46,7 +46,7 @@ export function productTypeFlow(mobile?: string) {
     .its('status')
     .should('eq', 200);
 
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+  cy.get(resultsTitle).should('contain', '127 results for "sony"');
 
   // Filter by price
   createProductFacetQuery('price', 'sony', 'price_query');
@@ -69,7 +69,7 @@ export function productTypeFlow(mobile?: string) {
     .its('status')
     .should('eq', 200);
 
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+  cy.get(resultsTitle).should('contain', '127 results for "sony"');
 
   // Filter by category
   createProductFacetQuery('category', 'sony', 'category_query');
@@ -80,7 +80,7 @@ export function productTypeFlow(mobile?: string) {
     .its('url')
     .should('include', 'sony:relevance:category');
 
-  cy.get(resultsTitle).should('contain', '95 results for "sony"');
+  cy.get(resultsTitle).should('contain', '91 results for "sony"');
 
   checkFirstItem('10.2 Megapixel D-SLR with Standard Zoom Lens');
 
@@ -92,7 +92,7 @@ export function productTypeFlow(mobile?: string) {
     .its('status')
     .should('eq', 200);
 
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+  cy.get(resultsTitle).should('contain', '127 results for "sony"');
 
   // Filter by color
   createProductFacetQuery('Colour', 'sony', 'color_query');
@@ -105,7 +105,7 @@ export function productTypeFlow(mobile?: string) {
 
   cy.get(resultsTitle).should('contain', '7 results for "sony"');
 
-  checkFirstItem('NP-FV 70');
+  checkFirstItem('InfoLITHIUM™ H Series Battery');
 
   createProductQuery('query4');
 
@@ -115,7 +115,7 @@ export function productTypeFlow(mobile?: string) {
     .its('status')
     .should('eq', 200);
 
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+  cy.get(resultsTitle).should('contain', '127 results for "sony"');
 }
 
 function clearSelectedFacet(mobile: string) {
