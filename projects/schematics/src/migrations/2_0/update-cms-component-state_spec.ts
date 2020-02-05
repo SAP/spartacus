@@ -232,6 +232,18 @@ const ALL_TEST_CASES_CLASS = `
       componentSelectorFactory3(): MemoizedSelector<StateWithCms, CmsComponent> {
         return CmsSelectors.componentSelectorFactory('sample-uid');
       }
+      loadCmsComponent(): void {
+        console.log(new CmsActions.LoadCmsComponent('xxx'));
+      }
+      loadCmsComponentFail(): void {
+        console.log(new CmsActions.LoadCmsComponentFail('xxx', 'xxx'));
+      }
+      loadCmsComponentSuccess(): void {
+        console.log(new CmsActions.LoadCmsComponentSuccess({}, 'xxx'));
+      }
+      cmsGetComponentFromPage(): void {
+        console.log(new CmsActions.CmsGetComponentFromPage([]));
+      }
     }
 `;
 
@@ -377,7 +389,6 @@ describe('updateCmsComponentState migration', () => {
     expect(newOccurrences).toEqual(0);
   });
 
-  // TODO:#6027 - add this test to the ultimate test class
   it('should add comments for CMS component actions', async () => {
     writeFile('/src/index.ts', CMS_COMPONENT_ACTIONS_TEST_CLASS);
 
@@ -487,6 +498,42 @@ describe('updateCmsComponentState migration', () => {
       content.match(regexCmsActionConstNew) || []
     ).length;
     expect(cmsActionConstOccurrencesNew).toEqual(1);
+
+    const loadCmsComponentRegex = new RegExp(
+      `^${buildActionComment(LOAD_CMS_COMPONENT_CLASS)}$`,
+      'gm'
+    );
+    const loadCmsComponentOccurrences = (
+      content.match(loadCmsComponentRegex) || []
+    ).length;
+    expect(loadCmsComponentOccurrences).toEqual(1);
+
+    const loadCmsComponentFailRegex = new RegExp(
+      buildActionComment(LOAD_CMS_COMPONENT_FAIL_CLASS),
+      'g'
+    );
+    const loadCmsComponentFailOccurrences = (
+      content.match(loadCmsComponentFailRegex) || []
+    ).length;
+    expect(loadCmsComponentFailOccurrences).toEqual(1);
+
+    const loadCmsComponentSuccessRegex = new RegExp(
+      buildActionComment(LOAD_CMS_COMPONENT_SUCCESS_CLASS),
+      'g'
+    );
+    const loadCmsComponentSuccessOccurrences = (
+      content.match(loadCmsComponentSuccessRegex) || []
+    ).length;
+    expect(loadCmsComponentSuccessOccurrences).toEqual(1);
+
+    const cmsGetComponentFromPageRegex = new RegExp(
+      buildActionComment(CMS_GET_COMPONENT_FROM_PAGE),
+      'g'
+    );
+    const cmsGetComponentFromPageRegexOccurrences = (
+      content.match(cmsGetComponentFromPageRegex) || []
+    ).length;
+    expect(cmsGetComponentFromPageRegexOccurrences).toEqual(1);
   });
 
   function writeFile(filePath: string, contents: string): void {
