@@ -9,7 +9,7 @@ import { CmsComponent, PageType } from '../../../model/cms.model';
 import { PageContext, RoutingService } from '../../../routing/index';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import { CmsActions } from '../actions/index';
-import * as fromEffects from './component.effect';
+import * as fromEffects from './components.effect';
 
 const router = {
   state: {
@@ -42,7 +42,7 @@ class MockFeatureConfigService {
 describe('Component Effects', () => {
   let actions$: Observable<any>;
   let service: CmsComponentConnector;
-  let effects: fromEffects.ComponentEffects;
+  let effects: fromEffects.ComponentsEffects;
 
   const component: CmsComponent = {
     uid: 'comp1',
@@ -54,7 +54,7 @@ describe('Component Effects', () => {
       imports: [StoreModule.forRoot({})],
       providers: [
         { provide: CmsComponentConnector, useClass: MockCmsComponentConnector },
-        fromEffects.ComponentEffects,
+        fromEffects.ComponentsEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
@@ -62,8 +62,8 @@ describe('Component Effects', () => {
     });
 
     service = TestBed.get(CmsComponentConnector as Type<CmsComponentConnector>);
-    effects = TestBed.get(fromEffects.ComponentEffects as Type<
-      fromEffects.ComponentEffects
+    effects = TestBed.get(fromEffects.ComponentsEffects as Type<
+      fromEffects.ComponentsEffects
     >);
   });
 

@@ -16,7 +16,7 @@ import { serializePageContext } from '../../utils/cms-utils';
 import { CmsActions } from '../actions/index';
 
 @Injectable()
-export class ComponentEffects {
+export class ComponentsEffects {
   constructor(
     private actions$: Actions,
     private cmsComponentLoader: CmsComponentConnector,

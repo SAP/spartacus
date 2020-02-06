@@ -8,7 +8,7 @@ import { serializePageContext } from '../../utils/cms-utils';
 import { CmsActions } from '../actions/index';
 import { ComponentsContext, StateWithCms } from '../cms-state';
 import * as fromReducers from '../reducers/index';
-import { CmsSelectors } from '../selectors/index';
+import { CmsSelectors } from './index';
 
 describe('Cms Component Selectors', () => {
   let store: Store<StateWithCms>;
