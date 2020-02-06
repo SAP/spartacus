@@ -3,7 +3,7 @@ import * as loginHelper from '../../../helpers/login';
 import { navigation } from '../../../helpers/navigation';
 import { cdsHelper } from '../../../helpers/vendor/cds/cds';
 import { profileTagHelper } from '../../../helpers/vendor/cds/profile-tag';
-describe('Profile-tag component', () => {
+describe.skip('Profile-tag component', () => {
   beforeEach(() => {
     cy.server();
     cdsHelper.setUpMocks();
@@ -38,7 +38,7 @@ describe('Profile-tag component', () => {
     });
   });
 });
-describe('login notification', () => {
+describe.skip('login notification', () => {
   const loginAlias = 'loginNotification';
   beforeEach(() => {
     cy.server();
