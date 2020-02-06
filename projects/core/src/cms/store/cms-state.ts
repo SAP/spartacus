@@ -6,8 +6,7 @@ import { Page } from '../model/page.model';
 
 export const CMS_FEATURE = 'cms';
 export const NAVIGATION_DETAIL_ENTITY = '[Cms] Navigation Entity';
-// TODO(issue:6027) - fix the const value to `[Cms] Component Entity`
-export const COMPONENT_ENTITY = '[Cms[ Component Entity';
+export const COMPONENT_ENTITY = '[Cms] Component Entity';
 
 export interface StateWithCms {
   [CMS_FEATURE]: CmsState;
