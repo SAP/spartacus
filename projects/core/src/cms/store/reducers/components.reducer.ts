@@ -1,5 +1,5 @@
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
-import { serializePageContext } from '../../../util/serialization-utils';
+import { serializePageContext } from '../../utils/cms-utils';
 import { CmsActions } from '../actions/index';
 import { ComponentsContext } from '../cms-state';
 
@@ -33,7 +33,7 @@ export function reducer<T>(
         action.meta.entityType,
         componentExistsReducer
       );
-      const context = serializePageContext(action.pageContext);
+      const context = serializePageContext(action.pageContext, true);
       return {
         ...state,
         pageContext: {
@@ -47,7 +47,7 @@ export function reducer<T>(
         action.meta.entityType,
         componentExistsReducer
       );
-      const context = serializePageContext(action.pageContext);
+      const context = serializePageContext(action.pageContext, true);
       return {
         ...state,
         pageContext: {
@@ -62,7 +62,7 @@ export function reducer<T>(
         action.meta.entityType,
         componentExistsReducer
       );
-      const context = serializePageContext(action.pageContext);
+      const context = serializePageContext(action.pageContext, true);
       return {
         ...state,
         component: action.payload as T,

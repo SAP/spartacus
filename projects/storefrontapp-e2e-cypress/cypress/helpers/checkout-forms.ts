@@ -126,6 +126,6 @@ export function fillPaymentDetails(
 
     cy.get('button.btn.btn-block.btn-primary')
       .contains('Continue')
-      .click({ force: true });
+      .click();
   });
 }

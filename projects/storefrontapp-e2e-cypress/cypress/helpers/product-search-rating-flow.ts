@@ -21,7 +21,7 @@ export function productRatingFlow(mobile?: string) {
   const productName = 'DSC-N1';
   cy.get('cx-searchbox input').type(`${productName}{enter}`);
 
-  cy.get(resultsTitle).should('contain', `21 results for "${productName}"`);
+  cy.get(resultsTitle).should('contain', `17 results for "${productName}"`);
 
   cy.get(productSelector).should(
     'have.length',
@@ -54,7 +54,7 @@ export function productRatingFlow(mobile?: string) {
 
   cy.wait('@productQuery');
 
-  cy.get(resultsTitle).should('contain', '20 results for "DSC-N1"');
+  cy.get(resultsTitle).should('contain', '16 results for "DSC-N1"');
   assertFirstProduct();
 
   if (mobile) {
@@ -68,7 +68,7 @@ export function productRatingFlow(mobile?: string) {
   }
   cy.wait('@productQuery');
 
-  cy.get(resultsTitle).should('contain', '21 results for "DSC-N1"');
+  cy.get(resultsTitle).should('contain', '17 results for "DSC-N1"');
 
   // Select product and read all the tabs on product details page
   cy.get('cx-product-list-item:first .cx-product-name').click();
