@@ -13,7 +13,6 @@ export interface StateWithCms {
   [CMS_FEATURE]: CmsState;
 }
 
-export type ComponentState = EntityLoaderState<any>;
 export type ComponentsState = EntityState<ComponentsContext>;
 
 export interface ComponentsContext {
@@ -76,7 +75,6 @@ export interface PageState {
 
 export interface CmsState {
   page: PageState;
-  component: ComponentState;
   components: ComponentsState;
   navigation: EntityLoaderState<NodeItem>;
 }
