@@ -167,15 +167,15 @@ export function insertCommentAboveIdentifier(
     ts.SyntaxKind.Identifier
   );
   const changes: InsertChange[] = [];
-  callExpressionNodes.forEach(n => {
+  callExpressionNodes.forEach(n =>
     changes.push(
       new InsertChange(
         sourcePath,
         getLineStartFromTSFile(source, n.getFullStart()),
         comment
       )
-    );
-  });
+    )
+  );
   return changes;
 }
 
