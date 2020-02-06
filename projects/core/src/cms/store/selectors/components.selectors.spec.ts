@@ -8,7 +8,7 @@ import { serializePageContext } from '../../utils/cms-utils';
 import { CmsActions } from '../actions/index';
 import { ComponentsContext, StateWithCms } from '../cms-state';
 import * as fromReducers from '../reducers/index';
-import { CmsSelectors } from '../selectors/index';
+import { CmsSelectors } from './index';
 
 describe('Cms Component Selectors', () => {
   let store: Store<StateWithCms>;
@@ -16,9 +16,6 @@ describe('Cms Component Selectors', () => {
   const component: CmsComponent = {
     uid: 'comp1',
     typeCode: 'SimpleBannerComponent',
-  };
-  const entities = {
-    comp1: component,
   };
 
   beforeEach(() => {
@@ -30,38 +27,6 @@ describe('Cms Component Selectors', () => {
     });
     store = TestBed.get(Store as Type<Store<StateWithCms>>);
     spyOn(store, 'dispatch').and.callThrough();
-  });
-
-  // TODO(issue:6027) - remove this test
-  describe('getComponentEntities', () => {
-    it('should return components as entities', () => {
-      let result;
-
-      store
-        .pipe(select(CmsSelectors.getComponentEntities))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual({});
-
-      store.dispatch(new CmsActions.LoadCmsComponentSuccess(component));
-
-      expect(result).toEqual(entities);
-    });
-  });
-
-  // TODO(issue:6027) - remove this test
-  describe('componentSelectorFactory', () => {
-    it('should return component by uid', () => {
-      let result: CmsComponent;
-
-      store
-        .pipe(select(CmsSelectors.componentSelectorFactory('comp1')))
-        .subscribe(value => (result = value));
-
-      store.dispatch(new CmsActions.LoadCmsComponentSuccess(component));
-
-      expect(result).toEqual(entities['comp1']);
-    });
   });
 
   describe('componentsContextSelectorFactory', () => {
@@ -95,11 +60,11 @@ describe('Cms Component Selectors', () => {
           type: PageType.CONTENT_PAGE,
         };
         store.dispatch(
-          new CmsActions.LoadCmsComponentSuccess(
+          new CmsActions.LoadCmsComponentSuccess({
             component,
-            componentUid,
-            pageContext
-          )
+            uid: componentUid,
+            pageContext,
+          })
         );
 
         const serializedPageContext = serializePageContext(pageContext, true);
@@ -150,11 +115,11 @@ describe('Cms Component Selectors', () => {
             type: PageType.CONTENT_PAGE,
           };
           store.dispatch(
-            new CmsActions.LoadCmsComponentSuccess(
+            new CmsActions.LoadCmsComponentSuccess({
               component,
-              componentUid,
-              pageContext
-            )
+              uid: componentUid,
+              pageContext,
+            })
           );
 
           let result: LoaderState<boolean>;
@@ -183,11 +148,11 @@ describe('Cms Component Selectors', () => {
           };
           const serializedPageContext = serializePageContext(pageContext, true);
           store.dispatch(
-            new CmsActions.LoadCmsComponentSuccess(
+            new CmsActions.LoadCmsComponentSuccess({
               component,
-              componentUid,
-              pageContext
-            )
+              uid: componentUid,
+              pageContext,
+            })
           );
 
           let result: LoaderState<boolean>;
@@ -225,11 +190,11 @@ describe('Cms Component Selectors', () => {
         };
 
         store.dispatch(
-          new CmsActions.LoadCmsComponentSuccess(
+          new CmsActions.LoadCmsComponentSuccess({
             component,
-            componentUid,
-            pageContext
-          )
+            uid: componentUid,
+            pageContext,
+          })
         );
 
         let result: boolean;
@@ -258,11 +223,11 @@ describe('Cms Component Selectors', () => {
         const serializedPageContext = serializePageContext(pageContext, true);
 
         store.dispatch(
-          new CmsActions.LoadCmsComponentSuccess(
+          new CmsActions.LoadCmsComponentSuccess({
             component,
-            componentUid,
-            pageContext
-          )
+            uid: componentUid,
+            pageContext,
+          })
         );
 
         let result: boolean;
@@ -291,11 +256,11 @@ describe('Cms Component Selectors', () => {
       };
 
       store.dispatch(
-        new CmsActions.LoadCmsComponentSuccess(
+        new CmsActions.LoadCmsComponentSuccess({
           component,
-          componentUid,
-          pageContext
-        )
+          uid: componentUid,
+          pageContext,
+        })
       );
 
       let result: CmsComponent;
@@ -326,11 +291,11 @@ describe('Cms Component Selectors', () => {
         };
 
         store.dispatch(
-          new CmsActions.LoadCmsComponentSuccess(
+          new CmsActions.LoadCmsComponentSuccess({
             component,
-            componentUid,
-            pageContext
-          )
+            uid: componentUid,
+            pageContext,
+          })
         );
 
         let result: CmsComponent;
@@ -359,11 +324,11 @@ describe('Cms Component Selectors', () => {
         const serializedPageContext = serializePageContext(pageContext, true);
 
         store.dispatch(
-          new CmsActions.LoadCmsComponentSuccess(
+          new CmsActions.LoadCmsComponentSuccess({
             component,
-            componentUid,
-            pageContext
-          )
+            uid: componentUid,
+            pageContext,
+          })
         );
 
         let result: CmsComponent;
