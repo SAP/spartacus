@@ -21,7 +21,9 @@ describe('Profile-tag component', () => {
     cy.get(
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
     ).click();
-    cy.wait(`@${categoryPage}`);
+    cy.wait(`@${categoryPage}`)
+      .its('status')
+      .should('eq', 200);
     cy.window().then(win => {
       expect((<any>win).Y_TRACKING.eventLayer[0]['name']).to.equal('Navigated');
     });
