@@ -4,7 +4,7 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import { CmsComponent, PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { initialLoaderState, LoaderState } from '../../../state/index';
-import { serializePageContext } from '../../../util/serialization-utils';
+import { serializePageContext } from '../../utils/cms-utils';
 import { CmsActions } from '../actions/index';
 import { ComponentsContext, StateWithCms } from '../cms-state';
 import * as fromReducers from '../reducers/index';
@@ -102,7 +102,7 @@ describe('Cms Component Selectors', () => {
           )
         );
 
-        const serializedPageContext = serializePageContext(pageContext);
+        const serializedPageContext = serializePageContext(pageContext, true);
         expect(result.component).toEqual({
           uid: componentUid,
           typeCode: component.typeCode,
@@ -181,7 +181,7 @@ describe('Cms Component Selectors', () => {
             id: 'xxx',
             type: PageType.CONTENT_PAGE,
           };
-          const serializedPageContext = serializePageContext(pageContext);
+          const serializedPageContext = serializePageContext(pageContext, true);
           store.dispatch(
             new CmsActions.LoadCmsComponentSuccess(
               component,
@@ -255,7 +255,7 @@ describe('Cms Component Selectors', () => {
           id: 'xxx',
           type: PageType.CONTENT_PAGE,
         };
-        const serializedPageContext = serializePageContext(pageContext);
+        const serializedPageContext = serializePageContext(pageContext, true);
 
         store.dispatch(
           new CmsActions.LoadCmsComponentSuccess(
@@ -283,7 +283,7 @@ describe('Cms Component Selectors', () => {
   });
 
   describe('componentsDataSelectorFactory', () => {
-    it('should return the component', () => {
+    it('should return the component when the state exists', () => {
       const componentUid = 'comp1';
       const pageContext: PageContext = {
         id: 'xxx',
@@ -304,6 +304,15 @@ describe('Cms Component Selectors', () => {
         .subscribe(value => (result = value));
 
       expect(result).toEqual(component);
+    });
+    it('should return undefined when the state does not exist', () => {
+      const componentUid = 'comp1';
+      let result: CmsComponent;
+      store
+        .pipe(select(CmsSelectors.componentsDataSelectorFactory(componentUid)))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(undefined);
     });
   });
 
@@ -347,7 +356,7 @@ describe('Cms Component Selectors', () => {
           id: 'xxx',
           type: PageType.CONTENT_PAGE,
         };
-        const serializedPageContext = serializePageContext(pageContext);
+        const serializedPageContext = serializePageContext(pageContext, true);
 
         store.dispatch(
           new CmsActions.LoadCmsComponentSuccess(
