@@ -152,20 +152,6 @@ export class CartEffects {
                     new CartActions.ClearExpiredCoupons({}),
                   ]);
                 }
-
-                if (error && error.error && error.error.errors) {
-                  const cartNotFoundErrors = error.error.errors.filter(
-                    err => err.reason === 'notFound' || 'UnknownResourceError'
-                  );
-                  if (cartNotFoundErrors.length > 0) {
-                    // Clear cart is responsible for removing cart in `cart` store feature.
-                    // Remove cart does the same thing, but in `multi-cart` store feature.
-                    return from([
-                      new DeprecatedCartActions.ClearCart(),
-                      new CartActions.RemoveCart(loadCartParams.cartId),
-                    ]);
-                  }
-                }
                 return from([
                   new DeprecatedCartActions.LoadCartFail(
                     makeErrorSerializable(error)
