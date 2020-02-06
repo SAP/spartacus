@@ -42,7 +42,6 @@ export function getReducers(): ActionReducerMap<CmsState> {
         ),
         catalog: entityLoaderReducer<string>(
           PageType.CATALOG_PAGE,
-
           fromPageIndexReducer.reducer(PageType.CATALOG_PAGE)
         ),
       }),
