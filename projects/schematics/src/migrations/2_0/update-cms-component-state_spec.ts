@@ -433,7 +433,7 @@ describe('updateCmsComponentState migration', () => {
     expect(cmsGetComponentFromPageRegexOccurrences).toEqual(1);
   });
 
-  it('ultimate test', async () => {
+  it('all test cases in one file', async () => {
     writeFile('/src/index.ts', ALL_TEST_CASES_CLASS);
 
     await runMigration();
