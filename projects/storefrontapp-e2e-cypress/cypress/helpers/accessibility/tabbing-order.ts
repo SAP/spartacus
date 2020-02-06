@@ -9,6 +9,7 @@ export const testProductUrl = '/product/779841';
 export const testProductListUrl = '/Brands/all/c/brands?currentPage=1';
 
 export function verifyTabElement(tabElement: TabElement) {
+  // Check generic cases without value
   switch (tabElement.type) {
     case TabbingOrderTypes.GENERIC_CHECKBOX: {
       cy.focused().should('have.attr', 'type', 'checkbox');
