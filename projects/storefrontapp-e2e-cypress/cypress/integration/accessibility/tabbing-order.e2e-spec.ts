@@ -296,5 +296,4 @@ describe('Tabbing order - tests do require user to be logged in', () => {
       wishlistTabbingOrder(config.wishlist);
     });
   });
-
 });
