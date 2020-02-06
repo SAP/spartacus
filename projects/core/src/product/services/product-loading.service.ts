@@ -82,10 +82,7 @@ export class ProductLoadingService {
     }
   }
 
-  protected getScopesIndex(scopes: string[]) {
-    if (scopes.length === 1) {
-      return scopes[0];
-    }
+  protected getScopesIndex(scopes: string[]): string {
     return scopes.join('ɵ');
   }
 
