@@ -35,6 +35,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
 
   termsAndConditions: { paths: ['terms-and-conditions'] },
+  orders: {
+    paths: ['my-account/orders'],
+  },
   orderDetails: {
     paths: ['my-account/order/:orderCode'],
     paramsMapping: { orderCode: 'code' },
@@ -43,28 +46,30 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['guest/order/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
-  orders: {
-    paths: ['my-account/orders'],
-  },
   orderReturn: {
-    paths: ['my-account/order/:orderCode/return'],
+    paths: ['my-account/order/return/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
   orderReturnConfirmation: {
-    paths: ['my-account/order/:orderCode/return/confirmation'],
+    paths: ['my-account/order/return/confirmation/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
   orderCancel: {
-    paths: ['my-account/order/:orderCode/cancel'],
+    paths: ['my-account/order/cancel/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
   orderCancelConfirmation: {
-    paths: ['my-account/order/:orderCode/cancel/confirmation'],
+    paths: ['my-account/order/cancel/confirmation/:orderCode'],
     paramsMapping: { orderCode: 'code' },
   },
   returnRequestDetails: {
     paths: ['my-account/return-request/:returnCode'],
     paramsMapping: { returnCode: 'rma' },
+  },
+  coupons: { paths: ['my-account/coupons'] },
+  couponClaim: {
+    paths: ['my-account/coupon/claim/:couponCode'],
+    paramsMapping: { couponCode: 'code' },
   },
 };
 

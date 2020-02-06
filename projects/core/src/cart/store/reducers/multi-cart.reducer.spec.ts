@@ -97,13 +97,14 @@ describe('Multi Cart reducer', () => {
             active: true,
           },
           userId: 'userId',
+          tempCartId: 'temp-uuid',
         };
         const action = new CartActions.CreateMultiCart(payload);
         const state = fromMultiCart.activeCartReducer(
           activeCartInitialState,
           action
         );
-        expect(state).toEqual('fresh');
+        expect(state).toEqual('temp-uuid');
       });
 
       it('should not change active cart id when it is not active cart create', () => {
@@ -182,13 +183,16 @@ describe('Multi Cart reducer', () => {
       });
     });
 
-    describe('SET_FRESH_CART action', () => {
+    describe('SET_TEMP_CART action', () => {
       it('should set cart in state', () => {
         const initialState = {};
         const cart = {
           code: 'cartCode',
         };
-        const action = new CartActions.SetFreshCart(cart);
+        const action = new CartActions.SetTempCart({
+          cart,
+          tempCartId: 'tempCartId',
+        });
         const state = fromMultiCart.cartEntitiesReducer(initialState, action);
         expect(state).toEqual(cart);
       });

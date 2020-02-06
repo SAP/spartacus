@@ -1,5 +1,6 @@
-import { Renderer2, Type } from '@angular/core';
+import { Component, Renderer2, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import {
   CmsConfig,
   CmsService,
@@ -8,12 +9,12 @@ import {
   DynamicAttributeService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { SkipLinkConfig, SkipLinkDirective } from '../../../layout/a11y/index';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../../outlet/index';
 import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { PageSlotComponent } from './page-slot.component';
-import { SkipLinkDirective, SkipLinkConfig } from '../../../layout/a11y/index';
 
 const slotWithOneComp = {
   components: [
@@ -57,6 +58,20 @@ class MockCmsMappingService {}
 
 const MockSkipLinkConfig: SkipLinkConfig = { skipLinks: [] };
 
+@Component({
+  template: `
+    <cx-page-slot position="section" class="host classes"></cx-page-slot>
+  `,
+})
+export class MockHostComponent {}
+
+@Component({
+  template: `
+    <div cx-page-slot position="section" class="host classes"></div>
+  `,
+})
+export class MockHostWithDivComponent {}
+
 export class MockDeferLoaderService {
   load(_element: HTMLElement, _options?: any) {
     return of(true);
@@ -71,6 +86,34 @@ const MockCmsConfig: CmsConfig = {
     },
   },
 };
+
+const providers = [
+  Renderer2,
+  {
+    provide: CmsService,
+    useClass: MockCmsService,
+  },
+  {
+    provide: CmsMappingService,
+    useClass: MockCmsMappingService,
+  },
+  {
+    provide: DynamicAttributeService,
+    useClass: MockDynamicAttributeService,
+  },
+  {
+    provide: SkipLinkConfig,
+    useValue: MockSkipLinkConfig,
+  },
+  {
+    provide: DeferLoaderService,
+    useClass: MockDeferLoaderService,
+  },
+  {
+    provide: CmsConfig,
+    useValue: MockCmsConfig,
+  },
+];
 
 describe('PageSlotComponent', () => {
   let pageSlotComponent: PageSlotComponent;
@@ -87,34 +130,10 @@ describe('PageSlotComponent', () => {
         ComponentWrapperDirective,
         OutletDirective,
         SkipLinkDirective,
+        MockHostComponent,
+        MockHostWithDivComponent,
       ],
-      providers: [
-        Renderer2,
-        {
-          provide: CmsService,
-          useClass: MockCmsService,
-        },
-        {
-          provide: CmsMappingService,
-          useClass: MockCmsMappingService,
-        },
-        {
-          provide: DynamicAttributeService,
-          useClass: MockDynamicAttributeService,
-        },
-        {
-          provide: SkipLinkConfig,
-          useValue: MockSkipLinkConfig,
-        },
-        {
-          provide: DeferLoaderService,
-          useClass: MockDeferLoaderService,
-        },
-        {
-          provide: CmsConfig,
-          useValue: MockCmsConfig,
-        },
-      ],
+      providers,
     }).compileComponents();
 
     fixture = TestBed.createComponent(PageSlotComponent);
@@ -130,10 +149,55 @@ describe('PageSlotComponent', () => {
 
   it('should be created', () => {
     expect(pageSlotComponent).toBeTruthy();
+    fixture = TestBed.createComponent(PageSlotComponent);
+  });
+
+  describe('use as an attribute selector', () => {
+    let el: HTMLElement;
+    beforeEach(() => {
+      const compFixture = TestBed.createComponent(MockHostWithDivComponent);
+      compFixture.detectChanges();
+      el = compFixture.debugElement.query(By.css('[cx-page-slot]'))
+        .nativeElement;
+    });
+    it('should get a position class', () => {
+      expect(el.classList).toContain('host');
+    });
+
+    it('should keep existing classes', () => {
+      expect(el.classList).toContain('host');
+      expect(el.classList).toContain('classes');
+      expect(el.classList).toContain('section');
+    });
+  });
+
+  describe('use as an element selector', () => {
+    let el: HTMLElement;
+    beforeEach(() => {
+      const compFixture = TestBed.createComponent(MockHostComponent);
+      compFixture.detectChanges();
+      el = compFixture.debugElement.query(By.css('cx-page-slot')).nativeElement;
+    });
+    it('should get a position class', () => {
+      expect(el.classList).toContain('host');
+    });
+    it('should keep existing classes', () => {
+      expect(el.classList).toContain('host');
+      expect(el.classList).toContain('classes');
+      expect(el.classList).toContain('section');
+    });
   });
 
   describe('slot position class', () => {
     it('should have class for the given slot position', () => {
+      pageSlotComponent.position = 'abc';
+      fixture.detectChanges();
+      expect(
+        (<HTMLElement>fixture.debugElement.nativeElement).classList
+      ).toContain('abc');
+    });
+
+    it('should not remove host class', () => {
       pageSlotComponent.position = 'abc';
       fixture.detectChanges();
       expect(

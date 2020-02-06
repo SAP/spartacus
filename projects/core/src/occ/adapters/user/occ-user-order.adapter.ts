@@ -6,20 +6,20 @@ import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converte
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import {
+  CancellationRequestEntryInputList,
   Order,
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
-  CancellationRequestEntryInputList,
   ReturnRequestModification,
 } from '../../../model/order.model';
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
   ORDER_HISTORY_NORMALIZER,
-  ORDER_RETURN_REQUEST_NORMALIZER,
   ORDER_RETURNS_NORMALIZER,
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
+  ORDER_RETURN_REQUEST_NORMALIZER,
 } from '../../../user/connectors/order/converters';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
 import { ConverterService } from '../../../util/converter.service';
@@ -148,10 +148,12 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
   }
 
   public getConsignmentTracking(
+    userId: string,
     orderCode: string,
     consignmentCode: string
   ): Observable<ConsignmentTracking> {
     const url = this.occEndpoints.getUrl('consignmentTracking', {
+      userId,
       orderCode,
       consignmentCode,
     });
