@@ -56,16 +56,30 @@ export function reducer<T>(
         },
       };
     }
-    case CmsActions.CMS_GET_COMPONENT_FROM_PAGE:
     case CmsActions.LOAD_CMS_COMPONENT_SUCCESS: {
       const pageContextReducer = loaderReducer<boolean>(
         action.meta.entityType,
         componentExistsReducer
       );
-      const context = serializePageContext(action.pageContext, true);
+      const context = serializePageContext(action.payload.pageContext, true);
       return {
         ...state,
-        component: action.payload as T,
+        component: action.payload.component as T,
+        pageContext: {
+          ...state.pageContext,
+          [context]: pageContextReducer(state.pageContext[context], action),
+        },
+      };
+    }
+    case CmsActions.CMS_GET_COMPONENT_FROM_PAGE: {
+      const pageContextReducer = loaderReducer<boolean>(
+        action.meta.entityType,
+        componentExistsReducer
+      );
+      const context = serializePageContext(action.payload.pageContext, true);
+      return {
+        ...state,
+        component: action.payload.components as any,
         pageContext: {
           ...state.pageContext,
           [context]: pageContextReducer(state.pageContext[context], action),

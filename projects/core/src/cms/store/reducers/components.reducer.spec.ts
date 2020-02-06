@@ -92,10 +92,10 @@ describe('Components Reducer', () => {
       const component: CmsComponent = {
         uid: 'xxx',
       };
-      const action = new CmsActions.CmsGetComponentFromPage(
-        [component],
-        pageContext
-      );
+      const action = new CmsActions.CmsGetComponentFromPage({
+        components: [component],
+        pageContext,
+      });
       const state = fromComponents.reducer(initialState, action);
 
       const serializedPageContext = serializePageContext(pageContext, true);
@@ -123,11 +123,11 @@ describe('Components Reducer', () => {
       const component: CmsComponent = {
         uid: 'xxx',
       };
-      const action = new CmsActions.LoadCmsComponentSuccess(
+      const action = new CmsActions.LoadCmsComponentSuccess({
         component,
-        component.uid,
-        pageContext
-      );
+        uid: component.uid,
+        pageContext,
+      });
       const state = fromComponents.reducer(initialState, action);
 
       const serializedPageContext = serializePageContext(pageContext, true);

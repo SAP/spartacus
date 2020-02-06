@@ -68,11 +68,11 @@ export class ComponentEffects {
           this.cmsComponentLoader.get(uid, pageContext).pipe(
             map(
               component =>
-                new CmsActions.LoadCmsComponentSuccess(
+                new CmsActions.LoadCmsComponentSuccess({
                   component,
-                  component.uid,
-                  pageContext
-                )
+                  uid: component.uid,
+                  pageContext,
+                })
             ),
             catchError(error =>
               of(
@@ -94,11 +94,11 @@ export class ComponentEffects {
         from(
           components.map(
             component =>
-              new CmsActions.LoadCmsComponentSuccess(
+              new CmsActions.LoadCmsComponentSuccess({
                 component,
-                component.uid,
-                pageContext
-              )
+                uid: component.uid,
+                pageContext,
+              })
           )
         )
       ),
