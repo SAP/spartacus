@@ -15,13 +15,13 @@ import { CmsComponent } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { PageContext } from '../../routing/models/page-context.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
-import { serializePageContext } from '../../util/serialization-utils';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
 import { CmsActions } from '../store/actions/index';
 import { StateWithCms } from '../store/cms-state';
 import { CmsSelectors } from '../store/selectors/index';
+import { serializePageContext } from '../utils/cms-utils';
 
 @Injectable({
   providedIn: 'root',
@@ -84,7 +84,7 @@ export class CmsService {
     uid: string,
     pageContext?: PageContext
   ): Observable<T> {
-    const context = serializePageContext(pageContext);
+    const context = serializePageContext(pageContext, true);
     if (!this.components[uid]) {
       // create the component data structure, if it doesn't already exist
       this.components[uid] = {};
@@ -112,7 +112,7 @@ export class CmsService {
       );
     }
 
-    const context = serializePageContext(pageContext);
+    const context = serializePageContext(pageContext, true);
 
     const loading$ = combineLatest([
       this.routingService.getNextPageContext(),
@@ -128,12 +128,12 @@ export class CmsService {
         // (as it might already been triggered and might be available shortly from page data)
         // TODO(issue:3649), TODO(issue:3668) - this optimization could be removed
         const couldBeLoadedWithPageData = nextContext
-          ? serializePageContext(nextContext) === context
+          ? serializePageContext(nextContext, true) === context
           : false;
 
         if (!attemptedLoad && !couldBeLoadedWithPageData) {
           this.store.dispatch(
-            new CmsActions.LoadCmsComponent(uid, pageContext)
+            new CmsActions.LoadCmsComponent({ uid, pageContext })
           );
         }
       })
@@ -141,7 +141,7 @@ export class CmsService {
 
     const component$ = this.store.pipe(
       select(CmsSelectors.componentsSelectorFactory(uid, context)),
-      // TODO(issue:6027) - this `filter` should be removed.
+      // TODO(issue:6431) - this `filter` should be removed.
       // The reason for removal: with `filter` in place, when moving to a page that has restrictions, the component data will still emit the previous value.
       // Removing it causes some components to fail, because they are not checking
       // if the data is actually there. I noticed these that this component is failing, but there are possibly more:
@@ -226,7 +226,7 @@ export class CmsService {
    * If not specified, 'current' page context is used.
    */
   refreshComponent(uid: string, pageContext?: PageContext): void {
-    this.store.dispatch(new CmsActions.LoadCmsComponent(uid, pageContext));
+    this.store.dispatch(new CmsActions.LoadCmsComponent({ uid, pageContext }));
   }
 
   /**

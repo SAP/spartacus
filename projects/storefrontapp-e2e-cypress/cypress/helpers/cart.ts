@@ -36,7 +36,13 @@ export const products: TestProduct[] = [
     price: 370.72,
   },
   {
-    code: '29925',
+    code: '872912',
+  },
+  {
+    code: '932577',
+    type: 'camera',
+    name: 'Digital Camera Tripod',
+    price: 24.47,
   },
 ];
 
@@ -156,7 +162,7 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
 }
 
 export function addProductToCartViaSearchPage(mobile: boolean) {
-  const product = products[1];
+  const product = products[0];
 
   goToFirstProductFromSearch(product.code, mobile);
 
@@ -171,8 +177,8 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 
 export function removeAllItemsFromCart() {
   const product0 = products[0];
-  const product1 = products[1];
-  registerCartRefreshRoute();
+  const product1 = products[4];
+  waitForCartRefresh();
 
   getCartItem(products[0].name).within(() => {
     cy.getByText('Remove').click();
