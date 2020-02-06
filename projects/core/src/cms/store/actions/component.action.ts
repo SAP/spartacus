@@ -48,8 +48,12 @@ export class CmsGetComponentFromPage<
   T extends CmsComponent
 > extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = CMS_GET_COMPONENT_FROM_PAGE;
-  constructor(public payload: { components: T[]; pageContext: PageContext }) {
-    super(COMPONENT_ENTITY, payload.components.map(cmp => cmp.uid));
+  constructor(
+    public payload:
+      | { component: T; pageContext: PageContext }
+      | { component: T; pageContext: PageContext }[]
+  ) {
+    super(COMPONENT_ENTITY, [].concat(payload).map(cmp => cmp.component.uid));
   }
 }
 

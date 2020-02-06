@@ -119,10 +119,9 @@ describe('Page Effects', () => {
         spyOn(cmsPageConnector, 'get').and.returnValue(of(pageStructure));
         const action = new CmsActions.LoadCmsPageData(pageContext);
 
-        const completion1 = new CmsActions.CmsGetComponentFromPage({
-          components: componentsMock,
-          pageContext,
-        });
+        const completion1 = new CmsActions.CmsGetComponentFromPage(
+          componentsMock.map(component => ({ component, pageContext }))
+        );
         const completion2 = new CmsActions.LoadCmsPageDataSuccess(
           pageContext,
           pageMock

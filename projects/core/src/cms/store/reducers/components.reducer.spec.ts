@@ -93,7 +93,7 @@ describe('Components Reducer', () => {
         uid: 'xxx',
       };
       const action = new CmsActions.CmsGetComponentFromPage({
-        components: [component],
+        component,
         pageContext,
       });
       const state = fromComponents.reducer(initialState, action);
@@ -101,7 +101,7 @@ describe('Components Reducer', () => {
       const serializedPageContext = serializePageContext(pageContext, true);
       expect(state).toEqual({
         ...initialState,
-        component: [component] as any,
+        component,
         pageContext: {
           ...initialState.pageContext,
           [serializedPageContext]: {

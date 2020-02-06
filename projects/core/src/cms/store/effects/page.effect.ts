@@ -56,10 +56,12 @@ export class PageEffects {
           this.cmsPageConnector.get(pageContext).pipe(
             mergeMap((cmsStructure: CmsStructureModel) => {
               const actions: Action[] = [
-                new CmsActions.CmsGetComponentFromPage({
-                  components: cmsStructure.components,
-                  pageContext,
-                }),
+                new CmsActions.CmsGetComponentFromPage(
+                  cmsStructure.components.map(component => ({
+                    component,
+                    pageContext,
+                  }))
+                ),
                 new CmsActions.LoadCmsPageDataSuccess(
                   pageContext,
                   cmsStructure.page

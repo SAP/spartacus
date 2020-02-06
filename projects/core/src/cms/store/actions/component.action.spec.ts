@@ -81,13 +81,28 @@ describe('Cms Component Actions', () => {
       it('should create an action', () => {
         const component1: CmsComponent = { uid: 'uid1' };
         const component2: CmsComponent = { uid: 'uid2' };
-        const action = new CmsActions.CmsGetComponentFromPage({
-          components: [component1, component2],
-          pageContext,
-        });
+        const action = new CmsActions.CmsGetComponentFromPage([
+          {
+            component: component1,
+            pageContext,
+          },
+          {
+            component: component2,
+            pageContext,
+          },
+        ]);
         expect({ ...action }).toEqual({
           type: CmsActions.CMS_GET_COMPONENT_FROM_PAGE,
-          payload: { components: [component1, component2], pageContext },
+          payload: [
+            {
+              component: component1,
+              pageContext,
+            },
+            {
+              component: component2,
+              pageContext,
+            },
+          ],
           meta: StateEntityLoaderActions.entitySuccessMeta(COMPONENT_ENTITY, [
             'uid1',
             'uid2',
