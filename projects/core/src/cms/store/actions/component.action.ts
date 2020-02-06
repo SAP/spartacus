@@ -6,8 +6,7 @@ import { COMPONENT_ENTITY } from '../cms-state';
 export const LOAD_CMS_COMPONENT = '[Cms] Load Component';
 export const LOAD_CMS_COMPONENT_FAIL = '[Cms] Load Component Fail';
 export const LOAD_CMS_COMPONENT_SUCCESS = '[Cms] Load Component Success';
-// TODO(issue:6027) - rename the const to `CMS_GET_COMPONENT_FROM_PAGE`
-export const CMS_GET_COMPONENET_FROM_PAGE = '[Cms] Get Component from Page';
+export const CMS_GET_COMPONENT_FROM_PAGE = '[Cms] Get Component from Page';
 
 export class LoadCmsComponent extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = LOAD_CMS_COMPONENT;
@@ -46,7 +45,7 @@ export class LoadCmsComponentSuccess<
 export class CmsGetComponentFromPage<
   T extends CmsComponent
 > extends StateEntityLoaderActions.EntitySuccessAction {
-  readonly type = CMS_GET_COMPONENET_FROM_PAGE;
+  readonly type = CMS_GET_COMPONENT_FROM_PAGE;
   // TODO(issue:6027) - this action should have only one `payload` property which should encapsulate all of the constructor's arguments
   constructor(public payload: T[], public pageContext?: PageContext) {
     super(COMPONENT_ENTITY, payload.map(cmp => cmp.uid));

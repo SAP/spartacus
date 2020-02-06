@@ -16,7 +16,7 @@ function componentExistsReducer<T>(
     case CmsActions.LOAD_CMS_COMPONENT_FAIL:
       return false;
 
-    case CmsActions.CMS_GET_COMPONENET_FROM_PAGE:
+    case CmsActions.CMS_GET_COMPONENT_FROM_PAGE:
     case CmsActions.LOAD_CMS_COMPONENT_SUCCESS:
       return true;
   }
@@ -56,7 +56,7 @@ export function reducer<T>(
         },
       };
     }
-    case CmsActions.CMS_GET_COMPONENET_FROM_PAGE:
+    case CmsActions.CMS_GET_COMPONENT_FROM_PAGE:
     case CmsActions.LOAD_CMS_COMPONENT_SUCCESS: {
       const pageContextReducer = loaderReducer<boolean>(
         action.meta.entityType,

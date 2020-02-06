@@ -130,7 +130,7 @@ describe('Cms Component Actions', () => {
           component2,
         ]);
         expect({ ...action }).toEqual({
-          type: CmsActions.CMS_GET_COMPONENET_FROM_PAGE,
+          type: CmsActions.CMS_GET_COMPONENT_FROM_PAGE,
           payload: [component1, component2],
           meta: StateEntityLoaderActions.entitySuccessMeta(COMPONENT_ENTITY, [
             'uid1',
@@ -147,7 +147,7 @@ describe('Cms Component Actions', () => {
           pageContext
         );
         expect({ ...action }).toEqual({
-          type: CmsActions.CMS_GET_COMPONENET_FROM_PAGE,
+          type: CmsActions.CMS_GET_COMPONENT_FROM_PAGE,
           payload: [component1, component2],
           meta: StateEntityLoaderActions.entitySuccessMeta(COMPONENT_ENTITY, [
             'uid1',
