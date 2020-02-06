@@ -69,7 +69,7 @@ describe('Component Effects', () => {
 
   describe('loadComponent$', () => {
     it('should return a component from LoadComponentSuccess', () => {
-      const action = new CmsActions.LoadCmsComponent('comp1');
+      const action = new CmsActions.LoadCmsComponent({ uid: 'comp1' });
       const completion = new CmsActions.LoadCmsComponentSuccess(component);
       spyOn(service, 'getList').and.returnValue(of([component]));
 
@@ -83,8 +83,8 @@ describe('Component Effects', () => {
 
     describe('when no page context is present', () => {
       it('should group component load in specified time frame', () => {
-        const action1 = new CmsActions.LoadCmsComponent('comp1');
-        const action2 = new CmsActions.LoadCmsComponent('comp2');
+        const action1 = new CmsActions.LoadCmsComponent({ uid: 'comp1' });
+        const action2 = new CmsActions.LoadCmsComponent({ uid: 'comp2' });
         const component2 = { ...component, uid: 'comp2' };
         const completion1 = new CmsActions.LoadCmsComponentSuccess(component);
         const completion2 = new CmsActions.LoadCmsComponentSuccess(component2);
@@ -116,8 +116,14 @@ describe('Component Effects', () => {
           id: 'xxx',
           type: PageType.CONTENT_PAGE,
         };
-        const action1 = new CmsActions.LoadCmsComponent('comp1', pageContext);
-        const action2 = new CmsActions.LoadCmsComponent('comp2', pageContext);
+        const action1 = new CmsActions.LoadCmsComponent({
+          uid: 'comp1',
+          pageContext,
+        });
+        const action2 = new CmsActions.LoadCmsComponent({
+          uid: 'comp2',
+          pageContext,
+        });
         const component2 = { ...component, uid: 'comp2' };
         const completion1 = new CmsActions.LoadCmsComponentSuccess(
           component,
@@ -161,8 +167,14 @@ describe('Component Effects', () => {
           id: 'second',
           type: PageType.CATEGORY_PAGE,
         };
-        const action1 = new CmsActions.LoadCmsComponent('comp1', pageContext1);
-        const action2 = new CmsActions.LoadCmsComponent('comp2', pageContext2);
+        const action1 = new CmsActions.LoadCmsComponent({
+          uid: 'comp1',
+          pageContext: pageContext1,
+        });
+        const action2 = new CmsActions.LoadCmsComponent({
+          uid: 'comp2',
+          pageContext: pageContext2,
+        });
         const component2 = { ...component, uid: 'comp2' };
         const completion1 = new CmsActions.LoadCmsComponentSuccess(
           component,

@@ -14,7 +14,19 @@ describe('Cms Component Actions', () => {
   describe('LoadCmsComponent Actions', () => {
     describe('LoadCmsComponent', () => {
       it('should create an action', () => {
-        const payload = test_uid;
+        const payload = { uid: test_uid };
+        const action = new CmsActions.LoadCmsComponent(payload);
+        expect({ ...action }).toEqual({
+          type: CmsActions.LOAD_CMS_COMPONENT,
+          payload,
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            COMPONENT_ENTITY,
+            test_uid
+          ),
+        });
+      });
+      it('should create an action with provided pageContext', () => {
+        const payload = { uid: test_uid, pageContext };
         const action = new CmsActions.LoadCmsComponent(payload);
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_COMPONENT,
@@ -23,20 +35,6 @@ describe('Cms Component Actions', () => {
             COMPONENT_ENTITY,
             test_uid
           ),
-          pageContext: undefined,
-        });
-      });
-      it('should create an action with provided pageContext', () => {
-        const payload = test_uid;
-        const action = new CmsActions.LoadCmsComponent(payload, pageContext);
-        expect({ ...action }).toEqual({
-          type: CmsActions.LOAD_CMS_COMPONENT,
-          payload: payload,
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            COMPONENT_ENTITY,
-            test_uid
-          ),
-          pageContext,
         });
       });
     });

@@ -38,14 +38,14 @@ export class ComponentEffects {
     > =>
       this.actions$.pipe(
         ofType<CmsActions.LoadCmsComponent>(CmsActions.LOAD_CMS_COMPONENT),
-        groupBy(actions => serializePageContext(actions.pageContext)),
+        groupBy(actions => serializePageContext(actions.payload.pageContext)),
         mergeMap(actionGroup =>
           actionGroup.pipe(
             bufferDebounceTime(debounce, scheduler),
             mergeMap(actions =>
               this.loadComponentsEffect(
-                actions.map(action => action.payload),
-                actions[0].pageContext
+                actions.map(action => action.payload.uid),
+                actions[0].payload.pageContext
               )
             )
           )

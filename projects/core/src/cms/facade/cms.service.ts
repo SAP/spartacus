@@ -133,7 +133,7 @@ export class CmsService {
 
         if (!attemptedLoad && !couldBeLoadedWithPageData) {
           this.store.dispatch(
-            new CmsActions.LoadCmsComponent(uid, pageContext)
+            new CmsActions.LoadCmsComponent({ uid, pageContext })
           );
         }
       })
@@ -226,7 +226,7 @@ export class CmsService {
    * If not specified, 'current' page context is used.
    */
   refreshComponent(uid: string, pageContext?: PageContext): void {
-    this.store.dispatch(new CmsActions.LoadCmsComponent(uid, pageContext));
+    this.store.dispatch(new CmsActions.LoadCmsComponent({ uid, pageContext }));
   }
 
   /**

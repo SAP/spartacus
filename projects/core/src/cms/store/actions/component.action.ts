@@ -10,9 +10,13 @@ export const CMS_GET_COMPONENT_FROM_PAGE = '[Cms] Get Component from Page';
 
 export class LoadCmsComponent extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = LOAD_CMS_COMPONENT;
-  // TODO(issue:6027) - this action should have only one `payload` property which should encapsulate all of the constructor's arguments
-  constructor(public payload: string, public pageContext?: PageContext) {
-    super(COMPONENT_ENTITY, payload);
+  constructor(
+    public payload: {
+      uid: string;
+      pageContext?: PageContext;
+    }
+  ) {
+    super(COMPONENT_ENTITY, payload.uid);
   }
 }
 

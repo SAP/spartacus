@@ -34,7 +34,10 @@ describe('Components Reducer', () => {
         type: PageType.CONTENT_PAGE,
       };
 
-      const action = new CmsActions.LoadCmsComponent('xxx', pageContext);
+      const action = new CmsActions.LoadCmsComponent({
+        uid: 'xxx',
+        pageContext,
+      });
       const state = fromComponents.reducer(initialState, action);
 
       const serializedPageContext = serializePageContext(pageContext, true);
