@@ -1917,6 +1917,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'NV10',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'REMOVE',
       type: TabbingOrderTypes.GENERIC_BUTTON,
     },
