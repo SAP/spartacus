@@ -15,6 +15,11 @@ export const navigation = {
   goToProduct(id): Cypress.Chainable<Window> {
     return cy.visit(`/product/${id}`);
   },
+  waitForPage(page: string): Cypress.Chainable<Cypress.WaitXHR> {
+    return cy
+      .route('GET', `/rest/v2/electronics-spa/cms/pages?*${page}*`)
+      .as(page);
+  },
   requestsCount: alias =>
     (<any>cy).state('requests').filter(a => a.alias === alias).length,
 };

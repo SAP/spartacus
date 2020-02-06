@@ -1,9 +1,21 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { AuthActions, Cart, CartService, ConsentService, OrderEntry } from '@spartacus/core';
 import { ActionsSubject } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
+import {
+  AuthActions,
+  Cart,
+  CartService,
+  ConsentService,
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  mapTo,
+  skipWhile,
+  take,
+} from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 
 @Injectable({
@@ -44,19 +56,15 @@ export class SpartacusEventService {
   /**
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
-  cartChanged(): Observable<{ entries: OrderEntry[]; cart: Cart }> {
-    return combineLatest([
-      this.cartService.getEntries(),
-      this.cartService.getActive(),
-    ]).pipe(
-      skipWhile(([entries]) => entries.length === 0),
-      map(([entries, cart]) => ({
-        entries,
+  cartChanged(): Observable<{ cart: Cart }> {
+    return this.cartService.getActive().pipe(
+      skipWhile(cart => !Boolean(cart.entries) || cart.entries.length === 0),
+      map(cart => ({
         cart,
       }))
     );
   }
- 
+
   /**
    * Listens to successful logins and pushes the event for profiletag to pick it up further
    */
@@ -73,5 +81,5 @@ export class SpartacusEventService {
       filter(action => action.type === AuthActions.LOGIN),
       mapTo(true)
     );
-  }  
+  }
 }

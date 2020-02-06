@@ -62,7 +62,7 @@ export function paymentDetailCard() {
     .its('status')
     .should('eq', 200);
 
-  cy.get('#deliveryMode-standard-gross').check({ force: true });
+  cy.get('#deliveryMode-standard-net').check({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
   cy.wait(`@${request.paymentPage}`)
@@ -112,7 +112,7 @@ export function addSecondaryPaymentCard() {
     .should('eq', 200);
 
   // set delivery method
-  cy.get('#deliveryMode-standard-gross').check({ force: true });
+  cy.get('#deliveryMode-standard-net').check({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
   cy.wait(`@${waitAliases.paymentPage}`)
