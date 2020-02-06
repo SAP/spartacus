@@ -20,14 +20,14 @@ export function mockDateNow(): number {
   return 1000000000000;
 }
 
-const context: PageContext = {
+const pageContext: PageContext = {
   id: 'homepage',
   type: PageType.CONTENT_PAGE,
 };
 const mockRouterState = {
   state: {
     cmsRequired: true,
-    context,
+    context: pageContext,
   },
 };
 
@@ -117,14 +117,13 @@ describe('Page Effects', () => {
     describe('when LoadPageData is dispatched', () => {
       it('should dispatch LoadPageDataSuccess and GetComponentFromPage actions', () => {
         spyOn(cmsPageConnector, 'get').and.returnValue(of(pageStructure));
-        const action = new CmsActions.LoadCmsPageData(context);
+        const action = new CmsActions.LoadCmsPageData(pageContext);
 
         const completion1 = new CmsActions.CmsGetComponentFromPage(
-          componentsMock,
-          context
+          componentsMock.map(component => ({ component, pageContext }))
         );
         const completion2 = new CmsActions.LoadCmsPageDataSuccess(
-          context,
+          pageContext,
           pageMock
         );
 
@@ -140,9 +139,12 @@ describe('Page Effects', () => {
       it('should dispatch LoadPageDataFail action', () => {
         const error = 'error';
         spyOn<any>(cmsPageConnector, 'get').and.returnValue(throwError(error));
-        const action = new CmsActions.LoadCmsPageData(context);
+        const action = new CmsActions.LoadCmsPageData(pageContext);
 
-        const completion = new CmsActions.LoadCmsPageDataFail(context, error);
+        const completion = new CmsActions.LoadCmsPageDataFail(
+          pageContext,
+          error
+        );
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', {
@@ -162,7 +164,7 @@ describe('Page Effects', () => {
         );
 
         const action = new SiteContextActions.LanguageChange();
-        const completion = new CmsActions.LoadCmsPageData(context);
+        const completion = new CmsActions.LoadCmsPageData(pageContext);
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', { b: completion });
@@ -177,7 +179,7 @@ describe('Page Effects', () => {
         );
 
         const action = new AuthActions.Logout();
-        const completion = new CmsActions.LoadCmsPageData(context);
+        const completion = new CmsActions.LoadCmsPageData(pageContext);
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', { b: completion });
@@ -192,7 +194,7 @@ describe('Page Effects', () => {
         );
 
         const action = new AuthActions.Login();
-        const completion = new CmsActions.LoadCmsPageData(context);
+        const completion = new CmsActions.LoadCmsPageData(pageContext);
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', { b: completion });

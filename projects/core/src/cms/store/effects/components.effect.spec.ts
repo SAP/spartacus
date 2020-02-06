@@ -9,7 +9,7 @@ import { CmsComponent, PageType } from '../../../model/cms.model';
 import { PageContext, RoutingService } from '../../../routing/index';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import { CmsActions } from '../actions/index';
-import * as fromEffects from './component.effect';
+import * as fromEffects from './components.effect';
 
 const router = {
   state: {
@@ -42,7 +42,7 @@ class MockFeatureConfigService {
 describe('Component Effects', () => {
   let actions$: Observable<any>;
   let service: CmsComponentConnector;
-  let effects: fromEffects.ComponentEffects;
+  let effects: fromEffects.ComponentsEffects;
 
   const component: CmsComponent = {
     uid: 'comp1',
@@ -54,7 +54,7 @@ describe('Component Effects', () => {
       imports: [StoreModule.forRoot({})],
       providers: [
         { provide: CmsComponentConnector, useClass: MockCmsComponentConnector },
-        fromEffects.ComponentEffects,
+        fromEffects.ComponentsEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
@@ -62,15 +62,26 @@ describe('Component Effects', () => {
     });
 
     service = TestBed.get(CmsComponentConnector as Type<CmsComponentConnector>);
-    effects = TestBed.get(fromEffects.ComponentEffects as Type<
-      fromEffects.ComponentEffects
+    effects = TestBed.get(fromEffects.ComponentsEffects as Type<
+      fromEffects.ComponentsEffects
     >);
   });
 
   describe('loadComponent$', () => {
     it('should return a component from LoadComponentSuccess', () => {
-      const action = new CmsActions.LoadCmsComponent('comp1');
-      const completion = new CmsActions.LoadCmsComponentSuccess(component);
+      const pageContext: PageContext = {
+        id: 'xxx',
+        type: PageType.CONTENT_PAGE,
+      };
+      const action = new CmsActions.LoadCmsComponent({
+        uid: 'comp1',
+        pageContext,
+      });
+      const completion = new CmsActions.LoadCmsComponentSuccess({
+        component,
+        uid: action.payload.uid,
+        pageContext,
+      });
       spyOn(service, 'getList').and.returnValue(of([component]));
 
       actions$ = hot('-a', { a: action });
@@ -80,55 +91,31 @@ describe('Component Effects', () => {
         effects.loadComponent$({ scheduler: getTestScheduler() })
       ).toBeObservable(expected);
     });
-
-    describe('when no page context is present', () => {
-      it('should group component load in specified time frame', () => {
-        const action1 = new CmsActions.LoadCmsComponent('comp1');
-        const action2 = new CmsActions.LoadCmsComponent('comp2');
-        const component2 = { ...component, uid: 'comp2' };
-        const completion1 = new CmsActions.LoadCmsComponentSuccess(component);
-        const completion2 = new CmsActions.LoadCmsComponentSuccess(component2);
-        spyOn(service, 'getList').and.returnValue(
-          cold('---c', { c: [component, component2] })
-        );
-
-        actions$ = hot('-ab', { a: action1, b: action2 });
-        const expected = cold('-------(ab)', {
-          a: completion1,
-          b: completion2,
-        });
-
-        expect(
-          effects.loadComponent$({
-            scheduler: getTestScheduler(),
-            debounce: 20,
-          })
-        ).toBeObservable(expected);
-        expect(service.getList).toHaveBeenCalledWith(
-          ['comp1', 'comp2'],
-          undefined
-        );
-      });
-    });
     describe('when the same page context is present in all the actions', () => {
       it('should group component load in specified time frame', () => {
         const pageContext: PageContext = {
           id: 'xxx',
           type: PageType.CONTENT_PAGE,
         };
-        const action1 = new CmsActions.LoadCmsComponent('comp1', pageContext);
-        const action2 = new CmsActions.LoadCmsComponent('comp2', pageContext);
+        const action1 = new CmsActions.LoadCmsComponent({
+          uid: 'comp1',
+          pageContext,
+        });
+        const action2 = new CmsActions.LoadCmsComponent({
+          uid: 'comp2',
+          pageContext,
+        });
         const component2 = { ...component, uid: 'comp2' };
-        const completion1 = new CmsActions.LoadCmsComponentSuccess(
+        const completion1 = new CmsActions.LoadCmsComponentSuccess({
           component,
-          component.uid,
-          pageContext
-        );
-        const completion2 = new CmsActions.LoadCmsComponentSuccess(
-          component2,
-          component2.uid,
-          pageContext
-        );
+          uid: component.uid,
+          pageContext,
+        });
+        const completion2 = new CmsActions.LoadCmsComponentSuccess({
+          component: component2,
+          uid: component2.uid,
+          pageContext,
+        });
         spyOn(service, 'getList').and.returnValue(
           cold('---c', { c: [component, component2] })
         );
@@ -161,19 +148,25 @@ describe('Component Effects', () => {
           id: 'second',
           type: PageType.CATEGORY_PAGE,
         };
-        const action1 = new CmsActions.LoadCmsComponent('comp1', pageContext1);
-        const action2 = new CmsActions.LoadCmsComponent('comp2', pageContext2);
+        const action1 = new CmsActions.LoadCmsComponent({
+          uid: 'comp1',
+          pageContext: pageContext1,
+        });
+        const action2 = new CmsActions.LoadCmsComponent({
+          uid: 'comp2',
+          pageContext: pageContext2,
+        });
         const component2 = { ...component, uid: 'comp2' };
-        const completion1 = new CmsActions.LoadCmsComponentSuccess(
+        const completion1 = new CmsActions.LoadCmsComponentSuccess({
           component,
-          component.uid,
-          pageContext1
-        );
-        const completion2 = new CmsActions.LoadCmsComponentSuccess(
-          component2,
-          component2.uid,
-          pageContext2
-        );
+          uid: component.uid,
+          pageContext: pageContext1,
+        });
+        const completion2 = new CmsActions.LoadCmsComponentSuccess({
+          component: component2,
+          uid: component2.uid,
+          pageContext: pageContext2,
+        });
         const getListSpy = spyOn(service, 'getList').and.callFake(ids =>
           cold('---a', { a: [{ ...component, uid: ids[0] }] })
         );

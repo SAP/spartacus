@@ -111,7 +111,10 @@ describe('CmsService', () => {
             .unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
-            new CmsActions.LoadCmsComponent(uid, currentPageContext)
+            new CmsActions.LoadCmsComponent({
+              uid,
+              pageContext: currentPageContext,
+            })
           );
           expect(routingService.getPageContext).toHaveBeenCalled();
         }
@@ -159,7 +162,10 @@ describe('CmsService', () => {
             .unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
-            new CmsActions.LoadCmsComponent(uid, specifiedPageContext)
+            new CmsActions.LoadCmsComponent({
+              uid,
+              pageContext: specifiedPageContext,
+            })
           );
           expect(routingService.getPageContext).not.toHaveBeenCalled();
         }
@@ -277,7 +283,10 @@ describe('CmsService', () => {
       (service: CmsService) => {
         service.refreshComponent('test_uid');
         expect(store.dispatch).toHaveBeenCalledWith(
-          new CmsActions.LoadCmsComponent('test_uid')
+          new CmsActions.LoadCmsComponent({
+            uid: 'test_uid',
+            pageContext: undefined,
+          })
         );
       }
     ));
@@ -290,7 +299,7 @@ describe('CmsService', () => {
         };
         service.refreshComponent('test_uid', pageContext);
         expect(store.dispatch).toHaveBeenCalledWith(
-          new CmsActions.LoadCmsComponent('test_uid', pageContext)
+          new CmsActions.LoadCmsComponent({ uid: 'test_uid', pageContext })
         );
       }
     ));
