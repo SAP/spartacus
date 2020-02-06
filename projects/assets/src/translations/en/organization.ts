@@ -97,14 +97,9 @@ export const organization = {
     details: 'Permission details',
     id: 'ID',
     name: 'Permission Name',
-    amount: 'Amount',
     currency: 'Currency',
-    startDate: 'Start date',
-    endDate: 'End date',
-    costCenter: 'Cost center',
     parentUnit: 'Parent Unit',
     sortByMostRecent: 'sortByMostRecent',
-    noBudgets: 'No budgets',
     edit: 'Edit',
     disable: 'Disable',
     enable: 'Enable',
@@ -112,7 +107,6 @@ export const organization = {
     back: 'Back to list',
     active: 'Active',
     deactivated: 'Deactivated',
-    costCenters: 'Cost Centers',
     threshold: 'Threshold Amount',
   },
 
@@ -124,26 +118,19 @@ export const organization = {
       label: 'Permission ID',
       placeholder: 'Code',
     },
-    name: {
-      label: 'Permission name',
-      placeholder: 'Name',
-    },
     businessUnits: {
       label: 'Parent business unit',
       placeholder: 'Select business unit',
     },
+    periodRange: 'Period range',
     type: 'Type',
-    startDate: 'Start date',
-    endDate: 'End date',
     currency: 'Currency',
-    amount: {
-      label: 'Permission amount',
+    threshold: {
+      label: 'Permission threshold',
       placeholder: 'Amount',
     },
     message: {
       required: 'Value is required',
-      rangeOverflow: 'Date must be before {{date}}',
-      rangeUnderflow: 'Date must be after {{date}}',
     },
   },
 };

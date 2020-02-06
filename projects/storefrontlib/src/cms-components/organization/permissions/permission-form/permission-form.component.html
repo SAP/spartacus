@@ -40,10 +40,10 @@
 
       <div class="form-group">
         <ng-container
-          *ngIf="typeList$ | async as typeList"
+          *ngIf="permissionTypes$ | async as permissionTypes"
           formGroupName="orderApprovalPermissionType"
         >
-          <div *ngIf="typeList.length !== 0">
+          <div *ngIf="permissionTypes.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
                 'permissionForm.type' | cxTranslate
@@ -52,12 +52,12 @@
                 formControlName="code"
                 [searchable]="false"
                 [clearable]="false"
-                [items]="typeList"
+                [items]="permissionTypes"
                 bindLabel="name"
                 bindValue="code"
-                (change)="typeSelected($event)"
                 [class.invalid]="isNotValid('orderApprovalPermissionType')"
               >
+                <!--                (change)="typeSelected($event)"-->
               </ng-select>
               <ng-container
                 *ngIf="isNotValid('orderApprovalPermissionType')"
@@ -72,6 +72,30 @@
             </label>
           </div>
         </ng-container>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <span class="label-content">{{
+            'permissionForm.periodRange' | cxTranslate
+          }}</span>
+          <ng-select
+            formControlName="periodRange"
+            [searchable]="false"
+            [clearable]="false"
+            [items]="periodRange"
+            [class.invalid]="isNotValid('periodRange')"
+          >
+          </ng-select>
+          <!--            (change)="periodRangeSelected($event)"-->
+          <ng-container
+            *ngIf="isNotValid('periodRange')"
+            [ngTemplateOutlet]="validation"
+            [ngTemplateOutletContext]="{
+              control: form.controls.periodRange
+            }"
+          ></ng-container>
+        </label>
       </div>
 
       <div class="form-group">
@@ -91,9 +115,9 @@
                 [items]="businessUnits"
                 bindLabel="name"
                 bindValue="id"
-                (change)="businessUnitSelected($event)"
                 [class.invalid]="isNotValid('orgUnit')"
               >
+                <!--                (change)="businessUnitSelected($event)"-->
               </ng-select>
               <ng-container
                 *ngIf="isNotValid('orgUnit')"
@@ -124,9 +148,9 @@
                 [items]="currencies"
                 bindLabel="name"
                 bindValue="isocode"
-                (change)="currencySelected($event)"
                 [class.invalid]="isNotValid('currency')"
               >
+                <!--                (change)="currencySelected($event)"-->
               </ng-select>
               <ng-container
                 *ngIf="isNotValid('currency')"
@@ -143,13 +167,13 @@
       <div class="form-group">
         <label>
           <span class="label-content">{{
-            'permissionForm.amount.label' | cxTranslate
+            'permissionForm.threshold.label' | cxTranslate
           }}</span>
           <input
             type="number"
             class="form-control"
             placeholder="{{
-              'permissionForm.amount.placeholder' | cxTranslate
+              'permissionForm.threshold.placeholder' | cxTranslate
             }}"
             formControlName="threshold"
             [class.is-invalid]="isNotValid('threshold')"

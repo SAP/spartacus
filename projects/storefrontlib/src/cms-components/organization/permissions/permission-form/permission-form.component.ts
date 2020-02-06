@@ -16,8 +16,10 @@ import {
   OrgUnitService,
   Permission,
   UrlCommandRoute,
+  PermissionService,
+  Period,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { FormUtils } from '../../../../shared/utils/forms/form-utils';
 
@@ -27,9 +29,10 @@ import { FormUtils } from '../../../../shared/utils/forms/form-utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PermissionFormComponent implements OnInit {
+  periodRange = Object.keys(Period);
   businessUnits$: Observable<B2BUnitNode[]>;
   currencies$: Observable<Currency[]>;
-  typeList$: Observable<OrderApprovalPermissionType[]>;
+  permissionTypes$: Observable<OrderApprovalPermissionType[]>;
 
   @Input()
   permissionData: Permission;
@@ -61,6 +64,7 @@ export class PermissionFormComponent implements OnInit {
     orderApprovalPermissionType: this.fb.group({
       code: [null, Validators.required],
     }),
+    periodRange: ['', Validators.required],
     orgUnit: this.fb.group({
       uid: [null, Validators.required],
     }),
@@ -73,24 +77,12 @@ export class PermissionFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     protected currencyService: CurrencyService,
-    protected orgUnitService: OrgUnitService
+    protected orgUnitService: OrgUnitService,
+    protected permissionService: PermissionService
   ) {}
 
   ngOnInit() {
-    this.typeList$ = of([
-      {
-        code: 'B2BOrderThresholdPermission',
-        name: 'Allowed Order Threshold (per order)',
-      },
-      {
-        code: 'B2BBudgetExceededPermission',
-        name: 'Budget Exceeded Permission',
-      },
-      {
-        code: 'B2BOrderThresholdTimespanPermission',
-        name: 'Allowed Order Threshold (per timespan)',
-      },
-    ]);
+    this.permissionTypes$ = this.permissionService.getTypes();
     this.currencies$ = this.currencyService.getAll();
     this.businessUnits$ = this.orgUnitService.getList().pipe(
       filter(Boolean),
@@ -100,20 +92,20 @@ export class PermissionFormComponent implements OnInit {
       this.form.patchValue(this.permissionData);
     }
   }
-
-  currencySelected(currency: Currency): void {
-    this.form.controls.currency['controls'].isocode.setValue(currency.isocode);
-  }
-
-  businessUnitSelected(orgUnit: B2BUnitNode): void {
-    this.form.controls.orgUnit['controls'].uid.setValue(orgUnit.id);
-  }
-
-  typeSelected(orderApprovalPermissionType: OrderApprovalPermissionType): void {
-    this.form.controls.orderApprovalPermissionType['controls'].code.setValue(
-      orderApprovalPermissionType.code
-    );
-  }
+  //
+  // currencySelected(currency: Currency): void {
+  //   this.form.controls.currency['controls'].isocode.setValue(currency.isocode);
+  // }
+  //
+  // businessUnitSelected(orgUnit: B2BUnitNode): void {
+  //   this.form.controls.orgUnit['controls'].uid.setValue(orgUnit.id);
+  // }
+  //
+  // typeSelected(orderApprovalPermissionType: OrderApprovalPermissionType): void {
+  //   this.form.controls.orderApprovalPermissionType['controls'].code.setValue(
+  //     orderApprovalPermissionType.code
+  //   );
+  // }
 
   back(): void {
     this.clickBack.emit();
