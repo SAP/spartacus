@@ -32,6 +32,39 @@ describe.skip('Profile-tag events', () => {
       .its('status')
       .should('eq', 200);
     cy.get('cx-add-to-cart button.btn-primary').click();
+    cy.wait(500);
+    cy.window().then(win => {
+      expect((<any>win).Y_TRACKING.eventLayer.length).to.be.least(1);
+      expect((<any>win).Y_TRACKING.eventLayer[1]['name']).to.equal(
+        'CartSnapshot'
+      );
+      expect((<any>win).Y_TRACKING.eventLayer[1]['data']).to.exist;
+      expect((<any>win).Y_TRACKING.eventLayer[1]['data']['cart']).to.exist;
+      expect(
+        JSON.stringify((<any>win).Y_TRACKING.eventLayer[1]['data']['cart'])
+      ).to.include('code');
+    });
+  });
+  it('should send a CartChanged event on modifying the cart', () => {
+    const productCode = 'ProductPage&code=280916';
+    const productPage = waitForPage(productCode, 'getProductPage');
+    cy.get('.Section4 cx-banner')
+      .first()
+      .find('img')
+      .click({ force: true });
+    cy.wait(`@${productPage}`)
+      .its('status')
+      .should('eq', 200);
+    cy.get('cx-add-to-cart button.btn-primary').click();
+    const cartPage = waitForPage('cart', 'getCartPage');
+    cy.wait(`@${cartPage}`)
+      .its('status')
+      .should('eq', 200);
+    cy.get('cx-cart-item-list')
+      .get('.cx-counter-action')
+      .contains('+')
+      .click();
+    cy.wait(500);
     cy.window().then(win => {
       expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(2);
       expect((<any>win).Y_TRACKING.eventLayer[1]['name']).to.equal(
