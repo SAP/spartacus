@@ -186,6 +186,28 @@ describe('Cart effect', () => {
 
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
+
+    it('should clear cart on "Cart not found" error', () => {
+      const action = new DeprecatedCartActions.LoadCart({
+        userId,
+        cartId,
+      });
+      loadMock.and.returnValue(
+        throwError({
+          error: {
+            errors: [{ reason: 'notFound' }],
+          },
+        })
+      );
+      const clearCartCompletion = new DeprecatedCartActions.ClearCart();
+      const removeCartCompletion = new CartActions.RemoveCart(cartId);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: clearCartCompletion,
+        c: removeCartCompletion,
+      });
+      expect(cartEffects.loadCart$).toBeObservable(expected);
+    });
   });
 
   describe('createCart$', () => {
