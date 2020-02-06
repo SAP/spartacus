@@ -1976,16 +1976,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   consignmentTracking: [
     {
-      value: 'Track Package',
-      type: TabbingOrderTypes.BUTTON,
+      type: TabbingOrderTypes.GENERIC_BUTTON,
     },
     {
       value: 'Photosmart E317 Digital Camera',
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Track Package',
-      type: TabbingOrderTypes.BUTTON,
+      type: TabbingOrderTypes.GENERIC_BUTTON,
     },
     {
       value: 'DSC-T90',
