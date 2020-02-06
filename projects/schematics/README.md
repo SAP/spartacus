@@ -127,7 +127,7 @@ Now create a new angular project:
 - add Spartacus by running e.g. `ng add @spartacus/schematics --baseUrl https://storefront.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com --baseSite electronics-spa`
 - create `.npmrc` in the root of the project and paste the following content to it: `@spartacus:registry=http://localhost:4873` to point to the local npm server only for the `@spartacus` scope. From this moment, `@spartacus` scoped packages will use the local npm registry.
 - commit the changes
-- run the following update command `ng update @spartacus/core @spartacus/storefrontlib`. If there's an error about the unresolved peer dependencies, you can append `--force` flag just to quickly test something, but this error should _not_ appear when executing without the flag. You should see your update commands executed now.
+- run the following update command `ng update @spartacus/schematics`. If there's an error about the unresolved peer dependencies, you can append `--force` flag just to quickly test something, but this error should _not_ appear when executing without the flag. You should see your update commands executed now.
 
 #### Iterating changes
 
@@ -139,7 +139,7 @@ When doing iterative development of the update schematic, it's for the best to d
   - revert the `package.json` and `yarn.lock` changes
   - make sure that the version of the `@spartacus/schematics` package is lower than the currently developed one. E.g. if you are developing an update schematic for v3, make sure that the version of `@spartacus/schematics` is set to i.e. `"^2.0.0"`. Commit the changes if necessary.
   - remove the old `node_modules` and install the dependencies again - `rm -rf node_modules/ && yarn`
-  - run the `ng update @spartacus/core @spartacus/storefront --force` command
+  - run the `ng update @spartacus/schematics --force` command
 
 #### Validations
 
