@@ -1900,12 +1900,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
   ],
-  notificationPreference: [
-    {
-      type: TabbingOrderTypes.GENERIC_CHECKBOX,
-      value: 'email',
-    },
-  ],
   myInterests: [
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
@@ -1983,7 +1977,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   consignmentTracking: [
     {
       value: 'Track Package',
-      type: TabbingOrderTypes.GENERIC_BUTTON,
+      type: TabbingOrderTypes.BUTTON,
     },
     {
       value: 'Photosmart E317 Digital Camera',
@@ -1991,11 +1985,19 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Track Package',
-      type: TabbingOrderTypes.GENERIC_BUTTON,
+      type: TabbingOrderTypes.BUTTON,
     },
     {
       value: 'DSC-T90',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Micro Webcam',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Back',
+      type: TabbingOrderTypes.BUTTON,
     },
   ],
   consignmentTrackingEvents: [

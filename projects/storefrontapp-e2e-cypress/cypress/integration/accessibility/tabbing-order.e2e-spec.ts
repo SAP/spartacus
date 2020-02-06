@@ -44,6 +44,18 @@ import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
 import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
+import { productInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/product-interests';
+import {
+  stockNotificationNoEnbaledPreferenceTabbingOrder,
+  stockNotificationProductSubscribedTabbingOrder,
+  stockNotificationDialogTabbingOrder,
+  stockNotificationTabbingOrder,
+  stockNotificationNotLoginTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/my-account/stock-notification';
+import {
+  consignmentTrackingTabbingOrder,
+  consignmentTrackingEventsTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/my-account/consignment-tracking';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -296,12 +308,6 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  context('Notification Preference', () => {
-    it('should allow to navigate with tab key', () => {
-      notificationPreferenceTabbingOrder(config.notificationPreference);
-    });
-  });
-
   context('Product Interest', () => {
     it('should allow to navigate with tab key', () => {
       productInterestTabbingOrder(config.myInterests);
@@ -331,7 +337,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   });
 
   context('Consignment Tracking', () => {
-    it('should allow to navigate with tab key', () => {
+    it.only('should allow to navigate with tab key', () => {
       consignmentTrackingTabbingOrder(config.consignmentTracking);
     });
 
