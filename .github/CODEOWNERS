@@ -1,0 +1,150 @@
+# ==================================================================================
+# ==================================================================================
+#                               Spartacus CODEOWNERS
+# ==================================================================================
+# ==================================================================================
+#
+#  Configuration of code ownership and review approvals for the spartacus repo.
+#
+#  More info: https://help.github.com/articles/about-codeowners/
+#
+
+# This is ONLY INITIAL CODEOWNERS file created to test and gradually introduce ownership
+# of specific features on a code level.
+
+
+# ================================================
+#  General rules / philosophy
+# ================================================
+#
+#  - we trust that people do the right thing and not approve changes they don't feel confident reviewing
+#  - we use github teams so that we funnel code reviews to the most appropriate reviewer, this is why the team structure is fine-grained
+#  - we enforce that only approved PRs get merged to ensure that unreviewed code doesn't get accidentally merged
+#  - we delegate approval rights as much as possible so that we can scale better
+#  - each group must have at least one person, but several people are preferable to avoid a single point of failure issues
+#  - most file groups have a global approvers group as fallback:
+#    - @SAP/spartacus-global-owners: for approving minor changes, large-scale refactorings, and emergency situations.
+#  - a small number of file groups can have very limited number of reviewers because incorrect changes to the files they guard would have serious consequences (e.g. security, public api)
+#
+#  Configuration nuances:
+#
+#  - This configuration works in conjunction with the protected branch settings that require all changes to be made via pull requests with at least one approval.
+#  - This approval can come from an appropriate codeowner, or any repo collaborator (person with write access) if the PR is authored by a codeowner.
+#  - Each codeowners team must have write access to the repo, otherwise their reviews won't count.
+
+
+# ================================================
+#  GitHub username registry
+#  (just to make this file easier to understand)
+# ================================================
+
+#  hackergil - Gilberto Alvarado Jimenez
+#  tobi-or-not-tobi - Tobias Ouwejan
+#  dunqan - Stanisław Stanisławski
+#  Platonn - Krzysztof Platis
+#  marlass - Marcin Lasak
+#  LTiger14 - Louis Pierrestiger
+#  znikola - Nikola Zarić
+#  developpeurweb - Miguel Estrada
+
+
+# ===========================================================
+#  @SAP/spartacus-global-owners
+# ===========================================================
+#  Used for approving minor changes, large-scale refactorings, and emergency situations.
+#  (secret team to avoid review requests)
+#
+#   - tobi-or-not-tobi
+#   - dunqan
+#   - hackergil
+
+
+# ===========================================================
+#  @SAP/spartacus-core-owners
+# ===========================================================
+#  Used for approving changes in core library for non explicitly owned parts and new features
+#
+#   - tobi-or-not-tobi
+#   - dunqan
+#   - Platonn
+#   - marlass
+#   - LTiger14
+#   - znikola
+
+
+# ===========================================================
+#  @SAP/spartacus-style-owners
+# ===========================================================
+#  Used for approving changes in style library
+#
+#   - tobi-or-not-tobi
+#   - LTiger14
+#   - developpeurweb
+
+
+# ===========================================================
+#  @SAP/spartacus-cart-owners
+# ===========================================================
+#
+#   - tobi-or-not-tobi
+#   - Platonn
+#   - marlass
+
+
+# ===========================================================
+#  @SAP/spartacus-routing-owners
+# ===========================================================
+#
+#   - dunqan
+#   - Platonn
+
+
+######################################################################################################
+#
+# CODEOWNERS rules
+# -----------------
+#
+# All the following rules are applied in the order specified in this file.
+# The last rule that matches wins!
+#
+# See https://git-scm.com/docs/gitignore#_pattern_format for pattern syntax docs.
+#
+######################################################################################################
+
+
+# ================================================
+#  NOT ENABLED IN INITIAL PHASE
+#  As we need full ownership coverage first
+#
+#  Default Owners
+# (in case no pattern matches a path in a PR - this should be treated as a bug and result in adding the path to CODEOWNERS)
+# ================================================
+
+# * @dunqan @SAP/spartacus-global-owners
+
+# ================================================
+#  Spartacus Core
+# ================================================
+/projects/core/src/**                                                        @SAP/spartacus-core-owners @SAP/spartacus-global-owners
+
+# ================================================
+#  Spartacus Styles
+# ================================================
+/projects/storefrontstyles/src/**                                            @SAP/spartacus-style-owners @SAP/spartacus-global-owners
+
+# ================================================
+#  Cart Functionality
+# ================================================
+/projects/core/src/cart/**                                               @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
+/projects/storefrontlib/src/cms-components/cart/**                       @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
+
+# ================================================
+#  Routing Functionality
+# ================================================
+/projects/core/src/routing/**                                            @SAP/spartacus-routing-owners @SAP/spartacus-global-owners
+
+# ================================================
+#  CODEOWNERS Owners owners ...
+# ================================================
+
+/.github/CODEOWNERS                                                      @dunqan @SAP/spartacus-global-owners
