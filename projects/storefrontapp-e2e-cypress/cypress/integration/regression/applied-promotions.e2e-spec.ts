@@ -2,6 +2,8 @@ import { retrieveTokenAndLogin } from '../../helpers/checkout-as-persistent-user
 import * as appliedPromotions from '../../helpers/applied-promotions';
 
 context('Applied promotions', () => {
+  const eosCameraProductCode = '1382080';
+
   before(() =>
     cy.window().then(win => {
       win.sessionStorage.clear();
@@ -12,7 +14,7 @@ context('Applied promotions', () => {
     before(() => {
       retrieveTokenAndLogin();
       cy.reload();
-      cy.visit('/product/1382080');
+      cy.visit(`/product/${eosCameraProductCode}`);
     });
 
     beforeEach(() => {
@@ -24,6 +26,22 @@ context('Applied promotions', () => {
     });
 
     appliedPromotions.checkAppliedPromotionsForLoggedUser();
+  });
+
+  describe('Applied promotions for different cart totals', () => {
+    before(() => {
+      retrieveTokenAndLogin();
+      cy.reload();
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
     appliedPromotions.checkAppliedPromotionsFordifferentCartTotals();
   });
 });
