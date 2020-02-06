@@ -125,7 +125,7 @@ Now create a new angular project:
 
 - `ng new spartacus-update-schematic-test` and `cd spartacus-update-schematic-test`
 - add Spartacus by running e.g. `ng add @spartacus/schematics --baseUrl https://storefront.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com --baseSite electronics-spa`
-- create `.npmrc` in the root of the project and paste the following content to it: `@spartacus:registry=http://localhost:4873` to point to the local npm server only for the `@spartacus` scope
+- create `.npmrc` in the root of the project and paste the following content to it: `@spartacus:registry=http://localhost:4873` to point to the local npm server only for the `@spartacus` scope. From this moment, `@spartacus` scoped packages will use the local npm registry.
 - commit the changes
 - run the following update command `ng update @spartacus/core @spartacus/storefrontlib`. If there's an error about the unresolved peer dependencies, you can append `--force` flag just to quickly test something, but this error should _not_ appear when executing without the flag. You should see your update commands executed now.
 
