@@ -167,6 +167,12 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
+  context('save for later', () => {
+    it('should allow to navigate with tab key', () => {
+      saveForLaterTabbingOrder(config.saveForLater);
+    });
+  });
+
   describe('Checkout', () => {
     before(() => {
       cy.restoreLocalStorage();
@@ -291,9 +297,4 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  context('save for later', () => {
-    it('should allow to navigate with tab key', () => {
-      saveForLaterTabbingOrder(config.saveForLater);
-    });
-  });
 });
