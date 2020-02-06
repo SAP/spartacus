@@ -56,6 +56,10 @@ import {
   consignmentTrackingTabbingOrder,
   consignmentTrackingEventsTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/my-account/consignment-tracking';
+import {
+  customerCouponsTabbingOrder,
+  customerCouponDialogTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/my-account/customer-coupons';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -343,6 +347,16 @@ describe('Tabbing order - tests do require user to be logged in', () => {
 
     it('should allow to navigate with tab key(tracking events)', () => {
       consignmentTrackingEventsTabbingOrder(config.consignmentTrackingEvents);
+    });
+  });
+
+  context('Customer Coupons', () => {
+    it('should allow to navigate with tab key', () => {
+      customerCouponsTabbingOrder(config.customerCoupons);
+    });
+
+    it('should allow to navigate with tab key(coupon dialog)', () => {
+      customerCouponDialogTabbingOrder(config.customerCouponDialog);
     });
   });
 });

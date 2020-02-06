@@ -2000,4 +2000,56 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.GENERIC_BUTTON,
     },
   ],
+  customerCoupons: [
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Read more',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Notification',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Notification Channels',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  customerCouponDialog: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
 };

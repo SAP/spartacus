@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <a (click)="readMore()" class="cx-card-read-more">{{
+      <a (click)="readMore()" class="cx-card-read-more" tabindex="0">{{
         'myCoupons.readMore' | cxTranslate
       }}</a>
 
@@ -48,7 +48,11 @@
         </div>
 
         <div class="cx-coupon-find-product col-lg-6 col-md-12 col-sm-6">
-          <button class="btn btn-block btn-action" (click)="findProducts()">
+          <button
+            class="btn btn-block btn-action"
+            type="button"
+            (click)="findProducts()"
+          >
             {{ 'myCoupons.findProducts' | cxTranslate }}
           </button>
         </div>
