@@ -41,37 +41,46 @@ describe('Cms Component Actions', () => {
 
     describe('LoadCmsComponentFail', () => {
       it('should create an action', () => {
-        const payload = { message: 'Load Error' };
-        const action = new CmsActions.LoadCmsComponentFail(test_uid, payload);
+        const error = { message: 'Load Error' };
+        const action = new CmsActions.LoadCmsComponentFail({
+          uid: test_uid,
+          error,
+        });
 
+        console.log(action);
         expect({ ...action }).toEqual({
+          payload: {
+            uid: test_uid,
+            error,
+          },
           type: CmsActions.LOAD_CMS_COMPONENT_FAIL,
-          payload,
           meta: StateEntityLoaderActions.entityFailMeta(
             COMPONENT_ENTITY,
             test_uid,
-            payload
+            error
           ),
-          pageContext: undefined,
         });
       });
       it('should create an action with the provided page context', () => {
-        const payload = { message: 'Load Error' };
-        const action = new CmsActions.LoadCmsComponentFail(
-          test_uid,
-          payload,
-          pageContext
-        );
+        const error = { message: 'Load Error' };
+        const action = new CmsActions.LoadCmsComponentFail({
+          uid: test_uid,
+          error,
+          pageContext,
+        });
 
         expect({ ...action }).toEqual({
+          payload: {
+            uid: test_uid,
+            error,
+            pageContext,
+          },
           type: CmsActions.LOAD_CMS_COMPONENT_FAIL,
-          payload,
           meta: StateEntityLoaderActions.entityFailMeta(
             COMPONENT_ENTITY,
             test_uid,
-            payload
+            error
           ),
-          pageContext,
         });
       });
     });

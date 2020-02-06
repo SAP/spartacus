@@ -64,8 +64,8 @@ export class ComponentEffects {
     // TODO: remove, deprecated behavior since 1.4
     if (!this.featureConfigService.isLevel('1.4')) {
       return merge(
-        ...componentUids.map(componentUid =>
-          this.cmsComponentLoader.get(componentUid, pageContext).pipe(
+        ...componentUids.map(uid =>
+          this.cmsComponentLoader.get(uid, pageContext).pipe(
             map(
               component =>
                 new CmsActions.LoadCmsComponentSuccess(
@@ -76,11 +76,11 @@ export class ComponentEffects {
             ),
             catchError(error =>
               of(
-                new CmsActions.LoadCmsComponentFail(
-                  componentUid,
-                  makeErrorSerializable(error),
-                  pageContext
-                )
+                new CmsActions.LoadCmsComponentFail({
+                  uid,
+                  error: makeErrorSerializable(error),
+                  pageContext,
+                })
               )
             )
           )
@@ -106,11 +106,11 @@ export class ComponentEffects {
         from(
           componentUids.map(
             uid =>
-              new CmsActions.LoadCmsComponentFail(
+              new CmsActions.LoadCmsComponentFail({
                 uid,
-                makeErrorSerializable(error),
-                pageContext
-              )
+                error: makeErrorSerializable(error),
+                pageContext,
+              })
           )
         )
       )

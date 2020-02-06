@@ -22,13 +22,10 @@ export class LoadCmsComponent extends StateEntityLoaderActions.EntityLoadAction 
 
 export class LoadCmsComponentFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = LOAD_CMS_COMPONENT_FAIL;
-  // TODO(issue:6027) - this action should have only one `payload` property which should encapsulate all of the constructor's arguments
   constructor(
-    uid: string,
-    public payload: any,
-    public pageContext?: PageContext
+    public payload: { uid: string; error: any; pageContext?: PageContext }
   ) {
-    super(COMPONENT_ENTITY, uid, payload);
+    super(COMPONENT_ENTITY, payload.uid, payload.error);
   }
 }
 

@@ -61,11 +61,11 @@ describe('Components Reducer', () => {
         type: PageType.CONTENT_PAGE,
       };
 
-      const action = new CmsActions.LoadCmsComponentFail(
-        'xxx',
-        {},
-        pageContext
-      );
+      const action = new CmsActions.LoadCmsComponentFail({
+        uid: 'xxx',
+        error: {},
+        pageContext,
+      });
       const state = fromComponents.reducer(initialState, action);
 
       const serializedPageContext = serializePageContext(pageContext, true);

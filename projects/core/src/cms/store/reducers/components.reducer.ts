@@ -47,7 +47,7 @@ export function reducer<T>(
         action.meta.entityType,
         componentExistsReducer
       );
-      const context = serializePageContext(action.pageContext, true);
+      const context = serializePageContext(action.payload.pageContext, true);
       return {
         ...state,
         pageContext: {
