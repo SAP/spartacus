@@ -1,13 +1,13 @@
-import { checkAllElements, TabElement } from '../tabbing-order';
-import { doPlaceOrder } from '../../order-history';
-import { TabbingOrderTypes } from '../tabbing-order.config';
+import { verifyTabbingOrder } from '../../tabbing-order';
+import { doPlaceOrder } from '../../../order-history';
+import { TabElement, TabbingOrderTypes } from '../../tabbing-order.model';
+
+const containerSelector = '.AccountPageTemplate';
 
 export function orderHistoryNoOrdersTabbingOrder(config: TabElement[]) {
   cy.visit('/my-account/orders');
-  cy.get('cx-order-history a')
-    .first()
-    .focus();
-  checkAllElements(config);
+
+  verifyTabbingOrder(containerSelector, config);
 }
 
 export function orderHistoryWithOrdersTabbingOrder() {
@@ -62,9 +62,7 @@ export function orderHistoryWithOrdersTabbingOrder() {
     ];
 
     cy.visit('/my-account/orders');
-    cy.get('cx-order-history ng-select input')
-      .first()
-      .focus();
-    checkAllElements(config);
+
+    verifyTabbingOrder(containerSelector, config);
   });
 }

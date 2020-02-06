@@ -1,5 +1,8 @@
-import { checkAllElements, TabElement } from '../tabbing-order';
+import { verifyTabbingOrder } from '../tabbing-order';
 import { formats } from '../../../sample-data/viewports';
+import { TabElement } from '../tabbing-order.model';
+
+const containerSelector = 'header';
 
 export function headerTabbingOrder(
   config: TabElement[],
@@ -23,16 +26,11 @@ export function headerTabbingOrder(
     .find('nav')
     .should('have.length', navLength);
 
-  if (!mobile) {
-    cy.get('header cx-site-context-selector select')
-      .first()
-      .focus();
-  } else {
+  if (mobile) {
     cy.get('header cx-hamburger-menu button')
       .first()
-      .click()
-      .focus();
+      .click();
   }
 
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
 }

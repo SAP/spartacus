@@ -37,7 +37,7 @@
     </cx-generic-link>
 
     <ng-template #heading>
-      <h5 [attr.aria-label]="node.title">
+      <h5 [attr.aria-label]="node.title" tabindex="0">
         {{ node.title }}
         <cx-icon
           *ngIf="flyout && node.children?.length > 0"

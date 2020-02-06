@@ -1,4 +1,7 @@
-import { checkAllElements, TabElement } from '../tabbing-order';
+import { verifyTabbingOrder } from '../../tabbing-order';
+import { TabElement } from '../../tabbing-order.model';
+
+const containerSelector = '.AccountPageTemplate';
 
 export function consentManagementTabbingOrder(config: TabElement[]) {
   cy.server();
@@ -9,10 +12,5 @@ export function consentManagementTabbingOrder(config: TabElement[]) {
 
   cy.wait('@getComponents');
 
-  cy.get('.cx-consent-action-links a.cx-action-link')
-    .contains('Clear all')
-    .first()
-    .focus(); // focus the first element
-
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
 }
