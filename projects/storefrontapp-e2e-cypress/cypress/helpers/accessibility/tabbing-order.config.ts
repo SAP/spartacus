@@ -174,7 +174,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: '-', type: TabbingOrderTypes.BUTTON },
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: '+', type: TabbingOrderTypes.BUTTON },
-    { value: 'Save For Later', type: TabbingOrderTypes.GENERIC_BUTTON},
+    { type: TabbingOrderTypes.GENERIC_BUTTON},
     { value: 'Remove', type: TabbingOrderTypes.LINK },
     {
       value: 'Proceed to Checkout',
@@ -187,7 +187,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     { type: TabbingOrderTypes.GENERIC_BUTTON},
-    { value: 'Remove', type: TabbingOrderTypes.GENERIC_BUTTON },
+    { type: TabbingOrderTypes.GENERIC_BUTTON },
   ],
   changePassword: [
     {
