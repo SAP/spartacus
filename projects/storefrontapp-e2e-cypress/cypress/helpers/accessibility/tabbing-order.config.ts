@@ -1950,13 +1950,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   stockNotificationSubscribed: [
     {
-      value: 'STOP NOTIFICATION',
-      type: TabbingOrderTypes.GENERIC_BUTTON,
-    },
-  ],
-  stockNotification: [
-    {
-      value: 'NOTIFY ME',
       type: TabbingOrderTypes.GENERIC_BUTTON,
     },
   ],
@@ -1970,7 +1963,11 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'OK',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
+  stockNotification: [
+    {
       type: TabbingOrderTypes.GENERIC_BUTTON,
     },
   ],
