@@ -26,15 +26,17 @@
           {{ 'cartItems.id' | cxTranslate }} {{ cartEntry.product.code }}
         </div>
         <!-- Variants -->
-        <div
-          *ngFor="
-            let variant of cartEntry.product.baseOptions[0]?.selected
-              ?.variantOptionQualifiers
-          "
-          class="cx-property"
-        >
-          <div class="cx-label" *ngIf="variant.name && variant.value">
-            {{ variant.name }}: {{ variant.value }}
+        <div *ngIf="cartEntry.product.baseOptions.length">
+          <div
+            *ngFor="
+              let variant of cartEntry.product.baseOptions[0]?.selected
+                ?.variantOptionQualifiers
+            "
+            class="cx-property"
+          >
+            <div class="cx-label" *ngIf="variant.name && variant.value">
+              {{ variant.name }}: {{ variant.value }}
+            </div>
           </div>
         </div>
       </div>

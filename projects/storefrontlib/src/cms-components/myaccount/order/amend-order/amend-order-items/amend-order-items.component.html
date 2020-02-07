@@ -62,18 +62,20 @@
               </div>
             </ng-container>
             <ng-container *cxFeatureLevel="'1.5'">
-              <div
-                *ngFor="
-                  let variant of item.product.baseOptions[0]?.selected
-                    ?.variantOptionQualifiers
-                "
-                class="cx-property"
-              >
-                <div class="cx-label" *ngIf="variant.name">
-                  {{ variant.name }}:
-                </div>
-                <div class="cx-value" *ngIf="variant.value">
-                  {{ variant.value }}
+              <div *ngIf="item.product.baseOptions.length">
+                <div
+                  *ngFor="
+                    let variant of item.product.baseOptions[0]?.selected
+                      ?.variantOptionQualifiers
+                  "
+                  class="cx-property"
+                >
+                  <div class="cx-label" *ngIf="variant.name">
+                    {{ variant.name }}:
+                  </div>
+                  <div class="cx-value" *ngIf="variant.value">
+                    {{ variant.value }}
+                  </div>
                 </div>
               </div>
             </ng-container>
