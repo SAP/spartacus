@@ -44,6 +44,7 @@ import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
 import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
+import { saveForLaterTabbingOrder } from '../../helpers/accessibility/tabbing-order/save-for-later';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -163,6 +164,12 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('Header - Mobile (logged in)', () => {
     it('should allow to navigate with tab key', () => {
       headerTabbingOrder(config.headerMobileLoggedIn, true, true);
+    });
+  });
+
+  context('save for later', () => {
+    it('should allow to navigate with tab key', () => {
+      saveForLaterTabbingOrder(config.saveForLater);
     });
   });
 
