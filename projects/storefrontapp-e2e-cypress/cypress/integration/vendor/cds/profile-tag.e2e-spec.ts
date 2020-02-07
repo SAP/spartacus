@@ -22,19 +22,11 @@ describe.skip('Profile-tag events', () => {
     profileTagHelper.triggerLoaded();
   });
   it('should send a CartChanged event on adding an item to cart', () => {
-    const productCode = 'ProductPage&code=280916';
-    const productPage = waitForPage(productCode, 'getProductPage');
-    cy.get('.Section4 cx-banner')
-      .first()
-      .find('img')
-      .click({ force: true });
-    cy.wait(`@${productPage}`)
-      .its('status')
-      .should('eq', 200);
+    goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary');
     cy.window().then(win => {
-      expect((<any>win).Y_TRACKING.eventLayer.length).to.be.least(1);
+      expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(2);
       expect((<any>win).Y_TRACKING.eventLayer[1]['name']).to.equal(
         'CartSnapshot'
       );
@@ -46,15 +38,7 @@ describe.skip('Profile-tag events', () => {
     });
   });
   it('should send an additional CartChanged event on modifying the cart', () => {
-    const productCode = 'ProductPage&code=280916';
-    const productPage = waitForPage(productCode, 'getProductPage');
-    cy.get('.Section4 cx-banner')
-      .first()
-      .find('img')
-      .click({ force: true });
-    cy.wait(`@${productPage}`)
-      .its('status')
-      .should('eq', 200);
+    goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary').click();
     cy.get('cx-cart-item-list')
@@ -93,3 +77,15 @@ describe.skip('Profile-tag events', () => {
     });
   });
 });
+
+function goToProductPage() {
+  const productPagePath = 'ProductPage&code=280916';
+  const productPage = waitForPage(productPagePath, 'getProductPage');
+  cy.get('.Section4 cx-banner')
+    .first()
+    .find('img')
+    .click({ force: true });
+  cy.wait(`@${productPage}`)
+    .its('status')
+    .should('eq', 200);
+}
