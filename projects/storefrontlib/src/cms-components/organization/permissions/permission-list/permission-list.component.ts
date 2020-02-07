@@ -61,8 +61,9 @@ export class PermissionListComponent implements OnInit {
             pagination: permissionsList.pagination,
             permissionsList: permissionsList.values.map(permission => ({
               code: permission.code,
-              threshold: `${permission.threshold} ${permission.currency &&
-                permission.currency.symbol}`,
+              threshold: `${permission.threshold ||
+                ''} ${(permission.currency && permission.currency.symbol) ||
+                ''}`,
               orderType:
                 permission.orderApprovalPermissionType &&
                 permission.orderApprovalPermissionType.name,
