@@ -1,3 +1,4 @@
+import { apiUrl } from '../support/utils/login';
 import {
   addPaymentMethod,
   addShippingAddress,
@@ -5,7 +6,6 @@ import {
   deleteShippingAddress,
   verifyAndPlaceOrder,
 } from './checkout-as-persistent-user';
-import { apiUrl } from '../support/utils/login';
 
 export const eosCameraProductName = 'EOS450D';
 
@@ -48,13 +48,15 @@ export function selectShippingAddress() {
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
   cy.get('.card-header').should('contain', 'Selected');
-  cy.get('button.btn-primary').click();
+  cy.visit(`/checkout/delivery-mode`);
 }
 
 export function selectDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-net').should('be.checked');
   cy.get('button.btn-primary').click();
+  // cannot use cy.visit here, as payment details are unavailable
+  cy.wait(1000);
 }
 
 export function selectPaymentMethod() {
@@ -65,6 +67,8 @@ export function selectPaymentMethod() {
   cy.get('.cx-card-title').should('contain', 'Default Payment Method');
   cy.get('.card-header').should('contain', 'Selected');
   cy.get('button.btn-primary').click();
+  // cannot use cy.visit here, as review order is unavailable
+  cy.wait(1000);
 }
 
 export function goToOrderHistoryDetailsFromSummary() {
@@ -140,7 +144,7 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
     addProductToCart();
   });
 
-  it('Should display promotions in users cart view for added product', () => {
+  it('Should display promotions in users cart view for added products', () => {
     goToCartDetailsViewFromCartDialog();
     checkForAppliedCartPromotions(true);
   });

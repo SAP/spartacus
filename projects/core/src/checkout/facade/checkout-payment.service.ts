@@ -94,6 +94,13 @@ export class CheckoutPaymentService {
     }
   }
 
+  /**
+   * Sets payment loading to true without having the flicker issue (GH-3102)
+   */
+  paymentProcessSuccess() {
+    this.checkoutStore.dispatch(new CheckoutActions.PaymentProcessSuccess());
+  }
+
   protected actionAllowed(): boolean {
     return (
       this.cartData.userId !== OCC_USER_ID_ANONYMOUS ||

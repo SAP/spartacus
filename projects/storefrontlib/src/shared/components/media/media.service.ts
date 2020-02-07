@@ -50,7 +50,7 @@ export class MediaService {
       return this.getImageUrl(media[format || DEFAULT_MEDIA_FORMAT].url);
     } else if (media && media.url) {
       return this.getImageUrl(media.url);
-    } else if (media) {
+    } else if (media && media[this.getHighestAvailableFormat(media)]) {
       return this.getImageUrl(media[this.getHighestAvailableFormat(media)].url);
     } else {
       return null;

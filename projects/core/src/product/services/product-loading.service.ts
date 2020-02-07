@@ -1,4 +1,6 @@
+import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import {
   combineLatest,
@@ -21,15 +23,13 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { deepMerge } from '../../config/utils/deep-merge';
 import { Product } from '../../model/product.model';
+import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
+import { withdrawOn } from '../../util/withdraw-on';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
-import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
-import { deepMerge } from '../../config/utils/deep-merge';
-import { withdrawOn } from '../../util/withdraw-on';
-import { Actions, ofType } from '@ngrx/effects';
-import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -50,20 +50,7 @@ export class ProductLoadingService {
     scopes = this.loadingScopes.expand('product', scopes);
 
     this.initProductScopes(productCode, scopes);
-
-    if (scopes.length > 1) {
-      return combineLatest(
-        scopes.map(scope => this.products[productCode][scope])
-      ).pipe(
-        auditTime(0),
-        map(
-          productParts =>
-            productParts.find(Boolean) && deepMerge({}, ...productParts)
-        )
-      );
-    } else {
-      return this.products[productCode][scopes[0]];
-    }
+    return this.products[productCode][this.getScopesIndex(scopes)];
   }
 
   protected initProductScopes(productCode: string, scopes: string[]): void {
@@ -79,6 +66,24 @@ export class ProductLoadingService {
         );
       }
     }
+
+    if (scopes.length > 1) {
+      this.products[productCode][this.getScopesIndex(scopes)] = combineLatest(
+        scopes.map(scope => this.products[productCode][scope])
+      ).pipe(
+        auditTime(0),
+        map(productParts =>
+          productParts.every(Boolean)
+            ? deepMerge({}, ...productParts)
+            : undefined
+        ),
+        distinctUntilChanged()
+      );
+    }
+  }
+
+  protected getScopesIndex(scopes: string[]): string {
+    return scopes.join('ɵ');
   }
 
   /**
