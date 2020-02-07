@@ -18,18 +18,25 @@ export class FocusTrapService {
 
   constructor() {}
 
+  focusFirstEl(target: HTMLElement): void {
+    const first: HTMLElement = target.querySelector(
+      this.focusableSelectors.join(',')
+    );
+    first.focus();
+  }
+
   getTrapHandler(target: HTMLElement): Function {
     const root: Document = <Document>target.getRootNode();
-    const focusableElements: HTMLElement[] = Array.from(<
-      NodeListOf<HTMLElement>
-    >target.querySelectorAll(this.focusableSelectors.join(','))).filter(
-      element => element.offsetParent !== null
-    );
-
-    const first: HTMLElement = focusableElements[0];
-    const last: HTMLElement = focusableElements[focusableElements.length - 1];
-
     const trapHandler = (e: KeyboardEvent) => {
+      const focusableElements: HTMLElement[] = Array.from(<
+        NodeListOf<HTMLElement>
+      >target.querySelectorAll(this.focusableSelectors.join(','))).filter(
+        element => element.offsetParent !== null
+      );
+
+      const first: HTMLElement = focusableElements[0];
+      const last: HTMLElement = focusableElements[focusableElements.length - 1];
+
       if (e.key === 'Tab') {
         if (e.shiftKey) {
           // Wrap first to last element on SHIFT+TAB keypress
