@@ -179,7 +179,7 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 export function removeAllItemsFromCart() {
   const product0 = products[0];
   const product1 = products[4];
-  waitForCartRefresh();
+  registerCartRefreshRoute();
 
   getCartItem(product0.name).within(() => {
     cy.getByText('Remove').click();
@@ -344,13 +344,4 @@ export function loginCartUser() {
   cy.visit('/login');
   login(cartUser.registrationData.email, cartUser.registrationData.password);
   cy.url().should('not.contain', 'login');
-}
-
-export function waitForCartRefresh() {
-  cy.server();
-
-  cy.route(
-    'GET',
-    `/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
-  ).as('refresh_cart');
 }
