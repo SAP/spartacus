@@ -2,7 +2,11 @@ import { experimental, strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
 import { parseTsconfigFile } from '@angular/core/schematics/utils/typescript/parse_tsconfig';
-import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
+import {
+  findNodes,
+  getSourceNodes,
+  isImported,
+} from '@schematics/angular/utility/ast-utils';
 import {
   Change,
   InsertChange,
@@ -10,6 +14,16 @@ import {
 } from '@schematics/angular/utility/change';
 import { dirname, relative } from 'path';
 import * as ts from 'typescript';
+
+export enum InsertDirection {
+  LEFT,
+  RIGHT,
+}
+
+export interface ClassType {
+  className: string;
+  importPath: string;
+}
 
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   const buffer = tree.read(path);
@@ -71,11 +85,6 @@ export function getPathResultsForFile(
   return results;
 }
 
-export enum InsertDirection {
-  LEFT,
-  RIGHT,
-}
-
 export function commitChanges(
   host: Tree,
   path: string,
@@ -112,18 +121,104 @@ export function commitChanges(
   host.commitUpdate(recorder);
 }
 
+function findConstructor(nodes: ts.Node[]): ts.Node | undefined {
+  return nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
+}
+
 export function defineProperty(
   nodes: ts.Node[],
   path: string,
   toAdd: string
 ): InsertChange {
-  const constructorNode = nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
+  const constructorNode = findConstructor(nodes);
 
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${path}.`);
   }
 
   return new InsertChange(path, constructorNode.pos + 1, toAdd);
+}
+
+/**
+ *
+ * Method performs the following checks on the provided `source` file:
+ * - is the file inheriting the provided `inheritedClass`
+ * - is the file importing all the provided `parameterClassTypes` from the expected import path
+ * - does the provided file contain a constructor
+ * - does the number of the constructor parameters match the expected `parameterClassTypes`
+ * - does the order and the type of the constructor parameters match the expected `parameterClassTypes`
+ *
+ * If only once condition is not satisfied, the method returns `false`. Otherwise, it returns `true`.
+ *
+ * @param source a ts source file
+ * @param inheritedClass a class which customers might have extended
+ * @param parameterClassTypes a list of parameter class types. Must be provided in the order in which they appear in the deprecated constructor.
+ */
+// TODO:#6432  - test
+export function isCandidateForConstructorDeprecation(
+  source: ts.SourceFile,
+  inheritedClass: string,
+  parameterClassTypes: ClassType[]
+): boolean {
+  const nodes = getSourceNodes(source);
+
+  // TODO:#6432 - extract every piece of logic to a smaller non-exported function
+
+  const heritageClauseNodes = nodes.filter(
+    node => node.kind === ts.SyntaxKind.HeritageClause
+  );
+  const heritageNode = findNodesByTextAndKind(
+    heritageClauseNodes,
+    inheritedClass,
+    ts.SyntaxKind.Identifier
+  );
+  if (!heritageNode) {
+    return false;
+  }
+
+  for (const classImport of parameterClassTypes) {
+    if (!isImported(source, classImport.className, classImport.importPath)) {
+      return false;
+    }
+  }
+
+  const constructorNode = findConstructor(nodes);
+  if (!constructorNode) {
+    return false;
+  }
+
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Parameter
+  );
+  // the number of constructor parameter does not match with the expected number of parameters
+  if (constructorParameters.length !== parameterClassTypes.length) {
+    return false;
+  }
+
+  for (let i = 0; i < parameterClassTypes.length; i++) {
+    const parameterClassType = parameterClassTypes[i];
+    const constructorParameter = constructorParameters[i];
+
+    const constructorParameterTypeReferenceNode = constructorParameter
+      .getChildren()
+      .find(node => node.kind === ts.SyntaxKind.TypeReference);
+    if (!constructorParameterTypeReferenceNode) {
+      return false;
+    }
+    const constructorParameterType = findNodesByTextAndKind(
+      constructorParameterTypeReferenceNode.getChildren(),
+      parameterClassType.className,
+      ts.SyntaxKind.Identifier
+    );
+
+    // return false if there's no param with the expected type on the current position
+    if (constructorParameterType.length === 0) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 export function injectService(
@@ -161,7 +256,7 @@ export function insertCommentAboveIdentifier(
   identifierName: string,
   comment: string
 ): InsertChange[] {
-  const callExpressionNodes = findNodesByTextAndKind(
+  const callExpressionNodes = findNodesInSourceByTextAndKind(
     source,
     identifierName,
     ts.SyntaxKind.Identifier
@@ -185,7 +280,7 @@ export function renameIdentifierNode(
   oldName: string,
   newName: string
 ): ReplaceChange[] {
-  const callExpressionNodes = findNodesByTextAndKind(
+  const callExpressionNodes = findNodesInSourceByTextAndKind(
     source,
     oldName,
     ts.SyntaxKind.Identifier
@@ -197,12 +292,22 @@ export function renameIdentifierNode(
   return changes;
 }
 
-function findNodesByTextAndKind(
+// TODO:#6432 - renamed. Rename the test.
+function findNodesInSourceByTextAndKind(
   source: ts.SourceFile,
   text: string,
   syntaxKind: ts.SyntaxKind
 ): ts.Node[] {
   const nodes = getSourceNodes(source);
+  return findNodesByTextAndKind(nodes, text, syntaxKind);
+}
+
+// TODO:#6432 - test
+function findNodesByTextAndKind(
+  nodes: ts.Node[],
+  text: string,
+  syntaxKind: ts.SyntaxKind
+): ts.Node[] {
   return nodes
     .filter(n => n.kind === syntaxKind)
     .filter(n => n.getText() === text);

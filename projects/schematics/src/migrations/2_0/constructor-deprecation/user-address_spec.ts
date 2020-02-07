@@ -88,7 +88,7 @@ describe('constructor user-address migration', () => {
   function runMigration(): Promise<UnitTestTree> {
     return schematicRunner
       .runSchematicAsync(
-        'migration-v2-update-cms-component-state-02',
+        'migration-v2-constructor-user-address-03',
         {},
         appTree
       )

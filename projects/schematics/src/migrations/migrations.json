@@ -12,7 +12,7 @@
     },
     "migration-v2-constructor-user-address-03": {
       "version": "2",
-      "factory": "./2_0/constructor-deprecation/user-address/migrate",
+      "factory": "./2_0/constructor-deprecation/user-address#migrate",
       "description": "Migrate constructor for user-address service"
     }
   }
