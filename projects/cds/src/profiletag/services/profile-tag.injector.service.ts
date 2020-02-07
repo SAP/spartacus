@@ -27,7 +27,7 @@ export class ProfileTagInjectorService {
     private profileTagEventTracker: ProfileTagEventService,
     private spartacusEventTracker: SpartacusEventService,
     protected http: HttpClient,
-    private occEndpoints: OccEndpointsService    
+    private occEndpoints: OccEndpointsService
   ) {}
 
   track(): Observable<boolean> {
@@ -72,11 +72,13 @@ export class ProfileTagInjectorService {
   private notifyEcOfLoginSuccessful(): Observable<boolean> {
     return this.spartacusEventTracker.loginSuccessful().pipe(
       switchMap(_ => {
-        return this.http.post(
-          `${this.occEndpoints.getBaseEndpoint()}/users/current/loginnotification`,
-          {}
-        ).pipe(mapTo(true));
+        return this.http
+          .post(
+            `${this.occEndpoints.getBaseEndpoint()}/users/current/loginnotification`,
+            {}
+          )
+          .pipe(mapTo(true));
       })
     );
-  } 
+  }
 }

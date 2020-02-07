@@ -16,7 +16,7 @@ describe('ProfileTagInjector', () => {
   let httpMock: HttpClient;
   let postBehaviour: Subject<boolean>;
   let occEndpointsService: OccEndpointsService;
-  let occEndpointBehaviour: Subject<string>;  
+  let occEndpointBehaviour: Subject<string>;
   let profileTagInjector: ProfileTagInjectorService;
   let addTrackerBehavior: Subject<Event>;
   let profileTagEventTrackerMock: ProfileTagEventService;
@@ -38,7 +38,7 @@ describe('ProfileTagInjector', () => {
       getBaseEndpoint: jasmine
         .createSpy('getBaseEndpoint')
         .and.callFake(_ => occEndpointBehaviour),
-    });    
+    });
     spartacusEventTrackerMock = <SpartacusEventService>(<unknown>{
       consentGranted: jasmine
         .createSpy('consentGranted')
@@ -49,9 +49,9 @@ describe('ProfileTagInjector', () => {
       cartChanged: jasmine
         .createSpy('cartChanged')
         .and.callFake(_ => cartBehavior),
-        loginSuccessful: jasmine
+      loginSuccessful: jasmine
         .createSpy('loginSuccessful')
-        .and.callFake(_ => postBehaviour),        
+        .and.callFake(_ => postBehaviour),
     });
     profileTagEventTrackerMock = <ProfileTagEventService>(<unknown>{
       addTracker: jasmine
@@ -84,7 +84,7 @@ describe('ProfileTagInjector', () => {
         {
           provide: OccEndpointsService,
           useValue: occEndpointsService,
-        },        
+        },
       ],
     });
     profileTagInjector = TestBed.get(ProfileTagInjectorService as Type<
@@ -149,5 +149,5 @@ describe('ProfileTagInjector', () => {
     subscription.unsubscribe();
     expect(httpMock.post).toHaveBeenCalled();
     expect(occEndpointsService.getBaseEndpoint).toHaveBeenCalled();
-  });  
+  });
 });

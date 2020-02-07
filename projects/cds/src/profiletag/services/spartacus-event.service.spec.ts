@@ -6,7 +6,13 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
-import { AuthActions, Cart, CartService, ConsentService, OrderEntry } from '@spartacus/core';
+import {
+  AuthActions,
+  Cart,
+  CartService,
+  ConsentService,
+  OrderEntry,
+} from '@spartacus/core';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -68,7 +74,7 @@ describe('SpartacusEventTracker', () => {
         {
           provide: ActionsSubject,
           useValue: mockActionsSubject,
-        },        
+        },
       ],
     });
     spartacusEventTracker = TestBed.get(SpartacusEventService as Type<
@@ -205,5 +211,4 @@ describe('SpartacusEventTracker', () => {
     subscription.unsubscribe();
     expect(timesCalled).toEqual(2);
   });
-    
 });
