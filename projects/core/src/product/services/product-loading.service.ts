@@ -50,20 +50,7 @@ export class ProductLoadingService {
     scopes = this.loadingScopes.expand('product', scopes);
 
     this.initProductScopes(productCode, scopes);
-
-    if (scopes.length > 1) {
-      return combineLatest(
-        scopes.map(scope => this.products[productCode][scope])
-      ).pipe(
-        auditTime(0),
-        map(
-          productParts =>
-            productParts.find(Boolean) && deepMerge({}, ...productParts)
-        )
-      );
-    } else {
-      return this.products[productCode][scopes[0]];
-    }
+    return this.products[productCode][this.getScopesIndex(scopes)];
   }
 
   protected initProductScopes(productCode: string, scopes: string[]): void {
@@ -79,6 +66,24 @@ export class ProductLoadingService {
         );
       }
     }
+
+    if (scopes.length > 1) {
+      this.products[productCode][this.getScopesIndex(scopes)] = combineLatest(
+        scopes.map(scope => this.products[productCode][scope])
+      ).pipe(
+        auditTime(0),
+        map(productParts =>
+          productParts.every(Boolean)
+            ? deepMerge({}, ...productParts)
+            : undefined
+        ),
+        distinctUntilChanged()
+      );
+    }
+  }
+
+  protected getScopesIndex(scopes: string[]): string {
+    return scopes.join('ɵ');
   }
 
   /**

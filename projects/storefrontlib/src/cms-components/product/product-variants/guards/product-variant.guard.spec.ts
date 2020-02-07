@@ -6,11 +6,13 @@ import { Type } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 const mockPurchasableProduct = {
+  name: 'purchasableProduct',
   productCode: 'purchasableTest123',
   purchasable: true,
 };
 
 const mockNonPurchasableProduct = {
+  name: 'nonPurchasableProduct',
   productCode: 'purchasableTest123',
   purchasable: false,
   variantOptions: [
@@ -35,7 +37,7 @@ class MockRoutingService {
       },
     });
   }
-  goByUrl() {
+  go() {
     return of();
   }
 }
@@ -80,15 +82,31 @@ describe('ProductVariantGuard', () => {
     });
   });
 
-  it('should return true if product is purchasable', done => {
+  it('should return false and redirect if product is non-purchasable', done => {
     spyOn(productService, 'get').and.returnValue(of(mockNonPurchasableProduct));
-    spyOn(routingService, 'goByUrl').and.stub();
+    spyOn(routingService, 'go').and.stub();
 
     guard.canActivate().subscribe(val => {
       expect(val).toBeFalsy();
-      expect(routingService.goByUrl).toHaveBeenCalledWith(
-        `product/${mockNonPurchasableProduct.variantOptions[0].code}`
-      );
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'product',
+        params: mockNonPurchasableProduct,
+      });
+      done();
+    });
+  });
+
+  it('should return true if there is no productCode in route parameter', done => {
+    spyOn(routingService, 'getRouterState').and.returnValue(
+      of({
+        nextState: {
+          params: {},
+        },
+      } as any)
+    );
+
+    guard.canActivate().subscribe(val => {
+      expect(val).toBeTruthy();
       done();
     });
   });

@@ -39,7 +39,7 @@
     "i18n-lint": "i18n-lint -t \"{{,}}\" projects/storefrontlib/src/**/*.html",
     "mockserver": "cd ./projects/backend/mockgenerator && npm run start",
     "prettier": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss,.html}\"",
-    "prettier-fix": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss,.html}\" --write",
+    "prettier:fix": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss,.html}\" --write",
     "start": "ng serve --proxy-config mock-server/proxy.backend.js",
     "start:mock": "ng serve --proxy-config mock-server/proxy.mock.js",
     "start:ci": "yarn build && yarn start:prod -c=ci",
