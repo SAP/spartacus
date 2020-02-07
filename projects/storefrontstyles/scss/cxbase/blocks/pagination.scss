@@ -1,13 +1,19 @@
 @import '../../theme';
-@import '~bootstrap/scss/pagination';
+
+.pagination {
+  display: flex;
+  list-style: none;
+}
 
 .page-item {
   .page-link {
     @include type(4);
+    display: block;
     padding: 12px 17px 12px 17px;
     height: 48px;
     color: var(--cx-color-text);
     cursor: pointer;
+    border: 1px solid var(--cx-color-light);
 
     &:hover {
       background-color: var(--cx-color-primary);
@@ -28,6 +34,8 @@
 
   &.disabled {
     .page-link {
+      pointer-events: none;
+      cursor: auto;
       &[aria-label='Previous'],
       &[aria-label='Next'] {
         color: var(--cx-color-light);

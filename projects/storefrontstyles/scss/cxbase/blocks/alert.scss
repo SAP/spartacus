@@ -1,8 +1,6 @@
 @import '../../theme';
 @import '../../mixins';
-@import '~bootstrap/scss/alert';
 
-//alert - https://github.com/twbs/bootstrap/blob/v4-dev/scss/alert.scss
 .alert {
   text-align: var(--cx-text-align, center);
   color: var(--cx-color, var(--cx-color-text));
