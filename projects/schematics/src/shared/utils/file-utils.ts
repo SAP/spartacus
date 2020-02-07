@@ -121,7 +121,8 @@ export function commitChanges(
   host.commitUpdate(recorder);
 }
 
-function findConstructor(nodes: ts.Node[]): ts.Node | undefined {
+// TODO:#6432 - test
+export function findConstructor(nodes: ts.Node[]): ts.Node | undefined {
   return nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
 }
 
@@ -220,6 +221,34 @@ export function isCandidateForConstructorDeprecation(
 
   return true;
 }
+
+// TODO:#6432 - test
+export function collectConstructorParameterNames(
+  constructorNode: ts.Node | undefined
+): string[] {
+  if (!constructorNode) {
+    throw new SchematicsException('No constructor provided.');
+  }
+
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Parameter
+  );
+  return constructorParameters.map(paramNode => {
+    const paramNameNode = paramNode
+      .getChildren()
+      .find(node => node.kind === ts.SyntaxKind.Identifier);
+    return paramNameNode ? paramNameNode.getText() : '';
+  });
+}
+
+// TODO:#6432 - test
+// export function removeConstructor(): Change[] {}
+
+// TODO:#6432 - test
+// export function createConstructor(): Change[] {
+
+// }
 
 export function injectService(
   nodes: ts.Node[],

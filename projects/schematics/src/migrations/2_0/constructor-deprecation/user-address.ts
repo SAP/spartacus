@@ -1,31 +1,35 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { getProjectTsConfigPaths } from '@angular/core/schematics/utils/project_tsconfig_paths';
+import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 import {
-  AUTH_SERVICE,
   NGRX_STORE,
-  SPARTACUS_CORE,
   STORE,
   USER_ADDRESS_SERVICE,
 } from '../../../shared/constants';
 import {
   ClassType,
+  collectConstructorParameterNames,
+  findConstructor,
   getAllTsSourceFiles,
   isCandidateForConstructorDeprecation,
 } from '../../../shared/utils/file-utils';
 
+const DELETE_ME = true;
 const DEPRECATED_CONSTRUCTOR_PARAMETERS: ClassType[] = [
   {
     className: STORE,
     importPath: NGRX_STORE,
   },
 ];
-const NEW_CONSTRUCTOR_PARAMETERS: ClassType[] = [
-  ...DEPRECATED_CONSTRUCTOR_PARAMETERS,
-  {
-    className: AUTH_SERVICE,
-    importPath: SPARTACUS_CORE,
-  },
-];
+if (DELETE_ME) {
+  // const NEW_CONSTRUCTOR_PARAMETERS: ClassType[] = [
+  //   ...DEPRECATED_CONSTRUCTOR_PARAMETERS,
+  //   {
+  //     className: AUTH_SERVICE,
+  //     importPath: SPARTACUS_CORE,
+  //   },
+  // ];
+}
 
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -36,13 +40,22 @@ export function migrate(): Rule {
     for (const tsconfigPath of buildPaths) {
       const sourceFiles = getAllTsSourceFiles(tsconfigPath, tree, basePath);
       for (const source of sourceFiles) {
-        // const sourcePath = relative(basePath, source.fileName);
-        const candidate = isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          DEPRECATED_CONSTRUCTOR_PARAMETERS
-        );
-        console.log('candidate: ', candidate);
+        if (DELETE_ME) {
+          // const sourcePath = relative(basePath, source.fileName);}
+          const candidate = isCandidateForConstructorDeprecation(
+            source,
+            USER_ADDRESS_SERVICE,
+            DEPRECATED_CONSTRUCTOR_PARAMETERS
+          );
+          if (DELETE_ME) console.log('candidate: ', candidate);
+
+          const nodes = getSourceNodes(source);
+          const constructorNode = findConstructor(nodes);
+          const parameterNames = collectConstructorParameterNames(
+            constructorNode
+          );
+          if (DELETE_ME) console.log('param names: ', ...parameterNames);
+        }
       }
     }
 
