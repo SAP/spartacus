@@ -216,4 +216,24 @@ $theme: '' !default;
   .ng-select-focused {
     @include visible-focus();
   }
+
+  .form-check {
+    //crossbroswer input options without vendor prefixes
+
+    //radio buttons
+    input[type='radio'] {
+      appearance: none;
+    }
+    input[type='radio']::after {
+      visibility: hidden;
+    }
+    input[type='radio']:checked::after {
+      visibility: visible;
+    }
+
+    //checkboxes
+    input[type='checkbox'] {
+      appearance: none;
+    }
+  }
 }
