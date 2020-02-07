@@ -30,11 +30,11 @@ describe.skip('Profile-tag events', () => {
       expect((<any>win).Y_TRACKING.eventLayer[1]['name']).to.equal(
         'CartSnapshot'
       );
-      expect((<any>win).Y_TRACKING.eventLayer[1]['data']).to.exist;
-      expect((<any>win).Y_TRACKING.eventLayer[1]['data']['cart']).to.exist;
-      expect(
-        JSON.stringify((<any>win).Y_TRACKING.eventLayer[1]['data']['cart'])
-      ).to.include('code');
+      const cartPayload = JSON.stringify(
+        (<any>win).Y_TRACKING.eventLayer[1]['data']
+      );
+      expect(cartPayload).to.include('cart');
+      expect(cartPayload).to.include('code');
     });
   });
   it('should send an additional CartChanged event on modifying the cart', () => {
@@ -47,12 +47,29 @@ describe.skip('Profile-tag events', () => {
       .click();
     cy.wait(500);
     cy.window().then(win => {
-      expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(5);
+      expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(4);
       expect(
         (<any>win).Y_TRACKING.eventLayer.filter(
           event => event.name === 'CartSnapshot'
         ).length
-      ).to.equal(3); // should be 2 but 3 - why?
+      ).to.equal(2);
+    });
+  });
+  it('should send an additional CartChanged event on emptying the cart', () => {
+    goToProductPage();
+    cy.get('cx-add-to-cart button.btn-primary').click();
+    cy.get('cx-added-to-cart-dialog .btn-primary').click();
+    cy.get('cx-cart-item-list')
+      .get('.cx-remove-btn > .link')
+      .click();
+    cy.wait(500);
+    cy.window().then(win => {
+      expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(4);
+      expect(
+        (<any>win).Y_TRACKING.eventLayer.filter(
+          event => event.name === 'CartSnapshot'
+        ).length
+      ).to.equal(2);
     });
   });
   it('should send a Navigated event when a navigation occurs', () => {
