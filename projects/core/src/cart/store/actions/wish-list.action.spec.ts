@@ -5,6 +5,7 @@ import { CartActions } from './index';
 
 const userId = 'userId';
 const cartId = 'xxx';
+const customerId = '1234-5678-abcdef';
 
 const testCart: Cart = {
   code: cartId,
@@ -17,7 +18,7 @@ describe('WishList Actions', () => {
   describe('Load Wish List Actions', () => {
     describe('LoadWishList', () => {
       it('should create the action', () => {
-        const payload = userId;
+        const payload = { userId, customerId };
         const action = new CartActions.LoadWishList(payload);
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_WISH_LIST,
@@ -53,10 +54,6 @@ describe('WishList Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CREATE_WISH_LIST,
           payload,
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            MULTI_CART_FEATURE,
-            'fresh'
-          ),
         });
       });
     });
@@ -90,19 +87,6 @@ describe('WishList Actions', () => {
             MULTI_CART_FEATURE,
             payload.cartId,
             payload.error
-          ),
-        });
-      });
-    });
-
-    describe('ResetWishListDetails', () => {
-      it('should create the action', () => {
-        const action = new CartActions.ResetWishListDetails();
-        expect({ ...action }).toEqual({
-          type: CartActions.RESET_WISH_LIST_DETAILS,
-          meta: StateEntityLoaderActions.entityResetMeta(
-            MULTI_CART_FEATURE,
-            undefined
           ),
         });
       });

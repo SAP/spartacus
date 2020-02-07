@@ -21,6 +21,12 @@ import { ICON_TYPE } from '../../../../misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';
 import createSpy = jasmine.createSpy;
 
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockSpinnerComponent {}
+
 const mockBillingCountries: Country[] = [
   {
     isocode: 'CA',
@@ -96,6 +102,10 @@ class MockCheckoutPaymentService {
   loadSupportedCardTypes = createSpy();
   getCardTypes(): Observable<CardType[]> {
     return of();
+  }
+
+  getSetPaymentDetailsResultProcess() {
+    return of({ loading: false });
   }
 }
 class MockCheckoutDeliveryService {
@@ -180,6 +190,7 @@ describe('PaymentFormComponent', () => {
         MockCardComponent,
         MockBillingAddressFormComponent,
         MockCxIconComponent,
+        MockSpinnerComponent,
       ],
       providers: [
         { provide: ModalService, useClass: MockModalService },

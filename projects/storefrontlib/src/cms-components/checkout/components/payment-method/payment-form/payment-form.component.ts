@@ -17,6 +17,7 @@ import {
   Country,
   GlobalMessageService,
   GlobalMessageType,
+  LoaderState,
   UserPaymentService,
   FeatureConfigService,
 } from '@spartacus/core';
@@ -50,6 +51,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   cardTypes$: Observable<CardType[]>;
   shippingAddress$: Observable<Address>;
   countries$: Observable<Country[]>;
+  loading$: Observable<LoaderState<void>>;
   sameAsShippingAddress = true;
 
   @Input()
@@ -125,6 +127,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
 
     this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
+    this.loading$ = this.checkoutPaymentService.getSetPaymentDetailsResultProcess();
 
     this.checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
       (shouldShowCheckbox: boolean) => {
