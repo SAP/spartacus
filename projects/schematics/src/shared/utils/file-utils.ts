@@ -25,11 +25,6 @@ export interface ClassType {
   className: string;
   importPath: string;
 }
-// TODO:#6432 - remove
-export interface Param {
-  paramName: string;
-  paramType: string;
-}
 
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   const buffer = tree.read(path);
@@ -170,8 +165,27 @@ export function isCandidateForConstructorDeprecation(
 ): boolean {
   const nodes = getSourceNodes(source);
 
-  // TODO:#6432 - extract every piece of logic to a smaller non-exported function
+  if (!checkInheritance(nodes, inheritedClass)) {
+    return false;
+  }
 
+  if (!checkImports(source, parameterClassTypes)) {
+    return false;
+  }
+
+  const constructorNode = findConstructor(nodes);
+  if (!constructorNode) {
+    return false;
+  }
+
+  if (!checkConstructorParameters(constructorNode, parameterClassTypes)) {
+    return false;
+  }
+
+  return true;
+}
+
+function checkInheritance(nodes: ts.Node[], inheritedClass: string): boolean {
   const heritageClauseNodes = nodes.filter(
     node => node.kind === ts.SyntaxKind.HeritageClause
   );
@@ -183,18 +197,25 @@ export function isCandidateForConstructorDeprecation(
   if (!heritageNodes || heritageNodes.length === 0) {
     return false;
   }
+  return true;
+}
 
+function checkImports(
+  source: ts.SourceFile,
+  parameterClassTypes: ClassType[]
+): boolean {
   for (const classImport of parameterClassTypes) {
     if (!isImported(source, classImport.className, classImport.importPath)) {
       return false;
     }
   }
+  return true;
+}
 
-  const constructorNode = findConstructor(nodes);
-  if (!constructorNode) {
-    return false;
-  }
-
+function checkConstructorParameters(
+  constructorNode: ts.Node,
+  parameterClassTypes: ClassType[]
+): boolean {
   const constructorParameters = findNodes(
     constructorNode,
     ts.SyntaxKind.Parameter
@@ -228,39 +249,6 @@ export function isCandidateForConstructorDeprecation(
 
   return true;
 }
-
-// TODO:#6432 - delete?
-// TODO:#6432 - test
-export function collectConstructorParameterNames(
-  constructorNode: ts.Node | undefined
-): Param[] {
-  if (!constructorNode) {
-    throw new SchematicsException('No constructor provided.');
-  }
-
-  const constructorParameters = findNodes(
-    constructorNode,
-    ts.SyntaxKind.Parameter
-  );
-  return constructorParameters.map(paramNode => {
-    const paramNameNode = paramNode
-      .getChildren()
-      .find(node => node.kind === ts.SyntaxKind.Identifier);
-    const constructorParameterTypeReferenceNode = paramNode
-      .getChildren()
-      .find(node => node.kind === ts.SyntaxKind.TypeReference);
-
-    return {
-      paramName: paramNameNode ? paramNameNode.getText() : '',
-      paramType: constructorParameterTypeReferenceNode
-        ? constructorParameterTypeReferenceNode.getText()
-        : '',
-    };
-  });
-}
-
-// TODO:#6432 - test
-// export function removeConstructor(): Change[] {}
 
 // TODO:#6432 - rename to `addParamToConstructor`
 // TODO:#6432 - test
@@ -376,25 +364,24 @@ export function injectService(
     ts.SyntaxKind.Parameter
   );
 
-  // TODO:#6432 - test what happens if there are no constructor parameters. We SHOULD NOT throw the exception in this
-  if (!constructorParameters) {
-    throw new SchematicsException(
-      `No parameter list found in ${path}'s constructor.`
-    );
+  // TODO:#6432 - test what happens if there are no constructor parameters.
+  let toAdd = '';
+  // TODO:#6432 - test
+  let position = constructorNode.getStart() + 'constructor('.length;
+  if (constructorParameters && constructorParameters.length > 0) {
+    toAdd += ', ';
+    const lastParam = constructorParameters[constructorParameters.length - 1];
+    position = lastParam.end;
   }
-
-  const append = constructorParameters.length > 0;
-  const lastParam = constructorParameters[constructorParameters.length - 1];
 
   propertyName = propertyName
     ? strings.camelize(propertyName)
     : strings.camelize(serviceName);
 
-  let toAdd = append ? ', ' : '';
   if (modifier !== 'no-modifier') toAdd += modifier;
   toAdd += `${propertyName}: ${strings.classify(serviceName)}`;
 
-  return new InsertChange(path, lastParam.end, toAdd);
+  return new InsertChange(path, position, toAdd);
 }
 
 export function insertCommentAboveIdentifier(

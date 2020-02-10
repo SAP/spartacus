@@ -183,7 +183,7 @@ describe('constructor user-address migration', () => {
     });
   });
 
-  // TODO:#6432 - handle the case when there are constructor params, but nothing is passed to super()?
+  // TODO:#6432 - handle the case when there are constructor params present, but nothing is passed to super()?
   describe('when the class does NOT have a super call', () => {
     it('should create it', async () => {
       writeFile(host, '/src/index.ts', NO_SUPER_CALL);
@@ -262,7 +262,6 @@ describe('constructor user-address migration', () => {
       await runMigration(appTree, schematicRunner);
 
       const content = appTree.readContent(filePath);
-      console.log(content);
 
       const source = ts.createSourceFile(
         filePath,
