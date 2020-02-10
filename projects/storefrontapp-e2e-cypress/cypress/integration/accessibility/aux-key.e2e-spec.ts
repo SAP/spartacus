@@ -174,24 +174,32 @@ context('Auxiliary Keys', () => {
     it('should go to link with Enter key', () => {});
   });
 
-  describe.only('Item Counter', () => {
+  describe('Item Counter', () => {
     before(() => {
+      cy.server();
+      cy.route(
+        `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
+      ).as('getComponents');
       cy.visit(testProductUrl);
+      cy.wait('@getComponents');
     });
 
     it('should increment counter with ArrowUp key', () => {
-      cy.wait(3000);
-      cy.get('cx-item-counter')
-        .find('input')
+      cy.get('cx-item-counter input')
         .should('have.value', '1')
         .focus();
-      cy.wait(3000);
-      cy.focused().type('{uparrow}'); //trigger('keydown', { key: 'ArrowUp' });
-      cy.wait(3000);
-      cy.focused().should('have.value', '2');
+      cy.focused().trigger('keydown', { key: 'ArrowUp', code: 'ArrowUp' });
+      cy.get('cx-item-counter input').should('have.value', '2');
+      cy.focused().trigger('keydown', { key: 'ArrowUp', code: 'ArrowUp' });
+      cy.get('cx-item-counter input').should('have.value', '3');
     });
 
-    it('should decrement counter with ArrowDown key', () => {});
+    it('should decrement counter with ArrowDown key', () => {
+      cy.focused().trigger('keydown', { key: 'ArrowDown', code: 'ArrowDown' });
+      cy.get('cx-item-counter input').should('have.value', '2');
+      cy.focused().trigger('keydown', { key: 'ArrowDown', code: 'ArrowDown' });
+      cy.get('cx-item-counter input').should('have.value', '1');
+    });
   });
 
   describe('Skip Links', () => {
