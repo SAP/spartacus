@@ -55,6 +55,7 @@
                 [items]="permissionTypes"
                 bindLabel="name"
                 bindValue="code"
+                [(ngModel)]="selectedPermissionType"
                 [class.invalid]="isNotValid('orderApprovalPermissionType')"
               >
                 <!--                (change)="typeSelected($event)"-->
@@ -74,7 +75,10 @@
         </ng-container>
       </div>
 
-      <div class="form-group">
+      <div
+        class="form-group"
+        *ngIf="selectedPermissionType !== 'B2BBudgetExceededPermission'"
+      >
         <label>
           <span class="label-content">{{
             'permissionForm.periodRange' | cxTranslate
@@ -98,7 +102,10 @@
         </label>
       </div>
 
-      <div class="form-group">
+      <div
+        class="form-group"
+        *ngIf="selectedPermissionType !== 'B2BBudgetExceededPermission'"
+      >
         <ng-container
           *ngIf="businessUnits$ | async as businessUnits"
           formGroupName="orgUnit"
@@ -131,7 +138,10 @@
         </ng-container>
       </div>
 
-      <div class="form-group">
+      <div
+        class="form-group"
+        *ngIf="selectedPermissionType !== 'B2BBudgetExceededPermission'"
+      >
         <ng-container
           *ngIf="currencies$ | async as currencies"
           formGroupName="currency"
@@ -164,7 +174,10 @@
         </ng-container>
       </div>
 
-      <div class="form-group">
+      <div
+        class="form-group"
+        *ngIf="selectedPermissionType !== 'B2BBudgetExceededPermission'"
+      >
         <label>
           <span class="label-content">{{
             'permissionForm.threshold.label' | cxTranslate
