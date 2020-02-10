@@ -63,6 +63,10 @@ import {
   PermissionDetailsModule,
   PermissionEditModule,
   PermissionCreateModule,
+  CostCenterListModule,
+  CostCenterCreateModule,
+  CostCenterDetailsModule,
+  CostCenterEditModule,
 } from './organization/index';
 
 @NgModule({
@@ -123,6 +127,10 @@ import {
     PermissionDetailsModule,
     PermissionEditModule,
     PermissionCreateModule,
+    CostCenterListModule,
+    CostCenterCreateModule,
+    CostCenterDetailsModule,
+    CostCenterEditModule,
   ],
 })
 export class CmsLibModule {}

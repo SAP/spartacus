@@ -1,0 +1,118 @@
+<ng-container class="container" *ngIf="costCenter$ | async as costCenter">
+  <div class="row">
+    <div class="col-md-12 col-lg-6">
+      <div class="cx-header">
+        <h3>{{ 'costCenter.details' | cxTranslate }}</h3>
+      </div>
+      <div class="row ">
+        <div class="col-6">{{ 'costCenter.id' | cxTranslate }}</div>
+        <div class="col-6">{{ costCenter.code }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'costCenter.parentUnit' | cxTranslate }}</div>
+        <div class="col-6">{{ costCenter.orgUnit?.name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'costCenter.name' | cxTranslate }}</div>
+        <div class="col-6">{{ costCenter.name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'costCenter.startDate' | cxTranslate }}</div>
+        <div class="col-6">{{ costCenter.startDate | cxDate }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'costCenter.endDate' | cxTranslate }}</div>
+        <div class="col-6">{{ costCenter.endDate | cxDate }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'costCenter.amount' | cxTranslate }}</div>
+        <div class="col-6">{{ costCenter.costCenter }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'costCenter.currency' | cxTranslate }}</div>
+        <div class="col-6">{{ costCenter.currency?.symbol }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'costCenter.status' | cxTranslate }}</div>
+        <div class="col-6">
+          {{
+            costCenter.active
+              ? ('costCenter.active' | cxTranslate)
+              : ('costCenter.deactivated' | cxTranslate)
+          }}
+        </div>
+      </div>
+      <div class="row">
+        <div *ngIf="costCenter.active; else enable" class="col-md-12 col-lg-6">
+          <button
+            class="btn btn-secondary btn-block"
+            (click)="update({ active: false })"
+          >
+            {{ 'costCenter.disable' | cxTranslate }}
+          </button>
+        </div>
+        <ng-template #enable>
+          <div class="col-md-12 col-lg-6">
+            <button
+              class="btn btn-primary btn-block"
+              (click)="update({ active: true })"
+            >
+              {{ 'costCenter.enable' | cxTranslate }}
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <div class="row">
+        <div class="col-md-12 col-lg-6">
+          <button
+            [routerLink]="
+              {
+                cxRoute: 'costCenterEdit',
+                params: costCenter
+              } | cxUrl
+            "
+            class="btn btn-primary btn-block"
+          >
+            {{ 'costCenter.edit' | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'costCenters'
+              } | cxUrl
+            "
+            class="btn btn-secondary btn-block"
+          >
+            {{ 'costCenter.back' | cxTranslate }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row section">
+    <div class="col-md-12 col-lg-6">
+      <div class="cx-header">
+        <h3>{{ 'costCenter.costCenters' | cxTranslate }}</h3>
+      </div>
+      <cx-table
+        [pageSize]="10"
+        [columns]="[
+          {
+            key: 'name',
+            value: 'costCenter.name' | cxTranslate,
+            cxRoute: 'costCenter'
+          },
+          {
+            key: 'costCenterCode',
+            value: 'costCenter.description' | cxTranslate
+          }
+        ]"
+        [tableData]="costCenter.costCenters"
+      ></cx-table>
+    </div>
+  </div>
+</ng-container>
