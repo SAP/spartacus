@@ -40,71 +40,6 @@
 
       <div class="form-group">
         <ng-container
-          *ngIf="permissionTypes$ | async as permissionTypes"
-          formGroupName="orderApprovalPermissionType"
-        >
-          <div *ngIf="permissionTypes.length !== 0">
-            <label aria-required="true">
-              <span class="label-content required">{{
-                'permissionForm.type' | cxTranslate
-              }}</span>
-              <ng-select
-                formControlName="code"
-                [searchable]="false"
-                [clearable]="false"
-                [items]="permissionTypes"
-                bindLabel="name"
-                bindValue="code"
-                [(ngModel)]="selectedPermissionType"
-                [class.invalid]="isNotValid('orderApprovalPermissionType')"
-              >
-              </ng-select>
-              <ng-container
-                *ngIf="isNotValid('orderApprovalPermissionType')"
-                [ngTemplateOutlet]="validation"
-                [ngTemplateOutletContext]="{
-                  control:
-                    form.controls.orderApprovalPermissionType['controls'][
-                      'code'
-                    ]
-                }"
-              ></ng-container>
-            </label>
-          </div>
-        </ng-container>
-      </div>
-
-      <div
-        class="form-group"
-        *ngIf="selectedPermissionType !== 'B2BBudgetExceededPermission'"
-      >
-        <label>
-          <span class="label-content">{{
-            'permissionForm.periodRange' | cxTranslate
-          }}</span>
-          <ng-select
-            formControlName="periodRange"
-            [searchable]="false"
-            [clearable]="false"
-            [items]="periodRange"
-            [class.invalid]="isNotValid('periodRange')"
-          >
-          </ng-select>
-          <ng-container
-            *ngIf="isNotValid('periodRange')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.periodRange
-            }"
-          ></ng-container>
-        </label>
-      </div>
-
-      <div
-        class="form-group"
-        *ngIf="selectedPermissionType !== 'B2BBudgetExceededPermission'"
-      >
-        <ng-container
           *ngIf="businessUnits$ | async as businessUnits"
           formGroupName="orgUnit"
         >
@@ -134,6 +69,69 @@
             </label>
           </div>
         </ng-container>
+      </div>
+
+      <div class="form-group">
+        <ng-container
+          *ngIf="permissionTypes$ | async as permissionTypes"
+          formGroupName="orderApprovalPermissionType"
+        >
+          <div *ngIf="permissionTypes.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'permissionForm.type' | cxTranslate
+              }}</span>
+              <ng-select
+                formControlName="code"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="permissionTypes"
+                bindLabel="name"
+                bindValue="code"
+                [(ngModel)]="selectedPermissionType"
+                (change)="typeSelected($event)"
+                [class.invalid]="isNotValid('orderApprovalPermissionType')"
+              >
+              </ng-select>
+              <ng-container
+                *ngIf="isNotValid('orderApprovalPermissionType')"
+                [ngTemplateOutlet]="validation"
+                [ngTemplateOutletContext]="{
+                  control:
+                    form.controls.orderApprovalPermissionType['controls'][
+                      'code'
+                    ]
+                }"
+              ></ng-container>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+
+      <div
+        class="form-group"
+        *ngIf="selectedPermissionType === 'B2BOrderThresholdTimespanPermission'"
+      >
+        <label>
+          <span class="label-content">{{
+            'permissionForm.periodRange' | cxTranslate
+          }}</span>
+          <ng-select
+            formControlName="periodRange"
+            [searchable]="false"
+            [clearable]="false"
+            [items]="periodRange"
+            [class.invalid]="isNotValid('periodRange')"
+          >
+          </ng-select>
+          <ng-container
+            *ngIf="isNotValid('periodRange')"
+            [ngTemplateOutlet]="validation"
+            [ngTemplateOutletContext]="{
+              control: form.controls.periodRange
+            }"
+          ></ng-container>
+        </label>
       </div>
 
       <div
