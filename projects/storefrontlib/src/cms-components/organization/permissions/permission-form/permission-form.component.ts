@@ -92,20 +92,6 @@ export class PermissionFormComponent implements OnInit {
       this.form.patchValue(this.permissionData);
     }
   }
-  //
-  // currencySelected(currency: Currency): void {
-  //   this.form.controls.currency['controls'].isocode.setValue(currency.isocode);
-  // }
-  //
-  // businessUnitSelected(orgUnit: B2BUnitNode): void {
-  //   this.form.controls.orgUnit['controls'].uid.setValue(orgUnit.id);
-  // }
-  //
-  // typeSelected(orderApprovalPermissionType: OrderApprovalPermissionType): void {
-  //   this.form.controls.orderApprovalPermissionType['controls'].code.setValue(
-  //     orderApprovalPermissionType.code
-  //   );
-  // }
 
   back(): void {
     this.clickBack.emit();

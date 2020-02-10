@@ -57,7 +57,6 @@
                 bindValue="code"
                 [class.invalid]="isNotValid('orderApprovalPermissionType')"
               >
-                <!--                (change)="typeSelected($event)"-->
               </ng-select>
               <ng-container
                 *ngIf="isNotValid('orderApprovalPermissionType')"
@@ -87,7 +86,6 @@
             [class.invalid]="isNotValid('periodRange')"
           >
           </ng-select>
-          <!--            (change)="periodRangeSelected($event)"-->
           <ng-container
             *ngIf="isNotValid('periodRange')"
             [ngTemplateOutlet]="validation"
