@@ -27,6 +27,7 @@ export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 /***** Properties end *****/
 
 /***** APIs start *****/
+
 export const TODO_SPARTACUS = 'TODO:Spartacus -';
 
 export const GET_COMPONENT_STATE_OLD_API = 'getComponentState';
