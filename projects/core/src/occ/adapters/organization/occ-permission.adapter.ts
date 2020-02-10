@@ -22,14 +22,9 @@ export class OccPermissionAdapter implements PermissionAdapter {
     protected converter: ConverterService
   ) {}
 
-  load(
-    userId: string,
-    orderApprovalPermissionCode: string
-  ): Observable<Permission> {
+  load(userId: string, permissionCode: string): Observable<Permission> {
     return this.http
-      .get<Occ.Permission>(
-        this.getPermissionEndpoint(userId, orderApprovalPermissionCode)
-      )
+      .get<Occ.Permission>(this.getPermissionEndpoint(userId, permissionCode))
       .pipe(this.converter.pipeable(PERMISSION_NORMALIZER));
   }
 

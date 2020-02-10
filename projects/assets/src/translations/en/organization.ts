@@ -18,7 +18,6 @@ export const organization = {
       byValue: 'Value',
     },
   },
-
   budget: {
     details: 'Budget details',
     id: 'ID',
@@ -40,12 +39,10 @@ export const organization = {
     deactivated: 'Deactivated',
     costCenters: 'Cost Centers',
   },
-
   costCenter: {
     name: 'Name',
     description: 'Description',
   },
-
   budgetForm: {
     create: 'Create Budget',
     edit: 'Edit Budget',
@@ -75,7 +72,6 @@ export const organization = {
       rangeUnderflow: 'Date must be after {{date}}',
     },
   },
-
   permissionsList: {
     code: 'Code',
     permissionManagement: 'Persmission Management',
@@ -92,7 +88,6 @@ export const organization = {
     },
     create: 'Create new Permission',
   },
-
   permission: {
     details: 'Permission details',
     id: 'ID',
@@ -109,7 +104,6 @@ export const organization = {
     deactivated: 'Deactivated',
     threshold: 'Threshold Amount',
   },
-
   permissionForm: {
     create: 'Create Permission',
     edit: 'Edit Permission',

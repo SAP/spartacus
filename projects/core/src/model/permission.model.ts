@@ -2,7 +2,7 @@ import { Currency } from './misc.model';
 import { B2BUnit } from './org-unit.model';
 
 export interface OrderApprovalPermissionType {
-  code: string;
+  code?: string;
   name?: string;
 }
 
@@ -16,7 +16,7 @@ export enum Period {
 
 export interface Permission {
   active?: boolean;
-  code: string;
+  code?: string;
   currency?: Currency;
   orderApprovalPermissionType?: OrderApprovalPermissionType;
   orgUnit?: B2BUnit;

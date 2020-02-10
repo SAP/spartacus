@@ -11,11 +11,8 @@ import { EntitiesModel } from '../../../model/misc.model';
 export class PermissionConnector {
   constructor(protected adapter: PermissionAdapter) {}
 
-  get(
-    userId: string,
-    orderApprovalPermissionCode: string
-  ): Observable<Permission> {
-    return this.adapter.load(userId, orderApprovalPermissionCode);
+  get(userId: string, permissionCode: string): Observable<Permission> {
+    return this.adapter.load(userId, permissionCode);
   }
 
   getList(

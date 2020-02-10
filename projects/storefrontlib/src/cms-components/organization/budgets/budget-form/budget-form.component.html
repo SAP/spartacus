@@ -76,7 +76,6 @@
                 [items]="businessUnits"
                 bindLabel="name"
                 bindValue="id"
-                (change)="businessUnitSelected($event)"
                 [class.invalid]="isNotValid('orgUnit')"
               >
               </ng-select>
@@ -156,7 +155,6 @@
                 [items]="currencies"
                 bindLabel="name"
                 bindValue="isocode"
-                (change)="currencySelected($event)"
                 [class.invalid]="isNotValid('currency')"
               >
               </ng-select>

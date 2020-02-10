@@ -30,23 +30,15 @@ export const UPDATE_PERMISSION_SUCCESS =
 
 export class LoadPermission extends EntityLoadAction {
   readonly type = LOAD_PERMISSION;
-  constructor(
-    public payload: { userId: string; orderApprovalPermissionCode: string }
-  ) {
-    super(PERMISSION_ENTITIES, payload.orderApprovalPermissionCode);
+  constructor(public payload: { userId: string; permissionCode: string }) {
+    super(PERMISSION_ENTITIES, payload.permissionCode);
   }
 }
 
 export class LoadPermissionFail extends EntityFailAction {
   readonly type = LOAD_PERMISSION_FAIL;
-  constructor(
-    public payload: { orderApprovalPermissionCode: string; error: any }
-  ) {
-    super(
-      PERMISSION_ENTITIES,
-      payload.orderApprovalPermissionCode,
-      payload.error
-    );
+  constructor(public payload: { permissionCode: string; error: any }) {
+    super(PERMISSION_ENTITIES, payload.permissionCode, payload.error);
   }
 }
 

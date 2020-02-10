@@ -86,14 +86,6 @@ export class BudgetFormComponent implements OnInit {
     }
   }
 
-  currencySelected(currency: Currency): void {
-    this.form.controls.currency['controls'].isocode.setValue(currency.isocode);
-  }
-
-  businessUnitSelected(orgUnit: B2BUnitNode): void {
-    this.form.controls.orgUnit['controls'].uid.setValue(orgUnit.id);
-  }
-
   back(): void {
     this.clickBack.emit();
   }
