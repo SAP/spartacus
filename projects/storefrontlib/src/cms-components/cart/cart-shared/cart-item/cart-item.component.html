@@ -38,7 +38,7 @@
           </div>
         </ng-container>
         <ng-container *cxFeatureLevel="'1.5'">
-          <div *ngIf="item.product.baseOptions?.length">
+          <ng-container *ngIf="item.product.baseOptions?.length">
             <div
               *ngFor="
                 let variant of item.product.baseOptions[0]?.selected
@@ -50,7 +50,7 @@
                 {{ variant.name }}: {{ variant.value }}
               </div>
             </div>
-          </div>
+          </ng-container>
         </ng-container>
       </div>
       <!-- Item Price -->

@@ -26,7 +26,7 @@
           {{ 'cartItems.id' | cxTranslate }} {{ cartEntry.product.code }}
         </div>
         <!-- Variants -->
-        <div *ngIf="cartEntry.product.baseOptions?.length">
+        <ng-container *ngIf="cartEntry.product.baseOptions?.length">
           <div
             *ngFor="
               let variant of cartEntry.product.baseOptions[0]?.selected
@@ -38,7 +38,7 @@
               {{ variant.name }}: {{ variant.value }}
             </div>
           </div>
-        </div>
+        </ng-container>
       </div>
       <!-- Item Price -->
       <div
