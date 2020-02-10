@@ -202,31 +202,34 @@ context('Auxiliary Keys', () => {
     });
   });
 
-  describe('Skip Links', () => {
+  describe.only('Skip Links', () => {
     before(() => {
+      cy.server();
+      cy.route(
+        `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
+      ).as('getComponents');
       cy.visit('/');
-      cy.wait(3000);
+      cy.wait('@getComponents');
       cy.get('body').focus();
       cy.pressTab();
-      cy.wait(3000);
       cy.focused().should('contain.text', 'Skip to Header');
     });
 
     it('should navigate with ArrowRight key', () => {
-      cy.focused().trigger('keydown', { key: 'ArrowRight' });
+      cy.focused().trigger('keydown', { key: 'ArrowRight', force: true });
       cy.focused().should('contain.text', 'Skip to Main Content');
-      cy.focused().trigger('keydown', { key: 'ArrowRight' });
+      cy.focused().trigger('keydown', { key: 'ArrowRight', force: true });
       cy.focused().should('contain.text', 'Skip to Footer');
-      cy.focused().trigger('keydown', { key: 'ArrowRight' });
+      cy.focused().trigger('keydown', { key: 'ArrowRight', force: true });
       cy.focused().should('contain.text', 'Skip to Footer');
     });
 
     it('should navigate with ArrowLeft key', () => {
-      cy.focused().trigger('keydown', { key: 'ArrowLeft' });
+      cy.focused().trigger('keydown', { key: 'ArrowLeft', force: true });
       cy.focused().should('contain.text', 'Skip to Main Content');
-      cy.focused().trigger('keydown', { key: 'ArrowLeft' });
+      cy.focused().trigger('keydown', { key: 'ArrowLeft', force: true });
       cy.focused().should('contain.text', 'Skip to Header');
-      cy.focused().trigger('keydown', { key: 'ArrowLeft' });
+      cy.focused().trigger('keydown', { key: 'ArrowLeft', force: true });
       cy.focused().should('contain.text', 'Skip to Header');
     });
   });
