@@ -1,9 +1,4 @@
-import {
-  getSystemPath,
-  normalize,
-  strings,
-  virtualFs,
-} from '@angular-devkit/core';
+import { getSystemPath, strings } from '@angular-devkit/core';
 import { TempScopedNodeJsSyncHost } from '@angular-devkit/core/node/testing';
 import { HostTree, Tree } from '@angular-devkit/schematics';
 import {
@@ -11,14 +6,19 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
-  findNodes,
   getSourceNodes,
   isImported,
 } from '@schematics/angular/utility/ast-utils';
 import * as shx from 'shelljs';
 import * as ts from 'typescript';
 import { AUTH_SERVICE, SPARTACUS_CORE, STORE } from '../../../shared/constants';
-import { findConstructor } from '../../../shared/utils/file-utils';
+import {
+  getConstructor,
+  getParams,
+  getSuperNode,
+  runMigration,
+  writeFile,
+} from '../../../shared/utils/test-utils';
 
 const NOT_INHERITING_SPARTACUS_CLASS = `
     import { Store } from '@ngrx/store';
@@ -116,6 +116,7 @@ describe('constructor user-address migration', () => {
     appTree = new UnitTestTree(new HostTree(host));
 
     writeFile(
+      host,
       '/tsconfig.json',
       JSON.stringify({
         compilerOptions: {
@@ -124,6 +125,7 @@ describe('constructor user-address migration', () => {
       })
     );
     writeFile(
+      host,
       '/angular.json',
       JSON.stringify({
         projects: {
@@ -150,9 +152,9 @@ describe('constructor user-address migration', () => {
 
   describe('when the class does NOT extend a Spartacus class', () => {
     it('should skip it', async () => {
-      writeFile('/src/index.ts', NOT_INHERITING_SPARTACUS_CLASS);
+      writeFile(host, '/src/index.ts', NOT_INHERITING_SPARTACUS_CLASS);
 
-      await runMigration();
+      await runMigration(appTree, schematicRunner);
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(NOT_INHERITING_SPARTACUS_CLASS);
@@ -161,9 +163,9 @@ describe('constructor user-address migration', () => {
 
   describe('when the class does NOT have a constructor', () => {
     it('should skip it', async () => {
-      writeFile('/src/index.ts', NO_CONSTRUCTOR);
+      writeFile(host, '/src/index.ts', NO_CONSTRUCTOR);
 
-      await runMigration();
+      await runMigration(appTree, schematicRunner);
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(NO_CONSTRUCTOR);
@@ -172,9 +174,9 @@ describe('constructor user-address migration', () => {
 
   describe('when the class has the wrong param order', () => {
     it('should skip it', async () => {
-      writeFile('/src/index.ts', WRONG_PARAM_ORDER);
+      writeFile(host, '/src/index.ts', WRONG_PARAM_ORDER);
 
-      await runMigration();
+      await runMigration(appTree, schematicRunner);
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(WRONG_PARAM_ORDER);
@@ -184,9 +186,9 @@ describe('constructor user-address migration', () => {
   // TODO:#6432 - handle the case when there are constructor params, but nothing is passed to super()?
   describe('when the class does NOT have a super call', () => {
     it('should create it', async () => {
-      writeFile('/src/index.ts', NO_SUPER_CALL);
+      writeFile(host, '/src/index.ts', NO_SUPER_CALL);
 
-      await runMigration();
+      await runMigration(appTree, schematicRunner);
 
       const content = appTree.readContent('/src/index.ts');
 
@@ -205,9 +207,9 @@ describe('constructor user-address migration', () => {
   describe('when the class has a CallExpression node which is NOT of type super', () => {
     it('should create it', async () => {
       const filePath = '/src/index.ts';
-      writeFile(filePath, CALL_EXPRESSION_NO_SUPER);
+      writeFile(host, filePath, CALL_EXPRESSION_NO_SUPER);
 
-      await runMigration();
+      await runMigration(appTree, schematicRunner);
 
       const content = appTree.readContent(filePath);
 
@@ -228,9 +230,9 @@ describe('constructor user-address migration', () => {
   describe('when the class has an empty super() call', () => {
     it('should add param to it', async () => {
       const filePath = '/src/index.ts';
-      writeFile(filePath, EMPTY_SUPER);
+      writeFile(host, filePath, EMPTY_SUPER);
 
-      await runMigration();
+      await runMigration(appTree, schematicRunner);
 
       const content = appTree.readContent(filePath);
 
@@ -255,9 +257,9 @@ describe('constructor user-address migration', () => {
   describe('when all the pre-conditions are valid', () => {
     it('should just append the missing parameters', async () => {
       const filePath = '/src/index.ts';
-      writeFile(filePath, VALID_TEST_CLASS);
+      writeFile(host, filePath, VALID_TEST_CLASS);
 
-      await runMigration();
+      await runMigration(appTree, schematicRunner);
 
       const content = appTree.readContent(filePath);
       console.log(content);
@@ -281,67 +283,4 @@ describe('constructor user-address migration', () => {
       expect(isImported(source, AUTH_SERVICE, SPARTACUS_CORE)).toEqual(true);
     });
   });
-
-  function writeFile(filePath: string, contents: string): void {
-    host.sync.write(
-      normalize(filePath),
-      virtualFs.stringToFileBuffer(contents)
-    );
-  }
-
-  function runMigration(): Promise<UnitTestTree> {
-    return schematicRunner
-      .runSchematicAsync(
-        'migration-v2-constructor-user-address-03',
-        {},
-        appTree
-      )
-      .toPromise();
-  }
-
-  // TODO:#6432 - make this available to other spec files?
-  // TODO:#6432 - if yes, extract the `writeFile()` and `runMigration()` methods as well to the test-utils.ts
-  function getConstructor(nodes: ts.Node[]): ts.Node {
-    const constructorNode = findConstructor(nodes);
-    if (!constructorNode) {
-      throw new Error('No constructor node found');
-    }
-    return constructorNode;
-  }
-
-  function getSuperNode(constructorNode: ts.Node): ts.Node | undefined {
-    const superNodes = findNodes(constructorNode, ts.SyntaxKind.SuperKeyword);
-    if (!superNodes || superNodes.length === 0) {
-      return undefined;
-    }
-    return superNodes[0];
-  }
-
-  function getParams(
-    constructorNode: ts.Node,
-    camelizedParamNames: string[]
-  ): string[] {
-    const superNode = getSuperNode(constructorNode);
-    if (!superNode) {
-      throw new Error('No super() node found');
-    }
-
-    const callExpressions = findNodes(
-      constructorNode,
-      ts.SyntaxKind.CallExpression
-    );
-    if (!callExpressions || callExpressions.length === 0) {
-      throw new Error('No call expressions found in constructor');
-    }
-    const params = findNodes(callExpressions[0], ts.SyntaxKind.Identifier);
-
-    camelizedParamNames = camelizedParamNames.map(param =>
-      strings.camelize(param)
-    );
-
-    return params
-      .filter(n => n.kind === ts.SyntaxKind.Identifier)
-      .map(n => n.getText())
-      .filter(text => camelizedParamNames.includes(text));
-  }
 });
