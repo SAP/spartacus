@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { FeatureConfigService } from '@spartacus/core';
-import { PromotionResult, PromotionLocation } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  PromotionLocation,
+  PromotionResult,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
@@ -23,6 +26,8 @@ export interface CartItemComponentOptions {
   templateUrl: './cart-item.component.html',
 })
 export class CartItemComponent implements OnInit {
+  hasBaseOptions = false;
+
   @Input()
   compact = false;
   @Input()
@@ -74,6 +79,8 @@ export class CartItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.hasBaseOptions = this.item.product.baseOptions.length !== 0;
+
     this.appliedProductPromotions$ = this.promotionService.getProductPromotionForEntry(
       this.item,
       this.promotionLocation
