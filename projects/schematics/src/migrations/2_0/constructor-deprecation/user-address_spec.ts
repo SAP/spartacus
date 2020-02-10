@@ -1,13 +1,94 @@
-import { getSystemPath, normalize, virtualFs } from '@angular-devkit/core';
+import {
+  getSystemPath,
+  normalize,
+  strings,
+  virtualFs,
+} from '@angular-devkit/core';
 import { TempScopedNodeJsSyncHost } from '@angular-devkit/core/node/testing';
 import { HostTree, Tree } from '@angular-devkit/schematics';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  findNodes,
+  getSourceNodes,
+} from '@schematics/angular/utility/ast-utils';
 import * as shx from 'shelljs';
+import * as ts from 'typescript';
+import { AUTH_SERVICE, STORE } from '../../../shared/constants';
+import { findConstructor } from '../../../shared/utils/file-utils';
 
-const TEST_CLASS = `  
+const NOT_INHERITING_SPARTACUS_CLASS = `
+    import { Store } from '@ngrx/store';
+    import { StateWithProcess, StateWithUser } from '@spartacus/core';
+    export class InheritingService {
+      constructor(_store: Store<StateWithUser | StateWithProcess<void>>) {}
+    }
+`;
+const NO_CONSTRUCTOR = `
+    import { UserAddressService } from '@spartacus/core';
+    import { Store } from '@ngrx/store';
+    export class InheritingService extends UserAddressService {}
+`;
+const WRONG_PARAM_ORDER = `
+    import { Store } from '@ngrx/store';
+    import {
+      AuthService,
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritingService extends UserAddressService {
+      constructor(
+        authService: AuthService,
+        store: Store<StateWithUser | StateWithProcess<void>>
+      ) {
+        super(authService, store);
+      }
+    }
+`;
+const NO_SUPER_CALL = `
+    import { Store } from '@ngrx/store';
+    import {
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritingService extends UserAddressService {
+      constructor(store: Store<StateWithUser | StateWithProcess<void>>) {}
+    }
+`;
+// TODO:#6432 - check imports
+const CALL_EXPRESSION_NO_SUPER = `
+    import { Store } from '@ngrx/store';
+    import {
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritingService extends UserAddressService {
+      constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
+        console.log(Math.random());
+      }
+    }
+`;
+// TODO:#6432 - check imports
+const EMPTY_SUPER = `
+import { Store } from '@ngrx/store';
+import {
+  StateWithProcess,
+  StateWithUser,
+  UserAddressService
+} from '@spartacus/core';
+export class InheritingService extends UserAddressService {
+  constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
+    super();
+  }
+}
+`;
+// TODO:#6432 - check imports
+const VALID_TEST_CLASS = `  
     import { Store } from '@ngrx/store';
     import {
       StateWithProcess,
@@ -69,13 +150,114 @@ describe('constructor user-address migration', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  it('should add missing parameters', async () => {
-    writeFile('/src/index.ts', TEST_CLASS);
+  describe('when the class does NOT extend a Spartacus class', () => {
+    it('should skip it', async () => {
+      writeFile('/src/index.ts', NOT_INHERITING_SPARTACUS_CLASS);
 
-    await runMigration();
+      await runMigration();
 
-    const content = appTree.readContent('/src/index.ts');
-    console.log(content);
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(NOT_INHERITING_SPARTACUS_CLASS);
+    });
+  });
+
+  describe('when the class does NOT have a constructor', () => {
+    it('should skip it', async () => {
+      writeFile('/src/index.ts', NO_CONSTRUCTOR);
+
+      await runMigration();
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(NO_CONSTRUCTOR);
+    });
+  });
+
+  describe('when the class has the wrong param order', () => {
+    it('should skip it', async () => {
+      writeFile('/src/index.ts', WRONG_PARAM_ORDER);
+
+      await runMigration();
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(WRONG_PARAM_ORDER);
+    });
+  });
+
+  // TODO:#6432 - handle the case when there are constructor params, but nothing is passed to super()?
+  describe('when the class does NOT have a super call', () => {
+    it('should create it', async () => {
+      writeFile('/src/index.ts', NO_SUPER_CALL);
+
+      await runMigration();
+
+      const content = appTree.readContent('/src/index.ts');
+
+      const constructorNode = getConstructor(content);
+      const superNode = getSuperNode(constructorNode);
+      expect(superNode).toBeTruthy();
+    });
+  });
+
+  describe('when the class has a CallExpression node which is NOT of type super', () => {
+    it('should create it', async () => {
+      writeFile('/src/index.ts', CALL_EXPRESSION_NO_SUPER);
+
+      await runMigration();
+
+      const content = appTree.readContent('/src/index.ts');
+
+      const constructorNode = getConstructor(content);
+      const superNode = getSuperNode(constructorNode);
+      expect(superNode).toBeTruthy();
+    });
+  });
+
+  describe('when the class has an empty super() call', () => {
+    it('should add param to it', async () => {
+      writeFile('/src/index.ts', EMPTY_SUPER);
+
+      await runMigration();
+
+      const content = appTree.readContent('/src/index.ts');
+
+      const source = ts.createSourceFile(
+        'xxx',
+        content,
+        ts.ScriptTarget.Latest
+      );
+      const constructorNode = getConstructor(content);
+      const params = getParams(source, constructorNode, [
+        strings.camelize(STORE),
+        strings.camelize(AUTH_SERVICE),
+      ]);
+      // TODO:#6432 - expect both store and auth?
+      expect(params).toEqual([strings.camelize(AUTH_SERVICE)]);
+    });
+  });
+
+  describe('when all the pre-conditions are valid', () => {
+    it('should just append the missing parameters', async () => {
+      writeFile('/src/index.ts', VALID_TEST_CLASS);
+
+      await runMigration();
+
+      const content = appTree.readContent('/src/index.ts');
+
+      const source = ts.createSourceFile(
+        'xxx',
+        content,
+        ts.ScriptTarget.Latest
+      );
+      const constructorNode = getConstructor(content);
+      const params = getParams(source, constructorNode, [
+        strings.camelize(STORE),
+        strings.camelize(AUTH_SERVICE),
+      ]);
+      expect(params).toEqual([
+        strings.camelize(STORE),
+        strings.camelize(AUTH_SERVICE),
+      ]);
+    });
   });
 
   function writeFile(filePath: string, contents: string): void {
@@ -93,5 +275,54 @@ describe('constructor user-address migration', () => {
         appTree
       )
       .toPromise();
+  }
+
+  // TODO:#6432 - make this available to other spec files?
+  // TODO:#6432 - if yes, extract the `writeFile()` and `runMigration()` methods as well to the test-utils.ts
+  function getConstructor(content: string): ts.Node {
+    const source = ts.createSourceFile('xxx', content, ts.ScriptTarget.Latest);
+    const nodes = getSourceNodes(source);
+    const constructorNode = findConstructor(nodes);
+    if (!constructorNode) {
+      throw new Error('No constructor node found');
+    }
+    return constructorNode;
+  }
+
+  function getSuperNode(constructorNode: ts.Node): ts.Node | undefined {
+    const superNodes = findNodes(constructorNode, ts.SyntaxKind.SuperKeyword);
+    if (!superNodes || superNodes.length === 0) {
+      return undefined;
+    }
+    return superNodes[0];
+  }
+
+  function getParams(
+    source: ts.SourceFile,
+    constructorNode: ts.Node,
+    camelizedParamNames: string[]
+  ): string[] {
+    const superNode = getSuperNode(constructorNode);
+    if (!superNode) {
+      throw new Error('No super() node found');
+    }
+
+    const callExpressions = findNodes(
+      constructorNode,
+      ts.SyntaxKind.CallExpression
+    );
+    if (!callExpressions || callExpressions.length === 0) {
+      throw new Error('No call expressions found in constructor');
+    }
+    const params = findNodes(callExpressions[0], ts.SyntaxKind.Identifier);
+
+    camelizedParamNames = camelizedParamNames.map(param =>
+      strings.camelize(param)
+    );
+
+    return params
+      .filter(n => n.kind === ts.SyntaxKind.Identifier)
+      .map(n => n.getText(source))
+      .filter(text => camelizedParamNames.includes(text));
   }
 });

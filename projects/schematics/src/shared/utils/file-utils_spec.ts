@@ -187,9 +187,10 @@ describe('File utils', () => {
       } as ts.Node;
 
       const result = injectService(
-        [ctorNode],
+        ctorNode,
         testPath,
         'dummyService',
+        'private',
         'DummyProperty'
       );
       expect(result).toBeTruthy();

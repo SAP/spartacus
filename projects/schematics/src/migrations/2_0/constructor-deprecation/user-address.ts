@@ -1,17 +1,22 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { getProjectTsConfigPaths } from '@angular/core/schematics/utils/project_tsconfig_paths';
 import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
+import { relative } from 'path';
 import {
+  AUTH_SERVICE,
   NGRX_STORE,
+  SPARTACUS_CORE,
   STORE,
   USER_ADDRESS_SERVICE,
 } from '../../../shared/constants';
 import {
   ClassType,
-  collectConstructorParameterNames,
+  commitChanges,
   findConstructor,
   getAllTsSourceFiles,
+  InsertDirection,
   isCandidateForConstructorDeprecation,
+  updateConstructor,
 } from '../../../shared/utils/file-utils';
 
 const DELETE_ME = true;
@@ -21,15 +26,12 @@ const DEPRECATED_CONSTRUCTOR_PARAMETERS: ClassType[] = [
     importPath: NGRX_STORE,
   },
 ];
-if (DELETE_ME) {
-  // const NEW_CONSTRUCTOR_PARAMETERS: ClassType[] = [
-  //   ...DEPRECATED_CONSTRUCTOR_PARAMETERS,
-  //   {
-  //     className: AUTH_SERVICE,
-  //     importPath: SPARTACUS_CORE,
-  //   },
-  // ];
-}
+const NEW_CONSTRUCTOR_PARAMETERS: ClassType[] = [
+  {
+    className: AUTH_SERVICE,
+    importPath: SPARTACUS_CORE,
+  },
+];
 
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -40,21 +42,27 @@ export function migrate(): Rule {
     for (const tsconfigPath of buildPaths) {
       const sourceFiles = getAllTsSourceFiles(tsconfigPath, tree, basePath);
       for (const source of sourceFiles) {
-        if (DELETE_ME) {
-          // const sourcePath = relative(basePath, source.fileName);}
-          const candidate = isCandidateForConstructorDeprecation(
-            source,
-            USER_ADDRESS_SERVICE,
-            DEPRECATED_CONSTRUCTOR_PARAMETERS
-          );
-          if (DELETE_ME) console.log('candidate: ', candidate);
+        const sourcePath = relative(basePath, source.fileName);
+        const candidate = isCandidateForConstructorDeprecation(
+          source,
+          USER_ADDRESS_SERVICE,
+          DEPRECATED_CONSTRUCTOR_PARAMETERS
+        );
+        if (DELETE_ME) console.log('candidate: ', candidate);
+        if (!candidate) {
+          continue;
+        }
 
-          const nodes = getSourceNodes(source);
-          const constructorNode = findConstructor(nodes);
-          const parameterNames = collectConstructorParameterNames(
-            constructorNode
+        const nodes = getSourceNodes(source);
+        const constructorNode = findConstructor(nodes);
+
+        for (const newConstructorParam of NEW_CONSTRUCTOR_PARAMETERS) {
+          const changes = updateConstructor(
+            constructorNode,
+            sourcePath,
+            newConstructorParam
           );
-          if (DELETE_ME) console.log('param names: ', ...parameterNames);
+          commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
         }
       }
     }

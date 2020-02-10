@@ -24,6 +24,11 @@ export interface ClassType {
   className: string;
   importPath: string;
 }
+// TODO:#6432 - remove
+export interface Param {
+  paramName: string;
+  paramType: string;
+}
 
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   const buffer = tree.read(path);
@@ -140,6 +145,7 @@ export function defineProperty(
   return new InsertChange(path, constructorNode.pos + 1, toAdd);
 }
 
+const DELETE_ME = true;
 /**
  *
  * Method performs the following checks on the provided `source` file:
@@ -168,23 +174,26 @@ export function isCandidateForConstructorDeprecation(
   const heritageClauseNodes = nodes.filter(
     node => node.kind === ts.SyntaxKind.HeritageClause
   );
-  const heritageNode = findNodesByTextAndKind(
+  const heritageNodes = findMultiLevelNodesByTextAndKind(
     heritageClauseNodes,
     inheritedClass,
     ts.SyntaxKind.Identifier
   );
-  if (!heritageNode) {
+  if (!heritageNodes || heritageNodes.length === 0) {
+    if (DELETE_ME) console.log('no heritage nodes');
     return false;
   }
 
   for (const classImport of parameterClassTypes) {
     if (!isImported(source, classImport.className, classImport.importPath)) {
+      if (DELETE_ME) console.log('no import: ', classImport);
       return false;
     }
   }
 
   const constructorNode = findConstructor(nodes);
   if (!constructorNode) {
+    if (DELETE_ME) console.log('no constructor');
     return false;
   }
 
@@ -194,6 +203,7 @@ export function isCandidateForConstructorDeprecation(
   );
   // the number of constructor parameter does not match with the expected number of parameters
   if (constructorParameters.length !== parameterClassTypes.length) {
+    if (DELETE_ME) console.log('constructor param number does not match');
     return false;
   }
 
@@ -205,9 +215,10 @@ export function isCandidateForConstructorDeprecation(
       .getChildren()
       .find(node => node.kind === ts.SyntaxKind.TypeReference);
     if (!constructorParameterTypeReferenceNode) {
+      if (DELETE_ME) console.log('no TypeReference node');
       return false;
     }
-    const constructorParameterType = findNodesByTextAndKind(
+    const constructorParameterType = findLevel1NodesByTextAndKind(
       constructorParameterTypeReferenceNode.getChildren(),
       parameterClassType.className,
       ts.SyntaxKind.Identifier
@@ -215,6 +226,7 @@ export function isCandidateForConstructorDeprecation(
 
     // return false if there's no param with the expected type on the current position
     if (constructorParameterType.length === 0) {
+      if (DELETE_ME) console.log('param not on expected position');
       return false;
     }
   }
@@ -222,10 +234,11 @@ export function isCandidateForConstructorDeprecation(
   return true;
 }
 
+// TODO:#6432 - delete?
 // TODO:#6432 - test
 export function collectConstructorParameterNames(
   constructorNode: ts.Node | undefined
-): string[] {
+): Param[] {
   if (!constructorNode) {
     throw new SchematicsException('No constructor provided.');
   }
@@ -238,45 +251,153 @@ export function collectConstructorParameterNames(
     const paramNameNode = paramNode
       .getChildren()
       .find(node => node.kind === ts.SyntaxKind.Identifier);
-    return paramNameNode ? paramNameNode.getText() : '';
+    const constructorParameterTypeReferenceNode = paramNode
+      .getChildren()
+      .find(node => node.kind === ts.SyntaxKind.TypeReference);
+
+    return {
+      paramName: paramNameNode ? paramNameNode.getText() : '',
+      paramType: constructorParameterTypeReferenceNode
+        ? constructorParameterTypeReferenceNode.getText()
+        : '',
+    };
   });
 }
 
 // TODO:#6432 - test
 // export function removeConstructor(): Change[] {}
 
+// TODO:#6432 - rename to `addParamToConstructor`
 // TODO:#6432 - test
-// export function createConstructor(): Change[] {
+export function updateConstructor(
+  constructorNode: ts.Node | undefined,
+  sourcePath: string,
+  paramToAdd: ClassType
+): InsertChange[] {
+  if (!constructorNode) {
+    throw new SchematicsException(`No constructor found in ${sourcePath}.`);
+  }
 
-// }
+  const changes: InsertChange[] = [];
 
+  changes.push(
+    injectService(
+      constructorNode,
+      sourcePath,
+      paramToAdd.className,
+      'no-modifier'
+    )
+  );
+
+  // TODO:#6432 - add import statement
+  // TODO:#6432 - check if the import path already exists, in which case the import should just be appended
+  // TODO:#6432 - maybe create one method that will perform this task. refactor the existing code to use it.
+
+  // TODO:#6432 add to super()
+  changes.push(
+    updateConstructorSuperNode(
+      sourcePath,
+      constructorNode,
+      paramToAdd.className
+    )
+  );
+
+  return changes;
+}
+
+function updateConstructorSuperNode(
+  sourcePath: string,
+  constructorNode: ts.Node,
+  propertyName: string
+): InsertChange {
+  const callExpressions = findNodes(
+    constructorNode,
+    ts.SyntaxKind.CallExpression
+  );
+  propertyName = strings.camelize(propertyName);
+
+  // TODO:#6432 - how to check if there are no super calls?
+  if (callExpressions.length === 0) {
+    // TODO:#6432 - test this
+    return createSuper(sourcePath, constructorNode, propertyName);
+  }
+  // super has to be the first expression in constructor
+  const superKeyword = findNodes(
+    callExpressions[0],
+    ts.SyntaxKind.SuperKeyword
+  );
+  if (superKeyword && superKeyword.length === 0) {
+    // TODO:#6432 - test this
+    return createSuper(sourcePath, constructorNode, propertyName);
+  }
+
+  let toAdd = '';
+  let position: number;
+
+  const params = findNodes(callExpressions[0], ts.SyntaxKind.Identifier);
+  // just an empty super() call, without any params passed to it
+  if (params && params.length === 0) {
+    // TODO:#6432 - test this
+    position = superKeyword[0].end + 1;
+  } else {
+    // TODO:#6432 - test this
+    const lastParam = params[params.length - 1];
+    toAdd += ', ';
+    position = lastParam.end;
+  }
+
+  toAdd += propertyName;
+  return new InsertChange(sourcePath, position, toAdd);
+}
+
+function createSuper(
+  sourcePath: string,
+  constructorNode: ts.Node,
+  propertyName: string
+): InsertChange {
+  propertyName = strings.camelize(propertyName);
+  const blockNode = findNodes(constructorNode, ts.SyntaxKind.Block)[0];
+  if (DELETE_ME) console.log('inserting super on: ', blockNode.getStart());
+  const toAdd = `super(${propertyName});`;
+  return new InsertChange(sourcePath, blockNode.getStart() + 1, toAdd);
+}
+
+// TODO:#6432 - check if the add cms component schematic is still working as before
 export function injectService(
-  nodes: ts.Node[],
+  constructorNode: ts.Node | undefined,
   path: string,
   serviceName: string,
+  modifier: 'private' | 'protected' | 'public' | 'no-modifier',
   propertyName?: string
 ): InsertChange {
-  const constructorNode = nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
-
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${path}.`);
   }
 
-  const parameterListNode = constructorNode
-    .getChildren()
-    .find(n => n.kind === ts.SyntaxKind.SyntaxList);
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Parameter
+  );
 
-  if (!parameterListNode) {
+  // TODO:#6432 - test what happens if there are no constructor parameters. We SHOULD NOT throw the exception in this
+  if (!constructorParameters) {
     throw new SchematicsException(
-      `No no parameter list found in ${path}'s constructor.`
+      `No parameter list found in ${path}'s constructor.`
     );
   }
+
+  const append = constructorParameters.length > 0;
+  const lastParam = constructorParameters[constructorParameters.length - 1];
 
   propertyName = propertyName
     ? strings.camelize(propertyName)
     : strings.camelize(serviceName);
-  const toAdd = `private ${propertyName}: ${strings.classify(serviceName)}`;
-  return new InsertChange(path, parameterListNode.pos, toAdd);
+
+  let toAdd = append ? ', ' : '';
+  if (modifier !== 'no-modifier') toAdd += modifier;
+  toAdd += `${propertyName}: ${strings.classify(serviceName)}`;
+
+  return new InsertChange(path, lastParam.end, toAdd);
 }
 
 export function insertCommentAboveIdentifier(
@@ -285,7 +406,7 @@ export function insertCommentAboveIdentifier(
   identifierName: string,
   comment: string
 ): InsertChange[] {
-  const callExpressionNodes = findNodesInSourceByTextAndKind(
+  const callExpressionNodes = findLevel1NodesInSourceByTextAndKind(
     source,
     identifierName,
     ts.SyntaxKind.Identifier
@@ -309,7 +430,7 @@ export function renameIdentifierNode(
   oldName: string,
   newName: string
 ): ReplaceChange[] {
-  const callExpressionNodes = findNodesInSourceByTextAndKind(
+  const callExpressionNodes = findLevel1NodesInSourceByTextAndKind(
     source,
     oldName,
     ts.SyntaxKind.Identifier
@@ -321,18 +442,17 @@ export function renameIdentifierNode(
   return changes;
 }
 
-// TODO:#6432 - renamed. Rename the test.
-function findNodesInSourceByTextAndKind(
+// TODO:#6432 - delete the test, the function is not exported
+function findLevel1NodesInSourceByTextAndKind(
   source: ts.SourceFile,
   text: string,
   syntaxKind: ts.SyntaxKind
 ): ts.Node[] {
   const nodes = getSourceNodes(source);
-  return findNodesByTextAndKind(nodes, text, syntaxKind);
+  return findLevel1NodesByTextAndKind(nodes, text, syntaxKind);
 }
 
-// TODO:#6432 - test
-function findNodesByTextAndKind(
+function findLevel1NodesByTextAndKind(
   nodes: ts.Node[],
   text: string,
   syntaxKind: ts.SyntaxKind
@@ -340,6 +460,20 @@ function findNodesByTextAndKind(
   return nodes
     .filter(n => n.kind === syntaxKind)
     .filter(n => n.getText() === text);
+}
+
+function findMultiLevelNodesByTextAndKind(
+  nodes: ts.Node[],
+  text: string,
+  syntaxKind: ts.SyntaxKind
+): ts.Node[] {
+  const result: ts.Node[] = [];
+  for (const node of nodes) {
+    result.push(
+      ...findNodes(node, syntaxKind).filter(n => n.getText() === text)
+    );
+  }
+  return result;
 }
 
 function getLineStartFromTSFile(
