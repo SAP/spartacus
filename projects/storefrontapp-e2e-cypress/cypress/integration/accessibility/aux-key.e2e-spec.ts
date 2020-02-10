@@ -18,11 +18,9 @@ context('Auxiliary Keys', () => {
           .first()
           .focus()
           .type(' ');
-        // cy.wait(2000);
-        cy.get('cx-navigation-ui nav div[class="wrapper"]')
-          // .contains('Shop all Brands')
-          .should('be.visible');
-        // .should('contain.text', 'Shop all Brands');
+        cy.get('cx-navigation-ui nav div[class="wrapper"]').should(
+          'be.visible'
+        );
       });
     });
 
@@ -202,7 +200,7 @@ context('Auxiliary Keys', () => {
     });
   });
 
-  describe.only('Skip Links', () => {
+  describe('Skip Links', () => {
     before(() => {
       cy.server();
       cy.route(
