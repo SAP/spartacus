@@ -65,9 +65,16 @@
               }}
             </div>
             <div class="shipment-content">
-              <label>
-                {{ consignmentTracking?.trackingID }}
-              </label>
+              <ng-container *ngIf="consignmentTracking?.trackingUrl">
+                <a target="_blank" [href]="consignmentTracking?.trackingUrl">{{
+                  consignmentTracking?.trackingID
+                }}</a>
+              </ng-container>
+              <ng-container *ngIf="!consignmentTracking?.trackingUrl">
+                <label>
+                  {{ consignmentTracking?.trackingID }}
+                </label>
+              </ng-container>
             </div>
           </div>
         </div>
