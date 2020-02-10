@@ -14,18 +14,18 @@ import { OccPermissionAdapter } from './occ-permission.adapter';
 
 import createSpy = jasmine.createSpy;
 
-const permissionCode = 'testCode';
+const orderApprovalPermissionCode = 'testCode';
 const userId = 'userId';
 const permission = {
-  code: permissionCode,
+  code: orderApprovalPermissionCode,
   name: 'testPermission',
 };
 
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // tslint:disable-next-line:no-shadowed-variable
-    (url, { permissionCode }) =>
-      url === 'permission' ? url + permissionCode : url
+    (url, { orderApprovalPermissionCode }) =>
+      url === 'permission' ? url + orderApprovalPermissionCode : url
   );
 }
 
@@ -63,9 +63,11 @@ describe('OccPermissionAdapter', () => {
 
   describe('load permission details', () => {
     it('should load permission details for given permission code', () => {
-      service.load(userId, permissionCode).subscribe();
+      service.load(userId, orderApprovalPermissionCode).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'permission' + permissionCode
+        req =>
+          req.method === 'GET' &&
+          req.url === 'permission' + orderApprovalPermissionCode
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -111,11 +113,13 @@ describe('OccPermissionAdapter', () => {
 
   describe('update permission', () => {
     it('should update permission', () => {
-      service.update(userId, permissionCode, permission).subscribe();
+      service
+        .update(userId, orderApprovalPermissionCode, permission)
+        .subscribe();
       const mockReq = httpMock.expectOne(
         req =>
           req.method === 'PATCH' &&
-          req.url === 'permission' + permissionCode &&
+          req.url === 'permission' + orderApprovalPermissionCode &&
           req.body.code === permission.code
       );
       expect(mockReq.cancelled).toBeFalsy();

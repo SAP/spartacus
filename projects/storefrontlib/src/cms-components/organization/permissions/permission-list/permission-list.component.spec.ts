@@ -4,24 +4,25 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
-  I18nTestingModule,
-  RoutingService,
-  PermissionService,
-  EntitiesModel,
   B2BSearchConfig,
   CxDatePipe,
+  EntitiesModel,
+  I18nTestingModule,
+  Period,
+  Permission,
+  PermissionService,
   RoutesConfig,
   RoutingConfig,
-  Permission,
+  RoutingService,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { TableModule } from '../../../../shared/components/table/table.module';
 
-import { PermissionsListComponent } from './permissions-list.component';
-import createSpy = jasmine.createSpy;
+import { PermissionListComponent } from './permission-list.component';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
+import createSpy = jasmine.createSpy;
 
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
@@ -33,26 +34,24 @@ const mockPermissionList: EntitiesModel<Permission> = {
   values: [
     {
       code: '1',
-      name: 'b1',
-      permission: 2230,
+      threshold: 231,
+      orderApprovalPermissionType: { name: 'orderType' },
+      periodRange: Period.MONTH,
       currency: {
         isocode: 'USD',
         symbol: '$',
       },
-      startDate: '2010-01-01T00:00:00+0000',
-      endDate: '2034-07-12T00:59:59+0000',
       orgUnit: { name: 'orgName', uid: 'orgUid' },
     },
     {
       code: '2',
-      name: 'b2',
-      permission: 2240,
+      threshold: 421,
+      orderApprovalPermissionType: { name: 'orderType' },
+      periodRange: Period.MONTH,
       currency: {
         isocode: 'USD',
         symbol: '$',
       },
-      startDate: '2020-01-01T00:00:00+0000',
-      endDate: '2024-07-12T00:59:59+0000',
       orgUnit: { name: 'orgName', uid: 'orgUid' },
     },
   ],
@@ -64,17 +63,17 @@ const mockPermissionUIList = {
   permissionsList: [
     {
       code: '1',
-      name: 'b1',
-      amount: '2230 $',
-      startEndDate: '2010-01-01 - 2034-07-12',
+      threshold: '231 $',
+      orderType: 'orderType',
+      timePeriod: 'MONTH',
       parentUnit: 'orgName',
       orgUnitId: 'orgUid',
     },
     {
       code: '2',
-      name: 'b2',
-      amount: '2240 $',
-      startEndDate: '2020-01-01 - 2024-07-12',
+      threshold: '421 $',
+      orderType: 'orderType',
+      timePeriod: 'MONTH',
       parentUnit: 'orgName',
       orgUnitId: 'orgUid',
     },
@@ -125,9 +124,9 @@ class MockCxDatePipe {
   }
 }
 
-describe('PermissionsListComponent', () => {
-  let component: PermissionsListComponent;
-  let fixture: ComponentFixture<PermissionsListComponent>;
+describe('PermissionListComponent', () => {
+  let component: PermissionListComponent;
+  let fixture: ComponentFixture<PermissionListComponent>;
   let permissionsService: MockPermissionService;
   let routingService: RoutingService;
 
@@ -139,7 +138,7 @@ describe('PermissionsListComponent', () => {
         TableModule,
         I18nTestingModule,
       ],
-      declarations: [PermissionsListComponent, MockUrlPipe],
+      declarations: [PermissionListComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
@@ -155,7 +154,7 @@ describe('PermissionsListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PermissionsListComponent);
+    fixture = TestBed.createComponent(PermissionListComponent);
     component = fixture.componentInstance;
     permissionList.next(mockPermissionList);
     fixture.detectChanges();

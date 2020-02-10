@@ -200,26 +200,4 @@ describe('BudgetFormComponent', () => {
       expect(component.clickBack.emit).toHaveBeenCalled();
     });
   });
-
-  describe('currencySelected', () => {
-    it('should setup currency', () => {
-      component.budgetData = mockBudget;
-      component.ngOnInit();
-      component.currencySelected(mockCurrencies[1]);
-      expect(component.form.controls['currency'].value).toEqual({
-        isocode: 'EUR',
-      });
-    });
-  });
-
-  describe('businessUnitSelected', () => {
-    it('should setup business unit', () => {
-      component.budgetData = mockBudget;
-      component.ngOnInit();
-      component.businessUnitSelected(mockOrgUnits.values[1]);
-      expect(component.form.controls['orgUnit'].value).toEqual({
-        uid: 'unitNode2',
-      });
-    });
-  });
 });

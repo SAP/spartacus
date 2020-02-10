@@ -11,6 +11,7 @@ import {
   RoutesConfig,
   RoutingConfig,
   Permission,
+  Period,
 } from '@spartacus/core';
 
 import { PermissionDetailsComponent } from './permission-details.component';
@@ -22,35 +23,26 @@ const permissionCode = 'b1';
 
 const mockPermission: Permission = {
   code: permissionCode,
-  name: 'permission1',
-  permission: 2230,
+  threshold: 231,
+  orderApprovalPermissionType: { name: 'orderType' },
+  periodRange: Period.MONTH,
   currency: {
-    symbol: '$',
     isocode: 'USD',
+    symbol: '$',
   },
-  startDate: '2010-01-01T00:00:00+0000',
-  endDate: '2034-07-12T00:59:59+0000',
-  orgUnit: { name: 'orgName' },
-  costCenters: [
-    { name: 'costCenter1', code: 'cc1' },
-    { name: 'costCenter2', code: 'cc2' },
-  ],
+  orgUnit: { name: 'orgName', uid: 'orgUid' },
 };
+
 const mockPermissionUI: any = {
   code: permissionCode,
-  name: 'permission1',
-  permission: 2230,
+  threshold: 231,
+  orderApprovalPermissionType: { name: 'orderType' },
+  periodRange: Period.MONTH,
   currency: {
     isocode: 'USD',
     symbol: '$',
   },
-  startDate: '2010-01-01T00:00:00+0000',
-  endDate: '2034-07-12T00:59:59+0000',
-  orgUnit: { name: 'orgName' },
-  costCenters: [
-    { name: 'costCenter1', costCenterCode: 'cc1' },
-    { name: 'costCenter2', costCenterCode: 'cc2' },
-  ],
+  orgUnit: { name: 'orgName', uid: 'orgUid' },
 };
 
 @Pipe({
