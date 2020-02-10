@@ -44,11 +44,11 @@ export class CancelOrReturnItemsComponent implements OnInit {
     return this.orderAmendService.getAmendedPrice(entry);
   }
 
-  getMaxAmendQuantity(entry: OrderEntry) {
+  getMaxAmendQuantity(entry: OrderEntry): number {
     return this.orderAmendService.getMaxAmendQuantity(entry);
   }
 
-  isCancellation() {
+  isCancellation(): boolean {
     return this.orderAmendService.isCancellation();
   }
 }
