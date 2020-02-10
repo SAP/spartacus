@@ -8,6 +8,7 @@ import {
   I18nTestingModule,
   Order,
   PromotionResult,
+  PromotionLocation,
 } from '@spartacus/core';
 import { CardModule } from '../../../../../../shared/components/card/card.module';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries.component';
@@ -86,6 +87,8 @@ class MockCartItemListComponent {
   potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading = false;
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.Order;
 }
 
 @Component({
@@ -130,6 +133,7 @@ describe('OrderConsignedEntriesComponent', () => {
     component = fixture.componentInstance;
     component.order = mockOrder;
     component.consignments = mockOrder.consignments;
+    component.promotionLocation = PromotionLocation.Order;
   });
 
   it('should create', () => {

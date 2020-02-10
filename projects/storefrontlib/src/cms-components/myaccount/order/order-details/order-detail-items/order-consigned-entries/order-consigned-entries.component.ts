@@ -1,5 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { Consignment, Order, OrderEntry } from '@spartacus/core';
+import {
+  Consignment,
+  Order,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-consigned-entries',
@@ -8,6 +13,7 @@ import { Consignment, Order, OrderEntry } from '@spartacus/core';
 export class OrderConsignedEntriesComponent {
   @Input() consignments: Consignment[];
   @Input() order: Order;
+  promotionLocation: PromotionLocation = PromotionLocation.Order;
 
   getConsignmentProducts(consignment: Consignment): OrderEntry[] {
     const products: OrderEntry[] = [];
