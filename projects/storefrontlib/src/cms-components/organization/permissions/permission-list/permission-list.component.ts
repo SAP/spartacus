@@ -10,28 +10,28 @@ import {
 } from 'rxjs/operators';
 
 import {
-  BudgetService,
+  PermissionService,
   RoutingService,
   CxDatePipe,
   EntitiesModel,
   B2BSearchConfig,
+  Permission,
   θdiff as diff,
   θshallowEqualObjects as shallowEqualObjects,
-  Budget,
 } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-budgets-list',
-  templateUrl: './budgets-list.component.html',
+  selector: 'cx-permission-list',
+  templateUrl: './permission-list.component.html',
 })
-export class BudgetsListComponent implements OnInit {
+export class PermissionListComponent implements OnInit {
   constructor(
     protected routingService: RoutingService,
-    protected budgetsService: BudgetService,
+    protected permissionsService: PermissionService,
     protected cxDate: CxDatePipe
   ) {}
 
-  budgetsList$: Observable<any>;
+  permissionsList$: Observable<any>;
   private params$: Observable<B2BSearchConfig>;
 
   protected defaultParams: B2BSearchConfig = {
@@ -45,30 +45,31 @@ export class BudgetsListComponent implements OnInit {
       .getRouterState()
       .pipe(map(routingData => routingData.state.queryParams));
 
-    this.budgetsList$ = this.params$.pipe(
+    this.permissionsList$ = this.params$.pipe(
       map(params => ({
         ...this.defaultParams,
         ...params,
       })),
       distinctUntilChanged(shallowEqualObjects),
       map(this.normalizeParams),
-      tap(params => this.budgetsService.loadBudgets(params)),
+      tap(params => this.permissionsService.loadPermissions(params)),
       switchMap(params =>
-        this.budgetsService.getList(params).pipe(
+        this.permissionsService.getList(params).pipe(
           filter(Boolean),
-          map((budgetsList: EntitiesModel<Budget>) => ({
-            sorts: budgetsList.sorts,
-            pagination: budgetsList.pagination,
-            budgetsList: budgetsList.values.map(budget => ({
-              code: budget.code,
-              name: budget.name,
-              amount: `${budget.budget} ${budget.currency &&
-                budget.currency.symbol}`,
-              startEndDate: `${this.cxDate.transform(
-                budget.startDate
-              )} - ${this.cxDate.transform(budget.endDate)}`,
-              parentUnit: budget.orgUnit && budget.orgUnit.name,
-              orgUnitId: budget.orgUnit && budget.orgUnit.uid,
+          map((permissionsList: EntitiesModel<Permission>) => ({
+            sorts: permissionsList.sorts,
+            pagination: permissionsList.pagination,
+            permissionsList: permissionsList.values.map(permission => ({
+              code: permission.code,
+              threshold: `${permission.threshold ||
+                ''} ${(permission.currency && permission.currency.symbol) ||
+                ''}`,
+              orderType:
+                permission.orderApprovalPermissionType &&
+                permission.orderApprovalPermissionType.name,
+              parentUnit: permission.orgUnit && permission.orgUnit.name,
+              timePeriod: permission.periodRange,
+              orgUnitId: permission.orgUnit && permission.orgUnit.uid,
             })),
           }))
         )
@@ -93,7 +94,7 @@ export class BudgetsListComponent implements OnInit {
       .subscribe((params: Partial<B2BSearchConfig>) => {
         this.routingService.go(
           {
-            cxRoute: 'budgets',
+            cxRoute: 'permissions',
           },
           { ...params }
         );

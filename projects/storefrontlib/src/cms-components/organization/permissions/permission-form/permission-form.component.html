@@ -5,7 +5,9 @@
 >
   <span class="is-invalid">
     <span *ngFor="let error of control.errors | keyvalue">
-      {{ 'budgetForm.message.' + error.key | cxTranslate: translationParams }}
+      {{
+        'permissionForm.message.' + error.key | cxTranslate: translationParams
+      }}
     </span>
   </span>
 </ng-template>
@@ -16,13 +18,13 @@
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'budgetForm.code.label' | cxTranslate
+            'permissionForm.code.label' | cxTranslate
           }}</span>
           <input
             class="form-control"
             type="text"
             required
-            placeholder="{{ 'budgetForm.code.placeholder' | cxTranslate }}"
+            placeholder="{{ 'permissionForm.code.placeholder' | cxTranslate }}"
             formControlName="code"
             [class.is-invalid]="isNotValid('code')"
           />
@@ -37,23 +39,58 @@
       </div>
 
       <div class="form-group">
+        <ng-container
+          *ngIf="permissionTypes$ | async as permissionTypes"
+          formGroupName="orderApprovalPermissionType"
+        >
+          <div *ngIf="permissionTypes.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'permissionForm.type' | cxTranslate
+              }}</span>
+              <ng-select
+                formControlName="code"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="permissionTypes"
+                bindLabel="name"
+                bindValue="code"
+                [class.invalid]="isNotValid('orderApprovalPermissionType')"
+              >
+              </ng-select>
+              <ng-container
+                *ngIf="isNotValid('orderApprovalPermissionType')"
+                [ngTemplateOutlet]="validation"
+                [ngTemplateOutletContext]="{
+                  control:
+                    form.controls.orderApprovalPermissionType['controls'][
+                      'code'
+                    ]
+                }"
+              ></ng-container>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
         <label>
-          <span class="label-content required">{{
-            'budgetForm.name.label' | cxTranslate
+          <span class="label-content">{{
+            'permissionForm.periodRange' | cxTranslate
           }}</span>
-          <input
-            type="text"
-            class="form-control"
-            required
-            placeholder="{{ 'budgetForm.name.placeholder' | cxTranslate }}"
-            formControlName="name"
-            [class.is-invalid]="isNotValid('name')"
-          />
+          <ng-select
+            formControlName="periodRange"
+            [searchable]="false"
+            [clearable]="false"
+            [items]="periodRange"
+            [class.invalid]="isNotValid('periodRange')"
+          >
+          </ng-select>
           <ng-container
-            *ngIf="isNotValid('name')"
+            *ngIf="isNotValid('periodRange')"
             [ngTemplateOutlet]="validation"
             [ngTemplateOutletContext]="{
-              control: form.controls.name
+              control: form.controls.periodRange
             }"
           ></ng-container>
         </label>
@@ -67,7 +104,7 @@
           <div *ngIf="businessUnits.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
-                'budgetForm.businessUnits.label' | cxTranslate
+                'permissionForm.businessUnits.label' | cxTranslate
               }}</span>
               <ng-select
                 formControlName="uid"
@@ -78,6 +115,7 @@
                 bindValue="id"
                 [class.invalid]="isNotValid('orgUnit')"
               >
+                <!--                (change)="businessUnitSelected($event)"-->
               </ng-select>
               <ng-container
                 *ngIf="isNotValid('orgUnit')"
@@ -92,53 +130,6 @@
       </div>
 
       <div class="form-group">
-        <label>
-          <span class="label-content">{{
-            'budgetForm.startDate' | cxTranslate
-          }}</span>
-          <cx-date-picker
-            formControlName="startDate"
-            [max]="form.controls.endDate.value"
-            (change)="form.controls.endDate.updateValueAndValidity()"
-            [invalid]="isNotValid('startDate')"
-          ></cx-date-picker>
-          <ng-container
-            *ngIf="isNotValid('startDate')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.startDate,
-              translationParams: { date: form.controls.endDate.value | cxDate }
-            }"
-          ></ng-container>
-        </label>
-      </div>
-
-      <div class="form-group">
-        <label>
-          <span class="label-content">{{
-            'budgetForm.endDate' | cxTranslate
-          }}</span>
-          <cx-date-picker
-            formControlName="endDate"
-            [min]="form.controls.startDate.value"
-            (change)="form.controls.startDate.updateValueAndValidity()"
-            [endOfDay]="true"
-            [invalid]="isNotValid('endDate')"
-          ></cx-date-picker>
-          <ng-container
-            *ngIf="isNotValid('endDate')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.endDate,
-              translationParams: {
-                date: form.controls.startDate.value | cxDate
-              }
-            }"
-          ></ng-container>
-        </label>
-      </div>
-
-      <div class="form-group">
         <ng-container
           *ngIf="currencies$ | async as currencies"
           formGroupName="currency"
@@ -146,7 +137,7 @@
           <div *ngIf="currencies.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
-                'budgetForm.currency' | cxTranslate
+                'permissionForm.currency' | cxTranslate
               }}</span>
               <ng-select
                 formControlName="isocode"
@@ -157,6 +148,7 @@
                 bindValue="isocode"
                 [class.invalid]="isNotValid('currency')"
               >
+                <!--                (change)="currencySelected($event)"-->
               </ng-select>
               <ng-container
                 *ngIf="isNotValid('currency')"
@@ -173,20 +165,22 @@
       <div class="form-group">
         <label>
           <span class="label-content">{{
-            'budgetForm.amount.label' | cxTranslate
+            'permissionForm.threshold.label' | cxTranslate
           }}</span>
           <input
             type="number"
             class="form-control"
-            placeholder="{{ 'budgetForm.amount.placeholder' | cxTranslate }}"
-            formControlName="budget"
-            [class.is-invalid]="isNotValid('budget')"
+            placeholder="{{
+              'permissionForm.threshold.placeholder' | cxTranslate
+            }}"
+            formControlName="threshold"
+            [class.is-invalid]="isNotValid('threshold')"
           />
           <ng-container
-            *ngIf="isNotValid('budget')"
+            *ngIf="isNotValid('threshold')"
             [ngTemplateOutlet]="validation"
             [ngTemplateOutletContext]="{
-              control: form.controls.budget
+              control: form.controls.threshold
             }"
           ></ng-container>
         </label>
@@ -198,7 +192,7 @@
       <button
         class="btn btn-block btn-primary"
         [disabled]="form.invalid"
-        (click)="verifyBudget()"
+        (click)="verifyPermission()"
       >
         {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
       </button>

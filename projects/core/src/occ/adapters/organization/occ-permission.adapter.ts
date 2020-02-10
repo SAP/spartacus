@@ -58,9 +58,12 @@ export class OccPermissionAdapter implements PermissionAdapter {
 
   protected getPermissionEndpoint(
     userId: string,
-    permissionCode: string
+    orderApprovalPermissionCode: string
   ): string {
-    return this.occEndpoints.getUrl('permission', { userId, permissionCode });
+    return this.occEndpoints.getUrl('permission', {
+      userId,
+      orderApprovalPermissionCode,
+    });
   }
 
   protected getPermissionsEndpoint(

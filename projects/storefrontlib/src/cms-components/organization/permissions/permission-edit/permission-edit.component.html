@@ -1,0 +1,10 @@
+<div class="cx-header">
+  <h3>{{ 'permissionForm.edit' | cxTranslate }}</h3>
+</div>
+<cx-permission-form
+  *ngIf="permission$ | async as permission"
+  [actionBtnLabel]="'permissionForm.update' | cxTranslate"
+  [permissionData]="permission"
+  (submitPermission)="updatePermission($event)"
+>
+</cx-permission-form>

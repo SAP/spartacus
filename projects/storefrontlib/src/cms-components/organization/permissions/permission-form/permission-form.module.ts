@@ -4,41 +4,32 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  AuthGuard,
-  CmsConfig,
-  ConfigModule,
+  CurrencyService,
   CxDatePipe,
   I18nModule,
   UrlModule,
   UserService,
+  OrgUnitService,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { BudgetsListComponent } from './budgets-list.component';
-import { TableModule } from '../../../../shared/components/table/table.module';
+import { PermissionFormComponent } from './permission-form.component';
+import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        ManageBudgetsListComponent: {
-          component: BudgetsListComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
     RouterModule,
     FormsModule,
     NgSelectModule,
     ListNavigationModule,
     UrlModule,
     I18nModule,
-    TableModule,
     ReactiveFormsModule,
+    DatePickerModule,
   ],
-  declarations: [BudgetsListComponent],
-  exports: [BudgetsListComponent],
-  providers: [UserService, CxDatePipe],
-  entryComponents: [BudgetsListComponent],
+  declarations: [PermissionFormComponent],
+  exports: [PermissionFormComponent],
+  providers: [UserService, CxDatePipe, CurrencyService, OrgUnitService],
+  entryComponents: [PermissionFormComponent],
 })
-export class BudgetsListModule {}
+export class PermissionFormModule {}

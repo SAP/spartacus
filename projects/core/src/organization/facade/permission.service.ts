@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, queueScheduler } from 'rxjs';
+import { Observable, of, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
-import { Permission } from '../../model/permission.model';
+import {
+  Permission,
+  OrderApprovalPermissionType,
+} from '../../model/permission.model';
 import { EntitiesModel } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
 import { PermissionActions } from '../store/actions/index';
@@ -25,7 +28,10 @@ export class PermissionService {
   loadPermission(permissionCode: string) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new PermissionActions.LoadPermission({ userId, permissionCode })
+        new PermissionActions.LoadPermission({
+          userId,
+          permissionCode,
+        })
       )
     );
   }
@@ -59,6 +65,24 @@ export class PermissionService {
       filter(state => state.success || state.error),
       map(state => state.value)
     );
+  }
+
+  getTypes(): Observable<OrderApprovalPermissionType[]> {
+    // Todo: update after #6391 & #6392
+    return of([
+      {
+        code: 'B2BOrderThresholdPermission',
+        name: 'Allowed Order Threshold (per order)',
+      },
+      {
+        code: 'B2BBudgetExceededPermission',
+        name: 'Budget Exceeded Permission',
+      },
+      {
+        code: 'B2BOrderThresholdTimespanPermission',
+        name: 'Allowed Order Threshold (per timespan)',
+      },
+    ]);
   }
 
   getList(params: B2BSearchConfig): Observable<EntitiesModel<Permission>> {
