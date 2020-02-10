@@ -1,6 +1,10 @@
 <ng-container *ngIf="order$ | async as order">
   <!-- consigned entries -->
   <div *cxFeatureLevel="'1.4'">
+    <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
+      <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+    </ng-container>
+
     <cx-order-consigned-entries
       *ngIf="others$ | async as others"
       [order]="order"
