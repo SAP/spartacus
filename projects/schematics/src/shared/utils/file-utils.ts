@@ -250,9 +250,8 @@ function checkConstructorParameters(
   return true;
 }
 
-// TODO:#6432 - rename to `addParamToConstructor`
 // TODO:#6432 - test
-export function updateConstructor(
+export function addParamToConstructor(
   source: ts.SourceFile,
   sourcePath: string,
   constructorNode: ts.Node | undefined,
@@ -364,9 +363,7 @@ export function injectService(
     ts.SyntaxKind.Parameter
   );
 
-  // TODO:#6432 - test what happens if there are no constructor parameters.
   let toAdd = '';
-  // TODO:#6432 - test
   let position = constructorNode.getStart() + 'constructor('.length;
   if (constructorParameters && constructorParameters.length > 0) {
     toAdd += ', ';
