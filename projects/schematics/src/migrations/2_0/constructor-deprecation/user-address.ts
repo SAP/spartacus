@@ -58,8 +58,9 @@ export function migrate(): Rule {
 
         for (const newConstructorParam of NEW_CONSTRUCTOR_PARAMETERS) {
           const changes = updateConstructor(
-            constructorNode,
+            source,
             sourcePath,
+            constructorNode,
             newConstructorParam
           );
           commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);

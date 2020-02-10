@@ -5,6 +5,7 @@ import { parseTsconfigFile } from '@angular/core/schematics/utils/typescript/par
 import {
   findNodes,
   getSourceNodes,
+  insertImport,
   isImported,
 } from '@schematics/angular/utility/ast-utils';
 import {
@@ -180,20 +181,17 @@ export function isCandidateForConstructorDeprecation(
     ts.SyntaxKind.Identifier
   );
   if (!heritageNodes || heritageNodes.length === 0) {
-    if (DELETE_ME) console.log('no heritage nodes');
     return false;
   }
 
   for (const classImport of parameterClassTypes) {
     if (!isImported(source, classImport.className, classImport.importPath)) {
-      if (DELETE_ME) console.log('no import: ', classImport);
       return false;
     }
   }
 
   const constructorNode = findConstructor(nodes);
   if (!constructorNode) {
-    if (DELETE_ME) console.log('no constructor');
     return false;
   }
 
@@ -203,7 +201,6 @@ export function isCandidateForConstructorDeprecation(
   );
   // the number of constructor parameter does not match with the expected number of parameters
   if (constructorParameters.length !== parameterClassTypes.length) {
-    if (DELETE_ME) console.log('constructor param number does not match');
     return false;
   }
 
@@ -215,7 +212,6 @@ export function isCandidateForConstructorDeprecation(
       .getChildren()
       .find(node => node.kind === ts.SyntaxKind.TypeReference);
     if (!constructorParameterTypeReferenceNode) {
-      if (DELETE_ME) console.log('no TypeReference node');
       return false;
     }
     const constructorParameterType = findLevel1NodesByTextAndKind(
@@ -226,7 +222,6 @@ export function isCandidateForConstructorDeprecation(
 
     // return false if there's no param with the expected type on the current position
     if (constructorParameterType.length === 0) {
-      if (DELETE_ME) console.log('param not on expected position');
       return false;
     }
   }
@@ -270,15 +265,16 @@ export function collectConstructorParameterNames(
 // TODO:#6432 - rename to `addParamToConstructor`
 // TODO:#6432 - test
 export function updateConstructor(
-  constructorNode: ts.Node | undefined,
+  source: ts.SourceFile,
   sourcePath: string,
+  constructorNode: ts.Node | undefined,
   paramToAdd: ClassType
-): InsertChange[] {
+): Change[] {
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${sourcePath}.`);
   }
 
-  const changes: InsertChange[] = [];
+  const changes: Change[] = [];
 
   changes.push(
     injectService(
@@ -289,11 +285,17 @@ export function updateConstructor(
     )
   );
 
-  // TODO:#6432 - add import statement
-  // TODO:#6432 - check if the import path already exists, in which case the import should just be appended
-  // TODO:#6432 - maybe create one method that will perform this task. refactor the existing code to use it.
+  if (!isImported(source, paramToAdd.className, paramToAdd.importPath)) {
+    changes.push(
+      insertImport(
+        source,
+        sourcePath,
+        paramToAdd.className,
+        paramToAdd.importPath
+      )
+    );
+  }
 
-  // TODO:#6432 add to super()
   changes.push(
     updateConstructorSuperNode(
       sourcePath,
@@ -316,9 +318,7 @@ function updateConstructorSuperNode(
   );
   propertyName = strings.camelize(propertyName);
 
-  // TODO:#6432 - how to check if there are no super calls?
   if (callExpressions.length === 0) {
-    // TODO:#6432 - test this
     return createSuper(sourcePath, constructorNode, propertyName);
   }
   // super has to be the first expression in constructor
@@ -327,7 +327,6 @@ function updateConstructorSuperNode(
     ts.SyntaxKind.SuperKeyword
   );
   if (superKeyword && superKeyword.length === 0) {
-    // TODO:#6432 - test this
     return createSuper(sourcePath, constructorNode, propertyName);
   }
 
@@ -337,10 +336,8 @@ function updateConstructorSuperNode(
   const params = findNodes(callExpressions[0], ts.SyntaxKind.Identifier);
   // just an empty super() call, without any params passed to it
   if (params && params.length === 0) {
-    // TODO:#6432 - test this
     position = superKeyword[0].end + 1;
   } else {
-    // TODO:#6432 - test this
     const lastParam = params[params.length - 1];
     toAdd += ', ';
     position = lastParam.end;

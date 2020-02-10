@@ -13,10 +13,11 @@ import {
 import {
   findNodes,
   getSourceNodes,
+  isImported,
 } from '@schematics/angular/utility/ast-utils';
 import * as shx from 'shelljs';
 import * as ts from 'typescript';
-import { AUTH_SERVICE, STORE } from '../../../shared/constants';
+import { AUTH_SERVICE, SPARTACUS_CORE, STORE } from '../../../shared/constants';
 import { findConstructor } from '../../../shared/utils/file-utils';
 
 const NOT_INHERITING_SPARTACUS_CLASS = `
@@ -59,7 +60,6 @@ const NO_SUPER_CALL = `
       constructor(store: Store<StateWithUser | StateWithProcess<void>>) {}
     }
 `;
-// TODO:#6432 - check imports
 const CALL_EXPRESSION_NO_SUPER = `
     import { Store } from '@ngrx/store';
     import {
@@ -73,7 +73,6 @@ const CALL_EXPRESSION_NO_SUPER = `
       }
     }
 `;
-// TODO:#6432 - check imports
 const EMPTY_SUPER = `
 import { Store } from '@ngrx/store';
 import {
@@ -87,7 +86,6 @@ export class InheritingService extends UserAddressService {
   }
 }
 `;
-// TODO:#6432 - check imports
 const VALID_TEST_CLASS = `  
     import { Store } from '@ngrx/store';
     import {
@@ -192,7 +190,13 @@ describe('constructor user-address migration', () => {
 
       const content = appTree.readContent('/src/index.ts');
 
-      const constructorNode = getConstructor(content);
+      const source = ts.createSourceFile(
+        'xxx',
+        content,
+        ts.ScriptTarget.Latest
+      );
+      const nodes = getSourceNodes(source);
+      const constructorNode = getConstructor(nodes);
       const superNode = getSuperNode(constructorNode);
       expect(superNode).toBeTruthy();
     });
@@ -200,56 +204,73 @@ describe('constructor user-address migration', () => {
 
   describe('when the class has a CallExpression node which is NOT of type super', () => {
     it('should create it', async () => {
-      writeFile('/src/index.ts', CALL_EXPRESSION_NO_SUPER);
+      const filePath = '/src/index.ts';
+      writeFile(filePath, CALL_EXPRESSION_NO_SUPER);
 
       await runMigration();
 
-      const content = appTree.readContent('/src/index.ts');
+      const content = appTree.readContent(filePath);
 
-      const constructorNode = getConstructor(content);
+      const source = ts.createSourceFile(
+        filePath,
+        content,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const nodes = getSourceNodes(source);
+      const constructorNode = getConstructor(nodes);
       const superNode = getSuperNode(constructorNode);
       expect(superNode).toBeTruthy();
+      expect(isImported(source, AUTH_SERVICE, SPARTACUS_CORE)).toEqual(true);
     });
   });
 
   describe('when the class has an empty super() call', () => {
     it('should add param to it', async () => {
-      writeFile('/src/index.ts', EMPTY_SUPER);
+      const filePath = '/src/index.ts';
+      writeFile(filePath, EMPTY_SUPER);
 
       await runMigration();
 
-      const content = appTree.readContent('/src/index.ts');
+      const content = appTree.readContent(filePath);
 
       const source = ts.createSourceFile(
-        'xxx',
+        filePath,
         content,
-        ts.ScriptTarget.Latest
+        ts.ScriptTarget.Latest,
+        true
       );
-      const constructorNode = getConstructor(content);
-      const params = getParams(source, constructorNode, [
+      const nodes = getSourceNodes(source);
+      const constructorNode = getConstructor(nodes);
+      const params = getParams(constructorNode, [
         strings.camelize(STORE),
         strings.camelize(AUTH_SERVICE),
       ]);
       // TODO:#6432 - expect both store and auth?
       expect(params).toEqual([strings.camelize(AUTH_SERVICE)]);
+      expect(isImported(source, AUTH_SERVICE, SPARTACUS_CORE)).toEqual(true);
     });
   });
 
   describe('when all the pre-conditions are valid', () => {
     it('should just append the missing parameters', async () => {
-      writeFile('/src/index.ts', VALID_TEST_CLASS);
+      const filePath = '/src/index.ts';
+      writeFile(filePath, VALID_TEST_CLASS);
 
       await runMigration();
 
-      const content = appTree.readContent('/src/index.ts');
+      const content = appTree.readContent(filePath);
+      console.log(content);
 
       const source = ts.createSourceFile(
-        'xxx',
+        filePath,
         content,
-        ts.ScriptTarget.Latest
+        ts.ScriptTarget.Latest,
+        true
       );
-      const constructorNode = getConstructor(content);
-      const params = getParams(source, constructorNode, [
+      const nodes = getSourceNodes(source);
+      const constructorNode = getConstructor(nodes);
+      const params = getParams(constructorNode, [
         strings.camelize(STORE),
         strings.camelize(AUTH_SERVICE),
       ]);
@@ -257,6 +278,7 @@ describe('constructor user-address migration', () => {
         strings.camelize(STORE),
         strings.camelize(AUTH_SERVICE),
       ]);
+      expect(isImported(source, AUTH_SERVICE, SPARTACUS_CORE)).toEqual(true);
     });
   });
 
@@ -279,9 +301,7 @@ describe('constructor user-address migration', () => {
 
   // TODO:#6432 - make this available to other spec files?
   // TODO:#6432 - if yes, extract the `writeFile()` and `runMigration()` methods as well to the test-utils.ts
-  function getConstructor(content: string): ts.Node {
-    const source = ts.createSourceFile('xxx', content, ts.ScriptTarget.Latest);
-    const nodes = getSourceNodes(source);
+  function getConstructor(nodes: ts.Node[]): ts.Node {
     const constructorNode = findConstructor(nodes);
     if (!constructorNode) {
       throw new Error('No constructor node found');
@@ -298,7 +318,6 @@ describe('constructor user-address migration', () => {
   }
 
   function getParams(
-    source: ts.SourceFile,
     constructorNode: ts.Node,
     camelizedParamNames: string[]
   ): string[] {
@@ -322,7 +341,7 @@ describe('constructor user-address migration', () => {
 
     return params
       .filter(n => n.kind === ts.SyntaxKind.Identifier)
-      .map(n => n.getText(source))
+      .map(n => n.getText())
       .filter(text => camelizedParamNames.includes(text));
   }
 });
