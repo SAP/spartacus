@@ -194,6 +194,28 @@ describe('NavigationComponentService', () => {
     expect(result.children[1].url).toEqual('/testLink2');
   });
 
+  it('should load the missing navigation nodes for the latest CMS data', () => {
+    mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
+
+    // add one more child
+    componentData.navigationNode.children[4] = {
+      uid: 'MockChildNode005',
+      entries: [
+        {
+          itemId: 'MockLink005',
+          itemSuperType: 'AbstractCMSComponent',
+          itemType: 'CMSLinkComponent',
+        },
+      ],
+    };
+
+    navigationService.getNavigationNode(of(componentData)).subscribe();
+    expect(mockCmsService.loadNavigationItems).toHaveBeenCalledWith(
+      'MockNavigationNode001',
+      [{ superType: 'AbstractCMSComponent', id: 'MockLink005' }]
+    );
+  });
+
   it('should create a virtual navigation root', () => {
     mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
 

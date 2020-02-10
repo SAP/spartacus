@@ -49,6 +49,15 @@ export class NavigationService {
           tap(items => {
             if (items === undefined) {
               this.loadNavigationEntryItems(navigation, true);
+            } else {
+              // we should check whether the existing node items are what expected
+              const expected = [];
+              this.loadNavigationEntryItems(navigation, false, expected);
+              const exist = Object.keys(items).map(key => items[key].uid);
+              const missing = expected.filter(it => !exist.includes(it.id));
+              if (missing.length > 0) {
+                this.cmsService.loadNavigationItems(navigation.uid, missing);
+              }
             }
           }),
           filter(Boolean),
