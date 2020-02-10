@@ -25,12 +25,12 @@ export class PermissionService {
     protected authService: AuthService
   ) {}
 
-  loadPermission(orderApprovalPermissionCode: string) {
+  loadPermission(permissionCode: string) {
     this.withUserId(userId =>
       this.store.dispatch(
         new PermissionActions.LoadPermission({
           userId,
-          orderApprovalPermissionCode,
+          permissionCode,
         })
       )
     );
