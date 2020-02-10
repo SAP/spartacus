@@ -9,10 +9,18 @@ import {
 } from '@schematics/angular/utility/change';
 import * as path from 'path';
 import * as ts from 'typescript';
-import { UTF_8 } from '../constants';
 import {
+  NGRX_STORE,
+  SPARTACUS_CORE,
+  STORE,
+  USER_ADDRESS_SERVICE,
+  UTF_8,
+} from '../constants';
+import {
+  ClassType,
   commitChanges,
   defineProperty,
+  findConstructor,
   getAllTsSourceFiles,
   getIndexHtmlPath,
   getPathResultsForFile,
@@ -20,6 +28,7 @@ import {
   injectService,
   insertCommentAboveIdentifier,
   InsertDirection,
+  isCandidateForConstructorDeprecation,
   renameIdentifierNode,
 } from './file-utils';
 import { getProjectFromWorkspace } from './workspace-utils';
@@ -162,6 +171,22 @@ describe('File utils', () => {
     });
   });
 
+  // TODO: "test": "tsc -p tsconfig.json && jasmine src/**/*/user-address_spec.js"
+  describe('findConstructor', async () => {
+    it('should return the constructor if found', () => {
+      const constructorNode: ts.Node = {
+        kind: ts.SyntaxKind.Constructor,
+      } as ts.Node;
+
+      const nodes: ts.Node[] = [constructorNode];
+      expect(findConstructor(nodes)).toEqual(constructorNode);
+    });
+    it('should return undefined if the constructor is not found', () => {
+      const nodes: ts.Node[] = [];
+      expect(findConstructor(nodes)).toEqual(undefined);
+    });
+  });
+
   describe('defineProperty', () => {
     it('should create a Change if the constructor exists', async () => {
       const testPath = 'path-xxx';
@@ -176,14 +201,158 @@ describe('File utils', () => {
     });
   });
 
+  describe('isCandidateForConstructorDeprecation', async () => {
+    it('should return false if the inheritance condition is not satisfied', () => {
+      const content = `
+      import { Store } from '@ngrx/store';
+      import { StateWithProcess, StateWithUser } from '@spartacus/core';
+      export class InheritingService {
+        constructor(_store: Store<StateWithUser | StateWithProcess<void>>) {}
+      }
+      `;
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        content,
+        ts.ScriptTarget.Latest,
+        true
+      );
+
+      expect(
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, [])
+      ).toEqual(false);
+    });
+    it('should return false if the imports condition not satisfied', () => {
+      const content = `
+      import { StateWithProcess, StateWithUser, UserAddressService } from '@spartacus/core';
+      export class InheritingService extends UserAddressService {
+        constructor(_store: Store<StateWithUser | StateWithProcess<void>>) {}
+      }
+      `;
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        content,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const parameterClassTypes: ClassType[] = [
+        { className: STORE, importPath: NGRX_STORE },
+      ];
+
+      expect(
+        isCandidateForConstructorDeprecation(
+          source,
+          USER_ADDRESS_SERVICE,
+          parameterClassTypes
+        )
+      ).toEqual(false);
+    });
+    it('should return false if the constructor condition is not satisfied', () => {
+      const content = `
+      import { UserAddressService } from '@spartacus/core';
+      import { Store } from '@ngrx/store';
+      export class InheritingService extends UserAddressService {}
+      `;
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        content,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const parameterClassTypes: ClassType[] = [
+        { className: STORE, importPath: NGRX_STORE },
+      ];
+
+      expect(
+        isCandidateForConstructorDeprecation(
+          source,
+          USER_ADDRESS_SERVICE,
+          parameterClassTypes
+        )
+      ).toEqual(false);
+    });
+    it('should return false if the parameter lengths condition is not satisfied', () => {
+      const content = `
+      import { Store } from '@ngrx/store';
+      import {
+        AuthService,
+        StateWithProcess,
+        StateWithUser,
+        UserAddressService
+      } from '@spartacus/core';
+      export class InheritingService extends UserAddressService {
+        constructor(
+          authService: AuthService,
+          store: Store<StateWithUser | StateWithProcess<void>>
+        ) {
+          super(authService, store);
+        }
+      }
+      `;
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        content,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const parameterClassTypes: ClassType[] = [
+        { className: STORE, importPath: NGRX_STORE },
+      ];
+
+      expect(
+        isCandidateForConstructorDeprecation(
+          source,
+          USER_ADDRESS_SERVICE,
+          parameterClassTypes
+        )
+      ).toEqual(false);
+    });
+    it('should return false if the parameter order is not satisfied', () => {
+      const content = `
+      import { Store } from '@ngrx/store';
+      import {
+        AuthService,
+        StateWithProcess,
+        StateWithUser,
+        UserAddressService
+      } from '@spartacus/core';
+      export class InheritingService extends UserAddressService {
+        constructor(
+          authService: AuthService,
+          store: Store<StateWithUser | StateWithProcess<void>>
+        ) {
+          super(authService, store);
+        }
+      }
+      `;
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        content,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const parameterClassTypes: ClassType[] = [
+        { className: STORE, importPath: NGRX_STORE },
+        { className: USER_ADDRESS_SERVICE, importPath: SPARTACUS_CORE },
+      ];
+
+      expect(
+        isCandidateForConstructorDeprecation(
+          source,
+          USER_ADDRESS_SERVICE,
+          parameterClassTypes
+        )
+      ).toEqual(false);
+    });
+  });
+
   describe('injectService', () => {
     it('should create a Change to inject the specified service', async () => {
       const testPath = 'path-xxx';
-      const parameterListNode = { kind: ts.SyntaxKind.SyntaxList } as ts.Node;
       const ctorNode = {
         kind: ts.SyntaxKind.Constructor,
         pos: 0,
-        getChildren: () => [parameterListNode],
+        getChildren: () => [] as ts.Node[],
+        getStart: () => 10,
       } as ts.Node;
 
       const result = injectService(

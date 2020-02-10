@@ -122,7 +122,6 @@ export function commitChanges(
   host.commitUpdate(recorder);
 }
 
-// TODO:#6432 - test
 export function findConstructor(nodes: ts.Node[]): ts.Node | undefined {
   return nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
 }
@@ -177,6 +176,9 @@ export function isCandidateForConstructorDeprecation(
   if (!constructorNode) {
     return false;
   }
+
+  // TODO:#6432 - validate super presence
+  // TODO:#6432 - validate super parameter passing?
 
   if (!checkConstructorParameters(constructorNode, parameterClassTypes)) {
     return false;
@@ -375,7 +377,7 @@ export function injectService(
     ? strings.camelize(propertyName)
     : strings.camelize(serviceName);
 
-  if (modifier !== 'no-modifier') toAdd += modifier;
+  if (modifier !== 'no-modifier') toAdd += `${modifier} `;
   toAdd += `${propertyName}: ${strings.classify(serviceName)}`;
 
   return new InsertChange(path, position, toAdd);
@@ -423,7 +425,6 @@ export function renameIdentifierNode(
   return changes;
 }
 
-// TODO:#6432 - delete the test, the function is not exported
 function findLevel1NodesInSourceByTextAndKind(
   source: ts.SourceFile,
   text: string,
