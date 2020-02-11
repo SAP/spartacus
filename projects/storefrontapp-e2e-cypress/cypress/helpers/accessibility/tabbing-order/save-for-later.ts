@@ -11,11 +11,24 @@ export function saveForLaterTabbingOrder(config: TabElement[]) {
 function addCartItemsAndLoadCart() {
   // Add Two Items to cart
   cy.visit(testProductUrl);
-  cy.getAllByText(/Add to cart/i)
-    .first()
-    .click();
-  cy.visit('/cart');
-  cy.getAllByText(/Save For Later/i)
-    .first()
-    .click();
+  cy.get('cx-add-to-cart .btn-primary')
+    .should('contain', 'Add To Cart')
+    .should('not.be.disabled')
+    .then(el => {
+      cy.wrap(el).click();
+    });
+  
+  cy.get('cx-added-to-cart-dialog .btn-primary')
+    .should('contain', 'View Cart')
+    .should('not.be.disabled')
+    .then(el => {
+      cy.wrap(el).click();
+    });
+
+  cy.get('cx-cart-item > .cx-sfl-btn')
+    .should('contain', 'Save For Later')
+    .should('not.be.disabled')
+    .then(el => {
+      cy.wrap(el).click();
+    });
 }
