@@ -3,6 +3,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import { getProjectTsConfigPaths } from '@angular/core/schematics/utils/project_tsconfig_paths';
+import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 import {
   InsertChange,
   ReplaceChange,
@@ -10,6 +11,7 @@ import {
 import * as path from 'path';
 import * as ts from 'typescript';
 import {
+  AUTH_SERVICE,
   NGRX_STORE,
   SPARTACUS_CORE,
   STORE,
@@ -29,6 +31,7 @@ import {
   insertCommentAboveIdentifier,
   InsertDirection,
   isCandidateForConstructorDeprecation,
+  migrateDeprecatedConstructor,
   renameIdentifierNode,
 } from './file-utils';
 import { getProjectFromWorkspace } from './workspace-utils';
@@ -442,6 +445,54 @@ describe('File utils', () => {
           parameterClassTypes
         )
       ).toEqual(false);
+    });
+  });
+
+  describe('migrateDeprecatedConstructor', () => {
+    it('should return the expected changes', () => {
+      const content = `
+    import { Store } from '@ngrx/store';
+    import {
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritedService extends UserAddressService {
+      constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
+        super(store);
+      }
+    }
+    `;
+      const sourcePath = 'xxx.ts';
+      const source = ts.createSourceFile(
+        sourcePath,
+        content,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const nodes = getSourceNodes(source);
+      const constructorNode = findConstructor(nodes);
+      const paramToAdd: ClassType = {
+        className: AUTH_SERVICE,
+        importPath: SPARTACUS_CORE,
+      };
+
+      const changes = migrateDeprecatedConstructor(
+        source,
+        sourcePath,
+        constructorNode,
+        paramToAdd
+      );
+      expect(changes.length).toEqual(3);
+      expect(changes[0].description).toEqual(
+        `Inserted , authService: AuthService into position 288 of ${sourcePath}`
+      );
+      expect(changes[1].description).toEqual(
+        `Inserted , AuthService into position 124 of ${sourcePath}`
+      );
+      expect(changes[2].description).toEqual(
+        `Inserted , authService into position 311 of ${sourcePath}`
+      );
     });
   });
 

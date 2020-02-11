@@ -179,7 +179,6 @@ export function isCandidateForConstructorDeprecation(
     return false;
   }
 
-  // TODO:#6432 - add a test
   if (!checkSuper(constructorNode, parameterClassTypes)) {
     return false;
   }
@@ -281,7 +280,6 @@ function checkSuper(
   return true;
 }
 
-// TODO:#6432 - test
 export function migrateDeprecatedConstructor(
   source: ts.SourceFile,
   sourcePath: string,
