@@ -1900,4 +1900,44 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
   ],
+  myInterests: [
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'DSC-H20 Green',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'REMOVE',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
 };
