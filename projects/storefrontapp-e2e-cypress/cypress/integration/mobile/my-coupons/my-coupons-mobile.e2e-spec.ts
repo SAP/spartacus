@@ -1,6 +1,6 @@
+import * as cartCoupon from '../../../helpers/cart-coupon';
 import * as myCoupons from '../../../helpers/my-coupons';
 import { formats } from '../../../sample-data/viewports';
-import * as cartCoupon from '../../../helpers/cart-coupon';
 
 describe(`${formats.mobile.width +
   1}p resolution - My coupons test for anonymous user`, () => {

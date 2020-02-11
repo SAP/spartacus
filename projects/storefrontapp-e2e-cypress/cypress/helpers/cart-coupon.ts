@@ -26,10 +26,6 @@ export function addProductToCart(productCode: string) {
   });
 }
 
-export function verifyEmptyCoupons() {
-  cy.get('.cx-customer-coupons').should('not.exist');
-}
-
 export function verifyMyCoupons() {
   cy.get('.cx-customer-coupons .coupon-id').should('have.length', 2);
   cy.get('.cx-customer-coupons .coupon-id').should('contain', myCouponCode1);
@@ -88,6 +84,16 @@ export function applyMyCouponAsAnonymous(couponCode: string) {
 export function applyCoupon(couponCode: string) {
   cy.get('#applyVoucher').type(couponCode);
   cy.get('.col-md-4 > .btn').click();
+
+  cy.server();
+  cy.route(
+    'GET',
+    '/rest/v2/electronics-spa/users/current/carts/*?fields=DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,*&lang=en&curr=USD'
+  ).as('coupons');
+  cy.wait('@coupons')
+    .its('status')
+    .should('eq', 200);
+
   cy.get('cx-global-message').should(
     'contain',
     `${couponCode} has been applied`
@@ -255,7 +261,7 @@ export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
   const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
     .auth;
   addProductToCart(productCode4);
-  verifyEmptyCoupons();
+  cy.get('.cx-customer-coupons').should('not.exist');
   claimCoupon(myCouponCode1);
   claimCoupon(myCouponCode2);
 
@@ -263,11 +269,13 @@ export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
   verifyMyCoupons();
   filterAndApplyMyCoupons('autumn', myCouponCode2);
   applyCoupon(couponCode1);
+
   //don't verify the total price which easy to changed by sample data
-  verifyCouponAndSavedPrice(myCouponCode2, '$30');
+
+  verifyCouponAndSavedPrice(myCouponCode2, '$10.00');
 
   placeOrder(stateAuth).then(orderData => {
-    verifyOrderHistoryForCouponAndPrice(orderData, myCouponCode2, '$30');
+    verifyOrderHistoryForCouponAndPrice(orderData, myCouponCode2, '$10.00');
   });
 }
 

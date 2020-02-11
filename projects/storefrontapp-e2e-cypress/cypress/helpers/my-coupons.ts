@@ -1,8 +1,8 @@
-import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
-import { generateMail, randomString } from './user';
-import * as alerts from './global-message';
 import { config, retrieveAuthToken } from '../support/utils/login';
+import { login } from './auth-forms';
+import * as alerts from './global-message';
+import { generateMail, randomString } from './user';
 
 export const testUser = 'test-user-with-coupons@ydev.hybris.com';
 export const testPassword = 'Password123.';
@@ -95,9 +95,9 @@ export function verifyMyCoupons() {
   verifyReadMore();
   verifyFindProduct(CouponWithOpenCatalog, 10);
   goMyCoupon();
-  verifyFindProduct(CouponWithProductCategory, 4);
+  verifyFindProduct(CouponWithProductCategory, 10);
   goMyCoupon();
-  verifyFindProduct(CouponWithProducts, 1);
+  verifyFindProduct(CouponWithProducts, 10);
 }
 
 export function claimCoupon(couponCode: string) {
