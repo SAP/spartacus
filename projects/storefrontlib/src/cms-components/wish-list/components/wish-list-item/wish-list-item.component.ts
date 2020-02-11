@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { OrderEntry } from '@spartacus/core';
@@ -13,19 +12,13 @@ import { OrderEntry } from '@spartacus/core';
   templateUrl: './wish-list-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WishListItemComponent implements OnInit {
-  hasBaseOptions = false;
-
+export class WishListItemComponent {
   @Input()
   isLoading = false;
   @Input() cartEntry: OrderEntry;
 
   @Output()
   remove = new EventEmitter<OrderEntry>();
-
-  ngOnInit() {
-    this.hasBaseOptions = this.cartEntry.product.baseOptions.length !== 0;
-  }
 
   removeEntry(item: OrderEntry) {
     this.remove.emit(item);
