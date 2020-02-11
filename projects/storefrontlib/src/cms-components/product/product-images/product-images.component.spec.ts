@@ -170,7 +170,6 @@ describe('ProductImagesComponent', () => {
       let items: Observable<Product>[];
       component.thumbs$.subscribe(i => (items = i));
       expect(items.length).toBe(0);
-      expect(component.isThumbsEmpty).toBeTruthy();
     }));
 
     describe('(UI test)', () => {

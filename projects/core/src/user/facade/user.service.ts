@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/index';
+import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -60,9 +60,11 @@ export class UserService {
    * Loads the user's details
    */
   load(): void {
-    this.withUserId(userId =>
-      this.store.dispatch(new UserActions.LoadUserDetails(userId))
-    );
+    this.withUserId(userId => {
+      if (userId !== OCC_USER_ID_ANONYMOUS) {
+        this.store.dispatch(new UserActions.LoadUserDetails(userId));
+      }
+    });
   }
 
   /**

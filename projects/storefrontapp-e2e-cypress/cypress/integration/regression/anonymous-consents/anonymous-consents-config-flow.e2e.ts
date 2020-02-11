@@ -4,7 +4,7 @@ import {
   displayLegalDescriptionInDialog,
   MARKETING_NEWSLETTER,
   noLegalDescriptionInDialog,
-  PERSONALIZATION,
+  PROFILE,
   sessionLogin,
   showAnonymousConfigTest,
   STORE_USER_INFORMATION,
@@ -44,7 +44,7 @@ context('Anonymous consents - config flow', () => {
       });
 
       anonoymousConsentConfig(
-        PERSONALIZATION,
+        PROFILE,
         displayLegalDescriptionInDialog,
         [MARKETING_NEWSLETTER],
         {

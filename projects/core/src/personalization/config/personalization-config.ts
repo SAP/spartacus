@@ -5,5 +5,9 @@ export abstract class PersonalizationConfig {
       id: string;
       timestamp: string;
     };
+    context?: {
+      slotPosition?: string;
+      componentId?: string;
+    };
   };
 }
