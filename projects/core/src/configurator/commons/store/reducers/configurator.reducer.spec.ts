@@ -62,14 +62,6 @@ describe('Configurator reducer', () => {
 
       expect(state).toEqual(initialState);
     });
-    it('should decrease pending changes counter', () => {
-      const action: ConfiguratorAction = new UpdateConfigurationSuccess(
-        configuration
-      );
-      const state = StateReduce.reducerPendingChanges(undefined, action);
-
-      expect(state).toEqual(-1);
-    });
   });
   describe('UpdateConfigurationFail action', () => {
     it('should not put configuration into the state', () => {
@@ -82,15 +74,6 @@ describe('Configurator reducer', () => {
 
       expect(state).toEqual(initialState);
     });
-    it('should decrease pending changes counter', () => {
-      const action: ConfiguratorAction = new UpdateConfigurationFail(
-        configuration.productCode,
-        configuration
-      );
-      const state = StateReduce.reducerPendingChanges(undefined, action);
-
-      expect(state).toEqual(-1);
-    });
   });
   describe('UpdateConfiguration action', () => {
     it('should not put configuration into the state because it is only triggering the update process', () => {
@@ -99,12 +82,6 @@ describe('Configurator reducer', () => {
       const state = StateReduce.reducer(undefined, action);
 
       expect(state).toEqual(initialState);
-    });
-    it('should increase pending changes counter', () => {
-      const action: ConfiguratorAction = new UpdateConfiguration(configuration);
-      const state = StateReduce.reducerPendingChanges(undefined, action);
-
-      expect(state).toEqual(1);
     });
   });
   describe('UpdateConfigurationFinalize action', () => {

@@ -1,5 +1,5 @@
 import { Configurator } from '../../../model/configurator.model';
-import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
+import { EntityProcessesLoaderState } from '../../../state/utils/entity-processes-loader/entity-processes-loader-state';
 import { EntityState } from '../../../state/utils/entity/entity-state';
 
 export const CONFIGURATION_FEATURE = 'productConfiguration';
@@ -13,9 +13,8 @@ export interface StateWithConfiguration {
 }
 
 export interface ConfigurationState {
-  configurations?: EntityLoaderState<Configurator.Configuration>;
+  configurations?: EntityProcessesLoaderState<Configurator.Configuration>;
   uiState?: EntityState<UiState>;
-  pendingChangesCounter?: number;
 }
 
 export interface UiState {
