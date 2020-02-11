@@ -27,9 +27,9 @@ export const products: TestProduct[] = [
   },
 
   {
-    code: '1978440_red',
-    name: 'DSC-H20 Red',
-    price: 558.4,
+    code: '4812254',
+    name: '500D + 18-55mm IS + EF-S 55-250 IS',
+    price: 927.89,
   },
   {
     code: '1934796',
@@ -152,14 +152,10 @@ function verifyMiniCartQty(qty: number) {
 }
 
 export function addProductToCart(product) {
-  cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
-  cy.get('cx-searchbox input')
-    .clear()
-    .type(`${product.code}{enter}`);
-  cy.location('pathname').should('contain', `${product.code}`);
-  cy.get('cx-add-to-cart:first')
+  cy.visit(`/product/${product.code}`);
+
+  cy.get('cx-add-to-cart')
     .getAllByText(/Add To Cart/i)
-    .first()
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-code').should('contain', product.code);
