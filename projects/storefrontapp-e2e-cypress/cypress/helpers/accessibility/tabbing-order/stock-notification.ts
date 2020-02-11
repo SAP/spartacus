@@ -4,9 +4,9 @@ import {
   clickNotifyMeBtn,
   navigateToPDP,
   unsubscribeStockNotification,
-} from '../../../notification';
-import { TabElement } from '../../tabbing-order.model';
-import { verifyTabbingOrder } from '../../tabbing-order';
+} from '../../notification';
+import { TabElement } from '../tabbing-order.model';
+import { verifyTabbingOrder } from '../tabbing-order';
 
 const containerSelector = '.ProductDetailsPageTemplate cx-stock-notification';
 

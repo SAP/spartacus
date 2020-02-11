@@ -50,7 +50,7 @@ import {
   stockNotificationProductSubscribedTabbingOrder,
   stockNotificationDialogTabbingOrder,
   stockNotificationTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/my-account/stock-notification';
+} from '../../helpers/accessibility/tabbing-order/stock-notification';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
