@@ -14,10 +14,10 @@ import {
   EntitiesModel,
   OrderApprovalPermissionType,
   OrgUnitService,
-  Period,
   Permission,
-  PermissionService,
   UrlCommandRoute,
+  PermissionService,
+  Period,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';

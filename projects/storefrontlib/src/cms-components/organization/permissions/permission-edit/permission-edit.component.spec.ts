@@ -16,6 +16,7 @@ import {
   EntitiesModel,
   B2BUnitNode,
   LanguageService,
+  Period,
 } from '@spartacus/core';
 
 import { PermissionEditComponent } from './permission-edit.component';
@@ -28,19 +29,14 @@ const permissionCode = 'b1';
 
 const mockPermission: Permission = {
   code: permissionCode,
-  name: 'permission1',
-  permission: 2230,
+  threshold: 231,
+  orderApprovalPermissionType: { name: 'orderType' },
+  periodRange: Period.MONTH,
   currency: {
     isocode: 'USD',
     symbol: '$',
   },
-  startDate: '2010-01-01T00:00:00+0000',
-  endDate: '2034-07-12T00:59:59+0000',
-  orgUnit: { name: 'Org Unit 1', uid: 'unitNode1' },
-  costCenters: [
-    { name: 'costCenter1', code: 'cc1', originalCode: 'Cost Center 1' },
-    { name: 'costCenter2', code: 'cc2', originalCode: 'Cost Center 2' },
-  ],
+  orgUnit: { name: 'orgName', uid: 'orgUid' },
 };
 
 const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
@@ -64,6 +60,7 @@ class MockPermissionService implements Partial<PermissionService> {
   loadPermission = createSpy('loadPermission');
   get = createSpy('get').and.returnValue(of(mockPermission));
   update = createSpy('update');
+  getTypes = createSpy('getTypes');
 }
 
 const mockRouterState = {
