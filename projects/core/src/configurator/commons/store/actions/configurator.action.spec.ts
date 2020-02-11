@@ -105,13 +105,16 @@ describe('ConfiguratorActions', () => {
         const action = new ConfiguratorActions.UpdateConfiguration(
           CONFIGURATION
         );
+
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION,
           payload: CONFIGURATION,
-          meta: StateEntityProcessesLoaderActions.entityProcessesIncrementMeta(
-            CONFIGURATION_DATA,
-            CONFIGURATION.owner.key
-          ),
+          meta: {
+            entityType: CONFIGURATION_DATA,
+            entityId: CONFIGURATION.owner.key,
+            loader: { load: true },
+            processesCountDiff: 1,
+          },
         });
       });
     });
@@ -120,16 +123,19 @@ describe('ConfiguratorActions', () => {
       it('Should create the action', () => {
         const error = 'anError';
         const action = new ConfiguratorActions.UpdateConfigurationFail(
-          PRODUCT_CODE,
+          CONFIGURATION.owner.key,
           error
         );
+
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION_FAIL,
           payload: error,
-          meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
-            CONFIGURATION_DATA,
-            PRODUCT_CODE
-          ),
+          meta: {
+            entityType: CONFIGURATION_DATA,
+            entityId: CONFIGURATION.owner.key,
+            loader: { error: error },
+            processesCountDiff: -1,
+          },
         });
       });
     });

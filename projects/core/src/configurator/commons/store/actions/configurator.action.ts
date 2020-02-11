@@ -107,6 +107,9 @@ export class UpdateConfiguration extends StateEntityProcessesLoaderActions.Entit
   readonly type = UPDATE_CONFIGURATION;
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATION_DATA, payload.owner.key);
+    this.meta.loader = {
+      load: true,
+    };
   }
 }
 
@@ -114,6 +117,9 @@ export class UpdateConfigurationFail extends StateEntityProcessesLoaderActions.E
   readonly type = UPDATE_CONFIGURATION_FAIL;
   constructor(ownerKey: string, public payload: any) {
     super(CONFIGURATION_DATA, ownerKey);
+    this.meta.loader = {
+      error: payload,
+    };
   }
 }
 
