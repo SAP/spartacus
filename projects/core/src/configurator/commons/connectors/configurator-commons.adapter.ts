@@ -47,6 +47,15 @@ export abstract class ConfiguratorCommonsAdapter {
   ): Observable<CartModification>;
 
   /**
+   * Abstract method to read a configuration for a cart entry
+   *
+   * @param parameters add to cart parameters object
+   */
+  abstract readConfigurationForCartEntry(
+    parameters: Configurator.ReadFromCartEntryParameters
+  ): Observable<Configurator.Configuration>;
+
+  /**
    * Abstract method to read a configuration price
    *
    * @param configId configuration id

@@ -28,6 +28,9 @@ class MockOccEndpointsService {
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
 const groupId = 'GROUP1';
+const cartEntryNumber = '3';
+const userId = 'Anony';
+const cartId = '82736353';
 
 const productConfiguration: Configurator.Configuration = {
   configId: configId,
@@ -168,6 +171,39 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CONFIGURATION_PRICE_SUMMARY_NORMALIZER
+    );
+  });
+
+  it('should call readConfigurationForCartEntry endpoint', () => {
+    const params: Configurator.ReadFromCartEntryParameters = {
+      ownerKey: productConfiguration.owner.key,
+      userId: userId,
+      cartId: cartId,
+      cartEntryNumber: cartEntryNumber,
+    };
+    occConfiguratorVariantAdapter
+      .readConfigurationForCartEntry(params)
+      .subscribe();
+
+    const mockReq = httpMock.expectOne(req => {
+      return (
+        req.method === 'GET' && req.url === 'readConfigurationForCartEntry'
+      );
+    });
+
+    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      'readConfigurationForCartEntry',
+      {
+        userId,
+        cartId,
+        cartEntryNumber,
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CONFIGURATION_NORMALIZER
     );
   });
 

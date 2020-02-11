@@ -9,6 +9,14 @@ import { ConfiguratorCommonsConnector } from './configurator-commons.connector';
 import createSpy = jasmine.createSpy;
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
+const USER_ID = 'theUser';
+const CART_ID = '98876';
+
+const readFromCartEntryParameters: Configurator.ReadFromCartEntryParameters = {
+  userId: USER_ID,
+  cartId: CART_ID,
+  ownerKey: 'theKey',
+};
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -19,6 +27,9 @@ const productConfiguration: Configurator.Configuration = {
 };
 
 class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
+  readConfigurationForCartEntry = createSpy().and.callFake(() =>
+    of(productConfiguration)
+  );
   getConfigurationOverview = createSpy().and.callFake((configId: string) =>
     of('getConfigurationOverview' + configId)
   );
@@ -47,8 +58,7 @@ describe('ConfiguratorCommonsConnector', () => {
   let configuratorUtils: GenericConfigUtilsService;
 
   const GROUP_ID = 'GROUP1';
-  const USER_ID = 'theUser';
-  const CART_ID = '98876';
+
   const QUANTITY = 1;
 
   beforeEach(() => {
@@ -85,6 +95,32 @@ describe('ConfiguratorCommonsConnector', () => {
     expect(adapter.createConfiguration).toHaveBeenCalledWith(
       productConfiguration.owner
     );
+  });
+
+  it('should call adapter on readConfigurationForCartEntry', () => {
+    const adapter = TestBed.get(ConfiguratorCommonsAdapter as Type<
+      ConfiguratorCommonsAdapter
+    >);
+
+    service
+      .readConfigurationForCartEntry(readFromCartEntryParameters)
+      .subscribe(configuration =>
+        expect(configuration).toBe(productConfiguration)
+      );
+    expect(adapter.readConfigurationForCartEntry).toHaveBeenCalledWith(
+      readFromCartEntryParameters
+    );
+  });
+
+  it('should set owner key on readConfigurationForCartEntry', () => {
+    productConfiguration.owner.key = null;
+    service
+      .readConfigurationForCartEntry(readFromCartEntryParameters)
+      .subscribe(configuration => {
+        expect(configuration.owner.key.includes(configuration.owner.id)).toBe(
+          true
+        );
+      });
   });
 
   it('should call adapter on readConfiguration', () => {

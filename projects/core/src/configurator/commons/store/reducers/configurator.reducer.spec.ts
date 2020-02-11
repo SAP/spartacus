@@ -3,6 +3,7 @@ import { GenericConfigurator } from '../../../../model/generic-configurator.mode
 import {
   ConfiguratorAction,
   CreateConfigurationSuccess,
+  ReadCartEntryConfigurationSuccess,
   ReadConfigurationSuccess,
   RemoveConfiguration,
   UpdateConfiguration,
@@ -35,6 +36,16 @@ describe('Configurator reducer', () => {
   describe('CreateConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
       const action: ConfiguratorAction = new CreateConfigurationSuccess(
+        configuration
+      );
+      const state = StateReduce.reducer(undefined, action);
+
+      expect(state).toEqual(configuration);
+    });
+  });
+  describe('ReadCartEntryConfigurationSuccess action', () => {
+    it('should put configuration into the state', () => {
+      const action: ConfiguratorAction = new ReadCartEntryConfigurationSuccess(
         configuration
       );
       const state = StateReduce.reducer(undefined, action);

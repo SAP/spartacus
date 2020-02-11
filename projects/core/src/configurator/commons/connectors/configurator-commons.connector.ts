@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CartModification } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
@@ -48,6 +49,18 @@ export class ConfiguratorCommonsConnector {
     parameters: Configurator.AddToCartParameters
   ): Observable<CartModification> {
     return this.adapter.addToCart(parameters);
+  }
+
+  readConfigurationForCartEntry(
+    parameters: Configurator.ReadFromCartEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.adapter
+      .readConfigurationForCartEntry(parameters)
+      .pipe(
+        tap(configuration =>
+          this.configUtilsService.setOwnerKey(configuration.owner)
+        )
+      );
   }
 
   readPriceSummary(

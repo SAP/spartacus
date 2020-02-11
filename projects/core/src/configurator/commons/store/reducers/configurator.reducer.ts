@@ -13,6 +13,7 @@ export function reducer(
     case ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS:
     case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.READ_CONFIGURATION_SUCCESS:
+    case ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS: {
       const content = { ...action.payload };
 
@@ -39,63 +40,6 @@ export function reducer(
         type: GenericConfigurator.OwnerType.CART_ENTRY,
         id: action.cartEntryNo,
       };
-      const result = {
-        ...state,
-        ...content,
-      };
-
-      return result;
-    }
-    case ConfiguratorActions.LOAD_CART_ENTRY_CONFIGURATION: {
-      //This is hardcoded as long as we don't have the configure from cart option
-      //It is meant to illustrate the overview navigation
-      const content: Configurator.Configuration = {
-        configId: '1234',
-        productCode: 'WCEM_DEPENDENCY_PC',
-        groups: [
-          {
-            id: 'Group1',
-            name: 'Group1',
-            configurable: true,
-            attributes: [
-              {
-                name: 'Manufacturer',
-                uiType: Configurator.UiType.RADIOBUTTON,
-                label: 'Manufacturer',
-                values: [
-                  { valueCode: '1', valueDisplay: 'Any' },
-                  { valueCode: '2', valueDisplay: 'Philips' },
-                  { valueCode: '3', valueDisplay: 'Samsung' },
-                ],
-              },
-              {
-                name: 'Model',
-                uiType: Configurator.UiType.RADIOBUTTON,
-                label: 'Model',
-                values: [
-                  { valueCode: '1', valueDisplay: 'Samsung S27A950D' },
-                  { valueCode: '2', valueDisplay: 'Samsung S24A350H' },
-                  { valueCode: '3', valueDisplay: 'Philips 247E3LSU' },
-                ],
-              },
-              {
-                name: 'huhu',
-                uiType: Configurator.UiType.STRING,
-                label: 'Test mand. and readonly',
-              },
-            ],
-          },
-        ],
-        owner: {
-          type: GenericConfigurator.OwnerType.CART_ENTRY,
-          key:
-            GenericConfigurator.OwnerType.CART_ENTRY +
-            '/' +
-            action.cartEntryNumber,
-          id: action.cartEntryNumber,
-        },
-      };
-
       const result = {
         ...state,
         ...content,
