@@ -27,7 +27,7 @@ export class WishListItemComponent implements OnInit {
     this.hasBaseOptions = this.cartEntry.product.baseOptions.length !== 0;
   }
 
-  removeEntry(item: OrderEntry): void {
+  removeEntry(item: OrderEntry) {
     this.remove.emit(item);
   }
 }
