@@ -17,7 +17,7 @@ function addCartItemsAndLoadCart() {
     .then(el => {
       cy.wrap(el).click();
     });
-  
+
   cy.get('cx-added-to-cart-dialog .btn-primary')
     .should('contain', 'View Cart')
     .should('not.be.disabled')
