@@ -88,9 +88,11 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
 }
 
 function checkMiniCartCount(expectedCount) {
-  return cy.get('cx-mini-cart').within(() => {
-    cy.get('.count').should('contain', expectedCount);
-  });
+  return cy
+    .get('cx-mini-cart a[href="/electronics-spa/en/USD/cart"]')
+    .within(() => {
+      cy.get('.count').should('contain', expectedCount);
+    });
 }
 
 export function validateEmptyCart() {
@@ -229,16 +231,19 @@ export function logOutAndNavigateToEmptyCart() {
   });
   cy.get('cx-login [role="link"]').should('contain', 'Sign In');
 
-  cy.visit('/cart');
+  cy.get('a[href="/electronics-spa/en/USD/cart"]').click();
+
   validateEmptyCart();
 }
 
 export function addProductAsAnonymous() {
   const product = products[2];
 
-  cy.get('cx-searchbox input').type(`${product.code}{enter}`, {
-    force: true,
-  });
+  cy.get('cx-searchbox input')
+    .clear()
+    .type(`${product.code}{enter}`, {
+      force: true,
+    });
   cy.get('cx-product-list')
     .contains('cx-product-list-item', product.name)
     .within(() => {
@@ -265,7 +270,7 @@ export function verifyMergedCartWhenLoggedIn() {
 
   cy.get('cx-breadcrumb h1').should('contain', '1 result');
 
-  checkMiniCartCount(2).click({ force: true });
+  checkMiniCartCount(2).click();
 
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
