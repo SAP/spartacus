@@ -14,10 +14,10 @@ import {
   EntitiesModel,
   OrderApprovalPermissionType,
   OrgUnitService,
-  Permission,
-  UrlCommandRoute,
-  PermissionService,
   Period,
+  Permission,
+  PermissionService,
+  UrlCommandRoute,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -33,7 +33,6 @@ export class PermissionFormComponent implements OnInit {
   businessUnits$: Observable<B2BUnitNode[]>;
   currencies$: Observable<Currency[]>;
   permissionTypes$: Observable<OrderApprovalPermissionType[]>;
-  selectedPermissionType: OrderApprovalPermissionType['code'];
 
   @Input()
   permissionData: Permission;
@@ -75,7 +74,7 @@ export class PermissionFormComponent implements OnInit {
     threshold: ['', Validators.required],
   });
 
-  timeControl = this.form.get('periodRange');
+  periodControl = this.form.get('periodRange');
   currencyControl = this.form.get('currency');
   thresholdControl = this.form.get('threshold');
 
@@ -120,23 +119,23 @@ export class PermissionFormComponent implements OnInit {
   typeSelected(typeSelected: OrderApprovalPermissionType): void {
     switch (typeSelected.code) {
       case 'B2BBudgetExceededPermission': {
-        this.timeControl.disable();
+        this.periodControl.disable();
         this.currencyControl.disable();
         this.thresholdControl.disable();
-        this.timeControl.reset();
+        this.periodControl.reset();
         this.currencyControl.reset();
         this.thresholdControl.reset();
         break;
       }
       case 'B2BOrderThresholdTimespanPermission': {
-        this.timeControl.enable();
+        this.periodControl.enable();
         this.currencyControl.enable();
         this.thresholdControl.enable();
         break;
       }
       case 'B2BOrderThresholdPermission': {
-        this.timeControl.disable();
-        this.timeControl.reset();
+        this.periodControl.disable();
+        this.periodControl.reset();
         this.currencyControl.enable();
         this.thresholdControl.enable();
       }
