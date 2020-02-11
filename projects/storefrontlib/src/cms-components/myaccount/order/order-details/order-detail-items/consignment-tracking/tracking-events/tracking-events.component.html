@@ -66,9 +66,16 @@
             </div>
             <div class="shipment-content">
               <ng-container *ngIf="consignmentTracking?.trackingUrl">
-                <a target="_blank" [href]="consignmentTracking?.trackingUrl">{{
-                  consignmentTracking?.trackingID
-                }}</a>
+                <a
+                  target="_blank"
+                  [href]="
+                    sanitizer.sanitize(
+                      securityContext,
+                      consignmentTracking.trackingUrl
+                    )
+                  "
+                  >{{ consignmentTracking?.trackingID }}</a
+                >
               </ng-container>
               <ng-container *ngIf="!consignmentTracking?.trackingUrl">
                 <label>

@@ -1,6 +1,6 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { By, DomSanitizer } from '@angular/platform-browser';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   ConsignmentTracking,
@@ -28,6 +28,7 @@ describe('TrackingEventsComponent', () => {
     'clearConsignmentTracking',
   ]);
   const ngbActiveModal = jasmine.createSpyObj('NgbActiveModal', ['dismiss']);
+  const sanitizer = jasmine.createSpyObj('DomSanitizer', ['sanitize']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,6 +37,7 @@ describe('TrackingEventsComponent', () => {
       providers: [
         { provide: NgbActiveModal, useValue: ngbActiveModal },
         { provide: UserOrderService, useValue: userOrderService },
+        { provide: DomSanitizer, useValue: sanitizer },
       ],
     }).compileComponents();
   }));
