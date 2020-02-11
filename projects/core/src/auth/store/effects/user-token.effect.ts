@@ -11,7 +11,7 @@ import {
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserToken } from '../../models/token-types.model';
-import * as OccUserIdActions from '../../occ-user-id/store/actions/occ-user-id.action';
+import { OccUserIdActions } from '../../occ-user-id/store/actions/index';
 import { UserAuthenticationTokenService } from '../../services/user-authentication/user-authentication-token.service';
 import { AuthActions } from '../actions/index';
 

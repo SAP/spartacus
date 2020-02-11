@@ -1,32 +1,31 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { UserToken } from '../../auth/models/token-types.model';
 import { Cart } from '../../model/cart.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { StateWithCart } from '../store/index';
 import * as fromReducers from '../store/reducers/index';
 import { CartDataService } from './cart-data.service';
 
 const userToken$ = new ReplaySubject<UserToken | any>();
+const occUserId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
 
 class AuthServiceStub {
   getUserToken(): Observable<UserToken> {
     return userToken$.asObservable();
   }
+  getOccUserId(): Observable<string> {
+    return occUserId$.asObservable();
+  }
 }
 
-const testUserToken: UserToken = {
-  access_token: 'access_token',
-  userId: 'userId',
-  refresh_token: 'refresh_token',
-  token_type: 'token_type',
-  expires_in: 1,
-  scope: ['scope'],
-};
 const testCart: Cart = {
   totalItems: 2,
   guid: 'testGuid',
@@ -58,14 +57,14 @@ describe('CartDataService', () => {
   describe('userId', () => {
     it('should return OCC_USER_ID_ANONYMOUS when user not logged in', () => {
       expect(service.userId).toEqual(OCC_USER_ID_ANONYMOUS);
-      userToken$.next({});
+      occUserId$.next(OCC_USER_ID_ANONYMOUS);
       expect(service.userId).toEqual(OCC_USER_ID_ANONYMOUS);
     });
 
     it('should return userId when user logged in', () => {
       expect(service.userId).toEqual(OCC_USER_ID_ANONYMOUS);
-      userToken$.next(testUserToken);
-      expect(service.userId).toEqual(testUserToken.userId);
+      occUserId$.next(OCC_USER_ID_CURRENT);
+      expect(service.userId).toEqual(OCC_USER_ID_CURRENT);
     });
   });
 
@@ -88,13 +87,14 @@ describe('CartDataService', () => {
 
   describe('cartId', () => {
     it('should return cart guid for anonymous user', () => {
-      userToken$.next({});
+      occUserId$.next(OCC_USER_ID_ANONYMOUS);
       store.dispatch(new DeprecatedCartActions.CreateCartSuccess(testCart));
       expect(service.cartId).toEqual(testCart.guid);
     });
 
     it('should return code for logged user', () => {
-      userToken$.next(testUserToken);
+      occUserId$.next(OCC_USER_ID_CURRENT);
+      // .next(testUserToken);
       store.dispatch(new DeprecatedCartActions.CreateCartSuccess(testCart));
       expect(service.cartId).toEqual(testCart.code);
     });

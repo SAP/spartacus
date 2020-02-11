@@ -2,9 +2,9 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
 import { Observable, of } from 'rxjs';
 import { UserToken } from '../../models/token-types.model';
+import { OccUserIdActions } from '../../occ-user-id/store/actions';
 import { UserAuthenticationTokenService } from '../../services/user-authentication/user-authentication-token.service';
 import { AuthActions } from '../actions/index';
 import { UserTokenEffects } from './user-token.effect';
@@ -15,7 +15,6 @@ const testToken: UserToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  userId: 'xxx',
 };
 
 class UserAuthenticationTokenServiceMock {
@@ -65,13 +64,18 @@ describe('UserToken effect', () => {
         password: 'xxx',
       });
       const completion = new AuthActions.LoadUserTokenSuccess(testToken);
+      const setOccUserIdCompletion = new OccUserIdActions.SetOccUserId(
+        'current'
+      );
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', {
+        b: completion,
+        c: setOccUserIdCompletion,
+      });
 
       expect(userTokenEffect.loadUserToken$).toBeObservable(expected);
       expect(testToken.expiration_time).toBeDefined();
-      expect(testToken.userId).toEqual(OCC_USER_ID_CURRENT);
     });
   });
 

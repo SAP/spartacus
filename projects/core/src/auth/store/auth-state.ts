@@ -11,7 +11,6 @@ export interface StateWithAuth {
 export interface AuthState {
   userToken: UserTokenState;
   clientToken: LoaderState<ClientToken>;
-  occUserId: string;
 }
 
 export interface UserTokenState {

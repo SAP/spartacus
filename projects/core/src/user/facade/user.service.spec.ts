@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import {
@@ -15,15 +15,18 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
 
+const occUserId$ = new BehaviorSubject<string>(OCC_USER_ID_CURRENT);
+
 class MockAuthService {
   getOccUserId(): Observable<string> {
-    return of('current');
+    return occUserId$.asObservable();
   }
 }
 
 describe('UserService', () => {
   let service: UserService;
   let store: Store<StateWithUser>;
+  let storeSpy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,7 +45,7 @@ describe('UserService', () => {
     });
 
     store = TestBed.get(Store as Type<Store<StateWithUser>>);
-    spyOn(store, 'dispatch').and.callThrough();
+    storeSpy = spyOn(store, 'dispatch').and.callThrough();
     service = TestBed.get(UserService as Type<UserService>);
   });
 
@@ -90,13 +93,13 @@ describe('UserService', () => {
       );
     });
 
-    it('should not load anonymous user details', () => {
-      const authService = TestBed.get(AuthService as Type<AuthService>);
-      spyOn(authService, 'getOccUserId').and.returnValue(
-        of(OCC_USER_ID_ANONYMOUS)
-      );
+    fit('should not load anonymous user details', () => {
+      occUserId$.next(OCC_USER_ID_ANONYMOUS);
+      storeSpy.and.stub();
       service.load();
+      expect(store.dispatch).toHaveBeenCalledWith('test');
       expect(store.dispatch).not.toHaveBeenCalled();
+      occUserId$.next(OCC_USER_ID_CURRENT);
     });
   });
 

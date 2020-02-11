@@ -1,29 +1,13 @@
-import {
-  Component,
-  DebugElement,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, DebugElement, EventEmitter, Input, Output } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  AsmAuthService,
-  AuthService,
-  GlobalMessageService,
-  I18nTestingModule,
-  RoutingService,
-  User,
-  UserService,
-  UserToken,
-} from '@spartacus/core';
+import { AsmAuthService, AuthService, GlobalMessageService, I18nTestingModule, RoutingService, User, UserService, UserToken } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
 
 const mockToken = {
   access_token: 'asdfasf',
-  userId: 'user@sap.com',
   refresh_token: 'foo',
 } as UserToken;
 
@@ -234,7 +218,7 @@ describe('AsmMainUiComponent', () => {
       of(mockToken)
     );
     spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-    spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(true);
+    spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(true);
 
     spyOn(routingService, 'go').and.stub();
     spyOn(globalMessageService, 'remove').and.stub();
@@ -251,7 +235,7 @@ describe('AsmMainUiComponent', () => {
       of(mockToken)
     );
     spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-    spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(true);
+    spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(true);
 
     spyOn(routingService, 'go').and.stub();
     spyOn(globalMessageService, 'remove').and.stub();
@@ -268,7 +252,7 @@ describe('AsmMainUiComponent', () => {
       of(mockToken)
     );
     spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-    spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(false);
+    spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(false);
 
     spyOn(routingService, 'go').and.stub();
     spyOn(globalMessageService, 'remove').and.stub();

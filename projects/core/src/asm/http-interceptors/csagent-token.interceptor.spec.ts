@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -8,8 +8,8 @@ import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { AsmAuthService, OccConfig } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 import { UserToken } from '../../auth/models/token-types.model';
+import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 import { CustomerSupportAgentTokenInterceptor } from './csagent-token.interceptor';
 
 const testToken = {
@@ -18,7 +18,6 @@ const testToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  userId: 'xxx',
 } as UserToken;
 
 class MockAsmAuthService {

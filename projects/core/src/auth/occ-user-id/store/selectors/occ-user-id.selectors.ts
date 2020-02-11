@@ -1,11 +1,23 @@
-import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { AuthState, StateWithAuth } from '../../../store/auth-state';
-import { getAuthState } from '../../../store/selectors/feature.selector';
+import {
+  createFeatureSelector,
+  createSelector,
+  MemoizedSelector,
+} from '@ngrx/store';
+import {
+  AUTH_OCC_USER_ID_FEATURE,
+  OccUserIdState,
+  StateWithOccUserId,
+} from '../occ-user-id-state';
+
+export const getOccUserIdState: MemoizedSelector<
+  StateWithOccUserId,
+  OccUserIdState
+> = createFeatureSelector<OccUserIdState>(AUTH_OCC_USER_ID_FEATURE);
 
 export const getOccUserId: MemoizedSelector<
-  StateWithAuth,
+  StateWithOccUserId,
   string
 > = createSelector(
-  getAuthState,
-  (state: AuthState) => state.occUserId
+  getOccUserIdState,
+  (state: OccUserIdState) => state.occUserId
 );

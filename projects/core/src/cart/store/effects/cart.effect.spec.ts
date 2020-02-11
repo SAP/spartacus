@@ -39,6 +39,14 @@ const testCart: Cart = {
 
 const tempCartId = 'tempCartId';
 
+const userId = 'testUserId';
+const cartId = 'testCartId';
+
+class MockCartDataService {
+  userId = userId;
+  cartId = cartId;
+}
+
 describe('Cart effect', () => {
   let cartEffects: fromEffects.CartEffects;
   let actions$: Observable<any>;
@@ -52,9 +60,6 @@ describe('Cart effect', () => {
       },
     },
   };
-
-  const userId = 'testUserId';
-  const cartId = 'testCartId';
 
   beforeEach(() => {
     loadMock = createSpy().and.returnValue(of(testCart));
@@ -86,7 +91,7 @@ describe('Cart effect', () => {
         },
         fromEffects.CartEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        CartDataService,
+        { provide: CartDataService, useClass: MockCartDataService },
         provideMockActions(() => actions$),
       ],
     });

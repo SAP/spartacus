@@ -59,7 +59,11 @@ export class AsmAuthService {
    * @param userId
    */
   isCustomerEmulated(userId: string): boolean {
-    return userId !== OCC_USER_ID_ANONYMOUS && userId !== OCC_USER_ID_CURRENT;
+    return (
+      !!userId &&
+      userId !== OCC_USER_ID_ANONYMOUS &&
+      userId !== OCC_USER_ID_CURRENT
+    );
   }
 
   /**

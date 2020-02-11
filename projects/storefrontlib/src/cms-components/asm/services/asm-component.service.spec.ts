@@ -95,7 +95,7 @@ describe('AsmComponentService', () => {
       spyOn(authService, 'logout').and.stub();
       spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
       spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(true);
+      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(true);
       spyOn(asmComponentService, 'logoutCustomer').and.stub();
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
@@ -108,7 +108,7 @@ describe('AsmComponentService', () => {
       spyOn(authService, 'logout').and.stub();
       spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
       spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(false);
+      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(false);
       spyOn(asmComponentService, 'logoutCustomer').and.stub();
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
@@ -131,7 +131,7 @@ describe('AsmComponentService', () => {
   describe('isCustomerEmulationSessionInProgress()', () => {
     it('should return true when user token is from an emulation session', () => {
       spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(true);
+      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(true);
       let result = false;
       asmComponentService
         .isCustomerEmulationSessionInProgress()
@@ -142,7 +142,7 @@ describe('AsmComponentService', () => {
 
     it('should return false when user token is not from an emulation session', () => {
       spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(false);
+      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(false);
       let result = false;
       asmComponentService
         .isCustomerEmulationSessionInProgress()

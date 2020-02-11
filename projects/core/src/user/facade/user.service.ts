@@ -71,6 +71,7 @@ export class UserService {
    */
   load(): void {
     this.withUserId(userId => {
+      console.log(userId);
       if (userId !== OCC_USER_ID_ANONYMOUS) {
         this.store.dispatch(new UserActions.LoadUserDetails(userId));
       }
@@ -364,11 +365,12 @@ export class UserService {
   }
 
   /**
-   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   * Utility method to distinguish pre / post 1.3.0 in a convenient way.
    *
    */
   private withUserId(callback: (userId: string) => void): void {
     if (this.authService) {
+      console.log('wtf');
       this.authService
         .getOccUserId()
         .pipe(take(1))

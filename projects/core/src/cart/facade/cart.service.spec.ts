@@ -1,8 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed, TestBedStatic } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of, ReplaySubject } from 'rxjs';
-import { AuthService, UserToken } from '../../auth/index';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { AuthService } from '../../auth/index';
 import { CartActions } from '../../cart/store/actions/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
@@ -10,6 +10,7 @@ import { OrderEntry } from '../../model/order.model';
 import {
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
 } from '../../occ/utils/occ-constants';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { StateWithCart } from '../store/cart-state';
@@ -24,11 +25,11 @@ class CartDataServiceStub {
   isGuestCart;
 }
 
-const userToken$ = new ReplaySubject<UserToken>();
+const occUserId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
 
 class AuthServiceStub {
-  getUserToken(): Observable<UserToken> {
-    return userToken$.asObservable();
+  getOccUserId(): Observable<string> {
+    return occUserId$.asObservable();
   }
 }
 
@@ -62,14 +63,6 @@ describe('CartService', () => {
 
   const productCode = '1234';
   const userId = 'testUserId';
-  const mockUserToken: UserToken = {
-    userId,
-    access_token: 'access_token',
-    token_type: 'token_type',
-    refresh_token: 'refresh_token',
-    expires_in: 1,
-    scope: ['scope'],
-  };
   const cart = { code: 'testCartId', guid: 'testGuid', user: 'assigned' };
   const mockCartEntry: OrderEntry = {
     entryNumber: 0,
@@ -529,10 +522,10 @@ describe('CartService', () => {
         // simulate setting empty previousUserId after app init
         service['previousUserId'] = '';
 
-        userToken$.next(mockUserToken);
+        occUserId$.next(OCC_USER_ID_CURRENT);
         setTimeout(() => {
           expect(service['loadOrMerge']).toHaveBeenCalled();
-          expect(service['previousUserId']).toEqual(mockUserToken.userId);
+          expect(service['previousUserId']).toEqual(OCC_USER_ID_CURRENT);
           expect(result).toEqual({});
           done();
         });
@@ -557,7 +550,6 @@ describe('CartService', () => {
 
         service.getActive().subscribe();
         store.dispatch(new DeprecatedCartActions.ClearCart());
-        userToken$.next(mockUserToken);
         setTimeout(() => {
           expect(service['load']).toHaveBeenCalled();
           done();
