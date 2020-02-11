@@ -38,18 +38,7 @@ export class CartItemListComponent {
   // pretty annoying as it forces a repaint on the screen,
   // which is noticable in the UI.
   set items(items: Item[]) {
-    if (items.every(item => item.hasOwnProperty('orderEntry'))) {
-      this._items = items.map(consignmentEntry => {
-        const entry = Object.assign(
-          {},
-          (consignmentEntry as ConsignmentEntry).orderEntry
-        );
-        entry.quantity = consignmentEntry.quantity;
-        return entry;
-      });
-    } else {
-      this._items = items;
-    }
+    this.resolveItems(items);
     this.createForm();
   }
   get items(): Item[] {
@@ -96,6 +85,25 @@ export class CartItemListComponent {
     return false;
   }
   //TODO remove feature flag for #5958
+
+  /**
+   * The items we're getting form the input do not have a consistent model.
+   * In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
+   */
+  private resolveItems(items: Item[]): void {
+    if (items.every(item => item.hasOwnProperty('orderEntry'))) {
+      this._items = items.map(consignmentEntry => {
+        const entry = Object.assign(
+          {},
+          (consignmentEntry as ConsignmentEntry).orderEntry
+        );
+        entry.quantity = consignmentEntry.quantity;
+        return entry;
+      });
+    } else {
+      this._items = items;
+    }
+  }
 
   private createForm(): void {
     this.form = new FormGroup({});
