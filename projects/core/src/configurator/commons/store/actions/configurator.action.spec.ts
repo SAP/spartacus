@@ -2,7 +2,10 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import { StateEntityLoaderActions } from '../../../../state/utils/index';
+import {
+  StateEntityLoaderActions,
+  StateEntityProcessesLoaderActions,
+} from '../../../../state/utils/index';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import { CONFIGURATION_DATA } from '../configuration-state';
 import * as ConfiguratorActions from './configurator.action';
@@ -105,7 +108,7 @@ describe('ConfiguratorActions', () => {
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION,
           payload: CONFIGURATION,
-          meta: StateEntityLoaderActions.entityLoadMeta(
+          meta: StateEntityProcessesLoaderActions.entityProcessesIncrementMeta(
             CONFIGURATION_DATA,
             CONFIGURATION.owner.key
           ),
@@ -123,10 +126,9 @@ describe('ConfiguratorActions', () => {
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION_FAIL,
           payload: error,
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
             CONFIGURATION_DATA,
-            PRODUCT_CODE,
-            error
+            PRODUCT_CODE
           ),
         });
       });
@@ -140,7 +142,7 @@ describe('ConfiguratorActions', () => {
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS,
           payload: CONFIGURATION,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
             CONFIGURATION_DATA,
             CONFIGURATION.owner.key
           ),

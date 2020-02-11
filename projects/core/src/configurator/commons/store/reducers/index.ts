@@ -1,7 +1,7 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { Configurator } from '../../../../model/configurator.model';
-import { entityLoaderReducer } from '../../../../state/utils/entity-loader/entity-loader.reducer';
+import { entityProcessesLoaderReducer } from '../../../../state/utils/entity-processes-loader/entity-processes-loader.reducer';
 import { entityReducer } from '../../../../state/utils/entity/entity.reducer';
 import {
   ConfigurationState,
@@ -16,7 +16,7 @@ export function getConfiguratorReducers(): ActionReducerMap<
   ConfigurationState
 > {
   return {
-    configurations: entityLoaderReducer<Configurator.Configuration>(
+    configurations: entityProcessesLoaderReducer<Configurator.Configuration>(
       CONFIGURATION_DATA,
       StateReduce.reducer
     ),
@@ -25,8 +25,6 @@ export function getConfiguratorReducers(): ActionReducerMap<
       CONFIGURATION_UI_DATA,
       UiStateReduce.reducer
     ),
-
-    pendingChangesCounter: StateReduce.reducerPendingChanges,
   };
 }
 

@@ -1,6 +1,9 @@
 import { Action } from '@ngrx/store';
 import { Configurator } from '../../../../model/configurator.model';
-import { StateEntityLoaderActions } from '../../../../state/utils/index';
+import {
+  StateEntityLoaderActions,
+  StateEntityProcessesLoaderActions,
+} from '../../../../state/utils/index';
 import { CONFIGURATION_DATA } from '../configuration-state';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
@@ -100,21 +103,21 @@ export class ReadConfigurationSuccess extends StateEntityLoaderActions.EntitySuc
   }
 }
 
-export class UpdateConfiguration extends StateEntityLoaderActions.EntityLoadAction {
+export class UpdateConfiguration extends StateEntityProcessesLoaderActions.EntityProcessesIncrementAction {
   readonly type = UPDATE_CONFIGURATION;
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATION_DATA, payload.owner.key);
   }
 }
 
-export class UpdateConfigurationFail extends StateEntityLoaderActions.EntityFailAction {
+export class UpdateConfigurationFail extends StateEntityProcessesLoaderActions.EntityProcessesDecrementAction {
   readonly type = UPDATE_CONFIGURATION_FAIL;
   constructor(ownerKey: string, public payload: any) {
-    super(CONFIGURATION_DATA, ownerKey, payload);
+    super(CONFIGURATION_DATA, ownerKey);
   }
 }
 
-export class UpdateConfigurationSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class UpdateConfigurationSuccess extends StateEntityProcessesLoaderActions.EntityProcessesDecrementAction {
   readonly type = UPDATE_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
     super(CONFIGURATION_DATA, payload.owner.key);
