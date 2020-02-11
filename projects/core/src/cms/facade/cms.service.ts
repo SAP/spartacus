@@ -133,7 +133,7 @@ export class CmsService {
 
         if (!attemptedLoad && !couldBeLoadedWithPageData) {
           this.store.dispatch(
-            new CmsActions.LoadCmsComponent(uid, pageContext)
+            new CmsActions.LoadCmsComponent({ uid, pageContext })
           );
         }
       })
@@ -141,7 +141,7 @@ export class CmsService {
 
     const component$ = this.store.pipe(
       select(CmsSelectors.componentsSelectorFactory(uid, context)),
-      // TODO(issue:6027) - this `filter` should be removed.
+      // TODO(issue:6431) - this `filter` should be removed.
       // The reason for removal: with `filter` in place, when moving to a page that has restrictions, the component data will still emit the previous value.
       // Removing it causes some components to fail, because they are not checking
       // if the data is actually there. I noticed these that this component is failing, but there are possibly more:
@@ -226,7 +226,7 @@ export class CmsService {
    * If not specified, 'current' page context is used.
    */
   refreshComponent(uid: string, pageContext?: PageContext): void {
-    this.store.dispatch(new CmsActions.LoadCmsComponent(uid, pageContext));
+    this.store.dispatch(new CmsActions.LoadCmsComponent({ uid, pageContext }));
   }
 
   /**
