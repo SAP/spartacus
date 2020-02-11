@@ -4,6 +4,8 @@ import {
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   RoutingService,
+  GlobalMessageService,
+  GlobalMessageType,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
@@ -25,7 +27,8 @@ export class ConfigFormComponent implements OnInit {
     private routingService: RoutingService,
     private configuratorCommonsService: ConfiguratorCommonsService,
     private configuratorGroupsService: ConfiguratorGroupsService,
-    private configRouterExtractorService: ConfigRouterExtractorService
+    private configRouterExtractorService: ConfigRouterExtractorService,
+    private messageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +57,8 @@ export class ConfigFormComponent implements OnInit {
           this.configuratorGroupsService.getCurrentGroup(owner)
         )
       );
+
+    this.messageService.add('TEST', GlobalMessageType.MSG_TYPE_ERROR);
   }
 
   updateConfiguration(event: ConfigFormUpdateEvent) {
