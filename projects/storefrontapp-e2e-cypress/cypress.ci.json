@@ -3,6 +3,7 @@
   "baseUrl": "http://localhost:4200",
   "projectId": "k3nmep",
   "requestTimeout": 15000,
+  "responseTimeout": 15000,
   "numTestsKeptInMemory": 1,
   "env": {
     "CLIENT_ID": "mobile_android",
