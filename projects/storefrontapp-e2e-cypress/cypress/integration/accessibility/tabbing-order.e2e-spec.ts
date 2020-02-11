@@ -303,7 +303,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  context.only('Stock Notification', () => {
+  context('Stock Notification', () => {
     it('should allow to navigate with tab key (no enabled notification preference)', () => {
       stockNotificationNoEnbaledPreferenceTabbingOrder(
         config.stockNotificationNoEnabledPreference
