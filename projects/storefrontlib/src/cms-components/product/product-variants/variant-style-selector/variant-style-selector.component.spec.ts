@@ -6,9 +6,13 @@ import {
   UrlCommandRoute,
   BaseOption,
   VariantType,
+  ProductService,
+  Product,
+  RoutingService,
 } from '@spartacus/core';
 import { VariantStyleSelectorComponent } from './variant-style-selector.component';
 import { Pipe, PipeTransform } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 const mockOccBackendUrl = 'abc';
 const mockVariant: BaseOption = {
@@ -36,6 +40,26 @@ class MockUrlPipe implements PipeTransform {
   }
 }
 
+class MockRoutingService {
+  getRouterState(): Observable<any> {
+    return of({
+      nextState: {
+        params: {
+          productCode: 'test123',
+        },
+      },
+    });
+  }
+  go() {
+    return of();
+  }
+}
+class MockProductService {
+  get(): Observable<Product> {
+    return of();
+  }
+}
+
 describe('VariantStyleSelectorComponent', () => {
   let component: VariantStyleSelectorComponent;
   let fixture: ComponentFixture<VariantStyleSelectorComponent>;
@@ -49,6 +73,11 @@ describe('VariantStyleSelectorComponent', () => {
           provide: OccConfig,
           useValue: { backend: { occ: { baseUrl: 'abc' } } },
         },
+        {
+          provide: ProductService,
+          useClass: MockProductService,
+        },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
   }));

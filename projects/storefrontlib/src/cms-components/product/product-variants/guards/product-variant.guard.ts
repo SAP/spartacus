@@ -1,6 +1,6 @@
 import { CanActivate, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, filter, take } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import {
   VariantOption,
@@ -22,15 +22,30 @@ export class ProductVariantGuard implements CanActivate {
   canActivate(): Observable<boolean | UrlTree> {
     return this.routingService.getRouterState().pipe(
       map(state => state.nextState.params.productCode),
-      filter(Boolean),
-      switchMap((productCode: string) =>
-        this.productService.get(productCode, ProductScope.VARIANTS)
-      ),
-      filter(Boolean),
+      switchMap((productCode: string) => {
+        if (Boolean(productCode)) {
+          return this.productService.get(productCode, ProductScope.VARIANTS);
+        } else {
+          return of(undefined);
+        }
+      }),
       map((product: Product) => {
-        if (!product.purchasable) {
+        if (Boolean(product) && !product.purchasable) {
           const variant = this.findVariant(product.variantOptions);
-          this.routingService.goByUrl(`product/${variant.code}`);
+          // below call might looks redundant but in fact this data is going to be loaded anyways
+          // we're just calling it earlier and storing
+          this.productService
+            .get(variant.code, ProductScope.LIST)
+            .pipe(
+              filter(Boolean),
+              take(1)
+            )
+            .subscribe((_product: Product) => {
+              this.routingService.go({
+                cxRoute: 'product',
+                params: _product,
+              });
+            });
           return false;
         } else {
           return true;

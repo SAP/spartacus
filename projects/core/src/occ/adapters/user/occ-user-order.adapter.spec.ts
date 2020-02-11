@@ -9,17 +9,17 @@ import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converte
 import { FeatureConfigService } from '../../../features-config/index';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import {
-  Order,
-  ReturnRequestEntryInputList,
-  ReturnRequest,
   CancellationRequestEntryInputList,
+  Order,
+  ReturnRequest,
+  ReturnRequestEntryInputList,
 } from '../../../model/order.model';
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
   ORDER_HISTORY_NORMALIZER,
-  ORDER_RETURN_REQUEST_NORMALIZER,
   ORDER_RETURNS_NORMALIZER,
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
+  ORDER_RETURN_REQUEST_NORMALIZER,
 } from '../../../user/connectors/order/converters';
 import { ConverterService } from '../../../util/index';
 import { OccConfig } from '../../config/occ-config';
@@ -246,7 +246,7 @@ describe('OccUserOrderAdapter', () => {
           trackingEvents: [],
         };
         occUserOrderAdapter
-          .getConsignmentTracking(orderData.code, consignmentCode)
+          .getConsignmentTracking(userId, orderData.code, consignmentCode)
           .subscribe(result => expect(result).toEqual(tracking));
         const mockReq = httpMock.expectOne(req => {
           return req.method === 'GET';
@@ -254,8 +254,9 @@ describe('OccUserOrderAdapter', () => {
         expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
           'consignmentTracking',
           {
+            userId,
             orderCode: orderData.code,
-            consignmentCode: consignmentCode,
+            consignmentCode,
           }
         );
         expect(mockReq.cancelled).toBeFalsy();
@@ -265,7 +266,7 @@ describe('OccUserOrderAdapter', () => {
 
       it('should use converter', () => {
         occUserOrderAdapter
-          .getConsignmentTracking(orderData.code, consignmentCode)
+          .getConsignmentTracking(userId, orderData.code, consignmentCode)
           .subscribe();
         httpMock
           .expectOne(req => {

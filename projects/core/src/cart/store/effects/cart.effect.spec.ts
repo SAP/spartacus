@@ -187,10 +187,11 @@ describe('Cart effect', () => {
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
 
-    it('should clear cart on "Cart not found" error', () => {
+    it('should clear active cart on "Cart not found" error', () => {
       const action = new DeprecatedCartActions.LoadCart({
         userId,
         cartId,
+        extraData: { active: true },
       });
       loadMock.and.returnValue(
         throwError({
@@ -315,11 +316,13 @@ describe('Cart effect', () => {
       const action = new DeprecatedCartActions.MergeCart({
         userId: userId,
         cartId: cartId,
+        tempCartId: 'temp-uuid',
       });
       const completion = new DeprecatedCartActions.CreateCart({
         userId: userId,
         oldCartId: cartId,
         toMergeCartGuid: 'testGuid',
+        tempCartId: 'temp-uuid',
         extraData: undefined,
       });
 

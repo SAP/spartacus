@@ -27,25 +27,25 @@ export class LoadingScopesService {
       this.config.backend.loadingScopes[model];
 
     if (scopesConfig) {
-      let i = 0;
+      const expandedScopes = [...scopes];
+      let i = expandedScopes.length;
 
-      const expandedScopes = [...scopes].reverse(); // to ensure proper scopes merging order
-
-      while (i < expandedScopes.length) {
+      while (i > 0) {
+        i--;
         const includedScopes =
           scopesConfig[expandedScopes[i]] &&
           scopesConfig[expandedScopes[i]].include;
         if (includedScopes) {
           for (const includedScope of includedScopes) {
             if (!expandedScopes.includes(includedScope)) {
-              expandedScopes.push(includedScope);
+              expandedScopes.splice(i, 0, includedScope);
+              i++;
             }
           }
         }
-        i++;
       }
 
-      return expandedScopes.reverse();
+      return expandedScopes;
     }
 
     return scopes;
