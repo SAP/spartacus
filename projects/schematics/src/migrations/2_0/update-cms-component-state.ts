@@ -187,5 +187,5 @@ export function buildMethodComment(
 }
 
 export function buildActionComment(actionName: string): string {
-  return `// ${TODO_SPARTACUS} please convert all the parameters to a 'payload' object's properties for '${actionName}' action`;
+  return `// ${TODO_SPARTACUS} please convert all the parameters to the 'payload' object's properties for '${actionName}' action`;
 }
