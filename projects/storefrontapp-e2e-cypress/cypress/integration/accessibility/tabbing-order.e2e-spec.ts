@@ -44,6 +44,10 @@ import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
 import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
+import {
+  consignmentTrackingTabbingOrder,
+  consignmentTrackingEventsTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/consignment-tracking';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -287,6 +291,16 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('Wishlist', () => {
     it('should allow to navigate with tab key', () => {
       wishlistTabbingOrder(config.wishlist);
+    });
+  });
+
+  context('Consignment Tracking', () => {
+    it('should allow to navigate with tab key', () => {
+      consignmentTrackingTabbingOrder(config.consignmentTracking);
+    });
+
+    it('should allow to navigate with tab key(tracking events)', () => {
+      consignmentTrackingEventsTabbingOrder(config.consignmentTrackingEvents);
     });
   });
 });
