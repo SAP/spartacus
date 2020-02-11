@@ -10,13 +10,13 @@ import {
   USER_ADDRESS_SERVICE,
 } from '../../../shared/constants';
 import {
-  addParamToConstructor,
   ClassType,
   commitChanges,
   findConstructor,
   getAllTsSourceFiles,
   InsertDirection,
   isCandidateForConstructorDeprecation,
+  migrateDeprecatedConstructor,
 } from '../../../shared/utils/file-utils';
 
 const DEPRECATED_CONSTRUCTOR_PARAMETERS: ClassType[] = [
@@ -54,7 +54,7 @@ export function migrate(): Rule {
         const nodes = getSourceNodes(source);
         const constructorNode = findConstructor(nodes);
         for (const newConstructorParam of NEW_CONSTRUCTOR_PARAMETERS) {
-          const changes = addParamToConstructor(
+          const changes = migrateDeprecatedConstructor(
             source,
             sourcePath,
             constructorNode,

@@ -140,7 +140,6 @@ export function defineProperty(
   return new InsertChange(path, constructorNode.pos + 1, toAdd);
 }
 
-const DELETE_ME = true;
 /**
  *
  * Method performs the following checks on the provided `source` file:
@@ -156,7 +155,6 @@ const DELETE_ME = true;
  * @param inheritedClass a class which customers might have extended
  * @param parameterClassTypes a list of parameter class types. Must be provided in the order in which they appear in the deprecated constructor.
  */
-// TODO:#6432  - test
 export function isCandidateForConstructorDeprecation(
   source: ts.SourceFile,
   inheritedClass: string,
@@ -177,10 +175,12 @@ export function isCandidateForConstructorDeprecation(
     return false;
   }
 
-  // TODO:#6432 - validate super presence
-  // TODO:#6432 - validate super parameter passing?
-
   if (!checkConstructorParameters(constructorNode, parameterClassTypes)) {
+    return false;
+  }
+
+  // TODO:#6432 - add a test
+  if (!checkSuper(constructorNode, parameterClassTypes)) {
     return false;
   }
 
@@ -252,8 +252,37 @@ function checkConstructorParameters(
   return true;
 }
 
+function checkSuper(
+  constructorNode: ts.Node,
+  parameterClassTypes: ClassType[]
+): boolean {
+  const callExpressions = findNodes(
+    constructorNode,
+    ts.SyntaxKind.CallExpression
+  );
+  if (callExpressions.length === 0) {
+    return false;
+  }
+  // super has to be the first expression in constructor
+  const firstCallExpression = callExpressions[0];
+  const superKeyword = findNodes(
+    firstCallExpression,
+    ts.SyntaxKind.SuperKeyword
+  );
+  if (superKeyword && superKeyword.length === 0) {
+    return false;
+  }
+
+  const params = findNodes(firstCallExpression, ts.SyntaxKind.Identifier);
+  if (params.length !== parameterClassTypes.length) {
+    return false;
+  }
+
+  return true;
+}
+
 // TODO:#6432 - test
-export function addParamToConstructor(
+export function migrateDeprecatedConstructor(
   source: ts.SourceFile,
   sourcePath: string,
   constructorNode: ts.Node | undefined,
@@ -308,21 +337,22 @@ function updateConstructorSuperNode(
   propertyName = strings.camelize(propertyName);
 
   if (callExpressions.length === 0) {
-    return createSuper(sourcePath, constructorNode, propertyName);
+    throw new SchematicsException('No super() call found.');
   }
   // super has to be the first expression in constructor
+  const firstCallExpression = callExpressions[0];
   const superKeyword = findNodes(
-    callExpressions[0],
+    firstCallExpression,
     ts.SyntaxKind.SuperKeyword
   );
   if (superKeyword && superKeyword.length === 0) {
-    return createSuper(sourcePath, constructorNode, propertyName);
+    throw new SchematicsException('No super() call found.');
   }
 
   let toAdd = '';
   let position: number;
 
-  const params = findNodes(callExpressions[0], ts.SyntaxKind.Identifier);
+  const params = findNodes(firstCallExpression, ts.SyntaxKind.Identifier);
   // just an empty super() call, without any params passed to it
   if (params && params.length === 0) {
     position = superKeyword[0].end + 1;
@@ -334,18 +364,6 @@ function updateConstructorSuperNode(
 
   toAdd += propertyName;
   return new InsertChange(sourcePath, position, toAdd);
-}
-
-function createSuper(
-  sourcePath: string,
-  constructorNode: ts.Node,
-  propertyName: string
-): InsertChange {
-  propertyName = strings.camelize(propertyName);
-  const blockNode = findNodes(constructorNode, ts.SyntaxKind.Block)[0];
-  if (DELETE_ME) console.log('inserting super on: ', blockNode.getStart());
-  const toAdd = `super(${propertyName});`;
-  return new InsertChange(sourcePath, blockNode.getStart() + 1, toAdd);
 }
 
 // TODO:#6432 - check if the add cms component schematic is still working as before

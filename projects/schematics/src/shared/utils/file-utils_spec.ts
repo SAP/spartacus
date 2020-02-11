@@ -343,6 +343,106 @@ describe('File utils', () => {
         )
       ).toEqual(false);
     });
+    it('should return false if the super() call does NOT exist', () => {
+      const content = `
+      import { Store } from '@ngrx/store';
+      import {
+        StateWithProcess,
+        StateWithUser,
+        UserAddressService
+      } from '@spartacus/core';
+      export class InheritingService extends UserAddressService {
+        constructor(
+          store: Store<StateWithUser | StateWithProcess<void>>
+        ) {}
+      }
+      `;
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        content,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const parameterClassTypes: ClassType[] = [
+        { className: STORE, importPath: NGRX_STORE },
+      ];
+
+      expect(
+        isCandidateForConstructorDeprecation(
+          source,
+          USER_ADDRESS_SERVICE,
+          parameterClassTypes
+        )
+      ).toEqual(false);
+    });
+    it('should return false if an expression call exists, but it is NOT the super(); call', () => {
+      const content = `
+      import { Store } from '@ngrx/store';
+      import {
+        StateWithProcess,
+        StateWithUser,
+        UserAddressService
+      } from '@spartacus/core';
+      export class InheritingService extends UserAddressService {
+        constructor(
+          store: Store<StateWithUser | StateWithProcess<void>>
+        ) {
+          console.log('test');
+        }
+      }
+      `;
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        content,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const parameterClassTypes: ClassType[] = [
+        { className: STORE, importPath: NGRX_STORE },
+      ];
+
+      expect(
+        isCandidateForConstructorDeprecation(
+          source,
+          USER_ADDRESS_SERVICE,
+          parameterClassTypes
+        )
+      ).toEqual(false);
+    });
+    it('should return false if the expected number of parameters is not passed to super() call', () => {
+      const content = `
+      import { Store } from '@ngrx/store';
+      import {
+        StateWithProcess,
+        StateWithUser,
+        UserAddressService
+      } from '@spartacus/core';
+      export class InheritingService extends UserAddressService {
+        constructor(
+          store: Store<StateWithUser | StateWithProcess<void>>
+        ) {
+          super();
+        }
+      }
+      `;
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        content,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const parameterClassTypes: ClassType[] = [
+        { className: STORE, importPath: NGRX_STORE },
+      ];
+
+      expect(
+        isCandidateForConstructorDeprecation(
+          source,
+          USER_ADDRESS_SERVICE,
+          parameterClassTypes
+        )
+      ).toEqual(false);
+    });
   });
 
   describe('injectService', () => {

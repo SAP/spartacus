@@ -15,7 +15,6 @@ import { AUTH_SERVICE, SPARTACUS_CORE, STORE } from '../../../shared/constants';
 import {
   getConstructor,
   getParams,
-  getSuperNode,
   runMigration,
   writeFile,
 } from '../../../shared/utils/test-utils';
@@ -72,19 +71,6 @@ const CALL_EXPRESSION_NO_SUPER = `
         console.log(Math.random());
       }
     }
-`;
-const EMPTY_SUPER = `
-import { Store } from '@ngrx/store';
-import {
-  StateWithProcess,
-  StateWithUser,
-  UserAddressService
-} from '@spartacus/core';
-export class InheritingService extends UserAddressService {
-  constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
-    super();
-  }
-}
 `;
 const VALID_TEST_CLASS = `  
     import { Store } from '@ngrx/store';
@@ -183,7 +169,6 @@ describe('constructor user-address migration', () => {
     });
   });
 
-  // TODO:#6432 - handle the case when there are constructor params present, but nothing is passed to super()?
   describe('when the class does NOT have a super call', () => {
     it('should create it', async () => {
       writeFile(host, '/src/index.ts', NO_SUPER_CALL);
@@ -191,16 +176,7 @@ describe('constructor user-address migration', () => {
       await runMigration(appTree, schematicRunner);
 
       const content = appTree.readContent('/src/index.ts');
-
-      const source = ts.createSourceFile(
-        'xxx',
-        content,
-        ts.ScriptTarget.Latest
-      );
-      const nodes = getSourceNodes(source);
-      const constructorNode = getConstructor(nodes);
-      const superNode = getSuperNode(constructorNode);
-      expect(superNode).toBeTruthy();
+      expect(content).toEqual(NO_SUPER_CALL);
     });
   });
 
@@ -212,45 +188,7 @@ describe('constructor user-address migration', () => {
       await runMigration(appTree, schematicRunner);
 
       const content = appTree.readContent(filePath);
-
-      const source = ts.createSourceFile(
-        filePath,
-        content,
-        ts.ScriptTarget.Latest,
-        true
-      );
-      const nodes = getSourceNodes(source);
-      const constructorNode = getConstructor(nodes);
-      const superNode = getSuperNode(constructorNode);
-      expect(superNode).toBeTruthy();
-      expect(isImported(source, AUTH_SERVICE, SPARTACUS_CORE)).toEqual(true);
-    });
-  });
-
-  describe('when the class has an empty super() call', () => {
-    it('should add param to it', async () => {
-      const filePath = '/src/index.ts';
-      writeFile(host, filePath, EMPTY_SUPER);
-
-      await runMigration(appTree, schematicRunner);
-
-      const content = appTree.readContent(filePath);
-
-      const source = ts.createSourceFile(
-        filePath,
-        content,
-        ts.ScriptTarget.Latest,
-        true
-      );
-      const nodes = getSourceNodes(source);
-      const constructorNode = getConstructor(nodes);
-      const params = getParams(constructorNode, [
-        strings.camelize(STORE),
-        strings.camelize(AUTH_SERVICE),
-      ]);
-      // TODO:#6432 - expect both store and auth?
-      expect(params).toEqual([strings.camelize(AUTH_SERVICE)]);
-      expect(isImported(source, AUTH_SERVICE, SPARTACUS_CORE)).toEqual(true);
+      expect(content).toEqual(CALL_EXPRESSION_NO_SUPER);
     });
   });
 
