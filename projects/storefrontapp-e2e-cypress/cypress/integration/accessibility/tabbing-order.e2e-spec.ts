@@ -44,6 +44,13 @@ import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
 import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
+import {
+  stockNotificationNotLoginTabbingOrder,
+  stockNotificationNoEnbaledPreferenceTabbingOrder,
+  stockNotificationProductSubscribedTabbingOrder,
+  stockNotificationDialogTabbingOrder,
+  stockNotificationTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/my-account/stock-notification';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -137,6 +144,12 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
   context('Cart', () => {
     it('should allow to navigate with tab key', () => {
       cartTabbingOrder(config.cart);
+    });
+  });
+
+  context('Stock Notification', () => {
+    it('should allow to navigate with tab key (not login)', () => {
+      stockNotificationNotLoginTabbingOrder(config.stockNotificationNotLogin);
     });
   });
 });
@@ -287,6 +300,28 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('Wishlist', () => {
     it('should allow to navigate with tab key', () => {
       wishlistTabbingOrder(config.wishlist);
+    });
+  });
+
+  context.only('Stock Notification', () => {
+    it('should allow to navigate with tab key (no enabled notification preference)', () => {
+      stockNotificationNoEnbaledPreferenceTabbingOrder(
+        config.stockNotificationNoEnabledPreference
+      );
+    });
+
+    it('should allow to navigate with tab key (product was been subscribed)', () => {
+      stockNotificationProductSubscribedTabbingOrder(
+        config.stockNotificationSubscribed
+      );
+    });
+
+    it('should allow to navigate with tab key (dialog)', () => {
+      stockNotificationDialogTabbingOrder(config.stockNotificationDialog);
+    });
+
+    it('should allow to navigate with tab key', () => {
+      stockNotificationTabbingOrder(config.stockNotification);
     });
   });
 });
