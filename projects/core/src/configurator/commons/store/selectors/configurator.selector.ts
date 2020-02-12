@@ -6,10 +6,10 @@ import {
 import { Configurator } from '../../../../model/configurator.model';
 import { EntityLoaderState } from '../../../../state/utils/entity-loader/entity-loader-state';
 import {
-  StateEntityLoaderSelectors,
+  StateEntityProcessesLoaderSelectors,
   StateLoaderSelectors,
 } from '../../../../state/utils/index';
-import { LoaderState } from '../../../../state/utils/loader/loader-state';
+import { ProcessesLoaderState } from '../../../../state/utils/processes-loader/processes-loader-state';
 import {
   ConfigurationState,
   CONFIGURATION_FEATURE,
@@ -32,23 +32,32 @@ export const getConfigurationState: MemoizedSelector<
   (state: ConfigurationState) => state.configurations
 );
 
-export const getPendingChanges: MemoizedSelector<
-  StateWithConfiguration,
-  number
-> = createSelector(
-  getConfigurationsState,
-  state => (state.pendingChangesCounter ? state.pendingChangesCounter : 0)
-);
-
-export const getConfigurationStateFactory = (
+export const getConfigurationProcessLoaderStateFactory = (
   code: string
 ): MemoizedSelector<
   StateWithConfiguration,
-  LoaderState<Configurator.Configuration>
+  ProcessesLoaderState<Configurator.Configuration>
 > => {
   return createSelector(
     getConfigurationState,
-    details => StateEntityLoaderSelectors.entityStateSelector(details, code)
+    details =>
+      StateEntityProcessesLoaderSelectors.entityProcessesLoaderStateSelector(
+        details,
+        code
+      )
+  );
+};
+
+export const hasPendingChanges = (
+  code: string
+): MemoizedSelector<StateWithConfiguration, boolean> => {
+  return createSelector(
+    getConfigurationState,
+    details =>
+      StateEntityProcessesLoaderSelectors.entityHasPendingProcessesSelector(
+        details,
+        code
+      )
   );
 };
 
@@ -56,7 +65,7 @@ export const getConfigurationFactory = (
   code: string
 ): MemoizedSelector<StateWithConfiguration, Configurator.Configuration> => {
   return createSelector(
-    getConfigurationStateFactory(code),
+    getConfigurationProcessLoaderStateFactory(code),
     configurationState =>
       StateLoaderSelectors.loaderValueSelector(configurationState)
   );

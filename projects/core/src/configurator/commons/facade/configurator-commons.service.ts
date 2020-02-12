@@ -43,7 +43,11 @@ export class ConfiguratorCommonsService {
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationStateFactory(owner.key)),
+      select(
+        ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
+          owner.key
+        )
+      ),
       tap(configurationState => {
         if (
           !this.isConfigurationCreated(configurationState.value) &&

@@ -2,7 +2,10 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import { StateEntityLoaderActions } from '../../../../state/utils/index';
+import {
+  StateEntityLoaderActions,
+  StateEntityProcessesLoaderActions,
+} from '../../../../state/utils/index';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import { CONFIGURATION_DATA } from '../configuration-state';
 import * as ConfiguratorActions from './configurator.action';
@@ -102,13 +105,16 @@ describe('ConfiguratorActions', () => {
         const action = new ConfiguratorActions.UpdateConfiguration(
           CONFIGURATION
         );
+
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION,
           payload: CONFIGURATION,
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            CONFIGURATION_DATA,
-            CONFIGURATION.owner.key
-          ),
+          meta: {
+            entityType: CONFIGURATION_DATA,
+            entityId: CONFIGURATION.owner.key,
+            loader: { load: true },
+            processesCountDiff: 1,
+          },
         });
       });
     });
@@ -117,17 +123,19 @@ describe('ConfiguratorActions', () => {
       it('Should create the action', () => {
         const error = 'anError';
         const action = new ConfiguratorActions.UpdateConfigurationFail(
-          PRODUCT_CODE,
+          CONFIGURATION.owner.key,
           error
         );
+
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION_FAIL,
           payload: error,
-          meta: StateEntityLoaderActions.entityFailMeta(
-            CONFIGURATION_DATA,
-            PRODUCT_CODE,
-            error
-          ),
+          meta: {
+            entityType: CONFIGURATION_DATA,
+            entityId: CONFIGURATION.owner.key,
+            loader: { error: error },
+            processesCountDiff: -1,
+          },
         });
       });
     });
@@ -140,7 +148,7 @@ describe('ConfiguratorActions', () => {
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS,
           payload: CONFIGURATION,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
             CONFIGURATION_DATA,
             CONFIGURATION.owner.key
           ),

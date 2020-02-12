@@ -50,31 +50,3 @@ export function reducer(
   }
   return state;
 }
-
-export function reducerPendingChanges(
-  state = initialStatePendingChanges,
-  action: ConfiguratorActions.ConfiguratorAction
-): number {
-  switch (action.type) {
-    case ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS:
-    case ConfiguratorActions.UPDATE_CONFIGURATION_FAIL: {
-      return addToPendingChanges(-1, state);
-    }
-    case ConfiguratorActions.UPDATE_CONFIGURATION: {
-      return addToPendingChanges(1, state);
-    }
-  }
-  return state;
-}
-
-function addToPendingChanges(increment: number, counter: number): number {
-  let content = 0;
-  let pendingChanges: number = counter;
-
-  if (!pendingChanges) {
-    pendingChanges = 0;
-  }
-  content = increment + pendingChanges;
-
-  return content;
-}

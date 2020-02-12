@@ -196,9 +196,9 @@ export class ConfiguratorEffects {
     map((action: UpdateConfigurationSuccess) => action.payload),
     mergeMap((payload: Configurator.Configuration) => {
       return this.store.pipe(
-        select(ConfiguratorSelectors.getPendingChanges),
+        select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
         take(1),
-        filter(pendingChanges => pendingChanges === 0),
+        filter(hasPendingChanges => hasPendingChanges === false),
         switchMap(() => [
           new UpdateConfigurationFinalizeSuccess(payload),
 
@@ -224,9 +224,9 @@ export class ConfiguratorEffects {
     map((action: UpdateConfigurationFail) => action.payload),
     mergeMap(payload => {
       return this.store.pipe(
-        select(ConfiguratorSelectors.getPendingChanges),
+        select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
         take(1),
-        filter(pendingChanges => pendingChanges === 0),
+        filter(hasPendingChanges => hasPendingChanges === false),
         map(() => new UpdateConfigurationFinalizeFail(payload))
       );
     })
@@ -249,9 +249,13 @@ export class ConfiguratorEffects {
     ofType(CHANGE_GROUP),
     switchMap((action: ChangeGroup) => {
       return this.store.pipe(
-        select(ConfiguratorSelectors.getPendingChanges),
+        select(
+          ConfiguratorSelectors.hasPendingChanges(
+            action.configuration.owner.key
+          )
+        ),
         take(1),
-        filter(pendingChanges => pendingChanges === 0),
+        filter(hasPendingChanges => hasPendingChanges === false),
         switchMap(() => {
           return this.configuratorCommonsConnector
             .readConfiguration(
@@ -293,9 +297,9 @@ export class ConfiguratorEffects {
     map((action: AddToCart) => action.payload),
     switchMap((payload: Configurator.AddToCartParameters) => {
       return this.store.pipe(
-        select(ConfiguratorSelectors.getPendingChanges),
+        select(ConfiguratorSelectors.hasPendingChanges(payload.ownerKey)),
         take(1),
-        filter(pendingChanges => pendingChanges === 0),
+        filter(hasPendingChanges => hasPendingChanges === false),
         map(() => new CartActions.CartProcessesIncrement(payload.cartId))
       );
     })
@@ -311,9 +315,9 @@ export class ConfiguratorEffects {
     map((action: AddToCart) => action.payload),
     switchMap((payload: Configurator.AddToCartParameters) => {
       return this.store.pipe(
-        select(ConfiguratorSelectors.getPendingChanges),
+        select(ConfiguratorSelectors.hasPendingChanges(payload.ownerKey)),
         take(1),
-        filter(pendingChanges => pendingChanges === 0),
+        filter(hasPendingChanges => hasPendingChanges === false),
         switchMap(() => {
           return this.configuratorCommonsConnector.addToCart(payload).pipe(
             switchMap((entry: CartModification) => {
