@@ -42,12 +42,13 @@ export function migrate(): Rule {
       const sourceFiles = getAllTsSourceFiles(tsconfigPath, tree, basePath);
       for (const source of sourceFiles) {
         const sourcePath = relative(basePath, source.fileName);
-        const candidate = isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          DEPRECATED_CONSTRUCTOR_PARAMETERS
-        );
-        if (!candidate) {
+        if (
+          !isCandidateForConstructorDeprecation(
+            source,
+            USER_ADDRESS_SERVICE,
+            DEPRECATED_CONSTRUCTOR_PARAMETERS
+          )
+        ) {
           continue;
         }
 
