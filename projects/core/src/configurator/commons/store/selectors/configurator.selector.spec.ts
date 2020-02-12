@@ -76,16 +76,20 @@ describe('Configurator selectors', () => {
     expect(result).toEqual(configuration);
   });
 
-  it('should return pending changes as zero for an initial call', () => {
+  it('should return pending changes as false for an initial call', () => {
     store
-      .pipe(select(ConfiguratorSelectors.getPendingChanges))
-      .subscribe(pendingChanges => expect(pendingChanges).toBe(0));
+      .pipe(
+        select(ConfiguratorSelectors.hasPendingChanges(configuration.owner.key))
+      )
+      .subscribe(hasPendingChanges => expect(hasPendingChanges).toBe(false));
   });
 
-  it('should return pending changes as 1 if an update has happenend', () => {
+  it('should return pending changes as true if an update has happenend', () => {
     store.dispatch(new ConfiguratorActions.UpdateConfiguration(configuration));
     store
-      .pipe(select(ConfiguratorSelectors.getPendingChanges))
-      .subscribe(pendingChanges => expect(pendingChanges).toBe(1));
+      .pipe(
+        select(ConfiguratorSelectors.hasPendingChanges(configuration.owner.key))
+      )
+      .subscribe(hasPendingChanges => expect(hasPendingChanges).toBe(true));
   });
 });
