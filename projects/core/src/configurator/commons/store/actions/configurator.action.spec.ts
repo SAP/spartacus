@@ -176,4 +176,23 @@ describe('ConfiguratorActions', () => {
       });
     });
   });
+
+  describe('UpdateCartEntry', () => {
+    const params: Configurator.UpdateConfigurationForCartEntryParameters = {
+      configuration: CONFIGURATION,
+    };
+    it('should carry expected meta data', () => {
+      const action = new ConfiguratorActions.UpdateCartEntry(params);
+
+      expect({ ...action }).toEqual({
+        type: ConfiguratorActions.UPDATE_CART_ENTRY,
+        payload: params,
+
+        meta: StateEntityLoaderActions.entityLoadMeta(
+          CONFIGURATION_DATA,
+          CONFIGURATION.owner.key
+        ),
+      });
+    });
+  });
 });

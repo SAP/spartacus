@@ -7,12 +7,7 @@ import {
 import { CONFIGURATION_DATA } from '../configuration-state';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
-export const READ_CART_ENTRY_CONFIGURATION =
-  '[Configurator] Read Cart Entry Configuration';
-export const READ_CART_ENTRY_CONFIGURATION_SUCCESS =
-  '[Configurator] Read Cart Entry Configuration Success';
-export const READ_CART_ENTRY_CONFIGURATION_FAIL =
-  '[Configurator] Read Cart Entry Configuration Fail';
+
 export const CREATE_CONFIGURATION_FAIL =
   '[Configurator] Create Configuration Fail';
 export const CREATE_CONFIGURATION_SUCCESS =
@@ -21,6 +16,12 @@ export const READ_CONFIGURATION = '[Configurator] Read Configuration';
 export const READ_CONFIGURATION_FAIL = '[Configurator] Read Configuration Fail';
 export const READ_CONFIGURATION_SUCCESS =
   '[Configurator] Read Configuration Sucess';
+export const READ_CART_ENTRY_CONFIGURATION =
+  '[Configurator] Read Cart Entry Configuration';
+export const READ_CART_ENTRY_CONFIGURATION_SUCCESS =
+  '[Configurator] Read Cart Entry Configuration Success';
+export const READ_CART_ENTRY_CONFIGURATION_FAIL =
+  '[Configurator] Read Cart Entry Configuration Fail';
 export const UPDATE_CONFIGURATION = '[Configurator] Update Configuration';
 export const UPDATE_CONFIGURATION_FAIL =
   '[Configurator] Update Configuration Fail';
@@ -34,7 +35,7 @@ export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
 export const CHANGE_GROUP = '[Configurator] Change group';
 export const CHANGE_GROUP_FINALIZE = '[Configurator] Change group finalize';
 export const ADD_TO_CART = '[Configurator] Add to cart';
-export const ADD_TO_CART_FINALIZE = '[Configurator] Add to cart finalize';
+export const UPDATE_CART_ENTRY = '[Configurator] Update cart entry';
 
 export const REMOVE_CONFIGURATION = '[Configurator] Remove configuration';
 
@@ -209,6 +210,15 @@ export class AddToCart extends StateEntityLoaderActions.EntityLoadAction {
   }
 }
 
+export class UpdateCartEntry extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = UPDATE_CART_ENTRY;
+  constructor(
+    public payload: Configurator.UpdateConfigurationForCartEntryParameters
+  ) {
+    super(CONFIGURATION_DATA, payload.configuration.owner.key);
+  }
+}
+
 export class RemoveConfiguration extends StateEntityLoaderActions.EntityResetAction {
   readonly type = REMOVE_CONFIGURATION;
   constructor(ownerKey: string | string[]) {
@@ -277,4 +287,5 @@ export type ConfiguratorAction =
   | ReadCartEntryConfiguration
   | ReadCartEntryConfigurationSuccess
   | ReadCartEntryConfigurationFail
+  | UpdateCartEntry
   | RemoveConfiguration;
