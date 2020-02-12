@@ -48,7 +48,6 @@ describe.skip('login notification', () => {
     profileTagHelper.waitForCMSComponents();
     profileTagHelper.triggerLoaded();
     profileTagHelper.triggerConsentReferenceLoaded();
-    loginHelper.registerUser();
   });
   it('should not call the login endpont of EC on a failed login', () => {
     loginHelper.loginWithBadCredentials();
@@ -57,7 +56,7 @@ describe.skip('login notification', () => {
     });
   });
   it('should call the login endpont of EC on a successful login', () => {
-    loginHelper.loginUser();
+    loginHelper.loginAsDefaultUser();
     cy.wait(`@${loginAlias}`).then(xhr => {
       expect(xhr.request.headers['X-Consent-Reference']).to.eq(
         profileTagHelper.testCr
