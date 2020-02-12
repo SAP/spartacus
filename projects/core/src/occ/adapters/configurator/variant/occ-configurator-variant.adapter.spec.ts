@@ -207,6 +207,28 @@ describe('OccConfigurationVariantAdapter', () => {
     );
   });
 
+  it('should set owner on readConfigurationForCartEntry', () => {
+    const params: Configurator.ReadFromCartEntryParameters = {
+      ownerKey: productConfiguration.owner.key,
+      userId: userId,
+      cartId: cartId,
+      cartEntryNumber: cartEntryNumber,
+    };
+    occConfiguratorVariantAdapter
+      .readConfigurationForCartEntry(params)
+      .subscribe(result => {
+        const owner = result.owner;
+        expect(owner).toBeDefined();
+        expect(owner.type).toBe(GenericConfigurator.OwnerType.CART_ENTRY);
+        expect(owner.key).toBeUndefined();
+      });
+    httpMock.expectOne(req => {
+      return (
+        req.method === 'GET' && req.url === 'readConfigurationForCartEntry'
+      );
+    });
+  });
+
   it('should call getConfigurationOverview endpoint', () => {
     occConfiguratorVariantAdapter
       .getConfigurationOverview(productConfiguration.configId)
