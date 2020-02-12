@@ -73,6 +73,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'configurator.priceSummary',
     'configurator.addToCart',
     'configurator.overviewForm',
+    'configurator.group',
   ],
 
   configuratorTextfield: ['configuratorTextfield.addToCart'],
