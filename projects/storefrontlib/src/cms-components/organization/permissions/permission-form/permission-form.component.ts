@@ -74,6 +74,7 @@ export class PermissionFormComponent implements OnInit {
     threshold: ['', Validators.required],
   });
 
+  typeControl = this.form.get('orderApprovalPermissionType');
   periodControl = this.form.get('periodRange');
   currencyControl = this.form.get('currency');
   thresholdControl = this.form.get('threshold');
@@ -94,6 +95,7 @@ export class PermissionFormComponent implements OnInit {
     );
     if (this.permissionData && Object.keys(this.permissionData).length !== 0) {
       this.form.patchValue(this.permissionData);
+      this.typeControl.disable();
     }
   }
 
