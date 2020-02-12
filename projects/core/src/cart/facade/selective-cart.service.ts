@@ -5,16 +5,13 @@ import { MultiCartService } from './multi-cart.service';
 import { UserService } from '../../user/facade/user.service';
 import { AuthService } from '../../auth/facade/auth.service';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of, BehaviorSubject, combineLatest } from 'rxjs';
 import { Cart } from '../../model/cart.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { map, filter, tap, shareReplay, switchMap, take } from 'rxjs/operators';
 import { OrderEntry } from '../../model/order.model';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 
-// ! Do not expose in public API
-// It is a prototype service for selective cart/save for later that can change when implementing that feature
-
-// TODO: Add unit tests, doc comments for that when working on this feature
 @Injectable()
 export class SelectiveCartService {
   private customerId: string;
@@ -40,22 +37,28 @@ export class SelectiveCartService {
     protected store: Store<StateWithMultiCart>,
     protected userService: UserService,
     protected authService: AuthService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartService,
+    protected baseSiteService: BaseSiteService
   ) {
-    this.userService.get().subscribe(user => {
-      if (user && user.customerId) {
+    combineLatest([
+      this.userService.get(),
+      this.baseSiteService.getActive(),
+    ]).subscribe(([user, activeBaseSite]) => {
+      if (user && user.customerId && activeBaseSite) {
         this.customerId = user.customerId;
-        this.cartId$.next(`selectivecart${this.customerId}`);
+        this.cartId$.next(`selectivecart${activeBaseSite}${this.customerId}`);
+      } else if (user && !user.customerId) {
+        this.cartId$.next(undefined);
       }
     });
 
     this.authService.getOccUserId().subscribe(userId => {
       this.userId = userId;
-      if (this.userId !== OCC_USER_ID_ANONYMOUS) {
-        if (this.isJustLoggedIn(userId)) {
-          this.load();
-        }
+
+      if (this.isJustLoggedIn(userId)) {
+        this.load();
       }
+
       this.previousUserId = userId;
     });
 
@@ -98,20 +101,22 @@ export class SelectiveCartService {
   }
 
   private load() {
-    this.multiCartService.loadCart({
-      userId: this.userId,
-      cartId: this.cartId,
-    });
+    if (this.isLoggedIn(this.userId) && this.cartId) {
+      this.multiCartService.loadCart({
+        userId: this.userId,
+        cartId: this.cartId,
+      });
+    }
   }
 
   addEntry(productCode: string, quantity: number): void {
-    let createInitialized = false;
+    let loadAttempted = false;
     this.cartSelector$
       .pipe(
-        filter(() => !createInitialized),
+        filter(() => !loadAttempted),
         switchMap(cartState => {
           if (this.isEmpty(cartState.value) && !cartState.loading) {
-            createInitialized = true;
+            loadAttempted = true;
             this.load();
           }
           return of(cartState);
@@ -165,6 +170,6 @@ export class SelectiveCartService {
   }
 
   private isLoggedIn(userId: string): boolean {
-    return typeof userId !== 'undefined';
+    return typeof userId !== 'undefined' && userId !== OCC_USER_ID_ANONYMOUS;
   }
 }

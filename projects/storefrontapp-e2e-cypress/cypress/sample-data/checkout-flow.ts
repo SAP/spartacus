@@ -50,5 +50,5 @@ export const cartWithCheapProduct = {
 };
 
 export const delivery = {
-  mode: 'standard-gross',
+  mode: 'standard-net',
 };

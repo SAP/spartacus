@@ -5,35 +5,50 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartService,
   I18nTestingModule,
+  FeatureConfigService,
+  SelectiveCartService,
   PromotionLocation,
   FeaturesConfigModule,
   FeaturesConfig,
+  OrderEntry,
+  ConsignmentEntry,
 } from '@spartacus/core';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemListComponent } from './cart-item-list.component';
+import { CartItemComponentOptions } from '../cart-item/cart-item.component';
+
 class MockCartService {
   removeEntry() {}
   loadDetails() {}
   updateEntry() {}
 }
 
-const mockItems = [
+const mockItems: OrderEntry[] = [
   {
-    id: 0,
     quantity: 1,
     entryNumber: 0,
     product: {
-      id: 0,
       code: 'PR0000',
     },
   },
   {
-    id: 1,
     quantity: 5,
     entryNumber: 1,
     product: {
-      id: 1,
       code: 'PR0001',
+    },
+  },
+];
+
+const mockConsignmentItems: ConsignmentEntry[] = [
+  {
+    quantity: 3,
+    orderEntry: {
+      quantity: 5,
+      entryNumber: 1,
+      product: {
+        code: 'PR0000',
+      },
     },
   },
 ];
@@ -67,6 +82,11 @@ class MockCartItemComponent {
   @Input() isReadOnly;
   @Input() cartIsLoading;
   @Input()
+  options: CartItemComponentOptions = {
+    isSaveForLater: false,
+    optionalBtn: null,
+  };
+  @Input()
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
@@ -74,6 +94,16 @@ describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
   let cartService: CartService;
+
+  const mockSelectiveCartService = jasmine.createSpyObj(
+    'SelectiveCartService',
+    ['removeEntry']
+  );
+
+  const mockFeatureConfig = jasmine.createSpyObj('FeatureConfigService', [
+    'isEnabled',
+    'isLevel',
+  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -87,6 +117,8 @@ describe('CartItemListComponent', () => {
       declarations: [CartItemListComponent, MockCartItemComponent, MockUrlPipe],
       providers: [
         { provide: CartService, useClass: MockCartService },
+        { provide: SelectiveCartService, useValue: mockSelectiveCartService },
+        { provide: FeatureConfigService, useValue: mockFeatureConfig },
         {
           provide: FeaturesConfig,
           useValue: {
@@ -100,20 +132,36 @@ describe('CartItemListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemListComponent);
     cartService = TestBed.get(CartService as Type<CartService>);
+
     component = fixture.componentInstance;
     component.items = mockItems;
     component.potentialProductPromotions = mockPotentialProductPromotions;
+    component.options = { isSaveForLater: false };
+
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
 
-    fixture.detectChanges();
+    mockSelectiveCartService.removeEntry.and.callThrough();
+    mockFeatureConfig.isEnabled.and.returnValue(false);
   });
 
   it('should create', () => {
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+
+    mockFeatureConfig.isEnabled.and.returnValue(false);
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
+  it('should work with consignment entries', () => {
+    component.items = mockConsignmentItems;
+    expect(component.items[0].quantity).toEqual(3);
+    expect(component.items[0].product.code).toEqual('PR0000');
+  });
+
   it('should remove entry', () => {
+    fixture.detectChanges();
     const item = mockItems[0];
     expect(component.form.controls[item.product.code]).toBeDefined();
     component.removeEntry(item);
@@ -122,6 +170,7 @@ describe('CartItemListComponent', () => {
   });
 
   it('should update entry', () => {
+    fixture.detectChanges();
     const item = mockItems[0];
     component.updateEntry({ item, updatedQuantity: 5 });
     expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 5);
@@ -134,6 +183,7 @@ describe('CartItemListComponent', () => {
   });
 
   it('should have controls updated on items change', () => {
+    fixture.detectChanges();
     const multipleMockItems = [
       {
         id: 1,
@@ -162,5 +212,31 @@ describe('CartItemListComponent', () => {
     expect(
       component.form.controls[multipleMockItems[1].product.code]
     ).toBeDefined();
+  });
+
+  it('should get no potential promotions for product for save for later', () => {
+    mockFeatureConfig.isEnabled.and.returnValue(true);
+    component.options = { isSaveForLater: true };
+    fixture.detectChanges();
+    const item = mockItems[0];
+    const promotions = component.getPotentialProductPromotionsForItem(item);
+    expect(promotions.length).toEqual(0);
+  });
+
+  it('remove entry for save for later', () => {
+    mockFeatureConfig.isEnabled.and.returnValue(true);
+    component.options = { isSaveForLater: true };
+    fixture.detectChanges();
+    const item = mockItems[0];
+    expect(component.form.controls[item.product.code]).toBeDefined();
+    component.removeEntry(item);
+    expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(item);
+    expect(component.form.controls[item.product.code]).toBeUndefined();
+  });
+
+  it('should get save for later feature flag', () => {
+    fixture.detectChanges();
+    component.isSaveForLaterEnabled();
+    expect(mockFeatureConfig.isEnabled).toHaveBeenCalled();
   });
 });

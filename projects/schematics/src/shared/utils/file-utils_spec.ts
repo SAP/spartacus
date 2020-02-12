@@ -2,18 +2,25 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { InsertChange } from '@schematics/angular/utility/change';
+import { getProjectTsConfigPaths } from '@angular/core/schematics/utils/project_tsconfig_paths';
+import {
+  InsertChange,
+  ReplaceChange,
+} from '@schematics/angular/utility/change';
 import * as path from 'path';
 import * as ts from 'typescript';
 import { UTF_8 } from '../constants';
 import {
   commitChanges,
   defineProperty,
+  getAllTsSourceFiles,
   getIndexHtmlPath,
   getPathResultsForFile,
   getTsSourceFile,
   injectService,
+  insertCommentAboveIdentifier,
   InsertDirection,
+  renameIdentifierNode,
 } from './file-utils';
 import { getProjectFromWorkspace } from './workspace-utils';
 
@@ -70,6 +77,23 @@ describe('File utils', () => {
     });
   });
 
+  describe('getAllTsSourceFiles', () => {
+    it('should return all .ts files', () => {
+      const basePath = '/src';
+      const { buildPaths } = getProjectTsConfigPaths(appTree);
+      let tsFilesFound = false;
+      for (const tsconfigPath of buildPaths) {
+        const sourceFiles = getAllTsSourceFiles(
+          tsconfigPath,
+          appTree,
+          basePath
+        );
+        tsFilesFound = sourceFiles.length !== 0;
+      }
+      expect(tsFilesFound).toEqual(true);
+    });
+  });
+
   describe('getIndexHtmlPath', () => {
     it('should return index.html path', async () => {
       const project = getProjectFromWorkspace(appTree, defaultOptions, [
@@ -92,10 +116,35 @@ describe('File utils', () => {
   });
 
   describe('commitChanges', () => {
-    it('should commit provided changes', async () => {
+    it('should commit provided InsertChanges', async () => {
       const filePath = 'src/index.html';
       const change = 'xxx';
       const testChange = new InsertChange(filePath, 0, change);
+      const result = commitChanges(
+        appTree,
+        filePath,
+        [testChange],
+        InsertDirection.LEFT
+      );
+
+      expect(result).toBeFalsy();
+      const buffer = appTree.read(filePath);
+      expect(buffer).toBeTruthy();
+      if (buffer) {
+        const content = buffer.toString(UTF_8);
+        expect(content).toContain(change);
+      }
+    });
+    it('should commit provided ReplaceChange', async () => {
+      const filePath = '/src/app/app.component.ts';
+      const change = 'ChangedAppComponent';
+
+      const testChange = new ReplaceChange(
+        filePath,
+        173,
+        'AppComponent',
+        change
+      );
       const result = commitChanges(
         appTree,
         filePath,
@@ -145,6 +194,39 @@ describe('File utils', () => {
       );
       expect(result).toBeTruthy();
       expect(result.toAdd).toEqual(`private dummyProperty: DummyService`);
+    });
+  });
+
+  describe('insertCommentAboveIdentifier', () => {
+    it('should return the InsertChanges', async () => {
+      const filePath = '/src/app/app.component.ts';
+      const source = getTsSourceFile(appTree, filePath);
+      const identifierName = 'AppComponent';
+      const commentToInsert = 'comment';
+
+      const changes = insertCommentAboveIdentifier(
+        filePath,
+        source,
+        identifierName,
+        commentToInsert
+      );
+      expect(changes).toEqual([
+        new InsertChange(filePath, 161, commentToInsert),
+      ]);
+    });
+  });
+
+  describe('renameIdentifierNode', () => {
+    it('should return the ReplaceChange', async () => {
+      const filePath = '/src/app/app.component.ts';
+      const source = getTsSourceFile(appTree, filePath);
+      const oldName = 'AppComponent';
+      const newName = 'NewAppComponent';
+
+      const changes = renameIdentifierNode(filePath, source, oldName, newName);
+      expect(changes).toEqual([
+        new ReplaceChange(filePath, 174, oldName, newName),
+      ]);
     });
   });
 });

@@ -35,7 +35,7 @@ export function productTypeFlow(mobile?: string) {
   cy.wait('@brand_query')
     .its('status')
     .should('eq', 200);
-
+  
   cy.get(resultsTitle).should('contain', '85 results for "sony"');
 
   createProductQuery('query1');
@@ -45,7 +45,7 @@ export function productTypeFlow(mobile?: string) {
   cy.wait('@query1')
     .its('status')
     .should('eq', 200);
-
+  
   cy.get(resultsTitle).should('contain', '130 results for "sony"');
 
   // Filter by price
@@ -68,7 +68,7 @@ export function productTypeFlow(mobile?: string) {
   cy.wait('@query2')
     .its('status')
     .should('eq', 200);
-
+  
   cy.get(resultsTitle).should('contain', '130 results for "sony"');
 
   // Filter by category

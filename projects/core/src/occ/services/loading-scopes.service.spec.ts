@@ -17,8 +17,11 @@ describe('LoadingScopesService', () => {
             include: ['list'],
           },
           order: {
-            include: ['base'],
+            include: ['base', 'list'],
             maxAge: 60,
+          },
+          zczapy: {
+            include: ['order', 'detail', 'list'],
           },
         },
       },
@@ -54,7 +57,46 @@ describe('LoadingScopesService', () => {
 
     it('should not duplicate scopes', () => {
       const result = service.expand('product', ['detail', 'order', 'base']);
-      expect(result).toEqual(['list', 'detail', 'order', 'base']);
+      expect(result).toEqual(['detail', 'list', 'order', 'base']);
+    });
+
+    it('should keep proper order of included scopes', () => {
+      const result = service.expand('product', ['order', 'list']);
+      expect(result).toEqual(['order', 'base', 'list']);
+    });
+
+    it('should behave predictably for complex cases', () => {
+      expect(service.expand('product', ['order', 'zczapy', 'detail'])).toEqual([
+        'order',
+        'zczapy',
+        'base',
+        'list',
+        'detail',
+      ]);
+
+      expect(service.expand('product', ['order', 'zczapy'])).toEqual([
+        'order',
+        'detail',
+        'base',
+        'list',
+        'zczapy',
+      ]);
+
+      expect(service.expand('product', ['zczapy'])).toEqual([
+        'order',
+        'detail',
+        'base',
+        'list',
+        'zczapy',
+      ]);
+
+      expect(service.expand('product', ['zczapy', 'order'])).toEqual([
+        'detail',
+        'zczapy',
+        'base',
+        'list',
+        'order',
+      ]);
     });
   });
 
