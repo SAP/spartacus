@@ -61,7 +61,9 @@ fi
 echo '-----'
 echo "Running Cypress end to end tests for suite: $SUITE"
 if [[ $SUITE == 'regression' ]]; then
-    yarn e2e:cy"${INTEGRATION}":start-run-ci
+    #yarn e2e:cy"${INTEGRATION}":start-run-ci
+    # TEMPORARY, for test on the CI
+    yarn e2e:cy:start-run
 else
     yarn e2e:cy"${INTEGRATION}":start-run-smoke-ci
 fi
