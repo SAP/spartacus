@@ -364,7 +364,6 @@ function updateConstructorSuperNode(
   return new InsertChange(sourcePath, position, toAdd);
 }
 
-// TODO:#6432 - check if the add cms component schematic is still working as before
 export function injectService(
   constructorNode: ts.Node | undefined,
   path: string,
