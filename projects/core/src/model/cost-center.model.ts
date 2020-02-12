@@ -1,4 +1,4 @@
-import { B2BUnit } from '@spartacus/core';
+import { B2BUnit } from './org-unit.model';
 
 export interface CostCenter {
   active?: string;
