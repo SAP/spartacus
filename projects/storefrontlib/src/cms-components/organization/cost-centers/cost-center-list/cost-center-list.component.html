@@ -1,4 +1,3 @@
-test
 <ng-container
   class="container"
   *ngIf="costCentersList$ | async as costCentersList"
@@ -53,7 +52,7 @@ test
 
   <div class="cx-table-body">
     <ng-container
-      *ngIf="costCentersList.pagination.totalResults > 0; else noData"
+      *ngIf="costCentersList.pagination?.totalResults > 0; else noData"
     >
       <div class="cx-sort top row">
         <ng-container *ngTemplateOutlet="sortAndPagination"></ng-container>
