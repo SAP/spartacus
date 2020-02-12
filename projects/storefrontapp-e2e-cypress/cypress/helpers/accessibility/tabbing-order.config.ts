@@ -187,7 +187,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
     },
-    { value:"Move To Cart", type: TabbingOrderTypes.LINK },
+    { value: 'Move To Cart', type: TabbingOrderTypes.LINK },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
   ],
   changePassword: [

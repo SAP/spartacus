@@ -10,15 +10,13 @@ export function saveForLaterTabbingOrder(config: TabElement[]) {
 }
 
 function addCartItemsAndLoadCart() {
-
   // Add Two Items to cart
   addProduct();
 
   cy.get('cx-cart-item').within(() => {
-      cy.getAllByText(/Save For Later/i)
-        .first()
-        .click();
-    });
-  cy.get('cx-cart-item .cx-sfl-btn button:not([disabled])'); // wait until counter is accessible after clicking '+'
-
+    cy.getAllByText(/Save For Later/i)
+      .first()
+      .click();
+  });
+  cy.get('cx-cart-item .cx-sfl-btn button:not([disabled])');
 }
