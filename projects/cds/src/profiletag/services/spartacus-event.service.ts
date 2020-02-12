@@ -58,9 +58,6 @@ export class SpartacusEventService {
     );
   }
 
-  /**
-   * Listens to successful logins and pushes the event for profiletag to pick it up further
-   */
   loginSuccessful(): Observable<boolean> {
     return this.actionsSubject.pipe(
       filter(action => action.type === AuthActions.LOGIN),
