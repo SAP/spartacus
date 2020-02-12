@@ -82,16 +82,9 @@ export function moveItem(
     cy.get('.cx-sfl-btn > .link').click();
   });
   if (!isAnonymous) {
-    cy.wait(['@refresh_cart', '@refresh_selectivecart']).spread(
-      (refresh_cart, refresh_selectivecart) => {
-        cy.wrap(refresh_cart)
-          .its('status')
-          .should('eq', 200);
-        cy.wrap(refresh_selectivecart)
-          .its('status')
-          .should('eq', 200);
-      }
-    );
+    cy.wait(`@refresh_cart`)
+      .its('status')
+      .should('eq', 200);
   }
 }
 
