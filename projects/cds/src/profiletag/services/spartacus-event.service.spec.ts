@@ -6,6 +6,7 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
+import { Action, ActionsSubject } from '@ngrx/store';
 import {
   AuthActions,
   Cart,
@@ -13,7 +14,6 @@ import {
   ConsentService,
   OrderEntry,
 } from '@spartacus/core';
-import { Action, ActionsSubject } from '@ngrx/store';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config';
@@ -195,18 +195,11 @@ describe('SpartacusEventTracker', () => {
       .loginSuccessful()
       .pipe(tap(_ => timesCalled++))
       .subscribe();
-    mockActionsSubject.next({ type: AuthActions.LOGIN });
+    mockActionsSubject.next({ type: AuthActions.LOGOUT });
     mockActionsSubject.next({ type: AuthActions.LOGIN });
     mockActionsSubject.next({ type: AuthActions.LOGOUT });
     mockActionsSubject.next({ type: AuthActions.LOGOUT });
-    mockActionsSubject.next({ type: AuthActions.LOGOUT });
     mockActionsSubject.next({ type: AuthActions.LOGIN });
-    mockActionsSubject.next({ type: AuthActions.LOGIN });
-    mockActionsSubject.next({ type: AuthActions.LOGIN });
-    mockActionsSubject.next({ type: AuthActions.LOGIN });
-    mockActionsSubject.next({ type: AuthActions.LOGIN });
-    mockActionsSubject.next({ type: AuthActions.LOGOUT });
-    mockActionsSubject.next({ type: AuthActions.LOGOUT });
     mockActionsSubject.next({ type: AuthActions.LOGOUT });
     subscription.unsubscribe();
     expect(timesCalled).toEqual(2);

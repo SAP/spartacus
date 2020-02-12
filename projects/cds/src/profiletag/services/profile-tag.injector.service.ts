@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { OccEndpointsService } from '@spartacus/core';
 import { merge, Observable } from 'rxjs';
 import { filter, mapTo, switchMap, tap } from 'rxjs/operators';
+import { CdsBackendConnector } from '../connectors/cds-backend-connector';
 import {
   CartChangedPushEvent,
   ConsentChangedPushEvent,
@@ -26,8 +25,7 @@ export class ProfileTagInjectorService {
   constructor(
     private profileTagEventTracker: ProfileTagEventService,
     private spartacusEventTracker: SpartacusEventService,
-    protected http: HttpClient,
-    private occEndpoints: OccEndpointsService
+    private cdsBackendConnector: CdsBackendConnector
   ) {}
 
   track(): Observable<boolean> {
@@ -72,11 +70,8 @@ export class ProfileTagInjectorService {
   private notifyEcOfLoginSuccessful(): Observable<boolean> {
     return this.spartacusEventTracker.loginSuccessful().pipe(
       switchMap(_ => {
-        return this.http
-          .post(
-            `${this.occEndpoints.getBaseEndpoint()}/users/current/loginnotification`,
-            {}
-          )
+        return this.cdsBackendConnector
+          .notifySuccessfulLogin()
           .pipe(mapTo(true));
       })
     );

@@ -8,14 +8,7 @@ import {
   ConsentService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  mapTo,
-  skipWhile,
-  take,
-} from 'rxjs/operators';
+import { filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 
 @Injectable({
@@ -70,14 +63,6 @@ export class SpartacusEventService {
    */
   loginSuccessful(): Observable<boolean> {
     return this.actionsSubject.pipe(
-      filter(
-        action =>
-          action.type === AuthActions.LOGIN ||
-          action.type === AuthActions.LOGOUT
-      ),
-      distinctUntilChanged(
-        (previous, current) => previous.type === current.type
-      ),
       filter(action => action.type === AuthActions.LOGIN),
       mapTo(true)
     );

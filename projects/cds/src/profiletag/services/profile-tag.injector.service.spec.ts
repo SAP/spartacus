@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Cart, OccEndpointsService, OrderEntry } from '@spartacus/core';
-import { of, ReplaySubject, Subject } from 'rxjs';
+import { Cart, OrderEntry } from '@spartacus/core';
+import { BehaviorSubject, of, ReplaySubject, Subject } from 'rxjs';
+import { CdsBackendConnector } from '../connectors/cds-backend-connector';
 import {
   CartChangedPushEvent,
   ConsentChangedPushEvent,
@@ -13,10 +13,7 @@ import { ProfileTagEventService } from './profiletag-event.service';
 import { SpartacusEventService } from './spartacus-event.service';
 
 describe('ProfileTagInjector', () => {
-  let httpMock: HttpClient;
   let postBehaviour: Subject<boolean>;
-  let occEndpointsService: OccEndpointsService;
-  let occEndpointBehaviour: Subject<string>;
   let profileTagInjector: ProfileTagInjectorService;
   let addTrackerBehavior: Subject<Event>;
   let profileTagEventTrackerMock: ProfileTagEventService;
@@ -24,20 +21,17 @@ describe('ProfileTagInjector', () => {
   let consentBehavior: Subject<boolean>;
   let navigatedBehavior: Subject<boolean>;
   let spartacusEventTrackerMock: SpartacusEventService;
+  let cdsBackendConnectorMock: CdsBackendConnector;
   function setVariables() {
     cartBehavior = new ReplaySubject<{ cart: Cart }>();
     consentBehavior = new ReplaySubject<boolean>();
     navigatedBehavior = new ReplaySubject<boolean>();
     addTrackerBehavior = new ReplaySubject<Event>();
     postBehaviour = new ReplaySubject<boolean>();
-    occEndpointBehaviour = new ReplaySubject<string>();
-    httpMock = <HttpClient>(<unknown>{
-      post: jasmine.createSpy('post').and.callFake(_ => postBehaviour),
-    });
-    occEndpointsService = <OccEndpointsService>(<unknown>{
-      getBaseEndpoint: jasmine
-        .createSpy('getBaseEndpoint')
-        .and.callFake(_ => occEndpointBehaviour),
+    cdsBackendConnectorMock = <CdsBackendConnector>(<any>{
+      notifySuccessfulLogin: jasmine
+        .createSpy('cdsBackendConnectorMock')
+        .and.returnValue(new BehaviorSubject(true)),
     });
     spartacusEventTrackerMock = <SpartacusEventService>(<unknown>{
       consentGranted: jasmine
@@ -78,12 +72,8 @@ describe('ProfileTagInjector', () => {
           useValue: spartacusEventTrackerMock,
         },
         {
-          provide: HttpClient,
-          useValue: httpMock,
-        },
-        {
-          provide: OccEndpointsService,
-          useValue: occEndpointsService,
+          provide: CdsBackendConnector,
+          useValue: cdsBackendConnectorMock,
         },
       ],
     });
@@ -145,9 +135,7 @@ describe('ProfileTagInjector', () => {
     const subscription = profileTagInjector.track().subscribe();
     addTrackerBehavior.next(new CustomEvent('test'));
     postBehaviour.next(true);
-    occEndpointBehaviour.next('url');
     subscription.unsubscribe();
-    expect(httpMock.post).toHaveBeenCalled();
-    expect(occEndpointsService.getBaseEndpoint).toHaveBeenCalled();
+    expect(cdsBackendConnectorMock.notifySuccessfulLogin).toHaveBeenCalled();
   });
 });
