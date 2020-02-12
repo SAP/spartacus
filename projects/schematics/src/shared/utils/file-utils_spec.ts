@@ -174,7 +174,6 @@ describe('File utils', () => {
     });
   });
 
-  // TODO: "test": "tsc -p tsconfig.json && jasmine src/**/*/user-address_spec.js"
   describe('findConstructor', async () => {
     it('should return the constructor if found', () => {
       const constructorNode: ts.Node = {

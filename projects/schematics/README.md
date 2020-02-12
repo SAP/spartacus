@@ -111,8 +111,8 @@ The best way to test an unpublished update schematic is to publish it to a local
 To setup a local npm registry, we're going to use [verdaccio](https://github.com/verdaccio/verdaccio). To set it up, do the following:
 
 - install it: `npm install --global verdaccio`
-- create an npm user: `npm adduser --registry http://localhost:4873`. This is only needed when setting up _verdaccio_ for the first time.
 - run it in a new terminal tab / window: `verdaccio`
+- create an npm user: `npm adduser --registry http://localhost:4873`. This is only needed when setting up _verdaccio_ for the first time.
 
 In the project in which you are developing the update schematic:
 
