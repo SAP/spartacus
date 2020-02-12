@@ -7,9 +7,8 @@ import {
   CmsSearchBoxComponent,
   I18nTestingModule,
   ProductSearchService,
-  FeatureConfigService,
 } from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
@@ -68,14 +67,6 @@ export class MockMediaComponent {
   @Input() alt;
 }
 
-// TODO(issue:#3827) Deprecated since 1.5.0
-const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
-class MockFeatureConfigService {
-  isLevel(_level: string): boolean {
-    return isLevelBool.value;
-  }
-}
-
 describe('SearchBoxComponent', () => {
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
@@ -127,8 +118,6 @@ describe('SearchBoxComponent', () => {
           provide: SearchBoxComponentService,
           useClass: SearchBoxComponentServiceSpy,
         },
-        // TODO(issue:#3827) Deprecated since 1.5.0
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
   }));
