@@ -10,6 +10,7 @@ import {
   CONFIGURATION_OVERVIEW_NORMALIZER,
   CONFIGURATION_PRICE_SUMMARY_NORMALIZER,
   CONFIGURATION_SERIALIZER,
+  CONFIGURATION_UPDATE_CART_ENTRY_SERIALIZER,
 } from '../../../../configurator/commons/connectors/converters';
 import { CartModification } from '../../../../model/cart.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
@@ -120,6 +121,31 @@ export class OccConfiguratorVariantAdapter
       this.converterService.pipeable(CONFIGURATION_NORMALIZER),
       tap(resultConfiguration => (resultConfiguration.owner = parameters.owner))
     );
+  }
+
+  updateConfigurationForCartEntry(
+    parameters: Configurator.UpdateConfigurationForCartEntryParameters
+  ): Observable<CartModification> {
+    const url = this.occEndpointsService.getUrl(
+      'updateConfigurationForCartEntry',
+      {
+        userId: parameters.userId,
+        cartId: parameters.cartId,
+      }
+    );
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    const occUpdateCartEntryParameters = this.converterService.convert(
+      parameters,
+      CONFIGURATION_UPDATE_CART_ENTRY_SERIALIZER
+    );
+
+    return this.http
+      .patch<CartModification>(url, occUpdateCartEntryParameters, { headers })
+      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
   readPriceSummary(

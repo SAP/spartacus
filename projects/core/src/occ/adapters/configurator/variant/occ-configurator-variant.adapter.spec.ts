@@ -4,6 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
 import { OccConfiguratorVariantAdapter } from '.';
 import {
   CONFIGURATION_NORMALIZER,
@@ -204,6 +205,38 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CONFIGURATION_NORMALIZER
+    );
+  });
+
+  it('should call updateConfigurationForCartEntry endpoint', () => {
+    const params: Configurator.UpdateConfigurationForCartEntryParameters = {
+      configuration: productConfiguration,
+      userId: userId,
+      cartId: cartId,
+      cartEntryNumber: cartEntryNumber,
+    };
+    occConfiguratorVariantAdapter
+      .updateConfigurationForCartEntry(params)
+      .subscribe();
+
+    const mockReq = httpMock.expectOne(req => {
+      return (
+        req.method === 'PATCH' && req.url === 'updateConfigurationForCartEntry'
+      );
+    });
+
+    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      'updateConfigurationForCartEntry',
+      {
+        userId,
+        cartId,
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CART_MODIFICATION_NORMALIZER
     );
   });
 
