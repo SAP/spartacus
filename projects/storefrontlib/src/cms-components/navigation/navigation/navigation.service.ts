@@ -51,12 +51,19 @@ export class NavigationService {
               this.loadNavigationEntryItems(navigation, true);
             } else {
               // we should check whether the existing node items are what expected
-              const expected = [];
-              this.loadNavigationEntryItems(navigation, false, expected);
-              const exist = Object.keys(items).map(key => items[key].uid);
-              const missing = expected.filter(it => !exist.includes(it.id));
-              if (missing.length > 0) {
-                this.cmsService.loadNavigationItems(navigation.uid, missing);
+              const expectedItems = [];
+              this.loadNavigationEntryItems(navigation, false, expectedItems);
+              const existingItems = Object.keys(items).map(
+                key => items[key].uid
+              );
+              const missingItems = expectedItems.filter(
+                it => !existingItems.includes(it.id)
+              );
+              if (missingItems.length > 0) {
+                this.cmsService.loadNavigationItems(
+                  navigation.uid,
+                  missingItems
+                );
               }
             }
           }),

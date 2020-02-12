@@ -10,7 +10,7 @@ import { NavigationNode } from './navigation-node.model';
 import { NavigationService } from './navigation.service';
 import createSpy = jasmine.createSpy;
 
-const itemsData: any = {
+const navigationEntryItems: any = {
   MainLink001_AbstractCMSComponent: {
     uid: 'MainLink001',
     url: '/main',
@@ -149,7 +149,9 @@ describe('NavigationComponentService', () => {
   });
 
   it('should get main link for root entry based on CMS data', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
+    mockCmsService.getNavigationEntryItems.and.returnValue(
+      of(navigationEntryItems)
+    );
 
     let result: NavigationNode;
     navigationService
@@ -160,7 +162,9 @@ describe('NavigationComponentService', () => {
   });
 
   it('should not get a URL when no link is provided in the CMS data', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
+    mockCmsService.getNavigationEntryItems.and.returnValue(
+      of(navigationEntryItems)
+    );
 
     let result: NavigationNode;
     navigationService
@@ -171,7 +175,9 @@ describe('NavigationComponentService', () => {
   });
 
   it('should get a link to a category when categoryCode is provided', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
+    mockCmsService.getNavigationEntryItems.and.returnValue(
+      of(navigationEntryItems)
+    );
 
     let result: NavigationNode;
     navigationService
@@ -182,7 +188,9 @@ describe('NavigationComponentService', () => {
   });
 
   it('should get navigation node based on CMS data', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
+    mockCmsService.getNavigationEntryItems.and.returnValue(
+      of(navigationEntryItems)
+    );
 
     let result: NavigationNode;
     navigationService
@@ -195,7 +203,9 @@ describe('NavigationComponentService', () => {
   });
 
   it('should load the missing navigation nodes for the latest CMS data', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
+    mockCmsService.getNavigationEntryItems.and.returnValue(
+      of(navigationEntryItems)
+    );
 
     // add one more child
     componentData.navigationNode.children[4] = {
@@ -217,7 +227,9 @@ describe('NavigationComponentService', () => {
   });
 
   it('should create a virtual navigation root', () => {
-    mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
+    mockCmsService.getNavigationEntryItems.and.returnValue(
+      of(navigationEntryItems)
+    );
 
     let result: NavigationNode;
     navigationService
