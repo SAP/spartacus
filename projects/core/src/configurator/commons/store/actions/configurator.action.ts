@@ -239,12 +239,16 @@ export class AddNextOwner implements Action {
   readonly type = ADD_NEXT_OWNER;
   constructor(public ownerKey: string, public cartEntryNo: string) {}
 }
-export class SetNextOwnerCartEntry implements Action {
+
+export class SetNextOwnerCartEntry extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = SET_NEXT_OWNER_CART_ENTRY;
+
   constructor(
-    public configuration: Configurator.Configuration,
+    public payload: Configurator.Configuration,
     public cartEntryNo: string
-  ) {}
+  ) {
+    super(CONFIGURATION_DATA, payload.owner.key);
+  }
 }
 export type ConfiguratorAction =
   | CreateConfiguration

@@ -156,4 +156,24 @@ describe('ConfiguratorActions', () => {
       });
     });
   });
+
+  describe('SetNextOwnerCartEntry', () => {
+    const cartEntryNo = '3';
+    it('should carry expected meta data', () => {
+      const action = new ConfiguratorActions.SetNextOwnerCartEntry(
+        CONFIGURATION,
+        cartEntryNo
+      );
+
+      expect({ ...action }).toEqual({
+        type: ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,
+        payload: CONFIGURATION,
+        cartEntryNo: cartEntryNo,
+        meta: StateEntityLoaderActions.entitySuccessMeta(
+          CONFIGURATION_DATA,
+          CONFIGURATION.owner.key
+        ),
+      });
+    });
+  });
 });

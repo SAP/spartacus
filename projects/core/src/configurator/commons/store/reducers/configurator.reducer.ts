@@ -35,7 +35,7 @@ export function reducer(
       return result;
     }
     case ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY: {
-      const content = { ...action.configuration };
+      const content = { ...action.payload };
       content.nextOwner = {
         type: GenericConfigurator.OwnerType.CART_ENTRY,
         id: action.cartEntryNo,
