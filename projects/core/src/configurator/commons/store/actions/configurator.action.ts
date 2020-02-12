@@ -64,8 +64,10 @@ export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadActi
 
 export class ReadCartEntryConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION;
-  constructor(public payload: Configurator.ReadFromCartEntryParameters) {
-    super(CONFIGURATION_DATA, payload.ownerKey);
+  constructor(
+    public payload: Configurator.ReadConfigurationFromCartEntryParameters
+  ) {
+    super(CONFIGURATION_DATA, payload.owner.key);
   }
 }
 

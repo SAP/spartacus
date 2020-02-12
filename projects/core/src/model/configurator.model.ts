@@ -97,11 +97,11 @@ export namespace Configurator {
     ownerKey: string;
   }
 
-  export interface ReadFromCartEntryParameters {
+  export interface ReadConfigurationFromCartEntryParameters {
     userId?: string;
     cartId?: string;
     cartEntryNumber?: string;
-    ownerKey?: string;
+    owner?: GenericConfigurator.Owner;
   }
   export interface Image {
     type?: ImageType;

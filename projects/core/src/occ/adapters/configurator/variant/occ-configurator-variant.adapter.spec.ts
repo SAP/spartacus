@@ -175,8 +175,8 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should call readConfigurationForCartEntry endpoint', () => {
-    const params: Configurator.ReadFromCartEntryParameters = {
-      ownerKey: productConfiguration.owner.key,
+    const params: Configurator.ReadConfigurationFromCartEntryParameters = {
+      owner: productConfiguration.owner,
       userId: userId,
       cartId: cartId,
       cartEntryNumber: cartEntryNumber,
@@ -208,8 +208,8 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should set owner on readConfigurationForCartEntry', () => {
-    const params: Configurator.ReadFromCartEntryParameters = {
-      ownerKey: productConfiguration.owner.key,
+    const params: Configurator.ReadConfigurationFromCartEntryParameters = {
+      owner: productConfiguration.owner,
       userId: userId,
       cartId: cartId,
       cartEntryNumber: cartEntryNumber,

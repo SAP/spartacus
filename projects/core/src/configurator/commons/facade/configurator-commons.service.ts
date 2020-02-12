@@ -71,11 +71,11 @@ export class ConfiguratorCommonsService {
 
   readConfigurationForCartEntry(owner: GenericConfigurator.Owner) {
     this.activeCartService.requireLoadedCart().subscribe(cartState => {
-      const readFromCartEntryParameters: Configurator.ReadFromCartEntryParameters = {
+      const readFromCartEntryParameters: Configurator.ReadConfigurationFromCartEntryParameters = {
         userId: this.getUserId(cartState.value),
         cartId: this.getCartId(cartState.value),
         cartEntryNumber: owner.id,
-        ownerKey: owner.key,
+        owner: owner,
       };
       this.store.dispatch(
         new ConfiguratorActions.ReadCartEntryConfiguration(

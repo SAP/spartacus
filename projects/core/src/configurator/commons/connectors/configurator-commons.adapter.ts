@@ -52,7 +52,7 @@ export abstract class ConfiguratorCommonsAdapter {
    * @param parameters read from cart entry parameters object
    */
   abstract readConfigurationForCartEntry(
-    parameters: Configurator.ReadFromCartEntryParameters
+    parameters: Configurator.ReadConfigurationFromCartEntryParameters
   ): Observable<Configurator.Configuration>;
 
   /**

@@ -12,11 +12,6 @@ const CONFIG_ID = '1234-56-7890';
 const USER_ID = 'theUser';
 const CART_ID = '98876';
 
-const readFromCartEntryParameters: Configurator.ReadFromCartEntryParameters = {
-  userId: USER_ID,
-  cartId: CART_ID,
-  ownerKey: 'theKey',
-};
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -24,6 +19,12 @@ const productConfiguration: Configurator.Configuration = {
     id: PRODUCT_CODE,
     type: GenericConfigurator.OwnerType.PRODUCT,
   },
+};
+
+const readFromCartEntryParameters: Configurator.ReadConfigurationFromCartEntryParameters = {
+  userId: USER_ID,
+  cartId: CART_ID,
+  owner: productConfiguration.owner,
 };
 
 class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
@@ -110,17 +111,6 @@ describe('ConfiguratorCommonsConnector', () => {
     expect(adapter.readConfigurationForCartEntry).toHaveBeenCalledWith(
       readFromCartEntryParameters
     );
-  });
-
-  it('should set owner key on readConfigurationForCartEntry', () => {
-    productConfiguration.owner.key = null;
-    service
-      .readConfigurationForCartEntry(readFromCartEntryParameters)
-      .subscribe(configuration => {
-        expect(configuration.owner.key.includes(configuration.owner.id)).toBe(
-          true
-        );
-      });
   });
 
   it('should call adapter on readConfiguration', () => {

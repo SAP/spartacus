@@ -105,7 +105,7 @@ export class OccConfiguratorVariantAdapter
   }
 
   readConfigurationForCartEntry(
-    parameters: Configurator.ReadFromCartEntryParameters
+    parameters: Configurator.ReadConfigurationFromCartEntryParameters
   ): Observable<Configurator.Configuration> {
     const url = this.occEndpointsService.getUrl(
       'readConfigurationForCartEntry',
@@ -116,14 +116,9 @@ export class OccConfiguratorVariantAdapter
       }
     );
 
-    const owner: GenericConfigurator.Owner = {
-      id: parameters.cartEntryNumber,
-      type: GenericConfigurator.OwnerType.CART_ENTRY,
-    };
-
     return this.http.get<Configurator.Configuration>(url).pipe(
       this.converterService.pipeable(CONFIGURATION_NORMALIZER),
-      tap(resultConfiguration => (resultConfiguration.owner = owner))
+      tap(resultConfiguration => (resultConfiguration.owner = parameters.owner))
     );
   }
 

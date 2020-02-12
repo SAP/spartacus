@@ -271,8 +271,8 @@ describe('ConfiguratorEffect', () => {
 
   describe('Effect readConfigurationForCartEntry', () => {
     it('should emit a success action with content for an action of type readConfigurationForCartEntry', () => {
-      const readFromCartEntry: Configurator.ReadFromCartEntryParameters = {
-        ownerKey: owner.key,
+      const readFromCartEntry: Configurator.ReadConfigurationFromCartEntryParameters = {
+        owner: owner,
       };
       const action = new ConfiguratorActions.ReadCartEntryConfiguration(
         readFromCartEntry
@@ -293,8 +293,8 @@ describe('ConfiguratorEffect', () => {
       readConfigurationForCartEntryMock.and.returnValue(
         throwError(errorResponse)
       );
-      const readFromCartEntry: Configurator.ReadFromCartEntryParameters = {
-        ownerKey: owner.key,
+      const readFromCartEntry: Configurator.ReadConfigurationFromCartEntryParameters = {
+        owner: owner,
       };
       const action = new ConfiguratorActions.ReadCartEntryConfiguration(
         readFromCartEntry

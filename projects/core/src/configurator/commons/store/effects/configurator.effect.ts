@@ -348,7 +348,7 @@ export class ConfiguratorEffects {
   > = this.actions$.pipe(
     ofType(READ_CART_ENTRY_CONFIGURATION),
     switchMap((action: ReadCartEntryConfiguration) => {
-      const parameters: Configurator.ReadFromCartEntryParameters =
+      const parameters: Configurator.ReadConfigurationFromCartEntryParameters =
         action.payload;
       return this.configuratorCommonsConnector
         .readConfigurationForCartEntry(parameters)
@@ -358,7 +358,7 @@ export class ConfiguratorEffects {
           }),
           catchError(error => [
             new ReadCartEntryConfigurationFail(
-              action.payload.ownerKey,
+              action.payload.owner.key,
               makeErrorSerializable(error)
             ),
           ])
