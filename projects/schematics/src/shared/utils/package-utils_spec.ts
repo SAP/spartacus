@@ -5,6 +5,7 @@ import {
 import * as path from 'path';
 import {
   getAngularVersion,
+  getMajorVersionNumber,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
 } from './package-utils';
@@ -64,6 +65,19 @@ describe('Package utils', () => {
         const version = getAngularVersion(appTree);
         expect(version).toEqual(testVersion);
       }
+    });
+  });
+
+  describe('getMajorVersionNumber', () => {
+    it('should return the major number', () => {
+      const testVersion = '1.0.0';
+      const majorVersion = getMajorVersionNumber(testVersion);
+      expect(majorVersion).toEqual(9);
+    });
+    it('should return the major number even if the version string starts with a character', () => {
+      const testVersion = '^9.0.0';
+      const majorVersion = getMajorVersionNumber(testVersion);
+      expect(majorVersion).toEqual(9);
     });
   });
 

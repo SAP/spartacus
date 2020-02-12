@@ -301,7 +301,7 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
       const insertion = new InsertChange(
         templatePath,
         startIndex,
-        `<ng-container *ngIf="componentData$ | async as data">{{data | json}}</ng-container>`
+        `<ng-container *ngIf="${CMS_COMPONENT_DATA_PROPERTY_NAME}$ | async as data">{{data | json}}</ng-container>`
       );
 
       commitChanges(tree, templatePath, [insertion], InsertDirection.RIGHT);

@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/storefront",
-  "version": "1.5.0-RC.0",
+  "version": "2.0.0-next.0",
   "homepage": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
   "keywords": [
     "spartacus",
@@ -27,8 +27,8 @@
     "@ngrx/effects": "^8.0.1",
     "@ngrx/router-store": "^8.0.1",
     "@ngrx/store": "^8.0.1",
-    "@spartacus/core": "^1.0.0",
-    "@spartacus/styles": "^1.0.0",
+    "@spartacus/core": "^2.0.0-next.0",
+    "@spartacus/styles": "^2.0.0-next.0",
     "bootstrap": "^4.2.1",
     "rxjs": "^6.4.0",
     "zone.js": "^0.9.1",
