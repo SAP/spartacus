@@ -49,7 +49,7 @@ export abstract class ConfiguratorCommonsAdapter {
   /**
    * Abstract method to read a configuration for a cart entry
    *
-   * @param parameters add to cart parameters object
+   * @param parameters read from cart entry parameters object
    */
   abstract readConfigurationForCartEntry(
     parameters: Configurator.ReadFromCartEntryParameters
