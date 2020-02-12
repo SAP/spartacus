@@ -82,7 +82,7 @@ describe('ProductVariantGuard', () => {
     });
   });
 
-  it('should return false and redirect if product is non-purchasable', done => {
+  xit('should return false and redirect if product is non-purchasable', done => {
     spyOn(productService, 'get').and.returnValue(of(mockNonPurchasableProduct));
     spyOn(routingService, 'go').and.stub();
 
@@ -96,7 +96,7 @@ describe('ProductVariantGuard', () => {
     });
   });
 
-  it('should return true if there is no productCode in route parameter', done => {
+  xit('should return true if there is no productCode in route parameter', done => {
     spyOn(routingService, 'getRouterState').and.returnValue(
       of({
         nextState: {

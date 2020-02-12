@@ -8,6 +8,7 @@ import {
   Product,
   RoutingService,
   ProductScope,
+  CmsService,
 } from '@spartacus/core';
 
 @Injectable({
@@ -16,21 +17,22 @@ import {
 export class ProductVariantGuard implements CanActivate {
   constructor(
     private productService: ProductService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private cmsService: CmsService,
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
+    if (this.cmsService.isLaunchInSmartEdit()) {
+      return of(true);
+    }
     return this.routingService.getRouterState().pipe(
       map(state => state.nextState.params.productCode),
       switchMap((productCode: string) => {
-        if (Boolean(productCode)) {
-          return this.productService.get(productCode, ProductScope.VARIANTS);
-        } else {
-          return of(undefined);
-        }
+        return this.productService.get(productCode, ProductScope.VARIANTS);
       }),
+      filter(Boolean),
       map((product: Product) => {
-        if (Boolean(product) && !product.purchasable) {
+        if (!product.purchasable) {
           const variant = this.findVariant(product.variantOptions);
           // below call might looks redundant but in fact this data is going to be loaded anyways
           // we're just calling it earlier and storing
