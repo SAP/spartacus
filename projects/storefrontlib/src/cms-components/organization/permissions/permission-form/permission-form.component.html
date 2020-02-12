@@ -40,6 +40,38 @@
 
       <div class="form-group">
         <ng-container
+          *ngIf="businessUnits$ | async as businessUnits"
+          formGroupName="orgUnit"
+        >
+          <div *ngIf="businessUnits.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'permissionForm.businessUnits.label' | cxTranslate
+              }}</span>
+              <ng-select
+                formControlName="uid"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="businessUnits"
+                bindLabel="name"
+                bindValue="id"
+                [class.invalid]="isNotValid('orgUnit')"
+              >
+              </ng-select>
+              <ng-container
+                *ngIf="isNotValid('orgUnit')"
+                [ngTemplateOutlet]="validation"
+                [ngTemplateOutletContext]="{
+                  control: form.controls.orgUnit['controls']['uid']
+                }"
+              ></ng-container>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
+        <ng-container
           *ngIf="permissionTypes$ | async as permissionTypes"
           formGroupName="orderApprovalPermissionType"
         >
@@ -55,6 +87,7 @@
                 [items]="permissionTypes"
                 bindLabel="name"
                 bindValue="code"
+                (change)="typeSelected($event)"
                 [class.invalid]="isNotValid('orderApprovalPermissionType')"
               >
               </ng-select>
@@ -73,7 +106,7 @@
         </ng-container>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" *ngIf="periodControl.enabled">
         <label>
           <span class="label-content">{{
             'permissionForm.periodRange' | cxTranslate
@@ -96,40 +129,7 @@
         </label>
       </div>
 
-      <div class="form-group">
-        <ng-container
-          *ngIf="businessUnits$ | async as businessUnits"
-          formGroupName="orgUnit"
-        >
-          <div *ngIf="businessUnits.length !== 0">
-            <label aria-required="true">
-              <span class="label-content required">{{
-                'permissionForm.businessUnits.label' | cxTranslate
-              }}</span>
-              <ng-select
-                formControlName="uid"
-                [searchable]="false"
-                [clearable]="false"
-                [items]="businessUnits"
-                bindLabel="name"
-                bindValue="id"
-                [class.invalid]="isNotValid('orgUnit')"
-              >
-                <!--                (change)="businessUnitSelected($event)"-->
-              </ng-select>
-              <ng-container
-                *ngIf="isNotValid('orgUnit')"
-                [ngTemplateOutlet]="validation"
-                [ngTemplateOutletContext]="{
-                  control: form.controls.orgUnit['controls']['uid']
-                }"
-              ></ng-container>
-            </label>
-          </div>
-        </ng-container>
-      </div>
-
-      <div class="form-group">
+      <div class="form-group" *ngIf="currencyControl.enabled">
         <ng-container
           *ngIf="currencies$ | async as currencies"
           formGroupName="currency"
@@ -148,7 +148,6 @@
                 bindValue="isocode"
                 [class.invalid]="isNotValid('currency')"
               >
-                <!--                (change)="currencySelected($event)"-->
               </ng-select>
               <ng-container
                 *ngIf="isNotValid('currency')"
@@ -162,7 +161,7 @@
         </ng-container>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" *ngIf="thresholdControl.enabled">
         <label>
           <span class="label-content">{{
             'permissionForm.threshold.label' | cxTranslate

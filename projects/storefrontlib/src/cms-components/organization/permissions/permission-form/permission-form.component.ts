@@ -14,10 +14,10 @@ import {
   EntitiesModel,
   OrderApprovalPermissionType,
   OrgUnitService,
-  Permission,
-  UrlCommandRoute,
-  PermissionService,
   Period,
+  Permission,
+  PermissionService,
+  UrlCommandRoute,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -74,6 +74,11 @@ export class PermissionFormComponent implements OnInit {
     threshold: ['', Validators.required],
   });
 
+  typeControl = this.form.get('orderApprovalPermissionType');
+  periodControl = this.form.get('periodRange');
+  currencyControl = this.form.get('currency');
+  thresholdControl = this.form.get('threshold');
+
   constructor(
     private fb: FormBuilder,
     protected currencyService: CurrencyService,
@@ -90,6 +95,7 @@ export class PermissionFormComponent implements OnInit {
     );
     if (this.permissionData && Object.keys(this.permissionData).length !== 0) {
       this.form.patchValue(this.permissionData);
+      this.typeControl.disable();
     }
   }
 
@@ -110,5 +116,31 @@ export class PermissionFormComponent implements OnInit {
       formControlName,
       this.submitClicked
     );
+  }
+
+  typeSelected(typeSelected: OrderApprovalPermissionType): void {
+    switch (typeSelected.code) {
+      case 'B2BBudgetExceededPermission': {
+        this.periodControl.disable();
+        this.currencyControl.disable();
+        this.thresholdControl.disable();
+        this.periodControl.reset();
+        this.currencyControl.reset();
+        this.thresholdControl.reset();
+        break;
+      }
+      case 'B2BOrderThresholdTimespanPermission': {
+        this.periodControl.enable();
+        this.currencyControl.enable();
+        this.thresholdControl.enable();
+        break;
+      }
+      case 'B2BOrderThresholdPermission': {
+        this.periodControl.disable();
+        this.periodControl.reset();
+        this.currencyControl.enable();
+        this.thresholdControl.enable();
+      }
+    }
   }
 }
