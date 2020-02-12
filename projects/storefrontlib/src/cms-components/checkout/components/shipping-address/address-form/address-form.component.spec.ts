@@ -420,7 +420,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
 
       getContinueBtn().nativeElement.click();
-      expect(component.verifyAddress).not.toHaveBeenCalled();
+      expect(component.verifyAddress).toHaveBeenCalledTimes(1);
 
       controls['titleCode'].setValue('test titleCode');
       controls['firstName'].setValue('test firstName');
@@ -433,7 +433,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
 
       getContinueBtn().nativeElement.click();
-      expect(component.verifyAddress).toHaveBeenCalled();
+      expect(component.verifyAddress).toHaveBeenCalledTimes(2);
     });
   });
 
