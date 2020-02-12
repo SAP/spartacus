@@ -5,9 +5,8 @@ import {
   I18nTestingModule,
   ProductReviewService,
   Product,
-  FeatureConfigService,
 } from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ItemCounterModule } from '../../../../shared';
 import { ProductReviewsComponent } from './product-reviews.component';
 import { CurrentProductService } from '../../current-product.service';
@@ -43,14 +42,6 @@ class MockCurrentProductService {
   }
 }
 
-// TODO(issue:#4962) Deprecated since 1.3.0
-const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
-class MockFeatureConfigService {
-  isLevel(_level: string): boolean {
-    return isLevelBool.value;
-  }
-}
-
 describe('ProductReviewsComponent in product', () => {
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;
@@ -67,8 +58,6 @@ describe('ProductReviewsComponent in product', () => {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
-        // TODO(issue:#4962) Deprecated since 1.3.0
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
       declarations: [MockStarRatingComponent, ProductReviewsComponent],
     }).compileComponents();
@@ -117,33 +106,6 @@ describe('ProductReviewsComponent in product', () => {
     it('should hide form on submitReview()', () => {
       productReviewsComponent.submitReview(product);
       expect(productReviewsComponent.isWritingReview).toBe(false);
-    });
-  });
-
-  // TODO(issue:#4962) Deprecated since 1.3.0
-  describe('shouldDisableSubmitButton()', () => {
-    it('should disable if form invalid', () => {
-      expect(productReviewsComponent.shouldDisableSubmitButton()).toEqual(true);
-    });
-
-    it('should enable if form is valid', () => {
-      productReviewsComponent.reviewForm.controls['title'].setValue(
-        'test title'
-      );
-      productReviewsComponent.reviewForm.controls['comment'].setValue(
-        'test comment'
-      );
-      productReviewsComponent.reviewForm.controls['rating'].setValue(5);
-      expect(productReviewsComponent.shouldDisableSubmitButton()).toEqual(
-        false
-      );
-    });
-
-    it('should enable if v1.3', () => {
-      isLevelBool.next(true);
-      expect(productReviewsComponent.shouldDisableSubmitButton()).toEqual(
-        false
-      );
     });
   });
 
