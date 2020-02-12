@@ -147,6 +147,8 @@ export function defineProperty(
  * - is the file importing all the provided `parameterClassTypes` from the expected import path
  * - does the provided file contain a constructor
  * - does the number of the constructor parameters match the expected `parameterClassTypes`
+ * - does the `super()` call exist in the constructor
+ * - does the param number passed to `super()` match the expected number
  * - does the order and the type of the constructor parameters match the expected `parameterClassTypes`
  *
  * If only once condition is not satisfied, the method returns `false`. Otherwise, it returns `true`.
