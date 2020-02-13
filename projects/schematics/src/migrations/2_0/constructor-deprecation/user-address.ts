@@ -10,13 +10,13 @@ import {
   USER_ADDRESS_SERVICE,
 } from '../../../shared/constants';
 import {
+  addConstructorParam,
   ClassType,
   commitChanges,
   findConstructor,
   getAllTsSourceFiles,
   InsertDirection,
   isCandidateForConstructorDeprecation,
-  migrateDeprecatedConstructor as addConstructorParam,
 } from '../../../shared/utils/file-utils';
 
 const DEPRECATED_CONSTRUCTOR_PARAMETERS: ClassType[] = [
