@@ -27,7 +27,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   cart$: Observable<Cart>;
   cartId: string;
   applicableCoupons: CustomerCoupon[];
-  filteredCoupons: CustomerCoupon[];
 
   private ignoreCloseEvent = false;
 
@@ -175,7 +174,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         );
       });
     }
-    this.filteredCoupons = this.applicableCoupons;
   }
 
   applyVoucher(): void {
@@ -184,21 +182,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   applyCustomerCoupon(couponId: string): void {
     this.cartVoucherService.addVoucher(couponId, this.cartId);
     this.couponBoxIsActive = false;
-  }
-
-  filter(query: string): void {
-    const filterValue = query.toLowerCase();
-
-    this.filteredCoupons = this.applicableCoupons.filter(
-      coupon => coupon.couponId.toLowerCase().indexOf(filterValue) > -1
-    );
-  }
-
-  open(): void {
-    this.filteredCoupons = this.applicableCoupons;
-    if (this.applicableCoupons.length > 0) {
-      this.couponBoxIsActive = true;
-    }
   }
 
   close(event: UIEvent): void {

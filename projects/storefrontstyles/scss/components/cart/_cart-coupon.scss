@@ -15,6 +15,40 @@
   .cx-cart-coupon-title {
     @include type('5');
     margin: 1.125rem 0 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .cx-available-coupon {
+    .title {
+      @include type('5');
+      margin: 1.125rem 0 0.5rem;
+      font-weight: bold;
+    }
+
+    .message {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .scroll {
+      display: block;
+      height: auto;
+      box-sizing: border-box;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    .card {
+      @include type('7');
+      display: inline-flex;
+      align-items: flex-start;
+      padding: var(--cx-padding, 0.25rem 0.25rem);
+      word-break: break-all;
+      margin: var(--cx-margin, 0.25rem 0.25rem 0 0);
+      background: var(--cx-color-background);
+      border: 1px solid $light;
+      border-radius: $border-radius;
+    }
   }
 
   .form-group .col-md-4 {
@@ -63,6 +97,17 @@
           word-break: break-word;
         }
       }
+    }
+  }
+
+  button.link {
+    @include type('8');
+    color: var(--cx-color-text);
+    border-width: 0;
+    text-decoration: none;
+    background: var(--cx-color-background);
+    &:hover {
+      text-decoration: underline;
     }
   }
 }

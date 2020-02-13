@@ -227,7 +227,7 @@ describe('CartCouponComponent', () => {
   it('should not list customer coupons when no customer coupons', () => {
     fixture.detectChanges();
     expect(
-      fixture.debugElement.queryAll(By.css('.cx-customer-coupons a')).length
+      fixture.debugElement.queryAll(By.css('.cx-available-coupon')).length
     ).toEqual(0);
   });
 
@@ -236,36 +236,18 @@ describe('CartCouponComponent', () => {
       of(couponsSearchResult)
     );
     fixture.detectChanges();
-    input = el.query(By.css('.input-coupon-code')).nativeElement;
-    input.click();
-    fixture.detectChanges();
-    expect(
-      fixture.debugElement.queryAll(By.css('.cx-customer-coupons a')).length
-    ).toEqual(2);
-    expect(
-      fixture.debugElement.queryAll(By.css('.couponbox-is-active'))
-    ).toBeTruthy();
-  });
 
-  it('should filter customer coupons', () => {
-    mockCustomerCouponService.getCustomerCoupons.and.returnValue(
-      of(couponsSearchResult)
-    );
-    fixture.detectChanges();
-    input = el.query(By.css('.input-coupon-code')).nativeElement;
-    input.value = 'coupon2';
-    input.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
     expect(
-      fixture.debugElement.queryAll(By.css('.cx-customer-coupons a')).length
+      fixture.debugElement.queryAll(By.css('.cx-available-coupon .title'))
+        .length
     ).toEqual(1);
-
-    const customerCouponResult = el.query(
-      By.css('.cx-customer-coupons .coupon-id')
-    ).nativeElement;
-    expect((<HTMLElement>customerCouponResult).innerText).toEqual(
-      'CustomerCoupon2'
-    );
+    expect(
+      fixture.debugElement.queryAll(By.css('.cx-available-coupon .message'))
+        .length
+    ).toEqual(1);
+    expect(
+      fixture.debugElement.queryAll(By.css('.cx-available-coupon .card')).length
+    ).toEqual(2);
   });
 
   it('should not show applied customer coupon', () => {
@@ -277,7 +259,7 @@ describe('CartCouponComponent', () => {
     );
     fixture.detectChanges();
     expect(
-      fixture.debugElement.queryAll(By.css('.cx-customer-coupons a')).length
+      fixture.debugElement.queryAll(By.css('.cx-available-coupon .card')).length
     ).toEqual(1);
   });
 
@@ -286,7 +268,7 @@ describe('CartCouponComponent', () => {
       of(couponsSearchResult)
     );
     fixture.detectChanges();
-    const customerCoupon = el.queryAll(By.css('.cx-customer-coupons a'))[0]
+    const customerCoupon = el.queryAll(By.css('.cx-available-coupon .card'))[0]
       .nativeElement;
     customerCoupon.click();
     fixture.detectChanges();
