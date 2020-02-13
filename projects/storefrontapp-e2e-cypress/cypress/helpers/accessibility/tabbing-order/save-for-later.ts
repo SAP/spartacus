@@ -10,7 +10,6 @@ export function saveForLaterTabbingOrder(config: TabElement[]) {
 }
 
 function addCartItemsAndLoadCart() {
-  // Add Two Items to cart
   addProduct();
 
   cy.get('cx-cart-item').within(() => {
