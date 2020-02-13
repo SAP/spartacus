@@ -1,5 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
+import { TranslationService } from '../../../../../i18n/translation.service';
 import { Configurator } from '../../../../../model/configurator.model';
 import { ConverterService } from '../../../../../util/converter.service';
 import { OccConfig } from '../../../../config/occ-config';
@@ -12,6 +14,10 @@ const valueName = 'Black';
 const valueKey2 = 'BE';
 const selectedFlag = true;
 const requiredFlag = true;
+const generalGroupName = '_GEN';
+const generalGroupDescription = 'General';
+const groupName = 'GROUP1';
+const groupDescription = 'The Group Name';
 
 const occImage: OccConfigurator.Image = {
   altText: 'Alternate Text for Image',
@@ -47,6 +53,12 @@ const configuration: OccConfigurator.Configuration = {
   ],
 };
 
+const group: OccConfigurator.Group = {
+  name: groupName,
+  description: groupDescription,
+  cstics: [occCsticWithValues],
+};
+
 const occValue: OccConfigurator.Value = {
   key: valueKey,
   langdepname: valueName,
@@ -54,6 +66,12 @@ const occValue: OccConfigurator.Value = {
 
 class MockConverterService {
   convert() {}
+}
+
+class MockTranslationService {
+  translate(): Observable<string> {
+    return of(generalGroupDescription);
+  }
 }
 
 const MockOccModuleConfig: OccConfig = {
@@ -78,6 +96,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
         OccConfiguratorVariantNormalizer,
         { provide: ConverterService, useClass: MockConverterService },
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
     });
 
@@ -142,6 +161,33 @@ describe('OccConfiguratorVariantNormalizer', () => {
     );
     expect(attributes.length).toBe(1);
     expect(attributes[0].name).toBe(csticName);
+  });
+
+  it('should convert a standard group', () => {
+    const groups: Configurator.Group[] = [];
+    const flatGroups: Configurator.Group[] = [];
+
+    occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
+    expect(groups[0].description).toBe(groupDescription);
+  });
+
+  it('should convert a general group', () => {
+    const groups: Configurator.Group[] = [];
+    const flatGroups: Configurator.Group[] = [];
+    group.name = generalGroupName;
+    group.description = undefined;
+
+    occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
+    expect(groups[0].description).toBe(generalGroupDescription);
+  });
+
+  it('should set description for a general group', () => {
+    const generalGroup: Configurator.Group = {
+      name: generalGroupName,
+    };
+
+    occConfiguratorVariantNormalizer.setGeneralDescription(generalGroup);
+    expect(generalGroup.description).toBe(generalGroupDescription);
   });
 
   it('should set selectedSingleValue', () => {

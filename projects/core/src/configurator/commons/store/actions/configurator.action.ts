@@ -7,7 +7,6 @@ import {
 import { CONFIGURATION_DATA } from '../configuration-state';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
-
 export const CREATE_CONFIGURATION_FAIL =
   '[Configurator] Create Configuration Fail';
 export const CREATE_CONFIGURATION_SUCCESS =

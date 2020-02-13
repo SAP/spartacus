@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { take } from 'rxjs/operators';
+import { TranslationService } from '../../../../../i18n/translation.service';
 import { Configurator } from '../../../../../model/configurator.model';
 import { Converter } from '../../../../../util/converter.service';
 import { OccConfig } from '../../../../config/occ-config';
@@ -8,7 +10,10 @@ import { OccConfigurator } from '../occ-configurator.models';
 export class OccConfiguratorVariantNormalizer
   implements
     Converter<OccConfigurator.Configuration, Configurator.Configuration> {
-  constructor(protected config: OccConfig) {}
+  constructor(
+    protected config: OccConfig,
+    protected translation: TranslationService
+  ) {}
 
   convert(
     source: OccConfigurator.Configuration,
@@ -48,6 +53,8 @@ export class OccConfiguratorVariantNormalizer
       attributes: attributes,
       subGroups: [],
     };
+
+    this.setGeneralDescription(group);
 
     if (source.subGroups) {
       source.subGroups.forEach(sourceSubGroup =>
@@ -196,6 +203,16 @@ export class OccConfiguratorVariantNormalizer
       case OccConfigurator.GroupType.INSTANCE:
         return Configurator.GroupType.SUB_ITEM_GROUP;
     }
+  }
+
+  setGeneralDescription(group: Configurator.Group): void {
+    if (group.name !== '_GEN') {
+      return;
+    }
+    this.translation
+      .translate('configurator.group.general')
+      .pipe(take(1))
+      .subscribe(generalText => (group.description = generalText));
   }
 
   convertImageType(

@@ -40,5 +40,8 @@ export const configurator = {
       noAttributeHeader: 'No Results',
       noAttributeText: 'Remove filter(s) to see Overview content',
     },
+    group: {
+      general: 'General',
+    },
   },
 };
