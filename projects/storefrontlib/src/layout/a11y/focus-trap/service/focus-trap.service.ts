@@ -16,8 +16,6 @@ export class FocusTrapService {
     `[contentEditable=true]:not([tabindex='-1'])`,
   ];
 
-  constructor() {}
-
   focusFirstEl(target: HTMLElement): void {
     const first: HTMLElement = target.querySelector(
       this.focusableSelectors.join(',')
