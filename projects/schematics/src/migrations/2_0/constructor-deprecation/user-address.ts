@@ -25,7 +25,6 @@ const DEPRECATED_CONSTRUCTOR_PARAMETERS: ClassType[] = [
     importPath: NGRX_STORE,
   },
 ];
-
 const NEW_CONSTRUCTOR_PARAMETERS: ClassType[] = [
   {
     className: AUTH_SERVICE,
