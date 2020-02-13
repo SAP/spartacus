@@ -26,10 +26,7 @@ export class CostCenterDetailsComponent implements OnInit {
     this.costCenter$ = this.costCenterCode$.pipe(
       tap(code => this.costCentersService.loadCostCenter(code)),
       switchMap(code => this.costCentersService.get(code)),
-      filter(Boolean),
-      map((costCenter: CostCenter) => ({
-        ...costCenter,
-      }))
+      filter(Boolean)
     );
   }
 

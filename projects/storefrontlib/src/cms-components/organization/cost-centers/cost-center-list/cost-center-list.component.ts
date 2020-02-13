@@ -60,7 +60,11 @@ export class CostCenterListComponent implements OnInit {
             sorts: costCentersList.sorts,
             pagination: costCentersList.pagination,
             costCentersList: costCentersList.values.map(costCenter => ({
-              ...costCenter,
+              code: costCenter.code,
+              name: costCenter.name,
+              currency: costCenter.currency && costCenter.currency.isocode,
+              parentUnit: costCenter.unit && costCenter.unit.name,
+              orgUnitId: costCenter.unit && costCenter.unit.uid,
             })),
           }))
         )

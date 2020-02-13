@@ -103,12 +103,12 @@
         [columns]="[
           {
             key: 'name',
-            value: 'costCenter.name' | cxTranslate,
+            value: 'budget.costCenter.name' | cxTranslate,
             cxRoute: 'costCenter'
           },
           {
             key: 'costCenterCode',
-            value: 'costCenter.description' | cxTranslate
+            value: 'budget.costCenter.description' | cxTranslate
           }
         ]"
         [tableData]="budget.costCenters"

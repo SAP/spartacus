@@ -95,6 +95,7 @@ export class PermissionFormComponent implements OnInit {
     );
     if (this.permissionData && Object.keys(this.permissionData).length !== 0) {
       this.form.patchValue(this.permissionData);
+      this.typeSelected(this.permissionData.orderApprovalPermissionType);
       this.typeControl.disable();
     }
   }
