@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
+  GenericConfigurator,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -55,20 +56,20 @@ export class ConfigAddToCartButtonComponent implements OnInit {
 
   private navigateToOverview(
     configuratorType: string,
-    configuration: Configurator.Configuration
+    owner: GenericConfigurator.Owner
   ) {
     this.routingService.go(
       'configureOverview' +
         configuratorType +
         '/cartEntry/entityKey/' +
-        configuration.nextOwner.id,
+        owner.id,
       {}
     );
   }
 
-  private displayConfirmationMessage() {
+  private displayConfirmationMessage(key: string) {
     this.globalMessageService.add(
-      { key: 'configurator.addToCart.confirmation' },
+      { key: key },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }
@@ -83,8 +84,15 @@ export class ConfigAddToCartButtonComponent implements OnInit {
       .pipe(take(1))
       .subscribe(config => {
         if (config.isOwnerCartEntry) {
-          this.configuratorCommonsService.updateCartEntry(configuration);
-          this.navigateToCart();
+          if (configuration.isCartEntryUpdateRequired) {
+            this.configuratorCommonsService.updateCartEntry(configuration);
+          }
+          this.performNavigation(
+            configuratorType,
+            configuration.owner,
+            'configurator.addToCart.confirmationUpdate'
+          );
+          this.configuratorCommonsService.removeConfiguration(owner);
         } else {
           this.configuratorCommonsService.addToCart(
             owner.id,
@@ -102,21 +110,30 @@ export class ConfigAddToCartButtonComponent implements OnInit {
               take(1)
             )
             .subscribe(configWithNextOwner => {
-              this.isOverview$.pipe(take(1)).subscribe(isOverview => {
-                if (isOverview.isOverview) {
-                  this.navigateToCart();
-                } else {
-                  this.navigateToOverview(
-                    configuratorType,
-                    configWithNextOwner
-                  );
-                }
-                this.displayConfirmationMessage();
-              });
+              this.performNavigation(
+                configuratorType,
+                configWithNextOwner.nextOwner,
+                'configurator.addToCart.confirmation'
+              );
               this.configuratorCommonsService.removeConfiguration(owner);
               this.configuratorCommonsService.removeUiState(owner);
             });
         }
       });
+  }
+
+  private performNavigation(
+    configuratorType: string,
+    owner: GenericConfigurator.Owner,
+    messageKey: string
+  ) {
+    this.isOverview$.pipe(take(1)).subscribe(isOverview => {
+      if (isOverview.isOverview) {
+        this.navigateToCart();
+      } else {
+        this.navigateToOverview(configuratorType, owner);
+      }
+      this.displayConfirmationMessage(messageKey);
+    });
   }
 }

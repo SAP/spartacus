@@ -34,6 +34,7 @@ export const configurator = {
       buttonAfterAddToCart: 'Continue to Cart',
       buttonUpdateCart: 'Update Cart',
       confirmation: 'Configuration has been added to the cart',
+      confirmationUpdate: 'Cart has been updated with configuration',
     },
     overviewForm: {
       noAttributeHeader: 'No Results',
