@@ -1,4 +1,6 @@
 @import './budgets/budget-form';
 @import './budgets/budget-list';
+@import './budgets/budget-details';
 
-$organization-components-whitelist: cx-budget-form cx-budget-list !default;
+$organization-components-whitelist: cx-budget-form cx-budget-list
+  cx-budget-details !default;
