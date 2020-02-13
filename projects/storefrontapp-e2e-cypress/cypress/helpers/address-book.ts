@@ -118,10 +118,12 @@ export function setSecondAddressToDefault() {
 export function deleteExistingAddress() {
   const firstCard = cy.get('cx-card').first();
 
-  firstCard
-    .get('a')
-    .contains('Delete')
-    .click();
+  firstCard.within(() => {
+    cy.get('a')
+      .contains('Delete')
+      .click();
+  });
+
   cy.get('.cx-card-delete-msg').should(
     'contain',
     'Are you sure you want to delete this address?'

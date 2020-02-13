@@ -26,8 +26,8 @@ export class AddressBookComponent implements OnInit {
 
   constructor(
     public service: AddressBookComponentService,
-    private translation: TranslationService,
-    private userAddressService: UserAddressService,
+    protected translation: TranslationService,
+    protected userAddressService: UserAddressService,
     protected checkoutDeliveryService: CheckoutDeliveryService
   ) {}
 
