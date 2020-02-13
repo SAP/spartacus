@@ -38,8 +38,8 @@ export const organization = {
     deactivated: 'Deactivated',
     costCenters: 'Cost Centers',
     costCenter: {
+      code: 'Code',
       name: 'Name',
-      description: 'Description',
     },
   },
   budgetForm: {

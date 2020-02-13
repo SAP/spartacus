@@ -94,21 +94,20 @@
     </div>
   </div>
   <div class="row section">
-    <div class="col-md-12 col-lg-6">
+    <div class="col-md-12 col-lg-12">
       <div class="cx-header">
         <h3>{{ 'budget.costCenters' | cxTranslate }}</h3>
       </div>
       <cx-table
-        [pageSize]="10"
         [columns]="[
           {
-            key: 'name',
-            value: 'budget.costCenter.name' | cxTranslate,
-            cxRoute: 'costCenter'
+            key: 'code',
+            value: 'budget.costCenter.code' | cxTranslate,
+            cxRoute: 'costCenterDetails'
           },
           {
-            key: 'costCenterCode',
-            value: 'budget.costCenter.description' | cxTranslate
+            key: 'name',
+            value: 'budget.costCenter.name' | cxTranslate
           }
         ]"
         [tableData]="budget.costCenters"
