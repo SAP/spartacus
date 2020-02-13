@@ -1,0 +1,14 @@
+{
+  "schematics": {
+    "migration-v2-validate-01": {
+      "version": "2-next",
+      "factory": "./2_0/validate#validate",
+      "description": "Performs some validations before proceeding to upgrade Spartacus to v2"
+    },
+    "migration-v2-update-cms-component-state-02": {
+      "version": "2-next",
+      "factory": "./2_0/update-cms-component-state#updateCmsComponentState",
+      "description": "Update CMS components state to v2"
+    }
+  }
+}
