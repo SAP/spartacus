@@ -18,10 +18,11 @@ export function writeFile(
 
 export function runMigration(
   appTree: UnitTestTree,
-  schematicRunner: SchematicTestRunner
+  schematicRunner: SchematicTestRunner,
+  migrationScript: string
 ): Promise<UnitTestTree> {
   return schematicRunner
-    .runSchematicAsync('migration-v2-constructor-user-address-03', {}, appTree)
+    .runSchematicAsync(migrationScript, {}, appTree)
     .toPromise();
 }
 
