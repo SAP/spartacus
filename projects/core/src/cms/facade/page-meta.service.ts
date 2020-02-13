@@ -1,7 +1,6 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
@@ -14,8 +13,7 @@ export class PageMetaService {
     @Optional()
     @Inject(PageMetaResolver)
     protected resolvers: PageMetaResolver[],
-    protected cms: CmsService,
-    protected featureConfigService?: FeatureConfigService
+    protected cms: CmsService
   ) {
     this.resolvers = this.resolvers || [];
   }
@@ -56,27 +54,20 @@ export class PageMetaService {
    * @param metaResolver
    */
   private resolve(metaResolver): Observable<PageMeta> {
-    if (
-      metaResolver.resolve &&
-      (!this.featureConfigService || !this.featureConfigService.isLevel('1.3'))
-    ) {
-      return metaResolver.resolve();
-    } else {
-      // resolve individual resolvers to make the extension mechanism more flexible
-      const resolveMethods: any[] = Object.keys(this.resolverMethods)
-        .filter(key => metaResolver[this.resolverMethods[key]])
-        .map(key =>
-          metaResolver[this.resolverMethods[key]]().pipe(
-            map(data => ({
-              [key]: data,
-            }))
-          )
-        );
-
-      return combineLatest(resolveMethods).pipe(
-        map(data => Object.assign({}, ...data))
+    // resolve individual resolvers to make the extension mechanism more flexible
+    const resolveMethods: any[] = Object.keys(this.resolverMethods)
+      .filter(key => metaResolver[this.resolverMethods[key]])
+      .map(key =>
+        metaResolver[this.resolverMethods[key]]().pipe(
+          map(data => ({
+            [key]: data,
+          }))
+        )
       );
-    }
+
+    return combineLatest(resolveMethods).pipe(
+      map(data => Object.assign({}, ...data))
+    );
   }
 
   /**

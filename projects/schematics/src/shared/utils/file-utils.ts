@@ -325,6 +325,21 @@ export function migrateDeprecatedConstructor(
   return changes;
 }
 
+export function removeConstructorParam(
+  _source: ts.SourceFile,
+  sourcePath: string,
+  constructorNode: ts.Node | undefined,
+  _paramToRemove: ClassType
+): Change[] {
+  if (!constructorNode) {
+    throw new SchematicsException(`No constructor found in ${sourcePath}.`);
+  }
+  // TODO:6520 - 1. remove import
+  // 2. remove the param from the constructor
+  // 3. remove the param from the super call
+  return [];
+}
+
 function updateConstructorSuperNode(
   sourcePath: string,
   constructorNode: ts.Node,
