@@ -282,7 +282,7 @@ function checkSuper(
   return true;
 }
 
-export function migrateDeprecatedConstructor(
+export function addConstructorParam(
   source: ts.SourceFile,
   sourcePath: string,
   constructorNode: ts.Node | undefined,
