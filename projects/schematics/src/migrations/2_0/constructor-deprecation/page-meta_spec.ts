@@ -8,6 +8,7 @@ import {
 import * as shx from 'shelljs';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
+const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-page-meta-04';
 const TEST = `
 import {
   CmsService,
@@ -75,13 +76,16 @@ describe('constructor page-meta migration', () => {
     shx.rm('-r', tmpDirPath);
   });
 
+  // TODO:#6520 - delete
+  const DELETE_ME = true;
   describe('when the class does NOT extend a Spartacus class', () => {
     it('should skip it', async () => {
       writeFile(host, '/src/index.ts', TEST);
 
-      await runMigration(appTree, schematicRunner);
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
+      if (DELETE_ME) console.log(content);
       expect(content).toEqual(TEST);
     });
   });

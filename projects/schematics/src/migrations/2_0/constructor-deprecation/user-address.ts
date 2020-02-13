@@ -61,7 +61,9 @@ export function migrate(): Rule {
             constructorNode,
             newConstructorParam
           );
-          commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
+          if (changes.length) {
+            commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
+          }
         }
       }
     }

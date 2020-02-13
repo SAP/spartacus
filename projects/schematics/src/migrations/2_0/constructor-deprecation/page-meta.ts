@@ -58,7 +58,9 @@ export function migrate(): Rule {
           constructorNode,
           { className: FEATURE_CONFIG_SERVICE, importPath: SPARTACUS_CORE }
         );
-        commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
+        if (changes.length) {
+          commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
+        }
       }
     }
 
