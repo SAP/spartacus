@@ -28,6 +28,8 @@ export const CMS_GET_COMPONENT_FROM_PAGE = 'CmsGetComponentFromPage';
 export const USER_ADDRESS_SERVICE = 'UserAddressService';
 export const AUTH_SERVICE = 'AuthService';
 export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
+export const PAGE_META_RESOLVER = 'PageMetaResolver';
+export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
 /***** Classes end *****/
 

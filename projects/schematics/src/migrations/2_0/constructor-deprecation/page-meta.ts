@@ -3,7 +3,9 @@ import { getProjectTsConfigPaths } from '@angular/core/schematics/utils/project_
 import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 import { relative } from 'path';
 import {
+  CMS_SERVICE,
   FEATURE_CONFIG_SERVICE,
+  PAGE_META_RESOLVER,
   PAGE_META_SERVICE,
   SPARTACUS_CORE,
 } from '../../../shared/constants';
@@ -18,6 +20,8 @@ import {
 } from '../../../shared/utils/file-utils';
 
 const DEPRECATED_CONSTRUCTOR_PARAMETERS: ClassType[] = [
+  { className: PAGE_META_RESOLVER, importPath: SPARTACUS_CORE },
+  { className: CMS_SERVICE, importPath: SPARTACUS_CORE },
   {
     className: FEATURE_CONFIG_SERVICE,
     importPath: SPARTACUS_CORE,
@@ -48,15 +52,13 @@ export function migrate(): Rule {
 
         const nodes = getSourceNodes(source);
         const constructorNode = findConstructor(nodes);
-        for (const deprecatedConstructorParam of DEPRECATED_CONSTRUCTOR_PARAMETERS) {
-          const changes = removeConstructorParam(
-            source,
-            sourcePath,
-            constructorNode,
-            deprecatedConstructorParam
-          );
-          commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-        }
+        const changes = removeConstructorParam(
+          source,
+          sourcePath,
+          constructorNode,
+          { className: FEATURE_CONFIG_SERVICE, importPath: SPARTACUS_CORE }
+        );
+        commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
       }
     }
 

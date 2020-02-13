@@ -11,6 +11,7 @@ import {
 import {
   Change,
   InsertChange,
+  RemoveChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
 import { dirname, relative } from 'path';
@@ -117,6 +118,11 @@ export function commitChanges(
       } else {
         recorder.insertRight(pos, newText);
       }
+      // TODO:#6520 - test
+    } else if (change instanceof RemoveChange) {
+      const pos = change['pos'];
+      const length = change['toRemove'].length;
+      recorder.remove(pos, length);
     }
   });
   host.commitUpdate(recorder);
@@ -325,19 +331,153 @@ export function addConstructorParam(
   return changes;
 }
 
+// TODO:6520 - test
 export function removeConstructorParam(
-  _source: ts.SourceFile,
+  source: ts.SourceFile,
   sourcePath: string,
   constructorNode: ts.Node | undefined,
-  _paramToRemove: ClassType
+  paramToRemove: ClassType
 ): Change[] {
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${sourcePath}.`);
   }
-  // TODO:6520 - 1. remove import
-  // 2. remove the param from the constructor
-  // 3. remove the param from the super call
-  return [];
+
+  const importRemovalChange = removeImport(source, sourcePath, paramToRemove);
+  if (!importRemovalChange) {
+    return [];
+  }
+
+  const constructorParamRemovalChange = removeConstructorParamInternal(
+    sourcePath,
+    constructorNode,
+    paramToRemove
+  );
+  if (!constructorParamRemovalChange) {
+    return [];
+  }
+
+  const superRemoval = removeParamFromSuper(
+    sourcePath,
+    constructorNode,
+    constructorParamRemovalChange.paramName
+  );
+  if (!superRemoval) {
+    return [];
+  }
+
+  return [
+    importRemovalChange,
+    ...constructorParamRemovalChange.changes,
+    superRemoval,
+  ];
+}
+
+function removeImport(
+  source: ts.SourceFile,
+  sourcePath: string,
+  importToRemove: ClassType
+): Change | undefined {
+  const nodes = getSourceNodes(source);
+  const importDeclarationNode = nodes
+    .filter(node => node.kind === ts.SyntaxKind.ImportDeclaration)
+    .find(
+      node =>
+        (node as ts.ImportDeclaration).moduleSpecifier.getText() ===
+        importToRemove.importPath
+    );
+
+  if (!importDeclarationNode) {
+    return undefined;
+  }
+
+  let position: number;
+  let toRemove = importToRemove.className;
+  const importSpecifierNodes = findNodes(
+    importDeclarationNode,
+    ts.SyntaxKind.ImportSpecifier
+  );
+  if (importSpecifierNodes.length === 1) {
+    // TODO:6520 - test
+    // delete the whole import line
+    position = importDeclarationNode.getStart();
+    toRemove = importDeclarationNode.getText();
+  } else {
+    // TODO:6520 - test
+    // delete only the specified import, and leave the rest
+    const specifiedImport = findLevel1NodesByTextAndKind(
+      importSpecifierNodes,
+      importToRemove.className,
+      ts.SyntaxKind.Identifier
+    )[0];
+    position = specifiedImport.getStart();
+  }
+
+  return new RemoveChange(sourcePath, position, toRemove);
+}
+
+function removeConstructorParamInternal(
+  sourcePath: string,
+  constructorNode: ts.Node,
+  importToRemove: ClassType
+): { changes: RemoveChange[]; paramName: string } | undefined {
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Parameter
+  );
+
+  for (let i = 0; i < constructorParameters.length; i++) {
+    const constructorParameter = constructorParameters[i];
+    if (constructorParameter.getText().includes(importToRemove.className)) {
+      const changes: RemoveChange[] = [];
+      // if it's not the first parameter that should be removed, we should remove the comma after the previous parameter
+      if (i !== 0) {
+        // TODO:#6520 - test
+        const previousParameter = constructorParameters[i - 1];
+        changes.push(new RemoveChange(sourcePath, previousParameter.end, ','));
+      }
+
+      changes.push(
+        new RemoveChange(
+          sourcePath,
+          constructorParameter.getStart(),
+          constructorParameter.getText()
+        )
+      );
+
+      const paramVariableNode = constructorParameter
+        .getChildren()
+        .find(node => node.kind === ts.SyntaxKind.Identifier);
+      const paramName = paramVariableNode ? paramVariableNode.getText() : '';
+      return { changes, paramName };
+    }
+  }
+  return undefined;
+}
+
+function removeParamFromSuper(
+  sourcePath: string,
+  constructorNode: ts.Node,
+  paramName: string
+): RemoveChange | undefined {
+  const callExpressions = findNodes(
+    constructorNode,
+    ts.SyntaxKind.CallExpression
+  );
+  if (callExpressions.length === 0) {
+    throw new SchematicsException('No super() call found.');
+  }
+  // super has to be the first expression in constructor
+  const firstCallExpression = callExpressions[0];
+  const paramNode = findLevel1NodesByTextAndKind(
+    [firstCallExpression],
+    paramName,
+    ts.SyntaxKind.Identifier
+  )[0];
+  if (!paramNode) {
+    return undefined;
+  }
+
+  return new RemoveChange(sourcePath, paramNode.getStart(), paramName);
 }
 
 function updateConstructorSuperNode(
@@ -366,7 +506,6 @@ function updateConstructorSuperNode(
 
   let toAdd = '';
   let position: number;
-
   const params = findNodes(firstCallExpression, ts.SyntaxKind.Identifier);
   // just an empty super() call, without any params passed to it
   if (params && params.length === 0) {
