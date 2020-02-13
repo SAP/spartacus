@@ -179,7 +179,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Proceed to Checkout',
       type: TabbingOrderTypes.BUTTON,
     },
-    { type: TabbingOrderTypes.GENERIC_INPUT },
   ],
   saveForLater: [
     {
