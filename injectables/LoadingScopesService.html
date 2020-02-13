@@ -354,25 +354,25 @@ export class LoadingScopesService {
       this.config.backend.loadingScopes[model];
 
     if (scopesConfig) {
-      let i &#x3D; 0;
+      const expandedScopes &#x3D; [...scopes];
+      let i &#x3D; expandedScopes.length;
 
-      const expandedScopes &#x3D; [...scopes].reverse(); // to ensure proper scopes merging order
-
-      while (i &lt; expandedScopes.length) {
+      while (i &gt; 0) {
+        i--;
         const includedScopes &#x3D;
           scopesConfig[expandedScopes[i]] &amp;&amp;
           scopesConfig[expandedScopes[i]].include;
         if (includedScopes) {
           for (const includedScope of includedScopes) {
             if (!expandedScopes.includes(includedScope)) {
-              expandedScopes.push(includedScope);
+              expandedScopes.splice(i, 0, includedScope);
+              i++;
             }
           }
         }
-        i++;
       }
 
-      return expandedScopes.reverse();
+      return expandedScopes;
     }
 
     return scopes;

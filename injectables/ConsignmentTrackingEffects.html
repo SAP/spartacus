@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/user/store/effects/consignment-tracking.effect.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/core/src/user/store/effects/consignment-tracking.effect.ts:39</a></div>
                             </td>
                         </tr>
 
@@ -182,7 +182,11 @@
     map((action: UserActions.LoadConsignmentTracking) &#x3D;&gt; action.payload),
     switchMap(payload &#x3D;&gt; {
       return this.userOrderConnector
-        .getConsignmentTracking(payload.orderCode, payload.consignmentCode)
+        .getConsignmentTracking(
+          payload.orderCode,
+          payload.consignmentCode,
+          payload.userId
+        )
         .pipe(
           map(
             (tracking: ConsignmentTracking) &#x3D;&gt;
@@ -229,9 +233,9 @@ import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, switchMap } from &#x27;rxjs/operators&#x27;;
 import { ConsignmentTracking } from &#x27;../../../model/consignment-tracking.model&#x27;;
+import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
 import { UserOrderConnector } from &#x27;../../connectors/order/user-order.connector&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
-import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
 
 @Injectable()
 export class ConsignmentTrackingEffects {
@@ -243,7 +247,11 @@ export class ConsignmentTrackingEffects {
     map((action: UserActions.LoadConsignmentTracking) &#x3D;&gt; action.payload),
     switchMap(payload &#x3D;&gt; {
       return this.userOrderConnector
-        .getConsignmentTracking(payload.orderCode, payload.consignmentCode)
+        .getConsignmentTracking(
+          payload.orderCode,
+          payload.consignmentCode,
+          payload.userId
+        )
         .pipe(
           map(
             (tracking: ConsignmentTracking) &#x3D;&gt;

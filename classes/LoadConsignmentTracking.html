@@ -241,6 +241,7 @@ export class LoadConsignmentTracking implements Action {
   readonly type &#x3D; LOAD_CONSIGNMENT_TRACKING;
   constructor(
     public payload: {
+      userId?: string;
       orderCode: string;
       consignmentCode: string;
     }

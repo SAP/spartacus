@@ -107,6 +107,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
+                                <a href="#getScopesIndex">getScopesIndex</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
                                 <a href="#initProductScopes">initProductScopes</a>
                             </li>
                         </ul>
@@ -317,8 +321,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="190"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:190</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="195"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:195</a></div>
                 </td>
             </tr>
 
@@ -444,8 +448,8 @@ max age reload implementations</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="90"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:90</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:95</a></div>
                 </td>
             </tr>
 
@@ -530,8 +534,8 @@ max age reload implementations</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="142"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:142</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:147</a></div>
                 </td>
             </tr>
 
@@ -596,6 +600,78 @@ max age reload implementations</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getScopesIndex"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            getScopesIndex
+                        </b>
+                        <a href="#getScopesIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getScopesIndex(scopes: string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:85</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>scopes</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="initProductScopes"></a>
                     <span class="name">
                         <b>
@@ -616,8 +692,8 @@ max age reload implementations</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:56</a></div>
                 </td>
             </tr>
 
@@ -773,20 +849,7 @@ export class ProductLoadingService {
     scopes &#x3D; this.loadingScopes.expand(&#x27;product&#x27;, scopes);
 
     this.initProductScopes(productCode, scopes);
-
-    if (scopes.length &gt; 1) {
-      return combineLatest(
-        scopes.map(scope &#x3D;&gt; this.products[productCode][scope])
-      ).pipe(
-        auditTime(0),
-        map(
-          productParts &#x3D;&gt;
-            productParts.find(Boolean) &amp;&amp; deepMerge({}, ...productParts)
-        )
-      );
-    } else {
-      return this.products[productCode][scopes[0]];
-    }
+    return this.products[productCode][this.getScopesIndex(scopes)];
   }
 
   protected initProductScopes(productCode: string, scopes: string[]): void {
@@ -802,6 +865,24 @@ export class ProductLoadingService {
         );
       }
     }
+
+    if (scopes.length &gt; 1) {
+      this.products[productCode][this.getScopesIndex(scopes)] &#x3D; combineLatest(
+        scopes.map(scope &#x3D;&gt; this.products[productCode][scope])
+      ).pipe(
+        auditTime(0),
+        map(productParts &#x3D;&gt;
+          productParts.every(Boolean)
+            ? deepMerge({}, ...productParts)
+            : undefined
+        ),
+        distinctUntilChanged()
+      );
+    }
+  }
+
+  protected getScopesIndex(scopes: string[]): string {
+    return scopes.join(&#x27;ɵ&#x27;);
   }
 
   /**

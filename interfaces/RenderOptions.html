@@ -254,7 +254,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModuleFactory, StaticProvider, Type } from &#x27;@angular/core&#x27;;
-import { SERVER_REQUEST_URL } from &#x27;./ssr.providers&#x27;;
+import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from &#x27;./ssr.providers&#x27;;
 
 /**
  * These are the allowed options for the engine
@@ -330,11 +330,19 @@ export function getServerRequestProviders(
       provide: SERVER_REQUEST_URL,
       useValue: getRequestUrl(options.req),
     },
+    {
+      provide: SERVER_REQUEST_ORIGIN,
+      useValue: getRequestOrigin(options.req),
+    },
   ];
 }
 
 function getRequestUrl(req: any): string {
-  return req.protocol + &#x27;://&#x27; + req.get(&#x27;host&#x27;) + req.originalUrl;
+  return getRequestOrigin(req) + req.originalUrl;
+}
+
+function getRequestOrigin(req: any): string {
+  return req.protocol + &#x27;://&#x27; + req.get(&#x27;host&#x27;);
 }
 </code></pre>
     </div>

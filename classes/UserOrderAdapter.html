@@ -155,8 +155,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:89</a></div>
                 </td>
             </tr>
 
@@ -262,8 +262,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:101</a></div>
                 </td>
             </tr>
 
@@ -360,8 +360,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:54</a></div>
                 </td>
             </tr>
 
@@ -448,15 +448,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getConsignmentTracking(orderCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, consignmentCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>getConsignmentTracking(orderCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, consignmentCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, userId?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:43</a></div>
                 </td>
             </tr>
 
@@ -507,6 +507,22 @@
 
                                     <td>
                                         <p>a consignment code</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>user id related to order</p>
 
                                     </td>
                                 </tr>
@@ -768,8 +784,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:64</a></div>
                 </td>
             </tr>
 
@@ -854,8 +870,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.adapter.ts:76</a></div>
                 </td>
             </tr>
 
@@ -953,11 +969,11 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &#x27;rxjs&#x27;;
 import { ConsignmentTracking } from &#x27;../../../model/consignment-tracking.model&#x27;;
 import {
+  CancellationRequestEntryInputList,
   Order,
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestEntryInputList,
-  CancellationRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
 } from &#x27;../../../model/order.model&#x27;;
@@ -990,10 +1006,12 @@ export abstract class UserOrderAdapter {
    * Abstract method used to get consignment tracking details
    * @param orderCode an order code
    * @param consignmentCode a consignment code
+   * @param userId user id related to order
    */
   abstract getConsignmentTracking(
     orderCode: string,
-    consignmentCode: string
+    consignmentCode: string,
+    userId?: string
   ): Observable&lt;ConsignmentTracking&gt;;
 
   /**

@@ -197,8 +197,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:46</a></div>
                 </td>
             </tr>
 
@@ -293,8 +293,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:82</a></div>
                 </td>
             </tr>
 
@@ -466,7 +466,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getConsignmentTracking(orderCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, consignmentCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>getConsignmentTracking(orderCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, consignmentCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, userId?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -513,6 +513,18 @@
 
                                     <td>
                                         No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
                                     </td>
 
 
@@ -665,8 +677,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:61</a></div>
                 </td>
             </tr>
 
@@ -749,8 +761,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:68</a></div>
                 </td>
             </tr>
 
@@ -857,8 +869,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:54</a></div>
                 </td>
             </tr>
 
@@ -927,11 +939,11 @@
 import { Observable } from &#x27;rxjs&#x27;;
 import { ConsignmentTracking } from &#x27;../../../model/consignment-tracking.model&#x27;;
 import {
+  CancellationRequestEntryInputList,
   Order,
   OrderHistoryList,
-  ReturnRequestEntryInputList,
-  CancellationRequestEntryInputList,
   ReturnRequest,
+  ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
 } from &#x27;../../../model/order.model&#x27;;
@@ -958,9 +970,14 @@ export class UserOrderConnector {
 
   public getConsignmentTracking(
     orderCode: string,
-    consignmentCode: string
+    consignmentCode: string,
+    userId?: string
   ): Observable&lt;ConsignmentTracking&gt; {
-    return this.adapter.getConsignmentTracking(orderCode, consignmentCode);
+    return this.adapter.getConsignmentTracking(
+      orderCode,
+      consignmentCode,
+      userId
+    );
   }
 
   public cancel(
