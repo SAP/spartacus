@@ -1904,4 +1904,5 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'couponCode', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'Apply', type: TabbingOrderTypes.BUTTON },
   ],
+  appliedCoupons: [{ type: TabbingOrderTypes.CX_ICON }],
 };

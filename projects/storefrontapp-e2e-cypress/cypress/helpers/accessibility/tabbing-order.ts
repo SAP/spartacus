@@ -175,10 +175,11 @@ export function registerAndLogin(): void {
   cy.wait(`@${homePage}`);
 }
 
-export function addProduct(): void {
+export function addProduct(productCode?: string): void {
   const cartPage = waitForPage('/cart', 'getCartPage');
+  const productUrl = productCode ? `/product/${productCode}` : testProductUrl;
 
-  cy.visit(testProductUrl);
+  cy.visit(productUrl);
   cy.getAllByText(/Add to cart/i)
     .first()
     .click();
