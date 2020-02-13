@@ -104,6 +104,24 @@ export class OccConfiguratorVariantAdapter
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
+  readConfigurationForCartEntry(
+    parameters: Configurator.ReadConfigurationFromCartEntryParameters
+  ): Observable<Configurator.Configuration> {
+    const url = this.occEndpointsService.getUrl(
+      'readConfigurationForCartEntry',
+      {
+        userId: parameters.userId,
+        cartId: parameters.cartId,
+        cartEntryNumber: parameters.cartEntryNumber,
+      }
+    );
+
+    return this.http.get<Configurator.Configuration>(url).pipe(
+      this.converterService.pipeable(CONFIGURATION_NORMALIZER),
+      tap(resultConfiguration => (resultConfiguration.owner = parameters.owner))
+    );
+  }
+
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {

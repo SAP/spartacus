@@ -58,12 +58,7 @@ export class ConfiguratorCommonsService {
               new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
             );
           } else {
-            this.store.dispatch(
-              new ConfiguratorActions.LoadCartEntryConfiguration(
-                owner.key,
-                owner.id
-              )
-            );
+            this.readConfigurationForCartEntry(owner);
           }
         }
       }),
@@ -72,6 +67,22 @@ export class ConfiguratorCommonsService {
       ),
       map(configurationState => configurationState.value)
     );
+  }
+
+  readConfigurationForCartEntry(owner: GenericConfigurator.Owner) {
+    this.activeCartService.requireLoadedCart().subscribe(cartState => {
+      const readFromCartEntryParameters: Configurator.ReadConfigurationFromCartEntryParameters = {
+        userId: this.getUserId(cartState.value),
+        cartId: this.getCartId(cartState.value),
+        cartEntryNumber: owner.id,
+        owner: owner,
+      };
+      this.store.dispatch(
+        new ConfiguratorActions.ReadCartEntryConfiguration(
+          readFromCartEntryParameters
+        )
+      );
+    });
   }
 
   updateConfiguration(

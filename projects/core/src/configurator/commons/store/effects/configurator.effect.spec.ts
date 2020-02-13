@@ -70,6 +70,7 @@ describe('ConfiguratorEffect', () => {
   let createMock: jasmine.Spy;
   let readMock: jasmine.Spy;
   let addToCartMock: jasmine.Spy;
+  let readConfigurationForCartEntryMock: jasmine.Spy;
   let configEffects: fromEffects.ConfiguratorEffects;
   let configuratorUtils: GenericConfigUtilsService;
 
@@ -79,12 +80,18 @@ describe('ConfiguratorEffect', () => {
     createMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
     readMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
     addToCartMock = jasmine.createSpy().and.returnValue(of(cartModification));
+    readConfigurationForCartEntryMock = jasmine
+      .createSpy()
+      .and.returnValue(of(productConfiguration));
+
     class MockConnector {
       createConfiguration = createMock;
 
       readConfiguration = readMock;
 
       addToCart = addToCartMock;
+
+      readConfigurationForCartEntry = readConfigurationForCartEntryMock;
 
       updateConfiguration(): Observable<Configurator.Configuration> {
         return of(productConfiguration);
@@ -259,6 +266,50 @@ describe('ConfiguratorEffect', () => {
       // just to get rid of the SPEC_HAS_NO_EXPECTATIONS message.
       // The actual test is done in the subscribe part
       expect(true).toBeTruthy();
+    });
+  });
+
+  describe('Effect readConfigurationForCartEntry', () => {
+    it('should emit a success action with content for an action of type readConfigurationForCartEntry', () => {
+      const readFromCartEntry: Configurator.ReadConfigurationFromCartEntryParameters = {
+        owner: owner,
+      };
+      const action = new ConfiguratorActions.ReadCartEntryConfiguration(
+        readFromCartEntry
+      );
+
+      const completion = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+        productConfiguration
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configEffects.readConfigurationForCartEntry$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should emit a fail action if something goes wrong', () => {
+      readConfigurationForCartEntryMock.and.returnValue(
+        throwError(errorResponse)
+      );
+      const readFromCartEntry: Configurator.ReadConfigurationFromCartEntryParameters = {
+        owner: owner,
+      };
+      const action = new ConfiguratorActions.ReadCartEntryConfiguration(
+        readFromCartEntry
+      );
+
+      const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(
+        productConfiguration.owner.key,
+        makeErrorSerializable(errorResponse)
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configEffects.readConfigurationForCartEntry$).toBeObservable(
+        expected
+      );
     });
   });
 

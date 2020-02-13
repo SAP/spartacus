@@ -32,9 +32,13 @@ import {
   GetConfigurationOverviewFail,
   GetConfigurationOverviewSuccess,
   GET_CONFIGURATION_OVERVIEW,
+  ReadCartEntryConfiguration,
+  ReadCartEntryConfigurationFail,
+  ReadCartEntryConfigurationSuccess,
   ReadConfiguration,
   ReadConfigurationFail,
   ReadConfigurationSuccess,
+  READ_CART_ENTRY_CONFIGURATION,
   READ_CONFIGURATION,
   UpdateConfiguration,
   UpdateConfigurationFail,
@@ -335,6 +339,30 @@ export class ConfiguratorEffects {
           );
         })
       );
+    })
+  );
+
+  @Effect()
+  readConfigurationForCartEntry$: Observable<
+    ReadCartEntryConfigurationSuccess | ReadCartEntryConfigurationFail
+  > = this.actions$.pipe(
+    ofType(READ_CART_ENTRY_CONFIGURATION),
+    switchMap((action: ReadCartEntryConfiguration) => {
+      const parameters: Configurator.ReadConfigurationFromCartEntryParameters =
+        action.payload;
+      return this.configuratorCommonsConnector
+        .readConfigurationForCartEntry(parameters)
+        .pipe(
+          map((result: Configurator.Configuration) => {
+            return new ReadCartEntryConfigurationSuccess(result);
+          }),
+          catchError(error => [
+            new ReadCartEntryConfigurationFail(
+              action.payload.owner.key,
+              makeErrorSerializable(error)
+            ),
+          ])
+        );
     })
   );
 

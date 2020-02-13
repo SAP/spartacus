@@ -7,8 +7,12 @@ import {
 import { CONFIGURATION_DATA } from '../configuration-state';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
-export const LOAD_CART_ENTRY_CONFIGURATION =
-  '[Configurator] Load Cart Entry Configuration';
+export const READ_CART_ENTRY_CONFIGURATION =
+  '[Configurator] Read Cart Entry Configuration';
+export const READ_CART_ENTRY_CONFIGURATION_SUCCESS =
+  '[Configurator] Read Cart Entry Configuration Success';
+export const READ_CART_ENTRY_CONFIGURATION_FAIL =
+  '[Configurator] Read Cart Entry Configuration Fail';
 export const CREATE_CONFIGURATION_FAIL =
   '[Configurator] Create Configuration Fail';
 export const CREATE_CONFIGURATION_SUCCESS =
@@ -58,10 +62,26 @@ export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadActi
   }
 }
 
-export class LoadCartEntryConfiguration extends StateEntityLoaderActions.EntityLoadAction {
-  readonly type = LOAD_CART_ENTRY_CONFIGURATION;
-  constructor(public ownerKey: string, public cartEntryNumber: string) {
-    super(CONFIGURATION_DATA, ownerKey);
+export class ReadCartEntryConfiguration extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = READ_CART_ENTRY_CONFIGURATION;
+  constructor(
+    public payload: Configurator.ReadConfigurationFromCartEntryParameters
+  ) {
+    super(CONFIGURATION_DATA, payload.owner.key);
+  }
+}
+
+export class ReadCartEntryConfigurationSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = READ_CART_ENTRY_CONFIGURATION_SUCCESS;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.owner.key);
+  }
+}
+
+export class ReadCartEntryConfigurationFail extends StateEntityLoaderActions.EntityFailAction {
+  readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
+  constructor(ownerkey: string, public payload: any) {
+    super(CONFIGURATION_DATA, ownerkey, payload);
   }
 }
 
@@ -221,12 +241,16 @@ export class AddNextOwner implements Action {
   readonly type = ADD_NEXT_OWNER;
   constructor(public ownerKey: string, public cartEntryNo: string) {}
 }
-export class SetNextOwnerCartEntry implements Action {
+
+export class SetNextOwnerCartEntry extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = SET_NEXT_OWNER_CART_ENTRY;
+
   constructor(
-    public configuration: Configurator.Configuration,
+    public payload: Configurator.Configuration,
     public cartEntryNo: string
-  ) {}
+  ) {
+    super(CONFIGURATION_DATA, payload.owner.key);
+  }
 }
 export type ConfiguratorAction =
   | CreateConfiguration
@@ -250,5 +274,7 @@ export type ConfiguratorAction =
   | GetConfigurationOverviewSuccess
   | AddNextOwner
   | SetNextOwnerCartEntry
-  | LoadCartEntryConfiguration
+  | ReadCartEntryConfiguration
+  | ReadCartEntryConfigurationSuccess
+  | ReadCartEntryConfigurationFail
   | RemoveConfiguration;

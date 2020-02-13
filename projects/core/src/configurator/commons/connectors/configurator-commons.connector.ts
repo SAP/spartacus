@@ -50,6 +50,12 @@ export class ConfiguratorCommonsConnector {
     return this.adapter.addToCart(parameters);
   }
 
+  readConfigurationForCartEntry(
+    parameters: Configurator.ReadConfigurationFromCartEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.adapter.readConfigurationForCartEntry(parameters);
+  }
+
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
