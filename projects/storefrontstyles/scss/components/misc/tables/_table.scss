@@ -2,6 +2,12 @@
   .table {
     table-layout: fixed;
 
+    thead {
+      th {
+        text-align: left;
+      }
+    }
+
     td {
       word-wrap: break-word;
       max-width: 0;

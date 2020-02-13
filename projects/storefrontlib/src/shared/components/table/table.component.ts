@@ -6,9 +6,6 @@ import { Component, Input } from '@angular/core';
 })
 export class TableComponent {
   @Input()
-  pageSize = 5;
-
-  @Input()
   columns: Array<{ key: string; value: string; cxRoute?: string }>;
 
   @Input()

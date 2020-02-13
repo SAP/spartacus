@@ -12,7 +12,7 @@
             {{ column.value }}
           </div>
           <a
-            *ngIf="column.cxRoute; else text"
+            *ngIf="column.cxRoute && row; else text"
             [routerLink]="
               {
                 cxRoute: column.cxRoute,

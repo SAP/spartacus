@@ -1,42 +1,43 @@
-<ng-container class="container" *ngIf="permission$ | async as permission">
+<ng-container class="container" *ngIf="costCenter$ | async as costCenter">
   <div class="row">
     <div class="col-md-12 col-lg-6">
       <div class="cx-header">
-        <h3>{{ 'permission.details' | cxTranslate }}</h3>
+        <h3>{{ 'costCenter.details' | cxTranslate }}</h3>
       </div>
       <div class="row ">
-        <div class="col-6">{{ 'permission.id' | cxTranslate }}</div>
-        <div class="col-6">{{ permission.code }}</div>
+        <div class="col-6">{{ 'costCenter.code' | cxTranslate }}</div>
+        <div class="col-6">{{ costCenter.code }}</div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">{{ 'costCenter.name' | cxTranslate }}</div>
+        <div class="col-6">{{ costCenter.name }}</div>
       </div>
       <div class="row">
-        <div class="col-6">{{ 'permission.parentUnit' | cxTranslate }}</div>
-        <div class="col-6">{{ permission.orgUnit?.name }}</div>
+        <div class="col-6">{{ 'costCenter.parentUnit' | cxTranslate }}</div>
+        <div class="col-6">{{ costCenter.orgUnit?.name }}</div>
       </div>
       <div class="row">
-        <div class="col-6">{{ 'permission.threshold' | cxTranslate }}</div>
-        <div class="col-6">{{ permission.threshold }}</div>
+        <div class="col-6">{{ 'costCenter.currency' | cxTranslate }}</div>
+        <div class="col-6">{{ costCenter.currency?.isocode }}</div>
       </div>
       <div class="row">
-        <div class="col-6">{{ 'permission.currency' | cxTranslate }}</div>
-        <div class="col-6">{{ permission.currency?.symbol }}</div>
-      </div>
-      <div class="row">
-        <div class="col-6">{{ 'permission.status' | cxTranslate }}</div>
+        <div class="col-6">{{ 'costCenter.status' | cxTranslate }}</div>
         <div class="col-6">
           {{
-            permission.active
-              ? ('permission.active' | cxTranslate)
-              : ('permission.deactivated' | cxTranslate)
+            costCenter.active
+              ? ('costCenter.active' | cxTranslate)
+              : ('costCenter.deactivated' | cxTranslate)
           }}
         </div>
       </div>
       <div class="row">
-        <div *ngIf="permission.active; else enable" class="col-md-12 col-lg-6">
+        <div *ngIf="costCenter.active; else enable" class="col-md-12 col-lg-6">
           <button
             class="btn btn-secondary btn-block"
             (click)="update({ active: false })"
           >
-            {{ 'permission.disable' | cxTranslate }}
+            {{ 'costCenter.disable' | cxTranslate }}
           </button>
         </div>
         <ng-template #enable>
@@ -45,7 +46,7 @@
               class="btn btn-primary btn-block"
               (click)="update({ active: true })"
             >
-              {{ 'permission.enable' | cxTranslate }}
+              {{ 'costCenter.enable' | cxTranslate }}
             </button>
           </div>
         </ng-template>
@@ -55,28 +56,28 @@
       <div class="row">
         <div class="col-md-12 col-lg-6">
           <button
-            [disabled]="!permission.active"
+            [disabled]="!costCenter.active"
             [routerLink]="
               {
-                cxRoute: 'permissionEdit',
-                params: permission
+                cxRoute: 'costCenterEdit',
+                params: costCenter
               } | cxUrl
             "
             class="btn btn-primary btn-block"
           >
-            {{ 'permission.edit' | cxTranslate }}
+            {{ 'costCenter.edit' | cxTranslate }}
           </button>
         </div>
         <div class="col-md-12 col-lg-6">
           <a
             [routerLink]="
               {
-                cxRoute: 'permissions'
+                cxRoute: 'costCenters'
               } | cxUrl
             "
             class="btn btn-secondary btn-block"
           >
-            {{ 'permission.back' | cxTranslate }}
+            {{ 'costCenter.back' | cxTranslate }}
           </a>
         </div>
       </div>

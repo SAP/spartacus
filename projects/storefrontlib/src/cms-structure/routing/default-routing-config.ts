@@ -97,7 +97,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-company/organization-management/manage-costcenters'],
   },
   costCenterCreate: {
-    paths: ['my-company/organization-managements/manage-costcenters/create'],
+    paths: ['my-company/organization-management/manage-costcenters/create'],
   },
   costCenterDetails: {
     paths: [

@@ -33,7 +33,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
     params?: B2BSearchConfig
   ): Observable<EntitiesModel<CostCenter>> {
     return this.http
-      .get<Occ.CostCentersList>(this.getCostCentersEndpoint(userId, params))
+      .get<Occ.CostCentersList>(this.getAllCostCentersEndpoint(userId, params))
       .pipe(this.converter.pipeable(COST_CENTERS_NORMALIZER));
   }
 
@@ -68,5 +68,12 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
     params?: B2BSearchConfig
   ): string {
     return this.occEndpoints.getUrl('costCenters', { userId }, params);
+  }
+
+  protected getAllCostCentersEndpoint(
+    userId: string,
+    params?: B2BSearchConfig
+  ): string {
+    return this.occEndpoints.getUrl('costCentersAll', { userId }, params);
   }
 }

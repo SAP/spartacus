@@ -24,16 +24,7 @@ export class BudgetDetailsComponent implements OnInit {
     this.budget$ = this.budgetCode$.pipe(
       tap(code => this.budgetsService.loadBudget(code)),
       switchMap(code => this.budgetsService.get(code)),
-      filter(Boolean),
-      map((budget: Budget) => ({
-        ...budget,
-        costCenters:
-          budget.costCenters &&
-          budget.costCenters.map(costCenter => ({
-            name: costCenter.name,
-            costCenterCode: costCenter.code,
-          })),
-      }))
+      filter(Boolean)
     );
   }
 

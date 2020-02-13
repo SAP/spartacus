@@ -1,4 +1,5 @@
 import { B2BUnit } from './org-unit.model';
+import { Currency } from './misc.model';
 
 export interface CostCenter {
   active?: string;
@@ -7,4 +8,5 @@ export interface CostCenter {
   name?: string;
   originalCode?: string;
   unit?: B2BUnit;
+  currency?: Currency;
 }

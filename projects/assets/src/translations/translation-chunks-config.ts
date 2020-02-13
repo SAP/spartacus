@@ -79,5 +79,8 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'permissionsList',
     'permissionForm',
     'permission',
+    'costCentersList',
+    'costCenterForm',
+    'costCenter',
   ],
 };

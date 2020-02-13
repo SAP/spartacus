@@ -1,0 +1,149 @@
+<ng-template
+  #validation
+  let-control="control"
+  let-translationParams="translationParams"
+>
+  <span class="is-invalid">
+    <span *ngFor="let error of control.errors | keyvalue">
+      {{
+        'costCenterForm.message.' + error.key | cxTranslate: translationParams
+      }}
+    </span>
+  </span>
+</ng-template>
+
+<div [formGroup]="form">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <label>
+          <span class="label-content required">{{
+            'costCenterForm.code.label' | cxTranslate
+          }}</span>
+          <input
+            class="form-control"
+            type="text"
+            required
+            placeholder="{{ 'costCenterForm.code.placeholder' | cxTranslate }}"
+            formControlName="code"
+            [class.is-invalid]="isNotValid('code')"
+          />
+          <ng-container
+            *ngIf="isNotValid('code')"
+            [ngTemplateOutlet]="validation"
+            [ngTemplateOutletContext]="{
+              control: form.controls.code
+            }"
+          ></ng-container>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <span class="label-content required">{{
+            'costCenterForm.name.label' | cxTranslate
+          }}</span>
+          <input
+            type="text"
+            class="form-control"
+            required
+            placeholder="{{ 'costCenterForm.name.placeholder' | cxTranslate }}"
+            formControlName="name"
+            [class.is-invalid]="isNotValid('name')"
+          />
+          <ng-container
+            *ngIf="isNotValid('name')"
+            [ngTemplateOutlet]="validation"
+            [ngTemplateOutletContext]="{
+              control: form.controls.name
+            }"
+          ></ng-container>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <ng-container
+          *ngIf="businessUnits$ | async as businessUnits"
+          formGroupName="unit"
+        >
+          <div *ngIf="businessUnits.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'costCenterForm.businessUnits.label' | cxTranslate
+              }}</span>
+              <ng-select
+                formControlName="uid"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="businessUnits"
+                bindLabel="name"
+                bindValue="id"
+                [class.invalid]="isNotValid('unit')"
+              >
+              </ng-select>
+              <ng-container
+                *ngIf="isNotValid('unit')"
+                [ngTemplateOutlet]="validation"
+                [ngTemplateOutletContext]="{
+                  control: form.controls.unit['controls']['uid']
+                }"
+              ></ng-container>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
+        <ng-container
+          *ngIf="currencies$ | async as currencies"
+          formGroupName="currency"
+        >
+          <div *ngIf="currencies.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'costCenterForm.currency' | cxTranslate
+              }}</span>
+              <ng-select
+                formControlName="isocode"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="currencies"
+                bindLabel="name"
+                bindValue="isocode"
+                [class.invalid]="isNotValid('currency')"
+              >
+              </ng-select>
+              <ng-container
+                *ngIf="isNotValid('currency')"
+                [ngTemplateOutlet]="validation"
+                [ngTemplateOutletContext]="{
+                  control: form.controls.currency['controls']['isocode']
+                }"
+              ></ng-container>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="row buttons">
+    <div class="col-md-12 col-lg-6 mb-3">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="form.invalid"
+        (click)="verifyCostCenter()"
+      >
+        {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
+      </button>
+    </div>
+    <div class="col-md-12 col-lg-6 mb-3" *ngIf="showCancelBtn">
+      <a
+        class="btn btn-block btn-action"
+        (click)="back()"
+        [routerLink]="routerBackLink | cxUrl"
+      >
+        {{ cancelBtnLabel || ('common.cancel' | cxTranslate) }}
+      </a>
+    </div>
+  </div>
+</div>
