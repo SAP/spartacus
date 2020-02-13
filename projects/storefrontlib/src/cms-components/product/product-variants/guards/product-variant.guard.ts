@@ -26,7 +26,7 @@ export class ProductVariantGuard implements CanActivate {
       map(state => state.nextState.params.productCode),
       switchMap((productCode: string) => {
         // if open pdp from smartedit
-        if (this.cmsService.isLaunchInSmartEdit() && !Boolean(productCode)) {
+        if (this.cmsService.isLaunchInSmartEdit() && !productCode) {
           return of(true);
         }
 
