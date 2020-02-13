@@ -29,7 +29,10 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
-import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../utils/occ-constants';
 
 @Injectable()
 export class OccUserOrderAdapter implements UserOrderAdapter {
@@ -148,9 +151,9 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
   }
 
   public getConsignmentTracking(
-    userId: string,
     orderCode: string,
-    consignmentCode: string
+    consignmentCode: string,
+    userId: string = OCC_USER_ID_CURRENT
   ): Observable<ConsignmentTracking> {
     const url = this.occEndpoints.getUrl('consignmentTracking', {
       userId,

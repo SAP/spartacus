@@ -246,7 +246,7 @@ describe('OccUserOrderAdapter', () => {
           trackingEvents: [],
         };
         occUserOrderAdapter
-          .getConsignmentTracking(userId, orderData.code, consignmentCode)
+          .getConsignmentTracking(orderData.code, consignmentCode, userId)
           .subscribe(result => expect(result).toEqual(tracking));
         const mockReq = httpMock.expectOne(req => {
           return req.method === 'GET';
@@ -266,7 +266,7 @@ describe('OccUserOrderAdapter', () => {
 
       it('should use converter', () => {
         occUserOrderAdapter
-          .getConsignmentTracking(userId, orderData.code, consignmentCode)
+          .getConsignmentTracking(orderData.code, consignmentCode, userId)
           .subscribe();
         httpMock
           .expectOne(req => {
