@@ -13,7 +13,7 @@
     "migration-v2-constructor-user-address-03": {
       "version": "2-next",
       "factory": "./2_0/constructor-deprecation/user-address#migrate",
-      "description": "Add constructor parameter to user-address service"
+      "description": "Add a constructor parameter to user-address service"
     }
   }
 }

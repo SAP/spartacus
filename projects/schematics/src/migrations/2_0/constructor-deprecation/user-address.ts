@@ -16,7 +16,7 @@ import {
   getAllTsSourceFiles,
   InsertDirection,
   isCandidateForConstructorDeprecation,
-  migrateDeprecatedConstructor,
+  migrateDeprecatedConstructor as addConstructorParam,
 } from '../../../shared/utils/file-utils';
 
 const DEPRECATED_CONSTRUCTOR_PARAMETERS: ClassType[] = [
@@ -55,7 +55,7 @@ export function migrate(): Rule {
         const nodes = getSourceNodes(source);
         const constructorNode = findConstructor(nodes);
         for (const newConstructorParam of NEW_CONSTRUCTOR_PARAMETERS) {
-          const changes = migrateDeprecatedConstructor(
+          const changes = addConstructorParam(
             source,
             sourcePath,
             constructorNode,

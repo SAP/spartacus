@@ -19,6 +19,7 @@ import {
   UTF_8,
 } from '../constants';
 import {
+  addConstructorParam,
   ClassType,
   commitChanges,
   defineProperty,
@@ -31,7 +32,6 @@ import {
   insertCommentAboveIdentifier,
   InsertDirection,
   isCandidateForConstructorDeprecation,
-  migrateDeprecatedConstructor,
   renameIdentifierNode,
 } from './file-utils';
 import { getProjectFromWorkspace } from './workspace-utils';
@@ -447,7 +447,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('migrateDeprecatedConstructor', () => {
+  describe('addConstructorParam', () => {
     it('should return the expected changes', () => {
       const content = `
     import { Store } from '@ngrx/store';
@@ -476,7 +476,7 @@ describe('File utils', () => {
         importPath: SPARTACUS_CORE,
       };
 
-      const changes = migrateDeprecatedConstructor(
+      const changes = addConstructorParam(
         source,
         sourcePath,
         constructorNode,
