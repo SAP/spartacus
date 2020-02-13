@@ -11,9 +11,9 @@
       "description": "Update CMS components state to v2"
     },
     "migration-v2-constructor-user-address-03": {
-      "version": "2",
+      "version": "2-next",
       "factory": "./2_0/constructor-deprecation/user-address#migrate",
-      "description": "Migrate constructor for user-address service"
+      "description": "Add constructor parameter to user-address service"
     }
   }
 }
