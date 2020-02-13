@@ -36,13 +36,13 @@ export class ConfigRouterExtractorService {
     );
   }
 
-  hasBeenAddedToCart(routingService: RoutingService): Observable<any> {
+  isOwnerCartEntry(routingService: RoutingService): Observable<any> {
     return routingService.getRouterState().pipe(
       filter(routingData => routingData.state.params.entityKey),
       map(routingData => {
         const params = routingData.state.params;
         return {
-          hasBeenAdded:
+          isOwnerCartEntry:
             params.ownerType === GenericConfigurator.OwnerType.CART_ENTRY,
         };
       })

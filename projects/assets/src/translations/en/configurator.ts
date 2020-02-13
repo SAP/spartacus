@@ -30,8 +30,9 @@ export const configurator = {
       totalPrice: 'Total',
     },
     addToCart: {
-      button: 'Add To Cart',
-      buttonAfterAddToCart: 'Continue To Cart',
+      button: 'Add to Cart',
+      buttonAfterAddToCart: 'Continue to Cart',
+      buttonUpdateCart: 'Update Cart',
       confirmation: 'Configuration has been added to the cart',
     },
     overviewForm: {

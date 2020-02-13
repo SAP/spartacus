@@ -53,6 +53,7 @@ export namespace Configurator {
     overview?: Overview;
     owner?: GenericConfigurator.Owner;
     nextOwner?: GenericConfigurator.Owner;
+    isCartEntryUpdateRequired?: boolean;
   }
 
   export interface Overview {

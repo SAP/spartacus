@@ -119,11 +119,11 @@ describe('ConfigRouterExtractorService', () => {
     mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
 
     serviceUnderTest
-      .hasBeenAddedToCart(routingService)
+      .isOwnerCartEntry(routingService)
       .subscribe(
         hasBeenAddedFromRouter => (hasBeenAdded = hasBeenAddedFromRouter)
       );
-    expect(hasBeenAdded.hasBeenAdded).toBe(true);
+    expect(hasBeenAdded.isOwnerCartEntry).toBe(true);
   });
 
   it('should know from URL that a configuration has not been added to the cart yet', () => {
@@ -133,10 +133,10 @@ describe('ConfigRouterExtractorService', () => {
     mockRouterState.state.params.entityKey = PRODUCT_CODE;
 
     serviceUnderTest
-      .hasBeenAddedToCart(routingService)
+      .isOwnerCartEntry(routingService)
       .subscribe(
         hasBeenAddedFromRouter => (hasBeenAdded = hasBeenAddedFromRouter)
       );
-    expect(hasBeenAdded.hasBeenAdded).toBe(false);
+    expect(hasBeenAdded.isOwnerCartEntry).toBe(false);
   });
 });

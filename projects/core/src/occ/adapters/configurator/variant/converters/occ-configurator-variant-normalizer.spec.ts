@@ -96,6 +96,13 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(result.complete).toBe(true);
   });
 
+  it('should initialize isRequiredCartUpdate when converting a configuration', () => {
+    const result: Configurator.Configuration = occConfiguratorVariantNormalizer.convert(
+      configuration
+    );
+    expect(result.isCartEntryUpdateRequired).toBe(false);
+  });
+
   it('should convert subgroups', () => {
     const result = occConfiguratorVariantNormalizer.convert(configuration);
     expect(result.groups[0].subGroups[0].attributes.length).toBe(1);

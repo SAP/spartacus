@@ -440,6 +440,24 @@ describe('ConfiguratorCommonsService', () => {
     });
   });
 
+  describe('updateCartEntry', () => {
+    it('should get cart, create updateParameters and call updateCartEntry action', () => {
+      const params: Configurator.UpdateConfigurationForCartEntryParameters = {
+        cartId: CART_GUID,
+        userId: OCC_USER_ID_ANONYMOUS,
+        configuration: productConfiguration,
+      };
+
+      spyOn(store, 'dispatch').and.callThrough();
+
+      serviceUnderTest.updateCartEntry(productConfiguration);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.UpdateCartEntry(params)
+      );
+    });
+  });
+
   describe('getConfiguration', () => {
     it('should return an unchanged observable of product configurations in case configurations carry valid config IDs', () => {
       const obs = cold('x-y', {

@@ -167,6 +167,17 @@ export class ConfiguratorCommonsService {
     });
   }
 
+  updateCartEntry(configuration: Configurator.Configuration) {
+    this.activeCartService.requireLoadedCart().subscribe(cartState => {
+      const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
+        userId: this.getUserId(cartState.value),
+        cartId: this.getCartId(cartState.value),
+        configuration: configuration,
+      };
+      this.store.dispatch(new ConfiguratorActions.UpdateCartEntry(parameters));
+    });
+  }
+
   ////
   // Helper methods
   ////

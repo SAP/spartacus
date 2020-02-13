@@ -98,6 +98,7 @@ class MockConfiguratorCommonsService {
     return of(productConfiguration);
   }
   addToCart() {}
+  updateCartEntry() {}
   removeConfiguration() {}
   removeUiState() {}
 }
@@ -112,11 +113,7 @@ function performAddToCartOnOverview(
     },
     url: 'host:port/electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR',
   };
-  classUnderTest.onAddToCart(
-    productConfiguration.owner,
-    productConfiguration.configId,
-    configuratorType
-  );
+  classUnderTest.onAddToCart(productConfiguration, configuratorType);
 }
 
 function performAddToCartWhenAdded(
@@ -126,11 +123,7 @@ function performAddToCartWhenAdded(
     ownerType: GenericConfigurator.OwnerType.CART_ENTRY,
     entityKey: CART_ENTRY_KEY,
   };
-  classUnderTest.onAddToCart(
-    productConfiguration.owner,
-    productConfiguration.configId,
-    configuratorType
-  );
+  classUnderTest.onAddToCart(productConfiguration, configuratorType);
 }
 
 describe('ConfigAddToCartButtonComponent', () => {
@@ -207,11 +200,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       ownerType: GenericConfigurator.OwnerType.CART_ENTRY,
       entityKey: CART_ENTRY_KEY,
     };
-    classUnderTest.onAddToCart(
-      productConfiguration.owner,
-      productConfiguration.configId,
-      configuratorType
-    );
+    classUnderTest.onAddToCart(productConfiguration, configuratorType);
     expect(globalMessageService.add).toHaveBeenCalledTimes(0);
   });
 
@@ -220,11 +209,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       entityKey: PRODUCT_CODE,
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     };
-    classUnderTest.onAddToCart(
-      productConfiguration.owner,
-      productConfiguration.configId,
-      configuratorType
-    );
+    classUnderTest.onAddToCart(productConfiguration, configuratorType);
     expect(routingService.go).toHaveBeenCalledWith(
       'configureOverview' +
         configuratorType +
@@ -239,11 +224,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       entityKey: PRODUCT_CODE,
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     };
-    classUnderTest.onAddToCart(
-      productConfiguration.owner,
-      productConfiguration.configId,
-      configuratorType
-    );
+    classUnderTest.onAddToCart(productConfiguration, configuratorType);
     expect(globalMessageService.add).toHaveBeenCalledTimes(1);
   });
 
