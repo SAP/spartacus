@@ -19,6 +19,7 @@ import {
   writeFile,
 } from '../../../shared/utils/test-utils';
 
+const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-user-address-03';
 const NOT_INHERITING_SPARTACUS_CLASS = `
     import { Store } from '@ngrx/store';
     import { StateWithProcess, StateWithUser } from '@spartacus/core';
@@ -140,7 +141,7 @@ describe('constructor user-address migration', () => {
     it('should skip it', async () => {
       writeFile(host, '/src/index.ts', NOT_INHERITING_SPARTACUS_CLASS);
 
-      await runMigration(appTree, schematicRunner);
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(NOT_INHERITING_SPARTACUS_CLASS);
@@ -151,7 +152,7 @@ describe('constructor user-address migration', () => {
     it('should skip it', async () => {
       writeFile(host, '/src/index.ts', NO_CONSTRUCTOR);
 
-      await runMigration(appTree, schematicRunner);
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(NO_CONSTRUCTOR);
@@ -162,7 +163,7 @@ describe('constructor user-address migration', () => {
     it('should skip it', async () => {
       writeFile(host, '/src/index.ts', WRONG_PARAM_ORDER);
 
-      await runMigration(appTree, schematicRunner);
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(WRONG_PARAM_ORDER);
@@ -173,7 +174,7 @@ describe('constructor user-address migration', () => {
     it('should create it', async () => {
       writeFile(host, '/src/index.ts', NO_SUPER_CALL);
 
-      await runMigration(appTree, schematicRunner);
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(NO_SUPER_CALL);
@@ -185,7 +186,7 @@ describe('constructor user-address migration', () => {
       const filePath = '/src/index.ts';
       writeFile(host, filePath, CALL_EXPRESSION_NO_SUPER);
 
-      await runMigration(appTree, schematicRunner);
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent(filePath);
       expect(content).toEqual(CALL_EXPRESSION_NO_SUPER);
@@ -197,7 +198,7 @@ describe('constructor user-address migration', () => {
       const filePath = '/src/index.ts';
       writeFile(host, filePath, VALID_TEST_CLASS);
 
-      await runMigration(appTree, schematicRunner);
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent(filePath);
 
