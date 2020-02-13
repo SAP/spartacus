@@ -64,7 +64,7 @@
       <div class="form-group">
         <ng-container
           *ngIf="businessUnits$ | async as businessUnits"
-          formGroupName="orgUnit"
+          formGroupName="unit"
         >
           <div *ngIf="businessUnits.length !== 0">
             <label aria-required="true">
@@ -78,66 +78,19 @@
                 [items]="businessUnits"
                 bindLabel="name"
                 bindValue="id"
-                [class.invalid]="isNotValid('orgUnit')"
+                [class.invalid]="isNotValid('unit')"
               >
               </ng-select>
               <ng-container
-                *ngIf="isNotValid('orgUnit')"
+                *ngIf="isNotValid('unit')"
                 [ngTemplateOutlet]="validation"
                 [ngTemplateOutletContext]="{
-                  control: form.controls.orgUnit['controls']['uid']
+                  control: form.controls.unit['controls']['uid']
                 }"
               ></ng-container>
             </label>
           </div>
         </ng-container>
-      </div>
-
-      <div class="form-group">
-        <label>
-          <span class="label-content">{{
-            'costCenterForm.startDate' | cxTranslate
-          }}</span>
-          <cx-date-picker
-            formControlName="startDate"
-            [max]="form.controls.endDate.value"
-            (change)="form.controls.endDate.updateValueAndValidity()"
-            [invalid]="isNotValid('startDate')"
-          ></cx-date-picker>
-          <ng-container
-            *ngIf="isNotValid('startDate')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.startDate,
-              translationParams: { date: form.controls.endDate.value | cxDate }
-            }"
-          ></ng-container>
-        </label>
-      </div>
-
-      <div class="form-group">
-        <label>
-          <span class="label-content">{{
-            'costCenterForm.endDate' | cxTranslate
-          }}</span>
-          <cx-date-picker
-            formControlName="endDate"
-            [min]="form.controls.startDate.value"
-            (change)="form.controls.startDate.updateValueAndValidity()"
-            [endOfDay]="true"
-            [invalid]="isNotValid('endDate')"
-          ></cx-date-picker>
-          <ng-container
-            *ngIf="isNotValid('endDate')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.endDate,
-              translationParams: {
-                date: form.controls.startDate.value | cxDate
-              }
-            }"
-          ></ng-container>
-        </label>
       </div>
 
       <div class="form-group">
@@ -170,30 +123,6 @@
             </label>
           </div>
         </ng-container>
-      </div>
-
-      <div class="form-group">
-        <label>
-          <span class="label-content">{{
-            'costCenterForm.amount.label' | cxTranslate
-          }}</span>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="{{
-              'costCenterForm.amount.placeholder' | cxTranslate
-            }}"
-            formControlName="costCenter"
-            [class.is-invalid]="isNotValid('costCenter')"
-          />
-          <ng-container
-            *ngIf="isNotValid('costCenter')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.costCenter
-            }"
-          ></ng-container>
-        </label>
       </div>
     </div>
   </div>

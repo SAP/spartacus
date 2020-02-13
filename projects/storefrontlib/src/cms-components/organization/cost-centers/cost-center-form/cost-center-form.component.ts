@@ -58,15 +58,12 @@ export class CostCenterFormComponent implements OnInit {
   form: FormGroup = this.fb.group({
     code: ['', Validators.required],
     name: ['', Validators.required],
-    orgUnit: this.fb.group({
+    unit: this.fb.group({
       uid: [null, Validators.required],
     }),
-    startDate: ['', Validators.required],
-    endDate: ['', Validators.required],
     currency: this.fb.group({
       isocode: [null, Validators.required],
     }),
-    costCenter: ['', Validators.required],
   });
 
   constructor(

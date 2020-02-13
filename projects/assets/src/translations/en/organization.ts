@@ -125,7 +125,6 @@ export const organization = {
       required: 'Value is required',
     },
   },
-
   costCentersList: {
     code: 'Code',
     costCenterManagement: 'Cost Center Management',
@@ -155,24 +154,22 @@ export const organization = {
     deactivated: 'Deactivated',
   },
   costCenterForm: {
-    create: 'Create Permission',
-    edit: 'Edit Permission',
-    update: 'Update Permission',
+    create: 'Create Cost Center',
+    edit: 'Edit Cost Center',
+    update: 'Update Cost Center',
     code: {
-      label: 'Permission ID',
+      label: 'Cost Center ID',
       placeholder: 'Code',
+    },
+    name: {
+      label: 'Create Cost name',
+      placeholder: 'Name',
     },
     businessUnits: {
       label: 'Parent business unit',
       placeholder: 'Select business unit',
     },
-    periodRange: 'Period range',
-    type: 'Type',
     currency: 'Currency',
-    threshold: {
-      label: 'Permission threshold',
-      placeholder: 'Amount',
-    },
     message: {
       required: 'Value is required',
     },
