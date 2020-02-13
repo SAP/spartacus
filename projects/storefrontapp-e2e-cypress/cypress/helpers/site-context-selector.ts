@@ -165,7 +165,7 @@ export function siteContextChange(
     .its('status')
     .should('eq', 200);
 
-  cy.route('GET', `*${selectedOption}*`).as('switchedContext');
+  cy.route('GET', `*lang=${selectedOption}*`).as('switchedContext');
   switchSiteContext(selectedOption, label);
   cy.wait('@switchedContext')
     .its('status')
