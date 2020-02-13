@@ -35,6 +35,16 @@ export function addProductVariant() {
   cy.get('cx-breadcrumb').should('contain', 'Your Shopping Bag');
 }
 
+export function configureApparelProduct() {
+  cy.window().then(win => win.sessionStorage.clear());
+  cy.cxConfig({
+    context: {
+      baseSite: ['apparel-uk-spa'],
+      currency: ['GBP'],
+    },
+  });
+}
+
 export function addTwoProductVariantsToCart() {
   cy.get(`.variant-selector ul.variant-list li a.colorVariant`)
     .first()

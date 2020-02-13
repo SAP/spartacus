@@ -1,5 +1,6 @@
 import { CheckoutConfig } from '@spartacus/storefront';
 import { checkoutAsGuestWithVariantsTest } from '../../../helpers/checkout-as-guest-with-variants';
+import { configureApparelProduct } from '../../../helpers/checkout-with-variants';
 
 context('Checkout as guest', () => {
   before(() => {
@@ -16,18 +17,4 @@ context('Checkout as guest', () => {
   afterEach(() => {
     cy.saveLocalStorage();
   });
-
-  after(() => {
-    // login.signOutUser();
-  });
-
-  function configureApparelProduct() {
-    cy.window().then(win => win.sessionStorage.clear());
-    cy.cxConfig({
-      context: {
-        baseSite: ['apparel-uk-spa'],
-        currency: ['GBP'],
-      },
-    });
-  }
 });
