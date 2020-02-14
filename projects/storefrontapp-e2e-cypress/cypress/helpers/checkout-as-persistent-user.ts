@@ -183,7 +183,9 @@ export function selectShippingAddress(site: string = 'electronics-spa') {
     'getDeliveryPage'
   );
   cy.get('button.btn-primary').click();
-  cy.wait('@getDeliveryPage');
+  cy.wait('@getDeliveryPage')
+    .its('status')
+    .should('eq', 200);
 }
 
 export function selectDeliveryMethod(site: string = 'electronics-spa') {
