@@ -459,7 +459,6 @@ function removeConstructorParamInternal(
       const changes: RemoveChange[] = [];
       // if it's not the first parameter that should be removed, we should remove the comma after the previous parameter
       if (i !== 0) {
-        // TODO:#6520 - test
         const previousParameter = constructorParameters[i - 1];
         changes.push(new RemoveChange(sourcePath, previousParameter.end, ','));
       }

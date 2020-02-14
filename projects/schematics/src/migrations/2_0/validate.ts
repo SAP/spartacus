@@ -9,9 +9,6 @@ import {
   getMajorVersionNumber,
 } from '../../shared/utils/package-utils';
 
-// TODO:#6520 - validation seems to be ran before all other migrations.
-// TODO:#6520 - Also, the changes do not seem to be rolled back after the validation fails
-
 export function validate(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const angularVersion = getAngularVersion(tree);
