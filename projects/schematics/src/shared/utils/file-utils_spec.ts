@@ -36,6 +36,115 @@ import {
 } from './file-utils';
 import { getProjectFromWorkspace } from './workspace-utils';
 
+const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
+    import { Store } from '@ngrx/store';
+    import {
+      AuthService,
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritingService extends UserAddressService {
+      constructor(
+        authService: AuthService,
+        store: Store<StateWithUser | StateWithProcess<void>>
+      ) {
+        super(authService, store);
+      }
+    }
+`;
+const INHERITANCE_TEST_CLASS = `
+    import { Store } from '@ngrx/store';
+    import { StateWithProcess, StateWithUser } from '@spartacus/core';
+    export class InheritingService {
+      constructor(_store: Store<StateWithUser | StateWithProcess<void>>) {}
+    }
+`;
+const IMPORT_MISSING_TEST_CLASS = `
+    import { StateWithProcess, StateWithUser, UserAddressService } from '@spartacus/core';
+    export class InheritingService extends UserAddressService {
+      constructor(_store: Store<StateWithUser | StateWithProcess<void>>) {}
+    }
+`;
+const NO_CONSTRUCTOR_TEST_CLASS = `
+    import { UserAddressService } from '@spartacus/core';
+    import { Store } from '@ngrx/store';
+    export class InheritingService extends UserAddressService {}
+`;
+const WRONG_PARAMETER_ORDER_TEST_CLASS = `
+    import { Store } from '@ngrx/store';
+    import {
+      AuthService,
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritingService extends UserAddressService {
+      constructor(
+        authService: AuthService,
+        store: Store<StateWithUser | StateWithProcess<void>>
+      ) {
+        super(authService, store);
+      }
+    }
+`;
+const NO_SUPER_TEST_CLASS = `
+    import { Store } from '@ngrx/store';
+    import {
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritingService extends UserAddressService {
+      constructor(
+        store: Store<StateWithUser | StateWithProcess<void>>
+      ) {}
+    }
+`;
+const EXPRESSION_NO_SUPER_TEST_CLASS = `
+    import { Store } from '@ngrx/store';
+    import {
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritingService extends UserAddressService {
+      constructor(
+        store: Store<StateWithUser | StateWithProcess<void>>
+      ) {
+        console.log('test');
+      }
+    }
+`;
+const SUPER_PARAMETER_NUMBER_TEST_CLASS = `
+    import { Store } from '@ngrx/store';
+    import {
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritingService extends UserAddressService {
+      constructor(
+        store: Store<StateWithUser | StateWithProcess<void>>
+      ) {
+        super();
+      }
+    }
+`;
+const VALID_TEST_CLASS = `
+    import { Store } from '@ngrx/store';
+    import {
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritedService extends UserAddressService {
+      constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
+        super(store);
+      }
+    }
+`;
+
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -205,16 +314,9 @@ describe('File utils', () => {
 
   describe('isCandidateForConstructorDeprecation', async () => {
     it('should return false if the inheritance condition is not satisfied', () => {
-      const content = `
-      import { Store } from '@ngrx/store';
-      import { StateWithProcess, StateWithUser } from '@spartacus/core';
-      export class InheritingService {
-        constructor(_store: Store<StateWithUser | StateWithProcess<void>>) {}
-      }
-      `;
       const source = ts.createSourceFile(
         'xxx.ts',
-        content,
+        INHERITANCE_TEST_CLASS,
         ts.ScriptTarget.Latest,
         true
       );
@@ -224,15 +326,9 @@ describe('File utils', () => {
       ).toEqual(false);
     });
     it('should return false if the imports condition not satisfied', () => {
-      const content = `
-      import { StateWithProcess, StateWithUser, UserAddressService } from '@spartacus/core';
-      export class InheritingService extends UserAddressService {
-        constructor(_store: Store<StateWithUser | StateWithProcess<void>>) {}
-      }
-      `;
       const source = ts.createSourceFile(
         'xxx.ts',
-        content,
+        IMPORT_MISSING_TEST_CLASS,
         ts.ScriptTarget.Latest,
         true
       );
@@ -249,14 +345,9 @@ describe('File utils', () => {
       ).toEqual(false);
     });
     it('should return false if the constructor condition is not satisfied', () => {
-      const content = `
-      import { UserAddressService } from '@spartacus/core';
-      import { Store } from '@ngrx/store';
-      export class InheritingService extends UserAddressService {}
-      `;
       const source = ts.createSourceFile(
         'xxx.ts',
-        content,
+        NO_CONSTRUCTOR_TEST_CLASS,
         ts.ScriptTarget.Latest,
         true
       );
@@ -273,26 +364,9 @@ describe('File utils', () => {
       ).toEqual(false);
     });
     it('should return false if the parameter lengths condition is not satisfied', () => {
-      const content = `
-      import { Store } from '@ngrx/store';
-      import {
-        AuthService,
-        StateWithProcess,
-        StateWithUser,
-        UserAddressService
-      } from '@spartacus/core';
-      export class InheritingService extends UserAddressService {
-        constructor(
-          authService: AuthService,
-          store: Store<StateWithUser | StateWithProcess<void>>
-        ) {
-          super(authService, store);
-        }
-      }
-      `;
       const source = ts.createSourceFile(
         'xxx.ts',
-        content,
+        PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS,
         ts.ScriptTarget.Latest,
         true
       );
@@ -309,26 +383,9 @@ describe('File utils', () => {
       ).toEqual(false);
     });
     it('should return false if the parameter order is not satisfied', () => {
-      const content = `
-      import { Store } from '@ngrx/store';
-      import {
-        AuthService,
-        StateWithProcess,
-        StateWithUser,
-        UserAddressService
-      } from '@spartacus/core';
-      export class InheritingService extends UserAddressService {
-        constructor(
-          authService: AuthService,
-          store: Store<StateWithUser | StateWithProcess<void>>
-        ) {
-          super(authService, store);
-        }
-      }
-      `;
       const source = ts.createSourceFile(
         'xxx.ts',
-        content,
+        WRONG_PARAMETER_ORDER_TEST_CLASS,
         ts.ScriptTarget.Latest,
         true
       );
@@ -346,22 +403,9 @@ describe('File utils', () => {
       ).toEqual(false);
     });
     it('should return false if the super() call does NOT exist', () => {
-      const content = `
-      import { Store } from '@ngrx/store';
-      import {
-        StateWithProcess,
-        StateWithUser,
-        UserAddressService
-      } from '@spartacus/core';
-      export class InheritingService extends UserAddressService {
-        constructor(
-          store: Store<StateWithUser | StateWithProcess<void>>
-        ) {}
-      }
-      `;
       const source = ts.createSourceFile(
         'xxx.ts',
-        content,
+        NO_SUPER_TEST_CLASS,
         ts.ScriptTarget.Latest,
         true
       );
@@ -378,24 +422,9 @@ describe('File utils', () => {
       ).toEqual(false);
     });
     it('should return false if an expression call exists, but it is NOT the super(); call', () => {
-      const content = `
-      import { Store } from '@ngrx/store';
-      import {
-        StateWithProcess,
-        StateWithUser,
-        UserAddressService
-      } from '@spartacus/core';
-      export class InheritingService extends UserAddressService {
-        constructor(
-          store: Store<StateWithUser | StateWithProcess<void>>
-        ) {
-          console.log('test');
-        }
-      }
-      `;
       const source = ts.createSourceFile(
         'xxx.ts',
-        content,
+        EXPRESSION_NO_SUPER_TEST_CLASS,
         ts.ScriptTarget.Latest,
         true
       );
@@ -412,24 +441,9 @@ describe('File utils', () => {
       ).toEqual(false);
     });
     it('should return false if the expected number of parameters is not passed to super() call', () => {
-      const content = `
-      import { Store } from '@ngrx/store';
-      import {
-        StateWithProcess,
-        StateWithUser,
-        UserAddressService
-      } from '@spartacus/core';
-      export class InheritingService extends UserAddressService {
-        constructor(
-          store: Store<StateWithUser | StateWithProcess<void>>
-        ) {
-          super();
-        }
-      }
-      `;
       const source = ts.createSourceFile(
         'xxx.ts',
-        content,
+        SUPER_PARAMETER_NUMBER_TEST_CLASS,
         ts.ScriptTarget.Latest,
         true
       );
@@ -449,23 +463,10 @@ describe('File utils', () => {
 
   describe('addConstructorParam', () => {
     it('should return the expected changes', () => {
-      const content = `
-    import { Store } from '@ngrx/store';
-    import {
-      StateWithProcess,
-      StateWithUser,
-      UserAddressService
-    } from '@spartacus/core';
-    export class InheritedService extends UserAddressService {
-      constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
-        super(store);
-      }
-    }
-    `;
       const sourcePath = 'xxx.ts';
       const source = ts.createSourceFile(
         sourcePath,
-        content,
+        VALID_TEST_CLASS,
         ts.ScriptTarget.Latest,
         true
       );

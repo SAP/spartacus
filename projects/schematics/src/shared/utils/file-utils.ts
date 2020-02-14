@@ -535,20 +535,20 @@ function updateConstructorSuperNode(
     throw new SchematicsException('No super() call found.');
   }
 
-  let toAdd = '';
+  let toInsert = '';
   let position: number;
   const params = findNodes(firstCallExpression, ts.SyntaxKind.Identifier);
   // just an empty super() call, without any params passed to it
-  if (params && params.length === 0) {
+  if (params.length === 0) {
     position = superKeyword[0].end + 1;
   } else {
     const lastParam = params[params.length - 1];
-    toAdd += ', ';
+    toInsert += ', ';
     position = lastParam.end;
   }
 
-  toAdd += propertyName;
-  return new InsertChange(sourcePath, position, toAdd);
+  toInsert += propertyName;
+  return new InsertChange(sourcePath, position, toInsert);
 }
 
 export function injectService(
@@ -567,10 +567,10 @@ export function injectService(
     ts.SyntaxKind.Parameter
   );
 
-  let toAdd = '';
+  let toInsert = '';
   let position = constructorNode.getStart() + 'constructor('.length;
   if (constructorParameters && constructorParameters.length > 0) {
-    toAdd += ', ';
+    toInsert += ', ';
     const lastParam = constructorParameters[constructorParameters.length - 1];
     position = lastParam.end;
   }
@@ -579,10 +579,10 @@ export function injectService(
     ? strings.camelize(propertyName)
     : strings.camelize(serviceName);
 
-  if (modifier !== 'no-modifier') toAdd += `${modifier} `;
-  toAdd += `${propertyName}: ${strings.classify(serviceName)}`;
+  if (modifier !== 'no-modifier') toInsert += `${modifier} `;
+  toInsert += `${propertyName}: ${strings.classify(serviceName)}`;
 
-  return new InsertChange(path, position, toAdd);
+  return new InsertChange(path, position, toInsert);
 }
 
 export function insertCommentAboveIdentifier(

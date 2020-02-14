@@ -171,7 +171,7 @@ describe('constructor user-address migration', () => {
   });
 
   describe('when the class does NOT have a super call', () => {
-    it('should create it', async () => {
+    it('should skip it', async () => {
       writeFile(host, '/src/index.ts', NO_SUPER_CALL);
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -182,7 +182,7 @@ describe('constructor user-address migration', () => {
   });
 
   describe('when the class has a CallExpression node which is NOT of type super', () => {
-    it('should create it', async () => {
+    it('should skip it', async () => {
       const filePath = '/src/index.ts';
       writeFile(host, filePath, CALL_EXPRESSION_NO_SUPER);
 
