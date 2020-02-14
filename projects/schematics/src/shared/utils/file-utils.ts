@@ -120,7 +120,6 @@ export function commitChanges(
       } else {
         recorder.insertRight(pos, newText);
       }
-      // TODO:#6520 - test
     } else if (change instanceof RemoveChange) {
       const pos = change['pos'];
       const length = change['toRemove'].length;

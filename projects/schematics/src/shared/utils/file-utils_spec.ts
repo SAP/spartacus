@@ -6,6 +6,7 @@ import { getProjectTsConfigPaths } from '@angular/core/schematics/utils/project_
 import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 import {
   InsertChange,
+  RemoveChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
 import * as path from 'path';
@@ -241,14 +242,8 @@ describe('File utils', () => {
       const filePath = 'src/index.html';
       const change = 'xxx';
       const testChange = new InsertChange(filePath, 0, change);
-      const result = commitChanges(
-        appTree,
-        filePath,
-        [testChange],
-        InsertDirection.LEFT
-      );
+      commitChanges(appTree, filePath, [testChange], InsertDirection.LEFT);
 
-      expect(result).toBeFalsy();
       const buffer = appTree.read(filePath);
       expect(buffer).toBeTruthy();
       if (buffer) {
@@ -266,19 +261,27 @@ describe('File utils', () => {
         'AppComponent',
         change
       );
-      const result = commitChanges(
-        appTree,
-        filePath,
-        [testChange],
-        InsertDirection.LEFT
-      );
+      commitChanges(appTree, filePath, [testChange], InsertDirection.LEFT);
 
-      expect(result).toBeFalsy();
       const buffer = appTree.read(filePath);
       expect(buffer).toBeTruthy();
       if (buffer) {
         const content = buffer.toString(UTF_8);
         expect(content).toContain(change);
+      }
+    });
+    it('should commit provided RemoveChange', async () => {
+      const filePath = '/src/app/app.component.ts';
+
+      const toRemove = `title = 'schematics-test';`;
+      const testChange = new RemoveChange(filePath, 188, toRemove);
+      commitChanges(appTree, filePath, [testChange], InsertDirection.LEFT);
+
+      const buffer = appTree.read(filePath);
+      expect(buffer).toBeTruthy();
+      if (buffer) {
+        const content = buffer.toString(UTF_8);
+        expect(content).not.toContain(toRemove);
       }
     });
   });
