@@ -12,6 +12,7 @@ import {
 import {
   Change,
   InsertChange,
+  NoopChange,
   RemoveChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
@@ -336,27 +337,16 @@ export function removeConstructorParam(
   }
 
   const importRemovalChange = removeImport(source, sourcePath, paramToRemove);
-  if (!importRemovalChange) {
-    return [];
-  }
-
   const constructorParamRemovalChange = removeConstructorParamInternal(
     sourcePath,
     constructorNode,
     paramToRemove
   );
-  if (!constructorParamRemovalChange) {
-    return [];
-  }
-
   const superRemoval = removeParamFromSuper(
     sourcePath,
     constructorNode,
     constructorParamRemovalChange.paramName
   );
-  if (!superRemoval) {
-    return [];
-  }
 
   return [
     importRemovalChange,
@@ -365,12 +355,12 @@ export function removeConstructorParam(
   ];
 }
 
-// TODO:#6520 - use NoopChange() instead of undefined
+// TODO:#6520 - break down this method into smaller functions
 function removeImport(
   source: ts.SourceFile,
   sourcePath: string,
   importToRemove: ClassType
-): Change | undefined {
+): Change {
   const nodes = getSourceNodes(source);
 
   // collect al the import declarations
@@ -382,7 +372,7 @@ function removeImport(
         `'${importToRemove.importPath}'`
     );
   if (importDeclarationNodes.length === 0) {
-    return undefined;
+    return new NoopChange();
   }
 
   // find the one that contains the specified `importToRemove.className`
@@ -401,7 +391,7 @@ function removeImport(
     }
   }
   if (!importDeclarationNode) {
-    return undefined;
+    return new NoopChange();
   }
 
   // proceed with removing the found import
@@ -433,7 +423,7 @@ function removeImport(
       })
       .filter(result => result.importFound)[0];
     if (!specifiedImport.importFound) {
-      return undefined;
+      return new NoopChange();
     }
 
     // in case the import that needs to be removed is in the middle, we need to remove the ',' that follows the found import
@@ -450,7 +440,7 @@ function removeConstructorParamInternal(
   sourcePath: string,
   constructorNode: ts.Node,
   importToRemove: ClassType
-): { changes: RemoveChange[]; paramName: string } | undefined {
+): { changes: Change[]; paramName: string } {
   const constructorParameters = findNodes(
     constructorNode,
     ts.SyntaxKind.Parameter
@@ -482,14 +472,14 @@ function removeConstructorParamInternal(
       return { changes, paramName };
     }
   }
-  return undefined;
+  return { changes: [new NoopChange()], paramName: '' };
 }
 
 function removeParamFromSuper(
   sourcePath: string,
   constructorNode: ts.Node,
   paramName: string
-): RemoveChange | undefined {
+): Change {
   const callExpressions = findNodes(
     constructorNode,
     ts.SyntaxKind.CallExpression
@@ -505,7 +495,7 @@ function removeParamFromSuper(
     ts.SyntaxKind.Identifier
   )[0];
   if (!paramNode) {
-    return undefined;
+    return new NoopChange();
   }
 
   return new RemoveChange(sourcePath, paramNode.getStart(), paramName);
