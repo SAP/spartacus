@@ -3,6 +3,7 @@ import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
 import { parseTsconfigFile } from '@angular/core/schematics/utils/typescript/parse_tsconfig';
 import {
+  findNode,
   findNodes,
   getSourceNodes,
   insertImport,
@@ -234,29 +235,21 @@ function checkConstructorParameters(
     return false;
   }
 
+  let paramTypeFound = true;
   for (let i = 0; i < parameterClassTypes.length; i++) {
-    const parameterClassType = parameterClassTypes[i];
     const constructorParameter = constructorParameters[i];
-
-    const constructorParameterTypeReferenceNode = constructorParameter
-      .getChildren()
-      .find(node => node.kind === ts.SyntaxKind.TypeReference);
-    if (!constructorParameterTypeReferenceNode) {
-      return false;
-    }
-    const constructorParameterType = findLevel1NodesByTextAndKind(
-      constructorParameterTypeReferenceNode.getChildren(),
-      parameterClassType.className,
+    const constructorParameterType = findNodes(
+      constructorParameter,
       ts.SyntaxKind.Identifier
-    );
+    ).filter(node => node.getText() === parameterClassTypes[i].className);
 
-    // return false if there's no param with the expected type on the current position
     if (constructorParameterType.length === 0) {
-      return false;
+      paramTypeFound = false;
+      break;
     }
   }
 
-  return true;
+  return paramTypeFound;
 }
 
 function checkSuper(
@@ -372,24 +365,46 @@ export function removeConstructorParam(
   ];
 }
 
+// TODO:#6520 - use NoopChange() instead of undefined
 function removeImport(
   source: ts.SourceFile,
   sourcePath: string,
   importToRemove: ClassType
 ): Change | undefined {
   const nodes = getSourceNodes(source);
-  const importDeclarationNode = nodes
+
+  // collect al the import declarations
+  const importDeclarationNodes = nodes
     .filter(node => node.kind === ts.SyntaxKind.ImportDeclaration)
-    .find(
+    .filter(
       node =>
         (node as ts.ImportDeclaration).moduleSpecifier.getText() ===
-        importToRemove.importPath
+        `'${importToRemove.importPath}'`
     );
+  if (importDeclarationNodes.length === 0) {
+    return undefined;
+  }
 
+  // find the one that contains the specified `importToRemove.className`
+  let importDeclarationNode = importDeclarationNodes[0];
+  for (const currentImportDeclaration of importDeclarationNodes) {
+    const importIdentifiers = findNodes(
+      currentImportDeclaration,
+      ts.SyntaxKind.Identifier
+    );
+    const found = importIdentifiers.find(
+      node => node.getText() === importToRemove.className
+    );
+    if (found) {
+      importDeclarationNode = currentImportDeclaration;
+      break;
+    }
+  }
   if (!importDeclarationNode) {
     return undefined;
   }
 
+  // proceed with removing the found import
   let position: number;
   let toRemove = importToRemove.className;
   const importSpecifierNodes = findNodes(
@@ -404,14 +419,30 @@ function removeImport(
   } else {
     // TODO:6520 - test
     // delete only the specified import, and leave the rest
-    const specifiedImport = findLevel1NodesByTextAndKind(
-      importSpecifierNodes,
-      importToRemove.className,
-      ts.SyntaxKind.Identifier
-    )[0];
-    position = specifiedImport.getStart();
-  }
+    const specifiedImport = importSpecifierNodes
+      .map((importSpecifier, i) => {
+        const importFound = findNode(
+          importSpecifier,
+          ts.SyntaxKind.Identifier,
+          importToRemove.className
+        );
+        return {
+          importFound,
+          i,
+        };
+      })
+      .filter(result => result.importFound)[0];
+    if (!specifiedImport.importFound) {
+      return undefined;
+    }
 
+    // in case the import that needs to be removed is in the middle, we need to remove the ',' that follows the found import
+    if (specifiedImport.i !== importSpecifierNodes.length - 1) {
+      toRemove += ',';
+    }
+
+    position = specifiedImport.importFound.getStart();
+  }
   return new RemoveChange(sourcePath, position, toRemove);
 }
 

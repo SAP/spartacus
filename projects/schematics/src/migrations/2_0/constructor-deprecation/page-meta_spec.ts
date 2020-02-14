@@ -10,12 +10,13 @@ import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-page-meta-04';
 const TEST = `
+import { Dummy } from '@angular/core';
 import {
   CmsService,
   FeatureConfigService,
   PageMetaResolver,
   PageMetaService
-} from "@spartacus/core";
+} from '@spartacus/core';
 export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
