@@ -22,10 +22,14 @@ export class ConfigRouterExtractorService {
       map(routingData => {
         const params = routingData.state.params;
         const owner: GenericConfigurator.Owner = {};
+
         if (params.ownerType) {
           const entityKey = params.entityKey;
           owner.type = params.ownerType;
           owner.id = entityKey;
+          if (params.forceReload) {
+            owner.hasObsoleteState = true;
+          }
         } else {
           owner.type = GenericConfigurator.OwnerType.PRODUCT;
           owner.id = params.rootProduct;

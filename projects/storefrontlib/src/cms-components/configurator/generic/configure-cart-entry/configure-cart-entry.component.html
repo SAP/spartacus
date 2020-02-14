@@ -5,7 +5,8 @@
         cxRoute: 'configure' + cartEntry.product.configuratorType,
         params: {
           ownerType: ownerTypeCartEntry,
-          entityKey: cartEntry.entryNumber
+          entityKey: cartEntry.entryNumber,
+          forceReload: true
         }
       } | cxUrl
     "

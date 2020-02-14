@@ -43,6 +43,11 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
         path: 'configureCPQCONFIGURATOR/:ownerType',
         children: [
           {
+            path: 'entityKey/:entityKey/forceReload/:forceReload',
+            component: PageLayoutComponent,
+            data: { pageLabel: '/configureCPQCONFIGURATOR' },
+          },
+          {
             path: 'entityKey/:entityKey',
             component: PageLayoutComponent,
             data: { pageLabel: '/configureCPQCONFIGURATOR' },
