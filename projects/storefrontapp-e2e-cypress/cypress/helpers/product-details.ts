@@ -139,7 +139,7 @@ export function verifyQuantityInCart() {
 }
 
 export function selectProductStyleVariant() {
-  cy.get(`${variantStyleList} li a.colorVariant`)
+  cy.get(`${variantStyleList} li img[alt="glacier"]`)
     .first()
     .click();
 
@@ -147,7 +147,7 @@ export function selectProductStyleVariant() {
 }
 
 export function selectProductSizeVariant() {
-  cy.get(`${variantStyleList} li a.colorVariant`)
+  cy.get(`${variantStyleList} li img[alt="glacier"]`)
     .first()
     .click();
 
@@ -158,7 +158,7 @@ export function selectProductSizeVariant() {
 }
 
 export function selectProductSizeVariantWithoutStock() {
-  cy.get(`${variantStyleList} li a.colorVariant`)
+  cy.get(`${variantStyleList} li img[alt="glacier"]`)
     .first()
     .click();
 
