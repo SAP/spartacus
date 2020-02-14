@@ -84,31 +84,29 @@ export function migrate(): Rule {
 
           const nodes = getSourceNodes(source);
           const constructorNode = findConstructor(nodes);
-          if (constructorDeprecation.addParams) {
-            for (const newConstructorParam of constructorDeprecation.addParams) {
-              const changes = addConstructorParam(
-                source,
-                sourcePath,
-                constructorNode,
-                newConstructorParam
-              );
-              if (changes.length) {
-                commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-              }
+          for (const newConstructorParam of constructorDeprecation.addParams ||
+            []) {
+            const changes = addConstructorParam(
+              source,
+              sourcePath,
+              constructorNode,
+              newConstructorParam
+            );
+            if (changes.length) {
+              commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
             }
           }
 
-          if (constructorDeprecation.removeParams) {
-            for (const constructorParamToRemove of constructorDeprecation.removeParams) {
-              const changes = removeConstructorParam(
-                source,
-                sourcePath,
-                constructorNode,
-                constructorParamToRemove
-              );
-              if (changes.length) {
-                commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-              }
+          for (const constructorParamToRemove of constructorDeprecation.removeParams ||
+            []) {
+            const changes = removeConstructorParam(
+              source,
+              sourcePath,
+              constructorNode,
+              constructorParamToRemove
+            );
+            if (changes.length) {
+              commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
             }
           }
         }
