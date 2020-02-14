@@ -1,10 +1,5 @@
 import { ProductVariantGuard } from '@spartacus/storefront';
-import {
-  Product,
-  ProductService,
-  RoutingService,
-  CmsService,
-} from '@spartacus/core';
+import { Product, ProductService, RoutingService } from '@spartacus/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Type } from '@angular/core';
@@ -53,17 +48,10 @@ class MockProductService {
   }
 }
 
-class MockCmsService {
-  isLaunchInSmartEdit(): boolean {
-    return false;
-  }
-}
-
 describe('ProductVariantGuard', () => {
   let guard: ProductVariantGuard;
   let productService: ProductService;
   let routingService: RoutingService;
-  let cmsService: CmsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -76,7 +64,6 @@ describe('ProductVariantGuard', () => {
           provide: ProductService,
           useClass: MockProductService,
         },
-        { provide: CmsService, useClass: MockCmsService },
       ],
       imports: [RouterTestingModule],
     });
@@ -84,7 +71,6 @@ describe('ProductVariantGuard', () => {
     guard = TestBed.get(ProductVariantGuard as Type<ProductVariantGuard>);
     productService = TestBed.get(ProductService as Type<ProductService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    cmsService = TestBed.get(CmsService as Type<CmsService>);
   });
 
   it('should return true if product is purchasable', done => {
@@ -110,7 +96,7 @@ describe('ProductVariantGuard', () => {
     });
   });
 
-  it('should return true if launch from smartedit and no productCode in route parameter', done => {
+  it('should return true if no productCode in route parameter (launch from smartedit)', done => {
     spyOn(routingService, 'getRouterState').and.returnValue(
       of({
         nextState: {
@@ -118,8 +104,6 @@ describe('ProductVariantGuard', () => {
         },
       } as any)
     );
-
-    spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(true);
 
     guard.canActivate().subscribe(val => {
       expect(val).toBeTruthy();
