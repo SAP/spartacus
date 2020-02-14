@@ -13,6 +13,7 @@ import * as path from 'path';
 import * as ts from 'typescript';
 import {
   AUTH_SERVICE,
+  FEATURE_CONFIG_SERVICE,
   NGRX_STORE,
   SPARTACUS_CORE,
   STORE,
@@ -33,6 +34,7 @@ import {
   insertCommentAboveIdentifier,
   InsertDirection,
   isCandidateForConstructorDeprecation,
+  removeConstructorParam,
   renameIdentifierNode,
 } from './file-utils';
 import { getProjectFromWorkspace } from './workspace-utils';
@@ -132,7 +134,7 @@ const SUPER_PARAMETER_NUMBER_TEST_CLASS = `
       }
     }
 `;
-const VALID_TEST_CLASS = `
+const VALID_ADD_CONSTRUCTOR_PARAM_CLASS = `
     import { Store } from '@ngrx/store';
     import {
       StateWithProcess,
@@ -142,6 +144,24 @@ const VALID_TEST_CLASS = `
     export class InheritedService extends UserAddressService {
       constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
         super(store);
+      }
+    }
+`;
+const VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS = `
+    import { Dummy } from '@angular/core';
+    import {
+      CmsService,
+      FeatureConfigService,
+      PageMetaResolver,
+      PageMetaService
+    } from '@spartacus/core';
+    export class Test extends PageMetaService {
+      constructor(
+        resolvers: PageMetaResolver[],
+        cms: CmsService,
+        featureConfigService?: FeatureConfigService
+      ) {
+        super(resolvers, cms, featureConfigService);
       }
     }
 `;
@@ -469,7 +489,7 @@ describe('File utils', () => {
       const sourcePath = 'xxx.ts';
       const source = ts.createSourceFile(
         sourcePath,
-        VALID_TEST_CLASS,
+        VALID_ADD_CONSTRUCTOR_PARAM_CLASS,
         ts.ScriptTarget.Latest,
         true
       );
@@ -495,6 +515,44 @@ describe('File utils', () => {
       );
       expect(changes[2].description).toEqual(
         `Inserted , authService into position 311 of ${sourcePath}`
+      );
+    });
+  });
+
+  describe('removeConstructorParam', () => {
+    it('should return the expected changes', () => {
+      const sourcePath = 'xxx.ts';
+      const source = ts.createSourceFile(
+        sourcePath,
+        VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const nodes = getSourceNodes(source);
+      const constructorNode = findConstructor(nodes);
+      const paramToRemove: ClassType = {
+        className: FEATURE_CONFIG_SERVICE,
+        importPath: SPARTACUS_CORE,
+      };
+
+      const changes = removeConstructorParam(
+        source,
+        sourcePath,
+        constructorNode,
+        paramToRemove
+      );
+      expect(changes.length).toEqual(4);
+      expect(changes[0].description).toEqual(
+        `Removed FeatureConfigService, into position 81 of ${sourcePath}`
+      );
+      expect(changes[1].description).toEqual(
+        `Removed , into position 308 of ${sourcePath}`
+      );
+      expect(changes[2].description).toEqual(
+        `Removed featureConfigService?: FeatureConfigService into position 318 of ${sourcePath}`
+      );
+      expect(changes[3].description).toEqual(
+        `Removed featureConfigService into position 402 of ${sourcePath}`
       );
     });
   });

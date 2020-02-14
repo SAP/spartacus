@@ -324,7 +324,6 @@ export function addConstructorParam(
   return changes;
 }
 
-// TODO:#6520 - test
 export function removeConstructorParam(
   source: ts.SourceFile,
   sourcePath: string,
