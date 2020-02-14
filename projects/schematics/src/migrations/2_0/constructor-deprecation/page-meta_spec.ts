@@ -27,6 +27,7 @@ export class Test extends PageMetaService {
   }
 }
 `;
+
 describe('constructor page-meta migration', () => {
   let host = new TempScopedNodeJsSyncHost();
   let appTree = Tree.empty() as UnitTestTree;
@@ -79,15 +80,32 @@ describe('constructor page-meta migration', () => {
 
   // TODO:#6520 - delete
   const DELETE_ME = true;
-  describe('when the class does NOT extend a Spartacus class', () => {
-    it('should skip it', async () => {
+  describe('when the valid test class is provided', () => {
+    it('should make the required changes', async () => {
       writeFile(host, '/src/index.ts', TEST);
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
       if (DELETE_ME) console.log(content);
-      expect(content).toEqual(TEST);
+      expect(content).toEqual(`
+import { Dummy } from '@angular/core';
+import {
+  CmsService,
+  
+  PageMetaResolver,
+  PageMetaService
+} from '@spartacus/core';
+export class Test extends PageMetaService {
+  constructor(
+    resolvers: PageMetaResolver[],
+    cms: CmsService
+    
+  ) {
+    super(resolvers, cms, );
+  }
+}
+`);
     });
   });
 });

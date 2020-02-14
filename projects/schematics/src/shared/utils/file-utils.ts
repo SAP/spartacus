@@ -489,11 +489,11 @@ function removeParamFromSuper(
   }
   // super has to be the first expression in constructor
   const firstCallExpression = callExpressions[0];
-  const paramNode = findLevel1NodesByTextAndKind(
-    [firstCallExpression],
-    paramName,
-    ts.SyntaxKind.Identifier
-  )[0];
+  const paramNode = findNode(
+    firstCallExpression,
+    ts.SyntaxKind.Identifier,
+    paramName
+  );
   if (!paramNode) {
     return new NoopChange();
   }
