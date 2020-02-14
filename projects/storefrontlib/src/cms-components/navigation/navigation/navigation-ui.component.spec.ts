@@ -2,10 +2,9 @@ import { Component, DebugElement, ElementRef, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, FeatureConfigService } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-icon',
@@ -73,14 +72,6 @@ const mockNode: NavigationNode = {
   ],
 };
 
-//TODO(issue:#4687) Deprecated since 1.3.0
-const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
-class MockFeatureConfigService {
-  isLevel(_level: string): boolean {
-    return isLevelBool.value;
-  }
-}
-
 describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
   let navigationComponent: NavigationUIComponent;
@@ -94,13 +85,7 @@ describe('Navigation UI Component', () => {
         MockIconComponent,
         MockGenericLinkComponent,
       ],
-      providers: [
-        //TODO(issue:#4687) Deprecated since 1.3.0
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-      ],
+      providers: [],
     }).compileComponents();
   });
 
