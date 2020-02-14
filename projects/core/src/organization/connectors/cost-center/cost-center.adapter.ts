@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { CostCenter } from '../../../model/cost-center.model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { EntitiesModel } from '../../../model/misc.model';
+import { Budget } from '../../../model/budget.model';
 
 export abstract class CostCenterAdapter {
   /**
@@ -29,4 +30,22 @@ export abstract class CostCenterAdapter {
     costCenterCode: string,
     costCenter: CostCenter
   ): Observable<CostCenter>;
+
+  abstract getBudgets(
+    userId: string,
+    costCenterCode: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<Budget>>;
+
+  abstract assignBudget(
+    userId: string,
+    costCenterCode: string,
+    budgetCode: string
+  ): Observable<any>;
+
+  abstract unassignBudget(
+    userId: string,
+    costCenterCode: string,
+    budgetCode: string
+  ): Observable<any>;
 }
