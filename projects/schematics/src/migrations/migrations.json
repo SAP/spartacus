@@ -10,15 +10,10 @@
       "factory": "./2_0/update-cms-component-state#updateCmsComponentState",
       "description": "Update CMS components state to v2"
     },
-    "migration-v2-constructor-user-address-03": {
+    "migration-v2-constructor-deprecations": {
       "version": "2-next",
-      "factory": "./2_0/constructor-deprecation/user-address#migrate",
-      "description": "Add a constructor parameter to user-address service"
-    },
-    "migration-v2-constructor-page-meta-04": {
-      "version": "2-next",
-      "factory": "./2_0/constructor-deprecation/page-meta#migrate",
-      "description": "Remove a constructor parameter for page-meta service"
+      "factory": "./2_0/constructor-deprecations#migrate",
+      "description": "Add or remove constructor parameters"
     }
   }
 }

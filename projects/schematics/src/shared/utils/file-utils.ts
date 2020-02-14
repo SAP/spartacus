@@ -29,6 +29,13 @@ export interface ClassType {
   importPath: string;
 }
 
+export interface ConstructorDeprecation {
+  class: string;
+  deprecatedParams: ClassType[];
+  addParams?: ClassType[];
+  removeParams?: ClassType[];
+}
+
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   const buffer = tree.read(path);
   if (!buffer) {

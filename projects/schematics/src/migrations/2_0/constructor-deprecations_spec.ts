@@ -11,15 +11,15 @@ import {
 } from '@schematics/angular/utility/ast-utils';
 import * as shx from 'shelljs';
 import * as ts from 'typescript';
-import { AUTH_SERVICE, SPARTACUS_CORE, STORE } from '../../../shared/constants';
+import { AUTH_SERVICE, SPARTACUS_CORE, STORE } from '../../shared/constants';
 import {
   getConstructor,
   getParams,
   runMigration,
   writeFile,
-} from '../../../shared/utils/test-utils';
+} from '../../shared/utils/test-utils';
 
-const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-user-address-03';
+const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-deprecations';
 const NOT_INHERITING_SPARTACUS_CLASS = `
     import { Store } from '@ngrx/store';
     import { StateWithProcess, StateWithUser } from '@spartacus/core';
@@ -73,7 +73,7 @@ const CALL_EXPRESSION_NO_SUPER = `
       }
     }
 `;
-const VALID_TEST_CLASS = `  
+const ADD_PARAMETER_VALID_TEST_CLASS = `  
     import { Store } from '@ngrx/store';
     import {
       StateWithProcess,
@@ -86,8 +86,26 @@ const VALID_TEST_CLASS = `
       }
     }
 `;
+const REMOVE_PARAMETER_VALID_TEST_CLASS = `
+import { Dummy } from '@angular/core';
+import {
+  CmsService,
+  FeatureConfigService,
+  PageMetaResolver,
+  PageMetaService
+} from '@spartacus/core';
+export class Test extends PageMetaService {
+  constructor(
+    resolvers: PageMetaResolver[],
+    cms: CmsService,
+    featureConfigService?: FeatureConfigService
+  ) {
+    super(resolvers, cms, featureConfigService);
+  }
+}
+`;
 
-describe('constructor user-address migration', () => {
+describe('constructor migrations', () => {
   let host = new TempScopedNodeJsSyncHost();
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
@@ -97,7 +115,7 @@ describe('constructor user-address migration', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../migrations.json')
+      require.resolve('../migrations.json')
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -193,10 +211,10 @@ describe('constructor user-address migration', () => {
     });
   });
 
-  describe('when all the pre-conditions are valid', () => {
+  describe('when all the pre-conditions are valid for adding a parameter', () => {
     it('should just append the missing parameters', async () => {
       const filePath = '/src/index.ts';
-      writeFile(host, filePath, VALID_TEST_CLASS);
+      writeFile(host, filePath, ADD_PARAMETER_VALID_TEST_CLASS);
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
@@ -219,6 +237,34 @@ describe('constructor user-address migration', () => {
         strings.camelize(AUTH_SERVICE),
       ]);
       expect(isImported(source, AUTH_SERVICE, SPARTACUS_CORE)).toEqual(true);
+    });
+  });
+
+  describe('when all the pre-conditions are valid for removing a parameter', () => {
+    it('should make the required changes', async () => {
+      writeFile(host, '/src/index.ts', REMOVE_PARAMETER_VALID_TEST_CLASS);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(`
+import { Dummy } from '@angular/core';
+import {
+  CmsService,
+  
+  PageMetaResolver,
+  PageMetaService
+} from '@spartacus/core';
+export class Test extends PageMetaService {
+  constructor(
+    resolvers: PageMetaResolver[],
+    cms: CmsService
+    
+  ) {
+    super(resolvers, cms, );
+  }
+}
+`);
     });
   });
 });
