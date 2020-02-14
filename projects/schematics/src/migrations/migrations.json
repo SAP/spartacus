@@ -18,7 +18,7 @@
     "migration-v2-constructor-page-meta-04": {
       "version": "2-next",
       "factory": "./2_0/constructor-deprecation/page-meta#migrate",
-      "description": "Remove a constructor parameter to page-meta service"
+      "description": "Remove a constructor parameter for page-meta service"
     }
   }
 }
