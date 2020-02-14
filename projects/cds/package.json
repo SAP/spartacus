@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cds",
-  "version": "1.0.0-next.0",
+  "version": "2.0.0-next.0",
   "description": "Context Driven Service library for Spartacus",
   "homepage": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
   "keywords": [
@@ -20,7 +20,7 @@
   "peerDependencies": {
     "@angular/common": "~8.2.5",
     "@angular/core": "~8.2.5",
-    "@spartacus/core": "^1.0.0",
-    "@spartacus/storefront": "^1.0.0"
+    "@spartacus/core": "^2.0.0-next.0",
+    "@spartacus/storefront": "^2.0.0-next.0"
   }
 }
