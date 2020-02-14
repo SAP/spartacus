@@ -417,10 +417,10 @@ function getImportDeclarationNode(
   // collect al the import declarations
   const importDeclarationNodes = nodes
     .filter(node => node.kind === ts.SyntaxKind.ImportDeclaration)
-    .filter(
-      node =>
-        (node as ts.ImportDeclaration).moduleSpecifier.getText() ===
-        `'${importToCheck.importPath}'`
+    .filter(node =>
+      (node as ts.ImportDeclaration).moduleSpecifier
+        .getText()
+        .includes(importToCheck.importPath)
     );
   if (importDeclarationNodes.length === 0) {
     return undefined;
