@@ -115,7 +115,6 @@ export class SearchBoxComponent {
       if ((!this.ignoreCloseEvent && !this.isSearchboxFocused()) || force) {
         this.blurSearchBox(event);
       }
-      this.ignoreCloseEvent = false;
     });
   }
 
