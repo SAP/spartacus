@@ -30,10 +30,6 @@ const DEPRECATED_CONSTRUCTOR_PARAMETERS: ClassType[] = [
 
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info(
-      'Handling constructor deprecation for page-meta service'
-    );
-
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree);
     for (const tsconfigPath of buildPaths) {
@@ -59,6 +55,9 @@ export function migrate(): Rule {
           { className: FEATURE_CONFIG_SERVICE, importPath: SPARTACUS_CORE }
         );
         if (changes.length) {
+          context.logger.info(
+            'Handling constructor deprecation for page-meta service'
+          );
           commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
         }
       }

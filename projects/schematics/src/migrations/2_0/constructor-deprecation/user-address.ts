@@ -34,8 +34,6 @@ const NEW_CONSTRUCTOR_PARAMETERS: ClassType[] = [
 
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info('Handling constructor deprecation for user-address');
-
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree);
     for (const tsconfigPath of buildPaths) {
@@ -62,6 +60,9 @@ export function migrate(): Rule {
             newConstructorParam
           );
           if (changes.length) {
+            context.logger.info(
+              'Handling constructor deprecation for user-address'
+            );
             commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
           }
         }
