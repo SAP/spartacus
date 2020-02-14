@@ -78,8 +78,6 @@ describe('constructor page-meta migration', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  // TODO:#6520 - delete
-  const DELETE_ME = true;
   describe('when the valid test class is provided', () => {
     it('should make the required changes', async () => {
       writeFile(host, '/src/index.ts', TEST);
@@ -87,7 +85,6 @@ describe('constructor page-meta migration', () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
-      if (DELETE_ME) console.log(content);
       expect(content).toEqual(`
 import { Dummy } from '@angular/core';
 import {

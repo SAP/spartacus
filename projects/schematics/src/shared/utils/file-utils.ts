@@ -325,7 +325,7 @@ export function addConstructorParam(
   return changes;
 }
 
-// TODO:6520 - test
+// TODO:#6520 - test
 export function removeConstructorParam(
   source: ts.SourceFile,
   sourcePath: string,
@@ -355,12 +355,63 @@ export function removeConstructorParam(
   ];
 }
 
-// TODO:#6520 - break down this method into smaller functions
 function removeImport(
   source: ts.SourceFile,
   sourcePath: string,
   importToRemove: ClassType
 ): Change {
+  const importDeclarationNode = getImportDeclarationNode(
+    source,
+    importToRemove
+  );
+  if (!importDeclarationNode) {
+    return new NoopChange();
+  }
+
+  let position: number;
+  let toRemove = importToRemove.className;
+  const importSpecifierNodes = findNodes(
+    importDeclarationNode,
+    ts.SyntaxKind.ImportSpecifier
+  );
+  if (importSpecifierNodes.length === 1) {
+    // delete the whole import line
+    position = importDeclarationNode.getStart();
+    toRemove = importDeclarationNode.getText();
+  } else {
+    // delete only the specified import, and leave the rest
+    const importSpecifier = importSpecifierNodes
+      .map((node, i) => {
+        const importNode = findNode(
+          node,
+          ts.SyntaxKind.Identifier,
+          importToRemove.className
+        );
+        return {
+          importNode,
+          i,
+        };
+      })
+      .filter(result => result.importNode)[0];
+
+    if (!importSpecifier.importNode) {
+      return new NoopChange();
+    }
+
+    // in case the import that needs to be removed is in the middle, we need to remove the ',' that follows the found import
+    if (importSpecifier.i !== importSpecifierNodes.length - 1) {
+      toRemove += ',';
+    }
+
+    position = importSpecifier.importNode.getStart();
+  }
+  return new RemoveChange(sourcePath, position, toRemove);
+}
+
+function getImportDeclarationNode(
+  source: ts.SourceFile,
+  importToCheck: ClassType
+): ts.Node | undefined {
   const nodes = getSourceNodes(source);
 
   // collect al the import declarations
@@ -369,13 +420,13 @@ function removeImport(
     .filter(
       node =>
         (node as ts.ImportDeclaration).moduleSpecifier.getText() ===
-        `'${importToRemove.importPath}'`
+        `'${importToCheck.importPath}'`
     );
   if (importDeclarationNodes.length === 0) {
-    return new NoopChange();
+    return undefined;
   }
 
-  // find the one that contains the specified `importToRemove.className`
+  // find the one that contains the specified `importToCheck.className`
   let importDeclarationNode = importDeclarationNodes[0];
   for (const currentImportDeclaration of importDeclarationNodes) {
     const importIdentifiers = findNodes(
@@ -383,57 +434,15 @@ function removeImport(
       ts.SyntaxKind.Identifier
     );
     const found = importIdentifiers.find(
-      node => node.getText() === importToRemove.className
+      node => node.getText() === importToCheck.className
     );
     if (found) {
       importDeclarationNode = currentImportDeclaration;
       break;
     }
   }
-  if (!importDeclarationNode) {
-    return new NoopChange();
-  }
 
-  // proceed with removing the found import
-  let position: number;
-  let toRemove = importToRemove.className;
-  const importSpecifierNodes = findNodes(
-    importDeclarationNode,
-    ts.SyntaxKind.ImportSpecifier
-  );
-  if (importSpecifierNodes.length === 1) {
-    // TODO:6520 - test
-    // delete the whole import line
-    position = importDeclarationNode.getStart();
-    toRemove = importDeclarationNode.getText();
-  } else {
-    // TODO:6520 - test
-    // delete only the specified import, and leave the rest
-    const specifiedImport = importSpecifierNodes
-      .map((importSpecifier, i) => {
-        const importFound = findNode(
-          importSpecifier,
-          ts.SyntaxKind.Identifier,
-          importToRemove.className
-        );
-        return {
-          importFound,
-          i,
-        };
-      })
-      .filter(result => result.importFound)[0];
-    if (!specifiedImport.importFound) {
-      return new NoopChange();
-    }
-
-    // in case the import that needs to be removed is in the middle, we need to remove the ',' that follows the found import
-    if (specifiedImport.i !== importSpecifierNodes.length - 1) {
-      toRemove += ',';
-    }
-
-    position = specifiedImport.importFound.getStart();
-  }
-  return new RemoveChange(sourcePath, position, toRemove);
+  return importDeclarationNode;
 }
 
 function removeConstructorParamInternal(
