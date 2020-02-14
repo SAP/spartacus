@@ -194,6 +194,7 @@ export function goToProductPage(product: TestProduct) {
 
 export function checkoutFromWishList(checkoutProducts: TestProduct[]) {
   goToCartAndCheckout(checkoutProducts);
+  proceedToCheckout();
   fillAddressForm();
   checkout.verifyDeliveryMethod();
   fillPaymentForm();
@@ -218,13 +219,17 @@ function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
   for (const product of checkoutProducts) {
     cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);
   }
+}
 
+function proceedToCheckout() {
   const shippingAddressPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingAddressPage'
   );
   cy.getByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingAddressPage}`);
+  cy.wait(`@${shippingAddressPage}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 function fillAddressForm(shippingAddressData: AddressData = user) {
