@@ -1,25 +1,177 @@
 import { generateMail, randomString } from './user';
 import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
+import { apiUrl } from '../support/utils/login';
 
-export const normalProductCode = '1978440_green';
-export const productCodeList = [
-  '553637',
-  '592506',
-  '932577',
-  '3357724',
-  '4205431',
-  '358639',
-  '2053266',
-  '898520',
-  '816379',
-  '1978440_red',
-  '1934793',
-];
+export const normalProductCode = '872912';
 export const firstProductCodeSelector =
   'cx-my-interests .cx-product-interests-product-item:first .cx-code';
 export const firstProductAscending = '4205431';
 export const firstProductDescending = '898520';
+export const secondPageResp = {
+  pagination: {
+    count: 1,
+    page: 1,
+    totalCount: 11,
+    totalPages: 2,
+  },
+  sorts: [
+    {
+      asc: false,
+      code: 'name',
+    },
+  ],
+  results: [
+    {
+      product: {
+        code: '872912',
+      },
+      productInterestEntry: [
+        {
+          dateAdded: '2020-02-14T07:58:44+0000',
+          expirationDate: '2020-05-14T07:58:44+0000',
+          interestType: 'BACK_IN_STOCK',
+        },
+      ],
+    },
+  ],
+};
+export const firstPageResp = {
+  pagination: {
+    count: 10,
+    page: 0,
+    totalCount: 10,
+    totalPages: 2,
+  },
+  results: [
+    {
+      product: {
+        code: '898520',
+      },
+      productInterestEntry: [
+        {
+          dateAdded: '2020-02-14T07:58:44+0000',
+          expirationDate: '2020-05-14T07:58:44+0000',
+          interestType: 'BACK_IN_STOCK',
+        },
+      ],
+    },
+    {
+      product: {
+        code: '1934793',
+      },
+      productInterestEntry: [
+        {
+          dateAdded: '2020-02-14T07:58:44+0000',
+          expirationDate: '2020-05-14T07:58:44+0000',
+          interestType: 'BACK_IN_STOCK',
+        },
+      ],
+    },
+    {
+      product: {
+        code: '553637',
+      },
+      productInterestEntry: [
+        {
+          dateAdded: '2020-02-14T07:58:44+0000',
+          expirationDate: '2020-05-14T07:58:44+0000',
+          interestType: 'BACK_IN_STOCK',
+        },
+      ],
+    },
+    {
+      product: {
+        code: '2053266',
+      },
+      productInterestEntry: [
+        {
+          dateAdded: '2020-02-14T07:58:44+0000',
+          expirationDate: '2020-05-14T07:58:44+0000',
+          interestType: 'BACK_IN_STOCK',
+        },
+      ],
+    },
+    {
+      product: {
+        code: '932577',
+      },
+      productInterestEntry: [
+        {
+          dateAdded: '2020-02-14T07:58:44+0000',
+          expirationDate: '2020-05-14T07:58:44+0000',
+          interestType: 'BACK_IN_STOCK',
+        },
+      ],
+    },
+    {
+      product: {
+        code: '816379',
+      },
+      productInterestEntry: [
+        {
+          dateAdded: '2020-02-14T07:58:44+0000',
+          expirationDate: '2020-05-14T07:58:44+0000',
+          interestType: 'BACK_IN_STOCK',
+        },
+      ],
+    },
+    {
+      product: {
+        code: '3357724',
+      },
+      productInterestEntry: [
+        {
+          dateAdded: '2020-02-14T07:58:44+0000',
+          expirationDate: '2020-05-14T07:58:44+0000',
+          interestType: 'BACK_IN_STOCK',
+        },
+      ],
+    },
+    {
+      product: {
+        code: '358639',
+      },
+      productInterestEntry: [
+        {
+          dateAdded: '2020-02-14T07:58:44+0000',
+          expirationDate: '2020-05-14T07:58:44+0000',
+          interestType: 'BACK_IN_STOCK',
+        },
+      ],
+    },
+    {
+      product: {
+        code: '592506',
+      },
+      productInterestEntry: [
+        {
+          dateAdded: '2020-02-14T07:58:44+0000',
+          expirationDate: '2020-05-14T07:58:44+0000',
+          interestType: 'BACK_IN_STOCK',
+        },
+      ],
+    },
+    {
+      product: {
+        code: '4205431',
+      },
+      productInterestEntry: [
+        {
+          dateAdded: '2020-02-14T07:58:44+0000',
+          expirationDate: '2020-05-14T07:58:44+0000',
+          interestType: 'BACK_IN_STOCK',
+        },
+      ],
+    },
+  ],
+  sorts: [
+    {
+      asc: false,
+      code: 'name',
+    },
+  ],
+};
 // notification preference
 export function navigateToNotificationPreferencePage() {
   cy.selectUserMenuOption({
@@ -218,13 +370,32 @@ export function navigateToPDPInCustomerInterest(productCode: string) {
   });
 }
 
+export function stubForPaginableInterests(resp: any, url: string) {
+  cy.server({
+    response: resp,
+  });
+  cy.route('GET', url).as('paginable_interests');
+}
+
 export function verifyPagingAndSorting() {
+  stubForPaginableInterests(
+    firstPageResp,
+    `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&lang=en&curr=USD`
+  );
+  stubForPaginableInterests(
+    secondPageResp,
+    `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&currentPage=1&lang=en&curr=USD`
+  );
   navigateToMyInterestsPage();
   cy.get(firstProductCodeSelector).should('contain', firstProductAscending);
   cy.get('.top cx-sorting .ng-select').ngSelect('Name (descending)');
   cy.get(firstProductCodeSelector).should('contain', firstProductDescending);
   cy.get('.cx-product-interests-product-item').should('have.length', 10);
   cy.get('cx-pagination:first .page-link').should('have.length', 4);
+  cy.get('.page-link')
+    .last()
+    .click();
+  cy.get('.cx-code > span').should('contain.text', 'ID 872912');
 }
 
 export function navigateToMyInterestsPage() {
