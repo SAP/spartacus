@@ -145,7 +145,10 @@ export class PaginationBuilder {
           nextPageNumber === last;
         const isGap =
           nextPageNumber <
-          pageCount - (this.config.substituteDotsForSingularPage ? 1 : 0);
+          pageCount -
+            (this.config.substituteDotsForSingularPage ? 1 : 0) -
+            (this.config.addLast ? 1 : 0);
+
         const type = isGap
           ? PaginationItemType.GAP
           : isSubstitued

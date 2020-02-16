@@ -330,6 +330,24 @@ describe('PaginationBuilder', () => {
     });
   });
 
+  describe('Config with rangeCount=1', () => {
+    let pages: PaginationItem[];
+    beforeEach(() => {
+      const service = setup({
+        rangeCount: 1,
+        addDots: true,
+        addFirst: true,
+        addLast: true,
+        substituteDotsForSingularPage: true,
+      });
+      pages = service.paginate(3, 0);
+    });
+    it('should substiture gap', () => {
+      const all = pages.find(page => page.type === PaginationItemType.GAP);
+      expect(all).toBeFalsy();
+    });
+  });
+
   describe('Config with rangeCount=5', () => {
     let pages: PaginationItem[];
     beforeEach(() => {
