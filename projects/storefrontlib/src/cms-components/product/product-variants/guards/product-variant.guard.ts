@@ -8,7 +8,6 @@ import {
   Product,
   RoutingService,
   ProductScope,
-  CmsService,
 } from '@spartacus/core';
 
 @Injectable({
@@ -17,8 +16,7 @@ import {
 export class ProductVariantGuard implements CanActivate {
   constructor(
     private productService: ProductService,
-    private routingService: RoutingService,
-    private cmsService: CmsService
+    private routingService: RoutingService
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
@@ -26,7 +24,7 @@ export class ProductVariantGuard implements CanActivate {
       map(state => state.nextState.params.productCode),
       switchMap((productCode: string) => {
         // if open pdp from smartedit
-        if (this.cmsService.isLaunchInSmartEdit() && !productCode) {
+        if (!productCode) {
           return of(true);
         }
 
