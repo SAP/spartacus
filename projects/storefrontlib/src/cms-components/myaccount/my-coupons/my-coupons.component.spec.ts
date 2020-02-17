@@ -1,24 +1,23 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MyCouponsComponent } from './my-coupons.component';
 import {
-  I18nTestingModule,
-  CustomerCouponService,
-  CustomerCoupon,
-  CustomerCouponSearchResult,
-} from '@spartacus/core';
-import { of, BehaviorSubject, Observable } from 'rxjs';
+  Component,
+  DebugElement,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  DebugElement,
-} from '@angular/core';
-import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
+  CustomerCoupon,
+  CustomerCouponSearchResult,
+  CustomerCouponService,
+  I18nTestingModule,
+} from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
+import { MyCouponsComponent } from './my-coupons.component';
 import { MyCouponsComponentService } from './my-coupons.component.service';
 
 @Component({
@@ -121,6 +120,27 @@ const sortLabels = {
   byEndDateDesc: 'End date asc',
 };
 
+@Component({
+  template: '',
+  selector: 'cx-pagination',
+})
+class MockPaginationComponent {
+  @Input() pagination;
+  @Output() viewPageEvent = new EventEmitter<string>();
+}
+
+@Component({
+  template: '',
+  selector: 'cx-sorting',
+})
+class MockSortingComponent {
+  @Input() sortOptions;
+  @Input() sortLabels;
+  @Input() selectedOption;
+  @Input() placeholder;
+  @Output() sortListEvent = new EventEmitter<string>();
+}
+
 describe('MyCouponsComponent', () => {
   let component: MyCouponsComponent;
   let fixture: ComponentFixture<MyCouponsComponent>;
@@ -146,16 +166,13 @@ describe('MyCouponsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        RouterTestingModule,
-        ListNavigationModule,
-        SpinnerModule,
-      ],
+      imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
       declarations: [
         MyCouponsComponent,
         MockedCouponCardComponent,
         MockCxIconComponent,
+        MockPaginationComponent,
+        MockSortingComponent,
       ],
       providers: [
         { provide: CustomerCouponService, useValue: customerCouponService },

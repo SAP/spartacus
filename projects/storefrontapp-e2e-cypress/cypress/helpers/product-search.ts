@@ -5,7 +5,7 @@ export const resultsTitleSelector = 'cx-breadcrumb h1';
 export const productItemSelector = 'cx-product-list cx-product-list-item';
 export const productNameSelector = 'cx-product-list-item .cx-product-name';
 export const firstProductItemSelector = `${productItemSelector}:first`;
-export const pageLinkSelector = '.page-item.active > .page-link';
+export const pageLinkSelector = 'cx-pagination a.current';
 export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
 export const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
@@ -40,8 +40,8 @@ export function verifyProductSearch(
     .should('match', /\w+/)
     .then(firstProduct => {
       // Navigate to next page
-      cy.get('.page-item:last-of-type .page-link:first').click();
-      cy.get('.page-item.active > .page-link').should('contain', '2');
+      nextPage();
+      cy.get(pageLinkSelector).should('contain', '2');
 
       cy.wait(productAlias);
 
@@ -51,7 +51,7 @@ export function verifyProductSearch(
 
       cy.wait(sortingAlias);
 
-      cy.get('.page-item.active > .page-link').should('contain', '2');
+      cy.get(pageLinkSelector).should('contain', '2');
 
       checkDistinctProductName(firstProduct);
     });
@@ -69,17 +69,26 @@ export function searchResult() {
 }
 
 export function nextPage() {
-  cy.get('.page-item:last-of-type .page-link:first').click({ force: true });
+  cy.get(pageLinkSelector)
+    .next()
+    .first()
+    .click();
   cy.get(pageLinkSelector).should('contain', '2');
 }
 
 export function choosePage() {
-  cy.get('.page-item:nth-child(4) .page-link:first').click({ force: true });
+  cy.get('cx-pagination')
+    .contains(3)
+    .first()
+    .click();
   cy.get(pageLinkSelector).should('contain', '3');
 }
 
 export function previousPage() {
-  cy.get('.page-item:first-of-type .page-link:first').click({ force: true });
+  cy.get(pageLinkSelector)
+    .prev()
+    .first()
+    .click();
   cy.get(pageLinkSelector).should('contain', '2');
 }
 

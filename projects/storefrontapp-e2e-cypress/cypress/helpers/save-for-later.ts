@@ -1,6 +1,6 @@
+import { apiUrl } from '../support/utils/login';
 import * as cart from './cart';
 import * as cartCoupon from './cart-coupon';
-import { apiUrl } from '../support/utils/login';
 
 interface TestProduct {
   code: string;
@@ -112,7 +112,7 @@ export function removeItem(product, position: ItemList) {
 export function validateProduct(product, qty = 1, position: ItemList) {
   return getItem(product, position).within(() => {
     if (position === ItemList.Cart) {
-      cy.get('.cx-counter-value').should('have.value', `${qty}`);
+      cy.get('cx-item-counter input').should('have.value', `${qty}`);
     } else {
       cy.get('.cx-quantity').should('contain', `${qty}`);
     }
