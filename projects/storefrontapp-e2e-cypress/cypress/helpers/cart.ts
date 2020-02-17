@@ -176,8 +176,6 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 }
 
 export function removeAllItemsFromCart() {
-  const product0 = products[0];
-  const product1 = products[4];
   waitForCartRefresh();
 
   getCartItem(products[0].name).within(() => {
