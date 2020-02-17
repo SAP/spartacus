@@ -11,9 +11,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
+  B2bStorefrontModule,
   JsonLdBuilderModule,
   StorefrontComponent,
-  B2bStorefrontModule,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
@@ -44,8 +44,8 @@ if (environment.channel === 'b2b') {
     BrowserTransferStateModule,
 
     JsonLdBuilderModule,
-    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
+    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...channelImports,
