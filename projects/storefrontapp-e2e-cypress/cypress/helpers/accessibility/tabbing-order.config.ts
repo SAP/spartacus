@@ -1917,7 +1917,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'DSC-H20 Green',
+      value: 'Secure Digital Card 2GB',
       type: TabbingOrderTypes.LINK,
     },
     {

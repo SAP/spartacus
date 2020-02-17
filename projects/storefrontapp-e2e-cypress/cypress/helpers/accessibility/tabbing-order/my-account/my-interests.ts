@@ -10,6 +10,6 @@ const containerSelector = '.AccountPageTemplate';
 export function myInterestTabbingOrder(config: TabElement[]) {
   cy.visit('/');
   enableNotificationChannel();
-  verifySubscriptionAndCustomerInterest('1978440_green');
+  verifySubscriptionAndCustomerInterest('872912');
   verifyTabbingOrder(containerSelector, config);
 }
