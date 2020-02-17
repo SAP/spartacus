@@ -1,4 +1,4 @@
-import { getSystemPath, normalize, virtualFs } from '@angular-devkit/core';
+import { getSystemPath } from '@angular-devkit/core';
 import { TempScopedNodeJsSyncHost } from '@angular-devkit/core/node/testing';
 import { HostTree, Tree } from '@angular-devkit/schematics';
 import {
@@ -19,11 +19,13 @@ import {
   LOAD_CMS_COMPONENT_FAIL_CLASS,
   LOAD_CMS_COMPONENT_SUCCESS_CLASS,
 } from '../../shared/constants';
+import { runMigration, writeFile } from '../../shared/utils/test-utils';
 import {
   buildActionComment,
   buildMethodComment,
 } from './update-cms-component-state';
 
+const MIGRATION_SCRIPT_NAME = 'migration-v2-update-cms-component-state-02';
 const GET_COMPONENT_STATE_TEST_CLASS = `  
     import { MemoizedSelector, select, Store } from '@ngrx/store';
     import {
@@ -263,6 +265,7 @@ describe('updateCmsComponentState migration', () => {
     appTree = new UnitTestTree(new HostTree(host));
 
     writeFile(
+      host,
       '/tsconfig.json',
       JSON.stringify({
         compilerOptions: {
@@ -271,6 +274,7 @@ describe('updateCmsComponentState migration', () => {
       })
     );
     writeFile(
+      host,
       '/angular.json',
       JSON.stringify({
         projects: {
@@ -296,9 +300,9 @@ describe('updateCmsComponentState migration', () => {
   });
 
   it('getComponentState', async () => {
-    writeFile('/src/index.ts', GET_COMPONENT_STATE_TEST_CLASS);
+    writeFile(host, '/src/index.ts', GET_COMPONENT_STATE_TEST_CLASS);
 
-    await runMigration();
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
     const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(
@@ -313,9 +317,9 @@ describe('updateCmsComponentState migration', () => {
   });
 
   it('getComponentEntities', async () => {
-    writeFile('/src/index.ts', GET_COMPONENT_ENTITIES_TEST_CLASS);
+    writeFile(host, '/src/index.ts', GET_COMPONENT_ENTITIES_TEST_CLASS);
 
-    await runMigration();
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
     const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(GET_COMPONENT_ENTITIES_COMMENT, 'g');
@@ -324,9 +328,13 @@ describe('updateCmsComponentState migration', () => {
   });
 
   it('componentStateSelectorFactory', async () => {
-    writeFile('/src/index.ts', COMPONENT_STATE_SELECTOR_FACTORY_TEST_CLASS);
+    writeFile(
+      host,
+      '/src/index.ts',
+      COMPONENT_STATE_SELECTOR_FACTORY_TEST_CLASS
+    );
 
-    await runMigration();
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
     const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(
@@ -341,9 +349,9 @@ describe('updateCmsComponentState migration', () => {
   });
 
   it('componentSelectorFactory', async () => {
-    writeFile('/src/index.ts', COMPONENT_SELECTOR_FACTORY_TEST_CLASS);
+    writeFile(host, '/src/index.ts', COMPONENT_SELECTOR_FACTORY_TEST_CLASS);
 
-    await runMigration();
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
     const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(
@@ -358,9 +366,9 @@ describe('updateCmsComponentState migration', () => {
   });
 
   it(`should rename 'CMS_GET_COMPONENET_FROM_PAGE' to 'CMS_GET_COMPONENT_FROM_PAGE'`, async () => {
-    writeFile('/src/index.ts', ACTION_CONST_TEST_CLASS);
+    writeFile(host, '/src/index.ts', ACTION_CONST_TEST_CLASS);
 
-    await runMigration();
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
     const content = appTree.readContent('/src/index.ts');
 
@@ -374,9 +382,13 @@ describe('updateCmsComponentState migration', () => {
   });
 
   it('should NOT do the update if there is no Spartacus import present', async () => {
-    writeFile('/src/index.ts', ACTION_CONST_TEST_NO_SPARTACUS_IMPORT_CLASS);
+    writeFile(
+      host,
+      '/src/index.ts',
+      ACTION_CONST_TEST_NO_SPARTACUS_IMPORT_CLASS
+    );
 
-    await runMigration();
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
     const content = appTree.readContent('/src/index.ts');
 
@@ -390,9 +402,9 @@ describe('updateCmsComponentState migration', () => {
   });
 
   it('should add comments for CMS component actions', async () => {
-    writeFile('/src/index.ts', CMS_COMPONENT_ACTIONS_TEST_CLASS);
+    writeFile(host, '/src/index.ts', CMS_COMPONENT_ACTIONS_TEST_CLASS);
 
-    await runMigration();
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
     const content = appTree.readContent('/src/index.ts');
 
@@ -434,9 +446,9 @@ describe('updateCmsComponentState migration', () => {
   });
 
   it('all test cases in one file', async () => {
-    writeFile('/src/index.ts', ALL_TEST_CASES_CLASS);
+    writeFile(host, '/src/index.ts', ALL_TEST_CASES_CLASS);
 
-    await runMigration();
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
     const content = appTree.readContent('/src/index.ts');
 
@@ -535,21 +547,4 @@ describe('updateCmsComponentState migration', () => {
     ).length;
     expect(cmsGetComponentFromPageRegexOccurrences).toEqual(1);
   });
-
-  function writeFile(filePath: string, contents: string): void {
-    host.sync.write(
-      normalize(filePath),
-      virtualFs.stringToFileBuffer(contents)
-    );
-  }
-
-  function runMigration(): Promise<UnitTestTree> {
-    return schematicRunner
-      .runSchematicAsync(
-        'migration-v2-update-cms-component-state-02',
-        {},
-        appTree
-      )
-      .toPromise();
-  }
 });
