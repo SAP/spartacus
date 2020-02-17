@@ -32,17 +32,17 @@ export function verifyTrackingBtn() {
     .first()
     .within(() => {
       cy.get('.cx-code').should('contain', '300938');
-      cy.get('[data-test="btn-events"]').click();
+      cy.get('.bth-track').click();
     });
-  cy.get('[data-test="body-event"]').should('have.length', 3);
+  cy.get('.event-body').should('have.length', 3);
   cy.get('.close').click();
   cy.get('.cx-list')
     .next()
     .within(() => {
       cy.get('.cx-code').should('contain', '1992693');
-      cy.get('[data-test="btn-events"]').click();
+      cy.get('.bth-track').click();
     });
-  cy.get('[data-test="head-notrack"]').should('have.length', 1);
+  cy.get('.no-tracking-heading').should('have.length', 1);
   cy.get('.close').click();
   cy.get('.cx-list')
     .last()
@@ -53,5 +53,5 @@ export function verifyTrackingBtn() {
 }
 
 export function verifyNoTrackingBtn() {
-  cy.get('[data-test="btn-events"]').should('have.length', 0);
+  cy.get('.bth-track').should('have.length', 0);
 }
