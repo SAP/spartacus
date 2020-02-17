@@ -211,7 +211,7 @@ export function increaseProductQtyOnPDP() {
   cy.visit(`/product/${productId}`);
 
   // increase the quantity to 2 and add it to cart
-  cy.get('cx-add-to-cart button')
+  cy.get('cx-add-to-cart cx-item-counter button')
     .contains('+')
     .click();
   cy.get('cx-add-to-cart button[type=submit]').click();
