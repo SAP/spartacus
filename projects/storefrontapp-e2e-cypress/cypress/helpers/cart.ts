@@ -58,7 +58,7 @@ function checkCartSummary(subtotal: string) {
 }
 
 function incrementQuantity() {
-  cy.get('button')
+  cy.get('cx-item-counter button')
     .contains('+')
     .click();
 }
