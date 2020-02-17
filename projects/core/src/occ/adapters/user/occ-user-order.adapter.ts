@@ -6,20 +6,20 @@ import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converte
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import {
+  CancellationRequestEntryInputList,
   Order,
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
-  CancellationRequestEntryInputList,
   ReturnRequestModification,
 } from '../../../model/order.model';
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
   ORDER_HISTORY_NORMALIZER,
-  ORDER_RETURN_REQUEST_NORMALIZER,
   ORDER_RETURNS_NORMALIZER,
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
+  ORDER_RETURN_REQUEST_NORMALIZER,
 } from '../../../user/connectors/order/converters';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
 import { ConverterService } from '../../../util/converter.service';
@@ -29,7 +29,10 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
-import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../utils/occ-constants';
 
 @Injectable()
 export class OccUserOrderAdapter implements UserOrderAdapter {
@@ -149,11 +152,13 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
   public getConsignmentTracking(
     orderCode: string,
-    consignmentCode: string
+    consignmentCode: string,
+    userId: string = OCC_USER_ID_CURRENT
   ): Observable<ConsignmentTracking> {
     const url = this.occEndpoints.getUrl('consignmentTracking', {
       orderCode,
       consignmentCode,
+      userId,
     });
     return this.http
       .get<ConsignmentTracking>(url)
