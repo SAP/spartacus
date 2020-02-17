@@ -23,38 +23,21 @@
   </div>
 </div>
 
-<div [formGroup]="form">
-  <div class="cx-item-list-row" *ngFor="let item of items">
-    <div class="cx-item-list-items">
-      <ng-container *cxFeatureLevel="'!1.5'">
-        <cx-cart-item
-          [parent]="form.controls[item.product.code]"
-          [item]="item"
-          [isReadOnly]="isReadOnly"
-          [potentialProductPromotions]="
-            getPotentialProductPromotionsForItem(item)
-          "
-          [cartIsLoading]="cartIsLoading"
-          (remove)="removeEntry($event)"
-          (update)="updateEntry($event)"
-        >
-        </cx-cart-item>
-      </ng-container>
-
-      <ng-container *cxFeatureLevel="'1.5'">
-        <cx-cart-item
-          [parent]="form.controls[item.product.code]"
-          [item]="item"
-          [isReadOnly]="isReadOnly"
-          [promotionLocation]="promotionLocation"
-          [cartIsLoading]="cartIsLoading"
-          (remove)="removeEntry($event)"
-          (update)="updateEntry($event)"
-          [options]="options"
-        >
-        </cx-cart-item>
-      </ng-container>
-    </div>
+<div class="cx-item-list-row" *ngFor="let item of items; let i = index">
+  <div
+    class="cx-item-list-items"
+    *ngIf="getControl(item) | async as control"
+    [class.is-changed]="control.get('quantity').dirty"
+  >
+    <cx-cart-item
+      [item]="item"
+      [quantityControl]="control.get('quantity')"
+      [readonly]="readonly"
+      [potentialProductPromotions]="getPotentialProductPromotionsForItem(item)"
+      [promotionLocation]="promotionLocation"
+      [options]="options"
+    >
+    </cx-cart-item>
   </div>
 </div>
 

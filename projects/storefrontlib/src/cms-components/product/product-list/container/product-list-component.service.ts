@@ -33,12 +33,12 @@ interface SearchCriteria {
 
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
+  // TODO: make it configurable
   protected defaultPageSize = 10;
 
   protected sub: Subscription;
 
-  protected readonly RELEVANCE_CATEGORY = ':relevance:category:';
-  protected readonly RELEVANCE_BRAND = ':relevance:brand:';
+  protected readonly RELEVANCE_ALLCATEGORIES = ':relevance:allCategories:';
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -121,10 +121,10 @@ export class ProductListComponentService {
       return query;
     }
     if (categoryCode) {
-      return this.RELEVANCE_CATEGORY + categoryCode;
+      return this.RELEVANCE_ALLCATEGORIES + categoryCode;
     }
     if (brandCode) {
-      return this.RELEVANCE_BRAND + brandCode;
+      return this.RELEVANCE_ALLCATEGORIES + brandCode;
     }
   }
 
