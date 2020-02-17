@@ -25,6 +25,7 @@ export class CostCenterDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.costCenter$ = this.costCenterCode$.pipe(
       tap(code => this.costCentersService.loadCostCenter(code)),
+      tap(code => this.costCentersService.loadBudgets(code, {})),
       switchMap(code => this.costCentersService.get(code)),
       filter(Boolean)
     );

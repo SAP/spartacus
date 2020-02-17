@@ -97,6 +97,14 @@ export class CostCenterService {
     );
   }
 
+  loadBudgets(code, params: B2BSearchConfig) {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new CostCenterActions.LoadAssignedBudgets({ userId, code, params })
+      )
+    );
+  }
+
   private withUserId(callback: (userId: string) => void): void {
     this.authService
       .getOccUserId()
