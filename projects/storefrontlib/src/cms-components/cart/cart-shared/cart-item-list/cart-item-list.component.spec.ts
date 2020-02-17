@@ -26,7 +26,6 @@ const mockItems: OrderEntry[] = [
     quantity: 1,
     entryNumber: 0,
     product: {
-      // id: 0,
       code: 'PR0000',
     },
     updateable: true,
