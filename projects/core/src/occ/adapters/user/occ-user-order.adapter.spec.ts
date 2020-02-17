@@ -254,8 +254,9 @@ describe('OccUserOrderAdapter', () => {
         expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
           'consignmentTracking',
           {
+            userId,
             orderCode: orderData.code,
-            consignmentCode: consignmentCode,
+            consignmentCode,
           }
         );
         expect(mockReq.cancelled).toBeFalsy();

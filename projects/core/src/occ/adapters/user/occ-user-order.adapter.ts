@@ -156,9 +156,9 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     userId: string = OCC_USER_ID_CURRENT
   ): Observable<ConsignmentTracking> {
     const url = this.occEndpoints.getUrl('consignmentTracking', {
+      userId,
       orderCode,
       consignmentCode,
-      userId,
     });
     return this.http
       .get<ConsignmentTracking>(url)

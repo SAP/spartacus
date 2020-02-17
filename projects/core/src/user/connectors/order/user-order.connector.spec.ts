@@ -87,7 +87,7 @@ describe('UserOrderConnector', () => {
     service
       .getConsignmentTracking('orderCode', 'consignmentCode', 'userId')
       .subscribe(res => (result = res));
-    expect(result).toBe('consignmentTracking-orderCode-consignmentCode');
+    expect(result).toBe('consignmentTracking-userId-orderCode-consignmentCode');
     expect(adapter.getConsignmentTracking).toHaveBeenCalledWith(
       'orderCode',
       'consignmentCode',
