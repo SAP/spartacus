@@ -1,39 +1,31 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { SaveForLaterComponent } from './save-for-later.component';
+import { By } from '@angular/platform-browser';
 import {
+  ActiveCartService,
+  Cart,
+  CmsService,
   FeaturesConfigModule,
   I18nTestingModule,
-  SelectiveCartService,
-  PromotionResult,
-  Cart,
-  ActiveCartService,
   OrderEntry,
-  CmsService,
+  SelectiveCartService,
 } from '@spartacus/core';
-import { Component, Input } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import {
-  Item,
   CartItemComponentOptions,
+  Item,
 } from '../cart-shared/cart-item/cart-item.component';
-import { By } from '@angular/platform-browser';
+import { SaveForLaterComponent } from './save-for-later.component';
 
 @Component({
   template: '',
   selector: 'cx-cart-item-list',
 })
 class MockCartItemListComponent {
-  @Input()
-  isReadOnly = false;
-  @Input()
-  items: Item[];
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
-  @Input()
-  cartIsLoading: Observable<boolean>;
-  @Input()
-  options: CartItemComponentOptions = {
+  @Input() readonly = false;
+  @Input() items: Item[];
+  @Input() cartIsLoading: Observable<boolean>;
+  @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,
   };

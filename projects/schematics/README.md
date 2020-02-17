@@ -93,7 +93,7 @@ Install angular schematics globally: `npm install -g @angular-devkit/schematics-
 
 #### The update schematic structure
 
-The `projects/schematics/src/migrations/migrations.json` file contains all migration for all Spartacus versions:
+The `projects/schematics/src/migrations/migrations.json` file contains all migrations for all Spartacus versions:
 
 - _name_ property is important for developers to quickly understand what the migration script is doing. By convention, the migration _name_ should follow `migration-v<version>-<migration-feature-name>-<sequence-number>` pattern, where:
   - _version_ should indicate for which Spartacus version the migration is intended.
@@ -118,29 +118,29 @@ In the project in which you are developing the update schematic:
 
 - make sure that the major version number in `package.json` is _higher_ than it was. E.g. if developing an update schematic that's going to
 update Spartacus from v2 to v3, then make sure that the version in `package.json` is set to `3.0.0`.
-- also, make sure to bump the peer dependency version - e.g. in _storefrontlib_'s `package.json` bump the peer dependency to _core_
+- also, make sure to bump the peer dependency version - e.g. in _storefrontlib_'s `package.json` bump the peer dependency for _core_.
 - To publish the changes, navigate to the `projects/schematics` folder and run the following: `yarn build && npm publish --registry http://localhost:4873`
 
 Now create a new angular project:
 
 - `ng new spartacus-update-schematic-test` and `cd spartacus-update-schematic-test`
-- add Spartacus by running e.g. `ng add @spartacus/schematics --baseUrl https://storefront.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com --baseSite electronics-spa`
-- create `.npmrc` in the root of the project and paste the following content to it: `@spartacus:registry=http://localhost:4873` to point to the local npm server only for the `@spartacus` scope. From this moment, `@spartacus` scoped packages will use the local npm registry.
-- commit the changes
-- run the following update command `ng update @spartacus/schematics`. If there's an error about the unresolved peer dependencies, you can append `--force` flag just to quickly test something, but this error should _not_ appear when executing without the flag. You should see your update commands executed now.
+- add Spartacus by running e.g. `ng add @spartacus/schematics@1.5 --baseUrl https://storefront.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com --baseSite electronics-spa`. Note that the version `1.5` is specified in `ng add @spartacus/schematics@1.5`.
+- create `.npmrc` in the root of the project and paste the following content to it: `@spartacus:registry=http://localhost:4873` to point to the local npm server only for the `@spartacus` scope. From this moment on, `@spartacus` scoped packages will use the local npm registry.
+- commit the changes, if any.
+- run the following update command `ng update @spartacus/schematics`. If there's an error about the unresolved peer dependencies, you can append `--force` flag just to quickly test something out, but this error should _not_ appear when executing the update schematics without the flag. You should see your update commands executed now.
 
-#### Iterating changes
+#### Iterative development
 
 When doing iterative development of the update schematic, it's for the best to do the following before testing the changes:
 
-- only for the schematics library: unpublish the previous version and publish the new updated schematic - `cd projects/schematics` and `yarn build && npm unpublish @spartacus/schematic --registry http://localhost:4873 --force && npm publish --registry http://localhost:4873`
-- alternatively, you can run `./migrations-test.sh` (located in `scripts/migrations-test.sh`) script which will build all the relevant libs, unpublish the old versions and publish the new versions to the local npm registry. If you want to skip building of the libs and just publish them (i.e. you manually added some files to the _dist_ folder), you can run the script `migrations-test.sh skip`
+- for the schematics library: unpublish the previous version and publish the new schematic code - `cd projects/schematics` and `yarn build && npm unpublish @spartacus/schematic --registry http://localhost:4873 --force && npm publish --registry http://localhost:4873`
+- alternatively, you can run `./migrations-test.sh` (located in `scripts/migrations-test.sh`) script which will build all the relevant libs, unpublish the old versions and publish the new versions to the local npm registry. If you want to skip building of the libs and just publish them (i.e. you manually added some files to the _dist_ folder and just want it published), you can run the script `migrations-test.sh skip`
 - in the test project:
   - revert the `package.json` and `yarn.lock` changes
-  - make sure that the version of the `@spartacus/schematics` package is lower than the currently developed one. E.g. if you are developing an update schematic for v3, make sure that the version of `@spartacus/schematics` is set to i.e. `"^2.0.0"`. Commit the changes if necessary.
-  - remove the old `node_modules` and install the dependencies again - `rm -rf node_modules/ && yarn`
+  - make sure that the version of the `@spartacus/schematics` package is lower than the currently developed one. E.g. if you are developing an update schematic for v3, make sure that the version of `@spartacus/schematics` is set to i.e. `"^2.0.0"`. If any change is made, make sure to commit the changes.
+  - delete the old `node_modules` folder and install the dependencies again: `rm -rf node_modules/ && yarn`
   - run the `ng update @spartacus/schematics --force` command
 
 #### Validations
 
-If some validations are required to be ran before actually upgrading the Spartacus version, the `projects/schematics/src/migrations/2_0/validate.ts` "migration script" can be used.
+If some validations are required to be ran before actually upgrading the Spartacus version, the "migration script" located in `projects/schematics/src/migrations/2_0/validate.ts` can be used.

@@ -151,7 +151,7 @@ export function addProductToCart(product: TestProduct) {
   ).as('add_to_cart');
 
   getWishListItem(product.name).within(() => {
-    cy.get('cx-add-to-cart>button').click();
+    cy.get('cx-add-to-cart button').click();
   });
 
   cy.wait('@add_to_cart');
@@ -162,7 +162,7 @@ export function addProductToCart(product: TestProduct) {
 
   getCartItem(product.name).within(() => {
     cy.get('.cx-code').should('contain', product.code);
-    cy.get('.cx-counter-value').should('have.value', '1');
+    cy.get('cx-item-counter input').should('have.value', '1');
   });
 
   verifyProductInWishList(product);

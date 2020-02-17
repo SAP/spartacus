@@ -9,6 +9,11 @@
       "version": "2-next",
       "factory": "./2_0/update-cms-component-state#updateCmsComponentState",
       "description": "Update CMS components state to v2"
+    },
+    "migration-v2-constructor-user-address-03": {
+      "version": "2-next",
+      "factory": "./2_0/constructor-deprecation/user-address#migrate",
+      "description": "Add a constructor parameter to user-address service"
     }
   }
 }

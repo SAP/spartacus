@@ -46,11 +46,11 @@ export function assertDefaultNumberOfProducts(view) {
 }
 
 export function isPaginationNotVisible() {
-  cy.get('cx-pagination .pagination').should('not.exist');
+  cy.get('cx-pagination a').should('not.exist');
 }
 
 export function isPaginationVisible() {
-  cy.get('cx-pagination .pagination').should('exist');
+  cy.get('cx-pagination a').should('exist');
 }
 
 export function backToTopIsVisible(isShowMoreButton?: boolean) {
