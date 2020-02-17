@@ -8,170 +8,7 @@ export const firstProductCodeSelector =
   'cx-my-interests .cx-product-interests-product-item:first .cx-code';
 export const firstProductAscending = '4205431';
 export const firstProductDescending = '898520';
-export const secondPageResp = {
-  pagination: {
-    count: 1,
-    page: 1,
-    totalCount: 11,
-    totalPages: 2,
-  },
-  sorts: [
-    {
-      asc: false,
-      code: 'name',
-    },
-  ],
-  results: [
-    {
-      product: {
-        code: '872912',
-      },
-      productInterestEntry: [
-        {
-          dateAdded: '2020-02-14T07:58:44+0000',
-          expirationDate: '2020-05-14T07:58:44+0000',
-          interestType: 'BACK_IN_STOCK',
-        },
-      ],
-    },
-  ],
-};
-export const firstPageResp = {
-  pagination: {
-    count: 10,
-    page: 0,
-    totalCount: 10,
-    totalPages: 2,
-  },
-  results: [
-    {
-      product: {
-        code: '898520',
-      },
-      productInterestEntry: [
-        {
-          dateAdded: '2020-02-14T07:58:44+0000',
-          expirationDate: '2020-05-14T07:58:44+0000',
-          interestType: 'BACK_IN_STOCK',
-        },
-      ],
-    },
-    {
-      product: {
-        code: '1934793',
-      },
-      productInterestEntry: [
-        {
-          dateAdded: '2020-02-14T07:58:44+0000',
-          expirationDate: '2020-05-14T07:58:44+0000',
-          interestType: 'BACK_IN_STOCK',
-        },
-      ],
-    },
-    {
-      product: {
-        code: '553637',
-      },
-      productInterestEntry: [
-        {
-          dateAdded: '2020-02-14T07:58:44+0000',
-          expirationDate: '2020-05-14T07:58:44+0000',
-          interestType: 'BACK_IN_STOCK',
-        },
-      ],
-    },
-    {
-      product: {
-        code: '2053266',
-      },
-      productInterestEntry: [
-        {
-          dateAdded: '2020-02-14T07:58:44+0000',
-          expirationDate: '2020-05-14T07:58:44+0000',
-          interestType: 'BACK_IN_STOCK',
-        },
-      ],
-    },
-    {
-      product: {
-        code: '932577',
-      },
-      productInterestEntry: [
-        {
-          dateAdded: '2020-02-14T07:58:44+0000',
-          expirationDate: '2020-05-14T07:58:44+0000',
-          interestType: 'BACK_IN_STOCK',
-        },
-      ],
-    },
-    {
-      product: {
-        code: '816379',
-      },
-      productInterestEntry: [
-        {
-          dateAdded: '2020-02-14T07:58:44+0000',
-          expirationDate: '2020-05-14T07:58:44+0000',
-          interestType: 'BACK_IN_STOCK',
-        },
-      ],
-    },
-    {
-      product: {
-        code: '3357724',
-      },
-      productInterestEntry: [
-        {
-          dateAdded: '2020-02-14T07:58:44+0000',
-          expirationDate: '2020-05-14T07:58:44+0000',
-          interestType: 'BACK_IN_STOCK',
-        },
-      ],
-    },
-    {
-      product: {
-        code: '358639',
-      },
-      productInterestEntry: [
-        {
-          dateAdded: '2020-02-14T07:58:44+0000',
-          expirationDate: '2020-05-14T07:58:44+0000',
-          interestType: 'BACK_IN_STOCK',
-        },
-      ],
-    },
-    {
-      product: {
-        code: '592506',
-      },
-      productInterestEntry: [
-        {
-          dateAdded: '2020-02-14T07:58:44+0000',
-          expirationDate: '2020-05-14T07:58:44+0000',
-          interestType: 'BACK_IN_STOCK',
-        },
-      ],
-    },
-    {
-      product: {
-        code: '4205431',
-      },
-      productInterestEntry: [
-        {
-          dateAdded: '2020-02-14T07:58:44+0000',
-          expirationDate: '2020-05-14T07:58:44+0000',
-          interestType: 'BACK_IN_STOCK',
-        },
-      ],
-    },
-  ],
-  sorts: [
-    {
-      asc: false,
-      code: 'name',
-    },
-  ],
-};
+
 // notification preference
 export function navigateToNotificationPreferencePage() {
   cy.selectUserMenuOption({
@@ -370,20 +207,18 @@ export function navigateToPDPInCustomerInterest(productCode: string) {
   });
 }
 
-export function stubForPaginableInterests(resp: any, url: string) {
-  cy.server({
-    response: resp,
-  });
-  cy.route('GET', url).as('paginable_interests');
+export function stubForPaginableMyInterests(jsonfile: string, url: string) {
+  cy.server();
+  cy.route('GET', url, `fixture:${jsonfile}`);
 }
 
 export function verifyPagingAndSorting() {
-  stubForPaginableInterests(
-    firstPageResp,
+  stubForPaginableMyInterests(
+    "myinterestpage1.json",
     `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&lang=en&curr=USD`
   );
-  stubForPaginableInterests(
-    secondPageResp,
+  stubForPaginableMyInterests(
+    "myinterestpage2.json",
     `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&currentPage=1&lang=en&curr=USD`
   );
   navigateToMyInterestsPage();
