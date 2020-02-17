@@ -58,13 +58,25 @@ export function verifyProductSearch(
 }
 
 export function searchResult() {
-  cy.get(resultsTitleSelector).should('contain', '143 results for "camera"');
-  cy.get(productItemSelector).should(
-    'have.length',
-    PRODUCT_LISTING.PRODUCTS_PER_PAGE
-  );
-  cy.get(firstProductItemSelector).within(() => {
-    cy.get('a.cx-product-name').should('be.visible');
+  const searchTerm = 'camera';
+  cy.server();
+  cy.route(
+    'GET',
+    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=${searchTerm}*`
+  ).as('camera_query');
+  cy.wait('@camera_query').then(xhr => {
+    const cameraResults = xhr.response.body.pagination.totalResults;
+    cy.get(resultsTitleSelector).should(
+      'contain',
+      `${cameraResults} results for "camera"`
+    );
+    cy.get(productItemSelector).should(
+      'have.length',
+      PRODUCT_LISTING.PRODUCTS_PER_PAGE
+    );
+    cy.get(firstProductItemSelector).within(() => {
+      cy.get('a.cx-product-name').should('be.visible');
+    });
   });
 }
 
@@ -92,6 +104,12 @@ export function viewMode() {
 }
 
 export function filterUsingFacetFiltering() {
+  cy.server();
+  cy.route(
+    'GET',
+    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=camera:relevance:availableInStores*`
+  ).as('facet_query');
+
   cy.get('.cx-facet-header')
     .contains('Stores')
     .parents('.cx-facet-group')
@@ -100,7 +118,14 @@ export function filterUsingFacetFiltering() {
         .first()
         .click({ force: true });
     });
-  cy.get(resultsTitleSelector).should('contain', '78 results for "camera"');
+
+  cy.wait('@facet_query').then(xhr => {
+    const facetResults = xhr.response.body.pagination.totalResults;
+    cy.get(resultsTitleSelector).should(
+      'contain',
+      `${facetResults} results for "camera"`
+    );
+  });
 }
 
 export function clearActiveFacet(mobile?: string) {
