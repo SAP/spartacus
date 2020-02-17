@@ -6,7 +6,11 @@ import {
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { B2BSearchConfig } from '../../model/search-config';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
-import { COST_CENTER_ENTITIES, COST_CENTER_LIST } from '../organization-state';
+import {
+  COST_CENTER_ENTITIES,
+  COST_CENTER_LIST,
+  COST_CENTER_ASSIGNED_BUDGETS,
+} from '../organization-state';
 import { ListModel } from '../../../model/misc.model';
 
 export const LOAD_COST_CENTER = '[CostCenter] Load CostCenter Data';
@@ -28,6 +32,12 @@ export const UPDATE_COST_CENTER = '[CostCenter] Update CostCenter';
 export const UPDATE_COST_CENTER_FAIL = '[CostCenter] Update CostCenter Fail';
 export const UPDATE_COST_CENTER_SUCCESS =
   '[CostCenter] Update CostCenter Success';
+
+export const LOAD_ASSIGNED_BUDGETS = '[CostCenter] Load assigned Budgets';
+export const LOAD_ASSIGNED_BUDGETS_SUCCESS =
+  '[CostCenter] Load assigned Budgets success';
+export const LOAD_ASSIGNED_BUDGETS_FAIL =
+  '[CostCenter] Load assigned Budgets fail';
 
 export class LoadCostCenter extends EntityLoadAction {
   readonly type = LOAD_COST_CENTER;
@@ -133,6 +143,51 @@ export class UpdateCostCenterSuccess extends EntitySuccessAction {
   }
 }
 
+export class LoadAssignedBudgets extends EntityLoadAction {
+  readonly type = LOAD_ASSIGNED_BUDGETS;
+  constructor(
+    public payload: {
+      userId: string;
+      code: string;
+      params: B2BSearchConfig;
+    }
+  ) {
+    super(
+      COST_CENTER_ASSIGNED_BUDGETS,
+      payload.code + serializeB2BSearchConfig(payload.params)
+    );
+  }
+}
+
+export class LoadAssignedBudgetsFail extends EntityFailAction {
+  readonly type = LOAD_ASSIGNED_BUDGETS_FAIL;
+  constructor(
+    public payload: { code: string; params: B2BSearchConfig; error: any }
+  ) {
+    super(
+      COST_CENTER_ASSIGNED_BUDGETS,
+      payload.code + serializeB2BSearchConfig(payload.params),
+      payload.error
+    );
+  }
+}
+
+export class LoadAssignedBudgetsSuccess extends EntitySuccessAction {
+  readonly type = LOAD_ASSIGNED_BUDGETS_SUCCESS;
+  constructor(
+    public payload: {
+      code: string;
+      page: ListModel;
+      params: B2BSearchConfig;
+    }
+  ) {
+    super(
+      COST_CENTER_ASSIGNED_BUDGETS,
+      payload.code + serializeB2BSearchConfig(payload.params)
+    );
+  }
+}
+
 export type CostCenterAction =
   | LoadCostCenter
   | LoadCostCenterFail
@@ -145,4 +200,7 @@ export type CostCenterAction =
   | CreateCostCenterSuccess
   | UpdateCostCenter
   | UpdateCostCenterFail
-  | UpdateCostCenterSuccess;
+  | UpdateCostCenterSuccess
+  | LoadAssignedBudgets
+  | LoadAssignedBudgetsSuccess
+  | LoadAssignedBudgetsFail;

@@ -4,9 +4,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { CostCenter } from '../../../model/cost-center.model';
 import { EntitiesModel } from '../../../model/misc.model';
+import { Budget } from '../../../model/budget.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
-import { CostCenterActions } from '../actions/index';
+import { CostCenterActions, BudgetActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
 
 @Injectable()
@@ -105,6 +106,42 @@ export class CostCenterEffects {
             of(
               new CostCenterActions.UpdateCostCenterFail({
                 costCenterCode: payload.costCenter.code,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  loadBudgets$: Observable<
+    | CostCenterActions.LoadAssignedBudgetsSuccess
+    | BudgetActions.LoadBudgetSuccess
+    | CostCenterActions.LoadAssignedBudgetsFail
+  > = this.actions$.pipe(
+    ofType(CostCenterActions.LOAD_ASSIGNED_BUDGETS),
+    map((action: CostCenterActions.LoadAssignedBudgets) => action.payload),
+    switchMap(payload =>
+      this.costCenterConnector
+        .getBudgets(payload.userId, payload.code, payload.params)
+        .pipe(
+          switchMap((budgets: EntitiesModel<Budget>) => {
+            const { values, page } = normalizeListPage(budgets, 'code');
+            return [
+              new BudgetActions.LoadBudgetSuccess(values),
+              new CostCenterActions.LoadAssignedBudgetsSuccess({
+                code: payload.code,
+                page,
+                params: payload.params,
+              }),
+            ];
+          }),
+          catchError(error =>
+            of(
+              new CostCenterActions.LoadAssignedBudgetsFail({
+                code: payload.code,
+                params: payload.params,
                 error: makeErrorSerializable(error),
               })
             )

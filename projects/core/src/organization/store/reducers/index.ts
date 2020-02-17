@@ -22,6 +22,7 @@ import {
   COST_CENTER_FEATURE,
   COST_CENTER_ENTITIES,
   COST_CENTER_LIST,
+  COST_CENTER_ASSIGNED_BUDGETS,
 } from '../organization-state';
 import { budgetsListReducer } from './budget.reducer';
 import { orgUnitListReducer } from './org-unit.reducer';
@@ -49,6 +50,10 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       entities: entityLoaderReducer<CostCenter>(COST_CENTER_ENTITIES),
       list: entityLoaderReducer<ListModel>(
         COST_CENTER_LIST,
+        costCentersListReducer
+      ),
+      budgets: entityLoaderReducer<ListModel>(
+        COST_CENTER_ASSIGNED_BUDGETS,
         costCentersListReducer
       ),
     }),
