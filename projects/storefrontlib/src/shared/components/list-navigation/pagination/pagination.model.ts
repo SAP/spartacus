@@ -1,5 +1,5 @@
 /**
- * Representa a page item for a pagination system. This is used
+ * Represents a page item for a pagination system. This is used
  * to store the model of each page.
  */
 export interface PaginationItem {
