@@ -70,7 +70,7 @@ describe('Package utils', () => {
 
   describe('getMajorVersionNumber', () => {
     it('should return the major number', () => {
-      const testVersion = '1.0.0';
+      const testVersion = '9.0.0';
       const majorVersion = getMajorVersionNumber(testVersion);
       expect(majorVersion).toEqual(9);
     });

@@ -76,14 +76,10 @@ const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
   template: '',
 })
 class MockCartItemListComponent {
-  @Input()
-  items: Item[];
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
-  @Input()
-  isReadOnly: boolean;
-  @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+  @Input() items: Item[];
+  @Input() readonly: boolean;
+  @Input() potentialProductPromotions: PromotionResult[] = [];
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 @Component({
@@ -382,7 +378,7 @@ describe('ReviewSubmitComponent', () => {
         { entryNumber: 123 },
         { entryNumber: 456 },
       ]);
-      expect(getCartItemList().isReadOnly).toBe(true);
+      expect(getCartItemList().readonly).toBe(true);
     });
   });
 });

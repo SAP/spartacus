@@ -12,6 +12,10 @@ export const tabsHeaderList = 'cx-tab-paragraph-container > h3';
 
 const productSelector = 'cx-product-list-item';
 
+const searchResults = 17;
+const topResultQuery = 1;
+const byCategoryQuery = 16;
+
 export function productRatingFlow(mobile?: string) {
   cy.server();
   createProductQuery('productQuery');
@@ -21,7 +25,10 @@ export function productRatingFlow(mobile?: string) {
   const productName = 'DSC-N1';
   cy.get('cx-searchbox input').type(`${productName}{enter}`);
 
-  cy.get(resultsTitle).should('contain', `17 results for "${productName}"`);
+  cy.get(resultsTitle).should(
+    'contain',
+    `${searchResults} results for "${productName}"`
+  );
 
   cy.get(productSelector).should(
     'have.length',
@@ -35,10 +42,13 @@ export function productRatingFlow(mobile?: string) {
   );
 
   // Navigate to previous page
-  cy.get('.page-item:first-of-type .page-link:first').click();
+  cy.get('cx-pagination a.current')
+    .prev()
+    .first()
+    .click();
   cy.wait('@query-topRated');
 
-  cy.get('.page-item.active > .page-link').should('contain', '1');
+  cy.get('cx-pagination a.current').should('contain', `${topResultQuery}`);
 
   assertFirstProduct();
 
@@ -54,7 +64,10 @@ export function productRatingFlow(mobile?: string) {
 
   cy.wait('@productQuery');
 
-  cy.get(resultsTitle).should('contain', '16 results for "DSC-N1"');
+  cy.get(resultsTitle).should(
+    'contain',
+    `${byCategoryQuery} results for "DSC-N1"`
+  );
   assertFirstProduct();
 
   if (mobile) {

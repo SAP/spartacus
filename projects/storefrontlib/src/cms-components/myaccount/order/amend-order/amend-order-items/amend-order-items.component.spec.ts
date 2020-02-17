@@ -2,9 +2,9 @@ import { Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
+import { MockFeatureLevelDirective } from '../../../../../shared/test/mock-feature-level-directive';
 import { OrderAmendService } from '../amend-order.service';
 import { CancelOrReturnItemsComponent } from './amend-order-items.component';
-import { MockFeatureLevelDirective } from '../../../../../shared/test/mock-feature-level-directive';
 import createSpy = jasmine.createSpy;
 
 const mockEntries = [
@@ -41,10 +41,10 @@ class MockMediaComponent {
   selector: 'cx-item-counter',
 })
 class MockItemCounterComponent {
-  @Input() step;
   @Input() min;
   @Input() max;
-  @Input() isValueChangeable;
+  @Input() readonly;
+  @Input() control;
 }
 
 class MockOrderAmendService {

@@ -139,7 +139,7 @@ export function verifyQuantityInCart() {
 }
 
 export function selectProductStyleVariant() {
-  cy.get(`${variantStyleList} li a.colorVariant`)
+  cy.get(`${variantStyleList} li img[alt="glacier"]`)
     .first()
     .click();
 
@@ -147,18 +147,18 @@ export function selectProductStyleVariant() {
 }
 
 export function selectProductSizeVariant() {
-  cy.get(`${variantStyleList} li a.colorVariant`)
+  cy.get(`${variantStyleList} li img[alt="glacier"]`)
     .first()
     .click();
 
   cy.get('.variant-selector select').select('M');
 
   cy.get('cx-add-to-cart .quantity .info').should('contain', 'In stock');
-  cy.get('cx-add-to-cart > button').should('be.visible');
+  cy.get('cx-add-to-cart button').should('be.visible');
 }
 
 export function selectProductSizeVariantWithoutStock() {
-  cy.get(`${variantStyleList} li a.colorVariant`)
+  cy.get(`${variantStyleList} li img[alt="glacier"]`)
     .first()
     .click();
 
