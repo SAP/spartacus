@@ -65,7 +65,7 @@ export class ItemCounterComponent {
    */
   @HostBinding('class.readonly') @Input() readonly = false;
 
-  @ViewChild('qty', { static: false }) private input: ElementRef<
+  @ViewChild('qty') private input: ElementRef<
     HTMLInputElement
   >;
 

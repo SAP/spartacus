@@ -30,7 +30,7 @@ export class AddedToCartDialogComponent implements OnInit {
   quantity = 0;
   modalIsOpen = false;
 
-  @ViewChild('dialog', { static: false, read: ElementRef })
+  @ViewChild('dialog', { read: ElementRef })
   dialog: ElementRef;
 
   form: FormGroup = new FormGroup({});
