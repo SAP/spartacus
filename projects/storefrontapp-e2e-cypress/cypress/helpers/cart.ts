@@ -172,11 +172,11 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 
   checkMiniCartCount(2).click({ force: true });
 
-  checkProductInCart(product);
+  checkProductInCart(product, 2);
 }
 
 export function removeAllItemsFromCart() {
-  waitForCartRefresh();
+  registerCartRefreshRoute();
 
   getCartItem(products[0].name).within(() => {
     cy.getByText('Remove').click();
@@ -185,12 +185,6 @@ export function removeAllItemsFromCart() {
   cy.wait('@refresh_cart')
     .its('status')
     .should('eq', 200);
-
-  getCartItem(products[1].name).within(() => {
-    cy.getByText('Remove').click();
-  });
-
-  cy.wait('@refresh_cart');
 
   validateEmptyCart();
 }
