@@ -199,11 +199,7 @@
       </button>
     </div>
     <div class="col-md-12 col-lg-6">
-      <button
-        class="btn btn-block btn-primary"
-        [disabled]="shouldDisableContinueButton()"
-        (click)="verifyAddress()"
-      >
+      <button class="btn btn-block btn-primary" (click)="verifyAddress()">
         {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
       </button>
     </div>

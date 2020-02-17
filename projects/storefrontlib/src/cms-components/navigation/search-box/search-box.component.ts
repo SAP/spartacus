@@ -4,11 +4,7 @@ import {
   Input,
   Optional,
 } from '@angular/core';
-import {
-  CmsSearchBoxComponent,
-  WindowRef,
-  FeatureConfigService,
-} from '@spartacus/core';
+import { CmsSearchBoxComponent, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
@@ -54,26 +50,12 @@ export class SearchBoxComponent {
    * The component data is optional, so that this component
    * can be reused without CMS integration.
    */
-  // TODO(issue:#3827) deprecated since 1.0.2
-  /**
-   * @deprecated since v1.0.2
-   */
-  constructor(
-    searchBoxComponentService: SearchBoxComponentService,
-    componentData: CmsComponentData<CmsSearchBoxComponent>
-  );
-  constructor(
-    searchBoxComponentService: SearchBoxComponentService,
-    componentData: CmsComponentData<CmsSearchBoxComponent>,
-    // tslint:disable-next-line
-    winRef: WindowRef
-  );
+
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
     @Optional()
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
-    protected winRef?: WindowRef,
-    private featureConfigService?: FeatureConfigService
+    protected winRef: WindowRef
   ) {}
 
   results$: Observable<SearchResults> = this.config$.pipe(
@@ -128,27 +110,12 @@ export class SearchBoxComponent {
    * Closes the typehead searchbox.
    */
   close(event: UIEvent, force?: boolean): void {
-    // TODO(issue:#3827) deprecated since 1.5
-    if (this.featureConfigService.isLevel('1.5')) {
-      if (this.winRef) {
-        // Use timeout to detect changes
-        setTimeout(() => {
-          if ((!this.ignoreCloseEvent && !this.isSearchboxFocused()) || force) {
-            this.blurSearchBox(event);
-          }
-          this.ignoreCloseEvent = false;
-        });
-      } else {
-        if (!this.ignoreCloseEvent || force) {
-          this.blurSearchBox(event);
-          this.ignoreCloseEvent = false;
-        }
-      }
-    } else {
-      if (!this.ignoreCloseEvent) {
+    // Use timeout to detect changes
+    setTimeout(() => {
+      if ((!this.ignoreCloseEvent && !this.isSearchboxFocused()) || force) {
         this.blurSearchBox(event);
       }
-    }
+    });
   }
 
   protected blurSearchBox(event: UIEvent): void {
