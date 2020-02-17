@@ -21,7 +21,7 @@ export function verifyItemCounterOnPDP() {
     .should('have.value', '1');
 
   // check if the '-' button is disabled when the quantity is the minimum '1'
-  cy.get('cx-add-to-cart button')
+  cy.get('cx-add-to-cart cx-item-counter button')
     .contains('-')
     .should('be.disabled');
 }
