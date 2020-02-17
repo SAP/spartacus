@@ -3,28 +3,25 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CheckoutService,
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   Order,
   PromotionLocation,
-  FeaturesConfigModule,
-  FeaturesConfig,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { Item } from '../../../cart/cart-shared/cart-item/cart-item.component';
+import { PromotionsModule } from '../../../checkout';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
 
 import createSpy = jasmine.createSpy;
-import { PromotionsModule } from '../../../checkout';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({ selector: 'cx-cart-item-list', template: '' })
 class MockReviewSubmitComponent {
-  @Input()
-  items: Item[];
-  @Input()
-  isReadOnly: boolean;
-  @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.Checkout;
+  @Input() items: Item[];
+  @Input() readonly: boolean;
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.Checkout;
 }
 
 class MockCheckoutService {

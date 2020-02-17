@@ -154,7 +154,7 @@ export function selectProductSizeVariant() {
   cy.get('.variant-selector select').select('M');
 
   cy.get('cx-add-to-cart .quantity .info').should('contain', 'In stock');
-  cy.get('cx-add-to-cart > button').should('be.visible');
+  cy.get('cx-add-to-cart button').should('be.visible');
 }
 
 export function selectProductSizeVariantWithoutStock() {
