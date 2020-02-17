@@ -16,15 +16,10 @@ import {
   goToProductPageFromCategory,
   displaySummaryPage,
 } from './checkout-as-persistent-user';
+import { selectProductStyleVariant } from './product-details';
 
 export function addProductVariant() {
-  cy.get(`.variant-selector ul.variant-list li a.colorVariant`)
-    .first()
-    .click();
-  cy.wait(3000);
-  cy.get(`.variant-selector ul.variant-list li.selected-variant`).should(
-    'be.visible'
-  );
+  selectProductStyleVariant();
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
@@ -46,24 +41,25 @@ export function configureApparelProduct() {
 }
 
 export function addTwoProductVariantsToCart() {
-  cy.get(`.variant-selector ul.variant-list li a.colorVariant`)
-    .first()
-    .click();
-  cy.get(`.variant-selector ul.variant-list li.selected-variant`).should(
-    'be.visible'
-  );
+  selectProductStyleVariant();
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', variantProduct.name);
     cy.get('.close').click();
-    cy.wait(5000);
   });
-  cy.get(`.variant-selector ul.variant-list li a.colorVariant`)
-    .last()
+  cy.server();
+  cy.route(
+    'GET',
+    `/rest/v2/apparel-uk-spa/products/${styleVariantProduct.code}/reviews*`
+  ).as('getProductPage');
+  cy.get(`.variant-selector ul.variant-list li img[alt="lime"]`)
+    .first()
     .click();
-  cy.wait(5000);
+  cy.wait('@getProductPage')
+    .its('status')
+    .should('eq', 200);
   cy.get(`.variant-selector ul.variant-list li.selected-variant`).should(
     'be.visible'
   );
@@ -94,7 +90,6 @@ export function addMutipleProductWithoutVariantToCart() {
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
-  cy.wait(3000);
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', productWithoutVariants.name);
     cy.getByText(/view cart/i).click();
