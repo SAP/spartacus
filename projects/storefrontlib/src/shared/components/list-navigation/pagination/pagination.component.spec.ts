@@ -1,214 +1,237 @@
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { PaginationModel } from '@spartacus/core';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute, Params } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { PaginationConfig } from './config/pagination.config';
 import { PaginationComponent } from './pagination.component';
+import { PaginationItemType } from './pagination.model';
 
-const FIRST_PAGE = 1;
-const MIDDLE_PAGE = 5;
-const TOTAL_PAGES = 10;
-const OUT_OF_RANGE_MIN = 0;
-const OUT_OF_RANGE_MAX = 11;
+const mockPaginationConfig: PaginationConfig = {
+  pagination: {},
+};
+
+const mockActivatedRoute = {
+  snapshot: {
+    queryParams: {},
+  },
+};
 
 describe('PaginationComponent', () => {
   let component: PaginationComponent;
   let fixture: ComponentFixture<PaginationComponent>;
-  let pagination: PaginationModel;
+  let debugEl: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [PaginationComponent],
+      providers: [
+        {
+          provide: PaginationConfig,
+          useValue: mockPaginationConfig,
+        },
+
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaginationComponent);
+    debugEl = fixture.debugElement;
     component = fixture.componentInstance;
-    pagination = {
-      currentPage: FIRST_PAGE,
-      totalPages: TOTAL_PAGES,
+    component.pagination = {
+      currentPage: 1,
+      totalPages: 10,
     };
-    component.pagination = pagination;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('GET functions', () => {
-    it('should return next page', () => {
-      expect(component.getPageNext()).toEqual(FIRST_PAGE + 2);
+  describe('isCurrent', () => {
+    it('should return true for current page = 1', () => {
+      component.pagination.currentPage = 1;
+      expect(
+        component.isCurrent({ type: PaginationItemType.PAGE, number: 1 })
+      ).toBeTruthy();
     });
 
-    it('should return previous page', () => {
-      component.pagination.currentPage = MIDDLE_PAGE;
-      expect(component.getPagePrevious()).toEqual(MIDDLE_PAGE);
+    it('should return true for current page = 5', () => {
+      component.pagination.currentPage = 5;
+      expect(
+        component.isCurrent({ type: PaginationItemType.PAGE, number: 5 })
+      ).toBeTruthy();
     });
 
-    it('should return array of pages', () => {
-      const pageArray = Array(TOTAL_PAGES);
-      expect(component.getPageIndicies()).toEqual(pageArray);
+    it('should not return isCurrent for current page = 2', () => {
+      component.pagination.currentPage = 1;
+      expect(
+        component.isCurrent({ type: PaginationItemType.PAGE, number: 2 })
+      ).toBeFalsy();
     });
 
-    it('should return bottom of page window', () => {
-      expect(component.getPageWindowMinIndex()).toEqual(0);
-    });
-
-    it('should return top of page window', () => {
-      expect(component.getPageWindowMaxIndex()).toEqual(2);
-    });
-  });
-
-  describe('hasPages()', () => {
-    it('should have pages', () => {
-      expect(component.hasPages()).toBeTruthy();
-    });
-
-    it('should NOT have pages', () => {
-      component.pagination.totalPages = 0;
-      expect(component.hasPages()).not.toBeTruthy();
+    it('should not return isCurrent for non-page', () => {
+      component.pagination.currentPage = 1;
+      expect(component.isCurrent({ type: null, number: 1 })).toBeFalsy();
     });
   });
 
-  describe('onPage functions', () => {
-    it('should be on first page', () => {
+  describe('isInactive', () => {
+    it('should return true for 1st page', () => {
       component.pagination.currentPage = 0;
-      expect(component.onFirstPage()).toBeTruthy();
+      expect(component.isInactive({ number: 0 })).toBeTruthy();
+      expect(component.isInactive({ number: 1 })).toBeFalsy();
+      expect(component.isInactive({ number: 6 })).toBeFalsy();
     });
-
-    it('should NOT be on first page', () => {
-      component.pagination.currentPage = TOTAL_PAGES - 1;
-      expect(component.onFirstPage()).not.toBeTruthy();
-    });
-
-    it('should be on last page', () => {
-      component.pagination.currentPage = TOTAL_PAGES - 1;
-      expect(component.onLastPage()).toBeTruthy();
-    });
-
-    it('should NOT be on last page', () => {
-      expect(component.onLastPage()).not.toBeTruthy();
-    });
-
-    it('should be on middle page', () => {
-      component.pagination.currentPage = MIDDLE_PAGE;
-      expect(component.onPageIndex(MIDDLE_PAGE)).toBeTruthy();
-    });
-
-    it('should NOT be on middle page', () => {
-      expect(component.onPageIndex(MIDDLE_PAGE)).not.toBeTruthy();
+    it('should return true for 2nd page', () => {
+      component.pagination.currentPage = 1;
+      expect(component.isInactive({ number: 0 })).toBeFalsy();
+      expect(component.isInactive({ number: 1 })).toBeTruthy();
+      expect(component.isInactive({ number: 2 })).toBeFalsy();
+      expect(component.isInactive({ number: 6 })).toBeFalsy();
     });
   });
 
-  describe('hidePageIndex()', () => {
-    it('should hide middle index', () => {
-      expect(component.hidePageIndex(MIDDLE_PAGE)).toBeTruthy();
+  describe('QueryParams', () => {
+    it('should not query parameter if queryParams = null', () => {
+      expect(component.getQueryParams({ number: 0 }) as Params).toEqual({});
     });
 
-    it('should NOT hide first index', () => {
-      expect(component.hidePageIndex(FIRST_PAGE)).not.toBeTruthy();
-    });
-
-    it('should NOT hide second index', () => {
-      expect(component.hidePageIndex(FIRST_PAGE + 1)).not.toBeTruthy();
-    });
-
-    it('should hide second-last index', () => {
-      expect(component.hidePageIndex(TOTAL_PAGES - 2)).toBeTruthy();
-    });
-
-    it('should NOT hide last index', () => {
-      expect(component.hidePageIndex(TOTAL_PAGES - 1)).not.toBeTruthy();
-    });
-  });
-
-  describe('showDots()', () => {
-    beforeEach(() => {
-      component.pagination.currentPage = MIDDLE_PAGE;
-    });
-
-    it('should NOT show dots at current index', () => {
-      expect(component.showDots(MIDDLE_PAGE)).not.toBeTruthy();
-    });
-
-    it('should NOT show dots at first index', () => {
-      expect(component.showDots(FIRST_PAGE)).not.toBeTruthy();
-    });
-
-    it('should NOT show dots at last index', () => {
-      expect(component.showDots(TOTAL_PAGES - 1)).not.toBeTruthy();
-    });
-
-    it('should show dots one index below bottom page window', () => {
-      expect(component.showDots(MIDDLE_PAGE - 3)).toBeTruthy();
-    });
-
-    it('should show dots one index above top page window', () => {
-      expect(component.showDots(MIDDLE_PAGE + 1)).toBeTruthy();
-    });
-
-    it('should NOT show dots two indexes below bottom page window', () => {
-      expect(component.showDots(MIDDLE_PAGE - 4)).not.toBeTruthy();
-    });
-
-    it('should show dots two indexes above top page window', () => {
-      expect(component.showDots(MIDDLE_PAGE + 2)).not.toBeTruthy();
-    });
-  });
-
-  describe('clickPageNo()', () => {
-    it('should change pages by index', () => {
-      const newPage = component.clickPageNo(MIDDLE_PAGE);
-      expect(newPage).toEqual(MIDDLE_PAGE);
-    });
-
-    it('should change pages to first', () => {
-      const newPage = component.clickPageNo(FIRST_PAGE);
-      expect(newPage).toEqual(FIRST_PAGE);
-    });
-
-    it('should change pages to last', () => {
-      const newPage = component.clickPageNo(TOTAL_PAGES);
-      expect(newPage).toEqual(TOTAL_PAGES);
-    });
-
-    it('should not change pages when index out of max range', () => {
-      const newPage = component.clickPageNo(OUT_OF_RANGE_MAX);
-      expect(newPage).toEqual(FIRST_PAGE);
-    });
-
-    it('should not change pages when index out of min range', () => {
-      const newPage = component.clickPageNo(OUT_OF_RANGE_MIN);
-      expect(newPage).toEqual(FIRST_PAGE);
-    });
-  });
-
-  describe('pageChange()', () => {
-    it('should change pages', () => {
-      component.pageChange(MIDDLE_PAGE);
-      component.viewPageEvent.subscribe((event: any) => {
-        expect(event).toEqual(MIDDLE_PAGE);
+    describe('pageNr parameter', () => {
+      beforeEach(() => {
+        component.queryParam = 'currentPage';
+      });
+      it('should return { currentPage: 0 } for 1st page', () => {
+        expect(component.getQueryParams({ number: 0 }) as Params).toEqual({
+          currentPage: 0,
+        });
+      });
+      it('should return { currentPage: 5 } for 5th page', () => {
+        expect(component.getQueryParams({ number: 5 }) as Params).toEqual({
+          currentPage: 5,
+        });
+      });
+      it('should not query parameter for current page', () => {
+        component.pagination.currentPage = 2;
+        expect(component.getQueryParams({
+          type: PaginationItemType.PAGE,
+          number: 2,
+        }) as Params).toEqual({});
       });
     });
   });
 
-  describe('showPagination()', () => {
-    beforeEach(() => {
-      pagination = {
-        currentPage: 1,
-        totalPages: 1,
-      };
-      component.pagination = pagination;
+  describe('UI', () => {
+    describe('10 pages', () => {
+      beforeEach(() => {
+        component.pagination = {
+          currentPage: 0,
+          totalPages: 10,
+        };
+        fixture.detectChanges();
+      });
+
+      describe('disabled', () => {
+        it('should have a disabled start link', () => {
+          const el = debugEl.query(By.css('a.start')).nativeElement;
+          expect(el.classList).toContain('disabled');
+        });
+
+        it('should have a disabled previous link', () => {
+          const el = debugEl.query(By.css('a.start')).nativeElement;
+          expect(el.classList).toContain('disabled');
+        });
+
+        it('should have disabled current page', () => {
+          const el = debugEl.query(By.css('a.current')).nativeElement;
+          expect(el.classList).toContain('disabled');
+        });
+
+        it('should not have disabled pages', () => {
+          const el = debugEl.queryAll(By.css('a.page:not(.current)'))[0]
+            .nativeElement;
+          expect(el.classList).not.toContain('disabled');
+        });
+
+        it('should have an enabled next link', () => {
+          const el = debugEl.query(By.css('a.next')).nativeElement;
+          expect(el.classList).not.toContain('disabled');
+        });
+
+        it('should have an enabled end link', () => {
+          const el = debugEl.query(By.css('a.end')).nativeElement;
+          expect(el.classList).not.toContain('disabled');
+        });
+      });
+
+      describe('tabIndex', () => {
+        it('should have no tabIndex for start link', () => {
+          const el = debugEl.query(By.css('a.start')).nativeElement;
+          expect(el.tabIndex).toEqual(-1);
+        });
+
+        it('should have no tabIndex for previous link', () => {
+          const el = debugEl.query(By.css('a.start')).nativeElement;
+          expect(el.tabIndex).toEqual(-1);
+        });
+
+        it('should have no tabIndex for current link', () => {
+          const el = debugEl.query(By.css('a.current')).nativeElement;
+          expect(el.tabIndex).toEqual(-1);
+        });
+
+        it('should have tabIndex=0 for next link', () => {
+          const el = debugEl.query(By.css('a.next')).nativeElement;
+          expect(el.tabIndex).toEqual(0);
+        });
+        it('should have tabIndex=0 for end link', () => {
+          const el = debugEl.query(By.css('a.end')).nativeElement;
+          expect(el.tabIndex).toEqual(0);
+        });
+      });
+
+      describe('pageChange', () => {
+        it('should click next link', () => {
+          const size = component.pagination.pageSize;
+          const el: HTMLElement = debugEl.query(By.css('a.next')).nativeElement;
+          el.click();
+          fixture.detectChanges();
+          let result;
+
+          component.viewPageEvent
+            .subscribe((event: any) => {
+              result = event;
+            })
+            .unsubscribe();
+          expect(result).toEqual(size);
+        });
+      });
     });
 
-    it('should NOT hide pagination', () => {
-      component.showPagination();
-      expect(component.showPagination()).toBeTruthy();
+    describe('no pages', () => {
+      it('should not have any pagination items', () => {
+        component.pagination = {
+          currentPage: 0,
+          totalPages: 0,
+        };
+        fixture.detectChanges();
+        const el = debugEl.queryAll(By.css('a'));
+        expect(el.length).toEqual(0);
+      });
     });
 
-    it('should hide pagination', () => {
-      component.hideOnSinglePage = true;
-
-      component.showPagination();
-      expect(component.showPagination()).toBeFalsy();
+    describe('1 page', () => {
+      it('should not have any pagination items', () => {
+        component.pagination = {
+          totalPages: 1,
+        };
+        fixture.detectChanges();
+        const el = debugEl.queryAll(By.css('a'));
+        expect(el.length).toEqual(0);
+      });
     });
   });
 });

@@ -119,8 +119,8 @@
             <cx-item-counter
               [min]="0"
               [max]="getMaxAmendQuantity(item)"
-              [isValueChangeable]="!isConfirmation"
-              [formControl]="getControl(form, item)"
+              [control]="getControl(form, item)"
+              [readonly]="isConfirmation"
             >
             </cx-item-counter>
           </div>

@@ -58,7 +58,7 @@ function checkCartSummary(subtotal: string) {
 }
 
 function incrementQuantity() {
-  cy.get('.cx-counter-action')
+  cy.get('cx-item-counter button')
     .contains('+')
     .click();
 }
@@ -102,8 +102,7 @@ export function validateEmptyCart() {
 }
 
 export function addToCart() {
-  cy.get('cx-add-to-cart')
-    .getAllByText(/Add To Cart/i)
+  cy.get('cx-add-to-cart button[type=submit]')
     .first()
     .click({ force: true });
 }
@@ -137,7 +136,7 @@ export function closeAddedToCartDialog() {
 export function checkProductInCart(product, qty = 1) {
   return getCartItem(product.name).within(() => {
     cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
-    cy.get('.cx-counter-value').should('have.value', `${qty}`);
+    cy.get('cx-item-counter input').should('have.value', `${qty}`);
     cy.get('.cx-total>.cx-value').should(
       'contain',
       formatPrice(qty * product.price)
@@ -165,7 +164,7 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
 export function addProductToCartViaSearchPage(mobile: boolean) {
   const product = products[0];
 
-  goToFirstProductFromSearch(product.type, mobile);
+  goToFirstProductFromSearch(product.code, mobile);
 
   addToCart();
 
@@ -173,25 +172,19 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 
   checkMiniCartCount(2).click({ force: true });
 
-  checkProductInCart(product);
+  checkProductInCart(product, 2);
 }
 
 export function removeAllItemsFromCart() {
-  const product0 = products[0];
-  const product1 = products[4];
-  waitForCartRefresh();
+  registerCartRefreshRoute();
 
-  getCartItem(product0.name).within(() => {
+  getCartItem(products[0].name).within(() => {
     cy.getByText('Remove').click();
   });
 
   cy.wait('@refresh_cart')
     .its('status')
     .should('eq', 200);
-
-  getCartItem(product1.name).within(() => {
-    cy.getByText('Remove').click();
-  });
 
   validateEmptyCart();
 }

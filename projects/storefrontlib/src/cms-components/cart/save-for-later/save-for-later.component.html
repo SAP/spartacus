@@ -17,7 +17,7 @@
       </div>
       <cx-cart-item-list
         [items]="entries"
-        [isReadOnly]="true"
+        [readonly]="true"
         [cartIsLoading]="!(cartLoaded$ | async)"
         [options]="{
           isSaveForLater: true,

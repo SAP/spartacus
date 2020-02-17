@@ -2,7 +2,12 @@ import { experimental, strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
 import { parseTsconfigFile } from '@angular/core/schematics/utils/typescript/parse_tsconfig';
-import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
+import {
+  findNodes,
+  getSourceNodes,
+  insertImport,
+  isImported,
+} from '@schematics/angular/utility/ast-utils';
 import {
   Change,
   InsertChange,
@@ -10,6 +15,16 @@ import {
 } from '@schematics/angular/utility/change';
 import { dirname, relative } from 'path';
 import * as ts from 'typescript';
+
+export enum InsertDirection {
+  LEFT,
+  RIGHT,
+}
+
+export interface ClassType {
+  className: string;
+  importPath: string;
+}
 
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   const buffer = tree.read(path);
@@ -71,11 +86,6 @@ export function getPathResultsForFile(
   return results;
 }
 
-export enum InsertDirection {
-  LEFT,
-  RIGHT,
-}
-
 export function commitChanges(
   host: Tree,
   path: string,
@@ -112,12 +122,16 @@ export function commitChanges(
   host.commitUpdate(recorder);
 }
 
+export function findConstructor(nodes: ts.Node[]): ts.Node | undefined {
+  return nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
+}
+
 export function defineProperty(
   nodes: ts.Node[],
   path: string,
   toAdd: string
 ): InsertChange {
-  const constructorNode = nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
+  const constructorNode = findConstructor(nodes);
 
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${path}.`);
@@ -126,33 +140,264 @@ export function defineProperty(
   return new InsertChange(path, constructorNode.pos + 1, toAdd);
 }
 
+/**
+ *
+ * Method performs the following checks on the provided `source` file:
+ * - is the file inheriting the provided `inheritedClass`
+ * - is the file importing all the provided `parameterClassTypes` from the expected import path
+ * - does the provided file contain a constructor
+ * - does the number of the constructor parameters match the expected `parameterClassTypes`
+ * - does the `super()` call exist in the constructor
+ * - does the param number passed to `super()` match the expected number
+ * - does the order and the type of the constructor parameters match the expected `parameterClassTypes`
+ *
+ * If only once condition is not satisfied, the method returns `false`. Otherwise, it returns `true`.
+ *
+ * @param source a ts source file
+ * @param inheritedClass a class which customers might have extended
+ * @param parameterClassTypes a list of parameter class types. Must be provided in the order in which they appear in the deprecated constructor.
+ */
+export function isCandidateForConstructorDeprecation(
+  source: ts.SourceFile,
+  inheritedClass: string,
+  parameterClassTypes: ClassType[]
+): boolean {
+  const nodes = getSourceNodes(source);
+
+  if (!checkInheritance(nodes, inheritedClass)) {
+    return false;
+  }
+
+  if (!checkImports(source, parameterClassTypes)) {
+    return false;
+  }
+
+  const constructorNode = findConstructor(nodes);
+  if (!constructorNode) {
+    return false;
+  }
+
+  if (!checkConstructorParameters(constructorNode, parameterClassTypes)) {
+    return false;
+  }
+
+  if (!checkSuper(constructorNode, parameterClassTypes)) {
+    return false;
+  }
+
+  return true;
+}
+
+function checkInheritance(nodes: ts.Node[], inheritedClass: string): boolean {
+  const heritageClauseNodes = nodes.filter(
+    node => node.kind === ts.SyntaxKind.HeritageClause
+  );
+  const heritageNodes = findMultiLevelNodesByTextAndKind(
+    heritageClauseNodes,
+    inheritedClass,
+    ts.SyntaxKind.Identifier
+  );
+  if (!heritageNodes || heritageNodes.length === 0) {
+    return false;
+  }
+  return true;
+}
+
+function checkImports(
+  source: ts.SourceFile,
+  parameterClassTypes: ClassType[]
+): boolean {
+  for (const classImport of parameterClassTypes) {
+    if (!isImported(source, classImport.className, classImport.importPath)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function checkConstructorParameters(
+  constructorNode: ts.Node,
+  parameterClassTypes: ClassType[]
+): boolean {
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Parameter
+  );
+  // the number of constructor parameter does not match with the expected number of parameters
+  if (constructorParameters.length !== parameterClassTypes.length) {
+    return false;
+  }
+
+  for (let i = 0; i < parameterClassTypes.length; i++) {
+    const parameterClassType = parameterClassTypes[i];
+    const constructorParameter = constructorParameters[i];
+
+    const constructorParameterTypeReferenceNode = constructorParameter
+      .getChildren()
+      .find(node => node.kind === ts.SyntaxKind.TypeReference);
+    if (!constructorParameterTypeReferenceNode) {
+      return false;
+    }
+    const constructorParameterType = findLevel1NodesByTextAndKind(
+      constructorParameterTypeReferenceNode.getChildren(),
+      parameterClassType.className,
+      ts.SyntaxKind.Identifier
+    );
+
+    // return false if there's no param with the expected type on the current position
+    if (constructorParameterType.length === 0) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function checkSuper(
+  constructorNode: ts.Node,
+  parameterClassTypes: ClassType[]
+): boolean {
+  const callExpressions = findNodes(
+    constructorNode,
+    ts.SyntaxKind.CallExpression
+  );
+  if (callExpressions.length === 0) {
+    return false;
+  }
+  // super has to be the first expression in constructor
+  const firstCallExpression = callExpressions[0];
+  const superKeyword = findNodes(
+    firstCallExpression,
+    ts.SyntaxKind.SuperKeyword
+  );
+  if (superKeyword && superKeyword.length === 0) {
+    return false;
+  }
+
+  const params = findNodes(firstCallExpression, ts.SyntaxKind.Identifier);
+  if (params.length !== parameterClassTypes.length) {
+    return false;
+  }
+
+  return true;
+}
+
+export function addConstructorParam(
+  source: ts.SourceFile,
+  sourcePath: string,
+  constructorNode: ts.Node | undefined,
+  paramToAdd: ClassType
+): Change[] {
+  if (!constructorNode) {
+    throw new SchematicsException(`No constructor found in ${sourcePath}.`);
+  }
+
+  const changes: Change[] = [];
+
+  changes.push(
+    injectService(
+      constructorNode,
+      sourcePath,
+      paramToAdd.className,
+      'no-modifier'
+    )
+  );
+
+  if (!isImported(source, paramToAdd.className, paramToAdd.importPath)) {
+    changes.push(
+      insertImport(
+        source,
+        sourcePath,
+        paramToAdd.className,
+        paramToAdd.importPath
+      )
+    );
+  }
+
+  changes.push(
+    updateConstructorSuperNode(
+      sourcePath,
+      constructorNode,
+      paramToAdd.className
+    )
+  );
+
+  return changes;
+}
+
+function updateConstructorSuperNode(
+  sourcePath: string,
+  constructorNode: ts.Node,
+  propertyName: string
+): InsertChange {
+  const callExpressions = findNodes(
+    constructorNode,
+    ts.SyntaxKind.CallExpression
+  );
+  propertyName = strings.camelize(propertyName);
+
+  if (callExpressions.length === 0) {
+    throw new SchematicsException('No super() call found.');
+  }
+  // super has to be the first expression in constructor
+  const firstCallExpression = callExpressions[0];
+  const superKeyword = findNodes(
+    firstCallExpression,
+    ts.SyntaxKind.SuperKeyword
+  );
+  if (superKeyword && superKeyword.length === 0) {
+    throw new SchematicsException('No super() call found.');
+  }
+
+  let toInsert = '';
+  let position: number;
+
+  const params = findNodes(firstCallExpression, ts.SyntaxKind.Identifier);
+  // just an empty super() call, without any params passed to it
+  if (params.length === 0) {
+    position = superKeyword[0].end + 1;
+  } else {
+    const lastParam = params[params.length - 1];
+    toInsert += ', ';
+    position = lastParam.end;
+  }
+
+  toInsert += propertyName;
+  return new InsertChange(sourcePath, position, toInsert);
+}
+
 export function injectService(
-  nodes: ts.Node[],
+  constructorNode: ts.Node | undefined,
   path: string,
   serviceName: string,
+  modifier: 'private' | 'protected' | 'public' | 'no-modifier',
   propertyName?: string
 ): InsertChange {
-  const constructorNode = nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
-
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${path}.`);
   }
 
-  const parameterListNode = constructorNode
-    .getChildren()
-    .find(n => n.kind === ts.SyntaxKind.SyntaxList);
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Parameter
+  );
 
-  if (!parameterListNode) {
-    throw new SchematicsException(
-      `No no parameter list found in ${path}'s constructor.`
-    );
+  let toInsert = '';
+  let position = constructorNode.getStart() + 'constructor('.length;
+  if (constructorParameters && constructorParameters.length > 0) {
+    toInsert += ', ';
+    const lastParam = constructorParameters[constructorParameters.length - 1];
+    position = lastParam.end;
   }
 
   propertyName = propertyName
     ? strings.camelize(propertyName)
     : strings.camelize(serviceName);
-  const toAdd = `private ${propertyName}: ${strings.classify(serviceName)}`;
-  return new InsertChange(path, parameterListNode.pos, toAdd);
+
+  if (modifier !== 'no-modifier') toInsert += `${modifier} `;
+  toInsert += `${propertyName}: ${strings.classify(serviceName)}`;
+
+  return new InsertChange(path, position, toInsert);
 }
 
 export function insertCommentAboveIdentifier(
@@ -161,7 +406,7 @@ export function insertCommentAboveIdentifier(
   identifierName: string,
   comment: string
 ): InsertChange[] {
-  const callExpressionNodes = findNodesByTextAndKind(
+  const callExpressionNodes = findLevel1NodesInSourceByTextAndKind(
     source,
     identifierName,
     ts.SyntaxKind.Identifier
@@ -185,7 +430,7 @@ export function renameIdentifierNode(
   oldName: string,
   newName: string
 ): ReplaceChange[] {
-  const callExpressionNodes = findNodesByTextAndKind(
+  const callExpressionNodes = findLevel1NodesInSourceByTextAndKind(
     source,
     oldName,
     ts.SyntaxKind.Identifier
@@ -197,15 +442,37 @@ export function renameIdentifierNode(
   return changes;
 }
 
-function findNodesByTextAndKind(
+function findLevel1NodesInSourceByTextAndKind(
   source: ts.SourceFile,
   text: string,
   syntaxKind: ts.SyntaxKind
 ): ts.Node[] {
   const nodes = getSourceNodes(source);
+  return findLevel1NodesByTextAndKind(nodes, text, syntaxKind);
+}
+
+function findLevel1NodesByTextAndKind(
+  nodes: ts.Node[],
+  text: string,
+  syntaxKind: ts.SyntaxKind
+): ts.Node[] {
   return nodes
     .filter(n => n.kind === syntaxKind)
     .filter(n => n.getText() === text);
+}
+
+function findMultiLevelNodesByTextAndKind(
+  nodes: ts.Node[],
+  text: string,
+  syntaxKind: ts.SyntaxKind
+): ts.Node[] {
+  const result: ts.Node[] = [];
+  for (const node of nodes) {
+    result.push(
+      ...findNodes(node, syntaxKind).filter(n => n.getText() === text)
+    );
+  }
+  return result;
 }
 
 function getLineStartFromTSFile(
