@@ -154,7 +154,7 @@ export class LoadAssignedBudgets extends EntityLoadAction {
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      `${payload.code}:${serializeB2BSearchConfig(payload.params)}`
+      serializeB2BSearchConfig(payload.params, payload.code)
     );
   }
 }
@@ -166,7 +166,7 @@ export class LoadAssignedBudgetsFail extends EntityFailAction {
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      `${payload.code}:${serializeB2BSearchConfig(payload.params)}`,
+      serializeB2BSearchConfig(payload.params, payload.code),
       payload.error
     );
   }
@@ -183,7 +183,7 @@ export class LoadAssignedBudgetsSuccess extends EntitySuccessAction {
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      `${payload.code}:${serializeB2BSearchConfig(payload.params)}`
+      serializeB2BSearchConfig(payload.params, payload.code)
     );
   }
 }

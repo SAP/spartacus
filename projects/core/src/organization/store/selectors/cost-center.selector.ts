@@ -5,7 +5,10 @@ import { entityStateSelector } from '../../../state/utils/entity-loader/entity-l
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { B2BSearchConfig } from '../../model/search-config';
-import { denormalizeB2BSearch } from '../../utils/serializer';
+import {
+  denormalizeB2BSearch,
+  denormalizeCustomB2BSearch,
+} from '../../utils/serializer';
 import {
   CostCenterManagement,
   COST_CENTER_FEATURE,
@@ -13,6 +16,8 @@ import {
   StateWithOrganization,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
+import { getBudgetsState } from './budget.selector';
+import { Budget } from 'projects/core/src/model/budget.model';
 
 export const getCostCenterManagementState: MemoizedSelector<
   StateWithOrganization,
@@ -49,4 +54,18 @@ export const getCostCenterList = (
     getCostCenterManagementState,
     (state: CostCenterManagement) =>
       denormalizeB2BSearch<CostCenter>(state, params)
+  );
+
+export const getAssignedBudgets = (
+  code: string,
+  params: B2BSearchConfig
+): MemoizedSelector<
+  StateWithOrganization,
+  LoaderState<EntitiesModel<Budget>>
+> =>
+  createSelector(
+    getCostCenterManagementState,
+    getBudgetsState,
+    (state: CostCenterManagement, budgets: EntityLoaderState<Budget>) =>
+      denormalizeCustomB2BSearch(state.budgets, budgets, params, code)
   );

@@ -1,5 +1,5 @@
 import { EntitiesModel, ListModel } from '../../model/misc.model';
-import { LoaderState } from '../../state/index';
+import { LoaderState, EntityLoaderState } from '../../state/index';
 import { entityStateSelector } from '../../state/utils/entity-loader/entity-loader.selectors';
 import { B2BSearchConfig } from '../model/search-config';
 import { Management } from '../store/organization-state';
@@ -11,34 +11,49 @@ function nullish(param, defaultValue) {
 
 export const ALL = 'all';
 
-export function serializeB2BSearchConfig(config: B2BSearchConfig) {
-  return `pageSize=${nullish(config.pageSize, '')}&currentPage=${nullish(
-    config.currentPage,
+export function serializeB2BSearchConfig(
+  config: B2BSearchConfig,
+  id?: string
+): string {
+  return `${nullish(id, '')}?pageSize=${nullish(
+    config.pageSize,
     ''
-  )}&sort=${nullish(config.sort, '')}`;
+  )}&currentPage=${nullish(config.currentPage, '')}&sort=${nullish(
+    config.sort,
+    ''
+  )}`;
 }
 
 export function denormalizeB2BSearch<T>(
   state: Management<T>,
   params?: B2BSearchConfig
 ): LoaderState<EntitiesModel<T>> {
-  const list: any = entityStateSelector(
-    state.list,
-    params ? serializeB2BSearchConfig(params) : ALL
+  return denormalizeCustomB2BSearch(state.list, state.entities, params);
+}
+
+export function denormalizeCustomB2BSearch<T>(
+  list: EntityLoaderState<ListModel>,
+  entities: EntityLoaderState<T>,
+  params?: B2BSearchConfig,
+  id?: string
+): LoaderState<EntitiesModel<T>> {
+  const serializedList: any = entityStateSelector(
+    list,
+    params ? serializeB2BSearchConfig(params, id) : ALL
   );
-  if (!list.value || !list.value.ids) {
-    return list;
+  if (!serializedList.value || !serializedList.value.ids) {
+    return serializedList;
   }
   const res: LoaderState<EntitiesModel<T>> = Object.assign({}, list, {
     value: {
-      values: list.value.ids.map(
-        code => entityStateSelector(state.entities, code).value
+      values: serializedList.value.ids.map(
+        code => entityStateSelector(entities, code).value
       ),
     },
   });
   if (params) {
-    res.value.pagination = list.value.pagination;
-    res.value.sorts = list.value.sorts;
+    res.value.pagination = serializedList.value.pagination;
+    res.value.sorts = serializedList.value.sorts;
   }
   return res;
 }

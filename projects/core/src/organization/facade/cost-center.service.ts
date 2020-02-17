@@ -12,8 +12,10 @@ import { CostCenterActions } from '../store/actions/index';
 import {
   getCostCenterState,
   getCostCenterList,
+  getAssignedBudgets,
 } from '../store/selectors/cost-center.selector';
 import { B2BSearchConfig } from '../model/search-config';
+import { Budget } from '../../model/budget.model';
 
 @Injectable()
 export class CostCenterService {
@@ -46,6 +48,12 @@ export class CostCenterService {
     params
   ): Observable<LoaderState<EntitiesModel<CostCenter>>> {
     return this.store.select(getCostCenterList(params));
+  }
+  private getBudgetList(
+    code,
+    params
+  ): Observable<LoaderState<EntitiesModel<Budget>>> {
+    return this.store.select(getAssignedBudgets(code, params));
   }
 
   get(costCenterCode: string): Observable<CostCenter> {
@@ -102,6 +110,25 @@ export class CostCenterService {
       this.store.dispatch(
         new CostCenterActions.LoadAssignedBudgets({ userId, code, params })
       )
+    );
+  }
+
+  getBudgets(
+    code: string,
+    params: B2BSearchConfig
+  ): Observable<EntitiesModel<Budget>> {
+    return this.getBudgetList(code, params).pipe(
+      observeOn(queueScheduler),
+      tap((process: LoaderState<EntitiesModel<Budget>>) => {
+        if (!(process.loading || process.success || process.error)) {
+          this.loadBudgets(code, params);
+        }
+      }),
+      filter(
+        (process: LoaderState<EntitiesModel<Budget>>) =>
+          process.success || process.error
+      ),
+      map(result => result.value)
     );
   }
 
