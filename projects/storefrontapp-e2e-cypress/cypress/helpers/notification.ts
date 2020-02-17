@@ -214,11 +214,11 @@ export function stubForPaginableMyInterests(jsonfile: string, url: string) {
 
 export function verifyPagingAndSorting() {
   stubForPaginableMyInterests(
-    "myinterestpage1.json",
+    'myinterestpage1.json',
     `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&lang=en&curr=USD`
   );
   stubForPaginableMyInterests(
-    "myinterestpage2.json",
+    'myinterestpage2.json',
     `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&currentPage=1&lang=en&curr=USD`
   );
   navigateToMyInterestsPage();
