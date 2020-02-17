@@ -20,7 +20,7 @@ export class PageMetaService {
   /**
    * The list of resolver interfaces will be evaluated for the pageResolvers.
    *
-   * TOOD: optimize browser vs SSR resolvers; image, robots and description
+   * TODO: optimize browser vs SSR resolvers; image, robots and description
    *       aren't needed during browsing.
    * TODO: we can make the list of resolver types configurable
    */
@@ -54,20 +54,24 @@ export class PageMetaService {
    * @param metaResolver
    */
   private resolve(metaResolver): Observable<PageMeta> {
-    // resolve individual resolvers to make the extension mechanism more flexible
-    const resolveMethods: any[] = Object.keys(this.resolverMethods)
-      .filter(key => metaResolver[this.resolverMethods[key]])
-      .map(key =>
-        metaResolver[this.resolverMethods[key]]().pipe(
-          map(data => ({
-            [key]: data,
-          }))
-        )
-      );
+    if (metaResolver.resolve) {
+      return metaResolver.resolve();
+    } else {
+      // resolve individual resolvers to make the extension mechanism more flexible
+      const resolveMethods: any[] = Object.keys(this.resolverMethods)
+        .filter(key => metaResolver[this.resolverMethods[key]])
+        .map(key =>
+          metaResolver[this.resolverMethods[key]]().pipe(
+            map(data => ({
+              [key]: data,
+            }))
+          )
+        );
 
-    return combineLatest(resolveMethods).pipe(
-      map(data => Object.assign({}, ...data))
-    );
+      return combineLatest(resolveMethods).pipe(
+        map(data => Object.assign({}, ...data))
+      );
+    }
   }
 
   /**
