@@ -134,7 +134,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     // TODO(issue:4237) Register flow
     if (this.isNewRegisterFlowEnabled) {
-      console.log('when');
       this.loading$ = this.userService.getRegisterUserResultLoading();
       this.registerUserProcessInit();
     } else {
