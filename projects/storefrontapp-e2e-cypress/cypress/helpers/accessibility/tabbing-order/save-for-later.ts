@@ -1,6 +1,5 @@
 import { verifyTabbingOrder, addProduct } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
-import { waitForPage } from '../../checkout-flow';
 
 const containerSelector = '.CartPageTemplate';
 
