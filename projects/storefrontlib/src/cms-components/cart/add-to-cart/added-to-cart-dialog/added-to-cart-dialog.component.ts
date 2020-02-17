@@ -9,8 +9,8 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
-import { ModalService } from '../../../../shared/components/modal/index';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({
