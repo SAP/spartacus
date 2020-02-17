@@ -1,0 +1,35 @@
+cx-csagent-login-form {
+  .invalid-feedback {
+    display: block;
+  }
+  form {
+    display: flex;
+    width: 100%;
+
+    @media (max-width: 575px) {
+      flex-direction: column;
+      > * {
+        margin-bottom: 12px;
+      }
+    }
+
+    label {
+      input {
+        width: 100%;
+      }
+    }
+  }
+  button[type='submit'] {
+    color: #fff;
+    border-color: #0a6ed1;
+    background-color: #0a6ed1;
+    &:hover {
+      background-color: #085caf;
+    }
+  }
+  @media (min-width: 575px) {
+    label:nth-child(2) {
+      margin: 0 8px;
+    }
+  }
+}

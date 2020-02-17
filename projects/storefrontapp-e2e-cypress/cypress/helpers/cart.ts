@@ -1,5 +1,4 @@
 import { standardUser } from '../sample-data/shared-users';
-import { apiUrl } from '../support/utils/login';
 import { login, register } from './auth-forms';
 import { generateMail, randomString } from './user';
 
@@ -37,7 +36,13 @@ export const products: TestProduct[] = [
     price: 370.72,
   },
   {
-    code: '29925',
+    code: '872912',
+  },
+  {
+    code: '932577',
+    type: 'camera',
+    name: 'Digital Camera Tripod',
+    price: 24.47,
   },
 ];
 
@@ -53,7 +58,7 @@ function checkCartSummary(subtotal: string) {
 }
 
 function incrementQuantity() {
-  cy.get('.cx-counter-action')
+  cy.get('cx-item-counter button')
     .contains('+')
     .click();
 }
@@ -78,7 +83,7 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
     cy.get('cx-searchbox')
       .get('.results .products .name')
       .first()
-      .click();
+      .click({ force: true });
   }
 }
 
@@ -97,10 +102,31 @@ export function validateEmptyCart() {
 }
 
 export function addToCart() {
-  cy.get('cx-add-to-cart')
-    .getAllByText(/Add To Cart/i)
+  cy.get('cx-add-to-cart button[type=submit]')
     .first()
     .click({ force: true });
+}
+
+export function registerCartRefreshRoute() {
+  cy.server();
+
+  cy.route(
+    'GET',
+    `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
+  ).as('refresh_cart');
+}
+
+export function registerCreateCartRoute() {
+  cy.server();
+
+  cy.route(
+    'POST',
+    `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics-spa/users/*/carts?fields=*&lang=en&curr=USD`
+  ).as('create_cart');
 }
 
 export function closeAddedToCartDialog() {
@@ -110,7 +136,7 @@ export function closeAddedToCartDialog() {
 export function checkProductInCart(product, qty = 1) {
   return getCartItem(product.name).within(() => {
     cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
-    cy.get('.cx-counter-value').should('have.value', `${qty}`);
+    cy.get('cx-item-counter input').should('have.value', `${qty}`);
     cy.get('.cx-total>.cx-value').should(
       'contain',
       formatPrice(qty * product.price)
@@ -136,9 +162,9 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
 }
 
 export function addProductToCartViaSearchPage(mobile: boolean) {
-  const product = products[1];
+  const product = products[0];
 
-  goToFirstProductFromSearch(product.type, mobile);
+  goToFirstProductFromSearch(product.code, mobile);
 
   addToCart();
 
@@ -146,27 +172,19 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 
   checkMiniCartCount(2).click({ force: true });
 
-  checkProductInCart(product);
+  checkProductInCart(product, 2);
 }
 
 export function removeAllItemsFromCart() {
-  const product0 = products[0];
-  const product1 = products[1];
-  cy.server();
-  cy.route(
-    'GET',
-    `${apiUrl}/rest/v2/electronics-spa/users/anonymous/carts/*?fields=*&lang=en&curr=USD`
-  ).as('refresh_cart');
+  registerCartRefreshRoute();
 
-  getCartItem(product0.name).within(() => {
+  getCartItem(products[0].name).within(() => {
     cy.getByText('Remove').click();
   });
 
-  cy.wait('@refresh_cart');
-
-  getCartItem(product1.name).within(() => {
-    cy.getByText('Remove').click();
-  });
+  cy.wait('@refresh_cart')
+    .its('status')
+    .should('eq', 200);
 
   validateEmptyCart();
 }
@@ -192,6 +210,7 @@ export function addProductWhenLoggedIn(mobile: boolean) {
   const product = products[1];
 
   goToFirstProductFromSearch(product.code, mobile);
+  cy.wait('@create_cart');
   addToCart();
   checkAddedToCartDialog();
   closeAddedToCartDialog();
@@ -259,7 +278,15 @@ export function manipulateCartQuantity() {
   const product = products[1];
 
   cy.visit(`/product/${product.code}`);
+
+  registerCartRefreshRoute();
+
   addToCart();
+
+  cy.wait('@refresh_cart')
+    .its('status')
+    .should('eq', 200);
+
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 

@@ -10,5 +10,5 @@ context(`ASM - Mobile ${formats.mobile.width + 1}p resolution`, () => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
-  asm.asmTests();
+  asm.asmTests(true);
 });

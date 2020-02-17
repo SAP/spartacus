@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FeaturesConfigModule } from '@spartacus/core';
 import { GlobalMessageComponentModule } from '../../cms-components/misc/global-message/global-message.module';
-import { OutletRefModule } from '../../cms-structure/outlet/outlet-ref/outlet-ref.module';
+import { OutletModule, OutletRefModule } from '../../cms-structure/index';
 import { PageLayoutModule } from '../../cms-structure/page/page-layout/page-layout.module';
 import { PageSlotModule } from '../../cms-structure/page/slot/page-slot.module';
 import { PwaModule } from '../../cms-structure/pwa/pwa.module';
@@ -16,6 +16,7 @@ import { StorefrontComponent } from './storefront.component';
     CommonModule,
     RouterModule,
     GlobalMessageComponentModule,
+    OutletModule,
     OutletRefModule,
     PwaModule,
     PageLayoutModule,

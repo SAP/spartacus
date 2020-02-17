@@ -87,7 +87,7 @@ describe('AsmService', () => {
 
   it('should dispatch proper action for update asm UI', () => {
     spyOn(store, 'dispatch').and.stub();
-    const asmUi: AsmUi = { visible: true };
+    const asmUi: AsmUi = {};
     service.updateAsmUiState(asmUi);
     expect(store.dispatch).toHaveBeenCalledWith(
       new AsmActions.AsmUiUpdate(asmUi)
@@ -95,7 +95,7 @@ describe('AsmService', () => {
   });
 
   it('should get the AsmUi state', () => {
-    const asmUi: AsmUi = { visible: true };
+    const asmUi: AsmUi = { collapsed: false };
     store.dispatch(new AsmActions.AsmUiUpdate(asmUi));
 
     let result: AsmUi;

@@ -33,7 +33,9 @@ export function verifyProductListLoaded() {
   cy.server();
   createProductQuery(productLoadedQuery);
   cy.visit('/Open-Catalogue/Components/Power-Supplies/c/816');
-  cy.wait(`@${productLoadedQuery}`);
+  cy.wait(`@${productLoadedQuery}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function assertDefaultNumberOfProducts(view) {
@@ -44,11 +46,11 @@ export function assertDefaultNumberOfProducts(view) {
 }
 
 export function isPaginationNotVisible() {
-  cy.get('cx-pagination .pagination').should('not.exist');
+  cy.get('cx-pagination a').should('not.exist');
 }
 
 export function isPaginationVisible() {
-  cy.get('cx-pagination .pagination').should('exist');
+  cy.get('cx-pagination a').should('exist');
 }
 
 export function backToTopIsVisible(isShowMoreButton?: boolean) {
@@ -119,7 +121,9 @@ export function verifySortingResetsList() {
     PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
   );
 
-  cy.wait(`@${productLoadedQuery}`);
+  cy.wait(`@${productLoadedQuery}`)
+    .its('status')
+    .should('eq', 200);
 
   assertDefaultNumberOfProducts('list');
 }
@@ -127,7 +131,9 @@ export function verifySortingResetsList() {
 export function verifyFilterResetsList() {
   clickFacet('Brand');
 
-  cy.wait(`@${productLoadedQuery}`);
+  cy.wait(`@${productLoadedQuery}`)
+    .its('status')
+    .should('eq', 200);
 
   assertDefaultNumberOfProducts('list');
 }
@@ -135,7 +141,9 @@ export function verifyFilterResetsList() {
 export function verifyGridResetsList() {
   cy.get('cx-product-view > div > div:first').click({ force: true });
 
-  cy.wait(`@${productLoadedQuery}`);
+  cy.wait(`@${productLoadedQuery}`)
+    .its('status')
+    .should('eq', 200);
 
   assertDefaultNumberOfProducts('grid');
 }

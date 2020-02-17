@@ -2,12 +2,13 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
+import { User } from '../../../model/misc.model';
 import { OrderEntry } from '../../../model/order.model';
+import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { StateWithCart } from '../cart-state';
 import * as fromReducers from './../reducers/index';
 import { CartSelectors } from './../selectors/index';
-import { User } from '../../../model/misc.model';
 
 describe('Cart selectors', () => {
   let store: Store<StateWithCart>;
@@ -63,7 +64,9 @@ describe('Cart selectors', () => {
 
       expect(result).toEqual({});
 
-      store.dispatch(new CartActions.CreateCartSuccess(testEmptyCart));
+      store.dispatch(
+        new DeprecatedCartActions.CreateCartSuccess(testEmptyCart)
+      );
       expect(result).toEqual(testEmptyCart);
     });
   });
@@ -105,7 +108,9 @@ describe('Cart selectors', () => {
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
-      store.dispatch(new CartActions.CreateCart({ userId: 'testUserId' }));
+      store.dispatch(
+        new DeprecatedCartActions.CreateCart({ userId: 'testUserId' })
+      );
       expect(result).toEqual(false);
     });
 
@@ -115,9 +120,11 @@ describe('Cart selectors', () => {
         .pipe(select(CartSelectors.getCartLoaded))
         .subscribe(value => (result = value));
 
-      store.dispatch(new CartActions.CreateCartSuccess(testEmptyCart));
+      store.dispatch(
+        new DeprecatedCartActions.CreateCartSuccess(testEmptyCart)
+      );
       expect(result).toEqual(true);
-      store.dispatch(new CartActions.MergeCartSuccess(testEmptyCart));
+      store.dispatch(new DeprecatedCartActions.MergeCartSuccess(testEmptyCart));
       expect(result).toEqual(false);
     });
   });
@@ -130,7 +137,9 @@ describe('Cart selectors', () => {
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
-      store.dispatch(new CartActions.CreateCart({ userId: 'testUserId' }));
+      store.dispatch(
+        new DeprecatedCartActions.CreateCart({ userId: 'testUserId' })
+      );
       expect(result).toEqual(true);
     });
   });
@@ -142,9 +151,9 @@ describe('Cart selectors', () => {
         .pipe(select(CartSelectors.getCartMergeComplete))
         .subscribe(value => (result = value));
 
-      store.dispatch(new CartActions.MergeCart({}));
+      store.dispatch(new DeprecatedCartActions.MergeCart({}));
       expect(result).toEqual(false);
-      store.dispatch(new CartActions.MergeCartSuccess({}));
+      store.dispatch(new DeprecatedCartActions.MergeCartSuccess({}));
       expect(result).toEqual(true);
     });
   });
@@ -158,7 +167,7 @@ describe('Cart selectors', () => {
 
       expect(result).toEqual({});
 
-      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+      store.dispatch(new DeprecatedCartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual({
         '1234': { entryNumber: 0, product: { code: '1234' } },
@@ -178,7 +187,7 @@ describe('Cart selectors', () => {
 
       expect(result).toEqual(undefined);
 
-      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+      store.dispatch(new DeprecatedCartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual({ entryNumber: 0, product: { code: '1234' } });
     });
@@ -193,7 +202,7 @@ describe('Cart selectors', () => {
 
       expect(result).toEqual([]);
 
-      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+      store.dispatch(new DeprecatedCartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual([{ entryNumber: 0, product: { code: '1234' } }]);
     });
@@ -208,7 +217,7 @@ describe('Cart selectors', () => {
 
       expect(result).toEqual(undefined);
 
-      store.dispatch(new CartActions.LoadCartSuccess(testCart));
+      store.dispatch(new DeprecatedCartActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual({ uid: 'test' });
     });

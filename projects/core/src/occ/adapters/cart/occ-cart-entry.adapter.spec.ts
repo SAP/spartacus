@@ -278,7 +278,6 @@ describe('OccCartEntryAdapter', () => {
           .unsubscribe();
 
         const mockReq = httpMock.expectOne(req => {
-          console.log('req', req);
           return (
             req.method === 'PATCH' &&
             req.url ===

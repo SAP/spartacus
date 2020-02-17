@@ -11,7 +11,7 @@ export class OccSitesConfigLoader {
   constructor(protected config: OccConfig, protected http: HttpClient) {}
 
   protected readonly endpoint =
-    '/basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)))';
+    'basesites?fields=baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)))';
 
   private get baseEndpoint(): string {
     return (

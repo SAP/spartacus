@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import { ProductSearchPage } from '../../../../model/product-search.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccProductSearchPageNormalizer
   implements Converter<Occ.ProductSearchPage, ProductSearchPage> {
   constructor(private converterService: ConverterService) {}

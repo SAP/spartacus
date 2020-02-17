@@ -9,6 +9,12 @@ import {
 
 export const resultsTitle = 'cx-breadcrumb h1';
 
+const sonySearchResults = 130;
+const sonyBrandFilter = 85;
+const sonyPriceFilter = 16;
+const sonyCategoryFilter = 94;
+const sonyColorFilter = 7;
+
 export function productTypeFlow(mobile?: string) {
   cy.server();
 
@@ -18,7 +24,10 @@ export function productTypeFlow(mobile?: string) {
 
   cy.get('cx-searchbox input[aria-label="search"]').type('sony{enter}');
 
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+  cy.get(resultsTitle).should(
+    'contain',
+    `${sonySearchResults} results for "sony"`
+  );
 
   cy.get(productItemSelector).should(
     'have.length',
@@ -32,17 +41,27 @@ export function productTypeFlow(mobile?: string) {
 
   clickFacet('Brand');
 
-  cy.wait('@brand_query');
+  cy.wait('@brand_query')
+    .its('status')
+    .should('eq', 200);
 
-  cy.get(resultsTitle).should('contain', '86 results for "sony"');
+  cy.get(resultsTitle).should(
+    'contain',
+    `${sonyBrandFilter} results for "sony"`
+  );
 
   createProductQuery('query1');
 
   clearSelectedFacet(mobile);
 
-  cy.wait('@query1');
+  cy.wait('@query1')
+    .its('status')
+    .should('eq', 200);
 
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+  cy.get(resultsTitle).should(
+    'contain',
+    `${sonySearchResults} results for "sony"`
+  );
 
   // Filter by price
   createProductFacetQuery('price', 'sony', 'price_query');
@@ -53,7 +72,10 @@ export function productTypeFlow(mobile?: string) {
     .its('url')
     .should('include', 'sony:relevance:price');
 
-  cy.get(resultsTitle).should('contain', '16 results for "sony"');
+  cy.get(resultsTitle).should(
+    'contain',
+    `${sonyPriceFilter} results for "sony"`
+  );
 
   checkFirstItem('MSHX8A');
 
@@ -61,9 +83,14 @@ export function productTypeFlow(mobile?: string) {
 
   clearSelectedFacet(mobile);
 
-  cy.wait('@query2');
+  cy.wait('@query2')
+    .its('status')
+    .should('eq', 200);
 
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+  cy.get(resultsTitle).should(
+    'contain',
+    `${sonySearchResults} results for "sony"`
+  );
 
   // Filter by category
   createProductFacetQuery('category', 'sony', 'category_query');
@@ -74,7 +101,10 @@ export function productTypeFlow(mobile?: string) {
     .its('url')
     .should('include', 'sony:relevance:category');
 
-  cy.get(resultsTitle).should('contain', '95 results for "sony"');
+  cy.get(resultsTitle).should(
+    'contain',
+    `${sonyCategoryFilter} results for "sony"`
+  );
 
   checkFirstItem('10.2 Megapixel D-SLR with Standard Zoom Lens');
 
@@ -82,9 +112,14 @@ export function productTypeFlow(mobile?: string) {
 
   clearSelectedFacet(mobile);
 
-  cy.wait('@query3');
+  cy.wait('@query3')
+    .its('status')
+    .should('eq', 200);
 
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+  cy.get(resultsTitle).should(
+    'contain',
+    `${sonySearchResults} results for "sony"`
+  );
 
   // Filter by color
   createProductFacetQuery('Colour', 'sony', 'color_query');
@@ -95,17 +130,25 @@ export function productTypeFlow(mobile?: string) {
     .its('url')
     .should('include', 'sony:relevance:Colour');
 
-  cy.get(resultsTitle).should('contain', '7 results for "sony"');
+  cy.get(resultsTitle).should(
+    'contain',
+    `${sonyColorFilter} results for "sony"`
+  );
 
-  checkFirstItem('NP-FV 70');
+  checkFirstItem('InfoLITHIUM™ H Series Battery');
 
   createProductQuery('query4');
 
   clearSelectedFacet(mobile);
 
-  cy.wait('@query4');
+  cy.wait('@query4')
+    .its('status')
+    .should('eq', 200);
 
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+  cy.get(resultsTitle).should(
+    'contain',
+    `${sonySearchResults} results for "sony"`
+  );
 }
 
 function clearSelectedFacet(mobile: string) {

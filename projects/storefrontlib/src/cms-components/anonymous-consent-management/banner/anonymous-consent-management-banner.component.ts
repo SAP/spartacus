@@ -1,8 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import {
-  AnonymousConsentsService,
-  ANONYMOUS_CONSENTS_FEATURE,
-} from '@spartacus/core';
+import { AnonymousConsentsService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
@@ -15,7 +12,6 @@ import { ModalService } from '../../../shared/components/modal/index';
 export class AnonymousConsentManagementBannerComponent implements OnDestroy {
   private subscriptions = new Subscription();
 
-  anonymousConsentsFeature = ANONYMOUS_CONSENTS_FEATURE;
   bannerVisible$: Observable<
     boolean
   > = this.anonymousConsentsService.isBannerVisible();

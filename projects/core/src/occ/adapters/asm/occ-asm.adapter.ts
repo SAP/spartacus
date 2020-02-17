@@ -42,9 +42,13 @@ export class OccAsmAdapter implements AsmAdapter {
     );
     let params: HttpParams = new HttpParams()
       .set('baseSite', this.activeBaseSite)
-      .set('query', options.query);
+      .set('sort', 'byNameAsc');
 
-    if (!!options.pageSize) {
+    if (typeof options['query'] !== 'undefined') {
+      params = params.set('query', '' + options.query);
+    }
+
+    if (typeof options['pageSize'] !== 'undefined') {
       params = params.set('pageSize', '' + options.pageSize);
     }
 

@@ -6,7 +6,7 @@ import { CmsTicketInterceptor } from './cms-ticket.interceptor';
 export const interceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: CmsTicketInterceptor,
+    useExisting: CmsTicketInterceptor,
     multi: true,
   },
 ];

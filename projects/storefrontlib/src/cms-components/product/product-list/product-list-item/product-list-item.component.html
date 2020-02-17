@@ -19,12 +19,24 @@
       [innerHtml]="product.nameHtml"
     ></a>
     <cx-star-rating
+      *ngIf="product.averageRating"
       [rating]="product?.averageRating"
       [disabled]="true"
     ></cx-star-rating>
+    <div *ngIf="!product.averageRating" class="cx-product-no-review">
+      {{ 'productDetails.noReviews' | cxTranslate }}
+    </div>
     <div class="cx-product-price" aria-label="Product price">
       {{ product.price?.formattedValue }}
     </div>
+
+    <ng-container *cxFeatureLevel="'1.5'">
+      <cx-variant-style-icons
+        *ngIf="product.variantOptions"
+        [variants]="product.variantOptions"
+      ></cx-variant-style-icons>
+    </ng-container>
+
     <div class="row">
       <div class="col-12 col-md-8">
         <p class="cx-product-summary" [innerHtml]="product.summary">
@@ -33,7 +45,7 @@
       </div>
       <div class="col-12 col-md-4">
         <cx-add-to-cart
-          *ngIf="product.stock.stockLevelStatus !== 'outOfStock'"
+          *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"
           [showQuantity]="false"
           [product]="product"
         ></cx-add-to-cart>

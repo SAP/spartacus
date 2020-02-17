@@ -68,7 +68,7 @@ const mockCustomerSearchPage: CustomerSearchPage = {
 
 const MockAsmConfig: AsmConfig = {
   asm: {
-    customeSearch: {
+    customerSearch: {
       maxResults: 20,
     },
   },
@@ -157,7 +157,7 @@ describe('CustomerSelectionComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expect(el.query(By.css('div.sap-spinner'))).toBeTruthy();
+      expect(el.query(By.css('div.spinner'))).toBeTruthy();
       expect(el.query(By.css('form'))).toBeTruthy();
     });
   });
@@ -188,7 +188,7 @@ describe('CustomerSelectionComponent', () => {
     component.ngOnInit();
     component.form.controls.searchTerm.setValue(validSearchTerm);
     fixture.detectChanges();
-    expect(el.queryAll(By.css('div.results div a')).length).toEqual(
+    expect(el.queryAll(By.css('div.asm-results a')).length).toEqual(
       mockCustomerSearchPage.entries.length
     );
   });
@@ -201,7 +201,7 @@ describe('CustomerSelectionComponent', () => {
     component.ngOnInit();
     component.form.controls.searchTerm.setValue(validSearchTerm);
     fixture.detectChanges();
-    expect(el.query(By.css('div.results'))).toBeTruthy();
+    expect(el.query(By.css('div.asm-results'))).toBeTruthy();
     el.nativeElement.dispatchEvent(new MouseEvent('click'));
     fixture.detectChanges();
     expect(asmService.customerSearchReset).toHaveBeenCalled();
@@ -215,11 +215,11 @@ describe('CustomerSelectionComponent', () => {
     component.ngOnInit();
     component.form.controls.searchTerm.setValue(validSearchTerm);
     fixture.detectChanges();
-    expect(el.queryAll(By.css('div.results div a')).length).toEqual(1);
+    expect(el.queryAll(By.css('div.asm-results a')).length).toEqual(1);
     expect(
-      el.query(By.css('div.results div a')).nativeElement.innerText
+      el.query(By.css('div.asm-results a')).nativeElement.innerText
     ).toEqual('asm.customerSearch.noMatch');
-    el.query(By.css('div.results div a')).nativeElement.dispatchEvent(
+    el.query(By.css('div.asm-results a')).nativeElement.dispatchEvent(
       new MouseEvent('click')
     );
     expect(asmService.customerSearchReset).toHaveBeenCalled();
@@ -234,7 +234,7 @@ describe('CustomerSelectionComponent', () => {
     component.ngOnInit();
     component.form.controls.searchTerm.setValue(validSearchTerm);
     fixture.detectChanges();
-    el.query(By.css('div.results div a')).nativeElement.dispatchEvent(
+    el.query(By.css('div.asm-results a')).nativeElement.dispatchEvent(
       new MouseEvent('click')
     );
     fixture.detectChanges();

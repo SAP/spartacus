@@ -56,6 +56,19 @@ describe('User consents selectors', () => {
       expect(result).toEqual(consents);
     });
   });
+  describe('getConsentByTemplateId', () => {
+    it('should return a consent template with the given template ID', () => {
+      store.dispatch(new UserActions.LoadUserConsentsSuccess(consents));
+
+      let result: ConsentTemplate;
+      store
+        .pipe(select(UsersSelectors.getConsentByTemplateId(consents[0].id)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual(consents[0]);
+    });
+  });
   describe('getConsentsLoading', () => {
     it('should return the loading flag', () => {
       store.dispatch(new UserActions.LoadUserConsents('xxx@xxx.xxx'));

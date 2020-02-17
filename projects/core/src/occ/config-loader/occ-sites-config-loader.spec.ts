@@ -17,7 +17,7 @@ describe(`OccSitesConfigLoader`, () => {
       backend: {
         occ: {
           baseUrl: 'baseUrl',
-          prefix: '/prefix',
+          prefix: '/prefix/',
         },
       },
     };

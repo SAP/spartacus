@@ -34,7 +34,7 @@ export class OccConfigLoaderService {
     @Inject(Config) protected config: any,
     protected sitesConfigLoader: OccSitesConfigLoader,
     protected converter: OccLoadedConfigConverter,
-    protected transferState: TransferState,
+    @Optional() protected transferState: TransferState,
 
     @Optional()
     @Inject(SERVER_REQUEST_URL)
@@ -97,7 +97,7 @@ export class OccConfigLoaderService {
    * Tries to rehydrate external config in the browser from SSR
    */
   protected rehydrate(): OccLoadedConfig {
-    if (isPlatformBrowser(this.platform)) {
+    if (this.transferState && isPlatformBrowser(this.platform)) {
       return this.transferState.get(EXTERNAL_CONFIG_TRANSFER_ID, undefined);
     }
   }
@@ -108,7 +108,11 @@ export class OccConfigLoaderService {
    * @param externalConfig
    */
   protected transfer(externalConfig: OccLoadedConfig) {
-    if (isPlatformServer(this.platform) && externalConfig) {
+    if (
+      this.transferState &&
+      isPlatformServer(this.platform) &&
+      externalConfig
+    ) {
       this.transferState.set(EXTERNAL_CONFIG_TRANSFER_ID, externalConfig);
     }
   }

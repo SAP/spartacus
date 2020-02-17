@@ -6,7 +6,9 @@ import {
   PLATFORM_ID,
   Renderer2,
   RendererFactory2,
+  SecurityContext,
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 
 @Injectable({
@@ -16,12 +18,13 @@ export class JsonLdScriptFactory {
   constructor(
     @Inject(PLATFORM_ID) protected platformId: string,
     protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2
+    protected rendererFactory: RendererFactory2,
+    protected sanitizer: DomSanitizer
   ) {}
 
   build(schema: {}[]): void {
     if (schema && this.isJsonLdRequired()) {
-      this.createJsonLdScriptElement().innerHTML = JSON.stringify(schema);
+      this.createJsonLdScriptElement().innerHTML = this.sanitize(schema);
     }
   }
 
@@ -51,5 +54,19 @@ export class JsonLdScriptFactory {
       scriptElement = script;
     }
     return scriptElement;
+  }
+
+  /**
+   * Sanitizes the given json-ld schema by leveraging the angular HTML sanitizer.
+   *
+   * The given schema is not trusted, as malicious code could be injected (XSS)
+   * into the json-ld script.
+   */
+  sanitize(schema: {}): string {
+    return JSON.stringify(schema, (_key, value) =>
+      typeof value === 'string'
+        ? this.sanitizer.sanitize(SecurityContext.HTML, value)
+        : value
+    );
   }
 }

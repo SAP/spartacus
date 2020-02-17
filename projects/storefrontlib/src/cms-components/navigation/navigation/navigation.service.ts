@@ -30,6 +30,11 @@ export class NavigationService {
     );
   }
 
+  /**
+   * returns an observable with the `NavigationNode` for the given `CmsNavigationComponent`.
+   * This function will load the navigation underlying entries and childs if they haven't been
+   * loaded so far.
+   */
   public getNavigationNode(
     data$: Observable<CmsNavigationComponent>
   ): Observable<NavigationNode> {
@@ -43,27 +48,43 @@ export class NavigationService {
         return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
           tap(items => {
             if (items === undefined) {
-              this.getNavigationEntryItems(navigation, true);
+              this.loadNavigationEntryItems(navigation, true);
+            } else {
+              // we should check whether the existing node items are what expected
+              const expectedItems = [];
+              this.loadNavigationEntryItems(navigation, false, expectedItems);
+              const existingItems = Object.keys(items).map(
+                key => items[key].uid
+              );
+              const missingItems = expectedItems.filter(
+                it => !existingItems.includes(it.id)
+              );
+              if (missingItems.length > 0) {
+                this.cmsService.loadNavigationItems(
+                  navigation.uid,
+                  missingItems
+                );
+              }
             }
           }),
           filter(Boolean),
-          map(items => this.createNode(navigation, items))
+          map(items => this.populateNavigationNode(navigation, items))
         );
       })
     );
   }
 
   /**
-   * Get all navigation entry items' type and id. Dispatch action to load all these items
+   * Loads all navigation entry items' type and id. Dispatch action to load all these items
    * @param nodeData
    * @param root
    * @param itemsList
    */
-  private getNavigationEntryItems(
+  private loadNavigationEntryItems(
     nodeData: any,
     root: boolean,
     itemsList = []
-  ) {
+  ): void {
     if (nodeData.entries && nodeData.entries.length > 0) {
       nodeData.entries.forEach(entry => {
         itemsList.push({
@@ -74,56 +95,66 @@ export class NavigationService {
     }
 
     if (nodeData.children && nodeData.children.length > 0) {
-      this.processChildren(nodeData, itemsList);
+      nodeData.children.forEach(child =>
+        this.loadNavigationEntryItems(child, false, itemsList)
+      );
     }
 
     if (root) {
-      const rootUid = nodeData.uid;
-      this.cmsService.loadNavigationItems(rootUid, itemsList);
-    }
-  }
-
-  private processChildren(node, itemsList): void {
-    for (const child of node.children) {
-      this.getNavigationEntryItems(child, false, itemsList);
+      this.cmsService.loadNavigationItems(nodeData.uid, itemsList);
     }
   }
 
   /**
-   * Create a new node tree for display
+   * Create a new node tree for the view
    * @param nodeData
    * @param items
    */
-  private createNode(nodeData: any, items: any): NavigationNode {
+  private populateNavigationNode(nodeData: any, items: any): NavigationNode {
     const node: NavigationNode = {};
 
-    node.title = nodeData.title;
+    if (nodeData.title) {
+      // the node title will be populated by the first entry (if any)
+      // if there's no nodeData.title available
+      node.title = nodeData.title;
+    }
 
     if (nodeData.entries && nodeData.entries.length > 0) {
-      this.addLinkToNode(node, nodeData.entries[0], items);
+      this.populateLink(node, nodeData.entries[0], items);
     }
 
     if (nodeData.children && nodeData.children.length > 0) {
-      const children = this.createChildren(nodeData, items);
-      node.children = children;
+      const children = nodeData.children
+        .map(child => this.populateNavigationNode(child, items))
+        .filter(Boolean);
+      if (children.length > 0) {
+        node.children = children;
+      }
     }
 
-    return node;
+    // return null in case there are no children
+    return Object.keys(node).length === 0 ? null : node;
   }
 
-  private addLinkToNode(node: NavigationNode, entry, items) {
+  /**
+   * The node link is driven by the first entry.
+   */
+  private populateLink(node: NavigationNode, entry, items) {
     const item = items[`${entry.itemId}_${entry.itemSuperType}`];
 
     // now we only consider CMSLinkComponent
-    if (entry.itemType === 'CMSLinkComponent' && item !== undefined) {
+    if (item && entry.itemType === 'CMSLinkComponent') {
       if (!node.title) {
         node.title = item.linkName;
       }
-
-      node.url = this.getLink(item);
-
-      // if "NEWWINDOW", target is true
-      node.target = item.target;
+      const url = this.getLink(item);
+      // only populate the node link if we have a visible node
+      if (node.title && url) {
+        node.url = url;
+        // the backend provide boolean value for the target
+        // in case the link should be opened in a new window
+        node.target = !!item.target ? '_blank' : '';
+      }
     }
   }
 
@@ -143,16 +174,5 @@ export class NavigationService {
         },
       });
     }
-  }
-
-  private createChildren(node, items) {
-    const children = [];
-
-    for (const child of node.children) {
-      const childNode = this.createNode(child, items);
-      children.push(childNode);
-    }
-
-    return children;
   }
 }

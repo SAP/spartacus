@@ -14,8 +14,8 @@ export function inititializeContext(
 ) {
   return () => {
     baseSiteService.initialize();
-    currService.initialize();
     langService.initialize();
+    currService.initialize();
   };
 }
 

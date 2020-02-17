@@ -1,17 +1,23 @@
-import { Price, Promotion } from './product.model';
+import { Address } from './address.model';
+import { Currency } from './misc.model';
 import {
   DeliveryMode,
   OrderEntry,
-  PromotionOrderEntryConsumed,
   PickupOrderEntryGroup,
+  PromotionOrderEntryConsumed,
 } from './order.model';
-import { Address } from './address.model';
-import { Currency } from './misc.model';
+import { Price, Promotion } from './product.model';
 
 export interface PromotionResult {
   consumedEntries?: PromotionOrderEntryConsumed[];
   description?: string;
   promotion?: Promotion;
+}
+
+export enum PromotionLocation {
+  ActiveCart = 'CART',
+  Checkout = 'CHECKOUT',
+  Order = 'ORDER',
 }
 
 export interface Voucher {
@@ -59,6 +65,10 @@ export interface PaymentDetails {
   startMonth?: string;
   startYear?: string;
   subscriptionId?: string;
+}
+
+export interface SaveCartResult {
+  savedCartData?: Cart;
 }
 
 export interface Cart {

@@ -1,6 +1,6 @@
 <div #dialog>
   <!-- Modal Header -->
-  <ng-container *ngIf="loaded$ | async as loaded; else loading">
+  <ng-container *ngIf="(loaded$ | async) || modalIsOpen; else loading">
     <div class="cx-dialog-header modal-header">
       <div class="cx-dialog-title modal-title">
         {{
@@ -27,11 +27,8 @@
           <cx-cart-item
             [item]="entry"
             [compact]="true"
-            [isReadOnly]="false"
-            [parent]="form.controls[entry.product.code]"
-            [cartIsLoading]="!loaded"
-            (remove)="removeEntry($event)"
-            (update)="updateEntry($event)"
+            [quantityControl]="getQuantityControl() | async"
+            [promotionLocation]="promotionLocation"
             (view)="dismissModal('Product selected')"
           ></cx-cart-item>
         </div>
@@ -48,8 +45,20 @@
                   | cxTranslate: { count: cart.deliveryItemsQuantity }
               }}
             </div>
-            <div>{{ cart.totalPrice?.formattedValue }}</div>
+
+            <div>{{ cart.subTotal?.formattedValue }}</div>
           </div>
+
+          <!-- Promotions -->
+          <ng-container *cxFeatureLevel="'1.5'">
+            <div
+              class="cx-dialog-promotions"
+              *ngIf="orderPromotions$ | async as orderPromotions"
+            >
+              <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+            </div>
+          </ng-container>
+
           <!-- Actions -->
           <div class="cx-dialog-buttons">
             <a

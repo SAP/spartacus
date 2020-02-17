@@ -145,7 +145,7 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     breadcrumbs.push({ label: label, link: '/' });
 
     for (const br of page.breadcrumbs) {
-      if (br.facetCode === 'category') {
+      if (br.facetCode === 'category' || br.facetCode === 'allCategories') {
         breadcrumbs.push({
           label: br.facetValueName,
           link: `/c/${br.facetValueCode}`,
@@ -165,7 +165,9 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     return !!Object.keys(page.slots).find(
       key =>
         !!page.slots[key].components.find(
-          comp => comp.typeCode === 'CMSProductListComponent'
+          comp =>
+            comp.typeCode === 'CMSProductListComponent' ||
+            comp.typeCode === 'ProductGridComponent'
         )
     );
   }

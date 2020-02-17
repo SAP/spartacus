@@ -4,6 +4,7 @@ import * as fromAction from './consignment-tracking.action';
 const mockTracking: ConsignmentTracking = { trackingID: '1234567890' };
 
 const mockTrackingParams = {
+  userId: '123',
   orderCode: '00000001',
   consignmentCode: 'a00000001',
 };

@@ -38,6 +38,8 @@
     '@spartacus/styles',
     '@spartacus/assets',
     '@spartacus/schematics',
+    '@spartacus/incubator',
+    '@spartacus/cds'
   ];
 %>
 # Commits
@@ -86,11 +88,19 @@
   <% } %>
 </tbody>
 </table>
+<% if(deprecations.length) { %>
+  # Deprecations
+  <ul>
+  <% for (const change of deprecations) {
+    %><%- include('./note', change) %><%
+  } %>
+  </ul>
+<% } %>
 <% if(breakingChanges.length) { %>
   # Breaking changes
   <ul>
   <% for (const change of breakingChanges) {
-    %><%- include('./breaking-change', change) %><%
+    %><%- include('./note', change) %><%
   } %>
   </ul>
 <% } %>

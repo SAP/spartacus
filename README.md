@@ -5,7 +5,9 @@
 Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
 
 - Documentation is hosted on our dedicated [Spartacus Documentation site](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/).
-- Questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU).
+- Try out a [sample Spartacus storefront](https://spartacus.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com/) on our public demo site.
+- Technical questions? Get in touch with us on [Stack Overflow](https://stackoverflow.com/questions/tagged/spartacus-storefront).
+- Non-technical questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU).
 - For details on the 1.0 launch, see the [Release Information page](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/release-information/) on our Spartacus documentation site.
 
 Spartacus is...
@@ -104,5 +106,5 @@ Many improvements are coming! All tasks will be posted to our GitHub issue track
 # License
 
 Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
-This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](LICENSE.txt) file.
+This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](LICENSE) file.
 

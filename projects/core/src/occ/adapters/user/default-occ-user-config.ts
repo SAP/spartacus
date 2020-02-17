@@ -4,6 +4,7 @@ export const defaultOccUserConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
+        // tslint:disable:max-line-length
         user: 'users/${userId}',
         userRegister: 'users',
         userForgotPassword: 'forgottenpasswordtokens',
@@ -23,7 +24,23 @@ export const defaultOccUserConfig: OccConfig = {
         addressDetail: 'users/${userId}/addresses/${addressId}',
         addressVerification: 'users/${userId}/addresses/verification',
         consignmentTracking:
-          'orders/${orderCode}/consignments/${consignmentCode}/tracking',
+          'users/${userId}/orders/${orderCode}/consignments/${consignmentCode}/tracking',
+        customerCoupons: 'users/${userId}/customercoupons',
+        claimCoupon: 'users/${userId}/customercoupons/${couponCode}/claim',
+        couponNotification:
+          'users/${userId}/customercoupons/${couponCode}/notification',
+        notificationPreference: 'users/${userId}/notificationpreferences',
+        productInterests: 'users/${userId}/productinterests',
+        getProductInterests:
+          'users/${userId}/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))',
+        cancelOrder: 'users/${userId}/orders/${orderId}/cancellation',
+        returnOrder:
+          'users/${userId}/orderReturns?fields=BASIC,returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name,code,baseOptions,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',
+        orderReturns: 'users/${userId}/orderReturns?fields=BASIC',
+        orderReturnDetail:
+          'users/${userId}/orderReturns/${returnRequestCode}?fields=BASIC,returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name,code,baseOptions,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',
+        cancelReturn: 'users/${userId}/orderReturns/${returnRequestCode}',
+        // tslint:enable
       },
     },
   },
