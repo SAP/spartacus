@@ -19,7 +19,7 @@ import {
   writeFile,
 } from '../../shared/utils/test-utils';
 
-const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-deprecations';
+const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-deprecations-03';
 const NOT_INHERITING_SPARTACUS_CLASS = `
     import { Store } from '@ngrx/store';
     import { StateWithProcess, StateWithUser } from '@spartacus/core';
