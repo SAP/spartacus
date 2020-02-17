@@ -140,7 +140,6 @@ describe('CartItemListComponent', () => {
 
   it('should work with consignment entries', () => {
     component.items = mockConsignmentItems;
-    console.log(component.items);
     expect(component.items[0].quantity).toEqual(3);
     expect(component.items[0].product.code).toEqual('PR0000');
   });
