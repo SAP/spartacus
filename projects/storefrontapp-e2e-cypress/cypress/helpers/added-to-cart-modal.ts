@@ -10,7 +10,7 @@ export function verifyItemCounterOnPDP() {
     .should('have.value', '98');
 
   // check if the '+' button is disabled when the quantity is the maximum 'max stock'
-  cy.get('cx-add-to-cart button')
+  cy.get('cx-add-to-cart cx-item-counter button')
     .contains('+')
     .should('be.disabled');
 
