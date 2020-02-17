@@ -151,7 +151,7 @@ export function addProductToCart(product: TestProduct) {
   ).as('add_to_cart');
 
   getWishListItem(product.name).within(() => {
-    cy.get('cx-add-to-cart>button').click();
+    cy.get('cx-add-to-cart button').click();
   });
 
   cy.wait('@add_to_cart');
