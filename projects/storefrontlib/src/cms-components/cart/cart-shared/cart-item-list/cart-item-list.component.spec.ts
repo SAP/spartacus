@@ -280,4 +280,10 @@ describe('CartItemListComponent', () => {
     expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(item);
     expect(component.form.controls[item.product.code]).toBeUndefined();
   });
+
+  it('should get save for later feature flag', () => {
+    fixture.detectChanges();
+    component.isSaveForLaterEnabled();
+    expect(mockFeatureConfig.isEnabled).toHaveBeenCalled();
+  });
 });
