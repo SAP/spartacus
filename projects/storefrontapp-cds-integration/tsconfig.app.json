@@ -2,9 +2,14 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/app",
-    "module": "es2015",
     "types": [],
     "target": "es2015"
   },
-  "exclude": ["src/test.ts", "**/*.spec.ts"]
+  "files": [
+    "src/main.ts",
+    "src/polyfills.ts"
+  ],
+  "include": [
+    "projects/storefrontapp-cds-integration/src/**/*.d.ts"
+  ]
 }

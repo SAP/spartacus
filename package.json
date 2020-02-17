@@ -95,7 +95,6 @@
     "@angular/platform-browser": "~9.0.1",
     "@angular/platform-browser-dynamic": "~9.0.1",
     "@angular/platform-server": "~9.0.1",
-    "@angular/pwa": "^0.803.2",
     "@angular/router": "~9.0.1",
     "@angular/service-worker": "~9.0.1",
     "@compodoc/compodoc": "^1.1.10",
@@ -114,6 +113,7 @@
     "ngx-infinite-scroll": "^8.0.0",
     "rxjs": "^6.5.4",
     "ts-loader": "^6.0.4",
+    "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
@@ -126,10 +126,10 @@
     "@types/i18next": "^12.1.0",
     "@types/jasmine": "~3.4.0",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "~12.7.3",
+    "@types/node": "^12.11.1",
     "@types/shelljs": "^0.8.6",
     "chalk": "^2.4.2",
-    "codelyzer": "~5.1.0",
+    "codelyzer": "^5.1.2",
     "commander": "^3.0.0",
     "concurrently": "^4.1.2",
     "conventional-commits-parser": "^3.0.1",
@@ -163,8 +163,6 @@
     "start-server-and-test": "^1.10.0",
     "through2": "^3.0.1",
     "ts-node": "~8.3.0",
-    "tsickle": "0.38.0",
-    "tslib": "^1.10.0",
     "tslint": "~5.19.0",
     "typescript": "~3.7.5",
     "webpack-cli": "^3.3.7"
