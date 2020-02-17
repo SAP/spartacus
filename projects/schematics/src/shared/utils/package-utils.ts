@@ -10,6 +10,19 @@ export function getAngularVersion(tree: Tree): string {
   return '';
 }
 
+export function getMajorVersionNumber(versionString: string): number {
+  if (!versionString) {
+    throw new Error('versionString is undefined.');
+  }
+
+  let majorVersion = versionString.charAt(0);
+  if (isNaN(Number(majorVersion))) {
+    majorVersion = versionString.charAt(1);
+  }
+
+  return Number(majorVersion);
+}
+
 export function getSpartacusSchematicsVersion(): string {
   return version;
 }
