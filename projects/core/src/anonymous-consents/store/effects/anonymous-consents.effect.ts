@@ -17,6 +17,7 @@ import {
   isFeatureEnabled,
 } from '../../../features-config/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
+import { UserService } from '../../../user/facade/user.service';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { AnonymousConsentsConfig } from '../../config/anonymous-consents-config';
@@ -82,14 +83,8 @@ export class AnonymousConsentsEffects {
           ANONYMOUS_CONSENTS_FEATURE
         ) && Boolean(this.anonymousConsentsConfig.anonymousConsents)
     ),
-    withLatestFrom(
-      this.actions$.pipe(
-        ofType<UserActions.RegisterUserSuccess>(
-          UserActions.REGISTER_USER_SUCCESS
-        )
-      )
-    ),
-    filter(([, registerAction]) => Boolean(registerAction)),
+    withLatestFrom(this.userService.getRegisterUserResultSuccess()),
+    filter(([, registerSuccess]) => registerSuccess),
     switchMap(() =>
       this.anonymousConsentService.getConsents().pipe(
         withLatestFrom(
@@ -99,6 +94,8 @@ export class AnonymousConsentsEffects {
         ),
         filter(([, , , loggedIn]) => loggedIn),
         concatMap(([consents, userId, templates, _loggedIn]) => {
+          this.userService.resetRegisterUserProcessState();
+
           const actions: UserActions.TransferAnonymousConsent[] = [];
           for (const consent of consents) {
             if (
@@ -197,11 +194,43 @@ export class AnonymousConsentsEffects {
   );
 
   constructor(
+    actions$: Actions,
+    anonymousConsentTemplatesConnector: AnonymousConsentTemplatesConnector,
+    authService: AuthService,
+    anonymousConsentsConfig: AnonymousConsentsConfig,
+    anonymousConsentService: AnonymousConsentsService,
+    userConsentService: UserConsentService,
+    // tslint:disable-next-line:unified-signatures
+    userService: UserService
+  );
+
+  /**
+   *  @deprecated since version 1.5
+   *  Use constructor(action$: Actions,
+   *  anonymousConsentTemplatesConnector: AnonymousConsentTemplatesConnector,
+   *  authService: AuthService,
+   *  anonymousConsentsConfig: AnonymousConsentsConfig,
+   *  anonymousConsentService: AnonymousConsentsService,
+   *  userConsentService: UserConsentService,
+   *  userService: UserService) instead
+   *
+   *  TODO(issue:#6467) Deprecated since 1.5.1
+   */
+  constructor(
+    actions$: Actions,
+    anonymousConsentTemplatesConnector: AnonymousConsentTemplatesConnector,
+    authService: AuthService,
+    anonymousConsentsConfig: AnonymousConsentsConfig,
+    anonymousConsentService: AnonymousConsentsService,
+    userConsentService: UserConsentService
+  );
+  constructor(
     private actions$: Actions,
     private anonymousConsentTemplatesConnector: AnonymousConsentTemplatesConnector,
     private authService: AuthService,
     private anonymousConsentsConfig: AnonymousConsentsConfig,
     private anonymousConsentService: AnonymousConsentsService,
-    private userConsentService: UserConsentService
+    private userConsentService: UserConsentService,
+    private userService?: UserService
   ) {}
 }
