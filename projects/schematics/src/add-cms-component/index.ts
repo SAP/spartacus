@@ -32,6 +32,7 @@ import {
 import {
   commitChanges,
   defineProperty,
+  findConstructor,
   getMetadataProperty,
   getPathResultsForFile,
   getTsSourceFile,
@@ -204,10 +205,12 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
 
     const componentTs = getTsSourceFile(tree, componentPath);
     const nodes = getSourceNodes(componentTs);
+    const constructorNode = findConstructor(nodes);
     const injectionChange = injectService(
-      nodes,
+      constructorNode,
       componentPath,
       cmsComponentData,
+      'private',
       CMS_COMPONENT_DATA_PROPERTY_NAME
     );
     changes.push(injectionChange);
