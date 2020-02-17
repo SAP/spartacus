@@ -23,33 +23,36 @@ export class ProductVariantGuard implements CanActivate {
     return this.routingService.getRouterState().pipe(
       map(state => state.nextState.params.productCode),
       switchMap((productCode: string) => {
-        if (Boolean(productCode)) {
-          return this.productService.get(productCode, ProductScope.VARIANTS);
-        } else {
-          return of(undefined);
+        // if open pdp from smartedit
+        if (!productCode) {
+          return of(true);
         }
-      }),
-      map((product: Product) => {
-        if (Boolean(product) && !product.purchasable) {
-          const variant = this.findVariant(product.variantOptions);
-          // below call might looks redundant but in fact this data is going to be loaded anyways
-          // we're just calling it earlier and storing
-          this.productService
-            .get(variant.code, ProductScope.LIST)
-            .pipe(
-              filter(Boolean),
-              take(1)
-            )
-            .subscribe((_product: Product) => {
-              this.routingService.go({
-                cxRoute: 'product',
-                params: _product,
-              });
-            });
-          return false;
-        } else {
-          return true;
-        }
+
+        return this.productService.get(productCode, ProductScope.VARIANTS).pipe(
+          filter(Boolean),
+          map((product: Product) => {
+            if (!product.purchasable) {
+              const variant = this.findVariant(product.variantOptions);
+              // below call might looks redundant but in fact this data is going to be loaded anyways
+              // we're just calling it earlier and storing
+              this.productService
+                .get(variant.code, ProductScope.LIST)
+                .pipe(
+                  filter(Boolean),
+                  take(1)
+                )
+                .subscribe((_product: Product) => {
+                  this.routingService.go({
+                    cxRoute: 'product',
+                    params: _product,
+                  });
+                });
+              return false;
+            } else {
+              return true;
+            }
+          })
+        );
       })
     );
   }

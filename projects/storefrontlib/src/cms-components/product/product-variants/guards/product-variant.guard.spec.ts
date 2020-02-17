@@ -96,7 +96,7 @@ describe('ProductVariantGuard', () => {
     });
   });
 
-  it('should return true if there is no productCode in route parameter', done => {
+  it('should return true if no productCode in route parameter (launch from smartedit)', done => {
     spyOn(routingService, 'getRouterState').and.returnValue(
       of({
         nextState: {
