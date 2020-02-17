@@ -321,6 +321,21 @@ describe('File utils', () => {
     });
   });
 
+  describe('findConstructor', async () => {
+    it('should return the constructor if found', () => {
+      const constructorNode: ts.Node = {
+        kind: ts.SyntaxKind.Constructor,
+      } as ts.Node;
+
+      const nodes: ts.Node[] = [constructorNode];
+      expect(findConstructor(nodes)).toEqual(constructorNode);
+    });
+    it('should return undefined if the constructor is not found', () => {
+      const nodes: ts.Node[] = [];
+      expect(findConstructor(nodes)).toEqual(undefined);
+    });
+  });
+
   describe('defineProperty', () => {
     it('should create a Change if the constructor exists', async () => {
       const testPath = 'path-xxx';
