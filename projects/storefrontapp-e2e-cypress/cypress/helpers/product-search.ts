@@ -58,14 +58,11 @@ export function verifyProductSearch(
 }
 
 export function searchResult() {
-  const searchTerm = 'camera';
   cy.server();
-  cy.route(
-    'GET',
-    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=${searchTerm}*`
-  ).as('camera_query');
+  createCameraQuery('camera_query');
   cy.wait('@camera_query').then(xhr => {
     const cameraResults = xhr.response.body.pagination.totalResults;
+
     cy.get(resultsTitleSelector).should(
       'contain',
       `${cameraResults} results for "camera"`
@@ -105,10 +102,7 @@ export function viewMode() {
 
 export function filterUsingFacetFiltering() {
   cy.server();
-  cy.route(
-    'GET',
-    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=camera:relevance:availableInStores*`
-  ).as('facet_query');
+  createFacetFilterQuery('facet_query');
 
   cy.get('.cx-facet-header')
     .contains('Stores')
@@ -195,6 +189,20 @@ export function checkFirstItem(productName: string): void {
   cy.get('cx-product-list-item .cx-product-name')
     .first()
     .should('contain', productName);
+}
+
+export function createCameraQuery(alias: string): void {
+  cy.route(
+    'GET',
+    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=camera*`
+  ).as(alias);
+}
+
+export function createFacetFilterQuery(alias: string): void {
+  cy.route(
+    'GET',
+    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=camera:relevance:availableInStores*`
+  ).as(alias);
 }
 
 export function createProductQuery(alias: string): void {
