@@ -30,6 +30,12 @@ export class ConfiguratorCommonsService {
     );
   }
 
+  hasPendingChanges(owner: GenericConfigurator.Owner): Observable<Boolean> {
+    return this.store.pipe(
+      select(ConfiguratorSelectors.hasPendingChanges(owner.key))
+    );
+  }
+
   getConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {

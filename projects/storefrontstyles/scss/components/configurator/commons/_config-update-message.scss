@@ -1,0 +1,11 @@
+%cx-config-update-message {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  div#cx-config-update-message {
+    display: block;
+    background-color: var(--cx-color-info);
+    padding: $alert-padding-y;
+  }
+}
