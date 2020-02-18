@@ -19,7 +19,6 @@ import {
   Title,
   UserAddressService,
   UserService,
-  FeatureConfigService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
@@ -93,9 +92,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
-    private modalService: ModalService,
-    // TODO(issue:#4604) Deprecated since 1.3.0
-    protected featureConfig?: FeatureConfigService
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -221,19 +218,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       // ignore duplicate address
       this.submitAddress.emit(undefined);
     }
-  }
-
-  /**
-   * @deprecated since 1.3.0
-   * This function will be removed as continue button should not be disabled
-   *
-   * TODO(issue:#4604) Deprecated since 1.3.0
-   */
-  shouldDisableContinueButton(): boolean {
-    if (this.featureConfig && this.featureConfig.isLevel('1.3')) {
-      return false;
-    }
-    return this.address.invalid;
   }
 
   openSuggestedAddress(results: AddressValidation): void {
