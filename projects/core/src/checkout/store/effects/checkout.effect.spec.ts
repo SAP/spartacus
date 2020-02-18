@@ -202,10 +202,11 @@ describe('Checkout effect', () => {
   describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
     it('should dispatch checkout clear miscs data action on language change', () => {
       const action = new SiteContextActions.LanguageChange();
-      const completion = new CheckoutActions.CheckoutClearMiscsData();
+      const completion1 = new CheckoutActions.CheckoutClearMiscsData();
+      const completion2 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(
         entryEffects.clearCheckoutMiscsDataOnLanguageChange$
