@@ -54,7 +54,7 @@ export class PageMetaService {
    * @param metaResolver
    */
   private resolve(metaResolver): Observable<PageMeta> {
-    if (metaResolver.resolve) {
+    if (!metaResolver.resolve) {
       return metaResolver.resolve();
     } else {
       // resolve individual resolvers to make the extension mechanism more flexible
