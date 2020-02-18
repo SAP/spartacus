@@ -31,12 +31,12 @@ export function addProductVariant() {
 }
 
 export function configureApparelProduct() {
-  cy.window().then(win => win.sessionStorage.clear());
   cy.cxConfig({
     context: {
       baseSite: ['apparel-uk-spa'],
       currency: ['GBP'],
     },
+    checkout: { guest: true },
   });
 }
 
@@ -74,6 +74,7 @@ export function addTwoProductVariantsToCart() {
 }
 
 export function visitProductWithoutVariantPage() {
+  configureApparelProduct();
   cy.visit('apparel-uk-spa/en/GBP/product/300611156');
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', productWithoutVariants.code);
@@ -113,7 +114,6 @@ export function displaySummaryPageForOrderWithMultipleProducts() {
     'contain',
     productWithoutVariants.code
   );
-  cy.get('cx-cart-item .cx-quantity').should('contain', 2);
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
 

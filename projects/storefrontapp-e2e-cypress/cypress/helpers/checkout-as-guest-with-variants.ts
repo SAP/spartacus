@@ -19,11 +19,15 @@ import {
   goToProductPageFromCategory,
   verifyAndPlaceOrder,
   displaySummaryPage,
+  selectDeliveryMethod,
 } from './checkout-as-persistent-user';
+import { verifyDeliveryMethod } from './checkout-flow';
 
 export function checkoutAsGuestWithVariantsTest() {
   it('should add product to cart and go to login', () => {
-    addProductToCart();
+    cy.visit('/');
+    goToProductPageFromCategory(variantProduct, '4');
+    addProductVariant();
   });
 
   it('should porceed to checkout page', () => {
@@ -39,7 +43,7 @@ export function checkoutAsGuestWithVariantsTest() {
   });
 
   it('should verify delivery method', () => {
-    verifyDeliveryMethod();
+    selectDeliveryMethod('apparel-uk-spa');
   });
 
   it('should fill payment information', () => {
@@ -84,7 +88,7 @@ export function checkoutAsGuestWithVariantsTest() {
   });
 
   it('should verify delivery method', () => {
-    verifyDeliveryMethod();
+    selectDeliveryMethod('apparel-uk-spa');
   });
 
   it('should fill payment information', () => {
@@ -100,10 +104,10 @@ export function checkoutAsGuestWithVariantsTest() {
   });
 }
 
-export function addProductToCart() {
-  cy.visit('/');
-  goToProductPageFromCategory(variantProduct, '4');
-  addProductVariant();
+export function fillShippingAddressForm(
+  shippingAddressData: AddressData = user
+) {
+  fillShippingAddress(shippingAddressData);
 }
 
 export function loginAsGuest() {
@@ -120,18 +124,6 @@ export function loginAsGuest() {
       .type(user.email);
     cy.get('button[type=submit]').click();
   });
-}
-
-export function fillShippingAddressForm(
-  shippingAddressData: AddressData = user
-) {
-  fillShippingAddress(shippingAddressData);
-}
-
-export function verifyDeliveryMethod() {
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-gross').should('be.checked');
-  cy.get('.cx-checkout-btns button.btn-primary').click();
 }
 
 export function fillPaymentInformation(

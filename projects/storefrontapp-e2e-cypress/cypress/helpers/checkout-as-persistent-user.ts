@@ -1,4 +1,4 @@
-import { product } from '../sample-data/checkout-flow';
+import { product, delivery } from '../sample-data/checkout-flow';
 import { config, login, setSessionData } from '../support/utils/login';
 
 export const username = 'test-user-cypress@ydev.hybris.com';
@@ -6,6 +6,7 @@ export const password = 'Password123.';
 export const firstName = 'Test';
 export const lastName = 'User';
 export const titleCode = 'mr';
+let deliveryMode = '#deliveryMode-standard-net';
 
 export function retrieveTokenAndLogin() {
   function retrieveAuthToken() {
@@ -189,13 +190,16 @@ export function selectShippingAddress(site: string = 'electronics-spa') {
 }
 
 export function selectDeliveryMethod(site: string = 'electronics-spa') {
+  if (site === 'apparel-uk-spa') {
+    deliveryMode = '#deliveryMode-standard-gross';
+  }
   cy.server();
   cy.route('GET', `/rest/v2/${site}/cms/pages?*/checkout/payment-details*`).as(
     'getPaymentPage'
   );
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-gross').should('be.checked');
-  cy.get('button.btn-primary').click();
+  cy.get(deliveryMode).should('be.checked');
+  cy.get('.cx-checkout-btns button.btn-primary').click();
   cy.wait('@getPaymentPage')
     .its('status')
     .should('eq', 200);

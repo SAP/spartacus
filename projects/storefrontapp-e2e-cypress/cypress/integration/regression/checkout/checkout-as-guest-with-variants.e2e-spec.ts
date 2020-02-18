@@ -5,7 +5,6 @@ import { configureApparelProduct } from '../../../helpers/checkout-with-variants
 context('Checkout as guest', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     configureApparelProduct();
   });
   beforeEach(() => {
