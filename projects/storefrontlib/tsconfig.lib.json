@@ -20,7 +20,8 @@
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "strictInjectionParameters": true,
+    "enableResourceInlining": true
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]
 }
