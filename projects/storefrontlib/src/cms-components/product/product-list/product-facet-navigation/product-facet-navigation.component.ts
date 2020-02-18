@@ -25,7 +25,6 @@ export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
 
   activeFacetValueCode: string;
   searchResult: ProductSearchPage;
-  minPerFacet = 6;
   showAllPerFacetMap: Map<String, boolean>;
   protected queryCodec: HttpUrlEncodingCodec;
   private collapsedFacets = new Set<string>();
@@ -99,12 +98,12 @@ export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
     }
   }
 
-  getVisibleFacetValues(facet): any {
+  getVisibleFacetValues(facet: Facet): Facet[] {
     return facet.values.slice(
       0,
       this.showAllPerFacetMap.get(facet.name)
         ? facet.values.length
-        : this.minPerFacet
+        : facet.topValueCount
     );
   }
 
