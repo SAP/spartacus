@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductSearchPage } from '@spartacus/core';
-import { BehaviorSubject, Subscription, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
+import { ViewConfig } from '../../../../shared/config/view-config';
 import { ViewModes } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
-import { ViewConfig } from '../../../../shared/config/view-config';
 
 @Component({
   selector: 'cx-product-list',
@@ -60,10 +60,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
         );
       })
     );
-  }
-
-  viewPage(pageNumber: number): void {
-    this.productListComponentService.viewPage(pageNumber);
   }
 
   sortList(sortCode: string): void {

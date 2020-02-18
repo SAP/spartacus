@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { CartService, OrderEntry, Product } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -37,6 +38,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   cartEntry$: Observable<OrderEntry>;
 
   subscription: Subscription;
+
+  addToCartForm = new FormGroup({
+    quantity: new FormControl(1),
+  });
 
   constructor(
     cartService: CartService,
@@ -91,7 +96,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   }
 
   addToCart() {
-    if (!this.productCode || this.quantity <= 0) {
+    const quantity = this.addToCartForm.get('quantity').value;
+    if (!this.productCode || quantity <= 0) {
       return;
     }
     // check item is already present in the cart
@@ -103,7 +109,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           this.increment = true;
         }
         this.openModal();
-        this.cartService.addEntry(this.productCode, this.quantity);
+        this.cartService.addEntry(this.productCode, quantity);
         this.increment = false;
       })
       .unsubscribe();
