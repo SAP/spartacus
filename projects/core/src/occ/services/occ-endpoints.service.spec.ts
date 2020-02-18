@@ -1,37 +1,37 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
 import { OccEndpointsService } from './occ-endpoints.service';
 
 describe('OccEndpointsService', () => {
-  const mockOccConfig: OccConfig = {
-    backend: {
-      occ: {
-        baseUrl: 'test-baseUrl',
-        prefix: '/test-occPrefix',
-        endpoints: {
-          login: '/authorizationserver/oauth/token',
-          product: 'configured-endpoint1/${test}?fields=abc',
-          product_scopes: {
-            test: 'configured-endpoint1/${test}?fields=test',
-          },
-        },
-      },
-    },
-    context: {
-      baseSite: ['/test-baseSite'],
-    },
-  };
-
+  let mockOccConfig: OccConfig;
   const baseEndpoint = 'test-baseUrl/test-occPrefix/test-baseSite';
 
   let service: OccEndpointsService;
 
   beforeEach(() => {
+    mockOccConfig = {
+      backend: {
+        occ: {
+          baseUrl: 'test-baseUrl',
+          prefix: '/test-occPrefix',
+          endpoints: {
+            login: '/authorizationserver/oauth/token',
+            product: 'configured-endpoint1/${test}?fields=abc',
+            product_scopes: {
+              test: 'configured-endpoint1/${test}?fields=test',
+            },
+          },
+        },
+      },
+      context: {
+        baseSite: ['/test-baseSite'],
+      },
+    };
+
     TestBed.configureTestingModule({
       providers: [{ provide: OccConfig, useValue: mockOccConfig }],
     });
-    service = TestBed.get(OccEndpointsService as Type<OccEndpointsService>);
+    service = TestBed.inject(OccEndpointsService);
   });
 
   it('should be created', () => {
@@ -118,16 +118,14 @@ describe('OccEndpointsService', () => {
       });
     });
 
-    // TODO: ng9-fix
-    xit('should apply parameters to configured endpoint', () => {
+    it('should apply parameters to configured endpoint', () => {
       const url = service.getUrl('product', { test: 'test-value' });
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/test-value?fields=abc'
       );
     });
 
-    // TODO: ng9-fix
-    xit('should add query parameters to configured endpoint', () => {
+    it('should add query parameters to configured endpoint', () => {
       const url = service.getUrl(
         'product',
         { test: 'test-value' },

@@ -119,8 +119,8 @@ describe('GlobalMessage Effects', () => {
       ]);
     });
   });
-  // TODO: ng9fix
-  xdescribe('removeDuplicated$', () => {
+
+  describe('removeDuplicated$', () => {
     it('should not remove message if there is only one', () => {
       spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(1);
       spyOn(utils, 'indexOfFirstOccurrence').and.returnValue(0);
