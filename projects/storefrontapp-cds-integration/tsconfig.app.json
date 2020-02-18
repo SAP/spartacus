@@ -6,11 +6,6 @@
     "types": [],
     "target": "es2015"
   },
-  "files": [
-    "src/main.ts",
-    "src/polyfills.ts"
-  ],
-  "include": [
-    "projects/storefrontapp-cds-integration/src/**/*.d.ts"
-  ]
+  "files": ["src/main.ts", "src/polyfills.ts"],
+  "include": ["projects/storefrontapp-cds-integration/src/**/*.d.ts"]
 }

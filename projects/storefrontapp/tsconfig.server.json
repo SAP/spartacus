@@ -14,11 +14,7 @@
   },
   "angularCompilerOptions": {
     "entryModule": "src/app/app.server.module#AppServerModule"
-  },
-  "files": [
-    "src/main.server.ts"
-  ],
-  "include": [
-    "projects/storefrontapp/src/**/*.d.ts"
-  ]
+  },
+  "files": ["src/main.server.ts"],
+  "include": ["projects/storefrontapp/src/**/*.d.ts"]
 }
