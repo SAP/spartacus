@@ -1,3 +1,7 @@
+/***************************************************************************************************
+ * Load `$localize` onto the global scope - used if i18n tags appear in Angular templates.
+ */
+import '@angular/localize/init';
 import { enableProdMode } from '@angular/core';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import { NgExpressEngineDecorator } from '@spartacus/core';
