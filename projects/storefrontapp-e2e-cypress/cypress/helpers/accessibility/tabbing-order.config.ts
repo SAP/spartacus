@@ -1926,4 +1926,152 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
   ],
+  myAccount: [
+    {
+      value: 'Order History',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Wish List',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Address Book',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Payment Details',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Personal Details',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Password',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Email Address',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Consent Management',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Close Account',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'My Interests',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Notification Preference',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'My Coupons',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Sign Out',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  headerCategoryBrands: [
+    {
+      value: 'Shop all Brands',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Canon',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Sony',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kodak',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Samsung',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Toshiba',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Fujifilm',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kingston',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Icidu',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'TDK',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Sweex',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  headerCategoryDigitalCameras: [
+    {
+      value: 'Shop all Digital Cameras',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Compact Cameras',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  headerCategoryAccessories: [
+    {
+      value: 'Shop all Accessories',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Camera Flashes',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Tripods',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Camera Lenses',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Flash Memory',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Power Supplies',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Color Films',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Black & White Films',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Blank Videotapes',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
 };

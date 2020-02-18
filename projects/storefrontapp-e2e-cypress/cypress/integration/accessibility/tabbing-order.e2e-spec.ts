@@ -21,7 +21,10 @@ import {
 import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/close-account';
 import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
-import { headerTabbingOrder } from '../../helpers/accessibility/tabbing-order/header';
+import {
+  headerTabbingOrder,
+  subCategoryTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/header';
 import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
 import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/order-details';
@@ -43,6 +46,7 @@ import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/wishlist';
+import { myAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -58,6 +62,60 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
   context('Header - Mobile (not logged in)', () => {
     it('should allow to navigate with tab key', () => {
       headerTabbingOrder(config.headerMobileNotLoggedIn, true);
+    });
+  });
+
+  describe('Header Sub Categories - Desktop', () => {
+    context('Brands', () => {
+      it('should allow to navigate with tab key', () => {
+        subCategoryTabbingOrder(config.headerCategoryBrands, 'Brands');
+      });
+    });
+
+    context('Digital Cameras', () => {
+      it('should allow to navigate with tab key', () => {
+        subCategoryTabbingOrder(
+          config.headerCategoryDigitalCameras,
+          'Digital Cameras'
+        );
+      });
+    });
+
+    context('Accessories', () => {
+      it('should allow to navigate with tab key', () => {
+        subCategoryTabbingOrder(
+          config.headerCategoryAccessories,
+          'Accessories'
+        );
+      });
+    });
+  });
+
+  describe('Header Sub Categories - Mobile', () => {
+    context('Brands', () => {
+      it('should allow to navigate with tab key', () => {
+        subCategoryTabbingOrder(config.headerCategoryBrands, 'Brands', true);
+      });
+    });
+
+    context('Digital Cameras', () => {
+      it('should allow to navigate with tab key', () => {
+        subCategoryTabbingOrder(
+          config.headerCategoryDigitalCameras,
+          'Digital Cameras',
+          true
+        );
+      });
+    });
+
+    context('Accessories', () => {
+      it('should allow to navigate with tab key', () => {
+        subCategoryTabbingOrder(
+          config.headerCategoryAccessories,
+          'Accessories',
+          true
+        );
+      });
     });
   });
 
@@ -162,6 +220,18 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('Header - Mobile (logged in)', () => {
     it('should allow to navigate with tab key', () => {
       headerTabbingOrder(config.headerMobileLoggedIn, true, true);
+    });
+  });
+
+  context('My Account - Desktop', () => {
+    it('should allow to navigate with tab key', () => {
+      myAccountTabbingOrder(config.myAccount);
+    });
+  });
+
+  context('My Account - Mobile', () => {
+    it('should allow to navigate with tab key', () => {
+      myAccountTabbingOrder(config.myAccount, true);
     });
   });
 

@@ -3,68 +3,58 @@ import { testProductUrl } from '../../helpers/accessibility/tabbing-order';
 context('Auxiliary Keys', () => {
   describe('Category Navigation', () => {
     before(() => {
-      cy.server();
-      cy.route(
-        `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
-      ).as('getComponents');
-      cy.visit('/');
-      cy.wait('@getComponents');
+      loadPageWithComponenents('/');
     });
 
     it('should open menu with space key', () => {
-      cy.get('cx-page-slot[ng-reflect-position="NavigationBar"]').within(() => {
+      cy.get('cx-category-navigation').within(() => {
         cy.get('cx-navigation-ui')
           .find('nav')
           .should('have.length', 30);
-        cy.get('cx-navigation-ui nav h5')
-          .contains('Brands')
-          .should('be.visible');
-        cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
-        cy.get('cx-navigation-ui nav span')
+        cy.get('cx-navigation-ui')
           .first()
-          .focus();
-        cy.focused().trigger('keydown', {
-          key: ' ',
-          code: 'Space',
-          force: true,
-        });
-        cy.get('cx-navigation-ui nav div[class="wrapper"]').should(
-          'be.visible'
-        );
+          .should('contain.text', 'Brands')
+          .and('be.visible')
+          .within(() => {
+            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
+            cy.get('nav span')
+              .first()
+              .focus();
+            cy.focused().trigger('keydown', {
+              key: ' ',
+              code: 'Space',
+              force: true,
+            });
+          });
       });
-    });
-
-    it('should tab through menu items', () => {
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Shop all Brands');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Canon');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Sony');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Kodak');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Samsung');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Toshiba');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Fujifilm');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Kingston');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Icidu');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'TDK');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Sweex');
+      cy.get('cx-navigation-ui nav div.wrapper')
+        .first()
+        .should('be.visible');
     });
 
     it('should close menu with space key', () => {
-      cy.focused().type(' ');
-      cy.get('cx-navigation-ui nav span')
+      cy.get('cx-category-navigation').within(() => {
+        cy.get('cx-navigation-ui')
+          .find('nav')
+          .should('have.length', 30);
+        cy.get('cx-navigation-ui')
+          .first()
+          .should('contain.text', 'Brands')
+          .and('be.visible')
+          .within(() => {
+            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
+            cy.get('nav span')
+              .first()
+              .focus();
+            cy.focused().trigger('keydown', {
+              key: ' ',
+              code: 'Space',
+              force: true,
+            });
+          });
+      });
+      cy.get('cx-navigation-ui nav div.wrapper')
         .first()
-        .parent()
-        .contains('Shop all Brands')
         .should('not.be.visible');
     });
   });
@@ -72,67 +62,48 @@ context('Auxiliary Keys', () => {
   describe('My Account Navigation', () => {
     before(() => {
       cy.requireLoggedIn();
-      cy.server();
-      cy.route(
-        `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
-      ).as('getComponents');
-      cy.visit('/');
-      cy.wait('@getComponents');
+      loadPageWithComponenents('/');
     });
 
     it('should open menu with space key', () => {
       cy.get('cx-page-layout[section="header"]').within(() => {
-        cy.get('cx-navigation-ui[ng-reflect-ng-class="accNavComponent"]')
+        cy.get('cx-navigation-ui.accNavComponent')
           .should('contain.text', 'My Account')
-          .and('be.visible');
-        cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
-        cy.get(
-          'cx-navigation-ui[ng-reflect-ng-class="accNavComponent"] nav span'
-        )
-          .first()
-          .focus();
-        cy.focused().trigger('keydown', {
-          key: ' ',
-          code: 'Space',
-          force: true,
-        });
-        cy.get('cx-generic-link')
-          .contains('Order History')
-          .should('be.visible');
+          .and('be.visible')
+          .within(() => {
+            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
+            cy.get('nav span')
+              .first()
+              .focus();
+            cy.focused().trigger('keydown', {
+              key: ' ',
+              code: 'Space',
+              force: true,
+            });
+            cy.get('cx-generic-link')
+              .contains('Order History')
+              .should('be.visible');
+          });
       });
     });
 
-    it('should tab through menu items', () => {
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Order History');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Wish List');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Address Book');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Payment Details');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Personal Details');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Password');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Email Address');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Consent Management');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Close Account');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'My Interests');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Notification Preference');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'My Coupons');
-      cy.pressTab();
-      cy.focused().should('contain.text', 'Sign Out');
-    });
-
     it('should close menu with space key', () => {
-      cy.focused().trigger('keydown', { key: 'Space' });
+      cy.get('cx-page-layout[section="header"]').within(() => {
+        cy.get('cx-navigation-ui.accNavComponent')
+          .should('contain.text', 'My Account')
+          .and('be.visible')
+          .within(() => {
+            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
+            cy.get('nav span')
+              .first()
+              .focus();
+            cy.focused().trigger('keydown', {
+              key: ' ',
+              code: 'Space',
+              force: true,
+            });
+          });
+      });
       cy.get('cx-generic-link')
         .contains('Order History')
         .should('not.be.visible');
@@ -141,12 +112,7 @@ context('Auxiliary Keys', () => {
 
   describe('Search Bar', () => {
     before(() => {
-      cy.server();
-      cy.route(
-        `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
-      ).as('getComponents');
-      cy.visit('/');
-      cy.wait('@getComponents');
+      loadPageWithComponenents('/');
     });
 
     it('should make search suggestions', () => {
@@ -210,12 +176,7 @@ context('Auxiliary Keys', () => {
 
   describe('Item Counter', () => {
     before(() => {
-      cy.server();
-      cy.route(
-        `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
-      ).as('getComponents');
-      cy.visit(testProductUrl);
-      cy.wait('@getComponents');
+      loadPageWithComponenents(testProductUrl);
     });
 
     it('should increment counter with ArrowUp key', () => {
@@ -238,12 +199,7 @@ context('Auxiliary Keys', () => {
 
   describe('Skip Links', () => {
     before(() => {
-      cy.server();
-      cy.route(
-        `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
-      ).as('getComponents');
-      cy.visit('/');
-      cy.wait('@getComponents');
+      loadPageWithComponenents('/');
       cy.get('body').focus();
       cy.pressTab();
       cy.focused().should('contain.text', 'Skip to Header');
@@ -268,3 +224,12 @@ context('Auxiliary Keys', () => {
     });
   });
 });
+
+function loadPageWithComponenents(pageUrl: string) {
+  cy.server();
+  cy.route(
+    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
+  ).as('getComponents');
+  cy.visit(pageUrl);
+  cy.wait('@getComponents');
+}
