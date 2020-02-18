@@ -1,5 +1,5 @@
 import { Injectable, Injector, isDevMode } from '@angular/core';
-import { Route, Router, Routes } from '@angular/router';
+import { Route, Router, Routes, UrlMatcher } from '@angular/router';
 import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
 import { RouteConfig } from './routes-config';
 import { RoutingConfigService } from './routing-config.service';
@@ -28,6 +28,9 @@ export class ConfigurableRoutesService {
     // Router could not be injected in constructor due to cyclic dependency with APP_INITIALIZER:
     const router = this.injector.get(Router);
 
+    //spike todo remove:
+    window['router'] = router;
+
     const configuredRoutes = this.configureRoutes(router.config);
 
     router.resetConfig(configuredRoutes);
@@ -52,6 +55,7 @@ export class ConfigurableRoutesService {
       const routeConfig = this.routingConfigService.getRouteConfig(routeName);
       const paths = this.getConfiguredPaths(routeConfig, routeName, route);
       const isDisabled = routeConfig && routeConfig.disabled;
+      const matchers = routeConfig.matchers;
 
       if (isDisabled || !paths.length) {
         delete route.path;
@@ -59,6 +63,9 @@ export class ConfigurableRoutesService {
           ...route,
           matcher: this.urlMatcherFactory.getFalsyUrlMatcher(),
         };
+      } else if (matchers) {
+        delete route.path;
+        return { ...route, matcher: this.resolveUrlMatchers(matchers) };
       } else if (paths.length === 1) {
         delete route.matcher;
         return { ...route, path: paths[0] };
@@ -71,6 +78,16 @@ export class ConfigurableRoutesService {
       }
     }
     return route; // if route doesn't have a name, just pass the original route
+  }
+
+  private resolveUrlMatchers(matchers: RouteConfig['matchers']): UrlMatcher {
+    const createdMatchers: UrlMatcher[] = matchers.map(matcher => {
+      return typeof matcher === 'function'
+        ? matcher
+        : this.urlMatcherFactory.createUrlMatcher(matcher);
+    });
+    const result = this.urlMatcherFactory.combineUrlMatchers(createdMatchers);
+    return result;
   }
 
   private getRouteName(route: Route): string {

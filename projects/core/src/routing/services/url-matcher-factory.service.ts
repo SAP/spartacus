@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {
   Route,
   UrlMatcher,
@@ -7,10 +7,14 @@ import {
   UrlSegmentGroup,
 } from '@angular/router';
 import { GlobService } from '../../util/glob.service';
+import { UrlMatcherFactory } from '../configurable-routes/routes-config';
 
 @Injectable({ providedIn: 'root' })
 export class UrlMatcherFactoryService {
-  constructor(protected globService: GlobService) {}
+  constructor(
+    protected globService: GlobService,
+    protected injector: Injector // spike todo breaking change (can be avoided if we add it early)
+  ) {}
 
   /**
    * Returns a matcher that is always fails
@@ -25,27 +29,36 @@ export class UrlMatcherFactoryService {
    * Returns a matcher for given list of paths
    */
   getMultiplePathsUrlMatcher(paths: string[]): UrlMatcher {
-    const self = this;
+    const matchers = paths.map(path => this.getPathUrlMatcher(path));
+    const matcher = this.combineUrlMatchers(matchers);
+    matcher['paths'] = paths; // property added for easier debugging of routes
+    return matcher;
+  }
 
-    const matcher = function multiplePathsUrlMatcher(
+  /**
+   * Returns a matcher that combines the given matchers
+   * */
+  combineUrlMatchers(matchers: UrlMatcher[]): UrlMatcher {
+    const matcher = function combinedUrlMatchers(
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
       route: Route
     ): UrlMatchResult | null {
-      for (let i = 0; i < paths.length; i++) {
-        const result = self.getPathUrlMatcher(paths[i])(
-          segments,
-          segmentGroup,
-          route
-        );
+      for (let i = 0; i < matchers.length; i++) {
+        const result = matchers[i](segments, segmentGroup, route);
         if (result) {
           return result;
         }
       }
       return null;
     };
-    matcher.paths = paths; // property added for easier debugging of routes
     return matcher;
+  }
+
+  createUrlMatcher({ deps, factory }: UrlMatcherFactory): UrlMatcher {
+    const resolvedDeps = (deps || []).map(dep => this.injector.get(dep));
+    const result = factory(...resolvedDeps);
+    return result;
   }
 
   /**
