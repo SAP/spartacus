@@ -123,7 +123,6 @@
             type="submit"
             class="btn btn-block btn-primary"
             [ngClass]="{ 'submit-btn': reviewForm.valid }"
-            [disabled]="shouldDisableSubmitButton()"
           >
             {{ 'common.submit' | cxTranslate }}
           </button>

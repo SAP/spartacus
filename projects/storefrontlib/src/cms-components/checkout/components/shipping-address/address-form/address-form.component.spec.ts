@@ -14,9 +14,8 @@ import {
   Title,
   UserAddressService,
   UserService,
-  FeatureConfigService,
 } from '@spartacus/core';
-import { Observable, of, BehaviorSubject, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { AddressFormComponent } from './address-form.component';
 
@@ -39,14 +38,6 @@ class MockUserAddressService {
 
   getRegions(): Observable<Region[]> {
     return of();
-  }
-}
-
-// TODO(issue:#4604) Deprecated since 1.3.0
-const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
-class MockFeatureConfigService {
-  isLevel(_level: string): boolean {
-    return isLevelBool.value;
   }
 }
 
@@ -152,8 +143,6 @@ describe('AddressFormComponent', () => {
         { provide: UserService, useClass: MockUserService },
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-        // TODO(issue:#4604) Deprecated since 1.3.0
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         { provide: ModalService, useClass: MockModalService },
       ],
     })
@@ -431,7 +420,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
 
       getContinueBtn().nativeElement.click();
-      expect(component.verifyAddress).not.toHaveBeenCalled();
+      expect(component.verifyAddress).toHaveBeenCalledTimes(1);
 
       controls['titleCode'].setValue('test titleCode');
       controls['firstName'].setValue('test firstName');
@@ -444,69 +433,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
 
       getContinueBtn().nativeElement.click();
-      expect(component.verifyAddress).toHaveBeenCalled();
-    });
-
-    // TODO(issue:#4604) Deprecated since 1.3.0
-    it('should be enabled only when form has all mandatory fields filled', () => {
-      const isContinueBtnDisabled = () => {
-        fixture.detectChanges();
-        return getContinueBtn().nativeElement.disabled;
-      };
-      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-      spyOn(userService, 'getTitles').and.returnValue(of([]));
-      spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
-
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['titleCode'].setValue('test titleCode');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['firstName'].setValue('test firstName');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['lastName'].setValue('test lastName');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['line1'].setValue('test line1');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['town'].setValue('test town');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.region['controls'].isocode.setValue('test region isocode');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.country['controls'].isocode.setValue('test country isocode');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['postalCode'].setValue('test postalCode');
-
-      expect(isContinueBtnDisabled()).toBeFalsy();
-    });
-
-    it('should be enabled whether or not form has all mandatory fields filled', () => {
-      // TODO(issue:#4604) Deprecated since 1.3.0
-      isLevelBool.next(true);
-
-      const isContinueBtnDisabled = () => {
-        fixture.detectChanges();
-        return getContinueBtn().nativeElement.disabled;
-      };
-      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-      spyOn(userService, 'getTitles').and.returnValue(of([]));
-      spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
-
-      expect(isContinueBtnDisabled()).toBeFalsy();
-      controls['titleCode'].setValue('test titleCode');
-      expect(isContinueBtnDisabled()).toBeFalsy();
-      controls['firstName'].setValue('test firstName');
-      expect(isContinueBtnDisabled()).toBeFalsy();
-      controls['lastName'].setValue('test lastName');
-      expect(isContinueBtnDisabled()).toBeFalsy();
-      controls['line1'].setValue('test line1');
-      expect(isContinueBtnDisabled()).toBeFalsy();
-      controls['town'].setValue('test town');
-      expect(isContinueBtnDisabled()).toBeFalsy();
-      controls.region['controls'].isocode.setValue('test region isocode');
-      expect(isContinueBtnDisabled()).toBeFalsy();
-      controls.country['controls'].isocode.setValue('test country isocode');
-      expect(isContinueBtnDisabled()).toBeFalsy();
-      controls['postalCode'].setValue('test postalCode');
-
-      expect(isContinueBtnDisabled()).toBeFalsy();
+      expect(component.verifyAddress).toHaveBeenCalledTimes(2);
     });
   });
 
