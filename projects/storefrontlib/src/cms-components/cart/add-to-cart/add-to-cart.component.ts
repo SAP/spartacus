@@ -10,7 +10,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { CartService, OrderEntry, Product } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { ModalRef, ModalService } from '../../../shared/components/modal/index';
+import {ModalService } from '../../../shared/components/modal/modal.service';
+import { ModalRef } from '../../../shared/components/modal/modal-ref';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
