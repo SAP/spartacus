@@ -44,6 +44,7 @@ import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
 import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
+import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
 import {
   checkoutAppliedCouponsTabbingOrder,
   checkoutCouponsTabbingOrder,
@@ -291,6 +292,12 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('Wishlist', () => {
     it('should allow to navigate with tab key', () => {
       wishlistTabbingOrder(config.wishlist);
+    });
+  });
+
+  context('My Interest', () => {
+    it('should allow to navigate with tab key', () => {
+      myInterestTabbingOrder(config.myInterests);
     });
   });
 

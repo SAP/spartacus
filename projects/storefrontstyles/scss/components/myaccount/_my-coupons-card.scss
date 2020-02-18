@@ -61,9 +61,10 @@
     }
   }
 
-  a:not([href]):not([tabindex]) {
+  a:not([href]) {
     text-decoration: underline;
     &.cx-card-read-more {
+      color: var(--cx-color-text);
       padding: 1rem 0 0 0;
       cursor: pointer;
       display: inline-block;
