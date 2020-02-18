@@ -1,4 +1,7 @@
 %cx-product-facet-navigation {
+  button.btn {
+    text-transform: none;
+  }
   // filter button on mobile
   @include media-breakpoint-up(lg) {
     > button.btn,
@@ -18,16 +21,16 @@
       background-color: var(--cx-color-background);
       height: 100%;
       width: 100%;
-      width: 70%;
+      // width: 70%;
       overflow: hidden;
       transition: transform 0.3s ease-in-out;
 
-      transform: translate3d(-100%, 0, 0);
-      display: none;
-      &:focus,
-      &:focus-within,
+      transform: translate3d(0, 100%, 0);
+      // display: none;
+      // &:focus,
+      // &:focus-within,
       &.open {
-        display: block;
+        // display: block;
         transform: translate3d(0, 0, 0);
       }
     }
@@ -84,113 +87,6 @@
           color: var(--cx-color-primary);
         }
       }
-    }
-  }
-
-  .cx-facet-list {
-    padding: 0;
-    list-style: none;
-    margin: 0 0 32px 0;
-
-    .form-check {
-      padding: 0;
-      margin: 0 0 20px 0;
-    }
-
-    .cx-facet-label {
-      color: var(--cx-color-secondary);
-      @include type(6);
-      font-weight: var(--cx-font-weight-normal);
-      position: relative;
-      margin: 0;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-      cursor: pointer;
-
-      &:hover .cx-facet-checkbox:not(:checked) {
-        background-color: var(--cx-color-light);
-      }
-
-      .cx-facet-text {
-        line-height: 22px;
-      }
-    }
-
-    a {
-      display: flex;
-      align-items: center;
-      min-width: 0;
-
-      padding: 0.25rem 0.5rem;
-      margin-inline-end: 0.5rem;
-      margin-block-end: 0.5rem;
-
-      border-radius: 4px;
-      border-width: 0;
-
-      background: var(--cx-color-background);
-      text-decoration: none;
-
-      &:hover,
-      &:focus {
-        color: var(--cx-color-primary);
-        background: var(--cx-color-highlight);
-      }
-      transition: all 0.3s;
-
-      > span {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      > cx-icon {
-        margin-inline-start: 0.5rem;
-      }
-    }
-  }
-
-  .cx-facet-pill-value {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 203px;
-
-    @include media-breakpoint-only(lg) {
-      max-width: 159px;
-    }
-
-    @include media-breakpoint-only(sm) {
-      max-width: 100%;
-    }
-  }
-
-  .cx-facet-modal-title {
-    @include type(3);
-  }
-
-  .cx-facet-mobile {
-    @include media-breakpoint-up(lg) {
-      display: none;
-    }
-
-    @include media-breakpoint-down(md) {
-      .cx-facet-mobile-btn {
-        margin: 0 0 20px 0;
-      }
-    }
-  }
-
-  @include media-breakpoint-down(md) {
-    .cx-facet-modal-body {
-      overflow-y: scroll;
-      height: 100vh;
-    }
-
-    .cx-facet-modal-label {
-      @include type(4);
-      font-weight: var(--cx-font-weight-semi);
-      margin: 0 0 27px 0;
     }
   }
 }

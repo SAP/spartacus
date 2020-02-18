@@ -1,5 +1,5 @@
-<button class="btn btn-action btn-block" #trigger (click)="toggleNavigation()">
-  {{ 'productList.filterBy.label' | cxTranslate }}?
+<button class="btn btn-action btn-block" (click)="toggleNavigation()">
+  {{ 'productList.filterBy.label' | cxTranslate }}
 </button>
 
 <div *ngIf="activeFacets$ | async as facets" class="active">
@@ -16,7 +16,7 @@
   </a>
 </div>
 
-<div class="facets" #facets [class.open]="showNav">
+<div class="facets" [class.open]="showNav">
   <!-- -->
   <button
     type="button"
