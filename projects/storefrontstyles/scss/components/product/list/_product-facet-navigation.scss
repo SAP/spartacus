@@ -1,18 +1,89 @@
 %cx-product-facet-navigation {
-  .cx-search-facet {
-    @include media-breakpoint-down(md) {
+  // filter button on mobile
+  @include media-breakpoint-up(lg) {
+    > button.btn,
+    .facets > .close {
       display: none;
     }
   }
 
-  .cx-facet-checkbox {
-    position: relative;
-    margin: 0 10px 0 0;
-    min-width: 22px;
-    transition: 0.3s;
+  @include media-breakpoint-down(md) {
+    .facets {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 11;
+      background-color: var(--cx-color-background);
+      height: 100%;
+      width: 100%;
+      width: 70%;
+      overflow: hidden;
+      transition: transform 0.3s ease-in-out;
 
-    &:checked + .cx-facet-text {
-      color: var(--cx-color-primary);
+      transform: translate3d(-100%, 0, 0);
+      display: none;
+      &:focus,
+      &:focus-within,
+      &.open {
+        display: block;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+  }
+
+  min-width: 0;
+  .active {
+    display: flex;
+    flex-wrap: wrap;
+    margin-inline-end: -10px;
+
+    cursor: default;
+    color: var(--cx-color-text);
+
+    h4 {
+      flex: 100%;
+      padding: 0 0 10px 0;
+      margin: 0 0 20px 0;
+
+      @include media-breakpoint-down(md) {
+        display: inline-block;
+        margin: 0 20px 0px 0;
+      }
+    }
+    a {
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+      min-width: 0;
+
+      background: var(--cx-color-background);
+
+      &:hover {
+        background: var(--cx-color-light);
+        text-decoration: none;
+      }
+
+      border-radius: 4px;
+
+      margin: 0 10px 10px 0;
+      // font-size: 0.87rem;
+
+      > span {
+        margin-inline-start: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      cx-icon {
+        font-size: 1rem;
+        padding: 10px;
+        &:hover {
+          color: var(--cx-color-primary);
+        }
+      }
     }
   }
 
@@ -46,103 +117,35 @@
       }
     }
 
-    .cx-facet-toggle-btn {
-      cursor: pointer;
-    }
-  }
+    a {
+      display: flex;
+      align-items: center;
+      min-width: 0;
 
-  .cx-facet-header {
-    border-width: 0 0 1px 0;
-    border-style: solid;
-    border-color: var(--cx-color-light);
-    @include type(4);
-    color: var(--cx-color-text);
-    margin: 0 0 17px 0;
-    display: block;
-    font-weight: var(--cx-font-weight-semi);
+      padding: 0.25rem 0.5rem;
+      margin-inline-end: 0.5rem;
+      margin-block-end: 0.5rem;
 
-    &-link {
-      padding: 5px;
-      display: block;
-      cursor: pointer;
-      transition: 0.3s;
+      border-radius: 4px;
+      border-width: 0;
 
-      &:hover {
-        background-color: var(--cx-color-light);
+      background: var(--cx-color-background);
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        color: var(--cx-color-primary);
+        background: var(--cx-color-highlight);
       }
-    }
+      transition: all 0.3s;
 
-    .fa-minus {
-      float: right;
-
-      &::before {
-        font-size: 12px;
-        top: 5px;
-        position: relative;
-        color: var(--cx-color-secondary);
+      > span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
-    }
-
-    .fa-plus {
-      float: right;
-
-      &::before {
-        font-size: 14px;
-        top: 5px;
-        position: relative;
-        color: var(--cx-color-secondary);
-      }
-    }
-  }
-
-  .cx-facet-filter-container {
-    margin: 0 0 40px 0;
-
-    @include media-breakpoint-down(md) {
-      margin: 0;
-    }
-  }
-
-  .cx-facet-filter-header {
-    @include type(3);
-    color: var(--cx-color-text);
-    padding: 0 0 10px 0;
-    margin: 0 0 20px 0;
-
-    @include media-breakpoint-down(md) {
-      display: inline-block;
-      margin: 0 20px 0px 0;
-    }
-  }
-
-  .cx-facet-filter-pill {
-    background: var(--cx-color-light);
-    padding: 7px 15px 7px 13px;
-    margin: 10px 10px 5px 0;
-    display: inline-flex;
-    align-items: flex-start;
-    border-radius: 4px;
-
-    cx-icon:before {
-      font-size: 16px;
-    }
-
-    .cx-facet-pill-value {
-      line-height: 1.7;
-    }
-
-    span {
-      flex: 1 1 auto;
-      font-size: 14px;
-      vertical-align: middle;
-    }
-
-    button {
-      margin: 0 0 0 10px;
-      line-height: 0.9;
-
-      span {
-        vertical-align: middle;
+      > cx-icon {
+        margin-inline-start: 0.5rem;
       }
     }
   }

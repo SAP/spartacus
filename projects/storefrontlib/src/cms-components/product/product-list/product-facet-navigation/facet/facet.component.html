@@ -1,0 +1,48 @@
+<cx-facet-heading [facet]="facet"></cx-facet-heading>
+
+<ng-container *ngIf="state$ | async as state">
+  <a
+    *ngFor="let value of facet.values | slice: 0:state.top"
+    routerLink="./"
+    [queryParams]="getLinkParams(value)"
+    class="value"
+    [class.selected]="value.selected"
+  >
+    <span
+      >{{ value.name }}<span class="count">{{ value.count }}</span></span
+    >
+  </a>
+
+  <div class="more">
+    <a
+      *ngFor="let value of facet.values | slice: state.top:state.visible"
+      routerLink="./"
+      [queryParams]="getLinkParams(value)"
+      class="value"
+      [class.selected]="value.selected"
+    >
+      <span
+        >{{ value.name }}<span class="count">{{ value.count }}</span></span
+      >
+    </a>
+    <a
+      *ngIf="state.visible > state.top"
+      (click)="decreaseCount()"
+      (keydown.enter)="decreaseCount()"
+      (keydown.space)="decreaseCount()"
+      tabindex="0"
+    >
+      {{ 'productList.showLess' | cxTranslate }}
+    </a>
+
+    <a
+      *ngIf="state.visible > 0 && state.visible < facet.values.length"
+      (click)="increaseCount()"
+      (keydown.enter)="increaseCount()"
+      (keydown.space)="increaseCount()"
+      tabindex="0"
+    >
+      {{ 'productList.showMore' | cxTranslate }}
+    </a>
+  </div>
+</ng-container>

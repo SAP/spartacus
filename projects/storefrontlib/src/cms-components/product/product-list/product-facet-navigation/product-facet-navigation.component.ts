@@ -1,115 +1,45 @@
-import { HttpUrlEncodingCodec } from '@angular/common/http';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Facet, ProductSearchPage } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { Breadcrumb, Facet } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
-import { ModalService } from '../../../../shared/components/modal/index';
-import { ProductListComponentService } from '../container/product-list-component.service';
+import { FacetService } from './facet.service';
+import { ProductFacetService } from './product-facet.service';
 
 @Component({
   selector: 'cx-product-facet-navigation',
   templateUrl: './product-facet-navigation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
-  private sub: Subscription;
-
+export class ProductFacetNavigationComponent {
   iconTypes = ICON_TYPE;
 
-  activeFacetValueCode: string;
-  searchResult: ProductSearchPage;
-  showAllPerFacetMap: Map<String, boolean>;
-  protected queryCodec: HttpUrlEncodingCodec;
-  private collapsedFacets = new Set<string>();
-  searchResult$: Observable<ProductSearchPage>;
-  visibleFacets$: Observable<Facet[]>;
+  /** indicates that the navigation is opened, typically used in mobile */
+  showNav = false;
+
+  facets$: Observable<Facet[]> = this.productFacetService.facets$;
+
+  activeFacets$: Observable<Breadcrumb[]> = this.productFacetService
+    .breadcrumbs$;
+
+  @HostBinding('class.container') container = true;
 
   constructor(
-    private modalService: ModalService,
-    private activatedRoute: ActivatedRoute,
-    private productListComponentService: ProductListComponentService
-  ) {
-    this.showAllPerFacetMap = new Map<String, boolean>();
-    this.queryCodec = new HttpUrlEncodingCodec();
+    private productFacetService: ProductFacetService,
+    protected facetService: FacetService
+  ) {}
+
+  getLinkParams(facet: Breadcrumb) {
+    return this.facetService.getLinkParams(facet.removeQuery.query.value);
   }
 
-  ngOnInit(): void {
-    this.sub = this.activatedRoute.params.subscribe(params => {
-      this.activeFacetValueCode = params.categoryCode || params.brandCode;
-    });
-
-    this.searchResult$ = this.productListComponentService.model$.pipe(
-      tap(searchResult => {
-        if (searchResult.facets) {
-          searchResult.facets.forEach(el => {
-            this.showAllPerFacetMap.set(el.name, false);
-          });
-        }
-      })
-    );
-
-    this.visibleFacets$ = this.searchResult$.pipe(
-      map(searchResult => {
-        return searchResult.facets
-          ? searchResult.facets.filter(facet => facet.visible)
-          : [];
-      })
-    );
+  toggleBreadcrumb(breadcrumb: Breadcrumb): void {
+    this.facetService.toggleValue(breadcrumb.removeQuery);
   }
 
-  openFilterModal(content): void {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  toggleNavigation() {
+    this.showNav = !this.showNav;
   }
-
-  toggleValue(query: string): void {
-    this.productListComponentService.setQuery(
-      this.queryCodec.decodeValue(query)
-    );
-  }
-
-  showLess(facetName: String): void {
-    this.updateShowAllPerFacetMap(facetName, false);
-  }
-
-  showMore(facetName: String): void {
-    this.updateShowAllPerFacetMap(facetName, true);
-  }
-
-  private updateShowAllPerFacetMap(facetName: String, showAll: boolean): void {
-    this.showAllPerFacetMap.set(facetName, showAll);
-  }
-
-  isFacetCollapsed(facetName: string): boolean {
-    return this.collapsedFacets.has(facetName);
-  }
-
-  toggleFacet(facetName: string): void {
-    if (this.collapsedFacets.has(facetName)) {
-      this.collapsedFacets.delete(facetName);
-    } else {
-      this.collapsedFacets.add(facetName);
-    }
-  }
-
-  getVisibleFacetValues(facet: Facet): Facet[] {
-    return facet.values.slice(
-      0,
-      this.showAllPerFacetMap.get(facet.name)
-        ? facet.values.length
-        : facet.topValueCount
-    );
-  }
-
-  ngOnDestroy() {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
+  focus(el) {
+    console.log(el);
   }
 }
