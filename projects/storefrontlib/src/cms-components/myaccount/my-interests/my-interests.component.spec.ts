@@ -1,29 +1,50 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MyInterestsComponent } from './my-interests.component';
 import {
-  PipeTransform,
-  Pipe,
   Component,
   DebugElement,
+  EventEmitter,
   Input,
+  Output,
+  Pipe,
+  PipeTransform,
 } from '@angular/core';
-import { of, Observable } from 'rxjs';
-import { LayoutConfig } from '../../../layout/config/layout-config';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
-  ProductInterestSearchResult,
-  OccConfig,
   ImageType,
-  UserInterestsService,
-  ProductInterestEntryRelation,
   NotificationType,
-  ProductService,
+  OccConfig,
   Product,
+  ProductInterestEntryRelation,
+  ProductInterestSearchResult,
+  ProductService,
+  UserInterestsService,
 } from '@spartacus/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
-import { By } from '@angular/platform-browser';
 import { cold, getTestScheduler } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
+import { LayoutConfig } from '../../../layout/config/layout-config';
+import { MyInterestsComponent } from './my-interests.component';
+
+@Component({
+  template: '',
+  selector: 'cx-pagination',
+})
+class MockPaginationComponent {
+  @Input() pagination;
+  @Output() viewPageEvent = new EventEmitter<string>();
+}
+@Component({
+  template: '',
+  selector: 'cx-sorting',
+})
+class MockSortingComponent {
+  @Input() sortOptions;
+  @Input() sortLabels;
+  @Input() selectedOption;
+  @Input() placeholder;
+  @Output() sortListEvent = new EventEmitter<string>();
+}
 
 @Component({
   template: '',
@@ -176,7 +197,7 @@ describe('MyInterestsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ListNavigationModule, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       providers: [
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: LayoutConfig, useValue: MockLayoutConfig },
@@ -188,6 +209,8 @@ describe('MyInterestsComponent', () => {
         MockUrlPipe,
         MockMediaComponent,
         MockSpinnerComponent,
+        MockPaginationComponent,
+        MockSortingComponent,
       ],
     }).compileComponents();
   }));
