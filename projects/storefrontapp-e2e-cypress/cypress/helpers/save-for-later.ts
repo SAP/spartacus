@@ -102,11 +102,7 @@ export function removeItem(product, position: ItemList) {
 
 export function validateProduct(product, qty = 1, position: ItemList) {
   return getItem(product, position).within(() => {
-    if (position === ItemList.Cart) {
-      cy.get('cx-item-counter input').should('have.value', `${qty}`);
-    } else {
-      cy.get('.cx-quantity').should('contain', `${qty}`);
-    }
+    cy.get('cx-item-counter input').should('have.value', `${qty}`);
     cy.get('.cx-total .cx-value').should('exist');
   });
 }
