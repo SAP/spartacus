@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ProductSearchPage } from '../../../../model/product-search.model';
+import {
+  Facet,
+  ProductSearchPage,
+} from '../../../../model/product-search.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import {
   Converter,
@@ -12,6 +15,12 @@ export class OccProductSearchPageNormalizer
   implements Converter<Occ.ProductSearchPage, ProductSearchPage> {
   constructor(private converterService: ConverterService) {}
 
+  /**
+   * Specifies the minimal number of top values in case
+   * non have been setup by the business.
+   */
+  protected DEFAULT_TOP_VALUES = 6;
+
   convert(
     source: Occ.ProductSearchPage,
     target: ProductSearchPage = {}
@@ -21,6 +30,7 @@ export class OccProductSearchPageNormalizer
       ...(source as any),
     };
     this.normalizeUselessFacets(target);
+    this.normalizeFacetValues(source, target);
     if (source.products) {
       target.products = source.products.map(product =>
         this.converterService.convert(product, PRODUCT_NORMALIZER)
@@ -32,7 +42,6 @@ export class OccProductSearchPageNormalizer
   /**
    * The (current) backend returns facets with values that do not contribute
    * to the facet navigation much, as the number in the result list will not get
-   * affected when they got applied. A ticket has been created to fix this
    * behaviour, see https://jira.hybris.com/browse/CS-427.
    *
    * As long as this is not in place, we manually filter the facet from the list;
@@ -55,5 +64,29 @@ export class OccProductSearchPageNormalizer
         );
       })
     );
+  }
+
+  /*
+   * In case there are so-called `topValues` given for the facet values,
+   * values are obsolete.
+   *
+   * `topValues` is a feature in Adaptive Search which can limit a large
+   * amount of facet values to a small set (5 by default). As long as the backend
+   * provides all facet values AND topValues, we normalize the data to not bother
+   * the UI with this specific feature.
+   */
+  private normalizeFacetValues(
+    source: Occ.ProductSearchPage,
+    target: ProductSearchPage
+  ): void {
+    if (target.facets) {
+      target.facets = source.facets.map((facetSource: Facet) => {
+        const { topValues, ...facetTarget } = facetSource;
+        facetTarget.topValueCount = topValues
+          ? topValues.length
+          : this.DEFAULT_TOP_VALUES;
+        return facetTarget;
+      });
+    }
   }
 }
