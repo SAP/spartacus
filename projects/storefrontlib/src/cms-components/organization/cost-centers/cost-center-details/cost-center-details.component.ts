@@ -16,6 +16,7 @@ export class CostCenterDetailsComponent implements OnInit {
   ) {}
 
   costCenter$: Observable<CostCenter>;
+  budgets$;
   costCenterCode$: Observable<
     string
   > = this.routingService
@@ -25,9 +26,14 @@ export class CostCenterDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.costCenter$ = this.costCenterCode$.pipe(
       tap(code => this.costCentersService.loadCostCenter(code)),
-      tap(code => this.costCentersService.loadBudgets(code, {})),
       switchMap(code => this.costCentersService.get(code)),
       filter(Boolean)
+    );
+    this.budgets$ = this.costCenterCode$.pipe(
+      tap(code => this.costCentersService.loadBudgets(code, {})),
+      switchMap(code => this.costCentersService.getBudgets(code, {})),
+      filter(Boolean),
+      tap(console.log)
     );
   }
 

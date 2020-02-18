@@ -28,7 +28,7 @@ export function denormalizeB2BSearch<T>(
   state: Management<T>,
   params?: B2BSearchConfig
 ): LoaderState<EntitiesModel<T>> {
-  return denormalizeCustomB2BSearch(state.list, state.entities, params);
+  return denormalizeCustomB2BSearch<T>(state.list, state.entities, params);
 }
 
 export function denormalizeCustomB2BSearch<T>(

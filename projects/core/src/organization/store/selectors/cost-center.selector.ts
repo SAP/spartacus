@@ -1,6 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { CostCenter } from '../../../model/cost-center.model';
 import { EntitiesModel } from '../../../model/misc.model';
+import { Budget } from '../../../model/budget.model';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
@@ -17,7 +18,6 @@ import {
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
 import { getBudgetsState } from './budget.selector';
-import { Budget } from 'projects/core/src/model/budget.model';
 
 export const getCostCenterManagementState: MemoizedSelector<
   StateWithOrganization,
