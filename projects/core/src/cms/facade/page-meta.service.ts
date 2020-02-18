@@ -1,6 +1,7 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
+import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
@@ -13,14 +14,15 @@ export class PageMetaService {
     @Optional()
     @Inject(PageMetaResolver)
     protected resolvers: PageMetaResolver[],
-    protected cms: CmsService
+    protected cms: CmsService,
+    protected featureConfigService?: FeatureConfigService
   ) {
     this.resolvers = this.resolvers || [];
   }
   /**
    * The list of resolver interfaces will be evaluated for the pageResolvers.
    *
-   * TODO: optimize browser vs SSR resolvers; image, robots and description
+   * TOOD: optimize browser vs SSR resolvers; image, robots and description
    *       aren't needed during browsing.
    * TODO: we can make the list of resolver types configurable
    */
@@ -54,7 +56,10 @@ export class PageMetaService {
    * @param metaResolver
    */
   private resolve(metaResolver): Observable<PageMeta> {
-    if (!metaResolver.resolve) {
+    if (
+      metaResolver.resolve &&
+      (!this.featureConfigService || !this.featureConfigService.isLevel('1.3'))
+    ) {
       return metaResolver.resolve();
     } else {
       // resolve individual resolvers to make the extension mechanism more flexible
