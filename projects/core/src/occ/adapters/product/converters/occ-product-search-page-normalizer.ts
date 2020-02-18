@@ -29,8 +29,8 @@ export class OccProductSearchPageNormalizer
       ...target,
       ...(source as any),
     };
-    this.normalizeUselessFacets(target);
-    this.normalizeFacetValues(source, target);
+
+    this.normalizeFacets(target);
     if (source.products) {
       target.products = source.products.map(product =>
         this.converterService.convert(product, PRODUCT_NORMALIZER)
@@ -39,6 +39,10 @@ export class OccProductSearchPageNormalizer
     return target;
   }
 
+  private normalizeFacets(target: ProductSearchPage): void {
+    this.normalizeFacetValues(target);
+    this.normalizeUselessFacets(target);
+  }
   /**
    * The (current) backend returns facets with values that do not contribute
    * to the facet navigation much, as the number in the result list will not get
@@ -49,21 +53,19 @@ export class OccProductSearchPageNormalizer
    * the facets.
    */
   private normalizeUselessFacets(target: ProductSearchPage): void {
-    target.facets = [].concat(
-      target.facets.filter(facet => {
-        return (
-          !target.pagination ||
-          !target.pagination.totalResults ||
-          ((!facet.hasOwnProperty('visible') || facet.visible) &&
-            facet.values &&
-            facet.values.find(value => {
-              return (
-                value.selected || value.count < target.pagination.totalResults
-              );
-            }))
-        );
-      })
-    );
+    target.facets = target.facets.filter(facet => {
+      return (
+        !target.pagination ||
+        !target.pagination.totalResults ||
+        ((!facet.hasOwnProperty('visible') || facet.visible) &&
+          facet.values &&
+          facet.values.find(value => {
+            return (
+              value.selected || value.count < target.pagination.totalResults
+            );
+          }))
+      );
+    });
   }
 
   /*
@@ -75,12 +77,9 @@ export class OccProductSearchPageNormalizer
    * provides all facet values AND topValues, we normalize the data to not bother
    * the UI with this specific feature.
    */
-  private normalizeFacetValues(
-    source: Occ.ProductSearchPage,
-    target: ProductSearchPage
-  ): void {
+  private normalizeFacetValues(target: ProductSearchPage): void {
     if (target.facets) {
-      target.facets = source.facets.map((facetSource: Facet) => {
+      target.facets = target.facets.map((facetSource: Facet) => {
         const { topValues, ...facetTarget } = facetSource;
         facetTarget.topValueCount = topValues
           ? topValues.length
