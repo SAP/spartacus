@@ -36,6 +36,11 @@ describe('Global Messages selectors', () => {
     type: GlobalMessageType.MSG_TYPE_ERROR,
   };
 
+  const testMessageWarning: GlobalMessage = {
+    text: { raw: 'testWarning' },
+    type: GlobalMessageType.MSG_TYPE_WARNING,
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -104,6 +109,8 @@ describe('Global Messages selectors', () => {
 
       store.dispatch(new GlobalMessageActions.AddMessage(testMessageError));
       expect(result).toEqual(undefined);
+      store.dispatch(new GlobalMessageActions.AddMessage(testMessageWarning));
+      expect(result).toEqual(undefined);
       store.dispatch(
         new GlobalMessageActions.AddMessage(testMessageConfirmation)
       );
@@ -132,6 +139,8 @@ describe('Global Messages selectors', () => {
         });
 
       store.dispatch(new GlobalMessageActions.AddMessage(testMessageError));
+      expect(result).toBe(undefined);
+      store.dispatch(new GlobalMessageActions.AddMessage(testMessageWarning));
       expect(result).toBe(undefined);
       store.dispatch(
         new GlobalMessageActions.AddMessage(testMessageConfirmation)

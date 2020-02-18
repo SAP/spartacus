@@ -42,13 +42,13 @@ export function productRatingFlow(mobile?: string) {
   );
 
   // Navigate to previous page
-  cy.get('.page-item:first-of-type .page-link:first').click();
+  cy.get('cx-pagination a.current')
+    .prev()
+    .first()
+    .click();
   cy.wait('@query-topRated');
 
-  cy.get('.page-item.active > .page-link').should(
-    'contain',
-    `${topResultQuery}`
-  );
+  cy.get('cx-pagination a.current').should('contain', `${topResultQuery}`);
 
   assertFirstProduct();
 
