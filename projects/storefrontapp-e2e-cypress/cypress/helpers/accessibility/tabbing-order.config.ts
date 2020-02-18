@@ -1919,10 +1919,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Micro Webcam',
       type: TabbingOrderTypes.LINK,
     },
-    {
-      value: 'Back',
-      type: TabbingOrderTypes.BUTTON,
-    },
   ],
   consignmentTrackingEvents: [
     {
