@@ -98,7 +98,7 @@ export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
     }
   }
 
-  getVisibleFacetValues(facet: Facet): any {
+  getVisibleFacetValues(facet: Facet): Facet[] {
     return facet.values.slice(
       0,
       this.showAllPerFacetMap.get(facet.name)
