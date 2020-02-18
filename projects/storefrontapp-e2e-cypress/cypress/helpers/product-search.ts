@@ -10,6 +10,8 @@ export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
 export const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
 
+const searchUrlPrefix = `${apiUrl}/rest/v2/electronics-spa/products/search`;
+
 export function clickSearchIcon() {
   cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
 }
@@ -191,13 +193,11 @@ export function checkFirstItem(productName: string): void {
     .should('contain', productName);
 }
 
-const searchUrlPrefix = `${apiUrl}/rest/v2/electronics-spa/products/search`;
-
-export function createCameraQuery(alias: string): void {
+function createCameraQuery(alias: string): void {
   cy.route('GET', `${searchUrlPrefix}?fields=*&query=camera*`).as(alias);
 }
 
-export function createFacetFilterQuery(alias: string): void {
+function createFacetFilterQuery(alias: string): void {
   cy.route(
     'GET',
     `${searchUrlPrefix}?fields=*&query=camera:relevance:availableInStores*`
