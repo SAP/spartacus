@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import {
+  CancellationRequestEntryInputList,
   Order,
   OrderHistoryList,
   ReturnRequest,
   ReturnRequestEntryInputList,
-  CancellationRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
 } from '../../../model/order.model';
@@ -38,10 +38,12 @@ export abstract class UserOrderAdapter {
    * Abstract method used to get consignment tracking details
    * @param orderCode an order code
    * @param consignmentCode a consignment code
+   * @param userId user id related to order
    */
   abstract getConsignmentTracking(
     orderCode: string,
-    consignmentCode: string
+    consignmentCode: string,
+    userId?: string
   ): Observable<ConsignmentTracking>;
 
   /**

@@ -20,12 +20,12 @@ const firstCheckBoxPosition = 0;
 const secondCheckBoxPosition = 1;
 
 export const MARKETING_NEWSLETTER = 'MARKETING_NEWSLETTER';
-export const PERSONALIZATION = 'PERSONALIZATION';
+export const PROFILE = 'PROFILE';
 export const STORE_USER_INFORMATION = 'STORE_USER_INFORMATION';
 export const noLegalDescriptionInDialog = false;
 export const displayLegalDescriptionInDialog = true;
 
-const personalizationConsentLabel = 'personalization';
+const personalizationConsentLabel = 'personalised';
 const userGiveConsentRegistrationTest: RegisterUser = {
   firstName: 'John',
   lastName: 'Doe',

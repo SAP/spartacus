@@ -131,7 +131,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   // delete a product and check if the total is updated
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', 'F 100mm f/2.8L Macro IS USM')
-    .find('.cx-actions .link')
+    .find('.cx-actions .cx-remove-btn > .link')
     .click();
   cy.get('cx-cart-details').should('contain', 'Cart #');
 
@@ -170,7 +170,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   // delete the last product in cart
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', productName2)
-    .find('.cx-actions .link')
+    .find('.cx-actions .cx-remove-btn > .link')
     .click();
 
   // check if the cart is empty
@@ -200,7 +200,7 @@ export function refreshPage() {
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', 'F 100mm f/2.8L Macro IS USM')
-    .find('.cx-actions .link')
+    .find('.cx-actions .cx-remove-btn > .link')
     .click();
   cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
 }
