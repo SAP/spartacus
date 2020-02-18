@@ -29,7 +29,7 @@ export class OccProductSearchPageNormalizer
       ...target,
       ...(source as any),
     };
-    this.normalizeFacetValues(target);
+    this.normalizeFacetValues(source, target);
     if (source.products) {
       target.products = source.products.map(product =>
         this.converterService.convert(product, PRODUCT_NORMALIZER)
@@ -41,25 +41,25 @@ export class OccProductSearchPageNormalizer
   /**
    *
    * In case there are so-called `topValues` given for the facet values,
-   * we replace the facet values by the topValues, simple because the
+   * we replace the facet values by the topValues, simply because the
    * values are obsolete.
    *
-   * `topValues` is a feature in the adaptive search which can limit a large
+   * `topValues` is a feature in Adaptive Search which can limit a large
    * amount of facet values to a small set (5 by default). As long as the backend
    * provides all facet values AND topValues, we normalize the data to not bother
    * the UI with this specific feature.
    */
-  private normalizeFacetValues(target: ProductSearchPage): void {
+  private normalizeFacetValues(
+    source: Occ.ProductSearchPage,
+    target: ProductSearchPage
+  ): void {
     if (target.facets) {
-      target.facets.map((facet: Facet) => {
-        if ((<any>facet).topValues) {
-          facet.topValueCount = (<any>facet).topValues.length;
-          // no need to keep the array of topValues, as they duplicate the data.
-          delete (<any>facet).topValues;
-        } else {
-          facet.topValueCount = this.DEFAULT_TOP_VALUES;
-        }
-        return facet;
+      target.facets = source.facets.map((facetSource: Facet) => {
+        const { topValues, ...facetTarget } = facetSource;
+        facetTarget.topValueCount = topValues
+          ? topValues.length
+          : this.DEFAULT_TOP_VALUES;
+        return facetTarget;
       });
     }
   }
