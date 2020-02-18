@@ -63,6 +63,7 @@ describe('GlobalMessageService', () => {
       new GlobalMessageActions.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: { raw: 'Test error message' },
+        duration: undefined,
       })
     );
   });
@@ -76,6 +77,18 @@ describe('GlobalMessageService', () => {
       new GlobalMessageActions.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: { key: 'test.key', params: { param: 'value' } },
+        duration: undefined,
+      })
+    );
+  });
+
+  it('Should be able to add a message with a duration', () => {
+    service.add('Test error message', GlobalMessageType.MSG_TYPE_ERROR, 10000);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new GlobalMessageActions.AddMessage({
+        type: GlobalMessageType.MSG_TYPE_ERROR,
+        text: { raw: 'Test error message' },
+        duration: 10000,
       })
     );
   });

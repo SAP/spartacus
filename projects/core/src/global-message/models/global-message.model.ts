@@ -10,4 +10,5 @@ export enum GlobalMessageType {
 export interface GlobalMessage {
   text: Translatable;
   type: GlobalMessageType;
+  duration?: number;
 }

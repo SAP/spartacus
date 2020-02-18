@@ -5,6 +5,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import * as operators from 'rxjs/operators';
+import * as utils from '../../../util/compare-equal-objects';
 import { defaultGlobalMessageConfigFactory } from '../../config/default-global-message-config';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import {
@@ -17,7 +18,6 @@ import {
   GLOBAL_MESSAGE_FEATURE,
   StateWithGlobalMessage,
 } from '../global-message-state';
-import * as utils from '../../../util/compare-equal-objects';
 
 function spyOnOperator(obj: any, prop: string): any {
   const oldProp: Function = obj[prop];
@@ -43,6 +43,12 @@ const message2: GlobalMessage = {
 const errorMessage: GlobalMessage = {
   text: { key: 'error' },
   type: GlobalMessageType.MSG_TYPE_ERROR,
+};
+
+const messageWithDuration: GlobalMessage = {
+  text: { raw: 'Test message' },
+  type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+  duration: 10000,
 };
 
 describe('GlobalMessage Effects', () => {
@@ -119,6 +125,22 @@ describe('GlobalMessage Effects', () => {
       ]);
     });
   });
+
+  it('should hide message after duration defined in message model', () => {
+    spyOnOperator(operators, 'delay').and.returnValue(data => data);
+
+    const action = new GlobalMessageActions.AddMessage(messageWithDuration);
+    const completion = new GlobalMessageActions.RemoveMessage({
+      type: message.type,
+      index: 0,
+    });
+
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-b', { b: completion });
+    expect(effects.hideAfterDelay$).toBeObservable(expected);
+    expect(operators.delay).toHaveBeenCalledWith(messageWithDuration.duration);
+  });
+
   describe('removeDuplicated$', () => {
     it('should not remove message if there is only one', () => {
       spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(1);

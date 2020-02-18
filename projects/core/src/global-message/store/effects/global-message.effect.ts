@@ -1,3 +1,4 @@
+import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
@@ -12,21 +13,16 @@ import {
   take,
   withLatestFrom,
 } from 'rxjs/operators';
-
-import { GlobalMessageConfig } from '../../config/global-message-config';
-import {
-  GlobalMessage,
-  GlobalMessageType,
-} from '../../models/global-message.model';
-import { GlobalMessageActions } from '../actions/index';
-import { StateWithGlobalMessage } from '../global-message-state';
-import { GlobalMessageSelectors } from '../selectors/index';
+import { Translatable } from '../../../i18n/translatable';
 import {
   countOfDeepEqualObjects,
   indexOfFirstOccurrence,
 } from '../../../util/compare-equal-objects';
-import { Translatable } from '../../../i18n/translatable';
-import { isPlatformBrowser } from '@angular/common';
+import { GlobalMessageConfig } from '../../config/global-message-config';
+import { GlobalMessage } from '../../models/global-message.model';
+import { GlobalMessageActions } from '../actions/index';
+import { StateWithGlobalMessage } from '../global-message-state';
+import { GlobalMessageSelectors } from '../selectors/index';
 
 @Injectable()
 export class GlobalMessageEffect {
@@ -68,21 +64,26 @@ export class GlobalMessageEffect {
   > = isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
     ? this.actions$.pipe(
         ofType(GlobalMessageActions.ADD_MESSAGE),
-        pluck('payload', 'type'),
-        concatMap((type: GlobalMessageType) => {
-          const config = this.config.globalMessages[type];
+        pluck('payload'),
+        concatMap((message: GlobalMessage) => {
+          const config = this.config.globalMessages[message.type];
           return this.store.pipe(
-            select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
+            select(
+              GlobalMessageSelectors.getGlobalMessageCountByType(message.type)
+            ),
             take(1),
             filter(
               (count: number) =>
-                config && config.timeout !== undefined && count && count > 0
+                ((config && config.timeout !== undefined) ||
+                  message.duration) &&
+                count &&
+                count > 0
             ),
-            delay(config.timeout),
+            delay(message.duration || config.timeout),
             switchMap(() =>
               of(
                 new GlobalMessageActions.RemoveMessage({
-                  type,
+                  type: message.type,
                   index: 0,
                 })
               )
