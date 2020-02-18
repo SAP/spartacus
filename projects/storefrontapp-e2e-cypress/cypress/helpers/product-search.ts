@@ -191,31 +191,25 @@ export function checkFirstItem(productName: string): void {
     .should('contain', productName);
 }
 
+const searchUrlPrefix = `${apiUrl}/rest/v2/electronics-spa/products/search`;
+
 export function createCameraQuery(alias: string): void {
-  cy.route(
-    'GET',
-    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=camera*`
-  ).as(alias);
+  cy.route('GET', `${searchUrlPrefix}?fields=*&query=camera*`).as(alias);
 }
 
 export function createFacetFilterQuery(alias: string): void {
   cy.route(
     'GET',
-    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=camera:relevance:availableInStores*`
+    `${searchUrlPrefix}?fields=*&query=camera:relevance:availableInStores*`
   ).as(alias);
 }
 
 export function createProductQuery(alias: string): void {
-  cy.route('GET', `${apiUrl}/rest/v2/electronics-spa/products/search*`).as(
-    alias
-  );
+  cy.route('GET', `${searchUrlPrefix}*`).as(alias);
 }
 
 export function createProductSortQuery(sort: string, alias: string): void {
-  cy.route(
-    'GET',
-    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&sort=${sort}*`
-  ).as(alias);
+  cy.route('GET', `${searchUrlPrefix}?fields=*&sort=${sort}*`).as(alias);
 }
 
 export function createProductFacetQuery(
@@ -225,6 +219,6 @@ export function createProductFacetQuery(
 ): void {
   cy.route(
     'GET',
-    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=${search}:relevance:${param}*`
+    `${searchUrlPrefix}?fields=*&query=${search}:relevance:${param}*`
   ).as(alias);
 }
