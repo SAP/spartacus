@@ -49,6 +49,7 @@ import {
   checkoutAppliedCouponsTabbingOrder,
   checkoutCouponsTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/coupons';
+import { checkoutMyCouponsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-coupons';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -308,6 +309,12 @@ describe('Tabbing order - tests do require user to be logged in', () => {
 
     it('should allow to navigate with tab key (applied coupons)', () => {
       checkoutAppliedCouponsTabbingOrder(config.appliedCoupons);
+    });
+  });
+
+  context('My-coupons', () => {
+    it.only('should allow to navigate with tab key', () => {
+      checkoutMyCouponsTabbingOrder(config.myCoupons);
     });
   });
 });
