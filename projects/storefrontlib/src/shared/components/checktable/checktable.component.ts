@@ -1,15 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'cx-checktable',
   templateUrl: './checktable.component.html',
-  styleUrls: ['./checktable.component.css']
 })
-export class ChecktableComponent implements OnInit {
+export class ChecktableComponent {
+  @Input()
+  columns: Array<{
+    key: string;
+    value: string;
+    cxRoute?: string;
+    checked?: boolean;
+  }>;
 
-  constructor() { }
+  @Input()
+  tableData: Array<any>;
 
-  ngOnInit() {
+  @Output() toggle = new EventEmitter<any[]>();
+
+  selectedValues: Array<any>;
+
+  onToggle() {
+    const checkedOptions = this.tableData.filter(x => x.options);
+    // console.log(checkedOptions);
+    // this.selectedValues = checkedOptions.map(x => x.code);
+    // console.log(this.selectedValues);
+    this.toggle.emit(checkedOptions);
   }
 
+  // ngOnChanges() {
+  //   this.selectedValues.forEach(value => {
+  //     const element = this.tableData.find(x => x.value === value);
+  //     if (element) {
+  //       element.checked = true;
+  //     }
+  //    });
+  // }
 }
