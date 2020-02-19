@@ -14,7 +14,7 @@
   },
   "angularCompilerOptions": {
     "entryModule": "src/app/app.server.module#AppServerModule",
-    "enableIvy": false,
+    "enableIvy": false
   },
   "files": ["src/main.server.ts"],
   "include": ["projects/storefrontapp/src/**/*.d.ts"]
