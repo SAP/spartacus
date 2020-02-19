@@ -130,6 +130,17 @@ export function registerCreateCartRoute() {
   ).as('create_cart');
 }
 
+export function registerSaveCartRoute() {
+  cy.server();
+
+  cy.route(
+    'PATCH',
+    `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics-spa/users/*/carts/*/save?lang=en&curr=USD`
+  ).as('save_cart');
+}
+
 export function closeAddedToCartDialog() {
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 }
@@ -218,6 +229,7 @@ export function addProductWhenLoggedIn(mobile: boolean) {
 
   goToFirstProductFromSearch(product.code, mobile);
   cy.wait('@create_cart');
+  cy.wait('@save_cart');
   addToCart();
   checkAddedToCartDialog();
   closeAddedToCartDialog();
