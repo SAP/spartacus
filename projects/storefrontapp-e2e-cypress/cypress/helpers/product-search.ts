@@ -10,7 +10,7 @@ export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
 export const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
 
-const searchUrlPrefix = `${apiUrl}/rest/v2/electronics-spa/products/search`;
+export const searchUrlPrefix = `${apiUrl}/rest/v2/electronics-spa/products/search`;
 
 export function clickSearchIcon() {
   cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
@@ -204,12 +204,21 @@ function createFacetFilterQuery(alias: string): void {
   ).as(alias);
 }
 
-export function createProductQuery(alias: string): void {
-  cy.route('GET', `${searchUrlPrefix}*`).as(alias);
-}
-
 export function createProductSortQuery(sort: string, alias: string): void {
   cy.route('GET', `${searchUrlPrefix}?fields=*&sort=${sort}*`).as(alias);
+}
+
+//&query=:relevance:category:576&pageSize=10&currentPage=1&lang=en&curr=USD
+export function createCategoryPaginationQuery(
+  alias: string,
+  categoryId: string,
+  pageSize: number,
+  currentPage: string
+): void {
+  cy.route(
+    'GET',
+    `${searchUrlPrefix}?fields=*&query=:relevance:category:${categoryId}&pageSize=${pageSize}&currentPage=${currentPage}&lang=en&curr=USD`
+  ).as(alias);
 }
 
 export function createProductFacetQuery(
