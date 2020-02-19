@@ -4,20 +4,17 @@ import { ActivatedRoute } from '@angular/router';
 import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
-import {
-  CheckoutConfig,
-  DeliveryModePreferences,
-} from '../config/checkout-config';
+import { CheckoutConfig, DeliveryModePreferences } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
 import { CheckoutStep } from '../model';
 import { CheckoutConfigService } from './checkout-config.service';
 
-const mockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
+const mockCheckoutConfig: CheckoutConfig = JSON.parse(JSON.stringify(defaultCheckoutConfig));
 
 const mockCheckoutSteps: Array<CheckoutStep> =
-  defaultCheckoutConfig.checkout.steps;
+  mockCheckoutConfig.checkout.steps;
 
-const mockRoutingConfig: RoutesConfig = defaultStorefrontRoutesConfig;
+const mockRoutingConfig: RoutesConfig = JSON.parse(JSON.stringify(defaultStorefrontRoutesConfig));
 
 class MockActivatedRoute {
   snapshot = of();
@@ -69,14 +66,12 @@ describe('CheckoutConfigService', () => {
     expect(service).toBeTruthy();
   });
 
-  // TODO: ng9fix
-  xit('should get checkout step by type', () => {
+  it('should get checkout step by type', () => {
     const type = mockCheckoutSteps[0].type[0];
     expect(service.getCheckoutStep(type)).toEqual(mockCheckoutSteps[0]);
   });
 
-  // TODO: ng9fix
-  xit('should get checkout step route by type', () => {
+  it('should get checkout step route by type', () => {
     const type = mockCheckoutSteps[0].type[0];
 
     expect(service.getCheckoutStepRoute(type)).toEqual(
@@ -84,15 +79,13 @@ describe('CheckoutConfigService', () => {
     );
   });
 
-  // TODO: ng9fix
-  xit('should get first checkout step route', () => {
+  it('should get first checkout step route', () => {
     expect(service.getFirstCheckoutStepRoute()).toEqual(
       mockCheckoutSteps[0].routeName
     );
   });
 
-  // TODO: ng9fix
-  xit('should get next checkout step url', () => {
+  it('should get next checkout step url', () => {
     const activeStepIndex = 1;
 
     spyOn<any>(service, 'getStepUrlFromActivatedRoute').and.returnValue(
@@ -110,8 +103,7 @@ describe('CheckoutConfigService', () => {
     );
   });
 
-  // TODO: ng9fix
-  xit('should get prev checkout step url', () => {
+  it('should get prev checkout step url', () => {
     const activeStepIndex = 1;
 
     spyOn<any>(service, 'getStepUrlFromActivatedRoute').and.returnValue(
@@ -129,8 +121,7 @@ describe('CheckoutConfigService', () => {
     );
   });
 
-  // TODO: ng9fix
-  xit('should return current step index', () => {
+  it('should return current step index', () => {
     const activeStepIndex = 1;
 
     spyOn<any>(service, 'getStepUrlFromActivatedRoute').and.returnValue(

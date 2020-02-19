@@ -10,8 +10,9 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { PaymentDetailsSetGuard } from './payment-details-set.guard';
 
-const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
-const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
+// deep copy to avoid issues with mutating imported symbols
+const MockCheckoutConfig: CheckoutConfig = JSON.parse(JSON.stringify(defaultCheckoutConfig));
+const MockRoutesConfig: RoutesConfig = JSON.parse(JSON.stringify(defaultStorefrontRoutesConfig));
 
 class MockCheckoutDetailsService {
   getPaymentDetails(): Observable<Order> {
@@ -64,8 +65,7 @@ describe(`PaymentDetailsSetGuard`, () => {
   });
 
   describe(`when there is NO payment details present`, () => {
-    // TODO: ng9fix
-    xit(`should navigate to payment details step`, done => {
+    it(`should navigate to payment details step`, done => {
       spyOn(mockCheckoutDetailsService, 'getPaymentDetails').and.returnValue(
         of({})
       );
