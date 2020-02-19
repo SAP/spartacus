@@ -1,6 +1,7 @@
 import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
 import { waitForPage } from './checkout-flow';
+import { createSpecificProductQuery } from './product-search';
 import { generateMail, randomString } from './user';
 
 interface TestProduct {
@@ -68,10 +69,18 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
   cy.get('cx-storefront.stop-navigating');
   if (mobile) {
     cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
+
+    createSpecificProductQuery(id, 'productCode_query');
+
     cy.get('cx-searchbox input')
       .clear({ force: true })
       .type(id, { force: true })
       .type('{enter}', { force: true });
+
+    cy.wait('@productCode_query')
+      .its('status')
+      .should('eq', 200);
+
     cy.get('cx-product-list-item')
       .first()
       .get('.cx-product-name')
@@ -255,9 +264,16 @@ export function logOutAndNavigateToEmptyCart() {
 export function addProductAsAnonymous() {
   const product = products[2];
 
+  createSpecificProductQuery(product.code, 'productCode_query');
+
   cy.get('cx-searchbox input').type(`${product.code}{enter}`, {
     force: true,
   });
+
+  cy.wait('@productCode_query')
+    .its('status')
+    .should('eq', 200);
+
   cy.get('cx-product-list')
     .contains('cx-product-list-item', product.name)
     .within(() => {

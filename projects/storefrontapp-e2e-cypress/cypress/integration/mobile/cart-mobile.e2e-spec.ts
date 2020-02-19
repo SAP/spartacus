@@ -26,6 +26,7 @@ describe(`${formats.mobile.width + 1}p resolution - Cart`, () => {
   });
 
   it('should add products to cart through search result page', () => {
+    cy.server();
     cart.addProductToCartViaSearchPage(true);
   });
 

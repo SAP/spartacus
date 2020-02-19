@@ -41,6 +41,7 @@ describe('Cart', () => {
   });
 
   it('should be saved in browser and restored on refresh', () => {
+    cy.server();
     cart.addProductAsAnonymous();
     cy.reload();
     cart.verifyCartNotEmpty();
@@ -227,7 +228,6 @@ describe('Cart', () => {
   });
 
   it('should use existing cart when adding new entries', () => {
-    cy.server();
     cy.visit(`/product/${cart.products[0].code}`);
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
     cart.addToCart();
@@ -242,15 +242,17 @@ describe('Cart', () => {
     cart.checkProductInCart(cart.products[1]);
 
     // cleanup
-    cy.route(
-      'GET',
-      `${apiUrl}/rest/v2/electronics-spa/users/anonymous/carts/*?fields=*&lang=en&curr=USD`
-    ).as('refresh_cart');
+    cart.registerCartRefreshRoute();
     cart.removeCartItem(cart.products[0]);
     cy.wait('@refresh_cart')
       .its('status')
       .should('eq', 200);
+
     cart.removeCartItem(cart.products[1]);
+    cy.wait('@refresh_cart')
+      .its('status')
+      .should('eq', 200);
+
     cart.validateEmptyCart();
   });
 
