@@ -177,7 +177,7 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
 export function addProductToCartViaSearchPage(mobile: boolean) {
   const product = products[0];
 
-  goToFirstProductFromSearch(product.code, mobile);
+  goToFirstProductFromSearch(product.type, mobile);
 
   addToCart();
 
