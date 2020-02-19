@@ -8,18 +8,19 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   B2bStorefrontModule,
   JsonLdBuilderModule,
   StorefrontComponent,
-  CheckoutStepType,
-  DeliveryModePreferences,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+
+import { b2cConfig } from './b2c-config';
+import { b2bConfig } from './b2b-config';
+
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -31,117 +32,9 @@ if (!environment.production) {
 
 const channelImports = [];
 if (environment.channel === 'b2b') {
-  channelImports.push(
-    B2bStorefrontModule.withConfig({
-      backend: {
-        occ: {
-          baseUrl: environment.occBaseUrl,
-          legacy: false,
-        },
-      },
-      context: {
-        urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: ['powertools-spa'],
-        channel: ['b2b'],
-      },
-
-      // custom routing configuration for e2e testing
-      routing: {
-        routes: {
-          product: {
-            paths: ['product/:productCode/:name', 'product/:productCode'],
-          },
-        },
-      },
-      // we bring in static translations to be up and running soon right away
-      i18n: {
-        resources: translations,
-        chunks: translationChunksConfig,
-        fallbackLang: 'en',
-      },
-      checkout: {
-        steps: [
-          {
-            id: 'paymentType',
-            name: 'checkoutProgress.paymentType',
-            routeName: 'checkoutPaymentType',
-            type: [CheckoutStepType.PAYMENT_TYPES],
-            enabled: true,
-          },
-          {
-            id: 'shippingAddress',
-            name: 'checkoutProgress.shippingAddress',
-            routeName: 'checkoutShippingAddress',
-            type: [CheckoutStepType.SHIPPING_ADDRESS],
-            enabled: true,
-          },
-          {
-            id: 'deliveryMode',
-            name: 'checkoutProgress.deliveryMode',
-            routeName: 'checkoutDeliveryMode',
-            type: [CheckoutStepType.DELIVERY_MODE],
-            enabled: true,
-          },
-          {
-            id: 'paymentDetails',
-            name: 'checkoutProgress.paymentDetails',
-            routeName: 'checkoutPaymentDetails',
-            type: [CheckoutStepType.PAYMENT_DETAILS],
-            enabled: true,
-          },
-          {
-            id: 'reviewOrder',
-            name: 'checkoutProgress.reviewOrder',
-            routeName: 'checkoutReviewOrder',
-            type: [CheckoutStepType.REVIEW_ORDER],
-            enabled: true,
-          },
-        ],
-        express: false,
-        defaultDeliveryMode: [DeliveryModePreferences.FREE],
-        guest: false,
-      },
-    })
-  );
+  channelImports.push(B2bStorefrontModule.withConfig(b2bConfig));
 } else {
-  channelImports.push(
-    B2cStorefrontModule.withConfig({
-      backend: {
-        occ: {
-          baseUrl: environment.occBaseUrl,
-          legacy: false,
-        },
-      },
-      context: {
-        urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: [
-          'electronics-spa',
-          'electronics',
-          'apparel-de',
-          'apparel-uk',
-        ],
-      },
-
-      // custom routing configuration for e2e testing
-      routing: {
-        routes: {
-          product: {
-            paths: ['product/:productCode/:name', 'product/:productCode'],
-          },
-        },
-      },
-      // we bring in static translations to be up and running soon right away
-      i18n: {
-        resources: translations,
-        chunks: translationChunksConfig,
-        fallbackLang: 'en',
-      },
-      features: {
-        level: '1.3',
-        anonymousConsents: true,
-      },
-    })
-  );
+  channelImports.push(B2cStorefrontModule.withConfig(b2cConfig));
 }
 
 @NgModule({
@@ -150,8 +43,8 @@ if (environment.channel === 'b2b') {
     BrowserTransferStateModule,
 
     JsonLdBuilderModule,
-    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
 
+    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...channelImports,

@@ -1,10 +1,19 @@
-import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 
 @Component({
   selector: 'cx-csagent-login-form',
   templateUrl: './csagent-login-form.component.html',
+  styleUrls: ['./csagent-login-form.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CSAgentLoginFormComponent implements OnInit {
   form: FormGroup;

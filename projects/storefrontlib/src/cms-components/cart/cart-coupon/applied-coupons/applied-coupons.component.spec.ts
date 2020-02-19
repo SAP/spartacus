@@ -96,8 +96,7 @@ describe('AppliedCouponsComponent', () => {
       const elValue = fixture.debugElement.queryAll(
         By.css('.cx-applied-coupon-code')
       );
-      expect(couponTitle).toContain('voucher.coupon');
-      expect(elValue.length).toBe(2);
+      expect(couponTitle).toContain('voucher.vouchersApplied');
       expect(elValue[0].nativeElement.innerText).toContain(coupon1.voucherCode);
       expect(elValue[1].nativeElement.innerText).toContain(coupon2.voucherCode);
     });

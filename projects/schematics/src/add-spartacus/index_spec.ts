@@ -123,6 +123,21 @@ describe('add-spartacus', () => {
       );
       expect(appModule.includes(`level: '1.5'`)).toBe(true);
     });
+
+    it('should enable auto-base site by omitting context property in config', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync(
+          'add-spartacus',
+          { ...defaultOptions, baseSite: '' },
+          appTree
+        )
+        .toPromise();
+      const appModule = tree.readContent(
+        '/projects/schematics-test/src/app/app.module.ts'
+      );
+
+      expect(appModule.includes(`context: {`)).toBeFalsy();
+    });
   });
 
   it('Import Spartacus styles to main.scss', async () => {

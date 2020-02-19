@@ -13,9 +13,5 @@ export class Logout implements Action {
   readonly type = LOGOUT;
 }
 
-export class LogoutCustomerSupportAgent implements Action {
-  readonly type = LOGOUT_CUSTOMER_SUPPORT_AGENT;
-}
-
 // action types
-export type LoginLogoutAction = Login | Logout | LogoutCustomerSupportAgent;
+export type LoginLogoutAction = Login | Logout;

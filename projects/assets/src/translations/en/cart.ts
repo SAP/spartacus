@@ -33,5 +33,15 @@ export const cart = {
     applyVoucherSuccess: '{{voucherCode}} has been applied.',
     removeVoucherSuccess: '{{voucherCode}} has been removed.',
     anchorLabel: 'Enter or remove your coupon code',
+    vouchersApplied: 'Applied coupons',
+  },
+  saveForLaterItems: {
+    itemTotal: 'Saved for later ({{count}} item)',
+    itemTotal_plural: 'Saved for later ({{count}} items)',
+    cartTitle: 'Cart',
+    saveForLater: 'Save For Later',
+    moveToCart: 'Move To Cart',
+    stock: 'Stock',
+    forceInStock: 'In Stock',
   },
 };

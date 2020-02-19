@@ -1,4 +1,13 @@
+/** 
+ * the mixins depend on variables, mainly because of some
+ * lower level bootstrap variables. Hence we import the variables here,
+ * to make the mixins resuable. In order to have the right variables
+ * we load variables through the theme import. 
+ */
+@import '../theme';
+
 @import '~bootstrap/scss/_mixins';
+
 @import './mixins/reset';
 @import './mixins/weight';
 @import './mixins/type';

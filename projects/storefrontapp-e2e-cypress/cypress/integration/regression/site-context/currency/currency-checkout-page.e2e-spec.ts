@@ -9,17 +9,24 @@ describe('Currency switch - checkout page', () => {
   const checkoutReviewPath = siteContextSelector.CHECKOUT_REVIEW_ORDER_PATH;
 
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then(win => {
+      win.sessionStorage.clear();
+      win.localStorage.clear();
+    });
     cy.requireLoggedIn();
-    cy.visit('/');
-    siteContextSelector.doPlaceOrder();
-    manipulateCartQuantity();
   });
 
   siteContextSelector.stub(
     siteContextSelector.CURRENCY_REQUEST,
     siteContextSelector.CURRENCIES
   );
+
+  describe('populate cart, history, quantity', () => {
+    it('should have basic data', () => {
+      siteContextSelector.doPlaceOrder();
+      manipulateCartQuantity();
+    });
+  });
 
   describe('checkout page', () => {
     it('should change currency in the shipping address url', () => {
@@ -44,7 +51,7 @@ describe('Currency switch - checkout page', () => {
     it('should change currency in the checkoutDeliveryPath page', () => {
       cy.get('cx-delivery-mode .cx-delivery-price:first').should(
         'have.text',
-        ' ¥80 '
+        ' ¥60 '
       );
 
       siteContextSelector.deliveryModeNextStep();

@@ -5,7 +5,7 @@ export const resultsTitleSelector = 'cx-breadcrumb h1';
 export const productItemSelector = 'cx-product-list cx-product-list-item';
 export const productNameSelector = 'cx-product-list-item .cx-product-name';
 export const firstProductItemSelector = `${productItemSelector}:first`;
-export const pageLinkSelector = '.page-item.active > .page-link';
+export const pageLinkSelector = 'cx-pagination a.current';
 export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
 export const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
@@ -40,8 +40,8 @@ export function verifyProductSearch(
     .should('match', /\w+/)
     .then(firstProduct => {
       // Navigate to next page
-      cy.get('.page-item:last-of-type .page-link:first').click();
-      cy.get('.page-item.active > .page-link').should('contain', '2');
+      nextPage();
+      cy.get(pageLinkSelector).should('contain', '2');
 
       cy.wait(productAlias);
 
@@ -51,14 +51,14 @@ export function verifyProductSearch(
 
       cy.wait(sortingAlias);
 
-      cy.get('.page-item.active > .page-link').should('contain', '2');
+      cy.get(pageLinkSelector).should('contain', '2');
 
       checkDistinctProductName(firstProduct);
     });
 }
 
 export function searchResult() {
-  cy.get(resultsTitleSelector).should('contain', '144 results for "camera"');
+  cy.get(resultsTitleSelector).should('contain', '143 results for "camera"');
   cy.get(productItemSelector).should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
@@ -69,17 +69,26 @@ export function searchResult() {
 }
 
 export function nextPage() {
-  cy.get('.page-item:last-of-type .page-link:first').click({ force: true });
+  cy.get(pageLinkSelector)
+    .next()
+    .first()
+    .click();
   cy.get(pageLinkSelector).should('contain', '2');
 }
 
 export function choosePage() {
-  cy.get('.page-item:nth-child(4) .page-link:first').click({ force: true });
+  cy.get('cx-pagination')
+    .contains(3)
+    .first()
+    .click();
   cy.get(pageLinkSelector).should('contain', '3');
 }
 
 export function previousPage() {
-  cy.get('.page-item:first-of-type .page-link:first').click({ force: true });
+  cy.get(pageLinkSelector)
+    .prev()
+    .first()
+    .click();
   cy.get(pageLinkSelector).should('contain', '2');
 }
 
@@ -100,7 +109,7 @@ export function filterUsingFacetFiltering() {
         .first()
         .click({ force: true });
     });
-  cy.get(resultsTitleSelector).should('contain', '79 results for "camera"');
+  cy.get(resultsTitleSelector).should('contain', '78 results for "camera"');
 }
 
 export function clearActiveFacet(mobile?: string) {
@@ -119,35 +128,45 @@ export function clearActiveFacet(mobile?: string) {
 export function sortByLowestPrice() {
   createProductSortQuery('price-asc', 'query_price_asc');
   cy.get(sortingOptionSelector).ngSelect('Price (lowest first)');
-  cy.wait('@query_price_asc');
+  cy.wait('@query_price_asc')
+    .its('status')
+    .should('eq', 200);
   cy.get(firstProductPriceSelector).should('contain', '$1.58');
 }
 
 export function sortByHighestPrice() {
   createProductSortQuery('price-desc', 'query_price_desc');
   cy.get(sortingOptionSelector).ngSelect('Price (highest first)');
-  cy.wait('@query_price_desc');
+  cy.wait('@query_price_desc')
+    .its('status')
+    .should('eq', 200);
   cy.get(firstProductPriceSelector).should('contain', '$6,030.71');
 }
 
 export function sortByNameAscending() {
   createProductSortQuery('name-asc', 'query_name_asc');
   cy.get(sortingOptionSelector).ngSelect('Name (ascending)');
-  cy.wait('@query_name_asc');
+  cy.wait('@query_name_asc')
+    .its('status')
+    .should('eq', 200);
   cy.get(firstProductNameSelector).should('contain', '10.2 Megapixel D-SLR');
 }
 
 export function sortByNameDescending() {
   createProductSortQuery('name-desc', 'query_name_desc');
   cy.get(sortingOptionSelector).ngSelect('Name (descending)');
-  cy.wait('@query_name_desc');
+  cy.wait('@query_name_desc')
+    .its('status')
+    .should('eq', 200);
   cy.get(firstProductNameSelector).should('contain', 'Wide Strap for EOS 450D');
 }
 
 export function sortByRelevance() {
   createProductSortQuery('relevance', 'query_relevance');
   cy.get(sortingOptionSelector).ngSelect('Relevance');
-  cy.wait('@query_relevance');
+  cy.wait('@query_relevance')
+    .its('status')
+    .should('eq', 200);
   cy.get(firstProductNameSelector).should('not.be.empty');
 }
 

@@ -20,7 +20,7 @@ import { SiteContextInterceptor } from './site-context.interceptor';
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: SiteContextInterceptor,
+      useExisting: SiteContextInterceptor,
       multi: true,
     },
   ],

@@ -9,16 +9,27 @@ describe('Payment Methods', () => {
     cy.window().then(win => win.sessionStorage.clear());
   });
 
-  checkAnonymous();
+  describe('Anonymous user', () => {
+    checkAnonymous();
+  });
 
-  describe('should go to payment details page for login user', () => {
+  describe('Authenticated user', () => {
     before(() => {
       cy.requireLoggedIn();
       cy.reload();
       cy.visit('/');
+
+      cy.server();
+      cy.route(
+        'GET',
+        '/rest/v2/electronics-spa/cms/pages*/my-account/payment-details*'
+      ).as('payment_details');
+
       cy.selectUserMenuOption({
         option: 'Payment Details',
       });
+
+      cy.wait('@payment_details');
     });
 
     beforeEach(() => {

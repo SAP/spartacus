@@ -4,5 +4,5 @@ context('ASM - Desktop', () => {
     cy.window().then(win => win.sessionStorage.clear());
   });
 
-  asm.asmTests();
+  asm.asmTests(false);
 });

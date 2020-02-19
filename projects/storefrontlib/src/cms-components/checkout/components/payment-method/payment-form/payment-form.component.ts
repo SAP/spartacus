@@ -17,6 +17,7 @@ import {
   Country,
   GlobalMessageService,
   GlobalMessageType,
+  LoaderState,
   UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -49,6 +50,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   cardTypes$: Observable<CardType[]>;
   shippingAddress$: Observable<Address>;
   countries$: Observable<Country[]>;
+  loading$: Observable<LoaderState<void>>;
   sameAsShippingAddress = true;
 
   @Input()
@@ -122,6 +124,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
 
     this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
+    this.loading$ = this.checkoutPaymentService.getSetPaymentDetailsResultProcess();
 
     this.checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
       (shouldShowCheckbox: boolean) => {
@@ -134,7 +137,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     this.addressVerifySub = this.checkoutDeliveryService
       .getAddressVerificationResults()
       .subscribe((results: AddressValidation) => {
-        if (results === 'FAIL') {
+        if (results.decision === 'FAIL') {
           this.checkoutDeliveryService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
           this.next();

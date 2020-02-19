@@ -1,15 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  filter,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
+import * as DeprecatedCartActions from '../../../cart/store/actions/cart.action';
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
-import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
+import {
+  OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
+} from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { withdrawOn } from '../../../util/withdraw-on';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
@@ -17,6 +29,13 @@ import { CheckoutActions } from '../actions/index';
 
 @Injectable()
 export class CheckoutEffects {
+  private contextChange$ = this.actions$.pipe(
+    ofType(
+      SiteContextActions.CURRENCY_CHANGE,
+      SiteContextActions.LANGUAGE_CHANGE
+    )
+  );
+
   @Effect()
   addDeliveryAddress$: Observable<
     | UserActions.LoadUserAddresses
@@ -63,7 +82,8 @@ export class CheckoutEffects {
             )
           )
         )
-    )
+    ),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -102,7 +122,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -127,15 +148,20 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
   clearCheckoutMiscsDataOnLanguageChange$: Observable<
-    CheckoutActions.CheckoutClearMiscsData
+    | CheckoutActions.CheckoutClearMiscsData
+    | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
   > = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
-    map(() => new CheckoutActions.CheckoutClearMiscsData())
+    mergeMap(() => [
+      new CheckoutActions.CheckoutClearMiscsData(),
+      new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
+    ])
   );
 
   @Effect()
@@ -166,7 +192,7 @@ export class CheckoutEffects {
   setDeliveryMode$: Observable<
     | CheckoutActions.SetDeliveryModeSuccess
     | CheckoutActions.SetDeliveryModeFail
-    | CartActions.LoadCart
+    | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
@@ -179,7 +205,7 @@ export class CheckoutEffects {
               new CheckoutActions.SetDeliveryModeSuccess(
                 payload.selectedModeId
               ),
-              new CartActions.LoadCart({
+              new DeprecatedCartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
@@ -193,7 +219,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -227,7 +254,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -255,7 +283,8 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -263,6 +292,7 @@ export class CheckoutEffects {
     | CheckoutActions.PlaceOrderSuccess
     | GlobalMessageActions.AddMessage
     | CheckoutActions.PlaceOrderFail
+    | CartActions.RemoveCart
   > = this.actions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
     map((action: any) => action.payload),
@@ -270,12 +300,16 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .placeOrder(payload.userId, payload.cartId)
         .pipe(
-          switchMap(data => [new CheckoutActions.PlaceOrderSuccess(data)]),
+          switchMap(data => [
+            new CartActions.RemoveCart(payload.cartId),
+            new CheckoutActions.PlaceOrderSuccess(data),
+          ]),
           catchError(error =>
             of(new CheckoutActions.PlaceOrderFail(makeErrorSerializable(error)))
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
@@ -301,19 +335,20 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
   reloadDetailsOnMergeCart$: Observable<
     CheckoutActions.LoadCheckoutDetails
   > = this.actions$.pipe(
-    ofType(CartActions.MERGE_CART_SUCCESS),
-    map((action: CartActions.MergeCartSuccess) => action.payload),
+    ofType(DeprecatedCartActions.MERGE_CART_SUCCESS),
+    map((action: DeprecatedCartActions.MergeCartSuccess) => action.payload),
     map(payload => {
       return new CheckoutActions.LoadCheckoutDetails({
         userId: payload.userId,
-        cartId: payload.cartId ? payload.cartId : 'current',
+        cartId: payload.cartId ? payload.cartId : OCC_CART_ID_CURRENT,
       });
     })
   );
@@ -341,18 +376,21 @@ export class CheckoutEffects {
             )
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   @Effect()
   clearCheckoutDeliveryMode$: Observable<
     | CheckoutActions.ClearCheckoutDeliveryModeFail
     | CheckoutActions.ClearCheckoutDeliveryModeSuccess
+    | CartActions.CartProcessesDecrement
+    | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
     map((action: CheckoutActions.ClearCheckoutDeliveryMode) => action.payload),
     filter(payload => Boolean(payload.cartId)),
-    switchMap(payload => {
+    concatMap(payload => {
       return this.checkoutConnector
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(
@@ -364,14 +402,20 @@ export class CheckoutEffects {
               })
           ),
           catchError(error =>
-            of(
+            from([
               new CheckoutActions.ClearCheckoutDeliveryModeFail(
                 makeErrorSerializable(error)
-              )
-            )
+              ),
+              new CartActions.CartProcessesDecrement(payload.cartId),
+              new CartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ])
           )
         );
-    })
+    }),
+    withdrawOn(this.contextChange$)
   );
 
   constructor(

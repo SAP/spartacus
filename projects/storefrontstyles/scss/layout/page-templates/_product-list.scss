@@ -1,4 +1,5 @@
-%ProductListPageTemplate {
+%ProductListPageTemplate,
+%ProductGridPageTemplate {
   max-width: 1140px;
   margin: auto;
   display: flex;
@@ -6,7 +7,6 @@
     flex-direction: column;
   }
   .ProductLeftRefinements {
-    order: 1;
     max-width: 25%;
     padding: 60px 15px 15px 15px;
 
@@ -15,8 +15,8 @@
       max-width: none;
     }
   }
-  .ProductListSlot {
-    order: 2;
+  .ProductListSlot,
+  .ProductGridSlot {
     max-width: 75%;
 
     @include media-breakpoint-down(md) {

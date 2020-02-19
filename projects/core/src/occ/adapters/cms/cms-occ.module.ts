@@ -17,7 +17,7 @@ import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-compo
     },
     {
       provide: CMS_PAGE_NORMALIZER,
-      useClass: OccCmsPageNormalizer,
+      useExisting: OccCmsPageNormalizer,
       multi: true,
     },
     {

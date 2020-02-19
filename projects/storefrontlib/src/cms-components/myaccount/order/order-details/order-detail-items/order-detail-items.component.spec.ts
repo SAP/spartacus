@@ -7,12 +7,18 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   Order,
+  PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
+import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
+import { PromotionsModule } from '../../../../checkout';
 import { OrderDetailsService } from '../order-details.service';
+import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
+
+const mockProduct = { product: { code: 'test' } };
 
 const mockOrder: Order = {
   code: '1',
@@ -58,7 +64,31 @@ const mockOrder: Order = {
   consignments: [
     {
       code: 'a00000341',
-      status: 'SHIPPED',
+      status: 'READY',
+      statusDate: new Date('2019-02-11T13:05:12+0000'),
+      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
+    },
+    {
+      code: 'a00000343',
+      status: 'DELIVERY_COMPLETED',
+      statusDate: new Date('2019-02-11T13:05:12+0000'),
+      entries: [{ orderEntry: mockProduct, quantity: 4, shippedQuantity: 4 }],
+    },
+    {
+      code: 'a00000348',
+      status: 'PICKUP_COMPLETE',
+      statusDate: new Date('2019-02-11T13:05:12+0000'),
+      entries: [{ orderEntry: {}, quantity: 4, shippedQuantity: 4 }],
+    },
+    {
+      code: 'a00000342',
+      status: 'CANCELLED',
+      statusDate: new Date('2019-02-11T13:05:12+0000'),
+      entries: [{ orderEntry: {}, quantity: 0, shippedQuantity: 0 }],
+    },
+    {
+      code: 'a00000349',
+      status: 'OTHERS',
       statusDate: new Date('2019-02-11T13:05:12+0000'),
       entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
     },
@@ -71,7 +101,7 @@ const mockOrder: Order = {
 })
 class MockCartItemListComponent {
   @Input()
-  isReadOnly = false;
+  readonly = false;
   @Input()
   hasHeader = true;
   @Input()
@@ -80,6 +110,8 @@ class MockCartItemListComponent {
   potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading = false;
+  @Input()
+  promotionLocation: PromotionLocation = PromotionLocation.Order;
 }
 
 @Component({
@@ -91,6 +123,14 @@ class MockConsignmentTrackingComponent {
   consignment: Consignment;
   @Input()
   orderCode: string;
+}
+
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
 }
 
 describe('OrderDetailItemsComponent', () => {
@@ -107,20 +147,30 @@ describe('OrderDetailItemsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [CardModule, I18nTestingModule, FeaturesConfigModule],
+      imports: [
+        CardModule,
+        I18nTestingModule,
+        PromotionsModule,
+        FeaturesConfigModule,
+      ],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         {
           provide: FeaturesConfig,
           useValue: {
-            features: { level: '1.1', consignmentTracking: '1.2' },
+            features: { level: '1.4', consignmentTracking: true },
           },
+        },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService,
         },
       ],
       declarations: [
         OrderDetailItemsComponent,
         MockCartItemListComponent,
         MockConsignmentTrackingComponent,
+        OrderConsignedEntriesComponent,
       ],
     }).compileComponents();
   }));
@@ -137,7 +187,7 @@ describe('OrderDetailItemsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize ', () => {
+  it('should initialize order ', () => {
     fixture.detectChanges();
     let order: Order;
     component.order$
@@ -146,6 +196,64 @@ describe('OrderDetailItemsComponent', () => {
       })
       .unsubscribe();
     expect(order).toEqual(mockOrder);
+  });
+
+  it('should initialize others and check if it does not allow valid consignment status', () => {
+    fixture.detectChanges();
+    let others: Consignment[];
+    component.others$
+      .subscribe(value => {
+        others = value;
+      })
+      .unsubscribe();
+
+    expect(others).not.toContain(mockOrder.consignments[1]);
+    expect(others).not.toContain(mockOrder.consignments[2]);
+    expect(others).not.toContain(mockOrder.consignments[3]);
+  });
+
+  it('should initialize others and check if it contains any consignment status', () => {
+    fixture.detectChanges();
+    let others: Consignment[];
+    component.others$
+      .subscribe(value => {
+        others = value;
+      })
+      .unsubscribe();
+
+    expect(others).toContain(mockOrder.consignments[0]);
+    expect(others).toContain(mockOrder.consignments[4]);
+  });
+
+  it('should initialize completed', () => {
+    fixture.detectChanges();
+    let completed: Consignment[];
+    component.completed$
+      .subscribe(value => {
+        completed = value;
+      })
+      .unsubscribe();
+
+    expect(completed).toContain(mockOrder.consignments[1]);
+    expect(completed).toContain(mockOrder.consignments[2]);
+  });
+
+  it('should initialize cancel', () => {
+    fixture.detectChanges();
+    let cancel: Consignment[];
+    component.cancel$
+      .subscribe(value => {
+        cancel = value;
+      })
+      .unsubscribe();
+    expect(cancel).toContain(mockOrder.consignments[3]);
+  });
+
+  it('should return getConsignmentProducts', () => {
+    const products = component.getConsignmentProducts(
+      mockOrder.consignments[1]
+    );
+    expect(products).toEqual([mockProduct]);
   });
 
   it('should order details item be rendered', () => {

@@ -50,9 +50,33 @@ export class MediaService {
       return this.getImageUrl(media[format || DEFAULT_MEDIA_FORMAT].url);
     } else if (media && media.url) {
       return this.getImageUrl(media.url);
+    } else if (media && media[this.getHighestAvailableFormat(media)]) {
+      return this.getImageUrl(media[this.getHighestAvailableFormat(media)].url);
     } else {
       return null;
     }
+  }
+
+  /**
+   * returns highest resolution format name from media formats
+   */
+  private getHighestAvailableFormat(media): string {
+    if (media) {
+      let mediaFormat: MediaFormats;
+
+      this.mediaFormats.forEach(format => {
+        if (
+          !mediaFormat ||
+          (mediaFormat.threshold < format.threshold && media[format.code])
+        ) {
+          mediaFormat = format;
+        }
+      });
+
+      return mediaFormat.code;
+    }
+
+    return null;
   }
 
   private getAlt(media, format?: string): string {

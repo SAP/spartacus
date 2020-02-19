@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsService, ContentSlotData, Page } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../../outlet';
 import { PageLayoutComponent } from './page-layout.component';
 import { PageLayoutService } from './page-layout.service';
@@ -38,8 +39,8 @@ export class MockHeaderComponent {}
   template: 'dynamic-slot.component',
 })
 export class MockDynamicSlotComponent {
-  @Input()
-  position: string;
+  @Input() position: string;
+  @Input() isPageFold;
 }
 
 export class MockCmsService {
@@ -69,8 +70,19 @@ export class MockPageLayoutService {
     }
     return of(['Section1', 'Section2A']);
   }
+
+  getPageFoldSlot(_pageTemplate: string): Observable<string> {
+    return of('');
+  }
+
   get templateName$(): Observable<string> {
     return of('LandingPage2Template');
+  }
+}
+
+export class MockDeferLoaderService {
+  load(_element: HTMLElement, _options?: any) {
+    return of(true);
   }
 }
 
@@ -89,6 +101,7 @@ export class MockPageLayoutService {
       useClass: MockCmsService,
     },
     { provide: PageLayoutService, useClass: MockPageLayoutService },
+    { provide: DeferLoaderService, useClass: MockDeferLoaderService },
   ],
 })
 export class TestModule {}

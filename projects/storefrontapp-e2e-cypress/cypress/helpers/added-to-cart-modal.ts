@@ -4,24 +4,24 @@ export const productName2 = '500D + 18-55mm IS + EF-S 55-250 IS';
 
 export function verifyItemCounterOnPDP() {
   // Type 1000 in the input to see if the value will change to maximum 'max stock'
-  cy.get('cx-add-to-cart .cx-counter-value')
+  cy.get('cx-add-to-cart cx-item-counter input')
     .type('{selectall}{backspace}')
     .type('1000')
-    .should('have.value', '22');
+    .should('have.value', '98');
 
   // check if the '+' button is disabled when the quantity is the maximum 'max stock'
-  cy.get('cx-add-to-cart .cx-counter-action')
+  cy.get('cx-add-to-cart cx-item-counter button')
     .contains('+')
     .should('be.disabled');
 
   // Type 0 in the input to see if the value will change to minimum '1'
-  cy.get('cx-add-to-cart .cx-counter-value')
+  cy.get('cx-add-to-cart cx-item-counter input')
     .type('{selectall}{backspace}')
     .type('0')
     .should('have.value', '1');
 
   // check if the '-' button is disabled when the quantity is the minimum '1'
-  cy.get('cx-add-to-cart .cx-counter-action')
+  cy.get('cx-add-to-cart cx-item-counter button')
     .contains('-')
     .should('be.disabled');
 }
@@ -29,11 +29,9 @@ export function verifyItemCounterOnPDP() {
 export function addSameProductTwice() {
   // add a product to cart
   cy.visit(`/product/${productId}`);
-  cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
-    .click();
+  cy.get('cx-add-to-cart button[type=submit]').click();
 
-  cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
+  cy.get('cx-added-to-cart-dialog .cx-quantity cx-item-counter input').should(
     'have.value',
     '1'
   );
@@ -44,12 +42,10 @@ export function addSameProductTwice() {
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 
   // add same product to cart again
-  cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
-    .click();
+  cy.get('cx-add-to-cart button[type=submit]').click();
 
   // quantity is correctly updated
-  cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
+  cy.get('cx-added-to-cart-dialog .cx-quantity cx-item-counter input').should(
     'have.value',
     '2'
   );
@@ -97,12 +93,10 @@ export function addDifferentProducts(isMobile: Boolean = false) {
       .click();
   }
   cy.get('cx-breadcrumb h1').contains(productName2);
-  cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
-    .click();
+  cy.get('cx-add-to-cart button[type=submit]').click();
 
   // quantity is correctly updated
-  cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
+  cy.get('cx-added-to-cart-dialog .cx-quantity cx-item-counter input').should(
     'have.value',
     '1'
   );
@@ -131,7 +125,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   // delete a product and check if the total is updated
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', 'F 100mm f/2.8L Macro IS USM')
-    .find('.cx-actions .link')
+    .find('.cx-actions .cx-remove-btn > .link')
     .click();
   cy.get('cx-cart-details').should('contain', 'Cart #');
 
@@ -143,7 +137,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   // check the item quantity of the product
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', productName2)
-    .find('.cx-counter-value')
+    .find('cx-item-counter input')
     .should('have.value', '1');
 
   // check the item price of the product
@@ -164,11 +158,13 @@ export function addDifferentProducts(isMobile: Boolean = false) {
       expect(totalPrice).equal('$927.89');
     });
 
-  cy.wait('@getRefreshedCart');
+  cy.wait('@getRefreshedCart')
+    .its('status')
+    .should('eq', 200);
   // delete the last product in cart
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', productName2)
-    .find('.cx-actions .link')
+    .find('.cx-actions .cx-remove-btn > .link')
     .click();
 
   // check if the cart is empty
@@ -178,9 +174,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
 export function refreshPage() {
   cy.visit(`/product/${productId}`);
 
-  cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
-    .click();
+  cy.get('cx-add-to-cart button[type=submit]').click();
 
   // verify that the item has been added to the cart
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
@@ -198,7 +192,7 @@ export function refreshPage() {
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', 'F 100mm f/2.8L Macro IS USM')
-    .find('.cx-actions .link')
+    .find('.cx-actions .cx-remove-btn > .link')
     .click();
   cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
 }
@@ -217,16 +211,14 @@ export function increaseProductQtyOnPDP() {
   cy.visit(`/product/${productId}`);
 
   // increase the quantity to 2 and add it to cart
-  cy.get('cx-add-to-cart .cx-counter-action')
+  cy.get('cx-add-to-cart cx-item-counter button')
     .contains('+')
     .click();
-  cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
-    .click();
+  cy.get('cx-add-to-cart button[type=submit]').click();
   // check if the item price * quantity matches the total
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-price .cx-value').then($itemPrice => {
-      cy.get('.cx-quantity .cx-counter-value').then($itemQuantity => {
+      cy.get('.cx-quantity cx-item-counter input').then($itemQuantity => {
         cy.get('.cx-total .cx-value').then($itemTotalPrice => {
           expect(extractPriceFromText($itemTotalPrice.text())).equal(
             extractPriceFromText($itemPrice.text()) *

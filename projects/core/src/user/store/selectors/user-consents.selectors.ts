@@ -21,6 +21,14 @@ export const getConsentsValue: MemoizedSelector<
   StateLoaderSelectors.loaderValueSelector
 );
 
+export const getConsentByTemplateId = (
+  templateId: string
+): MemoizedSelector<StateWithUser, ConsentTemplate> =>
+  createSelector(
+    getConsentsValue,
+    templates => templates.find(template => template.id === templateId)
+  );
+
 export const getConsentsLoading: MemoizedSelector<
   StateWithUser,
   boolean

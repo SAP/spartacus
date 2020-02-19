@@ -1,0 +1,18 @@
+@import './mini-cart';
+@import './added-to-cart-dialog';
+@import './cart-details';
+@import './cart-item';
+@import './cart-item-list';
+@import './cart-totals';
+@import './order-summary';
+@import './add-to-cart';
+@import './cart-coupon';
+@import './applied-coupons';
+@import './item-counter';
+@import './add-to-wishlist';
+@import './save-for-later';
+
+$cart-components-whitelist: cx-mini-cart, cx-add-to-cart, cx-item-counter,
+  cx-added-to-cart-dialog, cx-cart-details, cx-cart-item, cx-cart-item-list,
+  cx-cart-totals, cx-cart-coupon, cx-applied-coupons, cx-add-to-wishlist,
+  cx-save-for-later !default;

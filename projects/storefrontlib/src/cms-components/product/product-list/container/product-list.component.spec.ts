@@ -13,6 +13,7 @@ import {
   SpinnerModule,
 } from '../../../../shared';
 import { ViewConfig } from '../../../../shared/config/view-config';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
@@ -93,6 +94,14 @@ export class MockViewConfig {
   };
 }
 
+@Component({
+  selector: 'cx-variant-style-icons',
+  template: 'test',
+})
+export class MockStyleIconsComponent {
+  @Input() variants: any[];
+}
+
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
@@ -135,6 +144,8 @@ describe('ProductListComponent', () => {
         MockUrlPipe,
         MockCxIconComponent,
         ProductScrollComponent,
+        MockStyleIconsComponent,
+        MockFeatureLevelDirective,
       ],
     }).compileComponents();
   }));
@@ -167,11 +178,6 @@ describe('ProductListComponent', () => {
     it('should use infinite scroll when config setting is active', () => {
       expect(component.isInfiniteScroll).toEqual(true);
     });
-  });
-
-  it('viewPage should call service.viewPage', () => {
-    component.viewPage(123);
-    expect(componentService.viewPage).toHaveBeenCalledWith(123);
   });
 
   it('sortList should call service.sort', () => {

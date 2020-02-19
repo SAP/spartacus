@@ -40,10 +40,17 @@ export class OccAsmAdapter implements AsmAdapter {
       true,
       new HttpHeaders()
     );
-
-    const params: HttpParams = new HttpParams()
+    let params: HttpParams = new HttpParams()
       .set('baseSite', this.activeBaseSite)
-      .set('query', options.query);
+      .set('sort', 'byNameAsc');
+
+    if (typeof options['query'] !== 'undefined') {
+      params = params.set('query', '' + options.query);
+    }
+
+    if (typeof options['pageSize'] !== 'undefined') {
+      params = params.set('pageSize', '' + options.pageSize);
+    }
 
     const url = this.occEndpointsService.getRawEndpoint('asmCustomerSearch');
 

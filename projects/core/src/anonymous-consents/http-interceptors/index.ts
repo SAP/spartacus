@@ -5,7 +5,7 @@ import { AnonymousConsentsInterceptor } from './anonymous-consents-interceptor';
 export const interceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: AnonymousConsentsInterceptor,
+    useExisting: AnonymousConsentsInterceptor,
     multi: true,
   },
 ];

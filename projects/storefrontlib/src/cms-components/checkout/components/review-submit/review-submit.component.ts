@@ -1,6 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
 import {
   Address,
   Cart,
@@ -13,10 +11,15 @@ import {
   PaymentDetails,
   TranslationService,
   UserAddressService,
+  PromotionResult,
+  PromotionLocation,
 } from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
-import { CheckoutConfigService } from '../../services/index';
 import { CheckoutStepType } from '../../model/index';
+import { CheckoutConfigService } from '../../services/index';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({
   selector: 'cx-review-submit',
@@ -31,6 +34,8 @@ export class ReviewSubmitComponent implements OnInit {
   countryName$: Observable<string>;
   deliveryAddress$: Observable<Address>;
   paymentDetails$: Observable<PaymentDetails>;
+  orderPromotions$: Observable<PromotionResult[]>;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   constructor(
     checkoutDeliveryService: CheckoutDeliveryService,
@@ -38,7 +43,8 @@ export class ReviewSubmitComponent implements OnInit {
     userAddressService: UserAddressService,
     cartService: CartService,
     translation: TranslationService,
-    checkoutConfigService: CheckoutConfigService // tslint:disable-line
+    checkoutConfigService: CheckoutConfigService, // tslint:disable-line
+    promotionService: PromotionService // tslint:disable-line
   );
 
   /**
@@ -56,13 +62,28 @@ export class ReviewSubmitComponent implements OnInit {
     translation: TranslationService
   );
 
+  /**
+   * @deprecated Since 1.5
+   * Use promotionService instead of the promotion inputs.
+   * Remove issue: #5670
+   */
+  constructor(
+    checkoutDeliveryService: CheckoutDeliveryService,
+    checkoutPaymentService: CheckoutPaymentService,
+    userAddressService: UserAddressService,
+    cartService: CartService,
+    translation: TranslationService,
+    checkoutConfigService: CheckoutConfigService // tslint:disable-line
+  );
+
   constructor(
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected userAddressService: UserAddressService,
     protected cartService: CartService,
     protected translation: TranslationService,
-    protected checkoutConfigService?: CheckoutConfigService
+    protected checkoutConfigService?: CheckoutConfigService,
+    protected promotionService?: PromotionService
   ) {}
 
   ngOnInit() {
@@ -70,6 +91,9 @@ export class ReviewSubmitComponent implements OnInit {
     this.entries$ = this.cartService.getEntries();
     this.deliveryAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
     this.paymentDetails$ = this.checkoutPaymentService.getPaymentDetails();
+    this.orderPromotions$ = this.promotionService.getOrderPromotions(
+      this.promotionLocation
+    );
 
     this.deliveryMode$ = this.checkoutDeliveryService
       .getSelectedDeliveryMode()

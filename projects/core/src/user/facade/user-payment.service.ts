@@ -5,6 +5,7 @@ import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Country } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
+import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -23,6 +24,8 @@ export class UserPaymentService {
    * @deprecated since version 1.3
    *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
    *  authService: AuthService) instead
+   *
+   *  TODO(issue:#5628) Deprecated since 1.3.0
    */
   constructor(store: Store<StateWithUser | StateWithProcess<void>>);
   constructor(
@@ -34,13 +37,9 @@ export class UserPaymentService {
    * Loads all user's payment methods.
    */
   loadPaymentMethods(): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(new UserActions.LoadUserPaymentMethods(occUserId))
-      )
-      .unsubscribe();
+    this.withUserId(userId =>
+      this.store.dispatch(new UserActions.LoadUserPaymentMethods(userId))
+    );
   }
 
   /**
@@ -67,18 +66,14 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   setPaymentMethodAsDefault(paymentMethodId: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.SetDefaultUserPaymentMethod({
-            userId: occUserId,
-            paymentMethodId,
-          })
-        )
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new UserActions.SetDefaultUserPaymentMethod({
+          userId,
+          paymentMethodId,
+        })
       )
-      .unsubscribe();
+    );
   }
 
   /**
@@ -87,18 +82,14 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   deletePaymentMethod(paymentMethodId: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.DeleteUserPaymentMethod({
-            userId: occUserId,
-            paymentMethodId,
-          })
-        )
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new UserActions.DeleteUserPaymentMethod({
+          userId,
+          paymentMethodId,
+        })
       )
-      .unsubscribe();
+    );
   }
 
   /**
@@ -113,5 +104,21 @@ export class UserPaymentService {
    */
   loadBillingCountries(): void {
     this.store.dispatch(new UserActions.LoadBillingCountries());
+  }
+
+  /**
+   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
+   *
+   */
+  private withUserId(callback: (userId: string) => void): void {
+    if (this.authService) {
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe(userId => callback(userId));
+    } else {
+      // TODO(issue:#5628) Deprecated since 1.3.0
+      callback(OCC_USER_ID_CURRENT);
+    }
   }
 }

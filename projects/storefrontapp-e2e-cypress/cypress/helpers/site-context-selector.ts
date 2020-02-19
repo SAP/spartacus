@@ -1,5 +1,6 @@
 import { user } from '../sample-data/checkout-flow';
 import { switchSiteContext } from '../support/utils/switch-site-context';
+import { waitForPage } from './checkout-flow';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -88,21 +89,48 @@ export function doPlaceOrder() {
 
 export function addressBookNextStep() {
   cy.get('cx-shipping-address .cx-card-link').click({ force: true });
+
+  const deliveryPage = waitForPage(
+    CHECKOUT_DELIVERY_MODE_PATH,
+    'getDeliveryPage'
+  );
+
   cy.get('cx-shipping-address .btn-primary').click({ force: true });
+
+  cy.wait(`@${deliveryPage}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function deliveryModeNextStep() {
-  cy.get('cx-delivery-mode #deliveryMode-standard-gross').click({
+  cy.get('cx-delivery-mode #deliveryMode-standard-net').click({
     force: true,
   });
+
+  const paymentPage = waitForPage(
+    CHECKOUT_PAYMENT_DETAILS_PATH,
+    'getPaymentPage'
+  );
+
   cy.get('cx-delivery-mode .btn-primary').click({ force: true });
+
+  cy.wait(`@${paymentPage}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function paymentDetailsNextStep() {
   cy.get('cx-payment-method .cx-card-link').click({
     force: true,
   });
+
+  const reviewPage = waitForPage(CHECKOUT_REVIEW_ORDER_PATH, 'getReviewPage');
+
   cy.get('cx-payment-method .btn-primary').click({ force: true });
+
+  cy.wait(`@${reviewPage}`)
+    .its('status')
+    .should('eq', 200);
 }
 
 export function createRoute(request: string, alias: string): void {
@@ -133,11 +161,30 @@ export function siteContextChange(
 ): void {
   cy.visit(FULL_BASE_URL_EN_USD + pagePath);
 
-  cy.wait(`@${alias}`);
+  let contextParam: string;
 
-  cy.route('GET', `*${selectedOption}*`).as('switchedContext');
+  switch (label) {
+    case LANGUAGE_LABEL: {
+      contextParam = 'lang';
+      break;
+    }
+    case CURRENCY_LABEL: {
+      contextParam = 'curr';
+      break;
+    }
+    default: {
+      throw new Error(`Unsupported context label : ${label}`);
+    }
+  }
+  cy.wait(`@${alias}`)
+    .its('status')
+    .should('eq', 200);
+
+  cy.route('GET', `*${contextParam}=${selectedOption}*`).as('switchedContext');
   switchSiteContext(selectedOption, label);
-  cy.wait('@switchedContext');
+  cy.wait('@switchedContext')
+    .its('status')
+    .should('eq', 200);
 }
 
 export function verifySiteContextChangeUrl(

@@ -20,7 +20,7 @@ import { AnonymousConsentsService } from '../facade/anonymous-consents.service';
 
 export const ANONYMOUS_CONSENTS_HEADER = 'X-Anonymous-Consents';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AnonymousConsentsInterceptor implements HttpInterceptor {
   constructor(
     private anonymousConsentsService: AnonymousConsentsService,

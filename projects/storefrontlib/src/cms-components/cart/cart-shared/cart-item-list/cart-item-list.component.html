@@ -9,27 +9,40 @@
     <div class="cx-item-list-qty col-md-2 col-lg-3 col-xl-2">
       {{ 'cartItems.quantity' | cxTranslate }}
     </div>
-    <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">
-      {{ 'cartItems.total' | cxTranslate }}
-    </div>
+
+    <ng-container
+      *ngIf="
+        isSaveForLaterEnabled() && options.isSaveForLater;
+        else totalHeader
+      "
+    >
+      <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">
+        {{ 'saveForLaterItems.stock' | cxTranslate }}
+      </div>
+    </ng-container>
   </div>
 </div>
 
-<div [formGroup]="form">
-  <div class="cx-item-list-row" *ngFor="let item of items">
-    <div class="cx-item-list-items">
-      <cx-cart-item
-        [parent]="form.controls[item.product.code]"
-        [item]="item"
-        [potentialProductPromotions]="
-          getPotentialProductPromotionsForItem(item)
-        "
-        [isReadOnly]="isReadOnly"
-        (remove)="removeEntry($event)"
-        [cartIsLoading]="cartIsLoading"
-        (update)="updateEntry($event)"
-      >
-      </cx-cart-item>
-    </div>
+<div class="cx-item-list-row" *ngFor="let item of items; let i = index">
+  <div
+    class="cx-item-list-items"
+    *ngIf="getControl(item) | async as control"
+    [class.is-changed]="control.get('quantity').dirty"
+  >
+    <cx-cart-item
+      [item]="item"
+      [quantityControl]="control.get('quantity')"
+      [readonly]="readonly"
+      [potentialProductPromotions]="getPotentialProductPromotionsForItem(item)"
+      [promotionLocation]="promotionLocation"
+      [options]="options"
+    >
+    </cx-cart-item>
   </div>
 </div>
+
+<ng-template #totalHeader>
+  <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">
+    {{ 'cartItems.total' | cxTranslate }}
+  </div>
+</ng-template>

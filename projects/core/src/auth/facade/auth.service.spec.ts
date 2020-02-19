@@ -66,31 +66,6 @@ describe('AuthService', () => {
     expect(result).toEqual(mockToken);
   });
 
-  it('should get the Customer Support Agent token', () => {
-    store.dispatch(
-      new AuthActions.LoadCustomerSupportAgentTokenSuccess(mockToken)
-    );
-
-    let result: UserToken;
-    const subscription = service
-      .getCustomerSupportAgentToken()
-      .subscribe(token => {
-        result = token;
-      });
-    subscription.unsubscribe();
-
-    expect(result).toEqual(mockToken);
-  });
-
-  it('should get the Customer Support Agent token loading status', () => {
-    let result: boolean;
-    service
-      .getCustomerSupportAgentTokenLoading()
-      .subscribe(value => (result = value))
-      .unsubscribe();
-    expect(result).toEqual(false);
-  });
-
   it('should expose clientToken', () => {
     store.dispatch(new AuthActions.LoadClientTokenSuccess(mockClientToken));
 
@@ -120,18 +95,6 @@ describe('AuthService', () => {
     service.authorize('user', 'password');
     expect(store.dispatch).toHaveBeenCalledWith(
       new AuthActions.LoadUserToken({
-        userId: 'user',
-        password: 'password',
-      })
-    );
-  });
-
-  it('should dispatch proper action for authorizeCustomerSupporAgent', () => {
-    spyOn(store, 'dispatch').and.stub();
-
-    service.authorizeCustomerSupporAgent('user', 'password');
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new AuthActions.LoadCustomerSupportAgentToken({
         userId: 'user',
         password: 'password',
       })
@@ -170,19 +133,25 @@ describe('AuthService', () => {
     );
   });
 
-  it('should dispatch proper action for logout', () => {
+  it('should dispatch proper actions for logout standard customer', () => {
     spyOn(store, 'dispatch').and.stub();
-
+    const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
+    spyOn(service, 'getUserToken').and.returnValue(of(testToken));
     service.logout();
     expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AuthActions.RevokeUserToken(testToken)
+    );
   });
 
-  it('should dispatch proper action for logoutCustomerSupportAgent', () => {
+  it('should dispatch proper action for logout an emulated customer', () => {
     spyOn(store, 'dispatch').and.stub();
-
-    service.logoutCustomerSupportAgent();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new AuthActions.LogoutCustomerSupportAgent()
+    const testToken = { ...mockToken, userId: '123-445-678-90' };
+    spyOn(service, 'getUserToken').and.returnValue(of(testToken));
+    service.logout();
+    expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
+    expect(store.dispatch).not.toHaveBeenCalledWith(
+      new AuthActions.RevokeUserToken(testToken)
     );
   });
 
@@ -197,36 +166,6 @@ describe('AuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new AuthActions.LoadClientToken()
     );
-  });
-
-  describe('isCustomerEmulationToken()', () => {
-    const mockCustomerEmulationToken = {
-      access_token: 'foo',
-    } as UserToken;
-
-    it('should return true if the userid is defined and not OCC_USER_ID_CURRENT', () => {
-      expect(
-        service.isCustomerEmulationToken({
-          ...mockCustomerEmulationToken,
-          userId: '1de31-d31d4-14d',
-        })
-      ).toBe(true);
-    });
-
-    it('should return false if there is no userId on the token', () => {
-      expect(service.isCustomerEmulationToken(mockCustomerEmulationToken)).toBe(
-        false
-      );
-    });
-
-    it('should return false if the userid "current"', () => {
-      expect(
-        service.isCustomerEmulationToken({
-          ...mockCustomerEmulationToken,
-          userId: OCC_USER_ID_CURRENT,
-        })
-      ).toBe(false);
-    });
   });
 
   it('should return anonymous userid when no user token exists', () => {

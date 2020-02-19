@@ -1,5 +1,6 @@
 import {
   AnonymousConsentsConfig,
+  AsmConfig,
   AuthConfig,
   CmsConfig,
   ExternalRoutesConfig,
@@ -17,7 +18,9 @@ import { IconConfig } from './cms-components/misc/icon/index';
 import { QualtricsConfig } from './cms-components/misc/qualtrics/index';
 import { PWAModuleConfig } from './cms-structure/pwa/index';
 import { FeatureToggles } from './feature-toggles';
+import { SkipLinkConfig } from './layout/a11y/skip-link/config/index';
 import { LayoutConfig } from './layout/config/layout-config';
+import { PaginationConfig } from './shared/components/list-navigation/pagination/index';
 import { ViewConfig } from './shared/config/view-config';
 
 export type StorefrontConfig =
@@ -39,4 +42,7 @@ export type StorefrontConfig =
   | GlobalMessageConfig
   | ExternalRoutesConfig
   | ViewConfig
-  | FeatureToggles;
+  | FeatureToggles
+  | AsmConfig
+  | SkipLinkConfig
+  | PaginationConfig;

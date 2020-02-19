@@ -1,23 +1,91 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  Consignment,
+  Order,
+  OrderEntry,
+  PromotionLocation,
+  PromotionResult,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
-
-import { Order, Consignment, OrderEntry } from '@spartacus/core';
-
+import { map } from 'rxjs/operators';
+import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
 import { OrderDetailsService } from '../order-details.service';
+import {
+  cancelledValues,
+  completedValues,
+} from './order-consigned-entries/order-consigned-entries.model';
 
 @Component({
   selector: 'cx-order-details-items',
   templateUrl: './order-detail-items.component.html',
 })
 export class OrderDetailItemsComponent implements OnInit {
-  constructor(private orderDetailsService: OrderDetailsService) {}
+  constructor(
+    orderDetailsService: OrderDetailsService,
+    // tslint:disable-next-line:unified-signatures
+    promotionService: PromotionService
+  );
 
-  order$: Observable<Order>;
+  /**
+   * @deprecated Since 1.5
+   * Use promotionService instead of the promotion inputs.
+   * Remove issue: #5670
+   */
+  constructor(orderDetailsService: OrderDetailsService);
+
+  constructor(
+    private orderDetailsService: OrderDetailsService,
+    protected promotionService?: PromotionService
+  ) {}
+
+  promotionLocation: PromotionLocation = PromotionLocation.Order;
+  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
+  orderPromotions$: Observable<PromotionResult[]>;
+  others$: Observable<Consignment[]>;
+  completed$: Observable<Consignment[]>;
+  cancel$: Observable<Consignment[]>;
 
   ngOnInit() {
-    this.order$ = this.orderDetailsService.getOrderDetails();
+    this.orderPromotions$ = this.promotionService.getOrderPromotions(
+      this.promotionLocation
+    );
+    this.others$ = this.getOtherStatus(...completedValues, ...cancelledValues);
+    this.completed$ = this.getExactStatus(completedValues);
+    this.cancel$ = this.getExactStatus(cancelledValues);
   }
 
+  private getExactStatus(
+    consignmentStatus: string[]
+  ): Observable<Consignment[]> {
+    return this.order$.pipe(
+      map(order => {
+        if (Boolean(order.consignments)) {
+          return order.consignments.filter(consignment =>
+            consignmentStatus.includes(consignment.status)
+          );
+        }
+      })
+    );
+  }
+
+  private getOtherStatus(
+    ...consignmentStatus: string[]
+  ): Observable<Consignment[]> {
+    return this.order$.pipe(
+      map(order => {
+        if (Boolean(order.consignments)) {
+          return order.consignments.filter(
+            consignment => !consignmentStatus.includes(consignment.status)
+          );
+        }
+      })
+    );
+  }
+
+  /**
+   * @deprecated
+   * NOTE: This function will be removed in version 2.0
+   */
   getConsignmentProducts(consignment: Consignment): OrderEntry[] {
     const products: OrderEntry[] = [];
     consignment.entries.forEach(element => {

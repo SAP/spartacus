@@ -21,6 +21,8 @@ describe('Cart', () => {
   });
 
   it('should add product to cart as anonymous and merge when logged in', () => {
+    cart.registerCreateCartRoute();
+    cart.registerSaveCartRoute();
     cart.loginRegisteredUser();
     cart.addProductWhenLoggedIn(false);
     cart.logOutAndNavigateToEmptyCart();
@@ -44,14 +46,19 @@ describe('Cart', () => {
   });
 
   it('should be loaded for logged user after "cart not found" error', () => {
+    cart.registerCreateCartRoute();
+    cart.registerSaveCartRoute();
     cart.loginRegisteredUser();
     cart.addProductWhenLoggedIn(false);
+    // Wait to make sure everything was processed, so there won't be any ngrx -> localStorage synchronization
+    // Related issue: #4672
+    cy.wait(2000);
     cy.window().then(window => {
       const storage = JSON.parse(
         window.localStorage.getItem('spartacus-local-data')
       );
-      const cartCode = storage.cart.active.value.content.code;
-      storage.cart.active.value.content.code = 'incorrect-code';
+      const cartCode = storage['multi-cart'].active;
+      storage['multi-cart'].active = 'incorrect-code';
       window.localStorage.setItem(
         'spartacus-local-data',
         JSON.stringify(storage)
@@ -59,6 +66,9 @@ describe('Cart', () => {
       cy.visit('/cart');
       alerts.getErrorAlert().should('contain', 'Cart not found');
       cy.get('.cart-details-wrapper .cx-total').contains(`Cart #${cartCode}`);
+      cy.selectUserMenuOption({
+        option: 'Sign Out',
+      });
     });
   });
 
@@ -78,7 +88,9 @@ describe('Cart', () => {
       `${apiUrl}/rest/v2/electronics-spa/users/current/carts?fields=*`
     ).as('carts');
     cart.loginCartUser();
-    cy.wait('@carts');
+    cy.wait('@carts')
+      .its('status')
+      .should('eq', 200);
     cy.visit('/cart');
     cart.checkProductInCart(cart.products[0]);
 
@@ -98,7 +110,9 @@ describe('Cart', () => {
     cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts/*`).as(
       'cart'
     );
-    cy.wait('@cart');
+    cy.wait('@cart')
+      .its('status')
+      .should('eq', 200);
     cy.visit('/cart');
     cart.checkProductInCart(cart.products[0]);
 
@@ -108,7 +122,7 @@ describe('Cart', () => {
   });
 
   // will fail right now, as this is not implemented yet
-  it.skip('should first try to load cart when adding first entry for logged user', () => {
+  it('should first try to load cart when adding first entry for logged user', () => {
     cy.server();
     login(
       cart.cartUser.registrationData.email,
@@ -157,7 +171,7 @@ describe('Cart', () => {
       'cart'
     );
     cart.addToCart();
-    cart.checkAddedToCartDialog();
+    cart.checkAddedToCartDialog(2);
     cy.visit('/cart');
     cart.checkProductInCart(cart.products[0]);
     cart.checkProductInCart(cart.products[1]);
@@ -168,7 +182,9 @@ describe('Cart', () => {
       `${apiUrl}/rest/v2/electronics-spa/users/current/carts/*?fields=*&lang=en&curr=USD`
     ).as('refresh_cart');
     cart.removeCartItem(cart.products[0]);
-    cy.wait('@refresh_cart');
+    cy.wait('@refresh_cart')
+      .its('status')
+      .should('eq', 200);
     cart.removeCartItem(cart.products[1]);
     cart.validateEmptyCart();
   });
@@ -230,7 +246,9 @@ describe('Cart', () => {
       `${apiUrl}/rest/v2/electronics-spa/users/anonymous/carts/*?fields=*&lang=en&curr=USD`
     ).as('refresh_cart');
     cart.removeCartItem(cart.products[0]);
-    cy.wait('@refresh_cart');
+    cy.wait('@refresh_cart')
+      .its('status')
+      .should('eq', 200);
     cart.removeCartItem(cart.products[1]);
     cart.validateEmptyCart();
   });
@@ -249,7 +267,9 @@ describe('Cart', () => {
       },
     }).as('addEntry');
     cart.addToCart();
-    cy.wait('@addEntry');
+    cy.wait('@addEntry')
+      .its('status')
+      .should('eq', 200);
     cy.get('cx-added-to-cart-dialog .modal-header').should(
       'not.contain',
       'Item(s) added to your cart'

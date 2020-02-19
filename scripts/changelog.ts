@@ -1,12 +1,12 @@
 // tslint:disable:no-implicit-dependencies
 import { JsonObject, logging } from '@angular-devkit/core';
+import chalk from 'chalk';
+import * as program from 'commander';
+import * as ejs from 'ejs';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as semver from 'semver';
 import { packages } from './packages';
-import * as ejs from 'ejs';
-import * as program from 'commander';
-import chalk from 'chalk';
 import * as versionsHelper from './versions';
 
 const changelogTemplate = ejs.compile(
@@ -27,17 +27,36 @@ export interface ChangelogOptions {
   stdout?: boolean;
 }
 
-export default async function run(args: ChangelogOptions, logger: logging.Logger) {
+const breakingChangesKeywords = ['BREAKING CHANGE', 'BREAKING CHANGES'];
+const deprecationsKeywords = ['DEPRECATION', 'DEPRECATED', 'DEPRECATIONS'];
+
+export default async function run(
+  args: ChangelogOptions,
+  logger: logging.Logger
+) {
   const commits: JsonObject[] = [];
   let toSha: string | null = null;
   const breakingChanges: JsonObject[] = [];
-  const versionFromTag = args.to.split('-').filter((_,i) => i !== 0).join('-')
-  const newVersion = semver.parse(versionFromTag, { includePrerelease: true, loose: true });
+  const deprecations: JsonObject[] = [];
+  const versionFromTag = args.to
+    .split('-')
+    .filter((_, i) => i !== 0)
+    .join('-');
+  const newVersion = semver.parse(versionFromTag, {
+    includePrerelease: true,
+    loose: true,
+  });
   let fromToken: string;
   try {
-    const packageVersions = await versionsHelper.fetchPackageVersions(args.library);
-    const previousVersion = versionsHelper.extractPreviousVersionForChangelog(packageVersions, newVersion.version)
-    fromToken = previousVersion && args.to.split(newVersion).join(previousVersion);
+    const packageVersions = await versionsHelper.fetchPackageVersions(
+      args.library
+    );
+    const previousVersion = versionsHelper.extractPreviousVersionForChangelog(
+      packageVersions,
+      newVersion.version
+    );
+    fromToken =
+      previousVersion && args.to.split(newVersion).join(previousVersion);
   } catch (err) {
     // package not found - assuming first release
     fromToken = '';
@@ -55,20 +74,42 @@ export default async function run(args: ChangelogOptions, logger: logging.Logger
     '@spartacus/styles': './projects/storefrontstyles',
     '@spartacus/assets': './projects/assets',
     '@spartacus/schematics': './projects/schematics',
+    '@spartacus/incubator': './projects/incubator',
+    '@spartacus/cds': './projects/cds',
   };
 
-  return new Promise(resolve => {
-    (gitRawCommits({
+  const duplexUtil = through(function(chunk, _, callback) {
+    this.push(chunk);
+    callback();
+  });
+
+  function getRawCommitsStream(to: string) {
+    return gitRawCommits({
       from: fromToken,
-      to: args.to || 'HEAD',
+      to,
       path: args.library ? libraryPaths[args.library] : '.',
       format:
         '%B%n-hash-%n%H%n-gitTags-%n%D%n-committerDate-%n%ci%n-authorName-%n%aN%n',
-    }) as NodeJS.ReadStream)
-      .on('error', err => {
-        logger.fatal('An error happened: ' + err.message);
-        return '';
+    }) as NodeJS.ReadStream;
+  }
+
+  function getCommitsStream(): NodeJS.ReadStream {
+    getRawCommitsStream(args.to)
+      .on('error', () => {
+        getRawCommitsStream('HEAD')
+          .on('error', err => {
+            logger.fatal('An error happened: ' + err.message);
+            return '';
+          })
+          .pipe(duplexUtil);
       })
+      .pipe(duplexUtil);
+
+    return duplexUtil;
+  }
+
+  return new Promise(resolve => {
+    getCommitsStream()
       .pipe(
         through((chunk: Buffer, _: string, callback: Function) => {
           // Replace github URLs with `@XYZ#123`
@@ -83,9 +124,10 @@ export default async function run(args: ChangelogOptions, logger: logging.Logger
         conventionalCommitsParser({
           headerPattern: /^(\w*)(?:\(([^)]*)\))?: (.*)$/,
           headerCorrespondence: ['type', 'scope', 'subject'],
-          noteKeywords: ['BREAKING CHANGE', 'BREAKING CHANGES'],
+          noteKeywords: [...breakingChangesKeywords, ...deprecationsKeywords],
           revertPattern: /^revert:\s([\s\S]*?)\s*This reverts commit (\w*)\./,
           revertCorrespondence: [`header`, `hash`],
+          issuePrefixes: ['#', 'GH-', 'gh-'],
         })
       )
       .pipe(
@@ -102,10 +144,17 @@ export default async function run(args: ChangelogOptions, logger: logging.Logger
             const notes: any = chunk.notes;
             if (Array.isArray(notes)) {
               notes.forEach(note => {
-                breakingChanges.push({
-                  content: note.text,
-                  commit: chunk,
-                });
+                if (breakingChangesKeywords.includes(note.title)) {
+                  breakingChanges.push({
+                    content: note.text,
+                    commit: chunk,
+                  });
+                } else if (deprecationsKeywords.includes(note.title)) {
+                  deprecations.push({
+                    content: note.text,
+                    commit: chunk,
+                  });
+                }
               });
             }
             commits.push(chunk);
@@ -131,6 +180,7 @@ export default async function run(args: ChangelogOptions, logger: logging.Logger
         commits,
         packages,
         breakingChanges,
+        deprecations,
       });
 
       if (args.stdout || !githubToken) {
@@ -225,6 +275,14 @@ if (typeof config.to === 'undefined') {
     case 'schematics':
     case '@spartacus/schematics':
       config.library = '@spartacus/schematics';
+      break;
+    case 'incubator':
+    case '@spartacus/incubator':
+      config.library = '@spartacus/incubator';
+      break;
+    case 'cds':
+    case '@spartacus/cds':
+      config.library = '@spartacus/cds';
       break;
     default:
       config.library = undefined;

@@ -18,6 +18,7 @@ import { OccProductSearchAdapter } from './occ-product-search.adapter';
 import { OccProductAdapter } from './occ-product.adapter';
 import { ProductNameNormalizer } from './converters/product-name-normalizer';
 import { defaultOccProductConfig } from './default-occ-product-config';
+import './product-occ-config';
 
 @NgModule({
   imports: [
@@ -32,12 +33,12 @@ import { defaultOccProductConfig } from './default-occ-product-config';
     },
     {
       provide: PRODUCT_NORMALIZER,
-      useClass: ProductImageNormalizer,
+      useExisting: ProductImageNormalizer,
       multi: true,
     },
     {
       provide: PRODUCT_NORMALIZER,
-      useClass: ProductNameNormalizer,
+      useExisting: ProductNameNormalizer,
       multi: true,
     },
     {
@@ -46,7 +47,7 @@ import { defaultOccProductConfig } from './default-occ-product-config';
     },
     {
       provide: PRODUCT_REFERENCES_NORMALIZER,
-      useClass: OccProductReferencesListNormalizer,
+      useExisting: OccProductReferencesListNormalizer,
       multi: true,
     },
     {
@@ -55,7 +56,7 @@ import { defaultOccProductConfig } from './default-occ-product-config';
     },
     {
       provide: PRODUCT_SEARCH_PAGE_NORMALIZER,
-      useClass: OccProductSearchPageNormalizer,
+      useExisting: OccProductSearchPageNormalizer,
       multi: true,
     },
     {

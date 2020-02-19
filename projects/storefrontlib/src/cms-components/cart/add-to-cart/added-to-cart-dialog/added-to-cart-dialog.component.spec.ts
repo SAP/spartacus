@@ -7,13 +7,16 @@ import {
   Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartService,
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
+  PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -21,8 +24,9 @@ import { ICON_TYPE } from '../../../../cms-components';
 import { ModalService } from '../../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { AutoFocusDirectiveModule } from '../../../../shared/directives/auto-focus/auto-focus.directive.module';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
-
 class MockCartService {
   getLoaded(): Observable<boolean> {
     return of();
@@ -67,18 +71,12 @@ class MockModalService {
   template: '',
 })
 class MockCartItemComponent {
-  @Input()
-  compact = false;
-  @Input()
-  item: Observable<OrderEntry>;
-  @Input()
-  potentialProductPromotions: PromotionResult[];
-  @Input()
-  isReadOnly = false;
-  @Input()
-  cartIsLoading = false;
-  @Input()
-  parent: FormGroup;
+  @Input() compact = false;
+  @Input() item: Observable<OrderEntry>;
+  @Input() potentialProductPromotions: PromotionResult[];
+  @Input() readonly = false;
+  @Input() quantityControl: FormControl;
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 @Pipe({
@@ -86,6 +84,14 @@ class MockCartItemComponent {
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
 }
 
 describe('AddedToCartDialogComponent', () => {
@@ -104,6 +110,8 @@ describe('AddedToCartDialogComponent', () => {
         SpinnerModule,
         I18nTestingModule,
         AutoFocusDirectiveModule,
+        PromotionsModule,
+        FeaturesConfigModule,
       ],
       declarations: [
         AddedToCartDialogComponent,
@@ -120,6 +128,16 @@ describe('AddedToCartDialogComponent', () => {
           provide: CartService,
           useClass: MockCartService,
         },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
+        },
       ],
     }).compileComponents();
   }));
@@ -132,7 +150,6 @@ describe('AddedToCartDialogComponent', () => {
     cartService = TestBed.get(CartService as Type<CartService>);
     mockModalService = TestBed.get(ModalService as Type<ModalService>);
 
-    spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
     spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
     component.loaded$ = of(true);
@@ -176,6 +193,9 @@ describe('AddedToCartDialogComponent', () => {
       totalPrice: {
         formattedValue: '$100.00',
       },
+      subTotal: {
+        formattedValue: '$100.00',
+      },
     });
     fixture.detectChanges();
     const cartTotalEl = el.query(By.css('.cx-dialog-total')).nativeElement;
@@ -185,21 +205,15 @@ describe('AddedToCartDialogComponent', () => {
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');
   });
 
-  it('should remove entry', () => {
-    component.ngOnInit();
-    component.entry$.subscribe();
-    const item = mockOrderEntry[0];
-    expect(component.form.controls[item.product.code]).toBeDefined();
-    component.removeEntry(item);
-    expect(cartService.removeEntry).toHaveBeenCalledWith(item);
-    expect(component.form.controls[item.product.code]).toBeUndefined();
-    expect(mockModalService.dismissActiveModal).toHaveBeenCalledWith('Removed');
-  });
+  it('should return formControl with order entry quantity', () => {
+    component.entry$ = of({
+      quantity: 5,
+      entryNumber: 0,
+    } as OrderEntry);
 
-  it('should update entry', () => {
-    const item = mockOrderEntry[0];
-    component.updateEntry({ item, updatedQuantity: 5 });
-    expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 5);
+    component.getQuantityControl().subscribe(control => {
+      expect(control.value).toEqual(5);
+    });
   });
 
   it('should show added dialog title message', () => {
@@ -218,5 +232,26 @@ describe('AddedToCartDialogComponent', () => {
     expect(dialogTitleEl.textContent).toEqual(
       ' addToCart.itemsIncrementedInYourCart '
     );
+  });
+
+  it('should not show cart entry', () => {
+    component.loaded$ = of(false);
+    component.modalIsOpen = false;
+    expect(el.query(By.css('cx-cart-item'))).toBeNull();
+  });
+
+  it('should show cart entry', () => {
+    fixture.detectChanges();
+    component.loaded$ = of(true);
+    component.modalIsOpen = false;
+    expect(el.query(By.css('cx-cart-item'))).toBeDefined();
+
+    component.loaded$ = of(true);
+    component.modalIsOpen = true;
+    expect(el.query(By.css('cx-cart-item'))).toBeDefined();
+
+    component.loaded$ = of(false);
+    component.modalIsOpen = true;
+    expect(el.query(By.css('cx-cart-item'))).toBeDefined();
   });
 });
