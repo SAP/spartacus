@@ -1,5 +1,6 @@
 import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
+import { waitForPage } from './checkout-flow';
 import { generateMail, randomString } from './user';
 
 interface TestProduct {
@@ -176,7 +177,7 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
 export function addProductToCartViaSearchPage(mobile: boolean) {
   const product = products[0];
 
-  goToFirstProductFromSearch(product.type, mobile);
+  goToFirstProductFromSearch(product.code, mobile);
 
   addToCart();
 
@@ -190,7 +191,7 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 export function removeAllItemsFromCart() {
   const product0 = products[0];
   const product1 = products[4];
-  waitForCartRefresh();
+  registerCartRefreshRoute();
 
   getCartItem(product0.name).within(() => {
     cy.getByText('Remove').click();
@@ -236,12 +237,18 @@ export function addProductWhenLoggedIn(mobile: boolean) {
 }
 
 export function logOutAndNavigateToEmptyCart() {
+  const logoutPage = waitForPage('/logout', 'getLogoutPage');
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
+  cy.wait(`@${logoutPage}`);
+
   cy.get('cx-login [role="link"]').should('contain', 'Sign In');
 
+  const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
+  cy.wait(`@${cartPage}`);
+
   validateEmptyCart();
 }
 
@@ -269,7 +276,12 @@ export function verifyMergedCartWhenLoggedIn() {
   const product0 = products[1];
   const product1 = products[2];
 
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get('cx-login [role="link"]').click();
+  cy.wait(`@${loginPage}`)
+    .its('status')
+    .should('eq', 200);
+
   login(
     standardUser.registrationData.email,
     standardUser.registrationData.password
@@ -286,10 +298,16 @@ export function verifyMergedCartWhenLoggedIn() {
 }
 
 export function logOutAndEmptyCart() {
+  const logoutPage = waitForPage('/logout', 'getLogoutPage');
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
+  cy.wait(`@${logoutPage}`);
+
+  const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
+  cy.wait(`@${cartPage}`);
+
   validateEmptyCart();
 }
 

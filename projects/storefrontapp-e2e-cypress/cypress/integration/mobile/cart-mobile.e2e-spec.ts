@@ -1,4 +1,5 @@
 import * as cart from '../../helpers/cart';
+import { visitHomePage } from '../../helpers/checkout-flow';
 import { formats } from '../../sample-data/viewports';
 
 function clickSearchIcon() {
@@ -13,7 +14,7 @@ describe(`${formats.mobile.width + 1}p resolution - Cart`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.visit('/');
+    visitHomePage();
   });
 
   beforeEach(() => {
@@ -33,6 +34,7 @@ describe(`${formats.mobile.width + 1}p resolution - Cart`, () => {
   });
 
   it('should add product to cart as anonymous and merge when logged in', () => {
+    cart.registerSaveCartRoute();
     cart.registerCreateCartRoute();
     cart.loginRegisteredUser();
 

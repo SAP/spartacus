@@ -1,11 +1,12 @@
 import * as cart from '../../helpers/cart';
+import { visitHomePage } from '../../helpers/checkout-flow';
 import * as alerts from '../../helpers/global-message';
 import { apiUrl, login } from '../../support/utils/login';
 
 describe('Cart', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    cy.visit('/');
+    visitHomePage();
   });
 
   it('should add products to cart via search autocomplete', () => {
