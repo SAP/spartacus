@@ -1,5 +1,3 @@
-<!-- 2.0.x -->
-
 <div [ngClass]="compact ? 'cx-compact row' : 'row'">
   <!-- Item Image -->
   <div class="col-2 cx-image-container">
@@ -40,17 +38,19 @@
           </div>
         </ng-container>
         <ng-container *cxFeatureLevel="'1.5'">
-          <div
-            *ngFor="
-              let variant of item.product.baseOptions[0]?.selected
-                ?.variantOptionQualifiers
-            "
-            class="cx-property"
-          >
-            <div class="cx-label" *ngIf="variant.name && variant.value">
-              {{ variant.name }}: {{ variant.value }}
+          <ng-container *ngIf="item.product.baseOptions?.length">
+            <div
+              *ngFor="
+                let variant of item.product.baseOptions[0]?.selected
+                  ?.variantOptionQualifiers
+              "
+              class="cx-property"
+            >
+              <div class="cx-label" *ngIf="variant.name && variant.value">
+                {{ variant.name }}: {{ variant.value }}
+              </div>
             </div>
-          </div>
+          </ng-container>
         </ng-container>
       </div>
       <!-- Item Price -->

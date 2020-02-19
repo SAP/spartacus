@@ -7,10 +7,10 @@ export function verifyItemCounterOnPDP() {
   cy.get('cx-add-to-cart cx-item-counter input')
     .type('{selectall}{backspace}')
     .type('1000')
-    .should('have.value', '22');
+    .should('have.value', '98');
 
   // check if the '+' button is disabled when the quantity is the maximum 'max stock'
-  cy.get('cx-add-to-cart button')
+  cy.get('cx-add-to-cart cx-item-counter button')
     .contains('+')
     .should('be.disabled');
 
@@ -21,7 +21,7 @@ export function verifyItemCounterOnPDP() {
     .should('have.value', '1');
 
   // check if the '-' button is disabled when the quantity is the minimum '1'
-  cy.get('cx-add-to-cart button')
+  cy.get('cx-add-to-cart cx-item-counter button')
     .contains('-')
     .should('be.disabled');
 }
@@ -125,7 +125,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   // delete a product and check if the total is updated
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', 'F 100mm f/2.8L Macro IS USM')
-    .find('.cx-actions .link')
+    .find('.cx-actions .cx-remove-btn > .link')
     .click();
   cy.get('cx-cart-details').should('contain', 'Cart #');
 
@@ -164,7 +164,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   // delete the last product in cart
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', productName2)
-    .find('.cx-actions .link')
+    .find('.cx-actions .cx-remove-btn > .link')
     .click();
 
   // check if the cart is empty
@@ -192,7 +192,7 @@ export function refreshPage() {
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', 'F 100mm f/2.8L Macro IS USM')
-    .find('.cx-actions .link')
+    .find('.cx-actions .cx-remove-btn > .link')
     .click();
   cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
 }
@@ -211,7 +211,7 @@ export function increaseProductQtyOnPDP() {
   cy.visit(`/product/${productId}`);
 
   // increase the quantity to 2 and add it to cart
-  cy.get('cx-add-to-cart button')
+  cy.get('cx-add-to-cart cx-item-counter button')
     .contains('+')
     .click();
   cy.get('cx-add-to-cart button[type=submit]').click();

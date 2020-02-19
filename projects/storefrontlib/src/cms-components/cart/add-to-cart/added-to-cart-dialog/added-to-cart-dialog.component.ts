@@ -95,24 +95,6 @@ export class AddedToCartDialogComponent implements OnInit {
     this.orderPromotions$ = this.promotionService.getOrderPromotions(
       this.promotionLocation
     );
-
-    //   this.entry$ = this.entry$.pipe(
-    //     tap(entry => {
-    //       if (entry) {
-    //         const { code } = entry.product;
-    //         if (!this.form.controls[code]) {
-    //           this.form.setControl(code, this.createEntryFormGroup(entry));
-    //         } else {
-    //           const entryForm = this.form.controls[code] as FormGroup;
-    //           entryForm.controls.quantity.setValue(entry.quantity);
-    //         }
-    //         this.form.markAsPristine();
-    //         if (!this.modalIsOpen) {
-    //           this.modalIsOpen = true;
-    //         }
-    //       }
-    //     })
-    //   );
   }
 
   private getFormControl(entry: OrderEntry): FormControl {

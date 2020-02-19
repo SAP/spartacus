@@ -113,8 +113,7 @@ function addPackageJsonDependencies(): Rule {
 
     dependencies.forEach(dependency => {
       addPackageJsonDependency(tree, dependency);
-      context.logger.log(
-        'info',
+      context.logger.info(
         `✅️ Added '${dependency.name}' into ${dependency.type}`
       );
     });

@@ -82,7 +82,7 @@ describe('ProductVariantGuard', () => {
     });
   });
 
-  it('should return true if product is purchasable', done => {
+  it('should return false and redirect if product is non-purchasable', done => {
     spyOn(productService, 'get').and.returnValue(of(mockNonPurchasableProduct));
     spyOn(routingService, 'go').and.stub();
 
@@ -92,6 +92,21 @@ describe('ProductVariantGuard', () => {
         cxRoute: 'product',
         params: mockNonPurchasableProduct,
       });
+      done();
+    });
+  });
+
+  it('should return true if no productCode in route parameter (launch from smartedit)', done => {
+    spyOn(routingService, 'getRouterState').and.returnValue(
+      of({
+        nextState: {
+          params: {},
+        },
+      } as any)
+    );
+
+    guard.canActivate().subscribe(val => {
+      expect(val).toBeTruthy();
       done();
     });
   });

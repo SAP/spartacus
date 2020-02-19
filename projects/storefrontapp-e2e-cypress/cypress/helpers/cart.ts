@@ -36,7 +36,13 @@ export const products: TestProduct[] = [
     price: 370.72,
   },
   {
-    code: '29925',
+    code: '872912',
+  },
+  {
+    code: '932577',
+    type: 'camera',
+    name: 'Digital Camera Tripod',
+    price: 24.47,
   },
 ];
 
@@ -52,7 +58,7 @@ function checkCartSummary(subtotal: string) {
 }
 
 function incrementQuantity() {
-  cy.get('button')
+  cy.get('cx-item-counter button')
     .contains('+')
     .click();
 }
@@ -156,7 +162,7 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
 }
 
 export function addProductToCartViaSearchPage(mobile: boolean) {
-  const product = products[1];
+  const product = products[0];
 
   goToFirstProductFromSearch(product.code, mobile);
 
@@ -166,12 +172,10 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 
   checkMiniCartCount(2).click({ force: true });
 
-  checkProductInCart(product);
+  checkProductInCart(product, 2);
 }
 
 export function removeAllItemsFromCart() {
-  const product0 = products[0];
-  const product1 = products[1];
   registerCartRefreshRoute();
 
   getCartItem(products[0].name).within(() => {
@@ -181,12 +185,6 @@ export function removeAllItemsFromCart() {
   cy.wait('@refresh_cart')
     .its('status')
     .should('eq', 200);
-
-  getCartItem(products[1].name).within(() => {
-    cy.getByText('Remove').click();
-  });
-
-  cy.wait('@refresh_cart');
 
   validateEmptyCart();
 }

@@ -46,11 +46,6 @@ export function getReducers(): ActionReducerMap<CmsState> {
         ),
       }),
     }),
-    /**
-     * @deprecated in favour of `components`. From 2.0, this will be removed.
-     */
-    // TODO(issue:6027) - remove this `component` slice
-    component: entityLoaderReducer(COMPONENT_ENTITY),
     components: entityReducer(COMPONENT_ENTITY, fromComponentsReducer.reducer),
     navigation: entityLoaderReducer<NodeItem>(
       NAVIGATION_DETAIL_ENTITY,

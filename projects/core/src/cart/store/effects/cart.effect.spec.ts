@@ -187,10 +187,11 @@ describe('Cart effect', () => {
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
 
-    it('should clear cart on "Cart not found" error', () => {
+    it('should clear active cart on "Cart not found" error', () => {
       const action = new DeprecatedCartActions.LoadCart({
         userId,
         cartId,
+        extraData: { active: true },
       });
       loadMock.and.returnValue(
         throwError({

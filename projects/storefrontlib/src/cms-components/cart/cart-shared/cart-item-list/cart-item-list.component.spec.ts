@@ -26,7 +26,6 @@ const mockItems: OrderEntry[] = [
     quantity: 1,
     entryNumber: 0,
     product: {
-      // id: 0,
       code: 'PR0000',
     },
     updateable: true,
@@ -140,7 +139,6 @@ describe('CartItemListComponent', () => {
 
   it('should work with consignment entries', () => {
     component.items = mockConsignmentItems;
-    console.log(component.items);
     expect(component.items[0].quantity).toEqual(3);
     expect(component.items[0].product.code).toEqual('PR0000');
   });
@@ -281,5 +279,11 @@ describe('CartItemListComponent', () => {
     component.removeEntry(item);
     expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(item);
     expect(component.form.controls[item.product.code]).toBeUndefined();
+  });
+
+  it('should get save for later feature flag', () => {
+    fixture.detectChanges();
+    component.isSaveForLaterEnabled();
+    expect(mockFeatureConfig.isEnabled).toHaveBeenCalled();
   });
 });
