@@ -1,17 +1,23 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
 import { ActiveCartService } from './facade/active-cart.service';
 import { CartDataService } from './facade/cart-data.service';
 import {
   CartService,
   CartVoucherService,
-  WishListService,
   SelectiveCartService,
+  WishListService,
 } from './facade/index';
 import { MultiCartService } from './facade/multi-cart.service';
 import { CartPageMetaResolver } from './services/cart-page-meta.resolver';
+import { CartPersistanceService } from './services/cart-persistance.service';
 import { CartStoreModule } from './store/cart-store.module';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
+
+export function cartPersistanceFactory(cartPersistanceService): any {
+  const result = () => cartPersistanceService;
+  return result;
+}
 
 @NgModule({
   imports: [CartStoreModule, MultiCartStoreModule],
@@ -33,6 +39,13 @@ export class CartModule {
           useExisting: CartPageMetaResolver,
           multi: true,
         },
+        {
+          provide: APP_INITIALIZER,
+          useFactory: cartPersistanceFactory,
+          deps: [CartPersistanceService],
+          multi: true,
+        },
+        CartPersistanceService,
       ],
     };
   }

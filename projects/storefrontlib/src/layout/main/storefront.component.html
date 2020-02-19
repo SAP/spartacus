@@ -1,5 +1,8 @@
 <ng-template cxOutlet="cx-storefront">
   <ng-template cxOutlet="cx-header">
+    <a (click)="goToApparel()">Link to apparel</a>
+    <a (click)="goToElectronics()">Link to electronics</a>
+
     <header
       [class.is-expanded]="isExpanded$ | async"
       (keydown.escape)="collapseMenu()"

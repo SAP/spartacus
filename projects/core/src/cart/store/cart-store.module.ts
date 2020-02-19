@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ConfigModule } from '../../config/config.module';
-import { StateConfig, StorageSyncType } from '../../state/config/state-config';
+import { StateConfig } from '../../state/config/state-config';
 import { StateModule } from '../../state/state.module';
 import { CART_FEATURE } from './cart-state';
 import { CartEntryEffects } from './effects/cart-entry.effect';
@@ -25,9 +25,9 @@ export function cartStoreConfigFactory(): StateConfig {
     state: {
       storageSync: {
         keys: {
-          [`${CART_FEATURE}.active.value.content.guid`]: StorageSyncType.LOCAL_STORAGE,
-          [`${CART_FEATURE}.active.value.content.code`]: StorageSyncType.LOCAL_STORAGE,
-          [`${CART_FEATURE}.active.value.content.user`]: StorageSyncType.LOCAL_STORAGE,
+          // [`${CART_FEATURE}.active.value.content.guid`]: StorageSyncType.LOCAL_STORAGE,
+          // [`${CART_FEATURE}.active.value.content.code`]: StorageSyncType.LOCAL_STORAGE,
+          // [`${CART_FEATURE}.active.value.content.user`]: StorageSyncType.LOCAL_STORAGE,
         },
       },
     },
