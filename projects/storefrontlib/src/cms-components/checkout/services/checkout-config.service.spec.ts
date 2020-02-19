@@ -4,17 +4,24 @@ import { ActivatedRoute } from '@angular/router';
 import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
-import { CheckoutConfig, DeliveryModePreferences } from '../config/checkout-config';
+import {
+  CheckoutConfig,
+  DeliveryModePreferences,
+} from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
 import { CheckoutStep } from '../model';
 import { CheckoutConfigService } from './checkout-config.service';
 
-const mockCheckoutConfig: CheckoutConfig = JSON.parse(JSON.stringify(defaultCheckoutConfig));
+const mockCheckoutConfig: CheckoutConfig = JSON.parse(
+  JSON.stringify(defaultCheckoutConfig)
+);
 
 const mockCheckoutSteps: Array<CheckoutStep> =
   mockCheckoutConfig.checkout.steps;
 
-const mockRoutingConfig: RoutesConfig = JSON.parse(JSON.stringify(defaultStorefrontRoutesConfig));
+const mockRoutingConfig: RoutesConfig = JSON.parse(
+  JSON.stringify(defaultStorefrontRoutesConfig)
+);
 
 class MockActivatedRoute {
   snapshot = of();

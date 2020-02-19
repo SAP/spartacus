@@ -11,8 +11,12 @@ import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { PaymentDetailsSetGuard } from './payment-details-set.guard';
 
 // deep copy to avoid issues with mutating imported symbols
-const MockCheckoutConfig: CheckoutConfig = JSON.parse(JSON.stringify(defaultCheckoutConfig));
-const MockRoutesConfig: RoutesConfig = JSON.parse(JSON.stringify(defaultStorefrontRoutesConfig));
+const MockCheckoutConfig: CheckoutConfig = JSON.parse(
+  JSON.stringify(defaultCheckoutConfig)
+);
+const MockRoutesConfig: RoutesConfig = JSON.parse(
+  JSON.stringify(defaultStorefrontRoutesConfig)
+);
 
 class MockCheckoutDetailsService {
   getPaymentDetails(): Observable<Order> {

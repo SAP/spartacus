@@ -9,7 +9,9 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { ShippingAddressSetGuard } from './shipping-address-set.guard';
 
-const MockRoutesConfig: RoutesConfig = JSON.parse(JSON.stringify(defaultStorefrontRoutesConfig));
+const MockRoutesConfig: RoutesConfig = JSON.parse(
+  JSON.stringify(defaultStorefrontRoutesConfig)
+);
 
 class MockCheckoutDetailsService {
   getDeliveryAddress(): Observable<Order> {
@@ -26,7 +28,9 @@ class MockCheckoutConfigService {
   getCheckoutStep() {}
 }
 
-const MockCheckoutConfig: CheckoutConfig = JSON.parse(JSON.stringify(defaultCheckoutConfig));
+const MockCheckoutConfig: CheckoutConfig = JSON.parse(
+  JSON.stringify(defaultCheckoutConfig)
+);
 
 describe(`ShippingAddressSetGuard`, () => {
   let guard: ShippingAddressSetGuard;
