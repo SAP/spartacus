@@ -33,6 +33,8 @@ export class CartItemListComponent {
   private _items: Item[] = [];
   form: FormGroup;
 
+  private _cartIsLoading = false;
+
   @Input('items')
   // TODO: currently we're getting a new array of items if the cart changes.
   // pretty annoying as it forces a repaint on the screen,
@@ -49,6 +51,7 @@ export class CartItemListComponent {
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   @Input('cartIsLoading') set setLoading(value: boolean) {
+    this._cartIsLoading = value;
     if (!this.readonly) {
       // Whenver the cart is loading, we disable the complete form
       // to avoid any user interaction with the cart.
@@ -56,6 +59,10 @@ export class CartItemListComponent {
         ? this.form.disable({ emitEvent: false })
         : this.form.enable({ emitEvent: false });
     }
+  }
+
+  get cartIsLoading(): boolean {
+    return this._cartIsLoading;
   }
 
   constructor(

@@ -31,6 +31,7 @@ export class CartItemComponent implements OnInit {
   @Input() potentialProductPromotions: any[];
   @Input() readonly = false;
   @Input() quantityControl: FormControl;
+  @Input() cartIsLoading = false;
 
   @Output() view = new EventEmitter<any>();
 
@@ -41,6 +42,9 @@ export class CartItemComponent implements OnInit {
     isSaveForLater: false,
     optionalBtn: null,
   };
+
+  @Output()
+  remove = new EventEmitter<any>();
 
   appliedProductPromotions$: Observable<PromotionResult[]>;
 
@@ -87,8 +91,12 @@ export class CartItemComponent implements OnInit {
   }
 
   removeItem() {
-    this.quantityControl.setValue(0);
-    this.quantityControl.markAsDirty();
+    if (this.options.isSaveForLater) {
+      this.remove.emit(this.item);
+    } else {
+      this.quantityControl.setValue(0);
+      this.quantityControl.markAsDirty();
+    }
   }
 
   viewItem() {
