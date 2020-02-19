@@ -42,7 +42,7 @@
     [innerHTML]="result.message"
   ></div>
 
-  <div class="suggestions" (mousedown)="disableClose()">
+  <div class="suggestions">
     <a
       *ngFor="let suggestion of result.suggestions"
       [innerHTML]="suggestion | cxHighlight: searchInput.value"
@@ -61,7 +61,7 @@
     </a>
   </div>
 
-  <div class="products" (mousedown)="disableClose()" *ngIf="result.products">
+  <div class="products" *ngIf="result.products">
     <a
       *ngFor="let product of result.products"
       [routerLink]="
