@@ -44,7 +44,7 @@ export function denormalizeCustomB2BSearch<T>(
   if (!serializedList.value || !serializedList.value.ids) {
     return serializedList;
   }
-  const res: LoaderState<EntitiesModel<T>> = Object.assign({}, list, {
+  const res: LoaderState<EntitiesModel<T>> = Object.assign({}, serializedList, {
     value: {
       values: serializedList.value.ids.map(
         code => entityStateSelector(entities, code).value
