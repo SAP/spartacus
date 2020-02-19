@@ -1,6 +1,5 @@
+@import '../organization-form';
+
 %cx-budget-details {
-  .cx-label {
-    overflow-wrap: break-word;
-    padding-right: 1rem;
-  }
+  @extend %cx-organization-form;
 }
