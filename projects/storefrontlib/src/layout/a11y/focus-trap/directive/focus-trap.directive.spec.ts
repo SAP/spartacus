@@ -5,9 +5,11 @@ import { FocusTrapService } from '../service/focus-trap.service';
 
 class MockFocusTrapService {
   getTrapHandler = () => {
-    return () => {
-      console.log('hi');
-    };
+    return () => null;
+  };
+
+  focusFirstEl = () => {
+    return null;
   };
 }
 
@@ -18,6 +20,13 @@ class MockFocusTrapService {
 })
 class TestContainerComponent {}
 
+@Component({
+  template: `
+    <div [cxFocusTrap]="{ autoFocus: true }"></div>
+  `,
+})
+class TestContainerWithAutoFocusComponent {}
+
 fdescribe('FocusTrapDirective', () => {
   let fixture: ComponentFixture<TestContainerComponent>;
   let service: FocusTrapService;
@@ -26,44 +35,86 @@ fdescribe('FocusTrapDirective', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [],
-      declarations: [TestContainerComponent, FocusTrapDirective],
+      declarations: [
+        TestContainerComponent,
+        TestContainerWithAutoFocusComponent,
+        FocusTrapDirective,
+      ],
       providers: [
         { provide: FocusTrapService, useClass: MockFocusTrapService },
       ],
     }).compileComponents();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TestContainerComponent);
-    service = TestBed.get(FocusTrapService as Type<FocusTrapService>);
-    component = fixture.componentInstance;
+  describe('Without config', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(TestContainerComponent);
+      service = TestBed.get(FocusTrapService as Type<FocusTrapService>);
+      component = fixture.componentInstance;
+    });
+
+    it('should be created', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should create focus trap on component creation', () => {
+      const element = fixture.nativeElement.querySelector('div[cxfocustrap]');
+      const spyHandler = spyOn(service, 'getTrapHandler');
+      const spyAutoFocus = spyOn(service, 'focusFirstEl');
+      const spyListener = spyOn(element, 'addEventListener');
+
+      expect(spyHandler).not.toHaveBeenCalled();
+      expect(spyAutoFocus).not.toHaveBeenCalled();
+      expect(spyListener).not.toHaveBeenCalled();
+      fixture.detectChanges();
+      expect(spyHandler).toHaveBeenCalled();
+      expect(spyAutoFocus).not.toHaveBeenCalled();
+      expect(spyListener).toHaveBeenCalled();
+    });
+
+    it('should remove focus trap on component destruction', () => {
+      const element = fixture.nativeElement.querySelector('div[cxfocustrap]');
+      const spyListener = spyOn(element, 'removeEventListener');
+      expect(spyListener).not.toHaveBeenCalled();
+      fixture.detectChanges();
+      fixture.destroy();
+      expect(spyListener).toHaveBeenCalled();
+    });
   });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
+  describe('With AutoFocus', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(TestContainerWithAutoFocusComponent);
+      service = TestBed.get(FocusTrapService as Type<FocusTrapService>);
+      component = fixture.componentInstance;
+    });
 
-  it('should create focus trap on component creation', () => {
-    const spyHandler = spyOn(service, 'getTrapHandler');
-    // const element: any = fixture.componentRef.location;
-    const spyListener = spyOn(
-      fixture.debugElement.nativeElement,
-      'addEventListener'
-    );
-    expect(spyHandler).not.toHaveBeenCalled();
-    fixture.detectChanges();
-    expect(spyHandler).toHaveBeenCalled();
-    expect(spyListener).toHaveBeenCalled();
-    // element.dispatchEvent(event);
-    // fixture.detectChanges();
-    // fixture.whenStable().then(() => {
-    //   element.dispatchEvent(event);
-    //   console.log(document);
-    // });
-  });
+    it('should be created', () => {
+      expect(component).toBeTruthy();
+    });
 
-  xit('should remove focus trap on component destruction', () => {
-    fixture.detectChanges();
-    fixture.destroy();
+    it('should create focus trap and call autofocus', () => {
+      const element = fixture.nativeElement.querySelector('div');
+      const spyHandler = spyOn(service, 'getTrapHandler');
+      const spyAutoFocus = spyOn(service, 'focusFirstEl');
+      const spyListener = spyOn(element, 'addEventListener');
+
+      expect(spyHandler).not.toHaveBeenCalled();
+      expect(spyAutoFocus).not.toHaveBeenCalled();
+      expect(spyListener).not.toHaveBeenCalled();
+      fixture.detectChanges();
+      expect(spyHandler).toHaveBeenCalled();
+      expect(spyAutoFocus).toHaveBeenCalled();
+      expect(spyListener).toHaveBeenCalled();
+    });
+
+    it('should remove focus trap on component destruction', () => {
+      const element = fixture.nativeElement.querySelector('div');
+      const spyListener = spyOn(element, 'removeEventListener');
+      expect(spyListener).not.toHaveBeenCalled();
+      fixture.detectChanges();
+      fixture.destroy();
+      expect(spyListener).toHaveBeenCalled();
+    });
   });
 });
