@@ -21,12 +21,17 @@ export class ChecktableComponent {
 
   selectedValues: Array<any>;
 
-  onToggle() {
-    const checkedOptions = this.tableData.filter(x => x.options);
+  onToggle(event, row) {
+    // console.log(event.target.value)
+    if (event.target.value = 'on') {
+      this.toggle.emit(row);
+    }
+    // console.log(row)
+    // const checkedOptions = this.tableData.filter(x => x.options);
     // console.log(checkedOptions);
     // this.selectedValues = checkedOptions.map(x => x.code);
     // console.log(this.selectedValues);
-    this.toggle.emit(checkedOptions);
+    // this.toggle.emit(checkedOptions);
   }
 
   // ngOnChanges() {
