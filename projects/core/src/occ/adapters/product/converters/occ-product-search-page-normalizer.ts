@@ -20,6 +20,8 @@ export class OccProductSearchPageNormalizer
    * non have been setup by the business.
    */
   protected DEFAULT_TOP_VALUES = 6;
+  /** Indicates the number of expanded facet groups */
+  protected DEFAULT_FACET_EXPANDED_NO = 3;
 
   convert(
     source: Occ.ProductSearchPage,
@@ -40,9 +42,22 @@ export class OccProductSearchPageNormalizer
   }
 
   private normalizeFacets(target: ProductSearchPage): void {
+    this.limitVisibleFacets(target);
     this.normalizeFacetValues(target);
     this.normalizeUselessFacets(target);
   }
+
+  /**
+   * The facets lised on the listing page can be ordered in the backend,
+   * so that the relevant facets will be shown at the top of the facet list.
+   * On top of that, the facets can be collapsed or expanded.
+   */
+  private limitVisibleFacets(target: ProductSearchPage): void {
+    target.facets.map((facet, i) => {
+      facet.expanded = i < this.DEFAULT_FACET_EXPANDED_NO;
+    });
+  }
+
   /**
    * The (current) backend returns facets with values that do not contribute
    * to the facet navigation much, as the number in the result list will not get

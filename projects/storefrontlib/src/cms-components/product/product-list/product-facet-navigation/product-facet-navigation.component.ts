@@ -3,7 +3,6 @@ import { Breadcrumb, Facet } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { FacetService } from './facet.service';
-import { ProductFacetService } from './product-facet.service';
 
 @Component({
   selector: 'cx-product-facet-navigation',
@@ -13,20 +12,18 @@ import { ProductFacetService } from './product-facet.service';
 export class ProductFacetNavigationComponent {
   iconTypes = ICON_TYPE;
 
-  /** indicates that the navigation is opened, typically used in mobile */
+  /**
+   * indicates that the navigation is opened,
+   * typically used in mobile
+   */
   showNav = false;
 
-  facets$: Observable<Facet[]> = this.productFacetService.facets$;
-
-  activeFacets$: Observable<Breadcrumb[]> = this.productFacetService
-    .breadcrumbs$;
+  facets$: Observable<Facet[]> = this.facetService.facets$;
+  activeFacets$: Observable<Breadcrumb[]> = this.facetService.breadcrumbs$;
 
   @HostBinding('class.container') container = true;
 
-  constructor(
-    private productFacetService: ProductFacetService,
-    protected facetService: FacetService
-  ) {}
+  constructor(private facetService: FacetService) {}
 
   getLinkParams(facet: Breadcrumb) {
     return this.facetService.getLinkParams(facet.removeQuery.query.value);
@@ -38,8 +35,5 @@ export class ProductFacetNavigationComponent {
 
   toggleNavigation() {
     this.showNav = !this.showNav;
-  }
-  focus(el) {
-    console.log(el);
   }
 }

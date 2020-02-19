@@ -2,11 +2,15 @@
 
 <ng-container *ngIf="state$ | async as state">
   <a
+    #facetValue
     *ngFor="let value of facet.values | slice: 0:state.top"
     routerLink="./"
     [queryParams]="getLinkParams(value)"
     class="value"
     [class.selected]="value.selected"
+    (click)="clickValueHandler(value, $event)"
+    (keydown.enter)="clickValueHandler(value, $event)"
+    [tabIndex]="getIndex(state)"
   >
     <span
       >{{ value.name }}<span class="count">{{ value.count }}</span></span
@@ -20,6 +24,7 @@
       [queryParams]="getLinkParams(value)"
       class="value"
       [class.selected]="value.selected"
+      [tabIndex]="getIndex(state)"
     >
       <span
         >{{ value.name }}<span class="count">{{ value.count }}</span></span
@@ -30,7 +35,7 @@
       (click)="decreaseCount()"
       (keydown.enter)="decreaseCount()"
       (keydown.space)="decreaseCount()"
-      tabindex="0"
+      [tabIndex]="getIndex(state)"
     >
       {{ 'productList.showLess' | cxTranslate }}
     </a>
@@ -40,7 +45,7 @@
       (click)="increaseCount()"
       (keydown.enter)="increaseCount()"
       (keydown.space)="increaseCount()"
-      tabindex="0"
+      [tabIndex]="getIndex(state)"
     >
       {{ 'productList.showMore' | cxTranslate }}
     </a>

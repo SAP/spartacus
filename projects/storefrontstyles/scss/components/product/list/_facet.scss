@@ -4,6 +4,8 @@
 // }
 
 %cx-facet {
+  display: block;
+
   &:not(.expanded) {
     a {
       display: none;
@@ -36,8 +38,9 @@
   }
 
   &.multi-select a.value {
-    &:hover,
-    &:focus-within {
+    &:hover {
+      // &:focus-within
+
       &:not(.selected)::before {
         border-color: var(--cx-color-primary);
       }

@@ -1,33 +1,43 @@
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Facet, SearchState } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
-import { ProductListComponentService } from '../container/product-list-component.service';
+import { Facet, FacetValue, SearchState } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ProductFacetService } from './product-facet.service';
 export interface FacetCollapseState {
-  collapseGroup?: boolean;
+  expanded?: boolean;
   collapseTopValues?: boolean;
-
+  focussed?: boolean;
   top?: number;
   visible?: number;
 }
 
+/**
+ * Provides the user driven UI state for facets:
+ * - expanded groups
+ * - focussed groups
+ * - expanded values
+ * - focussed values
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class FacetService {
-  protected COLLAPSE_GROUP_BY_DEFAULT = false;
   protected COLLAPSE_TOP_VALUES_BY_DEFAULT = true;
 
   protected queryCodec: HttpUrlEncodingCodec = new HttpUrlEncodingCodec();
 
   facetState = new Map<string, BehaviorSubject<FacetCollapseState>>();
 
-  constructor(
-    protected productListComponentService: ProductListComponentService
-  ) {}
+  focussed;
+
+  readonly facets$: Observable<Facet[]> = this.productFacetService.facets$;
+  readonly breadcrumbs$: Observable<any> = this.productFacetService
+    .breadcrumbs$;
+
+  constructor(private productFacetService: ProductFacetService) {}
 
   toggleValue(searchState: SearchState) {
-    this.productListComponentService.setQuery(searchState.query.value);
+    this.productFacetService.setQuery(searchState.query.value);
   }
 
   getState(
@@ -41,17 +51,25 @@ export class FacetService {
       this.facetState.set(
         facet.name,
         new BehaviorSubject({
-          collapseGroup: this.COLLAPSE_GROUP_BY_DEFAULT,
+          expanded: facet.expanded,
           collapseTopValues: this.COLLAPSE_TOP_VALUES_BY_DEFAULT,
-        })
+          // focussed:
+          //   this.focussed &&
+          //   this.focussed.facet &&
+          //   this.focussed.facet.name === facet.name,
+        } as FacetCollapseState)
       );
     }
     return this.facetState.get(facet.name);
   }
 
-  toggleGroup(facet: Facet) {
+  toggleGroup(facet: Facet, isFocussed?: boolean) {
     const state = this.getState(facet).value;
-    state.collapseGroup = !state.collapseGroup;
+
+    state.expanded = isFocussed || !state.expanded;
+
+    this.focussed = { facet };
+    state.focussed = true;
 
     // if (!state.collapseGroup) {
     //   state.visible = state.top;
@@ -62,6 +80,18 @@ export class FacetService {
       state.visible = state.top;
     }
     this.getState(facet).next(state);
+  }
+
+  /**
+   * Removes the focus from the current focussed facet
+   */
+  clearFocus(): void {
+    if (this.focussed && this.focussed.facet) {
+      const state = this.getState(this.focussed.facet).value;
+      state.focussed = false;
+      this.getState(this.focussed.facet).next(state);
+      this.focussed = null;
+    }
   }
 
   increaseVisible(facet: Facet) {
@@ -78,6 +108,11 @@ export class FacetService {
     state.visible =
       state.visible - 5 > state.top ? state.visible - 5 : state.top;
     this.getState(facet).next(state);
+  }
+
+  storeFocus(facet: Facet, value: FacetValue) {
+    console.log('store focus for', facet, value.name);
+    this.focussed = { facet, value: value.name };
   }
 
   getLinkParams(query: string) {

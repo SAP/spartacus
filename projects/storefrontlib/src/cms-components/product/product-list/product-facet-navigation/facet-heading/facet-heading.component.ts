@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   HostListener,
   Input,
 } from '@angular/core';
@@ -18,7 +17,7 @@ import { FacetCollapseState, FacetService } from '../facet.service';
 export class FacetHeadingComponent {
   @Input() facet: Facet;
 
-  @HostBinding('tabindex') tabindex = 0;
+  // @HostBinding('tabindex') tabindex;
 
   icons = ICON_TYPE;
 
@@ -33,11 +32,16 @@ export class FacetHeadingComponent {
     // we'll stop event bubbling to ensure that
     // the space key will not force a scroll down
     event.preventDefault();
+    event.stopPropagation();
   }
 
   constructor(private facetService: FacetService) {}
 
   get state(): BehaviorSubject<FacetCollapseState> {
     return this.facetService.getState(this.facet);
+  }
+
+  getIndex(state: FacetCollapseState): number {
+    return state.focussed ? 0 : -1;
   }
 }

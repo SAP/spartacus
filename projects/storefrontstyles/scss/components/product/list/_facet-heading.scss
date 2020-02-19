@@ -1,0 +1,20 @@
+%cx-facet-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 0.4rem 0;
+  padding: 0.4rem;
+
+  border-bottom: 1px solid var(--cx-color-light);
+  outline: none;
+
+  cursor: pointer;
+
+  font-weight: var(--cx-font-weight-semi);
+
+  &:hover,
+  &:focus {
+    color: var(--cx-color-primary);
+  }
+}

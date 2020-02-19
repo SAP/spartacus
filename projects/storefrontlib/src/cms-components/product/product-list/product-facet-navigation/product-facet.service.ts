@@ -16,11 +16,6 @@ import { ProductListComponentService } from '../container/product-list-component
   providedIn: 'root',
 })
 export class ProductFacetService {
-  constructor(
-    protected routing: RoutingService,
-    protected productListComponentService: ProductListComponentService
-  ) {}
-
   readonly routeState$ = this.routing.getRouterState().pipe(pluck('state'));
 
   private readonly searchResult$: Observable<
@@ -44,6 +39,15 @@ export class ProductFacetService {
   readonly breadcrumbs$: Observable<any> = this.searchResult$.pipe(
     pluck('breadcrumbs')
   );
+
+  constructor(
+    protected routing: RoutingService,
+    protected productListComponentService: ProductListComponentService
+  ) {}
+
+  setQuery(query: string): void {
+    this.productListComponentService.setQuery(query);
+  }
 
   /**
    * Filters the current result by verifying if the result is related to the page.
