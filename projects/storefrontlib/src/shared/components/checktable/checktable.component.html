@@ -1,14 +1,14 @@
 <ng-container *ngIf="tableData">
   <table class="table cx-checktable">
     <thead class="cx-thead-mobile">
-      <th>
+      <th></th>
       <th scope="col" *ngFor="let column of columns">
         {{ column.value }}
       </th>
     </thead>
     <tbody>
       <tr *ngFor="let row of tableData">
-        <td>
+        <td></td>
         <td class="cx-code" *ngFor="let column of columns">
           <!-- <div class="d-md-none cx-label" *ngIf="column.checked===false">
             {{ column.value }}
@@ -17,9 +17,9 @@
           <div *ngIf="column.checked">
             <input
               type="checkbox"
-              [checked]= row[column.key]
+              [checked]="row[column.key]"
               (change)="onToggle($event, row)"
-            /> 
+            />
           </div>
 
           <a
@@ -37,7 +37,6 @@
 
           <ng-template #text>{{ row[column.key] }}</ng-template>
         </td>
-      
       </tr>
     </tbody>
   </table>
