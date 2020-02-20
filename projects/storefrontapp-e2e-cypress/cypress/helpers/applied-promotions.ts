@@ -123,7 +123,7 @@ export function checkForAppliedCartPromotions(shouldContainPromotion) {
 }
 
 export function decreaseQuantityOfCartEntry() {
-  cy.get('.cx-counter-action')
+  cy.get('cx-item-counter button')
     .first()
     .click();
 }
