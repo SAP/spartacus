@@ -23,7 +23,7 @@ export class ChecktableComponent {
 
   onToggle(event, row) {
     // console.log(event.target.value)
-    if (event.target.value = 'on') {
+    if ((event.target.value = 'on')) {
       this.toggle.emit(row);
     }
     // console.log(row)

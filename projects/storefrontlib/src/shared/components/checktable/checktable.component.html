@@ -15,9 +15,9 @@
           <div *ngIf="column.checked">
             <input
               type="checkbox"
-              [checked]= row[column.key]
+              [checked]="row[column.key]"
               (change)="onToggle($event, row)"
-            /> 
+            />
           </div>
 
           <a
