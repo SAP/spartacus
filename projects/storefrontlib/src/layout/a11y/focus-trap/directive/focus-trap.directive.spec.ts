@@ -27,7 +27,7 @@ class TestContainerComponent {}
 })
 class TestContainerWithAutoFocusComponent {}
 
-fdescribe('FocusTrapDirective', () => {
+describe('FocusTrapDirective', () => {
   let fixture: ComponentFixture<TestContainerComponent>;
   let service: FocusTrapService;
   let component: TestContainerComponent;
