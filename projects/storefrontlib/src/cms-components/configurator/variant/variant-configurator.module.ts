@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ComponentFactory,
+  ComponentFactoryResolver,
+  NgModule,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -11,6 +16,8 @@ import {
   UrlModule,
   UserService,
 } from '@spartacus/core';
+import { OutletPosition } from '@spartacus/storefront';
+import { OutletService } from 'projects/storefrontlib/src/cms-structure';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
@@ -31,6 +38,7 @@ import { ConfigGroupTitleComponent } from '../commons/config-group-title/config-
 import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/config-price-summary.component';
 import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.component';
+import { ConfigUpdateMessageComponent } from '../commons/config-update-message/config-update-message.component';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
 
 @NgModule({
@@ -157,6 +165,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
+    ConfigUpdateMessageComponent,
   ],
   exports: [
     ConfigFormComponent,
@@ -175,8 +184,17 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
+    ConfigUpdateMessageComponent,
   ],
-  providers: [UserService],
+  providers: [
+    UserService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: bannerFactory,
+      deps: [ComponentFactoryResolver, OutletService],
+      multi: true,
+    },
+  ],
   entryComponents: [
     ConfigFormComponent,
     ConfigAttributeRadioButtonComponent,
@@ -194,6 +212,20 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
+    ConfigUpdateMessageComponent,
   ],
 })
 export class VariantConfiguratorModule {}
+
+export function bannerFactory(
+  componentFactoryResolver: ComponentFactoryResolver,
+  outletService: OutletService<ComponentFactory<any>>
+) {
+  const isReady = () => {
+    const factory = componentFactoryResolver.resolveComponentFactory(
+      ConfigUpdateMessageComponent
+    );
+    outletService.add('cx-header', factory, OutletPosition.AFTER);
+  };
+  return isReady;
+}
