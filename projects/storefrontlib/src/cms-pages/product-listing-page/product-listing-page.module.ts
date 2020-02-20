@@ -1,16 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsPageGuard, PageLayoutComponent } from '../../cms-structure/index';
-import { suffixUrlMatcher } from '../../cms-structure/routing/suffix-routes/suffix-url-matcher';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'category' },
-      },
       {
         path: null,
         canActivate: [CmsPageGuard],
@@ -24,15 +17,11 @@ import { suffixUrlMatcher } from '../../cms-structure/routing/suffix-routes/suff
         data: { cxRoute: 'brand' },
       },
       {
-        matcher: suffixUrlMatcher,
+        //it's after the brand route, as it may include suffix matcher
+        path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: {
-          cxSuffixUrlMatcher: {
-            marker: 'c',
-            paramName: 'categoryCode',
-          },
-        },
+        data: { cxRoute: 'category' },
       },
     ]),
   ],

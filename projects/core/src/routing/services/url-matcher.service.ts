@@ -7,7 +7,6 @@ import {
   UrlSegmentGroup,
 } from '@angular/router';
 import { GlobService } from '../../util/glob.service';
-import { UrlMatcherFactory } from '../configurable-routes/routes-config';
 
 @Injectable({ providedIn: 'root' })
 export class UrlMatcherService {
@@ -53,12 +52,6 @@ export class UrlMatcherService {
       return null;
     };
     return matcher;
-  }
-
-  fromFactory({ deps, factory }: UrlMatcherFactory): UrlMatcher {
-    const resolvedDeps = (deps || []).map(dep => this.injector.get(dep));
-    const result = factory(...resolvedDeps);
-    return result;
   }
 
   /**
