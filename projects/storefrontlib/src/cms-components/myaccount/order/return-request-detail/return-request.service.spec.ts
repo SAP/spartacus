@@ -1,11 +1,10 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  OrderReturnRequestService,
-  RoutingService,
-  ReturnRequest,
   GlobalMessageService,
   GlobalMessageType,
+  OrderReturnRequestService,
+  ReturnRequest,
+  RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from './return-request.service';
@@ -44,9 +43,9 @@ class MockGlobalMessageService {
 
 describe('ReturnRequestService', () => {
   let service;
-  let orderReturnRequestService: MockOrderReturnRequestService;
-  let routingService: MockRoutingService;
-  let messageService: MockGlobalMessageService;
+  let orderReturnRequestService: OrderReturnRequestService;
+  let routingService: RoutingService;
+  let messageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -62,14 +61,10 @@ describe('ReturnRequestService', () => {
       ],
     });
 
-    service = TestBed.get(ReturnRequestService as Type<ReturnRequestService>);
-    orderReturnRequestService = TestBed.get(OrderReturnRequestService as Type<
-      OrderReturnRequestService
-    >);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    messageService = TestBed.get(GlobalMessageService as Type<
-      GlobalMessageService
-    >);
+    service = TestBed.inject(ReturnRequestService);
+    orderReturnRequestService = TestBed.inject(OrderReturnRequestService);
+    routingService = TestBed.inject(RoutingService);
+    messageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should be created', () => {

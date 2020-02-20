@@ -1,11 +1,11 @@
-import { Type, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  CmsConfig,
   CmsService,
   CMSTabParagraphContainer,
   I18nTestingModule,
   WindowRef,
-  CmsConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
@@ -97,8 +97,8 @@ describe('TabParagraphContainerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TabParagraphContainerComponent);
     component = fixture.componentInstance;
-    cmsService = TestBed.get(CmsService as Type<CmsService>);
-    windowRef = TestBed.get(WindowRef as Type<WindowRef>);
+    cmsService = TestBed.inject(CmsService);
+    windowRef = TestBed.inject(WindowRef);
   });
 
   it('should create', () => {

@@ -24,7 +24,7 @@ describe('JsonLdProductOfferBuilder', () => {
       providers: [JsonLdProductOfferBuilder],
     });
 
-    service = TestBed.get(JsonLdProductOfferBuilder);
+    service = TestBed.inject(JsonLdProductOfferBuilder);
   });
 
   it('should be created', () => {

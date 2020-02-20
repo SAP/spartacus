@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CmsService, Page } from '@spartacus/core';
 import { PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
@@ -137,13 +136,9 @@ describe('PageLayoutService', () => {
       ],
     });
 
-    pageLayoutService = TestBed.get(PageLayoutService as Type<
-      PageLayoutService
-    >);
-    breakpointService = TestBed.get(BreakpointService as Type<
-      BreakpointService
-    >);
-    cmsService = TestBed.get(CmsService as Type<CmsService>);
+    pageLayoutService = TestBed.inject(PageLayoutService);
+    breakpointService = TestBed.inject(BreakpointService);
+    cmsService = TestBed.inject(CmsService);
   });
 
   it('should inject service', () => {
@@ -181,7 +176,7 @@ describe('PageLayoutService', () => {
       });
 
       it('should use Page Layout Handlers', () => {
-        const pageLayoutHandler = TestBed.get(PAGE_LAYOUT_HANDLER)[0];
+        const pageLayoutHandler = TestBed.inject(PAGE_LAYOUT_HANDLER)[0];
         spyOn(pageLayoutHandler, 'handle').and.callThrough();
         pageLayoutService.getSlots('footer').subscribe();
         expect(pageLayoutHandler.handle).toHaveBeenCalled();
@@ -438,12 +433,8 @@ describe('PageLayoutService', () => {
       ],
     });
 
-    pageLayoutService = TestBed.get(PageLayoutService as Type<
-      PageLayoutService
-    >);
-    breakpointService = TestBed.get(BreakpointService as Type<
-      BreakpointService
-    >);
+    pageLayoutService = TestBed.inject(PageLayoutService);
+    breakpointService = TestBed.inject(BreakpointService);
   });
 
   describe('no page layout confguration', () => {

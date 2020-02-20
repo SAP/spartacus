@@ -252,7 +252,7 @@ describe('OutletDirective', () => {
         ],
       }).compileComponents();
 
-      deferLoaderService = TestBed.get(DeferLoaderService);
+      deferLoaderService = TestBed.inject(DeferLoaderService);
     }));
 
     it('should use instant loading', () => {
