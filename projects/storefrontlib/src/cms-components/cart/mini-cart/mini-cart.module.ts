@@ -7,7 +7,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { IconModule } from '../../../cms-components/misc/icon/index';
+import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { MiniCartComponent } from './mini-cart.component';
 
 @NgModule({

@@ -9,7 +9,7 @@ import {
   UrlModule,
   FeaturesConfigModule,
 } from '@spartacus/core';
-import { IconModule } from '../../../cms-components/misc/icon/index';
+import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { AutoFocusDirectiveModule } from '../../../shared/directives/auto-focus/auto-focus.directive.module';
 import { ItemCounterModule, SpinnerModule } from '../../../shared/index';
 import { CartSharedModule } from './../cart-shared/cart-shared.module';
