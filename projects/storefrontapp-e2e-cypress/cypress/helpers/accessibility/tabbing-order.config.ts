@@ -1940,4 +1940,211 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
+  storeFinder: [
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'Use my location',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'View all stores',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
+  storeFinderSearchResults: [
+    {
+      value: 'Nakano',
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'Use my location',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'View all stores',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '2',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Yokohama Hotel JAL City Kannai Yokohama',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Chiba',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Yokosuka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  storeFinderStoreDetails: [
+    {
+      value: 'Back to list',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  storeFinderCountriesList: [
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'Use my location',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'View all stores',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'Japan (49)',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  storeFinderStoresList: [
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'Use my location',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'View all stores',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'Kawasaki Hotel Sunroute Kawasaki',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kawasaki Mets Kawasaki Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Chiba',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Matsudo',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Koto',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Tokio Park Hotel Tokyo',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Yokosuka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Osaka Ramada Osaka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Nakano',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Osaka Cross Hotel Osaka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Shinbashi',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
 };
