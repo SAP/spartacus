@@ -37,7 +37,7 @@
     </cx-generic-link>
 
     <ng-template #heading>
-      <h5 [attr.aria-label]="node.title" tabindex="0">
+      <h5 [attr.aria-label]="node.title" [attr.tabindex]="flyout ? 0 : -1">
         {{ node.title }}
         <cx-icon
           *ngIf="flyout && node.children?.length > 0"
@@ -45,8 +45,6 @@
         ></cx-icon>
       </h5>
     </ng-template>
-
-    <span tabindex="0" *ngIf="isTabbable(node)"></span>
 
     <!-- we add a wrapper to allow for better layout handling in CSS -->
     <div class="wrapper" *ngIf="node.children?.length > 0">
