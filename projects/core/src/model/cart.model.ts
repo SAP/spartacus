@@ -50,6 +50,11 @@ export interface CardType {
   name?: string;
 }
 
+export interface PaymentType {
+  code?: string;
+  displayName?: string;
+}
+
 export interface PaymentDetails {
   accountHolderName?: string;
   billingAddress?: Address;

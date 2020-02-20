@@ -544,6 +544,32 @@ export namespace Occ {
 
   /**
    *
+   * An interface representing PaymentType.
+   */
+  export interface PaymentType {
+    /**
+     * @member {string} [code]
+     */
+    code?: string;
+    /**
+     * @member {string} [displayName]
+     */
+    displayName?: string;
+  }
+
+  /**
+   *
+   * An interface representing PaymentTypeList.
+   */
+  export interface PaymentTypeList {
+    /**
+     * @member {PaymentType[]} [paymentTypes]
+     */
+    paymentTypes?: PaymentType[];
+  }
+
+  /**
+   *
    * An interface representing PromotionOrderEntryConsumed.
    */
   export interface PromotionOrderEntryConsumed {
