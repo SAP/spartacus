@@ -156,13 +156,13 @@ export class LoadAssignedBudgets extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      code: string;
+      costCenterCode: string;
       params: B2BSearchConfig;
     }
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      serializeB2BSearchConfig(payload.params, payload.code)
+      serializeB2BSearchConfig(payload.params, payload.costCenterCode)
     );
   }
 }
@@ -170,11 +170,15 @@ export class LoadAssignedBudgets extends EntityLoadAction {
 export class LoadAssignedBudgetsFail extends EntityFailAction {
   readonly type = LOAD_ASSIGNED_BUDGETS_FAIL;
   constructor(
-    public payload: { code: string; params: B2BSearchConfig; error: any }
+    public payload: {
+      costCenterCode: string;
+      params: B2BSearchConfig;
+      error: any;
+    }
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      serializeB2BSearchConfig(payload.params, payload.code),
+      serializeB2BSearchConfig(payload.params, payload.costCenterCode),
       payload.error
     );
   }
@@ -184,14 +188,14 @@ export class LoadAssignedBudgetsSuccess extends EntitySuccessAction {
   readonly type = LOAD_ASSIGNED_BUDGETS_SUCCESS;
   constructor(
     public payload: {
-      code: string;
+      costCenterCode: string;
       page: ListModel;
       params: B2BSearchConfig;
     }
   ) {
     super(
       COST_CENTER_ASSIGNED_BUDGETS,
-      serializeB2BSearchConfig(payload.params, payload.code)
+      serializeB2BSearchConfig(payload.params, payload.costCenterCode)
     );
   }
 }

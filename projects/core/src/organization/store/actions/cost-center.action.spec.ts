@@ -1,9 +1,14 @@
-import { COST_CENTER_ENTITIES, COST_CENTER_LIST } from '../organization-state';
+import {
+  COST_CENTER_ENTITIES,
+  COST_CENTER_LIST,
+  COST_CENTER_ASSIGNED_BUDGETS,
+} from '../organization-state';
 import { CostCenter } from '../../../model/cost-center.model';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { CostCenterActions } from './index';
 
 const costCenterCode = 'testCostCenterId';
+// const budgetCode = 'testBudgetCode';
 const costCenter: CostCenter = {
   code: costCenterCode,
 };
@@ -245,6 +250,74 @@ describe('CostCenter Actions', () => {
           meta: StateEntityLoaderActions.entitySuccessMeta(
             COST_CENTER_ENTITIES,
             costCenterCode
+          ),
+        });
+      });
+    });
+  });
+
+  describe('LoadAssignedBudgets Actions', () => {
+    describe('LoadAssignedBudgets', () => {
+      it('should create the action', () => {
+        const action = new CostCenterActions.LoadAssignedBudgets({
+          userId,
+          costCenterCode,
+          params,
+        });
+
+        expect({ ...action }).toEqual({
+          type: CostCenterActions.LOAD_ASSIGNED_BUDGETS,
+          payload: { userId, costCenterCode, params },
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            COST_CENTER_ASSIGNED_BUDGETS,
+            costCenterCode + query
+          ),
+        });
+      });
+    });
+
+    describe('LoadAssignedBudgetsFail', () => {
+      it('should create the action', () => {
+        const action = new CostCenterActions.LoadAssignedBudgetsFail({
+          costCenterCode,
+          params,
+          error,
+        });
+
+        expect({ ...action }).toEqual({
+          type: CostCenterActions.LOAD_ASSIGNED_BUDGETS_FAIL,
+          payload: {
+            costCenterCode,
+            params,
+            error,
+          },
+          meta: StateEntityLoaderActions.entityFailMeta(
+            COST_CENTER_ASSIGNED_BUDGETS,
+            costCenterCode + query,
+            error
+          ),
+        });
+      });
+    });
+
+    describe('LoadAssignedBudgetsSuccess', () => {
+      it('should create the action', () => {
+        const action = new CostCenterActions.LoadAssignedBudgetsSuccess({
+          costCenterCode,
+          page,
+          params,
+        });
+
+        expect({ ...action }).toEqual({
+          type: CostCenterActions.LOAD_ASSIGNED_BUDGETS_SUCCESS,
+          payload: {
+            costCenterCode,
+            page,
+            params,
+          },
+          meta: StateEntityLoaderActions.entitySuccessMeta(
+            COST_CENTER_ASSIGNED_BUDGETS,
+            costCenterCode + query
           ),
         });
       });

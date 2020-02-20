@@ -50,10 +50,10 @@ export class CostCenterService {
     return this.store.select(getCostCenterList(params));
   }
   private getBudgetList(
-    code,
+    costCenterCode,
     params
   ): Observable<LoaderState<EntitiesModel<Budget>>> {
-    return this.store.select(getAssignedBudgets(code, params));
+    return this.store.select(getAssignedBudgets(costCenterCode, params));
   }
 
   get(costCenterCode: string): Observable<CostCenter> {
@@ -105,23 +105,27 @@ export class CostCenterService {
     );
   }
 
-  loadBudgets(code, params: B2BSearchConfig) {
+  loadBudgets(costCenterCode, params: B2BSearchConfig) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new CostCenterActions.LoadAssignedBudgets({ userId, code, params })
+        new CostCenterActions.LoadAssignedBudgets({
+          userId,
+          costCenterCode,
+          params,
+        })
       )
     );
   }
 
   getBudgets(
-    code: string,
+    costCenterCode: string,
     params: B2BSearchConfig
   ): Observable<EntitiesModel<Budget>> {
-    return this.getBudgetList(code, params).pipe(
+    return this.getBudgetList(costCenterCode, params).pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<Budget>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadBudgets(code, params);
+          this.loadBudgets(costCenterCode, params);
         }
       }),
       filter(
