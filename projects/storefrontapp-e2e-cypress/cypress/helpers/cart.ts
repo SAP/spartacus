@@ -387,7 +387,11 @@ export function registerCartUser() {
 }
 
 export function loginCartUser() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.visit('/login');
+  cy.wait(`@${loginPage}`)
+    .its('status')
+    .should('eq', 200);
   login(cartUser.registrationData.email, cartUser.registrationData.password);
   cy.url().should('not.contain', 'login');
 }
