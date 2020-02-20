@@ -118,7 +118,7 @@ export class Test extends PageMetaService {
     cms: CmsService
     
   ) {
-    super(resolvers, cms, );
+    super(resolvers, cms );
   }
 }
 `;

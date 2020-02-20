@@ -356,7 +356,7 @@ export function removeConstructorParam(
   return [
     importRemovalChange,
     ...constructorParamRemovalChange.changes,
-    superRemoval,
+    ...superRemoval,
   ];
 }
 
@@ -492,7 +492,7 @@ function removeParamFromSuper(
   sourcePath: string,
   constructorNode: ts.Node,
   paramName: string
-): Change {
+): Change[] {
   const callExpressions = findNodes(
     constructorNode,
     ts.SyntaxKind.CallExpression
@@ -500,18 +500,29 @@ function removeParamFromSuper(
   if (callExpressions.length === 0) {
     throw new SchematicsException('No super() call found.');
   }
-  // super has to be the first expression in constructor
+
+  const changes: Change[] = [];
+
+  // `super()` has to be the first expression in constructor
   const firstCallExpression = callExpressions[0];
-  const paramNode = findNode(
-    firstCallExpression,
-    ts.SyntaxKind.Identifier,
-    paramName
-  );
-  if (!paramNode) {
-    return new NoopChange();
+  const params = findNodes(firstCallExpression, ts.SyntaxKind.Identifier);
+  const commas = findNodes(firstCallExpression, ts.SyntaxKind.CommaToken);
+  for (let i = 0; i < params.length; i++) {
+    const param = params[i];
+
+    if (param.getText() === paramName) {
+      if (i !== 0) {
+        const previousCommaPosition = commas[i - 1].getStart();
+        changes.push(new RemoveChange(sourcePath, previousCommaPosition, ','));
+      }
+
+      changes.push(new RemoveChange(sourcePath, param.getStart(), paramName));
+
+      break;
+    }
   }
 
-  return new RemoveChange(sourcePath, paramNode.getStart(), paramName);
+  return changes;
 }
 
 function updateConstructorSuperNode(

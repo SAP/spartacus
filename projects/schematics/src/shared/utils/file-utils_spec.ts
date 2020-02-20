@@ -556,7 +556,7 @@ describe('File utils', () => {
         constructorNode,
         paramToRemove
       );
-      expect(changes.length).toEqual(4);
+      expect(changes.length).toEqual(5);
       expect(changes[0].description).toEqual(
         `Removed FeatureConfigService, into position 81 of ${sourcePath}`
       );
@@ -567,6 +567,9 @@ describe('File utils', () => {
         `Removed featureConfigService?: FeatureConfigService into position 318 of ${sourcePath}`
       );
       expect(changes[3].description).toEqual(
+        `Removed , into position 400 of ${sourcePath}`
+      );
+      expect(changes[4].description).toEqual(
         `Removed featureConfigService into position 402 of ${sourcePath}`
       );
     });
