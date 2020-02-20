@@ -22,6 +22,7 @@ describe('Cart', () => {
 
   it('should add product to cart as anonymous and merge when logged in', () => {
     cart.registerCreateCartRoute();
+    cart.registerSaveCartRoute();
     cart.loginRegisteredUser();
     cart.addProductWhenLoggedIn(false);
     cart.logOutAndNavigateToEmptyCart();
@@ -46,6 +47,7 @@ describe('Cart', () => {
 
   it('should be loaded for logged user after "cart not found" error', () => {
     cart.registerCreateCartRoute();
+    cart.registerSaveCartRoute();
     cart.loginRegisteredUser();
     cart.addProductWhenLoggedIn(false);
     // Wait to make sure everything was processed, so there won't be any ngrx -> localStorage synchronization
