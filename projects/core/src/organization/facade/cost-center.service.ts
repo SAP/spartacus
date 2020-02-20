@@ -132,6 +132,30 @@ export class CostCenterService {
     );
   }
 
+  assignBudget(costCenterCode: string, budgetCode: string) {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new CostCenterActions.AssignBudget({
+          userId,
+          costCenterCode,
+          budgetCode,
+        })
+      )
+    );
+  }
+
+  unassignBudget(costCenterCode: string, budgetCode: string) {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new CostCenterActions.UnassignBudget({
+          userId,
+          costCenterCode,
+          budgetCode,
+        })
+      )
+    );
+  }
+
   private withUserId(callback: (userId: string) => void): void {
     this.authService
       .getOccUserId()

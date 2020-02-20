@@ -139,12 +139,12 @@ describe('CostCenterDetailsComponent', () => {
 
       component.update({ activeFlag: false });
       expect(costCentersService.update).toHaveBeenCalledWith(costCenterCode, {
-        active: false,
+        activeFlag: false,
       });
 
       component.update({ activeFlag: true });
       expect(costCentersService.update).toHaveBeenCalledWith(costCenterCode, {
-        active: true,
+        activeFlag: true,
       });
     });
   });

@@ -38,7 +38,7 @@ const mockCostCenterList: EntitiesModel<CostCenter> = {
         symbol: '$',
         isocode: 'USD',
       },
-      unit: { name: 'orgName', uid: 'orgCode' },
+      unit: { name: 'orgName', uid: 'orgUid' },
     },
     {
       code: 'c2',
@@ -47,7 +47,7 @@ const mockCostCenterList: EntitiesModel<CostCenter> = {
         symbol: '$',
         isocode: 'USD',
       },
-      unit: { name: 'orgName', uid: 'orgCode' },
+      unit: { name: 'orgName', uid: 'orgUid' },
     },
   ],
   pagination: { totalResults: 1, sort: 'byName' },

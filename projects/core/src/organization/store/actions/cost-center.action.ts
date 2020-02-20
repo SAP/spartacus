@@ -39,6 +39,14 @@ export const LOAD_ASSIGNED_BUDGETS_SUCCESS =
 export const LOAD_ASSIGNED_BUDGETS_FAIL =
   '[CostCenter] Load assigned Budgets fail';
 
+export const ASSIGN_BUDGET = '[CostCenter] Assign Budget';
+export const ASSIGN_BUDGET_SUCCESS = '[CostCenter] Assign Budget success';
+export const ASSIGN_BUDGET_FAIL = '[CostCenter] Assign Budget fail';
+
+export const UNASSIGN_BUDGET = '[CostCenter] Unassign Budget';
+export const UNASSIGN_BUDGET_SUCCESS = '[CostCenter] Unassign Budget success';
+export const UNASSIGN_BUDGET_FAIL = '[CostCenter] Unassign Budget fail';
+
 export class LoadCostCenter extends EntityLoadAction {
   readonly type = LOAD_COST_CENTER;
   constructor(public payload: { userId: string; costCenterCode: string }) {
@@ -188,6 +196,52 @@ export class LoadAssignedBudgetsSuccess extends EntitySuccessAction {
   }
 }
 
+export class AssignBudget {
+  readonly type = ASSIGN_BUDGET;
+  constructor(
+    public payload: {
+      userId: string;
+      costCenterCode: string;
+      budgetCode: string;
+    }
+  ) {}
+}
+
+export class AssignBudgetFail {
+  readonly type = ASSIGN_BUDGET_FAIL;
+  constructor(
+    public payload: { costCenterCode: string; budgetCode: string; error: any }
+  ) {}
+}
+
+export class AssignBudgetSuccess {
+  readonly type = ASSIGN_BUDGET_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class UnassignBudget {
+  readonly type = UNASSIGN_BUDGET;
+  constructor(
+    public payload: {
+      userId: string;
+      costCenterCode: string;
+      budgetCode: string;
+    }
+  ) {}
+}
+
+export class UnassignBudgetFail {
+  readonly type = UNASSIGN_BUDGET_FAIL;
+  constructor(
+    public payload: { costCenterCode: string; budgetCode: string; error: any }
+  ) {}
+}
+
+export class UnassignBudgetSuccess {
+  readonly type = UNASSIGN_BUDGET_SUCCESS;
+  constructor(public payload: any) {}
+}
+
 export type CostCenterAction =
   | LoadCostCenter
   | LoadCostCenterFail
@@ -203,4 +257,10 @@ export type CostCenterAction =
   | UpdateCostCenterSuccess
   | LoadAssignedBudgets
   | LoadAssignedBudgetsSuccess
-  | LoadAssignedBudgetsFail;
+  | LoadAssignedBudgetsFail
+  | AssignBudget
+  | AssignBudgetFail
+  | AssignBudgetSuccess
+  | UnassignBudget
+  | UnassignBudgetFail
+  | UnassignBudgetSuccess;
