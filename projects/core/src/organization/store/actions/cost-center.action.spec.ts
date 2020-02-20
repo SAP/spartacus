@@ -8,7 +8,7 @@ import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { CostCenterActions } from './index';
 
 const costCenterCode = 'testCostCenterId';
-// const budgetCode = 'testBudgetCode';
+const budgetCode = 'testBudgetCode';
 const costCenter: CostCenter = {
   code: costCenterCode,
 };
@@ -319,6 +319,100 @@ describe('CostCenter Actions', () => {
             COST_CENTER_ASSIGNED_BUDGETS,
             costCenterCode + query
           ),
+        });
+      });
+    });
+  });
+
+  describe('AssignBudget Actions', () => {
+    describe('AssignBudget', () => {
+      it('should create the action', () => {
+        const action = new CostCenterActions.AssignBudget({
+          userId,
+          costCenterCode,
+          budgetCode,
+        });
+
+        expect({ ...action }).toEqual({
+          type: CostCenterActions.ASSIGN_BUDGET,
+          payload: { userId, costCenterCode, budgetCode },
+        });
+      });
+    });
+
+    describe('AssignBudgetFail', () => {
+      it('should create the action', () => {
+        const action = new CostCenterActions.AssignBudgetFail({
+          costCenterCode,
+          budgetCode,
+          error,
+        });
+
+        expect({ ...action }).toEqual({
+          type: CostCenterActions.ASSIGN_BUDGET_FAIL,
+          payload: {
+            costCenterCode,
+            budgetCode,
+            error,
+          },
+        });
+      });
+    });
+
+    describe('AssignBudgetSuccess', () => {
+      it('should create the action', () => {
+        const action = new CostCenterActions.AssignBudgetSuccess(null);
+
+        expect({ ...action }).toEqual({
+          type: CostCenterActions.ASSIGN_BUDGET_SUCCESS,
+          payload: null,
+        });
+      });
+    });
+  });
+
+  describe('UnassignBudget Actions', () => {
+    describe('UnassignBudget', () => {
+      it('should create the action', () => {
+        const action = new CostCenterActions.UnassignBudget({
+          userId,
+          costCenterCode,
+          budgetCode,
+        });
+
+        expect({ ...action }).toEqual({
+          type: CostCenterActions.UNASSIGN_BUDGET,
+          payload: { userId, costCenterCode, budgetCode },
+        });
+      });
+    });
+
+    describe('UnassignBudgetFail', () => {
+      it('should create the action', () => {
+        const action = new CostCenterActions.UnassignBudgetFail({
+          costCenterCode,
+          budgetCode,
+          error,
+        });
+
+        expect({ ...action }).toEqual({
+          type: CostCenterActions.UNASSIGN_BUDGET_FAIL,
+          payload: {
+            costCenterCode,
+            budgetCode,
+            error,
+          },
+        });
+      });
+    });
+
+    describe('UnassignBudgetSuccess', () => {
+      it('should create the action', () => {
+        const action = new CostCenterActions.UnassignBudgetSuccess(null);
+
+        expect({ ...action }).toEqual({
+          type: CostCenterActions.UNASSIGN_BUDGET_SUCCESS,
+          payload: null,
         });
       });
     });

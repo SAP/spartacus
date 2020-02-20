@@ -151,7 +151,7 @@ describe('OccCostCenterAdapter', () => {
     it('should assign budget to costCenter', () => {
       service.assignBudget(userId, costCenterCode, budgetCode).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'POST' && req.url === 'costCenterBudget'
+        req => req.method === 'POST' && req.url === 'costCenterBudgets'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

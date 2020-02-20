@@ -115,7 +115,7 @@ export class CostCenterEffects {
   );
 
   @Effect()
-  loadBudgets$: Observable<
+  loadAssignedBudgets$: Observable<
     | CostCenterActions.LoadAssignedBudgetsSuccess
     | BudgetActions.LoadBudgetSuccess
     | CostCenterActions.LoadAssignedBudgetsFail
