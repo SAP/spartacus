@@ -104,6 +104,24 @@ export class Test extends PageMetaService {
   }
 }
 `;
+const REMOVE_PARAMETER_EXPECTED_CLASS = `
+import { Dummy } from '@angular/core';
+import {
+  CmsService,
+  
+  PageMetaResolver,
+  PageMetaService
+} from '@spartacus/core';
+export class Test extends PageMetaService {
+  constructor(
+    resolvers: PageMetaResolver[],
+    cms: CmsService
+    
+  ) {
+    super(resolvers, cms, );
+  }
+}
+`;
 
 describe('constructor migrations', () => {
   let host = new TempScopedNodeJsSyncHost();
@@ -247,24 +265,7 @@ describe('constructor migrations', () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
-      expect(content).toEqual(`
-import { Dummy } from '@angular/core';
-import {
-  CmsService,
-  
-  PageMetaResolver,
-  PageMetaService
-} from '@spartacus/core';
-export class Test extends PageMetaService {
-  constructor(
-    resolvers: PageMetaResolver[],
-    cms: CmsService
-    
-  ) {
-    super(resolvers, cms, );
-  }
-}
-`);
+      expect(content).toEqual(REMOVE_PARAMETER_EXPECTED_CLASS);
     });
   });
 });
