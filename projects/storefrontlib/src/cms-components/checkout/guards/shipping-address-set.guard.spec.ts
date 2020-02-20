@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Order, RoutesConfig, RoutingConfigService } from '@spartacus/core';
@@ -10,7 +9,9 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { ShippingAddressSetGuard } from './shipping-address-set.guard';
 
-const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
+const MockRoutesConfig: RoutesConfig = JSON.parse(
+  JSON.stringify(defaultStorefrontRoutesConfig)
+);
 
 class MockCheckoutDetailsService {
   getDeliveryAddress(): Observable<Order> {
@@ -27,11 +28,13 @@ class MockCheckoutConfigService {
   getCheckoutStep() {}
 }
 
-const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
+const MockCheckoutConfig: CheckoutConfig = JSON.parse(
+  JSON.stringify(defaultCheckoutConfig)
+);
 
 describe(`ShippingAddressSetGuard`, () => {
   let guard: ShippingAddressSetGuard;
-  let mockCheckoutDetailsService: MockCheckoutDetailsService;
+  let mockCheckoutDetailsService: CheckoutDetailsService;
   let mockCheckoutConfig: CheckoutConfig;
   let mockRoutingConfigService: RoutingConfigService;
   let mockCheckoutConfigService: CheckoutConfigService;
@@ -50,19 +53,11 @@ describe(`ShippingAddressSetGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(ShippingAddressSetGuard as Type<
-      ShippingAddressSetGuard
-    >);
-    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService as Type<
-      CheckoutDetailsService
-    >);
-    mockCheckoutConfig = TestBed.get(CheckoutConfig as Type<CheckoutConfig>);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
-      RoutingConfigService
-    >);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService as Type<
-      CheckoutConfigService
-    >);
+    guard = TestBed.inject(ShippingAddressSetGuard);
+    mockCheckoutDetailsService = TestBed.inject(CheckoutDetailsService);
+    mockCheckoutConfig = TestBed.inject(CheckoutConfig);
+    mockRoutingConfigService = TestBed.inject(RoutingConfigService);
+    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
   });
 
   describe(`when there is NO shipping address present`, () => {
