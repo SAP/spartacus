@@ -76,7 +76,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
     budgetCode: string
   ): Observable<any> {
     return this.http.post<any>(
-      this.getBudgetEndpoint(userId, costCenterCode, budgetCode),
+      this.getBudgetsEndpoint(userId, costCenterCode, { budgetCode }),
       null
     );
   }
@@ -114,7 +114,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
   protected getBudgetsEndpoint(
     userId: string,
     costCenterCode: string,
-    params?: B2BSearchConfig
+    params?: B2BSearchConfig | { budgetCode: string }
   ): string {
     return this.occEndpoints.getUrl(
       'costCenterBudgets',
