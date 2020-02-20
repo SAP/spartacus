@@ -3,7 +3,7 @@ import {
   RoutesConfig,
   RoutingConfig,
 } from '@spartacus/core';
-import { suffixUrlMatcher } from './suffix-routes/suffix.url-matcher';
+import { getSuffixUrlMatcher } from './suffix-routes/suffix.url-matcher';
 
 export const defaultStorefrontRoutesConfig: RoutesConfig = {
   home: { paths: [''] },
@@ -32,7 +32,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paramsMapping: { categoryCode: 'code' },
     matchers: [
       pathsUrlMatcherFactory,
-      suffixUrlMatcher({ marker: 'c', paramName: 'categoryCode' }),
+      getSuffixUrlMatcher({ marker: 'c', paramName: 'categoryCode' }),
     ],
   },
   brand: { paths: ['Brands/:brandName/c/:brandCode'] },
@@ -43,7 +43,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paramsMapping: { productCode: 'code' },
     matchers: [
       pathsUrlMatcherFactory,
-      suffixUrlMatcher({ marker: 'p', paramName: 'categoryCode' }),
+      getSuffixUrlMatcher({ marker: 'p', paramName: 'categoryCode' }),
     ],
   },
 

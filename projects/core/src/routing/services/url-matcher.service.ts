@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, isDevMode } from '@angular/core';
 import {
   Route,
   UrlMatcher,
@@ -30,7 +30,9 @@ export class UrlMatcherService {
   fromPaths(paths: string[]): UrlMatcher {
     const matchers = paths.map(path => this.fromPath(path));
     const matcher = this.combine(matchers);
-    matcher['paths'] = paths; // property added for easier debugging of routes
+    if (isDevMode()) {
+      matcher['paths'] = paths; // property added for easier debugging of routes
+    }
     return matcher;
   }
 
@@ -51,6 +53,9 @@ export class UrlMatcherService {
       }
       return null;
     };
+    if (isDevMode()) {
+      matcher['matchers'] = matchers; // property added for easier debugging of routes
+    }
     return matcher;
   }
 
@@ -60,11 +65,11 @@ export class UrlMatcherService {
    * - the empty path `''` is handled here, but in Angular is handled one level higher in the match() function
    */
   protected fromPath(path: string = ''): UrlMatcher {
-    return (
+    const matcher = function pathMatcher(
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
       route: Route
-    ): UrlMatchResult | null => {
+    ): UrlMatchResult | null {
       /**
        * @license
        * The MIT License
@@ -117,6 +122,10 @@ export class UrlMatcherService {
 
       return { consumed: segments.slice(0, parts.length), posParams };
     };
+    if (isDevMode()) {
+      matcher['path'] = path; // property added for easier debugging of routes
+    }
+    return matcher;
   }
 
   /**
@@ -132,8 +141,9 @@ export class UrlMatcherService {
         ? null
         : { consumed: segments, posParams: {} };
     };
-    matcher.originalMatcher = originalMatcher; // property added for easier debugging of routes
-
+    if (isDevMode()) {
+      matcher['originalMatcher'] = originalMatcher; // property added for easier debugging of routes
+    }
     return matcher;
   }
 
@@ -152,7 +162,9 @@ export class UrlMatcherService {
         ? { consumed: segments, posParams: {} }
         : null;
     };
-    matcher.globPatterns = globPatterns; // property added for easier debugging of routes
+    if (isDevMode()) {
+      matcher['globPatterns'] = globPatterns; // property added for easier debugging of routes
+    }
     return matcher;
   }
 }

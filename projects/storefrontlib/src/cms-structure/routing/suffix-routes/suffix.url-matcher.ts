@@ -1,3 +1,4 @@
+import { isDevMode } from '@angular/core';
 import { UrlMatchResult, UrlSegment, UrlSegmentGroup } from '@angular/router';
 
 /**
@@ -8,7 +9,7 @@ import { UrlMatchResult, UrlSegment, UrlSegmentGroup } from '@angular/router';
  * @param precedingParamName name of the parameter for every preceding url segment
  *        i.e. `param` will result in `param0`, `param1`, ...
  */
-export function suffixUrlMatcher({
+export function getSuffixUrlMatcher({
   marker,
   paramName,
   precedingParamName,
@@ -17,10 +18,11 @@ export function suffixUrlMatcher({
   paramName: string;
   precedingParamName?: string;
 }) {
-  return (
+  precedingParamName = precedingParamName || 'param';
+  const matcher = function suffixUrlMatcher(
     segments: UrlSegment[],
     _segmentGroup: UrlSegmentGroup
-  ): UrlMatchResult | null => {
+  ): UrlMatchResult | null {
     const markerIndex = findLastIndex(segments, ({ path }) => path === marker);
     const isMarkerLastSegment = markerIndex === segments.length - 1;
 
@@ -39,6 +41,10 @@ export function suffixUrlMatcher({
 
     return { consumed: segments.slice(0, paramIndex + 1), posParams };
   };
+  if (isDevMode()) {
+    matcher['suffixRouteConfig'] = { marker, paramName, precedingParamName };
+  }
+  return matcher;
 }
 
 export function findLastIndex<T>(elements: T[], predicate: (el: T) => boolean) {
