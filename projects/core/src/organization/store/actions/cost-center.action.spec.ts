@@ -10,7 +10,7 @@ const costCenter: CostCenter = {
 const userId = 'xxx@xxx.xxx';
 const error = 'anError';
 const params = { currentPage: 2 };
-const query = 'pageSize=&currentPage=2&sort=';
+const query = '?pageSize=&currentPage=2&sort=';
 
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];

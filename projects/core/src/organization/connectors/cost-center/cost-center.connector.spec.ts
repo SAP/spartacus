@@ -14,6 +14,11 @@ const costCenter = {
   code: costCenterCode,
 };
 
+const budgetCode = 'budgetCode';
+const budget = {
+  code: budgetCode,
+};
+
 class MockCostCenterAdapter implements CostCenterAdapter {
   load = createSpy('CostCenterAdapter.load').and.returnValue(of(costCenter));
   loadList = createSpy('CostCenterAdapter.loadList').and.returnValue(
@@ -25,6 +30,11 @@ class MockCostCenterAdapter implements CostCenterAdapter {
   update = createSpy('CostCenterAdapter.update').and.returnValue(
     of(costCenter)
   );
+  loadBudgets = createSpy('CostCenterAdapter.loadBudgets').and.returnValue(
+    of([budget])
+  );
+  assignBudget = createSpy('CostCenterAdapter.assignBudget');
+  unassignBudget = createSpy('CostCenterAdapter.unassignBudget');
 }
 
 describe('CostCenterConnector', () => {

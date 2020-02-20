@@ -58,7 +58,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
       .pipe(this.converter.pipeable(COST_CENTER_NORMALIZER));
   }
 
-  getBudgets(
+  loadBudgets(
     userId: string,
     costCenterCode: string,
     params?: B2BSearchConfig

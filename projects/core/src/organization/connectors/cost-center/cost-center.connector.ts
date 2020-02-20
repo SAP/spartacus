@@ -40,7 +40,7 @@ export class CostCenterConnector {
     costCenterCode: string,
     params?: B2BSearchConfig
   ): Observable<EntitiesModel<Budget>> {
-    return this.adapter.getBudgets(userId, costCenterCode, params);
+    return this.adapter.loadBudgets(userId, costCenterCode, params);
   }
 
   assignBudget(

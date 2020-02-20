@@ -68,6 +68,7 @@ describe('CostCenter Selectors', () => {
       expect(result).toEqual({
         entities: { entities },
         list: { entities: {} },
+        budgets: { entities: {} },
       });
     });
   });

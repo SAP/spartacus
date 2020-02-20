@@ -31,7 +31,7 @@ export abstract class CostCenterAdapter {
     costCenter: CostCenter
   ): Observable<CostCenter>;
 
-  abstract getBudgets(
+  abstract loadBudgets(
     userId: string,
     costCenterCode: string,
     params?: B2BSearchConfig
