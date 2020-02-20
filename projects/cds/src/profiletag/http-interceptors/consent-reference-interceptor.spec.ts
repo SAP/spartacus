@@ -10,15 +10,15 @@ import { ProfileTagEventService } from '../services/profiletag-event.service';
 import { ConsentReferenceInterceptor } from './consent-reference-interceptor';
 
 describe('consent reference interceptor', () => {
-  const ProfileTagEventTrackerMock = {
-    get latestConsentReference() {
-      return null;
-    },
-  };
+  let ProfileTagEventTrackerMock;
   const occEndPointsMock = {
     getBaseEndpoint: () => '/occ',
   };
   beforeEach(() => {
+    ProfileTagEventTrackerMock = {
+      latestConsentReference: null,
+    };
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
@@ -42,9 +42,7 @@ describe('consent reference interceptor', () => {
   it('Should modify the x-consent-reference header if there is a consent-reference', inject(
     [HttpClient, HttpTestingController],
     (http: HttpClient, mock: HttpTestingController) => {
-      const injectorMock = TestBed.get(ProfileTagEventService as Type<
-        ProfileTagEventService
-      >);
+      const injectorMock = TestBed.inject(ProfileTagEventService);
       injectorMock.latestConsentReference = 'test-123-abc-!@#';
       let response;
       http

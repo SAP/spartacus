@@ -13,7 +13,7 @@ export class StoreFinderListComponent {
   locations: any;
   @Input()
   useMylocation: boolean;
-  @ViewChild('storeMap', { static: false })
+  @ViewChild('storeMap')
   storeMap: StoreFinderMapComponent;
 
   selectedStore: PointOfService;

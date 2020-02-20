@@ -119,6 +119,7 @@ describe('GlobalMessage Effects', () => {
       ]);
     });
   });
+
   describe('removeDuplicated$', () => {
     it('should not remove message if there is only one', () => {
       spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(1);
