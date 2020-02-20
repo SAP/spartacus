@@ -14,7 +14,7 @@
     "e2e:cy:run": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run",
     "e2e:cy:run:ci": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci",
     "e2e:cy:run:smoke": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:smoke",
-    "e2e:cy:run:smoke:ci": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:smoke:ci",
+    "e2e:cy:run:smoke:ci": "export WAIT_ON_TIMEOUT=600000 && yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:smoke:ci",
     "e2e:cy:run:mobile": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:mobile",
     "e2e:cy:run:mobile:ci": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:mobile:ci",
     "e2e:cy:run:regression": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:regression",
