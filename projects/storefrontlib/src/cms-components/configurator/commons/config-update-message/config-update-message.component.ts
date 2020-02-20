@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ConfiguratorCommonsService, RoutingService } from '@spartacus/core';
 import { switchMap } from 'rxjs/operators';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 const updateMessageElementId = 'cx-config-update-message';
@@ -12,6 +13,8 @@ const updateMessageElementId = 'cx-config-update-message';
 })
 export class ConfigUpdateMessageComponent implements OnInit {
   changesInProgress = false;
+
+  iconTypes = ICON_TYPE;
 
   constructor(
     private routingService: RoutingService,

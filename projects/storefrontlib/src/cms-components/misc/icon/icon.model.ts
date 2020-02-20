@@ -23,6 +23,7 @@ export enum ICON_TYPE {
   CIRCLE = 'CIRCLE',
   HEART = 'HEART',
   EMPTY_HEART = 'EMPTY_HEART',
+  SYNC = 'SYNC',
 }
 
 export abstract class IconConfig {

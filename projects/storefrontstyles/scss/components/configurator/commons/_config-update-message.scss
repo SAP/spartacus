@@ -4,8 +4,61 @@
   z-index: 2;
 
   div#cx-config-update-message {
-    display: block;
-    background-color: var(--cx-color-info);
+    text-align: var(--cx-text-align, center);
+    color: var(--cx-color, var(--cx-color-text));
+    @include type('6', 'semi');
+    padding: var(--cx-padding, 0 4rem 0 20px);
+    line-height: var(--cx-line-height, 1.5);
+    min-height: 70px;
+    flex-direction: row;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background-color: mix(#ffffff, theme-color('info'), 80%);
     padding: $alert-padding-y;
+
+    %cx-icon {
+      margin-right: 10px;
+
+      -webkit-animation: spin 1s infinite ease-in;
+      -moz-animation: spin 1s infinite ease-in;
+      -o-animation: spin 1s infinite ease-in;
+      animation: spin 1s infinite ease-in;
+    }
+  }
+}
+
+@-moz-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(359deg);
+  }
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+  }
+}
+@-o-keyframes spin {
+  0% {
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    -o-transform: rotate(359deg);
+  }
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
   }
 }
