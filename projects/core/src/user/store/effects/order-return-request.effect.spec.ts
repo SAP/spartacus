@@ -1,13 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import {
-  ReturnRequestEntryInputList,
   ReturnRequest,
+  ReturnRequestEntryInputList,
   ReturnRequestList,
 } from '../../../model/order.model';
 import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
@@ -51,15 +50,11 @@ describe('Order Return Request effect', () => {
       ],
     });
 
-    actions$ = TestBed.get(Actions as Type<Actions>);
-    orderReturnRequestEffect = TestBed.get(
-      fromOrderReturnRequestEffect.OrderReturnRequestEffect as Type<
-        fromOrderReturnRequestEffect.OrderReturnRequestEffect
-      >
+    actions$ = TestBed.inject(Actions);
+    orderReturnRequestEffect = TestBed.inject(
+      fromOrderReturnRequestEffect.OrderReturnRequestEffect
     );
-    orderConnector = TestBed.get(UserOrderConnector as Type<
-      UserOrderConnector
-    >);
+    orderConnector = TestBed.inject(UserOrderConnector);
   });
 
   describe('createReturnRequest$', () => {

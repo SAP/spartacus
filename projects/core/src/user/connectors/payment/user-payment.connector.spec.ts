@@ -1,9 +1,7 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { UserPaymentAdapter } from './user-payment.adapter';
 import { UserPaymentConnector } from './user-payment.connector';
-
 import createSpy = jasmine.createSpy;
 
 class MockUserPaymentAdapter implements UserPaymentAdapter {
@@ -25,8 +23,8 @@ describe('UserPaymentConnector', () => {
       ],
     });
 
-    service = TestBed.get(UserPaymentConnector as Type<UserPaymentConnector>);
-    adapter = TestBed.get(UserPaymentAdapter as Type<UserPaymentAdapter>);
+    service = TestBed.inject(UserPaymentConnector);
+    adapter = TestBed.inject(UserPaymentAdapter);
   });
 
   it('should be created', () => {

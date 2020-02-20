@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -51,12 +50,10 @@ describe('NotAuthGuard', () => {
       ],
       imports: [RouterTestingModule],
     });
-    authService = TestBed.get(AuthService as Type<AuthService>);
-    guard = TestBed.get(NotAuthGuard as Type<NotAuthGuard>);
-    routing = TestBed.get(RoutingService as Type<RoutingService>);
-    authRedirectService = TestBed.get(AuthRedirectService as Type<
-      AuthRedirectService
-    >);
+    authService = TestBed.inject(AuthService);
+    guard = TestBed.inject(NotAuthGuard);
+    routing = TestBed.inject(RoutingService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
   });
 
   describe(', when user is authorized,', () => {

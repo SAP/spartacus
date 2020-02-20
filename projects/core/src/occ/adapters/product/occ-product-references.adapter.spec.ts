@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { PRODUCT_REFERENCES_NORMALIZER } from '../../../product/connectors/references/converters';
 import { ConverterService } from '../../../util/converter.service';
@@ -55,14 +54,10 @@ describe('OccProductReferencesAdapter', () => {
         { provide: ConverterService, useClass: MockConvertService },
       ],
     });
-    service = TestBed.get(OccProductReferencesAdapter as Type<
-      OccProductReferencesAdapter
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    endpoints = TestBed.get(OccEndpointsService as Type<OccEndpointsService>);
+    service = TestBed.inject(OccProductReferencesAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    endpoints = TestBed.inject(OccEndpointsService);
   });
 
   afterEach(() => {
