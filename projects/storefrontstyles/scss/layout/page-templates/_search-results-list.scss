@@ -9,7 +9,6 @@
     flex-direction: column;
   }
   .ProductLeftRefinements {
-    order: 1;
     max-width: 25%;
     padding: 60px 15px 15px 15px;
 
@@ -19,7 +18,6 @@
     }
   }
   .SearchResultsListSlot {
-    order: 2;
     max-width: 75%;
 
     @include media-breakpoint-down(md) {
@@ -32,6 +30,5 @@
   }
   .Section4 {
     padding: 0 1rem;
-    order: 3;
   }
 }
