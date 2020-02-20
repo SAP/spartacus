@@ -1,6 +1,6 @@
 import { Injectable, Injector, isDevMode } from '@angular/core';
 import { Route, Router, Routes, UrlMatcher } from '@angular/router';
-import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
+import { UrlMatcherService } from '../services/url-matcher.service';
 import { RouteConfig } from './routes-config';
 import { RoutingConfigService } from './routing-config.service';
 
@@ -9,7 +9,7 @@ export class ConfigurableRoutesService {
   constructor(
     private injector: Injector,
     private routingConfigService: RoutingConfigService,
-    private urlMatcherFactory: UrlMatcherFactoryService
+    private urlMatcherService: UrlMatcherService
   ) {}
 
   private initCalled = false; // guard not to call init() more than once
@@ -61,7 +61,7 @@ export class ConfigurableRoutesService {
         delete route.path;
         return {
           ...route,
-          matcher: this.urlMatcherFactory.getFalsyUrlMatcher(),
+          matcher: this.urlMatcherService.getFalsyUrlMatcher(),
         };
       } else if (matchers) {
         delete route.path;
@@ -73,7 +73,7 @@ export class ConfigurableRoutesService {
         delete route.path;
         return {
           ...route,
-          matcher: this.urlMatcherFactory.getMultiplePathsUrlMatcher(paths),
+          matcher: this.urlMatcherService.getMultiplePathsUrlMatcher(paths),
         };
       }
     }
@@ -84,9 +84,9 @@ export class ConfigurableRoutesService {
     const createdMatchers: UrlMatcher[] = matchers.map(matcher => {
       return typeof matcher === 'function'
         ? matcher
-        : this.urlMatcherFactory.createUrlMatcher(matcher);
+        : this.urlMatcherService.createUrlMatcher(matcher);
     });
-    const result = this.urlMatcherFactory.combineUrlMatchers(createdMatchers);
+    const result = this.urlMatcherService.combineUrlMatchers(createdMatchers);
     return result;
   }
 

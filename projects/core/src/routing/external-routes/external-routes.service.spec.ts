@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
+import { UrlMatcherService } from '../services/url-matcher.service';
 import { ExternalRoutesConfig } from './external-routes-config';
 import { ExternalRoutesGuard } from './external-routes.guard';
 import { ExternalRoutesService } from './external-routes.service';
@@ -11,7 +11,7 @@ describe('ExternalRoutesService', () => {
   let router: Router;
 
   beforeEach(() => {
-    const mockUrlMatcherFactoryService: Partial<UrlMatcherFactoryService> = {
+    const mockUrlMatcherFactoryService: Partial<UrlMatcherService> = {
       getOppositeUrlMatcher: matcher => `oppositeTo-${matcher}` as any,
       getGlobUrlMatcher: patterns => `globUrlMatcherFor-${patterns[0]}` as any,
     };
@@ -24,7 +24,7 @@ describe('ExternalRoutesService', () => {
           useValue: { routing: { internal: ['/internal/path/pattern'] } },
         },
         {
-          provide: UrlMatcherFactoryService,
+          provide: UrlMatcherService,
           useValue: mockUrlMatcherFactoryService,
         },
       ],

@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Router, Routes, UrlMatcher } from '@angular/router';
-import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
+import { UrlMatcherService } from '../services/url-matcher.service';
 import { ExternalRoutesConfig } from './external-routes-config';
 import { ExternalRoutesGuard } from './external-routes.guard';
 
@@ -11,7 +11,7 @@ import { ExternalRoutesGuard } from './external-routes.guard';
 export class ExternalRoutesService {
   constructor(
     protected config: ExternalRoutesConfig,
-    protected matcherFactory: UrlMatcherFactoryService,
+    protected matcherFactory: UrlMatcherService,
     protected injector: Injector
   ) {}
 

@@ -7,21 +7,19 @@ import {
   UrlSegmentGroup,
 } from '@angular/router';
 import { GlobService } from '../../util/glob.service';
-import { UrlMatcherFactoryService } from './url-matcher-factory.service';
+import { UrlMatcherService } from './url-matcher-factory.service';
 
 describe('UrlMatcherFactoryService', () => {
   let segmentGroup: UrlSegmentGroup;
   let route: Route;
-  let factory: UrlMatcherFactoryService;
+  let factory: UrlMatcherService;
   let globService: GlobService;
 
   beforeEach(() => {
     segmentGroup = { hasChildren: () => false } as UrlSegmentGroup;
     route = {} as Route;
 
-    factory = TestBed.get(UrlMatcherFactoryService as Type<
-      UrlMatcherFactoryService
-    >);
+    factory = TestBed.get(UrlMatcherService as Type<UrlMatcherService>);
     globService = TestBed.get(GlobService);
   });
 

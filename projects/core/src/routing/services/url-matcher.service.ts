@@ -10,7 +10,7 @@ import { GlobService } from '../../util/glob.service';
 import { UrlMatcherFactory } from '../configurable-routes/routes-config';
 
 @Injectable({ providedIn: 'root' })
-export class UrlMatcherFactoryService {
+export class UrlMatcherService {
   constructor(
     protected globService: GlobService,
     protected injector: Injector // spike todo breaking change (can be avoided if we add it early)
