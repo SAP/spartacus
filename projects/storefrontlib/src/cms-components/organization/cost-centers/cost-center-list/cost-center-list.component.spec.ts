@@ -32,28 +32,22 @@ const defaultParams: B2BSearchConfig = {
 const mockCostCenterList: EntitiesModel<CostCenter> = {
   values: [
     {
-      code: '1',
-      name: 'b1',
-      costCenter: 2230,
+      code: 'c1',
+      name: 'n1',
       currency: {
-        isocode: 'USD',
         symbol: '$',
+        isocode: 'USD',
       },
-      startDate: '2010-01-01T00:00:00+0000',
-      endDate: '2034-07-12T00:59:59+0000',
-      orgUnit: { name: 'orgName', uid: 'orgUid' },
+      unit: { name: 'orgName', uid: 'orgCode' },
     },
     {
-      code: '2',
-      name: 'b2',
-      costCenter: 2240,
+      code: 'c2',
+      name: 'n2',
       currency: {
-        isocode: 'USD',
         symbol: '$',
+        isocode: 'USD',
       },
-      startDate: '2020-01-01T00:00:00+0000',
-      endDate: '2024-07-12T00:59:59+0000',
-      orgUnit: { name: 'orgName', uid: 'orgUid' },
+      unit: { name: 'orgName', uid: 'orgCode' },
     },
   ],
   pagination: { totalResults: 1, sort: 'byName' },
@@ -63,18 +57,16 @@ const mockCostCenterList: EntitiesModel<CostCenter> = {
 const mockCostCenterUIList = {
   costCentersList: [
     {
-      code: '1',
-      name: 'b1',
-      amount: '2230 $',
-      startEndDate: '2010-01-01 - 2034-07-12',
+      code: 'c1',
+      name: 'n1',
+      currency: 'USD',
       parentUnit: 'orgName',
       orgUnitId: 'orgUid',
     },
     {
-      code: '2',
-      name: 'b2',
-      amount: '2240 $',
-      startEndDate: '2020-01-01 - 2024-07-12',
+      code: 'c2',
+      name: 'n2',
+      currency: 'USD',
       parentUnit: 'orgName',
       orgUnitId: 'orgUid',
     },

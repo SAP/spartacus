@@ -81,4 +81,32 @@ describe('CostCenterConnector', () => {
       costCenter
     );
   });
+
+  it('should load budgets assigned to costCenter', () => {
+    const params: B2BSearchConfig = { sort: 'code' };
+    service.getBudgets(userId, costCenterCode, params);
+    expect(adapter.loadBudgets).toHaveBeenCalledWith(
+      userId,
+      costCenterCode,
+      params
+    );
+  });
+
+  it('should assign budget to costCenter', () => {
+    service.assignBudget(userId, costCenterCode, budgetCode);
+    expect(adapter.assignBudget).toHaveBeenCalledWith(
+      userId,
+      costCenterCode,
+      budgetCode
+    );
+  });
+
+  it('should unassign budget from costCenter', () => {
+    service.unassignBudget(userId, costCenterCode, budgetCode);
+    expect(adapter.unassignBudget).toHaveBeenCalledWith(
+      userId,
+      costCenterCode,
+      budgetCode
+    );
+  });
 });
