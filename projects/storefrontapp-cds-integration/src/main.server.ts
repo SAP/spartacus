@@ -9,3 +9,5 @@ if (environment.production) {
 export { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 export { AppServerModule } from './app/app.server.module';
 export const ngExpressEngine = NgExpressEngineDecorator.get(engine);
+
+export { renderModule, renderModuleFactory } from '@angular/platform-server';
