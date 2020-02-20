@@ -168,7 +168,7 @@ describe('CostCenterEditComponent', () => {
       const updateCostCenter = {
         code: costCenterCode,
         name: 'newName',
-        active: false,
+        activeFlag: false,
       };
 
       component.updateCostCenter(updateCostCenter);
