@@ -53,7 +53,7 @@ class MockHighlightPipe implements PipeTransform {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -61,7 +61,7 @@ export class MockCxIconComponent {
   selector: 'cx-media',
   template: '<img>',
 })
-export class MockMediaComponent {
+class MockMediaComponent {
   @Input() container;
   @Input() format;
   @Input() alt;

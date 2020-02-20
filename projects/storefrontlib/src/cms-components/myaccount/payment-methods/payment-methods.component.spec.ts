@@ -33,7 +33,7 @@ const mockPayment: PaymentDetails = {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 

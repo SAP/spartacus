@@ -24,7 +24,7 @@ const MockDeferLayoutConfig: LayoutConfig = {
 })
 class MockAnyComponent {}
 
-export class MockIntersectionService {
+class MockIntersectionService {
   isIntersected() {
     return of(false);
   }

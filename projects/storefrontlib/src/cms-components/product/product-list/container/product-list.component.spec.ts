@@ -63,7 +63,7 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -71,12 +71,12 @@ export class MockCxIconComponent {
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
 })
-export class MockAddToCartComponent {
+class MockAddToCartComponent {
   @Input() product;
   @Input() showQuantity;
 }
 
-export class MockProductListComponentService {
+class MockProductListComponentService {
   setQuery = createSpy('setQuery');
   viewPage = createSpy('viewPage');
   sort = createSpy('sort');
@@ -84,7 +84,7 @@ export class MockProductListComponentService {
   model$ = of({});
 }
 
-export class MockViewConfig {
+class MockViewConfig {
   view = {
     infiniteScroll: {
       active: true,
@@ -98,7 +98,7 @@ export class MockViewConfig {
   selector: 'cx-variant-style-icons',
   template: 'test',
 })
-export class MockStyleIconsComponent {
+class MockStyleIconsComponent {
   @Input() variants: any[];
 }
 

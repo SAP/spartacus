@@ -18,7 +18,7 @@ import { LayoutConfig } from '../../../layout/config/layout-config';
   selector: 'cx-test-cmp',
   template: '',
 })
-export class TestComponent {
+class TestComponent {
   tabTitleParam$ = of('title param');
 }
 

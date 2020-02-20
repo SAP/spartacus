@@ -9,11 +9,11 @@ import {
 import { BehaviorSubject, of } from 'rxjs';
 import { ProductListComponentService } from './product-list-component.service';
 
-export class MockRouter {
+class MockRouter {
   navigate = jasmine.createSpy('navigate');
 }
 
-export class MockProductSearchService {
+class MockProductSearchService {
   getResults = jasmine
     .createSpy('getResults')
     .and.returnValue(of({ products: [] }));

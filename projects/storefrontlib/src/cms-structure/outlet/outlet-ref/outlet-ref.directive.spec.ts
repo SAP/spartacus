@@ -22,7 +22,7 @@ const CUSTOM_TEXT = 'customized';
 })
 class TestContainerComponent {}
 
-export class MockDeferLoaderService {
+class MockDeferLoaderService {
   load(_element: HTMLElement, _options?: any) {
     return of(true);
   }

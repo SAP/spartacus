@@ -104,13 +104,13 @@ const page_3 = {
   },
 };
 
-export class MockCmsService {
+class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of();
   }
 }
 
-export class SimplePageLayoutHandler {
+class SimplePageLayoutHandler {
   handle(slots$) {
     return slots$;
   }

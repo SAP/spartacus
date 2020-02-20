@@ -38,7 +38,7 @@ class MockCartService {
   }
 }
 
-export interface CartItemComponentOptions {
+interface CartItemComponentOptions {
   isSaveForLater?: boolean;
   optionalBtn?: any;
 }

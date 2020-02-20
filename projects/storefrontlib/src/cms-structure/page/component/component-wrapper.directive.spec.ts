@@ -32,7 +32,7 @@ const testText = 'test text';
     <div id="debugEl1">${testText}</div>
   `,
 })
-export class TestComponent {
+class TestComponent {
   constructor(
     public cmsData: CmsComponentData<CmsComponent>,
     @Inject('testService') public testService
@@ -44,7 +44,7 @@ export class TestComponent {
   entryComponents: [TestComponent],
   exports: [TestComponent],
 })
-export class TestModule {}
+class TestModule {}
 
 const MockCmsModuleConfig: CmsConfig = {
   cmsComponents: {

@@ -14,7 +14,7 @@ const regionIsoCode = 'CA-QC';
   selector: 'cx-store-finder-list-item',
   template: '',
 })
-export class MockStoreFinderListItemComponent {
+class MockStoreFinderListItemComponent {
   @Input()
   location;
 }

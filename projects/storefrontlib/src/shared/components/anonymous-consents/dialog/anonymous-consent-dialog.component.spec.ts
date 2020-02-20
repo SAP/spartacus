@@ -24,7 +24,7 @@ class MockCxSpinnerComponent {}
   selector: 'cx-icon',
   template: ``,
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type: string;
 }
 
@@ -32,7 +32,7 @@ export class MockCxIconComponent {
   selector: 'cx-consent-management-form',
   template: ``,
 })
-export class MockConsentManagementFormComponent {
+class MockConsentManagementFormComponent {
   @Input()
   consentTemplate: ConsentTemplate;
   @Input()

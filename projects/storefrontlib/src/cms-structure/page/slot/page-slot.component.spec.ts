@@ -63,16 +63,16 @@ const MockSkipLinkConfig: SkipLinkConfig = { skipLinks: [] };
     <cx-page-slot position="section" class="host classes"></cx-page-slot>
   `,
 })
-export class MockHostComponent {}
+class MockHostComponent {}
 
 @Component({
   template: `
     <div cx-page-slot position="section" class="host classes"></div>
   `,
 })
-export class MockHostWithDivComponent {}
+class MockHostWithDivComponent {}
 
-export class MockDeferLoaderService {
+class MockDeferLoaderService {
   load(_element: HTMLElement, _options?: any) {
     return of(true);
   }
