@@ -1,10 +1,10 @@
 <div class="cx-header">
   <h3>{{ 'costCenterForm.edit' | cxTranslate }}</h3>
 </div>
-<cx-costCenter-form
+<cx-cost-center-form
   *ngIf="costCenter$ | async as costCenter"
   [actionBtnLabel]="'costCenterForm.update' | cxTranslate"
   [costCenterData]="costCenter"
   (submitCostCenter)="updateCostCenter($event)"
 >
-</cx-costCenter-form>
+</cx-cost-center-form>
