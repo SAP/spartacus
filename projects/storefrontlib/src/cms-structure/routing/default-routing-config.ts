@@ -43,7 +43,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paramsMapping: { productCode: 'code' },
     matchers: [
       pathsUrlMatcherFactory,
-      getSuffixUrlMatcher({ marker: 'p', paramName: 'categoryCode' }),
+      getSuffixUrlMatcher({ marker: 'p', paramName: 'productCode' }),
     ],
   },
 
