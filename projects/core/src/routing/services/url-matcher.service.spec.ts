@@ -7,7 +7,7 @@ import {
   UrlSegmentGroup,
 } from '@angular/router';
 import { GlobService } from '../../util/glob.service';
-import { UrlMatcherService } from './url-matcher-factory.service';
+import { UrlMatcherService } from './url-matcher.service';
 
 describe('UrlMatcherFactoryService', () => {
   let segmentGroup: UrlSegmentGroup;
@@ -25,14 +25,14 @@ describe('UrlMatcherFactoryService', () => {
 
   describe('getFalsyUrlMatcher', () => {
     it('should never match', () => {
-      const matcher = factory.getFalsyUrlMatcher();
+      const matcher = factory.getFalsy();
       expect(matcher(null, null, null)).toBe(null);
     });
   });
 
   describe('getMultiplePathsUrlMatcher', () => {
     it('should match empty path', () => {
-      const matcher = factory.getMultiplePathsUrlMatcher(['']);
+      const matcher = factory.fromPaths(['']);
       const segments = [] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -44,7 +44,7 @@ describe('UrlMatcherFactoryService', () => {
 
     it('should not match empty path', () => {
       route.pathMatch = 'full';
-      const matcher = factory.getMultiplePathsUrlMatcher(['']);
+      const matcher = factory.fromPaths(['']);
       const segments = [{ path: 'test' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = null;
@@ -52,7 +52,7 @@ describe('UrlMatcherFactoryService', () => {
     });
 
     it('should match simple path', () => {
-      const matcher = factory.getMultiplePathsUrlMatcher(['test/route']);
+      const matcher = factory.fromPaths(['test/route']);
       const segments = [{ path: 'test' }, { path: 'route' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -63,7 +63,7 @@ describe('UrlMatcherFactoryService', () => {
     });
 
     it('should match path with params', () => {
-      const matcher = factory.getMultiplePathsUrlMatcher(['test/:param']);
+      const matcher = factory.fromPaths(['test/:param']);
       const segments = [{ path: 'test' }, { path: 'value' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -74,10 +74,7 @@ describe('UrlMatcherFactoryService', () => {
     });
 
     it('should match first path', () => {
-      const matcher = factory.getMultiplePathsUrlMatcher([
-        'test1/:param1',
-        'test2/:param2',
-      ]);
+      const matcher = factory.fromPaths(['test1/:param1', 'test2/:param2']);
       const segments = [{ path: 'test1' }, { path: 'value' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -88,10 +85,7 @@ describe('UrlMatcherFactoryService', () => {
     });
 
     it('should match second path', () => {
-      const matcher = factory.getMultiplePathsUrlMatcher([
-        'test1/:param1',
-        'test2/:param2',
-      ]);
+      const matcher = factory.fromPaths(['test1/:param1', 'test2/:param2']);
       const segments = [{ path: 'test2' }, { path: 'value' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -102,7 +96,7 @@ describe('UrlMatcherFactoryService', () => {
     });
 
     it('should match prefix path', () => {
-      const matcher = factory.getMultiplePathsUrlMatcher(['test']);
+      const matcher = factory.fromPaths(['test']);
       const segments = [{ path: 'test' }, { path: 'route' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -113,10 +107,7 @@ describe('UrlMatcherFactoryService', () => {
     });
 
     it('should match the first prefix path', () => {
-      const matcher = factory.getMultiplePathsUrlMatcher([
-        'test',
-        'test/:param',
-      ]);
+      const matcher = factory.fromPaths(['test', 'test/:param']);
       const segments = [{ path: 'test' }, { path: 'value' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -128,7 +119,7 @@ describe('UrlMatcherFactoryService', () => {
 
     it('should NOT match prefix path when route has "pathMatch: full"', () => {
       route.pathMatch = 'full';
-      const matcher = factory.getMultiplePathsUrlMatcher(['test']);
+      const matcher = factory.fromPaths(['test']);
       const segments = [{ path: 'test' }, { path: 'route' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = null;
@@ -137,7 +128,7 @@ describe('UrlMatcherFactoryService', () => {
 
     it('should NOT match different path', () => {
       route.pathMatch = 'full';
-      const matcher = factory.getMultiplePathsUrlMatcher(['test1', 'test2']);
+      const matcher = factory.fromPaths(['test1', 'test2']);
       const segments = [{ path: 'test3' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = null;
@@ -158,7 +149,7 @@ describe('UrlMatcherFactoryService', () => {
     });
 
     it('should not match what the input matcher would match', () => {
-      const matcher = factory.getOppositeUrlMatcher(inputMatcher);
+      const matcher = factory.getOpposite(inputMatcher);
       const segments = [{ path: 'test' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = null;
@@ -166,7 +157,7 @@ describe('UrlMatcherFactoryService', () => {
     });
 
     it('should match what the input matcher would not match', () => {
-      const matcher = factory.getOppositeUrlMatcher(inputMatcher);
+      const matcher = factory.getOpposite(inputMatcher);
       const segments = [{ path: 'test2' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = { consumed: segments, posParams: {} };
@@ -177,7 +168,7 @@ describe('UrlMatcherFactoryService', () => {
   describe('getGlobUrlMatcher', () => {
     it('should call GlobService.getValidator', () => {
       spyOn(globService, 'getValidator');
-      factory.getGlobUrlMatcher(['/test/pattern']);
+      factory.fromGlob(['/test/pattern']);
       expect(globService.getValidator).toHaveBeenCalledWith(['/test/pattern']);
     });
 
@@ -185,7 +176,7 @@ describe('UrlMatcherFactoryService', () => {
       const mockGlobValidator = jasmine.createSpy().and.returnValue(true);
       spyOn(globService, 'getValidator').and.returnValue(mockGlobValidator);
 
-      const urlMatcher = factory.getGlobUrlMatcher([]);
+      const urlMatcher = factory.fromGlob([]);
       const testSegments = [
         { path: 'test' },
         { path: 'segments' },
@@ -196,7 +187,7 @@ describe('UrlMatcherFactoryService', () => {
 
     it('should match given glob-like patterns', () => {
       spyOn(globService, 'getValidator').and.returnValue(() => true);
-      const matcher = factory.getGlobUrlMatcher([]);
+      const matcher = factory.fromGlob([]);
       const testSegments = [
         { path: 'test' },
         { path: 'segments' },
@@ -209,7 +200,7 @@ describe('UrlMatcherFactoryService', () => {
 
     it('should not match given glob-like patterns', () => {
       spyOn(globService, 'getValidator').and.returnValue(() => false);
-      const matcher = factory.getGlobUrlMatcher([]);
+      const matcher = factory.fromGlob([]);
       expect(matcher([], null, null)).toEqual(null);
     });
   });

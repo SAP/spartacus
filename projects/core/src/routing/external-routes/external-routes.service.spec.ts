@@ -12,8 +12,8 @@ describe('ExternalRoutesService', () => {
 
   beforeEach(() => {
     const mockUrlMatcherFactoryService: Partial<UrlMatcherService> = {
-      getOppositeUrlMatcher: matcher => `oppositeTo-${matcher}` as any,
-      getGlobUrlMatcher: patterns => `globUrlMatcherFor-${patterns[0]}` as any,
+      getOpposite: matcher => `oppositeTo-${matcher}` as any,
+      fromGlob: patterns => `globUrlMatcherFor-${patterns[0]}` as any,
     };
 
     TestBed.configureTestingModule({

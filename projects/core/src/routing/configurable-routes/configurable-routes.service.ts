@@ -61,7 +61,7 @@ export class ConfigurableRoutesService {
         delete route.path;
         return {
           ...route,
-          matcher: this.urlMatcherService.getFalsyUrlMatcher(),
+          matcher: this.urlMatcherService.getFalsy(),
         };
       } else if (matchers) {
         delete route.path;
@@ -73,7 +73,7 @@ export class ConfigurableRoutesService {
         delete route.path;
         return {
           ...route,
-          matcher: this.urlMatcherService.getMultiplePathsUrlMatcher(paths),
+          matcher: this.urlMatcherService.fromPaths(paths),
         };
       }
     }
@@ -84,9 +84,9 @@ export class ConfigurableRoutesService {
     const createdMatchers: UrlMatcher[] = matchers.map(matcher => {
       return typeof matcher === 'function'
         ? matcher
-        : this.urlMatcherService.createUrlMatcher(matcher);
+        : this.urlMatcherService.fromFactory(matcher);
     });
-    const result = this.urlMatcherService.combineUrlMatchers(createdMatchers);
+    const result = this.urlMatcherService.combine(createdMatchers);
     return result;
   }
 

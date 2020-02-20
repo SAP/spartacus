@@ -19,7 +19,7 @@ export class UrlMatcherService {
   /**
    * Returns a matcher that is always fails
    */
-  getFalsyUrlMatcher(): UrlMatcher {
+  getFalsy(): UrlMatcher {
     return function falsyUrlMatcher(): null {
       return null;
     };
@@ -28,9 +28,9 @@ export class UrlMatcherService {
   /**
    * Returns a matcher for given list of paths
    */
-  getMultiplePathsUrlMatcher(paths: string[]): UrlMatcher {
-    const matchers = paths.map(path => this.getPathUrlMatcher(path));
-    const matcher = this.combineUrlMatchers(matchers);
+  fromPaths(paths: string[]): UrlMatcher {
+    const matchers = paths.map(path => this.fromPath(path));
+    const matcher = this.combine(matchers);
     matcher['paths'] = paths; // property added for easier debugging of routes
     return matcher;
   }
@@ -38,7 +38,7 @@ export class UrlMatcherService {
   /**
    * Returns a matcher that combines the given matchers
    * */
-  combineUrlMatchers(matchers: UrlMatcher[]): UrlMatcher {
+  combine(matchers: UrlMatcher[]): UrlMatcher {
     const matcher = function combinedUrlMatchers(
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
@@ -55,7 +55,7 @@ export class UrlMatcherService {
     return matcher;
   }
 
-  createUrlMatcher({ deps, factory }: UrlMatcherFactory): UrlMatcher {
+  fromFactory({ deps, factory }: UrlMatcherFactory): UrlMatcher {
     const resolvedDeps = (deps || []).map(dep => this.injector.get(dep));
     const result = factory(...resolvedDeps);
     return result;
@@ -66,7 +66,7 @@ export class UrlMatcherService {
    * - the `path` comes from function's argument, not from `route.path`
    * - the empty path `''` is handled here, but in Angular is handled one level higher in the match() function
    */
-  protected getPathUrlMatcher(path: string = ''): UrlMatcher {
+  protected fromPath(path: string = ''): UrlMatcher {
     return (
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
@@ -129,7 +129,7 @@ export class UrlMatcherService {
   /**
    * Returns URL matcher that accepts almost everything (like `**` route), but not paths accepted by the given matcher
    */
-  getOppositeUrlMatcher(originalMatcher: UrlMatcher): UrlMatcher {
+  getOpposite(originalMatcher: UrlMatcher): UrlMatcher {
     const matcher = function oppositeUrlMatcher(
       segments: UrlSegment[],
       group: UrlSegmentGroup,
@@ -147,7 +147,7 @@ export class UrlMatcherService {
   /**
    * Returns URL matcher for the given list of glob-like patterns. Each pattern must start with `/` or `!/`.
    */
-  getGlobUrlMatcher(globPatterns: string[]): UrlMatcher {
+  fromGlob(globPatterns: string[]): UrlMatcher {
     const globValidator = this.globService.getValidator(globPatterns);
 
     const matcher = function globUrlMatcher(
