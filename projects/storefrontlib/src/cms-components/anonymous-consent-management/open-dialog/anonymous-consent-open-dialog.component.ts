@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
-import { ModalService } from '../../../shared/index';
+import { ModalService } from '../../../shared/components/modal/modal.service';
 
 @Component({
   selector: 'cx-anonymous-consent-open-dialog',
