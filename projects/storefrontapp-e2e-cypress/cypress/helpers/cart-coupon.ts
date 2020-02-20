@@ -1,4 +1,5 @@
 import { user } from '../sample-data/checkout-flow';
+import { waitForPage } from './checkout-flow';
 
 export const productCode1 = '300938';
 export const couponCode1 = 'CouponForCart';
@@ -228,9 +229,11 @@ export function navigateToCartPage() {
 }
 
 export function navigateToOrderHistoryPage(orderData: any) {
-  cy.visit('my-account/orders');
+  const orderHistory = waitForPage('/my-account/orders', 'orderHistory');
+  cy.visit('/my-account/orders');
+  cy.wait(`@${orderHistory}`);
   cy.get('cx-order-history h3').should('contain', 'Order history');
-  cy.get('.cx-order-history-code  ').within(() => {
+  cy.get('.cx-order-history-code').within(() => {
     cy.get('.cx-order-history-value')
       .should('contain', orderData.body.code)
       .click();
