@@ -16,10 +16,9 @@ import {
   UrlModule,
   UserService,
 } from '@spartacus/core';
-import { OutletPosition } from '@spartacus/storefront';
-import { OutletService } from 'projects/storefrontlib/src/cms-structure';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
+import { OutletPosition, OutletService } from '../../../cms-structure/outlet';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 import { HamburgerMenuModule } from '../../../layout/header/hamburger-menu/hamburger-menu.module';
 import { ConfigAddToCartButtonComponent } from '../commons/config-add-to-cart-button/config-add-to-cart-button.component';
