@@ -37,6 +37,7 @@ describe(`${formats.mobile.width + 1}p resolution - Cart`, () => {
   it('should add product to cart as anonymous and merge when logged in', () => {
     cart.registerSaveCartRoute();
     cart.registerCreateCartRoute();
+    cart.registerSaveCartRoute();
     cart.loginRegisteredUser();
 
     cart.addProductWhenLoggedIn(true);

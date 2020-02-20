@@ -238,6 +238,11 @@ export function addProductWhenLoggedIn(mobile: boolean) {
   const product = products[1];
 
   goToFirstProductFromSearch(product.code, mobile);
+  /**
+   * This waits is added here to delay Add to cart click until wishlist is created.
+   * Wishlist is created on first render of wishlist components.
+   * Without that there might be a race condition that active cart will use the same cart as wishlist.
+   */
   cy.wait('@create_cart');
   cy.wait('@save_cart');
   addToCart();
