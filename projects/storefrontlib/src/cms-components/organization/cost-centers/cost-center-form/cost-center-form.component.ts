@@ -22,7 +22,7 @@ import {
 import { FormUtils } from '../../../../shared/utils/forms/form-utils';
 
 @Component({
-  selector: 'cx-costCenter-form',
+  selector: 'cx-cost-center-form',
   templateUrl: './cost-center-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

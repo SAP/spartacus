@@ -21,7 +21,7 @@ import {
 } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-costCenter-list',
+  selector: 'cx-cost-center-list',
   templateUrl: './cost-center-list.component.html',
 })
 export class CostCenterListComponent implements OnInit {
