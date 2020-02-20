@@ -17,7 +17,7 @@ import {
   FeaturesConfig,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { PromotionsModule } from '../../checkout';
+import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';

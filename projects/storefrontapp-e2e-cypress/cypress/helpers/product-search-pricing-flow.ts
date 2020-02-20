@@ -6,6 +6,8 @@ import {
   verifyProductSearch,
 } from './product-search';
 
+const digitalCompact = 46;
+
 export function productPricingFlow() {
   cy.server();
   createProductQuery('productQuery');
@@ -23,7 +25,7 @@ export function productPricingFlow() {
 
   cy.get('cx-breadcrumb h1').should(
     'contain',
-    '43 results for Digital Compacts'
+    `${digitalCompact} results for Digital Compacts`
   );
 
   cy.get(productItemSelector).should(

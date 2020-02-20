@@ -37,8 +37,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   @Output()
   submitEvent = new EventEmitter<{ customerId: string }>();
 
-  @ViewChild('resultList', { static: false }) resultList: ElementRef;
-  @ViewChild('searchTerm', { static: false }) searchTerm: ElementRef;
+  @ViewChild('resultList') resultList: ElementRef;
+  @ViewChild('searchTerm') searchTerm: ElementRef;
 
   constructor(
     private fb: FormBuilder,

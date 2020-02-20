@@ -12,12 +12,16 @@ import { defaultCheckoutConfig } from '../config/default-checkout-config';
 import { CheckoutStep } from '../model';
 import { CheckoutConfigService } from './checkout-config.service';
 
-const mockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
+const mockCheckoutConfig: CheckoutConfig = JSON.parse(
+  JSON.stringify(defaultCheckoutConfig)
+);
 
 const mockCheckoutSteps: Array<CheckoutStep> =
-  defaultCheckoutConfig.checkout.steps;
+  mockCheckoutConfig.checkout.steps;
 
-const mockRoutingConfig: RoutesConfig = defaultStorefrontRoutesConfig;
+const mockRoutingConfig: RoutesConfig = JSON.parse(
+  JSON.stringify(defaultStorefrontRoutesConfig)
+);
 
 class MockActivatedRoute {
   snapshot = of();

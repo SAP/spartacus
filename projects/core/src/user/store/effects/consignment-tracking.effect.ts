@@ -18,9 +18,9 @@ export class ConsignmentTrackingEffects {
     switchMap(payload => {
       return this.userOrderConnector
         .getConsignmentTracking(
-          payload.userId,
           payload.orderCode,
-          payload.consignmentCode
+          payload.consignmentCode,
+          payload.userId
         )
         .pipe(
           map(
