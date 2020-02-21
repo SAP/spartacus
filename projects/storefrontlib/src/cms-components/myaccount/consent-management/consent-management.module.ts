@@ -8,7 +8,7 @@ import {
   I18nModule,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { IconModule } from '../../misc/index';
+import { IconModule } from '../../misc/icon/icon.module';
 import { ConsentManagementFormComponent } from './components/consent-form/consent-management-form.component';
 import { ConsentManagementComponent } from './components/consent-management.component';
 
