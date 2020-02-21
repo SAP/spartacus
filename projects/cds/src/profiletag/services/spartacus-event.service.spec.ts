@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Event as NgRouterEvent, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import {
+  Event as NgRouterEvent,
+  NavigationEnd,
+  NavigationStart,
+  Router,
+} from '@angular/router';
 import { Cart, CartService, ConsentService, OrderEntry } from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';

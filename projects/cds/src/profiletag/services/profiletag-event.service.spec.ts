@@ -4,7 +4,12 @@ import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';
-import { ConsentReferenceEvent, DebugEvent, ProfileTagEventNames, ProfileTagWindowObject } from '../model/index';
+import {
+  ConsentReferenceEvent,
+  DebugEvent,
+  ProfileTagEventNames,
+  ProfileTagWindowObject,
+} from '../model/index';
 import { ProfileTagEventService } from './profiletag-event.service';
 
 const mockCDSConfig: CdsConfig = {
@@ -71,7 +76,8 @@ describe('ProfileTagEventTracker', () => {
       ],
     });
     profileTagEventTracker = TestBed.inject(ProfileTagEventService);
-    nativeWindow = TestBed.inject(WindowRef).nativeWindow as ProfileTagWindowObject;
+    nativeWindow = TestBed.inject(WindowRef)
+      .nativeWindow as ProfileTagWindowObject;
   });
 
   it('should be created', () => {
