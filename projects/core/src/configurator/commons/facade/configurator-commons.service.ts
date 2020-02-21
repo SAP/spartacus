@@ -50,7 +50,8 @@ export class ConfiguratorCommonsService {
       ),
       tap(configurationState => {
         if (
-          !this.isConfigurationCreated(configurationState.value) &&
+          (!this.isConfigurationCreated(configurationState.value) ||
+            owner.hasObsoleteState === true) &&
           configurationState.loading !== true
         ) {
           if (owner.type === GenericConfigurator.OwnerType.PRODUCT) {

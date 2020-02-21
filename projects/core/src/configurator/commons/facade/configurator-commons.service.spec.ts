@@ -565,6 +565,34 @@ describe('ConfiguratorCommonsService', () => {
       );
     });
 
+    it('should create configuration if obsolete state', () => {
+      const productConfigurationLoaderState: LoaderState<
+        Configurator.Configuration
+      > = { loading: false };
+
+      const obs = cold('x', {
+        x: productConfigurationLoaderState,
+      });
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+      spyOn(store, 'dispatch').and.callThrough();
+
+      OWNER_CART_ENTRY.hasObsoleteState = true;
+
+      const configurationObs = serviceUnderTest.getOrCreateConfiguration(
+        OWNER_CART_ENTRY
+      );
+
+      expect(configurationObs).toBeObservable(cold('', {}));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ReadCartEntryConfiguration({
+          userId: cart.user.uid,
+          cartId: cart.guid,
+          cartEntryNumber: OWNER_CART_ENTRY.id,
+          owner: OWNER_CART_ENTRY,
+        })
+      );
+    });
+
     it('should filter incomplete configurations when reading configurations for cart entry', () => {
       productConfigurationChanged.configId = '';
       const configurationObs = callGetOrCreate(
