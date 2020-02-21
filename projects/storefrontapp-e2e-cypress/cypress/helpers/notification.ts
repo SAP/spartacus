@@ -226,8 +226,8 @@ export function verifyPagingAndSorting() {
   cy.get('.top cx-sorting .ng-select').ngSelect('Name (descending)');
   cy.get(firstProductCodeSelector).should('contain', firstProductDescending);
   cy.get('.cx-product-interests-product-item').should('have.length', 10);
-  cy.get('cx-pagination:first a').should('have.length', 4);
-  cy.get('cx-pagination:first a')
+  cy.get('cx-pagination:last a').should('have.length', 4);
+  cy.get('cx-pagination:last a')
     .last()
     .click();
   cy.get('.cx-code > span').should('contain.text', 'ID 872912');
