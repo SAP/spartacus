@@ -3,7 +3,6 @@ import {
   BaseSiteService,
   CurrencyService,
   RoutingService,
-  WindowRef,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
@@ -22,7 +21,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   constructor(
     private hamburgerMenuService: HamburgerMenuService,
     private routingService: RoutingService,
-    private winRef: WindowRef,
     private baseSiteService: BaseSiteService,
     private currencyService: CurrencyService
   ) {}
