@@ -11,18 +11,27 @@
           <div class="d-md-none cx-label">
             {{ column.value }}
           </div>
-          <a
-            *ngIf="column.cxRoute && row; else text"
-            [routerLink]="
-              {
-                cxRoute: column.cxRoute,
-                params: row
-              } | cxUrl
-            "
-            class="cx-value"
-          >
-            {{ row[column.key] }}
-          </a>
+          <label *ngIf="column.check; else link">
+            <input
+              type="checkbox"
+              [checked]="row[column.key]"
+              (change)="onToggle($event, row)"
+            />
+          </label>
+          <ng-template #link>
+            <a
+              *ngIf="column.cxRoute && row; else text"
+              [routerLink]="
+                {
+                  cxRoute: column.cxRoute,
+                  params: row
+                } | cxUrl
+              "
+              class="cx-value"
+            >
+              {{ row[column.key] }}
+            </a>
+          </ng-template>
           <ng-template #text>{{ row[column.key] }}</ng-template>
         </td>
       </tr>

@@ -1,0 +1,97 @@
+<ng-container class="container" *ngIf="budgetsList$ | async as budgetsList">
+  <ng-template #sortAndPagination>
+    <div class="cx-form-group form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+      <cx-sorting
+        [sortOptions]="budgetsList.sorts"
+        [sortLabels]="{
+          byUnitName: 'budgetsList.sorting.byUnitName' | cxTranslate,
+          byName: 'budgetsList.sorting.byName' | cxTranslate,
+          byCode: 'budgetsList.sorting.byCode' | cxTranslate,
+          byValue: 'budgetsList.sorting.byValue' | cxTranslate
+        }"
+        [selectedOption]="budgetsList.pagination.sort"
+        (sortListEvent)="changeSortCode($event)"
+      ></cx-sorting>
+    </div>
+    <div class="cx-pagination cx-textalign">
+      <cx-pagination
+        [pagination]="budgetsList.pagination"
+        (viewPageEvent)="pageChange($event)"
+      ></cx-pagination>
+    </div>
+  </ng-template>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+      <div class="cx-table-header cx-textalign">
+        <h3>{{ 'budgetsList.budgetManagement' | cxTranslate }}</h3>
+      </div>
+
+      <!--        <cx-search-->
+      <!--          (searchEvent)="search($event)"-->
+      <!--          [placeholder]="'budgetsList.searchBox' | cxTranslate"-->
+      <!--        >-->
+      <!--        </cx-search>-->
+    </div>
+    <div class="col-md-12 col-lg-3">
+      <div class="row cx-search-links mb-3">
+        <div class="col-12 cx-textalign">
+          <button
+            [routerLink]="{ cxRoute: 'budgetCreate' } | cxUrl"
+            class="btn btn-primary btn-block"
+          >
+            {{ 'budgetsList.create' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cx-table-body">
+    <ng-container *ngIf="budgetsList.pagination?.totalResults > 0; else noData">
+      <div class="cx-sort top row">
+        <ng-container *ngTemplateOutlet="sortAndPagination"></ng-container>
+      </div>
+      <!-- TABLE -->
+      <cx-table
+        [tableData]="budgetsList.budgetsList"
+        [columns]="[
+          {
+            key: 'assign',
+            value: 'budgetsList.assign' | cxTranslate,
+            check: 'assign'
+          },
+          {
+            key: 'code',
+            value: 'budgetsList.code' | cxTranslate,
+            cxRoute: 'budgetDetails'
+          },
+          { key: 'name', value: 'budgetsList.name' | cxTranslate },
+          { key: 'amount', value: 'budgetsList.amount' | cxTranslate },
+          {
+            key: 'startEndDate',
+            value: 'budgetsList.startEndDate' | cxTranslate
+          },
+          {
+            key: 'parentUnit',
+            value: 'budgetsList.parentUnit' | cxTranslate,
+            cxRoute: 'orgUnit'
+          }
+        ]"
+      ></cx-table>
+
+      <div class="cx-sort bottom row">
+        <ng-container *ngTemplateOutlet="sortAndPagination"></ng-container>
+      </div>
+    </ng-container>
+
+    <!-- NO ORDER CONTAINER -->
+    <ng-template #noData>
+      <div class="cx-no-budgets row">
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <div>{{ 'common.noData' | cxTranslate }}</div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</ng-container>

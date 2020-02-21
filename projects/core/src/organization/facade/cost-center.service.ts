@@ -105,7 +105,7 @@ export class CostCenterService {
     );
   }
 
-  loadBudgets(costCenterCode, params: B2BSearchConfig) {
+  loadBudgets(costCenterCode: string, params: B2BSearchConfig) {
     this.withUserId(userId =>
       this.store.dispatch(
         new CostCenterActions.LoadAssignedBudgets({
