@@ -4,9 +4,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { CostCenter } from '../../../model/cost-center.model';
 import { EntitiesModel } from '../../../model/misc.model';
+import { Budget } from '../../../model/budget.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
-import { CostCenterActions } from '../actions/index';
+import { CostCenterActions, BudgetActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
 
 @Injectable()
@@ -105,6 +106,99 @@ export class CostCenterEffects {
             of(
               new CostCenterActions.UpdateCostCenterFail({
                 costCenterCode: payload.costCenter.code,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  loadAssignedBudgets$: Observable<
+    | CostCenterActions.LoadAssignedBudgetsSuccess
+    | BudgetActions.LoadBudgetSuccess
+    | CostCenterActions.LoadAssignedBudgetsFail
+  > = this.actions$.pipe(
+    ofType(CostCenterActions.LOAD_ASSIGNED_BUDGETS),
+    map((action: CostCenterActions.LoadAssignedBudgets) => action.payload),
+    switchMap(payload =>
+      this.costCenterConnector
+        .getBudgets(payload.userId, payload.costCenterCode, payload.params)
+        .pipe(
+          switchMap((budgets: EntitiesModel<Budget>) => {
+            const { values, page } = normalizeListPage(budgets, 'code');
+            return [
+              new BudgetActions.LoadBudgetSuccess(values),
+              new CostCenterActions.LoadAssignedBudgetsSuccess({
+                costCenterCode: payload.costCenterCode,
+                page,
+                params: payload.params,
+              }),
+            ];
+          }),
+          catchError(error =>
+            of(
+              new CostCenterActions.LoadAssignedBudgetsFail({
+                costCenterCode: payload.costCenterCode,
+                params: payload.params,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  assignBudgetToCostCenter$: Observable<
+    CostCenterActions.AssignBudgetSuccess | CostCenterActions.AssignBudgetFail
+  > = this.actions$.pipe(
+    ofType(CostCenterActions.ASSIGN_BUDGET),
+    map((action: CostCenterActions.AssignBudget) => action.payload),
+    switchMap(payload =>
+      this.costCenterConnector
+        .assignBudget(
+          payload.userId,
+          payload.costCenterCode,
+          payload.budgetCode
+        )
+        .pipe(
+          map(data => new CostCenterActions.AssignBudgetSuccess(data)),
+          catchError(error =>
+            of(
+              new CostCenterActions.AssignBudgetFail({
+                costCenterCode: payload.costCenterCode,
+                budgetCode: payload.budgetCode,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  unassignBudgetToCostCenter$: Observable<
+    | CostCenterActions.UnassignBudgetSuccess
+    | CostCenterActions.UnassignBudgetFail
+  > = this.actions$.pipe(
+    ofType(CostCenterActions.UNASSIGN_BUDGET),
+    map((action: CostCenterActions.UnassignBudget) => action.payload),
+    switchMap(payload =>
+      this.costCenterConnector
+        .unassignBudget(
+          payload.userId,
+          payload.costCenterCode,
+          payload.budgetCode
+        )
+        .pipe(
+          map(data => new CostCenterActions.UnassignBudgetSuccess(data)),
+          catchError(error =>
+            of(
+              new CostCenterActions.UnassignBudgetFail({
+                costCenterCode: payload.costCenterCode,
+                budgetCode: payload.budgetCode,
                 error: makeErrorSerializable(error),
               })
             )

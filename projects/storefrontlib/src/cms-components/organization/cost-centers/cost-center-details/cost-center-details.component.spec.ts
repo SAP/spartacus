@@ -23,34 +23,21 @@ const costCenterCode = 'b1';
 const mockCostCenter: CostCenter = {
   code: costCenterCode,
   name: 'costCenter1',
-  costCenter: 2230,
   currency: {
     symbol: '$',
     isocode: 'USD',
   },
-  startDate: '2010-01-01T00:00:00+0000',
-  endDate: '2034-07-12T00:59:59+0000',
-  orgUnit: { name: 'orgName' },
-  costCenters: [
-    { name: 'costCenter1', code: 'cc1' },
-    { name: 'costCenter2', code: 'cc2' },
-  ],
+  unit: { name: 'orgName', uid: 'orgCode' },
 };
+
 const mockCostCenterUI: any = {
   code: costCenterCode,
   name: 'costCenter1',
-  costCenter: 2230,
   currency: {
-    isocode: 'USD',
     symbol: '$',
+    isocode: 'USD',
   },
-  startDate: '2010-01-01T00:00:00+0000',
-  endDate: '2034-07-12T00:59:59+0000',
-  orgUnit: { name: 'orgName' },
-  costCenters: [
-    { name: 'costCenter1', costCenterCode: 'cc1' },
-    { name: 'costCenter2', costCenterCode: 'cc2' },
-  ],
+  unit: { name: 'orgName', uid: 'orgCode' },
 };
 
 @Pipe({
@@ -150,14 +137,14 @@ describe('CostCenterDetailsComponent', () => {
     it('should update costCenter', () => {
       component.ngOnInit();
 
-      component.update({ active: false });
+      component.update({ activeFlag: false });
       expect(costCentersService.update).toHaveBeenCalledWith(costCenterCode, {
-        active: false,
+        activeFlag: false,
       });
 
-      component.update({ active: true });
+      component.update({ activeFlag: true });
       expect(costCentersService.update).toHaveBeenCalledWith(costCenterCode, {
-        active: true,
+        activeFlag: true,
       });
     });
   });

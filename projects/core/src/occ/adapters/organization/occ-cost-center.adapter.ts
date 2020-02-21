@@ -9,10 +9,12 @@ import {
   COST_CENTER_NORMALIZER,
   COST_CENTERS_NORMALIZER,
 } from '../../../organization/connectors/cost-center/converters';
+import { BUDGETS_NORMALIZER } from '../../../organization/connectors/budget/converters';
 import { B2BSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
 import { CostCenter } from '../../../model/cost-center.model';
 import { EntitiesModel } from '../../../model/misc.model';
+import { Budget } from '../../../model/budget.model';
 
 @Injectable()
 export class OccCostCenterAdapter implements CostCenterAdapter {
@@ -56,6 +58,38 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
       .pipe(this.converter.pipeable(COST_CENTER_NORMALIZER));
   }
 
+  loadBudgets(
+    userId: string,
+    costCenterCode: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<Budget>> {
+    return this.http
+      .get<Occ.BudgetsList>(
+        this.getBudgetsEndpoint(userId, costCenterCode, params)
+      )
+      .pipe(this.converter.pipeable(BUDGETS_NORMALIZER));
+  }
+
+  assignBudget(
+    userId: string,
+    costCenterCode: string,
+    budgetCode: string
+  ): Observable<any> {
+    return this.http.post<any>(
+      this.getBudgetsEndpoint(userId, costCenterCode, { budgetCode }),
+      null
+    );
+  }
+
+  unassignBudget(
+    userId: string,
+    costCenterCode: string,
+    budgetCode: string
+  ): Observable<any> {
+    return this.http.delete<any>(
+      this.getBudgetEndpoint(userId, costCenterCode, budgetCode)
+    );
+  }
   protected getCostCenterEndpoint(
     userId: string,
     costCenterCode: string
@@ -75,5 +109,29 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
     params?: B2BSearchConfig
   ): string {
     return this.occEndpoints.getUrl('costCentersAll', { userId }, params);
+  }
+
+  protected getBudgetsEndpoint(
+    userId: string,
+    costCenterCode: string,
+    params?: B2BSearchConfig | { budgetCode: string }
+  ): string {
+    return this.occEndpoints.getUrl(
+      'costCenterBudgets',
+      { userId, costCenterCode },
+      params
+    );
+  }
+
+  protected getBudgetEndpoint(
+    userId: string,
+    costCenterCode: string,
+    budgetCode: string
+  ): string {
+    return this.occEndpoints.getUrl('costCenterBudget', {
+      userId,
+      costCenterCode,
+      budgetCode,
+    });
   }
 }

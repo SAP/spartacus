@@ -8,6 +8,7 @@ import {
   ConverterService,
   COST_CENTER_NORMALIZER,
   COST_CENTERS_NORMALIZER,
+  BUDGETS_NORMALIZER,
 } from '@spartacus/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccCostCenterAdapter } from './occ-cost-center.adapter';
@@ -15,12 +16,16 @@ import { OccCostCenterAdapter } from './occ-cost-center.adapter';
 import createSpy = jasmine.createSpy;
 
 const costCenterCode = 'testCode';
+const budgetCode = 'budgetCode';
 const userId = 'userId';
 const costCenter = {
   code: costCenterCode,
   name: 'testCostCenter',
 };
 
+const budget = {
+  code: budgetCode,
+};
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // tslint:disable-next-line:no-shadowed-variable
@@ -80,7 +85,7 @@ describe('OccCostCenterAdapter', () => {
     it('should load costCenter list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'costCenters'
+        req => req.method === 'GET' && req.url === 'costCentersAll'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -124,6 +129,45 @@ describe('OccCostCenterAdapter', () => {
       expect(converterService.pipeable).toHaveBeenCalledWith(
         COST_CENTER_NORMALIZER
       );
+    });
+  });
+
+  describe('load budgets list for costCenter', () => {
+    it('should load budgets list for costCenter', () => {
+      service.loadBudgets(userId, costCenterCode, {}).subscribe();
+      const mockReq = httpMock.expectOne(
+        req => req.method === 'GET' && req.url === 'costCenterBudgets'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush([budget]);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        BUDGETS_NORMALIZER
+      );
+    });
+  });
+
+  describe('assignBudget to costCenter', () => {
+    it('should assign budget to costCenter', () => {
+      service.assignBudget(userId, costCenterCode, budgetCode).subscribe();
+      const mockReq = httpMock.expectOne(
+        req => req.method === 'POST' && req.url === 'costCenterBudgets'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush({});
+    });
+  });
+
+  describe('unassignBudget from costCenter', () => {
+    it('should unassign budget from costCenter', () => {
+      service.unassignBudget(userId, costCenterCode, budgetCode).subscribe();
+      const mockReq = httpMock.expectOne(
+        req => req.method === 'DELETE' && req.url === 'costCenterBudget'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush({});
     });
   });
 });

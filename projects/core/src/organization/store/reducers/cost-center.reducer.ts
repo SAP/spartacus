@@ -19,6 +19,7 @@ export function costCentersListReducer(
 ): any {
   switch (action.type) {
     case CostCenterActions.LOAD_COST_CENTERS_SUCCESS:
+    case CostCenterActions.LOAD_ASSIGNED_BUDGETS_SUCCESS:
       return action.payload.page;
   }
   return state;

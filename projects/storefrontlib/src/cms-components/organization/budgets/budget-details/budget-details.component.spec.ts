@@ -48,8 +48,8 @@ const mockBudgetUI: any = {
   endDate: '2034-07-12T00:59:59+0000',
   orgUnit: { name: 'orgName' },
   costCenters: [
-    { name: 'costCenter1', costCenterCode: 'cc1' },
-    { name: 'costCenter2', costCenterCode: 'cc2' },
+    { name: 'costCenter1', code: 'cc1' },
+    { name: 'costCenter2', code: 'cc2' },
   ],
 };
 

@@ -4,6 +4,7 @@ import { CostCenter } from '../../../model/cost-center.model';
 import { CostCenterAdapter } from './cost-center.adapter';
 import { B2BSearchConfig } from '../../model/search-config';
 import { EntitiesModel } from '../../../model/misc.model';
+import { Budget } from '../../../model/budget.model';
 
 @Injectable({
   providedIn: 'root',
@@ -32,5 +33,29 @@ export class CostCenterConnector {
     costCenter: CostCenter
   ): Observable<CostCenter> {
     return this.adapter.update(userId, costCenterCode, costCenter);
+  }
+
+  getBudgets(
+    userId: string,
+    costCenterCode: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<Budget>> {
+    return this.adapter.loadBudgets(userId, costCenterCode, params);
+  }
+
+  assignBudget(
+    userId: string,
+    costCenterCode: string,
+    budgetCode: string
+  ): Observable<any> {
+    return this.adapter.assignBudget(userId, costCenterCode, budgetCode);
+  }
+
+  unassignBudget(
+    userId: string,
+    costCenterCode: string,
+    budgetCode: string
+  ): Observable<any> {
+    return this.adapter.unassignBudget(userId, costCenterCode, budgetCode);
   }
 }

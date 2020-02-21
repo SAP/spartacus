@@ -16,6 +16,7 @@ export const BUDGET_LIST = 'budget-list';
 export const COST_CENTER_FEATURE = 'costCenter';
 export const COST_CENTER_ENTITIES = 'costCenter-entities';
 export const COST_CENTER_LIST = 'costCenter-list';
+export const COST_CENTER_ASSIGNED_BUDGETS = 'costCenter-assigned-budgets';
 
 export const PERMISSION_FEATURE = 'permission';
 export const PERMISSION_ENTITIES = 'permission-entities';
@@ -36,7 +37,9 @@ export interface OrgUnits extends Management<B2BUnitNode> {}
 
 export interface PermissionManagement extends Management<Permission> {}
 
-export interface CostCenterManagement extends Management<CostCenter> {}
+export interface CostCenterManagement extends Management<CostCenter> {
+  budgets: EntityLoaderState<ListModel>;
+}
 
 export interface StateWithOrganization {
   [ORGANIZATION_FEATURE]: OrganizationState;

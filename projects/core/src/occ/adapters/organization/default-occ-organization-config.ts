@@ -11,6 +11,9 @@ export const defaultOccOrganizationConfig: OccConfig = {
         costCenters: '/costcenters',
         costCenter: '/costcenters/${costCenterCode}',
         costCentersAll: '/costcentersall',
+        costCenterBudgets: '/costcenters/${costCenterCode}/budgets',
+        costCenterBudget:
+          '/costcenters/${costCenterCode}/budgets/${budgetCode}',
         permissions: '/users/${userId}/orderApprovalPermissions',
         permission:
           '/users/${userId}/orderApprovalPermissions/${orderApprovalPermissionCode}',

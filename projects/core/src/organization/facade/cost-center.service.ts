@@ -12,8 +12,10 @@ import { CostCenterActions } from '../store/actions/index';
 import {
   getCostCenterState,
   getCostCenterList,
+  getAssignedBudgets,
 } from '../store/selectors/cost-center.selector';
 import { B2BSearchConfig } from '../model/search-config';
+import { Budget } from '../../model/budget.model';
 
 @Injectable()
 export class CostCenterService {
@@ -46,6 +48,12 @@ export class CostCenterService {
     params
   ): Observable<LoaderState<EntitiesModel<CostCenter>>> {
     return this.store.select(getCostCenterList(params));
+  }
+  private getBudgetList(
+    costCenterCode,
+    params
+  ): Observable<LoaderState<EntitiesModel<Budget>>> {
+    return this.store.select(getAssignedBudgets(costCenterCode, params));
   }
 
   get(costCenterCode: string): Observable<CostCenter> {
@@ -92,6 +100,61 @@ export class CostCenterService {
           userId,
           costCenterCode,
           costCenter,
+        })
+      )
+    );
+  }
+
+  loadBudgets(costCenterCode, params: B2BSearchConfig) {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new CostCenterActions.LoadAssignedBudgets({
+          userId,
+          costCenterCode,
+          params,
+        })
+      )
+    );
+  }
+
+  getBudgets(
+    costCenterCode: string,
+    params: B2BSearchConfig
+  ): Observable<EntitiesModel<Budget>> {
+    return this.getBudgetList(costCenterCode, params).pipe(
+      observeOn(queueScheduler),
+      tap((process: LoaderState<EntitiesModel<Budget>>) => {
+        if (!(process.loading || process.success || process.error)) {
+          this.loadBudgets(costCenterCode, params);
+        }
+      }),
+      filter(
+        (process: LoaderState<EntitiesModel<Budget>>) =>
+          process.success || process.error
+      ),
+      map(result => result.value)
+    );
+  }
+
+  assignBudget(costCenterCode: string, budgetCode: string) {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new CostCenterActions.AssignBudget({
+          userId,
+          costCenterCode,
+          budgetCode,
+        })
+      )
+    );
+  }
+
+  unassignBudget(costCenterCode: string, budgetCode: string) {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new CostCenterActions.UnassignBudget({
+          userId,
+          costCenterCode,
+          budgetCode,
         })
       )
     );

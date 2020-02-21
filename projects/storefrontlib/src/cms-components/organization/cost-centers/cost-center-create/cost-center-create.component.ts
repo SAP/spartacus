@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CostCenterService, RoutingService } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-costCenter-create',
+  selector: 'cx-cost-center-create',
   templateUrl: './cost-center-create.component.html',
 })
 export class CostCenterCreateComponent {

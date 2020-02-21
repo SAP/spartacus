@@ -4,7 +4,7 @@ import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'cx-costCenter-edit',
+  selector: 'cx-cost-center-edit',
   templateUrl: './cost-center-edit.component.html',
 })
 export class CostCenterEditComponent implements OnInit {

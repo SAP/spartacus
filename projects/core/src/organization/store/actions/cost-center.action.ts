@@ -6,7 +6,11 @@ import {
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { B2BSearchConfig } from '../../model/search-config';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
-import { COST_CENTER_ENTITIES, COST_CENTER_LIST } from '../organization-state';
+import {
+  COST_CENTER_ENTITIES,
+  COST_CENTER_LIST,
+  COST_CENTER_ASSIGNED_BUDGETS,
+} from '../organization-state';
 import { ListModel } from '../../../model/misc.model';
 
 export const LOAD_COST_CENTER = '[CostCenter] Load CostCenter Data';
@@ -28,6 +32,20 @@ export const UPDATE_COST_CENTER = '[CostCenter] Update CostCenter';
 export const UPDATE_COST_CENTER_FAIL = '[CostCenter] Update CostCenter Fail';
 export const UPDATE_COST_CENTER_SUCCESS =
   '[CostCenter] Update CostCenter Success';
+
+export const LOAD_ASSIGNED_BUDGETS = '[CostCenter] Load assigned Budgets';
+export const LOAD_ASSIGNED_BUDGETS_SUCCESS =
+  '[CostCenter] Load assigned Budgets success';
+export const LOAD_ASSIGNED_BUDGETS_FAIL =
+  '[CostCenter] Load assigned Budgets fail';
+
+export const ASSIGN_BUDGET = '[CostCenter] Assign Budget';
+export const ASSIGN_BUDGET_SUCCESS = '[CostCenter] Assign Budget success';
+export const ASSIGN_BUDGET_FAIL = '[CostCenter] Assign Budget fail';
+
+export const UNASSIGN_BUDGET = '[CostCenter] Unassign Budget';
+export const UNASSIGN_BUDGET_SUCCESS = '[CostCenter] Unassign Budget success';
+export const UNASSIGN_BUDGET_FAIL = '[CostCenter] Unassign Budget fail';
 
 export class LoadCostCenter extends EntityLoadAction {
   readonly type = LOAD_COST_CENTER;
@@ -133,6 +151,101 @@ export class UpdateCostCenterSuccess extends EntitySuccessAction {
   }
 }
 
+export class LoadAssignedBudgets extends EntityLoadAction {
+  readonly type = LOAD_ASSIGNED_BUDGETS;
+  constructor(
+    public payload: {
+      userId: string;
+      costCenterCode: string;
+      params: B2BSearchConfig;
+    }
+  ) {
+    super(
+      COST_CENTER_ASSIGNED_BUDGETS,
+      serializeB2BSearchConfig(payload.params, payload.costCenterCode)
+    );
+  }
+}
+
+export class LoadAssignedBudgetsFail extends EntityFailAction {
+  readonly type = LOAD_ASSIGNED_BUDGETS_FAIL;
+  constructor(
+    public payload: {
+      costCenterCode: string;
+      params: B2BSearchConfig;
+      error: any;
+    }
+  ) {
+    super(
+      COST_CENTER_ASSIGNED_BUDGETS,
+      serializeB2BSearchConfig(payload.params, payload.costCenterCode),
+      payload.error
+    );
+  }
+}
+
+export class LoadAssignedBudgetsSuccess extends EntitySuccessAction {
+  readonly type = LOAD_ASSIGNED_BUDGETS_SUCCESS;
+  constructor(
+    public payload: {
+      costCenterCode: string;
+      page: ListModel;
+      params: B2BSearchConfig;
+    }
+  ) {
+    super(
+      COST_CENTER_ASSIGNED_BUDGETS,
+      serializeB2BSearchConfig(payload.params, payload.costCenterCode)
+    );
+  }
+}
+
+export class AssignBudget {
+  readonly type = ASSIGN_BUDGET;
+  constructor(
+    public payload: {
+      userId: string;
+      costCenterCode: string;
+      budgetCode: string;
+    }
+  ) {}
+}
+
+export class AssignBudgetFail {
+  readonly type = ASSIGN_BUDGET_FAIL;
+  constructor(
+    public payload: { costCenterCode: string; budgetCode: string; error: any }
+  ) {}
+}
+
+export class AssignBudgetSuccess {
+  readonly type = ASSIGN_BUDGET_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class UnassignBudget {
+  readonly type = UNASSIGN_BUDGET;
+  constructor(
+    public payload: {
+      userId: string;
+      costCenterCode: string;
+      budgetCode: string;
+    }
+  ) {}
+}
+
+export class UnassignBudgetFail {
+  readonly type = UNASSIGN_BUDGET_FAIL;
+  constructor(
+    public payload: { costCenterCode: string; budgetCode: string; error: any }
+  ) {}
+}
+
+export class UnassignBudgetSuccess {
+  readonly type = UNASSIGN_BUDGET_SUCCESS;
+  constructor(public payload: any) {}
+}
+
 export type CostCenterAction =
   | LoadCostCenter
   | LoadCostCenterFail
@@ -145,4 +258,13 @@ export type CostCenterAction =
   | CreateCostCenterSuccess
   | UpdateCostCenter
   | UpdateCostCenterFail
-  | UpdateCostCenterSuccess;
+  | UpdateCostCenterSuccess
+  | LoadAssignedBudgets
+  | LoadAssignedBudgetsSuccess
+  | LoadAssignedBudgetsFail
+  | AssignBudget
+  | AssignBudgetFail
+  | AssignBudgetSuccess
+  | UnassignBudget
+  | UnassignBudgetFail
+  | UnassignBudgetSuccess;

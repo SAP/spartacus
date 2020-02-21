@@ -26,18 +26,11 @@ const costCenterCode = 'b1';
 const mockCostCenter: CostCenter = {
   code: costCenterCode,
   name: 'costCenter1',
-  costCenter: 2230,
   currency: {
-    isocode: 'USD',
     symbol: '$',
+    isocode: 'USD',
   },
-  startDate: '2010-01-01T00:00:00+0000',
-  endDate: '2034-07-12T00:59:59+0000',
-  orgUnit: { name: 'Org Unit 1', uid: 'unitNode1' },
-  costCenters: [
-    { name: 'costCenter1', code: 'cc1', originalCode: 'Cost Center 1' },
-    { name: 'costCenter2', code: 'cc2', originalCode: 'Cost Center 2' },
-  ],
+  unit: { name: 'orgName', uid: 'orgCode' },
 };
 
 const mockOrgUnits: EntitiesModel<B2BUnitNode> = {

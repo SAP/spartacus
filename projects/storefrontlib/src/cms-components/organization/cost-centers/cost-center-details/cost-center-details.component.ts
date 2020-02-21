@@ -5,7 +5,7 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-costCenter-details',
+  selector: 'cx-cost-center-details',
   templateUrl: './cost-center-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
