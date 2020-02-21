@@ -1,3 +1,11 @@
+###########################################################
+# This script builds the relevant spartacus libraries 
+# and publushes them to the local npm registry.
+# The building part can be skipped by providing the
+# `skip` argument when calling the script: 
+# `./migrations-test.sh skip`
+###########################################################
+
 unpublish () {
   echo "unpublishing "$1""
   npm unpublish @spartacus/"$1" --registry http://localhost:4873 --force
@@ -34,11 +42,11 @@ if [[ -z "$SKIP_BUILD" ]]; then
   cd ../projects/storefrontstyles
   ng build
   cd ../../dist
-
-  cd ../projects/schematics
-  yarn build 
-  cd ../../dist
 fi
+
+cd ../projects/schematics
+yarn build 
+cd ../../dist
 
 doItFor "core"
 doItFor "storefrontlib"
