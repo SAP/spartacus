@@ -379,6 +379,7 @@ export function verifyOrderConfirmationPageWithCheapProduct() {
 }
 
 export function viewOrderHistoryWithCheapProduct() {
+  cy.wait(15000);
   const orderHistoryPage = waitForPage(
     '/my-account/orders',
     'getOrderHistoryPage'
