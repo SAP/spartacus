@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as NgrxStore from '@ngrx/store';
 import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
@@ -42,8 +41,8 @@ describe('ProductSearchService', () => {
       ],
       providers: [ProductSearchService],
     });
-    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
-    service = TestBed.get(ProductSearchService as Type<ProductSearchService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(ProductSearchService);
     spyOn(service, 'search').and.callThrough();
     spyOn(store, 'dispatch').and.callThrough();
   });

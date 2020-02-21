@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -8,7 +7,7 @@ import {
 } from '../../occ/utils/occ-constants';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
-import { AuthState, AUTH_FEATURE } from '../store/auth-state';
+import { AUTH_FEATURE, AuthState } from '../store/auth-state';
 import * as fromReducers from '../store/reducers/index';
 import { AuthService } from './auth.service';
 
@@ -35,8 +34,8 @@ describe('AuthService', () => {
       providers: [AuthService],
     });
 
-    service = TestBed.get(AuthService as Type<AuthService>);
-    store = TestBed.get(Store as Type<Store<AuthState>>);
+    service = TestBed.inject(AuthService);
+    store = TestBed.inject(Store);
   });
 
   it('should be created', () => {

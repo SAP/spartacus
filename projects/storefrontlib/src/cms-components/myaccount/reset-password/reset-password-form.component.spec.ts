@@ -1,4 +1,4 @@
-import { DebugElement, Type } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -35,8 +35,8 @@ describe('ResetPasswordFormComponent', () => {
   let component: ResetPasswordFormComponent;
   let fixture: ComponentFixture<ResetPasswordFormComponent>;
 
-  let userService: MockUserService;
-  let routingService: MockRoutingService;
+  let userService: UserService;
+  let routingService: RoutingService;
 
   let form: DebugElement;
   let password: AbstractControl;
@@ -64,8 +64,8 @@ describe('ResetPasswordFormComponent', () => {
     password = component.form.controls['password'];
     rePassword = component.form.controls['repassword'];
 
-    userService = TestBed.get(UserService as Type<UserService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    userService = TestBed.inject(UserService);
+    routingService = TestBed.inject(RoutingService);
   });
 
   it('should be created', () => {

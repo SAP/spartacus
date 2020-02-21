@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
@@ -43,10 +42,8 @@ describe('OccProductAdapter', () => {
         { provide: ConverterService, useClass: MockConvertService },
       ],
     });
-    service = TestBed.get(OccProductAdapter as Type<OccProductAdapter>);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
+    service = TestBed.inject(OccProductAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -85,7 +82,7 @@ describe('OccProductAdapter', () => {
     });
 
     it('should use converter', () => {
-      const converter = TestBed.get(ConverterService as Type<ConverterService>);
+      const converter = TestBed.inject(ConverterService);
 
       service.load(productCode).subscribe();
       httpMock.expectOne('product' + productCode).flush(product);
@@ -155,7 +152,7 @@ describe('OccProductAdapter', () => {
     });
 
     it('should use converter', () => {
-      const converter = TestBed.get(ConverterService as Type<ConverterService>);
+      const converter = TestBed.inject(ConverterService);
 
       const scopedData = service.loadMany([{ code: productCode, scope: '' }]);
       scopedData[0].data$.subscribe();
