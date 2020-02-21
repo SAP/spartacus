@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { GeoPoint } from '../../model/misc.model';
@@ -8,7 +7,7 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StoresState } from '../store/store-finder-state';
 import { StoreFinderService } from './store-finder.service';
 import { GlobalMessageService } from '../../global-message/index';
-import { UrlCommands, RoutingService } from '../../routing/index';
+import { RoutingService, UrlCommands } from '../../routing/index';
 import { NavigationExtras } from '@angular/router';
 
 class MockRoutingService {
@@ -63,9 +62,9 @@ describe('StoreFinderService', () => {
       ],
     });
 
-    service = TestBed.get(StoreFinderService as Type<StoreFinderService>);
-    store = TestBed.get(Store as Type<Store<StoresState>>);
-    winRef = TestBed.get(WindowRef as Type<WindowRef>);
+    service = TestBed.inject(StoreFinderService);
+    store = TestBed.inject(Store);
+    winRef = TestBed.inject(WindowRef);
 
     spyOn(store, 'dispatch').and.callThrough();
     spyOn(
