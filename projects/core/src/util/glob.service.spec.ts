@@ -6,7 +6,7 @@ describe('GlobService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.get(GlobService);
+    service = TestBed.inject(GlobService);
   });
 
   describe('getValidator', () => {

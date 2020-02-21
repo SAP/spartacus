@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ProductReference } from '../../../../model/product.model';
 import { ConverterService } from '../../../../util/converter.service';
@@ -40,9 +39,7 @@ describe('OccProductReferencesListNormalizer', () => {
       ],
     });
 
-    normalizer = TestBed.get(OccProductReferencesListNormalizer as Type<
-      OccProductReferencesListNormalizer
-    >);
+    normalizer = TestBed.inject(OccProductReferencesListNormalizer);
   });
 
   it('should inject ProductImageConverterService', () => {
@@ -50,7 +47,7 @@ describe('OccProductReferencesListNormalizer', () => {
   });
 
   it('should apply product image normalizer to products', () => {
-    const converter = TestBed.get(ConverterService as Type<ConverterService>);
+    const converter = TestBed.inject(ConverterService);
     const result = normalizer.convert(mockSource, mockTarget);
     const expected = [{ target: { images: ['images'] } }] as any;
 

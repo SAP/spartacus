@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { UserConsentAdapter } from './user-consent.adapter';
@@ -20,8 +19,8 @@ describe('UserConsentConnector', () => {
       providers: [{ provide: UserConsentAdapter, useClass: MockUserAdapter }],
     });
 
-    service = TestBed.get(UserConsentConnector as Type<UserConsentConnector>);
-    adapter = TestBed.get(UserConsentAdapter as Type<UserConsentAdapter>);
+    service = TestBed.inject(UserConsentConnector);
+    adapter = TestBed.inject(UserConsentAdapter);
   });
 
   it('should be created', () => {
