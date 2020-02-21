@@ -17,7 +17,8 @@ import { CmsPageGuard, PageLayoutComponent } from '../../cms-structure/index';
         data: { cxRoute: 'brand' },
       },
       {
-        //it's after the brand route, as it may include suffix matcher
+        // The 'category' route  may include a greedy suffix url matcher '**/c/:categoryCode'
+        // So not to shadow the specific 'brand' route, the 'category' one as the last.
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,

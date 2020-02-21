@@ -17,7 +17,7 @@ class MockRouter {
   }
 }
 
-class MockUrlMatcherFactoryService {
+class MockUrlMatcherService {
   getMultiplePathsUrlMatcher = jasmine
     .createSpy('getMultiplePathsUrlMatcher')
     .and.callFake(paths => paths);
@@ -41,7 +41,7 @@ describe('ConfigurableRoutesService', () => {
         },
         {
           provide: UrlMatcherService,
-          useClass: MockUrlMatcherFactoryService,
+          useClass: MockUrlMatcherService,
         },
         {
           provide: Router,

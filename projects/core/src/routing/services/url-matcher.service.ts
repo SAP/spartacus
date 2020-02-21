@@ -1,4 +1,4 @@
-import { Injectable, Injector, isDevMode } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import {
   Route,
   UrlMatcher,
@@ -10,10 +10,7 @@ import { GlobService } from '../../util/glob.service';
 
 @Injectable({ providedIn: 'root' })
 export class UrlMatcherService {
-  constructor(
-    protected globService: GlobService,
-    protected injector: Injector // spike todo breaking change (can be avoided if we add it early)
-  ) {}
+  constructor(protected globService: GlobService) {}
 
   /**
    * Returns a matcher that is always fails
@@ -65,7 +62,7 @@ export class UrlMatcherService {
    * - the empty path `''` is handled here, but in Angular is handled one level higher in the match() function
    */
   protected fromPath(path: string = ''): UrlMatcher {
-    const matcher = function pathMatcher(
+    const matcher = function pathUrlMatcher(
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
       route: Route

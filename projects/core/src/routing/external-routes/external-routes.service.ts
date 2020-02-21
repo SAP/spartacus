@@ -11,7 +11,7 @@ import { ExternalRoutesGuard } from './external-routes.guard';
 export class ExternalRoutesService {
   constructor(
     protected config: ExternalRoutesConfig,
-    protected matcherFactory: UrlMatcherService,
+    protected urlMatcherService: UrlMatcherService,
     protected injector: Injector
   ) {}
 
@@ -55,7 +55,7 @@ export class ExternalRoutesService {
    * Returns the URL matcher for the external route
    */
   protected getUrlMatcher(): UrlMatcher {
-    const matcher = this.matcherFactory.fromGlob(this.internalUrlPatterns);
-    return this.matcherFactory.getOpposite(matcher); // the external route should be activated only when it's NOT an internal route
+    const matcher = this.urlMatcherService.fromGlob(this.internalUrlPatterns);
+    return this.urlMatcherService.getOpposite(matcher); // the external route should be activated only when it's NOT an internal route
   }
 }

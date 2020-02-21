@@ -29,9 +29,6 @@ export class ConfigurableRoutesService {
     // Router could not be injected in constructor due to cyclic dependency with APP_INITIALIZER:
     const router = this.injector.get(Router);
 
-    //spike todo remove:
-    window['router'] = router;
-
     const configuredRoutes = this.configureRoutes(router.config);
 
     router.resetConfig(configuredRoutes);
@@ -92,8 +89,8 @@ export class ConfigurableRoutesService {
   ): UrlMatcher {
     const matchers: UrlMatcher[] = matchersOrFactories.map(matcherOrFactory => {
       return typeof matcherOrFactory === 'function'
-        ? matcherOrFactory
-        : this.resolveUrlMatcherFactory(route, matcherOrFactory);
+        ? matcherOrFactory // matcher
+        : this.resolveUrlMatcherFactory(route, matcherOrFactory); // factory
     });
     return this.urlMatcherService.combine(matchers);
   }
@@ -117,6 +114,7 @@ export class ConfigurableRoutesService {
     route: Route
   ) {
     if (isDevMode()) {
+      // route config being undefined is a misconfiguration
       if (routeConfig === undefined) {
         this.warn(
           `Could not configure the named route '${routeName}'`,
@@ -131,6 +129,7 @@ export class ConfigurableRoutesService {
         return;
       }
 
+      // a route with matchers is valid
       if (routeConfig.matchers) {
         return;
       }
