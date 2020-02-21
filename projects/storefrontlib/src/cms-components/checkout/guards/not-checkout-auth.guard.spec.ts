@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -54,10 +53,10 @@ describe('NotCheckoutAuthGuard', () => {
       ],
       imports: [RouterTestingModule],
     });
-    authService = TestBed.get(AuthService as Type<AuthService>);
-    guard = TestBed.get(NotCheckoutAuthGuard as Type<NotCheckoutAuthGuard>);
-    routing = TestBed.get(RoutingService as Type<RoutingService>);
-    cartService = TestBed.get(CartService as Type<CartService>);
+    authService = TestBed.inject(AuthService);
+    guard = TestBed.inject(NotCheckoutAuthGuard);
+    routing = TestBed.inject(RoutingService);
+    cartService = TestBed.inject(CartService);
   });
 
   describe('when user is authorized,', () => {

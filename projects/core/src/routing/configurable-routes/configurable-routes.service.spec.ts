@@ -1,5 +1,4 @@
 import * as AngularCore from '@angular/core';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router, Routes } from '@angular/router';
 import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
@@ -50,13 +49,9 @@ describe('ConfigurableRoutesService', () => {
       ],
     });
 
-    service = TestBed.get(ConfigurableRoutesService as Type<
-      ConfigurableRoutesService
-    >);
-    router = TestBed.get(Router as Type<Router>);
-    routingConfigService = TestBed.get(RoutingConfigService as Type<
-      RoutingConfigService
-    >);
+    service = TestBed.inject(ConfigurableRoutesService);
+    router = TestBed.inject(Router);
+    routingConfigService = TestBed.inject(RoutingConfigService);
 
     router.config = [];
   });

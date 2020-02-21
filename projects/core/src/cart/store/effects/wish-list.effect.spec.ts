@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
@@ -20,6 +19,7 @@ const userId = 'testUserId';
 const cartName = 'name';
 const cartDescription = 'description';
 const wishListId = 'xxxx';
+const customerId = '1234-5678-abcdef';
 
 const testCart: Cart = {
   code: 'xxx',
@@ -37,7 +37,7 @@ const testCart: Cart = {
 
 const wishList: Cart = {
   code: wishListId,
-  name: 'wishlist',
+  name: `wishlist${customerId}`,
 };
 
 const saveCartResult: SaveCartResult = {
@@ -89,9 +89,9 @@ describe('Wish List Effect', () => {
       ],
     });
 
-    wishListEffect = TestBed.get(fromEffects.WishListEffects);
-    cartConnector = TestBed.get(CartConnector as Type<CartConnector>);
-    store = TestBed.get(Store as Type<Store<StateWithMultiCart>>);
+    wishListEffect = TestBed.inject(WishListEffects);
+    cartConnector = TestBed.inject(CartConnector);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -118,13 +118,15 @@ describe('Wish List Effect', () => {
 
   describe('loadWishList$', () => {
     it('should create wish list if it does NOT exist', () => {
+      const payload = { userId, customerId };
+
       spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart]));
 
-      const action = new CartActions.LoadWishList(userId);
+      const action = new CartActions.LoadWishList(payload);
 
       const createWishListAction = new CartActions.CreateWishList({
         userId,
-        name: 'wishlist',
+        name: `wishlist${customerId}`,
       });
 
       actions$ = hot('-a', { a: action });
@@ -133,9 +135,11 @@ describe('Wish List Effect', () => {
       expect(wishListEffect.loadWishList$).toBeObservable(expected);
     });
     it('should dispatch load wish list success if it exists', () => {
+      const payload = { userId, customerId };
+
       spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart, wishList]));
 
-      const action = new CartActions.LoadWishList(userId);
+      const action = new CartActions.LoadWishList(payload);
 
       const loadWishListSuccessAction = new CartActions.LoadWishListSuccess({
         cart: wishList,

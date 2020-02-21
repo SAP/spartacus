@@ -18,7 +18,13 @@ export class CancelOrReturnItemsComponent {
   constructor(protected orderAmendService: OrderAmendService) {}
 
   getControl(form: FormGroup, entry: OrderEntry): FormControl {
-    return <FormControl>form.get('entries').get(entry.entryNumber.toString());
+    const control = <FormControl>(
+      form.get('entries').get(entry.entryNumber.toString())
+    );
+    if (this.isConfirmation) {
+      control.disable();
+    }
+    return control;
   }
 
   setAll(form: FormGroup): void {

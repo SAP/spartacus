@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -56,12 +55,10 @@ describe('AuthGuard', () => {
       ],
       imports: [RouterTestingModule],
     });
-    guard = TestBed.get(AuthGuard as Type<AuthGuard>);
-    service = TestBed.get(RoutingService as Type<RoutingService>);
-    authService = TestBed.get(AuthService as Type<AuthService>);
-    authRedirectService = TestBed.get(AuthRedirectService as Type<
-      AuthRedirectService
-    >);
+    guard = TestBed.inject(AuthGuard);
+    service = TestBed.inject(RoutingService);
+    authService = TestBed.inject(AuthService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
 
     spyOn(service, 'go').and.stub();
   });

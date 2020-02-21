@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -71,10 +70,8 @@ describe('GlobalMessage Effects', () => {
         },
       ],
     });
-    effects = TestBed.get(fromEffects.GlobalMessageEffect as Type<
-      fromEffects.GlobalMessageEffect
-    >);
-    config = TestBed.get(GlobalMessageConfig as Type<GlobalMessageConfig>);
+    effects = TestBed.inject(fromEffects.GlobalMessageEffect);
+    config = TestBed.inject(GlobalMessageConfig);
   });
 
   describe('hideAfterDelay$', () => {
@@ -119,6 +116,7 @@ describe('GlobalMessage Effects', () => {
       ]);
     });
   });
+
   describe('removeDuplicated$', () => {
     it('should not remove message if there is only one', () => {
       spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(1);

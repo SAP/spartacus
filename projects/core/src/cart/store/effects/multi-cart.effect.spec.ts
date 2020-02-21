@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -51,9 +50,7 @@ describe('Multi Cart effect', () => {
       ],
     });
 
-    cartEffects = TestBed.get(fromEffects.MultiCartEffects as Type<
-      fromEffects.MultiCartEffects
-    >);
+    cartEffects = TestBed.inject(fromEffects.MultiCartEffects);
   });
 
   describe('loadCart2$', () => {

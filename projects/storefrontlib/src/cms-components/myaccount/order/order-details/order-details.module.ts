@@ -14,7 +14,7 @@ import { ConsignmentTrackingComponent } from '../../../../cms-components/myaccou
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CardModule } from '../../../../shared/components/card/card.module';
-import { SpinnerModule } from '../../../../shared/components/index';
+import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';

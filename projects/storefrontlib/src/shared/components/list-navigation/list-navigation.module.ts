@@ -1,21 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { PaginationComponent } from './pagination/pagination.component';
+import { PaginationComponent, PaginationModule } from './pagination/index';
 import { SortingComponent } from './sorting/sorting.component';
-import { SearchComponent } from './search/search.component';
-import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NgSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IconModule,
-  ],
-  declarations: [PaginationComponent, SortingComponent, SearchComponent],
-  exports: [PaginationComponent, SortingComponent, SearchComponent],
+  imports: [CommonModule, NgSelectModule, FormsModule, PaginationModule],
+  declarations: [SortingComponent],
+  exports: [SortingComponent, PaginationComponent],
 })
 export class ListNavigationModule {}
