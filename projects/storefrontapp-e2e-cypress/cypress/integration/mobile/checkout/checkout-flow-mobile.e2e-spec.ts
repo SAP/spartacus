@@ -1,7 +1,7 @@
 import * as checkout from '../../../helpers/checkout-flow';
 import { checkBanner } from '../../../helpers/homepage';
-import { formats } from '../../../sample-data/viewports';
 import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
+import { formats } from '../../../sample-data/viewports';
 
 function clickHamburger() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').click();

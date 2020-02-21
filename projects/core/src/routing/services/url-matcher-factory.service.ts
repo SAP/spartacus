@@ -59,6 +59,15 @@ export class UrlMatcherFactoryService {
       segmentGroup: UrlSegmentGroup,
       route: Route
     ): UrlMatchResult | null => {
+      /**
+       * @license
+       * The MIT License
+       * Copyright (c) 2010-2019 Google LLC. http://angular.io/license
+       *
+       * See:
+       * - https://github.com/angular/angular/blob/6f5f481fdae03f1d8db36284b64c7b82d9519d85/packages/router/src/shared.ts#L121
+       */
+
       // use function's argument, not the `route.path`
       if (path === '') {
         if (

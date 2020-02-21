@@ -85,7 +85,7 @@
                 (click)="showMore(facet.name)"
                 *ngIf="
                   !showAllPerFacetMap.get(facet.name) &&
-                  facet.values.length > minPerFacet
+                  facet.values.length > facet.topValueCount
                 "
                 tabindex="0"
               >

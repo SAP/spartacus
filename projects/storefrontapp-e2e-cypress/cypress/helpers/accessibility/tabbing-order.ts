@@ -43,13 +43,25 @@ export function verifyTabElement(tabElement: TabElement) {
     return;
   }
 
+  const regexpCheck = (value: string) => {
+    value = value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    const regexp = new RegExp(value, 'i');
+
+    cy.focused()
+      .invoke('text')
+      .then(text => {
+        expect(text).to.match(regexp);
+      });
+  };
+
   switch (tabElement.type) {
     case TabbingOrderTypes.FORM_FIELD: {
       cy.focused().should('have.attr', 'formcontrolname', tabElement.value);
       break;
     }
     case TabbingOrderTypes.LINK: {
-      cy.focused().should('contain', tabElement.value);
+      regexpCheck(tabElement.value as string);
       break;
     }
     case TabbingOrderTypes.BUTTON: {

@@ -103,7 +103,7 @@ export function addressBookNextStep() {
 }
 
 export function deliveryModeNextStep() {
-  cy.get('cx-delivery-mode #deliveryMode-standard-gross').click({
+  cy.get('cx-delivery-mode #deliveryMode-standard-net').click({
     force: true,
   });
 
@@ -161,11 +161,26 @@ export function siteContextChange(
 ): void {
   cy.visit(FULL_BASE_URL_EN_USD + pagePath);
 
+  let contextParam: string;
+
+  switch (label) {
+    case LANGUAGE_LABEL: {
+      contextParam = 'lang';
+      break;
+    }
+    case CURRENCY_LABEL: {
+      contextParam = 'curr';
+      break;
+    }
+    default: {
+      throw new Error(`Unsupported context label : ${label}`);
+    }
+  }
   cy.wait(`@${alias}`)
     .its('status')
     .should('eq', 200);
 
-  cy.route('GET', `*${selectedOption}*`).as('switchedContext');
+  cy.route('GET', `*${contextParam}=${selectedOption}*`).as('switchedContext');
   switchSiteContext(selectedOption, label);
   cy.wait('@switchedContext')
     .its('status')

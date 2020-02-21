@@ -12,8 +12,10 @@
       "@spartacus/cds": ["../../dist/cds"]
     }
   },
-  "exclude": ["test.ts", "**/*.spec.ts"],
   "angularCompilerOptions": {
-    "entryModule": "src/app/app.server.module#AppServerModule"
-  }
+    "entryModule": "src/app/app.server.module#AppServerModule",
+    "enableIvy": false
+  },
+  "files": ["src/main.server.ts"],
+  "include": ["projects/storefrontapp-cds-integration/src/**/*.d.ts"]
 }

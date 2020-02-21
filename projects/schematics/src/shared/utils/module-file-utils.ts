@@ -19,19 +19,14 @@ export function stripTsFromImport(importPath: string): string {
 
 export function addImport(
   host: Tree,
-  modulePath: string,
+  filePath: string,
   importText: string,
   importPath: string
-) {
-  const moduleSource = getTsSourceFile(host, modulePath) as any;
+): void {
+  const moduleSource = getTsSourceFile(host, filePath) as any;
   if (!isImported(moduleSource, importText, importPath)) {
-    const change = insertImport(
-      moduleSource,
-      modulePath,
-      importText,
-      importPath
-    );
-    commitChanges(host, modulePath, [change], InsertDirection.LEFT);
+    const change = insertImport(moduleSource, filePath, importText, importPath);
+    commitChanges(host, filePath, [change], InsertDirection.LEFT);
   }
 }
 
