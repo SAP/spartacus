@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -39,15 +38,11 @@ describe('Order Details effect', () => {
       ],
     });
 
-    actions$ = TestBed.get(Actions as Type<Actions>);
-    orderDetailsEffect = TestBed.get(
-      fromOrderDetailsEffect.OrderDetailsEffect as Type<
-        fromOrderDetailsEffect.OrderDetailsEffect
-      >
+    actions$ = TestBed.inject(Actions);
+    orderDetailsEffect = TestBed.inject(
+      fromOrderDetailsEffect.OrderDetailsEffect
     );
-    orderConnector = TestBed.get(UserOrderConnector as Type<
-      UserOrderConnector
-    >);
+    orderConnector = TestBed.inject(UserOrderConnector);
   });
 
   describe('loadOrderDetails$', () => {

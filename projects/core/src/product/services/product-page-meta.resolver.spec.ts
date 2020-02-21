@@ -82,7 +82,7 @@ describe('ProductPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.get(ProductPageMetaResolver);
+    service = TestBed.inject(ProductPageMetaResolver);
   });
 
   it('should be created', () => {

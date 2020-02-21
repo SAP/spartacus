@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -26,9 +25,9 @@ describe('RoutingService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<RouterState>>);
-    service = TestBed.get(RoutingService as Type<RoutingService>);
-    urlService = TestBed.get(SemanticPathService as Type<SemanticPathService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(RoutingService);
+    urlService = TestBed.inject(SemanticPathService);
     spyOn(store, 'dispatch');
   });
 

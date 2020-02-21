@@ -1,10 +1,8 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CountryType } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
 import { SiteAdapter } from './site.adapter';
 import { SiteConnector } from './site.connector';
-
 import createSpy = jasmine.createSpy;
 
 const mockLanguages = ['l', 'a', 'n', 'g'];
@@ -42,8 +40,8 @@ describe('SiteConnector', () => {
       providers: [{ provide: SiteAdapter, useClass: MockSiteAdapter }],
     });
 
-    service = TestBed.get(SiteConnector as Type<SiteConnector>);
-    adapter = TestBed.get(SiteAdapter as Type<SiteAdapter>);
+    service = TestBed.inject(SiteConnector);
+    adapter = TestBed.inject(SiteAdapter);
   });
 
   it('should be created', () => {
