@@ -1962,6 +1962,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
       type: TabbingOrderTypes.GENERIC_BUTTON,
     },
     {
@@ -1969,8 +1972,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
       value: 'Micro Webcam',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
     },
   ],
   consignmentTrackingEvents: [
