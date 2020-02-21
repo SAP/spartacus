@@ -15,19 +15,39 @@ import {
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.component';
 import { TableModule } from '../../../../shared/components/table/table.module';
+import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
+import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
+import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-routes/suffix-url-matcher';
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule.forChild([
+      {
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'costCenterAssignBudgets' },
+      },
+      {
+        matcher: suffixUrlMatcher,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxSuffixUrlMatcher: {
+            paramName: 'costCenterCode',
+          },
+        },
+      },
+    ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ManageBudgetsListComponent: {
+        CostCenterAssignBudgetsComponent: {
           component: CostCenterAssignBudgetsComponent,
           guards: [AuthGuard],
         },
       },
     }),
-    RouterModule,
     FormsModule,
     NgSelectModule,
     ListNavigationModule,

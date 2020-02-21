@@ -32,7 +32,7 @@ export class CostCenterListComponent implements OnInit {
   ) {}
 
   costCentersList$: Observable<any>;
-  private params$: Observable<B2BSearchConfig>;
+  protected params$: Observable<B2BSearchConfig>;
 
   protected defaultParams: B2BSearchConfig = {
     sort: 'byName',
@@ -80,7 +80,7 @@ export class CostCenterListComponent implements OnInit {
     this.updateQueryParams({ currentPage });
   }
 
-  private updateQueryParams(newParams: Partial<B2BSearchConfig>): void {
+  protected updateQueryParams(newParams: Partial<B2BSearchConfig>): void {
     this.params$
       .pipe(
         map(params => diff(this.defaultParams, { ...params, ...newParams })),
@@ -96,7 +96,7 @@ export class CostCenterListComponent implements OnInit {
       });
   }
 
-  private normalizeParams({ sort, currentPage, pageSize }): B2BSearchConfig {
+  protected normalizeParams({ sort, currentPage, pageSize }): B2BSearchConfig {
     return {
       sort,
       currentPage: parseInt(currentPage, 10),

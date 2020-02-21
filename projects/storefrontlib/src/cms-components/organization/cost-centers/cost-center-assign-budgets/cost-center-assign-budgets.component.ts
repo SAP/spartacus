@@ -34,23 +34,23 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
 
   budgetsList$: Observable<any>;
   protected params$: Observable<B2BSearchConfig>;
-
+  protected costCenterCode$: Observable<string>;
+  protected cxRoute = 'costCenterAssignBudgets';
   protected defaultParams: B2BSearchConfig = {
     sort: 'byName',
     currentPage: 0,
     pageSize: 5,
   };
 
-  costCenterCode$: Observable<
-    string
-  > = this.routingService
-    .getRouterState()
-    .pipe(map(routingData => routingData.state.params['costCenterCode']));
-
   ngOnInit(): void {
     this.params$ = this.routingService
       .getRouterState()
       .pipe(map(routingData => routingData.state.queryParams));
+
+    this.costCenterCode$ = this.routingService.getRouterState().pipe(
+      tap(console.log),
+      map(routingData => routingData.state.params['costCenterCode'])
+    );
 
     this.budgetsList$ = this.params$.pipe(
       map(params => ({
@@ -102,7 +102,7 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
       .subscribe((params: Partial<B2BSearchConfig>) => {
         this.routingService.go(
           {
-            cxRoute: 'budgets',
+            cxRoute: this.cxRoute,
           },
           { ...params }
         );

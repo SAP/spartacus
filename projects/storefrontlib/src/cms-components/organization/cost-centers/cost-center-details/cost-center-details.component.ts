@@ -18,9 +18,10 @@ export class CostCenterDetailsComponent implements OnInit {
   costCenter$: Observable<CostCenter>;
   costCenterCode$: Observable<
     string
-  > = this.routingService
-    .getRouterState()
-    .pipe(map(routingData => routingData.state.params['costCenterCode']));
+  > = this.routingService.getRouterState().pipe(
+    tap(console.log),
+    map(routingData => routingData.state.params['costCenterCode'])
+  );
 
   ngOnInit(): void {
     this.costCenter$ = this.costCenterCode$.pipe(

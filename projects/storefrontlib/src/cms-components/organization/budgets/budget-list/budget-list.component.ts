@@ -34,6 +34,7 @@ export class BudgetListComponent implements OnInit {
   budgetsList$: Observable<any>;
   protected params$: Observable<B2BSearchConfig>;
 
+  protected cxRoute = 'budgets';
   protected defaultParams: B2BSearchConfig = {
     sort: 'byName',
     currentPage: 0,
@@ -93,7 +94,7 @@ export class BudgetListComponent implements OnInit {
       .subscribe((params: Partial<B2BSearchConfig>) => {
         this.routingService.go(
           {
-            cxRoute: 'budgets',
+            cxRoute: this.cxRoute,
           },
           { ...params }
         );

@@ -32,8 +32,8 @@ export class PermissionListComponent implements OnInit {
   ) {}
 
   permissionsList$: Observable<any>;
-  private params$: Observable<B2BSearchConfig>;
-
+  protected params$: Observable<B2BSearchConfig>;
+  protected cxRoute = 'permissions';
   protected defaultParams: B2BSearchConfig = {
     sort: 'byName',
     currentPage: 0,
@@ -85,7 +85,7 @@ export class PermissionListComponent implements OnInit {
     this.updateQueryParams({ currentPage });
   }
 
-  private updateQueryParams(newParams: Partial<B2BSearchConfig>): void {
+  protected updateQueryParams(newParams: Partial<B2BSearchConfig>): void {
     this.params$
       .pipe(
         map(params => diff(this.defaultParams, { ...params, ...newParams })),
@@ -94,14 +94,14 @@ export class PermissionListComponent implements OnInit {
       .subscribe((params: Partial<B2BSearchConfig>) => {
         this.routingService.go(
           {
-            cxRoute: 'permissions',
+            cxRoute: this.cxRoute,
           },
           { ...params }
         );
       });
   }
 
-  private normalizeParams({ sort, currentPage, pageSize }): B2BSearchConfig {
+  protected normalizeParams({ sort, currentPage, pageSize }): B2BSearchConfig {
     return {
       sort,
       currentPage: parseInt(currentPage, 10),
