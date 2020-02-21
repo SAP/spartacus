@@ -47,12 +47,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   goToApparel(): void {
     this.baseSiteService.setActive('apparel-uk-spa');
     this.currencyService.setActive('GBP');
-    // this.winRef.nativeWindow.history.pushState(
-    //   {},
-    //   'test',
-    //   '/apparel-uk-spa/en/GBP/'
-    // );
-    // this.routingService.go('/apparel-uk-spa/eb/GBP');
   }
 
   goToElectronics(): void {
