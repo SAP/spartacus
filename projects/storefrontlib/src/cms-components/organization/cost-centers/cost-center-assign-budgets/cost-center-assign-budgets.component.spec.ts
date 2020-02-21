@@ -19,7 +19,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { TableModule } from '../../../../shared/components/table/table.module';
 
-import { CostCenterAssignBudgetComponent } from './cost-center-assign-budgets.component';
+import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 
@@ -126,8 +126,8 @@ class MockCxDatePipe {
 }
 
 describe('BudgetListComponent', () => {
-  let component: CostCenterAssignBudgetComponent;
-  let fixture: ComponentFixture<CostCenterAssignBudgetComponent>;
+  let component: CostCenterAssignBudgetsComponent;
+  let fixture: ComponentFixture<CostCenterAssignBudgetsComponent>;
   let budgetsService: MockBudgetService;
   let routingService: RoutingService;
 
@@ -139,7 +139,7 @@ describe('BudgetListComponent', () => {
         TableModule,
         I18nTestingModule,
       ],
-      declarations: [CostCenterAssignBudgetComponent, MockUrlPipe],
+      declarations: [CostCenterAssignBudgetsComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
@@ -153,7 +153,7 @@ describe('BudgetListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CostCenterAssignBudgetComponent);
+    fixture = TestBed.createComponent(CostCenterAssignBudgetsComponent);
     component = fixture.componentInstance;
     budgetList.next(mockBudgetList);
     fixture.detectChanges();

@@ -12,4 +12,5 @@ export interface Budget {
   name?: string;
   orgUnit?: B2BUnit;
   costCenters?: CostCenter[];
+  selected?: boolean;
 }

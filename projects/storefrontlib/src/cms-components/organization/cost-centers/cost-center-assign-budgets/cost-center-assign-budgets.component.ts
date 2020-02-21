@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -14,26 +14,32 @@ import {
   RoutingService,
   CxDatePipe,
   EntitiesModel,
+  θdiff as diff,
   θshallowEqualObjects as shallowEqualObjects,
   Budget,
   CostCenterService,
+  B2BSearchConfig,
 } from '@spartacus/core';
-import { BudgetListComponent } from '../../budgets/budget-list/budget-list.component';
 
 @Component({
   selector: 'cx-cost-center-assign-budgets',
   templateUrl: './cost-center-assign-budgets.component.html',
 })
-export class CostCenterAssignBudgetsComponent extends BudgetListComponent {
+export class CostCenterAssignBudgetsComponent implements OnInit {
   constructor(
     protected routingService: RoutingService,
     protected costCenterService: CostCenterService,
     protected cxDate: CxDatePipe
-  ) {
-    super(routingService, costCenterService, cxDate);
-  }
+  ) {}
 
   budgetsList$: Observable<any>;
+  protected params$: Observable<B2BSearchConfig>;
+
+  protected defaultParams: B2BSearchConfig = {
+    sort: 'byName',
+    currentPage: 0,
+    pageSize: 5,
+  };
 
   costCenterCode$: Observable<
     string
@@ -53,8 +59,8 @@ export class CostCenterAssignBudgetsComponent extends BudgetListComponent {
       })),
       distinctUntilChanged(shallowEqualObjects),
       map(this.normalizeParams),
-      tap(params => this.costCenterService.loadBudgets(params)),
       withLatestFrom(this.costCenterCode$),
+      tap(([params, code]) => this.costCenterService.loadBudgets(code, params)),
       switchMap(([params, code]) =>
         this.costCenterService.getBudgets(code, params).pipe(
           filter(Boolean),
@@ -77,5 +83,37 @@ export class CostCenterAssignBudgetsComponent extends BudgetListComponent {
         )
       )
     );
+  }
+
+  changeSortCode(sort: string): void {
+    this.updateQueryParams({ sort });
+  }
+
+  pageChange(currentPage: number): void {
+    this.updateQueryParams({ currentPage });
+  }
+
+  protected updateQueryParams(newParams: Partial<B2BSearchConfig>): void {
+    this.params$
+      .pipe(
+        map(params => diff(this.defaultParams, { ...params, ...newParams })),
+        take(1)
+      )
+      .subscribe((params: Partial<B2BSearchConfig>) => {
+        this.routingService.go(
+          {
+            cxRoute: 'budgets',
+          },
+          { ...params }
+        );
+      });
+  }
+
+  protected normalizeParams({ sort, currentPage, pageSize }): B2BSearchConfig {
+    return {
+      sort,
+      currentPage: parseInt(currentPage, 10),
+      pageSize: parseInt(pageSize, 10),
+    };
   }
 }
