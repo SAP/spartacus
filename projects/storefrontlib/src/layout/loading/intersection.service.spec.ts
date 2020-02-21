@@ -10,7 +10,7 @@ describe('IntersectionService', () => {
     TestBed.configureTestingModule({
       providers: [{ provide: LayoutConfig, useValue: MockLayoutConfig }],
     });
-    service = TestBed.get(IntersectionService);
+    service = TestBed.inject(IntersectionService);
   });
 
   it('should be created', () => {

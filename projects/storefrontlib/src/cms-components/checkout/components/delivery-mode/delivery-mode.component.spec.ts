@@ -1,4 +1,4 @@
-import { Component, Type } from '@angular/core';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -12,7 +12,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { DeliveryModeComponent } from './delivery-mode.component';
-
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -76,9 +75,9 @@ const mockStepUrl = 'test url';
 describe('DeliveryModeComponent', () => {
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
-  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
-  let mockRoutingService: MockRoutingService;
-  let mockCheckoutConfigService: MockCheckoutConfigService;
+  let mockCheckoutDeliveryService: CheckoutDeliveryService;
+  let mockRoutingService: RoutingService;
+  let mockCheckoutConfigService: CheckoutConfigService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -95,13 +94,9 @@ describe('DeliveryModeComponent', () => {
       ],
     }).compileComponents();
 
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
-    mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService as Type<
-      CheckoutConfigService
-    >);
+    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
+    mockRoutingService = TestBed.inject(RoutingService);
+    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
   }));
 
   beforeEach(() => {

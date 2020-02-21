@@ -98,7 +98,7 @@ describe('CustomerSelectionComponent', () => {
     fixture = TestBed.createComponent(CustomerSelectionComponent);
     component = fixture.componentInstance;
     component.ngOnInit();
-    asmService = TestBed.get(AsmService);
+    asmService = TestBed.inject(AsmService);
     el = fixture.debugElement;
     fixture.detectChanges();
   });
