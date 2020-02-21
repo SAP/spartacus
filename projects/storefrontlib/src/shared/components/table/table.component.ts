@@ -18,7 +18,7 @@ export class TableComponent {
 
   @Output() toggle = new EventEmitter<any>();
 
-  onToggle(event, row) {
-    this.toggle.emit({ value: event.target.value, row });
+  onToggle(event, row, key) {
+    this.toggle.emit({ key, value: event.target.checked, row });
   }
 }

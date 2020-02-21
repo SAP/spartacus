@@ -8,6 +8,7 @@ import {
   take,
   tap,
   withLatestFrom,
+  delay,
 } from 'rxjs/operators';
 
 import {
@@ -46,25 +47,27 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.queryParams$ = this.routingService
-      .getRouterState()
-      .pipe(map(routingData => routingData.state.queryParams));
+    this.queryParams$ = this.routingService.getRouterState().pipe(
+      map(routingData => routingData.state.queryParams),
+      map(queryParams => ({
+        ...this.defaultQueryParams$,
+        ...queryParams,
+      })),
+      distinctUntilChanged(shallowEqualObjects),
+      map(this.normalizeQueryParams)
+    );
 
     this.costCenterCode$
       .pipe(take(1))
       .subscribe(code => (this.params = { code }));
 
     this.budgetsList$ = this.queryParams$.pipe(
-      map(params => ({
-        ...this.defaultQueryParams$,
-        ...params,
-      })),
-      distinctUntilChanged(shallowEqualObjects),
-      map(this.normalizeQueryParams),
       withLatestFrom(this.costCenterCode$),
-      tap(([params, code]) => this.costCenterService.loadBudgets(code, params)),
-      switchMap(([params, code]) =>
-        this.costCenterService.getBudgets(code, params).pipe(
+      tap(([queryParams, code]) =>
+        this.costCenterService.loadBudgets(code, queryParams)
+      ),
+      switchMap(([queryParams, code]) =>
+        this.costCenterService.getBudgets(code, queryParams).pipe(
           filter(Boolean),
           map((budgetsList: EntitiesModel<Budget>) => ({
             sorts: budgetsList.sorts,
@@ -124,5 +127,30 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
       currentPage: parseInt(currentPage, 10),
       pageSize: parseInt(pageSize, 10),
     };
+  }
+
+  toggle({ row, value }) {
+    if (value) {
+      this.assign(row.code);
+    } else {
+      this.unassign(row.code);
+    }
+    this.queryParams$
+      .pipe(
+        take(1),
+        // TODO temporary workaround
+        delay(200)
+      )
+      .subscribe(queryParams =>
+        this.costCenterService.loadBudgets(this.params.code, queryParams)
+      );
+  }
+
+  assign(budgetCode) {
+    this.costCenterService.assignBudget(this.params.code, budgetCode);
+  }
+
+  unassign(budgetCode) {
+    this.costCenterService.unassignBudget(this.params.code, budgetCode);
   }
 }
