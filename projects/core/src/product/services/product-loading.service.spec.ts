@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Action, Store, StoreModule } from '@ngrx/store';
@@ -48,8 +47,8 @@ describe('ProductLoadingService', () => {
         },
       ],
     });
-    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
-    service = TestBed.get(ProductLoadingService as Type<ProductLoadingService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(ProductLoadingService);
   });
 
   it('should ProductLoadingService is injected', inject(
@@ -193,7 +192,7 @@ describe('ProductLoadingService', () => {
     });
 
     it('should expand loading scopes', () => {
-      const loadingScopesService = TestBed.get(LoadingScopesService);
+      const loadingScopesService = TestBed.inject(LoadingScopesService);
       service
         .get(code, ['scope1', 'scope2'])
         .subscribe()
