@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, Injectable } from '@angular/core';
+import { Component, Input, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsService, ContentSlotData, Page } from '@spartacus/core';
@@ -24,7 +24,7 @@ const slots = {
     </cx-page-layout>
   `,
 })
-export class MockPageTemplateComponent {}
+class MockPageTemplateComponent {}
 
 @Component({
   selector: 'cx-page-header-test',
@@ -32,19 +32,18 @@ export class MockPageTemplateComponent {}
     <cx-page-layout section="header"> </cx-page-layout>
   `,
 })
-export class MockHeaderComponent {}
+class MockHeaderComponent {}
 
 @Component({
   selector: 'cx-page-slot',
   template: 'dynamic-slot.component',
 })
-export class MockDynamicSlotComponent {
+class MockDynamicSlotComponent {
   @Input() position: string;
   @Input() isPageFold;
 }
 
-@Injectable()
-export class MockCmsService {
+class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of({
       pageId: 'page_uid',
@@ -64,8 +63,7 @@ export class MockCmsService {
   }
 }
 
-@Injectable()
-export class MockPageLayoutService {
+class MockPageLayoutService {
   getSlots(section?: string): Observable<string[]> {
     if (section) {
       return of(['LogoSlot']);
@@ -82,8 +80,7 @@ export class MockPageLayoutService {
   }
 }
 
-@Injectable()
-export class MockDeferLoaderService {
+class MockDeferLoaderService {
   load(_element: HTMLElement, _options?: any) {
     return of(true);
   }
@@ -107,7 +104,7 @@ export class MockDeferLoaderService {
     { provide: DeferLoaderService, useClass: MockDeferLoaderService },
   ],
 })
-export class TestModule {}
+class TestModule {}
 
 describe('PageLayoutComponent', () => {
   let pageLayoutComponent: MockPageTemplateComponent;

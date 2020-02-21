@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ActivatedRouteSnapshot,
@@ -62,7 +61,7 @@ describe('CmsGuardsService', () => {
         UrlTreeGuard,
       ],
     });
-    service = TestBed.get(CmsGuardsService as Type<CmsGuardsService>);
+    service = TestBed.inject(CmsGuardsService);
   });
 
   it('should be created', () => {
@@ -94,7 +93,7 @@ describe('CmsGuardsService', () => {
         )
         .subscribe(res => (result = res));
       expect(result).toEqual(true);
-      expect(TestBed.get(PositiveGuard).canActivate).toHaveBeenCalledWith(
+      expect(TestBed.inject(PositiveGuard).canActivate).toHaveBeenCalledWith(
         mockActivatedRouteSnapshot,
         mockRouterStateSnapshot
       );

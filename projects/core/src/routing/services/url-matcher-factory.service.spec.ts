@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   Route,
@@ -19,10 +18,8 @@ describe('UrlMatcherFactoryService', () => {
     segmentGroup = { hasChildren: () => false } as UrlSegmentGroup;
     route = {} as Route;
 
-    factory = TestBed.get(UrlMatcherFactoryService as Type<
-      UrlMatcherFactoryService
-    >);
-    globService = TestBed.get(GlobService);
+    factory = TestBed.inject(UrlMatcherFactoryService);
+    globService = TestBed.inject(GlobService);
   });
 
   describe('getFalsyUrlMatcher', () => {

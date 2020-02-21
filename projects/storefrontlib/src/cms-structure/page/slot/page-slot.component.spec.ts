@@ -1,4 +1,4 @@
-import { Component, Renderer2, Type } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -63,16 +63,16 @@ const MockSkipLinkConfig: SkipLinkConfig = { skipLinks: [] };
     <cx-page-slot position="section" class="host classes"></cx-page-slot>
   `,
 })
-export class MockHostComponent {}
+class MockHostComponent {}
 
 @Component({
   template: `
     <div cx-page-slot position="section" class="host classes"></div>
   `,
 })
-export class MockHostWithDivComponent {}
+class MockHostWithDivComponent {}
 
-export class MockDeferLoaderService {
+class MockDeferLoaderService {
   load(_element: HTMLElement, _options?: any) {
     return of(true);
   }
@@ -140,10 +140,8 @@ describe('PageSlotComponent', () => {
     pageSlotComponent = fixture.componentInstance;
     pageSlotComponent.position = 'left';
 
-    cmsService = TestBed.get(CmsService as Type<CmsService>);
-    dynamicAttributeService = TestBed.get(DynamicAttributeService as Type<
-      DynamicAttributeService
-    >);
+    cmsService = TestBed.inject(CmsService);
+    dynamicAttributeService = TestBed.inject(DynamicAttributeService);
     renderer = fixture.componentRef.injector.get<Renderer2>(Renderer2 as any);
   });
 

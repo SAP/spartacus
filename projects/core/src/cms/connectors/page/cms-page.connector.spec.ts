@@ -1,11 +1,9 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CmsStructureConfigService, PageContext } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
 import { PageType } from '../../../model/cms.model';
 import { CmsPageAdapter } from './cms-page.adapter';
 import { CmsPageConnector } from './cms-page.connector';
-
 import createSpy = jasmine.createSpy;
 
 class MockCmsPageAdapter implements CmsPageAdapter {
@@ -38,7 +36,7 @@ describe('CmsPageConnector', () => {
       ],
     });
 
-    service = TestBed.get(CmsPageConnector as Type<CmsPageConnector>);
+    service = TestBed.inject(CmsPageConnector);
   });
 
   it('should be created', () => {
@@ -47,7 +45,7 @@ describe('CmsPageConnector', () => {
 
   describe('get', () => {
     it('should call adapter', () => {
-      const adapter = TestBed.get(CmsPageAdapter as Type<CmsPageAdapter>);
+      const adapter = TestBed.inject(CmsPageAdapter);
 
       let result;
       service.get(context).subscribe(res => (result = res));
@@ -56,9 +54,7 @@ describe('CmsPageConnector', () => {
     });
 
     it('should use CmsStructureConfigService', () => {
-      const structureConfigService = TestBed.get(
-        CmsStructureConfigService as Type<CmsStructureConfigService>
-      );
+      const structureConfigService = TestBed.inject(CmsStructureConfigService);
       service.get(context).subscribe();
       expect(structureConfigService.shouldIgnoreBackend).toHaveBeenCalledWith(
         context.id

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CmsNavigationComponent,
@@ -139,9 +138,7 @@ describe('NavigationComponentService', () => {
       ],
     });
 
-    navigationService = TestBed.get(NavigationService as Type<
-      NavigationService
-    >);
+    navigationService = TestBed.inject(NavigationService);
   });
 
   it('should inject service', () => {

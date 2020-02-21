@@ -1,10 +1,10 @@
 import {
+  HTTP_INTERCEPTORS,
   HttpClient,
   HttpErrorResponse,
   HttpEvent,
   HttpHeaders,
   HttpRequest,
-  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import {
   HttpClientTestingModule,
@@ -41,8 +41,8 @@ describe('TokenRevocationInterceptor', () => {
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController);
-    tokenRevocationInterceptor = TestBed.get(TokenRevocationInterceptor);
+    httpMock = TestBed.inject(HttpTestingController);
+    tokenRevocationInterceptor = TestBed.inject(TokenRevocationInterceptor);
   });
 
   it('should be created', () => {
