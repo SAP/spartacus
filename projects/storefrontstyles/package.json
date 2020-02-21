@@ -17,7 +17,7 @@
     "sass": "node ./build-styles.js"
   },
   "devDependencies": {
-    "sass": "^1.22.10"
+    "sass": "^1.25.0"
   },
   "peerDependencies": {
     "bootstrap": "^4.1.3"

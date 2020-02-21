@@ -1,7 +1,7 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { SchemaBuilder, SCHEMA_BUILDER } from './builders';
+import { SCHEMA_BUILDER, SchemaBuilder } from './builders';
 import { JsonLdScriptFactory } from './json-ld-script.factory';
 import { StructuredDataFactory } from './structured-data.factory';
 
@@ -48,9 +48,9 @@ describe('StructuredDataFactory', () => {
       ],
     });
 
-    service = TestBed.get(StructuredDataFactory);
-    builders = TestBed.get(SCHEMA_BUILDER);
-    jsonLdScriptFactory = TestBed.get(JsonLdScriptFactory);
+    service = TestBed.inject(StructuredDataFactory);
+    builders = TestBed.inject<SchemaBuilder[]>(SCHEMA_BUILDER);
+    jsonLdScriptFactory = TestBed.inject(JsonLdScriptFactory);
   });
 
   it('should be created', () => {

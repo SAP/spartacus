@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
@@ -201,21 +200,11 @@ describe('ExpressCheckoutService', () => {
       loading: false,
     });
 
-    service = TestBed.get(ExpressCheckoutService as Type<
-      ExpressCheckoutService
-    >);
-    userAddressService = TestBed.get(UserAddressService as Type<
-      UserAddressService
-    >);
-    userPaymentService = TestBed.get(UserPaymentService as Type<
-      UserPaymentService
-    >);
-    checkoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
-    checkoutPaymentService = TestBed.get(CheckoutPaymentService as Type<
-      CheckoutPaymentService
-    >);
+    service = TestBed.inject(ExpressCheckoutService);
+    userAddressService = TestBed.inject(UserAddressService);
+    userPaymentService = TestBed.inject(UserPaymentService);
+    checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
+    checkoutPaymentService = TestBed.inject(CheckoutPaymentService);
   });
 
   it('should be created', () => {

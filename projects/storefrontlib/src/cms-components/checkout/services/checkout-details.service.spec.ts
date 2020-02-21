@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   Address,
@@ -88,17 +87,11 @@ describe('CheckoutDetailsService', () => {
       ],
     });
 
-    service = TestBed.get(CheckoutDetailsService as Type<
-      CheckoutDetailsService
-    >);
-    checkoutService = TestBed.get(CheckoutService as Type<CheckoutService>);
-    checkoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
-    checkoutPaymentService = TestBed.get(CheckoutPaymentService as Type<
-      CheckoutPaymentService
-    >);
-    cartService = TestBed.get(CartService as Type<CartService>);
+    service = TestBed.inject(CheckoutDetailsService);
+    checkoutService = TestBed.inject(CheckoutService);
+    checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
+    checkoutPaymentService = TestBed.inject(CheckoutPaymentService);
+    cartService = TestBed.inject(CartService);
   });
 
   it('should be created', () => {

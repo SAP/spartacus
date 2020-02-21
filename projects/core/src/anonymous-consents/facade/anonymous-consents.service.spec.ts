@@ -1,16 +1,15 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
   ConsentTemplate,
 } from '../../model/index';
 import {
-  AnonymousConsentsActions,
   ANONYMOUS_CONSENTS_STORE_FEATURE,
+  AnonymousConsentsActions,
   StateWithAnonymousConsents,
 } from '../store/index';
 import * as fromStoreReducers from '../store/reducers/index';
@@ -66,11 +65,9 @@ describe('AnonymousConsentsService', () => {
       providers: [{ provide: AuthService, useClass: MockAuthService }],
     });
 
-    service = TestBed.get(AnonymousConsentsService as Type<
-      AnonymousConsentsService
-    >);
-    store = TestBed.get(Store as Type<Store<StateWithAnonymousConsents>>);
-    authService = TestBed.get(AuthService as Type<AuthService>);
+    service = TestBed.inject(AnonymousConsentsService);
+    store = TestBed.inject(Store);
+    authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

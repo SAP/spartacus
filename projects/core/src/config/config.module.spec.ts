@@ -7,7 +7,7 @@ describe('ConfigModule', () => {
       imports: [ConfigModule.forRoot()],
     });
 
-    const config = TestBed.get(Config);
+    const config = TestBed.inject(Config);
     expect(config).toBeTruthy();
   });
 
@@ -16,7 +16,7 @@ describe('ConfigModule', () => {
       imports: [ConfigModule.forRoot()],
     });
 
-    const config = TestBed.get(Config);
+    const config = TestBed.inject(Config);
     expect(config).toEqual({});
   });
 
@@ -25,7 +25,7 @@ describe('ConfigModule', () => {
       imports: [ConfigModule.forRoot({ test1: 'test1' })],
     });
 
-    const config = TestBed.get(Config);
+    const config = TestBed.inject(Config);
     expect(config).toEqual(jasmine.objectContaining({ test1: 'test1' }));
   });
 
@@ -37,7 +37,7 @@ describe('ConfigModule', () => {
       ],
     });
 
-    const config = TestBed.get(Config);
+    const config = TestBed.inject(Config);
     expect(config).toEqual(
       jasmine.objectContaining({
         test1: 'test1',
@@ -58,7 +58,7 @@ describe('ConfigModule', () => {
       ],
     });
 
-    const config = TestBed.get(Config);
+    const config = TestBed.inject(Config);
     expect(config).toEqual(
       jasmine.objectContaining({
         test1: 'test config',
@@ -74,7 +74,7 @@ describe('ConfigModule', () => {
       providers: [provideConfig({ test: 'test value' })],
     });
 
-    const config = TestBed.get(Config);
+    const config = TestBed.inject(Config);
     expect(config).toEqual(jasmine.objectContaining({ test: 'test value' }));
   });
 });

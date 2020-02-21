@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
@@ -60,9 +59,9 @@ describe('LanguageService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(LanguageService as Type<LanguageService>);
+    service = TestBed.inject(LanguageService);
   });
 
   it('should LanguageService is injected', inject(
