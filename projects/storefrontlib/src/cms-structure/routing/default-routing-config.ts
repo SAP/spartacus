@@ -1,9 +1,4 @@
-import {
-  pathsUrlMatcherFactory,
-  RoutesConfig,
-  RoutingConfig,
-} from '@spartacus/core';
-import { getSuffixUrlMatcher } from './suffix-routes/suffix.url-matcher';
+import { RoutesConfig, RoutingConfig } from '@spartacus/core';
 
 export const defaultStorefrontRoutesConfig: RoutesConfig = {
   home: { paths: [''] },
@@ -30,10 +25,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   category: {
     paths: ['category/:categoryCode'],
     paramsMapping: { categoryCode: 'code' },
-    matchers: [
-      pathsUrlMatcherFactory,
-      getSuffixUrlMatcher({ marker: 'c', paramName: 'categoryCode' }),
-    ],
   },
   brand: { paths: ['Brands/:brandName/c/:brandCode'] },
 
@@ -41,10 +32,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   product: {
     paths: ['product/:productCode/:name'],
     paramsMapping: { productCode: 'code' },
-    matchers: [
-      pathsUrlMatcherFactory,
-      getSuffixUrlMatcher({ marker: 'p', paramName: 'productCode' }),
-    ],
   },
 
   termsAndConditions: { paths: ['terms-and-conditions'] },

@@ -1,3 +1,5 @@
 export * from './cms-route/index';
 export { RoutingModule } from './routing.module';
-export { getSuffixUrlMatcher } from './suffix-routes/suffix.url-matcher';
+export {
+  createSuffixUrlMatcher,
+} from './suffix-routes/create-suffix-url-matcher';

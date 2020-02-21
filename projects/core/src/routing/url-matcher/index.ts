@@ -1,2 +1,2 @@
-export * from './paths.url-matcher-factory';
+export * from './default-url-matcher-factory';
 export * from './url-matcher-factory';
