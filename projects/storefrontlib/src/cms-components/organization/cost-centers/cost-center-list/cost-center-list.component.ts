@@ -32,26 +32,26 @@ export class CostCenterListComponent implements OnInit {
   ) {}
 
   costCentersList$: Observable<any>;
-  protected params$: Observable<B2BSearchConfig>;
+  protected queryParams$: Observable<B2BSearchConfig>;
 
-  protected defaultParams: B2BSearchConfig = {
+  protected defaultQueryParams$: B2BSearchConfig = {
     sort: 'byName',
     currentPage: 0,
     pageSize: 5,
   };
 
   ngOnInit(): void {
-    this.params$ = this.routingService
+    this.queryParams$ = this.routingService
       .getRouterState()
       .pipe(map(routingData => routingData.state.queryParams));
 
-    this.costCentersList$ = this.params$.pipe(
+    this.costCentersList$ = this.queryParams$.pipe(
       map(params => ({
-        ...this.defaultParams,
+        ...this.defaultQueryParams$,
         ...params,
       })),
       distinctUntilChanged(shallowEqualObjects),
-      map(this.normalizeParams),
+      map(this.normalizeQueryParams),
       tap(params => this.costCentersService.loadCostCenters(params)),
       switchMap(params =>
         this.costCentersService.getList(params).pipe(
@@ -81,9 +81,11 @@ export class CostCenterListComponent implements OnInit {
   }
 
   protected updateQueryParams(newParams: Partial<B2BSearchConfig>): void {
-    this.params$
+    this.queryParams$
       .pipe(
-        map(params => diff(this.defaultParams, { ...params, ...newParams })),
+        map(params =>
+          diff(this.defaultQueryParams$, { ...params, ...newParams })
+        ),
         take(1)
       )
       .subscribe((params: Partial<B2BSearchConfig>) => {
@@ -96,7 +98,11 @@ export class CostCenterListComponent implements OnInit {
       });
   }
 
-  protected normalizeParams({ sort, currentPage, pageSize }): B2BSearchConfig {
+  protected normalizeQueryParams({
+    sort,
+    currentPage,
+    pageSize,
+  }): B2BSearchConfig {
     return {
       sort,
       currentPage: parseInt(currentPage, 10),

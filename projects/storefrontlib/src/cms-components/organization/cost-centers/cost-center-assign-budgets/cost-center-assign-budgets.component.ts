@@ -33,32 +33,34 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
   ) {}
 
   budgetsList$: Observable<any>;
-  protected params$: Observable<B2BSearchConfig>;
-  protected costCenterCode$: Observable<string>;
+  params: { code: string };
+  protected queryParams$: Observable<B2BSearchConfig>;
+  protected costCenterCode$ = this.routingService
+    .getRouterState()
+    .pipe(map(routingData => routingData.state.params['costCenterCode']));
   protected cxRoute = 'costCenterAssignBudgets';
-  protected defaultParams: B2BSearchConfig = {
+  protected defaultQueryParams$: B2BSearchConfig = {
     sort: 'byName',
     currentPage: 0,
     pageSize: 5,
   };
 
   ngOnInit(): void {
-    this.params$ = this.routingService
+    this.queryParams$ = this.routingService
       .getRouterState()
       .pipe(map(routingData => routingData.state.queryParams));
 
-    this.costCenterCode$ = this.routingService.getRouterState().pipe(
-      tap(console.log),
-      map(routingData => routingData.state.params['costCenterCode'])
-    );
+    this.costCenterCode$
+      .pipe(take(1))
+      .subscribe(code => (this.params = { code }));
 
-    this.budgetsList$ = this.params$.pipe(
+    this.budgetsList$ = this.queryParams$.pipe(
       map(params => ({
-        ...this.defaultParams,
+        ...this.defaultQueryParams$,
         ...params,
       })),
       distinctUntilChanged(shallowEqualObjects),
-      map(this.normalizeParams),
+      map(this.normalizeQueryParams),
       withLatestFrom(this.costCenterCode$),
       tap(([params, code]) => this.costCenterService.loadBudgets(code, params)),
       switchMap(([params, code]) =>
@@ -93,23 +95,30 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
     this.updateQueryParams({ currentPage });
   }
 
-  protected updateQueryParams(newParams: Partial<B2BSearchConfig>): void {
-    this.params$
+  protected updateQueryParams(newQueryParams: Partial<B2BSearchConfig>): void {
+    this.queryParams$
       .pipe(
-        map(params => diff(this.defaultParams, { ...params, ...newParams })),
+        map(queryParams =>
+          diff(this.defaultQueryParams$, { ...queryParams, ...newQueryParams })
+        ),
         take(1)
       )
-      .subscribe((params: Partial<B2BSearchConfig>) => {
+      .subscribe((queryParams: Partial<B2BSearchConfig>) => {
         this.routingService.go(
           {
             cxRoute: this.cxRoute,
+            params: this.params,
           },
-          { ...params }
+          { ...queryParams }
         );
       });
   }
 
-  protected normalizeParams({ sort, currentPage, pageSize }): B2BSearchConfig {
+  protected normalizeQueryParams({
+    sort,
+    currentPage,
+    pageSize,
+  }): B2BSearchConfig {
     return {
       sort,
       currentPage: parseInt(currentPage, 10),

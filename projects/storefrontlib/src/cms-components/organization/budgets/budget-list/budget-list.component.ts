@@ -32,30 +32,30 @@ export class BudgetListComponent implements OnInit {
   ) {}
 
   budgetsList$: Observable<any>;
-  protected params$: Observable<B2BSearchConfig>;
+  protected queryParams$: Observable<B2BSearchConfig>;
 
   protected cxRoute = 'budgets';
-  protected defaultParams: B2BSearchConfig = {
+  protected defaultQueryParams$: B2BSearchConfig = {
     sort: 'byName',
     currentPage: 0,
     pageSize: 5,
   };
 
   ngOnInit(): void {
-    this.params$ = this.routingService
+    this.queryParams$ = this.routingService
       .getRouterState()
       .pipe(map(routingData => routingData.state.queryParams));
 
-    this.budgetsList$ = this.params$.pipe(
-      map(params => ({
-        ...this.defaultParams,
-        ...params,
+    this.budgetsList$ = this.queryParams$.pipe(
+      map(queryParams => ({
+        ...this.defaultQueryParams$,
+        ...queryParams,
       })),
       distinctUntilChanged(shallowEqualObjects),
-      map(this.normalizeParams),
-      tap(params => this.budgetsService.loadBudgets(params)),
-      switchMap(params =>
-        this.budgetsService.getList(params).pipe(
+      map(this.normalizeQueryParams),
+      tap(queryParams => this.budgetsService.loadBudgets(queryParams)),
+      switchMap(queryParams =>
+        this.budgetsService.getList(queryParams).pipe(
           filter(Boolean),
           map((budgetsList: EntitiesModel<Budget>) => ({
             sorts: budgetsList.sorts,
@@ -85,23 +85,29 @@ export class BudgetListComponent implements OnInit {
     this.updateQueryParams({ currentPage });
   }
 
-  protected updateQueryParams(newParams: Partial<B2BSearchConfig>): void {
-    this.params$
+  protected updateQueryParams(newQueryParams: Partial<B2BSearchConfig>): void {
+    this.queryParams$
       .pipe(
-        map(params => diff(this.defaultParams, { ...params, ...newParams })),
+        map(queryParams =>
+          diff(this.defaultQueryParams$, { ...queryParams, ...newQueryParams })
+        ),
         take(1)
       )
-      .subscribe((params: Partial<B2BSearchConfig>) => {
+      .subscribe((queryParams: Partial<B2BSearchConfig>) => {
         this.routingService.go(
           {
             cxRoute: this.cxRoute,
           },
-          { ...params }
+          { ...queryParams }
         );
       });
   }
 
-  protected normalizeParams({ sort, currentPage, pageSize }): B2BSearchConfig {
+  protected normalizeQueryParams({
+    sort,
+    currentPage,
+    pageSize,
+  }): B2BSearchConfig {
     return {
       sort,
       currentPage: parseInt(currentPage, 10),

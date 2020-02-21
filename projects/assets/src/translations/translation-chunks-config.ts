@@ -81,6 +81,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'permission',
     'costCentersList',
     'costCenterForm',
-    'costCenter',
+    'costCenterAssignBudgets',
   ],
 };
