@@ -63,7 +63,7 @@ describe('GlobalMessageService', () => {
       new GlobalMessageActions.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: { raw: 'Test error message' },
-        duration: undefined,
+        timeout: undefined,
       })
     );
   });
@@ -77,7 +77,7 @@ describe('GlobalMessageService', () => {
       new GlobalMessageActions.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: { key: 'test.key', params: { param: 'value' } },
-        duration: undefined,
+        timeout: undefined,
       })
     );
   });
@@ -88,7 +88,7 @@ describe('GlobalMessageService', () => {
       new GlobalMessageActions.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: { raw: 'Test error message' },
-        duration: 10000,
+        timeout: 10000,
       })
     );
   });

@@ -74,12 +74,11 @@ export class GlobalMessageEffect {
             take(1),
             filter(
               (count: number) =>
-                ((config && config.timeout !== undefined) ||
-                  message.duration) &&
+                ((config && config.timeout !== undefined) || message.timeout) &&
                 count &&
                 count > 0
             ),
-            delay(message.duration || config.timeout),
+            delay(message.timeout || config.timeout),
             switchMap(() =>
               of(
                 new GlobalMessageActions.RemoveMessage({

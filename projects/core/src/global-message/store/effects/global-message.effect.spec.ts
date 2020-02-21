@@ -48,7 +48,7 @@ const errorMessage: GlobalMessage = {
 const messageWithDuration: GlobalMessage = {
   text: { raw: 'Test message' },
   type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-  duration: 10000,
+  timeout: 10000,
 };
 
 describe('GlobalMessage Effects', () => {
@@ -138,7 +138,7 @@ describe('GlobalMessage Effects', () => {
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
     expect(effects.hideAfterDelay$).toBeObservable(expected);
-    expect(operators.delay).toHaveBeenCalledWith(messageWithDuration.duration);
+    expect(operators.delay).toHaveBeenCalledWith(messageWithDuration.timeout);
   });
 
   describe('removeDuplicated$', () => {
