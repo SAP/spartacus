@@ -55,7 +55,7 @@ describe('SearchPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.get(SearchPageMetaResolver);
+    service = TestBed.inject(SearchPageMetaResolver);
   });
 
   it('PageTitleService should be created', () => {

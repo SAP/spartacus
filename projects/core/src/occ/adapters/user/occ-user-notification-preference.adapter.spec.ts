@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';
@@ -61,18 +60,12 @@ describe('OccUserNotificationPreferenceAdapter', () => {
       ],
     });
 
-    occNotificationPreferenceAdapter = TestBed.get(
-      OccUserNotificationPreferenceAdapter as Type<
-        OccUserNotificationPreferenceAdapter
-      >
+    occNotificationPreferenceAdapter = TestBed.inject(
+      OccUserNotificationPreferenceAdapter
     );
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();

@@ -1,7 +1,7 @@
-import { Component, Type } from '@angular/core';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkipLinkService } from '../service/skip-link.service';
-import { SkipLinkDirective, SkipLinkConfig } from '../index';
+import { SkipLinkConfig, SkipLinkDirective } from '../index';
 
 const SKIP_KEY_1 = 'Key1';
 const SKIP_KEY_2 = 'Key2';
@@ -34,7 +34,7 @@ describe('SkipLinkDirective', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestContainerComponent);
-    service = TestBed.get(SkipLinkService as Type<SkipLinkService>);
+    service = TestBed.inject(SkipLinkService);
   });
 
   it('should add skip links on component creation', () => {

@@ -9,15 +9,15 @@ import { IconModule } from './icon.module';
   selector: 'cx-icon-test',
   template: '<cx-icon type="CART"></cx-icon>',
 })
-export class MockIconTestComponent {}
+class MockIconTestComponent {}
 
 @Component({
   selector: 'cx-icon-test-small',
   template: '<cx-icon type="CART" class="small"></cx-icon>',
 })
-export class MockIconSmallTestComponent {}
+class MockIconSmallTestComponent {}
 
-export class MockIconFontLoaderService {
+class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
     return false;
   }
@@ -27,7 +27,7 @@ export class MockIconFontLoaderService {
   addLinkResource() {}
 }
 
-export class MockSvgIconLoaderService {
+class MockSvgIconLoaderService {
   useSvg(_iconType: ICON_TYPE) {
     return true;
   }

@@ -8,13 +8,12 @@ import { OccConfig } from '../../../occ/config/occ-config';
 
 import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
 import {
-  ProductInterestEntryRelation,
   NotificationType,
+  ProductInterestEntryRelation,
 } from '../../../model/product-interest.model';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { MockOccEndpointsService } from './unit-test.helper';
 import { ConverterService } from '../../../util/converter.service';
-import { Type } from '@angular/core';
 import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests/converters';
 
 const MockOccModuleConfig: OccConfig = {
@@ -50,16 +49,10 @@ describe('OccUserInterestsAdapter', () => {
       ],
     });
 
-    occUserInterestsAdapter = TestBed.get(OccUserInterestsAdapter as Type<
-      OccUserInterestsAdapter
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    occUserInterestsAdapter = TestBed.inject(OccUserInterestsAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
