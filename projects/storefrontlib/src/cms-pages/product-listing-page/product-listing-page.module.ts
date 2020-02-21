@@ -2,17 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   ConfigModule,
-  defaultUrlMatcherFactory,
+  DEFAULT_URL_MATCHER_FACTORY,
   RoutingConfig,
-  UrlMatcherFactory,
 } from '@spartacus/core';
-import { CmsPageGuard, PageLayoutComponent } from '../../cms-structure/index';
-import { createSuffixUrlMatcher } from '../../cms-structure/routing/suffix-routes/create-suffix-url-matcher';
-
-export const plpSuffixUrlMatcherFactory: UrlMatcherFactory = {
-  factory: () => () =>
-    createSuffixUrlMatcher({ marker: 'c', paramName: 'categoryCode' }),
-};
+import {
+  CmsPageGuard,
+  PageLayoutComponent,
+  PLP_SUFFIX_URL_MATCHER_FACTORY,
+} from '../../cms-structure/index';
 
 @NgModule({
   imports: [
@@ -41,8 +38,11 @@ export const plpSuffixUrlMatcherFactory: UrlMatcherFactory = {
     ConfigModule.withConfig(<RoutingConfig>{
       routing: {
         routes: {
-          product: {
-            matchers: [defaultUrlMatcherFactory, plpSuffixUrlMatcherFactory],
+          category: {
+            matchers: [
+              DEFAULT_URL_MATCHER_FACTORY,
+              PLP_SUFFIX_URL_MATCHER_FACTORY,
+            ],
           },
         },
       },

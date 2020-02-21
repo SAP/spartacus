@@ -1,5 +1,6 @@
+import { InjectionToken } from '@angular/core';
 import { UrlMatcher } from '@angular/router';
-import { UrlMatcherFactory } from '../url-matcher/url-matcher-factory';
+import { UrlMatcherFactory } from '../url-matcher';
 
 export interface RoutesConfig {
   [routeName: string]: RouteConfig; // allows User's custom pages
@@ -15,11 +16,11 @@ export interface RouteConfig {
   paths?: string[];
 
   /**
-   * List of Angular `UrlMatcher` or Spartacus `UrlMatcherFactory`. When not given, the configured `paths` are used to match the URLs.
+   * List of Angular `UrlMatcher` or injection token for Spartacus `UrlMatcherFactory`. When not given, the configured `paths` are used to match the URLs.
    *
    * See https://angular.io/api/router/Route#matcher
    */
-  matchers?: (UrlMatcher | UrlMatcherFactory)[];
+  matchers?: (UrlMatcher | InjectionToken<UrlMatcherFactory>)[];
 
   /**
    * Maps names of route params with params used to build the semantic link.

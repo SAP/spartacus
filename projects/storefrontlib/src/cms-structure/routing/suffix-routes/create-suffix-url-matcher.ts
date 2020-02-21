@@ -1,4 +1,4 @@
-import { UrlMatchResult, UrlSegment, UrlSegmentGroup } from '@angular/router';
+import { UrlMatchResult, UrlSegment } from '@angular/router';
 
 /**
  * Matches the pattern '[ ** / ] marker / :paramName'
@@ -19,8 +19,7 @@ export function createSuffixUrlMatcher({
 }) {
   precedingParamName = precedingParamName || 'param';
   const matcher = function suffixUrlMatcher(
-    segments: UrlSegment[],
-    _segmentGroup: UrlSegmentGroup
+    segments: UrlSegment[]
   ): UrlMatchResult | null {
     const markerIndex = findLastIndex(segments, ({ path }) => path === marker);
     const isMarkerLastSegment = markerIndex === segments.length - 1;

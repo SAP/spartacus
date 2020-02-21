@@ -1,4 +1,4 @@
-import { Injectable, Injector, isDevMode } from '@angular/core';
+import { Injectable, InjectionToken, Injector, isDevMode } from '@angular/core';
 import { Route, Router, Routes, UrlMatcher } from '@angular/router';
 import { UrlMatcherService } from '../services/url-matcher.service';
 import { UrlMatcherFactory } from '../url-matcher/url-matcher-factory';
@@ -90,18 +90,17 @@ export class ConfigurableRoutesService {
     const matchers: UrlMatcher[] = matchersOrFactories.map(matcherOrFactory => {
       return typeof matcherOrFactory === 'function'
         ? matcherOrFactory // matcher
-        : this.resolveUrlMatcherFactory(route, matcherOrFactory); // factory
+        : this.resolveUrlMatcherFactory(route, matcherOrFactory); // token
     });
     return this.urlMatcherService.combine(matchers);
   }
 
   private resolveUrlMatcherFactory(
     route: Route,
-    { deps, factory }: UrlMatcherFactory
+    factoryToken: InjectionToken<UrlMatcherFactory>
   ): UrlMatcher {
-    const resolvedDeps = (deps || []).map(dep => this.injector.get(dep));
-    const result = factory(...resolvedDeps)(route);
-    return result;
+    const factory = this.injector.get(factoryToken);
+    return factory(route);
   }
 
   private getRouteName(route: Route): string {
