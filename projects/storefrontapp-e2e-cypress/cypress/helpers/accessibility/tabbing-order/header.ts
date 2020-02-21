@@ -21,7 +21,7 @@ export function headerTabbingOrder(
     .should('have.length', 2);
 
   // Load differing amounts of nav nodes depending on if logged in or not
-  const navLength: number = loggedIn ? 43 : 30;
+  const navLength: number = loggedIn ? 44 : 30;
   cy.get('header cx-navigation-ui')
     .find('nav')
     .should('have.length', navLength);

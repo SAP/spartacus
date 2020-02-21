@@ -132,7 +132,7 @@ describe('ProductListComponentService', () => {
         service.model$.subscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
-          ':relevance:category:testCategory',
+          ':relevance:allCategories:testCategory',
           jasmine.any(Object)
         );
       });
@@ -144,7 +144,7 @@ describe('ProductListComponentService', () => {
         service.model$.subscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
-          ':relevance:brand:testBrand',
+          ':relevance:allCategories:testBrand',
           jasmine.any(Object)
         );
       });

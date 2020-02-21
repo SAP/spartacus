@@ -129,10 +129,9 @@ export function fillPaymentDetails(
     } else {
       cy.get('input.form-check-input').check();
     }
-    if (submitForm) {
-      cy.get('button.btn.btn-block.btn-primary')
-        .contains('Continue')
-        .click({ force: true });
-    }
+
+    cy.get('button.btn.btn-block.btn-primary')
+      .contains('Continue')
+      .click();
   });
 }

@@ -40,15 +40,15 @@ export const cheapProduct = {
 export const cart = {
   estimatedShipping: '$11.99',
   total: '$2,623.08',
-  totalAndShipping: '$2,635.07', // $2,623.08 + $11.99
+  totalAndShipping: '$2,633.07', // $2,623.08 + $9.99
 };
 
 export const cartWithCheapProduct = {
-  estimatedShipping: '$11.99',
+  estimatedShipping: '$9.99',
   total: '$8.20',
-  totalAndShipping: '$20.19',
+  totalAndShipping: '$18.19',
 };
 
 export const delivery = {
-  mode: 'standard-gross',
+  mode: 'standard-net',
 };

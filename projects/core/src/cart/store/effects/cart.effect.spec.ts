@@ -37,6 +37,8 @@ const testCart: Cart = {
   },
 };
 
+const tempCartId = 'tempCartId';
+
 describe('Cart effect', () => {
   let cartEffects: fromEffects.CartEffects;
   let actions$: Observable<any>;
@@ -185,10 +187,11 @@ describe('Cart effect', () => {
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
 
-    it('should clear cart on "Cart not found" error', () => {
+    it('should clear active cart on "Cart not found" error', () => {
       const action = new DeprecatedCartActions.LoadCart({
         userId,
         cartId,
+        extraData: { active: true },
       });
       loadMock.and.returnValue(
         throwError({
@@ -210,7 +213,10 @@ describe('Cart effect', () => {
 
   describe('createCart$', () => {
     it('should create a cart', () => {
-      const action = new DeprecatedCartActions.CreateCart({ userId });
+      const action = new DeprecatedCartActions.CreateCart({
+        userId,
+        tempCartId,
+      });
       const createMultiCartSuccessCompletion = new CartActions.CreateMultiCartSuccess(
         {
           cart: testCart,
@@ -218,12 +224,15 @@ describe('Cart effect', () => {
           extraData: undefined,
         }
       );
-      const setFreshCartCompletion = new CartActions.SetFreshCart(testCart);
+      const setTempCartCompletion = new CartActions.SetTempCart({
+        cart: testCart,
+        tempCartId: tempCartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
         b: createMultiCartSuccessCompletion,
-        c: setFreshCartCompletion,
+        c: setTempCartCompletion,
       });
 
       expect(cartEffects.createCart$).toBeObservable(expected);
@@ -235,6 +244,7 @@ describe('Cart effect', () => {
         extraData: {
           active: true,
         },
+        tempCartId,
       });
       const createCartSuccessCompletion = new DeprecatedCartActions.CreateCartSuccess(
         testCart
@@ -248,12 +258,15 @@ describe('Cart effect', () => {
           },
         }
       );
-      const setFreshCartCompletion = new CartActions.SetFreshCart(testCart);
+      const setTempCartCompletion = new CartActions.SetTempCart({
+        cart: testCart,
+        tempCartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcd)', {
         b: createMultiCartSuccessCompletion,
-        c: setFreshCartCompletion,
+        c: setTempCartCompletion,
         d: createCartSuccessCompletion,
       });
 
@@ -264,6 +277,7 @@ describe('Cart effect', () => {
       const action = new DeprecatedCartActions.CreateCart({
         userId,
         oldCartId: 'testOldCartId',
+        tempCartId,
       });
 
       const createMultiCartCompletion = new CartActions.CreateMultiCartSuccess({
@@ -271,7 +285,10 @@ describe('Cart effect', () => {
         userId,
         extraData: undefined,
       });
-      const setFreshCartCompletion = new CartActions.SetFreshCart(testCart);
+      const setTempCartCompletion = new CartActions.SetTempCart({
+        cart: testCart,
+        tempCartId,
+      });
       const mergeCartCompletion = new DeprecatedCartActions.MergeCartSuccess({
         userId,
         cartId: testCart.code,
@@ -285,7 +302,7 @@ describe('Cart effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcde)', {
         b: createMultiCartCompletion,
-        c: setFreshCartCompletion,
+        c: setTempCartCompletion,
         d: mergeCartCompletion,
         e: mergeMultiCartCompletion,
       });
@@ -299,11 +316,13 @@ describe('Cart effect', () => {
       const action = new DeprecatedCartActions.MergeCart({
         userId: userId,
         cartId: cartId,
+        tempCartId: 'temp-uuid',
       });
       const completion = new DeprecatedCartActions.CreateCart({
         userId: userId,
         oldCartId: cartId,
         toMergeCartGuid: 'testGuid',
+        tempCartId: 'temp-uuid',
         extraData: undefined,
       });
 
