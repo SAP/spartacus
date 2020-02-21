@@ -1,7 +1,6 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
-import { BehaviorSubject, of, Observable } from 'rxjs';
+import { Store, StoreModule } from '@ngrx/store';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
 import * as fromReducers from '../../cart/store/reducers/index';
 import {
@@ -13,7 +12,7 @@ import * as fromProcessReducers from '../../process/store/reducers/index';
 import { StateWithMultiCart } from '../store';
 import { SelectiveCartService } from './selective-cart.service';
 import { MultiCartService } from './multi-cart.service';
-import { User, OrderEntry } from '../../model';
+import { OrderEntry, User } from '../../model';
 import { UserService } from '../../user';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 
@@ -94,11 +93,9 @@ describe('Selective Cart Service', () => {
       ],
     });
 
-    service = TestBed.get(SelectiveCartService as Type<SelectiveCartService>);
-    multiCartService = TestBed.get(MultiCartService as Type<MultiCartService>);
-    store = TestBed.get(Store as Type<
-      Store<StateWithMultiCart | StateWithProcess<void>>
-    >);
+    service = TestBed.inject(SelectiveCartService);
+    multiCartService = TestBed.inject(MultiCartService);
+    store = TestBed.inject(Store);
     service['cartId$'] = new BehaviorSubject<string>(TEST_CART_ID);
     service['cartSelector$'] = of({
       value: { code: TEST_CART_ID },

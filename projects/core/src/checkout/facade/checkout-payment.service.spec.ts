@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { CartDataService } from '../../cart/facade/cart-data.service';
@@ -42,11 +41,9 @@ describe('CheckoutPaymentService', () => {
       ],
     });
 
-    service = TestBed.get(CheckoutPaymentService as Type<
-      CheckoutPaymentService
-    >);
-    cartData = TestBed.get(CartDataService as Type<CartDataService>);
-    store = TestBed.get(Store as Type<Store<CheckoutState>>);
+    service = TestBed.inject(CheckoutPaymentService);
+    cartData = TestBed.inject(CartDataService);
+    store = TestBed.inject(Store);
 
     cartData.userId = userId;
     cartData.cart = cart;

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { CartDataService } from '../../cart/facade/cart-data.service';
@@ -9,7 +8,7 @@ import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutDeliveryService } from './checkout-delivery.service';
-import { PROCESS_FEATURE, LoaderState } from '@spartacus/core';
+import { LoaderState, PROCESS_FEATURE } from '@spartacus/core';
 import * as fromProcessReducers from '../../process/store/reducers/index';
 
 describe('CheckoutDeliveryService', () => {
@@ -53,11 +52,9 @@ describe('CheckoutDeliveryService', () => {
       ],
     });
 
-    service = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
-    cartData = TestBed.get(CartDataService as Type<CartDataService>);
-    store = TestBed.get(Store as Type<Store<CheckoutState>>);
+    service = TestBed.inject(CheckoutDeliveryService);
+    cartData = TestBed.inject(CartDataService);
+    store = TestBed.inject(Store);
 
     cartData.userId = userId;
     cartData.cart = cart;

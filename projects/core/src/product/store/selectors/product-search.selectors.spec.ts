@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import {
@@ -25,7 +24,7 @@ describe('ProductSearch Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

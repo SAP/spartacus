@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService } from '@spartacus/core';
 import { Occ } from '../../../occ-models/occ.models';
@@ -80,9 +79,7 @@ describe('OccProductSearchPageNormalizer', () => {
       ],
     });
 
-    normalizer = TestBed.get(OccProductSearchPageNormalizer as Type<
-      OccProductSearchPageNormalizer
-    >);
+    normalizer = TestBed.inject(OccProductSearchPageNormalizer);
   });
 
   it('should inject ProductImageConverterService', () => {
@@ -90,7 +87,7 @@ describe('OccProductSearchPageNormalizer', () => {
   });
 
   it('should apply product image normalizer to products', () => {
-    const converter = TestBed.get(ConverterService as Type<ConverterService>);
+    const converter = TestBed.inject(ConverterService);
 
     const result = normalizer.convert(mockSource);
     const expected = [
@@ -103,7 +100,7 @@ describe('OccProductSearchPageNormalizer', () => {
 
   describe('normalize top values', () => {
     it('should normalize top values', () => {
-      const converter = TestBed.get(ConverterService as Type<ConverterService>);
+      const converter = TestBed.inject(ConverterService);
       const result = normalizer.convert(mockPlpWithFacets);
 
       expect(result.facets[0].topValueCount).toEqual(2);
@@ -111,7 +108,7 @@ describe('OccProductSearchPageNormalizer', () => {
     });
 
     it('should fallback to default top values', () => {
-      const converter = TestBed.get(ConverterService as Type<ConverterService>);
+      const converter = TestBed.inject(ConverterService);
       const result = normalizer.convert(mockPlpWithFacets);
 
       expect(result.facets[1].topValueCount).toEqual(6);

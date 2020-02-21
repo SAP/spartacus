@@ -6,13 +6,13 @@ import { UserActions } from '../actions/index';
 import { Actions } from '@ngrx/effects';
 import { of, throwError } from 'rxjs';
 import {
-  ProductInterestSearchResult,
   NotificationType,
+  ProductInterestSearchResult,
 } from '../../../model/product-interest.model';
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
 import { UserInterestsAdapter } from '../../connectors/interests/user-interests.adapter';
-import { Type } from '@angular/core';
+
 const loadParams = {
   userId: 'qingyu@sap.com',
   pageSize: 5,
@@ -35,15 +35,11 @@ describe('Product Interests Effect', () => {
       ],
     });
 
-    // actions$ = TestBed.get(Actions);
-    productInterestsEffect = TestBed.get(
-      fromInterestsEffect.ProductInterestsEffect as Type<
-        fromInterestsEffect.ProductInterestsEffect
-      >
+    // actions$ = TestBed.inject(Actions);
+    productInterestsEffect = TestBed.inject(
+      fromInterestsEffect.ProductInterestsEffect
     );
-    userInterestConnector = TestBed.get(UserInterestsConnector as Type<
-      UserInterestsConnector
-    >);
+    userInterestConnector = TestBed.inject(UserInterestsConnector);
   });
 
   describe('loadProductInteres$', () => {
