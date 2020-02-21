@@ -16,6 +16,10 @@ const searchResults = 17;
 const topResultQuery = 1;
 const byCategoryQuery = 16;
 
+const searchResults = 17;
+const topResultQuery = 1;
+const byCategoryQuery = 16;
+
 export function productRatingFlow(mobile?: string) {
   cy.server();
   createProductQuery('productQuery');
