@@ -1,7 +1,6 @@
 import { experimental, strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
-import { parseTsconfigFile } from '@angular/core/schematics/utils/typescript/parse_tsconfig';
 import {
   findNode,
   findNodes,
@@ -16,7 +15,6 @@ import {
   RemoveChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
-import { dirname, relative } from 'path';
 import * as ts from 'typescript';
 
 export enum InsertDirection {
@@ -53,18 +51,17 @@ export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
 }
 
 export function getAllTsSourceFiles(
-  tsconfigPath: string,
   tree: Tree,
   basePath: string
 ): ts.SourceFile[] {
-  const parsed = parseTsconfigFile(tsconfigPath, dirname(tsconfigPath));
-  const host = createMigrationCompilerHost(tree, parsed.options, basePath);
-  const program = ts.createProgram(parsed.fileNames, parsed.options, host);
-  return program
-    .getSourceFiles()
-    .filter(
-      f => !f.isDeclarationFile && !program.isSourceFileFromExternalLibrary(f)
-    );
+  const results: string[] = [];
+  tree.getDir(basePath).visit(filePath => {
+    if (filePath.endsWith('.ts')) {
+      results.push(filePath);
+    }
+  });
+
+  return results.map(f => getTsSourceFile(tree, f));
 }
 
 export function getIndexHtmlPath(
@@ -705,31 +702,4 @@ export function getMetadataProperty(
     })[0];
 
   return property as ts.PropertyAssignment;
-}
-
-// copied from https://github.com/angular/angular/blob/master/packages/core/schematics/utils/typescript/compiler_host.ts#L12, no need to test angular's code
-export function createMigrationCompilerHost(
-  tree: Tree,
-  options: ts.CompilerOptions,
-  basePath: string,
-  fakeRead?: (fileName: string) => string | null
-): ts.CompilerHost {
-  const host = ts.createCompilerHost(options, true);
-
-  // We need to overwrite the host "readFile" method, as we want the TypeScript
-  // program to be based on the file contents in the virtual file tree. Otherwise
-  // if we run multiple migrations we might have intersecting changes and
-  // source files.
-  host.readFile = fileName => {
-    const treeRelativePath = relative(basePath, fileName);
-    const fakeOutput = fakeRead ? fakeRead(treeRelativePath) : null;
-    const buffer =
-      fakeOutput === null ? tree.read(treeRelativePath) : fakeOutput;
-    // Strip BOM as otherwise TSC methods (Ex: getWidth) will return an offset,
-    // which breaks the CLI UpdateRecorder.
-    // See: https://github.com/angular/angular/pull/30719
-    return buffer ? buffer.toString().replace(/^\uFEFF/, '') : undefined;
-  };
-
-  return host;
 }

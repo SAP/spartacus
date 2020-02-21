@@ -2,7 +2,6 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { getProjectTsConfigPaths } from '@angular/core/schematics/utils/project_tsconfig_paths';
 import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 import {
   InsertChange,
@@ -37,7 +36,7 @@ import {
   removeConstructorParam,
   renameIdentifierNode,
 } from './file-utils';
-import { getProjectFromWorkspace } from './workspace-utils';
+import { getProjectFromWorkspace, getSourceRoot } from './workspace-utils';
 
 const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
     import { Store } from '@ngrx/store';
@@ -221,18 +220,9 @@ describe('File utils', () => {
 
   describe('getAllTsSourceFiles', () => {
     it('should return all .ts files', () => {
-      const basePath = '/src';
-      const { buildPaths } = getProjectTsConfigPaths(appTree);
-      let tsFilesFound = false;
-      for (const tsconfigPath of buildPaths) {
-        const sourceFiles = getAllTsSourceFiles(
-          tsconfigPath,
-          appTree,
-          basePath
-        );
-        tsFilesFound = sourceFiles.length !== 0;
-      }
-      expect(tsFilesFound).toEqual(true);
+      const project = getSourceRoot(appTree, {});
+      const sourceFiles = getAllTsSourceFiles(appTree, project);
+      expect(sourceFiles.length !== 0).toEqual(true);
     });
   });
 
