@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   FeatureConfigService,
@@ -69,7 +68,7 @@ describe('CurrentProductService', () => {
       ],
     });
 
-    service = TestBed.get(CurrentProductService as Type<CurrentProductService>);
+    service = TestBed.inject(CurrentProductService);
   });
 
   it('should fetch product data', () => {

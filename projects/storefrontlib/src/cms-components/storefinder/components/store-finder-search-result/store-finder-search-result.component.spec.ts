@@ -1,8 +1,8 @@
-import { NO_ERRORS_SCHEMA, Type } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { StoreFinderService, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, StoreFinderService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { StoreFinderSearchResultComponent } from './store-finder-search-result.component';
 
@@ -27,7 +27,7 @@ describe('StoreFinderListComponent', () => {
   let component: StoreFinderSearchResultComponent;
   let fixture: ComponentFixture<StoreFinderSearchResultComponent>;
   let storeFinderService: StoreFinderService;
-  let activatedRoute: ActivatedRouteMock;
+  let activatedRoute: ActivatedRoute | ActivatedRouteMock;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -44,10 +44,8 @@ describe('StoreFinderListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderSearchResultComponent);
     component = fixture.componentInstance;
-    storeFinderService = TestBed.get(StoreFinderService as Type<
-      StoreFinderService
-    >);
-    activatedRoute = TestBed.get(ActivatedRoute as Type<ActivatedRoute>);
+    storeFinderService = TestBed.inject(StoreFinderService);
+    activatedRoute = TestBed.inject(ActivatedRoute);
 
     fixture.detectChanges();
   });
@@ -57,7 +55,9 @@ describe('StoreFinderListComponent', () => {
   });
 
   it('should find stores with query text', () => {
-    activatedRoute.paramsSubscriptionHandler({ query: queryText });
+    (activatedRoute as ActivatedRouteMock).paramsSubscriptionHandler({
+      query: queryText,
+    });
 
     // then verify storefinder
     expect(storeFinderService.findStoresAction).toHaveBeenCalled();
@@ -65,7 +65,7 @@ describe('StoreFinderListComponent', () => {
 
   it('should find stores with my geolocation', () => {
     // given component is called with quuery-text params
-    activatedRoute.paramsSubscriptionHandler({
+    (activatedRoute as ActivatedRouteMock).paramsSubscriptionHandler({
       useMyLocation: 'true',
     });
 

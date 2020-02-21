@@ -28,8 +28,8 @@ describe('ExternalJsFileLoader', () => {
       ],
     });
 
-    externalJsFileLoader = bed.get(ExternalJsFileLoader);
-    documentMock = bed.get(DOCUMENT);
+    externalJsFileLoader = bed.inject(ExternalJsFileLoader);
+    documentMock = bed.inject(DOCUMENT);
     jsDomElement = document.createElement('script');
   });
 

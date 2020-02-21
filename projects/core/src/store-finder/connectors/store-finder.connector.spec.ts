@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { GeoPoint } from '../../model';
@@ -30,8 +29,8 @@ describe('StoreFinderConnector', () => {
       ],
     });
 
-    service = TestBed.get(StoreFinderConnector as Type<StoreFinderConnector>);
-    adapter = TestBed.get(StoreFinderAdapter as Type<StoreFinderAdapter>);
+    service = TestBed.inject(StoreFinderConnector);
+    adapter = TestBed.inject(StoreFinderAdapter);
   });
 
   it('should be created', () => {

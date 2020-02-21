@@ -1,10 +1,9 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { UserNotificationPreferenceAdapter } from './user-notification-preference.adapter';
 import { UserNotificationPreferenceConnector } from './user-notification-preference.connector';
-import createSpy = jasmine.createSpy;
 import { NotificationPreference } from '../../../model/notification-preference.model';
+import createSpy = jasmine.createSpy;
 
 const user = 'testUser';
 const mockNotificationPreference: NotificationPreference[] = [
@@ -36,12 +35,8 @@ describe('UserNotificationPreferenceConnector', () => {
       ],
     });
 
-    service = TestBed.get(UserNotificationPreferenceConnector as Type<
-      UserNotificationPreferenceConnector
-    >);
-    adapter = TestBed.get(UserNotificationPreferenceAdapter as Type<
-      UserNotificationPreferenceAdapter
-    >);
+    service = TestBed.inject(UserNotificationPreferenceConnector);
+    adapter = TestBed.inject(UserNotificationPreferenceAdapter);
   });
 
   it('should be created', () => {

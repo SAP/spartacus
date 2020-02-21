@@ -50,8 +50,8 @@ describe('AsmConnector', () => {
       providers: [{ provide: AsmAdapter, useClass: MockAsmAdapter }],
     });
 
-    asmConnector = TestBed.get(AsmConnector);
-    asmAdapter = TestBed.get(AsmAdapter);
+    asmConnector = TestBed.inject(AsmConnector);
+    asmAdapter = TestBed.inject(AsmAdapter);
   });
 
   it('should be created', () => {

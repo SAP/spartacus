@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -43,8 +42,8 @@ describe('CartVoucherService', () => {
       ],
     });
 
-    service = TestBed.get(CartVoucherService as Type<CartVoucherService>);
-    store = TestBed.get(Store as Type<Store<StateWithCart>>);
+    service = TestBed.inject(CartVoucherService);
+    store = TestBed.inject(Store);
 
     store.dispatch(new DeprecatedCartActions.CreateCartSuccess(cart));
   });

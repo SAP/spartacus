@@ -24,7 +24,7 @@ const MockDeferLayoutConfig: LayoutConfig = {
 })
 class MockAnyComponent {}
 
-export class MockIntersectionService {
+class MockIntersectionService {
   isIntersected() {
     return of(false);
   }
@@ -50,7 +50,7 @@ describe('DeferLoaderService', () => {
     describe('without global loading strategy', () => {
       beforeEach(() => {
         TestBed.configureTestingModule(getModule('browser', {}));
-        service = TestBed.get(DeferLoaderService);
+        service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
         el = fixture.debugElement.query(By.css('#any')).nativeElement;
         fixture.detectChanges();
@@ -71,7 +71,7 @@ describe('DeferLoaderService', () => {
         TestBed.configureTestingModule(
           getModule('server', MockInstantLayoutConfig)
         );
-        service = TestBed.get(DeferLoaderService);
+        service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
         el = fixture.debugElement.query(By.css('#any')).nativeElement;
         fixture.detectChanges();
@@ -92,7 +92,7 @@ describe('DeferLoaderService', () => {
         TestBed.configureTestingModule(
           getModule('server', MockDeferLayoutConfig)
         );
-        service = TestBed.get(DeferLoaderService);
+        service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
         el = fixture.debugElement.query(By.css('#any')).nativeElement;
         fixture.detectChanges();
@@ -125,7 +125,7 @@ describe('DeferLoaderService', () => {
     describe('without global loading strategy', () => {
       beforeEach(() => {
         TestBed.configureTestingModule(getModule('browser', {}));
-        service = TestBed.get(DeferLoaderService);
+        service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
         el = fixture.debugElement.query(By.css('#any')).nativeElement;
         fixture.detectChanges();
@@ -155,7 +155,7 @@ describe('DeferLoaderService', () => {
         TestBed.configureTestingModule(
           getModule('browser', MockInstantLayoutConfig)
         );
-        service = TestBed.get(DeferLoaderService);
+        service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
         el = fixture.debugElement.query(By.css('#any')).nativeElement;
         fixture.detectChanges();
@@ -185,7 +185,7 @@ describe('DeferLoaderService', () => {
         TestBed.configureTestingModule(
           getModule('browser', MockDeferLayoutConfig)
         );
-        service = TestBed.get(DeferLoaderService);
+        service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
         el = fixture.debugElement.query(By.css('#any')).nativeElement;
         fixture.detectChanges();

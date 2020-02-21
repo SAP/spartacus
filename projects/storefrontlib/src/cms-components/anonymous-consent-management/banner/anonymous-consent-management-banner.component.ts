@@ -3,7 +3,7 @@ import { AnonymousConsentsService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
-import { ModalService } from '../../../shared/components/modal/index';
+import { ModalService } from '../../../shared/components/modal/modal.service';
 
 @Component({
   selector: 'cx-anonymous-consent-management-banner',
