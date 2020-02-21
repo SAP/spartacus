@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
@@ -56,7 +55,7 @@ describe('CartPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.get(CartPageMetaResolver as Type<CartPageMetaResolver>);
+    service = TestBed.inject(CartPageMetaResolver);
   });
 
   it('should inject service', () => {

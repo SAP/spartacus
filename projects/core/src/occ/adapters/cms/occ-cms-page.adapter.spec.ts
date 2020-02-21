@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors';
 import { CmsStructureConfigService } from '../../../cms/services';
@@ -75,13 +74,9 @@ describe('OccCmsPageAdapter', () => {
         { provide: ConverterService, useClass: MockComverterService },
       ],
     });
-    service = TestBed.get(OccCmsPageAdapter as Type<OccCmsPageAdapter>);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    endpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    service = TestBed.inject(OccCmsPageAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    endpointsService = TestBed.inject(OccEndpointsService);
   });
 
   afterEach(() => {
@@ -200,7 +195,7 @@ describe('OccCmsPageAdapter', () => {
 
     it('should use normalizer', () => {
       spyOn(endpointsService, 'getUrl').and.returnValue(endpoint + '/pages');
-      const converter = TestBed.get(ConverterService);
+      const converter = TestBed.inject(ConverterService);
 
       service.load(context).subscribe();
 

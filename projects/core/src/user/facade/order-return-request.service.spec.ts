@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -38,11 +37,9 @@ describe('OrderReturnRequestService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(OrderReturnRequestService as Type<
-      OrderReturnRequestService
-    >);
+    service = TestBed.inject(OrderReturnRequestService);
   });
 
   it('should OrderReturnRequestService is injected', inject(
