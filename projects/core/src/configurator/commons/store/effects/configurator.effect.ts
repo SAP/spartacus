@@ -411,7 +411,9 @@ export class ConfiguratorEffects {
 
   @Effect()
   readConfigurationForCartEntry$: Observable<
-    ReadCartEntryConfigurationSuccess | ReadCartEntryConfigurationFail
+    | ReadCartEntryConfigurationSuccess
+    | UpdatePriceSummary
+    | ReadCartEntryConfigurationFail
   > = this.actions$.pipe(
     ofType(READ_CART_ENTRY_CONFIGURATION),
     switchMap((action: ReadCartEntryConfiguration) => {
@@ -420,9 +422,10 @@ export class ConfiguratorEffects {
       return this.configuratorCommonsConnector
         .readConfigurationForCartEntry(parameters)
         .pipe(
-          map((result: Configurator.Configuration) => {
-            return new ReadCartEntryConfigurationSuccess(result);
-          }),
+          switchMap((result: Configurator.Configuration) => [
+            new ReadCartEntryConfigurationSuccess(result),
+            new UpdatePriceSummary(result),
+          ]),
           catchError(error => [
             new ReadCartEntryConfigurationFail(
               action.payload.owner.key,
