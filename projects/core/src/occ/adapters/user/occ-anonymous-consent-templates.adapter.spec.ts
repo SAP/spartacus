@@ -3,7 +3,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CONSENT_TEMPLATE_NORMALIZER } from '../../../user/index';
 import { ConverterService } from '../../../util/index';
@@ -29,16 +28,10 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
-    adapter = TestBed.get(OccAnonymousConsentTemplatesAdapter as Type<
-      OccAnonymousConsentTemplatesAdapter
-    >);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
+    adapter = TestBed.inject(OccAnonymousConsentTemplatesAdapter);
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });

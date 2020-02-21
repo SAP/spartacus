@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UrlParsingService } from './url-parsing.service';
@@ -11,7 +10,7 @@ describe('UrlParsingService', () => {
       imports: [RouterTestingModule],
       providers: [UrlParsingService],
     });
-    service = TestBed.get(UrlParsingService as Type<UrlParsingService>);
+    service = TestBed.inject(UrlParsingService);
   });
 
   describe('getPrimarySegments', () => {

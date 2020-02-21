@@ -1,4 +1,4 @@
-import { Renderer2, RendererFactory2, Type } from '@angular/core';
+import { Renderer2, RendererFactory2 } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { DynamicAttributeService } from './dynamic-attribute.service';
 
@@ -20,9 +20,7 @@ describe('DynamicAttributeService', () => {
       providers: [DynamicAttributeService],
     });
 
-    service = TestBed.get(DynamicAttributeService as Type<
-      DynamicAttributeService
-    >);
+    service = TestBed.inject(DynamicAttributeService);
   });
 
   it('should DynamicAttributeService is injected', () => {

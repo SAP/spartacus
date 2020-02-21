@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
@@ -90,9 +89,9 @@ describe('Wish List Effect', () => {
       ],
     });
 
-    wishListEffect = TestBed.get(fromEffects.WishListEffects);
-    cartConnector = TestBed.get(CartConnector as Type<CartConnector>);
-    store = TestBed.get(Store as Type<Store<StateWithMultiCart>>);
+    wishListEffect = TestBed.inject(WishListEffects);
+    cartConnector = TestBed.inject(CartConnector);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
