@@ -200,19 +200,15 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 export function removeAllItemsFromCart() {
   const product0 = products[0];
   const product1 = products[4];
+
   registerCartRefreshRoute();
 
-  getCartItem(product0.name).within(() => {
-    cy.getByText('Remove').click();
-  });
-
+  removeCartItem(product0);
   cy.wait('@refresh_cart')
     .its('status')
     .should('eq', 200);
 
-  getCartItem(product1.name).within(() => {
-    cy.getByText('Remove').click();
-  });
+  removeCartItem(product1);
 
   validateEmptyCart();
 }
@@ -261,7 +257,9 @@ export function logOutAndNavigateToEmptyCart() {
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`);
+  cy.wait(`@${cartPage}`)
+    .its('status')
+    .should('eq', 200);
 
   validateEmptyCart();
 }
@@ -327,7 +325,9 @@ export function logOutAndEmptyCart() {
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`);
+  cy.wait(`@${cartPage}`)
+    .its('status')
+    .should('eq', 200);
 
   validateEmptyCart();
 }
@@ -386,7 +386,10 @@ export const cartUser = {
 };
 
 export function registerCartUser() {
+  const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.visit('/login/register');
+  cy.wait(`@${registerPage}`);
+
   register({ ...cartUser.registrationData });
   cy.url().should('not.contain', 'register');
 }
