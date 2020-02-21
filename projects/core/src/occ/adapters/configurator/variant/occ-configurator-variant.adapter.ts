@@ -39,7 +39,10 @@ export class OccConfiguratorVariantAdapter
       .pipe(
         this.converterService.pipeable(CONFIGURATION_NORMALIZER),
         tap(configuration => {
-          configuration.owner = owner;
+          configuration.owner = {
+            ...owner,
+            hasObsoleteState: false,
+          };
         })
       );
   }
@@ -59,7 +62,12 @@ export class OccConfiguratorVariantAdapter
       )
       .pipe(
         this.converterService.pipeable(CONFIGURATION_NORMALIZER),
-        tap(configuration => (configuration.owner = configurationOwner))
+        tap(configuration => {
+          configuration.owner = {
+            ...configurationOwner,
+            hasObsoleteState: false,
+          };
+        })
       );
   }
 
@@ -119,7 +127,12 @@ export class OccConfiguratorVariantAdapter
 
     return this.http.get<Configurator.Configuration>(url).pipe(
       this.converterService.pipeable(CONFIGURATION_NORMALIZER),
-      tap(resultConfiguration => (resultConfiguration.owner = parameters.owner))
+      tap(resultConfiguration => {
+        resultConfiguration.owner = {
+          ...parameters.owner,
+          hasObsoleteState: false,
+        };
+      })
     );
   }
 

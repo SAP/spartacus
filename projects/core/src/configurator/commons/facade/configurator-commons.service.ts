@@ -42,6 +42,7 @@ export class ConfiguratorCommonsService {
   getOrCreateConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
+    const localOwner = owner;
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -51,7 +52,7 @@ export class ConfiguratorCommonsService {
       tap(configurationState => {
         if (
           (!this.isConfigurationCreated(configurationState.value) ||
-            owner.hasObsoleteState === true) &&
+            localOwner.hasObsoleteState === true) &&
           configurationState.loading !== true
         ) {
           if (owner.type === GenericConfigurator.OwnerType.PRODUCT) {
@@ -59,6 +60,7 @@ export class ConfiguratorCommonsService {
               new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
             );
           } else {
+            localOwner.hasObsoleteState = false;
             this.readConfigurationForCartEntry(owner);
           }
         }
