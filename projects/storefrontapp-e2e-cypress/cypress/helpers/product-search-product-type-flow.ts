@@ -11,12 +11,6 @@ import {
 export const resultsTitle = 'cx-breadcrumb h1';
 export const category = 'sony';
 
-const sonySearchResults = 130;
-const sonyBrandFilter = 85;
-const sonyPriceFilter = 16;
-const sonyCategoryFilter = 94;
-const sonyColorFilter = 7;
-
 export function productTypeFlow(mobile?: string) {
   cy.server();
 
@@ -25,6 +19,15 @@ export function productTypeFlow(mobile?: string) {
     category,
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
+  createProductFacetQuery('brand', category, QUERY_ALIAS.BRAND_PAGE);
+  createProductQuery(
+    QUERY_ALIAS.SONY_CLEAR_FACET,
+    `${category}:relevance`,
+    PRODUCT_LISTING.PRODUCTS_PER_PAGE
+  );
+  createProductFacetQuery('price', category, QUERY_ALIAS.PRICE_DSC_FILTER);
+  createProductFacetQuery('category', category, QUERY_ALIAS.CATEGORY_FILTER);
+  createProductFacetQuery('Colour', category, QUERY_ALIAS.COLOR_FILTER);
 
   clickSearchIcon();
 
@@ -39,7 +42,6 @@ export function productTypeFlow(mobile?: string) {
   checkFirstItem('10.2 Megapixel D-SLR with Standard Zoom Lens');
 
   // Filter by brand
-  createProductFacetQuery('brand', category, QUERY_ALIAS.BRAND_PAGE);
 
   clickFacet('Brand');
 
@@ -48,12 +50,6 @@ export function productTypeFlow(mobile?: string) {
     .should('eq', 200);
 
   assertNumberOfProducts(`@${QUERY_ALIAS.BRAND_PAGE}`, `"${category}"`);
-
-  createProductQuery(
-    QUERY_ALIAS.SONY_CLEAR_FACET,
-    `${category}:relevance`,
-    PRODUCT_LISTING.PRODUCTS_PER_PAGE
-  );
 
   clearSelectedFacet(mobile);
 
@@ -64,7 +60,6 @@ export function productTypeFlow(mobile?: string) {
   assertNumberOfProducts(`@${QUERY_ALIAS.SONY}`, `"${category}"`);
 
   // Filter by price
-  createProductFacetQuery('price', category, QUERY_ALIAS.PRICE_DSC_FILTER);
 
   clickFacet('Price');
 
@@ -85,7 +80,6 @@ export function productTypeFlow(mobile?: string) {
   assertNumberOfProducts(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`, `"${category}"`);
 
   // Filter by category
-  createProductFacetQuery('category', category, QUERY_ALIAS.CATEGORY_FILTER);
 
   clickFacet('Category');
 
@@ -106,7 +100,6 @@ export function productTypeFlow(mobile?: string) {
   assertNumberOfProducts(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`, `"${category}"`);
 
   // Filter by color
-  createProductFacetQuery('Colour', category, QUERY_ALIAS.COLOR_FILTER);
 
   clickFacet('Color');
 

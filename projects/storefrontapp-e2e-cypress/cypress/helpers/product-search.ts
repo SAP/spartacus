@@ -15,12 +15,14 @@ export const QUERY_ALIAS = {
   FIRST_PAGE: 'first_page_query',
   CATEGORY_PAGE: 'category_page_query',
   BRAND_PAGE: 'brand_page_query',
-  SONY: 'sony_query',
   SONY_CLEAR_FACET: 'sony_query_clear_facet',
   PRICE_ASC_FILTER: 'price_query_asc_filter',
   PRICE_DSC_FILTER: 'price_query_dsc_filter',
   CATEGORY_FILTER: 'category_query_filter',
   COLOR_FILTER: 'color_query_filter',
+  TOP_RATED_FILTER: 'topRated_query_filter',
+  SONY: 'sony_query',
+  DSC_N1: 'dsc_n1_query',
 };
 
 export function clickSearchIcon() {
@@ -234,6 +236,7 @@ export function createProductQuery(
 export function createProductFacetQuery(
   param: string,
   search: string,
+
   alias: string
 ): void {
   cy.route(

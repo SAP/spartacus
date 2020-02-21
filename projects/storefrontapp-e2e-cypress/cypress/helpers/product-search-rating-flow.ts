@@ -1,57 +1,58 @@
 import { PRODUCT_LISTING } from './data-configuration';
 import {
   assertFirstProduct,
+  assertNumberOfProducts,
   clickSearchIcon,
   createProductQuery,
   createProductSortQuery,
+  QUERY_ALIAS,
   verifyProductSearch,
 } from './product-search';
 
 export const resultsTitle = 'cx-breadcrumb h1';
 export const tabsHeaderList = 'cx-tab-paragraph-container > h3';
-const productSelector = 'cx-product-list-item';
 const productName = 'DSC-N1';
-
-const searchResults = 17;
-const topResultQuery = 1;
-const byCategoryQuery = 16;
-
-const searchResults = 17;
-const topResultQuery = 1;
-const byCategoryQuery = 16;
 
 export function productRatingFlow(mobile?: string) {
   cy.server();
-  createProductQuery('productQuery');
-  createProductSortQuery('topRated', 'query-topRated');
 
-  clickSearchIcon();
-  cy.get('cx-searchbox input').type(`${productName}{enter}`);
-
-  cy.get(resultsTitle).should(
-    'contain',
-    `${searchResults} results for "${productName}"`
+  createProductQuery(
+    QUERY_ALIAS.FIRST_PAGE,
+    productName,
+    PRODUCT_LISTING.PRODUCTS_PER_PAGE,
+    `&currentPage=1`
   );
-
-  cy.get(productSelector).should(
-    'have.length',
+  createProductQuery(
+    QUERY_ALIAS.DSC_N1,
+    productName,
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
+  createProductSortQuery('topRated', QUERY_ALIAS.TOP_RATED_FILTER);
+
+  clickSearchIcon();
+
+  cy.get('cx-searchbox input').type(`${productName}{enter}`);
+
+  cy.wait(`@${QUERY_ALIAS.DSC_N1}`)
+    .its('status')
+    .should('eq', 200);
+
+  assertNumberOfProducts(`@${QUERY_ALIAS.DSC_N1}`, `"${productName}"`);
 
   verifyProductSearch(
-    '@productQuery',
-    '@query-topRated',
+    QUERY_ALIAS.FIRST_PAGE,
+    QUERY_ALIAS.TOP_RATED_FILTER,
     PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
   );
 
   // Navigate to previous page
   cy.get('.page-item:first-of-type .page-link:first').click();
-  cy.wait('@query-topRated');
+  cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
+    .its('status')
+    .should('eq', 200);
 
-  cy.get('.page-item.active > .page-link').should(
-    'contain',
-    `${topResultQuery}`
-  );
+  // active paginated number
+  cy.get('.page-item.active > .page-link').should('contain', `1`);
 
   assertFirstProduct();
 
@@ -65,12 +66,15 @@ export function productRatingFlow(mobile?: string) {
         .click({ force: true });
     });
 
-  cy.wait('@productQuery');
+  cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
+    .its('status')
+    .should('eq', 200);
 
-  cy.get(resultsTitle).should(
-    'contain',
-    `${byCategoryQuery} results for "DSC-N1"`
+  assertNumberOfProducts(
+    `@${QUERY_ALIAS.TOP_RATED_FILTER}`,
+    `"${productName}"`
   );
+
   assertFirstProduct();
 
   if (mobile) {
@@ -82,9 +86,15 @@ export function productRatingFlow(mobile?: string) {
       'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
     ).click();
   }
-  cy.wait('@productQuery');
 
-  cy.get(resultsTitle).should('contain', '17 results for "DSC-N1"');
+  cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
+    .its('status')
+    .should('eq', 200);
+
+  assertNumberOfProducts(
+    `@${QUERY_ALIAS.TOP_RATED_FILTER}`,
+    `"${productName}"`
+  );
 
   // Select product and read all the tabs on product details page
   cy.get('cx-product-list-item:first .cx-product-name').click();
