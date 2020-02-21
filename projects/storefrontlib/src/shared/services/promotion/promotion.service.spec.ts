@@ -1,15 +1,14 @@
 import { PromotionService } from './promotion.service';
 import {
+  Cart,
   CartService,
   CheckoutService,
-  Cart,
-  PromotionResult,
   Order,
   PromotionLocation,
+  PromotionResult,
 } from '@spartacus/core';
 import { OrderDetailsService } from 'projects/storefrontlib/src/cms-components';
 import { TestBed } from '@angular/core/testing';
-import { Type } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 const mockAppliedProductPromotions: PromotionResult[] = [
@@ -201,7 +200,7 @@ describe('PromotionService', () => {
       ],
     });
 
-    promotionService = TestBed.get(PromotionService as Type<PromotionService>);
+    promotionService = TestBed.inject(PromotionService);
   });
 
   it('should inject service', () => {
