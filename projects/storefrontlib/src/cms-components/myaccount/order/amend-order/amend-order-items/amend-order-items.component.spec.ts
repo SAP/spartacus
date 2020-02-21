@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
@@ -81,9 +81,7 @@ describe('CancelOrReturnItemsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CancelOrReturnItemsComponent);
     component = fixture.componentInstance;
-    orderAmendService = TestBed.get(OrderAmendService as Type<
-      OrderAmendService
-    >);
+    orderAmendService = TestBed.inject(OrderAmendService);
 
     component.entries = mockEntries;
   });

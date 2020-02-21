@@ -5,7 +5,6 @@ import {
   Output,
   Pipe,
   PipeTransform,
-  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -90,7 +89,7 @@ class MockRoutingService {
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
-  let userService: MockUserOrderService;
+  let userService: UserOrderService | MockUserOrderService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -108,8 +107,8 @@ describe('OrderHistoryComponent', () => {
       ],
     }).compileComponents();
 
-    userService = TestBed.get(UserOrderService as Type<UserOrderService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    userService = TestBed.inject(UserOrderService);
+    routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {
@@ -153,7 +152,7 @@ describe('OrderHistoryComponent', () => {
       sorts: [{ code: 'byDate', selected: true }],
     };
 
-    userService.orderHistroy.next(emptyOrderList);
+    (userService as MockUserOrderService).orderHistroy.next(emptyOrderList);
     fixture.detectChanges();
 
     expect(

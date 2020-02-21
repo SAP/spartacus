@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,6 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
-
 import createSpy = jasmine.createSpy;
 
 const mockUserDetails: User = {
@@ -59,8 +58,8 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
-  let authService: MockAuthService;
-  let userService: MockUserService;
+  let authService: AuthService;
+  let userService: UserService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -85,8 +84,8 @@ describe('LoginComponent', () => {
       ],
     }).compileComponents();
 
-    authService = TestBed.get(AuthService as Type<AuthService>);
-    userService = TestBed.get(UserService as Type<UserService>);
+    authService = TestBed.inject(AuthService);
+    userService = TestBed.inject(UserService);
   }));
 
   beforeEach(() => {
