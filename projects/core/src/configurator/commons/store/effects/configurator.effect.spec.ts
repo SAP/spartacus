@@ -290,11 +290,19 @@ describe('ConfiguratorEffect', () => {
         readFromCartEntry
       );
 
-      const completion = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+      const readCartEntrySuccessAction = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
         productConfiguration
       );
+
+      const updatePriceAction = new ConfiguratorActions.UpdatePriceSummary(
+        productConfiguration
+      );
+
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', {
+        b: readCartEntrySuccessAction,
+        c: updatePriceAction,
+      });
 
       expect(configEffects.readConfigurationForCartEntry$).toBeObservable(
         expected
