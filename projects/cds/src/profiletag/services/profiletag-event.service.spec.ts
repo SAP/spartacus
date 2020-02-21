@@ -1,15 +1,10 @@
-import { PLATFORM_ID, Type } from '@angular/core';
+import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';
-import {
-  ConsentReferenceEvent,
-  DebugEvent,
-  ProfileTagEventNames,
-  ProfileTagWindowObject,
-} from '../model/index';
+import { ConsentReferenceEvent, DebugEvent, ProfileTagEventNames, ProfileTagWindowObject } from '../model/index';
 import { ProfileTagEventService } from './profiletag-event.service';
 
 const mockCDSConfig: CdsConfig = {
@@ -75,10 +70,8 @@ describe('ProfileTagEventTracker', () => {
         { provide: PLATFORM_ID, useValue: 'browser' },
       ],
     });
-    profileTagEventTracker = TestBed.get(ProfileTagEventService as Type<
-      ProfileTagEventService
-    >);
-    nativeWindow = TestBed.get(WindowRef).nativeWindow;
+    profileTagEventTracker = TestBed.inject(ProfileTagEventService);
+    nativeWindow = TestBed.inject(WindowRef).nativeWindow as ProfileTagWindowObject;
   });
 
   it('should be created', () => {

@@ -1,8 +1,4 @@
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
-import { Type } from '@angular/core';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
 import { StrategyProducts } from '../../model/strategy-products.model';
@@ -68,15 +64,9 @@ describe('MerchandisingStrategyAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    strategyAdapter = TestBed.get(CdsMerchandisingStrategyAdapter as Type<
-      CdsMerchandisingStrategyAdapter
-    >);
-    cdsEndpointsService = TestBed.get(CdsEndpointsService as Type<
-      CdsEndpointsService
-    >);
+    httpMock = TestBed.inject(HttpTestingController);
+    strategyAdapter = TestBed.inject(CdsMerchandisingStrategyAdapter);
+    cdsEndpointsService = TestBed.inject(CdsEndpointsService);
   });
 
   afterEach(() => {
