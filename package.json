@@ -51,6 +51,7 @@
     "test:storefront:lib": "ng test storefrontlib --sourceMap --code-coverage",
     "build:ssr": "ng run storefrontapp:server && webpack --config projects/ssr/webpack.server.config.js --progress --colors",
     "start:ssr": "node dist/ssr/server",
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "release:assets:with-changelog": "cd projects/assets && release-it && cd ../..",
     "release:styles:with-changelog": "cd projects/storefrontstyles && release-it && cd ../..",
     "release:lib:with-changelog": "cd projects/storefrontlib && release-it && cd ../..",
