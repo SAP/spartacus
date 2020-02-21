@@ -1,29 +1,31 @@
 import { PRODUCT_LISTING } from './data-configuration';
 import {
-  createCategoryPaginationQuery,
+  assertNumberOfProducts,
+  createProductQuery,
   createProductSortQuery,
-  productItemSelector,
-  searchUrlPrefix,
+  QUERY_ALIAS,
   verifyProductSearch,
 } from './product-search';
 
 // compact cameras category ID
 const categoryId = '576';
+const category = 'Digital Compacts';
 
 export function productPricingFlow() {
   cy.server();
-  createCategoryPaginationQuery(
-    'first_page_query',
-    categoryId,
+  createProductQuery(
+    QUERY_ALIAS.FIRST_PAGE,
+    `:relevance:category:${categoryId}`,
     PRODUCT_LISTING.PRODUCTS_PER_PAGE,
-    '1'
+    `&currentPage=1`
   );
-  createProductSortQuery('price-asc', 'query_price_asc');
+  createProductSortQuery('price-asc', QUERY_ALIAS.PRICE_ASC_FILTER);
 
-  cy.route(
-    'GET',
-    `${searchUrlPrefix}?fields=*&query=:relevance:category:${categoryId}&pageSize=10&lang=en&curr=USD`
-  ).as('category_query');
+  createProductQuery(
+    QUERY_ALIAS.CATEGORY_PAGE,
+    `:relevance:category:${categoryId}`,
+    PRODUCT_LISTING.PRODUCTS_PER_PAGE
+  );
 
   // Click on a Category
   cy.get('header').within(() => {
@@ -35,23 +37,15 @@ export function productPricingFlow() {
       .click({ force: true });
   });
 
-  cy.wait('@category_query').then(xhr => {
-    const results = xhr.response.body.pagination.totalResults;
+  cy.wait(`@${QUERY_ALIAS.CATEGORY_PAGE}`)
+    .its('status')
+    .should('eq', 200);
 
-    cy.get('cx-breadcrumb h1').should(
-      'contain',
-      `${results} results for Digital Compacts`
-    );
-
-    cy.get(productItemSelector).should(
-      'have.length',
-      PRODUCT_LISTING.PRODUCTS_PER_PAGE
-    );
-  });
+  assertNumberOfProducts(`@${QUERY_ALIAS.CATEGORY_PAGE}`, category);
 
   verifyProductSearch(
-    '@first_page_query',
-    '@query_price_asc',
+    QUERY_ALIAS.FIRST_PAGE,
+    QUERY_ALIAS.PRICE_ASC_FILTER,
     PRODUCT_LISTING.SORTING_TYPES.BY_PRICE_ASC
   );
 }

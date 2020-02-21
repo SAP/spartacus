@@ -9,8 +9,19 @@ export const pageLinkSelector = '.page-item.active > .page-link';
 export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
 export const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
-
 export const searchUrlPrefix = `${apiUrl}/rest/v2/electronics-spa/products/search`;
+
+export const QUERY_ALIAS = {
+  FIRST_PAGE: 'first_page_query',
+  CATEGORY_PAGE: 'category_page_query',
+  BRAND_PAGE: 'brand_page_query',
+  SONY: 'sony_query',
+  SONY_CLEAR_FACET: 'sony_query_clear_facet',
+  PRICE_ASC_FILTER: 'price_query_asc_filter',
+  PRICE_DSC_FILTER: 'price_query_dsc_filter',
+  CATEGORY_FILTER: 'category_query_filter',
+  COLOR_FILTER: 'color_query_filter',
+};
 
 export function clickSearchIcon() {
   cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
@@ -45,13 +56,13 @@ export function verifyProductSearch(
       cy.get('.page-item:last-of-type .page-link:first').click();
       cy.get('.page-item.active > .page-link').should('contain', '2');
 
-      cy.wait(productAlias);
+      cy.wait(`@${productAlias}`);
 
       checkDistinctProductName(firstProduct);
 
       cy.get('cx-sorting .ng-select:first').ngSelect(sortBy);
 
-      cy.wait(sortingAlias);
+      cy.wait(`@${sortingAlias}`);
 
       cy.get('.page-item.active > .page-link').should('contain', '2');
 
@@ -208,16 +219,15 @@ export function createProductSortQuery(sort: string, alias: string): void {
   cy.route('GET', `${searchUrlPrefix}?fields=*&sort=${sort}*`).as(alias);
 }
 
-//&query=:relevance:category:576&pageSize=10&currentPage=1&lang=en&curr=USD
-export function createCategoryPaginationQuery(
+export function createProductQuery(
   alias: string,
-  categoryId: string,
+  queryId: string,
   pageSize: number,
-  currentPage: string
+  currentPage: string = ''
 ): void {
   cy.route(
     'GET',
-    `${searchUrlPrefix}?fields=*&query=:relevance:category:${categoryId}&pageSize=${pageSize}&currentPage=${currentPage}&lang=en&curr=USD`
+    `${searchUrlPrefix}?fields=*&query=${queryId}&pageSize=${pageSize}${currentPage}&lang=en&curr=USD`
   ).as(alias);
 }
 
@@ -230,4 +240,22 @@ export function createProductFacetQuery(
     'GET',
     `${searchUrlPrefix}?fields=*&query=${search}:relevance:${param}*`
   ).as(alias);
+}
+
+export function assertNumberOfProducts(
+  alias: string,
+  category: string,
+  productPerPage: number = PRODUCT_LISTING.PRODUCTS_PER_PAGE
+) {
+  cy.get(alias).should(xhr => {
+    const paginationTotalresults = xhr.response.body.pagination.totalResults;
+    const productLengthInPage = xhr.response.body.products.length;
+
+    cy.get('cx-breadcrumb h1').should(
+      'contain',
+      `${paginationTotalresults} results for ${category}`
+    );
+
+    cy.get(productItemSelector).should('have.length', productLengthInPage);
+  });
 }

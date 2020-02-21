@@ -1,13 +1,15 @@
 import { PRODUCT_LISTING } from './data-configuration';
 import {
+  assertNumberOfProducts,
   checkFirstItem,
   clickSearchIcon,
   createProductFacetQuery,
   createProductQuery,
-  productItemSelector,
+  QUERY_ALIAS,
 } from './product-search';
 
 export const resultsTitle = 'cx-breadcrumb h1';
+export const category = 'sony';
 
 const sonySearchResults = 130;
 const sonyBrandFilter = 85;
@@ -18,137 +20,113 @@ const sonyColorFilter = 7;
 export function productTypeFlow(mobile?: string) {
   cy.server();
 
-  createProductQuery('query');
+  createProductQuery(
+    QUERY_ALIAS.SONY,
+    category,
+    PRODUCT_LISTING.PRODUCTS_PER_PAGE
+  );
 
   clickSearchIcon();
 
-  cy.get('cx-searchbox input[aria-label="search"]').type('sony{enter}');
+  cy.get('cx-searchbox input[aria-label="search"]').type(`${category}{enter}`);
 
-  cy.get(resultsTitle).should(
-    'contain',
-    `${sonySearchResults} results for "sony"`
-  );
+  cy.wait(`@${QUERY_ALIAS.SONY}`)
+    .its('status')
+    .should('eq', 200);
 
-  cy.get(productItemSelector).should(
-    'have.length',
-    PRODUCT_LISTING.PRODUCTS_PER_PAGE
-  );
+  assertNumberOfProducts(`@${QUERY_ALIAS.SONY}`, `"${category}"`);
 
   checkFirstItem('10.2 Megapixel D-SLR with Standard Zoom Lens');
 
   // Filter by brand
-  createProductFacetQuery('brand', 'sony', 'brand_query');
+  createProductFacetQuery('brand', category, QUERY_ALIAS.BRAND_PAGE);
 
   clickFacet('Brand');
 
-  cy.wait('@brand_query')
+  cy.wait(`@${QUERY_ALIAS.BRAND_PAGE}`)
     .its('status')
     .should('eq', 200);
 
-  cy.get(resultsTitle).should(
-    'contain',
-    `${sonyBrandFilter} results for "sony"`
-  );
+  assertNumberOfProducts(`@${QUERY_ALIAS.BRAND_PAGE}`, `"${category}"`);
 
-  createProductQuery('query1');
+  createProductQuery(
+    QUERY_ALIAS.SONY_CLEAR_FACET,
+    `${category}:relevance`,
+    PRODUCT_LISTING.PRODUCTS_PER_PAGE
+  );
 
   clearSelectedFacet(mobile);
 
-  cy.wait('@query1')
+  cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
     .its('status')
     .should('eq', 200);
 
-  cy.get(resultsTitle).should(
-    'contain',
-    `${sonySearchResults} results for "sony"`
-  );
+  assertNumberOfProducts(`@${QUERY_ALIAS.SONY}`, `"${category}"`);
 
   // Filter by price
-  createProductFacetQuery('price', 'sony', 'price_query');
+  createProductFacetQuery('price', category, QUERY_ALIAS.PRICE_DSC_FILTER);
 
   clickFacet('Price');
 
-  cy.wait('@price_query')
-    .its('url')
-    .should('include', 'sony:relevance:price');
+  cy.wait(`@${QUERY_ALIAS.PRICE_DSC_FILTER}`)
+    .its('status')
+    .should('eq', 200);
 
-  cy.get(resultsTitle).should(
-    'contain',
-    `${sonyPriceFilter} results for "sony"`
-  );
+  assertNumberOfProducts(`@${QUERY_ALIAS.PRICE_DSC_FILTER}`, `"${category}"`);
 
   checkFirstItem('MSHX8A');
 
-  createProductQuery('query2');
-
   clearSelectedFacet(mobile);
 
-  cy.wait('@query2')
+  cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
     .its('status')
     .should('eq', 200);
 
-  cy.get(resultsTitle).should(
-    'contain',
-    `${sonySearchResults} results for "sony"`
-  );
+  assertNumberOfProducts(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`, `"${category}"`);
 
   // Filter by category
-  createProductFacetQuery('category', 'sony', 'category_query');
+  createProductFacetQuery('category', category, QUERY_ALIAS.CATEGORY_FILTER);
 
   clickFacet('Category');
 
-  cy.wait('@category_query')
-    .its('url')
-    .should('include', 'sony:relevance:category');
+  cy.wait(`@${QUERY_ALIAS.CATEGORY_FILTER}`)
+    .its('status')
+    .should('eq', 200);
 
-  cy.get(resultsTitle).should(
-    'contain',
-    `${sonyCategoryFilter} results for "sony"`
-  );
+  assertNumberOfProducts(`@${QUERY_ALIAS.CATEGORY_FILTER}`, `"${category}"`);
 
   checkFirstItem('10.2 Megapixel D-SLR with Standard Zoom Lens');
 
-  createProductQuery('query3');
-
   clearSelectedFacet(mobile);
 
-  cy.wait('@query3')
+  cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
     .its('status')
     .should('eq', 200);
 
-  cy.get(resultsTitle).should(
-    'contain',
-    `${sonySearchResults} results for "sony"`
-  );
+  assertNumberOfProducts(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`, `"${category}"`);
 
   // Filter by color
-  createProductFacetQuery('Colour', 'sony', 'color_query');
+  createProductFacetQuery('Colour', category, QUERY_ALIAS.COLOR_FILTER);
 
   clickFacet('Color');
 
-  cy.wait('@color_query')
-    .its('url')
-    .should('include', 'sony:relevance:Colour');
+  cy.wait(`@${QUERY_ALIAS.COLOR_FILTER}`).then(console.log);
 
-  cy.get(resultsTitle).should(
-    'contain',
-    `${sonyColorFilter} results for "sony"`
-  );
+  // cy.wait(`@${QUERY_ALIAS.COLOR_FILTER}`)
+  //   .its('status')
+  //   .should('eq', 200);
+
+  assertNumberOfProducts(`@${QUERY_ALIAS.COLOR_FILTER}`, `"${category}"`);
 
   checkFirstItem('InfoLITHIUM™ H Series Battery');
 
-  createProductQuery('query4');
-
   clearSelectedFacet(mobile);
 
-  cy.wait('@query4')
+  cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
     .its('status')
     .should('eq', 200);
 
-  cy.get(resultsTitle).should(
-    'contain',
-    `${sonySearchResults} results for "sony"`
-  );
+  assertNumberOfProducts(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`, `"${category}"`);
 }
 
 function clearSelectedFacet(mobile: string) {

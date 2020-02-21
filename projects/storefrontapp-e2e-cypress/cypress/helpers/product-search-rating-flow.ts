@@ -9,8 +9,8 @@ import {
 
 export const resultsTitle = 'cx-breadcrumb h1';
 export const tabsHeaderList = 'cx-tab-paragraph-container > h3';
-
 const productSelector = 'cx-product-list-item';
+const productName = 'DSC-N1';
 
 const searchResults = 17;
 const topResultQuery = 1;
@@ -22,7 +22,6 @@ export function productRatingFlow(mobile?: string) {
   createProductSortQuery('topRated', 'query-topRated');
 
   clickSearchIcon();
-  const productName = 'DSC-N1';
   cy.get('cx-searchbox input').type(`${productName}{enter}`);
 
   cy.get(resultsTitle).should(
