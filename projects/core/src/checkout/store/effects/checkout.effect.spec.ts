@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -99,12 +98,8 @@ describe('Checkout effect', () => {
       ],
     });
 
-    entryEffects = TestBed.get(fromEffects.CheckoutEffects as Type<
-      fromEffects.CheckoutEffects
-    >);
-    checkoutConnector = TestBed.get(CheckoutConnector as Type<
-      CheckoutConnector
-    >);
+    entryEffects = TestBed.inject(fromEffects.CheckoutEffects);
+    checkoutConnector = TestBed.inject(CheckoutConnector);
 
     spyOn(checkoutConnector, 'placeOrder').and.returnValue(of(orderDetails));
   });

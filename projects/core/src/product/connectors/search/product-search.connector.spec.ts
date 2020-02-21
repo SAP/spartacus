@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { ProductSearchAdapter } from './product-search.adapter';
@@ -25,10 +24,8 @@ describe('ProductSearchConnector', () => {
         { provide: ProductSearchAdapter, useClass: MockProductSearchAdapter },
       ],
     });
-    service = TestBed.get(ProductSearchConnector as Type<
-      ProductSearchConnector
-    >);
-    adapter = TestBed.get(ProductSearchAdapter as Type<ProductSearchAdapter>);
+    service = TestBed.inject(ProductSearchConnector);
+    adapter = TestBed.inject(ProductSearchAdapter);
   });
 
   it('should be created', () => {

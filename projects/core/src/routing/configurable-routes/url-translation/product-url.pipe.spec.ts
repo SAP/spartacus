@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SemanticPathService } from './semantic-path.service';
 import { ProductURLPipe } from './product-url.pipe';
@@ -16,8 +15,8 @@ describe('ProductUrlPipe', () => {
         { provide: SemanticPathService, useValue: { transform: () => {} } },
       ],
     });
-    pipe = TestBed.get(ProductURLPipe as Type<ProductURLPipe>);
-    service = TestBed.get(SemanticPathService as Type<SemanticPathService>);
+    pipe = TestBed.inject(ProductURLPipe);
+    service = TestBed.inject(SemanticPathService);
   });
 
   describe('transform', () => {

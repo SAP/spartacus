@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Product } from '../../../../model/product.model';
 import { OccConfig } from '../../../config/occ-config';
@@ -39,7 +38,7 @@ describe('ProductNameNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(ProductNameNormalizer as Type<ProductNameNormalizer>);
+    service = TestBed.inject(ProductNameNormalizer);
   });
 
   it('should inject ProductNameNormalizer', inject(
