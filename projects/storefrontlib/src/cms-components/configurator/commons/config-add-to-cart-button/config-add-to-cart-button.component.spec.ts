@@ -27,6 +27,7 @@ const mockRouterState: any = {
       entityKey: PRODUCT_CODE,
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
+    queryParams: {},
   },
 };
 const navParamsOverview: any =
@@ -121,6 +122,7 @@ function performAddToCartOnOverview(
       entityKey: PRODUCT_CODE,
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
+    queryParams: {},
     url: URL_OVERVIEW,
   };
   classUnderTest.onAddToCart(productConfiguration, configuratorType);

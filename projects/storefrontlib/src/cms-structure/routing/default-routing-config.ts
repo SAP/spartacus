@@ -74,10 +74,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
 
   // configuration related routes
   configureCPQCONFIGURATOR: {
-    paths: [
-      'configureCPQCONFIGURATOR/:ownerType/entityKey/:entityKey/forceReload/:forceReload',
-      'configureCPQCONFIGURATOR/:ownerType/entityKey/:entityKey',
-    ],
+    paths: ['configureCPQCONFIGURATOR/:ownerType/entityKey/:entityKey'],
   },
   configureOverviewCPQCONFIGURATOR: {
     paths: ['configureOverviewCPQCONFIGURATOR/:ownerType/entityKey/:entityKey'],

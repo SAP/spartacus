@@ -35,6 +35,7 @@ const mockRouterState: any = {
       entityKey: PRODUCT_CODE,
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
+    queryParams: {},
   },
 };
 const owner: GenericConfigurator.Owner = {

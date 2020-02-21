@@ -17,6 +17,7 @@ const mockRouterState: any = {
     params: {
       rootProduct: PRODUCT_CODE,
     },
+    queryParams: {},
   },
 };
 

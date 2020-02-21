@@ -5,11 +5,11 @@
         cxRoute: 'configure' + cartEntry.product.configuratorType,
         params: {
           ownerType: ownerTypeCartEntry,
-          entityKey: cartEntry.entryNumber,
-          forceReload: true
+          entityKey: cartEntry.entryNumber
         }
       } | cxUrl
     "
+    [queryParams]="{ forceReload: true }"
     class=""
     cxAutoFocus
     >{{ 'configurator.header.editConfiguration' | cxTranslate }}</a
