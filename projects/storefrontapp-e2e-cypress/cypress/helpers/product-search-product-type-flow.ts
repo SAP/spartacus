@@ -11,12 +11,6 @@ import {
 export const resultsTitle = 'cx-breadcrumb h1';
 export const category = 'sony';
 
-const sonySearchResults = 130;
-const sonyBrandFilter = 85;
-const sonyPriceFilter = 16;
-const sonyCategoryFilter = 94;
-const sonyColorFilter = 7;
-
 export function productTypeFlow(mobile?: string) {
   cy.server();
 
@@ -110,11 +104,9 @@ export function productTypeFlow(mobile?: string) {
 
   clickFacet('Color');
 
-  cy.wait(`@${QUERY_ALIAS.COLOR_FILTER}`).then(console.log);
-
-  // cy.wait(`@${QUERY_ALIAS.COLOR_FILTER}`)
-  //   .its('status')
-  //   .should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.COLOR_FILTER}`)
+    .its('status')
+    .should('eq', 200);
 
   assertNumberOfProducts(`@${QUERY_ALIAS.COLOR_FILTER}`, `"${category}"`);
 

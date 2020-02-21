@@ -242,11 +242,7 @@ export function createProductFacetQuery(
   ).as(alias);
 }
 
-export function assertNumberOfProducts(
-  alias: string,
-  category: string,
-  productPerPage: number = PRODUCT_LISTING.PRODUCTS_PER_PAGE
-) {
+export function assertNumberOfProducts(alias: string, category: string) {
   cy.get(alias).should(xhr => {
     const paginationTotalresults = xhr.response.body.pagination.totalResults;
     const productLengthInPage = xhr.response.body.products.length;
