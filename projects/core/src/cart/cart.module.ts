@@ -10,7 +10,7 @@ import {
 } from './facade/index';
 import { MultiCartService } from './facade/multi-cart.service';
 import { CartPageMetaResolver } from './services/cart-page-meta.resolver';
-import { CartPersistanceService } from './services/cart-persistance.service';
+import { MultiCartPersistanceService } from './services/multi-cart-persistance.service';
 import { CartStoreModule } from './store/cart-store.module';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
 
@@ -42,10 +42,9 @@ export class CartModule {
         {
           provide: APP_INITIALIZER,
           useFactory: cartPersistanceFactory,
-          deps: [CartPersistanceService],
+          deps: [MultiCartPersistanceService],
           multi: true,
         },
-        CartPersistanceService,
       ],
     };
   }

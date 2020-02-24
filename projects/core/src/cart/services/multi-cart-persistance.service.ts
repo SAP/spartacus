@@ -9,7 +9,7 @@ import { StateWithMultiCart } from '../store/multi-cart-state';
 @Injectable({
   providedIn: 'root',
 })
-export class CartPersistanceService {
+export class MultiCartPersistanceService {
   constructor(
     protected persistanceService: PersistanceService,
     protected store: Store<StateWithMultiCart>
