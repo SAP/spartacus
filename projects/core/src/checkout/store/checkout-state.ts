@@ -11,8 +11,7 @@ export const SET_DELIVERY_MODE_PROCESS_ID = 'setDeliveryMode';
 export const SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID =
   'setSupportedDeliveryMode';
 export const SET_PAYMENT_DETAILS_PROCESS_ID = 'setPaymentDetails';
-export const GET_PAYMENT_TYPES_PROCESS_ID =
-  'getPaymentTypes';
+export const GET_PAYMENT_TYPES_PROCESS_ID = 'getPaymentTypes';
 
 export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
