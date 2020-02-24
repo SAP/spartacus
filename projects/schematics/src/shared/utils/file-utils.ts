@@ -1,8 +1,8 @@
 import { experimental, strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
-import { parseTsconfigFile } from '@angular/core/schematics/utils/typescript/parse_tsconfig';
 import {
+  findNode,
   findNodes,
   getSourceNodes,
   insertImport,
@@ -11,9 +11,10 @@ import {
 import {
   Change,
   InsertChange,
+  NoopChange,
+  RemoveChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
-import { dirname, relative } from 'path';
 import * as ts from 'typescript';
 
 export enum InsertDirection {
@@ -24,6 +25,13 @@ export enum InsertDirection {
 export interface ClassType {
   className: string;
   importPath: string;
+}
+
+export interface ConstructorDeprecation {
+  class: string;
+  deprecatedParams: ClassType[];
+  addParams?: ClassType[];
+  removeParams?: ClassType[];
 }
 
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
@@ -43,18 +51,17 @@ export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
 }
 
 export function getAllTsSourceFiles(
-  tsconfigPath: string,
   tree: Tree,
   basePath: string
 ): ts.SourceFile[] {
-  const parsed = parseTsconfigFile(tsconfigPath, dirname(tsconfigPath));
-  const host = createMigrationCompilerHost(tree, parsed.options, basePath);
-  const program = ts.createProgram(parsed.fileNames, parsed.options, host);
-  return program
-    .getSourceFiles()
-    .filter(
-      f => !f.isDeclarationFile && !program.isSourceFileFromExternalLibrary(f)
-    );
+  const results: string[] = [];
+  tree.getDir(basePath).visit(filePath => {
+    if (filePath.endsWith('.ts')) {
+      results.push(filePath);
+    }
+  });
+
+  return results.map(f => getTsSourceFile(tree, f));
 }
 
 export function getIndexHtmlPath(
@@ -117,6 +124,10 @@ export function commitChanges(
       } else {
         recorder.insertRight(pos, newText);
       }
+    } else if (change instanceof RemoveChange) {
+      const pos = change['pos'];
+      const length = change['toRemove'].length;
+      recorder.remove(pos, length);
     }
   });
   host.commitUpdate(recorder);
@@ -228,29 +239,21 @@ function checkConstructorParameters(
     return false;
   }
 
+  let paramTypeFound = true;
   for (let i = 0; i < parameterClassTypes.length; i++) {
-    const parameterClassType = parameterClassTypes[i];
     const constructorParameter = constructorParameters[i];
-
-    const constructorParameterTypeReferenceNode = constructorParameter
-      .getChildren()
-      .find(node => node.kind === ts.SyntaxKind.TypeReference);
-    if (!constructorParameterTypeReferenceNode) {
-      return false;
-    }
-    const constructorParameterType = findLevel1NodesByTextAndKind(
-      constructorParameterTypeReferenceNode.getChildren(),
-      parameterClassType.className,
+    const constructorParameterType = findNodes(
+      constructorParameter,
       ts.SyntaxKind.Identifier
-    );
+    ).filter(node => node.getText() === parameterClassTypes[i].className);
 
-    // return false if there's no param with the expected type on the current position
     if (constructorParameterType.length === 0) {
-      return false;
+      paramTypeFound = false;
+      break;
     }
   }
 
-  return true;
+  return paramTypeFound;
 }
 
 function checkSuper(
@@ -325,6 +328,200 @@ export function addConstructorParam(
   return changes;
 }
 
+export function removeConstructorParam(
+  source: ts.SourceFile,
+  sourcePath: string,
+  constructorNode: ts.Node | undefined,
+  paramToRemove: ClassType
+): Change[] {
+  if (!constructorNode) {
+    throw new SchematicsException(`No constructor found in ${sourcePath}.`);
+  }
+
+  const importRemovalChange = removeImport(source, sourcePath, paramToRemove);
+  const constructorParamRemovalChange = removeConstructorParamInternal(
+    sourcePath,
+    constructorNode,
+    paramToRemove
+  );
+  const superRemoval = removeParamFromSuper(
+    sourcePath,
+    constructorNode,
+    constructorParamRemovalChange.paramName
+  );
+
+  return [
+    importRemovalChange,
+    ...constructorParamRemovalChange.changes,
+    ...superRemoval,
+  ];
+}
+
+function removeImport(
+  source: ts.SourceFile,
+  sourcePath: string,
+  importToRemove: ClassType
+): Change {
+  const importDeclarationNode = getImportDeclarationNode(
+    source,
+    importToRemove
+  );
+  if (!importDeclarationNode) {
+    return new NoopChange();
+  }
+
+  let position: number;
+  let toRemove = importToRemove.className;
+  const importSpecifierNodes = findNodes(
+    importDeclarationNode,
+    ts.SyntaxKind.ImportSpecifier
+  );
+  if (importSpecifierNodes.length === 1) {
+    // delete the whole import line
+    position = importDeclarationNode.getStart();
+    toRemove = importDeclarationNode.getText();
+  } else {
+    // delete only the specified import, and leave the rest
+    const importSpecifier = importSpecifierNodes
+      .map((node, i) => {
+        const importNode = findNode(
+          node,
+          ts.SyntaxKind.Identifier,
+          importToRemove.className
+        );
+        return {
+          importNode,
+          i,
+        };
+      })
+      .filter(result => result.importNode)[0];
+
+    if (!importSpecifier.importNode) {
+      return new NoopChange();
+    }
+
+    // in case the import that needs to be removed is in the middle, we need to remove the ',' that follows the found import
+    if (importSpecifier.i !== importSpecifierNodes.length - 1) {
+      toRemove += ',';
+    }
+
+    position = importSpecifier.importNode.getStart();
+  }
+  return new RemoveChange(sourcePath, position, toRemove);
+}
+
+function getImportDeclarationNode(
+  source: ts.SourceFile,
+  importToCheck: ClassType
+): ts.Node | undefined {
+  const nodes = getSourceNodes(source);
+
+  // collect al the import declarations
+  const importDeclarationNodes = nodes
+    .filter(node => node.kind === ts.SyntaxKind.ImportDeclaration)
+    .filter(node =>
+      (node as ts.ImportDeclaration).moduleSpecifier
+        .getText()
+        .includes(importToCheck.importPath)
+    );
+  if (importDeclarationNodes.length === 0) {
+    return undefined;
+  }
+
+  // find the one that contains the specified `importToCheck.className`
+  let importDeclarationNode = importDeclarationNodes[0];
+  for (const currentImportDeclaration of importDeclarationNodes) {
+    const importIdentifiers = findNodes(
+      currentImportDeclaration,
+      ts.SyntaxKind.Identifier
+    );
+    const found = importIdentifiers.find(
+      node => node.getText() === importToCheck.className
+    );
+    if (found) {
+      importDeclarationNode = currentImportDeclaration;
+      break;
+    }
+  }
+
+  return importDeclarationNode;
+}
+
+function removeConstructorParamInternal(
+  sourcePath: string,
+  constructorNode: ts.Node,
+  importToRemove: ClassType
+): { changes: Change[]; paramName: string } {
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Parameter
+  );
+
+  for (let i = 0; i < constructorParameters.length; i++) {
+    const constructorParameter = constructorParameters[i];
+    if (constructorParameter.getText().includes(importToRemove.className)) {
+      const changes: RemoveChange[] = [];
+      // if it's not the first parameter that should be removed, we should remove the comma after the previous parameter
+      if (i !== 0) {
+        const previousParameter = constructorParameters[i - 1];
+        changes.push(new RemoveChange(sourcePath, previousParameter.end, ','));
+      }
+
+      changes.push(
+        new RemoveChange(
+          sourcePath,
+          constructorParameter.getStart(),
+          constructorParameter.getText()
+        )
+      );
+
+      const paramVariableNode = constructorParameter
+        .getChildren()
+        .find(node => node.kind === ts.SyntaxKind.Identifier);
+      const paramName = paramVariableNode ? paramVariableNode.getText() : '';
+      return { changes, paramName };
+    }
+  }
+  return { changes: [new NoopChange()], paramName: '' };
+}
+
+function removeParamFromSuper(
+  sourcePath: string,
+  constructorNode: ts.Node,
+  paramName: string
+): Change[] {
+  const callExpressions = findNodes(
+    constructorNode,
+    ts.SyntaxKind.CallExpression
+  );
+  if (callExpressions.length === 0) {
+    throw new SchematicsException('No super() call found.');
+  }
+
+  const changes: Change[] = [];
+
+  // `super()` has to be the first expression in constructor
+  const firstCallExpression = callExpressions[0];
+  const params = findNodes(firstCallExpression, ts.SyntaxKind.Identifier);
+  const commas = findNodes(firstCallExpression, ts.SyntaxKind.CommaToken);
+  for (let i = 0; i < params.length; i++) {
+    const param = params[i];
+
+    if (param.getText() === paramName) {
+      if (i !== 0) {
+        const previousCommaPosition = commas[i - 1].getStart();
+        changes.push(new RemoveChange(sourcePath, previousCommaPosition, ','));
+      }
+
+      changes.push(new RemoveChange(sourcePath, param.getStart(), paramName));
+
+      break;
+    }
+  }
+
+  return changes;
+}
+
 function updateConstructorSuperNode(
   sourcePath: string,
   constructorNode: ts.Node,
@@ -351,7 +548,6 @@ function updateConstructorSuperNode(
 
   let toInsert = '';
   let position: number;
-
   const params = findNodes(firstCallExpression, ts.SyntaxKind.Identifier);
   // just an empty super() call, without any params passed to it
   if (params.length === 0) {
@@ -506,31 +702,4 @@ export function getMetadataProperty(
     })[0];
 
   return property as ts.PropertyAssignment;
-}
-
-// copied from https://github.com/angular/angular/blob/master/packages/core/schematics/utils/typescript/compiler_host.ts#L12, no need to test angular's code
-export function createMigrationCompilerHost(
-  tree: Tree,
-  options: ts.CompilerOptions,
-  basePath: string,
-  fakeRead?: (fileName: string) => string | null
-): ts.CompilerHost {
-  const host = ts.createCompilerHost(options, true);
-
-  // We need to overwrite the host "readFile" method, as we want the TypeScript
-  // program to be based on the file contents in the virtual file tree. Otherwise
-  // if we run multiple migrations we might have intersecting changes and
-  // source files.
-  host.readFile = fileName => {
-    const treeRelativePath = relative(basePath, fileName);
-    const fakeOutput = fakeRead ? fakeRead(treeRelativePath) : null;
-    const buffer =
-      fakeOutput === null ? tree.read(treeRelativePath) : fakeOutput;
-    // Strip BOM as otherwise TSC methods (Ex: getWidth) will return an offset,
-    // which breaks the CLI UpdateRecorder.
-    // See: https://github.com/angular/angular/pull/30719
-    return buffer ? buffer.toString().replace(/^\uFEFF/, '') : undefined;
-  };
-
-  return host;
 }

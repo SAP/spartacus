@@ -6,8 +6,8 @@ import {
   isImported,
 } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
+import * as ts from 'typescript';
 import { commitChanges, getTsSourceFile, InsertDirection } from './file-utils';
-import ts = require('typescript');
 
 export function stripTsFromImport(importPath: string): string {
   if (!importPath.endsWith('.ts')) {
