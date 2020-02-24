@@ -20,6 +20,7 @@
     (click)="toggleOpen($event)"
     (mouseenter)="onMouseEnter($event)"
     (keydown.space)="toggleOpen($event)"
+    (keydown.esc)="back($event)"
   >
     <cx-generic-link
       *ngIf="
