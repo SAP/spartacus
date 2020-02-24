@@ -1,0 +1,5 @@
+@import '../organization-form';
+
+%cx-cost-center-details {
+  @extend %cx-organization-form;
+}
