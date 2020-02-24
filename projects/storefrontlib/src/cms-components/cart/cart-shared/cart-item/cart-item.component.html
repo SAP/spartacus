@@ -82,7 +82,11 @@
         <div class="cx-value">
           <cx-item-counter
             [control]="quantityControl"
-            [readonly]="!item.updateable || readonly"
+            [readonly]="
+              !item.updateable ||
+              readonly ||
+              (isSaveForLaterEnabled() && options.isSaveForLater)
+            "
             [max]="item.product.stock?.stockLevel || 1000"
             [allowZero]="true"
           >

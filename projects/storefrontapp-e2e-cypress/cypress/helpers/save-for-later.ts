@@ -218,6 +218,7 @@ export function verifyPlaceOrder() {
   addProductToCart(products[1]);
   moveItem(products[0], ItemList.SaveForLater);
   validateCart(1, 1);
+  cy.wait(1000);
   cartCoupon.placeOrder(stateAuth);
   cy.reload();
   validateCart(0, 1);
