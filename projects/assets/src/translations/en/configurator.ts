@@ -32,7 +32,7 @@ export const configurator = {
     addToCart: {
       button: 'Add to Cart',
       buttonAfterAddToCart: 'Continue to Cart',
-      buttonUpdateCart: 'Update Cart',
+      buttonUpdateCart: 'Done',
       confirmation: 'Configuration has been added to the cart',
       confirmationUpdate: 'Cart has been updated with configuration',
     },
