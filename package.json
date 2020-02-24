@@ -85,7 +85,7 @@
     "test:cds:lib": "ng test cds --code-coverage",
     "dev:cds:ssr": "ng run storefrontapp-cds-integration:serve-ssr",
     "serve:cds:ssr": "node dist/storefrontapp-cds-integration-server/main.js",
-    "build:cds:ssr": "ng build --prod && ng run storefrontapp-cds-integration:server:production",
+    "build:cds:ssr": "ng build storefrontapp-cds-integration --prod && ng run storefrontapp-cds-integration:server:production",
     "prerender:cds": "ng run storefrontapp-cds-integration:prerender",
     "release:cds:with-changelog": "cd projects/cds && release-it && cd ../..",
     "release-notes:cds": "ts-node ./scripts/changelog.ts --verbose --lib cds"

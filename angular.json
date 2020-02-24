@@ -612,6 +612,7 @@
           "options": {
             "outputPath": "dist/storefrontapp-cds-integration-server",
             "main": "projects/storefrontapp-cds-integration/server.ts",
+            "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.server.json"
           },
           "configurations": {
             "production": {
@@ -624,11 +625,8 @@
               ],
               "sourceMap": false,
               "optimization": true,
-              "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.server.json"
+              "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.server.prod.json"
             },
-            "development": {
-              "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.server.dev.json"
-            }
           }
         },
         "serve-ssr": {
