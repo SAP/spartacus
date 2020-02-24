@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import {
   GlobalMessageService,
@@ -34,13 +33,9 @@ describe('AddToHomeScreenService', () => {
       ],
     });
 
-    addToHomeService = TestBed.get(AddToHomeScreenService as Type<
-      AddToHomeScreenService
-    >);
-    winRef = TestBed.get(WindowRef as Type<WindowRef>);
-    globalMessageService = TestBed.get(GlobalMessageService as Type<
-      GlobalMessageService
-    >);
+    addToHomeService = TestBed.inject(AddToHomeScreenService);
+    winRef = TestBed.inject(WindowRef);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should inject AddToHomeScreenService', inject(

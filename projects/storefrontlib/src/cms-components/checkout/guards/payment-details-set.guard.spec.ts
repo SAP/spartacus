@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Order, RoutesConfig, RoutingConfigService } from '@spartacus/core';
@@ -36,7 +35,7 @@ class MockCheckoutConfigService {
 
 describe(`PaymentDetailsSetGuard`, () => {
   let guard: PaymentDetailsSetGuard;
-  let mockCheckoutDetailsService: MockCheckoutDetailsService;
+  let mockCheckoutDetailsService: CheckoutDetailsService;
   let mockCheckoutConfig: CheckoutConfig;
   let mockRoutingConfigService: RoutingConfigService;
   let mockCheckoutConfigService: CheckoutConfigService;
@@ -55,17 +54,11 @@ describe(`PaymentDetailsSetGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(PaymentDetailsSetGuard as Type<PaymentDetailsSetGuard>);
-    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService as Type<
-      CheckoutDetailsService
-    >);
-    mockCheckoutConfig = TestBed.get(CheckoutConfig as Type<CheckoutConfig>);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
-      RoutingConfigService
-    >);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService as Type<
-      CheckoutConfigService
-    >);
+    guard = TestBed.inject(PaymentDetailsSetGuard);
+    mockCheckoutDetailsService = TestBed.inject(CheckoutDetailsService);
+    mockCheckoutConfig = TestBed.inject(CheckoutConfig);
+    mockRoutingConfigService = TestBed.inject(RoutingConfigService);
+    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
   });
 
   describe(`when there is NO payment details present`, () => {

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement, Type } from '@angular/core';
+import { DebugElement } from '@angular/core';
 
 import {
   Address,
@@ -67,12 +67,8 @@ describe('AddressCardComponent', () => {
     fixture = TestBed.createComponent(AddressCardComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    userAddressService = TestBed.get(UserAddressService as Type<
-      UserAddressService
-    >);
-    checkoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
+    userAddressService = TestBed.inject(UserAddressService);
+    checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
     fixture.detectChanges();
   });
 
