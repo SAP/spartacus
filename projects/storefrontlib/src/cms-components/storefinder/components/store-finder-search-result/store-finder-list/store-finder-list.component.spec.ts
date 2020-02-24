@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NO_ERRORS_SCHEMA, Type } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -64,10 +64,8 @@ describe('StoreFinderDisplayListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListComponent);
     component = fixture.componentInstance;
-    storeDataService = TestBed.get(StoreDataService as Type<StoreDataService>);
-    googleMapRendererService = TestBed.get(GoogleMapRendererService as Type<
-      GoogleMapRendererService
-    >);
+    storeDataService = TestBed.inject(StoreDataService);
+    googleMapRendererService = TestBed.inject(GoogleMapRendererService);
 
     spyOn(storeDataService, 'getStoreLatitude');
     spyOn(storeDataService, 'getStoreLongitude');

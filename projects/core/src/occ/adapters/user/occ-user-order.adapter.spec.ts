@@ -3,7 +3,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 import { FeatureConfigService } from '../../../features-config/index';
@@ -17,9 +16,9 @@ import {
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
   ORDER_HISTORY_NORMALIZER,
-  ORDER_RETURNS_NORMALIZER,
   ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
+  ORDER_RETURNS_NORMALIZER,
 } from '../../../user/connectors/order/converters';
 import { ConverterService } from '../../../util/index';
 import { OccConfig } from '../../config/occ-config';
@@ -72,19 +71,11 @@ describe('OccUserOrderAdapter', () => {
       ],
     });
 
-    occUserOrderAdapter = TestBed.get(OccUserOrderAdapter as Type<
-      OccUserOrderAdapter
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
-    featureConfigService = TestBed.get(FeatureConfigService as Type<
-      FeatureConfigService
-    >);
+    occUserOrderAdapter = TestBed.inject(OccUserOrderAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();

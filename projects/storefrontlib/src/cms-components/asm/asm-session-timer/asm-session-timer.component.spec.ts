@@ -76,10 +76,10 @@ describe('AsmSessionTimerComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmSessionTimerComponent);
-    config = TestBed.get(AsmConfig);
-    asmComponentService = TestBed.get(AsmComponentService);
-    routingService = TestBed.get(RoutingService);
-    authService = TestBed.get(AuthService);
+    config = TestBed.inject(AsmConfig);
+    asmComponentService = TestBed.inject(AsmComponentService);
+    routingService = TestBed.inject(RoutingService);
+    authService = TestBed.inject(AuthService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

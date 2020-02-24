@@ -1,10 +1,10 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import * as operators from 'rxjs/operators';
+import * as utils from '../../../util/compare-equal-objects';
 import { defaultGlobalMessageConfigFactory } from '../../config/default-global-message-config';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import {
@@ -17,7 +17,6 @@ import {
   GLOBAL_MESSAGE_FEATURE,
   StateWithGlobalMessage,
 } from '../global-message-state';
-import * as utils from '../../../util/compare-equal-objects';
 
 function spyOnOperator(obj: any, prop: string): any {
   const oldProp: Function = obj[prop];
@@ -43,6 +42,12 @@ const message2: GlobalMessage = {
 const errorMessage: GlobalMessage = {
   text: { key: 'error' },
   type: GlobalMessageType.MSG_TYPE_ERROR,
+};
+
+const messageWithDuration: GlobalMessage = {
+  text: { raw: 'Test message' },
+  type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+  timeout: 10000,
 };
 
 describe('GlobalMessage Effects', () => {
@@ -71,10 +76,8 @@ describe('GlobalMessage Effects', () => {
         },
       ],
     });
-    effects = TestBed.get(fromEffects.GlobalMessageEffect as Type<
-      fromEffects.GlobalMessageEffect
-    >);
-    config = TestBed.get(GlobalMessageConfig as Type<GlobalMessageConfig>);
+    effects = TestBed.inject(fromEffects.GlobalMessageEffect);
+    config = TestBed.inject(GlobalMessageConfig);
   });
 
   describe('hideAfterDelay$', () => {
@@ -119,6 +122,22 @@ describe('GlobalMessage Effects', () => {
       ]);
     });
   });
+
+  it('should hide message after duration defined in message model', () => {
+    spyOnOperator(operators, 'delay').and.returnValue(data => data);
+
+    const action = new GlobalMessageActions.AddMessage(messageWithDuration);
+    const completion = new GlobalMessageActions.RemoveMessage({
+      type: message.type,
+      index: 0,
+    });
+
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-b', { b: completion });
+    expect(effects.hideAfterDelay$).toBeObservable(expected);
+    expect(operators.delay).toHaveBeenCalledWith(messageWithDuration.timeout);
+  });
+
   describe('removeDuplicated$', () => {
     it('should not remove message if there is only one', () => {
       spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(1);

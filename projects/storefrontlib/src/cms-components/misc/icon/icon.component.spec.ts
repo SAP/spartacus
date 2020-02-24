@@ -1,4 +1,4 @@
-import { Component, DebugElement, Type } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IconLoaderService } from './icon-loader.service';
@@ -45,7 +45,7 @@ describe('IconComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(IconComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(IconLoaderService as Type<IconLoaderService>);
+    service = TestBed.inject(IconLoaderService);
     spyOn(service, 'addLinkResource').and.callThrough();
   });
 
@@ -140,7 +140,7 @@ describe('host icon components', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MockIconTestComponent);
     hostComponent = fixture.componentInstance;
-    service = TestBed.get(IconLoaderService as Type<IconLoaderService>);
+    service = TestBed.inject(IconLoaderService);
   });
 
   it('should be created', () => {

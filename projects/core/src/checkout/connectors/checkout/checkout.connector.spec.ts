@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { take } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
@@ -37,8 +36,8 @@ describe('OrderConnector', () => {
       providers: [{ provide: CheckoutAdapter, useClass: MockOrderAdapter }],
     });
 
-    service = TestBed.get(CheckoutConnector as Type<CheckoutConnector>);
-    adapter = TestBed.get(CheckoutAdapter as Type<CheckoutAdapter>);
+    service = TestBed.inject(CheckoutConnector);
+    adapter = TestBed.inject(CheckoutAdapter);
   });
 
   it('should be created', () => {

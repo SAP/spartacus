@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
@@ -60,8 +59,8 @@ describe('IconLoaderService', () => {
       providers: [{ provide: IconConfig, useValue: MockFontIconConfig }],
     });
 
-    service = TestBed.get(IconLoaderService as Type<IconLoaderService>);
-    winRef = TestBed.get(WindowRef as Type<WindowRef>);
+    service = TestBed.inject(IconLoaderService);
+    winRef = TestBed.inject(WindowRef);
   });
 
   it('should inject service', () => {

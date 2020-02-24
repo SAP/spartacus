@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -6,7 +6,6 @@ import { I18nTestingModule, Order, OrderEntry } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.component';
-
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -74,7 +73,7 @@ describe('CancelOrderConfirmationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CancelOrderConfirmationComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(OrderAmendService as Type<OrderAmendService>);
+    service = TestBed.inject(OrderAmendService);
   });
 
   it('should create', () => {

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   Event as NgRouterEvent,
@@ -63,9 +62,7 @@ describe('SpartacusEventTracker', () => {
         },
       ],
     });
-    spartacusEventTracker = TestBed.get(SpartacusEventService as Type<
-      SpartacusEventService
-    >);
+    spartacusEventTracker = TestBed.inject(SpartacusEventService);
   });
 
   it('should be created', () => {
