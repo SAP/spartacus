@@ -8,7 +8,7 @@ import { UrlMatchResult, UrlSegment } from '@angular/router';
  * @param precedingParamName name of the parameter for every preceding url segment
  *        i.e. `param` will result in `param0`, `param1`, ...
  */
-export function createSuffixUrlMatcher({
+export function getSuffixUrlMatcher({
   marker,
   paramName,
   precedingParamName,

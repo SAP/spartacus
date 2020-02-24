@@ -1,15 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  ConfigModule,
-  DEFAULT_URL_MATCHER_FACTORY,
-  RoutingConfig,
-} from '@spartacus/core';
-import {
-  CmsPageGuard,
-  PageLayoutComponent,
-  PLP_SUFFIX_URL_MATCHER_FACTORY,
-} from '../../cms-structure/index';
+import { ConfigModule, RoutingConfig } from '@spartacus/core';
+import { CmsPageGuard, PageLayoutComponent } from '../../cms-structure/index';
+import { PRODUCT_LISTING_URL_MATCHER_FACTORY } from './product-listing-url-matcher-factory';
 
 @NgModule({
   imports: [
@@ -39,10 +32,7 @@ import {
       routing: {
         routes: {
           category: {
-            matchers: [
-              DEFAULT_URL_MATCHER_FACTORY,
-              PLP_SUFFIX_URL_MATCHER_FACTORY,
-            ],
+            matchers: [PRODUCT_LISTING_URL_MATCHER_FACTORY],
           },
         },
       },

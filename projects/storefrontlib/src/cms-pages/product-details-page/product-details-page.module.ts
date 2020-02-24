@@ -1,13 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  ConfigModule,
-  DEFAULT_URL_MATCHER_FACTORY,
-  RoutingConfig,
-} from '@spartacus/core';
+import { ConfigModule, RoutingConfig } from '@spartacus/core';
 import { CmsPageGuard } from '../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
-import { PDP_SUFFIX_URL_MATCHER_FACTORY } from '../../cms-structure/routing/suffix-routes/suffix-url-matchers';
+import { PRODUCT_DETAILS_URL_MATCHER_FACTORY } from './product-details-url-matcher-factory';
 
 @NgModule({
   imports: [
@@ -23,10 +19,7 @@ import { PDP_SUFFIX_URL_MATCHER_FACTORY } from '../../cms-structure/routing/suff
       routing: {
         routes: {
           product: {
-            matchers: [
-              DEFAULT_URL_MATCHER_FACTORY,
-              PDP_SUFFIX_URL_MATCHER_FACTORY,
-            ],
+            matchers: [PRODUCT_DETAILS_URL_MATCHER_FACTORY],
           },
         },
       },
