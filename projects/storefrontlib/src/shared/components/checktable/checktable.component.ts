@@ -22,6 +22,6 @@ export class ChecktableComponent {
   selectedValues: Array<any>;
 
   onToggle(event, row) {
-    this.toggle.emit({ value: event.target.value, row });
+    this.toggle.emit({ value: event.target.checked, row });
   }
 }
