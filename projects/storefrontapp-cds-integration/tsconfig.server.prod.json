@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.app.json",
+  "extends": "./tsconfig.server.json",
   "compilerOptions": {
     "paths": {
       "@spartacus/core": ["../../dist/core"],
