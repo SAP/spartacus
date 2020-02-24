@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -53,7 +53,7 @@ class MockHighlightPipe implements PipeTransform {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -61,7 +61,7 @@ export class MockCxIconComponent {
   selector: 'cx-media',
   template: '<img>',
 })
-export class MockMediaComponent {
+class MockMediaComponent {
   @Input() container;
   @Input() format;
   @Input() alt;
@@ -124,9 +124,7 @@ describe('SearchBoxComponent', () => {
 
   describe('Default config', () => {
     beforeEach(() => {
-      cmsComponentData = TestBed.get(CmsComponentData as Type<
-        CmsComponentData<CmsSearchBoxComponent>
-      >);
+      cmsComponentData = TestBed.inject(CmsComponentData);
 
       spyOnProperty(cmsComponentData, 'data$').and.returnValue(
         of(mockSearchBoxComponentData)
@@ -246,9 +244,7 @@ describe('SearchBoxComponent', () => {
   describe('Searchbox config ', () => {
     describe('displayProductImages=false', () => {
       beforeEach(() => {
-        cmsComponentData = TestBed.get(CmsComponentData as Type<
-          CmsComponentData<CmsSearchBoxComponent>
-        >);
+        cmsComponentData = TestBed.inject(CmsComponentData);
 
         spyOnProperty(cmsComponentData, 'data$').and.returnValue(
           of({
@@ -283,9 +279,7 @@ describe('SearchBoxComponent', () => {
 
     describe('displaySuggestions=false', () => {
       beforeEach(() => {
-        cmsComponentData = TestBed.get(CmsComponentData as Type<
-          CmsComponentData<CmsSearchBoxComponent>
-        >);
+        cmsComponentData = TestBed.inject(CmsComponentData);
 
         spyOnProperty(cmsComponentData, 'data$').and.returnValue(
           of({

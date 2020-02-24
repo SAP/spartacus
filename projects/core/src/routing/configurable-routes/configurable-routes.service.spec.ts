@@ -1,5 +1,5 @@
 import * as AngularCore from '@angular/core';
-import { InjectionToken, Type } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Route, Router, Routes, UrlMatcher } from '@angular/router';
 import { UrlMatcherService } from '../services/url-matcher.service';
@@ -61,14 +61,10 @@ describe('ConfigurableRoutesService', () => {
       ],
     });
 
-    service = TestBed.get(ConfigurableRoutesService as Type<
-      ConfigurableRoutesService
-    >);
+    service = TestBed.inject(ConfigurableRoutesService);
     urlMatcherService = TestBed.inject(UrlMatcherService);
-    router = TestBed.get(Router as Type<Router>);
-    routingConfigService = TestBed.get(RoutingConfigService as Type<
-      RoutingConfigService
-    >);
+    router = TestBed.inject(Router);
+    routingConfigService = TestBed.inject(RoutingConfigService);
 
     router.config = [];
   });

@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -91,9 +90,7 @@ describe('Cart effect', () => {
       ],
     });
 
-    cartEffects = TestBed.get(fromEffects.CartEffects as Type<
-      fromEffects.CartEffects
-    >);
+    cartEffects = TestBed.inject(fromEffects.CartEffects);
   });
 
   describe('loadCart$', () => {

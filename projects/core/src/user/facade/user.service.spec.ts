@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -41,9 +40,9 @@ describe('UserService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(UserService as Type<UserService>);
+    service = TestBed.inject(UserService);
   });
 
   it('should UserService is injected', inject(
@@ -91,7 +90,7 @@ describe('UserService', () => {
     });
 
     it('should not load anonymous user details', () => {
-      const authService = TestBed.get(AuthService as Type<AuthService>);
+      const authService = TestBed.inject(AuthService);
       spyOn(authService, 'getOccUserId').and.returnValue(
         of(OCC_USER_ID_ANONYMOUS)
       );

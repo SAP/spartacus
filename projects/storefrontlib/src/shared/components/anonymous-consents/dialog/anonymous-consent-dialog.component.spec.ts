@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AnonymousConsent,
@@ -24,7 +24,7 @@ class MockCxSpinnerComponent {}
   selector: 'cx-icon',
   template: ``,
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type: string;
 }
 
@@ -32,7 +32,7 @@ export class MockCxIconComponent {
   selector: 'cx-consent-management-form',
   template: ``,
 })
-export class MockConsentManagementFormComponent {
+class MockConsentManagementFormComponent {
   @Input()
   consentTemplate: ConsentTemplate;
   @Input()
@@ -115,13 +115,9 @@ describe('AnonymousConsentsDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AnonymousConsentDialogComponent);
     component = fixture.componentInstance;
-    anonymousConsentsService = TestBed.inject(AnonymousConsentsService as Type<
-      AnonymousConsentsService
-    >);
-    modalService = TestBed.inject(ModalService as Type<ModalService>);
-    anonymousConsentsConfig = TestBed.inject(AnonymousConsentsConfig as Type<
-      AnonymousConsentsConfig
-    >);
+    anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
+    modalService = TestBed.inject(ModalService);
+    anonymousConsentsConfig = TestBed.inject(AnonymousConsentsConfig);
 
     fixture.detectChanges();
   });

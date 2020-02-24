@@ -32,7 +32,7 @@ const testText = 'test text';
     <div id="debugEl1">${testText}</div>
   `,
 })
-export class TestComponent {
+class TestComponent {
   constructor(
     public cmsData: CmsComponentData<CmsComponent>,
     @Inject('testService') public testService
@@ -44,7 +44,7 @@ export class TestComponent {
   entryComponents: [TestComponent],
   exports: [TestComponent],
 })
-export class TestModule {}
+class TestModule {}
 
 const MockCmsModuleConfig: CmsConfig = {
   cmsComponents: {
@@ -129,8 +129,8 @@ describe('ComponentWrapperDirective', () => {
         fixture = TestBed.createComponent(TestWrapperComponent as Type<
           TestWrapperComponent
         >);
-        cmsService = TestBed.get(CmsService as Type<CmsService>);
-        cmsConfig = TestBed.get(CmsConfig as Type<CmsConfig>);
+        cmsService = TestBed.inject(CmsService);
+        cmsConfig = TestBed.inject(CmsConfig);
       });
 
       it('should instantiate the found component if it was enabled for SSR', () => {
@@ -159,10 +159,8 @@ describe('ComponentWrapperDirective', () => {
     describe('with angular component', () => {
       beforeEach(() => {
         fixture = TestBed.createComponent(TestWrapperComponent);
-        cmsService = TestBed.get(CmsService as Type<CmsService>);
-        dynamicAttributeService = TestBed.get(DynamicAttributeService as Type<
-          DynamicAttributeService
-        >);
+        cmsService = TestBed.inject(CmsService);
+        dynamicAttributeService = TestBed.inject(DynamicAttributeService);
         renderer = fixture.componentRef.injector.get<Renderer2>(
           Renderer2 as any
         );
@@ -243,7 +241,7 @@ describe('ComponentWrapperDirective', () => {
       let scriptEl;
 
       beforeEach(() => {
-        const cmsMapping = TestBed.get(CmsConfig as Type<CmsConfig>);
+        const cmsMapping = TestBed.inject(CmsConfig);
         cmsMapping.cmsComponents.CMSTestComponent.component =
           'path/to/file.js#cms-component';
         fixture = TestBed.createComponent(TestWrapperComponent);

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Breadcrumb } from '@spartacus/core';
 import { MerchandisingFacet } from '../model/merchandising-facet.model';
@@ -34,9 +33,7 @@ describe('MerchandisingFacetNormalizer', () => {
       providers: [MerchandisingFacetNormalizer],
     });
 
-    facetNormalizer = TestBed.get(MerchandisingFacetNormalizer as Type<
-      MerchandisingFacetNormalizer
-    >);
+    facetNormalizer = TestBed.inject(MerchandisingFacetNormalizer);
   });
 
   it('should be created', () => {
