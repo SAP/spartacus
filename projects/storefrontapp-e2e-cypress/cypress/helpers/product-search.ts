@@ -18,11 +18,14 @@ export const QUERY_ALIAS = {
   SONY_CLEAR_FACET: 'sony_query_clear_facet',
   PRICE_ASC_FILTER: 'price_query_asc_filter',
   PRICE_DSC_FILTER: 'price_query_dsc_filter',
+  NAME_DSC_FILTER: 'name_query_dsc_filter',
   CATEGORY_FILTER: 'category_query_filter',
+  STORE_FILTER: 'store_query_filter',
   COLOR_FILTER: 'color_query_filter',
   TOP_RATED_FILTER: 'topRated_query_filter',
   SONY: 'sony_query',
   DSC_N1: 'dsc_n1_query',
+  CANON: 'canon',
 };
 
 export function clickSearchIcon() {
@@ -203,7 +206,33 @@ export function sortByTopRated() {
 export function checkFirstItem(productName: string): void {
   cy.get('cx-product-list-item .cx-product-name')
     .first()
-    .should('contain', productName);
+    .then(firstProductName => {
+      const clearHTMLProductName = productName.replace(/<(.|\n)*?>/g, '');
+      cy.wrap(firstProductName).should('contain', clearHTMLProductName);
+    });
+}
+
+export function clickFacet(header: string) {
+  cy.get('.cx-facet-header')
+    .contains(header)
+    .parents('.cx-facet-group')
+    .within(() => {
+      cy.get('.cx-facet-checkbox')
+        .first()
+        .click({ force: true });
+    });
+}
+
+export function clearSelectedFacet(mobile: string) {
+  if (mobile) {
+    cy.get(
+      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
+    ).click({ force: true });
+  } else {
+    cy.get(
+      'cx-product-facet-navigation .cx-facet-filter-container .cx-facet-filter-pill .close:first'
+    ).click({ force: true });
+  }
 }
 
 function createCameraQuery(alias: string): void {
@@ -236,7 +265,6 @@ export function createProductQuery(
 export function createProductFacetQuery(
   param: string,
   search: string,
-
   alias: string
 ): void {
   cy.route(
@@ -246,9 +274,11 @@ export function createProductFacetQuery(
 }
 
 export function assertNumberOfProducts(alias: string, category: string) {
-  cy.get(alias).should(xhr => {
-    const paginationTotalresults = xhr.response.body.pagination.totalResults;
-    const productLengthInPage = xhr.response.body.products.length;
+  cy.get(alias).then(xhr => {
+    const body = xhr.response.body;
+    const paginationTotalresults: number = body.pagination.totalResults;
+    const productLengthInPage: number = body.products.length;
+    const firstProduct = body.products[0].name;
 
     cy.get('cx-breadcrumb h1').should(
       'contain',
@@ -256,6 +286,8 @@ export function assertNumberOfProducts(alias: string, category: string) {
     );
 
     cy.get(productItemSelector).should('have.length', productLengthInPage);
+
+    checkFirstItem(firstProduct);
   });
 }
 

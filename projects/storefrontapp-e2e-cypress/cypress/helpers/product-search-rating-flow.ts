@@ -2,6 +2,8 @@ import { PRODUCT_LISTING } from './data-configuration';
 import {
   assertFirstProduct,
   assertNumberOfProducts,
+  clearSelectedFacet,
+  clickFacet,
   clickSearchIcon,
   createProductQuery,
   createProductSortQuery,
@@ -57,14 +59,7 @@ export function productRatingFlow(mobile?: string) {
   assertFirstProduct();
 
   // Filter by category
-  cy.get('.cx-facet-header')
-    .contains('Category')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
-    });
+  clickFacet('Category');
 
   cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
     .its('status')
@@ -77,15 +72,7 @@ export function productRatingFlow(mobile?: string) {
 
   assertFirstProduct();
 
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
-  }
+  clearSelectedFacet(mobile);
 
   cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
     .its('status')
