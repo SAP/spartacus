@@ -1,1 +1,1 @@
-export * from './suffix-url-matchers';
+export { getSuffixUrlMatcher } from './get-suffix-url-matcher';

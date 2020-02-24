@@ -5,7 +5,22 @@ import {
   UrlMatcherFactory,
   UrlMatcherService,
 } from '@spartacus/core';
-import { getSuffixUrlMatcher } from '../../cms-structure/routing/suffix-routes/create-suffix-url-matcher';
+import { getSuffixUrlMatcher } from '../../cms-structure/routing/suffix-routes/get-suffix-url-matcher';
+
+export function getProductListingUrlMatcherFactory(
+  service: UrlMatcherService,
+  defaultMatcherFactory: UrlMatcherFactory
+): UrlMatcherFactory {
+  const factory = (route: Route) => {
+    const defaultMatcher = defaultMatcherFactory(route);
+    const suffixPLPMatcher = getSuffixUrlMatcher({
+      marker: 'c',
+      paramName: 'categoryCode',
+    });
+    return service.combine([defaultMatcher, suffixPLPMatcher]);
+  };
+  return factory;
+}
 
 /**
  * Injection token with url matcher factory for PLP.
@@ -17,13 +32,9 @@ export const PRODUCT_LISTING_URL_MATCHER_FACTORY = new InjectionToken<
   UrlMatcherFactory
 >('PRODUCT_LISTING_URL_MATCHER_FACTORY', {
   providedIn: 'root',
-  factory: () => (route: Route) => {
-    const service = inject(UrlMatcherService);
-    const defaultMatcher = inject(DEFAULT_URL_MATCHER_FACTORY)(route);
-    const suffixPLPMatcher = getSuffixUrlMatcher({
-      marker: 'c',
-      paramName: 'categoryCode',
-    });
-    return service.combine([defaultMatcher, suffixPLPMatcher]);
-  },
+  factory: () =>
+    getProductListingUrlMatcherFactory(
+      inject(UrlMatcherService),
+      inject(DEFAULT_URL_MATCHER_FACTORY)
+    ),
 });

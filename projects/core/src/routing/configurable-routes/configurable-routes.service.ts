@@ -90,7 +90,7 @@ export class ConfigurableRoutesService {
     const matchers: UrlMatcher[] = matchersOrFactories.map(matcherOrFactory => {
       return typeof matcherOrFactory === 'function'
         ? matcherOrFactory // matcher
-        : this.resolveUrlMatcherFactory(route, matcherOrFactory); // token
+        : this.resolveUrlMatcherFactory(route, matcherOrFactory); // factory injection token
     });
     return this.urlMatcherService.combine(matchers);
   }

@@ -9,14 +9,16 @@ export interface RoutesConfig {
 export interface RouteConfig {
   /**
    * List of path aliases used to build the semantic links.
-   * It's used also to match the URLs, unless the config property `matchers` is given for this route.
+   * It's used also to match the URLs, unless the config property `matchers` is given for the same route.
    *
    * See https://angular.io/api/router/Route#path
    */
   paths?: string[];
 
   /**
-   * List of Angular `UrlMatcher` or injection token for Spartacus `UrlMatcherFactory`. When not given, the configured `paths` are used to match the URLs.
+   * Array of Angular `UrlMatcher`s and injection tokens of Spartacus `UrlMatcherFactory`.
+   * All the url matchers (static and resolved from factories) will be used to match the route.
+   * When not given (undefined or null), the configured `paths` will be used to match the the route.
    *
    * See https://angular.io/api/router/Route#matcher
    */
