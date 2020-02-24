@@ -58,7 +58,7 @@ export class ConfigurableRoutesService {
 
       const paths = (routeConfig && routeConfig.paths) || [];
       const isDisabled = routeConfig && routeConfig.disabled;
-      const matchers = routeConfig.matchers;
+      const matchers = routeConfig && routeConfig.matchers;
 
       if (isDisabled) {
         delete route.path;

@@ -11,7 +11,7 @@ describe('ExternalRoutesService', () => {
   let router: Router;
 
   beforeEach(() => {
-    const mockUrlMatcherFactoryService: Partial<UrlMatcherService> = {
+    const mockUrlMatcherService: Partial<UrlMatcherService> = {
       getOpposite: matcher => `oppositeTo-${matcher}` as any,
       fromGlob: patterns => `globUrlMatcherFor-${patterns[0]}` as any,
     };
@@ -25,7 +25,7 @@ describe('ExternalRoutesService', () => {
         },
         {
           provide: UrlMatcherService,
-          useValue: mockUrlMatcherFactoryService,
+          useValue: mockUrlMatcherService,
         },
       ],
 
