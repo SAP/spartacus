@@ -138,21 +138,25 @@ describe('host icon components', () => {
   }));
 
   beforeEach(() => {
+    fixture = TestBed.createComponent(IconComponent);
+    service = TestBed.inject(IconLoaderService);
+
+    spyOn(service, 'getStyleClasses').and.returnValue('font based');
+    spyOn(service, 'addLinkResource').and.callThrough();
     fixture = TestBed.createComponent(MockIconTestComponent);
     hostComponent = fixture.componentInstance;
-    service = TestBed.inject(IconLoaderService);
   });
 
   it('should be created', () => {
+    fixture.detectChanges();
     expect(hostComponent).toBeTruthy();
   });
 
   describe('font based icons', () => {
     beforeEach(() => {
-      spyOn(service, 'getStyleClasses').and.returnValue('font based');
-      spyOn(service, 'addLinkResource').and.callThrough();
       fixture.detectChanges();
       debugElement = fixture.debugElement;
+      service = TestBed.inject(IconLoaderService);
     });
 
     it('should not render an inline svg object', () => {
