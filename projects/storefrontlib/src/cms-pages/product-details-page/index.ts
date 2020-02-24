@@ -1,2 +1,4 @@
 export * from './product-details-page.module';
-export * from './product-details-url-matcher-factory';
+export {
+  PRODUCT_DETAILS_URL_MATCHER_FACTORY,
+} from './product-details-url-matcher-factory';
