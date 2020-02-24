@@ -22,7 +22,7 @@
         else noTracking
       "
     >
-      <div class="shipment-heading" data-test="head-track">
+      <div class="shipment-heading">
         <div class="row">
           <div class="col-sm-12 col-md-6">
             <div class="shipment-title ">
@@ -79,7 +79,7 @@
       <ng-container
         *ngFor="let consignmentEvent of consignmentTracking.trackingEvents"
       >
-        <div class="event-body" data-test="body-event">
+        <div class="event-body">
           <div class="event-content">
             {{ consignmentEvent.eventDate | cxDate: 'medium' }}
           </div>
@@ -96,7 +96,7 @@
   </ng-container>
 
   <ng-template #noTracking>
-    <div class="no-tracking-heading" data-test="head-notrack">
+    <div class="no-tracking-heading">
       <div class="shipment-content">
         {{ 'orderDetails.consignmentTracking.dialog.noTracking' | cxTranslate }}
       </div>
@@ -104,7 +104,7 @@
   </ng-template>
 
   <ng-template #loading>
-    <div class="tracking-loading" data-test="loading-track">
+    <div class="tracking-loading">
       <div class="header modal-header">
         <div class="title modal-title">
           {{
@@ -114,9 +114,8 @@
         </div>
         <button
           type="button"
-          class="close"
+          class="close btn-dismiss"
           aria-label="Close"
-          data-test="btn-dismiss"
           (click)="activeModal.dismiss('Cross click')"
         >
           <span aria-hidden="true">&times;</span>
