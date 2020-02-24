@@ -9,6 +9,8 @@ import { CheckoutDeliveryAdapter } from '../../../checkout/connectors/delivery/c
 import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
 import { CheckoutPaymentAdapter } from '../../../checkout/connectors/payment/checkout-payment.adapter';
 import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
+import { PaymentTypeAdapter } from '../../../checkout/connectors/payment-type/payment-type.adapter';
+import { OccCheckoutPaymentTypeAdapter } from './occ-checkout-payment-type.adapter';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -25,6 +27,10 @@ import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
     {
       provide: CheckoutPaymentAdapter,
       useClass: OccCheckoutPaymentAdapter,
+    },
+    {
+      provide: PaymentTypeAdapter,
+      useClass: OccCheckoutPaymentTypeAdapter,
     },
   ],
 })

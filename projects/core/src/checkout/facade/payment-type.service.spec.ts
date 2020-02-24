@@ -5,7 +5,9 @@ import { PaymentType } from '../../model/cart.model';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
+import { PROCESS_FEATURE } from '@spartacus/core';
 import { PaymentTypeService } from './payment-type.service';
+import * as fromProcessReducers from '../../process/store/reducers/index';
 
 describe('PaymentTypeService', () => {
   let service: PaymentTypeService;
@@ -16,6 +18,10 @@ describe('PaymentTypeService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('checkout', fromCheckoutReducers.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [PaymentTypeService],
     });
