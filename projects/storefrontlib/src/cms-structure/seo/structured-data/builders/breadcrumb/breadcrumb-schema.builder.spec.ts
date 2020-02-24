@@ -61,8 +61,8 @@ describe('JsonLdProductOfferBuilder', () => {
       ],
     });
 
-    service = TestBed.get(BreadcrumbSchemaBuilder);
-    pageMetaService = TestBed.get(PageMetaService);
+    service = TestBed.inject(BreadcrumbSchemaBuilder);
+    pageMetaService = TestBed.inject(PageMetaService);
   });
 
   it('should be created', () => {

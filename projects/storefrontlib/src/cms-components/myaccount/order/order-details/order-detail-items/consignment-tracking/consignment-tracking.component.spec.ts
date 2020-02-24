@@ -75,7 +75,7 @@ describe('ConsignmentTrackingComponent', () => {
     userOrderService.loadConsignmentTracking.and.callFake(
       (_orderCode: string, _consignmentCode: string) => {}
     );
-    modalInstance = TestBed.get(ModalService);
+    modalInstance = TestBed.inject(ModalService);
     spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
     el = fixture.debugElement;
     component = fixture.componentInstance;

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -74,7 +73,7 @@ describe('CmsPageGuard', () => {
       imports: [RouterTestingModule],
     });
 
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    routingService = TestBed.inject(RoutingService);
     spyOn(routingService, 'getNextPageContext').and.returnValue(
       of({ id: 'testPageId', type: PageType.CONTENT_PAGE })
     );

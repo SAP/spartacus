@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -41,10 +40,8 @@ describe('QualtricsLoaderService', () => {
       ],
     });
 
-    winRef = TestBed.get(WindowRef as Type<WindowRef>);
-    service = TestBed.get(QualtricsLoaderService as Type<
-      QualtricsLoaderService
-    >);
+    winRef = TestBed.inject(WindowRef);
+    service = TestBed.inject(QualtricsLoaderService);
 
     spyOn(winRef.nativeWindow['QSI'].API, 'unload').and.stub();
     spyOn(winRef.nativeWindow['QSI'].API, 'load').and.callThrough();
