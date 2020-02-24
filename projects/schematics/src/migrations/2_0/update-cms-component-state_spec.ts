@@ -278,9 +278,13 @@ describe('updateCmsComponentState migration', () => {
       '/angular.json',
       JSON.stringify({
         projects: {
-          sourceRoot: 'src',
-          test: {
-            architect: { build: { options: { tsConfig: './tsconfig.json' } } },
+          'spartacus-test': {
+            sourceRoot: 'src',
+            test: {
+              architect: {
+                build: { options: { tsConfig: './tsconfig.json' } },
+              },
+            },
           },
         },
       })
