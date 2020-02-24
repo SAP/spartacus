@@ -258,3 +258,13 @@ export function assertNumberOfProducts(alias: string, category: string) {
     cy.get(productItemSelector).should('have.length', productLengthInPage);
   });
 }
+
+export function createSpecificProductQuery(
+  search: string,
+  alias: string
+): void {
+  cy.route(
+    'GET',
+    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=${search}*`
+  ).as(alias);
+}
