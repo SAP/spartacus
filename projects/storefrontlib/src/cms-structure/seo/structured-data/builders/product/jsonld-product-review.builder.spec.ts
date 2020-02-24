@@ -53,9 +53,9 @@ describe('JsonLdProductReviewBuilder', () => {
       ],
     });
 
-    service = TestBed.get(JsonLdProductReviewBuilder);
+    service = TestBed.inject(JsonLdProductReviewBuilder);
 
-    reviewService = TestBed.get(ProductReviewService);
+    reviewService = TestBed.inject(ProductReviewService);
   });
 
   it('should be created', () => {

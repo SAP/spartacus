@@ -1,10 +1,9 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -55,10 +54,8 @@ describe('ClientTokenInterceptor', () => {
         },
       ],
     });
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    authService = TestBed.get(AuthService as Type<AuthService>);
+    httpMock = TestBed.inject(HttpTestingController);
+    authService = TestBed.inject(AuthService);
   });
 
   describe('Client Token', () => {
