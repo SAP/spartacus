@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { distinctUntilKeyChanged, filter, map } from 'rxjs/operators';
-import {
-  BASE_SITE_CONTEXT_ID,
-  CURRENCY_CONTEXT_ID,
-  LANGUAGE_CONTEXT_ID,
-} from '../../site-context/providers/context-ids';
+import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
+import { PersistanceService } from '../../state/services/persistance.service';
 import { CartActions, MultiCartSelectors } from '../store';
 import { StateWithMultiCart } from '../store/multi-cart-state';
-import { PersistanceService } from './persistance.service';
 
 @Injectable({
   providedIn: 'root',
@@ -33,11 +29,7 @@ export class CartPersistanceService {
     );
 
     persistanceService
-      .register('cart', source, [
-        BASE_SITE_CONTEXT_ID,
-        LANGUAGE_CONTEXT_ID,
-        CURRENCY_CONTEXT_ID,
-      ])
+      .register('cart', source, [BASE_SITE_CONTEXT_ID])
       .subscribe(state => {
         this.store.dispatch(new CartActions.ClearCart());
         this.store.dispatch(new CartActions.ClearMultiCartState());

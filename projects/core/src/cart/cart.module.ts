@@ -11,17 +11,11 @@ import {
 import { MultiCartService } from './facade/multi-cart.service';
 import { CartPageMetaResolver } from './services/cart-page-meta.resolver';
 import { CartPersistanceService } from './services/cart-persistance.service';
-import { PersistanceService } from './services/persistance.service';
 import { CartStoreModule } from './store/cart-store.module';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
 
 export function cartPersistanceFactory(cartPersistanceService): any {
   const result = () => cartPersistanceService;
-  return result;
-}
-
-export function persistanceFactory(persistanceService): any {
-  const result = () => persistanceService;
   return result;
 }
 
@@ -43,12 +37,6 @@ export class CartModule {
         {
           provide: PageMetaResolver,
           useExisting: CartPageMetaResolver,
-          multi: true,
-        },
-        {
-          provide: APP_INITIALIZER,
-          useFactory: persistanceFactory,
-          deps: [PersistanceService],
           multi: true,
         },
         {

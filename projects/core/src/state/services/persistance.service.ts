@@ -7,6 +7,12 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { SiteContextParamsService } from '../../site-context/services/site-context-params.service';
+import { StorageSyncType } from '../../state/config/state-config';
+import {
+  getStorage,
+  persistToStorage,
+  readFromStorage,
+} from '../../state/reducers/storage-sync.reducer';
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
@@ -21,11 +27,14 @@ export class PersistanceService {
   register<T>(
     key: string,
     source: Observable<T>,
-    contextParams: string[]
+    contextParams: string[],
+    storageType: StorageSyncType = StorageSyncType.LOCAL_STORAGE
   ): Observable<T> {
     function keyWithContext(context) {
       return `spartacus-${key}-data-${context}`;
     }
+
+    const storage = getStorage(storageType, this.winRef);
 
     const context$ = combineLatest(
       contextParams.map(contextParam =>
@@ -40,26 +49,13 @@ export class PersistanceService {
     );
 
     source.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
-      this.saveStateToStorage(state, keyWithContext(context));
+      persistToStorage(keyWithContext(context), state, storage);
     });
 
     return context$.pipe(
       map(context => {
-        const state = this.restoreStateFromStorage(keyWithContext(context));
-        return state;
+        return readFromStorage(storage, keyWithContext(context)) as T;
       })
     );
-  }
-
-  saveStateToStorage(state, storageKey) {
-    this.winRef.localStorage.setItem(storageKey, JSON.stringify(state));
-  }
-
-  restoreStateFromStorage(storageKey) {
-    try {
-      const state = JSON.parse(this.winRef.localStorage.getItem(storageKey));
-      return state;
-    } catch {}
-    return null;
   }
 }
