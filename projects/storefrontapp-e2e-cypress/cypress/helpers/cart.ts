@@ -9,12 +9,21 @@ interface TestProduct {
   price?: number;
 }
 
-const formatPrice = (price: number) =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  }).format(price);
+const formatPrice = (price: number, currency: string = 'USD') => {
+  if (currency === 'USD') {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    }).format(price);
+  } else if (currency === 'GBP') {
+    return new Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'GBP',
+      minimumFractionDigits: 2,
+    }).format(price);
+  }
+};
 
 export const products: TestProduct[] = [
   {
@@ -144,13 +153,16 @@ export function closeAddedToCartDialog() {
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 }
 
-export function checkProductInCart(product, qty = 1) {
+export function checkProductInCart(product, qty = 1, currency = 'USD') {
   return getCartItem(product.name).within(() => {
-    cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
+    cy.get('.cx-price>.cx-value').should(
+      'contain',
+      formatPrice(product.price, currency)
+    );
     cy.get('cx-item-counter input').should('have.value', `${qty}`);
     cy.get('.cx-total>.cx-value').should(
       'contain',
-      formatPrice(qty * product.price)
+      formatPrice(qty * product.price, currency)
     );
     cy.root();
   });
