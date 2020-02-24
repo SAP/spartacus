@@ -18,6 +18,12 @@
       margin: 0 20px 0 5px;
     }
 
+    button {
+      @include button-reset();
+
+      text-decoration: underline;
+    }
+
     cx-star-rating {
       padding: 0 0 15px 0;
     }
