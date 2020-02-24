@@ -147,12 +147,7 @@
           *ngTemplateOutlet="
             options.optionalBtn;
             context: {
-              $implicit: {
-                loading: options.isSaveForLater
-                  ? cartIsLoading
-                  : quantityControl.disabled,
-                item: item
-              }
+              $implicit: { loading: quantityControl.disabled, item: item }
             }
           "
         ></ng-container>
@@ -161,9 +156,7 @@
       <div class="col-md-3 cx-remove-btn">
         <button
           class="link"
-          [disabled]="
-            options.isSaveForLater ? cartIsLoading : quantityControl.disabled
-          "
+          [disabled]="quantityControl.disabled"
           (click)="removeItem()"
         >
           {{ 'common.remove' | cxTranslate }}

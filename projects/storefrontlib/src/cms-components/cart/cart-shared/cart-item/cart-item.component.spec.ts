@@ -146,7 +146,6 @@ describe('CartItemComponent', () => {
     fixture.detectChanges();
     el = fixture.debugElement;
     spyOn(cartItemComponent.view, 'emit').and.callThrough();
-    spyOn(cartItemComponent.remove, 'emit').and.callThrough();
   });
 
   it('should create CartItemComponent', () => {
@@ -170,15 +169,6 @@ describe('CartItemComponent', () => {
 
     expect(cartItemComponent.removeItem).toHaveBeenCalled();
     expect(cartItemComponent.quantityControl.value).toEqual(0);
-
-    cartItemComponent.options = {
-      isSaveForLater: true,
-    };
-    button.nativeElement.click();
-    fixture.detectChanges();
-    expect(cartItemComponent.remove.emit).toHaveBeenCalledWith(
-      cartItemComponent.item
-    );
   });
 
   it('should mark control "dirty" after removeItem is called', () => {

@@ -77,7 +77,6 @@ class MockCartItemComponent {
     isSaveForLater: false,
     optionalBtn: null,
   };
-  @Input() cartIsLoading = false;
 }
 
 describe('CartItemListComponent', () => {
