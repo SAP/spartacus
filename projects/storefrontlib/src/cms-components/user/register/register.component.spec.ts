@@ -217,10 +217,6 @@ describe('RegisterComponent', () => {
   describe('submit button', () => {
     it('should NOT be disabled', () => {
       fixture = TestBed.createComponent(RegisterComponent);
-
-      // TODO(issue:#4534) Deprecated since 1.3.0
-      isLevelBool.next(true);
-
       fixture.detectChanges();
       const el: HTMLElement = fixture.debugElement.nativeElement;
       const submitButton: HTMLElement = el.querySelector(
