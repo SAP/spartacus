@@ -42,10 +42,6 @@ export class SiteContextParamsService {
     }
   }
 
-  getSiteContextServiceMap(): ContextServiceMap {
-    return this.serviceMap;
-  }
-
   getValue(param: string): string {
     let value: string;
 

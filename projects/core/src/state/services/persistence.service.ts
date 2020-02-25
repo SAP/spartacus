@@ -20,24 +20,26 @@ import { WindowRef } from '../../window/window-ref';
   providedIn: 'root',
 })
 export class PersistenceService {
+  initContext$: Observable<string>;
+
   constructor(
     protected winRef: WindowRef,
     protected siteContextParamService: SiteContextParamsService
-  ) {}
-
-  initContext$ = combineLatest(
-    Object.keys(
-      this.siteContextParamService.getSiteContextServiceMap()
-    ).map(contextParam =>
+  ) {
+    this.initContext$ = combineLatest(
       this.siteContextParamService
-        .getSiteContextService(contextParam)
-        .getActive()
-    )
-  ).pipe(
-    filter(contextValues => contextValues.every(param => !!param)),
-    map(() => 'all'),
-    take(1)
-  );
+        .getContextParameters()
+        .map(contextParam =>
+          this.siteContextParamService
+            .getSiteContextService(contextParam)
+            .getActive()
+        )
+    ).pipe(
+      filter(contextValues => contextValues.every(param => !!param)),
+      map(() => 'all'),
+      take(1)
+    );
+  }
 
   register<T>(
     key: string,
@@ -48,7 +50,6 @@ export class PersistenceService {
     function keyWithContext(context) {
       return `spartacus-${context}-${key}`;
     }
-
     const storage = getStorage(storageType, this.winRef);
 
     const contextWithParams$ = combineLatest(
