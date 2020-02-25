@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
@@ -8,7 +9,7 @@ import {
   UrlModule,
   FeaturesConfigModule,
 } from '@spartacus/core';
-import { IconModule } from '../../../cms-components/misc/icon/index';
+import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { AutoFocusDirectiveModule } from '../../../shared/directives/auto-focus/auto-focus.directive.module';
 import { ItemCounterModule, SpinnerModule } from '../../../shared/index';
 import { CartSharedModule } from './../cart-shared/cart-shared.module';
@@ -18,8 +19,9 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
 
 @NgModule({
   imports: [
-    CartSharedModule,
     CommonModule,
+    ReactiveFormsModule,
+    CartSharedModule,
     RouterModule,
     SpinnerModule,
     PromotionsModule,

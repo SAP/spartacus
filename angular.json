@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/storefrontapp",
             "index": "projects/storefrontapp/src/index.html",
             "main": "projects/storefrontapp/src/main.ts",
@@ -33,6 +34,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
@@ -52,6 +59,12 @@
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
             "ci": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
@@ -70,6 +83,12 @@
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
             "qa": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
@@ -170,6 +189,11 @@
           "options": {
             "tsConfig": "projects/storefrontlib/tsconfig.lib.json",
             "project": "projects/storefrontlib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/storefrontlib/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -207,6 +231,11 @@
           "options": {
             "tsConfig": "projects/core/tsconfig.lib.json",
             "project": "projects/core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/core/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -240,6 +269,11 @@
           "options": {
             "tsConfig": "projects/vendor/tsconfig.lib.json",
             "project": "projects/vendor/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/vendor/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -273,6 +307,11 @@
           "options": {
             "tsConfig": "projects/assets/tsconfig.lib.json",
             "project": "projects/assets/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/assets/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -306,6 +345,11 @@
           "options": {
             "tsConfig": "projects/incubator/tsconfig.lib.json",
             "project": "projects/incubator/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/incubator/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -339,6 +383,11 @@
           "options": {
             "tsConfig": "projects/cds/tsconfig.lib.json",
             "project": "projects/cds/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/cds/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -371,6 +420,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/storefrontapp-cds-integration",
             "index": "projects/storefrontapp-cds-integration/src/index.html",
             "main": "projects/storefrontapp-cds-integration/src/main.ts",
@@ -393,6 +443,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",
@@ -412,6 +468,12 @@
               "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.app.prod.json"
             },
             "ci": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",
@@ -430,6 +492,12 @@
               "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.app.prod.json"
             },
             "qa": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",

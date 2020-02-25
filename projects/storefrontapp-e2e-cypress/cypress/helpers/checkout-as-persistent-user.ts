@@ -176,7 +176,9 @@ export function selectShippingAddress() {
     '/rest/v2/electronics-spa/cms/pages?*/checkout/delivery-mode*'
   ).as('getDeliveryPage');
   cy.get('button.btn-primary').click();
-  cy.wait('@getDeliveryPage');
+  cy.wait('@getDeliveryPage')
+    .its('status')
+    .should('eq', 200);
 }
 
 export function selectDeliveryMethod() {

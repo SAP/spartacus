@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Type } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -18,7 +18,6 @@ import {
 import { Observable, of, Subscription } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { AddressFormComponent } from './address-form.component';
-
 import createSpy = jasmine.createSpy;
 
 class MockUserService {
@@ -119,7 +118,7 @@ describe('AddressFormComponent', () => {
   let fixture: ComponentFixture<AddressFormComponent>;
   let controls: FormGroup['controls'];
 
-  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
+  let mockCheckoutDeliveryService: CheckoutDeliveryService;
   let userAddressService: UserAddressService;
   let userService: UserService;
   let mockGlobalMessageService: any;
@@ -151,13 +150,9 @@ describe('AddressFormComponent', () => {
       })
       .compileComponents();
 
-    userService = TestBed.get(UserService as Type<UserService>);
-    userAddressService = TestBed.get(UserAddressService as Type<
-      UserAddressService
-    >);
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
+    userService = TestBed.inject(UserService);
+    userAddressService = TestBed.inject(UserAddressService);
+    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
   }));
 
   beforeEach(() => {

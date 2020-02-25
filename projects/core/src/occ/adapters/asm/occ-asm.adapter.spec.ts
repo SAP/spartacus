@@ -46,7 +46,7 @@ class MockBaseSiteService {
   }
 }
 
-export class MockOccEndpointsService {
+class MockOccEndpointsService {
   getRawEndpoint(endpoint: string): string {
     return endpoint;
   }
@@ -69,10 +69,10 @@ describe('OccAsmAdapter', () => {
       ],
     });
 
-    occAsmAdapter = TestBed.get(OccAsmAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converterService = TestBed.get(ConverterService);
-    occEnpointsService = TestBed.get(OccEndpointsService);
+    occAsmAdapter = TestBed.inject(OccAsmAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(occEnpointsService, 'getRawEndpoint').and.callThrough();
   });

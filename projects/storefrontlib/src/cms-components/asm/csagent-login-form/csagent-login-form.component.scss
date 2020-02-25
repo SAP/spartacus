@@ -1,4 +1,7 @@
 cx-csagent-login-form {
+  .invalid-feedback {
+    display: block;
+  }
   form {
     display: flex;
     width: 100%;

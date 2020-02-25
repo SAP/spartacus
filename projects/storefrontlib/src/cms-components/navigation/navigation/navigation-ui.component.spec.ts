@@ -92,9 +92,6 @@ describe('Navigation UI Component', () => {
     fixture = TestBed.createComponent(NavigationUIComponent);
     navigationComponent = fixture.debugElement.componentInstance;
     element = fixture.debugElement;
-    renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<
-      Renderer2
-    >);
 
     navigationComponent.node = mockNode;
   });

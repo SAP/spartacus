@@ -5,108 +5,109 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { PaginationModel } from '@spartacus/core';
+import { PaginationBuilder } from './pagination.builder';
+import { PaginationItem, PaginationItemType } from './pagination.model';
 
-const PAGE_FIRST = 1;
-const PAGE_WINDOW_SIZE = 3;
-
+/**
+ * The `PaginationComponent` is a generic component that is used for
+ * all lists in Spartacus that require pagination. The component supports
+ * all common features, which can be configured or hidden by CSS.
+ */
 @Component({
   selector: 'cx-pagination',
   templateUrl: './pagination.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaginationComponent {
-  @Input() pagination: PaginationModel;
-  @Input() hideOnSinglePage = false;
+  /** The (optional) pageRoute used for the anchor links created in the pagination   */
+  @Input() pageRoute: string;
+
+  /** The (optional) query parameter which is added to the page route.  */
+  @Input() queryParam: string;
+
+  /**
+   * Whenever there's a default page specified, the routing logic
+   * will omit the page number in routeLink or parameters.
+   */
+  @Input() defaultPage;
+
+  private _pagination: PaginationModel;
+  get pagination(): PaginationModel {
+    return this._pagination;
+  }
+  @Input() set pagination(value: PaginationModel) {
+    this._pagination = value;
+    this.render(value);
+  }
+
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();
 
-  // Because pagination model uses indexes starting from 0,
-  // add 1 to get current page number
-  private getCurrentPageNumber() {
-    return this.pagination.currentPage + 1;
-  }
+  pages: PaginationItem[] = [];
 
-  getPagePrevious(): number {
-    return this.getCurrentPageNumber() - 1;
-  }
+  constructor(
+    private paginationBuilder: PaginationBuilder,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
-  getPageNext(): number {
-    return this.getCurrentPageNumber() + 1;
-  }
-
-  getPageIndicies(): Array<number> {
-    return Array(this.pagination.totalPages);
-  }
-
-  // Gets the minimum index of page numbers that can be shown by being within the page window range
-  getPageWindowMinIndex(): number {
-    return (
-      Math.floor(this.pagination.currentPage / PAGE_WINDOW_SIZE) *
-      PAGE_WINDOW_SIZE
+  private render(pagination: PaginationModel) {
+    this.pages = this.paginationBuilder.paginate(
+      pagination.totalPages,
+      pagination.currentPage
     );
   }
 
-  // Gets the maximum index of page numbers that can be shown by being within the page window range
-  getPageWindowMaxIndex(): number {
+  /**
+   * Inidicates whether the given item is the current item.
+   *
+   * @param item PaginationItem
+   * @returns boolean
+   */
+  isCurrent(item: PaginationItem): boolean {
     return (
-      Math.floor(this.pagination.currentPage / PAGE_WINDOW_SIZE) *
-        PAGE_WINDOW_SIZE +
-      2
+      item.type === PaginationItemType.PAGE &&
+      item.number === this.pagination.currentPage
     );
   }
 
-  hasPages(): boolean {
-    return this.pagination.totalPages > 0;
-  }
-
-  onFirstPage(): boolean {
-    return this.pagination.currentPage === 0;
-  }
-
-  onLastPage(): boolean {
-    return this.pagination.currentPage === this.pagination.totalPages - 1;
-  }
-
-  onPageIndex(index: number): boolean {
-    return this.pagination.currentPage === index;
-  }
-
-  hidePageIndex(index: number): boolean {
+  /**
+   * Indicates whether the pagination item is inactive. This is used
+   * to disabled a link or set the tabindex to `-1`.
+   *
+   * Defaults to true
+   *
+   * @param item PaginationItem
+   * @returns returns -1 in case of a disabled
+   */
+  isInactive(item: PaginationItem): boolean {
     return (
-      (this.getPageWindowMinIndex() > index ||
-        this.getPageWindowMaxIndex() < index) &&
-      (index > 0 && index < this.pagination.totalPages - 1)
+      !item.hasOwnProperty('number') ||
+      item.number === this.pagination.currentPage
     );
   }
 
-  showDots(index: number): boolean {
-    return (
-      this.hidePageIndex(index) &&
-      (index === this.getPageWindowMaxIndex() + 1 ||
-        index === this.getPageWindowMinIndex() - 1)
+  getQueryParams(item: PaginationItem): Params {
+    const queryParams = Object.assign(
+      {},
+      this.activatedRoute.snapshot.queryParams
     );
-  }
-
-  clickPageNo(page: number): number {
-    // Change page on valid index
     if (
-      page >= PAGE_FIRST &&
-      page <= this.pagination.totalPages &&
-      page !== this.getCurrentPageNumber()
+      this.queryParam &&
+      item.number < this.pagination.totalPages &&
+      !this.isCurrent(item)
     ) {
-      this.pageChange(page);
-      return page;
+      queryParams[this.queryParam] = item.number;
     }
-
-    // Page stays the same on invalid index
-    return this.pagination.currentPage;
+    // omit the page number from the query parameters in case it's the default
+    // to clean up the experience and avoid unnecessary polluting of the URL
+    if (queryParams[this.queryParam] === this.defaultPage) {
+      delete queryParams[this.queryParam];
+    }
+    return queryParams;
   }
 
-  pageChange(page: number): void {
-    this.viewPageEvent.emit(page - 1);
-  }
-
-  showPagination() {
-    return !(this.hideOnSinglePage && this.pagination.totalPages <= 1);
+  pageChange(page: PaginationItem): void {
+    this.viewPageEvent.emit(page.number);
   }
 }

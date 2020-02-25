@@ -15,8 +15,8 @@ import {
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
-import { ModalService } from '../../../../../shared/components/modal/index';
+import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
+import { ModalService } from '../../../../../shared/components/modal/modal.service';
 
 @Component({
   selector: 'cx-close-account-modal',

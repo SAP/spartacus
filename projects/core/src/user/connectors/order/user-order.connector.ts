@@ -32,14 +32,14 @@ export class UserOrderConnector {
   }
 
   public getConsignmentTracking(
-    userId: string,
     orderCode: string,
-    consignmentCode: string
+    consignmentCode: string,
+    userId?: string
   ): Observable<ConsignmentTracking> {
     return this.adapter.getConsignmentTracking(
-      userId,
       orderCode,
-      consignmentCode
+      consignmentCode,
+      userId
     );
   }
 

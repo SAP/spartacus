@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
@@ -64,19 +63,13 @@ describe('CdsMerchandisingUserContextService', () => {
         },
       ],
     });
-    cdsMerchandisingUserContextService = TestBed.get(
-      CdsMerchandisingUserContextService as Type<
-        CdsMerchandisingUserContextService
-      >
+    cdsMerchandisingUserContextService = TestBed.inject(
+      CdsMerchandisingUserContextService
     );
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    productSearchService = TestBed.get(ProductSearchService as Type<
-      ProductSearchService
-    >);
-    converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    profileTagEventService = TestBed.get(ProfileTagEventService as Type<
-      ProfileTagEventService
-    >);
+    routingService = TestBed.inject(RoutingService);
+    productSearchService = TestBed.inject(ProductSearchService);
+    converterService = TestBed.inject(ConverterService);
+    profileTagEventService = TestBed.inject(ProfileTagEventService);
   });
 
   it('should be created', () => {
