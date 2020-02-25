@@ -3,7 +3,7 @@ import { Config, provideConfig } from '../config/config.module';
 import { defaultStateConfig } from './config/default-state-config';
 import { StateConfig } from './config/state-config';
 import { stateMetaReducers } from './reducers/index';
-import { PersistanceService } from './services/persistance.service';
+import { PersistenceService } from './services/persistence.service';
 
 @NgModule({})
 export class StateModule {
@@ -12,7 +12,7 @@ export class StateModule {
       ngModule: StateModule,
       providers: [
         ...stateMetaReducers,
-        PersistanceService,
+        PersistenceService,
         provideConfig(defaultStateConfig),
         { provide: StateConfig, useExisting: Config },
       ],

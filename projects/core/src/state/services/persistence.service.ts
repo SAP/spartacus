@@ -4,6 +4,7 @@ import {
   distinctUntilChanged,
   filter,
   map,
+  take,
   withLatestFrom,
 } from 'rxjs/operators';
 import { SiteContextParamsService } from '../../site-context/services/site-context-params.service';
@@ -18,25 +19,39 @@ import { WindowRef } from '../../window/window-ref';
 @Injectable({
   providedIn: 'root',
 })
-export class PersistanceService {
+export class PersistenceService {
   constructor(
-    private winRef: WindowRef,
-    private siteContextParamService: SiteContextParamsService
+    protected winRef: WindowRef,
+    protected siteContextParamService: SiteContextParamsService
   ) {}
+
+  initContext$ = combineLatest(
+    Object.keys(
+      this.siteContextParamService.getSiteContextServiceMap()
+    ).map(contextParam =>
+      this.siteContextParamService
+        .getSiteContextService(contextParam)
+        .getActive()
+    )
+  ).pipe(
+    filter(contextValues => contextValues.every(param => !!param)),
+    map(() => 'all'),
+    take(1)
+  );
 
   register<T>(
     key: string,
     source: Observable<T>,
-    contextParams: string[],
+    contextParams: string[] = [],
     storageType: StorageSyncType = StorageSyncType.LOCAL_STORAGE
   ): Observable<T> {
     function keyWithContext(context) {
-      return `spartacus-${key}-data-${context}`;
+      return `spartacus-${context}-${key}`;
     }
 
     const storage = getStorage(storageType, this.winRef);
 
-    const context$ = combineLatest(
+    const contextWithParams$ = combineLatest(
       contextParams.map(contextParam =>
         this.siteContextParamService
           .getSiteContextService(contextParam)
@@ -47,6 +62,9 @@ export class PersistanceService {
       map(contextValues => contextValues.join('-')),
       distinctUntilChanged()
     );
+
+    const context$ =
+      contextParams.length > 0 ? contextWithParams$ : this.initContext$;
 
     source.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
       persistToStorage(keyWithContext(context), state, storage);
