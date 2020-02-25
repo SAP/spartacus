@@ -4,8 +4,8 @@ import { combineLatest, iif, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
   ConsentTemplate,
 } from '../../model/index';
 import { AnonymousConsentsActions } from '../store/actions/index';
@@ -173,7 +173,7 @@ export class AnonymousConsentsService {
    * @param consent a consent to test
    */
   isConsentGiven(consent: AnonymousConsent): boolean {
-    return consent.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN;
+    return consent && consent.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN;
   }
 
   /**
@@ -202,7 +202,9 @@ export class AnonymousConsentsService {
    * @param consent a consent to test
    */
   isConsentWithdrawn(consent: AnonymousConsent): boolean {
-    return consent.consentState === ANONYMOUS_CONSENT_STATUS.WITHDRAWN;
+    return (
+      consent && consent.consentState === ANONYMOUS_CONSENT_STATUS.WITHDRAWN
+    );
   }
 
   /**

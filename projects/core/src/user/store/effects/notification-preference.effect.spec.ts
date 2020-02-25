@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -35,15 +34,11 @@ describe('Notification Preference Effect', () => {
       ],
     });
 
-    notificationPreferenceEffects = TestBed.get(
-      fromEffect.NotificationPreferenceEffects as Type<
-        fromEffect.NotificationPreferenceEffects
-      >
+    notificationPreferenceEffects = TestBed.inject(
+      fromEffect.NotificationPreferenceEffects
     );
-    userNotificationPreferenceConnector = TestBed.get(
-      UserNotificationPreferenceConnector as Type<
-        UserNotificationPreferenceConnector
-      >
+    userNotificationPreferenceConnector = TestBed.inject(
+      UserNotificationPreferenceConnector
     );
   });
 

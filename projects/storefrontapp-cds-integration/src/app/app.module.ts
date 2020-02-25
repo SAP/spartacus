@@ -18,6 +18,7 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -83,6 +84,7 @@ if (!environment.production) {
             'http://tag.static.stage.context.cloud.sap/js/profile-tag.js',
           configUrl:
             'https://tag.static.stage.context.cloud.sap/config/dfbb97b0-f4d7-11e9-9c99-2125ab7968c6',
+          allowInsecureCookies: true,
         },
       },
     }),

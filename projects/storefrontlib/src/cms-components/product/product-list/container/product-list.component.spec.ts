@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,6 +13,7 @@ import {
   SpinnerModule,
 } from '../../../../shared';
 import { ViewConfig } from '../../../../shared/config/view-config';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
@@ -22,7 +23,6 @@ import {
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
 import { ProductScrollComponent } from './product-scroll/product-scroll.component';
-import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -63,7 +63,7 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -71,7 +71,7 @@ export class MockCxIconComponent {
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
 })
-export class MockAddToCartComponent {
+class MockAddToCartComponent {
   @Input() product;
   @Input() showQuantity;
 }
@@ -80,13 +80,13 @@ export class MockAddToCartComponent {
   selector: 'cx-configure-product',
   template: '<button>configure product</button>',
 })
-export class MockConfigureProductComponent {
+class MockConfigureProductComponent {
   @Input() productCode;
   @Input() configurable;
   @Input() configuratorType;
 }
 
-export class MockProductListComponentService {
+class MockProductListComponentService {
   setQuery = createSpy('setQuery');
   viewPage = createSpy('viewPage');
   sort = createSpy('sort');
@@ -94,7 +94,7 @@ export class MockProductListComponentService {
   model$ = of({});
 }
 
-export class MockViewConfig {
+class MockViewConfig {
   view = {
     infiniteScroll: {
       active: true,
@@ -105,10 +105,10 @@ export class MockViewConfig {
 }
 
 @Component({
-  selector: 'cx-style-icons',
+  selector: 'cx-variant-style-icons',
   template: 'test',
 })
-export class MockStyleIconsComponent {
+class MockStyleIconsComponent {
   @Input() variants: any[];
 }
 
@@ -164,9 +164,7 @@ describe('ProductListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
-    componentService = TestBed.get(ProductListComponentService as Type<
-      ProductListComponentService
-    >);
+    componentService = TestBed.inject(ProductListComponentService);
   });
 
   it('should create', () => {
@@ -189,11 +187,6 @@ describe('ProductListComponent', () => {
     it('should use infinite scroll when config setting is active', () => {
       expect(component.isInfiniteScroll).toEqual(true);
     });
-  });
-
-  it('viewPage should call service.viewPage', () => {
-    component.viewPage(123);
-    expect(componentService.viewPage).toHaveBeenCalledWith(123);
   });
 
   it('sortList should call service.sort', () => {

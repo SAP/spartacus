@@ -6,7 +6,11 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
+import {
+  ControlContainer,
+  FormControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -41,11 +45,10 @@ class MockMediaComponent {
   selector: 'cx-item-counter',
 })
 class MockItemCounterComponent {
-  @Input() step;
-  @Input() min;
+  @Input() control;
+  @Input() readonly;
   @Input() max;
-  @Input() cartIsLoading;
-  @Input() isValueChangeable;
+  @Input() allowZero;
 }
 
 @Component({
@@ -136,13 +139,20 @@ describe('CartItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);
     cartItemComponent = fixture.componentInstance;
-    cartItemComponent.item = {};
-    cartItemComponent.item.product = mockProduct;
+    cartItemComponent.item = {
+      product: mockProduct,
+      updateable: true,
+    };
+    cartItemComponent.quantityControl = new FormControl('1');
+    cartItemComponent.quantityControl.markAsPristine();
+    spyOn(cartItemComponent, 'removeItem').and.callThrough();
+    fixture.detectChanges();
     el = fixture.debugElement;
-
-    spyOn(cartItemComponent.remove, 'emit').and.callThrough();
-    spyOn(cartItemComponent.update, 'emit').and.callThrough();
     spyOn(cartItemComponent.view, 'emit').and.callThrough();
+  });
+
+  it('should create CartItemComponent', () => {
+    expect(cartItemComponent).toBeTruthy();
   });
 
   it('should create cart details component', () => {
@@ -156,20 +166,19 @@ describe('CartItemComponent', () => {
   });
 
   it('should call removeItem()', () => {
-    cartItemComponent.removeItem();
+    const button: DebugElement = fixture.debugElement.query(By.css('button'));
+    button.nativeElement.click();
+    fixture.detectChanges();
 
-    expect(cartItemComponent.remove.emit).toHaveBeenCalledWith(
-      cartItemComponent.item
-    );
+    expect(cartItemComponent.removeItem).toHaveBeenCalled();
+    expect(cartItemComponent.quantityControl.value).toEqual(0);
   });
 
-  it('should call updateItem()', () => {
-    cartItemComponent.updateItem(2);
-
-    expect(cartItemComponent.update.emit).toHaveBeenCalledWith({
-      item: cartItemComponent.item,
-      updatedQuantity: 2,
-    });
+  it('should mark control "dirty" after removeItem is called', () => {
+    const button: DebugElement = fixture.debugElement.query(By.css('button'));
+    button.nativeElement.click();
+    fixture.detectChanges();
+    expect(cartItemComponent.quantityControl.dirty).toEqual(true);
   });
 
   it('should call isProductOutOfStock()', () => {
@@ -191,7 +200,6 @@ describe('CartItemComponent', () => {
 
   it('should call viewItem()', () => {
     cartItemComponent.viewItem();
-
     expect(cartItemComponent.view.emit).toHaveBeenCalledWith();
   });
 
@@ -202,9 +210,11 @@ describe('CartItemComponent', () => {
 
     expect(el.queryAll(By.css('.cx-property')).length).toEqual(variants.length);
     variants.forEach(variant => {
-      expect(
-        el.query(By.css('.cx-info-container')).nativeElement.innerText
-      ).toContain(`${variant.name}: ${variant.value}`);
+      const infoContainer: HTMLElement = el.query(By.css('.cx-info-container'))
+        .nativeElement;
+      expect(infoContainer.innerText).toContain(
+        `${variant.name}: ${variant.value}`
+      );
     });
   });
 });

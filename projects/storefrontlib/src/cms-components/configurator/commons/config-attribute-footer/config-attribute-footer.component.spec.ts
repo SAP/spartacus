@@ -16,6 +16,7 @@ export class MockIconFontLoaderService {
     return 'fas fa-exclamation-triangle';
   }
   addLinkResource() {}
+  getHtml(_iconType: ICON_TYPE) {}
 }
 
 describe('ConfigAttributeFooterComponent', () => {

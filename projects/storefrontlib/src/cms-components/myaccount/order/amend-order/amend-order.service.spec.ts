@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { Order } from '@spartacus/core';
@@ -41,7 +40,7 @@ describe('OrderAmendService', () => {
       ],
     });
 
-    service = TestBed.get(OrderAmendService as Type<OrderAmendService>);
+    service = TestBed.inject(OrderAmendService);
   });
 
   it('should be created', () => {

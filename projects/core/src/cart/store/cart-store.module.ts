@@ -7,8 +7,18 @@ import { ConfigModule } from '../../config/config.module';
 import { StateConfig, StorageSyncType } from '../../state/config/state-config';
 import { StateModule } from '../../state/state.module';
 import { CART_FEATURE } from './cart-state';
-import { effects } from './effects/index';
+import { CartEntryEffects } from './effects/cart-entry.effect';
+import { CartVoucherEffects } from './effects/cart-voucher.effect';
+import { CartEffects } from './effects/cart.effect';
+import { WishListEffects } from './effects/wish-list.effect';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
+
+const effects: any[] = [
+  CartEffects,
+  CartEntryEffects,
+  CartVoucherEffects,
+  WishListEffects,
+];
 
 export function cartStoreConfigFactory(): StateConfig {
   const config: StateConfig = {

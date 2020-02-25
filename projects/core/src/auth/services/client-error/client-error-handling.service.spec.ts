@@ -1,5 +1,4 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
@@ -43,7 +42,7 @@ describe('ClientErrorHandlingService', () => {
   let httpRequest = new HttpRequest('GET', '/');
   let service: ClientErrorHandlingService;
   let httpHandler: HttpHandler;
-  let authService: AuthServiceStub;
+  let authService: AuthService | AuthServiceStub;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,11 +54,9 @@ describe('ClientErrorHandlingService', () => {
       ],
     });
 
-    service = TestBed.get(ClientErrorHandlingService as Type<
-      ClientErrorHandlingService
-    >);
-    authService = TestBed.get(AuthService as Type<AuthService>);
-    httpHandler = TestBed.get(HttpHandler as Type<HttpHandler>);
+    service = TestBed.inject(ClientErrorHandlingService);
+    authService = TestBed.inject(AuthService);
+    httpHandler = TestBed.inject(HttpHandler);
 
     spyOn(httpHandler, 'handle').and.callThrough();
   });
@@ -69,7 +66,7 @@ describe('ClientErrorHandlingService', () => {
       spyOn(authService, 'refreshClientToken').and.returnValue(
         of(newClientToken)
       );
-      authService.clientToken$ = of(clientToken);
+      (authService as AuthServiceStub).clientToken$ = of(clientToken);
 
       const sub = service
         .handleExpiredClientToken(httpRequest, httpHandler)

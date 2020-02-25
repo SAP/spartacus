@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input, Type } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -33,7 +33,7 @@ const mockPayment: PaymentDetails = {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -74,7 +74,7 @@ describe('PaymentMethodsComponent', () => {
     fixture = TestBed.createComponent(PaymentMethodsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    userService = TestBed.get(UserPaymentService as Type<UserPaymentService>);
+    userService = TestBed.inject(UserPaymentService);
   });
 
   it('should create', () => {

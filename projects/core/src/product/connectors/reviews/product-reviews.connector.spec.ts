@@ -1,9 +1,7 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ProductReviewsAdapter } from './product-reviews.adapter';
 import { ProductReviewsConnector } from './product-reviews.connector';
-
 import createSpy = jasmine.createSpy;
 
 class MockProductReviewsAdapter implements ProductReviewsAdapter {
@@ -24,10 +22,8 @@ describe('ProductReviewsConnector', () => {
       ],
     });
 
-    service = TestBed.get(ProductReviewsConnector as Type<
-      ProductReviewsConnector
-    >);
-    adapter = TestBed.get(ProductReviewsAdapter as Type<ProductReviewsAdapter>);
+    service = TestBed.inject(ProductReviewsConnector);
+    adapter = TestBed.inject(ProductReviewsAdapter);
   });
 
   it('should be created', () => {

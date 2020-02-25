@@ -36,7 +36,13 @@ export const products: TestProduct[] = [
     price: 370.72,
   },
   {
-    code: '29925',
+    code: '872912',
+  },
+  {
+    code: '932577',
+    type: 'camera',
+    name: 'Digital Camera Tripod',
+    price: 24.47,
   },
 ];
 
@@ -52,7 +58,7 @@ function checkCartSummary(subtotal: string) {
 }
 
 function incrementQuantity() {
-  cy.get('.cx-counter-action')
+  cy.get('cx-item-counter button')
     .contains('+')
     .click();
 }
@@ -96,8 +102,7 @@ export function validateEmptyCart() {
 }
 
 export function addToCart() {
-  cy.get('cx-add-to-cart')
-    .getAllByText(/Add To Cart/i)
+  cy.get('cx-add-to-cart button[type=submit]')
     .first()
     .click({ force: true });
 }
@@ -124,6 +129,17 @@ export function registerCreateCartRoute() {
   ).as('create_cart');
 }
 
+export function registerSaveCartRoute() {
+  cy.server();
+
+  cy.route(
+    'PATCH',
+    `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics-spa/users/*/carts/*/save?lang=en&curr=USD`
+  ).as('save_cart');
+}
+
 export function closeAddedToCartDialog() {
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 }
@@ -131,7 +147,7 @@ export function closeAddedToCartDialog() {
 export function checkProductInCart(product, qty = 1) {
   return getCartItem(product.name).within(() => {
     cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
-    cy.get('.cx-counter-value').should('have.value', `${qty}`);
+    cy.get('cx-item-counter input').should('have.value', `${qty}`);
     cy.get('.cx-total>.cx-value').should(
       'contain',
       formatPrice(qty * product.price)
@@ -157,9 +173,9 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
 }
 
 export function addProductToCartViaSearchPage(mobile: boolean) {
-  const product = products[1];
+  const product = products[0];
 
-  goToFirstProductFromSearch(product.type, mobile);
+  goToFirstProductFromSearch(product.code, mobile);
 
   addToCart();
 
@@ -167,25 +183,19 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 
   checkMiniCartCount(2).click({ force: true });
 
-  checkProductInCart(product);
+  checkProductInCart(product, 2);
 }
 
 export function removeAllItemsFromCart() {
-  const product0 = products[0];
-  const product1 = products[1];
   registerCartRefreshRoute();
 
-  getCartItem(product0.name).within(() => {
+  getCartItem(products[0].name).within(() => {
     cy.getByText('Remove').click();
   });
 
   cy.wait('@refresh_cart')
     .its('status')
     .should('eq', 200);
-
-  getCartItem(product1.name).within(() => {
-    cy.getByText('Remove').click();
-  });
 
   validateEmptyCart();
 }
@@ -211,7 +221,13 @@ export function addProductWhenLoggedIn(mobile: boolean) {
   const product = products[1];
 
   goToFirstProductFromSearch(product.code, mobile);
+  /**
+   * This waits is added here to delay Add to cart click until wishlist is created.
+   * Wishlist is created on first render of wishlist components.
+   * Without that there might be a race condition that active cart will use the same cart as wishlist.
+   */
   cy.wait('@create_cart');
+  cy.wait('@save_cart');
   addToCart();
   checkAddedToCartDialog();
   closeAddedToCartDialog();

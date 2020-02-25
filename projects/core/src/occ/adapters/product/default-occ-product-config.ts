@@ -14,7 +14,7 @@ export const defaultOccProductConfig: OccConfig = {
             'products/${productCode}?fields=averageRating,stock(DEFAULT),description,availableForPickup,code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(FULL),priceRange,multidimensional,configuratorType,configurable,tags,images(FULL)',
           attributes: 'products/${productCode}?fields=classifications',
           variants:
-            'products/${productCode}?fields=purchasable,baseOptions(DEFAULT),baseProduct,variantOptions(DEFAULT),variantType',
+            'products/${productCode}?fields=name,purchasable,baseOptions(DEFAULT),baseProduct,variantOptions(DEFAULT),variantType',
         },
         productReviews: 'products/${productCode}/reviews',
         // Uncomment this when occ gets configured

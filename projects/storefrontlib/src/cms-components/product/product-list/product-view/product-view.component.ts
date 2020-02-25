@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ICON_TYPE } from '../../../misc/icon';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 
 export enum ViewModes {
   Grid = 'grid',

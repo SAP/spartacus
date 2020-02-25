@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingConfig } from './config/routing-config';
 import { RoutesConfig } from './routes-config';
@@ -26,7 +25,7 @@ describe('RoutingConfigService', () => {
       ],
     });
 
-    service = TestBed.get(RoutingConfigService as Type<RoutingConfigService>);
+    service = TestBed.inject(RoutingConfigService);
   });
 
   describe('getRouteConfig', () => {
