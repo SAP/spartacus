@@ -1,9 +1,5 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import {
-  BaseSiteService,
-  CurrencyService,
-  RoutingService,
-} from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 
@@ -20,9 +16,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   constructor(
     private hamburgerMenuService: HamburgerMenuService,
-    private routingService: RoutingService,
-    private baseSiteService: BaseSiteService,
-    private currencyService: CurrencyService
+    private routingService: RoutingService
   ) {}
 
   ngOnInit(): void {
@@ -42,16 +36,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   collapseMenu(): void {
     this.hamburgerMenuService.toggle(true);
-  }
-
-  goToApparel(): void {
-    this.baseSiteService.setActive('apparel-uk-spa');
-    this.currencyService.setActive('GBP');
-  }
-
-  goToElectronics(): void {
-    this.baseSiteService.setActive('electronics-spa');
-    this.currencyService.setActive('USD');
   }
 
   ngOnDestroy(): void {
