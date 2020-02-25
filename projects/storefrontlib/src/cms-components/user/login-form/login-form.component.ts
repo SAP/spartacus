@@ -7,7 +7,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
-  FeatureConfigService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
@@ -23,44 +22,13 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   loginAsGuest = false;
 
   constructor(
-    auth: AuthService,
-    globalMessageService: GlobalMessageService,
-    fb: FormBuilder,
-    authRedirectService: AuthRedirectService,
-    winRef: WindowRef, // tslint:disable-line,
-    featureConfig: FeatureConfigService,
-    activatedRoute: ActivatedRoute,
-    checkoutConfigService: CheckoutConfigService
-  );
-
-  /**
-   * @deprecated since 1.1.0
-   * Use constructor(
-   * auth: AuthService,
-   * globalMessageService: GlobalMessageService,
-   * fb: FormBuilder,
-   * authRedirectService: AuthRedirectService,
-   *  winRef: WindowRef,
-   * activatedRoute: ActivatedRoute,
-   * checkoutConfigService: CheckoutConfigService) instead
-   *
-   * TODO(issue:#4055) Deprecated since 1.1.0
-   */
-  constructor(
-    auth: AuthService,
-    globalMessageService: GlobalMessageService,
-    fb: FormBuilder,
-    authRedirectService: AuthRedirectService
-  );
-  constructor(
     private auth: AuthService,
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
     private authRedirectService: AuthRedirectService,
-    private winRef?: WindowRef,
-    protected featureConfig?: FeatureConfigService,
-    private activatedRoute?: ActivatedRoute,
-    private checkoutConfigService?: CheckoutConfigService
+    private winRef: WindowRef,
+    private activatedRoute: ActivatedRoute,
+    private checkoutConfigService: CheckoutConfigService
   ) {}
 
   ngOnInit(): void {
@@ -89,15 +57,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
-    // TODO(issue:#4510) Deprecated since 1.3.0
-    if (this.shouldDisableLoginButton()) {
+    if (this.form.valid) {
       this.submitLogin();
     } else {
-      if (this.form.valid) {
-        this.submitLogin();
-      } else {
-        this.markFormAsTouched();
-      }
+      this.markFormAsTouched();
     }
   }
 
@@ -122,19 +85,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     Object.keys(this.form.controls).forEach(key => {
       this.form.controls[key].markAsTouched();
     });
-  }
-
-  /**
-   * @deprecated since 1.3.0
-   * This function will be removed as login button should not be disabled
-   *
-   * TODO(issue:#4510) Deprecated since 1.3.0
-   */
-  shouldDisableLoginButton(): boolean {
-    if (this.featureConfig && this.featureConfig.isLevel('1.3')) {
-      return false;
-    }
-    return this.form.invalid;
   }
 
   ngOnDestroy(): void {
