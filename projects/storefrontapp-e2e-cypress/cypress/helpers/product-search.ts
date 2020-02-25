@@ -25,7 +25,9 @@ export const QUERY_ALIAS = {
   TOP_RATED_FILTER: 'topRated_query_filter',
   SONY: 'sony_query',
   DSC_N1: 'dsc_n1_query',
-  CANON: 'canon',
+  CANON: 'canon_query',
+  CAMERA: 'camera_query',
+  FACET: 'facet_query',
 };
 
 export function clickSearchIcon() {
@@ -77,8 +79,8 @@ export function verifyProductSearch(
 
 export function searchResult() {
   cy.server();
-  createCameraQuery('camera_query');
-  cy.wait('@camera_query').then(xhr => {
+  createCameraQuery(QUERY_ALIAS.CAMERA);
+  cy.wait(`@${QUERY_ALIAS.CAMERA}`).then(xhr => {
     const cameraResults = xhr.response.body.pagination.totalResults;
 
     cy.get(resultsTitleSelector).should(
@@ -120,7 +122,7 @@ export function viewMode() {
 
 export function filterUsingFacetFiltering() {
   cy.server();
-  createFacetFilterQuery('facet_query');
+  createFacetFilterQuery(QUERY_ALIAS.FACET);
 
   cy.get('.cx-facet-header')
     .contains('Stores')
@@ -131,7 +133,7 @@ export function filterUsingFacetFiltering() {
         .click({ force: true });
     });
 
-  cy.wait('@facet_query').then(xhr => {
+  cy.wait(`@${QUERY_ALIAS.FACET}`).then(xhr => {
     const facetResults = xhr.response.body.pagination.totalResults;
     cy.get(resultsTitleSelector).should(
       'contain',
