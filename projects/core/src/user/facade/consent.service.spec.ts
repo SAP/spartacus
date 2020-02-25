@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AnonymousConsentsService } from '../../anonymous-consents/index';
@@ -54,13 +53,9 @@ describe('ConsentService', () => {
       ],
     });
 
-    service = TestBed.get(ConsentService as Type<ConsentService>);
-    userConsentService = TestBed.get(UserConsentService as Type<
-      UserConsentService
-    >);
-    anonymousConsentsService = TestBed.get(AnonymousConsentsService as Type<
-      AnonymousConsentsService
-    >);
+    service = TestBed.inject(ConsentService);
+    userConsentService = TestBed.inject(UserConsentService);
+    anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
   });
 
   describe('getConsent', () => {

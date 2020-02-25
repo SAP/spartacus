@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { take } from 'rxjs/operators';
@@ -41,8 +40,8 @@ describe('MultiCartService', () => {
       providers: [MultiCartService],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithMultiCart>>);
-    service = TestBed.get(MultiCartService as Type<MultiCartService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(MultiCartService);
 
     spyOn(store, 'dispatch').and.callThrough();
   });

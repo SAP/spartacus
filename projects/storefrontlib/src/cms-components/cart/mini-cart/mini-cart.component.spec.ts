@@ -27,7 +27,7 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 

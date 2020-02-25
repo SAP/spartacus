@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Occ } from '../../occ-models';
 import { OccEndpointsService } from '../../services';
@@ -40,15 +39,9 @@ describe('OccSaveCartAdapter', () => {
       ],
     });
 
-    occSaveCartAdapter = TestBed.get(OccSaveCartAdapter as Type<
-      OccSaveCartAdapter
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    occEndpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    occSaveCartAdapter = TestBed.inject(OccSaveCartAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    occEndpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(occEndpointsService, 'getUrl').and.callThrough();
   });

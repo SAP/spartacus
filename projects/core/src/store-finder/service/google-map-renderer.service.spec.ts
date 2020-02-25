@@ -70,9 +70,9 @@ describe('GoogleMapRendererService', () => {
     });
 
     mapDomElement = document.createElement('div');
-    externalJsFileLoaderMock = bed.get(ExternalJsFileLoader);
-    googleMapRendererService = bed.get(GoogleMapRendererService);
-    storeDataServiceMock = bed.get(StoreDataService);
+    externalJsFileLoaderMock = bed.inject(ExternalJsFileLoader);
+    googleMapRendererService = bed.inject(GoogleMapRendererService);
+    storeDataServiceMock = bed.inject(StoreDataService);
   });
 
   it('should render map', fakeAsync(() => {

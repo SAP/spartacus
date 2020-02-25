@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Cart, OrderEntry } from '@spartacus/core';
 import { of, ReplaySubject, Subject } from 'rxjs';
@@ -61,9 +60,7 @@ describe('ProfileTagInjector', () => {
         },
       ],
     });
-    profileTagInjector = TestBed.get(ProfileTagInjectorService as Type<
-      ProfileTagInjectorService
-    >);
+    profileTagInjector = TestBed.inject(ProfileTagInjectorService);
   });
 
   it('Should be created', () => {

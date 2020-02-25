@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
@@ -61,9 +60,9 @@ describe('CurrencyService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(CurrencyService as Type<CurrencyService>);
+    service = TestBed.inject(CurrencyService);
   });
 
   it('should CurrencyService is injected', inject(
