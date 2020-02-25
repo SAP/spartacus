@@ -27,9 +27,9 @@ export const products: TestProduct[] = [
   },
 
   {
-    code: '1992696',
-    name: 'DSC-S930',
-    price: 223.36,
+    code: '1993747',
+    name: 'DSC-W270',
+    price: 206.88,
   },
   {
     code: '1934796',
