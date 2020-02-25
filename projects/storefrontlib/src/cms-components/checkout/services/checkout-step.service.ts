@@ -51,6 +51,8 @@ export class CheckoutStepService {
     ) {
       return 'checkout.backToCart';
     }
+
+    return 'common.back'
   }
 
   resetSteps(): void {
