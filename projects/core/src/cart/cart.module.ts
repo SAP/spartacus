@@ -10,12 +10,12 @@ import {
 } from './facade/index';
 import { MultiCartService } from './facade/multi-cart.service';
 import { CartPageMetaResolver } from './services/cart-page-meta.resolver';
-import { MultiCartPersistenceService } from './services/multi-cart-persistence.service';
+import { MultiCartStatePersistenceService } from './services/multi-cart-state-persistence.service';
 import { CartStoreModule } from './store/cart-store.module';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
 
-export function cartPersistenceFactory(cartPersistenceService): any {
-  const result = () => cartPersistenceService;
+export function cartStatePersistenceFactory(cartStatePersistenceService): any {
+  const result = () => cartStatePersistenceService;
   return result;
 }
 
@@ -41,8 +41,8 @@ export class CartModule {
         },
         {
           provide: APP_INITIALIZER,
-          useFactory: cartPersistenceFactory,
-          deps: [MultiCartPersistenceService],
+          useFactory: cartStatePersistenceFactory,
+          deps: [MultiCartStatePersistenceService],
           multi: true,
         },
       ],

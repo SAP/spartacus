@@ -16,7 +16,7 @@ import {
 import { SiteContextParamsService } from '../../site-context/services/site-context-params.service';
 import { WindowRef } from '../../window/window-ref';
 import { StorageSyncType } from '../config/state-config';
-import { PersistenceService } from './persistence.service';
+import { StatePersistenceService } from './state-persistence.service';
 import createSpy = jasmine.createSpy;
 
 const sessionStorageMock = {
@@ -47,11 +47,11 @@ const winRef = {
   },
 } as WindowRef;
 
-describe('PersistanceService', () => {
+describe('StatePersistanceService', () => {
   let mockLanguageService: SiteContext<any>;
   let mockCurrencyService: SiteContext<any>;
   let mockBaseSiteService: SiteContext<any>;
-  let service: PersistenceService;
+  let service: StatePersistenceService;
   let langService: LanguageService;
   let currencyService: CurrencyService;
   let baseSiteService: BaseSiteService;
@@ -94,7 +94,7 @@ describe('PersistanceService', () => {
       providers: [
         contextServiceMapProvider,
         SiteContextParamsService,
-        PersistenceService,
+        StatePersistenceService,
         { provide: LanguageService, useValue: mockLanguageService },
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: BaseSiteService, useValue: mockBaseSiteService },
@@ -103,7 +103,7 @@ describe('PersistanceService', () => {
       ],
     });
 
-    service = TestBed.inject(PersistenceService);
+    service = TestBed.inject(StatePersistenceService);
     langService = TestBed.inject(LanguageService);
     currencyService = TestBed.inject(CurrencyService);
     baseSiteService = TestBed.inject(BaseSiteService);
@@ -116,11 +116,11 @@ describe('PersistanceService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('register', () => {
+  describe('synWithStorage', () => {
     it('should update storage on each state update', () => {
       const state = new Subject<number>();
 
-      service.register('test', state.asObservable()).subscribe(() => {});
+      service.syncWithStorage('test', state.asObservable()).subscribe(() => {});
 
       langService.setActive('en');
       currencyService.setActive('USD');
@@ -128,13 +128,13 @@ describe('PersistanceService', () => {
 
       state.next(5);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus-all-test',
+        'spartacus--test',
         '5'
       );
 
       state.next(4);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus-all-test',
+        'spartacus--test',
         '4'
       );
     });
@@ -143,7 +143,7 @@ describe('PersistanceService', () => {
       const state = new Subject<number>();
 
       service
-        .register('test', state.asObservable(), [
+        .syncWithStorage('test', state.asObservable(), [
           BASE_SITE_CONTEXT_ID,
           CURRENCY_CONTEXT_ID,
         ])
@@ -171,7 +171,7 @@ describe('PersistanceService', () => {
       const state = new Subject<number>();
 
       service
-        .register(
+        .syncWithStorage(
           'test',
           state.asObservable(),
           [],
@@ -186,13 +186,13 @@ describe('PersistanceService', () => {
       state.next(5);
       expect(localStorageMock.setItem).not.toHaveBeenCalled();
       expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus-all-test',
+        'spartacus--test',
         '5'
       );
 
       state.next(4);
       expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus-all-test',
+        'spartacus--test',
         '4'
       );
     });
@@ -202,17 +202,17 @@ describe('PersistanceService', () => {
 
       const state = new Subject<number>();
 
-      service.register('test', state.asObservable()).subscribe(result => {
-        expect(result).toEqual(5);
-      });
+      service
+        .syncWithStorage('test', state.asObservable())
+        .subscribe(result => {
+          expect(result).toEqual(5);
+        });
 
       langService.setActive('en');
       currencyService.setActive('USD');
       baseSiteService.setActive('electronics-spa');
 
-      expect(localStorageMock.getItem).toHaveBeenCalledWith(
-        'spartacus-all-test'
-      );
+      expect(localStorageMock.getItem).toHaveBeenCalledWith('spartacus--test');
     });
 
     it('should react only to specified context change', () => {
@@ -221,7 +221,7 @@ describe('PersistanceService', () => {
       const state = new Subject<number>();
 
       service
-        .register('test', state.asObservable(), [LANGUAGE_CONTEXT_ID])
+        .syncWithStorage('test', state.asObservable(), [LANGUAGE_CONTEXT_ID])
         .subscribe(result => {
           expect(result).toEqual(5);
         });

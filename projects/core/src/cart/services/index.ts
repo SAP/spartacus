@@ -1,2 +1,2 @@
 export * from './cart-page-meta.resolver';
-export * from './multi-cart-persistence.service';
+export * from './multi-cart-state-persistence.service';

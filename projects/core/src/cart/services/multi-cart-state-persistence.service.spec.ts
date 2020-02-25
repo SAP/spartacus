@@ -2,20 +2,20 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import * as fromCartReducers from '../../cart/store/reducers/index';
-import { PersistenceService } from '../../state/services/persistence.service';
+import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { CartActions, MULTI_CART_FEATURE, StateWithMultiCart } from '../store';
-import { MultiCartPersistenceService } from './multi-cart-persistence.service';
+import { MultiCartStatePersistenceService } from './multi-cart-state-persistence.service';
 
 const stateUpdate$ = new Subject<{ active: string }>();
 
-class MockPersistentService {
-  register(): Observable<{ active: string }> {
+class MockStatePersistentService {
+  syncWithStorage(): Observable<{ active: string }> {
     return stateUpdate$.asObservable();
   }
 }
 
-describe('MultiCartPersistenceService', () => {
-  let service: MultiCartPersistenceService;
+describe('MultiCartStatePersistenceService', () => {
+  let service: MultiCartStatePersistenceService;
   let store: Store<StateWithMultiCart>;
 
   beforeEach(() => {
@@ -28,12 +28,15 @@ describe('MultiCartPersistenceService', () => {
         ),
       ],
       providers: [
-        MultiCartPersistenceService,
-        { provide: PersistenceService, useClass: MockPersistentService },
+        MultiCartStatePersistenceService,
+        {
+          provide: StatePersistenceService,
+          useClass: MockStatePersistentService,
+        },
       ],
     });
 
-    service = TestBed.inject(MultiCartPersistenceService);
+    service = TestBed.inject(MultiCartStatePersistenceService);
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.stub();
   });
