@@ -1,4 +1,8 @@
-import { StorefrontConfig } from '@spartacus/storefront';
+import {
+  StorefrontConfig,
+  CheckoutStepType,
+  DeliveryModePreferences,
+} from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 
@@ -7,6 +11,10 @@ export const b2bConfig: StorefrontConfig = {
     occ: {
       baseUrl: environment.occBaseUrl,
       legacy: false,
+      endpoints: {
+        addEntries: 'orgUsers/${userId}/carts/${cartId}/entries',
+        user: 'orgUsers/${userId}',
+      },
     },
   },
   context: {
@@ -27,5 +35,47 @@ export const b2bConfig: StorefrontConfig = {
     resources: translations,
     chunks: translationChunksConfig,
     fallbackLang: 'en',
+  },
+
+  checkout: {
+    steps: [
+      {
+        id: 'paymentType',
+        name: 'checkoutProgress.paymentType',
+        routeName: 'checkoutPaymentType',
+        type: [CheckoutStepType.PAYMENT_TYPES],
+      },
+      {
+        id: 'shippingAddress',
+        name: 'checkoutProgress.shippingAddress',
+        routeName: 'checkoutShippingAddress',
+        type: [CheckoutStepType.SHIPPING_ADDRESS],
+      },
+      {
+        id: 'deliveryMode',
+        name: 'checkoutProgress.deliveryMode',
+        routeName: 'checkoutDeliveryMode',
+        type: [CheckoutStepType.DELIVERY_MODE],
+      },
+      {
+        id: 'paymentDetails',
+        name: 'checkoutProgress.paymentDetails',
+        routeName: 'checkoutPaymentDetails',
+        type: [CheckoutStepType.PAYMENT_DETAILS],
+      },
+      {
+        id: 'reviewOrder',
+        name: 'checkoutProgress.reviewOrder',
+        routeName: 'checkoutReviewOrder',
+        type: [CheckoutStepType.REVIEW_ORDER],
+      },
+    ],
+    express: false,
+    defaultDeliveryMode: [DeliveryModePreferences.FREE],
+    guest: false,
+  },
+
+  features: {
+    level: '1.5',
   },
 };
