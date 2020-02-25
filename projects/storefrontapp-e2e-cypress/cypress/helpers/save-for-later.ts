@@ -82,16 +82,7 @@ export function moveItem(
     cy.get('.cx-sfl-btn > .link').click();
   });
   if (!isAnonymous) {
-    cy.wait(['@refresh_cart', '@refresh_selectivecart']).spread(
-      (refresh_cart, refresh_selectivecart) => {
-        cy.wrap(refresh_cart)
-          .its('status')
-          .should('eq', 200);
-        cy.wrap(refresh_selectivecart)
-          .its('status')
-          .should('eq', 200);
-      }
-    );
+    cy.wait(['@refresh_cart', '@refresh_selectivecart']);
   }
 }
 
@@ -111,11 +102,7 @@ export function removeItem(product, position: ItemList) {
 
 export function validateProduct(product, qty = 1, position: ItemList) {
   return getItem(product, position).within(() => {
-    if (position === ItemList.Cart) {
-      cy.get('cx-item-counter input').should('have.value', `${qty}`);
-    } else {
-      cy.get('.cx-quantity').should('contain', `${qty}`);
-    }
+    cy.get('cx-item-counter input').should('have.value', `${qty}`);
     cy.get('.cx-total .cx-value').should('exist');
   });
 }
@@ -231,6 +218,7 @@ export function verifyPlaceOrder() {
   addProductToCart(products[1]);
   moveItem(products[0], ItemList.SaveForLater);
   validateCart(1, 1);
+  cy.wait(1000);
   cartCoupon.placeOrder(stateAuth);
   cy.reload();
   validateCart(0, 1);
