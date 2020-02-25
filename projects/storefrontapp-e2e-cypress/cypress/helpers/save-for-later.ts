@@ -27,9 +27,9 @@ export const products: TestProduct[] = [
   },
 
   {
-    code: '1978440_red',
-    name: 'DSC-H20 Red',
-    price: 558.4,
+    code: '1993747',
+    name: 'DSC-W270',
+    price: 206.88,
   },
   {
     code: '1934796',
