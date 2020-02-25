@@ -10,7 +10,6 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';
-
 import createSpy = jasmine.createSpy;
 
 class MockCartService {
@@ -62,8 +61,8 @@ describe('CheckoutLoginComponent', () => {
     email = controls['email'];
     emailConfirmation = controls['emailConfirmation'];
 
-    cartService = TestBed.get(CartService);
-    authRedirectService = TestBed.get(AuthRedirectService);
+    cartService = TestBed.inject(CartService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
 
     fixture.detectChanges();
   });

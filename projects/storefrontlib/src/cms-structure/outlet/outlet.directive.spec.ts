@@ -8,7 +8,7 @@ import { OutletPosition } from './outlet.model';
 
 const keptOutlet = 'keptOutlet';
 const replacedOutlet = 'replacedOutlet';
-export class MockDeferLoaderService {
+class MockDeferLoaderService {
   load(_element: HTMLElement, _options?: any) {
     return of(true);
   }
@@ -252,7 +252,7 @@ describe('OutletDirective', () => {
         ],
       }).compileComponents();
 
-      deferLoaderService = TestBed.get(DeferLoaderService);
+      deferLoaderService = TestBed.inject(DeferLoaderService);
     }));
 
     it('should use instant loading', () => {

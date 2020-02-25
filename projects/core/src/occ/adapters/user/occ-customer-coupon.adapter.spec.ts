@@ -6,15 +6,14 @@ import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../config/occ-config';
 import {
   CustomerCoupon,
-  CustomerCouponSearchResult,
-  CustomerCouponNotification,
   CustomerCoupon2Customer,
+  CustomerCouponNotification,
+  CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
 import { OccCustomerCouponAdapter } from './occ-customer-coupon.adapter';
 import { MockOccEndpointsService } from './unit-test.helper';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { ConverterService } from '../../../util/converter.service';
-import { Type } from '@angular/core';
 import { CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER } from '../../../user/connectors/customer-coupon/converters';
 
 const userId = 'mockUseId';
@@ -49,12 +48,10 @@ describe('OccCustomerCouponAdapter', () => {
       ],
     });
 
-    occCustomerCouponAdapter = TestBed.get(OccCustomerCouponAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    occCustomerCouponAdapter = TestBed.inject(OccCustomerCouponAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();

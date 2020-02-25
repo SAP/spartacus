@@ -41,8 +41,8 @@ describe('CustomerEmulationComponent', () => {
     fixture = TestBed.createComponent(CustomerEmulationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    userService = TestBed.get(UserService);
-    asmComponentService = TestBed.get(AsmComponentService);
+    userService = TestBed.inject(UserService);
+    asmComponentService = TestBed.inject(AsmComponentService);
     el = fixture.debugElement;
   });
 

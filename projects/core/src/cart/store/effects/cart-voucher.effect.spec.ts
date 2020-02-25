@@ -45,8 +45,8 @@ describe('Cart Voucher effect', () => {
       ],
     });
 
-    voucherEffects = TestBed.get(fromEffects.CartVoucherEffects);
-    cartVoucherConnector = TestBed.get(CartVoucherConnector);
+    voucherEffects = TestBed.inject(fromEffects.CartVoucherEffects);
+    cartVoucherConnector = TestBed.inject(CartVoucherConnector);
 
     spyOn(cartVoucherConnector, 'add').and.returnValue(of({}));
     spyOn(cartVoucherConnector, 'remove').and.returnValue(of({}));

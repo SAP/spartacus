@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed, TestBedStatic } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of, ReplaySubject } from 'rxjs';
@@ -54,10 +53,10 @@ describe('CartService', () => {
   }
 
   function testBedConnector() {
-    service = TestBed.get(CartService as Type<CartService>);
-    cartData = TestBed.get(CartDataService as Type<CartDataService>);
-    store = TestBed.get(Store as Type<Store<StateWithCart>>);
-    activeCart = TestBed.get(ActiveCartService as Type<ActiveCartService>);
+    service = TestBed.inject(CartService);
+    cartData = TestBed.inject(CartDataService);
+    store = TestBed.inject(Store);
+    activeCart = TestBed.inject(ActiveCartService);
   }
 
   const productCode = '1234';

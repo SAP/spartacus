@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, StoreModule } from '@ngrx/store';
@@ -16,7 +15,7 @@ import { CmsActions } from '../actions/index';
 import { CMS_FEATURE } from '../cms-state';
 import * as fromEffects from './page.effect';
 
-export function mockDateNow(): number {
+function mockDateNow(): number {
   return 1000000000000;
 }
 
@@ -105,11 +104,9 @@ describe('Page Effects', () => {
       ],
     });
 
-    cmsPageConnector = TestBed.get(CmsPageConnector as Type<CmsPageConnector>);
-    effects = TestBed.get(fromEffects.PageEffects as Type<
-      fromEffects.PageEffects
-    >);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    cmsPageConnector = TestBed.inject(CmsPageConnector);
+    effects = TestBed.inject(fromEffects.PageEffects);
+    routingService = TestBed.inject(RoutingService);
     Date.now = mockDateNow;
   });
 
