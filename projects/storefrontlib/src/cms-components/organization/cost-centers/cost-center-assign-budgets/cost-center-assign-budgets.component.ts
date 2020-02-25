@@ -8,7 +8,6 @@ import {
   take,
   tap,
   withLatestFrom,
-  delay,
 } from 'rxjs/operators';
 
 import {
@@ -135,15 +134,6 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
     } else {
       this.unassign(row.code);
     }
-    this.queryParams$
-      .pipe(
-        take(1),
-        // TODO temporary workaround
-        delay(200)
-      )
-      .subscribe(queryParams =>
-        this.costCenterService.loadBudgets(this.params.code, queryParams)
-      );
   }
 
   assign(budgetCode) {

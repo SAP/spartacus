@@ -24,7 +24,7 @@ import {
   COST_CENTER_LIST,
   COST_CENTER_ASSIGNED_BUDGETS,
 } from '../organization-state';
-import { budgetsListReducer } from './budget.reducer';
+import { budgetsListReducer, budgetsEntitiesReducer } from './budget.reducer';
 import { orgUnitListReducer } from './org-unit.reducer';
 import { permissionsListReducer } from './permission.reducer';
 import { costCentersListReducer } from './cost-center.reducer';
@@ -32,7 +32,10 @@ import { costCentersListReducer } from './cost-center.reducer';
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
     [BUDGET_FEATURE]: combineReducers({
-      entities: entityLoaderReducer<Budget>(BUDGET_ENTITIES),
+      entities: entityLoaderReducer<Budget>(
+        BUDGET_ENTITIES,
+        budgetsEntitiesReducer
+      ),
       list: entityLoaderReducer<ListModel>(BUDGET_LIST, budgetsListReducer),
     }),
     [PERMISSION_FEATURE]: combineReducers({
