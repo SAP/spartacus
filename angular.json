@@ -181,7 +181,7 @@
               "sourceMap": false,
               "optimization": true,
               "tsConfig": "projects/storefrontapp/tsconfig.server.prod.json"
-            },
+            }
           }
         },
         "serve-ssr": {
@@ -193,7 +193,7 @@
           "configurations": {
             "production": {
               "browserTarget": "storefrontapp:build:production",
-              "serverTarget": "storefrontapp:server:production",
+              "serverTarget": "storefrontapp:server:production"
             }
           }
         },
@@ -202,9 +202,7 @@
           "options": {
             "browserTarget": "storefrontapp:build:production",
             "serverTarget": "storefrontapp:server:production",
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {}
@@ -626,14 +624,14 @@
               "sourceMap": false,
               "optimization": true,
               "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.server.prod.json"
-            },
+            }
           }
         },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
           "options": {
             "browserTarget": "storefrontapp-cds-integration:build",
-            "serverTarget": "storefrontapp-cds-integration:server",
+            "serverTarget": "storefrontapp-cds-integration:server"
           },
           "configurations": {
             "production": {
@@ -647,9 +645,7 @@
           "options": {
             "browserTarget": "storefrontapp-cds-integration:build:production",
             "serverTarget": "storefrontapp-cds-integration:server:production",
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {}
