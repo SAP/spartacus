@@ -2,10 +2,11 @@ import { CostCenter } from '../../../model/cost-center.model';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
 import * as CostCenterActions from '../actions/cost-center.action';
 
+export const costCenterInitialState = {};
 export const costCentersInitialState = undefined;
 
 export function costCentersEntitiesReducer(
-  state = costCentersInitialState,
+  state: CostCenter = costCenterInitialState,
   action: LoaderAction
 ): CostCenter {
   switch (action.type) {
