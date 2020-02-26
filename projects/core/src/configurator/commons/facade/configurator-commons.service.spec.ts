@@ -440,6 +440,24 @@ describe('ConfiguratorCommonsService', () => {
     });
   });
 
+  describe('updateCartEntry', () => {
+    it('should get cart, create updateParameters and call updateCartEntry action', () => {
+      const params: Configurator.UpdateConfigurationForCartEntryParameters = {
+        cartId: CART_GUID,
+        userId: OCC_USER_ID_ANONYMOUS,
+        configuration: productConfiguration,
+      };
+
+      spyOn(store, 'dispatch').and.callThrough();
+
+      serviceUnderTest.updateCartEntry(productConfiguration);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.UpdateCartEntry(params)
+      );
+    });
+  });
+
   describe('getConfiguration', () => {
     it('should return an unchanged observable of product configurations in case configurations carry valid config IDs', () => {
       const obs = cold('x-y', {
@@ -543,6 +561,34 @@ describe('ConfiguratorCommonsService', () => {
       expect(configurationObs).toBeObservable(
         cold('x-', {
           x: productConfiguration,
+        })
+      );
+    });
+
+    it('should create configuration if obsolete state', () => {
+      const productConfigurationLoaderState: LoaderState<
+        Configurator.Configuration
+      > = { loading: false };
+
+      const obs = cold('x', {
+        x: productConfigurationLoaderState,
+      });
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+      spyOn(store, 'dispatch').and.callThrough();
+
+      OWNER_CART_ENTRY.hasObsoleteState = true;
+
+      const configurationObs = serviceUnderTest.getOrCreateConfiguration(
+        OWNER_CART_ENTRY
+      );
+
+      expect(configurationObs).toBeObservable(cold('', {}));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ReadCartEntryConfiguration({
+          userId: cart.user.uid,
+          cartId: cart.guid,
+          cartEntryNumber: OWNER_CART_ENTRY.id,
+          owner: OWNER_CART_ENTRY,
         })
       );
     });

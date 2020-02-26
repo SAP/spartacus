@@ -6,6 +6,7 @@ import {
   ReadCartEntryConfigurationSuccess,
   ReadConfigurationSuccess,
   RemoveConfiguration,
+  UpdateCartEntry,
   UpdateConfiguration,
   UpdateConfigurationFail,
   UpdateConfigurationFinalizeSuccess,
@@ -21,6 +22,7 @@ const configuration: Configurator.Configuration = {
   configId: 'ds',
   productCode: productCode,
   owner: owner,
+  isCartEntryUpdateRequired: false,
 };
 
 describe('Configurator reducer', () => {
@@ -95,14 +97,36 @@ describe('Configurator reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
-  describe('UpdateConfigurationFinalize action', () => {
+  describe('UpdateConfigurationFinalizeSuccess action', () => {
     it('should put configuration into the state', () => {
       const action: ConfiguratorAction = new UpdateConfigurationFinalizeSuccess(
         configuration
       );
       const state = StateReduce.reducer(undefined, action);
 
-      expect(state).toEqual(configuration);
+      expect(state.owner).toEqual(configuration.owner);
+      expect(state.configId).toEqual(configuration.configId);
+      expect(state.productCode).toEqual(configuration.productCode);
+    });
+    it('should set attribute that states that a cart update is required', () => {
+      const action: ConfiguratorAction = new UpdateConfigurationFinalizeSuccess(
+        configuration
+      );
+      const state = StateReduce.reducer(undefined, action);
+
+      expect(state.isCartEntryUpdateRequired).toEqual(true);
+    });
+  });
+
+  describe('UpdateCartEntry action', () => {
+    it('should set attribute that states that a cart update is not required anymore', () => {
+      const params: Configurator.UpdateConfigurationForCartEntryParameters = {
+        configuration: configuration,
+      };
+      const action: ConfiguratorAction = new UpdateCartEntry(params);
+      const state = StateReduce.reducer(undefined, action);
+
+      expect(state.isCartEntryUpdateRequired).toEqual(false);
     });
   });
   describe('RemoveConfiguration action', () => {

@@ -314,9 +314,13 @@ export interface OccEndpoints {
    */
   addConfigurationToCart?: string;
   /**
-   * Endpoint reading configuration attached to the cart entry
+   * Endpoint for reading configuration attached to the cart entry
    */
   readConfigurationForCartEntry?: string;
+  /**
+   * Endpoint for updating configuration attached to the cart entry
+   */
+  updateConfigurationForCartEntry?: string;
   /**
    * Endpoint to read configuration price
    *

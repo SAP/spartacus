@@ -1,11 +1,13 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { CartModification } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 import { ConfiguratorCommonsConnector } from './configurator-commons.connector';
+
 import createSpy = jasmine.createSpy;
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
@@ -27,9 +29,20 @@ const readFromCartEntryParameters: Configurator.ReadConfigurationFromCartEntryPa
   owner: productConfiguration.owner,
 };
 
+const updateFromCartEntryParameters: Configurator.UpdateConfigurationForCartEntryParameters = {
+  userId: USER_ID,
+  cartId: CART_ID,
+  configuration: productConfiguration,
+};
+
+const cartModification: CartModification = {};
+
 class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
   readConfigurationForCartEntry = createSpy().and.callFake(() =>
     of(productConfiguration)
+  );
+  updateConfigurationForCartEntry = createSpy().and.callFake(() =>
+    of(cartModification)
   );
   getConfigurationOverview = createSpy().and.callFake((configId: string) =>
     of('getConfigurationOverview' + configId)
@@ -110,6 +123,19 @@ describe('ConfiguratorCommonsConnector', () => {
       );
     expect(adapter.readConfigurationForCartEntry).toHaveBeenCalledWith(
       readFromCartEntryParameters
+    );
+  });
+
+  it('should call adapter on updateConfigurationForCartEntry', () => {
+    const adapter = TestBed.get(ConfiguratorCommonsAdapter as Type<
+      ConfiguratorCommonsAdapter
+    >);
+
+    service
+      .updateConfigurationForCartEntry(updateFromCartEntryParameters)
+      .subscribe(result => expect(result).toBe(cartModification));
+    expect(adapter.updateConfigurationForCartEntry).toHaveBeenCalledWith(
+      updateFromCartEntryParameters
     );
   });
 

@@ -56,6 +56,12 @@ const productConfiguration: Configurator.Configuration = {
   },
   groups: [{ id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] }],
 };
+
+const payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters = {
+  userId: userId,
+  cartId: cartId,
+  configuration: productConfiguration,
+};
 const cartModification: CartModification = {
   quantity: 1,
   quantityAdded: 1,
@@ -70,6 +76,7 @@ describe('ConfiguratorEffect', () => {
   let createMock: jasmine.Spy;
   let readMock: jasmine.Spy;
   let addToCartMock: jasmine.Spy;
+  let updateCartEntryMock: jasmine.Spy;
   let readConfigurationForCartEntryMock: jasmine.Spy;
   let configEffects: fromEffects.ConfiguratorEffects;
   let configuratorUtils: GenericConfigUtilsService;
@@ -80,6 +87,9 @@ describe('ConfiguratorEffect', () => {
     createMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
     readMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
     addToCartMock = jasmine.createSpy().and.returnValue(of(cartModification));
+    updateCartEntryMock = jasmine
+      .createSpy()
+      .and.returnValue(of(cartModification));
     readConfigurationForCartEntryMock = jasmine
       .createSpy()
       .and.returnValue(of(productConfiguration));
@@ -90,6 +100,8 @@ describe('ConfiguratorEffect', () => {
       readConfiguration = readMock;
 
       addToCart = addToCartMock;
+
+      updateConfigurationForCartEntry = updateCartEntryMock;
 
       readConfigurationForCartEntry = readConfigurationForCartEntryMock;
 
@@ -278,11 +290,19 @@ describe('ConfiguratorEffect', () => {
         readFromCartEntry
       );
 
-      const completion = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+      const readCartEntrySuccessAction = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
         productConfiguration
       );
+
+      const updatePriceAction = new ConfiguratorActions.UpdatePriceSummary(
+        productConfiguration
+      );
+
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', {
+        b: readCartEntrySuccessAction,
+        c: updatePriceAction,
+      });
 
       expect(configEffects.readConfigurationForCartEntry$).toBeObservable(
         expected
@@ -498,6 +518,43 @@ describe('ConfiguratorEffect', () => {
     });
   });
 
+  describe('Effect updateCartEntry', () => {
+    it('should emit AddToCartSuccess on updateCartEntry in case no changes are pending', () => {
+      const action = new ConfiguratorActions.UpdateCartEntry(
+        payloadInputUpdateConfiguration
+      );
+      const cartAddEntrySuccess = new CartActions.CartUpdateEntrySuccess({
+        ...cartModification,
+        userId: userId,
+        cartId: cartId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-d', {
+        d: cartAddEntrySuccess,
+      });
+      expect(configEffects.updateCartEntry$).toBeObservable(expected);
+    });
+
+    it('should emit AddToCartFail in case update cart entry call is not successful', () => {
+      updateCartEntryMock.and.returnValue(throwError(errorResponse));
+
+      const action = new ConfiguratorActions.UpdateCartEntry(
+        payloadInputUpdateConfiguration
+      );
+      const cartAddEntryFail = new CartActions.CartUpdateEntryFail(
+        makeErrorSerializable(errorResponse)
+      );
+
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-b', {
+        b: cartAddEntryFail,
+      });
+      expect(configEffects.updateCartEntry$).toBeObservable(expected);
+    });
+  });
+
   describe('Effect addToCartCartProcessIncrement', () => {
     it('should emit CartProcessesIncrement on addToCart in case no changes are pending', () => {
       const payloadInput: Configurator.AddToCartParameters = {
@@ -518,6 +575,25 @@ describe('ConfiguratorEffect', () => {
         d: cartProcessIncrement,
       });
       expect(configEffects.addToCartCartProcessIncrement$).toBeObservable(
+        expected
+      );
+    });
+  });
+
+  describe('Effect updateCartEntryCartProcessIncrement', () => {
+    it('should emit CartProcessesIncrement on updateCartEntry in case no changes are pending', () => {
+      const action = new ConfiguratorActions.UpdateCartEntry(
+        payloadInputUpdateConfiguration
+      );
+      const cartProcessIncrement = new CartActions.CartProcessesIncrement(
+        cartId
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-d', {
+        d: cartProcessIncrement,
+      });
+      expect(configEffects.updateCartEntryCartProcessIncrement$).toBeObservable(
         expected
       );
     });

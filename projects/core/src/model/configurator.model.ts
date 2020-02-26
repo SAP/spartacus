@@ -53,6 +53,7 @@ export namespace Configurator {
     overview?: Overview;
     owner?: GenericConfigurator.Owner;
     nextOwner?: GenericConfigurator.Owner;
+    isCartEntryUpdateRequired?: boolean;
   }
 
   export interface Overview {
@@ -103,6 +104,14 @@ export namespace Configurator {
     cartEntryNumber?: string;
     owner?: GenericConfigurator.Owner;
   }
+
+  export interface UpdateConfigurationForCartEntryParameters {
+    userId?: string;
+    cartId?: string;
+    cartEntryNumber?: string;
+    configuration?: Configurator.Configuration;
+  }
+
   export interface Image {
     type?: ImageType;
     format?: ImageFormatType;

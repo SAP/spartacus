@@ -25,6 +25,7 @@ export class OccConfiguratorVariantNormalizer
       productCode: source.kbKey.productCode,
       groups: [],
       flatGroups: [],
+      isCartEntryUpdateRequired: false,
     };
 
     source.groups.forEach(group =>

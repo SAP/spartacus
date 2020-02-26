@@ -3,6 +3,7 @@ export namespace GenericConfigurator {
     type?: OwnerType;
     key?: string;
     id?: string;
+    hasObsoleteState?: boolean;
   }
 
   export enum OwnerType {
