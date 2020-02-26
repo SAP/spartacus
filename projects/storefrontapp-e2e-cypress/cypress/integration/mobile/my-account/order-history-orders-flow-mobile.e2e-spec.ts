@@ -35,7 +35,6 @@ describe(`${formats.mobile.width + 1}p resolution - Order details page`, () => {
 
   it('should display order details page', () => {
     doPlaceOrder().then((orderData: any) => {
-      cy.wait(Cypress.env('ORDER_HISTORY_WAIT_TIME'));
       cy.visit('/my-account/orders');
       cy.get('.cx-order-history-code > .cx-order-history-value')
         .first()
