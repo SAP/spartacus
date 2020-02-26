@@ -8,49 +8,60 @@ import { RoutingConfigService } from './routing-config.service';
 @Injectable({ providedIn: 'root' })
 export class ConfigurableRoutesService {
   constructor(
-    private injector: Injector,
-    private routingConfigService: RoutingConfigService,
-    private urlMatcherService: UrlMatcherService
+    protected injector: Injector,
+    protected routingConfigService: RoutingConfigService,
+    protected urlMatcherService: UrlMatcherService
   ) {}
 
-  private initCalled = false; // guard not to call init() more than once
+  protected initCalled = false; // guard not to call init() more than once
 
   /**
-   * Configures all existing Routes in the Router
+   * Enhances existing Angular routes using the routing config of Spartacus.
+   * Can be called only once. 
    */
   init(): void {
     if (!this.initCalled) {
       this.initCalled = true;
-      this.configureRouter();
+     
+      this.configure();
     }
   }
 
-  private configureRouter() {
+  /**
+   * Enhances existing Angular routes using the routing config of Spartacus.
+   */
+  protected configure(): void {
     // Router could not be injected in constructor due to cyclic dependency with APP_INITIALIZER:
     const router = this.injector.get(Router);
-
-    const configuredRoutes = this.configureRoutes(router.config);
-
-    router.resetConfig(configuredRoutes);
+    router.resetConfig(this.configureRoutes(router.config));
   }
 
-  private configureRoutes(routes: Routes): Routes {
-    const result = [];
-    routes.forEach(route => {
+
+
+  /**
+   * Sets the property `path` or `matcher` for the given routes, based on the Spartacus' routing configuration.
+   * 
+   * @param routes list of Angular `Route` objects  
+   */
+  protected configureRoutes(routes: Routes): Routes {
+    return routes.map(route => {
       const configuredRoute = this.configureRoute(route);
 
       if (route.children && route.children.length) {
         configuredRoute.children = this.configureRoutes(route.children);
       }
-      result.push(configuredRoute);
+      return configuredRoute;
     });
-    return result;
   }
 
   /**
-   * Sets the `path` or `matcher` of the `Route`, based on the Spartacus' configuration of the route.
+   * Sets the property `path` or `matcher` of the `Route`, based on the Spartacus' routing configuration.
+   * Uses the property `data.cxRoute` to determine the name of the route. 
+   * It's the same name as used as a key in the routing configuration: `routing.routes[ROUTE NAME]`.
+   * 
+   * @param route Angular `Route` object
    */
-  private configureRoute(route: Route): Route {
+  protected configureRoute(route: Route): Route {
     const routeName = this.getRouteName(route);
     if (routeName) {
       const routeConfig = this.routingConfigService.getRouteConfig(routeName);
@@ -88,9 +99,9 @@ export class ConfigurableRoutesService {
    * 
    * @param route Route object
    * @param matchersOrFactories `UrlMatcher`s or injection tokens with a factory functions
-   *  that create UrlMatchers using given route.
+   *  that create UrlMatchers based on the given route.
    */
-  private resolveUrlMatchers(
+  protected resolveUrlMatchers(
     route: Route,
     matchersOrFactories: RouteConfig['matchers']
   ): UrlMatcher {
@@ -103,13 +114,12 @@ export class ConfigurableRoutesService {
   }
 
   /**
-   * Creates an `UrlMatcher` using the injection token with a factory function.
-   * The factory is feeded with the given route.
+   * Creates an `UrlMatcher` based on the given route, using the factory function coming from the given injection token.
    *
    * @param route Route object
    * @param factoryToken injection token with a factory function that will create an UrlMatcher using given route
    */
-  private resolveUrlMatcherFactory(
+  protected resolveUrlMatcherFactory(
     route: Route,
     factoryToken: InjectionToken<UrlMatcherFactory>
   ): UrlMatcher {
@@ -118,14 +128,14 @@ export class ConfigurableRoutesService {
   }
 
   /**
-   * Returns the name of Route stored in its property `data.cxRoute`
+   * Returns the name of the Route stored in its property `data.cxRoute`
    * @param route
    */
   protected getRouteName(route: Route): string {
     return route.data && route.data.cxRoute;
   }
 
-  private validateRouteConfig(
+  protected validateRouteConfig(
     routeConfig: RouteConfig,
     routeName: string,
     route: Route
