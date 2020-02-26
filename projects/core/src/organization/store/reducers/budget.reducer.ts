@@ -12,6 +12,8 @@ export function budgetsEntitiesReducer(
 ): Budget {
   switch (action.type) {
     case BudgetActions.LOAD_BUDGET_SUCCESS:
+    case BudgetActions.CREATE_BUDGET_SUCCESS:
+    case BudgetActions.UPDATE_BUDGET_SUCCESS:
       return {
         ...state,
         ...action.payload,
