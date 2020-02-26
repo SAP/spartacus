@@ -20,12 +20,12 @@ export class MultiCartStatePersistenceService {
 
     const source = cartState$.pipe(
       filter(state => !!state),
+      distinctUntilKeyChanged('active'),
       map(state => {
         return {
           active: state.active,
         };
-      }),
-      distinctUntilKeyChanged('active')
+      })
     );
 
     statePersistenceService
