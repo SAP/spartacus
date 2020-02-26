@@ -73,6 +73,11 @@
             type="text"
             class="form-control"
             formControlName="title"
+            [class.is-invalid]="
+              reviewForm.controls['title'].invalid &&
+              (reviewForm.controls['title'].touched ||
+                reviewForm.controls['title'].dirty)
+            "
           />
         </label>
       </div>
@@ -85,6 +90,11 @@
             class="form-control"
             rows="3"
             formControlName="comment"
+            [class.is-invalid]="
+              reviewForm.controls['comment'].invalid &&
+              (reviewForm.controls['comment'].touched ||
+                reviewForm.controls['comment'].dirty)
+            "
           ></textarea>
         </label>
       </div>
