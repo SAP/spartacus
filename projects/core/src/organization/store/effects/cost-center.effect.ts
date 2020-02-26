@@ -167,7 +167,7 @@ export class CostCenterEffects {
           map(
             () =>
               new CostCenterActions.AssignBudgetSuccess({
-                budgetCode: payload.budgetCode,
+                code: payload.budgetCode,
                 selected: true,
               })
           ),
@@ -202,7 +202,7 @@ export class CostCenterEffects {
           map(
             () =>
               new CostCenterActions.UnassignBudgetSuccess({
-                budgetCode: payload.budgetCode,
+                code: payload.budgetCode,
                 selected: false,
               })
           ),

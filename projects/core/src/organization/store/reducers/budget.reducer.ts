@@ -14,18 +14,11 @@ export function budgetsEntitiesReducer(
     case BudgetActions.LOAD_BUDGET_SUCCESS:
     case BudgetActions.CREATE_BUDGET_SUCCESS:
     case BudgetActions.UPDATE_BUDGET_SUCCESS:
-      return {
-        ...state,
-        ...action.payload,
-      };
     case CostCenterActions.UNASSIGN_BUDGET_SUCCESS:
     case CostCenterActions.ASSIGN_BUDGET_SUCCESS:
       return {
         ...state,
-        selected:
-          state.code === action.payload.budgetCode
-            ? action.payload.selected
-            : state.selected,
+        ...action.payload,
       };
   }
   return state;

@@ -10,6 +10,7 @@ import {
   COST_CENTER_ENTITIES,
   COST_CENTER_LIST,
   COST_CENTER_ASSIGNED_BUDGETS,
+  BUDGET_ENTITIES,
 } from '../organization-state';
 import { ListModel } from '../../../model/misc.model';
 
@@ -200,7 +201,7 @@ export class LoadAssignedBudgetsSuccess extends EntitySuccessAction {
   }
 }
 
-export class AssignBudget {
+export class AssignBudget extends EntityLoadAction {
   readonly type = ASSIGN_BUDGET;
   constructor(
     public payload: {
@@ -208,22 +209,28 @@ export class AssignBudget {
       costCenterCode: string;
       budgetCode: string;
     }
-  ) {}
+  ) {
+    super(BUDGET_ENTITIES, payload.budgetCode);
+  }
 }
 
-export class AssignBudgetFail {
+export class AssignBudgetFail extends EntityFailAction {
   readonly type = ASSIGN_BUDGET_FAIL;
   constructor(
     public payload: { costCenterCode: string; budgetCode: string; error: any }
-  ) {}
+  ) {
+    super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
+  }
 }
 
-export class AssignBudgetSuccess {
+export class AssignBudgetSuccess extends EntitySuccessAction {
   readonly type = ASSIGN_BUDGET_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: { code: string; selected: boolean }) {
+    super(BUDGET_ENTITIES, payload.code, payload);
+  }
 }
 
-export class UnassignBudget {
+export class UnassignBudget extends EntityLoadAction {
   readonly type = UNASSIGN_BUDGET;
   constructor(
     public payload: {
@@ -231,19 +238,25 @@ export class UnassignBudget {
       costCenterCode: string;
       budgetCode: string;
     }
-  ) {}
+  ) {
+    super(BUDGET_ENTITIES, payload.budgetCode);
+  }
 }
 
-export class UnassignBudgetFail {
+export class UnassignBudgetFail extends EntityFailAction {
   readonly type = UNASSIGN_BUDGET_FAIL;
   constructor(
     public payload: { costCenterCode: string; budgetCode: string; error: any }
-  ) {}
+  ) {
+    super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
+  }
 }
 
-export class UnassignBudgetSuccess {
+export class UnassignBudgetSuccess extends EntitySuccessAction {
   readonly type = UNASSIGN_BUDGET_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: { code: string; selected: boolean }) {
+    super(BUDGET_ENTITIES, payload.code, payload);
+  }
 }
 
 export type CostCenterAction =
