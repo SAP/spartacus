@@ -6,19 +6,18 @@ import { StatePersistenceService } from '../../state/services/state-persistence.
 import { CartActions, MultiCartSelectors } from '../store';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class MultiCartStatePersistenceService {
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected store: Store<StateWithMultiCart>
   ) {
-    const cartState$ = this.store.pipe(
-      select(MultiCartSelectors.getMultiCartState)
-    );
+    this.sync();
+  }
 
-    const source = cartState$.pipe(
+  protected sync() {
+    const source$ = this.store.pipe(
+      select(MultiCartSelectors.getMultiCartState),
       filter(state => !!state),
       distinctUntilKeyChanged('active'),
       map(state => {
@@ -28,8 +27,8 @@ export class MultiCartStatePersistenceService {
       })
     );
 
-    statePersistenceService
-      .syncWithStorage('cart', source, [BASE_SITE_CONTEXT_ID])
+    this.statePersistenceService
+      .syncWithStorage('cart', source$, [BASE_SITE_CONTEXT_ID])
       .subscribe(state => {
         this.store.dispatch(new CartActions.ClearCart());
         this.store.dispatch(new CartActions.ClearMultiCartState());

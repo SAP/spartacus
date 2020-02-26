@@ -45,6 +45,7 @@ export class CartModule {
           deps: [MultiCartStatePersistenceService],
           multi: true,
         },
+        MultiCartStatePersistenceService,
       ],
     };
   }
