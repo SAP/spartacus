@@ -85,7 +85,21 @@ export class ProductReviewsComponent {
     this.reviewForm.controls.rating.setValue(rating);
   }
 
-  submitReview(product: Product): void {
+  private markFormAsTouched(): void {
+    Object.keys(this.reviewForm.controls).forEach(key => {
+      this.reviewForm.controls[key].markAsTouched();
+    });
+  }
+
+  submitReview(product: Product) {
+    if (this.reviewForm.valid) {
+      this.addReview(product);
+    } else {
+      this.markFormAsTouched();
+    }
+  }
+
+  addReview(product: Product): void {
     const reviewFormControls = this.reviewForm.controls;
     const review: Review = {
       headline: reviewFormControls.title.value,
