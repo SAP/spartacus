@@ -14,7 +14,7 @@ import { MultiCartStatePersistenceService } from './services/multi-cart-state-pe
 import { CartStoreModule } from './store/cart-store.module';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
 
-export function cartStatePersistenceFactory(cartStatePersistenceService): any {
+function cartStatePersistenceFactory(cartStatePersistenceService): any {
   const result = () => cartStatePersistenceService;
   return result;
 }
