@@ -9,6 +9,26 @@ export const pageLinkSelector = 'cx-pagination a.current';
 export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
 export const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
+export const searchUrlPrefix = `${apiUrl}/rest/v2/electronics-spa/products/search`;
+
+export const QUERY_ALIAS = {
+  FIRST_PAGE: 'first_page_query',
+  CATEGORY_PAGE: 'category_page_query',
+  BRAND_PAGE: 'brand_page_query',
+  SONY_CLEAR_FACET: 'sony_query_clear_facet',
+  PRICE_ASC_FILTER: 'price_query_asc_filter',
+  PRICE_DSC_FILTER: 'price_query_dsc_filter',
+  NAME_DSC_FILTER: 'name_query_dsc_filter',
+  CATEGORY_FILTER: 'category_query_filter',
+  STORE_FILTER: 'store_query_filter',
+  COLOR_FILTER: 'color_query_filter',
+  TOP_RATED_FILTER: 'topRated_query_filter',
+  SONY: 'sony_query',
+  DSC_N1: 'dsc_n1_query',
+  CANON: 'canon_query',
+  CAMERA: 'camera_query',
+  FACET: 'facet_query',
+};
 
 export function clickSearchIcon() {
   cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
@@ -43,13 +63,13 @@ export function verifyProductSearch(
       nextPage();
       cy.get(pageLinkSelector).should('contain', '2');
 
-      cy.wait(productAlias);
+      cy.wait(`@${productAlias}`);
 
       checkDistinctProductName(firstProduct);
 
       cy.get('cx-sorting .ng-select:first').ngSelect(sortBy);
 
-      cy.wait(sortingAlias);
+      cy.wait(`@${sortingAlias}`);
 
       cy.get(pageLinkSelector).should('contain', '2');
 
@@ -58,13 +78,22 @@ export function verifyProductSearch(
 }
 
 export function searchResult() {
-  cy.get(resultsTitleSelector).should('contain', '140 results for "camera"');
-  cy.get(productItemSelector).should(
-    'have.length',
-    PRODUCT_LISTING.PRODUCTS_PER_PAGE
-  );
-  cy.get(firstProductItemSelector).within(() => {
-    cy.get('a.cx-product-name').should('be.visible');
+  cy.server();
+  createCameraQuery(QUERY_ALIAS.CAMERA);
+  cy.wait(`@${QUERY_ALIAS.CAMERA}`).then(xhr => {
+    const cameraResults = xhr.response.body.pagination.totalResults;
+
+    cy.get(resultsTitleSelector).should(
+      'contain',
+      `${cameraResults} results for "camera"`
+    );
+    cy.get(productItemSelector).should(
+      'have.length',
+      PRODUCT_LISTING.PRODUCTS_PER_PAGE
+    );
+    cy.get(firstProductItemSelector).within(() => {
+      cy.get('a.cx-product-name').should('be.visible');
+    });
   });
 }
 
@@ -101,6 +130,9 @@ export function viewMode() {
 }
 
 export function filterUsingFacetFiltering() {
+  cy.server();
+  createFacetFilterQuery(QUERY_ALIAS.FACET);
+
   cy.get('.cx-facet-header')
     .contains('Stores')
     .parents('.cx-facet-group')
@@ -109,7 +141,14 @@ export function filterUsingFacetFiltering() {
         .first()
         .click({ force: true });
     });
-  cy.get(resultsTitleSelector).should('contain', '78 results for "camera"');
+
+  cy.wait(`@${QUERY_ALIAS.FACET}`).then(xhr => {
+    const facetResults = xhr.response.body.pagination.totalResults;
+    cy.get(resultsTitleSelector).should(
+      'contain',
+      `${facetResults} results for "camera"`
+    );
+  });
 }
 
 export function clearActiveFacet(mobile?: string) {
@@ -178,19 +217,59 @@ export function sortByTopRated() {
 export function checkFirstItem(productName: string): void {
   cy.get('cx-product-list-item .cx-product-name')
     .first()
-    .should('contain', productName);
+    .then(firstProductName => {
+      const clearHTMLProductName = productName.replace(/<(.|\n)*?>/g, '');
+      cy.wrap(firstProductName).should('contain', clearHTMLProductName);
+    });
 }
 
-export function createProductQuery(alias: string): void {
-  cy.route('GET', `${apiUrl}/rest/v2/electronics-spa/products/search*`).as(
-    alias
-  );
+export function clickFacet(header: string) {
+  cy.get('.cx-facet-header')
+    .contains(header)
+    .parents('.cx-facet-group')
+    .within(() => {
+      cy.get('.cx-facet-checkbox')
+        .first()
+        .click({ force: true });
+    });
+}
+
+export function clearSelectedFacet(mobile: string) {
+  if (mobile) {
+    cy.get(
+      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
+    ).click({ force: true });
+  } else {
+    cy.get(
+      'cx-product-facet-navigation .cx-facet-filter-container .cx-facet-filter-pill .close:first'
+    ).click({ force: true });
+  }
+}
+
+function createCameraQuery(alias: string): void {
+  cy.route('GET', `${searchUrlPrefix}?fields=*&query=camera*`).as(alias);
+}
+
+function createFacetFilterQuery(alias: string): void {
+  cy.route(
+    'GET',
+    `${searchUrlPrefix}?fields=*&query=camera:relevance:availableInStores*`
+  ).as(alias);
 }
 
 export function createProductSortQuery(sort: string, alias: string): void {
+  cy.route('GET', `${searchUrlPrefix}?fields=*&sort=${sort}*`).as(alias);
+}
+
+export function createProductQuery(
+  alias: string,
+  queryId: string,
+  pageSize: number,
+  currentPage: string = ''
+): void {
   cy.route(
     'GET',
-    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&sort=${sort}*`
+    `${searchUrlPrefix}?fields=*&query=${queryId}&pageSize=${pageSize}${currentPage}&lang=en&curr=USD`
   ).as(alias);
 }
 
@@ -201,6 +280,34 @@ export function createProductFacetQuery(
 ): void {
   cy.route(
     'GET',
-    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=${search}:relevance:${param}*`
+    `${searchUrlPrefix}?fields=*&query=${search}:relevance:${param}*`
+  ).as(alias);
+}
+
+export function assertNumberOfProducts(alias: string, category: string) {
+  cy.get(alias).then(xhr => {
+    const body = xhr.response.body;
+    const paginationTotalresults: number = body.pagination.totalResults;
+    const productLengthInPage: number = body.products.length;
+    const firstProduct = body.products[0].name;
+
+    cy.get('cx-breadcrumb h1').should(
+      'contain',
+      `${paginationTotalresults} results for ${category}`
+    );
+
+    cy.get(productItemSelector).should('have.length', productLengthInPage);
+
+    checkFirstItem(firstProduct);
+  });
+}
+
+export function createSpecificProductQuery(
+  search: string,
+  alias: string
+): void {
+  cy.route(
+    'GET',
+    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=${search}*`
   ).as(alias);
 }
