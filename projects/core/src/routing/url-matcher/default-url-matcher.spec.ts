@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { UrlMatcher } from '@angular/router';
 import { RoutingConfigService } from '../configurable-routes/routing-config.service';
 import { UrlMatcherService } from '../services/url-matcher.service';
-import { DEFAULT_URL_MATCHER_FACTORY } from './default-url-matcher-factory';
+import { DEFAULT_URL_MATCHER } from './default-url-matcher';
 
 class MockRoutingConfigService implements Partial<RoutingConfigService> {
   getRouteConfig = jasmine.createSpy('getRouteConfig').and.returnValue({
@@ -18,7 +18,7 @@ class MockUrlMatcherService implements Partial<UrlMatcherService> {
     .and.returnValue(fromPathsUrlMatcher);
 }
 
-describe('DEFAULT_URL_MATCHER_FACTORY', () => {
+describe('DEFAULT_URL_MATCHER', () => {
   let routingConfigService: RoutingConfigService;
   let urlMatcherService: UrlMatcherService;
 
@@ -40,7 +40,7 @@ describe('DEFAULT_URL_MATCHER_FACTORY', () => {
   });
 
   it('should provide a function to create URL matcher from configured paths of given route', () => {
-    const factory = TestBed.inject(DEFAULT_URL_MATCHER_FACTORY);
+    const factory = TestBed.inject(DEFAULT_URL_MATCHER);
     const route = { data: { cxRoute: 'testPage' } };
     const urlMatcher = factory(route);
     expect(routingConfigService.getRouteConfig).toHaveBeenCalledWith(

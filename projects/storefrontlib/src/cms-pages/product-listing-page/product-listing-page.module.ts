@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ConfigModule, RoutingConfig } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '../../cms-structure/index';
-import { PRODUCT_LISTING_URL_MATCHER_FACTORY } from './product-listing-url-matcher-factory';
+import { PRODUCT_LISTING_URL_MATCHER } from './product-listing-url-matcher';
 
 @NgModule({
   imports: [
@@ -32,7 +32,7 @@ import { PRODUCT_LISTING_URL_MATCHER_FACTORY } from './product-listing-url-match
       routing: {
         routes: {
           category: {
-            matchers: [PRODUCT_LISTING_URL_MATCHER_FACTORY],
+            matchers: [PRODUCT_LISTING_URL_MATCHER],
           },
         },
       },

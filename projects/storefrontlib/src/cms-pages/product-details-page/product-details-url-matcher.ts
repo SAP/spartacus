@@ -1,40 +1,40 @@
 import { inject, InjectionToken } from '@angular/core';
 import { Route } from '@angular/router';
 import {
-  DEFAULT_URL_MATCHER_FACTORY,
+  DEFAULT_URL_MATCHER,
   UrlMatcherFactory,
   UrlMatcherService,
 } from '@spartacus/core';
 import { getSuffixUrlMatcher } from '../../cms-structure/routing/suffix-routes/suffix-url-matcher';
 
-export function getProductListingUrlMatcherFactory(
+export function getProductDetailsUrlMatcherFactory(
   service: UrlMatcherService,
   defaultMatcherFactory: UrlMatcherFactory
 ): UrlMatcherFactory {
   const factory = (route: Route) => {
     const defaultMatcher = defaultMatcherFactory(route);
-    const suffixPLPMatcher = getSuffixUrlMatcher({
-      marker: 'c',
-      paramName: 'categoryCode',
+    const suffixPDPMatcher = getSuffixUrlMatcher({
+      marker: 'p',
+      paramName: 'productCode',
     });
-    return service.getCombined([defaultMatcher, suffixPLPMatcher]);
+    return service.getCombined([defaultMatcher, suffixPDPMatcher]);
   };
   return factory;
 }
 
 /**
- * Injection token with url matcher factory for PLP.
+ * Injection token with url matcher factory for PDP.
  * The provided url matcher matches both:
  * - the configured `paths` from routing config and
- * - custom pattern  `** / c / :categoryCode`
+ * - custom pattern  `** / p / :productCode`
  */
-export const PRODUCT_LISTING_URL_MATCHER_FACTORY = new InjectionToken<
+export const PRODUCT_DETAILS_URL_MATCHER = new InjectionToken<
   UrlMatcherFactory
->('PRODUCT_LISTING_URL_MATCHER_FACTORY', {
+>('PRODUCT_DETAILS_URL_MATCHER', {
   providedIn: 'root',
   factory: () =>
-    getProductListingUrlMatcherFactory(
+    getProductDetailsUrlMatcherFactory(
       inject(UrlMatcherService),
-      inject(DEFAULT_URL_MATCHER_FACTORY)
+      inject(DEFAULT_URL_MATCHER)
     ),
 });

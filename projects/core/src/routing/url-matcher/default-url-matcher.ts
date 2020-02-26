@@ -17,13 +17,18 @@ export function getDefaultUrlMatcherFactory(
   return factory;
 }
 
-export const DEFAULT_URL_MATCHER_FACTORY = new InjectionToken<
-  UrlMatcherFactory
->('DEFAULT_URL_MATCHER_FACTORY', {
-  providedIn: 'root',
-  factory: () =>
-    getDefaultUrlMatcherFactory(
-      inject(RoutingConfigService),
-      inject(UrlMatcherService)
-    ),
-});
+/**
+ * Injection token with url matcher factory for spartacus routes containing property `data.cxRoute`.
+ * The provided url matcher matches the configured `paths` from routing config.
+ */
+export const DEFAULT_URL_MATCHER = new InjectionToken<UrlMatcherFactory>(
+  'DEFAULT_URL_MATCHER',
+  {
+    providedIn: 'root',
+    factory: () =>
+      getDefaultUrlMatcherFactory(
+        inject(RoutingConfigService),
+        inject(UrlMatcherService)
+      ),
+  }
+);

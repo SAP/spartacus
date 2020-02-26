@@ -1,2 +1,2 @@
-export { DEFAULT_URL_MATCHER_FACTORY } from './default-url-matcher-factory';
+export { DEFAULT_URL_MATCHER } from './default-url-matcher';
 export * from './url-matcher-factory';
