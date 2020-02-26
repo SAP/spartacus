@@ -28,7 +28,7 @@ export class UrlMatcherService {
     const matchers = paths.map(path => this.fromPath(path));
     const matcher = this.combine(matchers);
     if (isDevMode()) {
-      matcher['paths'] = paths; // property added for easier debugging of routes
+      matcher['_paths'] = paths; // property added for easier debugging of routes
     }
     return matcher;
   }
@@ -51,7 +51,7 @@ export class UrlMatcherService {
       return null;
     };
     if (isDevMode()) {
-      matcher['matchers'] = matchers; // property added for easier debugging of routes
+      matcher['_matchers'] = matchers; // property added for easier debugging of routes
     }
     return matcher;
   }
@@ -120,7 +120,7 @@ export class UrlMatcherService {
       return { consumed: segments.slice(0, parts.length), posParams };
     };
     if (isDevMode()) {
-      matcher['path'] = path; // property added for easier debugging of routes
+      matcher['_path'] = path; // property added for easier debugging of routes
     }
     return matcher;
   }
@@ -139,7 +139,7 @@ export class UrlMatcherService {
         : { consumed: segments, posParams: {} };
     };
     if (isDevMode()) {
-      matcher['originalMatcher'] = originalMatcher; // property added for easier debugging of routes
+      matcher['_originalMatcher'] = originalMatcher; // property added for easier debugging of routes
     }
     return matcher;
   }
@@ -160,7 +160,7 @@ export class UrlMatcherService {
         : null;
     };
     if (isDevMode()) {
-      matcher['globPatterns'] = globPatterns; // property added for easier debugging of routes
+      matcher['_globPatterns'] = globPatterns; // property added for easier debugging of routes
     }
     return matcher;
   }

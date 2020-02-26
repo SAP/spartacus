@@ -1,3 +1,4 @@
+import { isDevMode } from '@angular/core';
 import { UrlMatchResult, UrlSegment } from '@angular/router';
 
 /**
@@ -40,7 +41,9 @@ export function getSuffixUrlMatcher({
     return { consumed: segments.slice(0, paramIndex + 1), posParams };
   };
 
-  matcher['suffixRouteConfig'] = { marker, paramName, precedingParamName }; // property added for easier debugging of routes
+  if (isDevMode()) {
+    matcher['_suffixRouteConfig'] = { marker, paramName, precedingParamName }; // property added for easier debugging of routes
+  }
 
   return matcher;
 }
