@@ -67,7 +67,7 @@ export class StatePersistenceService {
     storageType: StorageSyncType = StorageSyncType.LOCAL_STORAGE
   ): Observable<T> {
     function keyWithContext(context) {
-      return `spartacus-${context}-${storageKey}`;
+      return `spartacus/${context}/${storageKey}`;
     }
     const storage = getStorage(storageType, this.winRef);
 
@@ -79,7 +79,7 @@ export class StatePersistenceService {
       )
     ).pipe(
       filter(contextValues => contextValues.every(param => !!param)),
-      map(contextValues => contextValues.join('-')),
+      map(contextValues => contextValues.join('/')),
       distinctUntilChanged()
     );
 

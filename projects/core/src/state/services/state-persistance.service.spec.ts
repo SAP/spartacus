@@ -128,13 +128,13 @@ describe('StatePersistanceService', () => {
 
       state.next(5);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus--test',
+        'spartacus//test',
         '5'
       );
 
       state.next(4);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus--test',
+        'spartacus//test',
         '4'
       );
     });
@@ -156,13 +156,13 @@ describe('StatePersistanceService', () => {
       state.next(5);
       expect(sessionStorageMock.setItem).not.toHaveBeenCalled();
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus-electronics-spa-USD-test',
+        'spartacus/electronics-spa/USD/test',
         '5'
       );
 
       state.next(4);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus-electronics-spa-USD-test',
+        'spartacus/electronics-spa/USD/test',
         '4'
       );
     });
@@ -186,13 +186,13 @@ describe('StatePersistanceService', () => {
       state.next(5);
       expect(localStorageMock.setItem).not.toHaveBeenCalled();
       expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus--test',
+        'spartacus//test',
         '5'
       );
 
       state.next(4);
       expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus--test',
+        'spartacus//test',
         '4'
       );
     });
@@ -212,7 +212,7 @@ describe('StatePersistanceService', () => {
       currencyService.setActive('USD');
       baseSiteService.setActive('electronics-spa');
 
-      expect(localStorageMock.getItem).toHaveBeenCalledWith('spartacus--test');
+      expect(localStorageMock.getItem).toHaveBeenCalledWith('spartacus//test');
     });
 
     it('should react only to specified context change', () => {
@@ -231,12 +231,12 @@ describe('StatePersistanceService', () => {
       baseSiteService.setActive('electronics-spa');
 
       expect(localStorageMock.getItem).toHaveBeenCalledWith(
-        'spartacus-en-test'
+        'spartacus/en/test'
       );
 
       langService.setActive('de');
       expect(localStorageMock.getItem).toHaveBeenCalledWith(
-        'spartacus-de-test'
+        'spartacus/de/test'
       );
 
       currencyService.setActive('GPB');
