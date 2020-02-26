@@ -11,9 +11,8 @@ import {
   I18nTestingModule,
   UserToken,
   WindowRef,
-  FeatureConfigService,
 } from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../../checkout';
 import { LoginFormComponent } from './login-form.component';
 import createSpy = jasmine.createSpy;
@@ -37,14 +36,6 @@ class MockRedirectAfterAuthService {
 }
 class MockGlobalMessageService {
   remove = createSpy();
-}
-
-// TODO(issue:#4510) Deprecated since 1.3.0
-const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
-class MockFeatureConfigService {
-  isLevel(_level: string): boolean {
-    return isLevelBool.value;
-  }
 }
 
 class MockActivatedRoute {
@@ -81,8 +72,6 @@ describe('LoginFormComponent', () => {
           useClass: MockRedirectAfterAuthService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        // TODO(issue:#4510) Deprecated since 1.3.0
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       ],
@@ -222,9 +211,6 @@ describe('LoginFormComponent', () => {
 
   describe('submit button', () => {
     it('should NOT be disabled', () => {
-      // TODO(issue:#4510) Deprecated since 1.3.0
-      isLevelBool.next(true);
-
       fixture.detectChanges();
       const submitButton: HTMLElement = windowRef.document.querySelector(
         'button[type="submit"]'
