@@ -48,7 +48,7 @@ export function getSuffixUrlMatcher({
   return matcher;
 }
 
-export function findLastIndex<T>(elements: T[], predicate: (el: T) => boolean) {
+function findLastIndex<T>(elements: T[], predicate: (el: T) => boolean) {
   for (let index = elements.length - 1; index >= 0; index--) {
     if (predicate(elements[index])) {
       return index;

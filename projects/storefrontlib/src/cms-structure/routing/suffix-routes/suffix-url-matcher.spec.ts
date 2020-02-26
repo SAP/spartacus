@@ -1,5 +1,5 @@
 import { UrlSegment } from '@angular/router';
-import { getSuffixUrlMatcher } from './get-suffix-url-matcher';
+import { getSuffixUrlMatcher } from './suffix-url-matcher';
 
 describe('getSuffixUrlMatcher', () => {
   describe('without given `precedingParamName`', () => {

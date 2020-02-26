@@ -5,7 +5,7 @@ import {
   UrlMatcherFactory,
   UrlMatcherService,
 } from '@spartacus/core';
-import { getSuffixUrlMatcher } from '../../cms-structure/routing/suffix-routes/get-suffix-url-matcher';
+import { getSuffixUrlMatcher } from '../../cms-structure/routing/suffix-routes/suffix-url-matcher';
 
 export function getProductDetailsUrlMatcherFactory(
   service: UrlMatcherService,
