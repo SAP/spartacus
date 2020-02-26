@@ -4,6 +4,7 @@
     <a
       [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
       (click)="viewItem()"
+      tabindex="-1"
     >
       <cx-media
         [container]="item.product.images?.PRIMARY"
@@ -82,7 +83,11 @@
         <div class="cx-value">
           <cx-item-counter
             [control]="quantityControl"
-            [readonly]="!item.updateable || readonly"
+            [readonly]="
+              !item.updateable ||
+              readonly ||
+              (isSaveForLaterEnabled() && options.isSaveForLater)
+            "
             [max]="item.product.stock?.stockLevel || 1000"
             [allowZero]="true"
           >

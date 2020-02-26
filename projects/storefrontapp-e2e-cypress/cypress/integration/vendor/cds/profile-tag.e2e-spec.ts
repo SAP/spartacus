@@ -3,7 +3,7 @@ import { waitForPage } from '../../../helpers/checkout-flow';
 import { navigation } from '../../../helpers/navigation';
 import { cdsHelper } from '../../../helpers/vendor/cds/cds';
 import { profileTagHelper } from '../../../helpers/vendor/cds/profile-tag';
-describe.skip('Profile-tag component', () => {
+describe('Profile-tag component', () => {
   beforeEach(() => {
     cy.server();
     cdsHelper.setUpMocks();
