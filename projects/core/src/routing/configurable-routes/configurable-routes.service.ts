@@ -57,7 +57,7 @@ export class ConfigurableRoutesService {
   /**
    * Sets the property `path` or `matcher` of the `Route`, based on the Spartacus' routing configuration.
    * Uses the property `data.cxRoute` to determine the name of the route. 
-   * It's the same name as used as a key in the routing configuration: `routing.routes[ROUTE NAME]`.
+   * It's the same name used as a key in the routing configuration: `routing.routes[ROUTE NAME]`.
    * 
    * @param route Angular `Route` object
    */
