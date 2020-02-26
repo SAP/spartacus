@@ -5,7 +5,11 @@
   <ng-container *ngIf="!isWritingReview; else writeReview">
     <div class="header">
       <h3>{{ 'productReview.overallRating' | cxTranslate }}</h3>
-      <button class="btn btn-primary" (click)="initiateWriteReview()">
+      <button
+        #writeReviewButton
+        class="btn btn-primary"
+        (click)="initiateWriteReview()"
+      >
         {{ 'productReview.writeReview' | cxTranslate }}
       </button>
       <cx-star-rating
@@ -64,7 +68,17 @@
           <span class="label-content">{{
             'productReview.reviewTitle' | cxTranslate
           }}</span>
-          <input type="text" class="form-control" formControlName="title" />
+          <input
+            #titleInput
+            type="text"
+            class="form-control"
+            formControlName="title"
+            [class.is-invalid]="
+              reviewForm.controls['title'].invalid &&
+              (reviewForm.controls['title'].touched ||
+                reviewForm.controls['title'].dirty)
+            "
+          />
         </label>
       </div>
       <div class="form-group">
@@ -76,6 +90,11 @@
             class="form-control"
             rows="3"
             formControlName="comment"
+            [class.is-invalid]="
+              reviewForm.controls['comment'].invalid &&
+              (reviewForm.controls['comment'].touched ||
+                reviewForm.controls['comment'].dirty)
+            "
           ></textarea>
         </label>
       </div>
@@ -102,7 +121,7 @@
       <div class="form-group row">
         <div class="col-12 col-md-4">
           <button
-            type="submit"
+            type="button"
             class="btn btn-block btn-secondary"
             (click)="cancelWriteReview()"
           >
@@ -114,7 +133,6 @@
             type="submit"
             class="btn btn-block btn-primary"
             [ngClass]="{ 'submit-btn': reviewForm.valid }"
-            [disabled]="!reviewForm.valid"
           >
             {{ 'common.submit' | cxTranslate }}
           </button>
