@@ -319,7 +319,7 @@ describe('CostCenter Effects', () => {
         budgetCode,
       });
       const completion = new CostCenterActions.AssignBudgetSuccess({
-        budgetCode,
+        code: budgetCode,
         selected: true,
       });
       actions$ = hot('-a', { a: action });
@@ -366,7 +366,7 @@ describe('CostCenter Effects', () => {
         budgetCode,
       });
       const completion = new CostCenterActions.UnassignBudgetSuccess({
-        budgetCode,
+        code: budgetCode,
         selected: false,
       });
       actions$ = hot('-a', { a: action });
