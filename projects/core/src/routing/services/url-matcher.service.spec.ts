@@ -29,7 +29,7 @@ describe('UrlMatcherService', () => {
     });
   });
 
-  describe('fromPaths', () => {
+  describe('getFromPaths', () => {
     it('should match empty path', () => {
       const matcher = service.getFromPaths(['']);
       const segments = [] as UrlSegment[];
@@ -164,7 +164,7 @@ describe('UrlMatcherService', () => {
     });
   });
 
-  describe('combine', () => {
+  describe('getCombined', () => {
     let inputMatcherA: UrlMatcher;
     let inputMatcherB: UrlMatcher;
 
@@ -199,7 +199,7 @@ describe('UrlMatcherService', () => {
     });
   });
 
-  describe('fromGlob', () => {
+  describe('getFromGlob', () => {
     it('should call GlobService.getValidator', () => {
       spyOn(globService, 'getValidator');
       service.getFromGlob(['/test/pattern']);
