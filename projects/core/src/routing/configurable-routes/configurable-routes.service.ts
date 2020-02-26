@@ -56,9 +56,9 @@ export class ConfigurableRoutesService {
       const routeConfig = this.routingConfigService.getRouteConfig(routeName);
       this.validateRouteConfig(routeConfig, routeName, route);
 
-      const paths = (routeConfig && routeConfig.paths) || [];
-      const isDisabled = routeConfig && routeConfig.disabled;
-      const matchers = routeConfig && routeConfig.matchers;
+      const paths = (routeConfig?.paths) || [];
+      const isDisabled = routeConfig?.disabled;
+      const matchers = routeConfig?.matchers;
 
       if (isDisabled) {
         delete route.path;
@@ -80,9 +80,16 @@ export class ConfigurableRoutesService {
         };
       }
     }
-    return route; // if route doesn't have a Spartacus' name, just pass the original route
+    return route; // if route doesn't have a name, just pass the original route
   }
 
+  /**
+   * Creates a single `UrlMatcher` based on given matchers and factories of matchers.
+   * 
+   * @param route Route object
+   * @param matchersOrFactories `UrlMatcher`s or injection tokens with a factory functions
+   *  that create UrlMatchers using given route.
+   */
   private resolveUrlMatchers(
     route: Route,
     matchersOrFactories: RouteConfig['matchers']
@@ -95,6 +102,13 @@ export class ConfigurableRoutesService {
     return this.urlMatcherService.combine(matchers);
   }
 
+  /**
+   * Creates an `UrlMatcher` using the injection token with a factory function.
+   * The factory is feeded with the given route.
+   *
+   * @param route Route object
+   * @param factoryToken injection token with a factory function that will create an UrlMatcher using given route
+   */
   private resolveUrlMatcherFactory(
     route: Route,
     factoryToken: InjectionToken<UrlMatcherFactory>
@@ -103,7 +117,11 @@ export class ConfigurableRoutesService {
     return factory(route);
   }
 
-  private getRouteName(route: Route): string {
+  /**
+   * Returns the name of Route stored in its property `data.cxRoute`
+   * @param route
+   */
+  protected getRouteName(route: Route): string {
     return route.data && route.data.cxRoute;
   }
 
@@ -113,32 +131,18 @@ export class ConfigurableRoutesService {
     route: Route
   ) {
     if (isDevMode()) {
-      // route config being undefined is a misconfiguration
-      if (routeConfig === undefined) {
+      // - null value of routeConfig or routeConfig.paths means explicit switching off the route - it's valid config
+      // - routeConfig with defined `matchers` is valid, even if `paths` are undefined
+      if(routeConfig === null || routeConfig.paths === null || routeConfig?.matchers) {
+        return;
+      }
+
+      // undefined value of routeConfig or routeConfig.paths is a misconfiguration
+      if (!routeConfig?.paths) {
         this.warn(
           `Could not configure the named route '${routeName}'`,
           route,
-          `due to undefined key '${routeName}' in the routes config`
-        );
-        return;
-      }
-
-      // routeConfig or routeConfig.paths can be null - which means explicit switching off the route
-      if (routeConfig === null || routeConfig.paths === null) {
-        return;
-      }
-
-      // a route with matchers is valid
-      if (routeConfig.matchers) {
-        return;
-      }
-
-      // if no matchers are present and paths are undefined, it's misconfiguration
-      if (routeConfig && routeConfig.paths === undefined) {
-        this.warn(
-          `Could not configure the named route '${routeName}'`,
-          route,
-          `due to undefined 'paths' for the named route '${routeName}' in the routes config`
+          `due to undefined config or undefined 'paths' property for this route`
         );
         return;
       }
