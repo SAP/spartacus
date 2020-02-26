@@ -57,10 +57,7 @@ export class ProductReviewsComponent {
   initiateWriteReview(): void {
     this.isWritingReview = true;
 
-    // TODO(issue:#4945) Product page tabs accessibility changes
-    if (this.cd) {
-      this.cd.detectChanges();
-    }
+    this.cd.detectChanges();
 
     if (this.titleInput && this.titleInput.nativeElement) {
       this.titleInput.nativeElement.focus();
@@ -71,10 +68,7 @@ export class ProductReviewsComponent {
     this.isWritingReview = false;
     this.resetReviewForm();
 
-    // TODO(issue:#4945) Product page tabs accessibility changes
-    if (this.cd) {
-      this.cd.detectChanges();
-    }
+    this.cd.detectChanges();
 
     if (this.writeReviewButton && this.writeReviewButton.nativeElement) {
       this.writeReviewButton.nativeElement.focus();
@@ -113,10 +107,7 @@ export class ProductReviewsComponent {
     this.isWritingReview = false;
     this.resetReviewForm();
 
-    // TODO(issue:#4945) Product page tabs accessibility changes
-    if (this.cd) {
-      this.cd.detectChanges();
-    }
+    this.cd.detectChanges();
 
     if (this.writeReviewButton && this.writeReviewButton.nativeElement) {
       this.writeReviewButton.nativeElement.focus();
