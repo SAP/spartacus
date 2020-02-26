@@ -30,5 +30,4 @@ Cypress.Commands.add('requirePlacedOrder', (auth, cartId) => {
 
   cy.server();
   placeOrder().then(resp => cy.wrap(resp));
-  cy.wait(Cypress.env('ORDER_HISTORY_WAIT_TIME'));
 });
