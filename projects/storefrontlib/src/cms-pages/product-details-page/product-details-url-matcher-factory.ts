@@ -17,7 +17,7 @@ export function getProductDetailsUrlMatcherFactory(
       marker: 'p',
       paramName: 'productCode',
     });
-    return service.combine([defaultMatcher, suffixPDPMatcher]);
+    return service.getCombined([defaultMatcher, suffixPDPMatcher]);
   };
   return factory;
 }

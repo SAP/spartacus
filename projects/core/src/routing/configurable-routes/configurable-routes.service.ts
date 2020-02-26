@@ -87,7 +87,7 @@ export class ConfigurableRoutesService {
         delete route.path;
         return {
           ...route,
-          matcher: this.urlMatcherService.fromPaths(paths),
+          matcher: this.urlMatcherService.getFromPaths(paths),
         };
       }
     }
@@ -110,7 +110,7 @@ export class ConfigurableRoutesService {
         ? matcherOrFactory // matcher
         : this.resolveUrlMatcherFactory(route, matcherOrFactory); // factory injection token
     });
-    return this.urlMatcherService.combine(matchers);
+    return this.urlMatcherService.getCombined(matchers);
   }
 
   /**

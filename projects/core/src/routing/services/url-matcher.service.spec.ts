@@ -31,7 +31,7 @@ describe('UrlMatcherService', () => {
 
   describe('fromPaths', () => {
     it('should match empty path', () => {
-      const matcher = service.fromPaths(['']);
+      const matcher = service.getFromPaths(['']);
       const segments = [] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -43,7 +43,7 @@ describe('UrlMatcherService', () => {
 
     it('should not match empty path', () => {
       route.pathMatch = 'full';
-      const matcher = service.fromPaths(['']);
+      const matcher = service.getFromPaths(['']);
       const segments = [{ path: 'test' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = null;
@@ -51,7 +51,7 @@ describe('UrlMatcherService', () => {
     });
 
     it('should match simple path', () => {
-      const matcher = service.fromPaths(['test/route']);
+      const matcher = service.getFromPaths(['test/route']);
       const segments = [{ path: 'test' }, { path: 'route' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -62,7 +62,7 @@ describe('UrlMatcherService', () => {
     });
 
     it('should match path with params', () => {
-      const matcher = service.fromPaths(['test/:param']);
+      const matcher = service.getFromPaths(['test/:param']);
       const segments = [{ path: 'test' }, { path: 'value' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -73,7 +73,7 @@ describe('UrlMatcherService', () => {
     });
 
     it('should match first path', () => {
-      const matcher = service.fromPaths(['test1/:param1', 'test2/:param2']);
+      const matcher = service.getFromPaths(['test1/:param1', 'test2/:param2']);
       const segments = [{ path: 'test1' }, { path: 'value' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -84,7 +84,7 @@ describe('UrlMatcherService', () => {
     });
 
     it('should match second path', () => {
-      const matcher = service.fromPaths(['test1/:param1', 'test2/:param2']);
+      const matcher = service.getFromPaths(['test1/:param1', 'test2/:param2']);
       const segments = [{ path: 'test2' }, { path: 'value' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -95,7 +95,7 @@ describe('UrlMatcherService', () => {
     });
 
     it('should match prefix path', () => {
-      const matcher = service.fromPaths(['test']);
+      const matcher = service.getFromPaths(['test']);
       const segments = [{ path: 'test' }, { path: 'route' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -106,7 +106,7 @@ describe('UrlMatcherService', () => {
     });
 
     it('should match the first prefix path', () => {
-      const matcher = service.fromPaths(['test', 'test/:param']);
+      const matcher = service.getFromPaths(['test', 'test/:param']);
       const segments = [{ path: 'test' }, { path: 'value' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -118,7 +118,7 @@ describe('UrlMatcherService', () => {
 
     it('should NOT match prefix path when route has "pathMatch: full"', () => {
       route.pathMatch = 'full';
-      const matcher = service.fromPaths(['test']);
+      const matcher = service.getFromPaths(['test']);
       const segments = [{ path: 'test' }, { path: 'route' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = null;
@@ -127,7 +127,7 @@ describe('UrlMatcherService', () => {
 
     it('should NOT match different path', () => {
       route.pathMatch = 'full';
-      const matcher = service.fromPaths(['test1', 'test2']);
+      const matcher = service.getFromPaths(['test1', 'test2']);
       const segments = [{ path: 'test3' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = null;
@@ -185,7 +185,7 @@ describe('UrlMatcherService', () => {
     });
 
     it('should match for any of given matchers', () => {
-      const matcher = service.combine([inputMatcherA, inputMatcherB]);
+      const matcher = service.getCombined([inputMatcherA, inputMatcherB]);
       const segmentsA = [{ path: 'testA' }] as UrlSegment[];
       const segmentsB = [{ path: 'testB' }] as UrlSegment[];
       expect(matcher(segmentsA, segmentGroup, route)).toBeTruthy();
@@ -193,7 +193,7 @@ describe('UrlMatcherService', () => {
     });
 
     it('should not match for all of given matchers', () => {
-      const matcher = service.combine([inputMatcherA, inputMatcherB]);
+      const matcher = service.getCombined([inputMatcherA, inputMatcherB]);
       const segmentsC = [{ path: 'testC' }] as UrlSegment[];
       expect(matcher(segmentsC, segmentGroup, route)).toBe(null);
     });
@@ -202,7 +202,7 @@ describe('UrlMatcherService', () => {
   describe('fromGlob', () => {
     it('should call GlobService.getValidator', () => {
       spyOn(globService, 'getValidator');
-      service.fromGlob(['/test/pattern']);
+      service.getFromGlob(['/test/pattern']);
       expect(globService.getValidator).toHaveBeenCalledWith(['/test/pattern']);
     });
 
@@ -210,7 +210,7 @@ describe('UrlMatcherService', () => {
       const mockGlobValidator = jasmine.createSpy().and.returnValue(true);
       spyOn(globService, 'getValidator').and.returnValue(mockGlobValidator);
 
-      const urlMatcher = service.fromGlob([]);
+      const urlMatcher = service.getFromGlob([]);
       const testSegments = [
         { path: 'test' },
         { path: 'segments' },
@@ -221,7 +221,7 @@ describe('UrlMatcherService', () => {
 
     it('should match given glob-like patterns', () => {
       spyOn(globService, 'getValidator').and.returnValue(() => true);
-      const matcher = service.fromGlob([]);
+      const matcher = service.getFromGlob([]);
       const testSegments = [
         { path: 'test' },
         { path: 'segments' },
@@ -234,7 +234,7 @@ describe('UrlMatcherService', () => {
 
     it('should not match given glob-like patterns', () => {
       spyOn(globService, 'getValidator').and.returnValue(() => false);
-      const matcher = service.fromGlob([]);
+      const matcher = service.getFromGlob([]);
       expect(matcher([], null, null)).toEqual(null);
     });
   });

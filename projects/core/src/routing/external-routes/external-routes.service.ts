@@ -55,7 +55,9 @@ export class ExternalRoutesService {
    * Returns the URL matcher for the external route
    */
   protected getUrlMatcher(): UrlMatcher {
-    const matcher = this.urlMatcherService.fromGlob(this.internalUrlPatterns);
+    const matcher = this.urlMatcherService.getFromGlob(
+      this.internalUrlPatterns
+    );
     return this.urlMatcherService.getOpposite(matcher); // the external route should be activated only when it's NOT an internal route
   }
 }

@@ -17,7 +17,7 @@ export function getProductListingUrlMatcherFactory(
       marker: 'c',
       paramName: 'categoryCode',
     });
-    return service.combine([defaultMatcher, suffixPLPMatcher]);
+    return service.getCombined([defaultMatcher, suffixPLPMatcher]);
   };
   return factory;
 }

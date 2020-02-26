@@ -9,7 +9,9 @@ import { PRODUCT_DETAILS_URL_MATCHER_FACTORY } from './product-details-url-match
 
 const combinedUrlMatcher: UrlMatcher = () => null;
 class MockUrlMatcherService implements Partial<UrlMatcherService> {
-  combine = jasmine.createSpy('combine').and.returnValue(combinedUrlMatcher);
+  getCombined = jasmine
+    .createSpy('combine')
+    .and.returnValue(combinedUrlMatcher);
 }
 
 const mockDefaultUrlMatcher: UrlMatcher = () => null;
@@ -40,7 +42,9 @@ describe('PRODUCT_DETAILS_URL_MATCHER_FACTORY', () => {
     const factory = TestBed.inject(PRODUCT_DETAILS_URL_MATCHER_FACTORY);
     const mockRoute = {};
     const urlMatcher = factory(mockRoute);
-    const combinedMatchers = urlMatcherService.combine['calls'].argsFor(0)[0];
+    const combinedMatchers = urlMatcherService.getCombined['calls'].argsFor(
+      0
+    )[0];
     expect(mockDefaultUrlMatcherFactory).toHaveBeenCalledWith(mockRoute);
     expect(combinedMatchers[0]).toBe(mockDefaultUrlMatcher);
     expect(combinedMatchers[1].suffixRouteConfig).toEqual({

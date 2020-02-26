@@ -24,9 +24,9 @@ export class UrlMatcherService {
   /**
    * Returns a matcher for given list of paths
    */
-  fromPaths(paths: string[]): UrlMatcher {
-    const matchers = paths.map(path => this.fromPath(path));
-    const matcher = this.combine(matchers);
+  getFromPaths(paths: string[]): UrlMatcher {
+    const matchers = paths.map(path => this.getFromPath(path));
+    const matcher = this.getCombined(matchers);
     if (isDevMode()) {
       matcher['_paths'] = paths; // property added for easier debugging of routes
     }
@@ -36,7 +36,7 @@ export class UrlMatcherService {
   /**
    * Returns a matcher that combines the given matchers
    * */
-  combine(matchers: UrlMatcher[]): UrlMatcher {
+  getCombined(matchers: UrlMatcher[]): UrlMatcher {
     const matcher = function combinedUrlMatchers(
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
@@ -61,7 +61,7 @@ export class UrlMatcherService {
    * - the `path` comes from function's argument, not from `route.path`
    * - the empty path `''` is handled here, but in Angular is handled one level higher in the match() function
    */
-  protected fromPath(path: string = ''): UrlMatcher {
+  protected getFromPath(path: string = ''): UrlMatcher {
     const matcher = function pathUrlMatcher(
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
@@ -147,7 +147,7 @@ export class UrlMatcherService {
   /**
    * Returns URL matcher for the given list of glob-like patterns. Each pattern must start with `/` or `!/`.
    */
-  fromGlob(globPatterns: string[]): UrlMatcher {
+  getFromGlob(globPatterns: string[]): UrlMatcher {
     const globValidator = this.globService.getValidator(globPatterns);
 
     const matcher = function globUrlMatcher(

@@ -20,10 +20,12 @@ class MockRouter {
 
 const combinedUrlMatcher: UrlMatcher = () => null;
 
-class MockUrlMatcherService {
-  fromPaths = jasmine.createSpy('fromPaths').and.callFake(paths => paths);
+class MockUrlMatcherService implements Partial<UrlMatcherService> {
+  getFromPaths = jasmine.createSpy('getFromPaths').and.callFake(paths => paths);
   getFalsy = jasmine.createSpy('getFalsy').and.returnValue(false);
-  combine = jasmine.createSpy('combine').and.returnValue(combinedUrlMatcher);
+  getCombined = jasmine
+    .createSpy('getCombined')
+    .and.returnValue(combinedUrlMatcher);
 }
 
 const testUrlMatcherFromFactory: UrlMatcher = () => null;
@@ -214,7 +216,7 @@ describe('ConfigurableRoutesService', () => {
       matchers: [matcher1, matcher2],
     });
     await service.init();
-    expect(urlMatcherService.combine).toHaveBeenCalledWith([
+    expect(urlMatcherService.getCombined).toHaveBeenCalledWith([
       matcher1,
       matcher2,
     ]);
@@ -239,7 +241,7 @@ describe('ConfigurableRoutesService', () => {
       TEST_URL_MATCHER_FACTORY
     );
     expect(testUrlMatcherFactory).toHaveBeenCalledWith(originalRoute);
-    expect(urlMatcherService.combine).toHaveBeenCalledWith([
+    expect(urlMatcherService.getCombined).toHaveBeenCalledWith([
       matcher1,
       testUrlMatcherFromFactory,
     ]);

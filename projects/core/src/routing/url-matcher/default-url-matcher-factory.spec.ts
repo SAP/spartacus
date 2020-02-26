@@ -13,7 +13,7 @@ class MockRoutingConfigService implements Partial<RoutingConfigService> {
 const fromPathsUrlMatcher: UrlMatcher = () => null;
 
 class MockUrlMatcherService implements Partial<UrlMatcherService> {
-  fromPaths = jasmine
+  getFromPaths = jasmine
     .createSpy('fromPaths')
     .and.returnValue(fromPathsUrlMatcher);
 }
@@ -46,7 +46,7 @@ describe('DEFAULT_URL_MATCHER_FACTORY', () => {
     expect(routingConfigService.getRouteConfig).toHaveBeenCalledWith(
       'testPage'
     );
-    expect(urlMatcherService.fromPaths).toHaveBeenCalledWith(['test-path']);
+    expect(urlMatcherService.getFromPaths).toHaveBeenCalledWith(['test-path']);
     expect(urlMatcher).toBe(fromPathsUrlMatcher);
   });
 });

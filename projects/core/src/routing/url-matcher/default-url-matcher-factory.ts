@@ -12,7 +12,7 @@ export function getDefaultUrlMatcherFactory(
     const routeName = route.data && route.data['cxRoute'];
     const routeConfig = routingConfigService.getRouteConfig(routeName);
     const paths = (routeConfig && routeConfig.paths) || [];
-    return urlMatcherService.fromPaths(paths);
+    return urlMatcherService.getFromPaths(paths);
   };
   return factory;
 }

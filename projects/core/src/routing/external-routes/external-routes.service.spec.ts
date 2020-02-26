@@ -13,7 +13,7 @@ describe('ExternalRoutesService', () => {
   beforeEach(() => {
     const mockUrlMatcherService: Partial<UrlMatcherService> = {
       getOpposite: matcher => `oppositeTo-${matcher}` as any,
-      fromGlob: patterns => `globUrlMatcherFor-${patterns[0]}` as any,
+      getFromGlob: patterns => `globUrlMatcherFor-${patterns[0]}` as any,
     };
 
     TestBed.configureTestingModule({
