@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
@@ -24,12 +23,8 @@ describe(`CheckoutDetailsLoadedGuard`, () => {
       ],
     });
 
-    guard = TestBed.get(CheckoutDetailsLoadedGuard as Type<
-      CheckoutDetailsLoadedGuard
-    >);
-    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService as Type<
-      CheckoutDetailsService
-    >);
+    guard = TestBed.inject(CheckoutDetailsLoadedGuard);
+    mockCheckoutDetailsService = TestBed.inject(CheckoutDetailsService);
   });
 
   describe('when checkout details not loaded', () => {

@@ -1,8 +1,8 @@
-import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
-import { generateMail, randomString } from './user';
-import * as alerts from './global-message';
 import { config, retrieveAuthToken } from '../support/utils/login';
+import { login } from './auth-forms';
+import * as alerts from './global-message';
+import { generateMail, randomString } from './user';
 
 export const testUser = 'test-user-with-coupons@ydev.hybris.com';
 export const testPassword = 'Password123.';
@@ -15,12 +15,12 @@ export const CouponWithOpenCatalog = 'dragonboat';
 export const CouponWithProductCategory = 'springfestival';
 export const CouponWithProducts = 'midautumn';
 export const PageSize = 10;
-export const NumberInPage2 = 1;
+export const NumberInPage2 = 2;
 
 export function verifyPagingAndSorting() {
   const firstCouponStartDateAscending = 'customerCoupon1';
   const firstCouponStartDateDescending = 'customerCoupon11';
-  const firstCouponEndDateAscending = 'customerCoupon1';
+  const firstCouponEndDateAscending = 'dragonboat';
   const firstCouponEndDateDescending = 'customerCoupon11';
   const firstCouponCodeSelector =
     'cx-my-coupons .cx-coupon-card:first .cx-coupon-card-id';
@@ -44,14 +44,14 @@ export function verifyPagingAndSorting() {
     firstCouponEndDateDescending
   );
   cy.get('.cx-coupon-card').should('have.length', PageSize);
-  cy.get('cx-pagination:last .page-link').should('have.length', 4);
+  cy.get('cx-pagination:last a').should('have.length', 4);
   cy.get('cx-pagination:last').within(() => {
     cy.getByText('2').click();
   });
   cy.get('.cx-coupon-card').should('have.length', NumberInPage2);
-  cy.get('cx-pagination:last .page-link:first').click();
+  cy.get('cx-pagination:last a:first').click();
   cy.get('.cx-coupon-card').should('have.length', PageSize);
-  cy.get('cx-pagination:last .page-link:last').click();
+  cy.get('cx-pagination:last a:last').click();
   cy.get('.cx-coupon-card').should('have.length', NumberInPage2);
 }
 

@@ -87,17 +87,17 @@ describe('CheckoutProgressComponent', () => {
     });
   });
 
-  it('should contain link with "is-active" class', () => {
+  it('should contain link with "active" class', () => {
     const step = fixture.debugElement.query(
       By.css('.cx-item:nth-child(1) .cx-link')
     ).nativeElement;
 
-    expect(step.getAttribute('class')).toContain('is-active');
+    expect(step.getAttribute('class')).toContain('active');
   });
 
-  it('should contain links with "is-disabled" class', () => {
+  it('should contain links with "disabled" class', () => {
     const steps = fixture.debugElement.queryAll(
-      By.css('.cx-item .cx-link.is-disabled')
+      By.css('.cx-item .cx-link.disabled')
     );
 
     expect(steps.length).toBe(3);

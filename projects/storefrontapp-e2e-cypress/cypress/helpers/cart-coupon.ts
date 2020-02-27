@@ -191,9 +191,7 @@ export function verifyGiftProductCoupon(productCode: string) {
     .contains('cx-cart-item', productCode)
     .within(() => {
       cy.get('.cx-price > .cx-value').should('contain', '$0.00');
-      cy.get(
-        '.cx-quantity > .cx-value > .ng-untouched > .cx-counter-wrapper > .cx-counter > .cx-counter-value'
-      ).should('contain', '1');
+      cy.get('cx-item-counter input').should('have.value', '1');
       cy.get('.cx-total > .cx-value').should('contain', '$0.00');
     });
 }

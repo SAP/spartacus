@@ -57,10 +57,7 @@ export class ProductReviewsComponent {
   initiateWriteReview(): void {
     this.isWritingReview = true;
 
-    // TODO(issue:#4945) Product page tabs accessibility changes
-    if (this.cd) {
-      this.cd.detectChanges();
-    }
+    this.cd.detectChanges();
 
     if (this.titleInput && this.titleInput.nativeElement) {
       this.titleInput.nativeElement.focus();
@@ -71,10 +68,7 @@ export class ProductReviewsComponent {
     this.isWritingReview = false;
     this.resetReviewForm();
 
-    // TODO(issue:#4945) Product page tabs accessibility changes
-    if (this.cd) {
-      this.cd.detectChanges();
-    }
+    this.cd.detectChanges();
 
     if (this.writeReviewButton && this.writeReviewButton.nativeElement) {
       this.writeReviewButton.nativeElement.focus();
@@ -85,7 +79,21 @@ export class ProductReviewsComponent {
     this.reviewForm.controls.rating.setValue(rating);
   }
 
-  submitReview(product: Product): void {
+  private markFormAsTouched(): void {
+    Object.keys(this.reviewForm.controls).forEach(key => {
+      this.reviewForm.controls[key].markAsTouched();
+    });
+  }
+
+  submitReview(product: Product) {
+    if (this.reviewForm.valid) {
+      this.addReview(product);
+    } else {
+      this.markFormAsTouched();
+    }
+  }
+
+  addReview(product: Product): void {
     const reviewFormControls = this.reviewForm.controls;
     const review: Review = {
       headline: reviewFormControls.title.value,
@@ -99,10 +107,7 @@ export class ProductReviewsComponent {
     this.isWritingReview = false;
     this.resetReviewForm();
 
-    // TODO(issue:#4945) Product page tabs accessibility changes
-    if (this.cd) {
-      this.cd.detectChanges();
-    }
+    this.cd.detectChanges();
 
     if (this.writeReviewButton && this.writeReviewButton.nativeElement) {
       this.writeReviewButton.nativeElement.focus();

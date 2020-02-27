@@ -43,13 +43,13 @@ describe('Language switch - checkout page', () => {
       siteContextSelector.addressBookNextStep();
     });
 
-    it('should change language in the checkoutDelvieryPath url', () => {
+    it('should change language in the checkoutDeliveryPath url', () => {
       siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_DE_USD + checkoutDeliveryPath
       );
     });
 
-    it('should change language in the checkoutDelvieryPath page', () => {
+    it('should change language in the checkoutDeliveryPath page', () => {
       cy.get('cx-delivery-mode .cx-delivery-mode:first').should(
         'have.text',
         'Standard-Lieferung'
