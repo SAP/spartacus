@@ -187,13 +187,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     this.sameAsShippingAddress = !this.sameAsShippingAddress;
   }
 
-  isContinueButtonDisabled(): boolean {
-    return (
-      this.payment.invalid ||
-      (!this.sameAsShippingAddress && this.billingAddress.invalid)
-    );
-  }
-
   /**
    * Check if the shipping address can also be a billing address
    *

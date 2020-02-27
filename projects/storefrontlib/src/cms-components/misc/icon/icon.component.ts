@@ -1,73 +1,81 @@
-import { Component, ElementRef, HostBinding, Input } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
+import { SafeHtml } from '@angular/platform-browser';
 import { IconLoaderService } from './icon-loader.service';
 import { ICON_TYPE } from './icon.model';
 
+/**
+ *
+ * The icon component can be added in different ways:
+ *
+ * With the component selector:
+ * `<cx-icon type="SEARCH"></cx-icon>`
+ *
+ * With the attribute selector:
+ * `<span cxIcon="STAR"></span>`
+ *
+ * Additionally, content can be projected to the icon:
+ *
+ * `<button cxIcon="HAPPY">happy label</button>`
+ *
+ * The above button would become (based on a TEXT resource type):
+ * `<button>😊happy label</button>`
+ * While the content is projected, the icon itself doesn't require
+ * an additional DOM node which is an advantage over the component selector.
+ */
 @Component({
-  selector: 'cx-icon',
+  selector: 'cx-icon,[cxIcon]',
   templateUrl: './icon.component.html',
 })
 export class IconComponent {
   /**
-   * The type of the icon which maps to the icon link
-   * in the svg icon sprite.
+   * The cxIcon directive is bound to the icon type. You can feed the `ICON_TYPE` to
+   * accomplish a configurable button in the UI.
    */
-  _type: ICON_TYPE;
-  @Input('type')
-  set type(type: ICON_TYPE) {
-    this._type = type;
-    this.addStyleClasses(type);
+  @Input() set cxIcon(type: ICON_TYPE) {
+    this.setIcon(type);
   }
 
   /**
-   * Keeps the given style classes so that we can
-   * clean them up when the icon changes
+   * The type input parameter is bound to the icon type. You can feed the `ICON_TYPE` to
+   * accomplish a configurable button in the UI.
    */
-  @HostBinding('class') styleClasses = '';
+  @Input() set type(type: ICON_TYPE) {
+    this.setIcon(type);
+  }
 
   /**
-   * Style class names from the host element are taken into account
-   * when classes are set dynamically.
+   * the icon provides an html fragment that is used to add SVG or text based icons.
    */
-  private staticStyleClasses: string;
+  icon: SafeHtml;
 
   constructor(
     protected iconLoader: IconLoaderService,
-    protected elementRef: ElementRef<HTMLElement>
+    protected elementRef: ElementRef<HTMLElement>,
+    protected renderer: Renderer2
   ) {}
 
-  /**
-   * Indicates whether the icon is configured to use SVG or not.
-   */
-  get useSvg(): boolean {
-    return this.iconLoader.useSvg(this._type);
-  }
-
-  /**
-   * Returns the path to the svg symbol. The path could include an
-   * external URL to an svg (sprite) file, but can also reference
-   * an existing SVG symbol in the DOM.
-   */
-  get svgPath(): string {
-    return this.iconLoader.getSvgPath(this._type);
+  protected setIcon(type: ICON_TYPE): void {
+    if (!type || <string>type === '') {
+      return;
+    }
+    this.icon = this.iconLoader.getHtml(type);
+    this.addStyleClasses(type);
+    this.iconLoader.addLinkResource(type);
   }
 
   /**
    * Adds the style classes and the link resource (if availabe).
    */
-  private addStyleClasses(type: ICON_TYPE) {
-    if (this.useSvg) {
-      return;
-    }
+  protected addStyleClasses(type: ICON_TYPE): void {
+    this.renderer.addClass(this.elementRef.nativeElement, 'cx-icon');
 
-    if (this.staticStyleClasses === undefined) {
-      this.staticStyleClasses = this.elementRef.nativeElement.classList.value
-        ? this.elementRef.nativeElement.classList.value + ' '
-        : '';
-    }
-
-    this.styleClasses =
-      this.staticStyleClasses + this.iconLoader.getStyleClasses(type);
-
-    this.iconLoader.addLinkResource(type);
+    this.iconLoader
+      .getStyleClasses(type)
+      .split(' ')
+      .forEach(cls => {
+        if (cls !== '') {
+          this.renderer.addClass(this.elementRef.nativeElement, cls);
+        }
+      });
   }
 }

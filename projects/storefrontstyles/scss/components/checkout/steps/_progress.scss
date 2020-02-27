@@ -49,7 +49,7 @@
     cursor: pointer;
     text-decoration: none;
 
-    &.is-disabled {
+    &.disabled {
       color: var(--cx-color-light);
       cursor: not-allowed;
       pointer-events: none;
@@ -58,7 +58,7 @@
       }
     }
 
-    &.is-active {
+    &.active {
       color: var(--cx-color-primary);
       &::after {
         color: var(--cx-color-primary);
@@ -78,7 +78,7 @@
       border-style: solid;
       border-color: var(--cx-color-light);
       margin: 0;
-      &.is-active {
+      &.active {
         background-color: var(--cx-color-background);
         border: 0;
       }
