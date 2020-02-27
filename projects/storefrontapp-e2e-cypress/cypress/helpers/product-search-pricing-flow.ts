@@ -15,7 +15,7 @@ export function productPricingFlow() {
   cy.server();
   createProductQuery(
     QUERY_ALIAS.FIRST_PAGE,
-    `:relevance:category:${categoryId}`,
+    `:relevance:allCategories:${categoryId}`,
     PRODUCT_LISTING.PRODUCTS_PER_PAGE,
     `&currentPage=1`
   );
@@ -23,7 +23,7 @@ export function productPricingFlow() {
 
   createProductQuery(
     QUERY_ALIAS.CATEGORY_PAGE,
-    `:relevance:category:${categoryId}`,
+    `:relevance:allCategories:${categoryId}`,
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
 

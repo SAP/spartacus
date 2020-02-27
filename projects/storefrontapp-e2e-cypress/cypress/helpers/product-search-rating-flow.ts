@@ -7,12 +7,14 @@ import {
   clickSearchIcon,
   createProductQuery,
   createProductSortQuery,
+  pageLinkSelector,
+  previousPage,
   QUERY_ALIAS,
   verifyProductSearch,
 } from './product-search';
 
 export const resultsTitle = 'cx-breadcrumb h1';
-export const tabsHeaderList = 'cx-tab-paragraph-container > h3';
+export const tabsHeaderList = 'cx-tab-paragraph-container > button';
 const productName = 'DSC-N1';
 
 export function productRatingFlow(mobile?: string) {
@@ -48,13 +50,13 @@ export function productRatingFlow(mobile?: string) {
   );
 
   // Navigate to previous page
-  cy.get('.page-item:first-of-type .page-link:first').click();
+  previousPage();
   cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
     .its('status')
     .should('eq', 200);
 
   // active paginated number
-  cy.get('.page-item.active > .page-link').should('contain', `1`);
+  cy.get(pageLinkSelector).should('contain', `1`);
 
   assertFirstProduct();
 

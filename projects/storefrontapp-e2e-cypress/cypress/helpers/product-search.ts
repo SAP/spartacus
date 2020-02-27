@@ -97,27 +97,39 @@ export function searchResult() {
   });
 }
 
-export function nextPage() {
+export function nextPage(): void {
   cy.get(pageLinkSelector)
     .next()
     .first()
     .click();
-  cy.get(pageLinkSelector).should('contain', '2');
 }
 
-export function choosePage() {
+export function choosePage(pageNumber: number): void {
   cy.get('cx-pagination')
-    .contains(3)
+    .contains(pageNumber)
     .first()
     .click();
-  cy.get(pageLinkSelector).should('contain', '3');
 }
 
-export function previousPage() {
+export function previousPage(): void {
   cy.get(pageLinkSelector)
     .prev()
     .first()
     .click();
+}
+
+export function verifyNextPage(): void {
+  nextPage();
+  cy.get(pageLinkSelector).should('contain', '2');
+}
+
+export function verifyChoosePage(pageNumber: number): void {
+  choosePage(pageNumber);
+  cy.get(pageLinkSelector).should('contain', pageNumber);
+}
+
+export function verifyPreviousPage() {
+  previousPage();
   cy.get(pageLinkSelector).should('contain', '2');
 }
 
