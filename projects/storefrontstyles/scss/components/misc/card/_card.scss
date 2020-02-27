@@ -37,6 +37,22 @@
     padding: 0 0 1.25rem 0;
   }
 
+  .cx-card-cancel-button {
+    &:focus {
+      border: 2px solid var(--cx-color-visual-focus);
+      box-shadow: none;
+      -webkit-box-shadow: none;
+    }
+  }
+
+  .cx-card-delete-button {
+    &:focus {
+      border: 2px solid var(--cx-color-visual-focus);
+      box-shadow: none;
+      -webkit-box-shadow: none;
+    }
+  }
+
   .cx-card-actions {
     display: flex;
     justify-content: flex-end;
