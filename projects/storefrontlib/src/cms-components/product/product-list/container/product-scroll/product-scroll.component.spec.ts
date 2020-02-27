@@ -133,12 +133,12 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
 })
-export class MockAddToCartComponent {
+class MockAddToCartComponent {
   @Input() product: string;
   @Input() showQuantity: boolean;
 }
 
-export class MockProductListComponentService {
+class MockProductListComponentService {
   setQuery = createSpy('setQuery');
   viewPage = createSpy('viewPage');
   sort = createSpy('sort');
@@ -148,10 +148,10 @@ export class MockProductListComponentService {
 }
 
 @Component({
-  selector: 'cx-style-icons',
+  selector: 'cx-variant-style-icons',
   template: 'test',
 })
-export class MockStyleIconsComponent {
+class MockStyleIconsComponent {
   @Input() variants: any[];
 }
 

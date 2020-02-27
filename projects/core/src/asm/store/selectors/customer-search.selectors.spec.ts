@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { User } from '../../../model/misc.model';
@@ -33,7 +32,7 @@ describe('Customer Search Results Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithAsm>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

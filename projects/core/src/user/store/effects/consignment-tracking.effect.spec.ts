@@ -14,6 +14,7 @@ import { ConsignmentTrackingEffects } from './consignment-tracking.effect';
 const mockTracking: ConsignmentTracking = {};
 
 const mockTrackingParams = {
+  userId: '123',
   orderCode: '00000386',
   consignmentCode: 'a00000386',
 };
@@ -43,9 +44,9 @@ describe('Consignment Tracking effect', () => {
       ],
     });
 
-    actions$ = TestBed.get(Actions);
-    trackingEffect = TestBed.get(ConsignmentTrackingEffects);
-    userOrderConnector = TestBed.get(UserOrderConnector);
+    actions$ = TestBed.inject(Actions);
+    trackingEffect = TestBed.inject(ConsignmentTrackingEffects);
+    userOrderConnector = TestBed.inject(UserOrderConnector);
   });
 
   describe('loadConsignmentTracking$', () => {

@@ -1,6 +1,7 @@
-import { Component, Input, Type, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   Address,
   Cart,
@@ -9,26 +10,25 @@ import {
   CheckoutPaymentService,
   Country,
   DeliveryMode,
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
   PaymentDetails,
-  UserAddressService,
   PromotionLocation,
-  FeaturesConfigModule,
-  FeaturesConfig,
   PromotionResult,
+  UserAddressService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { PromotionsModule } from '../../..';
 import { Item } from '../../../../cms-components/cart/index';
 import { Card } from '../../../../shared/components/card/card.component';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
+import { CheckoutStep, CheckoutStepType } from '../../model/index';
+import { CheckoutConfigService } from '../../services/index';
 import { ReviewSubmitComponent } from './review-submit.component';
 import createSpy = jasmine.createSpy;
-import { CheckoutStepType, CheckoutStep } from '../../model/index';
-import { CheckoutConfigService } from '../../services/index';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
-import { PromotionsModule } from '../../..';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 const mockCart: Cart = {
   guid: 'test',
@@ -76,14 +76,10 @@ const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
   template: '',
 })
 class MockCartItemListComponent {
-  @Input()
-  items: Item[];
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
-  @Input()
-  isReadOnly: boolean;
-  @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+  @Input() items: Item[];
+  @Input() readonly: boolean;
+  @Input() potentialProductPromotions: PromotionResult[] = [];
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 @Component({
@@ -109,6 +105,8 @@ class MockCheckoutPaymentService {
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
   }
+
+  paymentProcessSuccess(): void {}
 }
 
 class MockUserAddressService {
@@ -158,7 +156,7 @@ class MockPromotionService {
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
-  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
+  let mockCheckoutDeliveryService: CheckoutDeliveryService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -208,9 +206,7 @@ describe('ReviewSubmitComponent', () => {
     fixture = TestBed.createComponent(ReviewSubmitComponent);
     component = fixture.componentInstance;
 
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
+    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
 
     addressBS.next(mockAddress.country);
     deliveryModeBS.next(mockDeliveryMode);
@@ -380,7 +376,7 @@ describe('ReviewSubmitComponent', () => {
         { entryNumber: 123 },
         { entryNumber: 456 },
       ]);
-      expect(getCartItemList().isReadOnly).toBe(true);
+      expect(getCartItemList().readonly).toBe(true);
     });
   });
 });

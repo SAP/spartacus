@@ -72,10 +72,10 @@ describe(`OccConfigLoaderService`, () => {
       ],
     });
 
-    service = TestBed.get(OccConfigLoaderService);
-    transferState = TestBed.get(TransferState);
-    converter = TestBed.get(OccLoadedConfigConverter);
-    sitesConfigLoader = TestBed.get(OccSitesConfigLoader);
+    service = TestBed.inject(OccConfigLoaderService);
+    transferState = TestBed.inject(TransferState);
+    converter = TestBed.inject(OccLoadedConfigConverter);
+    sitesConfigLoader = TestBed.inject(OccSitesConfigLoader);
 
     spyOn(transferState, 'set');
   }

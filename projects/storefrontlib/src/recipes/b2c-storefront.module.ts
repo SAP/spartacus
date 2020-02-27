@@ -5,7 +5,6 @@ import { StorefrontConfig } from '../storefront-config';
 import { b2cLayoutConfig } from './config/b2c-layout-config';
 import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
 import { StorefrontModule } from './storefront.module';
-import { PLPAccessibilityLayoutConfig } from './config/optional-layouts/plp-accessibility-layout-config';
 
 @NgModule({
   imports: [
@@ -17,13 +16,6 @@ import { PLPAccessibilityLayoutConfig } from './config/optional-layouts/plp-acce
     }),
 
     ConfigModule.withConfig(b2cLayoutConfig),
-
-    /**
-     * @deprecated since 2.0.0
-     * NOTE: remove below PLP accessibility config, move the contents to the main default layout config
-     */
-    ConfigModule.withConfig(PLPAccessibilityLayoutConfig),
-
     ConfigModule.withConfigFactory(defaultCmsContentConfig),
 
     // the cms lib module contains all components that added in the bundle

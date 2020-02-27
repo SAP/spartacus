@@ -17,8 +17,8 @@ import {
   Country,
   GlobalMessageService,
   GlobalMessageType,
+  LoaderState,
   UserPaymentService,
-  FeatureConfigService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -50,6 +50,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   cardTypes$: Observable<CardType[]>;
   shippingAddress$: Observable<Address>;
   countries$: Observable<Country[]>;
+  loading$: Observable<LoaderState<void>>;
   sameAsShippingAddress = true;
 
   @Input()
@@ -100,9 +101,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
-    private modalService: ModalService,
-    // TODO(issue:#5468) Deprecated since 1.5.0
-    protected featureConfig?: FeatureConfigService
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -125,6 +124,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
 
     this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
+    this.loading$ = this.checkoutPaymentService.getSetPaymentDetailsResultProcess();
 
     this.checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
       (shouldShowCheckbox: boolean) => {
@@ -185,22 +185,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
   toggleSameAsShippingAddress(): void {
     this.sameAsShippingAddress = !this.sameAsShippingAddress;
-  }
-
-  /**
-   * @deprecated since 1.5.0
-   * This function will be removed as continue button should not be disabled
-   *
-   * TODO(issue:#5468) Deprecated since 1.5.0
-   */
-  isContinueButtonDisabled(): boolean {
-    if (this.featureConfig && this.featureConfig.isLevel('1.5')) {
-      return false;
-    }
-    return (
-      this.payment.invalid ||
-      (!this.sameAsShippingAddress && this.billingAddress.invalid)
-    );
   }
 
   /**

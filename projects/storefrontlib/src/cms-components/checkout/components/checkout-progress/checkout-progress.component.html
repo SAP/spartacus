@@ -5,10 +5,8 @@
         <a
           [routerLink]="{ cxRoute: step.routeName } | cxUrl"
           class="cx-link"
-          [ngClass]="{
-            ' is-active': isActive(i),
-            ' is-disabled': isDisabled(i)
-          }"
+          [class.active]="isActive(i)"
+          [class.disabled]="isDisabled(i)"
           [tabindex]="getTabIndex(i)"
         >
           {{ i + 1 }}. {{ step.name | cxTranslate }}

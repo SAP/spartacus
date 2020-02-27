@@ -1,13 +1,13 @@
-import { PageEffects } from './page.effect';
-import { ComponentEffects } from './component.effect';
+import { ComponentsEffects } from './components.effect';
 import { NavigationEntryItemEffects } from './navigation-entry-item.effect';
+import { PageEffects } from './page.effect';
 
 export const effects: any[] = [
   PageEffects,
-  ComponentEffects,
+  ComponentsEffects,
   NavigationEntryItemEffects,
 ];
 
-export * from './page.effect';
-export * from './component.effect';
+export * from './components.effect';
 export * from './navigation-entry-item.effect';
+export * from './page.effect';

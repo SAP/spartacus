@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, asyncScheduler } from 'rxjs';
 import { SkipLink } from '../config/skip-link.config';
 import { SkipLinkService } from '../service/skip-link.service';
+import { observeOn } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-skip-link',
@@ -9,7 +10,9 @@ import { SkipLinkService } from '../service/skip-link.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkipLinkComponent {
-  skipLinks$: Observable<SkipLink[]> = this.skipLinkService.getSkipLinks();
+  skipLinks$: Observable<SkipLink[]> = this.skipLinkService
+    .getSkipLinks()
+    .pipe(observeOn(asyncScheduler)); // delay view's update to avoid ExpressionChangedAfterItHasBeenCheckedError
 
   constructor(private skipLinkService: SkipLinkService) {}
 

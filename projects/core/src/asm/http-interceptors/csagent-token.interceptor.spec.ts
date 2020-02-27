@@ -4,7 +4,6 @@ import {
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { AsmAuthService, OccConfig } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -56,10 +55,8 @@ describe('CustomerSupportAgentTokenInterceptor', () => {
         },
       ],
     });
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    asmAuthService = TestBed.get(AsmAuthService as Type<AsmAuthService>);
+    httpMock = TestBed.inject(HttpTestingController);
+    asmAuthService = TestBed.inject(AsmAuthService);
   });
 
   describe('Customer Support Agent Token Http Interceptor', () => {

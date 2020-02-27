@@ -50,10 +50,13 @@ describe('SkipLinkComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(SkipLinkComponent);
     skipLinkComponent = fixture.componentInstance;
-    fixture.detectChanges();
+
+    fixture.detectChanges(); // run async pipe on skipLinks$
+    await fixture.whenStable(); // wait for async emmision of skipLinks$
+    fixture.detectChanges(); // consume emitted value
   });
 
   it('should be created', () => {
@@ -74,11 +77,9 @@ describe('SkipLinkComponent', () => {
     const element = fixture.debugElement.nativeElement;
     const buttons = element.querySelectorAll('button');
     expect(buttons.length).toEqual(3);
-
     expect(spyComponent).not.toHaveBeenCalled();
 
     const mouseEvent = new MouseEvent('mousedown');
-
     buttons[0].click();
     expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0], mouseEvent);
     buttons[1].click();

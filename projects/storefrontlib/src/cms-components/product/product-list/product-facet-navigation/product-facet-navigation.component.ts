@@ -9,8 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Facet, ProductSearchPage } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
-import { ModalService } from '../../../../shared/components/modal/index';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { ProductListComponentService } from '../container/product-list-component.service';
 
 @Component({
@@ -25,7 +25,6 @@ export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
 
   activeFacetValueCode: string;
   searchResult: ProductSearchPage;
-  minPerFacet = 6;
   showAllPerFacetMap: Map<String, boolean>;
   protected queryCodec: HttpUrlEncodingCodec;
   private collapsedFacets = new Set<string>();
@@ -99,12 +98,12 @@ export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
     }
   }
 
-  getVisibleFacetValues(facet): any {
+  getVisibleFacetValues(facet: Facet): Facet[] {
     return facet.values.slice(
       0,
       this.showAllPerFacetMap.get(facet.name)
         ? facet.values.length
-        : this.minPerFacet
+        : facet.topValueCount
     );
   }
 

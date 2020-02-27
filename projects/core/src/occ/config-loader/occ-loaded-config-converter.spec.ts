@@ -24,7 +24,7 @@ describe(`OccLoadedConfigConverter`, () => {
       ],
     });
 
-    converter = TestBed.get(OccLoadedConfigConverter);
+    converter = TestBed.inject(OccLoadedConfigConverter);
   });
 
   describe(`fromOccBaseSites`, () => {
@@ -47,7 +47,7 @@ describe(`OccLoadedConfigConverter`, () => {
         urlEncodingAttributes: [],
       };
 
-      javaRegExpConverter = TestBed.get(JavaRegExpConverter);
+      javaRegExpConverter = TestBed.inject(JavaRegExpConverter);
     });
 
     it(`should throw error when the base sites param is undefined`, () => {

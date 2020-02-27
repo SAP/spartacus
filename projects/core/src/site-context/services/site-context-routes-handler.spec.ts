@@ -1,5 +1,4 @@
 import { Location } from '@angular/common';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -71,9 +70,7 @@ describe('SiteContextRoutesHandlerService', () => {
       ],
     });
 
-    service = TestBed.get(SiteContextRoutesHandler as Type<
-      SiteContextRoutesHandler
-    >);
+    service = TestBed.inject(SiteContextRoutesHandler);
     service.init();
   });
 
