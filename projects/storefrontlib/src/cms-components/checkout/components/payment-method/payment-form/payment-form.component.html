@@ -1,5 +1,5 @@
 <!-- FORM -->
-<div [formGroup]="payment">
+<div *ngIf="!(loading$ | async).loading; else spinner" [formGroup]="payment">
   <div class="row">
     <div class="col-md-12 col-lg-9">
       <div class="form-group">
@@ -191,13 +191,13 @@
       </button>
     </div>
     <div class="col-md-12 col-lg-6">
-      <button
-        class="btn btn-block btn-primary"
-        [disabled]="isContinueButtonDisabled()"
-        (click)="next()"
-      >
+      <button class="btn btn-block btn-primary" (click)="next()">
         {{ 'common.continue' | cxTranslate }}
       </button>
     </div>
   </div>
 </div>
+
+<ng-template #spinner>
+  <cx-spinner></cx-spinner>
+</ng-template>

@@ -205,19 +205,57 @@ input[type='radio'] {
 $theme: '' !default;
 @if $theme == 'calydon' {
   :focus {
-    outline-color: var(--cx-color-visual-focus);
+    @include visible-focus();
   }
   .form-control,
-  select,
   input {
     &:focus {
-      outline: var(--cx-color-visual-focus) auto 4px;
-      outline-offset: 2px;
+      @include visible-focus();
     }
   }
   .ng-select-focused {
-    outline: var(--cx-color-visual-focus) auto 4px;
-    outline-offset: 2px;
-    border-color: var(--cx-color-secondary);
+    @include visible-focus();
+  }
+
+  .form-check {
+    //crossbroswer input options without vendor prefixes
+
+    //radio buttons
+    input[type='radio'] {
+      appearance: none;
+    }
+    input[type='radio']::after {
+      visibility: hidden;
+    }
+    input[type='radio']:checked::after {
+      visibility: visible;
+    }
+
+    //checkboxes
+    input[type='checkbox'] {
+      appearance: none;
+    }
+  }
+
+  .form-check {
+    //crossbrowser radio button
+    input[type='radio'] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+    input[type='radio']::after {
+      visibility: hidden;
+    }
+    input[type='radio']:checked::after {
+      visibility: visible;
+    }
+
+    //crossbrowser checkbox button
+    input[type='checkbox'] {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
   }
 }

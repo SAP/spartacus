@@ -1,5 +1,8 @@
-import { checkAllElements, TabElement } from '../tabbing-order';
+import { verifyTabbingOrder } from '../tabbing-order';
 import { formats } from '../../../sample-data/viewports';
+import { TabElement } from '../tabbing-order.model';
+
+const containerSelector = 'header';
 
 export function headerTabbingOrder(
   config: TabElement[],
@@ -18,23 +21,18 @@ export function headerTabbingOrder(
     .should('have.length', 2);
 
   // Load differing amounts of nav nodes depending on if logged in or not
-  const navLength: number = loggedIn ? 43 : 30;
+  const navLength: number = loggedIn ? 44 : 30;
   cy.get('header cx-navigation-ui')
     .find('nav')
     .should('have.length', navLength);
 
-  if (!mobile) {
-    cy.get('header cx-site-context-selector select')
-      .first()
-      .focus();
-  } else {
+  if (mobile) {
     cy.get('header cx-hamburger-menu button')
       .first()
-      .click()
-      .focus();
+      .click();
   }
 
-  checkAllElements(config);
+  verifyTabbingOrder(containerSelector, config);
 }
 
 export function subCategoryTabbingOrder(

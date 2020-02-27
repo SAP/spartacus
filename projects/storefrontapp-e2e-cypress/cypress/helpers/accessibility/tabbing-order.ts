@@ -2,17 +2,13 @@ import { user } from '../../sample-data/checkout-flow';
 import { register as authRegister } from '../auth-forms';
 import { waitForPage } from '../checkout-flow';
 import { loginUser } from '../login';
-import { TabbingOrderTypes } from './tabbing-order.config';
-
-export interface TabElement {
-  value?: string | any[];
-  type: TabbingOrderTypes;
-}
+import { TabElement, TabbingOrderTypes } from './tabbing-order.model';
+import { focusableSelectors } from '../../support/utils/a11y-tab';
 
 export const testProductUrl = '/product/779841';
 export const testProductListUrl = '/Brands/all/c/brands?currentPage=1';
 
-export function checkElement(tabElement: TabElement) {
+export function verifyTabElement(tabElement: TabElement) {
   // Check generic cases without value
   switch (tabElement.type) {
     case TabbingOrderTypes.GENERIC_CHECKBOX: {
@@ -47,13 +43,25 @@ export function checkElement(tabElement: TabElement) {
     return;
   }
 
+  const regexpCheck = (value: string) => {
+    value = value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    const regexp = new RegExp(value, 'i');
+
+    cy.focused()
+      .invoke('text')
+      .then(text => {
+        expect(text).to.match(regexp);
+      });
+  };
+
   switch (tabElement.type) {
     case TabbingOrderTypes.FORM_FIELD: {
       cy.focused().should('have.attr', 'formcontrolname', tabElement.value);
       break;
     }
     case TabbingOrderTypes.LINK: {
-      cy.focused().should('contain', tabElement.value);
+      regexpCheck(tabElement.value as string);
       break;
     }
     case TabbingOrderTypes.BUTTON: {
@@ -76,14 +84,6 @@ export function checkElement(tabElement: TabElement) {
     }
     case TabbingOrderTypes.IMG_LINK: {
       cy.focused().should('have.attr', 'href', tabElement.value);
-      break;
-    }
-    case TabbingOrderTypes.ITEM_COUNTER: {
-      cy.focused()
-        .parentsUntil('cx-item-counter')
-        .within(() => {
-          cy.get('input').should('have.attr', 'name', 'value');
-        });
       break;
     }
     case TabbingOrderTypes.RADIO: {
@@ -134,14 +134,28 @@ export function checkElement(tabElement: TabElement) {
   }
 }
 
-export function checkAllElements(tabElements: TabElement[]) {
-  tabElements.forEach((element: TabElement, index: number) => {
+export function verifyTabbingOrder(
+  containerSelector: string,
+  elements: TabElement[]
+) {
+  cy.get(containerSelector)
+    .find(focusableSelectors.join(','))
+    .then(focusableElements =>
+      focusableElements.filter((_, element) => element.offsetParent != null)
+    )
+    .as('children')
+    .should('have.length', elements.length);
+
+  cy.get('@children')
+    .first()
+    .focus();
+
+  elements.forEach((element: TabElement, index: number) => {
     // skip tabbing on first element
     if (index !== 0) {
       cy.pressTab();
     }
-
-    checkElement(element);
+    verifyTabElement(element);
   });
 }
 

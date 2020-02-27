@@ -6,12 +6,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  Product,
-  ProductReviewService,
-  Review,
-  FeatureConfigService,
-} from '@spartacus/core';
+import { Product, ProductReviewService, Review } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -53,40 +48,16 @@ export class ProductReviewsComponent {
   );
 
   constructor(
-    reviewService: ProductReviewService,
-    currentProductService: CurrentProductService,
-    fb: FormBuilder,
-    // tslint:disable-next-line: unified-signatures
-    cd: ChangeDetectorRef
-  );
-
-  /**
-   * @deprecated since version 1.x
-   * Replace constructor, for more details, check below ticket
-   *
-   * TODO(issue:#4945) Product page tabs accessibility changes
-   */
-  constructor(
-    reviewService: ProductReviewService,
-    currentProductService: CurrentProductService,
-    fb: FormBuilder
-  );
-  constructor(
     protected reviewService: ProductReviewService,
     protected currentProductService: CurrentProductService,
     private fb: FormBuilder,
-    protected cd?: ChangeDetectorRef,
-    // TODO(issue:#4962) Deprecated since 1.3.0
-    protected featureConfig?: FeatureConfigService
+    protected cd: ChangeDetectorRef
   ) {}
 
   initiateWriteReview(): void {
     this.isWritingReview = true;
 
-    // TODO(issue:#4945) Product page tabs accessibility changes
-    if (this.cd) {
-      this.cd.detectChanges();
-    }
+    this.cd.detectChanges();
 
     if (this.titleInput && this.titleInput.nativeElement) {
       this.titleInput.nativeElement.focus();
@@ -97,10 +68,7 @@ export class ProductReviewsComponent {
     this.isWritingReview = false;
     this.resetReviewForm();
 
-    // TODO(issue:#4945) Product page tabs accessibility changes
-    if (this.cd) {
-      this.cd.detectChanges();
-    }
+    this.cd.detectChanges();
 
     if (this.writeReviewButton && this.writeReviewButton.nativeElement) {
       this.writeReviewButton.nativeElement.focus();
@@ -111,7 +79,21 @@ export class ProductReviewsComponent {
     this.reviewForm.controls.rating.setValue(rating);
   }
 
-  submitReview(product: Product): void {
+  private markFormAsTouched(): void {
+    Object.keys(this.reviewForm.controls).forEach(key => {
+      this.reviewForm.controls[key].markAsTouched();
+    });
+  }
+
+  submitReview(product: Product) {
+    if (this.reviewForm.valid) {
+      this.addReview(product);
+    } else {
+      this.markFormAsTouched();
+    }
+  }
+
+  addReview(product: Product): void {
     const reviewFormControls = this.reviewForm.controls;
     const review: Review = {
       headline: reviewFormControls.title.value,
@@ -125,10 +107,7 @@ export class ProductReviewsComponent {
     this.isWritingReview = false;
     this.resetReviewForm();
 
-    // TODO(issue:#4945) Product page tabs accessibility changes
-    if (this.cd) {
-      this.cd.detectChanges();
-    }
+    this.cd.detectChanges();
 
     if (this.writeReviewButton && this.writeReviewButton.nativeElement) {
       this.writeReviewButton.nativeElement.focus();
@@ -142,18 +121,5 @@ export class ProductReviewsComponent {
       rating: [0, [Validators.min(1), Validators.max(5)]],
       reviewerName: '',
     });
-  }
-
-  /**
-   * @deprecated since 1.3.0
-   * This function will be removed as submit button should not be disabled
-   *
-   * TODO(issue:#4962) Deprecated since 1.3.0
-   */
-  shouldDisableSubmitButton(): boolean {
-    if (this.featureConfig && this.featureConfig.isLevel('1.3')) {
-      return false;
-    }
-    return !this.reviewForm.valid;
   }
 }

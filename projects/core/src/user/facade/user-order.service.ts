@@ -5,20 +5,19 @@ import { map, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import {
+  CancellationRequestEntryInputList,
   Order,
   OrderHistoryList,
-  CancellationRequestEntryInputList,
 } from '../../model/order.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
-import { UserActions } from '../store/actions/index';
-import { UsersSelectors } from '../store/selectors/index';
-import { StateWithUser } from '../store/user-state';
-import { CANCEL_ORDER_PROCESS_ID } from '../store/user-state';
 import {
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
+import { UserActions } from '../store/actions/index';
+import { UsersSelectors } from '../store/selectors/index';
+import { CANCEL_ORDER_PROCESS_ID, StateWithUser } from '../store/user-state';
 
 @Injectable({
   providedIn: 'root',
@@ -137,11 +136,14 @@ export class UserOrderService {
    * @param consignmentCode a consignment code
    */
   loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
-    this.store.dispatch(
-      new UserActions.LoadConsignmentTracking({
-        orderCode: orderCode,
-        consignmentCode: consignmentCode,
-      })
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new UserActions.LoadConsignmentTracking({
+          userId,
+          orderCode,
+          consignmentCode,
+        })
+      )
     );
   }
 

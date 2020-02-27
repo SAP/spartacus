@@ -40,8 +40,8 @@ export class CheckoutProgressComponent implements OnInit {
     );
   }
 
-  getTabIndex(index: number): number {
-    return !this.isActive(index) && !this.isDisabled(index) ? 0 : -1;
+  getTabIndex(stepIndex: number): number {
+    return !this.isActive(stepIndex) && !this.isDisabled(stepIndex) ? 0 : -1;
   }
 
   isActive(index: number): boolean {

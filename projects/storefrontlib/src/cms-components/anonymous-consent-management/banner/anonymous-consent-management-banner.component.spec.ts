@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AnonymousConsentsService,
@@ -57,10 +56,8 @@ describe('AnonymousConsentManagementBannerComponent', () => {
       AnonymousConsentManagementBannerComponent
     );
     component = fixture.componentInstance;
-    anonymousConsentsService = TestBed.get(AnonymousConsentsService as Type<
-      AnonymousConsentsService
-    >);
-    modalService = TestBed.get(ModalService as Type<ModalService>);
+    anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
+    modalService = TestBed.inject(ModalService);
 
     fixture.detectChanges();
   });

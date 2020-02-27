@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -51,9 +50,7 @@ describe('Multi Cart effect', () => {
       ],
     });
 
-    cartEffects = TestBed.get(fromEffects.MultiCartEffects as Type<
-      fromEffects.MultiCartEffects
-    >);
+    cartEffects = TestBed.inject(fromEffects.MultiCartEffects);
   });
 
   describe('loadCart2$', () => {
@@ -92,15 +89,16 @@ describe('Multi Cart effect', () => {
     });
   });
 
-  describe('setFreshCart$', () => {
+  describe('setTempCart$', () => {
     it('should dispatch reset just after setting', () => {
-      const action = new CartActions.SetFreshCart(testCart);
-      const resetFreshCartCompletion = new CartActions.ResetFreshCart();
+      const payload = { cart: testCart, tempCartId: 'tempCartId' };
+      const action = new CartActions.SetTempCart(payload);
+      const removeTempCartCompletion = new CartActions.RemoveTempCart(payload);
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {
-        b: resetFreshCartCompletion,
+        b: removeTempCartCompletion,
       });
-      expect(cartEffects.setFreshCart$).toBeObservable(expected);
+      expect(cartEffects.setTempCart$).toBeObservable(expected);
     });
   });
 

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { ConsentTemplate } from '../../model/index';
@@ -25,12 +24,8 @@ describe('AnonymousConsentTemplatesConnector', () => {
       ],
     });
 
-    adapter = TestBed.get(AnonymousConsentTemplatesAdapter as Type<
-      AnonymousConsentTemplatesAdapter
-    >);
-    service = TestBed.get(AnonymousConsentTemplatesConnector as Type<
-      AnonymousConsentTemplatesConnector
-    >);
+    adapter = TestBed.inject(AnonymousConsentTemplatesAdapter);
+    service = TestBed.inject(AnonymousConsentTemplatesConnector);
 
     spyOn(adapter, 'loadAnonymousConsentTemplates').and.returnValue(of([]));
   });

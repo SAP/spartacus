@@ -5,9 +5,9 @@ import {
   addressBookDirectoryTabbingOrder,
   addressBookFormTabbingOrder,
   setupForAddressBookTests,
-} from '../../helpers/accessibility/tabbing-order/address-book';
+} from '../../helpers/accessibility/tabbing-order/my-account/address-book';
 import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
-import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/change-password';
+import { changePasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/change-password';
 import { checkoutDeliveryModeTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
 import {
   checkoutBillingAddressTabbingOrder,
@@ -18,8 +18,8 @@ import {
   checkoutShippingAddressExistingTabbingOrder,
   checkoutShippingAddressNewTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
-import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/close-account';
-import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/consent-management';
+import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/close-account';
+import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/consent-management';
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
 import {
   headerTabbingOrder,
@@ -27,13 +27,13 @@ import {
 } from '../../helpers/accessibility/tabbing-order/header';
 import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
-import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/order-details';
+import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/order-details';
 import {
   orderHistoryNoOrdersTabbingOrder,
   orderHistoryWithOrdersTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/order-history';
-import { paymentDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/payment-details';
-import { personalDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/personal-details';
+} from '../../helpers/accessibility/tabbing-order/my-account/order-history';
+import { paymentDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/payment-details';
+import { personalDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/personal-details';
 import {
   productListTabbingOrderDesktop,
   productListTabbingOrderMobile,
@@ -47,6 +47,8 @@ import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/wishlist';
 import { myAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account';
+import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
+import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -294,6 +296,12 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
+  context('Notification preference', () => {
+    it('should allow to navigate with tab key', () => {
+      notificationPreferenceTabbingOrder(config.notificationPreference);
+    });
+  });
+
   context('Change password', () => {
     it('should allow to navigate with tab key', () => {
       changePasswordTabbingOrder(config.changePassword);
@@ -350,6 +358,12 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('Wishlist', () => {
     it('should allow to navigate with tab key', () => {
       wishlistTabbingOrder(config.wishlist);
+    });
+  });
+
+  context('My Interest', () => {
+    it('should allow to navigate with tab key', () => {
+      myInterestTabbingOrder(config.myInterests);
     });
   });
 });

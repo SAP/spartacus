@@ -2,10 +2,9 @@ import { Component, DebugElement, ElementRef, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, FeatureConfigService } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-icon',
@@ -73,14 +72,6 @@ const mockNode: NavigationNode = {
   ],
 };
 
-//TODO(issue:#4687) Deprecated since 1.3.0
-const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
-class MockFeatureConfigService {
-  isLevel(_level: string): boolean {
-    return isLevelBool.value;
-  }
-}
-
 describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
   let navigationComponent: NavigationUIComponent;
@@ -94,25 +85,48 @@ describe('Navigation UI Component', () => {
         MockIconComponent,
         MockGenericLinkComponent,
       ],
-      providers: [
-        //TODO(issue:#4687) Deprecated since 1.3.0
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-      ],
+      providers: [],
     }).compileComponents();
+  });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(NavigationUIComponent);
+    navigationComponent = fixture.debugElement.componentInstance;
+    element = fixture.debugElement;
+
+    navigationComponent.node = mockNode;
+  });
+
+  describe('calculate columns', () => {
+    beforeEach(() => {
+      navigationComponent.wrapAfter = 5;
+    });
+
+    it('should return 2 for 10', () => {
+      expect(navigationComponent.getColumnCount(10)).toEqual(2);
+    });
+
+    it('should return 2 for 11', () => {
+      expect(navigationComponent.getColumnCount(11)).toEqual(2);
+    });
+
+    it('should return 2 for 12', () => {
+      expect(navigationComponent.getColumnCount(12)).toEqual(2);
+    });
+
+    it('should return 3 for 13', () => {
+      expect(navigationComponent.getColumnCount(13)).toEqual(3);
+    });
+
+    it('should return column count of 3 for 14 items', () => {
+      expect(navigationComponent.getColumnCount(14)).toEqual(3);
+    });
+
+    it('should return column count of 3 for 15 items', () => {
+      expect(navigationComponent.getColumnCount(15)).toEqual(3);
+    });
   });
 
   describe('UI tests', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(NavigationUIComponent);
-      navigationComponent = fixture.debugElement.componentInstance;
-      element = fixture.debugElement;
-
-      navigationComponent.node = mockNode;
-    });
-
     it('should be created', () => {
       expect(navigationComponent).toBeTruthy();
     });

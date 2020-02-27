@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Product } from '@spartacus/core';
@@ -90,9 +90,7 @@ describe('ProductImagesComponent', () => {
       ],
     }).compileComponents();
 
-    currentProductService = TestBed.get(CurrentProductService as Type<
-      CurrentProductService
-    >);
+    currentProductService = TestBed.inject(CurrentProductService);
   }));
 
   describe('with multiple pictures', () => {
@@ -170,7 +168,6 @@ describe('ProductImagesComponent', () => {
       let items: Observable<Product>[];
       component.thumbs$.subscribe(i => (items = i));
       expect(items.length).toBe(0);
-      expect(component.isThumbsEmpty).toBeTruthy();
     }));
 
     describe('(UI test)', () => {
