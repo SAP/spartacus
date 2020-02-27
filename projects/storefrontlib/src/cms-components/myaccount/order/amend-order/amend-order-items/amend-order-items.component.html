@@ -62,20 +62,22 @@
               </div>
             </ng-container>
             <ng-container *cxFeatureLevel="'1.5'">
-              <div
-                *ngFor="
-                  let variant of item.product.baseOptions[0]?.selected
-                    ?.variantOptionQualifiers
-                "
-                class="cx-property"
-              >
-                <div class="cx-label" *ngIf="variant.name">
-                  {{ variant.name }}:
+              <ng-container *ngIf="item.product.baseOptions?.length">
+                <div
+                  *ngFor="
+                    let variant of item.product.baseOptions[0]?.selected
+                      ?.variantOptionQualifiers
+                  "
+                  class="cx-property"
+                >
+                  <div class="cx-label" *ngIf="variant.name">
+                    {{ variant.name }}:
+                  </div>
+                  <div class="cx-value" *ngIf="variant.value">
+                    {{ variant.value }}
+                  </div>
                 </div>
-                <div class="cx-value" *ngIf="variant.value">
-                  {{ variant.value }}
-                </div>
-              </div>
+              </ng-container>
             </ng-container>
           </div>
           <!-- Price -->
@@ -117,8 +119,8 @@
             <cx-item-counter
               [min]="0"
               [max]="getMaxAmendQuantity(item)"
-              [isValueChangeable]="!isConfirmation"
-              [formControl]="getControl(form, item)"
+              [control]="getControl(form, item)"
+              [readonly]="isConfirmation"
             >
             </cx-item-counter>
           </div>

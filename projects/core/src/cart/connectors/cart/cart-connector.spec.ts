@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CartAdapter } from './cart.adapter';
@@ -25,7 +24,7 @@ describe('CartConnector', () => {
       providers: [{ provide: CartAdapter, useClass: MockCartAdapter }],
     });
 
-    service = TestBed.get(CartConnector as Type<CartConnector>);
+    service = TestBed.inject(CartConnector);
   });
 
   it('should be created', () => {
@@ -33,7 +32,7 @@ describe('CartConnector', () => {
   });
 
   it('create should call adapter', () => {
-    const adapter = TestBed.get(CartAdapter as Type<CartAdapter>);
+    const adapter = TestBed.inject(CartAdapter);
 
     let result;
     service.create('1').subscribe(res => (result = res));
@@ -42,7 +41,7 @@ describe('CartConnector', () => {
   });
 
   it('load should call adapter', () => {
-    const adapter = TestBed.get(CartAdapter as Type<CartAdapter>);
+    const adapter = TestBed.inject(CartAdapter);
 
     let result;
     service.load('1', '4').subscribe(res => (result = res));
@@ -51,7 +50,7 @@ describe('CartConnector', () => {
   });
 
   it('loadAll should call adapter', () => {
-    const adapter = TestBed.get(CartAdapter as Type<CartAdapter>);
+    const adapter = TestBed.inject(CartAdapter);
 
     let result;
     service.loadAll('1').subscribe(res => (result = res));
@@ -60,7 +59,7 @@ describe('CartConnector', () => {
   });
 
   it('create should call adapter', () => {
-    const adapter = TestBed.get(CartAdapter as Type<CartAdapter>);
+    const adapter = TestBed.inject(CartAdapter);
 
     let result;
     service
@@ -75,7 +74,7 @@ describe('CartConnector', () => {
   });
 
   it('delete should call adapter', () => {
-    const adapter = TestBed.get(CartAdapter as Type<CartAdapter>);
+    const adapter = TestBed.inject(CartAdapter);
 
     let result;
     service.delete('userId', 'cartId').subscribe(res => (result = res));

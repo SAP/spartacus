@@ -26,8 +26,8 @@ describe('ExternalRoutesGuard canActivate', () => {
       ],
     });
 
-    guard = TestBed.get(ExternalRoutesGuard);
-    winRef = TestBed.get(WindowRef);
+    guard = TestBed.inject(ExternalRoutesGuard);
+    winRef = TestBed.inject(WindowRef);
   }
 
   describe('for no-browser platform', () => {

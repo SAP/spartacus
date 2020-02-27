@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import {
+  CancellationRequestEntryInputList,
   Order,
   OrderHistoryList,
-  ReturnRequestEntryInputList,
-  CancellationRequestEntryInputList,
   ReturnRequest,
+  ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
 } from '../../../model/order.model';
@@ -33,9 +33,14 @@ export class UserOrderConnector {
 
   public getConsignmentTracking(
     orderCode: string,
-    consignmentCode: string
+    consignmentCode: string,
+    userId?: string
   ): Observable<ConsignmentTracking> {
-    return this.adapter.getConsignmentTracking(orderCode, consignmentCode);
+    return this.adapter.getConsignmentTracking(
+      orderCode,
+      consignmentCode,
+      userId
+    );
   }
 
   public cancel(

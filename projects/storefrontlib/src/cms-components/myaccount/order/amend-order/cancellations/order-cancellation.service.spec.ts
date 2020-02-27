@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import {
@@ -51,7 +50,7 @@ describe('OrderCancellationService', () => {
   let service: OrderCancellationService;
   let userOrderService: UserOrderService;
   let globalMessageService: GlobalMessageService;
-  let routingService: MockRoutingService;
+  let routingService: RoutingService;
 
   let form: FormGroup;
 
@@ -78,15 +77,11 @@ describe('OrderCancellationService', () => {
       ],
     });
 
-    service = TestBed.get(OrderCancellationService as Type<
-      OrderCancellationService
-    >);
+    service = TestBed.inject(OrderCancellationService);
 
-    userOrderService = TestBed.get(UserOrderService as Type<UserOrderService>);
-    globalMessageService = TestBed.get(GlobalMessageService as Type<
-      GlobalMessageService
-    >);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    userOrderService = TestBed.inject(UserOrderService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    routingService = TestBed.inject(RoutingService);
 
     service
       .getForm()

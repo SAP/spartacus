@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -11,12 +11,10 @@ import {
   I18nTestingModule,
   UserToken,
   WindowRef,
-  FeatureConfigService,
 } from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../../checkout';
 import { LoginFormComponent } from './login-form.component';
-
 import createSpy = jasmine.createSpy;
 
 @Pipe({
@@ -40,14 +38,6 @@ class MockGlobalMessageService {
   remove = createSpy();
 }
 
-// TODO(issue:#4510) Deprecated since 1.3.0
-const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
-class MockFeatureConfigService {
-  isLevel(_level: string): boolean {
-    return isLevelBool.value;
-  }
-}
-
 class MockActivatedRoute {
   snapshot = {
     queryParams: {
@@ -66,7 +56,7 @@ describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
 
-  let authService: MockAuthService;
+  let authService: AuthService;
   let authRedirectService: AuthRedirectService;
   let windowRef: WindowRef;
 
@@ -82,8 +72,6 @@ describe('LoginFormComponent', () => {
           useClass: MockRedirectAfterAuthService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        // TODO(issue:#4510) Deprecated since 1.3.0
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       ],
@@ -93,11 +81,9 @@ describe('LoginFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
-    authService = TestBed.get(AuthService as Type<AuthService>);
-    authRedirectService = TestBed.get(AuthRedirectService as Type<
-      AuthRedirectService
-    >);
-    windowRef = TestBed.get(WindowRef as Type<WindowRef>);
+    authService = TestBed.inject(AuthService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
+    windowRef = TestBed.inject(WindowRef);
   });
 
   beforeEach(() => {
@@ -225,9 +211,6 @@ describe('LoginFormComponent', () => {
 
   describe('submit button', () => {
     it('should NOT be disabled', () => {
-      // TODO(issue:#4510) Deprecated since 1.3.0
-      isLevelBool.next(true);
-
       fixture.detectChanges();
       const submitButton: HTMLElement = windowRef.document.querySelector(
         'button[type="submit"]'

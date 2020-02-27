@@ -1,2 +1,1 @@
-export * from './only-number/index';
-export * from './auto-focus/index';
+export * from './auto-focus/auto-focus.directive';

@@ -34,8 +34,8 @@ describe('CustomerCouponConnector', () => {
       ],
     });
 
-    service = TestBed.get(CustomerCouponConnector);
-    adapter = TestBed.get(CustomerCouponAdapter);
+    service = TestBed.inject(CustomerCouponConnector);
+    adapter = TestBed.inject(CustomerCouponAdapter);
   });
 
   it('should be created', () => {

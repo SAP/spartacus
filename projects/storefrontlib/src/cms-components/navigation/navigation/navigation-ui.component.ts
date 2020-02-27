@@ -14,7 +14,6 @@ import { Subscription } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
-import { FeatureConfigService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -60,9 +59,7 @@ export class NavigationUIComponent implements OnDestroy {
   constructor(
     private router: Router,
     private renderer: Renderer2,
-    private elemRef: ElementRef,
-    //TODO(issue:#4687) Deprecated since 1.3.0
-    protected featureConfig?: FeatureConfigService
+    private elemRef: ElementRef
   ) {
     this.subscriptions.add(
       this.router.events
@@ -121,6 +118,10 @@ export class NavigationUIComponent implements OnDestroy {
     } else {
       return depth;
     }
+  }
+
+  getColumnCount(length: number): number {
+    return Math.round(length / (this.wrapAfter || length));
   }
 
   focusAfterPreviousClicked(event: MouseEvent) {
@@ -184,10 +185,6 @@ export class NavigationUIComponent implements OnDestroy {
   }
 
   isTabbable(node: any) {
-    //TODO(issue:#4687) Deprecated since 1.3.0
-    if (!(this.featureConfig && this.featureConfig.isLevel('1.3'))) {
-      return false;
-    }
     return this.flyout && node.children && node.children.length;
   }
 }

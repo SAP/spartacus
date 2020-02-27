@@ -12,7 +12,6 @@ import { SpinnerModule } from '../../../shared/components/spinner/spinner.module
 import { AddressFormModule } from '../../checkout/components/shipping-address/address-form/address-form.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
-import { AddressCardComponent } from './address-card/address-card.component';
 
 @NgModule({
   imports: [
@@ -37,8 +36,8 @@ import { AddressCardComponent } from './address-card/address-card.component';
     SpinnerModule,
     I18nModule,
   ],
-  declarations: [AddressBookComponent, AddressCardComponent],
-  exports: [AddressBookComponent, AddressCardComponent],
+  declarations: [AddressBookComponent],
+  exports: [AddressBookComponent],
   providers: [UserAddressService, AddressBookComponentService],
   entryComponents: [AddressBookComponent],
 })

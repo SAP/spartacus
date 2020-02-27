@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CustomerCoupon,
@@ -35,10 +34,8 @@ describe('MyCouponsComponentService', () => {
       ],
     });
     routingService.go.and.stub();
-    service = TestBed.get(MyCouponsComponentService as Type<
-      MyCouponsComponentService
-    >);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    service = TestBed.inject(MyCouponsComponentService);
+    routingService = TestBed.inject(RoutingService);
 
     translationService.translate.and.stub();
   });

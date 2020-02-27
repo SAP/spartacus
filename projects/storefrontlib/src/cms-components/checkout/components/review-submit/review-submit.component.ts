@@ -1,6 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
 import {
   Address,
   Cart,
@@ -16,9 +14,11 @@ import {
   PromotionResult,
   PromotionLocation,
 } from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
-import { CheckoutConfigService } from '../../services/index';
 import { CheckoutStepType } from '../../model/index';
+import { CheckoutConfigService } from '../../services/index';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({

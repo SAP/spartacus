@@ -80,9 +80,9 @@ describe('ProductIntroComponent in product', () => {
   describe('getTabByLabel to get tab from tabs component', () => {
     it('should return correct tab', () => {
       const tabsComponent: HTMLElement = document.createElement('div');
-      const tab1: HTMLElement = document.createElement('h3');
-      const tab2: HTMLElement = document.createElement('h3');
-      const tab3: HTMLElement = document.createElement('h3');
+      const tab1: HTMLElement = document.createElement('button');
+      const tab2: HTMLElement = document.createElement('button');
+      const tab3: HTMLElement = document.createElement('button');
 
       tab1.innerText = 'Tab 1';
       tab2.innerText = 'Tab 2';

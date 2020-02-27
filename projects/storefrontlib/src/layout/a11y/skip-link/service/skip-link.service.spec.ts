@@ -1,10 +1,10 @@
-import { Type, Component } from '@angular/core';
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkipLinkService } from './skip-link.service';
 import {
+  SkipLink,
   SkipLinkConfig,
   SkipLinkScrollPosition,
-  SkipLink,
 } from '../config/index';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
@@ -52,7 +52,7 @@ describe('SkipLinkService', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestContainerComponent);
-    service = TestBed.get(SkipLinkService as Type<SkipLinkService>);
+    service = TestBed.inject(SkipLinkService);
     (<BehaviorSubject<SkipLink[]>>service.getSkipLinks()).next([]);
     skipLinks = (<BehaviorSubject<SkipLink[]>>service.getSkipLinks()).value;
     fixture.detectChanges();

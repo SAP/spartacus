@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { take } from 'rxjs/operators';
@@ -41,8 +40,8 @@ describe('MultiCartService', () => {
       providers: [MultiCartService],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithMultiCart>>);
-    service = TestBed.get(MultiCartService as Type<MultiCartService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(MultiCartService);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -144,10 +143,12 @@ describe('MultiCartService', () => {
 
   describe('createCart', () => {
     it('should create cart and return observable with cart', () => {
-      let result;
+      spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
+
+      const results = [];
 
       service.createCart({ userId: 'userId' }).subscribe(cart => {
-        result = cart;
+        results.push(cart);
       });
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -156,10 +157,11 @@ describe('MultiCartService', () => {
           extraData: undefined,
           oldCartId: undefined,
           toMergeCartGuid: undefined,
+          tempCartId: 'temp-uuid',
         })
       );
 
-      expect(result).toEqual({
+      expect(results[0]).toEqual({
         loading: false,
         error: false,
         success: false,
@@ -167,15 +169,41 @@ describe('MultiCartService', () => {
         processesCount: 0,
       });
 
-      store.dispatch(new CartActions.SetFreshCart(testCart));
+      store.dispatch(
+        new CartActions.SetTempCart({
+          cart: testCart,
+          tempCartId: 'temp-uuid',
+        })
+      );
 
-      expect(result).toEqual({
+      expect(results[1]).toEqual({
         processesCount: 0,
         loading: false,
         error: false,
         success: true,
         value: testCart,
       });
+    });
+  });
+
+  describe('mergeToCurrentCart', () => {
+    it('should merge cart', () => {
+      spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
+
+      service.mergeToCurrentCart({
+        userId: 'userId',
+        cartId: 'cartId',
+        extraData: {},
+      });
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new DeprecatedCartActions.MergeCart({
+          userId: 'userId',
+          extraData: {},
+          cartId: 'cartId',
+          tempCartId: 'temp-uuid',
+        })
+      );
     });
   });
 

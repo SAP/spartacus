@@ -5,23 +5,22 @@ import { Injectable } from '@angular/core';
 })
 export class FocusTrapService {
   focusableSelectors: string[] = [
-    `a[href]:not([tabindex='-1'])`,
-    `area[href]:not([tabindex='-1'])`,
-    `input:not([disabled]):not([tabindex='-1'])`,
-    `select:not([disabled]):not([tabindex='-1'])`,
-    `textarea:not([disabled]):not([tabindex='-1'])`,
-    `button:not([disabled]):not([tabindex='-1'])`,
-    `iframe:not([tabindex='-1'])`,
-    `[tabindex]:not([tabindex='-1'])`,
-    `[contentEditable=true]:not([tabindex='-1'])`,
+    `a[href]:not([tabindex='-1']):not([hidden])`,
+    `area[href]:not([tabindex='-1']):not([hidden])`,
+    `input:not([disabled]):not([tabindex='-1']):not([hidden])`,
+    `select:not([disabled]):not([tabindex='-1']):not([hidden])`,
+    `textarea:not([disabled]):not([tabindex='-1']):not([hidden])`,
+    `button:not([disabled]):not([tabindex='-1']):not([hidden])`,
+    `iframe:not([tabindex='-1']):not([hidden])`,
+    `[tabindex]:not([tabindex='-1']):not([hidden])`,
+    `[contentEditable=true]:not([tabindex='-1']):not([hidden])`,
   ];
 
-  constructor() {}
-
   focusFirstEl(target: HTMLElement): void {
-    const first: HTMLElement = target.querySelector(
-      this.focusableSelectors.join(',')
-    );
+    const first: HTMLElement = Array.from(<NodeListOf<HTMLElement>>(
+      target.querySelectorAll(this.focusableSelectors.join(','))
+    )).filter(element => element.offsetParent !== null)[0];
+
     first.focus();
   }
 

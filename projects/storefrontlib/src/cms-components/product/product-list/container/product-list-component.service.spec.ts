@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -10,11 +9,11 @@ import {
 import { BehaviorSubject, of } from 'rxjs';
 import { ProductListComponentService } from './product-list-component.service';
 
-export class MockRouter {
+class MockRouter {
   navigate = jasmine.createSpy('navigate');
 }
 
-export class MockProductSearchService {
+class MockProductSearchService {
   getResults = jasmine
     .createSpy('getResults')
     .and.returnValue(of({ products: [] }));
@@ -72,14 +71,10 @@ describe('ProductListComponentService', () => {
       ],
     });
 
-    service = TestBed.get(ProductListComponentService as Type<
-      ProductListComponentService
-    >);
-    router = TestBed.get(Router as Type<Router>);
-    activatedRoute = TestBed.get(ActivatedRoute as Type<ActivatedRoute>);
-    productSearchService = TestBed.get(ProductSearchService as Type<
-      ProductSearchService
-    >);
+    service = TestBed.inject(ProductListComponentService);
+    router = TestBed.inject(Router);
+    activatedRoute = TestBed.inject(ActivatedRoute);
+    productSearchService = TestBed.inject(ProductSearchService);
   });
 
   it('setQuery should set query param "query" in the url and reset "currentPage"', () => {
@@ -132,7 +127,7 @@ describe('ProductListComponentService', () => {
         service.model$.subscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
-          ':relevance:category:testCategory',
+          ':relevance:allCategories:testCategory',
           jasmine.any(Object)
         );
       });
@@ -144,7 +139,7 @@ describe('ProductListComponentService', () => {
         service.model$.subscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
-          ':relevance:brand:testBrand',
+          ':relevance:allCategories:testBrand',
           jasmine.any(Object)
         );
       });

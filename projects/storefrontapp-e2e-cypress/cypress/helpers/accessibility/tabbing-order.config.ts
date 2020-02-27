@@ -179,6 +179,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Proceed to Checkout',
       type: TabbingOrderTypes.BUTTON,
     },
+    {
+      value: 'couponCode',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'Apply',
+      type: TabbingOrderTypes.BUTTON,
+    },
   ],
   changePassword: [
     {
@@ -392,6 +400,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Continue', type: TabbingOrderTypes.BUTTON },
   ],
   deliveryMode: [
+    { value: 'Shipping address', type: TabbingOrderTypes.LINK },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     { value: 'Back', type: TabbingOrderTypes.BUTTON },
@@ -450,10 +459,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Find a Store',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Sale',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -517,11 +522,15 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.SELECT,
     },
     {
-      value: 'Find a Store',
+      value: 'Orders',
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Sale',
+      value: 'Wish List',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Find a Store',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -773,10 +782,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Sale',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: 'Contact Us',
       type: TabbingOrderTypes.LINK,
     },
@@ -849,6 +854,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Notification Preference',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'My Coupons',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -996,11 +1005,15 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.SELECT,
     },
     {
-      value: 'Find a Store',
+      value: 'Orders',
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Sale',
+      value: 'Wish List',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Find a Store',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -1018,27 +1031,27 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Chiba (100)',
+      value: 'Chiba',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Choshi (92)',
+      value: 'Choshi',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Fukuoka Best Western Fukuoka Nakasu Inn (102)',
+      value: 'Fukuoka Best Western Fukuoka Nakasu Inn',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Fukuoka Canal City Fukuoka Washington Hotel (89)',
+      value: 'Fukuoka Canal City Fukuoka Washington Hotel',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Fukuoka Hilton Fukuoka Sea Hawk (94)',
+      value: 'Fukuoka Hilton Fukuoka Sea Hawk',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Fukuoka Hotel Monterey La Soeur Fukuoka (91)',
+      value: 'Fukuoka Hotel Monterey La Soeur Fukuoka',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
@@ -1050,23 +1063,23 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: '$0-$49.99 (38)',
+      value: '$0-$49.99',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '$50-$199.99 (63)',
+      value: '$50-$199.99',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '$200-$499.99 (38)',
+      value: '$200-$499.99',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '$500-$999.99 (22)',
+      value: '$500-$999.99',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '$1,000-$100,000 (18)',
+      value: '$1,000-$100,000',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
@@ -1074,7 +1087,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: '1280 x 720 (1)',
+      value: '1280 x 720',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
@@ -1082,11 +1095,11 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Floor-standing (2)',
+      value: 'Floor-standing',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Quick-release Mounting Shoe (1)',
+      value: 'Quick-release Mounting Shoe',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
@@ -1094,27 +1107,27 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: '20 - 29.9 mp (1)',
+      value: '20 - 29.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '15 - 15.9 mp (8)',
+      value: '15 - 15.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '14 - 14.9 mp (4)',
+      value: '14 - 14.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '12 - 12.9 mp (6)',
+      value: '12 - 12.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '10 - 10.9 mp (30)',
+      value: '10 - 10.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '9 - 9.9 mp (1)',
+      value: '9 - 9.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
@@ -1126,23 +1139,23 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'fixed (6)',
+      value: 'fixed',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'telephoto (2)',
+      value: 'telephoto',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'fisheye (1)',
+      value: 'fisheye',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'wide-angle (1)',
+      value: 'wide-angle',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'zoom (1)',
+      value: 'zoom',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
@@ -1150,7 +1163,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Black (7)',
+      value: 'Black',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
@@ -1158,27 +1171,27 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Sony (86)',
+      value: 'Sony',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Canon (40)',
+      value: 'Canon',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kodak (23)',
+      value: 'Kodak',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kingston (7)',
+      value: 'Kingston',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Samsung (6)',
+      value: 'Samsung',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Toshiba (4)',
+      value: 'Toshiba',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
@@ -1190,27 +1203,27 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Cameras (131)',
+      value: 'Cameras',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Digital Cameras (97)',
+      value: 'Digital Cameras',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Digital SLR (50)',
+      value: 'Digital SLR',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Digital Compacts (47)',
+      value: 'Digital Compacts',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Components (30)',
+      value: 'Components',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Power Supplies (30)',
+      value: 'Power Supplies',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
@@ -1452,452 +1465,492 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.GENERIC_BUTTON,
     },
     {
-      value: 'Chiba (100)',
+      value: 'Chiba',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Choshi (92)',
+      value: 'Choshi',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Fukuoka Best Western Fukuoka Nakasu Inn (102)',
+      value: 'Fukuoka Best Western Fukuoka Nakasu Inn',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Fukuoka Canal City Fukuoka Washington Hotel (89)',
+      value: 'Fukuoka Canal City Fukuoka Washington Hotel',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Fukuoka Hilton Fukuoka Sea Hawk (94)',
+      value: 'Fukuoka Hilton Fukuoka Sea Hawk',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Fukuoka Hotel Monterey La Soeur Fukuoka (91)',
+      value: 'Fukuoka Hotel Monterey La Soeur Fukuoka',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Fukuoka Hotel Nikko Fukuoka (93)',
+      value: 'Fukuoka Hotel Nikko Fukuoka',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Ichikawa (118)',
+      value: 'Ichikawa',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kawasaki Grand Hotel (92)',
+      value: 'Kawasaki Grand Hotel',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kawasaki Hotel Sunroute Kawasaki (93)',
+      value: 'Kawasaki Hotel Sunroute Kawasaki',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kawasaki Mets Kawasaki Hotel (99)',
+      value: 'Kawasaki Mets Kawasaki Hotel',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kawasaki Mets Mizonokuchi Hotel (112)',
+      value: 'Kawasaki Mets Mizonokuchi Hotel',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kawasaki Pearl Hotel Kawasaki (92)',
+      value: 'Kawasaki Pearl Hotel Kawasaki',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kobe Bay Sheraton Hotel and Towers (97)',
+      value: 'Kobe Bay Sheraton Hotel and Towers',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kobe Hotel Monterey Amalie (61)',
+      value: 'Kobe Hotel Monterey Amalie',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kobe Hotel Monterey Kobe (56)',
+      value: 'Kobe Hotel Monterey Kobe',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kobe Sannomiya Terminal Hotel (121)',
+      value: 'Kobe Sannomiya Terminal Hotel',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kobe the b (57)',
+      value: 'Kobe the b',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Koto (100)',
+      value: 'Koto',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Matsudo (100)',
+      value: 'Matsudo',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Misato (90)',
+      value: 'Misato',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Nagoya Crowne Plaza Ana Grand Court Nagoya (96)',
+      value: 'Nagoya Crowne Plaza Ana Grand Court Nagoya',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Nagoya Hilton Nagoya Hotel (98)',
+      value: 'Nagoya Hilton Nagoya Hotel',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Nagoya Marriott Nagoya (99)',
+      value: 'Nagoya Marriott Nagoya',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Nagoya Royal Park Inn Nagoya (95)',
+      value: 'Nagoya Royal Park Inn Nagoya',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Nagoya The Westin Nagoya Castle (93)',
+      value: 'Nagoya The Westin Nagoya Castle',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Nakano (102)',
+      value: 'Nakano',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Osaka Best Western Hotel Fino Osaka Shinsaibashi (94)',
+      value: 'Osaka Best Western Hotel Fino Osaka Shinsaibashi',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Osaka Cross Hotel Osaka (92)',
+      value: 'Osaka Cross Hotel Osaka',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Osaka Crowne Plaza Hotel Ana Osaka (96)',
+      value: 'Osaka Crowne Plaza Hotel Ana Osaka',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Osaka Hilton Osaka Hotel (92)',
+      value: 'Osaka Hilton Osaka Hotel',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Osaka Ramada Osaka (98)',
+      value: 'Osaka Ramada Osaka',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Sapporo Ana Hotel Sapporo (120)',
+      value: 'Sapporo Ana Hotel Sapporo',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Sapporo Best Western Hotel Sapporo Nakajima Koen (91)',
+      value: 'Sapporo Best Western Hotel Sapporo Nakajima Koen',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Sapporo Hotel Resol Trinity Sapporo (99)',
+      value: 'Sapporo Hotel Resol Trinity Sapporo',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Sapporo Hotel Sunroute Sapporo (91)',
+      value: 'Sapporo Hotel Sunroute Sapporo',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Sapporo Sheraton Sapporo Hotel (98)',
+      value: 'Sapporo Sheraton Sapporo Hotel',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Shinbashi (101)',
+      value: 'Shinbashi',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Tokio Cerulean Tower Tokyu Hotel (93)',
+      value: 'Tokio Cerulean Tower Tokyu Hotel',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Tokio Dormy Inn Tokyo Hatchobori (93)',
+      value: 'Tokio Dormy Inn Tokyo Hatchobori',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Tokio Flexstay Nippori Inn (120)',
+      value: 'Tokio Flexstay Nippori Inn',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Tokio Hotel Metropolitan Tokyo (94)',
+      value: 'Tokio Hotel Metropolitan Tokyo',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Tokio Park Hotel Tokyo (96)',
+      value: 'Tokio Park Hotel Tokyo',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Yokohama Comfort Hotel Yokohama Kannai (95)',
+      value: 'Yokohama Comfort Hotel Yokohama Kannai',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Yokohama Hotel JAL City Kannai Yokohama (95)',
+      value: 'Yokohama Hotel JAL City Kannai Yokohama',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Yokohama Hotel New Grand (121)',
+      value: 'Yokohama Hotel New Grand',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Yokohama Sakuragicho Washington Hotel (98)',
+      value: 'Yokohama Sakuragicho Washington Hotel',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Yokohama Shin Yokohama Prince Hotel (94)',
+      value: 'Yokohama Shin Yokohama Prince Hotel',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Yokosuka (93)',
+      value: 'Yokosuka',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '$0-$49.99 (38)',
+      value: '$0-$49.99',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '$50-$199.99 (63)',
+      value: '$50-$199.99',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '$200-$499.99 (38)',
+      value: '$200-$499.99',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '$500-$999.99 (22)',
+      value: '$500-$999.99',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '$1,000-$100,000 (18)',
+      value: '$1,000-$100,000',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '1280 x 720 (1)',
+      value: '1280 x 720',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Floor-standing (2)',
+      value: 'Floor-standing',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Quick-release Mounting Shoe (1)',
+      value: 'Quick-release Mounting Shoe',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '20 - 29.9 mp (1)',
+      value: '20 - 29.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '15 - 15.9 mp (8)',
+      value: '15 - 15.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '14 - 14.9 mp (4)',
+      value: '14 - 14.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '12 - 12.9 mp (6)',
+      value: '12 - 12.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '10 - 10.9 mp (30)',
+      value: '10 - 10.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '9 - 9.9 mp (1)',
+      value: '9 - 9.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '8 - 8.9 mp (6)',
+      value: '8 - 8.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '7 - 7.9 mp (9)',
+      value: '7 - 7.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: '5 - 5.9 mp (3)',
+      value: '5 - 5.9 mp',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'fixed (6)',
+      value: 'fixed',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'telephoto (2)',
+      value: 'telephoto',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'fisheye (1)',
+      value: 'fisheye',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'wide-angle (1)',
+      value: 'wide-angle',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'zoom (1)',
+      value: 'zoom',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Black (7)',
+      value: 'Black',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Sony (86)',
+      value: 'Sony',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Canon (40)',
+      value: 'Canon',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kodak (23)',
+      value: 'Kodak',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Kingston (7)',
+      value: 'Kingston',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Samsung (6)',
+      value: 'Samsung',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Toshiba (4)',
+      value: 'Toshiba',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'ICIDU (3)',
+      value: 'ICIDU',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'TDK (2)',
+      value: 'TDK',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Sweex (2)',
+      value: 'Sweex',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'HP (1)',
+      value: 'HP',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'NEC (1)',
+      value: 'NEC',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Targus (1)',
+      value: 'Targus',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Canyon (1)',
+      value: 'Canyon',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Fujifilm (1)',
+      value: 'Fujifilm',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Logitech (1)',
+      value: 'Logitech',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Cameras (131)',
+      value: 'Cameras',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Digital Cameras (97)',
+      value: 'Digital Cameras',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Digital SLR (50)',
+      value: 'Digital SLR',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Digital Compacts (47)',
+      value: 'Digital Compacts',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Components (30)',
+      value: 'Components',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Power Supplies (30)',
+      value: 'Power Supplies',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Camera Accessories & Supplies (22)',
+      value: 'Camera Accessories & Supplies',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Data storage (16)',
+      value: 'Data storage',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Flash Memory (16)',
+      value: 'Flash Memory',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Rechargeable Batteries (13)',
+      value: 'Rechargeable Batteries',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Camera Lenses (10)',
+      value: 'Camera Lenses',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Battery Chargers (9)',
+      value: 'Battery Chargers',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Camera Kits (8)',
+      value: 'Camera Kits',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Tripods (8)',
+      value: 'Tripods',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Power Adapters & Inverters (8)',
+      value: 'Power Adapters & Inverters',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Hand-held Camcorders (6)',
+      value: 'Hand-held Camcorders',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Blank Video Tapes (5)',
+      value: 'Blank Video Tapes',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Webcams (4)',
+      value: 'Webcams',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Camera Flashes (4)',
+      value: 'Camera Flashes',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Colour Films (4)',
+      value: 'Colour Films',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Black & White Films (4)',
+      value: 'Black & White Films',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Camera Cables (4)',
+      value: 'Camera Cables',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Binoculars (2)',
+      value: 'Binoculars',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Film cameras (2)',
+      value: 'Film cameras',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Fixatives (1)',
+      value: 'Fixatives',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+  ],
+  myInterests: [
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Secure Digital Card 2GB',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'REMOVE',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
     },
   ],
 };

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CmsService, Page } from '../../cms/index';
@@ -42,10 +41,10 @@ describe('SmartEditService', () => {
       ],
     });
 
-    service = TestBed.get(SmartEditService as Type<SmartEditService>);
-    cmsService = TestBed.get(CmsService as Type<CmsService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    baseSiteService = TestBed.get(BaseSiteService as Type<BaseSiteService>);
+    service = TestBed.inject(SmartEditService);
+    cmsService = TestBed.inject(CmsService);
+    routingService = TestBed.inject(RoutingService);
+    baseSiteService = TestBed.inject(BaseSiteService);
 
     spyOn(routingService, 'go').and.stub();
   });
@@ -187,7 +186,7 @@ describe('SmartEditService', () => {
       service['getCmsTicket']();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
-        params: { code: 'test product code' },
+        params: { code: 'test product code', name: '' },
       });
     });
 
