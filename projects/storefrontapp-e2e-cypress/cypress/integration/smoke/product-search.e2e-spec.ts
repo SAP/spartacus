@@ -18,7 +18,7 @@ context('Product search', () => {
 
   describe('Pagination', () => {
     it('should navigate to the next page and display results', () => {
-      productSearchFlow.verifyNextPage();
+      productSearchFlow.verifyNextPage(2);
     });
 
     it('should be able navigate to the specified page number and display results', () => {
@@ -26,7 +26,7 @@ context('Product search', () => {
     });
 
     it('should navigate to the previous page and display results', () => {
-      productSearchFlow.verifyPreviousPage();
+      productSearchFlow.verifyPreviousPage(2);
     });
   });
 
