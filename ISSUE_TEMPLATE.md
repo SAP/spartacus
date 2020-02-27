@@ -4,6 +4,7 @@ Note: For the bug to be accepted, it must be reproducible using the latest relea
 
 ## Environment Details
 
+- Angular: <!-- Angular release - note that Spartacus 1.x supports Angular 8.x only and not Angular 9 -->
 - Spartacus:  <!-- Spartacus release -->
 - Browser: <!-- Your browser, version -->
 - OS: <!-- Your operating system, version -->
