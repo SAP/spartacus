@@ -44,10 +44,6 @@ export function subCategoryTabbingOrder(
 
   if (mobile) {
     cy.viewport(formats.mobile.width, formats.mobile.height);
-  }
-
-  cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
-  if (mobile) {
     cy.get('cx-hamburger-menu button')
       .first()
       .click()
@@ -60,18 +56,20 @@ export function subCategoryTabbingOrder(
       .should('have.length', 30);
     cy.get('cx-navigation-ui nav h5')
       .contains(subCategoryName)
-      .should('be.visible');
-    cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
-    cy.get('cx-navigation-ui nav span')
-      .first()
-      .focus();
-    cy.focused().trigger('keydown', {
-      key: ' ',
-      code: 'Space',
-      force: true,
-    });
+      .should('be.visible')
+      .focus()
+      .trigger('keydown', {
+        key: ' ',
+        code: 'Space',
+        force: true,
+      });
   });
-  cy.pressTab();
 
-  verifyTabbingOrder(null, config);
+  cy.get('cx-navigation-ui nav[class="is-open"] h5')
+    .first()
+    .focus();
+  verifyTabbingOrder(
+    'cx-navigation-ui nav[class="is-open"] div[class="wrapper"]',
+    config
+  );
 }

@@ -1,5 +1,3 @@
-import { testProductUrl } from '../../helpers/accessibility/tabbing-order';
-
 context('Auxiliary Keys', () => {
   describe('Category Navigation', () => {
     before(() => {
@@ -17,7 +15,7 @@ context('Auxiliary Keys', () => {
           .and('be.visible')
           .within(() => {
             cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
-            cy.get('nav span')
+            cy.get('nav h5')
               .first()
               .focus();
             cy.focused().trigger('keydown', {
@@ -43,7 +41,7 @@ context('Auxiliary Keys', () => {
           .and('be.visible')
           .within(() => {
             cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
-            cy.get('nav span')
+            cy.get('nav h5')
               .first()
               .focus();
             cy.focused().trigger('keydown', {
@@ -72,7 +70,7 @@ context('Auxiliary Keys', () => {
           .and('be.visible')
           .within(() => {
             cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
-            cy.get('nav span')
+            cy.get('nav h5')
               .first()
               .focus();
             cy.focused().trigger('keydown', {
@@ -94,7 +92,7 @@ context('Auxiliary Keys', () => {
           .and('be.visible')
           .within(() => {
             cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
-            cy.get('nav span')
+            cy.get('nav h5')
               .first()
               .focus();
             cy.focused().trigger('keydown', {
@@ -172,29 +170,6 @@ context('Auxiliary Keys', () => {
     it('should navigate with ArrowRight key', () => {});
 
     it('should go to link with Enter key', () => {});
-  });
-
-  describe('Item Counter', () => {
-    before(() => {
-      loadPageWithComponenents(testProductUrl);
-    });
-
-    it('should increment counter with ArrowUp key', () => {
-      cy.get('cx-item-counter input')
-        .should('have.value', '1')
-        .focus();
-      cy.focused().trigger('keydown', { key: 'ArrowUp', code: 'ArrowUp' });
-      cy.get('cx-item-counter input').should('have.value', '2');
-      cy.focused().trigger('keydown', { key: 'ArrowUp', code: 'ArrowUp' });
-      cy.get('cx-item-counter input').should('have.value', '3');
-    });
-
-    it('should decrement counter with ArrowDown key', () => {
-      cy.focused().trigger('keydown', { key: 'ArrowDown', code: 'ArrowDown' });
-      cy.get('cx-item-counter input').should('have.value', '2');
-      cy.focused().trigger('keydown', { key: 'ArrowDown', code: 'ArrowDown' });
-      cy.get('cx-item-counter input').should('have.value', '1');
-    });
   });
 
   describe('Skip Links', () => {

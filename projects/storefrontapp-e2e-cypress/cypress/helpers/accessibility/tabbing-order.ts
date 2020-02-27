@@ -138,19 +138,17 @@ export function verifyTabbingOrder(
   containerSelector: string,
   elements: TabElement[]
 ) {
-  if (containerSelector) {
-    cy.get(containerSelector)
-      .find(focusableSelectors.join(','))
-      .then(focusableElements =>
-        focusableElements.filter((_, element) => element.offsetParent != null)
-      )
-      .as('children')
-      .should('have.length', elements.length);
+  cy.get(containerSelector)
+    .find(focusableSelectors.join(','))
+    .then(focusableElements =>
+      focusableElements.filter((_, element) => element.offsetParent != null)
+    )
+    .as('children')
+    .should('have.length', elements.length);
 
-    cy.get('@children')
-      .first()
-      .focus();
-  }
+  cy.get('@children')
+    .first()
+    .focus();
 
   elements.forEach((element: TabElement, index: number) => {
     // skip tabbing on first element

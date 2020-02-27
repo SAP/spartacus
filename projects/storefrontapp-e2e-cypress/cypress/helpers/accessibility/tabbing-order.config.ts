@@ -2022,6 +2022,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Compact Cameras',
       type: TabbingOrderTypes.LINK,
     },
+    {
+      value: 'SLR Cameras',
+      type: TabbingOrderTypes.LINK,
+    },
   ],
   headerCategoryAccessories: [
     {
