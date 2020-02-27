@@ -4,13 +4,16 @@
       [rating]="product?.averageRating"
       [disabled]="true"
     ></cx-star-rating>
+
     <div class="count">({{ product?.numberOfReviews }})</div>
-    <a
-      class="btn-link"
+
+    <button
       *ngIf="reviewsTabAvailable | async"
+      class="btn btn-link"
       (click)="showReviews()"
-      >{{ 'productSummary.showReviews' | cxTranslate }}</a
     >
+      {{ 'productSummary.showReviews' | cxTranslate }}
+    </button>
   </div>
   <div class="rating" *ngIf="!product.averageRating">
     {{ 'productDetails.noReviews' | cxTranslate }}

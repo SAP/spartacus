@@ -93,7 +93,7 @@ export function previousPage() {
 }
 
 export function viewMode() {
-  cy.get('cx-product-view > div > div:first').click({ force: true });
+  cy.get('cx-product-view button:first').click({ force: true });
   cy.get('cx-product-list cx-product-grid-item').should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE

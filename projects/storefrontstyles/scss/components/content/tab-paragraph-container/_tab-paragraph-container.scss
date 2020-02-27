@@ -7,7 +7,7 @@ $useTabsOnPDP: false !default;
     > div.active.toggled {
       display: none;
     }
-    > h3.active.toggled {
+    > button.active.toggled {
       color: initial;
       &:before {
         content: '+';
@@ -28,7 +28,8 @@ $useTabsOnPDP: false !default;
       display: none;
     }
   }
-  > h3 {
+  > button {
+    @include button-reset();
     margin-bottom: 0;
     &.active,
     &:hover {
@@ -70,7 +71,7 @@ $useTabsOnPDP: false !default;
   }
 
   @include media-breakpoint-down(sm) {
-    > h3 {
+    > button {
       border-top: 1px var(--cx-color-light) solid;
       font-size: 18px;
       padding: 15px 0 0 4%;
@@ -118,7 +119,7 @@ $useTabsOnPDP: false !default;
   @include media-breakpoint-up(md) {
     display: grid;
 
-    > h3 {
+    > button {
       order: 0;
       transition: all 0.6s;
       font-size: 1.2rem;
@@ -151,7 +152,8 @@ $useTabsOnPDP: false !default;
   display: grid;
   grid-template-columns: repeat(4, auto) auto;
   justify-content: start;
-  > h3 {
+  > button {
+    @include button-reset();
     order: 2;
 
     color: var(--cx-color-primary);
