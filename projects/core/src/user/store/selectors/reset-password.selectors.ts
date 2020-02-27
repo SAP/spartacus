@@ -5,7 +5,4 @@ import { getUserState } from './feature.selector';
 export const getResetPassword: MemoizedSelector<
   StateWithUser,
   boolean
-> = createSelector(
-  getUserState,
-  (state: UserState) => state.resetPassword
-);
+> = createSelector(getUserState, (state: UserState) => state.resetPassword);

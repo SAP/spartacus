@@ -125,12 +125,12 @@ describe('AddressBookComponent', () => {
     component = fixture.componentInstance;
     spyOn(component, 'addAddressButtonHandle');
     el = fixture.debugElement;
-    userAddressService = TestBed.get(UserAddressService as Type<
-      UserAddressService
-    >);
-    checkoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
+    userAddressService = TestBed.get(
+      UserAddressService as Type<UserAddressService>
+    );
+    checkoutDeliveryService = TestBed.get(
+      CheckoutDeliveryService as Type<CheckoutDeliveryService>
+    );
 
     isLoading.next(false);
     component.ngOnInit();

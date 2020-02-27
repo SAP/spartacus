@@ -165,7 +165,7 @@
     "karma-junit-reporter": "^1.2.0",
     "ng-packagr": "^9.0.0",
     "npm-package-versions": "^1.0.1",
-    "prettier": "1.18.2",
+    "prettier": "1.19.1",
     "release-it": "^12.3.6",
     "sass": "^1.22.10",
     "semver": "^6.3.0",

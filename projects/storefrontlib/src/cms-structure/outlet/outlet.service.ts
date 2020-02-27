@@ -5,9 +5,9 @@ import { AVOID_STACKED_OUTLETS, OutletPosition } from './outlet.model';
   providedIn: 'root',
 })
 export class OutletService<T = TemplateRef<any>> {
-  private templatesRefs = new Map<string, (T)[]>();
-  private templatesRefsBefore = new Map<string, (T)[]>();
-  private templatesRefsAfter = new Map<string, (T)[]>();
+  private templatesRefs = new Map<string, T[]>();
+  private templatesRefsBefore = new Map<string, T[]>();
+  private templatesRefsAfter = new Map<string, T[]>();
 
   /**
    * Adds a template or ComponentFactory, so that UI outlets can be replaced dynamically.
@@ -79,7 +79,7 @@ export class OutletService<T = TemplateRef<any>> {
     return templateRef;
   }
 
-  private store(store: Map<string, (T)[]>, outlet: string, value: T) {
+  private store(store: Map<string, T[]>, outlet: string, value: T) {
     const existing = store.get(outlet) || [];
     const newValue: T[] = existing.concat([value]);
     store.set(outlet, newValue);

@@ -168,7 +168,7 @@ export class SearchBoxComponentService {
           productResult &&
           productResult.products &&
           productResult.products.length === 0 &&
-          (suggestions && suggestions.length === 0)
+          suggestions && suggestions.length === 0
         ) {
           return this.fetchTranslation('searchBox.help.noMatch');
         } else {
