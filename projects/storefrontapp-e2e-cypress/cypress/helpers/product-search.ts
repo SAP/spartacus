@@ -118,9 +118,9 @@ export function previousPage(): void {
     .click();
 }
 
-export function verifyNextPage(): void {
+export function verifyNextPage(pageNumber: number): void {
   nextPage();
-  cy.get(pageLinkSelector).should('contain', '2');
+  cy.get(pageLinkSelector).should('contain', pageNumber);
 }
 
 export function verifyChoosePage(pageNumber: number): void {
@@ -128,9 +128,9 @@ export function verifyChoosePage(pageNumber: number): void {
   cy.get(pageLinkSelector).should('contain', pageNumber);
 }
 
-export function verifyPreviousPage() {
+export function verifyPreviousPage(pageNumber: number) {
   previousPage();
-  cy.get(pageLinkSelector).should('contain', '2');
+  cy.get(pageLinkSelector).should('contain', pageNumber);
 }
 
 export function viewMode() {
