@@ -1,12 +1,15 @@
 %cx-product-references {
   padding-bottom: 50px;
   a {
-    outline: none;
+    // outline: none;
     color: var(--cx-color-text);
+    display: block;
 
     &:focus {
       color: var(--cx-color-primary);
       text-decoration: underline;
+      z-index: 1;
+      position: relative;
     }
   }
 
