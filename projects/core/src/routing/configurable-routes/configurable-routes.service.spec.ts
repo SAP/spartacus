@@ -1,4 +1,3 @@
-import * as AngularCore from '@angular/core';
 import { InjectionToken } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Route, Router, Routes, UrlMatcher } from '@angular/router';
@@ -138,25 +137,6 @@ describe('ConfigurableRoutesService', () => {
       });
       await service.init();
       expect(router.config[0].matcher).toBe(false);
-    });
-
-    // tslint:disable-next-line:max-line-length
-    it('should console.warn in non-production environment if route refers a page name that does not exist in config', async () => {
-      spyOn(console, 'warn');
-      router.config = [{ path: null, data: { cxRoute: 'page1' } }];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
-      await service.init();
-      expect(console.warn).toHaveBeenCalled();
-    });
-
-    // tslint:disable-next-line:max-line-length
-    it('should NOT console.warn in production environment if route refers a page name that does not exist in config', async () => {
-      spyOn(console, 'warn');
-      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
-      router.config = [{ path: null, data: { cxRoute: 'page1' } }];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
-      await service.init();
-      expect(console.warn).not.toHaveBeenCalled();
     });
 
     it('should configure configurable routes placed among non-configurable routes', async () => {

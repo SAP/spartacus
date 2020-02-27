@@ -66,12 +66,9 @@ export class ConfigurableRoutesService {
     if (routeName) {
       const routeConfig = this.routingConfigService.getRouteConfig(routeName);
       this.validateRouteConfig(routeConfig, routeName, route);
+      const {disabled, paths, matchers} = routeConfig || {};
 
-      const paths = (routeConfig?.paths) || [];
-      const isDisabled = routeConfig?.disabled;
-      const matchers = routeConfig?.matchers;
-
-      if (isDisabled) {
+      if (disabled) {
         delete route.path;
         return {
           ...route,
@@ -80,14 +77,14 @@ export class ConfigurableRoutesService {
       } else if (matchers) {
         delete route.path;
         return { ...route, matcher: this.resolveUrlMatchers(route, matchers) };
-      } else if (paths.length === 1) {
+      } else if (paths?.length === 1) {
         delete route.matcher;
         return { ...route, path: paths[0] };
       } else {
         delete route.path;
         return {
           ...route,
-          matcher: this.urlMatcherService.getFromPaths(paths),
+          matcher: this.urlMatcherService.getFromPaths(paths || []),
         };
       }
     }
