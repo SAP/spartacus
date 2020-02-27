@@ -128,7 +128,7 @@ export function verifyChoosePage(pageNumber: number): void {
   cy.get(pageLinkSelector).should('contain', pageNumber);
 }
 
-export function verifyPreviousPage(pageNumber: number) {
+export function verifyPreviousPage(pageNumber: number): void {
   previousPage();
   cy.get(pageLinkSelector).should('contain', pageNumber);
 }
