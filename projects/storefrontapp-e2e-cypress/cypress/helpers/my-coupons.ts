@@ -15,12 +15,12 @@ export const CouponWithOpenCatalog = 'dragonboat';
 export const CouponWithProductCategory = 'springfestival';
 export const CouponWithProducts = 'midautumn';
 export const PageSize = 10;
-export const NumberInPage2 = 1;
+export const NumberInPage2 = 2;
 
 export function verifyPagingAndSorting() {
   const firstCouponStartDateAscending = 'customerCoupon1';
   const firstCouponStartDateDescending = 'customerCoupon11';
-  const firstCouponEndDateAscending = 'customerCoupon1';
+  const firstCouponEndDateAscending = 'dragonboat';
   const firstCouponEndDateDescending = 'customerCoupon11';
   const firstCouponCodeSelector =
     'cx-my-coupons .cx-coupon-card:first .cx-coupon-card-id';
