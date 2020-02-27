@@ -323,13 +323,3 @@ export function createSpecificProductQuery(
     `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=${search}*`
   ).as(alias);
 }
-
-export function createSpecificProductQuery(
-  search: string,
-  alias: string
-): void {
-  cy.route(
-    'GET',
-    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=${search}*`
-  ).as(alias);
-}
