@@ -164,7 +164,13 @@ export class CostCenterEffects {
           payload.budgetCode
         )
         .pipe(
-          map(data => new CostCenterActions.AssignBudgetSuccess(data)),
+          map(
+            () =>
+              new CostCenterActions.AssignBudgetSuccess({
+                code: payload.budgetCode,
+                selected: true,
+              })
+          ),
           catchError(error =>
             of(
               new CostCenterActions.AssignBudgetFail({
@@ -193,7 +199,13 @@ export class CostCenterEffects {
           payload.budgetCode
         )
         .pipe(
-          map(data => new CostCenterActions.UnassignBudgetSuccess(data)),
+          map(
+            () =>
+              new CostCenterActions.UnassignBudgetSuccess({
+                code: payload.budgetCode,
+                selected: false,
+              })
+          ),
           catchError(error =>
             of(
               new CostCenterActions.UnassignBudgetFail({

@@ -1,5 +1,6 @@
 export const organization = {
   budgetsList: {
+    assign: 'Assign',
     code: 'Code',
     name: 'Name',
     amount: 'Amount',
@@ -152,6 +153,12 @@ export const organization = {
     back: 'Back to list',
     active: 'Active',
     deactivated: 'Deactivated',
+    budgets: 'Budgets',
+    assignBudgets: 'Manage Budgets',
+  },
+  costCenterAssignBudgets: {
+    assignBudgets: 'Assign budgets',
+    back: 'Close',
   },
   costCenterForm: {
     create: 'Create Cost Center',

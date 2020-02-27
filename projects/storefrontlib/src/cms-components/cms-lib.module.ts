@@ -67,6 +67,7 @@ import {
   CostCenterCreateModule,
   CostCenterDetailsModule,
   CostCenterEditModule,
+  CostCenterAssignBudgetsModule,
 } from './organization/index';
 
 @NgModule({
@@ -131,6 +132,7 @@ import {
     CostCenterCreateModule,
     CostCenterDetailsModule,
     CostCenterEditModule,
+    CostCenterAssignBudgetsModule,
   ],
 })
 export class CmsLibModule {}

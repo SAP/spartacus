@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'cx-table',
@@ -6,8 +6,19 @@ import { Component, Input } from '@angular/core';
 })
 export class TableComponent {
   @Input()
-  columns: Array<{ key: string; value: string; cxRoute?: string }>;
+  columns: Array<{
+    key: string;
+    value: string;
+    cxRoute?: string;
+    check?: string;
+  }>;
 
   @Input()
   tableData: Array<any>;
+
+  @Output() toggle = new EventEmitter<any>();
+
+  onToggle(event, row, key) {
+    this.toggle.emit({ key, value: event.target.checked, row });
+  }
 }

@@ -318,7 +318,10 @@ describe('CostCenter Effects', () => {
         costCenterCode,
         budgetCode,
       });
-      const completion = new CostCenterActions.AssignBudgetSuccess(null);
+      const completion = new CostCenterActions.AssignBudgetSuccess({
+        code: budgetCode,
+        selected: true,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -362,7 +365,10 @@ describe('CostCenter Effects', () => {
         costCenterCode,
         budgetCode,
       });
-      const completion = new CostCenterActions.UnassignBudgetSuccess(null);
+      const completion = new CostCenterActions.UnassignBudgetSuccess({
+        code: budgetCode,
+        selected: false,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 

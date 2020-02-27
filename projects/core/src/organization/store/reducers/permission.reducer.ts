@@ -2,10 +2,11 @@ import { Permission } from '../../../model/permission.model';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
 import * as PermissionActions from '../actions/permission.action';
 
+export const permissionInitialState = {};
 export const permissionsInitialState = undefined;
 
 export function permissionsEntitiesReducer(
-  state = permissionsInitialState,
+  state: Permission = permissionInitialState,
   action: LoaderAction
 ): Permission {
   switch (action.type) {

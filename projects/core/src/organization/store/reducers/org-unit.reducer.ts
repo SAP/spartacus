@@ -2,10 +2,11 @@ import { B2BUnitNode } from '../../../model/org-unit.model';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
 import * as OrgUnitActions from '../actions/org-unit.action';
 
-export const orgUnitInitialState = undefined;
+export const orgUnitInitialState = {};
+export const orgUnitsInitialState = undefined;
 
 export function orgUnitEntitiesReducer(
-  state = orgUnitInitialState,
+  state: B2BUnitNode = orgUnitInitialState,
   action: LoaderAction
 ): B2BUnitNode {
   switch (action.type) {
@@ -14,7 +15,7 @@ export function orgUnitEntitiesReducer(
 }
 
 export function orgUnitListReducer(
-  state = orgUnitInitialState,
+  state = orgUnitsInitialState,
   action: LoaderAction
 ): any {
   switch (action.type) {

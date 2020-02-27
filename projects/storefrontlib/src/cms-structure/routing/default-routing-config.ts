@@ -105,6 +105,12 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     ],
     paramsMapping: { costCenterCode: 'code' },
   },
+  costCenterAssignBudgets: {
+    paths: [
+      'my-company/organization-management/manage-costcenter/assign-budgets/:costCenterCode',
+    ],
+    paramsMapping: { costCenterCode: 'code' },
+  },
   costCenterEdit: {
     paths: [
       'my-company/organization-management/manage-costcenter/edit/:costCenterCode',

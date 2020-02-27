@@ -2,6 +2,7 @@ import {
   COST_CENTER_ENTITIES,
   COST_CENTER_LIST,
   COST_CENTER_ASSIGNED_BUDGETS,
+  BUDGET_ENTITIES,
 } from '../organization-state';
 import { CostCenter } from '../../../model/cost-center.model';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
@@ -336,6 +337,10 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.ASSIGN_BUDGET,
           payload: { userId, costCenterCode, budgetCode },
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            BUDGET_ENTITIES,
+            budgetCode
+          ),
         });
       });
     });
@@ -355,17 +360,29 @@ describe('CostCenter Actions', () => {
             budgetCode,
             error,
           },
+          meta: StateEntityLoaderActions.entityFailMeta(
+            BUDGET_ENTITIES,
+            budgetCode,
+            error
+          ),
         });
       });
     });
 
     describe('AssignBudgetSuccess', () => {
       it('should create the action', () => {
-        const action = new CostCenterActions.AssignBudgetSuccess(null);
+        const action = new CostCenterActions.AssignBudgetSuccess({
+          code: budgetCode,
+          selected: true,
+        });
 
         expect({ ...action }).toEqual({
           type: CostCenterActions.ASSIGN_BUDGET_SUCCESS,
-          payload: null,
+          payload: { code: budgetCode, selected: true },
+          meta: StateEntityLoaderActions.entitySuccessMeta(
+            BUDGET_ENTITIES,
+            budgetCode
+          ),
         });
       });
     });
@@ -383,6 +400,10 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.UNASSIGN_BUDGET,
           payload: { userId, costCenterCode, budgetCode },
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            BUDGET_ENTITIES,
+            budgetCode
+          ),
         });
       });
     });
@@ -402,17 +423,29 @@ describe('CostCenter Actions', () => {
             budgetCode,
             error,
           },
+          meta: StateEntityLoaderActions.entityFailMeta(
+            BUDGET_ENTITIES,
+            budgetCode,
+            error
+          ),
         });
       });
     });
 
     describe('UnassignBudgetSuccess', () => {
       it('should create the action', () => {
-        const action = new CostCenterActions.UnassignBudgetSuccess(null);
+        const action = new CostCenterActions.UnassignBudgetSuccess({
+          code: budgetCode,
+          selected: false,
+        });
 
         expect({ ...action }).toEqual({
           type: CostCenterActions.UNASSIGN_BUDGET_SUCCESS,
-          payload: null,
+          payload: { code: budgetCode, selected: false },
+          meta: StateEntityLoaderActions.entitySuccessMeta(
+            BUDGET_ENTITIES,
+            budgetCode
+          ),
         });
       });
     });
