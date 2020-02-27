@@ -55,7 +55,7 @@ export function verifyMyCouponsAfterApply(couponCode: string) {
   navigateToCheckoutPage();
   navigateToCartPage();
   getCouponItemFromCart(couponCode).should('exist');
-  cy.get('.cx-customer-coupons .coupon-id').should('not.contain', couponCode);
+  cy.get('.cx-available-coupons .coupon-id').should('not.contain', couponCode);
 }
 
 export function claimCoupon(couponCode: string) {
