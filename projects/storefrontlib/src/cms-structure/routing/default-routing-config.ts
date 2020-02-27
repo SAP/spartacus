@@ -82,11 +82,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   budgetDetails: {
     paths: ['my-company/organization-management/manage-budget/:code'],
-    paramsMapping: { code: 'code' },
   },
   budgetEdit: {
     paths: ['my-company/organization-management/manage-budget/edit/:code'],
-    paramsMapping: { code: 'code' },
   },
   orgUnit: {
     paths: ['my-company/organization-management/org-unit/:code'],
@@ -99,17 +97,14 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   costCenterDetails: {
     paths: ['my-company/organization-management/manage-costcenter/:code'],
-    paramsMapping: { code: 'code' },
   },
   costCenterAssignBudgets: {
     paths: [
       'my-company/organization-management/manage-costcenter/assign-budgets/:code',
     ],
-    paramsMapping: { code: 'code' },
   },
   costCenterEdit: {
     paths: ['my-company/organization-management/manage-costcenter/edit/:code'],
-    paramsMapping: { code: 'code' },
   },
   permissions: {
     paths: ['my-company/organization-management/manage-permissions'],
@@ -119,11 +114,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   permissionDetails: {
     paths: ['my-company/organization-management/manage-permission/:code'],
-    paramsMapping: { code: 'code' },
   },
   permissionEdit: {
     paths: ['my-company/organization-management/manage-permission/edit/:code'],
-    paramsMapping: { code: 'code' },
   },
 };
 
