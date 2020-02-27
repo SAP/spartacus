@@ -45,7 +45,7 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
       )
     );
   protected cxRoute = 'costCenterAssignBudgets';
-  protected defaultQueryParams$: B2BSearchConfig = {
+  protected defaultQueryParams: B2BSearchConfig = {
     sort: 'byName',
     currentPage: 0,
     pageSize: 5,
@@ -55,7 +55,7 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
     this.queryParams$ = this.routingService.getRouterState().pipe(
       map((routingData: RouterState) => routingData.state.queryParams),
       map((queryParams: Params) => ({
-        ...this.defaultQueryParams$,
+        ...this.defaultQueryParams,
         ...queryParams,
       })),
       distinctUntilChanged(shallowEqualObjects),
@@ -107,7 +107,7 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
     this.queryParams$
       .pipe(
         map(queryParams =>
-          diff(this.defaultQueryParams$, { ...queryParams, ...newQueryParams })
+          diff(this.defaultQueryParams, { ...queryParams, ...newQueryParams })
         ),
         take(1)
       )
