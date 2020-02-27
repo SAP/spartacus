@@ -43,12 +43,12 @@ import {
 import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
 import { productPageTabsTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page-tabs';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
-import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/reset-password';
-import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/update-email';
-import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/wishlist';
 import { myAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account';
 import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
 import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
+import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/reset-password';
+import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
+import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
