@@ -20,8 +20,8 @@ export class FocusTrapDirective implements AfterContentInit, OnDestroy {
   trapHandler: any;
 
   constructor(
-    private elRef: ElementRef<HTMLElement>,
-    private focusTrapService: FocusTrapService
+    protected elRef: ElementRef<HTMLElement>,
+    protected focusTrapService: FocusTrapService
   ) {}
 
   ngAfterContentInit(): void {
