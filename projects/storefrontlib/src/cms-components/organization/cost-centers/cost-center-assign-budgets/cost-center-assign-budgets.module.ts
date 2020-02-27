@@ -35,7 +35,7 @@ import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-route
         component: PageLayoutComponent,
         data: {
           cxSuffixUrlMatcher: {
-            paramName: 'costCenterCode',
+            paramName: 'code',
           },
         },
       },

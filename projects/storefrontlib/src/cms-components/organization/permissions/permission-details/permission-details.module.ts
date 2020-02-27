@@ -35,7 +35,7 @@ import { TableModule } from '../../../../shared/components/table/table.module';
         component: PageLayoutComponent,
         data: {
           cxSuffixUrlMatcher: {
-            paramName: 'permissionCode',
+            paramName: 'code',
           },
         },
       },

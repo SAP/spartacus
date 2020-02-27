@@ -39,11 +39,7 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
   protected queryParams$: Observable<B2BSearchConfig>;
   protected costCenterCode$ = this.routingService
     .getRouterState()
-    .pipe(
-      map(
-        (routingData: RouterState) => routingData.state.params['costCenterCode']
-      )
-    );
+    .pipe(map((routingData: RouterState) => routingData.state.params['code']));
   protected cxRoute = 'costCenterAssignBudgets';
   protected defaultQueryParams: B2BSearchConfig = {
     sort: 'byName',

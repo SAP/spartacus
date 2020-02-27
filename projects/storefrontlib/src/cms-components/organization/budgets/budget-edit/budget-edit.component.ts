@@ -11,7 +11,7 @@ export class BudgetEditComponent implements OnInit {
   budget$: Observable<Budget>;
   budgetCode$: Observable<string> = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['budgetCode']));
+    .pipe(map(routingData => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,

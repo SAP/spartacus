@@ -20,7 +20,7 @@ export class CostCenterDetailsComponent implements OnInit {
     string
   > = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['costCenterCode']));
+    .pipe(map(routingData => routingData.state.params['code']));
 
   ngOnInit(): void {
     this.costCenter$ = this.costCenterCode$.pipe(

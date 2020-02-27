@@ -13,7 +13,7 @@ export class CostCenterEditComponent implements OnInit {
     string
   > = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['costCenterCode']));
+    .pipe(map(routingData => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,
