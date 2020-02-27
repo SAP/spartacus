@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "tsc -p tsconfig.json && jasmine src/**/*_spec.js"
+    "test": "tsc -p tsconfig.json && jasmine src/**/**/**/*_spec.js"
   },
   "author": "",
   "license": "MIT",

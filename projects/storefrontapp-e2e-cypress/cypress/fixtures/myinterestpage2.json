@@ -1,0 +1,28 @@
+{
+  "pagination": {
+    "count": 1,
+    "page": 1,
+    "totalCount": 11,
+    "totalPages": 2
+  },
+  "sorts": [
+    {
+      "asc": false,
+      "code": "name"
+    }
+  ],
+  "results": [
+    {
+      "product": {
+        "code": "872912"
+      },
+      "productInterestEntry": [
+        {
+          "dateAdded": "2020-02-14T07:58:44+0000",
+          "expirationDate": "2020-05-14T07:58:44+0000",
+          "interestType": "BACK_IN_STOCK"
+        }
+      ]
+    }
+  ]
+}

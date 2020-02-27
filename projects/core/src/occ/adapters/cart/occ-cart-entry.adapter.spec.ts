@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CART_MODIFICATION_NORMALIZER } from '@spartacus/core';
 import { FeatureConfigService } from 'projects/core/src/features-config';
@@ -57,19 +56,11 @@ describe('OccCartEntryAdapter', () => {
       ],
     });
 
-    occCartEntryAdapter = TestBed.get(OccCartEntryAdapter as Type<
-      OccCartEntryAdapter
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
-    featureConfigService = TestBed.get(FeatureConfigService as Type<
-      FeatureConfigService
-    >);
+    occCartEntryAdapter = TestBed.inject(OccCartEntryAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
 
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();

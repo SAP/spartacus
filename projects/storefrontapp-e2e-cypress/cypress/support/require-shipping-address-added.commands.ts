@@ -25,22 +25,25 @@ Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
   const apiUrl = Cypress.env('API_URL');
 
   // format the request body
-  address.firstName = user.firstName;
-  address.lastName = user.lastName;
-  address.town = address.city;
-  address.postalCode = address.postal;
-  address.titleCode = 'mr';
-  address.country = {
-    isocode: 'US',
-    name: user.address.country,
+  const _address = {
+    ...address,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    town: address.city,
+    postalCode: address.postal,
+    titleCode: 'mr',
+    country: {
+      isocode: 'US',
+      name: user.address.country,
+    },
+    defaultAddress: false,
   };
-  address.defaultAddress = false;
 
   function addAddress() {
     return cy.request({
       method: 'POST',
       url: `${apiUrl}/rest/v2/electronics-spa/users/current/carts/current/addresses/delivery`,
-      body: address,
+      body: _address,
       form: false,
       headers: {
         Authorization: `bearer ${auth.userToken.token.access_token}`,

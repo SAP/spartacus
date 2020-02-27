@@ -1,14 +1,9 @@
 @mixin hideWrapperDesktop {
-  position: absolute;
-  visibility: hidden;
-  opacity: 0;
-  margin-left: -10px;
-  border: 1px solid #ccc;
+  display: none;
 }
 
 @mixin showWrapperDesktop {
-  opacity: 1;
-  visibility: visible;
+  display: initial;
 }
 
 %nav-wrapper {
@@ -311,6 +306,9 @@
       // Show dropdowns via hover when no nav is focused
       > nav {
         > .wrapper {
+          position: absolute;
+          margin-left: -10px;
+          border: 1px solid #ccc;
           @include hideWrapperDesktop();
         }
 
@@ -325,7 +323,8 @@
       // Show dropdowns via focus only once a nav is clicked
       &:focus-within {
         > nav {
-          &:focus {
+          &:focus,
+          &.is-open:focus-within {
             > .wrapper {
               @include showWrapperDesktop();
             }

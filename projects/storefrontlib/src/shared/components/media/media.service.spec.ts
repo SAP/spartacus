@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
 import { LayoutConfig } from '../../../layout';
@@ -42,7 +41,7 @@ describe('MediaService', () => {
         { provide: LayoutConfig, useValue: {} },
       ],
     });
-    mediaService = TestBed.get(MediaService as Type<MediaService>);
+    mediaService = TestBed.inject(MediaService);
   });
 
   it('should inject service', () => {

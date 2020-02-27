@@ -58,7 +58,7 @@ export function verifyProductSearch(
 }
 
 export function searchResult() {
-  cy.get(resultsTitleSelector).should('contain', '143 results for "camera"');
+  cy.get(resultsTitleSelector).should('contain', '140 results for "camera"');
   cy.get(productItemSelector).should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
@@ -93,7 +93,7 @@ export function previousPage() {
 }
 
 export function viewMode() {
-  cy.get('cx-product-view > div > div:first').click({ force: true });
+  cy.get('cx-product-view button:first').click({ force: true });
   cy.get('cx-product-list cx-product-grid-item').should(
     'have.length',
     PRODUCT_LISTING.PRODUCTS_PER_PAGE

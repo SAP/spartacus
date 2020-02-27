@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { PaginationConfig } from './config/pagination.config';
 import { PaginationBuilder } from './pagination.builder';
@@ -55,7 +54,7 @@ describe('PaginationBuilder', () => {
         },
       ],
     });
-    return TestBed.get(PaginationBuilder as Type<PaginationBuilder>);
+    return TestBed.inject(PaginationBuilder);
   };
 
   describe('Default config', () => {

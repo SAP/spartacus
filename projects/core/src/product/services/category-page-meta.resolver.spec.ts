@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CmsService, Page, PageMeta } from '../../cms';
@@ -70,8 +69,8 @@ describe('CategoryPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.get(CategoryPageMetaResolver);
-    cmsService = TestBed.get(CmsService as Type<CmsService>);
+    service = TestBed.inject(CategoryPageMetaResolver);
+    cmsService = TestBed.inject(CmsService);
   });
 
   describe('resolvers', () => {

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed, TestBedStatic } from '@angular/core/testing';
 import { PageContext } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
@@ -144,11 +143,9 @@ describe('CmsComponentConnector', () => {
   }
 
   function testBedConnector() {
-    service = TestBed.get(CmsComponentConnector as Type<CmsComponentConnector>);
-    adapter = TestBed.get(CmsComponentAdapter as Type<CmsComponentAdapter>);
-    structureConfigService = TestBed.get(CmsStructureConfigService as Type<
-      CmsStructureConfigService
-    >);
+    service = TestBed.inject(CmsComponentConnector);
+    adapter = TestBed.inject(CmsComponentAdapter);
+    structureConfigService = TestBed.inject(CmsStructureConfigService);
   }
 
   function serviceToBeTruthy() {

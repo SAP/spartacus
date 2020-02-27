@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -63,8 +62,8 @@ describe('CmsService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithCms>>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    store = TestBed.inject(Store);
+    routingService = TestBed.inject(RoutingService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
