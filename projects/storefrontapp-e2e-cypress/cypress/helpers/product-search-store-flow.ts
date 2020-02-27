@@ -32,11 +32,14 @@ export function productStoreFlow(mobile?: string) {
       checkFirstItem(firstItem);
       // Navigate to next page
       createProductQuery(queries.q2);
-      cy.get('.page-item:last-of-type .page-link:first').click();
+      cy.get('cx-pagination a.current')
+        .next()
+        .first()
+        .click();
     })
     .then(() => waitAndGetFirstProductFromXHR(queries.q2))
     .then(firstItem => {
-      cy.get('.page-item.active > .page-link').should('contain', '2');
+      cy.get('cx-pagination a.current').should('contain', '2');
 
       checkFirstItem(firstItem);
       // Sort by name descending
@@ -47,7 +50,7 @@ export function productStoreFlow(mobile?: string) {
     })
     .then(() => waitAndGetFirstProductFromXHR(queries.q3))
     .then(firstItem => {
-      cy.get('.page-item.active > .page-link').should('contain', '2');
+      cy.get('cx-pagination a.current').should('contain', '2');
 
       checkFirstItem(firstItem);
       createProductQuery(queries.q4);
@@ -63,7 +66,7 @@ export function productStoreFlow(mobile?: string) {
     })
     .then(() => waitAndGetFirstProductFromXHR(queries.q4))
     .then(firstItem => {
-      cy.get('.page-item.active > .page-link').should('contain', '1');
+      cy.get('cx-pagination a.current').should('contain', '1');
       cy.get(resultsTitle).should('contain', '44 results for "canon"');
 
       checkFirstItem(firstItem);

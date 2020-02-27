@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -72,8 +71,8 @@ describe('ActiveCartService', () => {
         { provide: AuthService, useClass: AuthServiceStub },
       ],
     });
-    service = TestBed.get(ActiveCartService as Type<ActiveCartService>);
-    multiCartService = TestBed.get(MultiCartService as Type<MultiCartService>);
+    service = TestBed.inject(ActiveCartService);
+    multiCartService = TestBed.inject(MultiCartService);
   });
 
   describe('getActive', () => {

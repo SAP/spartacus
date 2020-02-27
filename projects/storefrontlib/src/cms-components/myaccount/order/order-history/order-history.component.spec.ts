@@ -1,4 +1,11 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,8 +15,7 @@ import {
   RoutingService,
   UserOrderService,
 } from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
 
 const mockOrders: OrderHistoryList = {
@@ -30,6 +36,26 @@ const mockOrders: OrderHistoryList = {
   pagination: { totalResults: 1, sort: 'byDate' },
   sorts: [{ code: 'byDate', selected: true }],
 };
+
+@Component({
+  template: '',
+  selector: 'cx-pagination',
+})
+class MockPaginationComponent {
+  @Input() pagination;
+  @Output() viewPageEvent = new EventEmitter<string>();
+}
+@Component({
+  template: '',
+  selector: 'cx-sorting',
+})
+class MockSortingComponent {
+  @Input() sortOptions;
+  @Input() sortLabels;
+  @Input() selectedOption;
+  @Input() placeholder;
+  @Output() sortListEvent = new EventEmitter<string>();
+}
 
 @Pipe({
   name: 'cxUrl',
@@ -63,21 +89,26 @@ class MockRoutingService {
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
-  let userService: MockUserOrderService;
+  let userService: UserOrderService | MockUserOrderService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ListNavigationModule, I18nTestingModule],
-      declarations: [OrderHistoryComponent, MockUrlPipe],
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [
+        OrderHistoryComponent,
+        MockUrlPipe,
+        MockPaginationComponent,
+        MockSortingComponent,
+      ],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserOrderService, useClass: MockUserOrderService },
       ],
     }).compileComponents();
 
-    userService = TestBed.get(UserOrderService as Type<UserOrderService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    userService = TestBed.inject(UserOrderService);
+    routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {
@@ -121,7 +152,7 @@ describe('OrderHistoryComponent', () => {
       sorts: [{ code: 'byDate', selected: true }],
     };
 
-    userService.orderHistroy.next(emptyOrderList);
+    (userService as MockUserOrderService).orderHistroy.next(emptyOrderList);
     fixture.detectChanges();
 
     expect(

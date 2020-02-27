@@ -27,12 +27,8 @@
           <cx-cart-item
             [item]="entry"
             [compact]="true"
-            [isReadOnly]="false"
-            [parent]="form.controls[entry.product.code]"
-            [cartIsLoading]="form.dirty"
+            [quantityControl]="getQuantityControl() | async"
             [promotionLocation]="promotionLocation"
-            (remove)="removeEntry($event)"
-            (update)="updateEntry($event)"
             (view)="dismissModal('Product selected')"
           ></cx-cart-item>
         </div>

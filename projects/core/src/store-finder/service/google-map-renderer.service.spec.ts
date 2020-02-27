@@ -19,19 +19,20 @@ const selectedIndex = function() {};
 
 class ExternalJsFileLoaderMock {
   public load(_src: string, _params?: Object, callback?: EventListener): void {
-    window['google'] = {};
-    window['google'].maps = {};
-    window['google'].maps.MapTypeId = {};
-    window['google'].maps.Map = function(mapDomElement: HTMLElement) {
+    const googleMock: any = {};
+    googleMock.maps = {};
+    googleMock.maps.MapTypeId = {};
+    googleMock.maps.Map = function(mapDomElement: HTMLElement) {
       mapDomElement.innerHTML = MAP_DOM_ELEMENT_INNER_HTML;
       this.setCenter = function() {};
       this.setZoom = function() {};
     };
-    window['google'].maps.LatLng = function() {};
-    window['google'].maps.Marker = function() {
+    googleMock.maps.LatLng = function() {};
+    googleMock.maps.Marker = function() {
       this.setMap = function() {};
       this.addListener = function() {};
     };
+    (window as any)['google'] = googleMock;
     callback(new Event('test'));
   }
 }
@@ -69,9 +70,9 @@ describe('GoogleMapRendererService', () => {
     });
 
     mapDomElement = document.createElement('div');
-    externalJsFileLoaderMock = bed.get(ExternalJsFileLoader);
-    googleMapRendererService = bed.get(GoogleMapRendererService);
-    storeDataServiceMock = bed.get(StoreDataService);
+    externalJsFileLoaderMock = bed.inject(ExternalJsFileLoader);
+    googleMapRendererService = bed.inject(GoogleMapRendererService);
+    storeDataServiceMock = bed.inject(StoreDataService);
   });
 
   it('should render map', fakeAsync(() => {

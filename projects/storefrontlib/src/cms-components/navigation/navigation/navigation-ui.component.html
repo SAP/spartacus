@@ -17,9 +17,9 @@
 <!-- we generate links in a recursive manner -->
 <ng-template #nav let-node="node">
   <nav
-    tabindex="0"
     (click)="toggleOpen($event)"
     (mouseenter)="onMouseEnter($event)"
+    (keydown.space)="toggleOpen($event)"
   >
     <cx-generic-link
       *ngIf="
@@ -37,7 +37,7 @@
     </cx-generic-link>
 
     <ng-template #heading>
-      <h5 [attr.aria-label]="node.title">
+      <h5 [attr.aria-label]="node.title" [attr.tabindex]="flyout ? 0 : -1">
         {{ node.title }}
         <cx-icon
           *ngIf="flyout && node.children?.length > 0"

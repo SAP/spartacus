@@ -1,25 +1,14 @@
 import { generateMail, randomString } from './user';
 import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
+import { apiUrl } from '../support/utils/login';
 
-export const normalProductCode = '1978440_green';
-export const productCodeList = [
-  '553637',
-  '592506',
-  '932577',
-  '3357724',
-  '4205431',
-  '358639',
-  '2053266',
-  '898520',
-  '816379',
-  '1978440_red',
-  '1934793',
-];
+export const normalProductCode = '872912';
 export const firstProductCodeSelector =
   'cx-my-interests .cx-product-interests-product-item:first .cx-code';
 export const firstProductAscending = '4205431';
 export const firstProductDescending = '898520';
+
 // notification preference
 export function navigateToNotificationPreferencePage() {
   cy.selectUserMenuOption({
@@ -218,13 +207,30 @@ export function navigateToPDPInCustomerInterest(productCode: string) {
   });
 }
 
+export function stubForPaginableMyInterests(jsonfile: string, url: string) {
+  cy.server();
+  cy.route('GET', url, `fixture:${jsonfile}`);
+}
+
 export function verifyPagingAndSorting() {
+  stubForPaginableMyInterests(
+    'myinterestpage1.json',
+    `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&lang=en&curr=USD`
+  );
+  stubForPaginableMyInterests(
+    'myinterestpage2.json',
+    `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&currentPage=1&lang=en&curr=USD`
+  );
   navigateToMyInterestsPage();
   cy.get(firstProductCodeSelector).should('contain', firstProductAscending);
   cy.get('.top cx-sorting .ng-select').ngSelect('Name (descending)');
   cy.get(firstProductCodeSelector).should('contain', firstProductDescending);
   cy.get('.cx-product-interests-product-item').should('have.length', 10);
-  cy.get('cx-pagination:first .page-link').should('have.length', 4);
+  cy.get('cx-pagination:last a').should('have.length', 4);
+  cy.get('cx-pagination:last a')
+    .last()
+    .click();
+  cy.get('.cx-code > span').should('contain.text', 'ID 872912');
 }
 
 export function navigateToMyInterestsPage() {

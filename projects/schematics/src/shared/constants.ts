@@ -7,10 +7,15 @@ export const RXJS = 'rxjs';
 
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
+
+export const NGRX_STORE = '@ngrx/store';
 /***** Imports end *****/
 
 /***** Classes start *****/
 export const OBSERVABLE_CLASS = 'Observable';
+
+export const STORE = 'Store';
+
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_CONFIG = 'CmsConfig';
@@ -20,6 +25,12 @@ export const LOAD_CMS_COMPONENT_CLASS = 'LoadCmsComponent';
 export const LOAD_CMS_COMPONENT_FAIL_CLASS = 'LoadCmsComponentFail';
 export const LOAD_CMS_COMPONENT_SUCCESS_CLASS = 'LoadCmsComponentSuccess';
 export const CMS_GET_COMPONENT_FROM_PAGE = 'CmsGetComponentFromPage';
+export const USER_ADDRESS_SERVICE = 'UserAddressService';
+export const AUTH_SERVICE = 'AuthService';
+export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
+export const PAGE_META_RESOLVER = 'PageMetaResolver';
+export const CMS_SERVICE = 'CmsService';
+export const PAGE_META_SERVICE = 'PageMetaService';
 /***** Classes end *****/
 
 /***** Properties start *****/

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Translatable } from '@spartacus/core';
@@ -8,9 +7,9 @@ import {
   GlobalMessageType,
 } from '../../models/global-message.model';
 import {
+  GLOBAL_MESSAGE_FEATURE,
   GlobalMessageEntities,
   GlobalMessageState,
-  GLOBAL_MESSAGE_FEATURE,
   StateWithGlobalMessage,
 } from '../global-message-state';
 import { GlobalMessageActions } from './../actions/index';
@@ -36,6 +35,11 @@ describe('Global Messages selectors', () => {
     type: GlobalMessageType.MSG_TYPE_ERROR,
   };
 
+  const testMessageWarning: GlobalMessage = {
+    text: { raw: 'testWarning' },
+    type: GlobalMessageType.MSG_TYPE_WARNING,
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -50,7 +54,7 @@ describe('Global Messages selectors', () => {
     if (sub) {
       sub.unsubscribe();
     }
-    store = TestBed.get(Store as Type<Store<StateWithGlobalMessage>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -104,6 +108,8 @@ describe('Global Messages selectors', () => {
 
       store.dispatch(new GlobalMessageActions.AddMessage(testMessageError));
       expect(result).toEqual(undefined);
+      store.dispatch(new GlobalMessageActions.AddMessage(testMessageWarning));
+      expect(result).toEqual(undefined);
       store.dispatch(
         new GlobalMessageActions.AddMessage(testMessageConfirmation)
       );
@@ -132,6 +138,8 @@ describe('Global Messages selectors', () => {
         });
 
       store.dispatch(new GlobalMessageActions.AddMessage(testMessageError));
+      expect(result).toBe(undefined);
+      store.dispatch(new GlobalMessageActions.AddMessage(testMessageWarning));
       expect(result).toBe(undefined);
       store.dispatch(
         new GlobalMessageActions.AddMessage(testMessageConfirmation)

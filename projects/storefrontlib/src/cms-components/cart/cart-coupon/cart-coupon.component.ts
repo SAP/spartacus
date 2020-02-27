@@ -1,18 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
+  AuthService,
   Cart,
   CartService,
   CartVoucherService,
-  AuthService,
-  OCC_USER_ID_ANONYMOUS,
-  CustomerCouponService,
   CustomerCoupon,
   CustomerCouponSearchResult,
+  CustomerCouponService,
   FeatureConfigService,
+  OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 
 @Component({

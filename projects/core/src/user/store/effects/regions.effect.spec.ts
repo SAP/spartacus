@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -39,8 +38,8 @@ describe('', () => {
       ],
     });
 
-    effect = TestBed.get(RegionsEffects as Type<RegionsEffects>);
-    service = TestBed.get(SiteConnector as Type<SiteConnector>);
+    effect = TestBed.inject(RegionsEffects);
+    service = TestBed.inject(SiteConnector);
 
     spyOn(service, 'getRegions').and.returnValue(of(mockRegions));
   });

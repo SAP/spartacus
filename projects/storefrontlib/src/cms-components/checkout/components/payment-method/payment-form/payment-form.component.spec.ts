@@ -458,7 +458,7 @@ describe('PaymentFormComponent', () => {
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
-      expect(component.next).not.toHaveBeenCalled();
+      expect(component.next).toHaveBeenCalledTimes(1);
 
       // set values for payment form
       controls.payment['accountHolderName'].setValue('test accountHolderName');
@@ -490,7 +490,7 @@ describe('PaymentFormComponent', () => {
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
-      expect(component.next).toHaveBeenCalled();
+      expect(component.next).toHaveBeenCalledTimes(2);
     });
 
     it('should call "next" function when being clicked and when form is valid - without billing address', () => {
@@ -510,7 +510,7 @@ describe('PaymentFormComponent', () => {
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
-      expect(component.next).not.toHaveBeenCalled();
+      expect(component.next).toHaveBeenCalledTimes(1);
 
       // set values for payment form
       controls.payment['accountHolderName'].setValue('test accountHolderName');
@@ -524,95 +524,16 @@ describe('PaymentFormComponent', () => {
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
-      expect(component.next).toHaveBeenCalled();
+      expect(component.next).toHaveBeenCalledTimes(2);
     });
 
-    it('should be enabled only when form has all mandatory fields filled - with billing address', () => {
+    it('should not be disabled', () => {
       const isContinueBtnDisabled = () => {
         fixture.detectChanges();
         return getContinueBtn().nativeElement.disabled;
       };
 
-      // show billing address
-      showSameAsShippingAddressCheckboxSpy.calls.reset();
-      showSameAsShippingAddressCheckboxSpy.and.returnValue(of(false));
-      component.sameAsShippingAddress = false;
       fixture.detectChanges();
-
-      // set values for payment form
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['accountHolderName'].setValue('test accountHolderName');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['cardNumber'].setValue('test cardNumber');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment.cardType['controls'].code.setValue(
-        'test card type code'
-      );
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['expiryMonth'].setValue('test expiryMonth');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['expiryYear'].setValue('test expiryYear');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['cvn'].setValue('test cvn');
-
-      // set values for billing address form
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['firstName'].setValue(
-        mockBillingAddress.firstName
-      );
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['lastName'].setValue(mockBillingAddress.lastName);
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['line1'].setValue(mockBillingAddress.line1);
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['line2'].setValue(mockBillingAddress.line2);
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['town'].setValue(mockBillingAddress.town);
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress.country['controls'].isocode.setValue(
-        mockBillingAddress.country
-      );
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress.region['controls'].isocodeShort.setValue(
-        mockBillingAddress.region
-      );
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['postalCode'].setValue(
-        mockBillingAddress.postalCode
-      );
-
-      expect(isContinueBtnDisabled()).toBeFalsy();
-    });
-
-    it('should be enabled only when form has all mandatory fields filled - without billing address', () => {
-      const isContinueBtnDisabled = () => {
-        fixture.detectChanges();
-        return getContinueBtn().nativeElement.disabled;
-      };
-
-      // hide billing address
-      component.sameAsShippingAddress = true;
-      fixture.detectChanges();
-
-      // set values for payment form
-
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['accountHolderName'].setValue('test accountHolderName');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['cardNumber'].setValue('test cardNumber');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment.cardType['controls'].code.setValue(
-        'test card type code'
-      );
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['expiryMonth'].setValue('test expiryMonth');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['expiryYear'].setValue('test expiryYear');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['cvn'].setValue('test cvn');
-
-      fixture.detectChanges();
-
       expect(isContinueBtnDisabled()).toBeFalsy();
     });
 

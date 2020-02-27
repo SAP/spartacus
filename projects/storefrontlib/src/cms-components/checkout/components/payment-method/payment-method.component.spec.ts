@@ -1,9 +1,10 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   Address,
+  CartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -14,7 +15,6 @@ import {
   RoutingConfigService,
   RoutingService,
   UserPaymentService,
-  CartService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
@@ -175,7 +175,7 @@ describe('PaymentMethodComponent', () => {
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let mockUserPaymentService: UserPaymentService;
   let mockCheckoutPaymentService: CheckoutPaymentService;
-  let mockRoutingService: MockRoutingService;
+  let mockRoutingService: RoutingService;
   let mockRoutingConfigService: RoutingConfigService;
   let mockCartService: CartService;
 
@@ -212,17 +212,11 @@ describe('PaymentMethodComponent', () => {
       ],
     }).compileComponents();
 
-    mockUserPaymentService = TestBed.get(UserPaymentService as Type<
-      UserPaymentService
-    >);
-    mockCheckoutPaymentService = TestBed.get(CheckoutPaymentService as Type<
-      CheckoutPaymentService
-    >);
-    mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
-      RoutingConfigService
-    >);
-    mockCartService = TestBed.get(CartService as Type<CartService>);
+    mockUserPaymentService = TestBed.inject(UserPaymentService);
+    mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentService);
+    mockRoutingService = TestBed.inject(RoutingService);
+    mockRoutingConfigService = TestBed.inject(RoutingConfigService);
+    mockCartService = TestBed.inject(CartService);
   }));
 
   beforeEach(() => {

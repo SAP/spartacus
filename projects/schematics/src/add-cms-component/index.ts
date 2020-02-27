@@ -32,6 +32,7 @@ import {
 import {
   commitChanges,
   defineProperty,
+  findConstructor,
   getMetadataProperty,
   getPathResultsForFile,
   getTsSourceFile,
@@ -190,8 +191,7 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       options.name
     )}.${strings.dasherize(options.type)}.ts`;
 
-    const possibleProjectFiles = ['/angular.json', '/.angular.json'];
-    const { workspace } = getWorkspace(tree, possibleProjectFiles);
+    const { workspace } = getWorkspace(tree);
     const project = getProjectFromWorkspace(workspace, options.project);
 
     const componentPath = getPathResultsForFile(
@@ -204,10 +204,12 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
 
     const componentTs = getTsSourceFile(tree, componentPath);
     const nodes = getSourceNodes(componentTs);
+    const constructorNode = findConstructor(nodes);
     const injectionChange = injectService(
-      nodes,
+      constructorNode,
       componentPath,
       cmsComponentData,
+      'private',
       CMS_COMPONENT_DATA_PROPERTY_NAME
     );
     changes.push(injectionChange);
@@ -258,8 +260,7 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
     const componentFileName = `${strings.dasherize(
       options.name
     )}.${strings.dasherize(options.type)}.ts`;
-    const possibleProjectFiles = ['/angular.json', '/.angular.json'];
-    const { workspace } = getWorkspace(tree, possibleProjectFiles);
+    const { workspace } = getWorkspace(tree);
     const project = getProjectFromWorkspace(workspace, options.project);
 
     const componentPath = getPathResultsForFile(

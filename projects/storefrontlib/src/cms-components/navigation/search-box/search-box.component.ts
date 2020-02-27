@@ -4,7 +4,7 @@ import {
   Input,
   Optional,
 } from '@angular/core';
-import { CmsSearchBoxComponent } from '@spartacus/core';
+import { CmsSearchBoxComponent, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
@@ -50,10 +50,12 @@ export class SearchBoxComponent {
    * The component data is optional, so that this component
    * can be reused without CMS integration.
    */
+
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
     @Optional()
-    protected componentData: CmsComponentData<CmsSearchBoxComponent>
+    protected componentData: CmsComponentData<CmsSearchBoxComponent>,
+    protected winRef: WindowRef
   ) {}
 
   results$: Observable<SearchResults> = this.config$.pipe(
@@ -107,17 +109,32 @@ export class SearchBoxComponent {
   /**
    * Closes the typehead searchbox.
    */
-  close(event: UIEvent): void {
-    if (!this.ignoreCloseEvent) {
-      this.searchBoxComponentService.toggleBodyClass(
-        'searchbox-is-active',
-        false
-      );
-      if (event && event.target) {
-        (<HTMLElement>event.target).blur();
+  close(event: UIEvent, force?: boolean): void {
+    // Use timeout to detect changes
+    setTimeout(() => {
+      if ((!this.ignoreCloseEvent && !this.isSearchboxFocused()) || force) {
+        this.blurSearchBox(event);
       }
+    });
+  }
+
+  protected blurSearchBox(event: UIEvent): void {
+    this.searchBoxComponentService.toggleBodyClass(
+      'searchbox-is-active',
+      false
+    );
+    if (event && event.target) {
+      (<HTMLElement>event.target).blur();
     }
-    this.ignoreCloseEvent = false;
+  }
+
+  // Check if focus is on searchbox or result list elements
+  private isSearchboxFocused(): boolean {
+    return (
+      this.getResultElements().includes(this.getFocusedElement()) ||
+      this.winRef.document.querySelector('input[aria-label="search"]') ===
+        this.getFocusedElement()
+    );
   }
 
   /**
@@ -128,6 +145,56 @@ export class SearchBoxComponent {
     if (this.searchBoxComponentService.hasBodyClass('searchbox-is-active')) {
       this.close(event);
       event.preventDefault();
+    }
+  }
+
+  // Return result list as HTMLElement array
+  private getResultElements(): HTMLElement[] {
+    return Array.from(
+      this.winRef.document.querySelectorAll('.products > a, .suggestions > a')
+    );
+  }
+
+  // Return focused element as HTMLElement
+  private getFocusedElement(): HTMLElement {
+    return <HTMLElement>this.winRef.document.activeElement;
+  }
+
+  private getFocusedIndex(): number {
+    return this.getResultElements().indexOf(this.getFocusedElement());
+  }
+
+  // Focus on previous item in results list
+  focusPreviousChild(event) {
+    event.preventDefault(); // Negate normal keyscroll
+    const [results, focusedIndex] = [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
+    // Focus on last index moving to first
+    if (results.length) {
+      if (focusedIndex < 1) {
+        results[results.length - 1].focus();
+      } else {
+        results[focusedIndex - 1].focus();
+      }
+    }
+  }
+
+  // Focus on next item in results list
+  focusNextChild(event) {
+    event.preventDefault(); // Negate normal keyscroll
+    const [results, focusedIndex] = [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
+    // Focus on first index moving to last
+    if (results.length) {
+      if (focusedIndex >= results.length - 1) {
+        results[0].focus();
+      } else {
+        results[focusedIndex + 1].focus();
+      }
     }
   }
 

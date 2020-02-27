@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MerchandisingFacet } from '../model/merchandising-facet.model';
 import { MerchandisingFacetToQueryparamNormalizer } from './merchandising-facet-to-queryparam-normalizer';
@@ -24,10 +23,8 @@ describe('MerchandisingFacetToQueryparamNormalizer', () => {
       providers: [MerchandisingFacetToQueryparamNormalizer],
     });
 
-    facetToQueryparamNormalizer = TestBed.get(
-      MerchandisingFacetToQueryparamNormalizer as Type<
-        MerchandisingFacetToQueryparamNormalizer
-      >
+    facetToQueryparamNormalizer = TestBed.inject(
+      MerchandisingFacetToQueryparamNormalizer
     );
   });
 
