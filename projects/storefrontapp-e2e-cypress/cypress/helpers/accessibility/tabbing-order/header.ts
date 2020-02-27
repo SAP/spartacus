@@ -73,5 +73,5 @@ export function subCategoryTabbingOrder(
   });
   cy.pressTab();
 
-  checkAllElements(config);
+  verifyTabbingOrder(null, config);
 }
