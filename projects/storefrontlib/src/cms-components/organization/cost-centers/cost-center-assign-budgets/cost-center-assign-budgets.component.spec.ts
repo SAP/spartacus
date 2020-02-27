@@ -6,13 +6,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   RoutingService,
-  BudgetService,
   EntitiesModel,
   B2BSearchConfig,
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   Budget,
+  CostCenterService,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -23,6 +23,7 @@ import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.c
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 
+const costCenterCode = 'costCenterCode';
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
   currentPage: 0,
@@ -92,10 +93,10 @@ class MockUrlPipe implements PipeTransform {
 
 const budgetList = new BehaviorSubject(mockBudgetList);
 
-class MockBudgetService implements Partial<BudgetService> {
+class MockCostCenterService implements Partial<CostCenterService> {
   loadBudgets = createSpy('loadBudgets');
 
-  getList = createSpy('getList').and.returnValue(budgetList);
+  getBudgets = createSpy('getBudgets').and.returnValue(budgetList);
 }
 
 class MockRoutingService {
@@ -125,10 +126,10 @@ class MockCxDatePipe {
   }
 }
 
-describe('BudgetListComponent', () => {
+describe('CostCenterAssignBudgetsComponent', () => {
   let component: CostCenterAssignBudgetsComponent;
   let fixture: ComponentFixture<CostCenterAssignBudgetsComponent>;
-  let budgetsService: MockBudgetService;
+  let costCenterService: MockCostCenterService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -144,11 +145,13 @@ describe('BudgetListComponent', () => {
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: BudgetService, useClass: MockBudgetService },
+        { provide: CostCenterService, useClass: MockCostCenterService },
       ],
     }).compileComponents();
 
-    budgetsService = TestBed.get(BudgetService as Type<BudgetService>);
+    costCenterService = TestBed.get(CostCenterService as Type<
+      CostCenterService
+    >);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
@@ -156,6 +159,7 @@ describe('BudgetListComponent', () => {
     fixture = TestBed.createComponent(CostCenterAssignBudgetsComponent);
     component = fixture.componentInstance;
     budgetList.next(mockBudgetList);
+    component['costCenterCode$'] = of(costCenterCode);
     fixture.detectChanges();
   });
 
@@ -185,15 +189,20 @@ describe('BudgetListComponent', () => {
           budgetsList = value;
         })
         .unsubscribe();
-      expect(budgetsService.loadBudgets).toHaveBeenCalledWith(defaultParams);
-      expect(budgetsService.getList).toHaveBeenCalledWith(defaultParams);
+      expect(costCenterService.loadBudgets).toHaveBeenCalledWith(
+        costCenterCode,
+        defaultParams
+      );
+      expect(costCenterService.getBudgets).toHaveBeenCalledWith(
+        costCenterCode,
+        defaultParams
+      );
       expect(budgetsList).toEqual(mockBudgetUIList);
     });
   });
 
   describe('changeSortCode', () => {
     it('should set correctly sort code', () => {
-      component['params$'] = of(defaultParams);
       component.changeSortCode('byCode');
       expect(routingService.go).toHaveBeenCalledWith(
         {
@@ -209,6 +218,7 @@ describe('BudgetListComponent', () => {
   describe('pageChange', () => {
     it('should set correctly page', () => {
       component['params$'] = of(defaultParams);
+      component['costCenterCode$$'] = of(costCenterCode);
       component.pageChange(2);
       expect(routingService.go).toHaveBeenCalledWith(
         {
