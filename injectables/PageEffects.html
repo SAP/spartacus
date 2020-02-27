@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/core/src/cms/store/effects/page.effect.ts:91</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">projects/core/src/cms/store/effects/page.effect.ts:95</a></div>
                             </td>
                         </tr>
 
@@ -195,14 +195,17 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(CmsActions.LOAD_CMS_PAGE_DATA),
     map((action: CmsActions.LoadCmsPageData) &#x3D;&gt; action.payload),
-    groupBy(pageContext &#x3D;&gt; pageContext.type + pageContext.id),
+    groupBy(pageContext &#x3D;&gt; serializePageContext(pageContext)),
     mergeMap(group &#x3D;&gt;
       group.pipe(
         switchMap(pageContext &#x3D;&gt;
           this.cmsPageConnector.get(pageContext).pipe(
             mergeMap((cmsStructure: CmsStructureModel) &#x3D;&gt; {
               const actions: Action[] &#x3D; [
-                new CmsActions.CmsGetComponentFromPage(cmsStructure.components),
+                new CmsActions.CmsGetComponentFromPage(
+                  cmsStructure.components,
+                  pageContext
+                ),
                 new CmsActions.LoadCmsPageDataSuccess(
                   pageContext,
                   cmsStructure.page
@@ -249,7 +252,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/core/src/cms/store/effects/page.effect.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/core/src/cms/store/effects/page.effect.ts:49</a></div>
                             </td>
                         </tr>
 
@@ -310,7 +313,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/cms/store/effects/page.effect.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/cms/store/effects/page.effect.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -342,6 +345,7 @@ import { SiteContextActions } from &#x27;../../../site-context/store/actions/ind
 import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
 import { CmsPageConnector } from &#x27;../../connectors/page/cms-page.connector&#x27;;
 import { CmsStructureModel } from &#x27;../../model/page.model&#x27;;
+import { serializePageContext } from &#x27;../../utils/cms-utils&#x27;;
 import { CmsActions } from &#x27;../actions/index&#x27;;
 
 @Injectable()
@@ -373,14 +377,17 @@ export class PageEffects {
   loadPageData$: Observable&lt;Action&gt; &#x3D; this.actions$.pipe(
     ofType(CmsActions.LOAD_CMS_PAGE_DATA),
     map((action: CmsActions.LoadCmsPageData) &#x3D;&gt; action.payload),
-    groupBy(pageContext &#x3D;&gt; pageContext.type + pageContext.id),
+    groupBy(pageContext &#x3D;&gt; serializePageContext(pageContext)),
     mergeMap(group &#x3D;&gt;
       group.pipe(
         switchMap(pageContext &#x3D;&gt;
           this.cmsPageConnector.get(pageContext).pipe(
             mergeMap((cmsStructure: CmsStructureModel) &#x3D;&gt; {
               const actions: Action[] &#x3D; [
-                new CmsActions.CmsGetComponentFromPage(cmsStructure.components),
+                new CmsActions.CmsGetComponentFromPage(
+                  cmsStructure.components,
+                  pageContext
+                ),
                 new CmsActions.LoadCmsPageDataSuccess(
                   pageContext,
                   cmsStructure.page

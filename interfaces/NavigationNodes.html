@@ -80,7 +80,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/cms/store/cms-state.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/core/src/cms/store/cms-state.ts:68</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -91,13 +91,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EntityState } from &#x27;../../state&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CmsComponent } from &#x27;../../model&#x27;;
+import { EntityState, LoaderState } from &#x27;../../state/index&#x27;;
+import { EntityLoaderState } from &#x27;../../state/utils/entity-loader/entity-loader-state&#x27;;
 import { NodeItem } from &#x27;../model/node-item.model&#x27;;
 import { Page } from &#x27;../model/page.model&#x27;;
-import { EntityLoaderState } from &#x27;../../state/utils/entity-loader/entity-loader-state&#x27;;
 
 export const CMS_FEATURE &#x3D; &#x27;cms&#x27;;
 export const NAVIGATION_DETAIL_ENTITY &#x3D; &#x27;[Cms] Navigation Entity&#x27;;
+// TODO(issue:6027) - fix the const value to &#x60;[Cms] Component Entity&#x60;
 export const COMPONENT_ENTITY &#x3D; &#x27;[Cms[ Component Entity&#x27;;
 
 export interface StateWithCms {
@@ -105,6 +107,49 @@ export interface StateWithCms {
 }
 
 export type ComponentState &#x3D; EntityLoaderState&lt;any&gt;;
+export type ComponentsState &#x3D; EntityState&lt;ComponentsContext&gt;;
+
+export interface ComponentsContext {
+  component: CmsComponent;
+  /**
+   * Page context stores an information for which context does the component exist.
+   * For example, if &#x60;SiteLogoComponent&#x60; was successfully loaded for a product page with an ID of 1776948, then this object will contain:
+   *
+   * &#x60;&#x60;&#x60;ts
+   * ProductPage-1776948: {
+   *  success: true,
+   *  loading: false,
+   *  error: false,
+   *  // The &#x60;value&#x60; property indicates that the component exists for the given page context.
+   *  value: true
+   * }
+   * &#x60;&#x60;&#x60;
+   *
+   * If the same &#x60;SiteLogoComponent&#x60; component was tried to be loaded on homepage (page context id is &#x60;homepage&#x60;),
+   * and it doesn&#x27;t exist for some reason (maybe it has a restriction), then this object will contain:
+   *
+   * &#x60;&#x60;&#x60;ts
+   * ProductPage-1776948: {
+   *  success: true,
+   *  loading: false,
+   *  error: false,
+   *  // The &#x60;value&#x60; property indicates that the component exists for the given page context.
+   *  value: true
+   * },
+   * ContentPage-homepage: {
+   *  success: true,
+   *  loading: false,
+   *  error: false,
+   *  // The &#x60;value&#x60; in this case is &#x60;false&#x60; indicating that the component was tried to be loaded, but it doesn&#x27;t exist or has a restriction.
+   *  value: false
+   * }
+   * &#x60;&#x60;&#x60;
+   *
+   */
+  pageContext: {
+    [context: string]: LoaderState&lt;boolean&gt;;
+  };
+}
 
 export type IndexType &#x3D; {
   content: EntityLoaderState&lt;string&gt;;
@@ -125,6 +170,7 @@ export interface PageState {
 export interface CmsState {
   page: PageState;
   component: ComponentState;
+  components: ComponentsState;
   navigation: EntityLoaderState&lt;NodeItem&gt;;
 }
 </code></pre>

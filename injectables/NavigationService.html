@@ -273,8 +273,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="149"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:149</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="165"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:165</a></div>
                 </td>
             </tr>
 
@@ -419,8 +419,8 @@ loaded so far.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -525,8 +525,8 @@ loaded so far.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:142</a></div>
                 </td>
             </tr>
 
@@ -621,8 +621,8 @@ loaded so far.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:97</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:113</a></div>
                 </td>
             </tr>
 
@@ -740,6 +740,22 @@ export class NavigationService {
           tap(items &#x3D;&gt; {
             if (items &#x3D;&#x3D;&#x3D; undefined) {
               this.loadNavigationEntryItems(navigation, true);
+            } else {
+              // we should check whether the existing node items are what expected
+              const expectedItems &#x3D; [];
+              this.loadNavigationEntryItems(navigation, false, expectedItems);
+              const existingItems &#x3D; Object.keys(items).map(
+                key &#x3D;&gt; items[key].uid
+              );
+              const missingItems &#x3D; expectedItems.filter(
+                it &#x3D;&gt; !existingItems.includes(it.id)
+              );
+              if (missingItems.length &gt; 0) {
+                this.cmsService.loadNavigationItems(
+                  navigation.uid,
+                  missingItems
+                );
+              }
             }
           }),
           filter(Boolean),

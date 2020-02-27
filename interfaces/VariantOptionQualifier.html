@@ -183,7 +183,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>qualifier:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>qualifier:         <code><a href="../miscellaneous/enumerations.html#VariantQualifier" target="_self" >VariantQualifier</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -191,7 +191,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#VariantQualifier" target="_self" >VariantQualifier</a></code>
 
                                         </td>
                                     </tr>
@@ -252,7 +252,7 @@ import { User } from &#x27;./misc.model&#x27;;
 export interface VariantOptionQualifier {
   image?: Image;
   name?: string;
-  qualifier?: string;
+  qualifier?: VariantQualifier;
   value?: string;
 }
 
@@ -292,6 +292,12 @@ export interface VariantValueCategory {
   name?: string;
   sequence?: number;
   superCategories?: VariantCategory[];
+}
+
+export enum VariantType {
+  SIZE &#x3D; &#x27;ApparelSizeVariantProduct&#x27;,
+  STYLE &#x3D; &#x27;ApparelStyleVariantProduct&#x27;,
+  COLOR &#x3D; &#x27;ElectronicsColorVariantProduct&#x27;,
 }
 
 export enum PriceType {
@@ -394,7 +400,7 @@ export interface ProductReferences {
 export interface BaseOption {
   options?: VariantOption[];
   selected?: VariantOption;
-  variantType?: string;
+  variantType?: VariantType;
 }
 
 export interface Product {
@@ -424,9 +430,18 @@ export interface Product {
   url?: string;
   variantMatrix?: VariantMatrixElement[];
   variantOptions?: VariantOption[];
-  variantType?: string;
+  variantType?: VariantType;
   volumePrices?: Price[];
   volumePricesFlag?: boolean;
+}
+
+export enum VariantQualifier {
+  SIZE &#x3D; &#x27;size&#x27;,
+  STYLE &#x3D; &#x27;style&#x27;,
+  COLOR &#x3D; &#x27;color&#x27;,
+  THUMBNAIL &#x3D; &#x27;thumbnail&#x27;,
+  PRODUCT &#x3D; &#x27;product&#x27;,
+  ROLLUP_PROPERTY &#x3D; &#x27;rollupProperty&#x27;,
 }
 </code></pre>
     </div>

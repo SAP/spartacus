@@ -1284,7 +1284,9 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     return !!Object.keys(page.slots).find(
       key &#x3D;&gt;
         !!page.slots[key].components.find(
-          comp &#x3D;&gt; comp.typeCode &#x3D;&#x3D;&#x3D; &#x27;CMSProductListComponent&#x27;
+          comp &#x3D;&gt;
+            comp.typeCode &#x3D;&#x3D;&#x3D; &#x27;CMSProductListComponent&#x27; ||
+            comp.typeCode &#x3D;&#x3D;&#x3D; &#x27;ProductGridComponent&#x27;
         )
     );
   }

@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">projects/core/src/checkout/store/actions/checkout.action.ts:110</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">projects/core/src/checkout/store/actions/checkout.action.ts:111</a></div>
                             </td>
                         </tr>
 
@@ -181,7 +181,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">projects/core/src/checkout/store/actions/checkout.action.ts:111</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="112" class="link-to-prism">projects/core/src/checkout/store/actions/checkout.action.ts:112</a></div>
                             </td>
                         </tr>
 
@@ -208,7 +208,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">projects/core/src/checkout/store/actions/checkout.action.ts:110</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">projects/core/src/checkout/store/actions/checkout.action.ts:111</a></div>
                             </td>
                         </tr>
 
@@ -231,17 +231,17 @@
 import { Address } from &#x27;../../../model/address.model&#x27;;
 import { PaymentDetails } from &#x27;../../../model/cart.model&#x27;;
 import { DeliveryMode, Order } from &#x27;../../../model/order.model&#x27;;
+import { PROCESS_FEATURE } from &#x27;../../../process/store/process-state&#x27;;
 import {
-  StateLoaderActions,
   StateEntityLoaderActions,
+  StateLoaderActions,
 } from &#x27;../../../state/utils/index&#x27;;
 import { CheckoutDetails } from &#x27;../../models/checkout.model&#x27;;
-import { PROCESS_FEATURE } from &#x27;../../../process/store/process-state&#x27;;
 import {
   CHECKOUT_DETAILS,
   SET_DELIVERY_ADDRESS_PROCESS_ID,
-  SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_DELIVERY_MODE_PROCESS_ID,
+  SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
 } from &#x27;../checkout-state&#x27;;
 
@@ -322,6 +322,7 @@ export const LOAD_CHECKOUT_DETAILS_SUCCESS &#x3D;
   &#x27;[Checkout] Load Checkout Details Success&#x27;;
 
 export const CHECKOUT_CLEAR_MISCS_DATA &#x3D; &#x27;[Checkout] Clear Miscs Data&#x27;;
+export const PAYMENT_PROCESS_SUCCESS &#x3D; &#x27;[Checkout] Payment Process Success&#x27;;
 
 export class AddDeliveryAddress implements Action {
   readonly type &#x3D; ADD_DELIVERY_ADDRESS;
@@ -428,7 +429,7 @@ export class ResetSetDeliveryModeProcess extends StateEntityLoaderActions.Entity
   }
 }
 
-export class CreatePaymentDetails implements Action {
+export class CreatePaymentDetails extends StateEntityLoaderActions.EntityLoadAction {
   readonly type &#x3D; CREATE_PAYMENT_DETAILS;
   constructor(
     public payload: {
@@ -436,17 +437,28 @@ export class CreatePaymentDetails implements Action {
       cartId: string;
       paymentDetails: PaymentDetails;
     }
-  ) {}
+  ) {
+    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
+  }
 }
 
-export class CreatePaymentDetailsFail implements Action {
+export class CreatePaymentDetailsFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type &#x3D; CREATE_PAYMENT_DETAILS_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
+  }
 }
 
 export class CreatePaymentDetailsSuccess implements Action {
   readonly type &#x3D; CREATE_PAYMENT_DETAILS_SUCCESS;
   constructor(public payload: PaymentDetails) {}
+}
+
+export class PaymentProcessSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type &#x3D; PAYMENT_PROCESS_SUCCESS;
+  constructor() {
+    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
+  }
 }
 
 export class SetPaymentDetails extends StateEntityLoaderActions.EntityLoadAction {

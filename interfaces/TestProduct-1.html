@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/helpers/wish-list.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/helpers/save-for-later.ts</code>
         </p>
 
 
@@ -88,10 +88,6 @@
                                 <li>
                                             <span class="modifier">Optional</span>
                                         <a href="#price">price</a>
-                                </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#type">type</a>
                                 </li>
                             </ul>
                         </td>
@@ -201,338 +197,254 @@
 
                         </tbody>
                     </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="type"></a>
-                                        <span class="name"><b>type</b><a href="#type"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>type:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
             </section>
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { cheapProduct, user } from &#x27;../sample-data/checkout-flow&#x27;;
-import { login, register } from &#x27;./auth-forms&#x27;;
-import * as checkoutAsPersistentUser from &#x27;./checkout-as-persistent-user&#x27;;
-import * as checkout from &#x27;./checkout-flow&#x27;;
-import { waitForPage } from &#x27;./checkout-flow&#x27;;
-import {
-  AddressData,
-  fillPaymentDetails,
-  fillShippingAddress,
-  PaymentDetails,
-} from &#x27;./checkout-forms&#x27;;
-import { generateMail, randomString } from &#x27;./user&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as cart from &#x27;./cart&#x27;;
+import * as cartCoupon from &#x27;./cart-coupon&#x27;;
+import { apiUrl } from &#x27;../support/utils/login&#x27;;
 
 interface TestProduct {
   code: string;
-  type?: string;
   name?: string;
   price?: number;
 }
 
+export enum ItemList {
+  Cart,
+  SaveForLater,
+  Order,
+}
+
 export const products: TestProduct[] &#x3D; [
+  {
+    code: &#x27;300938&#x27;,
+    name: &#x27;Photosmart E317 Digital Camera&#x27;,
+    price: 114.12,
+  },
   {
     code: &#x27;1934793&#x27;,
     name: &#x27;PowerShot A480&#x27;,
+    price: 99.85,
   },
-  cheapProduct,
+
   {
-    code: &#x27;779841&#x27;,
-    name: &#x27;FUN Flash Single Use Camera&#x27;,
+    code: &#x27;1993747&#x27;,
+    name: &#x27;DSC-W270&#x27;,
+    price: 206.88,
+  },
+  {
+    code: &#x27;1934796&#x27;,
+    name: &#x27;PowerShot A480&#x27;,
+    price: 110.88,
+  },
+  {
+    code: &#x27;137220&#x27;,
+    name: &#x27;Camcordertape DV 60min (2)&#x27;,
+    price: 0,
   },
 ];
 
-export const WishListUser &#x3D; {
-  user: &#x27;standard&#x27;,
-  registrationData: {
-    firstName: &#x27;Winston&#x27;,
-    lastName: &#x27;Rumfoord&#x27;,
-    password: &#x27;Password123.&#x27;,
-    titleCode: &#x27;mr&#x27;,
-    email: generateMail(randomString(), true),
-  },
-};
-
-function registerWishListUser() {
-  register({ ...WishListUser.registrationData });
-  cy.url().should(&#x27;not.contain&#x27;, &#x27;register&#x27;);
+export function getItem(product, position: ItemList) {
+  if (position &#x3D;&#x3D;&#x3D; ItemList.Cart) {
+    return cy
+      .get(&#x27;cx-cart-details &gt; .cart-details-wrapper &gt; cx-cart-item-list&#x27;)
+      .contains(&#x27;cx-cart-item&#x27;, product.code);
+  } else {
+    return cy
+      .get(&#x27;cx-save-for-later &gt; .cart-details-wrapper &gt; cx-cart-item-list&#x27;)
+      .contains(&#x27;cx-cart-item&#x27;, product.code);
+  }
 }
 
-function loginWishListUser() {
-  login(
-    WishListUser.registrationData.email,
-    WishListUser.registrationData.password
-  );
-  cy.url().should(&#x27;not.contain&#x27;, &#x27;login&#x27;);
-}
-
-export function waitForGetWishList() {
-  cy.server();
-
+export function stubForCartsRefresh() {
+  stubForCartRefresh();
   cy.route(
     &#x27;GET&#x27;,
-    &#x60;/rest/v2/electronics-spa/users/*/carts/*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
-  ).as(&#x27;get_wish_list&#x27;);
+    &#x60;${apiUrl}/rest/v2/electronics-spa/users/*/carts/selectivecart*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+  ).as(&#x27;refresh_selectivecart&#x27;);
 }
-
-export function addToWishListAnonymous(product: TestProduct) {
-  const productPage &#x3D; waitForPage(product.code, &#x27;productPage&#x27;);
-
-  cy.visit(&#x60;/product/${product.code}&#x60;);
-
-  cy.wait(&#x60;@${productPage}&#x60;);
-
-  cy.get(&#x27;cx-add-to-wishlist .button-add-link&#x27;).click({ force: true });
-
-  cy.get(&#x27;cx-breadcrumb &gt; h1&#x27;).should(&#x27;contain&#x27;, &#x27;Login&#x27;);
-
-  cy.get(&#x27;cx-login-form .btn-register&#x27;).click({ force: true });
-
-  registerWishListUser();
-
-  loginWishListUser();
-
-  cy.get(&#x27;cx-product-intro &gt; .code&#x27;).should(&#x27;contain&#x27;, &#x60;${product.code}&#x60;);
-}
-
-export function addToWishListFromPage() {
-  waitForGetWishList();
-
-  cy.get(&#x27;cx-add-to-wishlist .button-add&#x27;).click({ force: true });
-
-  cy.wait(&#x27;@get_wish_list&#x27;);
-}
-
-export function addToWishList(product: TestProduct) {
-  const productPage &#x3D; waitForPage(product.code, &#x27;productPage&#x27;);
-
-  cy.visit(&#x60;/product/${product.code}&#x60;);
-
-  cy.wait(&#x60;@${productPage}&#x60;);
-
-  waitForGetWishList();
-
-  cy.get(&#x27;cx-add-to-wishlist .button-add&#x27;).click({ force: true });
-
-  cy.wait(&#x27;@get_wish_list&#x27;);
-}
-
-export function verifyProductInWishListPdp() {
-  cy.get(&#x27;cx-add-to-wishlist .button-remove&#x27;).should(&#x27;exist&#x27;);
-}
-
-export function verifyProductNotInWishListPdp() {
-  cy.get(&#x27;cx-add-to-wishlist .button-add&#x27;).should(&#x27;exist&#x27;);
-}
-
-export function verifyProductInWishList(product: TestProduct) {
-  cy.selectUserMenuOption({
-    option: &#x27;Wish List&#x27;,
-  });
-
-  getWishListItem(product.name).within(() &#x3D;&gt; {
-    cy.get(&#x27;.cx-code&#x27;).should(&#x27;contain&#x27;, product.code);
-  });
-}
-
-export function removeProductFromWishListPage(product: TestProduct) {
-  waitForGetWishList();
-  getWishListItem(product.name).within(() &#x3D;&gt; {
-    cy.get(&#x27;.cx-return-button&gt;.btn-link&#x27;).click({ force: true });
-  });
-  cy.wait(&#x27;@get_wish_list&#x27;);
-  getWishListItem(product.name).should(&#x27;not.exist&#x27;);
-}
-
-export function removeProductFromPdp() {
-  waitForGetWishList();
-
-  cy.get(&#x27;cx-add-to-wishlist .button-remove&#x27;).click({ force: true });
-
-  cy.wait(&#x27;@get_wish_list&#x27;);
-
-  verifyProductNotInWishListPdp();
-}
-
-export function addProductToCart(product: TestProduct) {
+export function stubForCartRefresh() {
   cy.server();
-
   cy.route(
-    &#x27;POST&#x27;,
-    &#x60;/rest/v2/electronics-spa/users/*/carts/*/entries?code&#x3D;*&amp;qty&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
-  ).as(&#x27;add_to_cart&#x27;);
-
-  getWishListItem(product.name).within(() &#x3D;&gt; {
-    cy.get(&#x27;cx-add-to-cart&gt;button&#x27;).click();
-  });
-
-  cy.wait(&#x27;@add_to_cart&#x27;);
-
-  cy.get(&#x27;cx-added-to-cart-dialog&#x27;).within(() &#x3D;&gt; {
-    cy.get(&#x27;.cx-dialog-buttons&gt;.btn-primary&#x27;).click({ force: true });
-  });
-
-  getCartItem(product.name).within(() &#x3D;&gt; {
-    cy.get(&#x27;.cx-code&#x27;).should(&#x27;contain&#x27;, product.code);
-    cy.get(&#x27;.cx-counter-value&#x27;).should(&#x27;have.value&#x27;, &#x27;1&#x27;);
-  });
-
-  verifyProductInWishList(product);
+    &#x27;GET&#x27;,
+    &#x60;${apiUrl}/rest/v2/electronics-spa/users/*/carts/*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+  ).as(&#x27;refresh_cart&#x27;);
 }
 
-export function checkWishListPersisted(product: TestProduct) {
-  cy.selectUserMenuOption({
-    option: &#x27;Sign Out&#x27;,
-  });
-
-  cy.getByText(/Sign in \/ Register/i).click();
-
-  loginWishListUser();
-
-  verifyProductInWishList(product);
-
-  goToProductPage(product);
-
-  verifyProductInWishListPdp();
-}
-
-export function goToProductPage(product: TestProduct) {
-  const productPage &#x3D; waitForPage(product.code, &#x27;productPage&#x27;);
-  getWishListItem(product.name).within(() &#x3D;&gt; {
-    cy.get(&#x27;.cx-name&gt;.cx-link&#x27;).click({ force: true });
-  });
-  cy.wait(&#x60;@${productPage}&#x60;);
-}
-
-export function checkoutFromWishList(checkoutProducts: TestProduct[]) {
-  goToCartAndCheckout(checkoutProducts);
-  fillAddressForm();
-  checkout.verifyDeliveryMethod();
-  fillPaymentForm();
-  placeOrderWithProducts(checkoutProducts);
-  verifyOrderConfirmationPage(checkoutProducts);
-}
-
-export function checkoutFromCart(checkoutProducts: TestProduct[]) {
-  goToCartAndCheckout(checkoutProducts);
-  checkoutAsPersistentUser.selectShippingAddress();
-  checkoutAsPersistentUser.selectDeliveryMethod();
-  checkoutAsPersistentUser.selectPaymentMethod();
-  placeOrderWithProducts(checkoutProducts);
-  verifyOrderConfirmationPage(checkoutProducts);
-}
-
-function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
-  const cartPage &#x3D; waitForPage(&#x27;/cart&#x27;, &#x27;getCartPage&#x27;);
-  cy.get(&#x27;cx-mini-cart&#x27;).click();
-  cy.wait(&#x60;@${cartPage}&#x60;);
-
-  for (const product of checkoutProducts) {
-    cy.get(&#x27;cx-cart-item-list&#x27;).contains(&#x27;cx-cart-item&#x27;, product.code);
-  }
-
-  const shippingAddressPage &#x3D; waitForPage(
-    &#x27;/checkout/shipping-address&#x27;,
-    &#x27;getShippingAddressPage&#x27;
-  );
-  cy.getByText(/proceed to checkout/i).click();
-  cy.wait(&#x60;@${shippingAddressPage}&#x60;);
-}
-
-function fillAddressForm(shippingAddressData: AddressData &#x3D; user) {
-  cy.get(&#x27;.cx-checkout-title&#x27;).should(&#x27;contain&#x27;, &#x27;Shipping Address&#x27;);
-  const deliveryPage &#x3D; waitForPage(
-    &#x27;/checkout/delivery-mode&#x27;,
-    &#x27;getDeliveryPage&#x27;
-  );
-  fillShippingAddress(shippingAddressData);
-  cy.wait(&#x60;@${deliveryPage}&#x60;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
-}
-
-function fillPaymentForm(
-  paymentDetailsData: PaymentDetails &#x3D; user,
-  billingAddress?: AddressData
+export function moveItem(
+  product,
+  targetPosition: ItemList,
+  isAnonymous: boolean &#x3D; false
 ) {
-  cy.get(&#x27;.cx-checkout-title&#x27;).should(&#x27;contain&#x27;, &#x27;Payment&#x27;);
-  const reviewPage &#x3D; waitForPage(&#x27;/checkout/review-order&#x27;, &#x27;getReviewPage&#x27;);
-  fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.wait(&#x60;@${reviewPage}&#x60;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
-}
-
-function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
-  cy.get(&#x27;.cx-review-title&#x27;).should(&#x27;contain&#x27;, &#x27;Review&#x27;);
-
-  for (const product of checkoutProducts) {
-    cy.get(&#x27;cx-cart-item-list&#x27;).contains(&#x27;cx-cart-item&#x27;, product.code);
-  }
-
-  cy.getByText(&#x27;Terms &amp; Conditions&#x27;)
-    .should(&#x27;have.attr&#x27;, &#x27;target&#x27;, &#x27;_blank&#x27;)
-    .should(
-      &#x27;have.attr&#x27;,
-      &#x27;href&#x27;,
-      &#x27;/electronics-spa/en/USD/terms-and-conditions&#x27;
+  stubForCartsRefresh();
+  const currentPosition &#x3D;
+    targetPosition &#x3D;&#x3D;&#x3D; ItemList.Cart ? ItemList.SaveForLater : ItemList.Cart;
+  getItem(product, currentPosition).within(() &#x3D;&gt; {
+    cy.get(&#x27;.cx-sfl-btn &gt; .link&#x27;).click();
+  });
+  if (!isAnonymous) {
+    cy.wait([&#x27;@refresh_cart&#x27;, &#x27;@refresh_selectivecart&#x27;]).spread(
+      (refresh_cart, refresh_selectivecart) &#x3D;&gt; {
+        cy.wrap(refresh_cart)
+          .its(&#x27;status&#x27;)
+          .should(&#x27;eq&#x27;, 200);
+        cy.wrap(refresh_selectivecart)
+          .its(&#x27;status&#x27;)
+          .should(&#x27;eq&#x27;, 200);
+      }
     );
-  cy.get(&#x27;.form-check-input&#x27;).check();
-  const orderConfirmationPage &#x3D; waitForPage(
-    &#x27;/order-confirmation&#x27;,
-    &#x27;getOrderConfirmationPage&#x27;
-  );
-  cy.get(&#x27;cx-place-order button.btn-primary&#x27;).click();
-  cy.wait(&#x60;@${orderConfirmationPage}&#x60;)
+  }
+}
+
+export function removeItem(product, position: ItemList) {
+  stubForCartRefresh();
+  getItem(product, position).within(() &#x3D;&gt; {
+    cy.get(&#x27;.cx-remove-btn &gt; .link&#x27;)
+      .should(&#x27;not.be.disabled&#x27;)
+      .then(el &#x3D;&gt; {
+        cy.wrap(el).click();
+      });
+  });
+  cy.wait(&#x27;@refresh_cart&#x27;)
     .its(&#x27;status&#x27;)
     .should(&#x27;eq&#x27;, 200);
 }
 
-function verifyOrderConfirmationPage(checkoutProducts: TestProduct[]) {
-  cy.get(&#x27;.cx-page-title&#x27;).should(&#x27;contain&#x27;, &#x27;Confirmation of Order&#x27;);
-  cy.get(&#x27;h2&#x27;).should(&#x27;contain&#x27;, &#x27;Thank you for your order!&#x27;);
+export function validateProduct(product, qty &#x3D; 1, position: ItemList) {
+  return getItem(product, position).within(() &#x3D;&gt; {
+    if (position &#x3D;&#x3D;&#x3D; ItemList.Cart) {
+      cy.get(&#x27;.cx-counter-value&#x27;).should(&#x27;have.value&#x27;, &#x60;${qty}&#x60;);
+    } else {
+      cy.get(&#x27;.cx-quantity &gt; .cx-value&#x27;).should(&#x27;contain&#x27;, &#x60;${qty}&#x60;);
+    }
+    cy.get(&#x27;.cx-total &gt; .cx-value&#x27;).should(&#x27;exist&#x27;);
+  });
+}
 
-  for (const product of checkoutProducts) {
-    cy.get(&#x27;cx-cart-item-list&#x27;).contains(&#x27;cx-cart-item&#x27;, product.code);
+export function validateCartPromotion(hasPromotion: boolean) {
+  cy.get(&#x27;.cx-promotions &gt; :nth-child(1)&#x27;).should(
+    hasPromotion ? &#x27;exist&#x27; : &#x27;not.exist&#x27;
+  );
+}
+
+export function validateCart(qtyInCart: Number, qtyInSavedCart: Number) {
+  if (qtyInCart &#x3D;&#x3D;&#x3D; 0) {
+    cy.getByText(&#x27;Your shopping cart is empty&#x27;).should(&#x27;exist&#x27;);
+  } else {
+    cy.get(&#x27;cx-cart-details cx-cart-item-list .cx-item-list-row&#x27;).should(
+      &#x27;have.length&#x27;,
+      qtyInCart
+    );
+  }
+  if (qtyInSavedCart &#x3D;&#x3D;&#x3D; 0) {
+    cy.get(&#x27;cx-save-for-later cx-cart-item-list .cx-item-list-row&#x27;).should(
+      &#x27;not.exist&#x27;
+    );
+  } else {
+    cy.get(&#x27;cx-save-for-later cx-cart-item-list .cx-item-list-row&#x27;).should(
+      &#x27;have.length&#x27;,
+      qtyInSavedCart
+    );
   }
 }
 
-function getCartItem(name: string) {
-  return cy.get(&#x27;cx-cart-item-list&#x27;).contains(&#x27;cx-cart-item&#x27;, name);
+function verifyMiniCartQty(qty: number) {
+  cy.get(&#x27;cx-mini-cart .count&#x27;).should(&#x27;contain&#x27;, qty);
 }
 
-function getWishListItem(name: string) {
-  return cy.get(&#x27;cx-wish-list&#x27;).contains(&#x27;cx-wish-list-item&#x27;, name);
+export function addProductToCart(product) {
+  cy.get(&#x27;cx-searchbox cx-icon[aria-label&#x3D;&quot;search&quot;]&#x27;).click({ force: true });
+  cy.get(&#x27;cx-searchbox input&#x27;)
+    .clear()
+    .type(&#x60;${product.code}{enter}&#x60;);
+  cy.location(&#x27;pathname&#x27;).should(&#x27;contain&#x27;, &#x60;${product.code}&#x60;);
+  cy.get(&#x27;cx-add-to-cart:first&#x27;)
+    .getAllByText(/Add To Cart/i)
+    .first()
+    .click();
+  cy.get(&#x27;cx-added-to-cart-dialog&#x27;).within(() &#x3D;&gt; {
+    cy.get(&#x27;.cx-code&#x27;).should(&#x27;contain&#x27;, product.code);
+    cy.getByText(/view cart/i).click();
+  });
+  validateProduct(product, 1, ItemList.Cart);
+}
+
+export function verifySaveForLaterAsAnonymous() {
+  addProductToCart(products[0]);
+  cy.visit(&#x27;/cart&#x27;);
+  moveItem(products[0], ItemList.SaveForLater, true);
+  cy.location(&#x27;pathname&#x27;).should(&#x27;contain&#x27;, &#x27;/login&#x27;);
+}
+
+export function verifySaveForLaterWhenRelogin() {
+  cart.registerCartUser();
+  cart.loginCartUser();
+  addProductToCart(products[2]);
+  moveItem(products[2], ItemList.SaveForLater);
+  cart.logOutAndEmptyCart();
+  cart.loginCartUser();
+  cy.visit(&#x27;/cart&#x27;);
+  validateProduct(products[2], 1, ItemList.SaveForLater);
+}
+
+export function verifySaveForLater() {
+  cy.visit(&#x27;/cart&#x27;);
+  validateCart(0, 0);
+  addProductToCart(products[0]);
+  moveItem(products[0], ItemList.SaveForLater);
+  validateCart(0, 1);
+  addProductToCart(products[1]);
+  addProductToCart(products[2]);
+  validateCart(2, 1);
+  validateCartPromotion(true);
+  moveItem(products[2], ItemList.SaveForLater);
+  validateCart(1, 2);
+  validateCartPromotion(false);
+  moveItem(products[2], ItemList.Cart);
+  validateCartPromotion(true);
+  validateCart(2, 1);
+  //validate merge
+  addProductToCart(products[0]);
+  validateCart(3, 1);
+  moveItem(products[0], ItemList.SaveForLater);
+  validateProduct(products[0], 2, ItemList.SaveForLater);
+  validateCart(2, 1);
+  addProductToCart(products[0]);
+  moveItem(products[0], ItemList.Cart);
+  validateCart(3, 0);
+  verifyMiniCartQty(5); //to avoid the cart item quatity is not updated yet
+  validateProduct(products[0], 3, ItemList.Cart);
+  //remove
+  moveItem(products[0], ItemList.SaveForLater);
+  validateCart(2, 1);
+  removeItem(products[0], ItemList.SaveForLater);
+  validateCart(2, 0);
+}
+
+export function verifyGiftProduct() {
+  addProductToCart(products[0]);
+  addProductToCart(products[3]);
+  verifyMiniCartQty(3);
+  moveItem(products[3], ItemList.SaveForLater);
+  validateCart(1, 2);
+  moveItem(products[3], ItemList.Cart);
+  validateCart(3, 0);
+}
+
+export function verifyPlaceOrder() {
+  const stateAuth &#x3D; JSON.parse(localStorage.getItem(&#x27;spartacus-local-data&#x27;))
+    .auth;
+  addProductToCart(products[0]);
+  addProductToCart(products[1]);
+  moveItem(products[0], ItemList.SaveForLater);
+  validateCart(1, 1);
+  cartCoupon.placeOrder(stateAuth);
+  cy.reload();
+  validateCart(0, 1);
+  validateProduct(products[0], 1, ItemList.SaveForLater);
 }
 </code></pre>
     </div>

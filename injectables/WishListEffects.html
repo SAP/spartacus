@@ -61,6 +61,11 @@
 
 
 
+            <p class="comment">
+                <h3>Example</h3>
+            </p>
+            <div class="io-description">
+            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -107,7 +112,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:125</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:132</a></div>
                             </td>
                         </tr>
 
@@ -265,7 +270,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -339,7 +344,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:61</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:68</a></div>
                             </td>
                         </tr>
 
@@ -402,7 +407,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:101</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:108</a></div>
                             </td>
                         </tr>
 
@@ -435,6 +440,13 @@ import { CartActions } from &#x27;../actions&#x27;;
 import { StateWithMultiCart } from &#x27;../multi-cart-state&#x27;;
 import { MultiCartSelectors } from &#x27;../selectors&#x27;;
 
+/**
+ * @deprecated since version 1.5
+ *
+ * spartacus ngrx effects will no longer be a part of public API
+ *
+ * TODO(issue:#4507)
+ */
 @Injectable()
 export class WishListEffects {
   @Effect()

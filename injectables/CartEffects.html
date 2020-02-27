@@ -61,6 +61,11 @@
 
 
 
+            <p class="comment">
+                <h3>Example</h3>
+            </p>
+            <div class="io-description">
+            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -141,7 +146,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="422" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:422</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="433" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:433</a></div>
                             </td>
                         </tr>
 
@@ -244,8 +249,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="431"
-                            class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:431</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="442"
+                            class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:442</a></div>
                 </td>
             </tr>
 
@@ -371,7 +376,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="338" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:338</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="349" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:349</a></div>
                             </td>
                         </tr>
 
@@ -403,7 +408,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:34</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:41</a></div>
                             </td>
                         </tr>
 
@@ -502,7 +507,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="180" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:180</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="191" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:191</a></div>
                             </td>
                         </tr>
 
@@ -560,7 +565,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="387" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:387</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="398" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:398</a></div>
                             </td>
                         </tr>
 
@@ -690,7 +695,11 @@
                   const cartNotFoundErrors &#x3D; error.error.errors.filter(
                     err &#x3D;&gt; err.reason &#x3D;&#x3D;&#x3D; &#x27;notFound&#x27; || &#x27;UnknownResourceError&#x27;
                   );
-                  if (cartNotFoundErrors.length &gt; 0) {
+                  if (
+                    cartNotFoundErrors.length &gt; 0 &amp;&amp;
+                    payload.extraData &amp;&amp;
+                    payload.extraData.active
+                  ) {
                     // Clear cart is responsible for removing cart in &#x60;cart&#x60; store feature.
                     // Remove cart does the same thing, but in &#x60;multi-cart&#x60; store feature.
                     return from([
@@ -728,7 +737,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:42</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:49</a></div>
                             </td>
                         </tr>
 
@@ -788,7 +797,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="249" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:249</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="260" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:260</a></div>
                             </td>
                         </tr>
 
@@ -860,7 +869,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="271" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:271</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="282" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:282</a></div>
                             </td>
                         </tr>
 
@@ -911,7 +920,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="307" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:307</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="318" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:318</a></div>
                             </td>
                         </tr>
 
@@ -963,7 +972,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="322" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:322</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="333" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:333</a></div>
                             </td>
                         </tr>
 
@@ -1007,6 +1016,13 @@ import {
   getCartHasPendingProcessesSelectorFactory,
 } from &#x27;../selectors/multi-cart.selector&#x27;;
 
+/**
+ * @deprecated since version 1.5
+ *
+ * spartacus ngrx effects will no longer be a part of public API
+ *
+ * TODO(issue:#4507)
+ */
 @Injectable()
 export class CartEffects {
   private contextChange$ &#x3D; this.actions$.pipe(
@@ -1128,7 +1144,11 @@ export class CartEffects {
                   const cartNotFoundErrors &#x3D; error.error.errors.filter(
                     err &#x3D;&gt; err.reason &#x3D;&#x3D;&#x3D; &#x27;notFound&#x27; || &#x27;UnknownResourceError&#x27;
                   );
-                  if (cartNotFoundErrors.length &gt; 0) {
+                  if (
+                    cartNotFoundErrors.length &gt; 0 &amp;&amp;
+                    payload.extraData &amp;&amp;
+                    payload.extraData.active
+                  ) {
                     // Clear cart is responsible for removing cart in &#x60;cart&#x60; store feature.
                     // Remove cart does the same thing, but in &#x60;multi-cart&#x60; store feature.
                     return from([

@@ -250,8 +250,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="324"
-                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:324</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="326"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:326</a></div>
                 </td>
             </tr>
 
@@ -344,8 +344,8 @@ Otherwise it returns <code>false</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="310"
-                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:310</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="312"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:312</a></div>
                 </td>
             </tr>
 
@@ -421,8 +421,8 @@ Otherwise it returns <code>false</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="274"
-                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:274</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="276"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:276</a></div>
                 </td>
             </tr>
 
@@ -915,8 +915,8 @@ Otherwise it returns <code>false</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="236"
-                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:236</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="238"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:238</a></div>
                 </td>
             </tr>
 
@@ -1075,8 +1075,8 @@ If the templates are not present in the store, it triggers the load.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="226"
-                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:226</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="228"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:228</a></div>
                 </td>
             </tr>
 
@@ -1116,8 +1116,8 @@ If the templates are not present in the store, it triggers the load.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="262"
-                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:262</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="264"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:264</a></div>
                 </td>
             </tr>
 
@@ -1394,8 +1394,8 @@ Otherwise, it returns <code>false</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="297"
-                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:297</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="299"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:299</a></div>
                 </td>
             </tr>
 
@@ -1543,8 +1543,8 @@ Otherwise, it returns <code>false</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="212"
-                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:212</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="214"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:214</a></div>
                 </td>
             </tr>
 
@@ -1620,8 +1620,8 @@ Otherwise, it returns <code>false</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="250"
-                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:250</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="252"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:252</a></div>
                 </td>
             </tr>
 
@@ -1969,7 +1969,7 @@ export class AnonymousConsentsService {
    * @param consent a consent to test
    */
   isConsentGiven(consent: AnonymousConsent): boolean {
-    return consent.consentState &#x3D;&#x3D;&#x3D; ANONYMOUS_CONSENT_STATUS.GIVEN;
+    return consent &amp;&amp; consent.consentState &#x3D;&#x3D;&#x3D; ANONYMOUS_CONSENT_STATUS.GIVEN;
   }
 
   /**
@@ -1998,7 +1998,9 @@ export class AnonymousConsentsService {
    * @param consent a consent to test
    */
   isConsentWithdrawn(consent: AnonymousConsent): boolean {
-    return consent.consentState &#x3D;&#x3D;&#x3D; ANONYMOUS_CONSENT_STATUS.WITHDRAWN;
+    return (
+      consent &amp;&amp; consent.consentState &#x3D;&#x3D;&#x3D; ANONYMOUS_CONSENT_STATUS.WITHDRAWN
+    );
   }
 
   /**

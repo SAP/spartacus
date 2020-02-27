@@ -95,6 +95,9 @@
                                 <a href="#loadSupportedCardTypes">loadSupportedCardTypes</a>
                             </li>
                             <li>
+                                <a href="#paymentProcessSuccess">paymentProcessSuccess</a>
+                            </li>
+                            <li>
                                 <a href="#resetSetPaymentDetailsProcess">resetSetPaymentDetailsProcess</a>
                             </li>
                             <li>
@@ -202,8 +205,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">projects/core/src/checkout/facade/checkout-payment.service.ts:97</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout-payment.service.ts:104</a></div>
                 </td>
             </tr>
 
@@ -464,6 +467,47 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="paymentProcessSuccess"></a>
+                    <span class="name">
+                        <b>
+                            paymentProcessSuccess
+                        </b>
+                        <a href="#paymentProcessSuccess"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>paymentProcessSuccess()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout-payment.service.ts:100</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sets payment loading to true without having the flicker issue (GH-3102)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="resetSetPaymentDetailsProcess"></a>
                     <span class="name">
                         <b>
@@ -678,6 +722,13 @@ export class CheckoutPaymentService {
         })
       );
     }
+  }
+
+  /**
+   * Sets payment loading to true without having the flicker issue (GH-3102)
+   */
+  paymentProcessSuccess() {
+    this.checkoutStore.dispatch(new CheckoutActions.PaymentProcessSuccess());
   }
 
   protected actionAllowed(): boolean {

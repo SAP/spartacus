@@ -166,8 +166,18 @@ import { ConfigModule } from &#x27;../../config/config.module&#x27;;
 import { StateConfig, StorageSyncType } from &#x27;../../state/config/state-config&#x27;;
 import { StateModule } from &#x27;../../state/state.module&#x27;;
 import { CART_FEATURE } from &#x27;./cart-state&#x27;;
-import { effects } from &#x27;./effects/index&#x27;;
+import { CartEntryEffects } from &#x27;./effects/cart-entry.effect&#x27;;
+import { CartVoucherEffects } from &#x27;./effects/cart-voucher.effect&#x27;;
+import { CartEffects } from &#x27;./effects/cart.effect&#x27;;
+import { WishListEffects } from &#x27;./effects/wish-list.effect&#x27;;
 import { metaReducers, reducerProvider, reducerToken } from &#x27;./reducers/index&#x27;;
+
+const effects: any[] &#x3D; [
+  CartEffects,
+  CartEntryEffects,
+  CartVoucherEffects,
+  WishListEffects,
+];
 
 export function cartStoreConfigFactory(): StateConfig {
   const config: StateConfig &#x3D; {

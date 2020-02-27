@@ -147,7 +147,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="415" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:415</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="419" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:419</a></div>
                             </td>
                         </tr>
 
@@ -348,7 +348,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="180" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:180</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="184" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:184</a></div>
                             </td>
                         </tr>
 
@@ -392,7 +392,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="172" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:172</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="176" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:176</a></div>
                             </td>
                         </tr>
 
@@ -454,7 +454,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="353" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:353</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="357" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:357</a></div>
                             </td>
                         </tr>
 
@@ -525,7 +525,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="380" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:380</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="384" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:384</a></div>
                             </td>
                         </tr>
 
@@ -546,7 +546,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../classes/CheckoutClearMiscsData.html" target="_self" >Observable&lt;CheckoutActions.CheckoutClearMiscsData&gt;</a></code>
+                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#CheckoutAction" target="_self" >Observable&lt;CheckoutActions.CheckoutClearMiscsData | CheckoutActions.ResetLoadSupportedDeliveryModesProcess&gt;</a></code>
 
                         </td>
                     </tr>
@@ -554,7 +554,10 @@
                         <td class="col-md-4">
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
-    map(() &#x3D;&gt; new CheckoutActions.CheckoutClearMiscsData())
+    mergeMap(() &#x3D;&gt; [
+      new CheckoutActions.CheckoutClearMiscsData(),
+      new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
+    ])
   )</code>
                         </td>
                     </tr>
@@ -613,7 +616,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="164" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:164</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="168" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:168</a></div>
                             </td>
                         </tr>
 
@@ -714,7 +717,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="223" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:223</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="227" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:227</a></div>
                             </td>
                         </tr>
 
@@ -776,7 +779,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="312" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:312</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="316" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:316</a></div>
                             </td>
                         </tr>
 
@@ -895,7 +898,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="287" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:287</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="291" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:291</a></div>
                             </td>
                         </tr>
 
@@ -945,7 +948,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="339" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:339</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="343" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:343</a></div>
                             </td>
                         </tr>
 
@@ -1085,7 +1088,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="188" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:188</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="192" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:192</a></div>
                             </td>
                         </tr>
 
@@ -1149,7 +1152,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="258" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:258</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="262" class="link-to-prism">projects/core/src/checkout/store/effects/checkout.effect.ts:262</a></div>
                             </td>
                         </tr>
 
@@ -1318,10 +1321,14 @@ export class CheckoutEffects {
 
   @Effect()
   clearCheckoutMiscsDataOnLanguageChange$: Observable&lt;
-    CheckoutActions.CheckoutClearMiscsData
+    | CheckoutActions.CheckoutClearMiscsData
+    | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
   &gt; &#x3D; this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
-    map(() &#x3D;&gt; new CheckoutActions.CheckoutClearMiscsData())
+    mergeMap(() &#x3D;&gt; [
+      new CheckoutActions.CheckoutClearMiscsData(),
+      new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
+    ])
   );
 
   @Effect()

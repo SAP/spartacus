@@ -159,6 +159,8 @@ import { OccUserConsentAdapter } from &#x27;./occ-user-consent.adapter&#x27;;
 import { OccUserOrderAdapter } from &#x27;./occ-user-order.adapter&#x27;;
 import { OccUserPaymentAdapter } from &#x27;./occ-user-payment.adapter&#x27;;
 import { OccUserAdapter } from &#x27;./occ-user.adapter&#x27;;
+import { CustomerCouponAdapter } from &#x27;../../../user/connectors/customer-coupon/customer-coupon.adapter&#x27;;
+import { OccCustomerCouponAdapter } from &#x27;../user/occ-customer-coupon.adapter&#x27;;
 import { UserNotificationPreferenceAdapter } from &#x27;../../../user/connectors/notification-preference/user-notification-preference.adapter&#x27;;
 import { OccUserNotificationPreferenceAdapter } from &#x27;./occ-user-notification-preference.adapter&#x27;;
 import { OccUserInterestsAdapter } from &#x27;./occ-user-interests.adapter&#x27;;
@@ -187,6 +189,7 @@ import { OccReturnRequestNormalizer } from &#x27;./converters/index&#x27;;
       useClass: OccUserPaymentAdapter,
     },
     { provide: UserOrderAdapter, useClass: OccUserOrderAdapter },
+    { provide: CustomerCouponAdapter, useClass: OccCustomerCouponAdapter },
     {
       provide: UserNotificationPreferenceAdapter,
       useClass: OccUserNotificationPreferenceAdapter,

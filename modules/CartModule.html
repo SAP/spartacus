@@ -181,8 +181,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/core/src/cart/cart.module.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/core/src/cart/cart.module.ts:20</a></div>
                 </td>
             </tr>
 
@@ -211,6 +211,7 @@ import {
   CartService,
   CartVoucherService,
   WishListService,
+  SelectiveCartService,
 } from &#x27;./facade/index&#x27;;
 import { MultiCartService } from &#x27;./facade/multi-cart.service&#x27;;
 import { CartPageMetaResolver } from &#x27;./services/cart-page-meta.resolver&#x27;;
@@ -231,6 +232,7 @@ export class CartModule {
         MultiCartService,
         WishListService,
         ActiveCartService,
+        SelectiveCartService,
         {
           provide: PageMetaResolver,
           useExisting: CartPageMetaResolver,

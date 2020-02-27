@@ -81,6 +81,10 @@
                             <li>
                                 <a href="#normalize">normalize</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#normalizeImageUrl">normalizeImageUrl</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -299,6 +303,84 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="normalizeImageUrl"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            normalizeImageUrl
+                        </b>
+                        <a href="#normalizeImageUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>normalizeImageUrl(url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">projects/core/src/occ/adapters/product/converters/product-image-normalizer.ts:64</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Traditionally, in an on-prem world, medias and other backend related calls
+are hosted at the same platform, but in a cloud setup, applications are are
+typically distributed cross different environments. For media, we use the
+<code>backend.media.baseUrl</code> by default, but fallback to <code>backend.occ.baseUrl</code>
+if none provided.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>url</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
     </div>
@@ -355,22 +437,28 @@ export class ProductImageNormalizer implements Converter&lt;Occ.Product, Product
         }
 
         const targetImage &#x3D; { ...image };
-        /**
-         * Traditionally, in an on-prem world, medias and other backend related calls
-         * are hosted at the same platform, but in a cloud setup, applications are are
-         * typically distributed cross different environments. For media, we use the
-         * &#x60;backend.media.baseUrl&#x60; by default, but fallback to &#x60;backend.occ.baseUrl&#x60;
-         * if none provided.
-         */
-        targetImage.url &#x3D;
-          (this.config.backend.media.baseUrl ||
-            this.config.backend.occ.baseUrl ||
-            &#x27;&#x27;) + image.url;
-
+        targetImage.url &#x3D; this.normalizeImageUrl(targetImage.url);
         imageContainer[image.format] &#x3D; targetImage;
       }
     }
     return images;
+  }
+  /**
+   * Traditionally, in an on-prem world, medias and other backend related calls
+   * are hosted at the same platform, but in a cloud setup, applications are are
+   * typically distributed cross different environments. For media, we use the
+   * &#x60;backend.media.baseUrl&#x60; by default, but fallback to &#x60;backend.occ.baseUrl&#x60;
+   * if none provided.
+   */
+  private normalizeImageUrl(url: string): string {
+    if (new RegExp(/^(http|data:image|\/\/)/i).test(url)) {
+      return url;
+    }
+    return (
+      (this.config.backend.media.baseUrl ||
+        this.config.backend.occ.baseUrl ||
+        &#x27;&#x27;) + url
+    );
   }
 }
 </code></pre>

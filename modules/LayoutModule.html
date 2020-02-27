@@ -172,12 +172,10 @@ import { Config } from &#x27;@spartacus/core&#x27;;
 import { OutletRefModule } from &#x27;../cms-structure/outlet/outlet-ref/outlet-ref.module&#x27;;
 import { LayoutConfig } from &#x27;./config/layout-config&#x27;;
 
-const layoutModules &#x3D; [OutletRefModule];
-
 @NgModule({
-  imports: [...layoutModules],
+  imports: [OutletRefModule],
   providers: [{ provide: LayoutConfig, useExisting: Config }],
-  exports: [...layoutModules],
+  exports: [OutletRefModule],
 })
 export class LayoutModule {}
 </code></pre>

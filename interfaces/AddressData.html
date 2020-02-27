@@ -285,7 +285,7 @@ export function fillShippingAddress(shippingAddress: AddressData) {
     cy.get(&#x27;[formcontrolname&#x3D;&quot;phone&quot;]&#x27;)
       .clear()
       .type(shippingAddress.phone);
-    cy.get(&#x27;button.btn-primary&#x27;).click();
+    cy.get(&#x27;button.btn-primary&#x27;).click({ force: true });
   });
 }
 
@@ -344,8 +344,13 @@ export function fillPaymentDetails(
       .type(paymentDetails.payment.cvv);
     if (billingAddress) {
       fillBillingAddress(billingAddress);
+    } else {
+      cy.get(&#x27;input.form-check-input&#x27;).check();
     }
-    cy.get(&#x27;button.btn-primary&#x27;).click();
+
+    cy.get(&#x27;button.btn.btn-block.btn-primary&#x27;)
+      .contains(&#x27;Continue&#x27;)
+      .click();
   });
 }
 </code></pre>

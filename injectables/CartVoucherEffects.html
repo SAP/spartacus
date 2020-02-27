@@ -61,6 +61,11 @@
 
 
 
+            <p class="comment">
+                <h3>Example</h3>
+            </p>
+            <div class="io-description">
+            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -119,7 +124,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -210,8 +215,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:102</a></div>
                 </td>
             </tr>
 
@@ -352,7 +357,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -425,7 +430,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:57</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:64</a></div>
                             </td>
                         </tr>
 
@@ -448,6 +453,13 @@ import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x
 import { CartVoucherConnector } from &#x27;../../connectors/voucher/cart-voucher.connector&#x27;;
 import { CartActions } from &#x27;../actions/index&#x27;;
 
+/**
+ * @deprecated since version 1.5
+ *
+ * spartacus ngrx effects will no longer be a part of public API
+ *
+ * TODO(issue:#4507)
+ */
 @Injectable()
 export class CartVoucherEffects {
   constructor(

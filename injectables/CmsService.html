@@ -95,6 +95,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#createComponentData">createComponentData</a>
+                            </li>
+                            <li>
                                 <a href="#getComponentData">getComponentData</a>
                             </li>
                             <li>
@@ -176,7 +180,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -235,6 +239,98 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="createComponentData"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            createComponentData
+                        </b>
+                        <a href="#createComponentData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createComponentData(uid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, pageContext?: <a href="../interfaces/Page.html">PageContext</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:102</a></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Type parameters :</b>
+                    <ul class="type-parameters">
+                        <li>T</li>
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>uid</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>pageContext</td>
+                                    <td>
+                                                <code><a href="../interfaces/Page.html" target="_self" >PageContext</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getComponentData"></a>
                     <span class="name">
                         <b>
@@ -246,15 +342,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getComponentData(uid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>getComponentData(uid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, pageContext?: <a href="../interfaces/Page.html">PageContext</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -270,6 +366,11 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Get CMS component data by uid</p>
+<p>This method can be safely and optimally used to load multiple components data at the same time.
+Calling getComponentData multiple times for different components will always result in optimized
+back-end request: all components requested at the same time (in one event loop) will be loaded in one network call.</p>
+<p>In case the component data is not present, the method will load it.
+Otherwise, if the page context is not provided, the current page context from the router state will be used instead.</p>
 </div>
 
                     <div class="io-description">
@@ -296,7 +397,23 @@
 
 
                                     <td>
-                                        <p>: CMS componet uid</p>
+                                        <p>CMS component uid</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>pageContext</td>
+                                    <td>
+                                                <code><a href="../interfaces/Page.html" target="_self" >PageContext</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>if provided, it will be used to lookup the component data.</p>
 
                                     </td>
                                 </tr>
@@ -338,8 +455,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:109</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="161"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:161</a></div>
                 </td>
             </tr>
 
@@ -415,8 +532,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:60</a></div>
                 </td>
             </tr>
 
@@ -456,8 +573,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="178"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:178</a></div>
                 </td>
             </tr>
 
@@ -533,8 +650,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="227"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:227</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="281"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:281</a></div>
                 </td>
             </tr>
 
@@ -622,8 +739,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="190"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:190</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="244"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:244</a></div>
                 </td>
             </tr>
 
@@ -694,8 +811,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="235"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:235</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="289"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:289</a></div>
                 </td>
             </tr>
 
@@ -764,8 +881,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="182"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:182</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="236"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:236</a></div>
                 </td>
             </tr>
 
@@ -836,8 +953,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:200</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:254</a></div>
                 </td>
             </tr>
 
@@ -925,8 +1042,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:53</a></div>
                 </td>
             </tr>
 
@@ -966,8 +1083,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="137"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:137</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="189"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:189</a></div>
                 </td>
             </tr>
 
@@ -1052,15 +1169,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>refreshComponent(uid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>refreshComponent(uid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, pageContext?: <a href="../interfaces/Page.html">PageContext</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="174"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:174</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="228"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:228</a></div>
                 </td>
             </tr>
 
@@ -1094,7 +1211,24 @@
 
 
                                     <td>
-                                        <p>: component uid</p>
+                                        <p>component uid</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>pageContext</td>
+                                    <td>
+                                                <code><a href="../interfaces/Page.html" target="_self" >PageContext</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>an optional parameter that enables the caller to specify for which context the component should be refreshed.
+If not specified, &#39;current&#39; page context is used.</p>
 
                                     </td>
                                 </tr>
@@ -1136,8 +1270,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="152"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:152</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="204"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:204</a></div>
                 </td>
             </tr>
 
@@ -1177,8 +1311,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="165"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:165</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="217"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:217</a></div>
                 </td>
             </tr>
 
@@ -1249,8 +1383,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="241"
-                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:241</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="295"
+                            class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:295</a></div>
                 </td>
             </tr>
 
@@ -1398,7 +1532,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/cms/facade/cms.service.ts:46</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1449,10 +1583,9 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { combineLatest, Observable, of, queueScheduler } from &#x27;rxjs&#x27;;
+import { combineLatest, Observable, of, queueScheduler, using } from &#x27;rxjs&#x27;;
 import {
   catchError,
-  distinctUntilChanged,
   filter,
   observeOn,
   pluck,
@@ -1471,6 +1604,7 @@ import { Page } from &#x27;../model/page.model&#x27;;
 import { CmsActions } from &#x27;../store/actions/index&#x27;;
 import { StateWithCms } from &#x27;../store/cms-state&#x27;;
 import { CmsSelectors } from &#x27;../store/selectors/index&#x27;;
+import { serializePageContext } from &#x27;../utils/cms-utils&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -1479,7 +1613,9 @@ export class CmsService {
   private _launchInSmartEdit &#x3D; false;
 
   private components: {
-    [uid: string]: Observable&lt;CmsComponent&gt;;
+    [uid: string]: {
+      [pageContext: string]: Observable&lt;CmsComponent&gt;;
+    };
   } &#x3D; {};
 
   constructor(
@@ -1516,39 +1652,89 @@ export class CmsService {
 
   /**
    * Get CMS component data by uid
-   * @param uid : CMS componet uid
+   *
+   * This method can be safely and optimally used to load multiple components data at the same time.
+   * Calling getComponentData multiple times for different components will always result in optimized
+   * back-end request: all components requested at the same time (in one event loop) will be loaded in one network call.
+   *
+   * In case the component data is not present, the method will load it.
+   * Otherwise, if the page context is not provided, the current page context from the router state will be used instead.
+   *
+   * @param uid CMS component uid
+   * @param pageContext if provided, it will be used to lookup the component data.
    */
-  getComponentData&lt;T extends CmsComponent&gt;(uid: string): Observable&lt;T&gt; {
+  getComponentData&lt;T extends CmsComponent&gt;(
+    uid: string,
+    pageContext?: PageContext
+  ): Observable&lt;T&gt; {
+    const context &#x3D; serializePageContext(pageContext, true);
     if (!this.components[uid]) {
-      this.components[uid] &#x3D; combineLatest([
-        this.routingService.isNavigating(),
-        this.store.pipe(
-          select(CmsSelectors.componentStateSelectorFactory(uid))
-        ),
-      ]).pipe(
-        observeOn(queueScheduler),
-        tap(([isNavigating, componentState]) &#x3D;&gt; {
-          // componentState is undefined when the whole components entities are empty.
-          // In this case, we don&#x27;t load component one by one, but extract component data from cms page
-          if (componentState !&#x3D;&#x3D; undefined) {
-            const attemptedLoad &#x3D;
-              componentState.loading ||
-              componentState.success ||
-              componentState.error;
-            if (!attemptedLoad &amp;&amp; !isNavigating) {
-              this.store.dispatch(new CmsActions.LoadCmsComponent(uid));
-            }
-          }
-        }),
-        pluck(1),
-        filter(componentState &#x3D;&gt; componentState &amp;&amp; componentState.success),
-        pluck(&#x27;value&#x27;),
-        distinctUntilChanged(),
-        shareReplay({ bufferSize: 1, refCount: true })
+      // create the component data structure, if it doesn&#x27;t already exist
+      this.components[uid] &#x3D; {};
+    }
+
+    const component &#x3D; this.components[uid];
+    if (!component[context]) {
+      // create the component data and assign it to the component&#x27;s context
+      component[context] &#x3D; this.createComponentData(uid, pageContext);
+    }
+
+    return component[context] as Observable&lt;T&gt;;
+  }
+
+  private createComponentData&lt;T extends CmsComponent&gt;(
+    uid: string,
+    pageContext?: PageContext
+  ): Observable&lt;T&gt; {
+    if (!pageContext) {
+      return this.routingService.getPageContext().pipe(
+        filter(currentContext &#x3D;&gt; !!currentContext),
+        switchMap(currentContext &#x3D;&gt;
+          this.getComponentData&lt;T&gt;(uid, currentContext)
+        )
       );
     }
 
-    return this.components[uid] as Observable&lt;T&gt;;
+    const context &#x3D; serializePageContext(pageContext, true);
+
+    const loading$ &#x3D; combineLatest([
+      this.routingService.getNextPageContext(),
+      this.store.pipe(
+        select(CmsSelectors.componentsLoaderStateSelectorFactory(uid, context))
+      ),
+    ]).pipe(
+      observeOn(queueScheduler),
+      tap(([nextContext, loadingState]) &#x3D;&gt; {
+        const attemptedLoad &#x3D;
+          loadingState.loading || loadingState.success || loadingState.error;
+        // if the requested context is the same as the one that&#x27;s currently being navigated to
+        // (as it might already been triggered and might be available shortly from page data)
+        // TODO(issue:3649), TODO(issue:3668) - this optimization could be removed
+        const couldBeLoadedWithPageData &#x3D; nextContext
+          ? serializePageContext(nextContext, true) &#x3D;&#x3D;&#x3D; context
+          : false;
+
+        if (!attemptedLoad &amp;&amp; !couldBeLoadedWithPageData) {
+          this.store.dispatch(
+            new CmsActions.LoadCmsComponent(uid, pageContext)
+          );
+        }
+      })
+    );
+
+    const component$ &#x3D; this.store.pipe(
+      select(CmsSelectors.componentsSelectorFactory(uid, context)),
+      // TODO(issue:6027) - this &#x60;filter&#x60; should be removed.
+      // The reason for removal: with &#x60;filter&#x60; in place, when moving to a page that has restrictions, the component data will still emit the previous value.
+      // Removing it causes some components to fail, because they are not checking
+      // if the data is actually there. I noticed these that this component is failing, but there are possibly more:
+      // - &#x60;tab-paragraph-container.component.ts&#x60; when visiting any PDP page
+      filter(component &#x3D;&gt; !!component)
+    ) as Observable&lt;T&gt;;
+
+    return using(() &#x3D;&gt; loading$.subscribe(), () &#x3D;&gt; component$).pipe(
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
   }
 
   /**
@@ -1618,10 +1804,12 @@ export class CmsService {
 
   /**
    * Refresh cms component&#x27;s content
-   * @param uid : component uid
+   * @param uid component uid
+   * @param pageContext an optional parameter that enables the caller to specify for which context the component should be refreshed.
+   * If not specified, &#x27;current&#x27; page context is used.
    */
-  refreshComponent(uid: string): void {
-    this.store.dispatch(new CmsActions.LoadCmsComponent(uid));
+  refreshComponent(uid: string, pageContext?: PageContext): void {
+    this.store.dispatch(new CmsActions.LoadCmsComponent(uid, pageContext));
   }
 
   /**
@@ -1659,7 +1847,7 @@ export class CmsService {
       }),
       filter(entity &#x3D;&gt; {
         if (!entity.hasOwnProperty(&#x27;value&#x27;)) {
-          // if we have incomplete state from srr failed load transfer state,
+          // if we have incomplete state from SSR failed load transfer state,
           // we should wait for reload and actual value
           return false;
         }

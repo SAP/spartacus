@@ -80,7 +80,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/core/src/user/store/user-state.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/core/src/user/store/user-state.ts:78</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -103,6 +103,7 @@ import {
   ReturnRequestList,
 } from &#x27;../../model/order.model&#x27;;
 import { LoaderState } from &#x27;../../state&#x27;;
+import { CustomerCouponSearchResult } from &#x27;../../model/customer-coupon.model&#x27;;
 import { NotificationPreference } from &#x27;../../model&#x27;;
 import { ProductInterestSearchResult } from &#x27;../../model/product-interest.model&#x27;;
 
@@ -130,6 +131,11 @@ export const USER_RETURN_REQUEST_DETAILS &#x3D; &#x27;[User] Return Request Deta
 export const USER_ORDER_DETAILS &#x3D; &#x27;[User] User Order Details&#x27;;
 export const REGIONS &#x3D; &#x27;[User] Regions&#x27;;
 
+export const CUSTOMER_COUPONS &#x3D; &#x27;[User] Customer Coupons&#x27;;
+export const SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID &#x3D; &#x27;subscribeCustomerCoupon&#x27;;
+export const UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID &#x3D;
+  &#x27;unsubscribeCustomerCoupon&#x27;;
+export const CLAIM_CUSTOMER_COUPON_PROCESS_ID &#x3D; &#x27;claimCustomerCoupon&#x27;;
 export const NOTIFICATION_PREFERENCES &#x3D; &#x27;[User] Notification Preferences&#x27;;
 export const PRODUCT_INTERESTS &#x3D; &#x27;[User] Product Interests&#x27;;
 
@@ -152,6 +158,7 @@ export interface UserState {
   regions: LoaderState&lt;RegionsState&gt;;
   resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
+  customerCoupons: LoaderState&lt;CustomerCouponSearchResult&gt;;
   notificationPreferences: LoaderState&lt;NotificationPreference[]&gt;;
   productInterests: LoaderState&lt;ProductInterestSearchResult&gt;;
 }

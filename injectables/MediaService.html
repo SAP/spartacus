@@ -85,6 +85,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#getHighestAvailableFormat">getHighestAvailableFormat</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#getImageUrl">getImageUrl</a>
                             </li>
                             <li>
@@ -214,8 +218,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:82</a></div>
                 </td>
             </tr>
 
@@ -297,8 +301,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:97</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:121</a></div>
                 </td>
             </tr>
 
@@ -309,6 +313,76 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getHighestAvailableFormat"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getHighestAvailableFormat
+                        </b>
+                        <a href="#getHighestAvailableFormat"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getHighestAvailableFormat(media)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:63</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>returns highest resolution format name from media formats</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>media</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -338,8 +412,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="90"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:90</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:114</a></div>
                 </td>
             </tr>
 
@@ -586,8 +660,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:95</a></div>
                 </td>
             </tr>
 
@@ -717,9 +791,33 @@ export class MediaService {
       return this.getImageUrl(media[format || DEFAULT_MEDIA_FORMAT].url);
     } else if (media &amp;&amp; media.url) {
       return this.getImageUrl(media.url);
+    } else if (media &amp;&amp; media[this.getHighestAvailableFormat(media)]) {
+      return this.getImageUrl(media[this.getHighestAvailableFormat(media)].url);
     } else {
       return null;
     }
+  }
+
+  /**
+   * returns highest resolution format name from media formats
+   */
+  private getHighestAvailableFormat(media): string {
+    if (media) {
+      let mediaFormat: MediaFormats;
+
+      this.mediaFormats.forEach(format &#x3D;&gt; {
+        if (
+          !mediaFormat ||
+          (mediaFormat.threshold &lt; format.threshold &amp;&amp; media[format.code])
+        ) {
+          mediaFormat &#x3D; format;
+        }
+      });
+
+      return mediaFormat.code;
+    }
+
+    return null;
   }
 
   private getAlt(media, format?: string): string {

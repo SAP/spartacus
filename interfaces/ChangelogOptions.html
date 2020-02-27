@@ -354,6 +354,7 @@ export default async function run(
     &#x27;@spartacus/assets&#x27;: &#x27;./projects/assets&#x27;,
     &#x27;@spartacus/schematics&#x27;: &#x27;./projects/schematics&#x27;,
     &#x27;@spartacus/incubator&#x27;: &#x27;./projects/incubator&#x27;,
+    &#x27;@spartacus/cds&#x27;: &#x27;./projects/cds&#x27;,
   };
 
   const duplexUtil &#x3D; through(function(chunk, _, callback) {
@@ -405,6 +406,7 @@ export default async function run(
           noteKeywords: [...breakingChangesKeywords, ...deprecationsKeywords],
           revertPattern: /^revert:\s([\s\S]*?)\s*This reverts commit (\w*)\./,
           revertCorrespondence: [&#x60;header&#x60;, &#x60;hash&#x60;],
+          issuePrefixes: [&#x27;#&#x27;, &#x27;GH-&#x27;, &#x27;gh-&#x27;],
         })
       )
       .pipe(
@@ -556,6 +558,10 @@ if (typeof config.to &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
     case &#x27;incubator&#x27;:
     case &#x27;@spartacus/incubator&#x27;:
       config.library &#x3D; &#x27;@spartacus/incubator&#x27;;
+      break;
+    case &#x27;cds&#x27;:
+    case &#x27;@spartacus/cds&#x27;:
+      config.library &#x3D; &#x27;@spartacus/cds&#x27;;
       break;
     default:
       config.library &#x3D; undefined;

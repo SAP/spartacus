@@ -337,8 +337,8 @@ for the given pageTemplate / breakpoint.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="187"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:187</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:190</a></div>
                 </td>
             </tr>
 
@@ -437,8 +437,8 @@ the closest available configuration will be returned.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:119</a></div>
                 </td>
             </tr>
 
@@ -550,8 +550,8 @@ configuration is returned.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:148</a></div>
                 </td>
             </tr>
 
@@ -728,8 +728,8 @@ configuration is returned.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="227"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:227</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="230"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:230</a></div>
                 </td>
             </tr>
 
@@ -817,8 +817,8 @@ in a format that can be copied / paste to the configuration.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:80</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -973,7 +973,7 @@ in a format that can be copied / paste to the configuration.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:99</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:102</a></div>
                                 </td>
                             </tr>
 
@@ -995,7 +995,7 @@ in a format that can be copied / paste to the configuration.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:103</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.service.ts:106</a></div>
                                 </td>
                             </tr>
 
@@ -1073,8 +1073,11 @@ export class PageLayoutService {
   getPageFoldSlot(pageTemplate: string): Observable&lt;string&gt; {
     return this.breakpointService.breakpoint$.pipe(
       map(breakpoint &#x3D;&gt; {
+        if (!this.config.layoutSlots) {
+          // no layout config available
+          return null;
+        }
         const pageTemplateConfig &#x3D; this.config.layoutSlots[pageTemplate];
-
         const config &#x3D; this.getResponsiveSlotConfig(
           &lt;LayoutSlotConfig&gt;pageTemplateConfig,
           &#x27;pageFold&#x27;,

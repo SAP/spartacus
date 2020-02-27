@@ -242,6 +242,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { standardUser } from &#x27;../sample-data/shared-users&#x27;;
 import { login, register } from &#x27;./auth-forms&#x27;;
+import { waitForPage } from &#x27;./checkout-flow&#x27;;
+import { createSpecificProductQuery } from &#x27;./product-search&#x27;;
 import { generateMail, randomString } from &#x27;./user&#x27;;
 
 interface TestProduct {
@@ -278,7 +280,13 @@ export const products: TestProduct[] &#x3D; [
     price: 370.72,
   },
   {
-    code: &#x27;29925&#x27;,
+    code: &#x27;872912&#x27;,
+  },
+  {
+    code: &#x27;932577&#x27;,
+    type: &#x27;camera&#x27;,
+    name: &#x27;Digital Camera Tripod&#x27;,
+    price: 24.47,
   },
 ];
 
@@ -303,10 +311,18 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
   cy.get(&#x27;cx-storefront.stop-navigating&#x27;);
   if (mobile) {
     cy.get(&#x27;cx-searchbox cx-icon[aria-label&#x3D;&quot;search&quot;]&#x27;).click();
+
+    createSpecificProductQuery(id, &#x27;productCode_query&#x27;);
+
     cy.get(&#x27;cx-searchbox input&#x27;)
       .clear({ force: true })
       .type(id, { force: true })
       .type(&#x27;{enter}&#x27;, { force: true });
+
+    cy.wait(&#x27;@productCode_query&#x27;)
+      .its(&#x27;status&#x27;)
+      .should(&#x27;eq&#x27;, 200);
+
     cy.get(&#x27;cx-product-list-item&#x27;)
       .first()
       .get(&#x27;.cx-product-name&#x27;)
@@ -366,6 +382,17 @@ export function registerCreateCartRoute() {
   ).as(&#x27;create_cart&#x27;);
 }
 
+export function registerSaveCartRoute() {
+  cy.server();
+
+  cy.route(
+    &#x27;PATCH&#x27;,
+    &#x60;${Cypress.env(
+      &#x27;API_URL&#x27;
+    )}/rest/v2/electronics-spa/users/*/carts/*/save?lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+  ).as(&#x27;save_cart&#x27;);
+}
+
 export function closeAddedToCartDialog() {
   cy.get(&#x27;cx-added-to-cart-dialog [aria-label&#x3D;&quot;Close&quot;]&#x27;).click({ force: true });
 }
@@ -399,7 +426,7 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
 }
 
 export function addProductToCartViaSearchPage(mobile: boolean) {
-  const product &#x3D; products[1];
+  const product &#x3D; products[0];
 
   goToFirstProductFromSearch(product.type, mobile);
 
@@ -414,20 +441,16 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 
 export function removeAllItemsFromCart() {
   const product0 &#x3D; products[0];
-  const product1 &#x3D; products[1];
+  const product1 &#x3D; products[4];
+
   registerCartRefreshRoute();
 
-  getCartItem(product0.name).within(() &#x3D;&gt; {
-    cy.getByText(&#x27;Remove&#x27;).click();
-  });
-
+  removeCartItem(product0);
   cy.wait(&#x27;@refresh_cart&#x27;)
     .its(&#x27;status&#x27;)
     .should(&#x27;eq&#x27;, 200);
 
-  getCartItem(product1.name).within(() &#x3D;&gt; {
-    cy.getByText(&#x27;Remove&#x27;).click();
-  });
+  removeCartItem(product1);
 
   validateEmptyCart();
 }
@@ -453,28 +476,49 @@ export function addProductWhenLoggedIn(mobile: boolean) {
   const product &#x3D; products[1];
 
   goToFirstProductFromSearch(product.code, mobile);
+  /**
+   * This waits is added here to delay Add to cart click until wishlist is created.
+   * Wishlist is created on first render of wishlist components.
+   * Without that there might be a race condition that active cart will use the same cart as wishlist.
+   */
   cy.wait(&#x27;@create_cart&#x27;);
+  cy.wait(&#x27;@save_cart&#x27;);
   addToCart();
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 }
 
 export function logOutAndNavigateToEmptyCart() {
+  const logoutPage &#x3D; waitForPage(&#x27;/logout&#x27;, &#x27;getLogoutPage&#x27;);
   cy.selectUserMenuOption({
     option: &#x27;Sign Out&#x27;,
   });
+  cy.wait(&#x60;@${logoutPage}&#x60;);
+
   cy.get(&#x27;cx-login [role&#x3D;&quot;link&quot;]&#x27;).should(&#x27;contain&#x27;, &#x27;Sign In&#x27;);
 
+  const cartPage &#x3D; waitForPage(&#x27;/cart&#x27;, &#x27;getCartPage&#x27;);
   cy.visit(&#x27;/cart&#x27;);
+  cy.wait(&#x60;@${cartPage}&#x60;)
+    .its(&#x27;status&#x27;)
+    .should(&#x27;eq&#x27;, 200);
+
   validateEmptyCart();
 }
 
 export function addProductAsAnonymous() {
   const product &#x3D; products[2];
 
+  createSpecificProductQuery(product.code, &#x27;productCode_query&#x27;);
+
   cy.get(&#x27;cx-searchbox input&#x27;).type(&#x60;${product.code}{enter}&#x60;, {
     force: true,
   });
+
+  cy.wait(&#x27;@productCode_query&#x27;)
+    .its(&#x27;status&#x27;)
+    .should(&#x27;eq&#x27;, 200);
+
   cy.get(&#x27;cx-product-list&#x27;)
     .contains(&#x27;cx-product-list-item&#x27;, product.name)
     .within(() &#x3D;&gt; {
@@ -493,7 +537,12 @@ export function verifyMergedCartWhenLoggedIn() {
   const product0 &#x3D; products[1];
   const product1 &#x3D; products[2];
 
+  const loginPage &#x3D; waitForPage(&#x27;/login&#x27;, &#x27;getLoginPage&#x27;);
   cy.get(&#x27;cx-login [role&#x3D;&quot;link&quot;]&#x27;).click();
+  cy.wait(&#x60;@${loginPage}&#x60;)
+    .its(&#x27;status&#x27;)
+    .should(&#x27;eq&#x27;, 200);
+
   login(
     standardUser.registrationData.email,
     standardUser.registrationData.password
@@ -510,10 +559,18 @@ export function verifyMergedCartWhenLoggedIn() {
 }
 
 export function logOutAndEmptyCart() {
+  const logoutPage &#x3D; waitForPage(&#x27;/logout&#x27;, &#x27;getLogoutPage&#x27;);
   cy.selectUserMenuOption({
     option: &#x27;Sign Out&#x27;,
   });
+  cy.wait(&#x60;@${logoutPage}&#x60;);
+
+  const cartPage &#x3D; waitForPage(&#x27;/cart&#x27;, &#x27;getCartPage&#x27;);
   cy.visit(&#x27;/cart&#x27;);
+  cy.wait(&#x60;@${cartPage}&#x60;)
+    .its(&#x27;status&#x27;)
+    .should(&#x27;eq&#x27;, 200);
+
   validateEmptyCart();
 }
 
@@ -571,13 +628,20 @@ export const cartUser &#x3D; {
 };
 
 export function registerCartUser() {
+  const registerPage &#x3D; waitForPage(&#x27;/login/register&#x27;, &#x27;getRegisterPage&#x27;);
   cy.visit(&#x27;/login/register&#x27;);
+  cy.wait(&#x60;@${registerPage}&#x60;);
+
   register({ ...cartUser.registrationData });
   cy.url().should(&#x27;not.contain&#x27;, &#x27;register&#x27;);
 }
 
 export function loginCartUser() {
+  const loginPage &#x3D; waitForPage(&#x27;/login&#x27;, &#x27;getLoginPage&#x27;);
   cy.visit(&#x27;/login&#x27;);
+  cy.wait(&#x60;@${loginPage}&#x60;)
+    .its(&#x27;status&#x27;)
+    .should(&#x27;eq&#x27;, 200);
   login(cartUser.registrationData.email, cartUser.registrationData.password);
   cy.url().should(&#x27;not.contain&#x27;, &#x27;login&#x27;);
 }
