@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -19,6 +20,7 @@ import {
   Budget,
   CostCenterService,
   B2BSearchConfig,
+  RouterState,
 } from '@spartacus/core';
 
 @Component({
@@ -37,7 +39,11 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
   protected queryParams$: Observable<B2BSearchConfig>;
   protected costCenterCode$ = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['costCenterCode']));
+    .pipe(
+      map(
+        (routingData: RouterState) => routingData.state.params['costCenterCode']
+      )
+    );
   protected cxRoute = 'costCenterAssignBudgets';
   protected defaultQueryParams$: B2BSearchConfig = {
     sort: 'byName',
@@ -47,8 +53,8 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
 
   ngOnInit(): void {
     this.queryParams$ = this.routingService.getRouterState().pipe(
-      map(routingData => routingData.state.queryParams),
-      map(queryParams => ({
+      map((routingData: RouterState) => routingData.state.queryParams),
+      map((queryParams: Params) => ({
         ...this.defaultQueryParams$,
         ...queryParams,
       })),
