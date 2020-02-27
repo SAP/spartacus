@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +14,6 @@ import { Observable, of } from 'rxjs';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { ShippingAddressComponent } from './shipping-address.component';
-
 import createSpy = jasmine.createSpy;
 
 class MockUserAddressService {
@@ -123,9 +122,9 @@ class MockCardComponent {
 describe('ShippingAddressComponent', () => {
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
-  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
+  let mockCheckoutDeliveryService: CheckoutDeliveryService;
   let mockUserAddressService: UserAddressService;
-  let mockRoutingService: MockRoutingService;
+  let mockRoutingService: RoutingService;
   let mockCartService: CartService;
 
   beforeEach(async(() => {
@@ -154,19 +153,15 @@ describe('ShippingAddressComponent', () => {
       })
       .compileComponents();
 
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
-    mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
-    mockCartService = TestBed.get(CartService as Type<CartService>);
+    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
+    mockRoutingService = TestBed.inject(RoutingService);
+    mockCartService = TestBed.inject(CartService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShippingAddressComponent);
     component = fixture.componentInstance;
-    mockUserAddressService = TestBed.get(UserAddressService as Type<
-      UserAddressService
-    >);
+    mockUserAddressService = TestBed.inject(UserAddressService);
 
     spyOn(component, 'addAddress').and.callThrough();
     // TODO: (issue:#3921) deprecated since 1.3 - Remove old code

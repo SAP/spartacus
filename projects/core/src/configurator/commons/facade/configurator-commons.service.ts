@@ -48,6 +48,7 @@ export class ConfiguratorCommonsService {
   getOrCreateConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
+    const localOwner = owner;
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -56,7 +57,8 @@ export class ConfiguratorCommonsService {
       ),
       tap(configurationState => {
         if (
-          !this.isConfigurationCreated(configurationState.value) &&
+          (!this.isConfigurationCreated(configurationState.value) ||
+            localOwner.hasObsoleteState === true) &&
           configurationState.loading !== true
         ) {
           if (owner.type === GenericConfigurator.OwnerType.PRODUCT) {
@@ -64,12 +66,8 @@ export class ConfiguratorCommonsService {
               new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
             );
           } else {
-            this.store.dispatch(
-              new ConfiguratorActions.LoadCartEntryConfiguration(
-                owner.key,
-                owner.id
-              )
-            );
+            localOwner.hasObsoleteState = false;
+            this.readConfigurationForCartEntry(owner);
           }
         }
       }),
@@ -78,6 +76,22 @@ export class ConfiguratorCommonsService {
       ),
       map(configurationState => configurationState.value)
     );
+  }
+
+  readConfigurationForCartEntry(owner: GenericConfigurator.Owner) {
+    this.activeCartService.requireLoadedCart().subscribe(cartState => {
+      const readFromCartEntryParameters: Configurator.ReadConfigurationFromCartEntryParameters = {
+        userId: this.getUserId(cartState.value),
+        cartId: this.getCartId(cartState.value),
+        cartEntryNumber: owner.id,
+        owner: owner,
+      };
+      this.store.dispatch(
+        new ConfiguratorActions.ReadCartEntryConfiguration(
+          readFromCartEntryParameters
+        )
+      );
+    });
   }
 
   updateConfiguration(
@@ -159,6 +173,17 @@ export class ConfiguratorCommonsService {
       this.store.dispatch(
         new ConfiguratorActions.AddToCart(addToCartParameters)
       );
+    });
+  }
+
+  updateCartEntry(configuration: Configurator.Configuration) {
+    this.activeCartService.requireLoadedCart().subscribe(cartState => {
+      const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
+        userId: this.getUserId(cartState.value),
+        cartId: this.getCartId(cartState.value),
+        configuration: configuration,
+      };
+      this.store.dispatch(new ConfiguratorActions.UpdateCartEntry(parameters));
     });
   }
 

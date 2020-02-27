@@ -1,14 +1,19 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { CartModification } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 import { ConfiguratorCommonsConnector } from './configurator-commons.connector';
+
 import createSpy = jasmine.createSpy;
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
+const USER_ID = 'theUser';
+const CART_ID = '98876';
+
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -18,7 +23,27 @@ const productConfiguration: Configurator.Configuration = {
   },
 };
 
+const readFromCartEntryParameters: Configurator.ReadConfigurationFromCartEntryParameters = {
+  userId: USER_ID,
+  cartId: CART_ID,
+  owner: productConfiguration.owner,
+};
+
+const updateFromCartEntryParameters: Configurator.UpdateConfigurationForCartEntryParameters = {
+  userId: USER_ID,
+  cartId: CART_ID,
+  configuration: productConfiguration,
+};
+
+const cartModification: CartModification = {};
+
 class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
+  readConfigurationForCartEntry = createSpy().and.callFake(() =>
+    of(productConfiguration)
+  );
+  updateConfigurationForCartEntry = createSpy().and.callFake(() =>
+    of(cartModification)
+  );
   getConfigurationOverview = createSpy().and.callFake((configId: string) =>
     of('getConfigurationOverview' + configId)
   );
@@ -47,8 +72,7 @@ describe('ConfiguratorCommonsConnector', () => {
   let configuratorUtils: GenericConfigUtilsService;
 
   const GROUP_ID = 'GROUP1';
-  const USER_ID = 'theUser';
-  const CART_ID = '98876';
+
   const QUANTITY = 1;
 
   beforeEach(() => {
@@ -84,6 +108,34 @@ describe('ConfiguratorCommonsConnector', () => {
     expect(result).toBe('createConfiguration' + productConfiguration.owner);
     expect(adapter.createConfiguration).toHaveBeenCalledWith(
       productConfiguration.owner
+    );
+  });
+
+  it('should call adapter on readConfigurationForCartEntry', () => {
+    const adapter = TestBed.get(ConfiguratorCommonsAdapter as Type<
+      ConfiguratorCommonsAdapter
+    >);
+
+    service
+      .readConfigurationForCartEntry(readFromCartEntryParameters)
+      .subscribe(configuration =>
+        expect(configuration).toBe(productConfiguration)
+      );
+    expect(adapter.readConfigurationForCartEntry).toHaveBeenCalledWith(
+      readFromCartEntryParameters
+    );
+  });
+
+  it('should call adapter on updateConfigurationForCartEntry', () => {
+    const adapter = TestBed.get(ConfiguratorCommonsAdapter as Type<
+      ConfiguratorCommonsAdapter
+    >);
+
+    service
+      .updateConfigurationForCartEntry(updateFromCartEntryParameters)
+      .subscribe(result => expect(result).toBe(cartModification));
+    expect(adapter.updateConfigurationForCartEntry).toHaveBeenCalledWith(
+      updateFromCartEntryParameters
     );
   });
 

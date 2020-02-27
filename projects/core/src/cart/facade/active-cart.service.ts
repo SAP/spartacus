@@ -23,7 +23,6 @@ import {
 } from '../../occ/utils/occ-constants';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import { EMAIL_PATTERN } from '../../util/regex-pattern';
-import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
 import { getCartIdByUserId, isTempCartId } from '../utils/utils';
@@ -173,15 +172,13 @@ export class ActiveCartService {
     } else if (this.isGuestCart()) {
       this.guestCartMerge(cartId);
     } else {
-      this.store.dispatch(
-        new DeprecatedCartActions.MergeCart({
-          userId: this.userId,
-          cartId: cartId,
-          extraData: {
-            active: true,
-          },
-        })
-      );
+      this.multiCartService.mergeToCurrentCart({
+        userId: this.userId,
+        cartId,
+        extraData: {
+          active: true,
+        },
+      });
     }
   }
 

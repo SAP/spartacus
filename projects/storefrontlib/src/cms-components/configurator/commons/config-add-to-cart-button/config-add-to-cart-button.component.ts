@@ -18,7 +18,7 @@ import { ConfigRouterExtractorService } from '../../generic/service/config-route
 })
 export class ConfigAddToCartButtonComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
-  hasBeenAddedToCart$: Observable<any>;
+  ownerCheck$: Observable<any>;
   isOverview$: Observable<any>;
   configuratorType$: Observable<string>;
 
@@ -41,7 +41,7 @@ export class ConfigAddToCartButtonComponent implements OnInit {
       this.routingService
     );
 
-    this.hasBeenAddedToCart$ = this.configRouterExtractorService.hasBeenAddedToCart(
+    this.ownerCheck$ = this.configRouterExtractorService.isOwnerCartEntry(
       this.routingService
     );
 
@@ -56,61 +56,84 @@ export class ConfigAddToCartButtonComponent implements OnInit {
 
   private navigateToOverview(
     configuratorType: string,
-    configuration: Configurator.Configuration
+    owner: GenericConfigurator.Owner
   ) {
     this.routingService.go(
       'configureOverview' +
         configuratorType +
         '/cartEntry/entityKey/' +
-        configuration.nextOwner.id,
+        owner.id,
       {}
     );
   }
 
-  private displayConfirmationMessage() {
+  private displayConfirmationMessage(key: string) {
     this.globalMessageService.add(
-      { key: 'configurator.addToCart.confirmation' },
+      { key: key },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }
 
   onAddToCart(
-    owner: GenericConfigurator.Owner,
-    configId: string,
+    configuration: Configurator.Configuration,
     configuratorType: string
   ) {
+    const owner = configuration.owner;
     this.configRouterExtractorService
-      .hasBeenAddedToCart(this.routingService)
+      .isOwnerCartEntry(this.routingService)
       .pipe(take(1))
       .subscribe(config => {
-        if (config.hasBeenAdded) {
-          this.navigateToCart();
+        if (config.isOwnerCartEntry) {
+          if (configuration.isCartEntryUpdateRequired) {
+            this.configuratorCommonsService.updateCartEntry(configuration);
+          }
+          this.performNavigation(
+            configuratorType,
+            configuration.owner,
+            'configurator.addToCart.confirmationUpdate'
+          );
+          this.configuratorCommonsService.removeConfiguration(owner);
         } else {
           this.configuratorCommonsService.addToCart(
             owner.id,
-            configId,
+            configuration.configId,
             owner.key
           );
 
           this.configuratorCommonsService
             .getConfiguration(owner)
             .pipe(
-              filter(configuration => configuration.nextOwner !== undefined),
+              filter(
+                configWithNextOwner =>
+                  configWithNextOwner.nextOwner !== undefined
+              ),
               take(1)
             )
-            .subscribe(configuration => {
-              this.isOverview$.pipe(take(1)).subscribe(isOverview => {
-                if (isOverview.isOverview) {
-                  this.navigateToCart();
-                } else {
-                  this.navigateToOverview(configuratorType, configuration);
-                }
-                this.displayConfirmationMessage();
-              });
+            .subscribe(configWithNextOwner => {
+              this.performNavigation(
+                configuratorType,
+                configWithNextOwner.nextOwner,
+                'configurator.addToCart.confirmation'
+              );
               this.configuratorCommonsService.removeConfiguration(owner);
               this.configuratorCommonsService.removeUiState(owner);
             });
         }
       });
+  }
+
+  private performNavigation(
+    configuratorType: string,
+    owner: GenericConfigurator.Owner,
+    messageKey: string
+  ) {
+    this.isOverview$.pipe(take(1)).subscribe(isOverview => {
+      if (isOverview.isOverview) {
+        this.navigateToCart();
+      } else {
+        this.navigateToOverview(configuratorType, owner);
+      }
+      this.displayConfirmationMessage(messageKey);
+    });
   }
 }

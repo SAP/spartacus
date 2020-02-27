@@ -6,8 +6,8 @@ import {
   isImported,
 } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
+import * as ts from 'typescript';
 import { commitChanges, getTsSourceFile, InsertDirection } from './file-utils';
-import ts = require('typescript');
 
 export function stripTsFromImport(importPath: string): string {
   if (!importPath.endsWith('.ts')) {
@@ -19,19 +19,14 @@ export function stripTsFromImport(importPath: string): string {
 
 export function addImport(
   host: Tree,
-  modulePath: string,
+  filePath: string,
   importText: string,
   importPath: string
-) {
-  const moduleSource = getTsSourceFile(host, modulePath) as any;
+): void {
+  const moduleSource = getTsSourceFile(host, filePath) as any;
   if (!isImported(moduleSource, importText, importPath)) {
-    const change = insertImport(
-      moduleSource,
-      modulePath,
-      importText,
-      importPath
-    );
-    commitChanges(host, modulePath, [change], InsertDirection.LEFT);
+    const change = insertImport(moduleSource, filePath, importText, importPath);
+    commitChanges(host, filePath, [change], InsertDirection.LEFT);
   }
 }
 

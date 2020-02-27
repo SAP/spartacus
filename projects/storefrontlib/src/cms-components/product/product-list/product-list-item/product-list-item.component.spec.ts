@@ -15,7 +15,7 @@ import { ProductListItemComponent } from './product-list-item.component';
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
 })
-export class MockAddToCartComponent {
+class MockAddToCartComponent {
   @Input() product;
   @Input() showQuantity;
 }
@@ -34,7 +34,7 @@ export class MockConfigureProductComponent {
   selector: 'cx-star-rating',
   template: '*****',
 })
-export class MockStarRatingComponent {
+class MockStarRatingComponent {
   @Input() rating;
   @Input() disabled;
 }
@@ -43,7 +43,7 @@ export class MockStarRatingComponent {
   selector: 'cx-media',
   template: 'mock picture component',
 })
-export class MockPictureComponent {
+class MockPictureComponent {
   @Input() container;
   @Input() alt;
 }
@@ -52,7 +52,7 @@ export class MockPictureComponent {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -64,10 +64,10 @@ class MockUrlPipe implements PipeTransform {
 }
 
 @Component({
-  selector: 'cx-style-icons',
+  selector: 'cx-variant-style-icons',
   template: 'test',
 })
-export class MockStyleIconsComponent {
+class MockStyleIconsComponent {
   @Input() variants: any[];
 }
 

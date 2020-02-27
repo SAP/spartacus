@@ -7,8 +7,6 @@ import {
 import { CONFIGURATION_DATA } from '../configuration-state';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
-export const LOAD_CART_ENTRY_CONFIGURATION =
-  '[Configurator] Load Cart Entry Configuration';
 export const CREATE_CONFIGURATION_FAIL =
   '[Configurator] Create Configuration Fail';
 export const CREATE_CONFIGURATION_SUCCESS =
@@ -17,6 +15,12 @@ export const READ_CONFIGURATION = '[Configurator] Read Configuration';
 export const READ_CONFIGURATION_FAIL = '[Configurator] Read Configuration Fail';
 export const READ_CONFIGURATION_SUCCESS =
   '[Configurator] Read Configuration Sucess';
+export const READ_CART_ENTRY_CONFIGURATION =
+  '[Configurator] Read Cart Entry Configuration';
+export const READ_CART_ENTRY_CONFIGURATION_SUCCESS =
+  '[Configurator] Read Cart Entry Configuration Success';
+export const READ_CART_ENTRY_CONFIGURATION_FAIL =
+  '[Configurator] Read Cart Entry Configuration Fail';
 export const UPDATE_CONFIGURATION = '[Configurator] Update Configuration';
 export const UPDATE_CONFIGURATION_FAIL =
   '[Configurator] Update Configuration Fail';
@@ -30,7 +34,7 @@ export const UPDATE_CONFIGURATION_FINALIZE_FAIL =
 export const CHANGE_GROUP = '[Configurator] Change group';
 export const CHANGE_GROUP_FINALIZE = '[Configurator] Change group finalize';
 export const ADD_TO_CART = '[Configurator] Add to cart';
-export const ADD_TO_CART_FINALIZE = '[Configurator] Add to cart finalize';
+export const UPDATE_CART_ENTRY = '[Configurator] Update cart entry';
 
 export const REMOVE_CONFIGURATION = '[Configurator] Remove configuration';
 
@@ -58,10 +62,26 @@ export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadActi
   }
 }
 
-export class LoadCartEntryConfiguration extends StateEntityLoaderActions.EntityLoadAction {
-  readonly type = LOAD_CART_ENTRY_CONFIGURATION;
-  constructor(public ownerKey: string, public cartEntryNumber: string) {
-    super(CONFIGURATION_DATA, ownerKey);
+export class ReadCartEntryConfiguration extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = READ_CART_ENTRY_CONFIGURATION;
+  constructor(
+    public payload: Configurator.ReadConfigurationFromCartEntryParameters
+  ) {
+    super(CONFIGURATION_DATA, payload.owner.key);
+  }
+}
+
+export class ReadCartEntryConfigurationSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = READ_CART_ENTRY_CONFIGURATION_SUCCESS;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.owner.key);
+  }
+}
+
+export class ReadCartEntryConfigurationFail extends StateEntityLoaderActions.EntityFailAction {
+  readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
+  constructor(ownerkey: string, public payload: any) {
+    super(CONFIGURATION_DATA, ownerkey, payload);
   }
 }
 
@@ -189,6 +209,15 @@ export class AddToCart extends StateEntityLoaderActions.EntityLoadAction {
   }
 }
 
+export class UpdateCartEntry extends StateEntityLoaderActions.EntityLoadAction {
+  readonly type = UPDATE_CART_ENTRY;
+  constructor(
+    public payload: Configurator.UpdateConfigurationForCartEntryParameters
+  ) {
+    super(CONFIGURATION_DATA, payload.configuration.owner.key);
+  }
+}
+
 export class RemoveConfiguration extends StateEntityLoaderActions.EntityResetAction {
   readonly type = REMOVE_CONFIGURATION;
   constructor(ownerKey: string | string[]) {
@@ -221,12 +250,16 @@ export class AddNextOwner implements Action {
   readonly type = ADD_NEXT_OWNER;
   constructor(public ownerKey: string, public cartEntryNo: string) {}
 }
-export class SetNextOwnerCartEntry implements Action {
+
+export class SetNextOwnerCartEntry extends StateEntityLoaderActions.EntitySuccessAction {
   readonly type = SET_NEXT_OWNER_CART_ENTRY;
+
   constructor(
-    public configuration: Configurator.Configuration,
+    public payload: Configurator.Configuration,
     public cartEntryNo: string
-  ) {}
+  ) {
+    super(CONFIGURATION_DATA, payload.owner.key);
+  }
 }
 export type ConfiguratorAction =
   | CreateConfiguration
@@ -250,5 +283,8 @@ export type ConfiguratorAction =
   | GetConfigurationOverviewSuccess
   | AddNextOwner
   | SetNextOwnerCartEntry
-  | LoadCartEntryConfiguration
+  | ReadCartEntryConfiguration
+  | ReadCartEntryConfigurationSuccess
+  | ReadCartEntryConfigurationFail
+  | UpdateCartEntry
   | RemoveConfiguration;

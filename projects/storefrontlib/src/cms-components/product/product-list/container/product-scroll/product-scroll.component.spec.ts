@@ -18,7 +18,6 @@ import { ViewConfig } from '../../../../../shared/config/view-config';
 import { ViewModes } from '../../product-view/product-view.component';
 import { ProductListComponentService } from '../product-list-component.service';
 import { ProductScrollComponent } from './product-scroll.component';
-
 import createSpy = jasmine.createSpy;
 
 const mockModel1: ProductSearchPage = {
@@ -133,7 +132,7 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
 })
-export class MockAddToCartComponent {
+class MockAddToCartComponent {
   @Input() product: string;
   @Input() showQuantity: boolean;
 }
@@ -142,13 +141,13 @@ export class MockAddToCartComponent {
   selector: 'cx-configure-product',
   template: '<button>configure product</button>',
 })
-export class MockConfigureProductComponent {
+class MockConfigureProductComponent {
   @Input() productCode;
   @Input() configurable;
   @Input() configuratorType;
 }
 
-export class MockProductListComponentService {
+class MockProductListComponentService {
   setQuery = createSpy('setQuery');
   viewPage = createSpy('viewPage');
   sort = createSpy('sort');
@@ -158,10 +157,10 @@ export class MockProductListComponentService {
 }
 
 @Component({
-  selector: 'cx-style-icons',
+  selector: 'cx-variant-style-icons',
   template: 'test',
 })
-export class MockStyleIconsComponent {
+class MockStyleIconsComponent {
   @Input() variants: any[];
 }
 

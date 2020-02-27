@@ -1,3 +1,14 @@
+/**
+ * @license
+ * The MIT License
+ * Copyright (c) 2010-2019 Google LLC. http://angular.io/license
+ *
+ * See:
+ * - https://github.com/angular/angular/blob/6f5f481fdae03f1d8db36284b64c7b82d9519d85/packages/service-worker/config/src/glob.ts
+ * - https://github.com/angular/angular/blob/6f5f481fdae03f1d8db36284b64c7b82d9519d85/aio/tests/deployment/shared/helpers.ts#L17
+ * - https://github.com/angular/angular/blob/6f5f481fdae03f1d8db36284b64c7b82d9519d85/packages/service-worker/config/src/generator.ts#L86
+ */
+
 const QUESTION_MARK = '[^/]';
 const WILD_SINGLE = '[^/]*';
 const WILD_OPEN = '(?:.+\\/)?';
@@ -17,7 +28,6 @@ const TO_ESCAPE_LITERAL_QM = [
 
 /**
  * Converts the glob-like pattern into regex string.
- * See similar Angular code: https://github.com/angular/angular/blob/master/packages/service-worker/config/src/glob.ts#L27
  *
  * Patterns use a limited glob format:
  * `**` matches 0 or more path segments

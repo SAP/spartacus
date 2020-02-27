@@ -4,10 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   CmsConfig,
   ConfigModule,
-  I18nModule,
   FeaturesConfigModule,
+  I18nModule,
 } from '@spartacus/core';
-import { IconModule } from '../../../cms-components/misc/icon/index';
+import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
 import { CartCouponComponent } from './cart-coupon.component';
 import { NgSelectModule } from '@ng-select/ng-select';

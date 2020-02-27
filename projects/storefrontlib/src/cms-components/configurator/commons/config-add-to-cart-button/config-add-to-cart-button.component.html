@@ -2,23 +2,32 @@
   <ng-container *ngIf="configuratorType$ | async as configuratorType">
     <div class="cx-config-add-to-cart-btn">
       <div class="col-sm-6 col-md-4">
-        <ng-container *ngIf="hasBeenAddedToCart$ | async as hasBeenAddedToCart">
+        <ng-container *ngIf="ownerCheck$ | async as ownerCheck">
           <button
             class="cx-btn btn btn-block btn-primary"
-            (click)="
-              onAddToCart(
-                configuration.owner,
-                configuration.configId,
-                configuratorType
-              )
-            "
+            (click)="onAddToCart(configuration, configuratorType)"
           >
-            <ng-container *ngIf="hasBeenAddedToCart.hasBeenAdded">
+            <ng-container
+              *ngIf="
+                ownerCheck.isOwnerCartEntry &&
+                configuration.isCartEntryUpdateRequired
+              "
+            >
+              {{
+                'configurator.addToCart.buttonUpdateCart' | cxTranslate
+              }}</ng-container
+            >
+            <ng-container
+              *ngIf="
+                ownerCheck.isOwnerCartEntry &&
+                !configuration.isCartEntryUpdateRequired
+              "
+            >
               {{
                 'configurator.addToCart.buttonAfterAddToCart' | cxTranslate
               }}</ng-container
             >
-            <ng-container *ngIf="!hasBeenAddedToCart.hasBeenAdded">
+            <ng-container *ngIf="!ownerCheck.isOwnerCartEntry">
               {{ 'configurator.addToCart.button' | cxTranslate }}</ng-container
             >
           </button>

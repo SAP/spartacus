@@ -22,10 +22,13 @@ export class ConfigRouterExtractorService {
       map(routingData => {
         const params = routingData.state.params;
         const owner: GenericConfigurator.Owner = {};
+
         if (params.ownerType) {
           const entityKey = params.entityKey;
           owner.type = params.ownerType;
           owner.id = entityKey;
+          owner.hasObsoleteState =
+            routingData.state.queryParams.forceReload === 'true';
         } else {
           owner.type = GenericConfigurator.OwnerType.PRODUCT;
           owner.id = params.rootProduct;
@@ -36,13 +39,13 @@ export class ConfigRouterExtractorService {
     );
   }
 
-  hasBeenAddedToCart(routingService: RoutingService): Observable<any> {
+  isOwnerCartEntry(routingService: RoutingService): Observable<any> {
     return routingService.getRouterState().pipe(
       filter(routingData => routingData.state.params.entityKey),
       map(routingData => {
         const params = routingData.state.params;
         return {
-          hasBeenAdded:
+          isOwnerCartEntry:
             params.ownerType === GenericConfigurator.OwnerType.CART_ENTRY,
         };
       })

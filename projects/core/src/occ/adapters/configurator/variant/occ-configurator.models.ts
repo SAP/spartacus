@@ -88,6 +88,20 @@ export namespace OccConfigurator {
     configId?: string;
   }
 
+  export interface UpdateConfigurationForCartEntryParameters {
+    userId?: string;
+    cartId?: string;
+    product?: AddToCartProductData;
+    quantity?: number;
+    configId: string;
+    entryNumber: string;
+    configurationInfos: ConfigurationInfo[];
+  }
+
+  export interface ConfigurationInfo {
+    configuratorType: string;
+  }
+
   export interface AddToCartProductData {
     code?: string;
   }

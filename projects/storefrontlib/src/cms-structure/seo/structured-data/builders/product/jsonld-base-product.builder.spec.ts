@@ -29,7 +29,7 @@ describe('JsonLdBaseProductBuilder', () => {
       providers: [JsonLdBaseProductBuilder],
     });
 
-    service = TestBed.get(JsonLdBaseProductBuilder);
+    service = TestBed.inject(JsonLdBaseProductBuilder);
   });
 
   it('should be created', () => {

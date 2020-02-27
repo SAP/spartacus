@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingConfig } from '../configurable-routes/config/routing-config';
 import { ProtectedRoutesGuard } from './protected-routes.guard';
@@ -22,9 +21,7 @@ describe('ProtectedRoutesService', () => {
       ],
     });
 
-    service = TestBed.get(ProtectedRoutesService as Type<
-      ProtectedRoutesService
-    >);
+    service = TestBed.inject(ProtectedRoutesService);
   }
 
   describe('isUrlProtected', () => {

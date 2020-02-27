@@ -32,10 +32,15 @@ import {
   GetConfigurationOverviewFail,
   GetConfigurationOverviewSuccess,
   GET_CONFIGURATION_OVERVIEW,
+  ReadCartEntryConfiguration,
+  ReadCartEntryConfigurationFail,
+  ReadCartEntryConfigurationSuccess,
   ReadConfiguration,
   ReadConfigurationFail,
   ReadConfigurationSuccess,
+  READ_CART_ENTRY_CONFIGURATION,
   READ_CONFIGURATION,
+  UpdateCartEntry,
   UpdateConfiguration,
   UpdateConfigurationFail,
   UpdateConfigurationFinalizeFail,
@@ -44,6 +49,7 @@ import {
   UpdatePriceSummary,
   UpdatePriceSummaryFail,
   UpdatePriceSummarySuccess,
+  UPDATE_CART_ENTRY,
   UPDATE_CONFIGURATION,
   UPDATE_CONFIGURATION_FAIL,
   UPDATE_CONFIGURATION_FINALIZE_FAIL,
@@ -302,6 +308,28 @@ export class ConfiguratorEffects {
   );
 
   @Effect()
+  updateCartEntryCartProcessIncrement$: Observable<
+    CartActions.CartProcessesIncrement
+  > = this.actions$.pipe(
+    ofType(UPDATE_CART_ENTRY),
+    map((action: UpdateCartEntry) => action.payload),
+    switchMap(
+      (payload: Configurator.UpdateConfigurationForCartEntryParameters) => {
+        return this.store.pipe(
+          select(
+            ConfiguratorSelectors.hasPendingChanges(
+              payload.configuration.owner.key
+            )
+          ),
+          take(1),
+          filter(hasPendingChanges => hasPendingChanges === false),
+          map(() => new CartActions.CartProcessesIncrement(payload.cartId))
+        );
+      }
+    )
+  );
+
+  @Effect()
   addToCart$: Observable<
     | ConfiguratorActions.AddNextOwner
     | CartActions.CartAddEntrySuccess
@@ -335,6 +363,76 @@ export class ConfiguratorEffects {
           );
         })
       );
+    })
+  );
+
+  @Effect()
+  updateCartEntry$: Observable<
+    CartActions.CartUpdateEntrySuccess | CartActions.CartUpdateEntryFail
+  > = this.actions$.pipe(
+    ofType(UPDATE_CART_ENTRY),
+    map((action: UpdateCartEntry) => action.payload),
+    switchMap(
+      (payload: Configurator.UpdateConfigurationForCartEntryParameters) => {
+        return this.store.pipe(
+          select(
+            ConfiguratorSelectors.hasPendingChanges(
+              payload.configuration.owner.key
+            )
+          ),
+          take(1),
+          filter(hasPendingChanges => hasPendingChanges === false),
+          switchMap(() => {
+            return this.configuratorCommonsConnector
+              .updateConfigurationForCartEntry(payload)
+              .pipe(
+                switchMap((entry: CartModification) => {
+                  return [
+                    new CartActions.CartUpdateEntrySuccess({
+                      ...entry,
+                      userId: payload.userId,
+                      cartId: payload.cartId,
+                    }),
+                  ];
+                }),
+                catchError(error =>
+                  of(
+                    new CartActions.CartUpdateEntryFail(
+                      makeErrorSerializable(error)
+                    )
+                  )
+                )
+              );
+          })
+        );
+      }
+    )
+  );
+
+  @Effect()
+  readConfigurationForCartEntry$: Observable<
+    | ReadCartEntryConfigurationSuccess
+    | UpdatePriceSummary
+    | ReadCartEntryConfigurationFail
+  > = this.actions$.pipe(
+    ofType(READ_CART_ENTRY_CONFIGURATION),
+    switchMap((action: ReadCartEntryConfiguration) => {
+      const parameters: Configurator.ReadConfigurationFromCartEntryParameters =
+        action.payload;
+      return this.configuratorCommonsConnector
+        .readConfigurationForCartEntry(parameters)
+        .pipe(
+          switchMap((result: Configurator.Configuration) => [
+            new ReadCartEntryConfigurationSuccess(result),
+            new UpdatePriceSummary(result),
+          ]),
+          catchError(error => [
+            new ReadCartEntryConfigurationFail(
+              action.payload.owner.key,
+              makeErrorSerializable(error)
+            ),
+          ])
+        );
     })
   );
 

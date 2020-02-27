@@ -156,4 +156,43 @@ describe('ConfiguratorActions', () => {
       });
     });
   });
+
+  describe('SetNextOwnerCartEntry', () => {
+    const cartEntryNo = '3';
+    it('should carry expected meta data', () => {
+      const action = new ConfiguratorActions.SetNextOwnerCartEntry(
+        CONFIGURATION,
+        cartEntryNo
+      );
+
+      expect({ ...action }).toEqual({
+        type: ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,
+        payload: CONFIGURATION,
+        cartEntryNo: cartEntryNo,
+        meta: StateEntityLoaderActions.entitySuccessMeta(
+          CONFIGURATION_DATA,
+          CONFIGURATION.owner.key
+        ),
+      });
+    });
+  });
+
+  describe('UpdateCartEntry', () => {
+    const params: Configurator.UpdateConfigurationForCartEntryParameters = {
+      configuration: CONFIGURATION,
+    };
+    it('should carry expected meta data', () => {
+      const action = new ConfiguratorActions.UpdateCartEntry(params);
+
+      expect({ ...action }).toEqual({
+        type: ConfiguratorActions.UPDATE_CART_ENTRY,
+        payload: params,
+
+        meta: StateEntityLoaderActions.entityLoadMeta(
+          CONFIGURATION_DATA,
+          CONFIGURATION.owner.key
+        ),
+      });
+    });
+  });
 });

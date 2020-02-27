@@ -30,13 +30,18 @@ export const configurator = {
       totalPrice: 'Total',
     },
     addToCart: {
-      button: 'Add To Cart',
-      buttonAfterAddToCart: 'Continue To Cart',
+      button: 'Add to Cart',
+      buttonAfterAddToCart: 'Continue to Cart',
+      buttonUpdateCart: 'Done',
       confirmation: 'Configuration has been added to the cart',
+      confirmationUpdate: 'Cart has been updated with configuration',
     },
     overviewForm: {
       noAttributeHeader: 'No Results',
       noAttributeText: 'Remove filter(s) to see Overview content',
+    },
+    group: {
+      general: 'General',
     },
   },
 };

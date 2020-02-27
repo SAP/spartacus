@@ -39,8 +39,8 @@ describe('ExternalRoutesService', () => {
       ],
     });
 
-    service = TestBed.get(ExternalRoutesService);
-    router = TestBed.get(Router);
+    service = TestBed.inject(ExternalRoutesService);
+    router = TestBed.inject(Router);
   });
 
   describe('addExternalRoutes', () => {

@@ -51,7 +51,7 @@ describe('Currency switch - checkout page', () => {
     it('should change currency in the checkoutDeliveryPath page', () => {
       cy.get('cx-delivery-mode .cx-delivery-price:first').should(
         'have.text',
-        ' ¥80 '
+        ' ¥60 '
       );
 
       siteContextSelector.deliveryModeNextStep();

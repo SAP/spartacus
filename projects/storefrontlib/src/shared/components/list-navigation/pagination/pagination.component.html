@@ -1,26 +1,12 @@
-<ul class="pagination" *ngIf="showPagination()">
-  <!-- Previous -->
-  <li class="page-item" [ngClass]="{ disabled: onFirstPage() || !hasPages() }">
-    <a class="page-link" (click)="clickPageNo(getPagePrevious())">«</a>
-  </li>
-
-  <!-- Page Index -->
-  <li
-    class="page-item"
-    *ngFor="let page of getPageIndicies(); let i = index"
-    [ngClass]="{ active: onPageIndex(i), disabled: showDots(i) }"
-  >
-    <a class="page-link" *ngIf="showDots(i)">...</a>
-    <a
-      class="page-link"
-      *ngIf="!hidePageIndex(i)"
-      (click)="clickPageNo(i + 1)"
-      >{{ i + 1 }}</a
-    >
-  </li>
-
-  <!-- Next -->
-  <li class="page-item" [ngClass]="{ disabled: onLastPage() || !hasPages() }">
-    <a class="page-link" (click)="clickPageNo(getPageNext())">»</a>
-  </li>
-</ul>
+<a
+  *ngFor="let item of pages"
+  [class]="item.type"
+  [class.disabled]="isInactive(item)"
+  [class.current]="isCurrent(item)"
+  [routerLink]="pageRoute"
+  [queryParams]="getQueryParams(item)"
+  [tabIndex]="isInactive(item) ? -1 : 0"
+  (click)="pageChange(item)"
+>
+  {{ item.label }}
+</a>

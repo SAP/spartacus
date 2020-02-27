@@ -1,8 +1,18 @@
+import { waitForPage } from './checkout-flow';
+
 export function loginUsingUserWithOrder() {
   const username = 'test-user-with-orders@ydev.hybris.com';
   const password = 'Password123.';
   cy.login(username, password);
+
+  const homePage = waitForPage('homepage', 'getHomePage');
+
   cy.visit('/');
+
+  cy.wait(`@${homePage}`)
+    .its('status')
+    .should('eq', 200);
+
   cy.get('.cx-login-greet').should('contain', 'Test User');
 }
 
@@ -22,17 +32,17 @@ export function verifyTrackingBtn() {
     .first()
     .within(() => {
       cy.get('.cx-code').should('contain', '300938');
-      cy.get('[data-test="btn-events"]').click();
+      cy.get('.btn-track').click();
     });
-  cy.get('[data-test="body-event"]').should('have.length', 3);
+  cy.get('.event-body').should('have.length', 3);
   cy.get('.close').click();
   cy.get('.cx-list')
     .next()
     .within(() => {
       cy.get('.cx-code').should('contain', '1992693');
-      cy.get('[data-test="btn-events"]').click();
+      cy.get('.btn-track').click();
     });
-  cy.get('[data-test="head-notrack"]').should('have.length', 1);
+  cy.get('.no-tracking-heading').should('have.length', 1);
   cy.get('.close').click();
   cy.get('.cx-list')
     .last()
@@ -43,5 +53,5 @@ export function verifyTrackingBtn() {
 }
 
 export function verifyNoTrackingBtn() {
-  cy.get('[data-test="btn-events"]').should('have.length', 0);
+  cy.get('.btn-track').should('have.length', 0);
 }
