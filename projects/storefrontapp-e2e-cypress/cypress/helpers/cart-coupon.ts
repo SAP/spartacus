@@ -27,29 +27,27 @@ export function addProductToCart(productCode: string) {
 }
 
 export function verifyEmptyCoupons() {
-  cy.get('.cx-customer-coupons').should('not.exist');
+  cy.get('.cx-available-coupon').should('not.exist');
 }
 
 export function verifyMyCoupons() {
-  cy.get('.cx-customer-coupons .coupon-id').should('have.length', 2);
-  cy.get('.cx-customer-coupons .coupon-id').should('contain', myCouponCode1);
-  cy.get('.cx-customer-coupons .coupon-id').should('contain', myCouponCode2);
+  cy.get('.cx-available-coupon .coupon-id').should('have.length', 2);
+  cy.get('.cx-available-coupon .coupon-id').should('contain', myCouponCode1);
+  cy.get('.cx-available-coupon .coupon-id').should('contain', myCouponCode2);
 }
 
-export function filterAndApplyMyCoupons(
-  filterCode: string,
-  couponCode: string
-) {
-  cy.get('#applyVoucher').type(filterCode);
-  cy.get('.cx-customer-coupons .coupon-id').should('have.length', 1);
-  cy.get('.cx-customer-coupons .coupon-id').should('contain', couponCode);
-  cy.get('.cx-customer-coupons a').click({ force: true });
+export function ApplyMyCoupons(couponCode: string) {
+  cy.get('.cx-available-coupon').within(() => {
+    cy.getByText(couponCode)
+      .parent()
+      .click();
+  });
   cy.get('cx-global-message').should(
     'contain',
     `${couponCode} has been applied`
   );
   getCouponItemFromCart(couponCode).should('exist');
-  cy.get('.cx-customer-coupons .coupon-id').should('not.contain', couponCode);
+  cy.get('.cx-available-coupon .coupon-id').should('not.contain', couponCode);
   verifyMyCouponsAfterApply(couponCode);
 }
 
@@ -259,7 +257,7 @@ export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
 
   navigateToCartPage();
   verifyMyCoupons();
-  filterAndApplyMyCoupons('autumn', myCouponCode2);
+  ApplyMyCoupons(myCouponCode2);
   applyCoupon(couponCode1);
   //don't verify the total price which easy to changed by sample data
   verifyCouponAndSavedPrice(myCouponCode2, '$30');
@@ -274,7 +272,7 @@ export function verifyCustomerCouponRemoving() {
     .auth;
   claimCoupon(myCouponCode2);
   addProductToCart(productCode4);
-  filterAndApplyMyCoupons('autumn', myCouponCode2);
+  ApplyMyCoupons(myCouponCode2);
   verifyCouponAndSavedPrice(myCouponCode2, '$20');
 
   navigateToCheckoutPage();
