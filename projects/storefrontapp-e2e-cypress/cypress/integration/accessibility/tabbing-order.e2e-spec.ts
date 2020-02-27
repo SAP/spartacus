@@ -301,7 +301,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
       myInterestTabbingOrder(config.myInterests);
     });
   });
-
+  
   context('Coupons', () => {
     it('should allow to navigate with tab key', () => {
       checkoutCouponsTabbingOrder(config.coupons);
