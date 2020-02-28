@@ -1,18 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import {
   CostCenterService,
   RoutingService,
   EntitiesModel,
-  θshallowEqualObjects as shallowEqualObjects,
   CostCenter,
 } from '@spartacus/core';
 import { AbstractListingComponent } from '../../abstract-listing/abstract-listing.component';
@@ -30,17 +23,11 @@ export class CostCenterListComponent extends AbstractListingComponent
     super(routingService);
   }
 
-  cxRoute: 'costCenters';
+  cxRoute = 'costCenters';
   costCentersList$: Observable<any>;
 
   ngOnInit(): void {
     this.costCentersList$ = this.queryParams$.pipe(
-      map(params => ({
-        ...this.defaultQueryParams,
-        ...params,
-      })),
-      distinctUntilChanged(shallowEqualObjects),
-      map(this.normalizeQueryParams),
       tap(params => this.costCentersService.loadCostCenters(params)),
       switchMap(params =>
         this.costCentersService.getList(params).pipe(

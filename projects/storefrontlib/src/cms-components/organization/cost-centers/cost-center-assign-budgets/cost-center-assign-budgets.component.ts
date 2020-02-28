@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import {
-  distinctUntilChanged,
   filter,
   map,
   switchMap,
@@ -15,11 +13,8 @@ import {
   RoutingService,
   CxDatePipe,
   EntitiesModel,
-  θdiff as diff,
-  θshallowEqualObjects as shallowEqualObjects,
   Budget,
   CostCenterService,
-  B2BSearchConfig,
   RouterState,
 } from '@spartacus/core';
 import { AbstractListingComponent } from '../../abstract-listing/abstract-listing.component';
@@ -47,16 +42,6 @@ export class CostCenterAssignBudgetsComponent extends AbstractListingComponent
     .pipe(map((routingData: RouterState) => routingData.state.params['code']));
 
   ngOnInit(): void {
-    this.queryParams$ = this.routingService.getRouterState().pipe(
-      map((routingData: RouterState) => routingData.state.queryParams),
-      map((queryParams: Params) => ({
-        ...this.defaultQueryParams,
-        ...queryParams,
-      })),
-      distinctUntilChanged(shallowEqualObjects),
-      map(this.normalizeQueryParams)
-    );
-
     this.costCenterCode$
       .pipe(take(1))
       .subscribe(code => (this.params = { code }));

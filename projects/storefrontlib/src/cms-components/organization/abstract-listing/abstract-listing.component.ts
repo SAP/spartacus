@@ -1,17 +1,13 @@
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
-  filter,
   map,
-  switchMap,
   take,
-  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
 import {
   RoutingService,
-  EntitiesModel,
   B2BSearchConfig,
   θdiff as diff,
   θshallowEqualObjects as shallowEqualObjects,
@@ -26,9 +22,15 @@ export abstract class AbstractListingComponent {
 
   protected queryParams$: Observable<
     B2BSearchConfig
-  > = this.routingService
-    .getRouterState()
-    .pipe(map((routingData: RouterState) => routingData.state.queryParams));
+  > = this.routingService.getRouterState().pipe(
+    map((routingData: RouterState) => ({
+      ...this.defaultQueryParams,
+      ...routingData.state.queryParams,
+    })),
+    distinctUntilChanged(shallowEqualObjects),
+    map(this.normalizeQueryParams)
+  );
+
   protected params$ = this.routingService
     .getRouterState()
     .pipe(map((routingData: RouterState) => routingData.state.params));

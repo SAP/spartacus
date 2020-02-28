@@ -1,19 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import {
   PermissionService,
   RoutingService,
   EntitiesModel,
   Permission,
-  θshallowEqualObjects as shallowEqualObjects,
 } from '@spartacus/core';
 import { AbstractListingComponent } from '../../abstract-listing/abstract-listing.component';
 
@@ -35,12 +28,6 @@ export class PermissionListComponent extends AbstractListingComponent
 
   ngOnInit(): void {
     this.permissionsList$ = this.queryParams$.pipe(
-      map(queryParams => ({
-        ...this.defaultQueryParams,
-        ...queryParams,
-      })),
-      distinctUntilChanged(shallowEqualObjects),
-      map(this.normalizeQueryParams),
       tap(queryParams => this.permissionsService.loadPermissions(queryParams)),
       switchMap(queryParams =>
         this.permissionsService.getList(queryParams).pipe(

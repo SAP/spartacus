@@ -1,19 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import {
   BudgetService,
   RoutingService,
   CxDatePipe,
   EntitiesModel,
-  θshallowEqualObjects as shallowEqualObjects,
   Budget,
 } from '@spartacus/core';
 import { AbstractListingComponent } from '../../abstract-listing/abstract-listing.component';
@@ -37,12 +30,6 @@ export class BudgetListComponent extends AbstractListingComponent
 
   ngOnInit(): void {
     this.budgetsList$ = this.queryParams$.pipe(
-      map(queryParams => ({
-        ...this.defaultQueryParams,
-        ...queryParams,
-      })),
-      distinctUntilChanged(shallowEqualObjects),
-      map(this.normalizeQueryParams),
       tap(queryParams => this.budgetsService.loadBudgets(queryParams)),
       switchMap(queryParams =>
         this.budgetsService.getList(queryParams).pipe(
