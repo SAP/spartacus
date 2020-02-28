@@ -29,12 +29,18 @@ export class GlobalMessageService {
    * Add one message into store
    * @param text: string | Translatable
    * @param type: GlobalMessageType object
+   * @param timeout: number
    */
-  add(text: string | Translatable, type: GlobalMessageType): void {
+  add(
+    text: string | Translatable,
+    type: GlobalMessageType,
+    timeout?: number
+  ): void {
     this.store.dispatch(
       new GlobalMessageActions.AddMessage({
         text: typeof text === 'string' ? { raw: text } : text,
         type,
+        timeout,
       })
     );
   }

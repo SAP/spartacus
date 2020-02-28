@@ -6,7 +6,7 @@ context('Product search pricing flow', () => {
   });
 
   describe('Product search', () => {
-    it('should be able to search with price', () => {
+    it('should be able to search product and sort by price', () => {
       productSearchPricingFlow.productPricingFlow();
     });
   });
