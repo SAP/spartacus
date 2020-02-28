@@ -109,4 +109,40 @@ describe('Spartacus Schematics: ng-add', () => {
       ).toBeTruthy();
     }
   });
+
+  describe('@angular/localize', () => {
+    it('should provide import in polyfills.ts and main.server.ts if SSR enabled', async () => {
+      const tree = await schematicRunner
+        .runSchematicAsync('ng-add', { ...defaultOptions, ssr: true }, appTree)
+        .toPromise();
+
+      const appMainServerFilePath = getPathResultsForFile(
+        appTree,
+        'main.server.ts',
+        '/src'
+      )[0];
+
+      const polyfillsPath = getPathResultsForFile(
+        appTree,
+        'polyfills.ts',
+        '/src'
+      )[0];
+      const buffer = tree.read(appMainServerFilePath);
+      const polyfillsBuffer = tree.read(polyfillsPath);
+      expect(buffer).toBeTruthy();
+      expect(polyfillsBuffer).toBeTruthy();
+      if (buffer) {
+        const appMainServer = buffer.toString(UTF_8);
+        expect(
+          appMainServer.includes("import '@angular/localize/init'")
+        ).toBeTruthy();
+      }
+      if (polyfillsBuffer) {
+        const polyfills = polyfillsBuffer.toString(UTF_8);
+        expect(
+          polyfills.includes("import '@angular/localize/init'")
+        ).toBeTruthy();
+      }
+    });
+  });
 });
