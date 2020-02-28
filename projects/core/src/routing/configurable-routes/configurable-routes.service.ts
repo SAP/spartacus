@@ -17,12 +17,12 @@ export class ConfigurableRoutesService {
 
   /**
    * Enhances existing Angular routes using the routing config of Spartacus.
-   * Can be called only once. 
+   * Can be called only once.
    */
   init(): void {
     if (!this.initCalled) {
       this.initCalled = true;
-     
+
       this.configure();
     }
   }
@@ -36,12 +36,10 @@ export class ConfigurableRoutesService {
     router.resetConfig(this.configureRoutes(router.config));
   }
 
-
-
   /**
    * Sets the property `path` or `matcher` for the given routes, based on the Spartacus' routing configuration.
-   * 
-   * @param routes list of Angular `Route` objects  
+   *
+   * @param routes list of Angular `Route` objects
    */
   protected configureRoutes(routes: Routes): Routes {
     return routes.map(route => {
@@ -56,9 +54,9 @@ export class ConfigurableRoutesService {
 
   /**
    * Sets the property `path` or `matcher` of the `Route`, based on the Spartacus' routing configuration.
-   * Uses the property `data.cxRoute` to determine the name of the route. 
+   * Uses the property `data.cxRoute` to determine the name of the route.
    * It's the same name used as a key in the routing configuration: `routing.routes[ROUTE NAME]`.
-   * 
+   *
    * @param route Angular `Route` object
    */
   protected configureRoute(route: Route): Route {
@@ -75,7 +73,10 @@ export class ConfigurableRoutesService {
         };
       } else if (routeConfig?.matchers) {
         delete route.path;
-        return { ...route, matcher: this.resolveUrlMatchers(route, routeConfig?.matchers) };
+        return {
+          ...route,
+          matcher: this.resolveUrlMatchers(route, routeConfig?.matchers),
+        };
       } else if (routeConfig?.paths?.length === 1) {
         delete route.matcher;
         return { ...route, path: routeConfig?.paths[0] };
@@ -83,7 +84,9 @@ export class ConfigurableRoutesService {
         delete route.path;
         return {
           ...route,
-          matcher: this.urlMatcherService.getFromPaths(routeConfig?.paths || []),
+          matcher: this.urlMatcherService.getFromPaths(
+            routeConfig?.paths || []
+          ),
         };
       }
     }
@@ -92,7 +95,7 @@ export class ConfigurableRoutesService {
 
   /**
    * Creates a single `UrlMatcher` based on given matchers and factories of matchers.
-   * 
+   *
    * @param route Route object
    * @param matchersOrFactories `UrlMatcher`s or injection tokens with a factory functions
    *  that create UrlMatchers based on the given route.
@@ -139,7 +142,11 @@ export class ConfigurableRoutesService {
     if (isDevMode()) {
       // - null value of routeConfig or routeConfig.paths means explicit switching off the route - it's valid config
       // - routeConfig with defined `matchers` is valid, even if `paths` are undefined
-      if(routeConfig === null || routeConfig.paths === null || routeConfig?.matchers) {
+      if (
+        routeConfig === null ||
+        routeConfig.paths === null ||
+        routeConfig?.matchers
+      ) {
         return;
       }
 
