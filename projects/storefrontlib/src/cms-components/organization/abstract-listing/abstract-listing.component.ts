@@ -1,3 +1,4 @@
+import { Params } from '@angular/router';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -13,7 +14,6 @@ import {
   θshallowEqualObjects as shallowEqualObjects,
   RouterState,
 } from '@spartacus/core';
-import { Params } from '@angular/router';
 
 export abstract class AbstractListingComponent {
   constructor(protected routingService: RoutingService) {}
@@ -34,6 +34,8 @@ export abstract class AbstractListingComponent {
   protected params$ = this.routingService
     .getRouterState()
     .pipe(map((routingData: RouterState) => routingData.state.params));
+
+  protected code$ = this.params$.pipe(map((params: Params) => params['code']));
 
   protected defaultQueryParams: B2BSearchConfig = {
     sort: 'byName',

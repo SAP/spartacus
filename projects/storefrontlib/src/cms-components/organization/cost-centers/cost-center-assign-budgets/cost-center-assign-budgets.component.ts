@@ -35,19 +35,13 @@ export class CostCenterAssignBudgetsComponent extends AbstractListingComponent
 
   cxRoute = 'costCenterAssignBudgets';
   budgetsList$: Observable<any>;
-  params: { code: string };
-
-  protected costCenterCode$ = this.routingService
-    .getRouterState()
-    .pipe(map((routingData: RouterState) => routingData.state.params['code']));
+  code: string;
 
   ngOnInit(): void {
-    this.costCenterCode$
-      .pipe(take(1))
-      .subscribe(code => (this.params = { code }));
+    this.code$.pipe(take(1)).subscribe(code => (this.code = code));
 
     this.budgetsList$ = this.queryParams$.pipe(
-      withLatestFrom(this.costCenterCode$),
+      withLatestFrom(this.code$),
       tap(([queryParams, code]) =>
         this.costCenterService.loadBudgets(code, queryParams)
       ),
@@ -84,10 +78,10 @@ export class CostCenterAssignBudgetsComponent extends AbstractListingComponent
   }
 
   assign(budgetCode) {
-    this.costCenterService.assignBudget(this.params.code, budgetCode);
+    this.costCenterService.assignBudget(this.code, budgetCode);
   }
 
   unassign(budgetCode) {
-    this.costCenterService.unassignBudget(this.params.code, budgetCode);
+    this.costCenterService.unassignBudget(this.code, budgetCode);
   }
 }
