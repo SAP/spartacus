@@ -22,42 +22,13 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   loginAsGuest = false;
 
   constructor(
-    auth: AuthService,
-    globalMessageService: GlobalMessageService,
-    fb: FormBuilder,
-    authRedirectService: AuthRedirectService,
-    winRef: WindowRef, // tslint:disable-line,
-    activatedRoute: ActivatedRoute,
-    checkoutConfigService: CheckoutConfigService
-  );
-
-  /**
-   * @deprecated since 1.1.0
-   * Use constructor(
-   * auth: AuthService,
-   * globalMessageService: GlobalMessageService,
-   * fb: FormBuilder,
-   * authRedirectService: AuthRedirectService,
-   *  winRef: WindowRef,
-   * activatedRoute: ActivatedRoute,
-   * checkoutConfigService: CheckoutConfigService) instead
-   *
-   * TODO(issue:#4055) Deprecated since 1.1.0
-   */
-  constructor(
-    auth: AuthService,
-    globalMessageService: GlobalMessageService,
-    fb: FormBuilder,
-    authRedirectService: AuthRedirectService
-  );
-  constructor(
     private auth: AuthService,
     private globalMessageService: GlobalMessageService,
     private fb: FormBuilder,
     private authRedirectService: AuthRedirectService,
-    private winRef?: WindowRef,
-    private activatedRoute?: ActivatedRoute,
-    private checkoutConfigService?: CheckoutConfigService
+    private winRef: WindowRef,
+    private activatedRoute: ActivatedRoute,
+    private checkoutConfigService: CheckoutConfigService
   ) {}
 
   ngOnInit(): void {
@@ -86,6 +57,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   login(): void {
+    if (this.form.valid) {
+      this.submitLogin();
+    } else {
+      this.markFormAsTouched();
+    }
+  }
+
+  private submitLogin(): void {
     const { userId, password } = this.form.controls;
     this.auth.authorize(
       userId.value.toLowerCase(), // backend accepts lowercase emails only
@@ -100,6 +79,12 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         }
       });
     }
+  }
+
+  private markFormAsTouched(): void {
+    Object.keys(this.form.controls).forEach(key => {
+      this.form.controls[key].markAsTouched();
+    });
   }
 
   ngOnDestroy(): void {

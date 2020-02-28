@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   GlobalMessageEntities,
@@ -27,7 +27,7 @@ class MockMessageService {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -50,9 +50,7 @@ describe('GlobalMessageComponent', () => {
     fixture = TestBed.createComponent(GlobalMessageComponent);
     globalMessageComponent = fixture.componentInstance;
 
-    messageService = TestBed.get(GlobalMessageService as Type<
-      GlobalMessageService
-    >);
+    messageService = TestBed.inject(GlobalMessageService);
   });
 
   it('Should create Global message component', () => {

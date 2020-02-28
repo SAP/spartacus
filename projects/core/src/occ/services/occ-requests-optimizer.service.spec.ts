@@ -21,7 +21,7 @@ describe('OccRequestsOptimizerService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
     });
-    service = TestBed.get(OccRequestsOptimizerService);
+    service = TestBed.inject(OccRequestsOptimizerService);
   });
 
   it('should be created', () => {

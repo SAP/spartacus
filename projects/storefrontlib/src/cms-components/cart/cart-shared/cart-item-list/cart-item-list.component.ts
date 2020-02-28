@@ -134,7 +134,12 @@ export class CartItemListComponent {
       // tslint:disable-next-line:deprecation
       startWith(null),
       map(value => {
-        if (value) {
+        if (value && this.selectiveCartService && this.options.isSaveForLater) {
+          this.selectiveCartService.updateEntry(
+            value.entryNumber,
+            value.quantity
+          );
+        } else if (value) {
           this.cartService.updateEntry(value.entryNumber, value.quantity);
         }
       }),

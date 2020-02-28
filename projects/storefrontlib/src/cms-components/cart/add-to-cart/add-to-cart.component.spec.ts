@@ -1,4 +1,4 @@
-import { Component, DebugElement, Input, Type } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -103,11 +103,9 @@ describe('AddToCartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToCartComponent);
     addToCartComponent = fixture.componentInstance;
-    service = TestBed.get(CartService as Type<CartService>);
-    modalInstance = TestBed.get(ModalService as Type<ModalService>);
-    currentProductService = TestBed.get(CurrentProductService as Type<
-      CurrentProductService
-    >);
+    service = TestBed.inject(CartService);
+    modalInstance = TestBed.inject(ModalService);
+    currentProductService = TestBed.inject(CurrentProductService);
     el = fixture.debugElement;
 
     spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });

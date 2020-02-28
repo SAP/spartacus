@@ -1,4 +1,4 @@
-import { Injectable, Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
@@ -134,8 +134,8 @@ describe('FindProductSearchPageMetaResolver', () => {
       })
     );
 
-    service = TestBed.get(PageMetaService as Type<PageMetaService>);
-    cmsService = TestBed.get(CmsService as Type<CmsService>);
+    service = TestBed.inject(PageMetaService);
+    cmsService = TestBed.inject(CmsService);
   });
 
   describe('ContentPage with customer coupon find product results', () => {

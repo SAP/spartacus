@@ -2,16 +2,17 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { getProjectTsConfigPaths } from '@angular/core/schematics/utils/project_tsconfig_paths';
 import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 import {
   InsertChange,
+  RemoveChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
 import * as path from 'path';
 import * as ts from 'typescript';
 import {
   AUTH_SERVICE,
+  FEATURE_CONFIG_SERVICE,
   NGRX_STORE,
   SPARTACUS_CORE,
   STORE,
@@ -32,9 +33,10 @@ import {
   insertCommentAboveIdentifier,
   InsertDirection,
   isCandidateForConstructorDeprecation,
+  removeConstructorParam,
   renameIdentifierNode,
 } from './file-utils';
-import { getProjectFromWorkspace } from './workspace-utils';
+import { getProjectFromWorkspace, getSourceRoot } from './workspace-utils';
 
 const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
     import { Store } from '@ngrx/store';
@@ -131,7 +133,7 @@ const SUPER_PARAMETER_NUMBER_TEST_CLASS = `
       }
     }
 `;
-const VALID_TEST_CLASS = `
+const VALID_ADD_CONSTRUCTOR_PARAM_CLASS = `
     import { Store } from '@ngrx/store';
     import {
       StateWithProcess,
@@ -141,6 +143,24 @@ const VALID_TEST_CLASS = `
     export class InheritedService extends UserAddressService {
       constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
         super(store);
+      }
+    }
+`;
+const VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS = `
+    import { Dummy } from '@angular/core';
+    import {
+      CmsService,
+      FeatureConfigService,
+      PageMetaResolver,
+      PageMetaService
+    } from '@spartacus/core';
+    export class Test extends PageMetaService {
+      constructor(
+        resolvers: PageMetaResolver[],
+        cms: CmsService,
+        featureConfigService?: FeatureConfigService
+      ) {
+        super(resolvers, cms, featureConfigService);
       }
     }
 `;
@@ -200,18 +220,9 @@ describe('File utils', () => {
 
   describe('getAllTsSourceFiles', () => {
     it('should return all .ts files', () => {
-      const basePath = '/src';
-      const { buildPaths } = getProjectTsConfigPaths(appTree);
-      let tsFilesFound = false;
-      for (const tsconfigPath of buildPaths) {
-        const sourceFiles = getAllTsSourceFiles(
-          tsconfigPath,
-          appTree,
-          basePath
-        );
-        tsFilesFound = sourceFiles.length !== 0;
-      }
-      expect(tsFilesFound).toEqual(true);
+      const project = getSourceRoot(appTree, {});
+      const sourceFiles = getAllTsSourceFiles(appTree, project);
+      expect(sourceFiles.length !== 0).toEqual(true);
     });
   });
 
@@ -241,14 +252,8 @@ describe('File utils', () => {
       const filePath = 'src/index.html';
       const change = 'xxx';
       const testChange = new InsertChange(filePath, 0, change);
-      const result = commitChanges(
-        appTree,
-        filePath,
-        [testChange],
-        InsertDirection.LEFT
-      );
+      commitChanges(appTree, filePath, [testChange], InsertDirection.LEFT);
 
-      expect(result).toBeFalsy();
       const buffer = appTree.read(filePath);
       expect(buffer).toBeTruthy();
       if (buffer) {
@@ -266,20 +271,43 @@ describe('File utils', () => {
         'AppComponent',
         change
       );
-      const result = commitChanges(
-        appTree,
-        filePath,
-        [testChange],
-        InsertDirection.LEFT
-      );
+      commitChanges(appTree, filePath, [testChange], InsertDirection.LEFT);
 
-      expect(result).toBeFalsy();
       const buffer = appTree.read(filePath);
       expect(buffer).toBeTruthy();
       if (buffer) {
         const content = buffer.toString(UTF_8);
         expect(content).toContain(change);
       }
+    });
+    it('should commit provided RemoveChange', async () => {
+      const filePath = '/src/app/app.component.ts';
+
+      const toRemove = `title = 'schematics-test';`;
+      const testChange = new RemoveChange(filePath, 188, toRemove);
+      commitChanges(appTree, filePath, [testChange], InsertDirection.LEFT);
+
+      const buffer = appTree.read(filePath);
+      expect(buffer).toBeTruthy();
+      if (buffer) {
+        const content = buffer.toString(UTF_8);
+        expect(content).not.toContain(toRemove);
+      }
+    });
+  });
+
+  describe('findConstructor', async () => {
+    it('should return the constructor if found', () => {
+      const constructorNode: ts.Node = {
+        kind: ts.SyntaxKind.Constructor,
+      } as ts.Node;
+
+      const nodes: ts.Node[] = [constructorNode];
+      expect(findConstructor(nodes)).toEqual(constructorNode);
+    });
+    it('should return undefined if the constructor is not found', () => {
+      const nodes: ts.Node[] = [];
+      expect(findConstructor(nodes)).toEqual(undefined);
     });
   });
 
@@ -466,7 +494,7 @@ describe('File utils', () => {
       const sourcePath = 'xxx.ts';
       const source = ts.createSourceFile(
         sourcePath,
-        VALID_TEST_CLASS,
+        VALID_ADD_CONSTRUCTOR_PARAM_CLASS,
         ts.ScriptTarget.Latest,
         true
       );
@@ -492,6 +520,47 @@ describe('File utils', () => {
       );
       expect(changes[2].description).toEqual(
         `Inserted , authService into position 311 of ${sourcePath}`
+      );
+    });
+  });
+
+  describe('removeConstructorParam', () => {
+    it('should return the expected changes', () => {
+      const sourcePath = 'xxx.ts';
+      const source = ts.createSourceFile(
+        sourcePath,
+        VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const nodes = getSourceNodes(source);
+      const constructorNode = findConstructor(nodes);
+      const paramToRemove: ClassType = {
+        className: FEATURE_CONFIG_SERVICE,
+        importPath: SPARTACUS_CORE,
+      };
+
+      const changes = removeConstructorParam(
+        source,
+        sourcePath,
+        constructorNode,
+        paramToRemove
+      );
+      expect(changes.length).toEqual(5);
+      expect(changes[0].description).toEqual(
+        `Removed FeatureConfigService, into position 81 of ${sourcePath}`
+      );
+      expect(changes[1].description).toEqual(
+        `Removed , into position 308 of ${sourcePath}`
+      );
+      expect(changes[2].description).toEqual(
+        `Removed featureConfigService?: FeatureConfigService into position 318 of ${sourcePath}`
+      );
+      expect(changes[3].description).toEqual(
+        `Removed , into position 400 of ${sourcePath}`
+      );
+      expect(changes[4].description).toEqual(
+        `Removed featureConfigService into position 402 of ${sourcePath}`
       );
     });
   });
