@@ -37,10 +37,7 @@ export class ProductVariantGuard implements CanActivate {
               // we're just calling it earlier and storing
               this.productService
                 .get(variant.code, ProductScope.LIST)
-                .pipe(
-                  filter(Boolean),
-                  take(1)
-                )
+                .pipe(filter(Boolean), take(1))
                 .subscribe((_product: Product) => {
                   this.routingService.go({
                     cxRoute: 'product',

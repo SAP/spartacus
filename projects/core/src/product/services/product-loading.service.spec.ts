@@ -230,10 +230,7 @@ describe('ProductLoadingService', () => {
         .subscribe();
       await service
         .get('productCode', [''])
-        .pipe(
-          delay(0),
-          take(1)
-        )
+        .pipe(delay(0), take(1))
         .toPromise();
 
       expect(store.dispatch).toHaveBeenCalledTimes(1);
