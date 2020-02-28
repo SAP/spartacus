@@ -37,10 +37,7 @@
     <!-- Edit Mode Actions -->
     <div *ngIf="editMode" class="row cx-card-body-delete">
       <div class="col-md-6">
-        <button
-          class="btn btn-block btn-secondary"
-          (click)="cancelEdit()"
-        >
+        <button class="btn btn-block btn-secondary" (click)="cancelEdit()">
           {{ 'common.cancel' | cxTranslate }}
         </button>
       </div>
