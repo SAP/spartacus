@@ -81,11 +81,9 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
       .its('status')
       .should('eq', 200);
 
-    cy.get('cx-product-list-item')
+    cy.get('cx-product-list-item .cx-product-name')
       .first()
-      .get('.cx-product-name')
-      .first()
-      .click();
+      .click({ force: true });
   } else {
     cy.get('cx-searchbox input')
       .clear({ force: true })
