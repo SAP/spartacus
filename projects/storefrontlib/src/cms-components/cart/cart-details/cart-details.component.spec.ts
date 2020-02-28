@@ -1,23 +1,23 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  AuthService,
   Cart,
   CartService,
+  FeatureConfigService,
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   Order,
   OrderEntry,
   PromotionLocation,
   PromotionResult,
-  FeatureConfigService,
-  SelectiveCartService,
-  AuthService,
   RoutingService,
-  FeaturesConfigModule,
-  FeaturesConfig,
+  SelectiveCartService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { PromotionsModule } from '../../checkout';
+import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
@@ -38,7 +38,7 @@ class MockCartService {
   }
 }
 
-export interface CartItemComponentOptions {
+interface CartItemComponentOptions {
   isSaveForLater?: boolean;
   optionalBtn?: any;
 }
@@ -141,7 +141,7 @@ describe('CartDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartDetailsComponent);
     component = fixture.componentInstance;
-    cartService = TestBed.get(CartService as Type<CartService>);
+    cartService = TestBed.inject(CartService);
   });
 
   it('should create cart details component', () => {

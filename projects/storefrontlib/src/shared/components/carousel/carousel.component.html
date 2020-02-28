@@ -35,7 +35,7 @@
       *ngIf="size < items.length"
       class="next"
       (click)="activeSlide = activeSlide + size"
-      tabindex="0"
+      tabindex="-1"
       [disabled]="activeSlide > items.length - size - 1"
     >
       <cx-icon [type]="nextIcon"></cx-icon>
@@ -48,7 +48,7 @@
         *ngIf="i % size === 0"
         (focus)="activeSlide = i"
         [disabled]="i === activeSlide"
-        tabindex="0"
+        tabindex="-1"
       >
         <cx-icon [type]="indicatorIcon"></cx-icon>
       </button>

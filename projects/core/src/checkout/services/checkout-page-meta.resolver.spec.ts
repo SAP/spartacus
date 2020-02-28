@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CartService } from '../../cart';
@@ -40,9 +39,7 @@ describe('CheckoutPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.get(CheckoutPageMetaResolver as Type<
-      CheckoutPageMetaResolver
-    >);
+    service = TestBed.inject(CheckoutPageMetaResolver);
   });
 
   it('should inject service', () => {

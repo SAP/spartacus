@@ -1,9 +1,7 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { UserOrderAdapter } from './user-order.adapter';
 import { UserOrderConnector } from './user-order.connector';
-
 import createSpy = jasmine.createSpy;
 
 class MockOrderAdapter implements UserOrderAdapter {
@@ -17,7 +15,7 @@ class MockOrderAdapter implements UserOrderAdapter {
 
   getConsignmentTracking = createSpy(
     'UserOrderAdapter.getConsignmentTracking'
-  ).and.callFake((userId, orderCode, consignmentCode) =>
+  ).and.callFake((orderCode, consignmentCode, userId) =>
     of(`consignmentTracking-${userId}-${orderCode}-${consignmentCode}`)
   );
 
@@ -35,8 +33,10 @@ class MockOrderAdapter implements UserOrderAdapter {
     of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
   );
 
-  cancel = createSpy('UserOrderAdapter.cancel').and.callFake(
-    (userId, orderCode, {}) => of(`cancel-${userId}-${orderCode}`)
+  cancel = createSpy(
+    'UserOrderAdapter.cancel'
+  ).and.callFake((userId, orderCode, {}) =>
+    of(`cancel-${userId}-${orderCode}`)
   );
 
   cancelReturnRequest = createSpy(
@@ -55,8 +55,8 @@ describe('UserOrderConnector', () => {
       providers: [{ provide: UserOrderAdapter, useClass: MockOrderAdapter }],
     });
 
-    service = TestBed.get(UserOrderConnector as Type<UserOrderConnector>);
-    adapter = TestBed.get(UserOrderAdapter as Type<UserOrderAdapter>);
+    service = TestBed.inject(UserOrderConnector);
+    adapter = TestBed.inject(UserOrderAdapter);
   });
 
   it('should be created', () => {
@@ -85,13 +85,13 @@ describe('UserOrderConnector', () => {
   it('getConsignmentTracking should call adapter', () => {
     let result;
     service
-      .getConsignmentTracking('userId', 'orderCode', 'consignmentCode')
+      .getConsignmentTracking('orderCode', 'consignmentCode', 'userId')
       .subscribe(res => (result = res));
     expect(result).toBe('consignmentTracking-userId-orderCode-consignmentCode');
     expect(adapter.getConsignmentTracking).toHaveBeenCalledWith(
-      'userId',
       'orderCode',
-      'consignmentCode'
+      'consignmentCode',
+      'userId'
     );
   });
 

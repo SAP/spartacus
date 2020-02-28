@@ -3,12 +3,11 @@ import {
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
-  CountryType,
   COUNTRY_NORMALIZER,
+  CountryType,
   OccSiteAdapter,
   REGION_NORMALIZER,
 } from '@spartacus/core';
@@ -66,14 +65,10 @@ describe('OccSiteAdapter', () => {
         },
       ],
     });
-    occSiteAdapter = TestBed.get(OccSiteAdapter as Type<OccSiteAdapter>);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    occEndpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    occSiteAdapter = TestBed.inject(OccSiteAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeableMany').and.callThrough();
     spyOn(occEndpointsService, 'getUrl').and.callThrough();
   });

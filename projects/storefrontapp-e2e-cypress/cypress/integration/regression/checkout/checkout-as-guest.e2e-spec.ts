@@ -138,7 +138,7 @@ context('Checkout as guest', () => {
       cy.get('cx-cart-item-list')
         .contains('cx-cart-item', cheapProduct.code)
         .within(() => {
-          cy.get('.cx-counter-value').should('have.value', '1');
+          cy.get('cx-item-counter input').should('have.value', '1');
         });
     });
   });

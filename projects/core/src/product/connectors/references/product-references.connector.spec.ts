@@ -1,9 +1,7 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ProductReferencesAdapter } from './product-references.adapter';
 import { ProductReferencesConnector } from './product-references.connector';
-
 import createSpy = jasmine.createSpy;
 
 class MockProductReferencesAdapter implements ProductReferencesAdapter {
@@ -27,12 +25,8 @@ describe('ProductReferencesConnector', () => {
       ],
     });
 
-    service = TestBed.get(ProductReferencesConnector as Type<
-      ProductReferencesConnector
-    >);
-    adapter = TestBed.get(ProductReferencesAdapter as Type<
-      ProductReferencesAdapter
-    >);
+    service = TestBed.inject(ProductReferencesConnector);
+    adapter = TestBed.inject(ProductReferencesAdapter);
   });
 
   it('should be created', () => {

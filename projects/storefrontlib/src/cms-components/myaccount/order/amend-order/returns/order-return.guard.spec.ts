@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -42,9 +41,9 @@ describe(`OrderReturnGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(OrderReturnGuard as Type<OrderReturnGuard>);
-    service = TestBed.get(OrderReturnService as Type<OrderReturnService>);
-    routing = TestBed.get(RoutingService as Type<RoutingService>);
+    guard = TestBed.inject(OrderReturnGuard);
+    service = TestBed.inject(OrderReturnService);
+    routing = TestBed.inject(RoutingService);
 
     spyOn(service, 'getForm').and.returnValue(of(mockForm));
     spyOn(routing, 'go').and.stub();

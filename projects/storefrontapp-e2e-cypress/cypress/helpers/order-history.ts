@@ -54,6 +54,7 @@ export const orderHistoryTest = {
     it('should display placed order in Order History', () => {
       doPlaceOrder().then(() => {
         doPlaceOrder().then((orderData: any) => {
+          cy.wait(Cypress.env('ORDER_HISTORY_WAIT_TIME'));
           cy.visit('/my-account/orders');
           cy.get('cx-order-history h3').should('contain', 'Order history');
           cy.get('.cx-order-history-code > .cx-order-history-value').should(

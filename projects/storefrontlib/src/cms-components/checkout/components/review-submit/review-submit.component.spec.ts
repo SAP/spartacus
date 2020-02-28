@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -76,14 +76,10 @@ const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
   template: '',
 })
 class MockCartItemListComponent {
-  @Input()
-  items: Item[];
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
-  @Input()
-  isReadOnly: boolean;
-  @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+  @Input() items: Item[];
+  @Input() readonly: boolean;
+  @Input() potentialProductPromotions: PromotionResult[] = [];
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 @Component({
@@ -160,7 +156,7 @@ class MockPromotionService {
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
-  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
+  let mockCheckoutDeliveryService: CheckoutDeliveryService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -210,9 +206,7 @@ describe('ReviewSubmitComponent', () => {
     fixture = TestBed.createComponent(ReviewSubmitComponent);
     component = fixture.componentInstance;
 
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
+    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
 
     addressBS.next(mockAddress.country);
     deliveryModeBS.next(mockDeliveryMode);
@@ -382,7 +376,7 @@ describe('ReviewSubmitComponent', () => {
         { entryNumber: 123 },
         { entryNumber: 456 },
       ]);
-      expect(getCartItemList().isReadOnly).toBe(true);
+      expect(getCartItemList().readonly).toBe(true);
     });
   });
 });

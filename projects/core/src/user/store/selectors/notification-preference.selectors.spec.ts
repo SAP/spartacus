@@ -1,6 +1,5 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 import * as fromReducers from '../reducers';
 import { UsersSelectors } from '../selectors/index';
 import { UserActions } from '../actions/index';
@@ -25,7 +24,7 @@ describe('Notification Preference Selectors', () => {
         StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
       ],
     });
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

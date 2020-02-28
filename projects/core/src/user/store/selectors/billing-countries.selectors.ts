@@ -11,10 +11,7 @@ import { getUserState } from './feature.selector';
 export const getBillingCountriesState: MemoizedSelector<
   StateWithUser,
   BillingCountriesState
-> = createSelector(
-  getUserState,
-  (state: UserState) => state.billingCountries
-);
+> = createSelector(getUserState, (state: UserState) => state.billingCountries);
 
 export const getBillingCountriesEntites: MemoizedSelector<
   StateWithUser,
@@ -27,7 +24,6 @@ export const getBillingCountriesEntites: MemoizedSelector<
 export const getAllBillingCountries: MemoizedSelector<
   StateWithUser,
   Country[]
-> = createSelector(
-  getBillingCountriesEntites,
-  entites => Object.keys(entites).map(isocode => entites[isocode])
+> = createSelector(getBillingCountriesEntites, entites =>
+  Object.keys(entites).map(isocode => entites[isocode])
 );

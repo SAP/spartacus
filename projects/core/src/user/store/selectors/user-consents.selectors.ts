@@ -8,25 +8,18 @@ import { getUserState } from './feature.selector';
 export const getConsentsState: MemoizedSelector<
   StateWithUser,
   LoaderState<ConsentTemplate[]>
-> = createSelector(
-  getUserState,
-  (state: UserState) => state.consents
-);
+> = createSelector(getUserState, (state: UserState) => state.consents);
 
 export const getConsentsValue: MemoizedSelector<
   StateWithUser,
   ConsentTemplate[]
-> = createSelector(
-  getConsentsState,
-  StateLoaderSelectors.loaderValueSelector
-);
+> = createSelector(getConsentsState, StateLoaderSelectors.loaderValueSelector);
 
 export const getConsentByTemplateId = (
   templateId: string
 ): MemoizedSelector<StateWithUser, ConsentTemplate> =>
-  createSelector(
-    getConsentsValue,
-    templates => templates.find(template => template.id === templateId)
+  createSelector(getConsentsValue, templates =>
+    templates.find(template => template.id === templateId)
   );
 
 export const getConsentsLoading: MemoizedSelector<
@@ -48,7 +41,4 @@ export const getConsentsSuccess: MemoizedSelector<
 export const getConsentsError: MemoizedSelector<
   StateWithUser,
   boolean
-> = createSelector(
-  getConsentsState,
-  StateLoaderSelectors.loaderErrorSelector
-);
+> = createSelector(getConsentsState, StateLoaderSelectors.loaderErrorSelector);

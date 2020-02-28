@@ -73,12 +73,10 @@ export function i18nextGetHttpClient(
   httpClient: HttpClient
 ): (url: string, options: object, callback: Function, data: object) => void {
   return (url: string, _options: object, callback: Function, _data: object) => {
-    httpClient
-      .get(url, { responseType: 'text' })
-      .subscribe(
-        data => callback(data, { status: 200 }),
-        error => callback(null, { status: error.status })
-      );
+    httpClient.get(url, { responseType: 'text' }).subscribe(
+      data => callback(data, { status: 200 }),
+      error => callback(null, { status: error.status })
+    );
   };
 }
 

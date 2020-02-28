@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -56,13 +55,9 @@ describe('Open ID Token Effect', () => {
       ],
     });
 
-    openIdTokenEffect = TestBed.get(fromStore.OpenIdTokenEffect as Type<
-      fromStore.OpenIdTokenEffect
-    >);
-    openIdService = TestBed.get(OpenIdAuthenticationTokenService as Type<
-      OpenIdAuthenticationTokenService
-    >);
-    mockConfig = TestBed.get(KymaConfig as Type<KymaConfig>);
+    openIdTokenEffect = TestBed.inject(fromStore.OpenIdTokenEffect);
+    openIdService = TestBed.inject(OpenIdAuthenticationTokenService);
+    mockConfig = TestBed.inject(KymaConfig);
 
     spyOn(openIdService, 'loadOpenIdAuthenticationToken').and.returnValue(
       of(testToken)
