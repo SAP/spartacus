@@ -22,7 +22,10 @@ const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 const mockRouterState = {
   state: {
     context: {
-      id: `/${MockRoutesConfig[MockCheckoutConfig.checkout.steps[0].routeName].paths[0]}`,
+      id: `/${
+        MockRoutesConfig[MockCheckoutConfig.checkout.steps[0].routeName]
+          .paths[0]
+      }`,
     },
   },
 };

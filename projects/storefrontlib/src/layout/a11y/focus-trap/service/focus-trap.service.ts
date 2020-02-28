@@ -17,9 +17,11 @@ export class FocusTrapService {
   ];
 
   focusFirstEl(target: HTMLElement): void {
-    const first: HTMLElement = Array.from(<NodeListOf<HTMLElement>>(
-      target.querySelectorAll(this.focusableSelectors.join(','))
-    )).filter(element => element.offsetParent !== null)[0];
+    const first: HTMLElement = Array.from(
+      <NodeListOf<HTMLElement>>(
+        target.querySelectorAll(this.focusableSelectors.join(','))
+      )
+    ).filter(element => element.offsetParent !== null)[0];
 
     first.focus();
   }
@@ -27,11 +29,11 @@ export class FocusTrapService {
   getTrapHandler(target: HTMLElement): Function {
     const root: Document = <Document>target.getRootNode();
     const trapHandler = (e: KeyboardEvent) => {
-      const focusableElements: HTMLElement[] = Array.from(<
-        NodeListOf<HTMLElement>
-      >target.querySelectorAll(this.focusableSelectors.join(','))).filter(
-        element => element.offsetParent !== null
-      );
+      const focusableElements: HTMLElement[] = Array.from(
+        <NodeListOf<HTMLElement>>(
+          target.querySelectorAll(this.focusableSelectors.join(','))
+        )
+      ).filter(element => element.offsetParent !== null);
 
       const first: HTMLElement = focusableElements[0];
       const last: HTMLElement = focusableElements[focusableElements.length - 1];
