@@ -1,15 +1,16 @@
 %cx-product-references {
   padding-bottom: 50px;
   a {
-    // outline: none;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
     color: var(--cx-color-text);
-    display: block;
 
     &:focus {
       color: var(--cx-color-primary);
       text-decoration: underline;
-      z-index: 1;
-      position: relative;
     }
   }
 
