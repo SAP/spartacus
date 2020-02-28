@@ -20,7 +20,7 @@ export class PermissionDetailsComponent implements OnInit {
     string
   > = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['permissionCode']));
+    .pipe(map(routingData => routingData.state.params['code']));
 
   ngOnInit(): void {
     this.permission$ = this.permissionCode$.pipe(

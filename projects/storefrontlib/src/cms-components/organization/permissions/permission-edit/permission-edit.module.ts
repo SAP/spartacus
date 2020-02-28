@@ -13,7 +13,6 @@ import { PermissionFormModule } from '../permission-form/permission-form.module'
 import { RouterModule } from '@angular/router';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
-import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-routes/suffix-url-matcher';
 
 @NgModule({
   imports: [
@@ -24,16 +23,6 @@ import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-route
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'permissionEdit' },
-      },
-      {
-        matcher: suffixUrlMatcher,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: {
-          cxSuffixUrlMatcher: {
-            paramName: 'code',
-          },
-        },
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
