@@ -11,10 +11,7 @@ import { ProductInterestSearchResult } from '../../../model/product-interest.mod
 export const getInterestsState: MemoizedSelector<
   StateWithUser,
   LoaderState<ProductInterestSearchResult>
-> = createSelector(
-  getUserState,
-  (state: UserState) => state.productInterests
-);
+> = createSelector(getUserState, (state: UserState) => state.productInterests);
 
 export const getInterests: MemoizedSelector<
   StateWithUser,

@@ -85,14 +85,14 @@ export function asmTests(isMobile: boolean) {
           option: 'Address Book',
           isMobile,
         });
-        cy.get('cx-address-card').should('have.length', 1);
+        cy.get('cx-card').should('have.length', 1);
         addressBook.deleteFirstAddress();
-        cy.get('cx-address-card').should('have.length', 0);
+        cy.get('cx-card').should('have.length', 0);
       });
 
       it('agent should create new address', () => {
         addressBook.createNewAddress();
-        cy.get('cx-address-card').should('have.length', 1);
+        cy.get('cx-card').should('have.length', 1);
         addressBook.verifyNewAddress();
       });
 
@@ -166,7 +166,7 @@ export function asmTests(isMobile: boolean) {
           option: 'Address Book',
           isMobile,
         });
-        cy.get('cx-address-card').should('have.length', 1);
+        cy.get('cx-card').should('have.length', 1);
         addressBook.verifyNewAddress();
       });
 

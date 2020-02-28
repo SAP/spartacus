@@ -415,7 +415,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
 
       getContinueBtn().nativeElement.click();
-      expect(component.verifyAddress).not.toHaveBeenCalled();
+      expect(component.verifyAddress).toHaveBeenCalledTimes(1);
 
       controls['titleCode'].setValue('test titleCode');
       controls['firstName'].setValue('test firstName');
@@ -428,36 +428,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
 
       getContinueBtn().nativeElement.click();
-      expect(component.verifyAddress).toHaveBeenCalled();
-    });
-
-    it('should be enabled only when form has all mandatory fields filled', () => {
-      const isContinueBtnDisabled = () => {
-        fixture.detectChanges();
-        return getContinueBtn().nativeElement.disabled;
-      };
-      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-      spyOn(userService, 'getTitles').and.returnValue(of([]));
-      spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
-
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['titleCode'].setValue('test titleCode');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['firstName'].setValue('test firstName');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['lastName'].setValue('test lastName');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['line1'].setValue('test line1');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['town'].setValue('test town');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.region['controls'].isocode.setValue('test region isocode');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.country['controls'].isocode.setValue('test country isocode');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['postalCode'].setValue('test postalCode');
-
-      expect(isContinueBtnDisabled()).toBeFalsy();
+      expect(component.verifyAddress).toHaveBeenCalledTimes(2);
     });
   });
 

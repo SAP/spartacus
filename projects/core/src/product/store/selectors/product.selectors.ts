@@ -13,10 +13,7 @@ import { getProductsState } from './feature.selector';
 export const getProductState: MemoizedSelector<
   StateWithProduct,
   EntityLoaderState<Product>
-> = createSelector(
-  getProductsState,
-  (state: ProductsState) => state.details
-);
+> = createSelector(getProductsState, (state: ProductsState) => state.details);
 
 export const getSelectedProductsFactory = (
   codes: string[]
@@ -37,14 +34,11 @@ export const getSelectedProductStateFactory = (
   code: string,
   scope?: string
 ): MemoizedSelector<StateWithProduct, LoaderState<Product>> => {
-  return createSelector(
-    getProductState,
-    details =>
-      scope
-        ? StateEntityLoaderSelectors.entityStateSelector(details, code)[
-            scope
-          ] || initialLoaderState
-        : StateEntityLoaderSelectors.entityStateSelector(details, code)
+  return createSelector(getProductState, details =>
+    scope
+      ? StateEntityLoaderSelectors.entityStateSelector(details, code)[scope] ||
+        initialLoaderState
+      : StateEntityLoaderSelectors.entityStateSelector(details, code)
   );
 };
 
@@ -91,9 +85,6 @@ export const getSelectedProductErrorFactory = (
 export const getAllProductCodes: MemoizedSelector<
   StateWithProduct,
   string[]
-> = createSelector(
-  getProductState,
-  details => {
-    return Object.keys(details.entities);
-  }
-);
+> = createSelector(getProductState, details => {
+  return Object.keys(details.entities);
+});
