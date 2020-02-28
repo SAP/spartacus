@@ -53,7 +53,10 @@ export class CmsGetComponentFromPage<
       | { component: T; pageContext: PageContext }
       | { component: T; pageContext: PageContext }[]
   ) {
-    super(COMPONENT_ENTITY, [].concat(payload).map(cmp => cmp.component.uid));
+    super(
+      COMPONENT_ENTITY,
+      [].concat(payload).map(cmp => cmp.component.uid)
+    );
   }
 }
 

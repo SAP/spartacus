@@ -66,9 +66,9 @@ export function reducer(
   }
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<State>
-> = new InjectionToken<ActionReducerMap<State>>('RouterReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<
+  State
+>> = new InjectionToken<ActionReducerMap<State>>('RouterReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
