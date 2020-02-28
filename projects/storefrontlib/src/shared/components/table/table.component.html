@@ -24,7 +24,7 @@
               [routerLink]="
                 {
                   cxRoute: column.cxRoute,
-                  params: row
+                  params: { code: row[column.key] }
                 } | cxUrl
               "
               class="cx-value"
