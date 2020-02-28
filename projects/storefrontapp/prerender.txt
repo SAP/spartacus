@@ -1,0 +1,11 @@
+/electronics-spa/en/USD/product/553637/NV10
+/electronics-spa/en/USD/product/816802/Cyber-shot%20W55
+/electronics-spa/en/USD/faq
+/electronics-spa/de/USD/
+/electronics-spa/de/USD/product/553637/NV10
+/electronics-spa/de/JPY/
+/electronics-spa/de/JPY/product/553637/NV10
+/apparel-uk-spa/en/GBP/
+/apparel-uk-spa/en/GBP/faq
+/apparel-uk-spa/en/GBP/product/300459760/Kelly%20Jacket%20Women%20black%20L
+/apparel-uk-spa/en/GBP/product/300438830/Twain%20Pant%20Women%20purple%20heart%20XS
