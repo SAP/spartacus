@@ -8,27 +8,20 @@ import { getUserState } from './feature.selector';
 export const getAddressesLoaderState: MemoizedSelector<
   StateWithUser,
   LoaderState<Address[]>
-> = createSelector(
-  getUserState,
-  (state: UserState) => state.addresses
-);
+> = createSelector(getUserState, (state: UserState) => state.addresses);
 
 export const getAddresses: MemoizedSelector<
   StateWithUser,
   Address[]
-> = createSelector(
-  getAddressesLoaderState,
-  (state: LoaderState<Address[]>) =>
-    StateLoaderSelectors.loaderValueSelector(state)
+> = createSelector(getAddressesLoaderState, (state: LoaderState<Address[]>) =>
+  StateLoaderSelectors.loaderValueSelector(state)
 );
 
 export const getAddressesLoading: MemoizedSelector<
   StateWithUser,
   boolean
-> = createSelector(
-  getAddressesLoaderState,
-  (state: LoaderState<Address[]>) =>
-    StateLoaderSelectors.loaderLoadingSelector(state)
+> = createSelector(getAddressesLoaderState, (state: LoaderState<Address[]>) =>
+  StateLoaderSelectors.loaderLoadingSelector(state)
 );
 
 export const getAddressesLoadedSuccess: MemoizedSelector<
