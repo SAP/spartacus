@@ -214,6 +214,18 @@ describe('RegisterComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('submit button', () => {
+    it('should NOT be disabled', () => {
+      fixture = TestBed.createComponent(RegisterComponent);
+      fixture.detectChanges();
+      const el: HTMLElement = fixture.debugElement.nativeElement;
+      const submitButton: HTMLElement = el.querySelector(
+        'button[type="submit"]'
+      );
+      expect(submitButton.hasAttribute('disabled')).toBeFalsy();
+    });
+  });
+
   describe('ngOnInit', () => {
     it('should load titles', () => {
       spyOn(userService, 'getTitles').and.returnValue(of(mockTitlesList));
@@ -388,7 +400,7 @@ describe('RegisterComponent', () => {
 
       // TODO(issue:4237) Register flow
       // NOTE: remove isLevelBool
-      isLevelBool.next(true);
+      isLevelBool.next(false);
 
       component.ngOnInit();
       component.submit();

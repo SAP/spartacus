@@ -126,9 +126,9 @@ describe('ComponentWrapperDirective', () => {
 
     describe('with angular component', () => {
       beforeEach(() => {
-        fixture = TestBed.createComponent(TestWrapperComponent as Type<
-          TestWrapperComponent
-        >);
+        fixture = TestBed.createComponent(
+          TestWrapperComponent as Type<TestWrapperComponent>
+        );
         cmsService = TestBed.inject(CmsService);
         cmsConfig = TestBed.inject(CmsConfig);
       });

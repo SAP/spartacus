@@ -16,9 +16,9 @@ export function getReducers(): ActionReducerMap<KymaState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<KymaState>
-> = new InjectionToken<ActionReducerMap<KymaState>>('KymaReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<
+  KymaState
+>> = new InjectionToken<ActionReducerMap<KymaState>>('KymaReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

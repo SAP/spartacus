@@ -39,18 +39,14 @@ export const getCheckoutStepsState: MemoizedSelector<
 export const getCheckoutSteps: MemoizedSelector<
   StateWithCheckout,
   CheckoutStepsState
-> = createSelector(
-  getCheckoutStepsState,
-  state => StateLoaderSelectors.loaderValueSelector(state)
+> = createSelector(getCheckoutStepsState, state =>
+  StateLoaderSelectors.loaderValueSelector(state)
 );
 
 export const getDeliveryAddress: MemoizedSelector<
   StateWithCheckout,
   Address
-> = createSelector(
-  getCheckoutSteps,
-  getDeliveryAddressSelector
-);
+> = createSelector(getCheckoutSteps, getDeliveryAddressSelector);
 
 export const getDeliveryMode: MemoizedSelector<
   StateWithCheckout,
@@ -58,66 +54,48 @@ export const getDeliveryMode: MemoizedSelector<
     supported: { [code: string]: DeliveryMode };
     selected: string;
   }
-> = createSelector(
-  getCheckoutSteps,
-  getDeliveryModeSelector
-);
+> = createSelector(getCheckoutSteps, getDeliveryModeSelector);
 
 export const getSupportedDeliveryModes: MemoizedSelector<
   StateWithCheckout,
   DeliveryMode[]
-> = createSelector(
-  getDeliveryMode,
-  deliveryMode => {
-    return (
-      deliveryMode &&
-      Object.keys(deliveryMode.supported).map(
-        code => deliveryMode.supported[code]
-      )
-    );
-  }
-);
+> = createSelector(getDeliveryMode, deliveryMode => {
+  return (
+    deliveryMode &&
+    Object.keys(deliveryMode.supported).map(
+      code => deliveryMode.supported[code]
+    )
+  );
+});
 
 export const getSelectedDeliveryModeCode: MemoizedSelector<
   StateWithCheckout,
   string
-> = createSelector(
-  getDeliveryMode,
-  deliveryMode => {
-    return deliveryMode && deliveryMode.selected;
-  }
-);
+> = createSelector(getDeliveryMode, deliveryMode => {
+  return deliveryMode && deliveryMode.selected;
+});
 
 export const getSelectedDeliveryMode: MemoizedSelector<
   StateWithCheckout,
   DeliveryMode
-> = createSelector(
-  getDeliveryMode,
-  deliveryMode => {
-    if (deliveryMode.selected !== '') {
-      if (Object.keys(deliveryMode.supported).length === 0) {
-        return null;
-      }
-      return deliveryMode.supported[deliveryMode.selected];
+> = createSelector(getDeliveryMode, deliveryMode => {
+  if (deliveryMode.selected !== '') {
+    if (Object.keys(deliveryMode.supported).length === 0) {
+      return null;
     }
+    return deliveryMode.supported[deliveryMode.selected];
   }
-);
+});
 
 export const getPaymentDetails: MemoizedSelector<
   StateWithCheckout,
   PaymentDetails
-> = createSelector(
-  getCheckoutSteps,
-  getPaymentDetailsSelector
-);
+> = createSelector(getCheckoutSteps, getPaymentDetailsSelector);
 
 export const getCheckoutOrderDetails: MemoizedSelector<
   StateWithCheckout,
   Order
-> = createSelector(
-  getCheckoutSteps,
-  getOrderDetailsSelector
-);
+> = createSelector(getCheckoutSteps, getOrderDetailsSelector);
 
 export const getCheckoutDetailsLoaded: MemoizedSelector<
   StateWithCheckout,

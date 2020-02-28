@@ -8,23 +8,18 @@ import { AsmState, StateWithAsm } from '../asm-state';
 export const getCustomerSupportAgentTokenState: MemoizedSelector<
   StateWithAsm,
   LoaderState<UserToken>
-> = createSelector(
-  getAsmState,
-  (state: AsmState) => state.csagentToken
-);
+> = createSelector(getAsmState, (state: AsmState) => state.csagentToken);
 
 export const getCustomerSupportAgentToken: MemoizedSelector<
   StateWithAsm,
   UserToken
-> = createSelector(
-  getCustomerSupportAgentTokenState,
-  state => StateLoaderSelectors.loaderValueSelector(state)
+> = createSelector(getCustomerSupportAgentTokenState, state =>
+  StateLoaderSelectors.loaderValueSelector(state)
 );
 
 export const getCustomerSupportAgentTokenLoading: MemoizedSelector<
   StateWithAsm,
   boolean
-> = createSelector(
-  getCustomerSupportAgentTokenState,
-  state => StateLoaderSelectors.loaderLoadingSelector(state)
+> = createSelector(getCustomerSupportAgentTokenState, state =>
+  StateLoaderSelectors.loaderLoadingSelector(state)
 );
