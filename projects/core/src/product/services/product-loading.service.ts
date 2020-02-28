@@ -133,9 +133,10 @@ export class ProductLoadingService {
       select(ProductSelectors.getSelectedProductFactory(productCode, scope))
     );
 
-    return using(() => productLoadLogic$.subscribe(), () => productData$).pipe(
-      shareReplay({ bufferSize: 1, refCount: true })
-    );
+    return using(
+      () => productLoadLogic$.subscribe(),
+      () => productData$
+    ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
   }
 
   /**

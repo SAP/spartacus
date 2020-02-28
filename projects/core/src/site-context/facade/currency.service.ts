@@ -60,10 +60,7 @@ export class CurrencyService implements SiteContext<Currency> {
    */
   setActive(isocode: string) {
     return this.store
-      .pipe(
-        select(SiteContextSelectors.getActiveCurrency),
-        take(1)
-      )
+      .pipe(select(SiteContextSelectors.getActiveCurrency), take(1))
       .subscribe(activeCurrency => {
         if (activeCurrency !== isocode) {
           this.store.dispatch(

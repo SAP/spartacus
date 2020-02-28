@@ -202,7 +202,7 @@ describe('CartItemListComponent', () => {
       .subscribe(control => {
         control.get('quantity').setValue(2);
         expect(cartService.updateEntry).toHaveBeenCalledWith(
-          item.entryNumber,
+          item.entryNumber as any,
           2
         );
       })
@@ -216,7 +216,7 @@ describe('CartItemListComponent', () => {
       .subscribe(control => {
         control.get('quantity').setValue(0);
         expect(cartService.updateEntry).toHaveBeenCalledWith(
-          item.entryNumber,
+          item.entryNumber as any,
           0
         );
       })
