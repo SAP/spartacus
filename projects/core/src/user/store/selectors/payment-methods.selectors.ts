@@ -8,10 +8,7 @@ import { getUserState } from './feature.selector';
 export const getPaymentMethodsState: MemoizedSelector<
   StateWithUser,
   LoaderState<PaymentDetails[]>
-> = createSelector(
-  getUserState,
-  (state: UserState) => state.payments
-);
+> = createSelector(getUserState, (state: UserState) => state.payments);
 
 export const getPaymentMethods: MemoizedSelector<
   StateWithUser,
