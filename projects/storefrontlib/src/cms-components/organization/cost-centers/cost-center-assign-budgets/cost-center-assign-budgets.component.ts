@@ -22,30 +22,29 @@ import {
   B2BSearchConfig,
   RouterState,
 } from '@spartacus/core';
+import { AbstractListingComponent } from '../../abstract-listing/abstract-listing.component';
 
 @Component({
   selector: 'cx-cost-center-assign-budgets',
   templateUrl: './cost-center-assign-budgets.component.html',
 })
-export class CostCenterAssignBudgetsComponent implements OnInit {
+export class CostCenterAssignBudgetsComponent extends AbstractListingComponent
+  implements OnInit {
   constructor(
     protected routingService: RoutingService,
     protected costCenterService: CostCenterService,
     protected cxDate: CxDatePipe
-  ) {}
+  ) {
+    super(routingService);
+  }
 
+  cxRoute = 'costCenterAssignBudgets';
   budgetsList$: Observable<any>;
   params: { code: string };
-  protected queryParams$: Observable<B2BSearchConfig>;
+
   protected costCenterCode$ = this.routingService
     .getRouterState()
     .pipe(map((routingData: RouterState) => routingData.state.params['code']));
-  protected cxRoute = 'costCenterAssignBudgets';
-  protected defaultQueryParams: B2BSearchConfig = {
-    sort: 'byName',
-    currentPage: 0,
-    pageSize: 5,
-  };
 
   ngOnInit(): void {
     this.queryParams$ = this.routingService.getRouterState().pipe(
@@ -89,45 +88,6 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
         )
       )
     );
-  }
-
-  changeSortCode(sort: string): void {
-    this.updateQueryParams({ sort });
-  }
-
-  pageChange(currentPage: number): void {
-    this.updateQueryParams({ currentPage });
-  }
-
-  protected updateQueryParams(newQueryParams: Partial<B2BSearchConfig>): void {
-    this.queryParams$
-      .pipe(
-        map(queryParams =>
-          diff(this.defaultQueryParams, { ...queryParams, ...newQueryParams })
-        ),
-        take(1)
-      )
-      .subscribe((queryParams: Partial<B2BSearchConfig>) => {
-        this.routingService.go(
-          {
-            cxRoute: this.cxRoute,
-            params: this.params,
-          },
-          { ...queryParams }
-        );
-      });
-  }
-
-  protected normalizeQueryParams({
-    sort,
-    currentPage,
-    pageSize,
-  }): B2BSearchConfig {
-    return {
-      sort,
-      currentPage: parseInt(currentPage, 10),
-      pageSize: parseInt(pageSize, 10),
-    };
   }
 
   toggle({ row, value }) {

@@ -5,49 +5,38 @@ import {
   filter,
   map,
   switchMap,
-  take,
   tap,
 } from 'rxjs/operators';
 
 import {
   PermissionService,
   RoutingService,
-  CxDatePipe,
   EntitiesModel,
-  B2BSearchConfig,
   Permission,
-  θdiff as diff,
   θshallowEqualObjects as shallowEqualObjects,
 } from '@spartacus/core';
+import { AbstractListingComponent } from '../../abstract-listing/abstract-listing.component';
 
 @Component({
   selector: 'cx-permission-list',
   templateUrl: './permission-list.component.html',
 })
-export class PermissionListComponent implements OnInit {
+export class PermissionListComponent extends AbstractListingComponent
+  implements OnInit {
   constructor(
     protected routingService: RoutingService,
-    protected permissionsService: PermissionService,
-    protected cxDate: CxDatePipe
-  ) {}
+    protected permissionsService: PermissionService
+  ) {
+    super(routingService);
+  }
 
+  cxRoute = 'permissions';
   permissionsList$: Observable<any>;
-  protected queryParams$: Observable<B2BSearchConfig>;
-  protected cxRoute = 'permissions';
-  protected defaultQueryParams$: B2BSearchConfig = {
-    sort: 'byName',
-    currentPage: 0,
-    pageSize: 5,
-  };
 
   ngOnInit(): void {
-    this.queryParams$ = this.routingService
-      .getRouterState()
-      .pipe(map(routingData => routingData.state.queryParams));
-
     this.permissionsList$ = this.queryParams$.pipe(
       map(queryParams => ({
-        ...this.defaultQueryParams$,
+        ...this.defaultQueryParams,
         ...queryParams,
       })),
       distinctUntilChanged(shallowEqualObjects),
@@ -75,43 +64,5 @@ export class PermissionListComponent implements OnInit {
         )
       )
     );
-  }
-
-  changeSortCode(sort: string): void {
-    this.updateQueryParams({ sort });
-  }
-
-  pageChange(currentPage: number): void {
-    this.updateQueryParams({ currentPage });
-  }
-
-  protected updateQueryParams(newQueryParams: Partial<B2BSearchConfig>): void {
-    this.queryParams$
-      .pipe(
-        map(queryParams =>
-          diff(this.defaultQueryParams$, { ...queryParams, ...newQueryParams })
-        ),
-        take(1)
-      )
-      .subscribe((queryParams: Partial<B2BSearchConfig>) => {
-        this.routingService.go(
-          {
-            cxRoute: this.cxRoute,
-          },
-          { ...queryParams }
-        );
-      });
-  }
-
-  protected normalizeQueryParams({
-    sort,
-    currentPage,
-    pageSize,
-  }): B2BSearchConfig {
-    return {
-      sort,
-      currentPage: parseInt(currentPage, 10),
-      pageSize: parseInt(pageSize, 10),
-    };
   }
 }

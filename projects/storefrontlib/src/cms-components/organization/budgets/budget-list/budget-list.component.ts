@@ -5,7 +5,6 @@ import {
   filter,
   map,
   switchMap,
-  take,
   tap,
 } from 'rxjs/operators';
 
@@ -14,41 +13,32 @@ import {
   RoutingService,
   CxDatePipe,
   EntitiesModel,
-  B2BSearchConfig,
-  θdiff as diff,
   θshallowEqualObjects as shallowEqualObjects,
   Budget,
 } from '@spartacus/core';
+import { AbstractListingComponent } from '../../abstract-listing/abstract-listing.component';
 
 @Component({
   selector: 'cx-budget-list',
   templateUrl: './budget-list.component.html',
 })
-export class BudgetListComponent implements OnInit {
+export class BudgetListComponent extends AbstractListingComponent
+  implements OnInit {
   constructor(
     protected routingService: RoutingService,
     protected budgetsService: BudgetService,
     protected cxDate: CxDatePipe
-  ) {}
+  ) {
+    super(routingService);
+  }
 
+  cxRoute = 'budgets';
   budgetsList$: Observable<any>;
-  protected queryParams$: Observable<B2BSearchConfig>;
-
-  protected cxRoute = 'budgets';
-  protected defaultQueryParams$: B2BSearchConfig = {
-    sort: 'byName',
-    currentPage: 0,
-    pageSize: 5,
-  };
 
   ngOnInit(): void {
-    this.queryParams$ = this.routingService
-      .getRouterState()
-      .pipe(map(routingData => routingData.state.queryParams));
-
     this.budgetsList$ = this.queryParams$.pipe(
       map(queryParams => ({
-        ...this.defaultQueryParams$,
+        ...this.defaultQueryParams,
         ...queryParams,
       })),
       distinctUntilChanged(shallowEqualObjects),
@@ -75,43 +65,5 @@ export class BudgetListComponent implements OnInit {
         )
       )
     );
-  }
-
-  changeSortCode(sort: string): void {
-    this.updateQueryParams({ sort });
-  }
-
-  pageChange(currentPage: number): void {
-    this.updateQueryParams({ currentPage });
-  }
-
-  protected updateQueryParams(newQueryParams: Partial<B2BSearchConfig>): void {
-    this.queryParams$
-      .pipe(
-        map(queryParams =>
-          diff(this.defaultQueryParams$, { ...queryParams, ...newQueryParams })
-        ),
-        take(1)
-      )
-      .subscribe((queryParams: Partial<B2BSearchConfig>) => {
-        this.routingService.go(
-          {
-            cxRoute: this.cxRoute,
-          },
-          { ...queryParams }
-        );
-      });
-  }
-
-  protected normalizeQueryParams({
-    sort,
-    currentPage,
-    pageSize,
-  }): B2BSearchConfig {
-    return {
-      sort,
-      currentPage: parseInt(currentPage, 10),
-      pageSize: parseInt(pageSize, 10),
-    };
   }
 }
