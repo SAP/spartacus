@@ -19,6 +19,7 @@ export abstract class AbstractListingComponent {
   constructor(protected routingService: RoutingService) {}
 
   cxRoute: string;
+  data$: Observable<any>;
 
   protected queryParams$: Observable<
     B2BSearchConfig

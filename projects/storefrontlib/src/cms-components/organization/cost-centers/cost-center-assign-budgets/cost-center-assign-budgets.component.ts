@@ -34,13 +34,12 @@ export class CostCenterAssignBudgetsComponent extends AbstractListingComponent
   }
 
   cxRoute = 'costCenterAssignBudgets';
-  budgetsList$: Observable<any>;
   code: string;
 
   ngOnInit(): void {
     this.code$.pipe(take(1)).subscribe(code => (this.code = code));
 
-    this.budgetsList$ = this.queryParams$.pipe(
+    this.data$ = this.queryParams$.pipe(
       withLatestFrom(this.code$),
       tap(([queryParams, code]) =>
         this.costCenterService.loadBudgets(code, queryParams)
@@ -51,7 +50,7 @@ export class CostCenterAssignBudgetsComponent extends AbstractListingComponent
           map((budgetsList: EntitiesModel<Budget>) => ({
             sorts: budgetsList.sorts,
             pagination: budgetsList.pagination,
-            budgetsList: budgetsList.values.map(budget => ({
+            values: budgetsList.values.map(budget => ({
               assign: budget.selected,
               code: budget.code,
               name: budget.name,

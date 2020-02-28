@@ -24,10 +24,9 @@ export class CostCenterListComponent extends AbstractListingComponent
   }
 
   cxRoute = 'costCenters';
-  costCentersList$: Observable<any>;
 
   ngOnInit(): void {
-    this.costCentersList$ = this.queryParams$.pipe(
+    this.data$ = this.queryParams$.pipe(
       tap(params => this.costCentersService.loadCostCenters(params)),
       switchMap(params =>
         this.costCentersService.getList(params).pipe(
@@ -35,7 +34,7 @@ export class CostCenterListComponent extends AbstractListingComponent
           map((costCentersList: EntitiesModel<CostCenter>) => ({
             sorts: costCentersList.sorts,
             pagination: costCentersList.pagination,
-            costCentersList: costCentersList.values.map(costCenter => ({
+            values: costCentersList.values.map(costCenter => ({
               code: costCenter.code,
               name: costCenter.name,
               currency: costCenter.currency && costCenter.currency.isocode,

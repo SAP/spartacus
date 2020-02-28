@@ -1,7 +1,4 @@
-<ng-container
-  class="container"
-  *ngIf="permissionsList$ | async as permissionsList"
->
+<ng-container class="container" *ngIf="data$ | async as permissionsList">
   <ng-template #sortAndPagination>
     <div class="cx-form-group form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
       <cx-sorting
@@ -59,7 +56,7 @@
       </div>
       <!-- TABLE -->
       <cx-table
-        [tableData]="permissionsList.permissionsList"
+        [tableData]="permissionsList.values"
         [columns]="[
           {
             key: 'code',

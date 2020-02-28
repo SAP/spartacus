@@ -26,10 +26,9 @@ export class BudgetListComponent extends AbstractListingComponent
   }
 
   cxRoute = 'budgets';
-  budgetsList$: Observable<any>;
 
   ngOnInit(): void {
-    this.budgetsList$ = this.queryParams$.pipe(
+    this.data$ = this.queryParams$.pipe(
       tap(queryParams => this.budgetsService.loadBudgets(queryParams)),
       switchMap(queryParams =>
         this.budgetsService.getList(queryParams).pipe(
@@ -37,7 +36,7 @@ export class BudgetListComponent extends AbstractListingComponent
           map((budgetsList: EntitiesModel<Budget>) => ({
             sorts: budgetsList.sorts,
             pagination: budgetsList.pagination,
-            budgetsList: budgetsList.values.map(budget => ({
+            values: budgetsList.values.map(budget => ({
               code: budget.code,
               name: budget.name,
               amount: `${budget.budget} ${budget.currency &&

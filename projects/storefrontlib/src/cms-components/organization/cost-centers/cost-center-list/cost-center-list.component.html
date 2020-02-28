@@ -1,7 +1,4 @@
-<ng-container
-  class="container"
-  *ngIf="costCentersList$ | async as costCentersList"
->
+<ng-container class="container" *ngIf="data$ | async as costCentersList">
   <ng-template #sortAndPagination>
     <div class="cx-form-group form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
       <cx-sorting
@@ -58,7 +55,7 @@
       </div>
       <!-- TABLE -->
       <cx-table
-        [tableData]="costCentersList.costCentersList"
+        [tableData]="costCentersList.values"
         [columns]="[
           {
             key: 'code',

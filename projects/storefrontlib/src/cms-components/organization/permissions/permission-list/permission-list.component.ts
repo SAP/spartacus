@@ -24,10 +24,9 @@ export class PermissionListComponent extends AbstractListingComponent
   }
 
   cxRoute = 'permissions';
-  permissionsList$: Observable<any>;
 
   ngOnInit(): void {
-    this.permissionsList$ = this.queryParams$.pipe(
+    this.data$ = this.queryParams$.pipe(
       tap(queryParams => this.permissionsService.loadPermissions(queryParams)),
       switchMap(queryParams =>
         this.permissionsService.getList(queryParams).pipe(
@@ -35,7 +34,7 @@ export class PermissionListComponent extends AbstractListingComponent
           map((permissionsList: EntitiesModel<Permission>) => ({
             sorts: permissionsList.sorts,
             pagination: permissionsList.pagination,
-            permissionsList: permissionsList.values.map(permission => ({
+            values: permissionsList.values.map(permission => ({
               code: permission.code,
               threshold: `${permission.threshold ||
                 ''} ${(permission.currency && permission.currency.symbol) ||
