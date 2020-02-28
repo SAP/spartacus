@@ -3,31 +3,29 @@
     {{ 'voucher.coupon' | cxTranslate }}
   </div>
   <div class="form-group ">
-    <ng-container>
-      <form (submit)="applyVoucher()" [formGroup]="form">
-        <div class="row">
-          <div class="col-md-8">
-            <input
-              type="text"
-              class="form-control input-coupon-code"
-              id="applyVoucher"
-              formControlName="couponCode"
-              placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
-            />
-          </div>
-          <div class="col-md-4">
-            <button
-              class="btn btn-block btn-action apply-coupon-button"
-              type="submit"
-              [disabled]="submitDisabled$ | async"
-              [class.disabled]="submitDisabled$ | async"
-            >
-              {{ 'voucher.apply' | cxTranslate }}
-            </button>
-          </div>
+    <form (submit)="applyVoucher()" [formGroup]="form">
+      <div class="row">
+        <div class="col-md-8">
+          <input
+            type="text"
+            class="form-control input-coupon-code"
+            id="applyVoucher"
+            formControlName="couponCode"
+            placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
+          />
         </div>
-      </form>
-    </ng-container>
+        <div class="col-md-4">
+          <button
+            class="btn btn-block btn-action apply-coupon-button"
+            type="submit"
+            [disabled]="submitDisabled$ | async"
+            [class.disabled]="submitDisabled$ | async"
+          >
+            {{ 'voucher.apply' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
 
   <cx-applied-coupons
@@ -37,11 +35,8 @@
   >
   </cx-applied-coupons>
 
-  <ng-container>
-    <div
-      *ngIf="applicableCoupons && applicableCoupons.length > 0"
-      class="cx-available-coupon"
-    >
+  <ng-container *ngIf="applicableCoupons && applicableCoupons.length > 0">
+    <div class="cx-available-coupon">
       <div class="title">
         {{ 'voucher.availableCoupons' | cxTranslate }}
       </div>
