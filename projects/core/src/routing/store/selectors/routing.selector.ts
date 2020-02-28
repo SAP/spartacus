@@ -14,10 +14,7 @@ export const getRouterFeatureState: MemoizedSelector<
 export const getRouterState: MemoizedSelector<
   any,
   RouterState
-> = createSelector(
-  getRouterFeatureState,
-  state => state.router
-);
+> = createSelector(getRouterFeatureState, state => state.router);
 
 export const getPageContext: MemoizedSelector<
   any,
