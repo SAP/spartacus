@@ -47,7 +47,7 @@ describe('PRODUCT_LISTING_URL_MATCHER', () => {
     )[0];
     expect(mockDefaultUrlMatcherFactory).toHaveBeenCalledWith(mockRoute);
     expect(combinedMatchers[0]).toBe(mockDefaultUrlMatcher);
-    expect(combinedMatchers[1].suffixRouteConfig).toEqual({
+    expect(combinedMatchers[1]._suffixRouteConfig).toEqual({
       marker: 'c',
       paramName: 'categoryCode',
       precedingParamName: 'param',
