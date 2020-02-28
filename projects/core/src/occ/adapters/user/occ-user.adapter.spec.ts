@@ -273,10 +273,9 @@ describe('OccUserAdapter', () => {
         );
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-        'userUpdateLoginId',
-        { userId }
-      );
+      expect(
+        occEnpointsService.getUrl
+      ).toHaveBeenCalledWith('userUpdateLoginId', { userId });
       expect(mockReq.cancelled).toBeFalsy();
 
       mockReq.flush('');
@@ -303,10 +302,9 @@ describe('OccUserAdapter', () => {
         );
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-        'userUpdatePassword',
-        { userId }
-      );
+      expect(
+        occEnpointsService.getUrl
+      ).toHaveBeenCalledWith('userUpdatePassword', { userId });
 
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
