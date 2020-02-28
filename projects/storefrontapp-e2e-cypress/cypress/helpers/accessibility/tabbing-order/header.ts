@@ -65,11 +65,8 @@ export function subCategoryTabbingOrder(
       });
   });
 
-  cy.get('cx-navigation-ui nav[class="is-open"] h5')
+  cy.get('cx-navigation-ui nav.is-open h5')
     .first()
     .focus();
-  verifyTabbingOrder(
-    'cx-navigation-ui nav[class="is-open"] div[class="wrapper"]',
-    config
-  );
+  verifyTabbingOrder('cx-navigation-ui nav.is-open div.wrapper', config);
 }
