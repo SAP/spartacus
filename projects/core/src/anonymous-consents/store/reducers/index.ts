@@ -29,9 +29,9 @@ export function getReducers(): ActionReducerMap<AnonymousConsentsState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<AnonymousConsentsState>
-> = new InjectionToken<ActionReducerMap<AnonymousConsentsState>>(
+export const reducerToken: InjectionToken<ActionReducerMap<
+  AnonymousConsentsState
+>> = new InjectionToken<ActionReducerMap<AnonymousConsentsState>>(
   'AnonymousConsentsReducers'
 );
 
