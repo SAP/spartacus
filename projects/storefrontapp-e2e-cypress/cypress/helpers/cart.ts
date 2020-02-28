@@ -1,7 +1,8 @@
 import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
 import { waitForPage } from './checkout-flow';
-import { createSpecificProductQuery } from './product-search';
+import { PRODUCT_LISTING } from './data-configuration';
+import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
 
 interface TestProduct {
@@ -70,14 +71,17 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
   if (mobile) {
     cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
 
-    createSpecificProductQuery(id, 'productCode_query');
+    createProductQuery(
+      QUERY_ALIAS.PRODUCE_CODE,
+      id,
+      PRODUCT_LISTING.PRODUCTS_PER_PAGE
+    );
 
     cy.get('cx-searchbox input')
-      .clear({ force: true })
-      .type(id, { force: true })
-      .type('{enter}', { force: true });
+      .clear()
+      .type(`${id}{enter}`);
 
-    cy.wait('@productCode_query')
+    cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`)
       .its('status')
       .should('eq', 200);
 
@@ -262,13 +266,17 @@ export function logOutAndNavigateToEmptyCart() {
 export function addProductAsAnonymous() {
   const product = products[2];
 
-  createSpecificProductQuery(product.code, 'productCode_query');
+  createProductQuery(
+    QUERY_ALIAS.PRODUCE_CODE,
+    product.code,
+    PRODUCT_LISTING.PRODUCTS_PER_PAGE
+  );
 
   cy.get('cx-searchbox input').type(`${product.code}{enter}`, {
     force: true,
   });
 
-  cy.wait('@productCode_query')
+  cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`)
     .its('status')
     .should('eq', 200);
 
