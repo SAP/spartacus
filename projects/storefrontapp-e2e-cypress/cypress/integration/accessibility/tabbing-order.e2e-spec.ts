@@ -45,6 +45,11 @@ import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-ord
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
 import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
 import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
+import { searchResultsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/search-results';
+import { defaultViewTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/default-view';
+import { storeDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/store-details';
+import { countriesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/countries-list';
+import { storesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/stores-list';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -138,6 +143,38 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
   context('Cart', () => {
     it('should allow to navigate with tab key', () => {
       cartTabbingOrder(config.cart);
+    });
+  });
+
+  context('Store finder', () => {
+    context('Default view', () => {
+      it('should allow to navigate with tab key', () => {
+        defaultViewTabbingOrder(config.storeFinder);
+      });
+    });
+
+    context('Search results page', () => {
+      it('should allow to navigate with tab key', () => {
+        searchResultsTabbingOrder(config.storeFinderSearchResults);
+      });
+    });
+
+    context('Store details page', () => {
+      it('should allow to navigate with tab key', () => {
+        storeDetailsTabbingOrder(config.storeFinderStoreDetails);
+      });
+    });
+
+    context('Countries list', () => {
+      it('should allow to navigate with tab key', () => {
+        countriesListTabbingOrder(config.storeFinderCountriesList);
+      });
+    });
+
+    context('Stores list', () => {
+      it('should allow to navigate with tab key', () => {
+        storesListTabbingOrder(config.storeFinderStoresList);
+      });
     });
   });
 });

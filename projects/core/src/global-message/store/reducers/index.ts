@@ -7,9 +7,9 @@ export function getReducers(): ActionReducer<GlobalMessageState> {
   return fromGlobalMessage.reducer;
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducer<GlobalMessageState>
-> = new InjectionToken<ActionReducer<GlobalMessageState>>(
+export const reducerToken: InjectionToken<ActionReducer<
+  GlobalMessageState
+>> = new InjectionToken<ActionReducer<GlobalMessageState>>(
   'GlobalMessageReducers'
 );
 

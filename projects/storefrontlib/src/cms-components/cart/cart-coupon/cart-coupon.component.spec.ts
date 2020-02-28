@@ -107,7 +107,9 @@ describe('CartCouponComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    mockCartService.getActive.and.returnValue(of<Cart>({ code: '123' }));
+    mockCartService.getActive.and.returnValue(
+      of<Cart>({ code: '123' })
+    );
     mockCartService.getLoaded.and.returnValue(of(true));
     mockAuthService.getOccUserId.and.returnValue(of('testUserId'));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of());

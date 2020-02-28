@@ -27,10 +27,7 @@ export const getMultiCartState: MemoizedSelector<
 export const getMultiCartEntities: MemoizedSelector<
   StateWithMultiCart,
   EntityProcessesLoaderState<Cart>
-> = createSelector(
-  getMultiCartState,
-  (state: MultiCartState) => state.carts
-);
+> = createSelector(getMultiCartState, (state: MultiCartState) => state.carts);
 
 export const getCartEntitySelectorFactory = (
   cartId: string
@@ -75,12 +72,9 @@ export const getCartHasPendingProcessesSelectorFactory = (
 export const getCartEntriesSelectorFactory = (
   cartId: string
 ): MemoizedSelector<StateWithMultiCart, OrderEntry[]> => {
-  return createSelector(
-    getCartSelectorFactory(cartId),
-    (state: Cart) => {
-      return state && state.entries ? state.entries : [];
-    }
-  );
+  return createSelector(getCartSelectorFactory(cartId), (state: Cart) => {
+    return state && state.entries ? state.entries : [];
+  });
 };
 
 export const getCartEntrySelectorFactory = (
@@ -100,10 +94,7 @@ export const getCartEntrySelectorFactory = (
 export const getActiveCartId: MemoizedSelector<
   StateWithMultiCart,
   string
-> = createSelector(
-  getMultiCartState,
-  (state: MultiCartState) => state.active
-);
+> = createSelector(getMultiCartState, (state: MultiCartState) => state.active);
 
 export const getWishListId: MemoizedSelector<
   StateWithMultiCart,

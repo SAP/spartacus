@@ -37,10 +37,7 @@ export class BaseSiteService implements SiteContext<string> {
 
   setActive(baseSite: string): Subscription {
     return this.store
-      .pipe(
-        select(SiteContextSelectors.getActiveBaseSite),
-        take(1)
-      )
+      .pipe(select(SiteContextSelectors.getActiveBaseSite), take(1))
       .subscribe(activeBaseSite => {
         if (baseSite && activeBaseSite !== baseSite) {
           this.store.dispatch(
