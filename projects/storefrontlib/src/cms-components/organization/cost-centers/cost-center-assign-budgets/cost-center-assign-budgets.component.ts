@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import {
   filter,
   map,
@@ -15,7 +14,6 @@ import {
   EntitiesModel,
   Budget,
   CostCenterService,
-  RouterState,
 } from '@spartacus/core';
 import { AbstractListingComponent } from '../../abstract-listing/abstract-listing.component';
 
@@ -51,7 +49,7 @@ export class CostCenterAssignBudgetsComponent extends AbstractListingComponent
             sorts: budgetsList.sorts,
             pagination: budgetsList.pagination,
             values: budgetsList.values.map(budget => ({
-              assign: budget.selected,
+              selected: budget.selected,
               code: budget.code,
               name: budget.name,
               amount: `${budget.budget} ${budget.currency &&
@@ -68,19 +66,11 @@ export class CostCenterAssignBudgetsComponent extends AbstractListingComponent
     );
   }
 
-  toggle({ row, value }) {
-    if (value) {
-      this.assign(row.code);
-    } else {
-      this.unassign(row.code);
-    }
+  assign({ row }) {
+    this.costCenterService.assignBudget(this.code, row.code);
   }
 
-  assign(budgetCode) {
-    this.costCenterService.assignBudget(this.code, budgetCode);
-  }
-
-  unassign(budgetCode) {
-    this.costCenterService.unassignBudget(this.code, budgetCode);
+  unassign({ row }) {
+    this.costCenterService.unassignBudget(this.code, row.code);
   }
 }

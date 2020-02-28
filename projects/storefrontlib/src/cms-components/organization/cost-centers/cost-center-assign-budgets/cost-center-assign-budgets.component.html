@@ -39,7 +39,7 @@
           <!--          back-->
           <button
             [routerLink]="
-              { cxRoute: 'costCenterDetails', params: params } | cxUrl
+              { cxRoute: 'costCenterDetails', params: { code: code } } | cxUrl
             "
             class="btn btn-primary btn-block"
           >
@@ -60,9 +60,9 @@
         [tableData]="budgetsList.values"
         [columns]="[
           {
-            key: 'assign',
+            key: 'selected',
             value: 'budgetsList.assign' | cxTranslate,
-            check: 'assign'
+            checkBox: true
           },
           {
             key: 'code',
@@ -81,7 +81,8 @@
             cxRoute: 'orgUnit'
           }
         ]"
-        (toggle)="toggle($event)"
+        (check)="assign($event)"
+        (uncheck)="unassign($event)"
       ></cx-table>
 
       <div class="cx-sort bottom row">
