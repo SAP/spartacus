@@ -86,7 +86,7 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
 
     context('Accessories', () => {
       // TODO: This test fails with the current navigation-ui implementation for unknown reasons.
-      // Better fixed after nav-ui refactor
+      // Better fixed after nav-ui refactor (#6743)
       it('should allow to navigate with tab key', () => {
         subCategoryTabbingOrder(
           config.headerCategoryAccessories,

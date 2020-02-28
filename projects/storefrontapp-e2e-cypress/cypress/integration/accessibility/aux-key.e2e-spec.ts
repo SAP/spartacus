@@ -14,7 +14,7 @@ context('Auxiliary Keys', () => {
           .should('contain.text', 'Brands')
           .and('be.visible')
           .within(() => {
-            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
+            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor(#6743)
             cy.get('nav h5')
               .first()
               .focus();
@@ -40,7 +40,7 @@ context('Auxiliary Keys', () => {
           .should('contain.text', 'Brands')
           .and('be.visible')
           .within(() => {
-            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
+            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor (#6743)
             cy.get('nav h5')
               .first()
               .focus();
@@ -69,7 +69,7 @@ context('Auxiliary Keys', () => {
           .should('contain.text', 'My Account')
           .and('be.visible')
           .within(() => {
-            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
+            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor (#6743)
             cy.get('nav h5')
               .first()
               .focus();
@@ -91,7 +91,7 @@ context('Auxiliary Keys', () => {
           .should('contain.text', 'My Account')
           .and('be.visible')
           .within(() => {
-            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor
+            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor (#6743)
             cy.get('nav h5')
               .first()
               .focus();
