@@ -16,17 +16,18 @@
     &:hover {
       background-color: var(--cx-color-background);
 
-      a.btn-link {
+      a {
         text-decoration: underline;
         color: var(--cx-color-primary);
       }
     }
   }
 
-  a.btn-link {
+  a {
     padding: 1.5rem;
     text-decoration: none;
     width: 100%;
+    color: var(--cx-color-text);
   }
 
   .cx-no-stores {
