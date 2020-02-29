@@ -15,19 +15,12 @@
 
     &:hover {
       background-color: var(--cx-color-background);
-
-      a {
-        text-decoration: underline;
-        color: var(--cx-color-primary);
-      }
     }
   }
 
   a {
     padding: 1.5rem;
-    text-decoration: none;
     width: 100%;
-    color: var(--cx-color-text);
   }
 
   .cx-no-stores {
