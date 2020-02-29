@@ -4,9 +4,6 @@
     border-width: 1px 0 0 0;
     border-color: var(--cx-color-light);
     display: inline-block;
-
-    @include media-breakpoint-down(md) {
-    }
   }
 
   .cx-set {
