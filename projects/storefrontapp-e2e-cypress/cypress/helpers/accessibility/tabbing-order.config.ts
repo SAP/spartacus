@@ -2464,4 +2464,39 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
+  stockNotificationNotLogin: [
+    {
+      value: 'Sign In / Register',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  stockNotificationNoEnabledPreference: [
+    {
+      value: 'Notification Channels',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  stockNotificationSubscribed: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
+  stockNotificationDialog: [
+    {
+      value: 'Notification Preference',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'My Interests',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
+  stockNotification: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
 };
