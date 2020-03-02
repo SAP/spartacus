@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { Permission, PermissionService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
+
+import { Permission, PermissionService, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-permission-edit',

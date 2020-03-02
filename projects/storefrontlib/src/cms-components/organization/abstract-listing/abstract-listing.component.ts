@@ -13,13 +13,21 @@ import {
   θdiff as diff,
   θshallowEqualObjects as shallowEqualObjects,
   RouterState,
+  PaginationModel,
+  SortModel,
 } from '@spartacus/core';
 
-export abstract class AbstractListingComponent {
-  constructor(protected routingService: RoutingService) {}
+export type ListingModel = {
+  values: Array<any>;
+  pagination: PaginationModel;
+  sorts: SortModel[];
+};
 
+export abstract class AbstractListingComponent {
   cxRoute: string;
-  data$: Observable<any>;
+  data$: Observable<ListingModel>;
+
+  constructor(protected routingService: RoutingService) {}
 
   protected queryParams$: Observable<
     B2BSearchConfig
@@ -32,11 +40,15 @@ export abstract class AbstractListingComponent {
     map(this.normalizeQueryParams)
   );
 
-  protected params$ = this.routingService
+  protected params$: Observable<
+    Params
+  > = this.routingService
     .getRouterState()
     .pipe(map((routingData: RouterState) => routingData.state.params));
 
-  protected code$ = this.params$.pipe(map((params: Params) => params['code']));
+  protected code$: Observable<string> = this.params$.pipe(
+    map((params: Params) => params['code'])
+  );
 
   protected defaultQueryParams: B2BSearchConfig = {
     sort: 'byName',

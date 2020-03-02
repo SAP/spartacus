@@ -10,17 +10,17 @@ import { Permission, PermissionService, RoutingService } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PermissionDetailsComponent implements OnInit {
-  constructor(
-    protected routingService: RoutingService,
-    protected permissionsService: PermissionService
-  ) {}
-
   permission$: Observable<Permission>;
   permissionCode$: Observable<
     string
   > = this.routingService
     .getRouterState()
     .pipe(map(routingData => routingData.state.params['code']));
+
+  constructor(
+    protected routingService: RoutingService,
+    protected permissionsService: PermissionService
+  ) {}
 
   ngOnInit(): void {
     this.permission$ = this.permissionCode$.pipe(

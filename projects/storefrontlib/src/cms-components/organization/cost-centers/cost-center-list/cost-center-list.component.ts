@@ -8,7 +8,11 @@ import {
   EntitiesModel,
   CostCenter,
 } from '@spartacus/core';
-import { AbstractListingComponent } from '../../abstract-listing/abstract-listing.component';
+
+import {
+  AbstractListingComponent,
+  ListingModel,
+} from '../../abstract-listing/abstract-listing.component';
 
 @Component({
   selector: 'cx-cost-center-list',
@@ -16,6 +20,8 @@ import { AbstractListingComponent } from '../../abstract-listing/abstract-listin
 })
 export class CostCenterListComponent extends AbstractListingComponent
   implements OnInit {
+  cxRoute = 'costCenters';
+
   constructor(
     protected routingService: RoutingService,
     protected costCentersService: CostCenterService
@@ -23,10 +29,8 @@ export class CostCenterListComponent extends AbstractListingComponent
     super(routingService);
   }
 
-  cxRoute = 'costCenters';
-
   ngOnInit(): void {
-    this.data$ = this.queryParams$.pipe(
+    this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
       tap(params => this.costCentersService.loadCostCenters(params)),
       switchMap(params =>
         this.costCentersService.getList(params).pipe(

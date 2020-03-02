@@ -10,15 +10,15 @@ import { Budget, BudgetService, RoutingService } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetDetailsComponent implements OnInit {
-  constructor(
-    protected routingService: RoutingService,
-    protected budgetsService: BudgetService
-  ) {}
-
   budget$: Observable<Budget>;
   budgetCode$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(map(routingData => routingData.state.params['code']));
+
+  constructor(
+    protected routingService: RoutingService,
+    protected budgetsService: BudgetService
+  ) {}
 
   ngOnInit(): void {
     this.budget$ = this.budgetCode$.pipe(

@@ -9,7 +9,11 @@ import {
   EntitiesModel,
   Budget,
 } from '@spartacus/core';
-import { AbstractListingComponent } from '../../abstract-listing/abstract-listing.component';
+
+import {
+  AbstractListingComponent,
+  ListingModel,
+} from '../../abstract-listing/abstract-listing.component';
 
 @Component({
   selector: 'cx-budget-list',
@@ -17,6 +21,8 @@ import { AbstractListingComponent } from '../../abstract-listing/abstract-listin
 })
 export class BudgetListComponent extends AbstractListingComponent
   implements OnInit {
+  cxRoute = 'budgets';
+
   constructor(
     protected routingService: RoutingService,
     protected budgetsService: BudgetService,
@@ -25,10 +31,8 @@ export class BudgetListComponent extends AbstractListingComponent
     super(routingService);
   }
 
-  cxRoute = 'budgets';
-
   ngOnInit(): void {
-    this.data$ = this.queryParams$.pipe(
+    this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
       tap(queryParams => this.budgetsService.loadBudgets(queryParams)),
       switchMap(queryParams =>
         this.budgetsService.getList(queryParams).pipe(

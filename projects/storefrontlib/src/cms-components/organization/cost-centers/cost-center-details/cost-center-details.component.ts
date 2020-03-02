@@ -10,17 +10,17 @@ import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterDetailsComponent implements OnInit {
-  constructor(
-    protected routingService: RoutingService,
-    protected costCentersService: CostCenterService
-  ) {}
-
   costCenter$: Observable<CostCenter>;
   costCenterCode$: Observable<
     string
   > = this.routingService
     .getRouterState()
     .pipe(map(routingData => routingData.state.params['code']));
+
+  constructor(
+    protected routingService: RoutingService,
+    protected costCentersService: CostCenterService
+  ) {}
 
   ngOnInit(): void {
     this.costCenter$ = this.costCenterCode$.pipe(

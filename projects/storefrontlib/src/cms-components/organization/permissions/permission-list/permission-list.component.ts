@@ -8,7 +8,11 @@ import {
   EntitiesModel,
   Permission,
 } from '@spartacus/core';
-import { AbstractListingComponent } from '../../abstract-listing/abstract-listing.component';
+
+import {
+  AbstractListingComponent,
+  ListingModel,
+} from '../../abstract-listing/abstract-listing.component';
 
 @Component({
   selector: 'cx-permission-list',
@@ -16,6 +20,8 @@ import { AbstractListingComponent } from '../../abstract-listing/abstract-listin
 })
 export class PermissionListComponent extends AbstractListingComponent
   implements OnInit {
+  cxRoute = 'permissions';
+
   constructor(
     protected routingService: RoutingService,
     protected permissionsService: PermissionService
@@ -23,10 +29,8 @@ export class PermissionListComponent extends AbstractListingComponent
     super(routingService);
   }
 
-  cxRoute = 'permissions';
-
   ngOnInit(): void {
-    this.data$ = this.queryParams$.pipe(
+    this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
       tap(queryParams => this.permissionsService.loadPermissions(queryParams)),
       switchMap(queryParams =>
         this.permissionsService.getList(queryParams).pipe(

@@ -7,6 +7,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import {
   RoutingService,
@@ -15,7 +16,10 @@ import {
   Budget,
   CostCenterService,
 } from '@spartacus/core';
-import { AbstractListingComponent } from '../../abstract-listing/abstract-listing.component';
+import {
+  AbstractListingComponent,
+  ListingModel,
+} from '../../abstract-listing/abstract-listing.component';
 
 @Component({
   selector: 'cx-cost-center-assign-budgets',
@@ -23,6 +27,9 @@ import { AbstractListingComponent } from '../../abstract-listing/abstract-listin
 })
 export class CostCenterAssignBudgetsComponent extends AbstractListingComponent
   implements OnInit {
+  cxRoute = 'costCenterAssignBudgets';
+  code: string;
+
   constructor(
     protected routingService: RoutingService,
     protected costCenterService: CostCenterService,
@@ -31,13 +38,10 @@ export class CostCenterAssignBudgetsComponent extends AbstractListingComponent
     super(routingService);
   }
 
-  cxRoute = 'costCenterAssignBudgets';
-  code: string;
-
   ngOnInit(): void {
     this.code$.pipe(take(1)).subscribe(code => (this.code = code));
 
-    this.data$ = this.queryParams$.pipe(
+    this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
       withLatestFrom(this.code$),
       tap(([queryParams, code]) =>
         this.costCenterService.loadBudgets(code, queryParams)
