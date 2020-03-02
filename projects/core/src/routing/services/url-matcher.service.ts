@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import {
   Route,
   UrlMatcher,
@@ -9,13 +9,13 @@ import {
 import { GlobService } from '../../util/glob.service';
 
 @Injectable({ providedIn: 'root' })
-export class UrlMatcherFactoryService {
+export class UrlMatcherService {
   constructor(protected globService: GlobService) {}
 
   /**
    * Returns a matcher that is always fails
    */
-  getFalsyUrlMatcher(): UrlMatcher {
+  getFalsy(): UrlMatcher {
     return function falsyUrlMatcher(): null {
       return null;
     };
@@ -24,27 +24,35 @@ export class UrlMatcherFactoryService {
   /**
    * Returns a matcher for given list of paths
    */
-  getMultiplePathsUrlMatcher(paths: string[]): UrlMatcher {
-    const self = this;
+  getFromPaths(paths: string[]): UrlMatcher {
+    const matchers = paths.map(path => this.getFromPath(path));
+    const matcher = this.getCombined(matchers);
+    if (isDevMode()) {
+      matcher['_paths'] = paths; // property added for easier debugging of routes
+    }
+    return matcher;
+  }
 
-    const matcher = function multiplePathsUrlMatcher(
+  /**
+   * Returns a matcher that combines the given matchers
+   * */
+  getCombined(matchers: UrlMatcher[]): UrlMatcher {
+    const matcher = function combinedUrlMatchers(
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
       route: Route
     ): UrlMatchResult | null {
-      for (let i = 0; i < paths.length; i++) {
-        const result = self.getPathUrlMatcher(paths[i])(
-          segments,
-          segmentGroup,
-          route
-        );
+      for (let i = 0; i < matchers.length; i++) {
+        const result = matchers[i](segments, segmentGroup, route);
         if (result) {
           return result;
         }
       }
       return null;
     };
-    matcher.paths = paths; // property added for easier debugging of routes
+    if (isDevMode()) {
+      matcher['_matchers'] = matchers; // property added for easier debugging of routes
+    }
     return matcher;
   }
 
@@ -53,12 +61,12 @@ export class UrlMatcherFactoryService {
    * - the `path` comes from function's argument, not from `route.path`
    * - the empty path `''` is handled here, but in Angular is handled one level higher in the match() function
    */
-  protected getPathUrlMatcher(path: string = ''): UrlMatcher {
-    return (
+  protected getFromPath(path: string = ''): UrlMatcher {
+    const matcher = function pathUrlMatcher(
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
       route: Route
-    ): UrlMatchResult | null => {
+    ): UrlMatchResult | null {
       /**
        * @license
        * The MIT License
@@ -111,12 +119,16 @@ export class UrlMatcherFactoryService {
 
       return { consumed: segments.slice(0, parts.length), posParams };
     };
+    if (isDevMode()) {
+      matcher['_path'] = path; // property added for easier debugging of routes
+    }
+    return matcher;
   }
 
   /**
    * Returns URL matcher that accepts almost everything (like `**` route), but not paths accepted by the given matcher
    */
-  getOppositeUrlMatcher(originalMatcher: UrlMatcher): UrlMatcher {
+  getOpposite(originalMatcher: UrlMatcher): UrlMatcher {
     const matcher = function oppositeUrlMatcher(
       segments: UrlSegment[],
       group: UrlSegmentGroup,
@@ -126,15 +138,16 @@ export class UrlMatcherFactoryService {
         ? null
         : { consumed: segments, posParams: {} };
     };
-    matcher.originalMatcher = originalMatcher; // property added for easier debugging of routes
-
+    if (isDevMode()) {
+      matcher['_originalMatcher'] = originalMatcher; // property added for easier debugging of routes
+    }
     return matcher;
   }
 
   /**
    * Returns URL matcher for the given list of glob-like patterns. Each pattern must start with `/` or `!/`.
    */
-  getGlobUrlMatcher(globPatterns: string[]): UrlMatcher {
+  getFromGlob(globPatterns: string[]): UrlMatcher {
     const globValidator = this.globService.getValidator(globPatterns);
 
     const matcher = function globUrlMatcher(
@@ -146,7 +159,9 @@ export class UrlMatcherFactoryService {
         ? { consumed: segments, posParams: {} }
         : null;
     };
-    matcher.globPatterns = globPatterns; // property added for easier debugging of routes
+    if (isDevMode()) {
+      matcher['_globPatterns'] = globPatterns; // property added for easier debugging of routes
+    }
     return matcher;
   }
 }
