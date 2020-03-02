@@ -17,7 +17,6 @@ import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.c
 import { TableModule } from '../../../../shared/components/table/table.module';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
-import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-routes/suffix-url-matcher';
 
 @NgModule({
   imports: [
@@ -28,16 +27,6 @@ import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-route
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'costCenterAssignBudgets' },
-      },
-      {
-        matcher: suffixUrlMatcher,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: {
-          cxSuffixUrlMatcher: {
-            paramName: 'costCenterCode',
-          },
-        },
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{

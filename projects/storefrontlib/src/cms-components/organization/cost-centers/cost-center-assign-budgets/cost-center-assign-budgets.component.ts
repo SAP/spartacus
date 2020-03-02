@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Params } from '@angular/router';
-import { Observable } from 'rxjs';
 import {
-  distinctUntilChanged,
   filter,
   map,
   switchMap,
@@ -10,64 +7,42 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import {
   RoutingService,
   CxDatePipe,
   EntitiesModel,
-  θdiff as diff,
-  θshallowEqualObjects as shallowEqualObjects,
   Budget,
   CostCenterService,
-  B2BSearchConfig,
-  RouterState,
 } from '@spartacus/core';
+import {
+  AbstractListingComponent,
+  ListingModel,
+} from '../../abstract-component/abstract-listing.component';
 
 @Component({
   selector: 'cx-cost-center-assign-budgets',
   templateUrl: './cost-center-assign-budgets.component.html',
 })
-export class CostCenterAssignBudgetsComponent implements OnInit {
+export class CostCenterAssignBudgetsComponent extends AbstractListingComponent
+  implements OnInit {
+  cxRoute = 'costCenterAssignBudgets';
+  code: string;
+
   constructor(
     protected routingService: RoutingService,
     protected costCenterService: CostCenterService,
     protected cxDate: CxDatePipe
-  ) {}
-
-  budgetsList$: Observable<any>;
-  params: { code: string };
-  protected queryParams$: Observable<B2BSearchConfig>;
-  protected costCenterCode$ = this.routingService
-    .getRouterState()
-    .pipe(
-      map(
-        (routingData: RouterState) => routingData.state.params['costCenterCode']
-      )
-    );
-  protected cxRoute = 'costCenterAssignBudgets';
-  protected defaultQueryParams$: B2BSearchConfig = {
-    sort: 'byName',
-    currentPage: 0,
-    pageSize: 5,
-  };
+  ) {
+    super(routingService);
+  }
 
   ngOnInit(): void {
-    this.queryParams$ = this.routingService.getRouterState().pipe(
-      map((routingData: RouterState) => routingData.state.queryParams),
-      map((queryParams: Params) => ({
-        ...this.defaultQueryParams$,
-        ...queryParams,
-      })),
-      distinctUntilChanged(shallowEqualObjects),
-      map(this.normalizeQueryParams)
-    );
+    this.code$.pipe(take(1)).subscribe(code => (this.code = code));
 
-    this.costCenterCode$
-      .pipe(take(1))
-      .subscribe(code => (this.params = { code }));
-
-    this.budgetsList$ = this.queryParams$.pipe(
-      withLatestFrom(this.costCenterCode$),
+    this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
+      withLatestFrom(this.code$),
       tap(([queryParams, code]) =>
         this.costCenterService.loadBudgets(code, queryParams)
       ),
@@ -77,8 +52,8 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
           map((budgetsList: EntitiesModel<Budget>) => ({
             sorts: budgetsList.sorts,
             pagination: budgetsList.pagination,
-            budgetsList: budgetsList.values.map(budget => ({
-              assign: budget.selected,
+            values: budgetsList.values.map(budget => ({
+              selected: budget.selected,
               code: budget.code,
               name: budget.name,
               amount: `${budget.budget} ${budget.currency &&
@@ -95,58 +70,11 @@ export class CostCenterAssignBudgetsComponent implements OnInit {
     );
   }
 
-  changeSortCode(sort: string): void {
-    this.updateQueryParams({ sort });
+  assign({ row }) {
+    this.costCenterService.assignBudget(this.code, row.code);
   }
 
-  pageChange(currentPage: number): void {
-    this.updateQueryParams({ currentPage });
-  }
-
-  protected updateQueryParams(newQueryParams: Partial<B2BSearchConfig>): void {
-    this.queryParams$
-      .pipe(
-        map(queryParams =>
-          diff(this.defaultQueryParams$, { ...queryParams, ...newQueryParams })
-        ),
-        take(1)
-      )
-      .subscribe((queryParams: Partial<B2BSearchConfig>) => {
-        this.routingService.go(
-          {
-            cxRoute: this.cxRoute,
-            params: this.params,
-          },
-          { ...queryParams }
-        );
-      });
-  }
-
-  protected normalizeQueryParams({
-    sort,
-    currentPage,
-    pageSize,
-  }): B2BSearchConfig {
-    return {
-      sort,
-      currentPage: parseInt(currentPage, 10),
-      pageSize: parseInt(pageSize, 10),
-    };
-  }
-
-  toggle({ row, value }) {
-    if (value) {
-      this.assign(row.code);
-    } else {
-      this.unassign(row.code);
-    }
-  }
-
-  assign(budgetCode) {
-    this.costCenterService.assignBudget(this.params.code, budgetCode);
-  }
-
-  unassign(budgetCode) {
-    this.costCenterService.unassignBudget(this.params.code, budgetCode);
+  unassign({ row }) {
+    this.costCenterService.unassignBudget(this.code, row.code);
   }
 }

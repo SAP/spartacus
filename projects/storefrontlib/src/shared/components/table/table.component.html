@@ -11,7 +11,7 @@
           <div class="d-md-none cx-label">
             {{ column.value }}
           </div>
-          <label *ngIf="column.check; else link">
+          <label *ngIf="column.checkBox; else link">
             <input
               type="checkbox"
               [checked]="row[column.key]"

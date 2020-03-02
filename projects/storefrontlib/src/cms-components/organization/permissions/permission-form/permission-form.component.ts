@@ -7,6 +7,9 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
 import {
   B2BUnitNode,
   Currency,
@@ -19,8 +22,7 @@ import {
   PermissionService,
   UrlCommandRoute,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+
 import { FormUtils } from '../../../../shared/utils/forms/form-utils';
 
 @Component({

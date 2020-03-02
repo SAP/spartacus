@@ -1,7 +1,4 @@
-<ng-container
-  class="container"
-  *ngIf="costCentersList$ | async as costCentersList"
->
+<ng-container class="container" *ngIf="data$ | async as costCentersList">
   <ng-template #sortAndPagination>
     <div class="cx-form-group form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
       <cx-sorting
@@ -9,8 +6,7 @@
         [sortLabels]="{
           byUnitName: 'costCentersList.sorting.byUnitName' | cxTranslate,
           byName: 'costCentersList.sorting.byName' | cxTranslate,
-          byCode: 'costCentersList.sorting.byCode' | cxTranslate,
-          byValue: 'costCentersList.sorting.byValue' | cxTranslate
+          byCode: 'costCentersList.sorting.byCode' | cxTranslate
         }"
         [selectedOption]="costCentersList.pagination.sort"
         (sortListEvent)="changeSortCode($event)"
@@ -59,7 +55,7 @@
       </div>
       <!-- TABLE -->
       <cx-table
-        [tableData]="costCentersList.costCentersList"
+        [tableData]="costCentersList.values"
         [columns]="[
           {
             key: 'code',

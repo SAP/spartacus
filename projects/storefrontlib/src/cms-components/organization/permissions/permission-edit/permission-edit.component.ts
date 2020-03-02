@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { Permission, PermissionService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
+
+import { Permission, PermissionService, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-permission-edit',
@@ -13,7 +14,7 @@ export class PermissionEditComponent implements OnInit {
     string
   > = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['permissionCode']));
+    .pipe(map(routingData => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,

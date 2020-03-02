@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { Budget, BudgetService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
+
+import { Budget, BudgetService, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-budget-edit',
@@ -11,7 +12,7 @@ export class BudgetEditComponent implements OnInit {
   budget$: Observable<Budget>;
   budgetCode$: Observable<string> = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['budgetCode']));
+    .pipe(map(routingData => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,

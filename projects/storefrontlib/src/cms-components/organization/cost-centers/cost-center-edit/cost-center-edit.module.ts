@@ -13,7 +13,6 @@ import { CostCenterFormModule } from '../cost-center-form/cost-center-form.modul
 import { RouterModule } from '@angular/router';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
-import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-routes/suffix-url-matcher';
 
 @NgModule({
   imports: [
@@ -24,17 +23,6 @@ import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-route
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'costCenterEdit' },
-      },
-      {
-        matcher: suffixUrlMatcher,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: {
-          cxSuffixUrlMatcher: {
-            marker: 'p',
-            paramName: 'costCenterCode',
-          },
-        },
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
