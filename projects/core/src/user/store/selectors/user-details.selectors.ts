@@ -6,10 +6,7 @@ import { getUserState } from './feature.selector';
 export const getDetailsState: MemoizedSelector<
   StateWithUser,
   UserDetailsState
-> = createSelector(
-  getUserState,
-  (state: UserState) => state.account
-);
+> = createSelector(getUserState, (state: UserState) => state.account);
 
 export const getDetails: MemoizedSelector<StateWithUser, User> = createSelector(
   getDetailsState,

@@ -23,13 +23,6 @@ export class ConfiguratorCommonsService {
     protected activeCartService: ActiveCartService
   ) {}
 
-  hasConfiguration(owner: GenericConfigurator.Owner): Observable<Boolean> {
-    return this.store.pipe(
-      select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
-      map(configuration => this.isConfigurationCreated(configuration))
-    );
-  }
-
   getConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {

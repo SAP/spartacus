@@ -45,9 +45,9 @@ describe('ConfigRouterExtractorService', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(ConfigRouterExtractorService as Type<
-      ConfigRouterExtractorService
-    >);
+    serviceUnderTest = TestBed.get(
+      ConfigRouterExtractorService as Type<ConfigRouterExtractorService>
+    );
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   });
 

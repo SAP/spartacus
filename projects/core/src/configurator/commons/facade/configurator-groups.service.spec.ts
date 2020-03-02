@@ -56,13 +56,13 @@ describe('ConfiguratorGroupsService', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(ConfiguratorGroupsService as Type<
-      ConfiguratorGroupsService
-    >);
+    serviceUnderTest = TestBed.get(
+      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+    );
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
-    configuratorCommonsService = TestBed.get(ConfiguratorCommonsService as Type<
-      ConfiguratorCommonsService
-    >);
+    configuratorCommonsService = TestBed.get(
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
 
     spyOn(store, 'dispatch').and.stub();
     spyOn(store, 'pipe').and.returnValue(of(uiState));

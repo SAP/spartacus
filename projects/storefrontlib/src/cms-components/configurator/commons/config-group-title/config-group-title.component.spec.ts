@@ -146,9 +146,9 @@ describe('ConfigurationGroupMenuComponent', () => {
 
     configuratorGroupsService = TestBed.get(ConfiguratorGroupsService);
 
-    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
-      GenericConfigUtilsService
-    >);
+    configuratorUtils = TestBed.get(
+      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+    );
     configuratorUtils.setOwnerKey(config.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
   });

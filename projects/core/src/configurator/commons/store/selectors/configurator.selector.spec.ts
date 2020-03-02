@@ -39,9 +39,9 @@ describe('Configurator selectors', () => {
     });
 
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
-    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
-      GenericConfigUtilsService
-    >);
+    configuratorUtils = TestBed.get(
+      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+    );
     configuratorUtils.setOwnerKey(owner);
     spyOn(store, 'dispatch').and.callThrough();
   });

@@ -40,10 +40,7 @@ export class ConfiguratorTextfieldService {
     changedAttribute: ConfiguratorTextfield.ConfigurationInfo
   ): void {
     this.store
-      .pipe(
-        select(ConfiguratorSelectors.getConfigurationContent),
-        take(1)
-      )
+      .pipe(select(ConfiguratorSelectors.getConfigurationContent), take(1))
       .subscribe(oldConfiguration => {
         this.store.dispatch(
           new ConfiguratorActions.UpdateConfiguration(
@@ -85,10 +82,7 @@ export class ConfiguratorTextfieldService {
     addToCartParameters: ConfiguratorTextfield.AddToCartParameters
   ): void {
     this.store
-      .pipe(
-        select(ConfiguratorSelectors.getConfigurationContent),
-        take(1)
-      )
+      .pipe(select(ConfiguratorSelectors.getConfigurationContent), take(1))
       .subscribe(configuration => {
         addToCartParameters.configuration = configuration;
         this.store.dispatch(

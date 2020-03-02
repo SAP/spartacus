@@ -21,9 +21,8 @@ const getUiState: MemoizedSelector<
 export const getUiStateForProduct = (
   code: string
 ): MemoizedSelector<StateWithConfiguration, UiState> => {
-  return createSelector(
-    getUiState,
-    details => StateEntitySelectors.entitySelector(details, code)
+  return createSelector(getUiState, details =>
+    StateEntitySelectors.entitySelector(details, code)
   );
 };
 

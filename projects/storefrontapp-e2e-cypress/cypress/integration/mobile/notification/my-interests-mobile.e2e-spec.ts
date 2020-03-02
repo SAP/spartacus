@@ -2,7 +2,7 @@ import { formats } from '../../../sample-data/viewports';
 import * as notification from '../../../helpers/notification';
 import * as orderDetail from '../../../helpers/consignment-tracking';
 
-describe.skip(`${formats.mobile.width + 1}p resolution - My interests`, () => {
+describe(`${formats.mobile.width + 1}p resolution - My interests`, () => {
   beforeEach(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
@@ -19,7 +19,7 @@ describe.skip(`${formats.mobile.width + 1}p resolution - My interests`, () => {
   });
 });
 
-describe.skip(`${formats.mobile.width +
+describe(`${formats.mobile.width +
   1}p resolution - My interests paging and sorting`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);

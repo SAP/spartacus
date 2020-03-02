@@ -262,7 +262,8 @@ export class ActiveCartService {
       filter(
         cartState =>
           this.userId === OCC_USER_ID_ANONYMOUS ||
-          (cartState.success || cartState.error)
+          cartState.success ||
+          cartState.error
       ),
       take(1),
       switchMap(cartState => {

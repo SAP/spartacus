@@ -19,9 +19,9 @@ export function getConfiguratorTextfieldReducers(): ActionReducerMap<
   };
 }
 
-export const configuratorTextfieldReducerToken: InjectionToken<
-  ActionReducerMap<ConfigurationTextfieldLoaderState>
-> = new InjectionToken<ActionReducerMap<ConfigurationTextfieldLoaderState>>(
+export const configuratorTextfieldReducerToken: InjectionToken<ActionReducerMap<
+  ConfigurationTextfieldLoaderState
+>> = new InjectionToken<ActionReducerMap<ConfigurationTextfieldLoaderState>>(
   'ConfiguratorReducers'
 );
 

@@ -204,12 +204,12 @@ describe('ConfigurationGroupMenuComponent', () => {
 
     configuratorGroupsService = TestBed.get(ConfiguratorGroupsService);
 
-    hamburgerMenuService = TestBed.get(HamburgerMenuService as Type<
-      HamburgerMenuService
-    >);
-    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
-      GenericConfigUtilsService
-    >);
+    hamburgerMenuService = TestBed.get(
+      HamburgerMenuService as Type<HamburgerMenuService>
+    );
+    configuratorUtils = TestBed.get(
+      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+    );
     configuratorUtils.setOwnerKey(config.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();

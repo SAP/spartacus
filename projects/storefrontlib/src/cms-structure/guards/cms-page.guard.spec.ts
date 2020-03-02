@@ -209,7 +209,7 @@ describe('CmsPageGuard', () => {
         expect(result).toEqual(false);
         expect(cmsRoutes.cmsRouteExist).toHaveBeenCalledWith('/testPageLabel');
         expect(cmsRoutes.handleCmsRoutesInGuard).toHaveBeenCalledWith(
-          { id: 'testPageId', type: 'ContentPage' },
+          { id: 'testPageId', type: 'ContentPage' } as any,
           mockPageComponentTypes,
           '/test',
           '/testPageLabel'

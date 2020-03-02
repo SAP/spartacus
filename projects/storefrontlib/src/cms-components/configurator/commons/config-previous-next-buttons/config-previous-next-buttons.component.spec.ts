@@ -145,13 +145,13 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
-    configurationGroupsService = TestBed.get(ConfiguratorGroupsService as Type<
-      ConfiguratorGroupsService
-    >);
+    configurationGroupsService = TestBed.get(
+      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+    );
     fixture.detectChanges();
-    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
-      GenericConfigUtilsService
-    >);
+    configuratorUtils = TestBed.get(
+      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+    );
     configuratorUtils.setOwnerKey(config.owner);
   });
 

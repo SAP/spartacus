@@ -34,9 +34,9 @@ export function getReducers(): ActionReducerMap<CartsState> {
  *
  * TODO(issue:#4507)
  */
-export const reducerToken: InjectionToken<
-  ActionReducerMap<CartsState>
-> = new InjectionToken<ActionReducerMap<CartsState>>('CartReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<
+  CartsState
+>> = new InjectionToken<ActionReducerMap<CartsState>>('CartReducers');
 
 /**
  * @deprecated since version 1.5
@@ -114,9 +114,9 @@ export const multiCartMetaReducers: MetaReducer<any>[] = [clearMultiCartState];
  *
  * TODO(issue:#4507)
  */
-export const multiCartReducerToken: InjectionToken<
-  ActionReducerMap<MultiCartState>
-> = new InjectionToken<ActionReducerMap<MultiCartState>>('MultiCartReducers');
+export const multiCartReducerToken: InjectionToken<ActionReducerMap<
+  MultiCartState
+>> = new InjectionToken<ActionReducerMap<MultiCartState>>('MultiCartReducers');
 
 /**
  * @deprecated since version 1.5

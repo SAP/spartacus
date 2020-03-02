@@ -60,13 +60,13 @@ describe('OccConfigurationTextfieldAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
+    httpMock = TestBed.get(
+      HttpTestingController as Type<HttpTestingController>
+    );
     converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    occEnpointsService = TestBed.get(
+      OccEndpointsService as Type<OccEndpointsService>
+    );
 
     occConfiguratorVariantAdapter = TestBed.get(
       OccConfiguratorTextfieldAdapter as Type<OccConfiguratorTextfieldAdapter>

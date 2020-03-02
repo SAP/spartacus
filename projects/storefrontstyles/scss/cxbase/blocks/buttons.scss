@@ -278,12 +278,9 @@ button {
 $theme: '' !default;
 @if $theme == 'calydon' {
   button,
-  .btn,
-  .btn-primary,
-  .btn-secondary {
+  .btn {
     &:focus {
-      outline: var(--cx-color-visual-focus) auto 6px;
-      outline-offset: 2px;
+      @include visible-focus();
     }
   }
 }

@@ -11,7 +11,6 @@ import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import * as ConfiguratorActions from '../store/actions/configurator-textfield.action';
 import { StateWithConfigurationTextfield } from '../store/configuration-textfield-state';
-import * as ConfiguratorSelectors from '../store/selectors/configurator-textfield.selector';
 import { ConfiguratorTextfieldService } from './configurator-textfield.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -88,9 +87,9 @@ describe('ConfiguratorTextfieldService', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(ConfiguratorTextfieldService as Type<
-      ConfiguratorTextfieldService
-    >);
+    serviceUnderTest = TestBed.get(
+      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
+    );
     store = TestBed.get(Store as Type<Store<StateWithConfigurationTextfield>>);
 
     spyOn(store, 'dispatch').and.stub();
@@ -120,10 +119,7 @@ describe('ConfiguratorTextfieldService', () => {
 
   it('should access the store with selector', () => {
     serviceUnderTest.createConfiguration(owner);
-
-    expect(store.select).toHaveBeenCalledWith(
-      ConfiguratorSelectors.getConfigurationContent
-    );
+    expect(store.select).toHaveBeenCalled();
   });
 
   it('should update a configuration, accessing the store', () => {

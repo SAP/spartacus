@@ -163,12 +163,12 @@ function callGetOrCreate(
   serviceUnderTest: ConfiguratorCommonsService,
   owner: GenericConfigurator.Owner
 ) {
-  const productConfigurationLoaderState: LoaderState<
-    Configurator.Configuration
-  > = { value: productConfiguration };
-  const productConfigurationLoaderStateChanged: LoaderState<
-    Configurator.Configuration
-  > = { value: productConfigurationChanged };
+  const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+    value: productConfiguration,
+  };
+  const productConfigurationLoaderStateChanged: LoaderState<Configurator.Configuration> = {
+    value: productConfigurationChanged,
+  };
   const obs = cold('x-y', {
     x: productConfigurationLoaderState,
     y: productConfigurationLoaderStateChanged,
@@ -241,12 +241,12 @@ describe('ConfiguratorCommonsService', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(ConfiguratorCommonsService as Type<
-      ConfiguratorCommonsService
-    >);
-    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
-      GenericConfigUtilsService
-    >);
+    serviceUnderTest = TestBed.get(
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
+    configuratorUtils = TestBed.get(
+      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+    );
     configuratorUtils.setOwnerKey(OWNER_PRODUCT);
     configuratorUtils.setOwnerKey(OWNER_CART_ENTRY);
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
@@ -566,9 +566,9 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should create configuration if obsolete state', () => {
-      const productConfigurationLoaderState: LoaderState<
-        Configurator.Configuration
-      > = { loading: false };
+      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+        loading: false,
+      };
 
       const obs = cold('x', {
         x: productConfigurationLoaderState,
@@ -607,9 +607,9 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should create a new configuration if not existing yet', () => {
-      const productConfigurationLoaderState: LoaderState<
-        Configurator.Configuration
-      > = { loading: false };
+      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+        loading: false,
+      };
 
       const obs = cold('x', {
         x: productConfigurationLoaderState,
@@ -631,9 +631,9 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should not create a new configuration if not existing yet but status is loading', () => {
-      const productConfigurationLoaderState: LoaderState<
-        Configurator.Configuration
-      > = { loading: true };
+      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+        loading: true,
+      };
 
       const obs = cold('x', {
         x: productConfigurationLoaderState,

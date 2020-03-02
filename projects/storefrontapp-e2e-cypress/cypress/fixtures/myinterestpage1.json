@@ -1,0 +1,136 @@
+{
+  "pagination": {
+    "count": 10,
+    "page": 0,
+    "totalCount": 10,
+    "totalPages": 2
+  },
+  "results": [
+    {
+      "product": {
+        "code": "898520"
+      },
+      "productInterestEntry": [
+        {
+          "dateAdded": "2020-02-14T07:58:44+0000",
+          "expirationDate": "2020-05-14T07:58:44+0000",
+          "interestType": "BACK_IN_STOCK"
+        }
+      ]
+    },
+    {
+      "product": {
+        "code": "1934793"
+      },
+      "productInterestEntry": [
+        {
+          "dateAdded": "2020-02-14T07:58:44+0000",
+          "expirationDate": "2020-05-14T07:58:44+0000",
+          "interestType": "BACK_IN_STOCK"
+        }
+      ]
+    },
+    {
+      "product": {
+        "code": "553637"
+      },
+      "productInterestEntry": [
+        {
+          "dateAdded": "2020-02-14T07:58:44+0000",
+          "expirationDate": "2020-05-14T07:58:44+0000",
+          "interestType": "BACK_IN_STOCK"
+        }
+      ]
+    },
+    {
+      "product": {
+        "code": "2053266"
+      },
+      "productInterestEntry": [
+        {
+          "dateAdded": "2020-02-14T07:58:44+0000",
+          "expirationDate": "2020-05-14T07:58:44+0000",
+          "interestType": "BACK_IN_STOCK"
+        }
+      ]
+    },
+    {
+      "product": {
+        "code": "932577"
+      },
+      "productInterestEntry": [
+        {
+          "dateAdded": "2020-02-14T07:58:44+0000",
+          "expirationDate": "2020-05-14T07:58:44+0000",
+          "interestType": "BACK_IN_STOCK"
+        }
+      ]
+    },
+    {
+      "product": {
+        "code": "816379"
+      },
+      "productInterestEntry": [
+        {
+          "dateAdded": "2020-02-14T07:58:44+0000",
+          "expirationDate": "2020-05-14T07:58:44+0000",
+          "interestType": "BACK_IN_STOCK"
+        }
+      ]
+    },
+    {
+      "product": {
+        "code": "3357724"
+      },
+      "productInterestEntry": [
+        {
+          "dateAdded": "2020-02-14T07:58:44+0000",
+          "expirationDate": "2020-05-14T07:58:44+0000",
+          "interestType": "BACK_IN_STOCK"
+        }
+      ]
+    },
+    {
+      "product": {
+        "code": "358639"
+      },
+      "productInterestEntry": [
+        {
+          "dateAdded": "2020-02-14T07:58:44+0000",
+          "expirationDate": "2020-05-14T07:58:44+0000",
+          "interestType": "BACK_IN_STOCK"
+        }
+      ]
+    },
+    {
+      "product": {
+        "code": "592506"
+      },
+      "productInterestEntry": [
+        {
+          "dateAdded": "2020-02-14T07:58:44+0000",
+          "expirationDate": "2020-05-14T07:58:44+0000",
+          "interestType": "BACK_IN_STOCK"
+        }
+      ]
+    },
+    {
+      "product": {
+        "code": "4205431"
+      },
+      "productInterestEntry": [
+        {
+          "dateAdded": "2020-02-14T07:58:44+0000",
+          "expirationDate": "2020-05-14T07:58:44+0000",
+          "interestType": "BACK_IN_STOCK"
+        }
+      ]
+    }
+  ],
+  "sorts": [
+    {
+      "asc": false,
+      "code": "name"
+    }
+  ]
+}
