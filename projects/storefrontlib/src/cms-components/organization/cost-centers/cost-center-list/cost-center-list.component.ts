@@ -12,7 +12,7 @@ import {
 import {
   AbstractListingComponent,
   ListingModel,
-} from '../../abstract-listing/abstract-listing.component';
+} from '../../abstract-component/abstract-listing.component';
 
 @Component({
   selector: 'cx-cost-center-list',
