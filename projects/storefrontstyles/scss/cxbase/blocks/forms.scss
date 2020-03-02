@@ -179,6 +179,7 @@ input[type='radio'] {
 .ng-select,
 .ng-select.ng-select-single {
   .ng-dropdown-panel {
+    box-shadow: 1px 1px 2px var(--cx-color-visual-focus);
     .ng-dropdown-panel-items {
       .ng-option.ng-option-marked {
         background-color: var(--cx-color-light);
