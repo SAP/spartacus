@@ -50,6 +50,10 @@ import { defaultViewTabbingOrder } from '../../helpers/accessibility/tabbing-ord
 import { storeDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/store-details';
 import { countriesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/countries-list';
 import { storesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/stores-list';
+import {
+  consignmentTrackingTabbingOrder,
+  consignmentTrackingEventsTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/consignment-tracking';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -331,6 +335,16 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('My Interest', () => {
     it('should allow to navigate with tab key', () => {
       myInterestTabbingOrder(config.myInterests);
+    });
+  });
+
+  context('Consignment Tracking', () => {
+    it('should allow to navigate with tab key', () => {
+      consignmentTrackingTabbingOrder(config.consignmentTracking);
+    });
+
+    it('should allow to navigate with tab key(tracking events)', () => {
+      consignmentTrackingEventsTabbingOrder(config.consignmentTrackingEvents);
     });
   });
 });

@@ -2464,4 +2464,38 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
+  consignmentTracking: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'Photosmart E317 Digital Camera',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'DSC-T90',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: 'Micro Webcam',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+  ],
+  consignmentTrackingEvents: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
 };
