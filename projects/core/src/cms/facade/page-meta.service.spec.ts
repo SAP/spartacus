@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
-import { Page, PageMeta, PageRobotsMeta } from '../model/page.model';
+import {
+  BreadcrumbMeta,
+  Page,
+  PageMeta,
+  PageRobotsMeta,
+} from '../model/page.model';
 import {
   PageBreadcrumbResolver,
   PageDescriptionResolver,
@@ -85,7 +90,9 @@ class PageWithAllResolvers extends PageMetaResolver
     return of('page description');
   }
   resolveBreadcrumbs(): Observable<any> {
-    return of([{ label: 'breadcrumb label', link: '/bread/crumb' }]);
+    return of([
+      { label: 'breadcrumb label', link: '/bread/crumb' },
+    ] as BreadcrumbMeta[]);
   }
   resolveImage(): Observable<string> {
     return of('/my/image.jpg');
