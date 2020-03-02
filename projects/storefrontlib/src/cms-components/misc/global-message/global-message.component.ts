@@ -5,7 +5,7 @@ import {
   GlobalMessageType,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
+import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 
 @Component({
   selector: 'cx-global-message',

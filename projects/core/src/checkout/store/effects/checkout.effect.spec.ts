@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -99,12 +98,8 @@ describe('Checkout effect', () => {
       ],
     });
 
-    entryEffects = TestBed.get(fromEffects.CheckoutEffects as Type<
-      fromEffects.CheckoutEffects
-    >);
-    checkoutConnector = TestBed.get(CheckoutConnector as Type<
-      CheckoutConnector
-    >);
+    entryEffects = TestBed.inject(fromEffects.CheckoutEffects);
+    checkoutConnector = TestBed.inject(CheckoutConnector);
 
     spyOn(checkoutConnector, 'placeOrder').and.returnValue(of(orderDetails));
   });
@@ -202,10 +197,11 @@ describe('Checkout effect', () => {
   describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
     it('should dispatch checkout clear miscs data action on language change', () => {
       const action = new SiteContextActions.LanguageChange();
-      const completion = new CheckoutActions.CheckoutClearMiscsData();
+      const completion1 = new CheckoutActions.CheckoutClearMiscsData();
+      const completion2 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(
         entryEffects.clearCheckoutMiscsDataOnLanguageChange$

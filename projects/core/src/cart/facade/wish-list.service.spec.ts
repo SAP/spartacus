@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -80,9 +79,9 @@ describe('WishListService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithMultiCart>>);
-    service = TestBed.get(WishListService as Type<WishListService>);
-    multiCartService = TestBed.get(MultiCartService as Type<MultiCartService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(WishListService);
+    multiCartService = TestBed.inject(MultiCartService);
 
     spyOn(store, 'dispatch').and.callThrough();
   });

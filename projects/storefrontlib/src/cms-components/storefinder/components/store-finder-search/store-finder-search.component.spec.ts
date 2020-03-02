@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -34,7 +34,7 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
@@ -65,7 +65,7 @@ describe('StoreFinderSearchComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderSearchComponent);
     component = fixture.componentInstance;
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    routingService = TestBed.inject(RoutingService);
 
     fixture.detectChanges();
   });

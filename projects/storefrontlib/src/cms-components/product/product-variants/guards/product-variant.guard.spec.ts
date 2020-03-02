@@ -2,7 +2,6 @@ import { ProductVariantGuard } from '@spartacus/storefront';
 import { Product, ProductService, RoutingService } from '@spartacus/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Type } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 const mockPurchasableProduct = {
@@ -68,9 +67,9 @@ describe('ProductVariantGuard', () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(ProductVariantGuard as Type<ProductVariantGuard>);
-    productService = TestBed.get(ProductService as Type<ProductService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    guard = TestBed.inject(ProductVariantGuard);
+    productService = TestBed.inject(ProductService);
+    routingService = TestBed.inject(RoutingService);
   });
 
   it('should return true if product is purchasable', done => {
@@ -96,7 +95,7 @@ describe('ProductVariantGuard', () => {
     });
   });
 
-  it('should return true if there is no productCode in route parameter', done => {
+  it('should return true if no productCode in route parameter (launch from smartedit)', done => {
     spyOn(routingService, 'getRouterState').and.returnValue(
       of({
         nextState: {

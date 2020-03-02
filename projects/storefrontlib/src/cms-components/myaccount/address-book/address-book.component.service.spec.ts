@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -76,15 +75,9 @@ describe('AddressBookComponentService', () => {
       ],
     });
 
-    service = TestBed.get(AddressBookComponentService as Type<
-      AddressBookComponentService
-    >);
-    userAddressService = TestBed.get(UserAddressService as Type<
-      UserAddressService
-    >);
-    checkoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
+    service = TestBed.inject(AddressBookComponentService);
+    userAddressService = TestBed.inject(UserAddressService);
+    checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
   });
 
   it('should service be created', () => {

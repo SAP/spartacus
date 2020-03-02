@@ -30,11 +30,11 @@ describe('CustomerSupportAgentErrorHandlingService', () => {
       ],
     });
 
-    csagentErrorHandlingService = TestBed.get(
+    csagentErrorHandlingService = TestBed.inject(
       CustomerSupportAgentErrorHandlingService
     );
-    asmAuthService = TestBed.get(AsmAuthService);
-    globalMessageService = TestBed.get(GlobalMessageService);
+    asmAuthService = TestBed.inject(AsmAuthService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe(`terminateCustomerSupportAgentExpiredSession`, () => {

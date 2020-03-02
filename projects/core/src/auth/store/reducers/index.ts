@@ -19,9 +19,9 @@ export function getReducers(): ActionReducerMap<AuthState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<AuthState>
-> = new InjectionToken<ActionReducerMap<AuthState>>('AuthReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<
+  AuthState
+>> = new InjectionToken<ActionReducerMap<AuthState>>('AuthReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

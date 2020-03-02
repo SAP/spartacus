@@ -85,12 +85,12 @@ describe('CheckoutAuthGuard', () => {
       ],
       imports: [RouterTestingModule],
     });
-    checkoutGuard = TestBed.get(CheckoutAuthGuard);
-    service = TestBed.get(RoutingService);
-    authService = TestBed.get(AuthService);
-    authRedirectService = TestBed.get(AuthRedirectService);
-    cartService = TestBed.get(CartService);
-    checkoutConfigService = TestBed.get(CheckoutConfigService);
+    checkoutGuard = TestBed.inject(CheckoutAuthGuard);
+    service = TestBed.inject(RoutingService);
+    authService = TestBed.inject(AuthService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
+    cartService = TestBed.inject(CartService);
+    checkoutConfigService = TestBed.inject(CheckoutConfigService);
 
     spyOn(service, 'go').and.stub();
   });

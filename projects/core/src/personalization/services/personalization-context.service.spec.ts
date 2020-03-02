@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
@@ -6,8 +5,8 @@ import {
   Page,
   PageType,
   PersonalizationConfig,
-  PersonalizationContextService,
   PersonalizationContext,
+  PersonalizationContextService,
 } from '@spartacus/core';
 
 const mockPersonalizationConfig: PersonalizationConfig = {
@@ -84,9 +83,7 @@ describe('PersonalizationContextService', () => {
       ],
     });
 
-    service = TestBed.get(PersonalizationContextService as Type<
-      PersonalizationContextService
-    >);
+    service = TestBed.inject(PersonalizationContextService);
   });
 
   it('should return personalization context if PersonalizationScriptComponent exists', () => {

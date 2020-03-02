@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthRedirectService } from './auth-redirect.service';
@@ -33,9 +32,9 @@ describe('AuthRedirectService', () => {
       ],
       imports: [RouterTestingModule],
     });
-    service = TestBed.get(AuthRedirectService as Type<AuthRedirectService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    router = TestBed.get(Router as Type<Router>);
+    service = TestBed.inject(AuthRedirectService);
+    routingService = TestBed.inject(RoutingService);
+    router = TestBed.inject(Router);
   });
 
   describe('redirect', () => {

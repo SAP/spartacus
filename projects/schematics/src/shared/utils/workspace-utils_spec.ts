@@ -1,9 +1,13 @@
-import * as path from 'path';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { getProjectFromWorkspace, getWorkspace } from './workspace-utils';
+import * as path from 'path';
+import {
+  getProjectFromWorkspace,
+  getSourceRoot,
+  getWorkspace,
+} from './workspace-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -48,12 +52,16 @@ describe('Workspace utils', () => {
       .toPromise();
   });
 
+  describe('getSourceRoot', () => {
+    it('should return the source root of the default project', async () => {
+      const sourceRoot = getSourceRoot(appTree, {});
+      expect(sourceRoot).toEqual('src');
+    });
+  });
+
   describe('getWorkspace', () => {
     it('should return data about project', async () => {
-      const workspaceInfo = getWorkspace(appTree, [
-        '/angular.json',
-        '/.angular.json',
-      ]);
+      const workspaceInfo = getWorkspace(appTree);
       expect(workspaceInfo.path).toEqual('/angular.json');
       expect(workspaceInfo.workspace.defaultProject).toEqual(appOptions.name);
     });

@@ -3,7 +3,6 @@ import {
   Component,
   DebugElement,
   Input,
-  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -105,9 +104,7 @@ describe('ProductFacetNavigationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductFacetNavigationComponent);
     component = fixture.componentInstance;
-    productListComponentService = TestBed.get(
-      ProductListComponentService as Type<ProductListComponentService>
-    );
+    productListComponentService = TestBed.inject(ProductListComponentService);
   });
 
   it('should create', () => {

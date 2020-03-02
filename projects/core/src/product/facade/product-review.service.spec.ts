@@ -1,11 +1,10 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { Review } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
-import { ProductsState, PRODUCT_FEATURE } from '../store/product-state';
+import { PRODUCT_FEATURE, ProductsState } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductReviewService } from './product-review.service';
 
@@ -25,8 +24,8 @@ describe('ReviewService', () => {
       ],
       providers: [ProductReviewService],
     });
-    store = TestBed.get(Store as Type<Store<ProductsState>>);
-    service = TestBed.get(ProductReviewService as Type<ProductReviewService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(ProductReviewService);
 
     spyOn(store, 'dispatch').and.callThrough();
   });

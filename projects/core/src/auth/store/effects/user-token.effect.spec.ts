@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -48,10 +47,8 @@ describe('UserToken effect', () => {
       ],
     });
 
-    userTokenEffect = TestBed.get(UserTokenEffects as Type<UserTokenEffects>);
-    userTokenService = TestBed.get(UserAuthenticationTokenService as Type<
-      UserAuthenticationTokenService
-    >);
+    userTokenEffect = TestBed.inject(UserTokenEffects);
+    userTokenService = TestBed.inject(UserAuthenticationTokenService);
 
     spyOn(userTokenService, 'loadToken').and.returnValue(of(testToken));
     spyOn(userTokenService, 'refreshToken').and.returnValue(of(testToken));
