@@ -1,12 +1,15 @@
 import { PRODUCT_LISTING } from './data-configuration';
-import { clickFacet, createAllProductQuery } from './product-search';
+import {
+  clickFacet,
+  createAllProductQuery,
+  QUERY_ALIAS,
+} from './product-search';
 
 const scrollDuration = 1000;
 const defaultNumberOfProducts = 10;
 let defaultProductLimit = 10;
 let numberOfIteration = 0;
 
-const productLoadedQuery = 'productLoaded';
 const productScrollButtons = 'cx-product-scroll .btn-action';
 
 const doubleButton = 'double';
@@ -30,9 +33,9 @@ export function scrollConfig(
 
 export function verifyProductListLoaded() {
   cy.server();
-  createAllProductQuery(productLoadedQuery);
+  createAllProductQuery(QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED);
   cy.visit('/Open-Catalogue/Components/Power-Supplies/c/816');
-  cy.wait(`@${productLoadedQuery}`)
+  cy.wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
     .its('status')
     .should('eq', 200);
 }
@@ -90,7 +93,7 @@ export function scrollToFooter(
         cy.get('div')
           .contains('SHOW MORE')
           .click({ force: true })
-          .wait(`@${productLoadedQuery}`)
+          .wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
           .then(() => {
             numberOfProducts += defaultNumberOfProducts;
             verifyNumberOfProducts(numberOfProducts);
@@ -99,7 +102,7 @@ export function scrollToFooter(
           });
       } else {
         cy.scrollTo('bottom', { easing: 'linear', duration: scrollDuration })
-          .wait(`@${productLoadedQuery}`)
+          .wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
           .then(() => {
             numberOfProducts += defaultNumberOfProducts;
             verifyNumberOfProducts(numberOfProducts);
@@ -120,7 +123,7 @@ export function verifySortingResetsList() {
     PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
   );
 
-  cy.wait(`@${productLoadedQuery}`)
+  cy.wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
     .its('status')
     .should('eq', 200);
 
@@ -130,7 +133,7 @@ export function verifySortingResetsList() {
 export function verifyFilterResetsList() {
   clickFacet('Brand');
 
-  cy.wait(`@${productLoadedQuery}`)
+  cy.wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
     .its('status')
     .should('eq', 200);
 
@@ -140,7 +143,7 @@ export function verifyFilterResetsList() {
 export function verifyGridResetsList() {
   cy.get('cx-product-view > div > div:first').click({ force: true });
 
-  cy.wait(`@${productLoadedQuery}`)
+  cy.wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
     .its('status')
     .should('eq', 200);
 
