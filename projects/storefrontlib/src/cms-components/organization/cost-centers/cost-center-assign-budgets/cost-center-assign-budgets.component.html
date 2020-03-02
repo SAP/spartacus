@@ -1,18 +1,3 @@
-<div class="col-md-12 col-lg-3">
-  <div class="row cx-search-links mb-3">
-    <div class="col-12 cx-textalign">
-      <!--          back-->
-      <button
-        [routerLink]="
-          { cxRoute: 'costCenterDetails', params: { code: code } } | cxUrl
-        "
-        class="btn btn-primary btn-block"
-      >
-        {{ 'costCenterAssignBudgets.back' | cxTranslate }}
-      </button>
-    </div>
-  </div>
-</div>
 <cx-interactive-table
   [data$]="data$"
   [header]="'costCenterAssignBudgets.assignBudgets' | cxTranslate"
@@ -50,4 +35,19 @@
   (check)="assign($event)"
   (uncheck)="unassign($event)"
 >
+  <div class="col-md-12 col-lg-3">
+    <div class="row cx-search-links mb-3">
+      <div class="col-12 cx-textalign">
+        <!--          back-->
+        <button
+          [routerLink]="
+            { cxRoute: 'costCenterDetails', params: { code: code } } | cxUrl
+          "
+          class="btn btn-primary btn-block"
+        >
+          {{ 'costCenterAssignBudgets.back' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </div>
 </cx-interactive-table>

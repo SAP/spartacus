@@ -1,16 +1,3 @@
-<div class="col-md-12 col-lg-3">
-  <div class="row cx-search-links mb-3">
-    <div class="col-12 cx-textalign">
-      <button
-        [routerLink]="{ cxRoute: 'costCenterCreate' } | cxUrl"
-        class="btn btn-primary btn-block"
-      >
-        {{ 'costCentersList.create' | cxTranslate }}
-      </button>
-    </div>
-  </div>
-</div>
-
 <cx-interactive-table
   [data$]="data$"
   [header]="'costCentersList.costCenterManagement' | cxTranslate"
@@ -39,4 +26,16 @@
   (pageChange)="pageChange($event)"
   (changeSortCode)="changeSortCode($event)"
 >
+  <div class="col-md-12 col-lg-3">
+    <div class="row cx-search-links mb-3">
+      <div class="col-12 cx-textalign">
+        <button
+          [routerLink]="{ cxRoute: 'costCenterCreate' } | cxUrl"
+          class="btn btn-primary btn-block"
+        >
+          {{ 'costCentersList.create' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </div>
 </cx-interactive-table>

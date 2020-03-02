@@ -11,20 +11,7 @@
       <!--        >-->
       <!--        </cx-search>-->
     </div>
-
-    <!--    TODO: part for outlet-->
-    <!--    <div class="col-md-12 col-lg-3">-->
-    <!--      <div class="row cx-search-links mb-3">-->
-    <!--        <div class="col-12 cx-textalign">-->
-    <!--          <button-->
-    <!--            [routerLink]="{ cxRoute: 'routerCreate' } | cxUrl"-->
-    <!--            class="btn btn-primary btn-block"-->
-    <!--          >-->
-    <!--            {{ createLabel }}-->
-    <!--          </button>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
+    <ng-content></ng-content>
   </div>
 
   <div class="cx-table-body">
@@ -49,10 +36,14 @@
         (uncheck)="uncheckEvent($event)"
       ></cx-table>
       <div class="bottom cx-pagination cx-textalign">
-        <cx-pagination
-          [pagination]="data.pagination"
-          (viewPageEvent)="viewPageEvent($event)"
-        ></cx-pagination>
+        <div
+          class="cx-form-group form-group col-xs-12 col-sm-12 col-md-4 col-lg-4"
+        >
+          <cx-pagination
+            [pagination]="data.pagination"
+            (viewPageEvent)="viewPageEvent($event)"
+          ></cx-pagination>
+        </div>
       </div>
     </ng-container>
 
