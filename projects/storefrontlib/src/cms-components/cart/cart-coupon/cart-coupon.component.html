@@ -18,6 +18,8 @@
           <button
             class="btn btn-block btn-action apply-coupon-button"
             type="submit"
+            [disabled]="cartIsLoading$ | async"
+            [class.disabled]="cartIsLoading$ | async"
           >
             {{ 'voucher.apply' | cxTranslate }}
           </button>
