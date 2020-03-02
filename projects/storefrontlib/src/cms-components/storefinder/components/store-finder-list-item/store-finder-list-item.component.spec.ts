@@ -1,7 +1,12 @@
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nTestingModule, StoreDataService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  StoreDataService,
+  RoutingService,
+} from '@spartacus/core';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
 
 const weekday = {
@@ -17,6 +22,14 @@ const weekday = {
   },
   closed: false,
 };
+
+const location = {
+  name: 'Test Name',
+};
+
+const countryIsoCode = 'CA';
+
+const regionIsoCode = 'CA-QC';
 
 const sampleStore: any = {
   address: {
@@ -76,19 +89,28 @@ const sampleStore: any = {
   },
 };
 
+const mockRoutingService = {
+  go: jasmine.createSpy('go'),
+};
+
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
   let fixture: ComponentFixture<StoreFinderListItemComponent>;
+  let route: ActivatedRoute;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, ReactiveFormsModule, I18nTestingModule],
       declarations: [StoreFinderListItemComponent],
-      providers: [StoreDataService],
+      providers: [
+        StoreDataService,
+        { provide: RoutingService, useValue: mockRoutingService },
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
+    route = TestBed.inject(ActivatedRoute);
     fixture = TestBed.createComponent(StoreFinderListItemComponent);
     component = fixture.componentInstance;
     component.location = sampleStore;
@@ -105,5 +127,30 @@ describe('StoreFinderListItemComponent', () => {
     component.handleStoreItemClick();
     fixture.detectChanges();
     expect(component.storeItemClick.emit).toHaveBeenCalledWith(1);
+  });
+
+  it('should route when viewStore is called without region', () => {
+    route.snapshot.params = {
+      country: countryIsoCode,
+    };
+    fixture.detectChanges();
+
+    component.viewStore(location);
+
+    expect(mockRoutingService.go).toHaveBeenCalledWith([
+      `store-finder/country/${countryIsoCode}/${location.name}`,
+    ]);
+  });
+
+  it('should create store url for route', () => {
+    route.snapshot.params = {
+      country: countryIsoCode,
+      region: regionIsoCode,
+    };
+    const result = component.prepareRouteUrl(location);
+
+    expect(result).toEqual(
+      `store-finder/country/${countryIsoCode}/region/${regionIsoCode}/${location.name}`
+    );
   });
 });
