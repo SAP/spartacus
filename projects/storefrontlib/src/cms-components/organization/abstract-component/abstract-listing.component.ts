@@ -27,8 +27,6 @@ export abstract class AbstractListingComponent {
   cxRoute: string;
   data$: Observable<ListingModel>;
 
-  constructor(protected routingService: RoutingService) {}
-
   protected queryParams$: Observable<
     B2BSearchConfig
   > = this.routingService.getRouterState().pipe(
@@ -55,6 +53,8 @@ export abstract class AbstractListingComponent {
     currentPage: 0,
     pageSize: 5,
   };
+
+  constructor(protected routingService: RoutingService) {}
 
   changeSortCode(sort: string): void {
     this.updateQueryParams({ sort });
