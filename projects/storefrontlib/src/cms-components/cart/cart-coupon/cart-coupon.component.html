@@ -18,8 +18,6 @@
           <button
             class="btn btn-block btn-action apply-coupon-button"
             type="submit"
-            [disabled]="submitDisabled$ | async"
-            [class.disabled]="submitDisabled$ | async"
           >
             {{ 'voucher.apply' | cxTranslate }}
           </button>
@@ -44,12 +42,9 @@
         {{ 'voucher.availableCouponsLabel' | cxTranslate }}
       </div>
       <div class="scroll">
-        <div
-          class="coupons card "
-          *ngFor="let coupon of applicableCoupons"
-          (click)="applyCustomerCoupon(coupon.couponId)"
-        >
+        <div class="coupons card " *ngFor="let coupon of applicableCoupons">
           <button
+            (click)="applyCustomerCoupon(coupon.couponId)"
             class="coupon-id link"
             [disabled]="cartIsLoading$ | async"
             [class.disabled]="cartIsLoading$ | async"

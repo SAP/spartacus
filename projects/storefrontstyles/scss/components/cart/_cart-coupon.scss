@@ -13,12 +13,6 @@
     }
   }
 
-  .cx-cart-coupon-title {
-    @include type('5');
-    margin: 1.125rem 0 0.5rem;
-    text-transform: uppercase;
-  }
-
   .cx-available-coupon {
     .title {
       @include type('5');
