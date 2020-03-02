@@ -10,7 +10,6 @@
     "publishPath": "./../../dist/core"
   },
   "hooks": {
-    // "before:init": "cd ../.. && ./scripts/pre-release.sh",
     "after:version:bump": "cd ../.. && yarn build:core:lib"
   },
   "github": {
