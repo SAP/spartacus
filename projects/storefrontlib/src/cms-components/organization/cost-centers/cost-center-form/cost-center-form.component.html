@@ -131,7 +131,7 @@
       <button
         class="btn btn-block btn-primary"
         [disabled]="form.invalid"
-        (click)="verifyCostCenter()"
+        (click)="verifyAndSubmit()"
       >
         {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
       </button>

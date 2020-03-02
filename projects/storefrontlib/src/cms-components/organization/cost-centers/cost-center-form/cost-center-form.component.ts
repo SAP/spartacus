@@ -1,10 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -14,46 +12,24 @@ import {
   CostCenter,
   Currency,
   CurrencyService,
-  UrlCommandRoute,
   B2BUnitNode,
   OrgUnitService,
   EntitiesModel,
 } from '@spartacus/core';
-import { FormUtils } from '../../../../shared/utils/forms/form-utils';
+import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
 
 @Component({
   selector: 'cx-cost-center-form',
   templateUrl: './cost-center-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CostCenterFormComponent implements OnInit {
+export class CostCenterFormComponent extends AbstractFormComponent
+  implements OnInit {
   businessUnits$: Observable<B2BUnitNode[]>;
   currencies$: Observable<Currency[]>;
 
   @Input()
   costCenterData: CostCenter;
-
-  @Input()
-  actionBtnLabel: string;
-
-  @Input()
-  cancelBtnLabel: string;
-
-  @Input()
-  showCancelBtn = true;
-
-  @Input()
-  routerBackLink: UrlCommandRoute = {
-    cxRoute: 'costCenters',
-  };
-
-  @Output()
-  submitCostCenter = new EventEmitter<any>();
-
-  @Output()
-  clickBack = new EventEmitter<any>();
-
-  submitClicked = false;
 
   form: FormGroup = this.fb.group({
     code: ['', Validators.required],
@@ -67,10 +43,12 @@ export class CostCenterFormComponent implements OnInit {
   });
 
   constructor(
-    private fb: FormBuilder,
+    protected fb: FormBuilder,
     protected currencyService: CurrencyService,
     protected orgUnitService: OrgUnitService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.currencies$ = this.currencyService.getAll();
@@ -81,24 +59,5 @@ export class CostCenterFormComponent implements OnInit {
     if (this.costCenterData && Object.keys(this.costCenterData).length !== 0) {
       this.form.patchValue(this.costCenterData);
     }
-  }
-
-  back(): void {
-    this.clickBack.emit();
-  }
-
-  verifyCostCenter(): void {
-    this.submitClicked = true;
-    if (!this.form.invalid) {
-      this.submitCostCenter.emit(this.form.value);
-    }
-  }
-
-  isNotValid(formControlName: string): boolean {
-    return FormUtils.isNotValidField(
-      this.form,
-      formControlName,
-      this.submitClicked
-    );
   }
 }

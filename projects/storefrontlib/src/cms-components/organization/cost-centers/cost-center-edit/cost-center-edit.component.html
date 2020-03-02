@@ -5,6 +5,7 @@
   *ngIf="costCenter$ | async as costCenter"
   [actionBtnLabel]="'costCenterForm.update' | cxTranslate"
   [costCenterData]="costCenter"
-  (submitCostCenter)="updateCostCenter($event)"
+  [routerBackLink]="{ cxRoute: 'costCenters' }"
+  (submit)="updateCostCenter($event)"
 >
 </cx-cost-center-form>
