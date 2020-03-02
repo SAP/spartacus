@@ -7,13 +7,18 @@
     },
     "migration-v2-update-cms-component-state-02": {
       "version": "2-next",
-      "factory": "./2_0/update-cms-component-state#updateCmsComponentState",
+      "factory": "./2_0/update-cms-component-state#migrate",
       "description": "Update CMS components state to v2"
     },
     "migration-v2-constructor-deprecations-03": {
       "version": "2-next",
       "factory": "./2_0/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
+    },
+    "migration-v2-component-selectors-04": {
+      "version": "2-next",
+      "factory": "./2_0/component-selectors#migrate",
+      "description": "Handle deprecated Spartacus components"
     }
   }
 }

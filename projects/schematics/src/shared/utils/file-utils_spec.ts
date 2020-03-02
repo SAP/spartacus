@@ -228,10 +228,7 @@ describe('File utils', () => {
 
   describe('getIndexHtmlPath', () => {
     it('should return index.html path', async () => {
-      const project = getProjectFromWorkspace(appTree, defaultOptions, [
-        '/angular.json',
-        '/.angular.json',
-      ]);
+      const project = getProjectFromWorkspace(appTree, defaultOptions);
       const projectIndexHtmlPath = getIndexHtmlPath(project);
 
       expect(projectIndexHtmlPath).toEqual(`src/index.html`);

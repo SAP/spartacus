@@ -16,6 +16,7 @@ import {
   ReplaceChange,
 } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
+import { UTF_8 } from '../constants';
 
 export enum InsertDirection {
   LEFT,
@@ -25,6 +26,11 @@ export enum InsertDirection {
 export interface ClassType {
   className: string;
   importPath: string;
+}
+
+export interface ComponentSelector {
+  selector: string;
+  comment: string;
 }
 
 export interface ConstructorDeprecation {
@@ -39,7 +45,7 @@ export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   if (!buffer) {
     throw new SchematicsException(`Could not read file (${path}).`);
   }
-  const content = buffer.toString();
+  const content = buffer.toString(UTF_8);
   const source = ts.createSourceFile(
     path,
     content,
@@ -91,6 +97,38 @@ export function getPathResultsForFile(
   });
 
   return results;
+}
+
+// TODO:#6587 - test
+export function getAllHtmlFiles(tree: Tree, directory?: string): string[] {
+  return getPathResultsForFile(tree, '.html', directory);
+}
+
+function getTextPosition(content: string, text: string): number | undefined {
+  const index = content.indexOf(text);
+  return index !== -1 ? index : undefined;
+}
+
+function buildSelector(selector: string): string {
+  return `<${selector}`;
+}
+
+function buildHtmlComment(commentText: string): string {
+  return `<!-- ${commentText} -->`;
+}
+
+// TODO:#6587 - test
+export function insertHtmlComment(
+  content: string,
+  componentSelector: ComponentSelector
+): string | undefined {
+  const selector = buildSelector(componentSelector.selector);
+  const index = getTextPosition(content, selector);
+  if (index == null) {
+    return undefined;
+  }
+  const comment = buildHtmlComment(componentSelector.comment);
+  return content.slice(0, index) + comment + content.slice(index);
 }
 
 export function commitChanges(
