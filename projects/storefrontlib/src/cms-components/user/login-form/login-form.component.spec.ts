@@ -209,6 +209,16 @@ describe('LoginFormComponent', () => {
     });
   });
 
+  describe('submit button', () => {
+    it('should NOT be disabled', () => {
+      fixture.detectChanges();
+      const submitButton: HTMLElement = windowRef.document.querySelector(
+        'button[type="submit"]'
+      );
+      expect(submitButton.hasAttribute('disabled')).toBeFalsy();
+    });
+  });
+
   describe('guest checkout', () => {
     it('should show "Register" when forced flag is false', () => {
       const registerLinkElement: HTMLElement = fixture.debugElement.query(

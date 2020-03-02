@@ -106,7 +106,10 @@ describe('HttpErrorInterceptor', () => {
         http
           .get('/123')
           .pipe(catchError((error: any) => throwError(error)))
-          .subscribe(_result => {}, error => (this.error = error));
+          .subscribe(
+            _result => {},
+            error => (this.error = error)
+          );
         const mockReq = httpMock.expectOne(req => {
           return req.method === 'GET';
         });
@@ -146,7 +149,10 @@ describe('HttpErrorInterceptor', () => {
         http
           .get('/validation-error')
           .pipe(catchError((error: any) => throwError(error)))
-          .subscribe(_result => {}, error => (this.error = error));
+          .subscribe(
+            _result => {},
+            error => (this.error = error)
+          );
 
         httpMock
           .expectOne('/validation-error')
@@ -165,7 +171,10 @@ describe('HttpErrorInterceptor', () => {
         http
           .get('/unknown')
           .pipe(catchError((error: any) => throwError(error)))
-          .subscribe(_result => {}, error => (this.error = error));
+          .subscribe(
+            _result => {},
+            error => (this.error = error)
+          );
 
         const mockReq = httpMock.expectOne(req => {
           return req.method === 'GET';
