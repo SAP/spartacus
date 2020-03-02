@@ -7,7 +7,6 @@ import {
 import { getAngularJsonFile } from '../../shared/utils/workspace-utils';
 import { COMPONENT_SELECTOR_DEPRECATION_DATA } from './component-selectors-data';
 
-// TODO:#6587 - test
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     context.logger.info('Checking component selectors...');

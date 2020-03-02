@@ -104,8 +104,36 @@ export function getAllHtmlFiles(tree: Tree, directory?: string): string[] {
   return getPathResultsForFile(tree, '.html', directory);
 }
 
-function getTextPosition(content: string, text: string): number | undefined {
-  const index = content.indexOf(text);
+// TODO:#6587 - test
+export function insertHtmlComment(
+  content: string,
+  componentSelector: ComponentSelector
+): string | undefined {
+  const selector = buildSelector(componentSelector.selector);
+  const comment = buildHtmlComment(componentSelector.comment);
+  // return content.slice(0, index) + comment + content.slice(index);
+
+  let index: number | undefined = 0;
+  let newContent = content;
+  while (true) {
+    index = getTextPosition(newContent, selector, index);
+    if (index == null) {
+      break;
+    }
+
+    newContent = newContent.slice(0, index) + comment + newContent.slice(index);
+    index += comment.length + componentSelector.selector.length;
+  }
+
+  return newContent;
+}
+
+function getTextPosition(
+  content: string,
+  text: string,
+  startingPosition = 0
+): number | undefined {
+  const index = content.indexOf(text, startingPosition);
   return index !== -1 ? index : undefined;
 }
 
@@ -115,20 +143,6 @@ function buildSelector(selector: string): string {
 
 function buildHtmlComment(commentText: string): string {
   return `<!-- ${commentText} -->`;
-}
-
-// TODO:#6587 - test
-export function insertHtmlComment(
-  content: string,
-  componentSelector: ComponentSelector
-): string | undefined {
-  const selector = buildSelector(componentSelector.selector);
-  const index = getTextPosition(content, selector);
-  if (index == null) {
-    return undefined;
-  }
-  const comment = buildHtmlComment(componentSelector.comment);
-  return content.slice(0, index) + comment + content.slice(index);
 }
 
 export function commitChanges(
