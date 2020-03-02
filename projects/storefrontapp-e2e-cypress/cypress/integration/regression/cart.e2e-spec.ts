@@ -1,11 +1,12 @@
 import * as cart from '../../helpers/cart';
+import { visitHomePage } from '../../helpers/checkout-flow';
 import * as alerts from '../../helpers/global-message';
 import { apiUrl, login } from '../../support/utils/login';
 
 describe('Cart', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    cy.visit('/');
+    visitHomePage();
   });
 
   it('should add products to cart via search autocomplete', () => {
@@ -22,6 +23,7 @@ describe('Cart', () => {
 
   it('should add product to cart as anonymous and merge when logged in', () => {
     cart.registerCreateCartRoute();
+    cart.registerSaveCartRoute();
     cart.loginRegisteredUser();
     cart.addProductWhenLoggedIn(false);
     cart.logOutAndNavigateToEmptyCart();
@@ -39,6 +41,7 @@ describe('Cart', () => {
   });
 
   it('should be saved in browser and restored on refresh', () => {
+    cy.server();
     cart.addProductAsAnonymous();
     cy.reload();
     cart.verifyCartNotEmpty();
@@ -46,6 +49,7 @@ describe('Cart', () => {
 
   it('should be loaded for logged user after "cart not found" error', () => {
     cart.registerCreateCartRoute();
+    cart.registerSaveCartRoute();
     cart.loginRegisteredUser();
     cart.addProductWhenLoggedIn(false);
     // Wait to make sure everything was processed, so there won't be any ngrx -> localStorage synchronization
@@ -121,12 +125,14 @@ describe('Cart', () => {
 
   // will fail right now, as this is not implemented yet
   it('should first try to load cart when adding first entry for logged user', () => {
-    cy.server();
+    cart.loginCartUser();
+
     login(
       cart.cartUser.registrationData.email,
       cart.cartUser.registrationData.password,
       false
     ).then(res => {
+      expect(res.status).to.eq(200);
       // remove cart
       cy.request({
         method: 'DELETE',
@@ -134,9 +140,10 @@ describe('Cart', () => {
         headers: {
           Authorization: `bearer ${res.body.access_token}`,
         },
+      }).then(response => {
+        expect(response.status).to.eq(200);
       });
     });
-    cart.loginCartUser();
     cy.visit(`/product/${cart.products[0].code}`);
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
     login(
@@ -165,9 +172,7 @@ describe('Cart', () => {
         });
       });
     });
-    cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts?*`).as(
-      'cart'
-    );
+
     cart.addToCart();
     cart.checkAddedToCartDialog(2);
     cy.visit('/cart');
@@ -188,12 +193,13 @@ describe('Cart', () => {
   });
 
   it('should create new cart when adding first entry for logged user without cart', () => {
-    cy.server();
+    cart.loginCartUser();
     login(
       cart.cartUser.registrationData.email,
       cart.cartUser.registrationData.password,
       false
     ).then(res => {
+      expect(res.status).to.eq(200);
       // remove cart
       cy.request({
         method: 'DELETE',
@@ -201,9 +207,10 @@ describe('Cart', () => {
         headers: {
           Authorization: `bearer ${res.body.access_token}`,
         },
+      }).then(response => {
+        expect(response.status).to.eq(200);
       });
     });
-    cart.loginCartUser();
     cy.visit(`/product/${cart.products[0].code}`);
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
     cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts?*`).as(
@@ -224,7 +231,6 @@ describe('Cart', () => {
   });
 
   it('should use existing cart when adding new entries', () => {
-    cy.server();
     cy.visit(`/product/${cart.products[0].code}`);
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
     cart.addToCart();
@@ -239,15 +245,17 @@ describe('Cart', () => {
     cart.checkProductInCart(cart.products[1]);
 
     // cleanup
-    cy.route(
-      'GET',
-      `${apiUrl}/rest/v2/electronics-spa/users/anonymous/carts/*?fields=*&lang=en&curr=USD`
-    ).as('refresh_cart');
+    cart.registerCartRefreshRoute();
     cart.removeCartItem(cart.products[0]);
     cy.wait('@refresh_cart')
       .its('status')
       .should('eq', 200);
+
     cart.removeCartItem(cart.products[1]);
+    cy.wait('@refresh_cart')
+      .its('status')
+      .should('eq', 200);
+
     cart.validateEmptyCart();
   });
 

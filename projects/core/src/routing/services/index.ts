@@ -1,1 +1,1 @@
-export * from './url-matcher-factory.service';
+export * from './url-matcher.service';

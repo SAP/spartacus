@@ -3,6 +3,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
+import { UTF_8 } from '../constants';
 import { getPathResultsForFile } from './file-utils';
 import {
   addImport,
@@ -83,7 +84,7 @@ describe('Module file utils', () => {
       const buffer = appTree.read(appModulePath);
       expect(buffer).toBeTruthy();
       if (buffer) {
-        const fileContent = buffer.toString();
+        const fileContent = buffer.toString(UTF_8);
         expect(
           fileContent.includes("import { MockUnitTestModule } from '@test';")
         ).toBeTruthy();

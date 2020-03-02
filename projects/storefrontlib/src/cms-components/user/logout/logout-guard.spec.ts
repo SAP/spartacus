@@ -1,14 +1,14 @@
-import { Component, NgZone, Type } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthService,
   CmsService,
+  FeatureConfigService,
+  ProtectedRoutesService,
   RoutingService,
   SemanticPathService,
-  ProtectedRoutesService,
-  FeatureConfigService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LogoutGuard } from './logout-guard';
@@ -87,18 +87,14 @@ describe('LogoutGuard', () => {
         },
       ],
     });
-    authService = TestBed.get(AuthService as Type<AuthService>);
-    logoutGuard = TestBed.get(LogoutGuard as Type<LogoutGuard>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    router = TestBed.get(Router as Type<Router>);
-    featureConfigService = TestBed.get(FeatureConfigService as Type<
-      FeatureConfigService
-    >);
-    protectedRoutesService = TestBed.get(ProtectedRoutesService as Type<
-      ProtectedRoutesService
-    >);
+    authService = TestBed.inject(AuthService);
+    logoutGuard = TestBed.inject(LogoutGuard);
+    routingService = TestBed.inject(RoutingService);
+    router = TestBed.inject(Router);
+    featureConfigService = TestBed.inject(FeatureConfigService);
+    protectedRoutesService = TestBed.inject(ProtectedRoutesService);
 
-    zone = TestBed.get(NgZone as Type<NgZone>);
+    zone = TestBed.inject(NgZone);
   });
 
   describe('When user is authorised,', () => {

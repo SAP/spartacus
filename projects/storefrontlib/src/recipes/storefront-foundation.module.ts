@@ -37,7 +37,7 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
     UserModule.forRoot(),
     ProductModule.forRoot(),
     ViewConfigModule.forRoot(),
-    FeaturesConfigModule.forRoot('1.0'),
+    FeaturesConfigModule.forRoot('2.0'),
     LayoutModule,
   ],
   exports: [LayoutModule],

@@ -1,4 +1,4 @@
-import { PLATFORM_ID, Type } from '@angular/core';
+import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
@@ -75,10 +75,9 @@ describe('ProfileTagEventTracker', () => {
         { provide: PLATFORM_ID, useValue: 'browser' },
       ],
     });
-    profileTagEventTracker = TestBed.get(ProfileTagEventService as Type<
-      ProfileTagEventService
-    >);
-    nativeWindow = TestBed.get(WindowRef).nativeWindow;
+    profileTagEventTracker = TestBed.inject(ProfileTagEventService);
+    nativeWindow = TestBed.inject(WindowRef)
+      .nativeWindow as ProfileTagWindowObject;
   });
 
   it('should be created', () => {

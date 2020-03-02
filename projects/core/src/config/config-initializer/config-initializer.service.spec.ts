@@ -30,7 +30,7 @@ describe('ConfigInitializerService', () => {
         { provide: CONFIG_INITIALIZER_FORROOT_GUARD, useValue: true },
       ],
     });
-    service = TestBed.get(ConfigInitializerService);
+    service = TestBed.inject(ConfigInitializerService);
   });
 
   it('should be created', () => {

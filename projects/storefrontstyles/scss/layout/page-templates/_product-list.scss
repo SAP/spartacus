@@ -7,7 +7,6 @@
     flex-direction: column;
   }
   .ProductLeftRefinements {
-    order: 1;
     max-width: 25%;
     padding: 60px 15px 15px 15px;
 
@@ -18,7 +17,6 @@
   }
   .ProductListSlot,
   .ProductGridSlot {
-    order: 2;
     max-width: 75%;
 
     @include media-breakpoint-down(md) {

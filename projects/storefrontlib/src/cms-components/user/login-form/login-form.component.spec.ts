@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -15,7 +15,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../../checkout';
 import { LoginFormComponent } from './login-form.component';
-
 import createSpy = jasmine.createSpy;
 
 @Pipe({
@@ -57,7 +56,7 @@ describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
 
-  let authService: MockAuthService;
+  let authService: AuthService;
   let authRedirectService: AuthRedirectService;
   let windowRef: WindowRef;
 
@@ -82,11 +81,9 @@ describe('LoginFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
-    authService = TestBed.get(AuthService as Type<AuthService>);
-    authRedirectService = TestBed.get(AuthRedirectService as Type<
-      AuthRedirectService
-    >);
-    windowRef = TestBed.get(WindowRef as Type<WindowRef>);
+    authService = TestBed.inject(AuthService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
+    windowRef = TestBed.inject(WindowRef);
   });
 
   beforeEach(() => {
@@ -209,6 +206,16 @@ describe('LoginFormComponent', () => {
 
       control.setValue(null);
       expect(control.valid).toBeFalsy();
+    });
+  });
+
+  describe('submit button', () => {
+    it('should NOT be disabled', () => {
+      fixture.detectChanges();
+      const submitButton: HTMLElement = windowRef.document.querySelector(
+        'button[type="submit"]'
+      );
+      expect(submitButton.hasAttribute('disabled')).toBeFalsy();
     });
   });
 

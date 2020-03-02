@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CmsComponent,
@@ -94,10 +93,8 @@ describe('SearchBoxComponentService', () => {
         WindowRef,
       ],
     });
-    service = TestBed.get(SearchBoxComponentService as Type<
-      SearchBoxComponentService
-    >);
-    searchBoxservice = TestBed.get(SearchboxService as Type<SearchboxService>);
+    service = TestBed.inject(SearchBoxComponentService);
+    searchBoxservice = TestBed.inject(SearchboxService);
   });
 
   it('should be created', () => {

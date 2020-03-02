@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CouponCardComponent } from './coupon-card.component';
-import { I18nTestingModule, CustomerCoupon } from '@spartacus/core';
+import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 import { ModalService } from '../../../../shared/components/modal/index';
-import { Pipe, PipeTransform, Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -87,7 +87,7 @@ describe('CouponCardComponent', () => {
     fixture = TestBed.createComponent(MyCouponsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    modalInstance = TestBed.get(ModalService);
+    modalInstance = TestBed.inject(ModalService);
     spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
     component.coupon.notificationOn = false;
     unsubLoading$.next(false);

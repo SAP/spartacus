@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -54,7 +54,7 @@ describe('Carousel Component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CarouselComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(CarouselService as Type<CarouselService>);
+    service = TestBed.inject(CarouselService);
 
     templateFixture = TestBed.createComponent(MockTemplateComponent);
     const compiled = templateFixture.debugElement.nativeElement;

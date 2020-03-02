@@ -20,7 +20,7 @@ describe('FeatureConfigService', () => {
     TestBed.configureTestingModule({
       providers: [{ provide: FeaturesConfig, useValue: mockFeaturesConfig }],
     });
-    service = TestBed.get(FeatureConfigService);
+    service = TestBed.inject(FeatureConfigService);
   });
 
   it('should be created', () => {

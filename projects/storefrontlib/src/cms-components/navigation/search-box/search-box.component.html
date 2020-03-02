@@ -7,14 +7,20 @@
     (input)="search(searchInput.value)"
     (blur)="close($event)"
     (keydown.escape)="close($event)"
-    (keydown.enter)="launchSearchResult($event, searchInput.value)"
+    (keydown.enter)="
+      close($event, true); launchSearchResult($event, searchInput.value)
+    "
+    (keydown.arrowup)="focusPreviousChild($event)"
+    (keydown.arrowdown)="focusNextChild($event)"
   />
 
   <cx-icon
     [type]="iconTypes.RESET"
     aria-label="reset"
     (mousedown)="clear(searchInput)"
+    (keydown.enter)="clear(searchInput)"
     class="reset"
+    tabindex="0"
   ></cx-icon>
 
   <cx-icon
@@ -22,17 +28,23 @@
     aria-label="search"
     class="search"
     (mousedown)="avoidReopen($event)"
+    (keydown.enter)="avoidReopen($event)"
+    tabindex="0"
   ></cx-icon>
 </label>
 
-<div *ngIf="results$ | async as result" class="results" (click)="close($event)">
+<div
+  *ngIf="results$ | async as result"
+  class="results"
+  (click)="close($event, true)"
+>
   <div
     *ngIf="result.message"
     class="message"
     [innerHTML]="result.message"
   ></div>
 
-  <div class="suggestions" (mousedown)="disableClose()">
+  <div class="suggestions">
     <a
       *ngFor="let suggestion of result.suggestions"
       [innerHTML]="suggestion | cxHighlight: searchInput.value"
@@ -42,11 +54,16 @@
           params: { query: suggestion }
         } | cxUrl
       "
+      (keydown.arrowup)="focusPreviousChild($event)"
+      (keydown.arrowdown)="focusNextChild($event)"
+      (keydown.enter)="close($event, true)"
+      (keydown.escape)="close($event, true)"
+      (blur)="close($event)"
     >
     </a>
   </div>
 
-  <div class="products" (mousedown)="disableClose()" *ngIf="result.products">
+  <div class="products" *ngIf="result.products">
     <a
       *ngFor="let product of result.products"
       [routerLink]="
@@ -56,6 +73,11 @@
         } | cxUrl
       "
       [class.has-media]="config.displayProductImages"
+      (keydown.arrowup)="focusPreviousChild($event)"
+      (keydown.arrowdown)="focusNextChild($event)"
+      (keydown.enter)="close($event, true)"
+      (keydown.escape)="close($event, true)"
+      (blur)="close($event)"
     >
       <cx-media
         *ngIf="config.displayProductImages"

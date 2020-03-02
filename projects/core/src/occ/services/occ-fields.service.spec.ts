@@ -23,7 +23,7 @@ describe('OccFieldsService', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
     });
-    service = TestBed.get(OccFieldsService);
+    service = TestBed.inject(OccFieldsService);
   });
 
   it('should be created', () => {

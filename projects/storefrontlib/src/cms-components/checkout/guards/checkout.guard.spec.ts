@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -70,14 +69,10 @@ describe(`CheckoutGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(CheckoutGuard as Type<CheckoutGuard>);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
-      RoutingConfigService
-    >);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService as Type<
-      CheckoutConfigService
-    >);
-    cartService = TestBed.get(CartService as Type<CartService>);
+    guard = TestBed.inject(CheckoutGuard);
+    mockRoutingConfigService = TestBed.inject(RoutingConfigService);
+    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
+    cartService = TestBed.inject(CartService);
   });
 
   it(`should redirect to first checkout step if express checkout is turned off`, done => {

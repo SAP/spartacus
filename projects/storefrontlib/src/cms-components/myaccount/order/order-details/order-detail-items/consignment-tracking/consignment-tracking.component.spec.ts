@@ -75,7 +75,7 @@ describe('ConsignmentTrackingComponent', () => {
     userOrderService.loadConsignmentTracking.and.callFake(
       (_orderCode: string, _consignmentCode: string) => {}
     );
-    modalInstance = TestBed.get(ModalService);
+    modalInstance = TestBed.inject(ModalService);
     spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
     el = fixture.debugElement;
     component = fixture.componentInstance;
@@ -100,7 +100,7 @@ describe('ConsignmentTrackingComponent', () => {
       arrayEqyals(consignmentStatus, component.consignmentStatus)
     ).toBeTruthy();
     expect(consignmentStatus.includes(status)).toBeFalsy();
-    expect(el.query(By.css('[data-test="btn-events"]'))).toBeFalsy();
+    expect(el.query(By.css('.btn-track'))).toBeFalsy();
   });
 
   it('should not display tracking package button when status not match', () => {
@@ -111,7 +111,7 @@ describe('ConsignmentTrackingComponent', () => {
       arrayEqyals(consignmentStatus, component.consignmentStatus)
     ).toBeTruthy();
     expect(consignmentStatus.includes(status)).toBeFalsy();
-    expect(el.query(By.css('[data-test="btn-events"]'))).toBeFalsy();
+    expect(el.query(By.css('.btn-track'))).toBeFalsy();
   });
 
   it('should not display tracking package button when consignment without status', () => {
@@ -121,14 +121,14 @@ describe('ConsignmentTrackingComponent', () => {
       arrayEqyals(consignmentStatus, component.consignmentStatus)
     ).toBeTruthy();
     expect(consignmentStatus.includes(status)).toBeFalsy();
-    expect(el.query(By.css('[data-test="btn-events"]'))).toBeFalsy();
+    expect(el.query(By.css('.btn-track'))).toBeFalsy();
   });
 
   it('should display tracking package button', () => {
     consignmentStatus.forEach(status => {
       mockConsignment.status = status;
       fixture.detectChanges();
-      expect(el.query(By.css('[data-test="btn-events"]'))).toBeTruthy();
+      expect(el.query(By.css('.btn-track'))).toBeTruthy();
     });
 
     expect(
@@ -140,7 +140,7 @@ describe('ConsignmentTrackingComponent', () => {
     mockConsignment.status = consignmentStatus[0];
     fixture.detectChanges();
 
-    el.query(By.css('[data-test="btn-events"]')).nativeElement.click();
+    el.query(By.css('.btn-track')).nativeElement.click();
 
     expect(userOrderService.loadConsignmentTracking).toHaveBeenCalledWith(
       component.orderCode,
