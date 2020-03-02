@@ -5,6 +5,7 @@
   *ngIf="budget$ | async as budget"
   [actionBtnLabel]="'budgetForm.update' | cxTranslate"
   [budgetData]="budget"
-  (submitBudget)="updateBudget($event)"
+  [routerBackLink]="{ cxRoute: 'budgets' }"
+  (submit)="updateBudget($event)"
 >
 </cx-budget-form>

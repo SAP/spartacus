@@ -191,7 +191,7 @@
       <button
         class="btn btn-block btn-primary"
         [disabled]="form.invalid"
-        (click)="verifyPermission()"
+        (click)="verifyAndSubmit()"
       >
         {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
       </button>
