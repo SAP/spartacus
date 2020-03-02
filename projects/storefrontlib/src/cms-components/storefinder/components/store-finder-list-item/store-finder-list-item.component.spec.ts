@@ -93,6 +93,12 @@ const mockRoutingService = {
   go: jasmine.createSpy('go'),
 };
 
+const mockActivatedRoute = {
+  snapshot: {
+    params: {},
+  },
+};
+
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
   let fixture: ComponentFixture<StoreFinderListItemComponent>;
@@ -104,6 +110,7 @@ describe('StoreFinderListItemComponent', () => {
       declarations: [StoreFinderListItemComponent],
       providers: [
         StoreDataService,
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: RoutingService, useValue: mockRoutingService },
       ],
     }).compileComponents();
