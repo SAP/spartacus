@@ -168,21 +168,19 @@ describe('CostCenterFormComponent', () => {
 
   describe('verifyCostCenter', () => {
     it('should not emit value if form is invalid', () => {
-      spyOn(component.submitCostCenter, 'emit');
+      spyOn(component.submit, 'emit');
       const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
       submitButton.triggerEventHandler('click', null);
-      expect(component.submitCostCenter.emit).not.toHaveBeenCalled();
+      expect(component.submit.emit).not.toHaveBeenCalled();
     });
 
     it('should emit value if form is valid', () => {
-      spyOn(component.submitCostCenter, 'emit');
+      spyOn(component.submit, 'emit');
       component.costCenterData = mockCostCenter;
       component.ngOnInit();
       const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
       submitButton.triggerEventHandler('click', null);
-      expect(component.submitCostCenter.emit).toHaveBeenCalledWith(
-        component.form.value
-      );
+      expect(component.submit.emit).toHaveBeenCalledWith(component.form.value);
     });
   });
 

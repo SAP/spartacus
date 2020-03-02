@@ -183,7 +183,7 @@ describe('PermissionListComponent', () => {
     it('should read permission list', () => {
       component.ngOnInit();
       let permissionsList: any;
-      component.permissionsList$
+      component.data$
         .subscribe(value => {
           permissionsList = value;
         })

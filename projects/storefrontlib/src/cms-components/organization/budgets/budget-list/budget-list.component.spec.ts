@@ -180,7 +180,7 @@ describe('BudgetListComponent', () => {
     it('should read budget list', () => {
       component.ngOnInit();
       let budgetsList: any;
-      component.budgetsList$
+      component.data$
         .subscribe(value => {
           budgetsList = value;
         })

@@ -16,12 +16,10 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { TableModule } from '../../../../shared/components/table/table.module';
-
-import { CustomTableComponent } from './budget-list.component';
 import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
+import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
+import { TableModule } from '../table/table.module';
+import { InteractiveTableComponent } from './interactive-table.component';
 
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
@@ -125,9 +123,9 @@ class MockCxDatePipe {
   }
 }
 
-describe('BudgetListComponent', () => {
-  let component: CustomTableComponent;
-  let fixture: ComponentFixture<CustomTableComponent>;
+describe('InteractiveTableComponent', () => {
+  let component: InteractiveTableComponent;
+  let fixture: ComponentFixture<InteractiveTableComponent>;
   let budgetsService: MockBudgetService;
   let routingService: RoutingService;
 
@@ -135,16 +133,15 @@ describe('BudgetListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        ListNavigationModule,
+        InteractiveTableComponent,
         TableModule,
         I18nTestingModule,
       ],
-      declarations: [CustomTableComponent, MockUrlPipe],
+      declarations: [InteractiveTableComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: BudgetService, useClass: MockBudgetService },
       ],
     }).compileComponents();
 
@@ -153,7 +150,7 @@ describe('BudgetListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CustomTableComponent);
+    fixture = TestBed.createComponent(InteractiveTableComponent);
     component = fixture.componentInstance;
     budgetList.next(mockBudgetList);
     fixture.detectChanges();
@@ -178,9 +175,8 @@ describe('BudgetListComponent', () => {
 
   describe('ngOnInit', () => {
     it('should read budget list', () => {
-      component.ngOnInit();
       let budgetsList: any;
-      component.budgetsList$
+      component.data$
         .subscribe(value => {
           budgetsList = value;
         })
@@ -194,7 +190,7 @@ describe('BudgetListComponent', () => {
   describe('changeSortCode', () => {
     it('should set correctly sort code', () => {
       component['params$'] = of(defaultParams);
-      component.changeSortCode('byCode');
+      component.sortListEvent('byCode');
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'budgets',
@@ -209,7 +205,7 @@ describe('BudgetListComponent', () => {
   describe('pageChange', () => {
     it('should set correctly page', () => {
       component['params$'] = of(defaultParams);
-      component.pageChange(2);
+      component.viewPageEvent(2);
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'budgets',

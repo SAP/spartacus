@@ -176,7 +176,7 @@ describe('CostCenterListComponent', () => {
     it('should read costCenter list', () => {
       component.ngOnInit();
       let costCentersList: any;
-      component.costCentersList$
+      component.data$
         .subscribe(value => {
           costCentersList = value;
         })
