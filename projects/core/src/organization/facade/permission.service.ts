@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, of, queueScheduler } from 'rxjs';
+import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
@@ -11,11 +11,15 @@ import {
 } from '../../model/permission.model';
 import { EntitiesModel } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
-import { PermissionActions } from '../store/actions/index';
+import {
+  PermissionActions,
+  PermissionTypeActions,
+} from '../store/actions/index';
 import {
   getPermissionState,
   getPermissionList,
 } from '../store/selectors/permission.selector';
+import { getPermissionTypeList } from '../store/selectors/permission-type.selector';
 import { B2BSearchConfig } from '../model/search-config';
 
 @Injectable()
@@ -44,6 +48,10 @@ export class PermissionService {
     );
   }
 
+  loadPermissionTypes() {
+    this.store.dispatch(new PermissionTypeActions.LoadPermissionTypes());
+  }
+
   private getPermissionState(permissionCode: string) {
     return this.store.select(getPermissionState(permissionCode));
   }
@@ -52,6 +60,12 @@ export class PermissionService {
     params
   ): Observable<LoaderState<EntitiesModel<Permission>>> {
     return this.store.select(getPermissionList(params));
+  }
+
+  private getPermissionTypeList(): Observable<
+    LoaderState<EntitiesModel<OrderApprovalPermissionType>>
+  > {
+    return this.store.select(getPermissionTypeList());
   }
 
   get(permissionCode: string): Observable<Permission> {
@@ -67,22 +81,22 @@ export class PermissionService {
     );
   }
 
-  getTypes(): Observable<OrderApprovalPermissionType[]> {
-    // Todo: update after #6391 & #6392
-    return of([
-      {
-        code: 'B2BOrderThresholdPermission',
-        name: 'Allowed Order Threshold (per order)',
-      },
-      {
-        code: 'B2BBudgetExceededPermission',
-        name: 'Budget Exceeded Permission',
-      },
-      {
-        code: 'B2BOrderThresholdTimespanPermission',
-        name: 'Allowed Order Threshold (per timespan)',
-      },
-    ]);
+  getTypes(): Observable<EntitiesModel<OrderApprovalPermissionType>> {
+    return this.getPermissionTypeList().pipe(
+      observeOn(queueScheduler),
+      tap(
+        (process: LoaderState<EntitiesModel<OrderApprovalPermissionType>>) => {
+          if (!(process.loading || process.success || process.error)) {
+            this.loadPermissionTypes();
+          }
+        }
+      ),
+      filter(
+        (process: LoaderState<EntitiesModel<OrderApprovalPermissionType>>) =>
+          process.success || process.error
+      ),
+      map(result => result.value)
+    );
   }
 
   getList(params: B2BSearchConfig): Observable<EntitiesModel<Permission>> {

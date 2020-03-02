@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ConfigModule } from '../../../config/config.module';
 import { BudgetAdapter } from '../../../organization/connectors/budget/budget.adapter';
 import { PermissionAdapter } from '../../../organization/connectors/permission/permission.adapter';
+import { PermissionTypeAdapter } from '../../../organization/connectors/permission-type/permission-type.adapter';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
 import { CostCenterAdapter } from '../../../organization/connectors/cost-center/cost-center.adapter';
 import {
@@ -20,6 +21,10 @@ import {
   PERMISSIONS_NORMALIZER,
 } from '../../../organization/connectors/permission/converters';
 import {
+  PERMISSION_TYPE_NORMALIZER,
+  PERMISSION_TYPES_NORMALIZER,
+} from '../../../organization/connectors/permission-type/converters';
+import {
   COST_CENTER_NORMALIZER,
   COST_CENTERS_NORMALIZER,
 } from '../../../organization/connectors/cost-center/converters';
@@ -27,6 +32,7 @@ import {
 import { defaultOccOrganizationConfig } from './default-occ-organization-config';
 import { OccBudgetAdapter } from './occ-budget.adapter';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
+import { OccPermissionTypeAdapter } from './occ-permission-type.adapter';
 import { OccPermissionAdapter } from './occ-permission.adapter';
 import { OccCostCenterAdapter } from './occ-cost-center.adapter';
 import {
@@ -38,7 +44,9 @@ import {
   OccPermissionListNormalizer,
   OccCostCenterListNormalizer,
   OccCostCenterNormalizer,
+  OccPermissionTypeListNormalizer,
 } from './converters/index';
+import { OccPermissionTypeNormalizer } from './converters/occ-permission-type-normalizer';
 
 @NgModule({
   imports: [
@@ -83,6 +91,20 @@ import {
     {
       provide: PERMISSIONS_NORMALIZER,
       useClass: OccPermissionListNormalizer,
+      multi: true,
+    },
+    {
+      provide: PermissionTypeAdapter,
+      useClass: OccPermissionTypeAdapter,
+    },
+    {
+      provide: PERMISSION_TYPE_NORMALIZER,
+      useClass: OccPermissionTypeNormalizer,
+      multi: true,
+    },
+    {
+      provide: PERMISSION_TYPES_NORMALIZER,
+      useClass: OccPermissionTypeListNormalizer,
       multi: true,
     },
     {

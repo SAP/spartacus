@@ -87,11 +87,14 @@ export class PermissionFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.permissionTypes$ = this.permissionService.getTypes();
     this.currencies$ = this.currencyService.getAll();
     this.businessUnits$ = this.orgUnitService.getList().pipe(
       filter(Boolean),
       map((list: EntitiesModel<B2BUnitNode>) => list.values)
+    );
+    this.permissionTypes$ = this.permissionService.getTypes().pipe(
+      filter(Boolean),
+      map((list: EntitiesModel<OrderApprovalPermissionType>) => list.values)
     );
     if (this.permissionData && Object.keys(this.permissionData).length !== 0) {
       this.form.patchValue(this.permissionData);
