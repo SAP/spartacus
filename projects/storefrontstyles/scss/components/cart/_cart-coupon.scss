@@ -13,10 +13,13 @@
     }
   }
 
+  .cx-cart-coupon-title {
+    @include type('5');
+    margin: 1.125rem 0 0.5rem;
+  }
+
   .cx-available-coupon {
     .title {
-      @include type('5');
-      margin: 1.125rem 0 0.5rem;
       font-weight: bold;
     }
 

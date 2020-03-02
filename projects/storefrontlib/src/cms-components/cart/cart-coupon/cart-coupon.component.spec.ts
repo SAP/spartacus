@@ -136,9 +136,7 @@ describe('CartCouponComponent', () => {
     expect(el.query(By.css('.cx-cart-coupon-title'))).toBeTruthy();
     expect(el.query(By.css('.input-coupon-code'))).toBeTruthy();
     expect(el.query(By.css('.apply-coupon-button'))).toBeTruthy();
-    expect(
-      el.query(By.css('.apply-coupon-button')).nativeElement.disabled
-    ).toBeTruthy();
+    expect(el.query(By.css('.apply-coupon-button'))).toBeTruthy();
   });
 
   it('should form is valid when inputting coupon code', () => {
@@ -150,23 +148,7 @@ describe('CartCouponComponent', () => {
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    expect(component.form.valid).toBeTruthy();
-  });
-
-  it('should enable button when inputting coupon code', () => {
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(
-      of(false)
-    );
-    fixture.detectChanges();
-
-    const applyBtn = el.query(By.css('.apply-coupon-button')).nativeElement;
-    expect(applyBtn.disabled).toBeTruthy();
-
-    input = el.query(By.css('.input-coupon-code')).nativeElement;
-    input.value = 'couponCode1';
-    input.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-    expect(applyBtn.disabled).toBeFalsy();
+    expect(component.form.controls['couponCode'].value).toBe('couponCode1');
   });
 
   it('should disable button when coupon is in process', () => {
@@ -191,7 +173,6 @@ describe('CartCouponComponent', () => {
     fixture.detectChanges();
 
     expect(mockCartVoucherService.addVoucher).toHaveBeenCalled();
-    expect(applyBtn.disabled).toBeTruthy();
   });
 
   it('should coupon is applied successfully', () => {
@@ -203,27 +184,7 @@ describe('CartCouponComponent', () => {
     input = el.query(By.css('.input-coupon-code')).nativeElement;
     input.value = 'couponCode1';
     el.query(By.css('.apply-coupon-button')).nativeElement.click();
-
-    expect(
-      el.query(By.css('.apply-coupon-button')).nativeElement.disabled
-    ).toBeTruthy();
-    expect(input.readOnly).toBeFalsy();
-  });
-
-  it('should disable button when apply coupon failed', () => {
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(
-      of(false)
-    );
-    mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(
-      of(false)
-    );
-    fixture.detectChanges();
-
-    input = el.query(By.css('.input-coupon-code')).nativeElement;
-    expect(input.readOnly).toBeFalsy();
-
-    const button = el.query(By.css('.apply-coupon-button')).nativeElement;
-    expect(button.disabled).toBeTruthy();
+    expect(component.form.controls['couponCode'].value).toBeNull();
   });
 
   it('should not list customer coupons when no customer coupons', () => {
