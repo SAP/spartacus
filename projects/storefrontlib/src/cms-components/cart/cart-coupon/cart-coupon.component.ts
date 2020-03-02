@@ -12,7 +12,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cart-coupon',
@@ -22,7 +22,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;
   form: FormGroup;
   cartIsLoading$: Observable<boolean>;
-  submitDisabled$: Observable<boolean>;
   cart$: Observable<Cart>;
   cartId: string;
   applicableCoupons: CustomerCoupon[];
@@ -115,20 +114,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       couponCode: ['', [Validators.required]],
     });
-
-    this.submitDisabled$ = combineLatest([
-      this.cartIsLoading$,
-      this.form.valueChanges.pipe(
-        startWith(true),
-        map(() => this.form.valid)
-      ),
-      this.cartVoucherService.getAddVoucherResultLoading(),
-    ]).pipe(
-      map(
-        ([cartIsLoading, btnEnabled, addVoucherIsLoading]) =>
-          cartIsLoading || !btnEnabled || addVoucherIsLoading
-      )
-    );
 
     this.subscription.add(
       this.cartVoucherService
