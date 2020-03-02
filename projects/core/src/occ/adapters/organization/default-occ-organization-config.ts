@@ -17,6 +17,7 @@ export const defaultOccOrganizationConfig: OccConfig = {
         permissions: '/users/${userId}/orderApprovalPermissions',
         permission:
           '/users/${userId}/orderApprovalPermissions/${orderApprovalPermissionCode}',
+        orderApprovalPermissionTypes: '/orderApprovalPermissionTypes',
       },
     },
   },

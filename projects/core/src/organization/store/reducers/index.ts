@@ -6,6 +6,7 @@ import {
   ListModel,
   Permission,
   CostCenter,
+  OrderApprovalPermissionType,
 } from '../../../model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import {
@@ -19,6 +20,9 @@ import {
   PERMISSION_ENTITIES,
   PERMISSION_FEATURE,
   PERMISSION_LIST,
+  PERMISSION_TYPES_ENTITIES,
+  PERMISSION_TYPES_FEATURE,
+  PERMISSION_TYPES_LIST,
   COST_CENTER_FEATURE,
   COST_CENTER_ENTITIES,
   COST_CENTER_LIST,
@@ -27,6 +31,7 @@ import {
 import { budgetsListReducer, budgetsEntitiesReducer } from './budget.reducer';
 import { orgUnitListReducer } from './org-unit.reducer';
 import { permissionsListReducer } from './permission.reducer';
+import { permissionTypeListReducer } from './permission-type.reducer';
 import {
   costCentersListReducer,
   costCenterAssignedBudgetsListReducer,
@@ -61,6 +66,15 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       budgets: entityLoaderReducer<ListModel>(
         COST_CENTER_ASSIGNED_BUDGETS,
         costCenterAssignedBudgetsListReducer
+      ),
+    }),
+    [PERMISSION_TYPES_FEATURE]: combineReducers({
+      entities: entityLoaderReducer<OrderApprovalPermissionType>(
+        PERMISSION_TYPES_ENTITIES
+      ),
+      list: entityLoaderReducer<ListModel>(
+        PERMISSION_TYPES_LIST,
+        permissionTypeListReducer
       ),
     }),
   };
