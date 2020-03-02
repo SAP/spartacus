@@ -289,19 +289,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     );
   }
 
-  /**
-   * @deprecated since 1.3.0
-   * This function will be removed as register button should not be disabled
-   *
-   * TODO(issue:#4534) Deprecated since 1.3.0
-   */
-  shouldDisableRegisterButton(): boolean {
-    if (this.featureConfig && this.featureConfig.isLevel('1.3')) {
-      return false;
-    }
-    return this.userRegistrationForm.invalid;
-  }
-
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.userService.resetRegisterUserProcessState();
