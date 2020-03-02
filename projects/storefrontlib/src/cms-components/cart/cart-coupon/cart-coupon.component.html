@@ -18,8 +18,6 @@
           <button
             class="btn btn-block btn-action apply-coupon-button"
             type="submit"
-            [disabled]="cartIsLoading$ | async"
-            [class.disabled]="cartIsLoading$ | async"
           >
             {{ 'voucher.apply' | cxTranslate }}
           </button>
@@ -37,7 +35,7 @@
 
   <ng-container *ngIf="applicableCoupons && applicableCoupons.length > 0">
     <div class="cx-available-coupon">
-      <div class="cx-cart-coupon-title title">
+      <div class="title">
         {{ 'voucher.availableCoupons' | cxTranslate }}
       </div>
       <div class="message">

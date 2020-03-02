@@ -25,14 +25,9 @@
               "projects/storefrontapp/src/manifest.json",
               "projects/storefrontapp/src/webApplicationInjector.js"
             ],
-            "styles": [
-              "projects/storefrontapp/src/styles.scss"
-            ],
+            "styles": ["projects/storefrontapp/src/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects",
-                "./projects/storefrontstyles/scss"
-              ]
+              "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
             },
             "ngswConfigPath": "projects/storefrontlib/src/cms-structure/pwa/ngsw-config.json",
             "scripts": []
@@ -147,18 +142,14 @@
             "polyfills": "projects/storefrontapp/src/polyfills.ts",
             "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontapp/karma.conf.js",
-            "styles": [
-              "projects/storefrontapp/src/styles.scss"
-            ],
+            "styles": ["projects/storefrontapp/src/styles.scss"],
             "scripts": [],
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets",
               "projects/storefrontapp/src/manifest.json"
             ],
-            "codeCoverageExclude": [
-              "dist/**/*"
-            ]
+            "codeCoverageExclude": ["dist/**/*"]
           }
         },
         "lint": {
@@ -168,9 +159,7 @@
               "projects/storefrontapp/tsconfig.app.json",
               "projects/storefrontapp/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "server": {
@@ -213,9 +202,7 @@
           "options": {
             "browserTarget": "storefrontapp:build:production",
             "serverTarget": "storefrontapp:server:production",
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {}
@@ -247,13 +234,9 @@
             "main": "projects/storefrontlib/src/test.ts",
             "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontlib/karma.conf.js",
-            "codeCoverageExclude": [
-              "dist/**/*"
-            ],
+            "codeCoverageExclude": ["dist/**/*"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects/storefrontstyles/scss"
-              ]
+              "includePaths": ["./projects/storefrontstyles/scss"]
             }
           }
         },
@@ -264,9 +247,7 @@
               "projects/storefrontlib/tsconfig.lib.json",
               "projects/storefrontlib/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -304,9 +285,7 @@
               "projects/core/tsconfig.lib.json",
               "projects/core/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -344,9 +323,7 @@
               "projects/vendor/tsconfig.lib.json",
               "projects/vendor/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -384,9 +361,7 @@
               "projects/assets/tsconfig.lib.json",
               "projects/assets/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -424,9 +399,7 @@
               "projects/incubator/tsconfig.lib.json",
               "projects/incubator/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -464,9 +437,7 @@
               "projects/cds/tsconfig.lib.json",
               "projects/cds/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -497,10 +468,7 @@
               "projects/storefrontapp-cds-integration/src/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects",
-                "./projects/storefrontstyles/scss"
-              ]
+              "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
             },
             "ngswConfigPath": "projects/storefrontlib/src/cms-structure/pwa/ngsw-config.json",
             "scripts": []
@@ -624,9 +592,7 @@
               "projects/storefrontapp-cds-integration/src/assets",
               "projects/storefrontapp-cds-integration/src/manifest.json"
             ],
-            "codeCoverageExclude": [
-              "dist/**/*"
-            ]
+            "codeCoverageExclude": ["dist/**/*"]
           }
         },
         "lint": {
@@ -636,9 +602,7 @@
               "projects/storefrontapp-cds-integration/tsconfig.app.json",
               "projects/storefrontapp-cds-integration/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "server": {
@@ -681,9 +645,7 @@
           "options": {
             "browserTarget": "storefrontapp-cds-integration:build:production",
             "serverTarget": "storefrontapp-cds-integration:server:production",
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {}
@@ -692,8 +654,5 @@
       }
     }
   },
-  "defaultProject": "storefrontapp",
-  "cli": {
-    "analytics": "b964d9dd-23b2-406b-a16a-9427154d5ed3"
-  }
+  "defaultProject": "storefrontapp"
 }
