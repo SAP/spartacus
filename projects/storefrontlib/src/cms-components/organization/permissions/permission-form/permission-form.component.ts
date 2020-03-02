@@ -58,7 +58,7 @@ export class PermissionFormComponent extends AbstractFormComponent
   thresholdControl = this.form.get('threshold');
 
   constructor(
-    private fb: FormBuilder,
+    protected fb: FormBuilder,
     protected currencyService: CurrencyService,
     protected orgUnitService: OrgUnitService,
     protected permissionService: PermissionService

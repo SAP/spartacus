@@ -12,7 +12,6 @@ import {
   CostCenter,
   Currency,
   CurrencyService,
-  UrlCommandRoute,
   B2BUnitNode,
   OrgUnitService,
   EntitiesModel,
@@ -44,7 +43,7 @@ export class CostCenterFormComponent extends AbstractFormComponent
   });
 
   constructor(
-    private fb: FormBuilder,
+    protected fb: FormBuilder,
     protected currencyService: CurrencyService,
     protected orgUnitService: OrgUnitService
   ) {
