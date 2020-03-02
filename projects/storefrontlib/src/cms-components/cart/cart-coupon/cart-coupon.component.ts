@@ -161,7 +161,14 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   }
 
   applyVoucher(): void {
-    this.cartVoucherService.addVoucher(this.form.value.couponCode, this.cartId);
+    if (this.form.valid) {
+      this.cartVoucherService.addVoucher(
+        this.form.value.couponCode,
+        this.cartId
+      );
+    } else {
+      this.markFormAsTouched();
+    }
   }
   applyCustomerCoupon(couponId: string): void {
     this.cartVoucherService.addVoucher(couponId, this.cartId);
@@ -187,5 +194,11 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
     this.cartVoucherService.resetAddVoucherProcessingState();
+  }
+
+  private markFormAsTouched(): void {
+    Object.keys(this.form.controls).forEach(key => {
+      this.form.controls[key].markAsTouched();
+    });
   }
 }
