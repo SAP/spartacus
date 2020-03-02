@@ -11,18 +11,20 @@
       <!--        >-->
       <!--        </cx-search>-->
     </div>
-    <div class="col-md-12 col-lg-3">
-      <div class="row cx-search-links mb-3">
-        <div class="col-12 cx-textalign">
-          <button
-            [routerLink]="{ cxRoute: 'budgetCreate' } | cxUrl"
-            class="btn btn-primary btn-block"
-          >
-            {{ createLabel }}
-          </button>
-        </div>
-      </div>
-    </div>
+
+    <!--    TODO: part for outlet-->
+    <!--    <div class="col-md-12 col-lg-3">-->
+    <!--      <div class="row cx-search-links mb-3">-->
+    <!--        <div class="col-12 cx-textalign">-->
+    <!--          <button-->
+    <!--            [routerLink]="{ cxRoute: 'routerCreate' } | cxUrl"-->
+    <!--            class="btn btn-primary btn-block"-->
+    <!--          >-->
+    <!--            {{ createLabel }}-->
+    <!--          </button>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 
   <div class="cx-table-body">
@@ -40,7 +42,12 @@
         </div>
       </div>
       <!-- TABLE -->
-      <cx-table [tableData]="data.values" [columns]="columns"></cx-table>
+      <cx-table
+        [tableData]="data.values"
+        [columns]="columns"
+        (check)="checkEvent($event)"
+        (uncheck)="uncheckEvent($event)"
+      ></cx-table>
       <div class="bottom cx-pagination cx-textalign">
         <cx-pagination
           [pagination]="data.pagination"
