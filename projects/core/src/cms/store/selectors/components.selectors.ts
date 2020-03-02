@@ -12,17 +12,13 @@ import { getCmsState } from './feature.selectors';
 export const getComponentsState: MemoizedSelector<
   StateWithCms,
   ComponentsState
-> = createSelector(
-  getCmsState,
-  state => state.components
-);
+> = createSelector(getCmsState, state => state.components);
 
 export const componentsContextSelectorFactory = (
   uid: string
 ): MemoizedSelector<StateWithCms, ComponentsContext> => {
-  return createSelector(
-    getComponentsState,
-    componentsState => StateEntitySelectors.entitySelector(componentsState, uid)
+  return createSelector(getComponentsState, componentsState =>
+    StateEntitySelectors.entitySelector(componentsState, uid)
   );
 };
 
@@ -54,9 +50,8 @@ export const componentsContextExistsSelectorFactory = (
 export const componentsDataSelectorFactory = (
   uid: string
 ): MemoizedSelector<StateWithCms, CmsComponent> => {
-  return createSelector(
-    componentsContextSelectorFactory(uid),
-    state => (state ? state.component : undefined)
+  return createSelector(componentsContextSelectorFactory(uid), state =>
+    state ? state.component : undefined
   );
 };
 
