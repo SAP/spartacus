@@ -11,9 +11,6 @@
 
   &:hover {
     background-color: var(--cx-color-background);
-    .cx-store-name {
-      text-decoration: underline;
-    }
   }
 
   .cx-store-list-order {
@@ -23,11 +20,16 @@
 
   .cx-store-name {
     @include type('6');
-    cursor: pointer;
+    cursor: default;
     min-height: 40px;
+    .cx-store-name a {
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
   }
   .cx-store-address {
-    cursor: pointer;
     @include type('7');
   }
   .cx-store-address-street {
