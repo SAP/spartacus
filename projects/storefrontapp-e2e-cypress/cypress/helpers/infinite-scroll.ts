@@ -1,6 +1,5 @@
 import { PRODUCT_LISTING } from './data-configuration';
-import { createProductQuery } from './product-search';
-import { clickFacet } from './product-search-product-type-flow';
+import { clickFacet, createAllProductQuery } from './product-search';
 
 const scrollDuration = 1000;
 const defaultNumberOfProducts = 10;
@@ -31,7 +30,7 @@ export function scrollConfig(
 
 export function verifyProductListLoaded() {
   cy.server();
-  createProductQuery(productLoadedQuery);
+  createAllProductQuery(productLoadedQuery);
   cy.visit('/Open-Catalogue/Components/Power-Supplies/c/816');
   cy.wait(`@${productLoadedQuery}`)
     .its('status')
