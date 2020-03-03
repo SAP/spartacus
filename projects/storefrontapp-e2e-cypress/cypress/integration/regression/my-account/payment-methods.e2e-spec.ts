@@ -17,9 +17,13 @@ describe('Payment Methods', () => {
     before(() => {
       cy.requireLoggedIn();
       cy.reload();
-      cy.visit('/');
 
       cy.server();
+
+      cy.route('GET', '/rest/v2/electronics-spa/cms/pages?*').as('frontPage');
+      cy.visit('/');
+      cy.wait(`@frontPage`);
+
       cy.route(
         'GET',
         '/rest/v2/electronics-spa/cms/pages*/my-account/payment-details*'
