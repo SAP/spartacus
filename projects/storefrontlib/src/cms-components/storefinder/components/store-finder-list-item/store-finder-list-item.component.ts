@@ -46,4 +46,10 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
       : '';
     return `store-finder/${countryParam}${regionParam}${location.name}`;
   }
+
+  onKey(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.handleStoreItemClick();
+    }
+  }
 }

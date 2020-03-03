@@ -4,9 +4,13 @@
       {{ listOrderLabel }}
     </div>
     <div class="cx-store-name">
-      <a *ngIf="useClickEvent" (click)="handleStoreItemClick()" tabindex="0">{{
-        location.displayName || location.name
-      }}</a>
+      <a
+        *ngIf="useClickEvent"
+        (click)="handleStoreItemClick()"
+        (keyup)="onKey($event)"
+        tabindex="0"
+        >{{ location.displayName || location.name }}</a
+      >
       <a
         *ngIf="!useClickEvent"
         [href]="prepareRouteUrl(location)"
