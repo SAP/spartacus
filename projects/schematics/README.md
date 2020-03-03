@@ -129,6 +129,9 @@ Now create a new angular project:
 - commit the changes, if any.
 - run the following update command `ng update @spartacus/schematics`. If there's an error about the unresolved peer dependencies, you can append `--force` flag just to quickly test something out, but this error should _not_ appear when executing the update schematics without the flag. You should see your update commands executed now.
 
+> NOTE: if _verdaccio_ refuses to publish libraries, and displays an error that says that the lib is already published with the same version, the quickest way around this seems to be [this](https://github.com/verdaccio/verdaccio/issues/1203#issuecomment-457361429) - 
+> open `nano ~/.config/verdaccio/config.yaml` and under `packages: '@*/*':` sections, comment out the `proxy: npmjs` line. After doing this, you should be able to publish the packages.
+
 ### Iterative development
 
 When doing iterative development of the update schematic, it's for the best to do the following before testing the changes:
