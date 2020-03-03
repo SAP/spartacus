@@ -1,10 +1,9 @@
-import { Type } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { ConfiguratorTextfield } from 'projects/core/src/model';
-import { of } from 'rxjs';
-import { ConfiguratorTextfieldAdapter } from './configurator-textfield.adapter';
-import { ConfiguratorTextfieldConnector } from './configurator-textfield.connector';
-
+import { Type } from "@angular/core";
+import { TestBed } from "@angular/core/testing";
+import { ConfiguratorTextfield } from "projects/core/src/model";
+import { of } from "rxjs";
+import { ConfiguratorTextfieldAdapter } from "./configurator-textfield.adapter";
+import { ConfiguratorTextfieldConnector } from "./configurator-textfield.connector";
 import createSpy = jasmine.createSpy;
 
 const USER_ID = 'theUser';
@@ -42,7 +41,7 @@ describe('ConfiguratorTextfieldConnector', () => {
       ],
     });
 
-    service = TestBed.get(
+    service = TestBed.inject(
       ConfiguratorTextfieldConnector as Type<ConfiguratorTextfieldConnector>
     );
   });
@@ -52,7 +51,7 @@ describe('ConfiguratorTextfieldConnector', () => {
   });
 
   it('should call adapter on createConfiguration', () => {
-    const adapter = TestBed.get(
+    const adapter = TestBed.inject(
       ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
     );
 
@@ -68,7 +67,7 @@ describe('ConfiguratorTextfieldConnector', () => {
   });
 
   it('should call adapter on addToCart', () => {
-    const adapter = TestBed.get(
+    const adapter = TestBed.inject(
       ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
     );
 

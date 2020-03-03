@@ -1,17 +1,17 @@
-import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
-import * as ngrxStore from '@ngrx/store';
-import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { ActiveCartService } from '../../../cart/facade/active-cart.service';
-import { Cart } from '../../../model/cart.model';
-import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
-import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
-import * as ConfiguratorActions from '../store/actions/configurator-textfield.action';
-import { StateWithConfigurationTextfield } from '../store/configuration-textfield-state';
-import { ConfiguratorTextfieldService } from './configurator-textfield.service';
+import { Type } from "@angular/core";
+import { async, TestBed } from "@angular/core/testing";
+import * as ngrxStore from "@ngrx/store";
+import { Store, StoreModule } from "@ngrx/store";
+import { Observable, of } from "rxjs";
+import { ActiveCartService } from "../../../cart/facade/active-cart.service";
+import { Cart } from "../../../model/cart.model";
+import { ConfiguratorTextfield } from "../../../model/configurator-textfield.model";
+import { GenericConfigurator } from "../../../model/generic-configurator.model";
+import { OCC_USER_ID_ANONYMOUS } from "../../../occ/utils/occ-constants";
+import { ProcessesLoaderState } from "../../../state/utils/processes-loader/processes-loader-state";
+import * as ConfiguratorActions from "../store/actions/configurator-textfield.action";
+import { StateWithConfigurationTextfield } from "../store/configuration-textfield-state";
+import { ConfiguratorTextfieldService } from "./configurator-textfield.service";
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const owner: GenericConfigurator.Owner = {
@@ -87,10 +87,12 @@ describe('ConfiguratorTextfieldService', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(
+    serviceUnderTest = TestBed.inject(
       ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
     );
-    store = TestBed.get(Store as Type<Store<StateWithConfigurationTextfield>>);
+    store = TestBed.inject(
+      Store as Type<Store<StateWithConfigurationTextfield>>
+    );
 
     spyOn(store, 'dispatch').and.stub();
     spyOn(store, 'select').and.returnValue(of(productConfiguration));

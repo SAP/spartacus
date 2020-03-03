@@ -1,20 +1,20 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
-import { Observable, of, throwError } from 'rxjs';
-import { CartActions } from '../../../../cart/store/actions/';
-import { CartModification } from '../../../../model/cart.model';
-import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
-import { makeErrorSerializable } from '../../../../util/serialization-utils';
-import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
-import * as ConfiguratorActions from '../actions/configurator-textfield.action';
-import { CONFIGURATION_TEXTFIELD_FEATURE } from '../configuration-textfield-state';
-import * as reducers from '../reducers/index';
-import * as fromEffects from './configurator-textfield.effect';
+import { HttpErrorResponse } from "@angular/common/http";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { Type } from "@angular/core";
+import { TestBed } from "@angular/core/testing";
+import { provideMockActions } from "@ngrx/effects/testing";
+import { StoreModule } from "@ngrx/store";
+import { cold, hot } from "jasmine-marbles";
+import { Observable, of, throwError } from "rxjs";
+import { CartActions } from "../../../../cart/store/actions/";
+import { CartModification } from "../../../../model/cart.model";
+import { ConfiguratorTextfield } from "../../../../model/configurator-textfield.model";
+import { makeErrorSerializable } from "../../../../util/serialization-utils";
+import { ConfiguratorTextfieldConnector } from "../../connectors/configurator-textfield.connector";
+import * as ConfiguratorActions from "../actions/configurator-textfield.action";
+import { CONFIGURATION_TEXTFIELD_FEATURE } from "../configuration-textfield-state";
+import * as reducers from "../reducers/index";
+import * as fromEffects from "./configurator-textfield.effect";
 
 const productCode = 'CONF_LAPTOP';
 const cartId = 'CART-1234';
@@ -70,7 +70,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       ],
     });
 
-    configEffects = TestBed.get(
+    configEffects = TestBed.inject(
       fromEffects.ConfiguratorTextfieldEffects as Type<
         fromEffects.ConfiguratorTextfieldEffects
       >

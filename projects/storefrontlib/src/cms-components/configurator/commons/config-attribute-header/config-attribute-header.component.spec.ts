@@ -1,13 +1,10 @@
-import { ChangeDetectionStrategy } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Configurator, I18nTestingModule } from '@spartacus/core';
-import {
-  IconLoaderService,
-  IconModule,
-} from '../../../../cms-components/misc/icon/index';
-import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
-import { ConfigAttributeHeaderComponent } from './config-attribute-header.component';
+import { ChangeDetectionStrategy } from "@angular/core";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { Configurator, I18nTestingModule } from "@spartacus/core";
+import { IconLoaderService, IconModule } from "../../../../cms-components/misc/icon/index";
+import { ICON_TYPE } from "../../../misc/icon/icon.model";
+import { ConfigUIKeyGeneratorService } from "../service/config-ui-key-generator.service";
+import { ConfigAttributeHeaderComponent } from "./config-attribute-header.component";
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
@@ -68,7 +65,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   it('should provide public access to uiKeyGenerator', () => {
     expect(classUnderTest.uiKeyGenerator).toBe(
-      TestBed.get(ConfigUIKeyGeneratorService)
+      TestBed.inject(ConfigUIKeyGeneratorService)
     );
   });
 

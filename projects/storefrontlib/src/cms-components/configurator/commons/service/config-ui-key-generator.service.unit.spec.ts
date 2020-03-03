@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
-import { Configurator } from '@spartacus/core';
-import { ConfigUIKeyGeneratorService } from './config-ui-key-generator.service';
+import { TestBed } from "@angular/core/testing";
+import { Configurator } from "@spartacus/core";
+import { ConfigUIKeyGeneratorService } from "./config-ui-key-generator.service";
 
 describe('ConfigUIKeyGeneratorService', () => {
   let classUnderTest: ConfigUIKeyGeneratorService;
@@ -10,7 +10,7 @@ describe('ConfigUIKeyGeneratorService', () => {
   };
 
   beforeEach(() => {
-    classUnderTest = TestBed.get(ConfigUIKeyGeneratorService);
+    classUnderTest = TestBed.inject(ConfigUIKeyGeneratorService);
   });
 
   it('should be created', () => {

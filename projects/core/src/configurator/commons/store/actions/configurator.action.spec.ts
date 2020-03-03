@@ -1,14 +1,11 @@
-import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
-import { Configurator } from '../../../../model/configurator.model';
-import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import {
-  StateEntityLoaderActions,
-  StateEntityProcessesLoaderActions,
-} from '../../../../state/utils/index';
-import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
-import { CONFIGURATION_DATA } from '../configuration-state';
-import * as ConfiguratorActions from './configurator.action';
+import { Type } from "@angular/core";
+import { async, TestBed } from "@angular/core/testing";
+import { Configurator } from "../../../../model/configurator.model";
+import { GenericConfigurator } from "../../../../model/generic-configurator.model";
+import { StateEntityLoaderActions, StateEntityProcessesLoaderActions } from "../../../../state/utils/index";
+import { GenericConfigUtilsService } from "../../../generic/utils/config-utils.service";
+import { CONFIGURATION_DATA } from "../configuration-state";
+import * as ConfiguratorActions from "./configurator.action";
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '15468-5464-9852-54682';
@@ -23,7 +20,7 @@ describe('ConfiguratorActions', () => {
   let configuratorUtils: GenericConfigUtilsService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({}).compileComponents();
-    configuratorUtils = TestBed.get(
+    configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(CONFIGURATION.owner);

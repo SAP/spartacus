@@ -1,14 +1,9 @@
-import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import {
-  GenericConfigurator,
-  I18nTestingModule,
-  RouterState,
-  RoutingService,
-} from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { ConfigRouterExtractorService } from './config-router-extractor.service';
+import { Type } from "@angular/core";
+import { async, TestBed } from "@angular/core/testing";
+import { RouterTestingModule } from "@angular/router/testing";
+import { GenericConfigurator, I18nTestingModule, RouterState, RoutingService } from "@spartacus/core";
+import { Observable, of } from "rxjs";
+import { ConfigRouterExtractorService } from "./config-router-extractor.service";
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_NUMBER = '0';
@@ -45,10 +40,10 @@ describe('ConfigRouterExtractorService', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(
+    serviceUnderTest = TestBed.inject(
       ConfigRouterExtractorService as Type<ConfigRouterExtractorService>
     );
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
   });
 
   it('should create component', () => {

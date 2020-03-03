@@ -1,26 +1,23 @@
-import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
-import * as ngrxStore from '@ngrx/store';
-import { select, Store, StoreModule } from '@ngrx/store';
-import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
-import { ActiveCartService } from '../../../cart/facade/active-cart.service';
-import { Cart } from '../../../model/cart.model';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
-import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
-import { ConfiguratorUiActions } from '../store/actions/';
-import * as ConfiguratorActions from '../store/actions/configurator.action';
-import {
-  CONFIGURATION_FEATURE,
-  StateWithConfiguration,
-} from '../store/configuration-state';
-import * as fromReducers from '../store/reducers/index';
-import { ConfiguratorSelectors } from '../store/selectors';
-import { Configurator } from './../../../model/configurator.model';
-import { ConfiguratorCommonsService } from './configurator-commons.service';
+import { Type } from "@angular/core";
+import { async, TestBed } from "@angular/core/testing";
+import * as ngrxStore from "@ngrx/store";
+import { select, Store, StoreModule } from "@ngrx/store";
+import { cold } from "jasmine-marbles";
+import { Observable, of } from "rxjs";
+import { ActiveCartService } from "../../../cart/facade/active-cart.service";
+import { Cart } from "../../../model/cart.model";
+import { GenericConfigurator } from "../../../model/generic-configurator.model";
+import { OCC_USER_ID_ANONYMOUS } from "../../../occ/utils/occ-constants";
+import { LoaderState } from "../../../state/utils/loader/loader-state";
+import { ProcessesLoaderState } from "../../../state/utils/processes-loader/processes-loader-state";
+import { GenericConfigUtilsService } from "../../generic/utils/config-utils.service";
+import { ConfiguratorUiActions } from "../store/actions/";
+import * as ConfiguratorActions from "../store/actions/configurator.action";
+import { CONFIGURATION_FEATURE, StateWithConfiguration } from "../store/configuration-state";
+import * as fromReducers from "../store/reducers/index";
+import { ConfiguratorSelectors } from "../store/selectors";
+import { Configurator } from "./../../../model/configurator.model";
+import { ConfiguratorCommonsService } from "./configurator-commons.service";
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const OWNER_PRODUCT: GenericConfigurator.Owner = {
@@ -241,15 +238,15 @@ describe('ConfiguratorCommonsService', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(
+    serviceUnderTest = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
-    configuratorUtils = TestBed.get(
+    configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(OWNER_PRODUCT);
     configuratorUtils.setOwnerKey(OWNER_CART_ENTRY);
-    store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
+    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
     spyOn(serviceUnderTest, 'createConfigurationExtract').and.callThrough();
   });
 

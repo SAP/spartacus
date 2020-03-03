@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ChangeDetectionStrategy, Type } from "@angular/core";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -7,10 +7,10 @@ import {
   GlobalMessageService,
   I18nTestingModule,
   RouterState,
-  RoutingService,
-} from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { ConfigAddToCartButtonComponent } from './config-add-to-cart-button.component';
+  RoutingService
+} from "@spartacus/core";
+import { Observable, of } from "rxjs";
+import { ConfigAddToCartButtonComponent } from "./config-add-to-cart-button.component";
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '1';
@@ -203,11 +203,11 @@ describe('ConfigAddToCartButtonComponent', () => {
     fixture = TestBed.createComponent(ConfigAddToCartButtonComponent);
     classUnderTest = fixture.componentInstance;
     fixture.detectChanges();
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    configuratorCommonsService = TestBed.get(
+    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
+    configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
-    globalMessageService = TestBed.get(
+    globalMessageService = TestBed.inject(
       GlobalMessageService as Type<GlobalMessageService>
     );
     spyOn(routingService, 'go').and.callThrough();

@@ -1,7 +1,7 @@
-import { Type } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
-import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { GenericConfigUtilsService } from './config-utils.service';
+import { Type } from "@angular/core";
+import { async, TestBed } from "@angular/core/testing";
+import { GenericConfigurator } from "../../../model/generic-configurator.model";
+import { GenericConfigUtilsService } from "./config-utils.service";
 
 const productCode = 'CONF_LAPTOP';
 let owner: GenericConfigurator.Owner = null;
@@ -13,7 +13,7 @@ describe('GenericConfigUtilsService', () => {
     TestBed.configureTestingModule({}).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(
+    serviceUnderTest = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     owner = {};

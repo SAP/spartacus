@@ -1,23 +1,23 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule } from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
-import { Observable, of, throwError } from 'rxjs';
-import { CartActions } from '../../../../cart/store/actions/';
-import { CartModification } from '../../../../model/cart.model';
-import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import { makeErrorSerializable } from '../../../../util/serialization-utils';
-import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
-import * as fromConfigurationReducers from '../../store/reducers/index';
-import { ConfiguratorUiActions } from '../actions';
-import * as ConfiguratorActions from '../actions/configurator.action';
-import { CONFIGURATION_FEATURE } from '../configuration-state';
-import { Configurator } from './../../../../model/configurator.model';
-import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';
-import * as fromEffects from './configurator.effect';
+import { HttpErrorResponse } from "@angular/common/http";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { Type } from "@angular/core";
+import { TestBed } from "@angular/core/testing";
+import { provideMockActions } from "@ngrx/effects/testing";
+import { StoreModule } from "@ngrx/store";
+import { cold, hot } from "jasmine-marbles";
+import { Observable, of, throwError } from "rxjs";
+import { CartActions } from "../../../../cart/store/actions/";
+import { CartModification } from "../../../../model/cart.model";
+import { GenericConfigurator } from "../../../../model/generic-configurator.model";
+import { makeErrorSerializable } from "../../../../util/serialization-utils";
+import { GenericConfigUtilsService } from "../../../generic/utils/config-utils.service";
+import * as fromConfigurationReducers from "../../store/reducers/index";
+import { ConfiguratorUiActions } from "../actions";
+import * as ConfiguratorActions from "../actions/configurator.action";
+import { CONFIGURATION_FEATURE } from "../configuration-state";
+import { Configurator } from "./../../../../model/configurator.model";
+import { ConfiguratorCommonsConnector } from "./../../connectors/configurator-commons.connector";
+import * as fromEffects from "./configurator.effect";
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
@@ -137,10 +137,10 @@ describe('ConfiguratorEffect', () => {
       ],
     });
 
-    configEffects = TestBed.get(
+    configEffects = TestBed.inject(
       fromEffects.ConfiguratorEffects as Type<fromEffects.ConfiguratorEffects>
     );
-    configuratorUtils = TestBed.get(
+    configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(owner);
