@@ -301,7 +301,7 @@ context('Product Configuration', () => {
   });
 
   describe('Cart handling', () => {
-    it('should add configurable product to cart', () => {
+    it.only('should add configurable product to cart', () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
       configuration.selectAttribute(

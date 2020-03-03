@@ -1,5 +1,6 @@
 screenshots
 videos
 cypress.env.json
+yarn.lock
 
 cypress/fixtures/example.json
