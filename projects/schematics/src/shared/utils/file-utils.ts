@@ -99,12 +99,10 @@ export function getPathResultsForFile(
   return results;
 }
 
-// TODO:#6587 - test
 export function getAllHtmlFiles(tree: Tree, directory?: string): string[] {
   return getPathResultsForFile(tree, '.html', directory);
 }
 
-// TODO:#6587 - test
 export function insertHtmlComment(
   content: string,
   componentSelector: ComponentSelector

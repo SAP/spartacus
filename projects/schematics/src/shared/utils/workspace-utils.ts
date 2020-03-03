@@ -4,30 +4,9 @@ import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 
 const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
 
-// TODO:#6587 - test
-export function getAngularJsonFile(
-  tree: Tree,
-  possibleProjectFiles = DEFAULT_POSSIBLE_PROJECT_FILES
-): any {
-  const path = possibleProjectFiles.filter(filePath =>
-    tree.exists(filePath)
-  )[0];
-  if (!path) {
-    throw new SchematicsException(`Could not find Angular`);
-  }
-
-  const configBuffer = tree.read(path);
-  if (configBuffer === null) {
-    throw new SchematicsException(`Could not find (${path})`);
-  }
-
-  const angularJsonContent = configBuffer.toString();
-  return parseJson(angularJsonContent, JsonParseMode.Loose) as any;
-}
-
 export function getSourceRoot(
   host: Tree,
-  options: { project?: string | undefined; path?: string | undefined }
+  options: { project?: string | undefined; path?: string | undefined } = {}
 ): string {
   const workspace = getWorkspace(host).workspace;
 
@@ -55,8 +34,31 @@ export function getWorkspace(
 
   return {
     path,
-    workspace: angularJson as experimental.workspace.WorkspaceSchema,
+    workspace: angularJson,
   };
+}
+
+function getAngularJsonFile(
+  tree: Tree,
+  possibleProjectFiles = DEFAULT_POSSIBLE_PROJECT_FILES
+): experimental.workspace.WorkspaceSchema {
+  const path = possibleProjectFiles.filter(filePath =>
+    tree.exists(filePath)
+  )[0];
+  if (!path) {
+    throw new SchematicsException(`Could not find Angular`);
+  }
+
+  const configBuffer = tree.read(path);
+  if (configBuffer === null) {
+    throw new SchematicsException(`Could not find (${path})`);
+  }
+
+  const angularJsonContent = configBuffer.toString();
+  return (parseJson(
+    angularJsonContent,
+    JsonParseMode.Loose
+  ) as unknown) as experimental.workspace.WorkspaceSchema;
 }
 
 export function getProjectFromWorkspace(

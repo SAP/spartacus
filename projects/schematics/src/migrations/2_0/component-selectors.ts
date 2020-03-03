@@ -4,14 +4,14 @@ import {
   getAllHtmlFiles,
   insertHtmlComment,
 } from '../../shared/utils/file-utils';
-import { getAngularJsonFile } from '../../shared/utils/workspace-utils';
+import { getSourceRoot } from '../../shared/utils/workspace-utils';
 import { COMPONENT_SELECTOR_DEPRECATION_DATA } from './component-selectors-data';
 
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     context.logger.info('Checking component selectors...');
-    const angularJson = getAngularJsonFile(tree);
-    const allHtmlFilePaths = getAllHtmlFiles(tree, angularJson.sourceRoot);
+    const sourceRoot = getSourceRoot(tree);
+    const allHtmlFilePaths = getAllHtmlFiles(tree, sourceRoot);
     for (const htmlFilePath of allHtmlFilePaths) {
       const buffer = tree.read(htmlFilePath);
       if (!buffer) {

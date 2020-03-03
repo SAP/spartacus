@@ -10,6 +10,7 @@ import {
 } from '@schematics/angular/utility/change';
 import * as path from 'path';
 import * as ts from 'typescript';
+import { COMPONENT_SELECTOR_DEPRECATION_DATA } from '../../migrations/2_0/component-selectors-data';
 import {
   AUTH_SERVICE,
   FEATURE_CONFIG_SERVICE,
@@ -25,6 +26,7 @@ import {
   commitChanges,
   defineProperty,
   findConstructor,
+  getAllHtmlFiles,
   getAllTsSourceFiles,
   getIndexHtmlPath,
   getPathResultsForFile,
@@ -32,6 +34,7 @@ import {
   injectService,
   insertCommentAboveIdentifier,
   InsertDirection,
+  insertHtmlComment,
   isCandidateForConstructorDeprecation,
   removeConstructorParam,
   renameIdentifierNode,
@@ -164,6 +167,12 @@ const VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS = `
       }
     }
 `;
+const HTML_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+<div>test</div>
+<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+const HTML_EXAMPLE_EXPECTED = `<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+<div>test</div>
+<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -241,6 +250,28 @@ describe('File utils', () => {
 
       expect(pathsToFile.length).toBeGreaterThan(0);
       expect(pathsToFile[0]).toEqual('/src/test.ts');
+    });
+  });
+
+  describe('getAllHtmlFiles', () => {
+    it('should return proper path for file', async () => {
+      const pathsToFile = getAllHtmlFiles(appTree, 'src');
+
+      expect(pathsToFile.length).toEqual(2);
+      expect(pathsToFile[0]).toEqual('/src/index.html');
+      expect(pathsToFile[1]).toEqual('/src/app/app.component.html');
+    });
+  });
+
+  describe('insertHtmlComment', () => {
+    it('should insert the comment', async () => {
+      const result = insertHtmlComment(
+        HTML_EXAMPLE,
+        COMPONENT_SELECTOR_DEPRECATION_DATA[0]
+      );
+
+      expect(result).toBeTruthy();
+      expect(result).toEqual(HTML_EXAMPLE_EXPECTED);
     });
   });
 
