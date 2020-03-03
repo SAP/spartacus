@@ -4,9 +4,7 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe,
   I18nModule,
-  UserService,
 } from '@spartacus/core';
 import { PermissionEditComponent } from './permission-edit.component';
 import { PermissionFormModule } from '../permission-form/permission-form.module';
@@ -38,7 +36,6 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
   ],
   declarations: [PermissionEditComponent],
   exports: [PermissionEditComponent],
-  providers: [UserService, CxDatePipe],
   entryComponents: [PermissionEditComponent],
 })
 export class PermissionEditModule {}

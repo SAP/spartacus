@@ -3,13 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  CurrencyService,
-  I18nModule,
-  UrlModule,
-  OrgUnitService,
-} from '@spartacus/core';
-import { PermissionFormComponent } from './permission-form.component';
+import { I18nModule, UrlModule } from '@spartacus/core';
+import { TableModule } from '../table/table.module';
+import { InteractiveTableComponent } from './interactive-table.component';
 
 @NgModule({
   imports: [
@@ -19,11 +15,11 @@ import { PermissionFormComponent } from './permission-form.component';
     NgSelectModule,
     UrlModule,
     I18nModule,
+    TableModule,
     ReactiveFormsModule,
   ],
-  declarations: [PermissionFormComponent],
-  exports: [PermissionFormComponent],
-  providers: [CurrencyService, OrgUnitService],
-  entryComponents: [PermissionFormComponent],
+  declarations: [InteractiveTableComponent],
+  exports: [InteractiveTableComponent],
+  entryComponents: [InteractiveTableComponent],
 })
-export class PermissionFormModule {}
+export class InteractiveTableModule {}
