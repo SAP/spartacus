@@ -34,3 +34,39 @@ export function headerTabbingOrder(
 
   verifyTabbingOrder(containerSelector, config);
 }
+
+export function subCategoryTabbingOrder(
+  config: TabElement[],
+  subCategoryName: string,
+  mobile: boolean = false
+) {
+  cy.visit('/');
+
+  if (mobile) {
+    cy.viewport(formats.mobile.width, formats.mobile.height);
+    cy.get('cx-hamburger-menu button')
+      .first()
+      .click()
+      .focus();
+  }
+
+  cy.get('cx-category-navigation').within(() => {
+    cy.get('cx-navigation-ui')
+      .find('nav')
+      .should('have.length', 30);
+    cy.get('cx-navigation-ui nav h5')
+      .contains(subCategoryName)
+      .should('be.visible')
+      .focus()
+      .trigger('keydown', {
+        key: ' ',
+        code: 'Space',
+        force: true,
+      });
+  });
+
+  cy.get('cx-navigation-ui nav.is-open h5')
+    .first()
+    .focus();
+  verifyTabbingOrder('cx-navigation-ui nav.is-open div.wrapper', config);
+}
