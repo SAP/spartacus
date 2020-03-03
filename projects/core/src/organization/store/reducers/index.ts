@@ -23,6 +23,9 @@ import {
   COST_CENTER_ENTITIES,
   COST_CENTER_LIST,
   COST_CENTER_ASSIGNED_BUDGETS,
+  ORG_UNIT_USER_GROUP_ENTITIES,
+  ORG_UNIT_USER_GROUP_FEATURE,
+  ORG_UNIT_USER_GROUP_LIST,
 } from '../organization-state';
 import { budgetsListReducer, budgetsEntitiesReducer } from './budget.reducer';
 import { orgUnitListReducer } from './org-unit.reducer';
@@ -31,6 +34,7 @@ import {
   costCentersListReducer,
   costCenterAssignedBudgetsListReducer,
 } from './cost-center.reducer';
+import { OrgUnitUserGroup } from 'projects/core/src/model/org-unit-user-group.model';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -51,6 +55,15 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
     [ORG_UNIT_FEATURE]: combineReducers({
       entities: entityLoaderReducer<B2BUnitNode>(ORG_UNIT_ENTITIES),
       list: entityLoaderReducer<ListModel>(ORG_UNIT_LIST, orgUnitListReducer),
+    }),
+    [ORG_UNIT_USER_GROUP_FEATURE]: combineReducers({
+      entities: entityLoaderReducer<OrgUnitUserGroup>(
+        ORG_UNIT_USER_GROUP_ENTITIES
+      ),
+      list: entityLoaderReducer<ListModel>(
+        ORG_UNIT_USER_GROUP_LIST,
+        orgUnitListReducer
+      ),
     }),
     [COST_CENTER_FEATURE]: combineReducers({
       entities: entityLoaderReducer<CostCenter>(COST_CENTER_ENTITIES),

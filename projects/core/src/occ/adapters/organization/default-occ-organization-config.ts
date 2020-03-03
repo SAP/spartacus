@@ -8,6 +8,8 @@ export const defaultOccOrganizationConfig: OccConfig = {
         budget: '/users/${userId}/budgets/${budgetCode}',
         orgUnits: '/users/${userId}/availableOrgUnitNodes',
         orgUnit: '/users/${userId}/orgUnits/${orgUnitId}',
+        orgUnitUserGroups: '/orgUnitUserGroups',
+        orgUnitUserGroup: '/orgUnitUserGroups/${orgUnitUserGrouppId}',
         costCenters: '/costcenters',
         costCenter: '/costcenters/${costCenterCode}',
         costCentersAll: '/costcentersall',

@@ -4,6 +4,7 @@ import {
   ListModel,
   B2BUnitNode,
   Permission,
+  OrgUnitUserGroup,
 } from '../../model';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
@@ -26,6 +27,10 @@ export const ORG_UNIT_FEATURE = 'orgUnit';
 export const ORG_UNIT_ENTITIES = 'orgUnit-entities';
 export const ORG_UNIT_LIST = 'orgUnit-list';
 
+export const ORG_UNIT_USER_GROUP_FEATURE = 'orgUnitUserGroup';
+export const ORG_UNIT_USER_GROUP_ENTITIES = 'orgUnitUserGroup-entities';
+export const ORG_UNIT_USER_GROUP_LIST = 'orgUnitUserGroup-list';
+
 export interface Management<Type> {
   list: EntityLoaderState<ListModel>;
   entities: EntityLoaderState<Type>;
@@ -34,6 +39,9 @@ export interface Management<Type> {
 export interface BudgetManagement extends Management<Budget> {}
 
 export interface OrgUnits extends Management<B2BUnitNode> {}
+
+export interface OrgUnitUserGroupManagement
+  extends Management<OrgUnitUserGroup> {}
 
 export interface PermissionManagement extends Management<Permission> {}
 
@@ -48,6 +56,7 @@ export interface StateWithOrganization {
 export interface OrganizationState {
   [BUDGET_FEATURE]: BudgetManagement;
   [ORG_UNIT_FEATURE]: OrgUnits;
+  [ORG_UNIT_USER_GROUP_FEATURE]: OrgUnitUserGroupManagement;
   [PERMISSION_FEATURE]: PermissionManagement;
   [COST_CENTER_FEATURE]: CostCenterManagement;
 }
