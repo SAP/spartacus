@@ -55,6 +55,13 @@ import { storeDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-or
 import { countriesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/countries-list';
 import { storesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/stores-list';
 import {
+  stockNotificationNotLoginTabbingOrder,
+  stockNotificationNoEnbaledPreferenceTabbingOrder,
+  stockNotificationProductSubscribedTabbingOrder,
+  stockNotificationDialogTabbingOrder,
+  stockNotificationTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/stock-notification';
+import {
   consignmentTrackingTabbingOrder,
   consignmentTrackingEventsTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/consignment-tracking';
@@ -242,6 +249,12 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
       });
     });
   });
+
+  context('Stock Notification', () => {
+    it('should allow to navigate with tab key (not login)', () => {
+      stockNotificationNotLoginTabbingOrder(config.stockNotificationNotLogin);
+    });
+  });
 });
 
 describe('Tabbing order - tests do require user to be logged in', () => {
@@ -408,6 +421,28 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('My Interest', () => {
     it('should allow to navigate with tab key', () => {
       myInterestTabbingOrder(config.myInterests);
+    });
+  });
+
+  context('Stock Notification', () => {
+    it('should allow to navigate with tab key (no enabled notification preference)', () => {
+      stockNotificationNoEnbaledPreferenceTabbingOrder(
+        config.stockNotificationNoEnabledPreference
+      );
+    });
+
+    it('should allow to navigate with tab key (product was been subscribed)', () => {
+      stockNotificationProductSubscribedTabbingOrder(
+        config.stockNotificationSubscribed
+      );
+    });
+
+    it('should allow to navigate with tab key (dialog)', () => {
+      stockNotificationDialogTabbingOrder(config.stockNotificationDialog);
+    });
+
+    it('should allow to navigate with tab key', () => {
+      stockNotificationTabbingOrder(config.stockNotification);
     });
   });
 
