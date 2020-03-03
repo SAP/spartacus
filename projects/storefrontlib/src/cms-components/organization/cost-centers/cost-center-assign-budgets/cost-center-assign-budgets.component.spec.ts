@@ -16,14 +16,12 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { TableModule } from '../../../../shared/components/table/table.module';
-
+import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
 import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 
-const costCenterCode = 'costCenterCode';
+const code = 'costCenterCode';
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
   currentPage: 0,
@@ -62,7 +60,7 @@ const mockBudgetList: EntitiesModel<Budget> = {
 };
 
 const mockBudgetUIList = {
-  budgetsList: [
+  values: [
     {
       code: '1',
       name: 'b1',
@@ -104,6 +102,9 @@ class MockRoutingService {
   getRouterState() {
     return of({
       state: {
+        params: {
+          code,
+        },
         queryParams: {
           sort: 'byName',
           currentPage: '0',
@@ -134,12 +135,7 @@ describe('CostCenterAssignBudgetsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ListNavigationModule,
-        TableModule,
-        I18nTestingModule,
-      ],
+      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
       declarations: [CostCenterAssignBudgetsComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
@@ -159,7 +155,6 @@ describe('CostCenterAssignBudgetsComponent', () => {
     fixture = TestBed.createComponent(CostCenterAssignBudgetsComponent);
     component = fixture.componentInstance;
     budgetList.next(mockBudgetList);
-    component['costCenterCode$'] = of(costCenterCode);
     fixture.detectChanges();
   });
 
@@ -190,11 +185,11 @@ describe('CostCenterAssignBudgetsComponent', () => {
         })
         .unsubscribe();
       expect(costCenterService.loadBudgets).toHaveBeenCalledWith(
-        costCenterCode,
+        code,
         defaultParams
       );
       expect(costCenterService.getBudgets).toHaveBeenCalledWith(
-        costCenterCode,
+        code,
         defaultParams
       );
       expect(budgetsList).toEqual(mockBudgetUIList);
@@ -206,7 +201,8 @@ describe('CostCenterAssignBudgetsComponent', () => {
       component.changeSortCode('byCode');
       expect(routingService.go).toHaveBeenCalledWith(
         {
-          cxRoute: 'budgets',
+          cxRoute: 'costCenterAssignBudgets',
+          params: { code },
         },
         {
           sort: 'byCode',
@@ -217,12 +213,11 @@ describe('CostCenterAssignBudgetsComponent', () => {
 
   describe('pageChange', () => {
     it('should set correctly page', () => {
-      component['params$'] = of(defaultParams);
-      component['costCenterCode$$'] = of(costCenterCode);
       component.pageChange(2);
       expect(routingService.go).toHaveBeenCalledWith(
         {
-          cxRoute: 'budgets',
+          cxRoute: 'costCenterAssignBudgets',
+          params: { code },
         },
         {
           currentPage: 2,

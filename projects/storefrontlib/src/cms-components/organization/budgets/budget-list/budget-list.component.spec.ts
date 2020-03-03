@@ -16,12 +16,10 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { TableModule } from '../../../../shared/components/table/table.module';
-
 import { BudgetListComponent } from './budget-list.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
+import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
 
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
@@ -61,7 +59,7 @@ const mockBudgetList: EntitiesModel<Budget> = {
 };
 
 const mockBudgetUIList = {
-  budgetsList: [
+  values: [
     {
       code: '1',
       name: 'b1',
@@ -133,12 +131,7 @@ describe('BudgetListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ListNavigationModule,
-        TableModule,
-        I18nTestingModule,
-      ],
+      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
       declarations: [BudgetListComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
@@ -193,7 +186,6 @@ describe('BudgetListComponent', () => {
 
   describe('changeSortCode', () => {
     it('should set correctly sort code', () => {
-      component['params$'] = of(defaultParams);
       component.changeSortCode('byCode');
       expect(routingService.go).toHaveBeenCalledWith(
         {
@@ -208,7 +200,6 @@ describe('BudgetListComponent', () => {
 
   describe('pageChange', () => {
     it('should set correctly page', () => {
-      component['params$'] = of(defaultParams);
       component.pageChange(2);
       expect(routingService.go).toHaveBeenCalledWith(
         {

@@ -17,8 +17,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { TableModule } from '../../../../shared/components/table/table.module';
+import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
 
 import { PermissionListComponent } from './permission-list.component';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
@@ -60,7 +59,7 @@ const mockPermissionList: EntitiesModel<Permission> = {
 };
 
 const mockPermissionUIList = {
-  permissionsList: [
+  values: [
     {
       code: '1',
       threshold: '231 $',
@@ -132,12 +131,7 @@ describe('PermissionListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ListNavigationModule,
-        TableModule,
-        I18nTestingModule,
-      ],
+      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
       declarations: [PermissionListComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
@@ -198,7 +192,6 @@ describe('PermissionListComponent', () => {
 
   describe('changeSortCode', () => {
     it('should set correctly sort code', () => {
-      component['params$'] = of(defaultParams);
       component.changeSortCode('byCode');
       expect(routingService.go).toHaveBeenCalledWith(
         {
@@ -213,7 +206,6 @@ describe('PermissionListComponent', () => {
 
   describe('pageChange', () => {
     it('should set correctly page', () => {
-      component['params$'] = of(defaultParams);
       component.pageChange(2);
       expect(routingService.go).toHaveBeenCalledWith(
         {

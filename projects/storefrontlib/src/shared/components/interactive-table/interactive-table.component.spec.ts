@@ -189,7 +189,7 @@ describe('InteractiveTableComponent', () => {
 
   describe('changeSortCode', () => {
     it('should set correctly sort code', () => {
-      component['params$'] = of(defaultParams);
+      component['queryParams$'] = of(defaultParams);
       component.sortListEvent('byCode');
       expect(routingService.go).toHaveBeenCalledWith(
         {
@@ -204,7 +204,7 @@ describe('InteractiveTableComponent', () => {
 
   describe('pageChange', () => {
     it('should set correctly page', () => {
-      component['params$'] = of(defaultParams);
+      component['queryParams$'] = of(defaultParams);
       component.viewPageEvent(2);
       expect(routingService.go).toHaveBeenCalledWith(
         {

@@ -19,10 +19,10 @@ import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { TableModule } from '../../../../shared/components/table/table.module';
 
-const permissionCode = 'b1';
+const code = 'b1';
 
 const mockPermission: Permission = {
-  code: permissionCode,
+  code,
   threshold: 231,
   orderApprovalPermissionType: { name: 'orderType' },
   periodRange: Period.MONTH,
@@ -34,7 +34,7 @@ const mockPermission: Permission = {
 };
 
 const mockPermissionUI: any = {
-  code: permissionCode,
+  code,
   threshold: 231,
   orderApprovalPermissionType: { name: 'orderType' },
   periodRange: Period.MONTH,
@@ -61,7 +61,7 @@ class MockPermissionService implements Partial<PermissionService> {
 const mockRouterState = {
   state: {
     params: {
-      permissionCode,
+      code,
     },
   },
 };
@@ -130,10 +130,8 @@ describe('PermissionDetailsComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(permissionsService.loadPermission).toHaveBeenCalledWith(
-        permissionCode
-      );
-      expect(permissionsService.get).toHaveBeenCalledWith(permissionCode);
+      expect(permissionsService.loadPermission).toHaveBeenCalledWith(code);
+      expect(permissionsService.get).toHaveBeenCalledWith(code);
       expect(permission).toEqual(mockPermissionUI);
     });
   });
@@ -143,12 +141,12 @@ describe('PermissionDetailsComponent', () => {
       component.ngOnInit();
 
       component.update({ active: false });
-      expect(permissionsService.update).toHaveBeenCalledWith(permissionCode, {
+      expect(permissionsService.update).toHaveBeenCalledWith(code, {
         active: false,
       });
 
       component.update({ active: true });
-      expect(permissionsService.update).toHaveBeenCalledWith(permissionCode, {
+      expect(permissionsService.update).toHaveBeenCalledWith(code, {
         active: true,
       });
     });
