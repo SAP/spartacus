@@ -38,7 +38,15 @@ import {
   OccPermissionListNormalizer,
   OccCostCenterListNormalizer,
   OccCostCenterNormalizer,
+  OccOrgUnitUserGroupNormalizer,
+  OccOrgUnitUserGroupListNormalizer,
 } from './converters/index';
+import {
+  OrgUnitUserGroupAdapter,
+  ORG_UNIT_USER_GROUP_NORMALIZER,
+  ORG_UNIT_USER_GROUPS_NORMALIZER,
+} from '../../../organization';
+import { OccOrgUnitUserGroupAdapter } from './occ-org-unit-user-group.adapter';
 
 @NgModule({
   imports: [
@@ -69,6 +77,20 @@ import {
     {
       provide: B2BUNIT_LIST_NORMALIZER,
       useClass: OccOrgUnitListNormalizer,
+      multi: true,
+    },
+    {
+      provide: OrgUnitUserGroupAdapter,
+      useClass: OccOrgUnitUserGroupAdapter,
+    },
+    {
+      provide: ORG_UNIT_USER_GROUP_NORMALIZER,
+      useClass: OccOrgUnitUserGroupNormalizer,
+      multi: true,
+    },
+    {
+      provide: ORG_UNIT_USER_GROUPS_NORMALIZER,
+      useClass: OccOrgUnitUserGroupListNormalizer,
       multi: true,
     },
     {
