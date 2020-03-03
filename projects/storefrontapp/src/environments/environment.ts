@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
+  occBaseUrl: '',
   channel: 'b2c',
 };
