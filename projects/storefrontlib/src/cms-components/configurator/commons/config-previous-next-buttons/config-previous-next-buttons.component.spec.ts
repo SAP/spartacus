@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Type } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
+import { ChangeDetectionStrategy, Type } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -9,13 +9,13 @@ import {
   GenericConfigUtilsService,
   I18nTestingModule,
   RouterState,
-  RoutingService
-} from "@spartacus/core";
-import { cold } from "jasmine-marbles";
-import { Observable, of } from "rxjs";
-import { take } from "rxjs/operators";
-import { TestScheduler } from "rxjs/testing";
-import { ConfigPreviousNextButtonsComponent } from "./config-previous-next-buttons.component";
+  RoutingService,
+} from '@spartacus/core';
+import { cold } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { TestScheduler } from 'rxjs/testing';
+import { ConfigPreviousNextButtonsComponent } from './config-previous-next-buttons.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const GROUP_ID = 'group1';

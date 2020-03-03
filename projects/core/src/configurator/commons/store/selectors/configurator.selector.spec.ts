@@ -1,13 +1,16 @@
-import { Type } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
-import { select, Store, StoreModule } from "@ngrx/store";
-import { GenericConfigurator } from "../../../../model/generic-configurator.model";
-import { GenericConfigUtilsService } from "../../../generic/utils/config-utils.service";
-import { ConfiguratorActions } from "../actions";
-import { Configurator } from "./../../../../model/configurator.model";
-import { CONFIGURATION_FEATURE, StateWithConfiguration } from "./../configuration-state";
-import * as fromReducers from "./../reducers/index";
-import { ConfiguratorSelectors } from "./index";
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { GenericConfigurator } from '../../../../model/generic-configurator.model';
+import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
+import { ConfiguratorActions } from '../actions';
+import { Configurator } from './../../../../model/configurator.model';
+import {
+  CONFIGURATION_FEATURE,
+  StateWithConfiguration,
+} from './../configuration-state';
+import * as fromReducers from './../reducers/index';
+import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {
   let store: Store<StateWithConfiguration>;

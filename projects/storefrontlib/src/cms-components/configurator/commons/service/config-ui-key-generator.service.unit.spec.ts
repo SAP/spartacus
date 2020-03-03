@@ -1,6 +1,6 @@
-import { TestBed } from "@angular/core/testing";
-import { Configurator } from "@spartacus/core";
-import { ConfigUIKeyGeneratorService } from "./config-ui-key-generator.service";
+import { TestBed } from '@angular/core/testing';
+import { Configurator } from '@spartacus/core';
+import { ConfigUIKeyGeneratorService } from './config-ui-key-generator.service';
 
 describe('ConfigUIKeyGeneratorService', () => {
   let classUnderTest: ConfigUIKeyGeneratorService;

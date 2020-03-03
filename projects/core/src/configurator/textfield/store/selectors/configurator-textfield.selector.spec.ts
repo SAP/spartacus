@@ -1,11 +1,14 @@
-import { Type } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
-import { select, Store, StoreModule } from "@ngrx/store";
-import { ConfiguratorTextfield } from "../../../../model/configurator-textfield.model";
-import * as ConfiguratorActions from "../actions/configurator-textfield.action";
-import { CONFIGURATION_TEXTFIELD_FEATURE, StateWithConfigurationTextfield } from "../configuration-textfield-state";
-import * as fromReducers from "../reducers/index";
-import { ConfiguratorTextFieldSelectors } from "./index";
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
+import * as ConfiguratorActions from '../actions/configurator-textfield.action';
+import {
+  CONFIGURATION_TEXTFIELD_FEATURE,
+  StateWithConfigurationTextfield,
+} from '../configuration-textfield-state';
+import * as fromReducers from '../reducers/index';
+import { ConfiguratorTextFieldSelectors } from './index';
 
 describe('ConfiguratorTextfieldSelectors', () => {
   let store: Store<StateWithConfigurationTextfield>;

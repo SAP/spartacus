@@ -1,8 +1,8 @@
-import { Type } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule } from "@angular/forms";
-import { Router, RouterState } from "@angular/router";
-import { NgSelectModule } from "@ng-select/ng-select";
+import { Type } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterState } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -10,10 +10,10 @@ import {
   GenericConfigurator,
   GenericConfigUtilsService,
   I18nTestingModule,
-  RoutingService
-} from "@spartacus/core";
-import { Observable, of } from "rxjs";
-import { ConfigGroupTitleComponent } from "./config-group-title.component";
+  RoutingService,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { ConfigGroupTitleComponent } from './config-group-title.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '12342';

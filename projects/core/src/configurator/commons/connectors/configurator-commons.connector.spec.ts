@@ -1,12 +1,12 @@
-import { Type } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
-import { of } from "rxjs";
-import { CartModification } from "../../../model/cart.model";
-import { Configurator } from "../../../model/configurator.model";
-import { GenericConfigurator } from "../../../model/generic-configurator.model";
-import { GenericConfigUtilsService } from "../../generic/utils/config-utils.service";
-import { ConfiguratorCommonsAdapter } from "./configurator-commons.adapter";
-import { ConfiguratorCommonsConnector } from "./configurator-commons.connector";
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { CartModification } from '../../../model/cart.model';
+import { Configurator } from '../../../model/configurator.model';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
+import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
+import { ConfiguratorCommonsConnector } from './configurator-commons.connector';
 import createSpy = jasmine.createSpy;
 
 const PRODUCT_CODE = 'CONF_LAPTOP';

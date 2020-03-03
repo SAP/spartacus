@@ -1,9 +1,9 @@
-import { Type } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
-import { ConfiguratorTextfield } from "projects/core/src/model";
-import { of } from "rxjs";
-import { ConfiguratorTextfieldAdapter } from "./configurator-textfield.adapter";
-import { ConfiguratorTextfieldConnector } from "./configurator-textfield.connector";
+import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { ConfiguratorTextfield } from 'projects/core/src/model';
+import { of } from 'rxjs';
+import { ConfiguratorTextfieldAdapter } from './configurator-textfield.adapter';
+import { ConfiguratorTextfieldConnector } from './configurator-textfield.connector';
 import createSpy = jasmine.createSpy;
 
 const USER_ID = 'theUser';

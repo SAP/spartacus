@@ -1,14 +1,14 @@
-import { Type } from "@angular/core";
-import { async, TestBed } from "@angular/core/testing";
-import { Store, StoreModule } from "@ngrx/store";
-import { of } from "rxjs";
-import { ActiveCartService } from "../../../cart/facade/active-cart.service";
-import { GenericConfigurator } from "../../../model/generic-configurator.model";
-import * as UiActions from "../store/actions/configurator-ui.action";
-import { StateWithConfiguration, UiState } from "../store/configuration-state";
-import { Configurator } from "./../../../model/configurator.model";
-import { ConfiguratorCommonsService } from "./configurator-commons.service";
-import { ConfiguratorGroupsService } from "./configurator-groups.service";
+import { Type } from '@angular/core';
+import { async, TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import * as UiActions from '../store/actions/configurator-ui.action';
+import { StateWithConfiguration, UiState } from '../store/configuration-state';
+import { Configurator } from './../../../model/configurator.model';
+import { ConfiguratorCommonsService } from './configurator-commons.service';
+import { ConfiguratorGroupsService } from './configurator-groups.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const GROUP_ID_1 = '1234-56-7891';

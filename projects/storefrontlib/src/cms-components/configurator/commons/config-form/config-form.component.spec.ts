@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from "@angular/core";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule } from "@angular/forms";
-import { RouterState } from "@angular/router";
-import { NgSelectModule } from "@ng-select/ng-select";
+import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterState } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -10,22 +10,22 @@ import {
   GenericConfigurator,
   GenericConfigUtilsService,
   I18nTestingModule,
-  RoutingService
-} from "@spartacus/core";
-import { ICON_TYPE } from "@spartacus/storefront";
-import { cold } from "jasmine-marbles";
-import { Observable, of } from "rxjs";
-import { ConfigAttributeFooterComponent } from "../config-attribute-footer/config-attribute-footer.component";
-import { ConfigAttributeHeaderComponent } from "../config-attribute-header/config-attribute-header.component";
-import { ConfigAttributeCheckBoxListComponent } from "../config-attribute-types/config-attribute-checkbox-list/config-attribute-checkbox-list.component";
-import { ConfigAttributeDropDownComponent } from "../config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component";
-import { ConfigAttributeInputFieldComponent } from "../config-attribute-types/config-attribute-input-field/config-attribute-input-field.component";
-import { ConfigAttributeMultiSelectionImageComponent } from "../config-attribute-types/config-attribute-multi-selection-image/config-attribute-multi-selection-image.component";
-import { ConfigAttributeRadioButtonComponent } from "../config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component";
-import { ConfigAttributeReadOnlyComponent } from "../config-attribute-types/config-attribute-read-only/config-attribute-read-only.component";
-import { ConfigAttributeSingleSelectionImageComponent } from "../config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component";
-import { ConfigPreviousNextButtonsComponent } from "../config-previous-next-buttons/config-previous-next-buttons.component";
-import { ConfigFormComponent } from "./config-form.component";
+  RoutingService,
+} from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
+import { Observable, of } from 'rxjs';
+import { ConfigAttributeFooterComponent } from '../config-attribute-footer/config-attribute-footer.component';
+import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
+import { ConfigAttributeCheckBoxListComponent } from '../config-attribute-types/config-attribute-checkbox-list/config-attribute-checkbox-list.component';
+import { ConfigAttributeDropDownComponent } from '../config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
+import { ConfigAttributeInputFieldComponent } from '../config-attribute-types/config-attribute-input-field/config-attribute-input-field.component';
+import { ConfigAttributeMultiSelectionImageComponent } from '../config-attribute-types/config-attribute-multi-selection-image/config-attribute-multi-selection-image.component';
+import { ConfigAttributeRadioButtonComponent } from '../config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
+import { ConfigAttributeReadOnlyComponent } from '../config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
+import { ConfigAttributeSingleSelectionImageComponent } from '../config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
+import { ConfigPreviousNextButtonsComponent } from '../config-previous-next-buttons/config-previous-next-buttons.component';
+import { ConfigFormComponent } from './config-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
