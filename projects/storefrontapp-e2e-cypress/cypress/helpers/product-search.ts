@@ -28,6 +28,7 @@ export const QUERY_ALIAS = {
   CANON: 'canon_query',
   CAMERA: 'camera_query',
   FACET: 'facet_query',
+  INFINITE_SCROLL_PRODUCT_LOADED: 'productLoaded_query',
 };
 
 export function clickSearchIcon() {
@@ -250,6 +251,10 @@ function createFacetFilterQuery(alias: string): void {
 
 export function createProductSortQuery(sort: string, alias: string): void {
   cy.route('GET', `${searchUrlPrefix}?fields=*&sort=${sort}*`).as(alias);
+}
+
+export function createAllProductQuery(alias: string): void {
+  cy.route('GET', `${searchUrlPrefix}*`).as(alias);
 }
 
 export function createProductQuery(
