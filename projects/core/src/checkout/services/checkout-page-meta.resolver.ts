@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { CartService } from '../../cart/facade/cart.service';
-import { PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { ActiveCartService } from '../../cart';
+import { PageRobotsMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageRobotsResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
 import { TranslationService } from '../../i18n/translation.service';
-import { Cart } from '../../model/cart.model';
 import { PageType } from '../../model/cms.model';
 
 /**
@@ -27,7 +26,7 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
   private cart$ = this.cartService.getActive();
 
   constructor(
-    protected cartService: CartService,
+    protected cartService: ActiveCartService,
     protected translation: TranslationService
   ) {
     super();
@@ -35,32 +34,8 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
     this.pageTemplate = 'MultiStepCheckoutSummaryPageTemplate';
   }
 
-  /**
-   * @deprecated since version 1.3
-   *
-   * The resolve method is no longer preferred and will be removed with release 2.0.
-   * The caller `PageMetaService` service is improved to expect all individual resolvers
-   * instead, so that the code is easier extensible.
-   */
-  resolve(): Observable<PageMeta> | any {
+  resolveTitle(): Observable<string> {
     return this.cart$.pipe(
-      switchMap(cart =>
-        combineLatest([this.resolveTitle(cart), this.resolveRobots()])
-      ),
-      map(([title, robots]) => ({ title, robots }))
-    );
-  }
-
-  resolveTitle(): Observable<string>;
-  /**
-   * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveTitle()` instead
-   */
-  // tslint:disable-next-line: unified-signatures
-  resolveTitle(cart: Cart): Observable<string>;
-  resolveTitle(cart?: Cart): Observable<string> {
-    const cart$: Observable<Cart> = cart ? of(cart) : this.cart$;
-    return cart$.pipe(
       switchMap(c =>
         this.translation.translate('pageMetaResolver.checkout.title', {
           count: c.totalItems,
