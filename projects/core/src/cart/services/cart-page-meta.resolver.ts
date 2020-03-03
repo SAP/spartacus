@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
-import { Page, PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
+import { Page, PageRobotsMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageRobotsResolver,
@@ -11,9 +11,9 @@ import {
 import { PageType } from '../../model/cms.model';
 
 /**
- * Resolves the page data for all Content Pages based on the `PageType.CONTENT_PAGE`
- * and the `CartPageTemplate`. If the cart page matches this template, the more generic
- * `ContentPageMetaResolver` is overriden by this resolver.
+ * Resolves the page metadata for the Cart page (Using the `PageType.CONTENT_PAGE`
+ * and the `CartPageTemplate`). If the cart page matches this template, the more
+ * generic `ContentPageMetaResolver` is overriden by this resolver.
  *
  * The page title and robots are resolved in this implementation only.
  */
@@ -33,32 +33,15 @@ export class CartPageMetaResolver extends PageMetaResolver
   }
 
   /**
-   * @deprecated since version 1.3
-   *
-   * The resolve method is no longer preferred and will be removed with release 2.0.
-   * The caller `PageMetaService` service is improved to expect all individual resolvers
-   * instead, so that the code is easier extensible.
+   * Resolves the page title, which is driven by the backend.
    */
-  resolve(): Observable<PageMeta> | any {
-    return this.cms$.pipe(
-      switchMap(page =>
-        combineLatest([this.resolveTitle(page), this.resolveRobots()])
-      ),
-      map(([title, robots]: [string, any[]]) => ({ title, robots }))
-    );
+  resolveTitle(): Observable<string> {
+    return this.cms$.pipe(map(p => p.title));
   }
 
-  resolveTitle(): Observable<string>;
   /**
-   * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveTitle()` instead
+   * Returns robots for the cart pages, which default to NOINDEX and NOFOLLOW.
    */
-  // tslint:disable-next-line: unified-signatures
-  resolveTitle(page: Page): Observable<string>;
-  resolveTitle(page?: Page): Observable<string> {
-    return page ? of(page.title) : this.cms$.pipe(map(p => p.title));
-  }
-
   resolveRobots(): Observable<PageRobotsMeta[]> {
     return of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX]);
   }
