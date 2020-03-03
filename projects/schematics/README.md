@@ -163,6 +163,6 @@ Some examples:
 
 #### HTML and CSS
 
-To handle HTML changes (such as the DOM structure changes), you can use `projects/schematics/src/shared/utils/file-utils.ts#insertHtmlComment` method, where you will provide a Spartacus component selector, above which the schematic will insert a comment.
+Similar to [constructor deprecation](#Constructor-deprecation), `projects/schematics/src/migrations/2_0/component-selectors.ts` performs the html migration tasks. Usually, a developer does not need to touch this file, but they should rather describe the html deprecation in `projects/schematics/src/migrations/2_0/component-selectors-data.ts`. The constant `COMPONENT_SELECTOR_DEPRECATION_DATA` describes the deprecated selectors and has a `comment` property. If needed, there's a `projects/schematics/src/shared/utils/file-utils.ts#insertHtmlComment` method, where you will provide a Spartacus component selector, above which the schematic will insert a comment.
 
 To handle CSS changes, we are printing a link to the CSS docs, where customers can look up which CSS selectors have changed between Spartacus versions. For this reason, if making a change to a CSS selector, please update this docs. (link to follow).
