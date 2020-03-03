@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { ListNavigationModule } from '../list-navigation/list-navigation.module';
 import { TableModule } from '../table/table.module';
 import { InteractiveTableComponent } from './interactive-table.component';
 
@@ -14,7 +13,6 @@ import { InteractiveTableComponent } from './interactive-table.component';
     RouterModule,
     FormsModule,
     NgSelectModule,
-    ListNavigationModule,
     UrlModule,
     I18nModule,
     TableModule,

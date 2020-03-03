@@ -4,9 +4,7 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe,
   I18nModule,
-  UserService,
 } from '@spartacus/core';
 import { BudgetCreateComponent } from './budget-create.component';
 import { BudgetFormModule } from '../budget-form/budget-form.module';
@@ -27,7 +25,6 @@ import { BudgetFormModule } from '../budget-form/budget-form.module';
   ],
   declarations: [BudgetCreateComponent],
   exports: [BudgetCreateComponent],
-  providers: [UserService, CxDatePipe],
   entryComponents: [BudgetCreateComponent],
 })
 export class BudgetCreateModule {}
