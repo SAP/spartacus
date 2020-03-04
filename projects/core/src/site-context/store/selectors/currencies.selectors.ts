@@ -1,10 +1,16 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { Currency } from '../../../model/misc.model';
-import { CurrenciesState, CurrencyEntities, SiteContextState, StateWithSiteContext } from '../state';
+import {
+  CurrenciesState,
+  CurrencyEntities,
+  SiteContextState,
+  StateWithSiteContext,
+} from '../state';
 import { getSiteContextState } from './site-context.selector';
 
 const currenciesEntitiesSelector = (state: CurrenciesState) => state?.entities;
-const activeCurrencySelector = (state: CurrenciesState) => state?.activeCurrency;
+const activeCurrencySelector = (state: CurrenciesState) =>
+  state?.activeCurrency;
 
 export const getCurrenciesState: MemoizedSelector<
   StateWithSiteContext,
