@@ -42,19 +42,7 @@
                 {{ returnEntry.orderEntry?.product.code }}
               </div>
               <!-- Variants -->
-              <ng-container *cxFeatureLevel="'!1.5'">
-                <div
-                  *ngFor="
-                    let variant of returnEntry.orderEntry?.product
-                      .variantOptionQualifiers
-                  "
-                  class="cx-property"
-                >
-                  <div class="cx-label">{{ variant.name }}</div>
-                  <div class="cx-value">{{ variant.value }}</div>
-                </div>
-              </ng-container>
-              <ng-container *cxFeatureLevel="'1.5'">
+              <ng-container>
                 <div
                   *ngFor="
                     let variant of (returnEntry.orderEntry?.product
