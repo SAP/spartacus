@@ -21,7 +21,10 @@ import {
 import { closeAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/close-account';
 import { consentManagementTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/consent-management';
 import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
-import { headerTabbingOrder } from '../../helpers/accessibility/tabbing-order/header';
+import {
+  headerTabbingOrder,
+  subCategoryTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/header';
 import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
 import { orderDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/order-details';
@@ -40,6 +43,9 @@ import {
 import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
 import { productPageTabsTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page-tabs';
 import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
+import { myAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account';
+import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
+import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/reset-password';
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
@@ -50,6 +56,18 @@ import {
   checkoutCouponsTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/coupons';
 import { checkoutMyCouponsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-coupons';
+import { searchResultsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/search-results';
+import { defaultViewTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/default-view';
+import { storeDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/store-details';
+import { countriesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/countries-list';
+import { storesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/stores-list';
+import {
+  stockNotificationNotLoginTabbingOrder,
+  stockNotificationNoEnbaledPreferenceTabbingOrder,
+  stockNotificationProductSubscribedTabbingOrder,
+  stockNotificationDialogTabbingOrder,
+  stockNotificationTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/stock-notification';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -65,6 +83,63 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
   context('Header - Mobile (not logged in)', () => {
     it('should allow to navigate with tab key', () => {
       headerTabbingOrder(config.headerMobileNotLoggedIn, true);
+    });
+  });
+
+  describe('Header Sub Categories - Desktop', () => {
+    context('Brands', () => {
+      // TODO: Test currently fails because navigation-ui works incorrectly
+      it('should allow to navigate with tab key', () => {
+        subCategoryTabbingOrder(config.headerCategoryBrands, 'Brands');
+      });
+    });
+
+    context('Digital Cameras', () => {
+      it('should allow to navigate with tab key', () => {
+        subCategoryTabbingOrder(
+          config.headerCategoryDigitalCameras,
+          'Digital Cameras'
+        );
+      });
+    });
+
+    context('Accessories', () => {
+      // TODO: This test fails with the current navigation-ui implementation for unknown reasons.
+      // Better fixed after nav-ui refactor (#6743)
+      it('should allow to navigate with tab key', () => {
+        subCategoryTabbingOrder(
+          config.headerCategoryAccessories,
+          'Accessories'
+        );
+      });
+    });
+  });
+
+  describe('Header Sub Categories - Mobile', () => {
+    context('Brands', () => {
+      it('should allow to navigate with tab key', () => {
+        subCategoryTabbingOrder(config.headerCategoryBrands, 'Brands', true);
+      });
+    });
+
+    context('Digital Cameras', () => {
+      it('should allow to navigate with tab key', () => {
+        subCategoryTabbingOrder(
+          config.headerCategoryDigitalCameras,
+          'Digital Cameras',
+          true
+        );
+      });
+    });
+
+    context('Accessories', () => {
+      it('should allow to navigate with tab key', () => {
+        subCategoryTabbingOrder(
+          config.headerCategoryAccessories,
+          'Accessories',
+          true
+        );
+      });
     });
   });
 
@@ -145,6 +220,44 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
       cartTabbingOrder(config.cart);
     });
   });
+
+  context('Store finder', () => {
+    context('Default view', () => {
+      it('should allow to navigate with tab key', () => {
+        defaultViewTabbingOrder(config.storeFinder);
+      });
+    });
+
+    context('Search results page', () => {
+      it('should allow to navigate with tab key', () => {
+        searchResultsTabbingOrder(config.storeFinderSearchResults);
+      });
+    });
+
+    context('Store details page', () => {
+      it('should allow to navigate with tab key', () => {
+        storeDetailsTabbingOrder(config.storeFinderStoreDetails);
+      });
+    });
+
+    context('Countries list', () => {
+      it('should allow to navigate with tab key', () => {
+        countriesListTabbingOrder(config.storeFinderCountriesList);
+      });
+    });
+
+    context('Stores list', () => {
+      it('should allow to navigate with tab key', () => {
+        storesListTabbingOrder(config.storeFinderStoresList);
+      });
+    });
+  });
+
+  context('Stock Notification', () => {
+    it('should allow to navigate with tab key (not login)', () => {
+      stockNotificationNotLoginTabbingOrder(config.stockNotificationNotLogin);
+    });
+  });
 });
 
 describe('Tabbing order - tests do require user to be logged in', () => {
@@ -169,6 +282,18 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('Header - Mobile (logged in)', () => {
     it('should allow to navigate with tab key', () => {
       headerTabbingOrder(config.headerMobileLoggedIn, true, true);
+    });
+  });
+
+  context('My Account - Desktop', () => {
+    it('should allow to navigate with tab key', () => {
+      myAccountTabbingOrder(config.myAccount);
+    });
+  });
+
+  context('My Account - Mobile', () => {
+    it('should allow to navigate with tab key', () => {
+      myAccountTabbingOrder(config.myAccount, true);
     });
   });
 
@@ -301,7 +426,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
       myInterestTabbingOrder(config.myInterests);
     });
   });
-  
+
   context('Coupons', () => {
     it('should allow to navigate with tab key', () => {
       checkoutCouponsTabbingOrder(config.coupons);
@@ -315,6 +440,28 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('My-coupons', () => {
     it.only('should allow to navigate with tab key', () => {
       checkoutMyCouponsTabbingOrder(config.myCoupons);
+    });
+  });
+
+  context('Stock Notification', () => {
+    it('should allow to navigate with tab key (no enabled notification preference)', () => {
+      stockNotificationNoEnbaledPreferenceTabbingOrder(
+        config.stockNotificationNoEnabledPreference
+      );
+    });
+
+    it('should allow to navigate with tab key (product was been subscribed)', () => {
+      stockNotificationProductSubscribedTabbingOrder(
+        config.stockNotificationSubscribed
+      );
+    });
+
+    it('should allow to navigate with tab key (dialog)', () => {
+      stockNotificationDialogTabbingOrder(config.stockNotificationDialog);
+    });
+
+    it('should allow to navigate with tab key', () => {
+      stockNotificationTabbingOrder(config.stockNotification);
     });
   });
 });

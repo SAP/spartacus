@@ -8,15 +8,9 @@ const getUserTokenSelector = (state: UserTokenState) => state.token;
 export const getUserTokenState: MemoizedSelector<
   StateWithAuth,
   UserTokenState
-> = createSelector(
-  getAuthState,
-  (state: AuthState) => state.userToken
-);
+> = createSelector(getAuthState, (state: AuthState) => state.userToken);
 
 export const getUserToken: MemoizedSelector<
   StateWithAuth,
   UserToken
-> = createSelector(
-  getUserTokenState,
-  getUserTokenSelector
-);
+> = createSelector(getUserTokenState, getUserTokenSelector);

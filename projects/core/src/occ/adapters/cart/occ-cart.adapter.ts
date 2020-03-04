@@ -136,10 +136,12 @@ export class OccCartAdapter implements CartAdapter {
       fromString: `fields=carts(${DETAILS_PARAMS},saveTime)`,
     });
 
-    return this.http.get<Occ.CartList>(url, { params }).pipe(
-      pluck('carts'),
-      this.converterService.pipeableMany(CART_NORMALIZER)
-    );
+    return this.http
+      .get<Occ.CartList>(url, { params })
+      .pipe(
+        pluck('carts'),
+        this.converterService.pipeableMany(CART_NORMALIZER)
+      );
   }
 
   /**
