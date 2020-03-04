@@ -179,6 +179,46 @@ export class Test extends PageMetaService {
   }
 }
 `;
+const REMOVE_PARAMETER_BUT_NOT_IMPORT_VALID_TEST_CLASS = `
+import {
+  CmsService,
+  FeatureConfigService,
+  PageMetaResolver,
+  PageMetaService
+} from '@spartacus/core';
+export class Test extends PageMetaService {
+  constructor(
+    resolvers: PageMetaResolver[],
+    cms: CmsService,
+    featureConfigService: FeatureConfigService
+  ) {
+    super(resolvers, cms, featureConfigService);
+  }
+  test(): void {
+    console.log(this.featureConfigService);
+  }
+}
+`;
+const REMOVE_PARAMETER_BUT_NOT_IMPORT_EXPECTED_CLASS = `
+import {
+  CmsService,
+  FeatureConfigService,
+  PageMetaResolver,
+  PageMetaService
+} from '@spartacus/core';
+export class Test extends PageMetaService {
+  constructor(
+    resolvers: PageMetaResolver[],
+    cms: CmsService,
+    featureConfigService: FeatureConfigService
+  ) {
+    super(resolvers, cms );
+  }
+  test(): void {
+    console.log(this.featureConfigService);
+  }
+}
+`;
 
 describe('constructor migrations', () => {
   let host = new TempScopedNodeJsSyncHost();
@@ -374,6 +414,20 @@ describe('constructor migrations', () => {
         expect(content).toEqual(
           REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_EXPECTED_CLASS
         );
+      });
+    });
+    describe('when the param to be removed is being used elsewhere', () => {
+      it('should make the required changes, but not remove the import and param from the ctor', async () => {
+        writeFile(
+          host,
+          '/src/index.ts',
+          REMOVE_PARAMETER_BUT_NOT_IMPORT_VALID_TEST_CLASS
+        );
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent('/src/index.ts');
+        expect(content).toEqual(REMOVE_PARAMETER_BUT_NOT_IMPORT_EXPECTED_CLASS);
       });
     });
   });

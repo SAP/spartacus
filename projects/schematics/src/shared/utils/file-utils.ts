@@ -333,23 +333,108 @@ export function removeConstructorParam(
     throw new SchematicsException(`No constructor found in ${sourcePath}.`);
   }
 
-  const importRemovalChange = removeImport(source, sourcePath, paramToRemove);
-  const constructorParamRemovalChange = removeConstructorParamInternal(
-    sourcePath,
-    constructorNode,
-    paramToRemove
-  );
+  const changes: Change[] = [];
+
+  if (shouldRemoveImportAndParam(source, paramToRemove)) {
+    const importRemovalChange = removeImport(source, sourcePath, paramToRemove);
+    const constructorParamRemovalChanges = removeConstructorParamInternal(
+      sourcePath,
+      constructorNode,
+      paramToRemove
+    );
+
+    changes.push(importRemovalChange, ...constructorParamRemovalChanges);
+  }
+  const paramName = getParamName(source, constructorNode, paramToRemove);
+  if (!paramName) {
+    return [new NoopChange()];
+  }
+
   const superRemoval = removeParamFromSuper(
     sourcePath,
     constructorNode,
-    constructorParamRemovalChange.paramName
+    paramName
   );
+  changes.push(...superRemoval);
 
-  return [
-    importRemovalChange,
-    ...constructorParamRemovalChange.changes,
-    ...superRemoval,
-  ];
+  return changes;
+}
+
+function getParamName(
+  source: ts.SourceFile,
+  constructorNode: ts.Node,
+  importToRemove: ClassType
+): string | undefined {
+  const nodes = getSourceNodes(source);
+
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Parameter
+  );
+  const classDeclarationNode = nodes.find(
+    node => node.kind === ts.SyntaxKind.ClassDeclaration
+  );
+  if (!classDeclarationNode) {
+    return undefined;
+  }
+
+  for (const constructorParameter of constructorParameters) {
+    if (constructorParameter.getText().includes(importToRemove.className)) {
+      const paramVariableNode = constructorParameter
+        .getChildren()
+        .find(node => node.kind === ts.SyntaxKind.Identifier);
+      const paramName = paramVariableNode
+        ? paramVariableNode.getText()
+        : undefined;
+      return paramName;
+    }
+  }
+
+  return undefined;
+}
+
+function shouldRemoveImportAndParam(
+  source: ts.SourceFile,
+  importToRemove: ClassType
+): boolean {
+  const nodes = getSourceNodes(source);
+  const constructorNode = findConstructor(nodes);
+  if (!constructorNode) {
+    return true;
+  }
+
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Parameter
+  );
+  const classDeclarationNode = nodes.find(
+    node => node.kind === ts.SyntaxKind.ClassDeclaration
+  );
+  if (!classDeclarationNode) {
+    return true;
+  }
+
+  for (const constructorParameter of constructorParameters) {
+    if (constructorParameter.getText().includes(importToRemove.className)) {
+      const paramVariableNode = constructorParameter
+        .getChildren()
+        .find(node => node.kind === ts.SyntaxKind.Identifier);
+      const paramName = paramVariableNode ? paramVariableNode.getText() : '';
+
+      const paramUsages = findNodes(
+        classDeclarationNode,
+        ts.SyntaxKind.Identifier
+      ).filter(node => node.getText() === paramName);
+      // if there are more than two usages (injection and passing to super), then the param is used elsewhere in the class
+      if (paramUsages.length > 2) {
+        return false;
+      }
+
+      return true;
+    }
+  }
+
+  return true;
 }
 
 function removeImport(
@@ -446,7 +531,7 @@ function removeConstructorParamInternal(
   sourcePath: string,
   constructorNode: ts.Node,
   importToRemove: ClassType
-): { changes: Change[]; paramName: string } {
+): Change[] {
   const constructorParameters = findNodes(
     constructorNode,
     ts.SyntaxKind.Parameter
@@ -469,15 +554,10 @@ function removeConstructorParamInternal(
           constructorParameter.getText()
         )
       );
-
-      const paramVariableNode = constructorParameter
-        .getChildren()
-        .find(node => node.kind === ts.SyntaxKind.Identifier);
-      const paramName = paramVariableNode ? paramVariableNode.getText() : '';
-      return { changes, paramName };
+      return changes;
     }
   }
-  return { changes: [new NoopChange()], paramName: '' };
+  return [];
 }
 
 function removeParamFromSuper(
