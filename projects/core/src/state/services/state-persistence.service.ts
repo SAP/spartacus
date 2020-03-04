@@ -33,7 +33,7 @@ export class StatePersistenceService {
    * @param storageType Storage type to be used to persist state
    * @param onRead Function to be executed on each storage read after context change
    *
-   * @returns Subscription for reading from storage on context change
+   * @returns Subscriptions for reading/writing in storage on context/state change
    */
   syncWithStorage<T>({
     key,
