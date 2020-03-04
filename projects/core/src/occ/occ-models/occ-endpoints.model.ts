@@ -374,11 +374,23 @@ export interface OccEndpoints {
    */
   budgets?: string;
   /**
-   * Endpoint for organizations list
+   * Endpoint for organizations
    *
    * @member {string}
    */
   orgUnits?: string;
+  /**
+   * Endpoint for organizations list
+   *
+   * @member {string}
+   */
+  orgUnitsAvailable?: string;
+  /**
+   * Endpoint for organization units tree
+   *
+   * @member {string}
+   */
+  orgUnitsTree?: string;
   /**
    * Endpoint for organization
    *

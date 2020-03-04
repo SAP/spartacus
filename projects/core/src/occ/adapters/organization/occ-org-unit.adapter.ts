@@ -32,7 +32,9 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     params?: any
   ): Observable<EntitiesModel<B2BUnitNode>> {
     return this.http
-      .get<Occ.B2BUnitNodeList>(this.getOrgUnitsEndpoint(userId, params))
+      .get<Occ.B2BUnitNodeList>(
+        this.getAvailableOrgUnitsEndpoint(userId, params)
+      )
       .pipe(this.converter.pipeable(B2BUNIT_LIST_NORMALIZER));
   }
 
@@ -61,5 +63,9 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
 
   protected getOrgUnitsEndpoint(userId: string, params?: any): string {
     return this.occEndpoints.getUrl('orgUnits', { userId }, params);
+  }
+
+  protected getAvailableOrgUnitsEndpoint(userId: string, params?: any): string {
+    return this.occEndpoints.getUrl('orgUnitsAvailable', { userId }, params);
   }
 }
