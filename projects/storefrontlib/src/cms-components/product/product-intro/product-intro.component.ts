@@ -73,9 +73,9 @@ export class ProductIntroComponent implements AfterContentChecked {
     if (tabsComponent) {
       // NOTE: Reads through button tags to click on correct tab
       // There may be a better way of doing this now/after refactor
-      const tabElements: HTMLCollectionOf<
-        HTMLElement
-      > = tabsComponent.getElementsByTagName('button');
+      const tabElements: HTMLCollectionOf<HTMLElement> = tabsComponent.getElementsByTagName(
+        'button'
+      );
 
       // Look through button tab elements until finding tab with label
       for (const buttonElement of Array.from(tabElements)) {

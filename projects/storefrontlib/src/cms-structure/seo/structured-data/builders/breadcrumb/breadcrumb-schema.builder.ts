@@ -17,7 +17,7 @@ export class BreadcrumbSchemaBuilder implements SchemaBuilder {
   }
 
   protected collect(pageMeta: PageMeta): any {
-    if (!pageMeta.breadcrumbs) {
+    if (!pageMeta?.breadcrumbs) {
       return;
     }
     const crumbs = pageMeta.breadcrumbs.map((crumb, index) => {
