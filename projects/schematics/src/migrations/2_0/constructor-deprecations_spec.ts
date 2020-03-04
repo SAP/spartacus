@@ -31,10 +31,10 @@ const MY_TEST_INIT = `
 
 const MY_TEST_ASSERTION = `
     import { Store } from '@ngrx/store';
-    import { StateWithCheckout, CheckoutService, AuthService, ActiveCartService } from '@spartacus/core';
+    import { StateWithCheckout, CheckoutService,  AuthService, ActiveCartService } from '@spartacus/core';
     export class InheritingService extends CheckoutService {
-      constructor(store: Store<StateWithCheckout>, authService: AuthService, activeCartService: ActiveCartService) {
-        super(store, authService, activeCartService);
+      constructor(store: Store<StateWithCheckout> , authService: AuthService, activeCartService: ActiveCartService) {
+        super(store , authService, activeCartService);
       }
     }
 `;
