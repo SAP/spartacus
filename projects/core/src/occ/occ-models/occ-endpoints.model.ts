@@ -392,6 +392,12 @@ export interface OccEndpoints {
    */
   orgUnitsTree?: string;
   /**
+   * Endpoint for approval processes for organization units
+   *
+   * @member {string}
+   */
+  orgUnitsApprovalProcesses?: string;
+  /**
    * Endpoint for organization
    *
    * @member {string}

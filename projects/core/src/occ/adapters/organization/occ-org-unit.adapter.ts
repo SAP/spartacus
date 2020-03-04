@@ -9,7 +9,7 @@ import {
   B2BUNIT_LIST_NORMALIZER,
 } from '../../../organization/connectors/org-unit/converters';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
-import { Occ } from '../../occ-models/occ.models';
+import { B2BApprovalProcess, Occ } from '../../occ-models/occ.models';
 import { B2BUnitNode } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 
@@ -36,6 +36,19 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
         this.getAvailableOrgUnitsEndpoint(userId, params)
       )
       .pipe(this.converter.pipeable(B2BUNIT_LIST_NORMALIZER));
+  }
+
+  loadTree(userId: string, params?: any): Observable<B2BUnitNode> {
+    return this.http
+      .get<Occ.B2BUnitNodeList>(this.getOrgUnitsTreeEndpoint(userId, params))
+      .pipe(this.converter.pipeable(B2BUNIT_NORMALIZER));
+  }
+
+  loadApprovalProcesses(userId: string): Observable<B2BApprovalProcess> {
+    return this.http.get<Occ.B2BApprovalProcess>(
+      this.getOrgUnitsApprovalProcessesEndpoint(userId)
+    );
+    // .pipe(this.converter.pipeable(B2BUNIT_NORMALIZER));
   }
 
   create(userId: string, orgUnit: B2BUnitNode): Observable<B2BUnitNode> {
@@ -67,5 +80,13 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
 
   protected getAvailableOrgUnitsEndpoint(userId: string, params?: any): string {
     return this.occEndpoints.getUrl('orgUnitsAvailable', { userId }, params);
+  }
+
+  protected getOrgUnitsTreeEndpoint(userId: string, params?: any): string {
+    return this.occEndpoints.getUrl('orgUnitsTree', { userId }, params);
+  }
+
+  protected getOrgUnitsApprovalProcessesEndpoint(userId: string): string {
+    return this.occEndpoints.getUrl('orgUnitsApprovalProcesses', { userId });
   }
 }
