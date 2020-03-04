@@ -57,7 +57,7 @@ describe('StatePersistanceService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('synWithStorage', () => {
+  describe('syncWithStorage', () => {
     it('should update storage on each state update', () => {
       const state = new Subject<number>();
 
