@@ -99,7 +99,7 @@ const ADD_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS = `
         private actions: ActionsSubject
       ) {
         super(store);
-        console.log(actions);
+        console.log(this.actions);
       }
     }
 `;
@@ -151,11 +151,11 @@ export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
     cms: CmsService,
-    featureConfigService?: FeatureConfigService,
+    featureConfigService: FeatureConfigService,
     private actions: ActionsSubject
   ) {
     super(resolvers, cms, featureConfigService);
-    console.log(actions);
+    console.log(this.actions);
   }
 }
 `;
@@ -175,7 +175,7 @@ export class Test extends PageMetaService {
     private actions: ActionsSubject
   ) {
     super(resolvers, cms );
-    console.log(actions);
+    console.log(this.actions);
   }
 }
 `;

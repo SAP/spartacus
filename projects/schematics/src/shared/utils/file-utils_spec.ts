@@ -52,7 +52,7 @@ const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
         private actions: ActionsSubject
       ) {
         super(store);
-        console.log(actions);
+        console.log(this.actions);
       }
     }
 `;
@@ -160,7 +160,7 @@ const VALID_ADD_CONSTRUCTOR_PARAM_WITH_ADDITIONAL_INJECTED_SERVICE_CLASS = `
         private actions: ActionsSubject
       ) {
         super(store);
-        console.log(actions);
+        console.log(this.actions);
       }
     }
 `;
