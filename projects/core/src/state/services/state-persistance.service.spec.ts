@@ -126,14 +126,16 @@ describe('StatePersistanceService', () => {
       spyOn(localStorageMock, 'getItem').and.returnValue('5');
 
       const state = new Subject<number>();
+      let stateFromStorage;
 
       service.syncWithStorage({
         key: 'test',
         state$: state.asObservable(),
-        onRead: res => expect(res).toEqual(5),
+        onRead: res => (stateFromStorage = res),
       });
 
       expect(localStorageMock.getItem).toHaveBeenCalledWith('spartacus⚿⚿test');
+      expect(stateFromStorage).toEqual(5);
     });
 
     it('should restore state on provided context emission', () => {
@@ -141,12 +143,13 @@ describe('StatePersistanceService', () => {
 
       const state = new Subject<number>();
       const context = new Subject<string>();
+      let stateFromStorage;
 
       service.syncWithStorage({
         key: 'test',
         state$: state.asObservable(),
         context$: context.asObservable(),
-        onRead: res => expect(res).toEqual(5),
+        onRead: res => (stateFromStorage = res),
       });
 
       context.next('en');
@@ -160,6 +163,7 @@ describe('StatePersistanceService', () => {
       );
 
       expect(localStorageMock.getItem).toHaveBeenCalledTimes(2);
+      expect(stateFromStorage).toEqual(5);
     });
   });
 

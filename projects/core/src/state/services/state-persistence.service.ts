@@ -50,28 +50,34 @@ export class StatePersistenceService {
   }): Subscription {
     const storage = getStorage(storageType, this.winRef);
 
+    const subscriptions = new Subscription();
+
     // Do not change order of subscription! Read should happen before write on context change.
-    const readSubscription = context$
-      .pipe(
-        map(context => {
-          return readFromStorage(
-            storage,
-            this.generateKeyWithContext(context, key)
-          ) as T;
-        }),
-        tap(state => onRead(state))
-      )
-      .subscribe();
+    subscriptions.add(
+      context$
+        .pipe(
+          map(context => {
+            return readFromStorage(
+              storage,
+              this.generateKeyWithContext(context, key)
+            ) as T;
+          }),
+          tap(state => onRead(state))
+        )
+        .subscribe()
+    );
 
-    state$.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
-      persistToStorage(
-        this.generateKeyWithContext(context, key),
-        state,
-        storage
-      );
-    });
+    subscriptions.add(
+      state$.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
+        persistToStorage(
+          this.generateKeyWithContext(context, key),
+          state,
+          storage
+        );
+      })
+    );
 
-    return readSubscription;
+    return subscriptions;
   }
 
   protected generateKeyWithContext(
