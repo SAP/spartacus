@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, iif, Observable } from 'rxjs';
+import { combineLatest, iif, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
+import {
+  ANONYMOUS_CONSENTS_FEATURE,
+  FeatureConfigService,
+} from '../../features-config/index';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
@@ -15,8 +19,31 @@ import { AnonymousConsentsSelectors } from '../store/selectors/index';
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentsService {
   constructor(
+    store: Store<StateWithAnonymousConsents>,
+    authService: AuthService,
+    // tslint:disable-next-line:unified-signatures
+    featureConfig: FeatureConfigService
+  );
+
+  /**
+   *  @deprecated since version 1.5
+   *  Use constructor(store: Store<StateWithAnonymousConsents>
+   *  authService: AuthService,
+   *  featureConfig: FeatureConfigService) instead
+   *
+   *  TODO(issue:#5820) Deprecated since 1.5.1
+   */
+  constructor(
+    store: Store<StateWithAnonymousConsents>,
+    authService: AuthService,
+    // tslint:disable-next-line:unified-signatures
+    featureConfig: FeatureConfigService
+  );
+
+  constructor(
     protected store: Store<StateWithAnonymousConsents>,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected featureConfig?: FeatureConfigService
   ) {}
 
   /**
@@ -265,7 +292,13 @@ export class AnonymousConsentsService {
     return combineLatest([
       this.isBannerDismissed(),
       this.getTemplatesUpdated(),
-    ]).pipe(map(([dismissed, updated]) => !dismissed || updated));
+      of(this.featureConfig.isEnabled(ANONYMOUS_CONSENTS_FEATURE)),
+    ]).pipe(
+      map(
+        ([dismissed, updated, isEnabled]) =>
+          isEnabled && (!dismissed || updated)
+      )
+    );
   }
 
   /**
