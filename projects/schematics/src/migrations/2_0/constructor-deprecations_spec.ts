@@ -86,6 +86,23 @@ const ADD_PARAMETER_VALID_TEST_CLASS = `
       }
     }
 `;
+const ADD_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS = `
+    import { ActionsSubject, Store } from '@ngrx/store';
+    import {
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritedService extends UserAddressService {
+      constructor(
+        store: Store<StateWithUser | StateWithProcess<void>>,
+        private actions: ActionsSubject
+      ) {
+        super(store);
+        console.log(actions);
+      }
+    }
+`;
 const REMOVE_PARAMETER_VALID_TEST_CLASS = `
 import { Dummy } from '@angular/core';
 import {
@@ -259,6 +276,38 @@ describe('constructor migrations', () => {
         strings.camelize(AUTH_SERVICE),
       ]);
       expect(isImported(source, AUTH_SERVICE, SPARTACUS_CORE)).toEqual(true);
+    });
+    describe('when the class has additional services injected', () => {
+      it('should just append the missing parameters', async () => {
+        const filePath = '/src/index.ts';
+        writeFile(
+          host,
+          filePath,
+          ADD_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS
+        );
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent(filePath);
+
+        const source = ts.createSourceFile(
+          filePath,
+          content,
+          ts.ScriptTarget.Latest,
+          true
+        );
+        const nodes = getSourceNodes(source);
+        const constructorNode = getConstructor(nodes);
+        const params = getParams(constructorNode, [
+          strings.camelize(STORE),
+          strings.camelize(AUTH_SERVICE),
+        ]);
+        expect(params).toEqual([
+          strings.camelize(STORE),
+          strings.camelize(AUTH_SERVICE),
+        ]);
+        expect(isImported(source, AUTH_SERVICE, SPARTACUS_CORE)).toEqual(true);
+      });
     });
   });
 

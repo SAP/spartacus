@@ -234,11 +234,6 @@ function checkConstructorParameters(
     constructorNode,
     ts.SyntaxKind.Parameter
   );
-  // the number of constructor parameter does not match with the expected number of parameters
-  if (constructorParameters.length !== parameterClassTypes.length) {
-    return false;
-  }
-
   let paramTypeFound = true;
   for (let i = 0; i < parameterClassTypes.length; i++) {
     const constructorParameter = constructorParameters[i];

@@ -39,7 +39,7 @@ import {
 import { getProjectFromWorkspace, getSourceRoot } from './workspace-utils';
 
 const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
-    import { Store } from '@ngrx/store';
+    import { ActionsSubject, Store } from '@ngrx/store';
     import {
       AuthService,
       StateWithProcess,
@@ -48,10 +48,11 @@ const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
     } from '@spartacus/core';
     export class InheritingService extends UserAddressService {
       constructor(
-        authService: AuthService,
-        store: Store<StateWithUser | StateWithProcess<void>>
+        store: Store<StateWithUser | StateWithProcess<void>>,
+        private actions: ActionsSubject
       ) {
-        super(authService, store);
+        super(store);
+        console.log(actions);
       }
     }
 `;
@@ -143,6 +144,23 @@ const VALID_ADD_CONSTRUCTOR_PARAM_CLASS = `
     export class InheritedService extends UserAddressService {
       constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
         super(store);
+      }
+    }
+`;
+const VALID_ADD_CONSTRUCTOR_PARAM_WITH_ADDITIONAL_INJECTED_SERVICE_CLASS = `
+    import { ActionsSubject, Store } from '@ngrx/store';
+    import {
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritedService extends UserAddressService {
+      constructor(
+        store: Store<StateWithUser | StateWithProcess<void>>,
+        private actions: ActionsSubject
+      ) {
+        super(store);
+        console.log(actions);
       }
     }
 `;
@@ -391,7 +409,7 @@ describe('File utils', () => {
         )
       ).toEqual(false);
     });
-    it('should return false if the parameter lengths condition is not satisfied', () => {
+    it('should return true if the parameter lengths condition is not satisfied', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
         PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS,
@@ -408,7 +426,7 @@ describe('File utils', () => {
           USER_ADDRESS_SERVICE,
           parameterClassTypes
         )
-      ).toEqual(false);
+      ).toEqual(true);
     });
     it('should return false if the parameter order is not satisfied', () => {
       const source = ts.createSourceFile(
@@ -521,6 +539,40 @@ describe('File utils', () => {
       expect(changes[2].description).toEqual(
         `Inserted , authService into position 311 of ${sourcePath}`
       );
+    });
+    describe('when the class has additional services injected', () => {
+      it('should return the expected changes', () => {
+        const sourcePath = 'xxx.ts';
+        const source = ts.createSourceFile(
+          sourcePath,
+          VALID_ADD_CONSTRUCTOR_PARAM_WITH_ADDITIONAL_INJECTED_SERVICE_CLASS,
+          ts.ScriptTarget.Latest,
+          true
+        );
+        const nodes = getSourceNodes(source);
+        const constructorNode = findConstructor(nodes);
+        const paramToAdd: ClassType = {
+          className: AUTH_SERVICE,
+          importPath: SPARTACUS_CORE,
+        };
+
+        const changes = addConstructorParam(
+          source,
+          sourcePath,
+          constructorNode,
+          paramToAdd
+        );
+        expect(changes.length).toEqual(3);
+        expect(changes[0].description).toEqual(
+          `Inserted , authService: AuthService into position 354 of ${sourcePath}`
+        );
+        expect(changes[1].description).toEqual(
+          `Inserted , AuthService into position 140 of ${sourcePath}`
+        );
+        expect(changes[2].description).toEqual(
+          `Inserted , authService into position 384 of ${sourcePath}`
+        );
+      });
     });
   });
 
