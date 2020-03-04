@@ -1,4 +1,5 @@
 import { user } from '../sample-data/checkout-flow';
+import { waitForPage } from './checkout-flow';
 
 export const productCode1 = '300938';
 export const couponCode1 = 'CouponForCart';
@@ -22,11 +23,13 @@ export function addProductToCart(productCode: string) {
     .first()
     .click();
 
+  const waitForCart: string = waitForPage('/cart', 'waitForCart');
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('div.cx-dialog-item.col-sm-12.col-md-6').click();
     cy.get('.cx-code').should('contain', productCode);
     cy.getByText(/view cart/i).click();
   });
+  cy.wait(`@${waitForCart}`);
 }
 
 export function verifyEmptyCoupons() {
@@ -207,7 +210,7 @@ export function verifyCouponInOrderHistory(
   savedPrice: string
 ) {
   cy.wait(Cypress.env('ORDER_HISTORY_WAIT_TIME'));
-  cy.get('cx-searchbox input').click();
+  cy.get('cx-searchbox input').click({ force: true });
   getCouponItemOrderSummary(couponCode).should('exist');
   cy.get('.cx-summary-partials > .cx-summary-row').should('have.length', 5);
   cy.get('.cx-summary-partials').within(() => {
