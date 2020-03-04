@@ -27,7 +27,9 @@ describe('ConfiguratorTextfieldSelectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithConfigurationTextfield>>);
+    store = TestBed.inject(
+      Store as Type<Store<StateWithConfigurationTextfield>>
+    );
   });
 
   it('should return empty content when selecting with content selector initially', () => {

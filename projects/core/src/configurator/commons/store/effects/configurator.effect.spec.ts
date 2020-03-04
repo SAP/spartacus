@@ -137,10 +137,10 @@ describe('ConfiguratorEffect', () => {
       ],
     });
 
-    configEffects = TestBed.get(
+    configEffects = TestBed.inject(
       fromEffects.ConfiguratorEffects as Type<fromEffects.ConfiguratorEffects>
     );
-    configuratorUtils = TestBed.get(
+    configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(owner);

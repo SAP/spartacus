@@ -241,15 +241,15 @@ describe('ConfiguratorCommonsService', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(
+    serviceUnderTest = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
-    configuratorUtils = TestBed.get(
+    configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(OWNER_PRODUCT);
     configuratorUtils.setOwnerKey(OWNER_CART_ENTRY);
-    store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
+    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
     spyOn(serviceUnderTest, 'createConfigurationExtract').and.callThrough();
   });
 

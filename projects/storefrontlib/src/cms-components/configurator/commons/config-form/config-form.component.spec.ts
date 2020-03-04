@@ -230,7 +230,7 @@ describe('ConfigurationFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigFormComponent);
     component = fixture.componentInstance;
-    configuratorUtils = TestBed.get(
+    configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(owner);

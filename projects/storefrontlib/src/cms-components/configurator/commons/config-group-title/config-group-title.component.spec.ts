@@ -112,7 +112,7 @@ class MockConfiguratorCommonsService {
 describe('ConfigurationGroupMenuComponent', () => {
   let component: ConfigGroupTitleComponent;
   let fixture: ComponentFixture<ConfigGroupTitleComponent>;
-  let configuratorGroupsService: MockConfiguratorGroupService;
+  let configuratorGroupsService: ConfiguratorGroupsService;
   let configuratorUtils: GenericConfigUtilsService;
 
   beforeEach(async(() => {
@@ -144,9 +144,9 @@ describe('ConfigurationGroupMenuComponent', () => {
     fixture = TestBed.createComponent(ConfigGroupTitleComponent);
     component = fixture.componentInstance;
 
-    configuratorGroupsService = TestBed.get(ConfiguratorGroupsService);
+    configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
 
-    configuratorUtils = TestBed.get(
+    configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(config.owner);

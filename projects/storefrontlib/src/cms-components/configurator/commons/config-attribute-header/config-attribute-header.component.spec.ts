@@ -68,7 +68,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   it('should provide public access to uiKeyGenerator', () => {
     expect(classUnderTest.uiKeyGenerator).toBe(
-      TestBed.get(ConfigUIKeyGeneratorService)
+      TestBed.inject(ConfigUIKeyGeneratorService)
     );
   });
 

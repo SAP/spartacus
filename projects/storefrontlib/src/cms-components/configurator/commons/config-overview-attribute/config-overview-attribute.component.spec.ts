@@ -1,9 +1,6 @@
-import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
-import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
 import { ConfigOverviewAttributeComponent } from './config-overview-attribute.component';
 
 describe('ConfigurationOverviewAttributeComponent', () => {
@@ -12,16 +9,10 @@ describe('ConfigurationOverviewAttributeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+      imports: [ReactiveFormsModule, NgSelectModule],
       declarations: [ConfigOverviewAttributeComponent],
       providers: [],
-    })
-      .overrideComponent(ConfigAttributeHeaderComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
-      })
-      .compileComponents();
+    });
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigOverviewAttributeComponent);

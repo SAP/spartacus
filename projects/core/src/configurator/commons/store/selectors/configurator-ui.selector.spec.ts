@@ -30,7 +30,7 @@ describe('Configurator selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
+    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

@@ -23,7 +23,7 @@ describe('ConfiguratorActions', () => {
   let configuratorUtils: GenericConfigUtilsService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({}).compileComponents();
-    configuratorUtils = TestBed.get(
+    configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(CONFIGURATION.owner);

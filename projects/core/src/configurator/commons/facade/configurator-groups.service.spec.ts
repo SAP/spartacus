@@ -56,11 +56,11 @@ describe('ConfiguratorGroupsService', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(
+    serviceUnderTest = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
-    store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
-    configuratorCommonsService = TestBed.get(
+    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
+    configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
 

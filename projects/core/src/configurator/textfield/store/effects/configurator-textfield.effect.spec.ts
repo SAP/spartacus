@@ -70,7 +70,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       ],
     });
 
-    configEffects = TestBed.get(
+    configEffects = TestBed.inject(
       fromEffects.ConfiguratorTextfieldEffects as Type<
         fromEffects.ConfiguratorTextfieldEffects
       >

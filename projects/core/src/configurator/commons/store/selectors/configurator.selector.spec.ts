@@ -38,8 +38,8 @@ describe('Configurator selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
-    configuratorUtils = TestBed.get(
+    store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
+    configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(owner);

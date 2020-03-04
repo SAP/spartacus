@@ -166,7 +166,7 @@ class MockCxIconComponent {
 describe('ConfigurationGroupMenuComponent', () => {
   let component: ConfigGroupMenuComponent;
   let fixture: ComponentFixture<ConfigGroupMenuComponent>;
-  let configuratorGroupsService: MockConfiguratorGroupService;
+  let configuratorGroupsService: ConfiguratorGroupsService;
   let hamburgerMenuService: HamburgerMenuService;
   let htmlElem: HTMLElement;
   let configuratorUtils: GenericConfigUtilsService;
@@ -202,12 +202,14 @@ describe('ConfigurationGroupMenuComponent', () => {
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
 
-    configuratorGroupsService = TestBed.get(ConfiguratorGroupsService);
+    configuratorGroupsService = TestBed.inject(
+      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+    );
 
-    hamburgerMenuService = TestBed.get(
+    hamburgerMenuService = TestBed.inject(
       HamburgerMenuService as Type<HamburgerMenuService>
     );
-    configuratorUtils = TestBed.get(
+    configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(config.owner);

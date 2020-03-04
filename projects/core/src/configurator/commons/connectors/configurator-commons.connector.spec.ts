@@ -7,8 +7,8 @@ import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
 import { ConfiguratorCommonsAdapter } from './configurator-commons.adapter';
 import { ConfiguratorCommonsConnector } from './configurator-commons.connector';
-
 import createSpy = jasmine.createSpy;
+
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '1234-56-7890';
 const USER_ID = 'theUser';
@@ -85,10 +85,10 @@ describe('ConfiguratorCommonsConnector', () => {
       ],
     });
 
-    service = TestBed.get(
+    service = TestBed.inject(
       ConfiguratorCommonsConnector as Type<ConfiguratorCommonsConnector>
     );
-    configuratorUtils = TestBed.get(
+    configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(productConfiguration.owner);
@@ -99,7 +99,7 @@ describe('ConfiguratorCommonsConnector', () => {
   });
 
   it('should call adapter on createConfiguration', () => {
-    const adapter = TestBed.get(
+    const adapter = TestBed.inject(
       ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
     );
 
@@ -112,7 +112,7 @@ describe('ConfiguratorCommonsConnector', () => {
   });
 
   it('should call adapter on readConfigurationForCartEntry', () => {
-    const adapter = TestBed.get(
+    const adapter = TestBed.inject(
       ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
     );
 
@@ -127,7 +127,7 @@ describe('ConfiguratorCommonsConnector', () => {
   });
 
   it('should call adapter on updateConfigurationForCartEntry', () => {
-    const adapter = TestBed.get(
+    const adapter = TestBed.inject(
       ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
     );
 
@@ -140,7 +140,7 @@ describe('ConfiguratorCommonsConnector', () => {
   });
 
   it('should call adapter on readConfiguration', () => {
-    const adapter = TestBed.get(
+    const adapter = TestBed.inject(
       ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
     );
 
@@ -157,7 +157,7 @@ describe('ConfiguratorCommonsConnector', () => {
   });
 
   it('should call adapter on updateConfiguration', () => {
-    const adapter = TestBed.get(
+    const adapter = TestBed.inject(
       ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
     );
 
@@ -172,7 +172,7 @@ describe('ConfiguratorCommonsConnector', () => {
   });
 
   it('should call adapter on readConfigurationPrice', () => {
-    const adapter = TestBed.get(
+    const adapter = TestBed.inject(
       ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
     );
 
@@ -185,7 +185,7 @@ describe('ConfiguratorCommonsConnector', () => {
   });
 
   it('should call adapter on getConfigurationOverview', () => {
-    const adapter = TestBed.get(
+    const adapter = TestBed.inject(
       ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
     );
 
@@ -202,7 +202,7 @@ describe('ConfiguratorCommonsConnector', () => {
   });
 
   it('should call adapter on addToCart', () => {
-    const adapter = TestBed.get(
+    const adapter = TestBed.inject(
       ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
     );
 

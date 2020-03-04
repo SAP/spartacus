@@ -87,10 +87,12 @@ describe('ConfiguratorTextfieldService', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(
+    serviceUnderTest = TestBed.inject(
       ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
     );
-    store = TestBed.get(Store as Type<Store<StateWithConfigurationTextfield>>);
+    store = TestBed.inject(
+      Store as Type<Store<StateWithConfigurationTextfield>>
+    );
 
     spyOn(store, 'dispatch').and.stub();
     spyOn(store, 'select').and.returnValue(of(productConfiguration));
