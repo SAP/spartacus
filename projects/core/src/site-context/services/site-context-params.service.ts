@@ -1,4 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
+import { combineLatest, Observable, of } from 'rxjs';
+import { distinctUntilChanged, filter } from 'rxjs/operators';
 import {
   getContextParameterDefault,
   getContextParameterValues,
@@ -61,5 +63,26 @@ export class SiteContextParamsService {
     if (service) {
       service.setActive(value);
     }
+  }
+
+  /**
+   * Get active values for all provided context parameters
+   *
+   * @param params Context parameters
+   *
+   * @returns Observable emitting array of all passed active context values
+   */
+  getValues(params: string[]): Observable<Array<string>> {
+    if (params.length === 0) {
+      return of([]);
+    }
+
+    return combineLatest(
+      params.map(param =>
+        this.getSiteContextService(param)
+          .getActive()
+          .pipe(distinctUntilChanged())
+      )
+    ).pipe(filter(value => value.every(param => !!param)));
   }
 }
