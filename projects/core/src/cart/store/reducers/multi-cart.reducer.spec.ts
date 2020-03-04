@@ -262,7 +262,7 @@ describe('Multi Cart reducer', () => {
         const initialState = 'wishlistId';
         const action = new CartActions.ClearMultiCartState();
         const state = fromMultiCart.wishListReducer(initialState, action);
-        expect(state).toEqual(fromMultiCart.activeCartInitialState);
+        expect(state).toEqual(fromMultiCart.wishListInitialState);
       });
     });
   });
