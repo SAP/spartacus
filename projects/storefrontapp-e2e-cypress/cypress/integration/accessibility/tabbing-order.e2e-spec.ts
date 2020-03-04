@@ -49,6 +49,13 @@ import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-orde
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/reset-password';
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
+import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
+import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
+import {
+  checkoutAppliedCouponsTabbingOrder,
+  checkoutCouponsTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/checkout/coupons';
+import { checkoutMyCouponsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-coupons';
 import { searchResultsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/search-results';
 import { defaultViewTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/default-view';
 import { storeDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/store-details';
@@ -61,6 +68,10 @@ import {
   stockNotificationDialogTabbingOrder,
   stockNotificationTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/stock-notification';
+import {
+  consignmentTrackingTabbingOrder,
+  consignmentTrackingEventsTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/consignment-tracking';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -420,6 +431,22 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
+  context('Coupons', () => {
+    it('should allow to navigate with tab key', () => {
+      checkoutCouponsTabbingOrder(config.coupons);
+    });
+
+    it('should allow to navigate with tab key (applied coupons)', () => {
+      checkoutAppliedCouponsTabbingOrder(config.appliedCoupons);
+    });
+  });
+
+  context('My-coupons', () => {
+    it('should allow to navigate with tab key', () => {
+      checkoutMyCouponsTabbingOrder(config.myCoupons);
+    });
+  });
+
   context('Stock Notification', () => {
     it('should allow to navigate with tab key (no enabled notification preference)', () => {
       stockNotificationNoEnbaledPreferenceTabbingOrder(
@@ -439,6 +466,16 @@ describe('Tabbing order - tests do require user to be logged in', () => {
 
     it('should allow to navigate with tab key', () => {
       stockNotificationTabbingOrder(config.stockNotification);
+    });
+  });
+
+  context('Consignment Tracking', () => {
+    it('should allow to navigate with tab key', () => {
+      consignmentTrackingTabbingOrder(config.consignmentTracking);
+    });
+
+    it('should allow to navigate with tab key(tracking events)', () => {
+      consignmentTrackingEventsTabbingOrder(config.consignmentTrackingEvents);
     });
   });
 });
