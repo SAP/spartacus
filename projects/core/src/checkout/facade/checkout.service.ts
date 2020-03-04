@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { Order } from '../../model/order.model';
@@ -26,14 +25,14 @@ export class CheckoutService {
       let userId;
       this.authService
         .getOccUserId()
-        .pipe(take(1))
-        .subscribe(occUserId => (userId = occUserId));
+        .subscribe(occUserId => (userId = occUserId))
+        .unsubscribe();
 
       let cartId;
       this.activeCartService
         .getActiveCartId()
-        .pipe(take(1))
-        .subscribe(activeCartId => (cartId = activeCartId));
+        .subscribe(activeCartId => (cartId = activeCartId))
+        .unsubscribe();
 
       if (userId && cartId) {
         this.checkoutStore.dispatch(
@@ -71,8 +70,8 @@ export class CheckoutService {
     let userId;
     this.authService
       .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId => (userId = occUserId));
+      .subscribe(occUserId => (userId = occUserId))
+      .unsubscribe();
     if (userId) {
       this.checkoutStore.dispatch(
         new CheckoutActions.LoadCheckoutDetails({
@@ -105,8 +104,8 @@ export class CheckoutService {
     let userId;
     this.authService
       .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId => (userId = occUserId));
+      .subscribe(occUserId => (userId = occUserId))
+      .unsubscribe();
     return (
       (userId && userId !== OCC_USER_ID_ANONYMOUS) ||
       this.activeCartService.isGuestCart()
