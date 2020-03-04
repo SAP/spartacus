@@ -2,7 +2,13 @@
   <div class="cx-dialog-title modal-title">
     {{ 'stockNotification.subscriptionDialog.header' | cxTranslate }}
   </div>
-  <button type="button" class="close" aria-label="Close" (click)="close()">
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    tabindex="-1"
+    (click)="close()"
+  >
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
