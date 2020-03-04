@@ -1,57 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import {
   CostCenterService,
   RoutingService,
-  CxDatePipe,
   EntitiesModel,
-  B2BSearchConfig,
-  θdiff as diff,
-  θshallowEqualObjects as shallowEqualObjects,
   CostCenter,
 } from '@spartacus/core';
+
+import {
+  AbstractListingComponent,
+  ListingModel,
+} from '../../abstract-component/abstract-listing.component';
 
 @Component({
   selector: 'cx-cost-center-list',
   templateUrl: './cost-center-list.component.html',
 })
-export class CostCenterListComponent implements OnInit {
+export class CostCenterListComponent extends AbstractListingComponent
+  implements OnInit {
+  cxRoute = 'costCenters';
+
   constructor(
     protected routingService: RoutingService,
-    protected costCentersService: CostCenterService,
-    protected cxDate: CxDatePipe
-  ) {}
-
-  costCentersList$: Observable<any>;
-  protected queryParams$: Observable<B2BSearchConfig>;
-
-  protected defaultQueryParams$: B2BSearchConfig = {
-    sort: 'byName',
-    currentPage: 0,
-    pageSize: 5,
-  };
+    protected costCentersService: CostCenterService
+  ) {
+    super(routingService);
+  }
 
   ngOnInit(): void {
-    this.queryParams$ = this.routingService
-      .getRouterState()
-      .pipe(map(routingData => routingData.state.queryParams));
-
-    this.costCentersList$ = this.queryParams$.pipe(
-      map(params => ({
-        ...this.defaultQueryParams$,
-        ...params,
-      })),
-      distinctUntilChanged(shallowEqualObjects),
-      map(this.normalizeQueryParams),
+    this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
       tap(params => this.costCentersService.loadCostCenters(params)),
       switchMap(params =>
         this.costCentersService.getList(params).pipe(
@@ -59,7 +38,7 @@ export class CostCenterListComponent implements OnInit {
           map((costCentersList: EntitiesModel<CostCenter>) => ({
             sorts: costCentersList.sorts,
             pagination: costCentersList.pagination,
-            costCentersList: costCentersList.values.map(costCenter => ({
+            values: costCentersList.values.map(costCenter => ({
               code: costCenter.code,
               name: costCenter.name,
               currency: costCenter.currency && costCenter.currency.isocode,
@@ -70,43 +49,5 @@ export class CostCenterListComponent implements OnInit {
         )
       )
     );
-  }
-
-  changeSortCode(sort: string): void {
-    this.updateQueryParams({ sort });
-  }
-
-  pageChange(currentPage: number): void {
-    this.updateQueryParams({ currentPage });
-  }
-
-  protected updateQueryParams(newParams: Partial<B2BSearchConfig>): void {
-    this.queryParams$
-      .pipe(
-        map(params =>
-          diff(this.defaultQueryParams$, { ...params, ...newParams })
-        ),
-        take(1)
-      )
-      .subscribe((params: Partial<B2BSearchConfig>) => {
-        this.routingService.go(
-          {
-            cxRoute: 'costCenters',
-          },
-          { ...params }
-        );
-      });
-  }
-
-  protected normalizeQueryParams({
-    sort,
-    currentPage,
-    pageSize,
-  }): B2BSearchConfig {
-    return {
-      sort,
-      currentPage: parseInt(currentPage, 10),
-      pageSize: parseInt(pageSize, 10),
-    };
   }
 }

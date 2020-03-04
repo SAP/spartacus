@@ -1,96 +1,41 @@
-<ng-container
-  class="container"
-  *ngIf="costCentersList$ | async as costCentersList"
+<cx-interactive-table
+  [data$]="data$"
+  [header]="'costCentersList.costCenterManagement' | cxTranslate"
+  [sortLabels]="{
+    byUnitName: 'costCentersList.sorting.byUnitName' | cxTranslate,
+    byName: 'costCentersList.sorting.byName' | cxTranslate,
+    byCode: 'costCentersList.sorting.byCode' | cxTranslate
+  }"
+  [columns]="[
+    {
+      key: 'code',
+      value: 'costCentersList.code' | cxTranslate,
+      cxRoute: 'costCenterDetails'
+    },
+    { key: 'name', value: 'costCentersList.name' | cxTranslate },
+    {
+      key: 'currency',
+      value: 'costCentersList.currency' | cxTranslate
+    },
+    {
+      key: 'parentUnit',
+      value: 'costCentersList.parentUnit' | cxTranslate,
+      cxRoute: 'orgUnit'
+    }
+  ]"
+  (pageChange)="pageChange($event)"
+  (changeSortCode)="changeSortCode($event)"
 >
-  <ng-template #sortAndPagination>
-    <div class="cx-form-group form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
-      <cx-sorting
-        [sortOptions]="costCentersList.sorts"
-        [sortLabels]="{
-          byUnitName: 'costCentersList.sorting.byUnitName' | cxTranslate,
-          byName: 'costCentersList.sorting.byName' | cxTranslate,
-          byCode: 'costCentersList.sorting.byCode' | cxTranslate,
-          byValue: 'costCentersList.sorting.byValue' | cxTranslate
-        }"
-        [selectedOption]="costCentersList.pagination.sort"
-        (sortListEvent)="changeSortCode($event)"
-      ></cx-sorting>
-    </div>
-    <div class="cx-pagination cx-textalign">
-      <cx-pagination
-        [pagination]="costCentersList.pagination"
-        (viewPageEvent)="pageChange($event)"
-      ></cx-pagination>
-    </div>
-  </ng-template>
-
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
-      <div class="cx-table-header cx-textalign">
-        <h3>{{ 'costCentersList.costCenterManagement' | cxTranslate }}</h3>
-      </div>
-
-      <!--        <cx-search-->
-      <!--          (searchEvent)="search($event)"-->
-      <!--          [placeholder]="'costCentersList.searchBox' | cxTranslate"-->
-      <!--        >-->
-      <!--        </cx-search>-->
-    </div>
-    <div class="col-md-12 col-lg-3">
-      <div class="row cx-search-links mb-3">
-        <div class="col-12 cx-textalign">
-          <button
-            [routerLink]="{ cxRoute: 'costCenterCreate' } | cxUrl"
-            class="btn btn-primary btn-block"
-          >
-            {{ 'costCentersList.create' | cxTranslate }}
-          </button>
-        </div>
+  <div class="col-md-12 col-lg-3">
+    <div class="row cx-search-links mb-3">
+      <div class="col-12 cx-textalign">
+        <button
+          [routerLink]="{ cxRoute: 'costCenterCreate' } | cxUrl"
+          class="btn btn-primary btn-block"
+        >
+          {{ 'costCentersList.create' | cxTranslate }}
+        </button>
       </div>
     </div>
   </div>
-
-  <div class="cx-table-body">
-    <ng-container
-      *ngIf="costCentersList.pagination?.totalResults > 0; else noData"
-    >
-      <div class="cx-sort top row">
-        <ng-container *ngTemplateOutlet="sortAndPagination"></ng-container>
-      </div>
-      <!-- TABLE -->
-      <cx-table
-        [tableData]="costCentersList.costCentersList"
-        [columns]="[
-          {
-            key: 'code',
-            value: 'costCentersList.code' | cxTranslate,
-            cxRoute: 'costCenterDetails'
-          },
-          { key: 'name', value: 'costCentersList.name' | cxTranslate },
-          {
-            key: 'currency',
-            value: 'costCentersList.currency' | cxTranslate
-          },
-          {
-            key: 'parentUnit',
-            value: 'costCentersList.parentUnit' | cxTranslate,
-            cxRoute: 'orgUnit'
-          }
-        ]"
-      ></cx-table>
-
-      <div class="cx-sort bottom row">
-        <ng-container *ngTemplateOutlet="sortAndPagination"></ng-container>
-      </div>
-    </ng-container>
-
-    <!-- NO ORDER CONTAINER -->
-    <ng-template #noData>
-      <div class="cx-no-costCenters row">
-        <div class="col-sm-12 col-md-6 col-lg-4">
-          <div>{{ 'common.noData' | cxTranslate }}</div>
-        </div>
-      </div>
-    </ng-template>
-  </div>
-</ng-container>
+</cx-interactive-table>

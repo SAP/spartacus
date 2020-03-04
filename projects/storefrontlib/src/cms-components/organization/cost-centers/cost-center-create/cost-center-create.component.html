@@ -3,6 +3,7 @@
 </div>
 <cx-cost-center-form
   [actionBtnLabel]="'costCenterForm.create' | cxTranslate"
-  (submitCostCenter)="createCostCenter($event)"
+  [routerBackLink]="{ cxRoute: 'costCenters' }"
+  (submit)="createCostCenter($event)"
 >
 </cx-cost-center-form>

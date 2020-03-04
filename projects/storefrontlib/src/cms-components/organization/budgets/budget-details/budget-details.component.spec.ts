@@ -18,10 +18,10 @@ import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { TableModule } from '../../../../shared/components/table/table.module';
 
-const budgetCode = 'b1';
+const code = 'b1';
 
 const mockBudget: Budget = {
-  code: budgetCode,
+  code,
   name: 'budget1',
   budget: 2230,
   currency: {
@@ -37,7 +37,7 @@ const mockBudget: Budget = {
   ],
 };
 const mockBudgetUI: any = {
-  code: budgetCode,
+  code,
   name: 'budget1',
   budget: 2230,
   currency: {
@@ -69,7 +69,7 @@ class MockBudgetService implements Partial<BudgetService> {
 const mockRouterState = {
   state: {
     params: {
-      budgetCode,
+      code,
     },
   },
 };
@@ -136,8 +136,8 @@ describe('BudgetDetailsComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(budgetsService.loadBudget).toHaveBeenCalledWith(budgetCode);
-      expect(budgetsService.get).toHaveBeenCalledWith(budgetCode);
+      expect(budgetsService.loadBudget).toHaveBeenCalledWith(code);
+      expect(budgetsService.get).toHaveBeenCalledWith(code);
       expect(budget).toEqual(mockBudgetUI);
     });
   });
@@ -147,12 +147,12 @@ describe('BudgetDetailsComponent', () => {
       component.ngOnInit();
 
       component.update({ active: false });
-      expect(budgetsService.update).toHaveBeenCalledWith(budgetCode, {
+      expect(budgetsService.update).toHaveBeenCalledWith(code, {
         active: false,
       });
 
       component.update({ active: true });
-      expect(budgetsService.update).toHaveBeenCalledWith(budgetCode, {
+      expect(budgetsService.update).toHaveBeenCalledWith(code, {
         active: true,
       });
     });

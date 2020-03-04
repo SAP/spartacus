@@ -3,6 +3,7 @@
 </div>
 <cx-permission-form
   [actionBtnLabel]="'permissionForm.create' | cxTranslate"
-  (submitPermission)="createPermission($event)"
+  [routerBackLink]="{ cxRoute: 'permissions' }"
+  (submit)="createPermission($event)"
 >
 </cx-permission-form>

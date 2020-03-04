@@ -172,21 +172,19 @@ describe('PermissionFormComponent', () => {
 
   describe('verifyPermission', () => {
     it('should not emit value if form is invalid', () => {
-      spyOn(component.submitPermission, 'emit');
+      spyOn(component.submit, 'emit');
       const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
       submitButton.triggerEventHandler('click', null);
-      expect(component.submitPermission.emit).not.toHaveBeenCalled();
+      expect(component.submit.emit).not.toHaveBeenCalled();
     });
 
     it('should emit value if form is valid', () => {
-      spyOn(component.submitPermission, 'emit');
+      spyOn(component.submit, 'emit');
       component.permissionData = mockPermission;
       component.ngOnInit();
       const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
       submitButton.triggerEventHandler('click', null);
-      expect(component.submitPermission.emit).toHaveBeenCalledWith(
-        component.form.value
-      );
+      expect(component.submit.emit).toHaveBeenCalledWith(component.form.value);
     });
   });
 

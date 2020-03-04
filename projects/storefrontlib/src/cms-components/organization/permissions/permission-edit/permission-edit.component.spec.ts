@@ -25,10 +25,10 @@ import { PermissionFormModule } from '../permission-form/permission-form.module'
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
 
-const permissionCode = 'b1';
+const code = 'b1';
 
 const mockPermission: Permission = {
-  code: permissionCode,
+  code,
   threshold: 231,
   orderApprovalPermissionType: { name: 'orderType' },
   periodRange: Period.MONTH,
@@ -66,7 +66,7 @@ class MockPermissionService implements Partial<PermissionService> {
 const mockRouterState = {
   state: {
     params: {
-      permissionCode,
+      code,
     },
   },
 };
@@ -158,10 +158,8 @@ describe('PermissionEditComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(permissionsService.loadPermission).toHaveBeenCalledWith(
-        permissionCode
-      );
-      expect(permissionsService.get).toHaveBeenCalledWith(permissionCode);
+      expect(permissionsService.loadPermission).toHaveBeenCalledWith(code);
+      expect(permissionsService.get).toHaveBeenCalledWith(code);
       expect(permission).toEqual(mockPermission);
     });
   });
@@ -170,14 +168,14 @@ describe('PermissionEditComponent', () => {
     it('should update permission', () => {
       component.ngOnInit();
       const updatePermission = {
-        code: permissionCode,
+        code: code,
         name: 'newName',
         active: false,
       };
 
       component.updatePermission(updatePermission);
       expect(permissionsService.update).toHaveBeenCalledWith(
-        permissionCode,
+        code,
         updatePermission
       );
       expect(routingService.go).toHaveBeenCalledWith({

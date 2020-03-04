@@ -175,21 +175,19 @@ describe('BudgetFormComponent', () => {
 
   describe('verifyBudget', () => {
     it('should not emit value if form is invalid', () => {
-      spyOn(component.submitBudget, 'emit');
+      spyOn(component.submit, 'emit');
       const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
       submitButton.triggerEventHandler('click', null);
-      expect(component.submitBudget.emit).not.toHaveBeenCalled();
+      expect(component.submit.emit).not.toHaveBeenCalled();
     });
 
     it('should emit value if form is valid', () => {
-      spyOn(component.submitBudget, 'emit');
+      spyOn(component.submit, 'emit');
       component.budgetData = mockBudget;
       component.ngOnInit();
       const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
       submitButton.triggerEventHandler('click', null);
-      expect(component.submitBudget.emit).toHaveBeenCalledWith(
-        component.form.value
-      );
+      expect(component.submit.emit).toHaveBeenCalledWith(component.form.value);
     });
   });
 

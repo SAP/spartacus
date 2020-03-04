@@ -1,12 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
 import {
   B2BUnitNode,
   Currency,
@@ -17,18 +18,17 @@ import {
   Period,
   Permission,
   PermissionService,
-  UrlCommandRoute,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { FormUtils } from '../../../../shared/utils/forms/form-utils';
+
+import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
 
 @Component({
   selector: 'cx-permission-form',
   templateUrl: './permission-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PermissionFormComponent implements OnInit {
+export class PermissionFormComponent extends AbstractFormComponent
+  implements OnInit {
   periodRange = Object.keys(Period);
   businessUnits$: Observable<B2BUnitNode[]>;
   currencies$: Observable<Currency[]>;
@@ -36,28 +36,6 @@ export class PermissionFormComponent implements OnInit {
 
   @Input()
   permissionData: Permission;
-
-  @Input()
-  actionBtnLabel: string;
-
-  @Input()
-  cancelBtnLabel: string;
-
-  @Input()
-  showCancelBtn = true;
-
-  @Input()
-  routerBackLink: UrlCommandRoute = {
-    cxRoute: 'permissions',
-  };
-
-  @Output()
-  submitPermission = new EventEmitter<any>();
-
-  @Output()
-  clickBack = new EventEmitter<any>();
-
-  submitClicked = false;
 
   form: FormGroup = this.fb.group({
     code: ['', Validators.required],
@@ -80,11 +58,13 @@ export class PermissionFormComponent implements OnInit {
   thresholdControl = this.form.get('threshold');
 
   constructor(
-    private fb: FormBuilder,
+    protected fb: FormBuilder,
     protected currencyService: CurrencyService,
     protected orgUnitService: OrgUnitService,
     protected permissionService: PermissionService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.currencies$ = this.currencyService.getAll();
@@ -101,25 +81,6 @@ export class PermissionFormComponent implements OnInit {
       this.typeSelected(this.permissionData.orderApprovalPermissionType);
       this.typeControl.disable();
     }
-  }
-
-  back(): void {
-    this.clickBack.emit();
-  }
-
-  verifyPermission(): void {
-    this.submitClicked = true;
-    if (!this.form.invalid) {
-      this.submitPermission.emit(this.form.value);
-    }
-  }
-
-  isNotValid(formControlName: string): boolean {
-    return FormUtils.isNotValidField(
-      this.form,
-      formControlName,
-      this.submitClicked
-    );
   }
 
   typeSelected(typeSelected: OrderApprovalPermissionType): void {

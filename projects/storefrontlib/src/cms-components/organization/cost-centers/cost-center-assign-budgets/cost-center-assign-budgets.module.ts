@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
@@ -10,14 +8,11 @@ import {
   CxDatePipe,
   I18nModule,
   UrlModule,
-  UserService,
 } from '@spartacus/core';
-import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.component';
-import { TableModule } from '../../../../shared/components/table/table.module';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
-import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-routes/suffix-url-matcher';
+import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
 
 @NgModule({
   imports: [
@@ -29,16 +24,6 @@ import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-route
         component: PageLayoutComponent,
         data: { cxRoute: 'costCenterAssignBudgets' },
       },
-      {
-        matcher: suffixUrlMatcher,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: {
-          cxSuffixUrlMatcher: {
-            paramName: 'costCenterCode',
-          },
-        },
-      },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
@@ -48,17 +33,13 @@ import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-route
         },
       },
     }),
-    FormsModule,
-    NgSelectModule,
-    ListNavigationModule,
     UrlModule,
     I18nModule,
-    TableModule,
-    ReactiveFormsModule,
+    InteractiveTableModule,
   ],
   declarations: [CostCenterAssignBudgetsComponent],
   exports: [CostCenterAssignBudgetsComponent],
-  providers: [UserService, CxDatePipe],
+  providers: [CxDatePipe],
   entryComponents: [CostCenterAssignBudgetsComponent],
 })
 export class CostCenterAssignBudgetsModule {}

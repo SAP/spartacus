@@ -3,6 +3,7 @@
 </div>
 <cx-budget-form
   [actionBtnLabel]="'budgetForm.create' | cxTranslate"
-  (submitBudget)="createBudget($event)"
+  [routerBackLink]="{ cxRoute: 'budgets' }"
+  (submit)="createBudget($event)"
 >
 </cx-budget-form>
