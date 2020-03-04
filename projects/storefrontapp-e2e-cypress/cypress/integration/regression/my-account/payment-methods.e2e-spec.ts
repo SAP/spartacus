@@ -1,3 +1,4 @@
+import { waitForPage } from '../../../helpers/checkout-flow';
 import * as login from '../../../helpers/login';
 import {
   checkAnonymous,
@@ -20,9 +21,9 @@ describe('Payment Methods', () => {
 
       cy.server();
 
-      cy.route('GET', '/rest/v2/electronics-spa/cms/pages?*').as('frontPage');
+      const homePage = waitForPage('homepage', 'getHomePage');
       cy.visit('/');
-      cy.wait(`@frontPage`);
+      cy.wait(`@${homePage}`);
 
       cy.route(
         'GET',
