@@ -80,12 +80,13 @@ describe('MultiCartStatePersistenceService', () => {
     spyOn(service as any, 'getCartState').and.returnValue(state$);
 
     service.sync();
-    expect(persistenceService.syncWithStorage).toHaveBeenCalledWith({
-      key: 'cart',
-      onRead: service['onRead'],
-      context$,
-      state$,
-    });
+    expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        key: 'cart',
+        context$,
+        state$,
+      })
+    );
     expect(service['getCartState']).toHaveBeenCalled();
     expect(siteContextParamsService.getValues).toHaveBeenCalledWith([
       BASE_SITE_CONTEXT_ID,
