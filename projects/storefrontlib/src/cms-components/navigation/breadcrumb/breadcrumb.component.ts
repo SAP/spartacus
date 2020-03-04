@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CmsBreadcrumbsComponent, PageMeta, PageMetaService, TranslationService } from '@spartacus/core';
+import {
+  CmsBreadcrumbsComponent,
+  PageMeta,
+  PageMetaService,
+  TranslationService,
+} from '@spartacus/core';
 import { asyncScheduler, combineLatest, Observable } from 'rxjs';
 import { filter, map, observeOn } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -37,9 +42,7 @@ export class BreadcrumbComponent implements OnInit {
       this.translation.translate('common.home').pipe(observeOn(asyncScheduler)),
     ]).pipe(
       map(([meta, textHome]) =>
-         meta?.breadcrumbs
-          ? meta.breadcrumbs
-          : [{ label: textHome, link: '/' }]
+        meta?.breadcrumbs ? meta.breadcrumbs : [{ label: textHome, link: '/' }]
       )
     );
   }
