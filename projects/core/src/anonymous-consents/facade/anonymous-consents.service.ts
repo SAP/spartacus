@@ -3,11 +3,8 @@ import { select, Store } from '@ngrx/store';
 import { combineLatest, iif, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
-import {
-  AnonymousConsent,
-  ANONYMOUS_CONSENT_STATUS,
-  ConsentTemplate,
-} from '../../model/index';
+import { ANONYMOUS_CONSENTS_FEATURE, FeatureConfigService } from '../../features-config/index';
+import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS, ConsentTemplate } from '../../model/index';
 import { AnonymousConsentsActions } from '../store/actions/index';
 import { StateWithAnonymousConsents } from '../store/anonymous-consents-state';
 import { AnonymousConsentsSelectors } from '../store/selectors/index';
@@ -16,7 +13,8 @@ import { AnonymousConsentsSelectors } from '../store/selectors/index';
 export class AnonymousConsentsService {
   constructor(
     protected store: Store<StateWithAnonymousConsents>,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected featureConfig: FeatureConfigService
   ) {}
 
   /**
@@ -265,7 +263,10 @@ export class AnonymousConsentsService {
     return combineLatest([
       this.isBannerDismissed(),
       this.getTemplatesUpdated(),
-    ]).pipe(map(([dismissed, updated]) => !dismissed || updated));
+    ]).pipe(
+      filter(_ => this.featureConfig?.isEnabled(ANONYMOUS_CONSENTS_FEATURE)),
+      map(([dismissed, updated]) => !dismissed || updated)
+    );
   }
 
   /**
