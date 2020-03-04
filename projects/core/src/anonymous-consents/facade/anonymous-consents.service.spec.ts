@@ -2,14 +2,15 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
+import { FeatureConfigService } from '../../features-config/index';
 import {
-  ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
+  ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
 } from '../../model/index';
 import {
-  ANONYMOUS_CONSENTS_STORE_FEATURE,
   AnonymousConsentsActions,
+  ANONYMOUS_CONSENTS_STORE_FEATURE,
   StateWithAnonymousConsents,
 } from '../store/index';
 import * as fromStoreReducers from '../store/reducers/index';
@@ -48,6 +49,10 @@ const mockAnonymousConsents: AnonymousConsent[] = [
   },
 ];
 
+const mockFeatureConfig = jasmine.createSpyObj('FeatureConfigService', [
+  'isEnabled',
+]);
+
 describe('AnonymousConsentsService', () => {
   let service: AnonymousConsentsService;
   let store: Store<StateWithAnonymousConsents>;
@@ -62,7 +67,13 @@ describe('AnonymousConsentsService', () => {
           fromStoreReducers.getReducers()
         ),
       ],
-      providers: [{ provide: AuthService, useClass: MockAuthService }],
+      providers: [
+        { provide: AuthService, useClass: MockAuthService },
+        {
+          provide: FeatureConfigService,
+          useValue: mockFeatureConfig,
+        },
+      ],
     });
 
     service = TestBed.inject(AnonymousConsentsService);
@@ -334,21 +345,48 @@ describe('AnonymousConsentsService', () => {
   });
 
   describe('isBannerVisible', () => {
+    it('should return false if anonymous consent feature is false', () => {
+      mockFeatureConfig.isEnabled.and.returnValue(false);
+      spyOn(service, 'isBannerDismissed').and.returnValue(of(false));
+      spyOn(service, 'getTemplatesUpdated').and.returnValue(of(true));
+
+      let result = true;
+      service
+        .isBannerVisible()
+        .subscribe(value => {
+          console.log('isEnabled', mockFeatureConfig.isEnabled);
+          console.log('value', value);
+          return (result = value);
+        })
+        .unsubscribe();
+
+      expect(service.isBannerDismissed).toHaveBeenCalled();
+      expect(service.getTemplatesUpdated).toHaveBeenCalled();
+      expect(result).toEqual(false);
+    });
+
     it('should return true if isBannerDismissed() returns false', () => {
+      mockFeatureConfig.isEnabled.and.returnValue(true);
       spyOn(service, 'isBannerDismissed').and.returnValue(of(false));
       spyOn(service, 'getTemplatesUpdated').and.returnValue(of(false));
 
       let result = false;
       service
         .isBannerVisible()
-        .subscribe(value => (result = value))
+        .subscribe(value => {
+          console.log('isEnabled', mockFeatureConfig.isEnabled);
+          console.log('value', value);
+          return (result = value);
+        })
         .unsubscribe();
 
       expect(service.isBannerDismissed).toHaveBeenCalled();
       expect(service.getTemplatesUpdated).toHaveBeenCalled();
       expect(result).toEqual(true);
     });
+
     it('should return true if getTemplatesUpdated() returns true', () => {
+      mockFeatureConfig.isEnabled.and.returnValue(true);
       spyOn(service, 'isBannerDismissed').and.returnValue(of(true));
       spyOn(service, 'getTemplatesUpdated').and.returnValue(of(true));
 
@@ -364,6 +402,7 @@ describe('AnonymousConsentsService', () => {
     });
 
     it('should return false if isBannerDismissed() returns true and getTemplatesUpdated() returns false', () => {
+      mockFeatureConfig.isEnabled.and.returnValue(true);
       spyOn(service, 'isBannerDismissed').and.returnValue(of(true));
       spyOn(service, 'getTemplatesUpdated').and.returnValue(of(false));
 

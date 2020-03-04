@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, iif, Observable } from 'rxjs';
+import { combineLatest, iif, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import { ANONYMOUS_CONSENTS_FEATURE, FeatureConfigService } from '../../features-config/index';
@@ -263,9 +263,9 @@ export class AnonymousConsentsService {
     return combineLatest([
       this.isBannerDismissed(),
       this.getTemplatesUpdated(),
+      of(this.featureConfig?.isEnabled(ANONYMOUS_CONSENTS_FEATURE))
     ]).pipe(
-      filter(_ => this.featureConfig?.isEnabled(ANONYMOUS_CONSENTS_FEATURE)),
-      map(([dismissed, updated]) => !dismissed || updated)
+      map(([dismissed, updated, isEnabled]) => isEnabled && (!dismissed || updated))
     );
   }
 
