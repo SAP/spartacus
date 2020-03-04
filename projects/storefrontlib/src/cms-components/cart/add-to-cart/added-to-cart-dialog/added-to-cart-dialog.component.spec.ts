@@ -4,7 +4,6 @@ import {
   Input,
   Pipe,
   PipeTransform,
-  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -27,6 +26,7 @@ import { AutoFocusDirectiveModule } from '../../../../shared/directives/auto-foc
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
+
 class MockCartService {
   getLoaded(): Observable<boolean> {
     return of();
@@ -147,8 +147,8 @@ describe('AddedToCartDialogComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     component.entry$ = of(mockOrderEntry[0]);
-    cartService = TestBed.get(CartService as Type<CartService>);
-    mockModalService = TestBed.get(ModalService as Type<ModalService>);
+    cartService = TestBed.inject(CartService);
+    mockModalService = TestBed.inject(ModalService);
 
     spyOn(cartService, 'updateEntry').and.callThrough();
     spyOn(mockModalService, 'dismissActiveModal').and.callThrough();

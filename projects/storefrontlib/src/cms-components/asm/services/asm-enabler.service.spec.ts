@@ -55,9 +55,9 @@ describe('AsmEnablerService', () => {
       ],
     });
 
-    asmEnablerService = TestBed.get(AsmEnablerService);
-    windowRef = TestBed.get(WindowRef);
-    location = TestBed.get(Location);
+    asmEnablerService = TestBed.inject(AsmEnablerService);
+    windowRef = TestBed.inject(WindowRef);
+    location = TestBed.inject(Location);
 
     windowRef.localStorage.removeItem(ASM_ENABLED_LOCAL_STORAGE_KEY);
   });

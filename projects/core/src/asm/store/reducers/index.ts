@@ -26,9 +26,9 @@ export function getReducers(): ActionReducerMap<AsmState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<AsmState>
-> = new InjectionToken<ActionReducerMap<AsmState>>('AsmReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<
+  AsmState
+>> = new InjectionToken<ActionReducerMap<AsmState>>('AsmReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

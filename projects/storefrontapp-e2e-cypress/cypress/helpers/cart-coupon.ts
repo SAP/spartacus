@@ -89,10 +89,9 @@ export function applyMyCouponAsAnonymous(couponCode: string) {
 export function applyCoupon(couponCode: string) {
   cy.get('#applyVoucher').type(couponCode);
   cy.get('.col-md-4 > .btn').click();
-  cy.get('cx-global-message').should(
-    'contain',
-    `${couponCode} has been applied`
-  );
+  return cy
+    .get('cx-global-message')
+    .should('contain', `${couponCode} has been applied`);
 }
 
 export function removeCoupon(couponCode: string) {

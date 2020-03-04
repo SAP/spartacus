@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CmsNavigationComponent,
@@ -139,9 +138,7 @@ describe('NavigationComponentService', () => {
       ],
     });
 
-    navigationService = TestBed.get(NavigationService as Type<
-      NavigationService
-    >);
+    navigationService = TestBed.inject(NavigationService);
   });
 
   it('should inject service', () => {
@@ -220,10 +217,11 @@ describe('NavigationComponentService', () => {
     };
 
     navigationService.getNavigationNode(of(componentData)).subscribe();
-    expect(mockCmsService.loadNavigationItems).toHaveBeenCalledWith(
-      'MockNavigationNode001',
-      [{ superType: 'AbstractCMSComponent', id: 'MockLink005' }]
-    );
+    expect(
+      mockCmsService.loadNavigationItems
+    ).toHaveBeenCalledWith('MockNavigationNode001', [
+      { superType: 'AbstractCMSComponent', id: 'MockLink005' },
+    ]);
   });
 
   it('should create a virtual navigation root', () => {

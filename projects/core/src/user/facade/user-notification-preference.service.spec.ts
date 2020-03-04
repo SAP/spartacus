@@ -1,11 +1,10 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserNotificationPreferenceService } from './user-notification-preference.service';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import * as fromStoreReducers from '../store/reducers/index';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
-import { Type } from '@angular/core';
 import { UserActions } from '../store/actions/index';
 import { NotificationPreference } from '../../model/notification-preference.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
@@ -34,12 +33,10 @@ describe('UserNotificationPreferenceService', () => {
       providers: [UserNotificationPreferenceService],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    userNotificationPreferenceService = TestBed.get(
-      UserNotificationPreferenceService as Type<
-        UserNotificationPreferenceService
-      >
+    userNotificationPreferenceService = TestBed.inject(
+      UserNotificationPreferenceService
     );
   });
 

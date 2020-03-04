@@ -4,7 +4,6 @@ import {
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { AuthConfig } from '../../config/auth-config';
@@ -68,15 +67,9 @@ describe('UserAuthenticationTokenService', () => {
       ],
     });
 
-    authTokenService = TestBed.get(UserAuthenticationTokenService as Type<
-      UserAuthenticationTokenService
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    occEndpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    authTokenService = TestBed.inject(UserAuthenticationTokenService);
+    httpMock = TestBed.inject(HttpTestingController);
+    occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(occEndpointsService, 'getRawEndpoint').and.callThrough();
   });
 

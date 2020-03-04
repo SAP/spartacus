@@ -8,10 +8,7 @@ import { getKymaState } from './feature.selector';
 export const getOpenIdTokenState: MemoizedSelector<
   StateWithKyma,
   LoaderState<OpenIdToken>
-> = createSelector(
-  getKymaState,
-  state => state.openIdToken
-);
+> = createSelector(getKymaState, state => state.openIdToken);
 
 export const getOpenIdTokenValue: MemoizedSelector<
   StateWithKyma,

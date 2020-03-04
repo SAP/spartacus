@@ -90,6 +90,10 @@ export const common = {
       invalid: {
         card_expirationMonth:
           'The credit card expiration date entered is not valid.',
+        firstName: 'First Name entered is not valid.',
+        lastName: 'Last Name entered is not valid.',
+        password: 'Password entered is not valid.',
+        uid: 'UID is not valid.',
       },
     },
     cartNotFound: 'Cart not found.',

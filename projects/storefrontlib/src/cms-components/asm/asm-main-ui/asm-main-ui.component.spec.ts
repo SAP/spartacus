@@ -133,12 +133,12 @@ describe('AsmMainUiComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmMainUiComponent);
-    authService = TestBed.get(AuthService);
-    asmAuthService = TestBed.get(AsmAuthService);
-    userService = TestBed.get(UserService);
-    globalMessageService = TestBed.get(GlobalMessageService);
-    routingService = TestBed.get(RoutingService);
-    asmComponentService = TestBed.get(AsmComponentService);
+    authService = TestBed.inject(AuthService);
+    asmAuthService = TestBed.inject(AsmAuthService);
+    userService = TestBed.inject(UserService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    routingService = TestBed.inject(RoutingService);
+    asmComponentService = TestBed.inject(AsmComponentService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();

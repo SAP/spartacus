@@ -149,9 +149,10 @@ export class CmsService {
       filter(component => !!component)
     ) as Observable<T>;
 
-    return using(() => loading$.subscribe(), () => component$).pipe(
-      shareReplay({ bufferSize: 1, refCount: true })
-    );
+    return using(
+      () => loading$.subscribe(),
+      () => component$
+    ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
   }
 
   /**
@@ -159,16 +160,18 @@ export class CmsService {
    * @param position : content slot position
    */
   getContentSlot(position: string): Observable<ContentSlotData> {
-    return this.routingService.getPageContext().pipe(
-      switchMap(pageContext =>
-        this.store.pipe(
-          select(
-            CmsSelectors.getCurrentSlotSelectorFactory(pageContext, position)
-          ),
-          filter(Boolean)
+    return this.routingService
+      .getPageContext()
+      .pipe(
+        switchMap(pageContext =>
+          this.store.pipe(
+            select(
+              CmsSelectors.getCurrentSlotSelectorFactory(pageContext, position)
+            ),
+            filter(Boolean)
+          )
         )
-      )
-    );
+      );
   }
 
   /**

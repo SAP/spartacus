@@ -87,7 +87,7 @@ describe('OccEndpointsService', () => {
       });
 
       it('should not resolve endpoint for missing scope when no default is specified', () => {
-        const config = TestBed.get(OccConfig);
+        const config = TestBed.inject(OccConfig);
         delete config.backend.occ.endpoints.product;
 
         const url = service.getUrl(
@@ -101,7 +101,7 @@ describe('OccEndpointsService', () => {
       });
 
       it('should use string configuration for backward compatibility', () => {
-        const config = TestBed.get(OccConfig);
+        const config = TestBed.inject(OccConfig);
         config.backend.occ.endpoints.product =
           'configured-endpoint1/${test}?fields=fallback';
 

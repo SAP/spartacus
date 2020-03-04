@@ -27,8 +27,8 @@ describe(`OccSitesConfigLoader`, () => {
       providers: [{ provide: OccConfig, useValue: mockConfig }],
     });
 
-    loader = TestBed.get(OccSitesConfigLoader);
-    httpMock = TestBed.get(HttpTestingController);
+    loader = TestBed.inject(OccSitesConfigLoader);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   describe('load', () => {

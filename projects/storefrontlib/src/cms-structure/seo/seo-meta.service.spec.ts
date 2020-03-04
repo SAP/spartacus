@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
 import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
@@ -33,10 +32,10 @@ describe('SeoTitleService', () => {
       ],
     });
 
-    seoMetaService = TestBed.get(SeoMetaService as Type<SeoMetaService>);
+    seoMetaService = TestBed.inject(SeoMetaService);
 
-    ngTitleService = TestBed.get(Title as Type<Title>);
-    ngMetaService = TestBed.get(Meta as Type<Meta>);
+    ngTitleService = TestBed.inject(Title);
+    ngMetaService = TestBed.inject(Meta);
   });
 
   it('should inject service', () => {

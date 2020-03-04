@@ -72,8 +72,12 @@ describe('SaveForLaterComponent', () => {
     );
     mockCmsService.getComponentData.and.returnValue(of({ content: 'content' }));
     mockSelectiveCartService.getLoaded.and.returnValue(of(true));
-    mockSelectiveCartService.getCart.and.returnValue(of<Cart>({ code: '123' }));
-    mockSelectiveCartService.getEntries.and.returnValue(of<OrderEntry[]>([{}]));
+    mockSelectiveCartService.getCart.and.returnValue(
+      of<Cart>({ code: '123' })
+    );
+    mockSelectiveCartService.getEntries.and.returnValue(
+      of<OrderEntry[]>([{}])
+    );
   });
 
   it('should create', () => {
