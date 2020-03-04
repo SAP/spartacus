@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, queueScheduler } from 'rxjs';
+import { Observable, queueScheduler, of } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
@@ -11,7 +11,12 @@ import {
   getOrgUnitState,
   getOrgUnitList,
 } from '../store/selectors/org-unit.selector';
-import { B2BUnit, B2BUnitNode, EntitiesModel } from '../../model';
+import {
+  B2BUnit,
+  B2BUnitNode,
+  EntitiesModel,
+  B2BApprovalProcess,
+} from '../../model';
 
 @Injectable()
 export class OrgUnitService {
@@ -53,6 +58,15 @@ export class OrgUnitService {
       filter(state => state.success || state.error),
       map(state => state.value)
     );
+  }
+
+  getApprovalProcesses(): Observable<B2BApprovalProcess[]> {
+    return of([
+      {
+        code: 'accApproval',
+        name: 'Escalation Approval with Merchant Check',
+      },
+    ]);
   }
 
   getList(): Observable<EntitiesModel<B2BUnitNode>> {

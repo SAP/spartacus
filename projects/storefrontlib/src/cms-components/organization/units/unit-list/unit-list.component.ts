@@ -39,9 +39,8 @@ export class ManageUnitsListComponent extends AbstractListingComponent
           map((orgUnitsList: EntitiesModel<B2BUnitNode>) => ({
             pagination: { totalResults: 1 },
             values: orgUnitsList.values.map(orgUnit => ({
-              id: orgUnit.id,
               name: orgUnit.name,
-              orgUnitId: orgUnit.id,
+              uid: orgUnit.id,
               parentUnit: orgUnit.parent,
             })),
           }))

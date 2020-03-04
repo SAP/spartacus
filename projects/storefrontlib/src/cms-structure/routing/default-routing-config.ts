@@ -94,11 +94,11 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   orgUnitDetails: {
     paths: ['my-company/organization-management/manage-unit/:code'],
-    paramsMapping: { code: 'orgUnitId' },
+    paramsMapping: { code: 'uid' },
   },
   orgUnitEdit: {
     paths: ['my-company/organization-management/manage-unit/edit/:code'],
-    paramsMapping: { code: 'orgUnitId' },
+    paramsMapping: { code: 'uid' },
   },
   costCenters: {
     paths: ['my-company/organization-management/manage-costcenters'],

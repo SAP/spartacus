@@ -49,7 +49,7 @@ export class BudgetListComponent extends AbstractListingComponent
                 budget.startDate
               )} - ${this.cxDate.transform(budget.endDate)}`,
               parentUnit: budget.orgUnit && budget.orgUnit.name,
-              orgUnitId: budget.orgUnit && budget.orgUnit.uid,
+              uid: budget.orgUnit && budget.orgUnit.uid,
             })),
           }))
         )

@@ -10,10 +10,10 @@ import { filter, map } from 'rxjs/operators';
 
 import {
   B2BUnitNode,
-  Currency,
   CurrencyService,
   OrgUnitService,
   EntitiesModel,
+  B2BApprovalProcess,
 } from '@spartacus/core';
 import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
 
@@ -24,19 +24,19 @@ import { AbstractFormComponent } from '../../abstract-component/abstract-form.co
 })
 export class UnitFormComponent extends AbstractFormComponent implements OnInit {
   businessUnits$: Observable<B2BUnitNode[]>;
-  currencies$: Observable<Currency[]>;
+  approvalProcesses$: Observable<B2BApprovalProcess[]>;
 
   @Input()
   orgUnitData: B2BUnitNode;
 
   form: FormGroup = this.fb.group({
-    code: ['', Validators.required],
+    uid: ['', Validators.required],
     name: ['', Validators.required],
-    unit: this.fb.group({
+    parentOrgUnit: this.fb.group({
       uid: [null, Validators.required],
     }),
-    currency: this.fb.group({
-      isocode: [null, Validators.required],
+    approvalProcess: this.fb.group({
+      code: [null, Validators.required],
     }),
   });
 
@@ -49,7 +49,7 @@ export class UnitFormComponent extends AbstractFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currencies$ = this.currencyService.getAll();
+    this.approvalProcesses$ = this.orgUnitService.getApprovalProcesses();
     this.businessUnits$ = this.orgUnitService.getList().pipe(
       filter(Boolean),
       map((list: EntitiesModel<B2BUnitNode>) => list.values)
