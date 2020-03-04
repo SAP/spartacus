@@ -4238,7 +4238,6 @@ export namespace Occ {
     managers?: B2BUser[];
   }
   export interface OrderApprovalPermissionType {
-    [x: string]: any;
     code?: string;
     name?: string;
   }
