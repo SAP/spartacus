@@ -19,6 +19,7 @@ import {
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
 import { ViewConfigModule } from '../shared/config/view-config.module';
+import { TriggerModule } from '../shared/services/trigger/trigger.module';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
     UserModule.forRoot(),
     ProductModule.forRoot(),
     ViewConfigModule.forRoot(),
+    TriggerModule.forRoot(),
     FeaturesConfigModule.forRoot('2.0'),
     LayoutModule,
   ],

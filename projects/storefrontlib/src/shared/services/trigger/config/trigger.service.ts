@@ -20,7 +20,8 @@ export class TriggerService {
       const conf = config as TriggerOutletMapping;
       this.outletService.add(conf.outlet, template, conf.position);
     } else if (Boolean((config as TriggerInlineMapping).inline)) {
-      // TODO: Inline rendering
+      const conf = config as TriggerInlineMapping;
+      this.outletService.add('cx-storefront', template, conf.position);
     }
   }
 }

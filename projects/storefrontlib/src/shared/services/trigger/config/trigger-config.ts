@@ -9,12 +9,12 @@ export abstract class TriggerConfig {
 
 export interface TriggerOutletMapping {
   outlet: string;
-  position: OutletPosition;
+  position?: OutletPosition;
 }
 
 export interface TriggerInlineMapping {
   inline: boolean;
-  position: OutletPosition;
+  position?: OutletPosition;
 }
 
 export interface TriggerUrlMapping {
