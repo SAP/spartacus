@@ -57,12 +57,12 @@ describe('Cart', () => {
     cy.wait(2000);
     cy.window().then(window => {
       const storage = JSON.parse(
-        window.localStorage.getItem('spartacus-local-data')
+        window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
       );
-      const cartCode = storage['multi-cart'].active;
-      storage['multi-cart'].active = 'incorrect-code';
+      const cartCode = storage.active;
+      storage.active = 'incorrect-code';
       window.localStorage.setItem(
-        'spartacus-local-data',
+        'spartacus⚿electronics-spa⚿cart',
         JSON.stringify(storage)
       );
       cy.visit('/cart');

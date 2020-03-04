@@ -1,23 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  BaseSiteService,
-  contextServiceMapProvider,
-  CurrencyService,
-  LanguageService,
-  SiteContext,
-  SiteContextConfig,
-} from '@spartacus/core';
-import { Subject } from 'rxjs';
-import {
-  BASE_SITE_CONTEXT_ID,
-  CURRENCY_CONTEXT_ID,
-  LANGUAGE_CONTEXT_ID,
-} from '../../site-context/providers/context-ids';
+import { contextServiceMapProvider } from '@spartacus/core';
+import { of, Subject } from 'rxjs';
 import { SiteContextParamsService } from '../../site-context/services/site-context-params.service';
 import { WindowRef } from '../../window/window-ref';
 import { StorageSyncType } from '../config/state-config';
 import { StatePersistenceService } from './state-persistence.service';
-import createSpy = jasmine.createSpy;
 
 const sessionStorageMock = {
   getItem(_key: string): string | null {
@@ -48,65 +35,19 @@ const winRef = {
 } as WindowRef;
 
 describe('StatePersistanceService', () => {
-  let mockLanguageService: SiteContext<any>;
-  let mockCurrencyService: SiteContext<any>;
-  let mockBaseSiteService: SiteContext<any>;
   let service: StatePersistenceService;
-  let langService: LanguageService;
-  let currencyService: CurrencyService;
-  let baseSiteService: BaseSiteService;
-  let lang$;
-  let curr$;
-  let baseSite$;
-
-  const siteContextConfig: SiteContextConfig = {
-    context: {
-      [LANGUAGE_CONTEXT_ID]: ['en', 'de'],
-      [CURRENCY_CONTEXT_ID]: ['USD', 'GBP'],
-      [BASE_SITE_CONTEXT_ID]: ['electronics-spa', 'apparel-de'],
-      urlParameters: [LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID],
-    },
-  };
 
   beforeEach(() => {
-    lang$ = new Subject<string>();
-    curr$ = new Subject<string>();
-    baseSite$ = new Subject<string>();
-    mockLanguageService = {
-      getActive: createSpy().and.returnValue(lang$.asObservable()),
-      setActive: lang => lang$.next(lang),
-      getAll: createSpy(),
-    };
-
-    mockCurrencyService = {
-      getActive: createSpy().and.returnValue(curr$.asObservable()),
-      setActive: curr => curr$.next(curr),
-      getAll: createSpy(),
-    };
-
-    mockBaseSiteService = {
-      getActive: createSpy().and.returnValue(baseSite$.asObservable()),
-      setActive: baseSite => baseSite$.next(baseSite),
-      getAll: createSpy(),
-    };
-
     TestBed.configureTestingModule({
       providers: [
         contextServiceMapProvider,
         SiteContextParamsService,
         StatePersistenceService,
-        { provide: LanguageService, useValue: mockLanguageService },
-        { provide: CurrencyService, useValue: mockCurrencyService },
-        { provide: BaseSiteService, useValue: mockBaseSiteService },
-        { provide: SiteContextConfig, useValue: siteContextConfig },
         { provide: WindowRef, useValue: winRef },
       ],
     });
 
     service = TestBed.inject(StatePersistenceService);
-    langService = TestBed.inject(LanguageService);
-    currencyService = TestBed.inject(CurrencyService);
-    baseSiteService = TestBed.inject(BaseSiteService);
 
     spyOn(sessionStorageMock, 'setItem').and.stub();
     spyOn(localStorageMock, 'setItem').and.stub();
@@ -120,21 +61,17 @@ describe('StatePersistanceService', () => {
     it('should update storage on each state update', () => {
       const state = new Subject<number>();
 
-      service.syncWithStorage('test', state.asObservable()).subscribe(() => {});
-
-      langService.setActive('en');
-      currencyService.setActive('USD');
-      baseSiteService.setActive('electronics-spa');
+      service.syncWithStorage({ key: 'test', state$: state.asObservable() });
 
       state.next(5);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus//test',
+        'spartacus⚿⚿test',
         '5'
       );
 
       state.next(4);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus//test',
+        'spartacus⚿⚿test',
         '4'
       );
     });
@@ -142,27 +79,22 @@ describe('StatePersistanceService', () => {
     it('should update specific state on each state update', () => {
       const state = new Subject<number>();
 
-      service
-        .syncWithStorage('test', state.asObservable(), [
-          BASE_SITE_CONTEXT_ID,
-          CURRENCY_CONTEXT_ID,
-        ])
-        .subscribe(() => {});
-
-      langService.setActive('en');
-      currencyService.setActive('USD');
-      baseSiteService.setActive('electronics-spa');
+      service.syncWithStorage({
+        key: 'test',
+        state$: state.asObservable(),
+        context$: of(['electronics-spa', 'USD']),
+      });
 
       state.next(5);
       expect(sessionStorageMock.setItem).not.toHaveBeenCalled();
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus/electronics-spa/USD/test',
+        'spartacus⚿electronics-spa⚿USD⚿test',
         '5'
       );
 
       state.next(4);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus/electronics-spa/USD/test',
+        'spartacus⚿electronics-spa⚿USD⚿test',
         '4'
       );
     });
@@ -170,77 +102,78 @@ describe('StatePersistanceService', () => {
     it('should update session storage on each state update', () => {
       const state = new Subject<number>();
 
-      service
-        .syncWithStorage(
-          'test',
-          state.asObservable(),
-          [],
-          StorageSyncType.SESSION_STORAGE
-        )
-        .subscribe(() => {});
-
-      langService.setActive('en');
-      currencyService.setActive('USD');
-      baseSiteService.setActive('electronics-spa');
+      service.syncWithStorage({
+        key: 'test',
+        state$: state.asObservable(),
+        storageType: StorageSyncType.SESSION_STORAGE,
+      });
 
       state.next(5);
       expect(localStorageMock.setItem).not.toHaveBeenCalled();
       expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus//test',
+        'spartacus⚿⚿test',
         '5'
       );
 
       state.next(4);
       expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
-        'spartacus//test',
+        'spartacus⚿⚿test',
         '4'
       );
     });
 
-    it('should restore state on context change', () => {
+    it('should restore state on context not provided', () => {
       spyOn(localStorageMock, 'getItem').and.returnValue('5');
 
       const state = new Subject<number>();
 
-      service
-        .syncWithStorage('test', state.asObservable())
-        .subscribe(result => {
-          expect(result).toEqual(5);
-        });
+      service.syncWithStorage({
+        key: 'test',
+        state$: state.asObservable(),
+        onRead: res => expect(res).toEqual(5),
+      });
 
-      langService.setActive('en');
-      currencyService.setActive('USD');
-      baseSiteService.setActive('electronics-spa');
-
-      expect(localStorageMock.getItem).toHaveBeenCalledWith('spartacus//test');
+      expect(localStorageMock.getItem).toHaveBeenCalledWith('spartacus⚿⚿test');
     });
 
-    it('should react only to specified context change', () => {
+    it('should restore state on provided context emission', () => {
       spyOn(localStorageMock, 'getItem').and.returnValue('5');
 
       const state = new Subject<number>();
+      const context = new Subject<string>();
 
-      service
-        .syncWithStorage('test', state.asObservable(), [LANGUAGE_CONTEXT_ID])
-        .subscribe(result => {
-          expect(result).toEqual(5);
-        });
+      service.syncWithStorage({
+        key: 'test',
+        state$: state.asObservable(),
+        context$: context.asObservable(),
+        onRead: res => expect(res).toEqual(5),
+      });
 
-      langService.setActive('en');
-      currencyService.setActive('USD');
-      baseSiteService.setActive('electronics-spa');
-
+      context.next('en');
       expect(localStorageMock.getItem).toHaveBeenCalledWith(
-        'spartacus/en/test'
+        'spartacus⚿en⚿test'
       );
 
-      langService.setActive('de');
+      context.next('de');
       expect(localStorageMock.getItem).toHaveBeenCalledWith(
-        'spartacus/de/test'
+        'spartacus⚿de⚿test'
       );
 
-      currencyService.setActive('GPB');
       expect(localStorageMock.getItem).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('generateKeyWithContext', () => {
+    it('should work with context as an array', () => {
+      expect(service['generateKeyWithContext'](['ala', 'ma'], 'kota')).toEqual(
+        'spartacus⚿ala⚿ma⚿kota'
+      );
+    });
+
+    it('should work with context as a string', () => {
+      expect(service['generateKeyWithContext']('ola-nie-ma', 'kotki')).toEqual(
+        'spartacus⚿ola-nie-ma⚿kotki'
+      );
     });
   });
 });

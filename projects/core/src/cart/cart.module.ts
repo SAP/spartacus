@@ -1,5 +1,6 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
+import { ConfigInitializerService } from '../config/config-initializer/config-initializer.service';
 import { ActiveCartService } from './facade/active-cart.service';
 import { CartDataService } from './facade/cart-data.service';
 import {
@@ -14,9 +15,14 @@ import { MultiCartStatePersistenceService } from './services/multi-cart-state-pe
 import { CartStoreModule } from './store/cart-store.module';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
 
-function cartStatePersistenceFactory(cartStatePersistenceService): any {
-  const result = () => cartStatePersistenceService;
-  return result;
+export function cartStatePersistenceFactory(
+  cartStatePersistenceService: MultiCartStatePersistenceService,
+  configInit: ConfigInitializerService
+): Function {
+  return () =>
+    configInit.getStableConfig('context').then(() => {
+      cartStatePersistenceService.sync();
+    });
 }
 
 @NgModule({
@@ -42,10 +48,9 @@ export class CartModule {
         {
           provide: APP_INITIALIZER,
           useFactory: cartStatePersistenceFactory,
-          deps: [MultiCartStatePersistenceService],
+          deps: [MultiCartStatePersistenceService, ConfigInitializerService],
           multi: true,
         },
-        MultiCartStatePersistenceService,
       ],
     };
   }
