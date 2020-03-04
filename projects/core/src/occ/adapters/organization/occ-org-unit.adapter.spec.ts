@@ -6,8 +6,8 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
-  B2BUNIT_NORMALIZER,
-  B2BUNIT_LIST_NORMALIZER,
+  B2BUNIT_NODE_NORMALIZER,
+  B2BUNIT_NODE_LIST_NORMALIZER,
 } from '@spartacus/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
@@ -70,7 +70,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2BUNIT_NORMALIZER
+        B2BUNIT_NODE_NORMALIZER
       );
     });
   });
@@ -85,7 +85,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([orgUnit]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2BUNIT_LIST_NORMALIZER
+        B2BUNIT_NODE_LIST_NORMALIZER
       );
     });
   });
@@ -103,7 +103,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2BUNIT_NORMALIZER
+        B2BUNIT_NODE_NORMALIZER
       );
     });
   });
@@ -121,7 +121,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2BUNIT_NORMALIZER
+        B2BUNIT_NODE_NORMALIZER
       );
     });
   });

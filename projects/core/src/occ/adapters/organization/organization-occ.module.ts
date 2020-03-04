@@ -12,8 +12,8 @@ import {
   BUDGETS_NORMALIZER,
 } from '../../../organization/connectors/budget/converters';
 import {
-  B2BUNIT_NORMALIZER,
-  B2BUNIT_LIST_NORMALIZER,
+  B2BUNIT_NODE_NORMALIZER,
+  B2BUNIT_NODE_LIST_NORMALIZER,
 } from '../../../organization/connectors/org-unit/converters';
 import {
   PERMISSION_NORMALIZER,
@@ -32,8 +32,8 @@ import { OccCostCenterAdapter } from './occ-cost-center.adapter';
 import {
   OccBudgetNormalizer,
   OccBudgetListNormalizer,
-  OccOrgUnitNormalizer,
-  OccOrgUnitListNormalizer,
+  OccOrgUnitNodeNormalizer,
+  OccOrgUnitNodeListNormalizer,
   OccPermissionNormalizer,
   OccPermissionListNormalizer,
   OccCostCenterListNormalizer,
@@ -62,13 +62,13 @@ import {
       useClass: OccOrgUnitAdapter,
     },
     {
-      provide: B2BUNIT_NORMALIZER,
-      useClass: OccOrgUnitNormalizer,
+      provide: B2BUNIT_NODE_NORMALIZER,
+      useClass: OccOrgUnitNodeNormalizer,
       multi: true,
     },
     {
-      provide: B2BUNIT_LIST_NORMALIZER,
-      useClass: OccOrgUnitListNormalizer,
+      provide: B2BUNIT_NODE_LIST_NORMALIZER,
+      useClass: OccOrgUnitNodeListNormalizer,
       multi: true,
     },
     {
