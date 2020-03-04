@@ -438,7 +438,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   });
 
   context('My-coupons', () => {
-    it.only('should allow to navigate with tab key', () => {
+    it('should allow to navigate with tab key', () => {
       checkoutMyCouponsTabbingOrder(config.myCoupons);
     });
   });
