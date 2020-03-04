@@ -68,6 +68,10 @@ import {
   stockNotificationDialogTabbingOrder,
   stockNotificationTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/stock-notification';
+import {
+  consignmentTrackingTabbingOrder,
+  consignmentTrackingEventsTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/consignment-tracking';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -462,6 +466,16 @@ describe('Tabbing order - tests do require user to be logged in', () => {
 
     it('should allow to navigate with tab key', () => {
       stockNotificationTabbingOrder(config.stockNotification);
+    });
+  });
+
+  context('Consignment Tracking', () => {
+    it('should allow to navigate with tab key', () => {
+      consignmentTrackingTabbingOrder(config.consignmentTracking);
+    });
+
+    it('should allow to navigate with tab key(tracking events)', () => {
+      consignmentTrackingEventsTabbingOrder(config.consignmentTrackingEvents);
     });
   });
 });
