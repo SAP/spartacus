@@ -18,11 +18,12 @@ import { MultiCartStoreModule } from './store/multi-cart-store.module';
 export function cartStatePersistenceFactory(
   cartStatePersistenceService: MultiCartStatePersistenceService,
   configInit: ConfigInitializerService
-): Function {
-  return () =>
+) {
+  const result = () =>
     configInit.getStableConfig('context').then(() => {
       cartStatePersistenceService.sync();
     });
+  return result;
 }
 
 @NgModule({
