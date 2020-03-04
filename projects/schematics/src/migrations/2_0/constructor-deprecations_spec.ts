@@ -19,6 +19,26 @@ import {
   writeFile,
 } from '../../shared/utils/test-utils';
 
+const MY_TEST_INIT = `
+    import { Store } from '@ngrx/store';
+    import { StateWithCheckout, CheckoutService, CartDataService } from '@spartacus/core';
+    export class InheritingService extends CheckoutService {
+      constructor(store: Store<StateWithCheckout>, cartDataService: CartDataService) {
+        super(store, cartDataService);
+      }
+    }
+`;
+
+const MY_TEST_ASSERTION = `
+    import { Store } from '@ngrx/store';
+    import { StateWithCheckout, CheckoutService, AuthService, ActiveCartService } from '@spartacus/core';
+    export class InheritingService extends CheckoutService {
+      constructor(store: Store<StateWithCheckout>, authService: AuthService, activeCartService: ActiveCartService) {
+        super(store, authService, activeCartService);
+      }
+    }
+`;
+
 const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-deprecations-03';
 const NOT_INHERITING_SPARTACUS_CLASS = `
     import { Store } from '@ngrx/store';
@@ -73,7 +93,7 @@ const CALL_EXPRESSION_NO_SUPER = `
       }
     }
 `;
-const ADD_PARAMETER_VALID_TEST_CLASS = `  
+const ADD_PARAMETER_VALID_TEST_CLASS = `
     import { Store } from '@ngrx/store';
     import {
       StateWithProcess,
@@ -108,7 +128,7 @@ const REMOVE_PARAMETER_EXPECTED_CLASS = `
 import { Dummy } from '@angular/core';
 import {
   CmsService,
-  
+
   PageMetaResolver,
   PageMetaService
 } from '@spartacus/core';
@@ -116,7 +136,7 @@ export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
     cms: CmsService
-    
+
   ) {
     super(resolvers, cms );
   }
@@ -218,6 +238,17 @@ describe('constructor migrations', () => {
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(NO_SUPER_CALL);
+    });
+  });
+
+  fdescribe('adding and removing at the same time', () => {
+    it('should work correctly', async () => {
+      writeFile(host, '/src/index.ts', MY_TEST_INIT);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(MY_TEST_ASSERTION);
     });
   });
 
