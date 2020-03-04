@@ -4,6 +4,7 @@ import {
   ListModel,
   B2BUnitNode,
   Permission,
+  B2BUnit,
 } from '../../model';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
@@ -23,8 +24,9 @@ export const PERMISSION_ENTITIES = 'permission-entities';
 export const PERMISSION_LIST = 'permission-list';
 
 export const ORG_UNIT_FEATURE = 'orgUnit';
+export const ORG_UNIT_NODE_ENTITIES = 'orgUnitNode-entities';
+export const ORG_UNIT_NODE_LIST = 'orgUnitNode-list';
 export const ORG_UNIT_ENTITIES = 'orgUnit-entities';
-export const ORG_UNIT_LIST = 'orgUnit-list';
 
 export interface Management<Type> {
   list: EntityLoaderState<ListModel>;
@@ -33,8 +35,10 @@ export interface Management<Type> {
 
 export interface BudgetManagement extends Management<Budget> {}
 
-export interface OrgUnits extends Management<B2BUnitNode> {
-  // availableEntities: EntityLoaderState<B2BUnitNode>;
+export interface OrgUnits {
+  list: EntityLoaderState<ListModel>;
+  nodeEntities: EntityLoaderState<B2BUnitNode>;
+  entities: EntityLoaderState<B2BUnit>;
 }
 
 export interface PermissionManagement extends Management<Permission> {}

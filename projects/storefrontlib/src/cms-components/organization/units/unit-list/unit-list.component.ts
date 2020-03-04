@@ -31,7 +31,7 @@ export class ManageUnitsListComponent extends AbstractListingComponent
 
   ngOnInit(): void {
     this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
-      tap(() => this.orgUnitsService.loadOrgUnits()),
+      tap(() => this.orgUnitsService.loadOrgUnitNodes()),
       switchMap(() =>
         this.orgUnitsService.getList().pipe(
           tap(console.log),

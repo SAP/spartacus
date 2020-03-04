@@ -10,7 +10,7 @@ import {
   ORG_UNIT_FEATURE,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
-import { denormalizeB2BSearch } from '../../utils/serializer';
+import { denormalizeCustomB2BSearch } from '../../utils/serializer';
 import { EntitiesModel } from '../../../model/misc.model';
 
 export const getB2BOrgUnitState: MemoizedSelector<
@@ -19,6 +19,14 @@ export const getB2BOrgUnitState: MemoizedSelector<
 > = createSelector(
   getOrganizationState,
   (state: OrganizationState) => state[ORG_UNIT_FEATURE]
+);
+
+export const getOrgUnitNodesState: MemoizedSelector<
+  StateWithOrganization,
+  EntityLoaderState<B2BUnitNode>
+> = createSelector(
+  getB2BOrgUnitState,
+  (state: OrgUnits) => state && state.nodeEntities
 );
 
 export const getOrgUnitsState: MemoizedSelector<
@@ -44,5 +52,6 @@ export const getOrgUnitList = (): MemoizedSelector<
 > =>
   createSelector(
     getB2BOrgUnitState,
-    (state: OrgUnits) => denormalizeB2BSearch<B2BUnitNode>(state)
+    (state: OrgUnits) =>
+      denormalizeCustomB2BSearch(state.list, state.nodeEntities)
   );

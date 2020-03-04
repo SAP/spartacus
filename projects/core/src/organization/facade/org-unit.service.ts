@@ -11,7 +11,7 @@ import {
   getOrgUnitState,
   getOrgUnitList,
 } from '../store/selectors/org-unit.selector';
-import { B2BUnitNode, EntitiesModel } from '../../model';
+import { B2BUnit, B2BUnitNode, EntitiesModel } from '../../model';
 
 @Injectable()
 export class OrgUnitService {
@@ -20,15 +20,15 @@ export class OrgUnitService {
     protected authService: AuthService
   ) {}
 
-  private loadOrgUnit(orgUnitId: string) {
+  loadOrgUnit(orgUnitId: string) {
     this.withUserId(userId =>
       this.store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }))
     );
   }
 
-  loadOrgUnits() {
+  loadOrgUnitNodes() {
     this.withUserId(userId =>
-      this.store.dispatch(new OrgUnitActions.LoadOrgUnits({ userId }))
+      this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId }))
     );
   }
 
@@ -42,7 +42,7 @@ export class OrgUnitService {
     return this.store.select(getOrgUnitList());
   }
 
-  get(orgUnitId: string): Observable<B2BUnitNode> {
+  get(orgUnitId: string): Observable<B2BUnit> {
     return this.getOrgUnitState(orgUnitId).pipe(
       observeOn(queueScheduler),
       tap(state => {
@@ -60,7 +60,7 @@ export class OrgUnitService {
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<B2BUnitNode>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadOrgUnits();
+          this.loadOrgUnitNodes();
         }
       }),
       filter(
@@ -68,6 +68,20 @@ export class OrgUnitService {
           process.success || process.error
       ),
       map(result => result.value)
+    );
+  }
+
+  create(unit: B2BUnit) {
+    this.withUserId(userId =>
+      this.store.dispatch(new OrgUnitActions.CreateUnit({ userId, unit }))
+    );
+  }
+
+  update(unitCode: string, unit: B2BUnit) {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new OrgUnitActions.UpdateUnit({ userId, unitCode, unit })
+      )
     );
   }
 

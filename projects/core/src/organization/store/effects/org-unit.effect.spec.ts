@@ -105,7 +105,7 @@ describe('OrgUnit Effects', () => {
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion, c: completion2 });
 
-      expect(effects.loadOrgUnits$).toBeObservable(expected);
+      expect(effects.loadAvailableOrgUnits$).toBeObservable(expected);
       expect(orgUnitConnector.getList).toHaveBeenCalledWith(userId);
     });
 
@@ -116,7 +116,7 @@ describe('OrgUnit Effects', () => {
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.loadOrgUnits$).toBeObservable(expected);
+      expect(effects.loadAvailableOrgUnits$).toBeObservable(expected);
       expect(orgUnitConnector.getList).toHaveBeenCalledWith(userId);
     });
   });

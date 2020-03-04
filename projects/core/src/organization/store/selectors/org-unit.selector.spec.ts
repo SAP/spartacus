@@ -76,7 +76,7 @@ describe('OrgUnit Selectors', () => {
     it('should return orgUnits', () => {
       let result: EntityLoaderState<B2BUnitNode>;
       store
-        .pipe(select(OrgUnitSelectors.getOrgUnitsState))
+        .pipe(select(OrgUnitSelectors.getOrgUnitNodesState))
         .subscribe(value => (result = value));
 
       store.dispatch(
