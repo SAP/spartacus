@@ -309,7 +309,9 @@ context('Product Configuration', () => {
         'radioGroup',
         'SAMSUNG'
       );
+      cy.wait(1500);
       configuration.clickAddToCartButton();
+      cy.wait(1500);
       cart.verifyCartNotEmpty();
       configuration.verifyOverviewPageIsDisplayed();
       configuration.clickAddToCartButton();
