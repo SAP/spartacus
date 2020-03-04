@@ -139,6 +139,46 @@ export class Test extends PageMetaService {
   }
 }
 `;
+const REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS = `
+import { ActionsSubject } from '@ngrx/store';
+import {
+  CmsService,
+  FeatureConfigService,
+  PageMetaResolver,
+  PageMetaService
+} from '@spartacus/core';
+export class Test extends PageMetaService {
+  constructor(
+    resolvers: PageMetaResolver[],
+    cms: CmsService,
+    featureConfigService?: FeatureConfigService,
+    private actions: ActionsSubject
+  ) {
+    super(resolvers, cms, featureConfigService);
+    console.log(actions);
+  }
+}
+`;
+const REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_EXPECTED_CLASS = `
+import { ActionsSubject } from '@ngrx/store';
+import {
+  CmsService,
+  
+  PageMetaResolver,
+  PageMetaService
+} from '@spartacus/core';
+export class Test extends PageMetaService {
+  constructor(
+    resolvers: PageMetaResolver[],
+    cms: CmsService
+    ,
+    private actions: ActionsSubject
+  ) {
+    super(resolvers, cms );
+    console.log(actions);
+  }
+}
+`;
 
 describe('constructor migrations', () => {
   let host = new TempScopedNodeJsSyncHost();
@@ -319,6 +359,22 @@ describe('constructor migrations', () => {
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(REMOVE_PARAMETER_EXPECTED_CLASS);
+    });
+    describe('when an additional parameter is injected', () => {
+      it('should make the required changes', async () => {
+        writeFile(
+          host,
+          '/src/index.ts',
+          REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS
+        );
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent('/src/index.ts');
+        expect(content).toEqual(
+          REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_EXPECTED_CLASS
+        );
+      });
     });
   });
 });
