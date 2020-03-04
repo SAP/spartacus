@@ -1,0 +1,98 @@
+<ng-container class="container" *ngIf="orgUnit$ | async as orgUnit">
+  <div class="row">
+    <div class="col-md-12 col-lg-6">
+      <div class="cx-header">
+        <h3>{{ 'orgUnit.details' | cxTranslate }}</h3>
+      </div>
+      <div class="row ">
+        <div class="col-6">{{ 'orgUnit.code' | cxTranslate }}</div>
+        <div class="col-6">{{ orgUnit.id }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'orgUnit.name' | cxTranslate }}</div>
+        <div class="col-6">{{ orgUnit.name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'orgUnit.parentUnit' | cxTranslate }}</div>
+        <div class="col-6">{{ orgUnit.orgUnit?.name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'orgUnit.currency' | cxTranslate }}</div>
+        <div class="col-6">{{ orgUnit.currency?.isocode }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'orgUnit.status' | cxTranslate }}</div>
+        <div class="col-6">
+          {{
+            orgUnit.activeFlag
+              ? ('orgUnit.active' | cxTranslate)
+              : ('orgUnit.deactivated' | cxTranslate)
+          }}
+        </div>
+      </div>
+      <div class="row">
+        <div *ngIf="orgUnit.activeFlag; else enable" class="col-md-12 col-lg-6">
+          <button
+            class="btn btn-secondary btn-block"
+            (click)="update({ activeFlag: false })"
+          >
+            {{ 'orgUnit.disable' | cxTranslate }}
+          </button>
+        </div>
+        <ng-template #enable>
+          <div class="col-md-12 col-lg-6">
+            <button
+              class="btn btn-primary btn-block"
+              (click)="update({ activeFlag: true })"
+            >
+              {{ 'orgUnit.enable' | cxTranslate }}
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <div class="row">
+        <div class="col-md-12 col-lg-6">
+          <button
+            [disabled]="!orgUnit.activeFlag"
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitEdit',
+                params: orgUnit
+              } | cxUrl
+            "
+            class="btn btn-primary btn-block"
+          >
+            {{ 'orgUnit.edit' | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'orgUnits'
+              } | cxUrl
+            "
+            class="btn btn-secondary btn-block"
+          >
+            {{ 'orgUnit.back' | cxTranslate }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 col-lg-6">
+    <a
+      [routerLink]="
+        {
+          cxRoute: 'orgUnitAssignBudgets',
+          params: orgUnit
+        } | cxUrl
+      "
+      class="btn btn-primary btn-block"
+    >
+      {{ 'orgUnit.assignBudgets' | cxTranslate }}
+    </a>
+  </div>
+</ng-container>

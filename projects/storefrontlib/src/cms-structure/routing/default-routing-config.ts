@@ -89,8 +89,15 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   orgUnits: {
     paths: ['my-company/organization-management/manage-units'],
   },
-  orgUnit: {
+  orgUnitCreate: {
+    paths: ['my-company/organization-management/manage-units/create'],
+  },
+  orgUnitDetails: {
     paths: ['my-company/organization-management/manage-unit/:code'],
+    paramsMapping: { code: 'orgUnitId' },
+  },
+  orgUnitEdit: {
+    paths: ['my-company/organization-management/manage-unit/edit/:code'],
     paramsMapping: { code: 'orgUnitId' },
   },
   costCenters: {

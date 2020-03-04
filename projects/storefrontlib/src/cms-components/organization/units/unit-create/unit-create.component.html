@@ -1,0 +1,9 @@
+<div class="cx-header">
+  <h3>{{ 'orgUnitForm.create' | cxTranslate }}</h3>
+</div>
+<cx-unit-form
+  [actionBtnLabel]="'orgUnitForm.create' | cxTranslate"
+  [routerBackLink]="{ cxRoute: 'orgUnits' }"
+  (submit)="createOrgUnit($event)"
+>
+</cx-unit-form>
