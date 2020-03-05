@@ -1,10 +1,17 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  Pipe,
+  PipeTransform,
+  Type,
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
-  I18nTestingModule,
   RoutingService,
   BudgetService,
   EntitiesModel,
@@ -20,6 +27,16 @@ import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { TableModule } from '../table/table.module';
 import { InteractiveTableComponent } from './interactive-table.component';
+import { InteractiveTableModule } from './interactive-table.module';
+
+@Component({
+  template: '',
+  selector: 'cx-pagination',
+})
+class MockPaginationComponent {
+  @Input() pagination;
+  @Output() viewPageEvent = new EventEmitter<string>();
+}
 
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
@@ -131,17 +148,17 @@ describe('InteractiveTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
+      imports: [RouterTestingModule, TableModule, InteractiveTableModule],
+      declarations: [
         InteractiveTableComponent,
-        TableModule,
-        I18nTestingModule,
+        MockPaginationComponent,
+        MockUrlPipe,
       ],
-      declarations: [InteractiveTableComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: BudgetService, useClass: MockBudgetService },
       ],
     }).compileComponents();
 
@@ -170,7 +187,7 @@ describe('InteractiveTableComponent', () => {
     budgetList.next(emptyBudgetList);
     fixture.detectChanges();
 
-    expect(fixture.debugElement.query(By.css('.cx-no-budgets'))).not.toBeNull();
+    expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
   });
 
   describe('ngOnInit', () => {

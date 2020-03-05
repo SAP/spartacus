@@ -1,4 +1,12 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import {
+  Pipe,
+  PipeTransform,
+  Type,
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -21,6 +29,7 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
 import { CostCenterListComponent } from './cost-center-list.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
+import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
 
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
@@ -49,7 +58,7 @@ const mockCostCenterList: EntitiesModel<CostCenter> = {
       unit: { name: 'orgName', uid: 'orgUid' },
     },
   ],
-  pagination: { totalResults: 1, sort: 'byName' },
+  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 
@@ -70,10 +79,17 @@ const mockCostCenterUIList = {
       orgUnitId: 'orgUid',
     },
   ],
-  pagination: { totalResults: 1, sort: 'byName' },
+  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
-
+@Component({
+  template: '',
+  selector: 'cx-pagination',
+})
+class MockPaginationComponent {
+  @Input() pagination;
+  @Output() viewPageEvent = new EventEmitter<string>();
+}
 @Pipe({
   name: 'cxUrl',
 })
@@ -125,12 +141,22 @@ describe('CostCenterListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
-      declarations: [CostCenterListComponent, MockUrlPipe],
+      declarations: [
+        CostCenterListComponent,
+        MockUrlPipe,
+        MockPaginationComponent,
+      ],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CostCenterService, useClass: MockCostCenterService },
+        {
+          provide: PaginationConfig,
+          useValue: {
+            pagination: {},
+          },
+        },
       ],
     }).compileComponents();
 
@@ -154,16 +180,20 @@ describe('CostCenterListComponent', () => {
   it('should display No costCenters found page if no costCenters are found', () => {
     const emptyCostCenterList: EntitiesModel<CostCenter> = {
       values: [],
-      pagination: { totalResults: 0, sort: 'byName' },
+      pagination: {
+        totalPages: 0,
+        pageSize: 0,
+        currentPage: 0,
+        totalResults: 0,
+        sort: 'byName',
+      },
       sorts: [{ code: 'byName', selected: true }],
     };
 
     costCenterList.next(emptyCostCenterList);
     fixture.detectChanges();
 
-    expect(
-      fixture.debugElement.query(By.css('.cx-no-costCenters'))
-    ).not.toBeNull();
+    expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
   });
 
   describe('ngOnInit', () => {

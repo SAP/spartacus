@@ -1,4 +1,12 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import {
+  Pipe,
+  PipeTransform,
+  Type,
+  Input,
+  Output,
+  EventEmitter,
+  Component,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -20,6 +28,7 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
 import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
+import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
 
 const code = 'costCenterCode';
 const defaultParams: B2BSearchConfig = {
@@ -55,7 +64,7 @@ const mockBudgetList: EntitiesModel<Budget> = {
       orgUnit: { name: 'orgName', uid: 'orgUid' },
     },
   ],
-  pagination: { totalResults: 1, sort: 'byName' },
+  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 
@@ -78,10 +87,17 @@ const mockBudgetUIList = {
       orgUnitId: 'orgUid',
     },
   ],
-  pagination: { totalResults: 1, sort: 'byName' },
+  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
-
+@Component({
+  template: '',
+  selector: 'cx-pagination',
+})
+class MockPaginationComponent {
+  @Input() pagination;
+  @Output() viewPageEvent = new EventEmitter<string>();
+}
 @Pipe({
   name: 'cxUrl',
 })
@@ -136,12 +152,22 @@ describe('CostCenterAssignBudgetsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
-      declarations: [CostCenterAssignBudgetsComponent, MockUrlPipe],
+      declarations: [
+        CostCenterAssignBudgetsComponent,
+        MockUrlPipe,
+        MockPaginationComponent,
+      ],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CostCenterService, useClass: MockCostCenterService },
+        {
+          provide: PaginationConfig,
+          useValue: {
+            pagination: {},
+          },
+        },
       ],
     }).compileComponents();
 
@@ -172,7 +198,7 @@ describe('CostCenterAssignBudgetsComponent', () => {
     budgetList.next(emptyBudgetList);
     fixture.detectChanges();
 
-    expect(fixture.debugElement.query(By.css('.cx-no-budgets'))).not.toBeNull();
+    expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
   });
 
   describe('ngOnInit', () => {
