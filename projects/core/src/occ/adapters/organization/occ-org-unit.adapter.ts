@@ -49,9 +49,9 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
       .pipe(this.converter.pipeable(B2BUNIT_NORMALIZER));
   }
 
-  loadTree(userId: string, params?: any): Observable<B2BUnit> {
+  loadTree(userId: string, params?: any): Observable<B2BUnitNode> {
     return this.http
-      .get<Occ.B2BUnit>(this.getOrgUnitsTreeEndpoint(userId, params))
+      .get<Occ.B2BUnitNode>(this.getOrgUnitsTreeEndpoint(userId, params))
       .pipe(this.converter.pipeable(B2BUNIT_NODE_NORMALIZER));
   }
 

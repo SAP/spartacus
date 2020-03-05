@@ -1,6 +1,10 @@
 import { Observable } from 'rxjs';
 import { EntitiesModel } from '../../../model/misc.model';
-import { B2BUnitNode, B2BUnit } from '../../../model/org-unit.model';
+import {
+  B2BUnitNode,
+  B2BUnit,
+  B2BApprovalProcess,
+} from '../../../model/org-unit.model';
 
 export abstract class OrgUnitAdapter {
   /**
@@ -25,4 +29,10 @@ export abstract class OrgUnitAdapter {
     orgUnitId: string,
     orgUnit: B2BUnit
   ): Observable<B2BUnit>;
+
+  abstract loadApprovalProcesses(
+    userId: string
+  ): Observable<B2BApprovalProcess>;
+
+  abstract loadTree(userId: string, params?: any): Observable<B2BUnitNode>;
 }

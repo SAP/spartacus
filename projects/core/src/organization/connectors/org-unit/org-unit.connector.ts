@@ -1,8 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrgUnitAdapter } from './org-unit.adapter';
-import { B2BUnitNode, B2BUnit } from '../../../model/org-unit.model';
+import {
+  B2BUnitNode,
+  B2BUnit,
+  B2BApprovalProcess,
+} from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
+import { Occ } from '../../../occ/occ-models/occ.models';
+import {
+  B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
+  B2BUNIT_NODE_NORMALIZER,
+} from './converters';
 
 @Injectable({
   providedIn: 'root',
@@ -31,5 +40,13 @@ export class OrgUnitConnector {
     params?: any
   ): Observable<EntitiesModel<B2BUnitNode>> {
     return this.adapter.loadList(userId, params);
+  }
+
+  getApprovalProcesses(userId: string): Observable<B2BApprovalProcess> {
+    return this.adapter.loadApprovalProcesses(userId);
+  }
+
+  getTree(userId: string, params?: any): Observable<B2BUnitNode> {
+    return this.adapter.loadTree(userId, params);
   }
 }
