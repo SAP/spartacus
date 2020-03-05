@@ -34,6 +34,12 @@ export interface ConstructorDeprecation {
   removeParams?: ClassType[];
 }
 
+export interface DeprecatedNode {
+  node: string;
+  importPath: string;
+  comment?: string;
+}
+
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   const buffer = tree.read(path);
   if (!buffer) {

@@ -37,6 +37,10 @@ export const CART_DATA_SERVICE = 'CartDataService';
 export const ACTIVE_CART_SERVICE = 'ActiveCartService';
 /***** Classes end *****/
 
+/***** Effects start *****/
+export const CART_EFFECTS = 'CartEffects';
+/***** Effects end *****/
+
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 /***** Properties end *****/
