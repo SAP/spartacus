@@ -19,26 +19,6 @@ import {
   writeFile,
 } from '../../shared/utils/test-utils';
 
-const MY_TEST_INIT = `
-    import { Store } from '@ngrx/store';
-    import { StateWithCheckout, CheckoutService, CartDataService } from '@spartacus/core';
-    export class InheritingService extends CheckoutService {
-      constructor(store: Store<StateWithCheckout>, cartDataService: CartDataService) {
-        super(store, cartDataService);
-      }
-    }
-`;
-
-const MY_TEST_ASSERTION = `
-    import { Store } from '@ngrx/store';
-    import { StateWithCheckout, CheckoutService, AuthService, ActiveCartService } from '@spartacus/core';
-    export class InheritingService extends CheckoutService {
-      constructor(store: Store<StateWithCheckout>, authService: AuthService, activeCartService: ActiveCartService) {
-        super(store, authService, activeCartService);
-      }
-    }
-`;
-
 const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-deprecations-03';
 const NOT_INHERITING_SPARTACUS_CLASS = `
     import { Store } from '@ngrx/store';
@@ -124,11 +104,12 @@ export class Test extends PageMetaService {
   }
 }
 `;
+
 const REMOVE_PARAMETER_EXPECTED_CLASS = `
 import { Dummy } from '@angular/core';
 import {
   CmsService,
-
+  
   PageMetaResolver,
   PageMetaService
 } from '@spartacus/core';
@@ -136,11 +117,31 @@ export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
     cms: CmsService
-
+    
   ) {
     super(resolvers, cms );
   }
 }
+`;
+
+const ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS = `
+    import { Store } from '@ngrx/store';
+    import { StateWithCheckout, CheckoutService, CartDataService } from '@spartacus/core';
+    export class InheritingService extends CheckoutService {
+      constructor(store: Store<StateWithCheckout>, cartDataService: CartDataService) {
+        super(store, cartDataService);
+      }
+    }
+`;
+
+const ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS = `
+    import { Store } from '@ngrx/store';
+    import { StateWithCheckout, CheckoutService,  AuthService, ActiveCartService } from '@spartacus/core';
+    export class InheritingService extends CheckoutService {
+      constructor(store: Store<StateWithCheckout> , authService: AuthService, activeCartService: ActiveCartService) {
+        super(store , authService, activeCartService);
+      }
+    }
 `;
 
 describe('constructor migrations', () => {
@@ -241,17 +242,6 @@ describe('constructor migrations', () => {
     });
   });
 
-  fdescribe('adding and removing at the same time', () => {
-    it('should work correctly', async () => {
-      writeFile(host, '/src/index.ts', MY_TEST_INIT);
-
-      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
-
-      const content = appTree.readContent('/src/index.ts');
-      expect(content).toEqual(MY_TEST_ASSERTION);
-    });
-  });
-
   describe('when the class has a CallExpression node which is NOT of type super', () => {
     it('should skip it', async () => {
       const filePath = '/src/index.ts';
@@ -301,6 +291,21 @@ describe('constructor migrations', () => {
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(REMOVE_PARAMETER_EXPECTED_CLASS);
+    });
+  });
+
+  describe('when all the pre-conditions are valid for adding and removing parameters', () => {
+    it('should make the required changes', async () => {
+      writeFile(
+        host,
+        '/src/index.ts',
+        ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS
+      );
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS);
     });
   });
 });
