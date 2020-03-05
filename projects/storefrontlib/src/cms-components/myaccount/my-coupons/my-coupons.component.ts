@@ -64,7 +64,6 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.couponService.loadCustomerCoupons(this.PAGE_SIZE);
     this.couponResult$ = this.couponService
       .getCustomerCoupons(this.PAGE_SIZE)
       .pipe(

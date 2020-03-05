@@ -15,7 +15,7 @@ export const CouponWithOpenCatalog = 'dragonboat';
 export const CouponWithProductCategory = 'springfestival';
 export const CouponWithProducts = 'midautumn';
 export const PageSize = 10;
-export const NumberInPage2 = 2;
+export const NumberInPage2 = 1;
 
 export function verifyPagingAndSorting() {
   const firstCouponStartDateAscending = 'customerCoupon1';
@@ -70,6 +70,9 @@ export function verifyClaimCouponSuccessAsAnonymous(couponCode: string) {
   cy.location('pathname').should('contain', myCouponsContainUrl);
   cy.get('.cx-coupon-card').within(() => {
     cy.get('.cx-coupon-card-id').should('contain', couponCode);
+  });
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
   });
 }
 
