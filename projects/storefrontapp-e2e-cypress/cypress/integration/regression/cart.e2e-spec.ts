@@ -57,12 +57,12 @@ describe('Cart', () => {
     cy.wait(2000);
     cy.window().then(window => {
       const storage = JSON.parse(
-        window.localStorage.getItem('spartacus-local-data')
+        window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
       );
-      const cartCode = storage['multi-cart'].active;
-      storage['multi-cart'].active = 'incorrect-code';
+      const cartCode = storage.active;
+      storage.active = 'incorrect-code';
       window.localStorage.setItem(
-        'spartacus-local-data',
+        'spartacus⚿electronics-spa⚿cart',
         JSON.stringify(storage)
       );
       cy.visit('/cart');
@@ -283,5 +283,31 @@ describe('Cart', () => {
     cart.checkAddedToCartDialog();
     cy.visit('/cart');
     cart.validateEmptyCart();
+  });
+
+  it('should have separate cart on each base site', () => {
+    cy.visit(`/product/${cart.products[0].code}`);
+    cart.addToCart();
+    cart.checkAddedToCartDialog();
+    cart.closeAddedToCartDialog();
+
+    const apparelProduct = {
+      code: '300310300',
+      name: 'Wallet Dakine Agent Leather Wallet brown',
+      price: 33.96,
+    };
+
+    cy.visit(`/apparel-uk-spa/en/GBP/product/${apparelProduct.code}`);
+    cart.addToCart();
+    cart.checkAddedToCartDialog();
+    cart.closeAddedToCartDialog();
+
+    cy.visit('/electronics-spa/en/USD/cart');
+    cart.checkProductInCart(cart.products[0]);
+    alerts.getErrorAlert().should('not.contain', 'Cart not found');
+
+    cy.visit(`/apparel-uk-spa/en/GBP/cart`);
+    cart.checkProductInCart(apparelProduct, 1, 'GBP');
+    alerts.getErrorAlert().should('not.contain', 'Cart not found');
   });
 });
