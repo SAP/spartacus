@@ -25,7 +25,6 @@ export function addProductToCart(productCode: string) {
 
   const waitForCart: string = waitForPage('/cart', 'waitForCart');
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.get('div.cx-dialog-item.col-sm-12.col-md-6').click();
     cy.get('.cx-code').should('contain', productCode);
     cy.getByText(/view cart/i).click();
   });
