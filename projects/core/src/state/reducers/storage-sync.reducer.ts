@@ -129,7 +129,7 @@ export function getStorage(
 
 export function persistToStorage(
   configKey: string,
-  value: Object,
+  value: any,
   storage: Storage
 ): void {
   if (!isSsr(storage) && value) {
@@ -137,7 +137,7 @@ export function persistToStorage(
   }
 }
 
-export function readFromStorage(storage: Storage, key: string): Object {
+export function readFromStorage(storage: Storage, key: string): any {
   if (isSsr(storage)) {
     return;
   }
