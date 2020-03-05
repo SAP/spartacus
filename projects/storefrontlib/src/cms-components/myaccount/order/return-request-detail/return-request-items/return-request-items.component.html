@@ -42,22 +42,20 @@
                 {{ returnEntry.orderEntry?.product.code }}
               </div>
               <!-- Variants -->
-              <ng-container>
-                <div
-                  *ngFor="
-                    let variant of (returnEntry.orderEntry?.product
-                      .baseOptions)[0]?.selected?.variantOptionQualifiers
-                  "
-                  class="cx-property"
-                >
-                  <div class="cx-label" *ngIf="variant.name">
-                    {{ variant.name }}:
-                  </div>
-                  <div class="cx-value" *ngIf="variant.value">
-                    {{ variant.value }}
-                  </div>
+              <div
+                *ngFor="
+                  let variant of (returnEntry.orderEntry?.product
+                    .baseOptions)[0]?.selected?.variantOptionQualifiers
+                "
+                class="cx-property"
+              >
+                <div class="cx-label" *ngIf="variant.name">
+                  {{ variant.name }}:
                 </div>
-              </ng-container>
+                <div class="cx-value" *ngIf="variant.value">
+                  {{ variant.value }}
+                </div>
+              </div>
             </div>
             <!-- Item Price -->
             <div
