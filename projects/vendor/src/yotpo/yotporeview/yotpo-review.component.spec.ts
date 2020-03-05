@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -45,7 +44,7 @@ describe('YotporeviewComponent', () => {
     fixture = TestBed.createComponent(YotporeviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    service = TestBed.get(YotpoService as Type<YotpoService>);
+    service = TestBed.inject(YotpoService);
   });
 
   it('should create', () => {

@@ -8,7 +8,12 @@ export interface RegisterUser {
   password: string;
 }
 
-export function register(
+export interface LoginUser {
+  username: string;
+  password: string;
+}
+
+export function fillRegistrationForm(
   { firstName, lastName, email, password }: RegisterUser,
   giveRegistrationConsent = false,
   hiddenConsent?
@@ -29,11 +34,10 @@ export function register(
       }
     }
     cy.get('[formcontrolname="termsandconditions"]').check();
-    cy.get('button[type="submit"]').click();
   });
 }
 
-export function login(username: string, password: string) {
+export function fillLoginForm({ username, password }: LoginUser) {
   cy.get('cx-login-form form').within(() => {
     cy.get('[formcontrolname="userId"]')
       .clear()
@@ -43,4 +47,15 @@ export function login(username: string, password: string) {
       .type(password);
     cy.get('button[type=submit]').click();
   });
+}
+
+export function register(user: RegisterUser) {
+  fillRegistrationForm(user);
+  cy.get('cx-register form').within(() => {
+    cy.get('button[type="submit"]').click();
+  });
+}
+
+export function login(username: string, password: string) {
+  fillLoginForm({ username, password });
 }

@@ -35,7 +35,7 @@ describe(`JavaRegExpConverter`, () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    converter = TestBed.get(JavaRegExpConverter);
+    converter = TestBed.inject(JavaRegExpConverter);
   });
 
   describe(`toJsRegExp`, () => {

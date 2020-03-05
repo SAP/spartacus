@@ -1,7 +1,7 @@
 import { formats } from '../../../sample-data/viewports';
 import * as notification from '../../../helpers/notification';
 
-describe.skip(`${formats.mobile.width +
+describe(`${formats.mobile.width +
   1}p resolution - Stock Notification for guest`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
@@ -13,7 +13,7 @@ describe.skip(`${formats.mobile.width +
   });
 });
 
-describe.skip(`${formats.mobile.width +
+describe(`${formats.mobile.width +
   1}p resolution - Stock Notification for customer`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);

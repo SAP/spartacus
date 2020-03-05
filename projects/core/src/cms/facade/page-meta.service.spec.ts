@@ -1,4 +1,4 @@
-import { Injectable, Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { FeatureConfigService } from '../../features-config';
@@ -124,9 +124,9 @@ describe('PageTitleService', () => {
       ],
     });
 
-    service = TestBed.get(PageMetaService as Type<PageMetaService>);
-    cmsService = TestBed.get(CmsService as Type<CmsService>);
-    featureConfigService = TestBed.get(FeatureConfigService);
+    service = TestBed.inject(PageMetaService);
+    cmsService = TestBed.inject(CmsService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
   });
 
   it('PageTitleService should be created', inject(
@@ -139,7 +139,7 @@ describe('PageTitleService', () => {
   describe('FeatureLevel 1.3', () => {
     it('should call resolve() on resolver class)', () => {
       spyOn(featureConfigService, 'isLevel').and.returnValue(false);
-      const resolver: ContentPageResolver = TestBed.get(ContentPageResolver);
+      const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
       spyOn(resolver, 'resolve').and.callThrough();
       service
         .getMeta()
@@ -150,7 +150,7 @@ describe('PageTitleService', () => {
 
     it('should not call resolve() on resolver class)', () => {
       spyOn(featureConfigService, 'isLevel').and.returnValue(true);
-      const resolver: ContentPageResolver = TestBed.get(ContentPageResolver);
+      const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
       spyOn(resolver, 'resolve').and.callThrough();
       service
         .getMeta()
@@ -162,7 +162,7 @@ describe('PageTitleService', () => {
     it('should resolve page title using resolveTitle()', () => {
       spyOn(featureConfigService, 'isLevel').and.returnValue(true);
 
-      const resolver: ContentPageResolver = TestBed.get(ContentPageResolver);
+      const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
       spyOn(resolver, 'resolveTitle').and.callThrough();
 
       service

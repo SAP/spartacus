@@ -1,9 +1,7 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { UserOrderAdapter } from './user-order.adapter';
 import { UserOrderConnector } from './user-order.connector';
-
 import createSpy = jasmine.createSpy;
 
 class MockOrderAdapter implements UserOrderAdapter {
@@ -35,8 +33,10 @@ class MockOrderAdapter implements UserOrderAdapter {
     of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
   );
 
-  cancel = createSpy('UserOrderAdapter.cancel').and.callFake(
-    (userId, orderCode, {}) => of(`cancel-${userId}-${orderCode}`)
+  cancel = createSpy(
+    'UserOrderAdapter.cancel'
+  ).and.callFake((userId, orderCode, {}) =>
+    of(`cancel-${userId}-${orderCode}`)
   );
 
   cancelReturnRequest = createSpy(
@@ -55,8 +55,8 @@ describe('UserOrderConnector', () => {
       providers: [{ provide: UserOrderAdapter, useClass: MockOrderAdapter }],
     });
 
-    service = TestBed.get(UserOrderConnector as Type<UserOrderConnector>);
-    adapter = TestBed.get(UserOrderAdapter as Type<UserOrderAdapter>);
+    service = TestBed.inject(UserOrderConnector);
+    adapter = TestBed.inject(UserOrderAdapter);
   });
 
   it('should be created', () => {

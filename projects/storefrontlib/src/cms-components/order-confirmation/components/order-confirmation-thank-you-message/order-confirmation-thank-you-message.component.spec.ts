@@ -1,10 +1,9 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CheckoutService, I18nTestingModule, Order } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
-
 import createSpy = jasmine.createSpy;
 
 @Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
@@ -51,7 +50,7 @@ describe('OrderConfirmationComponent', () => {
       OrderConfirmationThankYouMessageComponent
     );
     component = fixture.componentInstance;
-    checkoutService = TestBed.get(CheckoutService as Type<CheckoutService>);
+    checkoutService = TestBed.inject(CheckoutService);
   });
 
   it('should create', () => {

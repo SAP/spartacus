@@ -1,144 +1,199 @@
-import { Component } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IconLoaderService } from './icon-loader.service';
+import { IconComponent } from './icon.component';
 import { ICON_TYPE } from './icon.model';
 import { IconModule } from './icon.module';
 
 @Component({
   selector: 'cx-icon-test',
-  template: '<cx-icon type="CART"></cx-icon>',
+  template: `
+    <cx-icon type="CART"></cx-icon>
+    <button cxIcon="CART"></button>
+    <div cxIcon type="CART"></div>
+    <p class="original" cxIcon="CART"></p>
+  `,
 })
-export class MockIconTestComponent {}
+class MockIconTestComponent {}
 
-@Component({
-  selector: 'cx-icon-test-small',
-  template: '<cx-icon type="CART" class="small"></cx-icon>',
-})
-export class MockIconSmallTestComponent {}
-
-export class MockIconFontLoaderService {
-  useSvg(_iconType: ICON_TYPE) {
-    return false;
+export class MockIconLoaderService {
+  getStyleClasses(iconType: ICON_TYPE) {
+    return iconType;
   }
-  getStyleClasses(_iconType: ICON_TYPE): string {
-    return 'fas fa-shopping-cart';
-  }
-  addLinkResource() {}
-}
-
-export class MockSvgIconLoaderService {
-  useSvg(_iconType: ICON_TYPE) {
-    return true;
-  }
-
-  getSvgPath(_type: ICON_TYPE): string {
-    return 'icon/path.svg#cart';
+  getHtml(icon: ICON_TYPE) {
+    return `<p>${icon}</p>`;
   }
   addLinkResource() {}
 }
 
 describe('IconComponent', () => {
-  let component: MockIconTestComponent;
-  let fixture: ComponentFixture<MockIconTestComponent>;
+  let component: IconComponent;
+  let fixture: ComponentFixture<IconComponent>;
+  let service: IconLoaderService;
 
-  describe('font based icons', () => {
-    beforeEach(async(() => {
-      TestBed.configureTestingModule({
-        imports: [IconModule],
-        declarations: [MockIconTestComponent],
-        providers: [
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-        ],
-      }).compileComponents();
-    }));
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [],
+      declarations: [IconComponent],
+      providers: [
+        { provide: IconLoaderService, useClass: MockIconLoaderService },
+      ],
+    }).compileComponents();
+  }));
 
-    beforeEach(() => {
-      fixture = TestBed.createComponent(MockIconTestComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(IconComponent);
+    component = fixture.componentInstance;
+    service = TestBed.inject(IconLoaderService);
+    spyOn(service, 'addLinkResource').and.callThrough();
+  });
 
+  describe('controller', () => {
     it('should be created', () => {
       expect(component).toBeTruthy();
     });
 
+    it('should not have a default icon', () => {
+      expect(component.icon).toBeFalsy();
+    });
+
+    it('should create an icon based on type input', () => {
+      expect(component.icon).toBeFalsy();
+      component.type = ICON_TYPE.CART;
+      expect(component.icon).toEqual('<p>CART</p>');
+    });
+
+    it('should create an icon based on cxIcon input', () => {
+      expect(component.icon).toBeFalsy();
+      component.cxIcon = ICON_TYPE.AMEX;
+      expect(component.icon).toEqual('<p>AMEX</p>');
+    });
+
+    it('should create an icon based multiple inputs', () => {
+      expect(component.icon).toBeFalsy();
+      component.type = ICON_TYPE.CART;
+      component.cxIcon = ICON_TYPE.AMEX;
+      expect(component.icon).toEqual('<p>AMEX</p>');
+    });
+
+    it('should not create an icon for null value', () => {
+      component.type = null;
+      expect(component.icon).toBeFalsy();
+    });
+
+    it(`should not create an icon for '' value`, () => {
+      component.type = <any>'';
+      expect(component.icon).toBeFalsy();
+    });
+  });
+
+  describe('UI tests', () => {
+    let debugElement: DebugElement;
+
+    beforeEach(() => {
+      debugElement = fixture.debugElement;
+    });
+
+    it('should add CSS class to host element', () => {
+      component.type = ICON_TYPE.CART;
+      fixture.detectChanges();
+      const classList = (debugElement.nativeElement as HTMLElement).classList;
+      expect(classList).toContain('cx-icon');
+      expect(classList).toContain('CART');
+    });
+
+    it('should add multiple CSS classes to host element', () => {
+      spyOn(service, 'getStyleClasses').and.returnValue('multiple classes');
+      component.type = ICON_TYPE.CART;
+      fixture.detectChanges();
+      const classList = (debugElement.nativeElement as HTMLElement).classList;
+      expect(classList).toContain('cx-icon');
+      expect(classList).toContain('multiple');
+      expect(classList).toContain('classes');
+    });
+
+    it('should call addLinkResource', () => {
+      component.type = ICON_TYPE.CART;
+      fixture.detectChanges();
+      expect(service.addLinkResource).toHaveBeenCalled();
+    });
+  });
+});
+
+describe('host icon components', () => {
+  let hostComponent: MockIconTestComponent;
+  let service: IconLoaderService;
+  let fixture: ComponentFixture<MockIconTestComponent>;
+  let debugElement;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [IconModule],
+      declarations: [MockIconTestComponent],
+      providers: [
+        { provide: IconLoaderService, useClass: MockIconLoaderService },
+      ],
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(IconComponent);
+    service = TestBed.inject(IconLoaderService);
+
+    spyOn(service, 'getStyleClasses').and.returnValue('font based');
+    spyOn(service, 'addLinkResource').and.callThrough();
+    fixture = TestBed.createComponent(MockIconTestComponent);
+    hostComponent = fixture.componentInstance;
+  });
+
+  it('should be created', () => {
+    fixture.detectChanges();
+    expect(hostComponent).toBeTruthy();
+  });
+
+  describe('font based icons', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+      debugElement = fixture.debugElement;
+      service = TestBed.inject(IconLoaderService);
+    });
+
     it('should not render an inline svg object', () => {
-      const debugElement = fixture.debugElement;
       const element = debugElement.query(By.css('svg'));
       expect(element).toBeFalsy();
     });
 
-    it('should render the symbol classes in the classlist', () => {
-      const debugElement = fixture.debugElement;
+    it('should add resource for all icons (4 times)', () => {
+      expect(service.addLinkResource).toHaveBeenCalledTimes(4);
+    });
+
+    it('should add the symbol classes for the icon component classlist', () => {
       const element = debugElement.query(By.css('cx-icon'));
-      expect(element.nativeElement.classList).toContain('fas');
-      expect(element.nativeElement.classList).toContain('fa-shopping-cart');
-    });
-  });
-
-  describe('Small icons', () => {
-    beforeEach(async(() => {
-      TestBed.configureTestingModule({
-        imports: [IconModule],
-        declarations: [MockIconSmallTestComponent],
-        providers: [
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-        ],
-      }).compileComponents();
-    }));
-
-    beforeEach(() => {
-      fixture = TestBed.createComponent(MockIconSmallTestComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
+      expect(element.nativeElement.classList).toContain('font');
+      expect(element.nativeElement.classList).toContain('based');
     });
 
-    it('should be created', () => {
-      expect(component).toBeTruthy();
+    it('should add the symbol classes to a button with cxIcon attribute', () => {
+      const element = debugElement.query(By.css('button'));
+      expect(element.nativeElement.classList).toContain('cx-icon');
+      expect(element.nativeElement.classList).toContain('font');
+      expect(element.nativeElement.classList).toContain('based');
     });
 
-    it('should render remain the small style class', () => {
-      const debugElement = fixture.debugElement;
-      const element = debugElement.query(By.css('cx-icon'));
-      expect(element.nativeElement.classList).toContain('small');
-      expect(element.nativeElement.classList).toContain('fa-shopping-cart');
-    });
-  });
-
-  describe('SVG based icons', () => {
-    beforeEach(async(() => {
-      TestBed.configureTestingModule({
-        imports: [IconModule],
-        declarations: [MockIconTestComponent],
-        providers: [
-          { provide: IconLoaderService, useClass: MockSvgIconLoaderService },
-        ],
-      }).compileComponents();
-    }));
-
-    beforeEach(() => {
-      fixture = TestBed.createComponent(MockIconTestComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
+    it('should use type attribute as an input for cxIcon directive', () => {
+      const element = debugElement.query(By.css('div'));
+      expect(element.nativeElement.classList).toContain('cx-icon');
+      expect(element.nativeElement.classList).toContain('font');
+      expect(element.nativeElement.classList).toContain('based');
     });
 
-    it('should be created', () => {
-      expect(component).toBeTruthy();
-    });
-
-    it('should render an inline svg object', () => {
-      const debugElement = fixture.debugElement;
-      const element = debugElement.query(By.css('svg'));
-      expect(element).toBeTruthy();
-    });
-
-    it('should render an svg element that uses a link to an external SVG file', () => {
-      const debugElement = fixture.debugElement;
-      const element = debugElement.query(By.css('svg use'));
-      expect(element.nativeElement.attributes['xlink:href'].value).toBe(
-        'icon/path.svg#cart'
-      );
+    it('should remain existing classes on the host element', () => {
+      const element = debugElement.query(By.css('p'));
+      expect(element.nativeElement.classList).toContain('cx-icon');
+      expect(element.nativeElement.classList).toContain('font');
+      expect(element.nativeElement.classList).toContain('based');
+      expect(element.nativeElement.classList).toContain('original');
     });
   });
 });

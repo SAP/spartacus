@@ -6,10 +6,9 @@ import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserInterestsService } from './user-interests.service';
-import { Type } from '@angular/core';
 import {
-  ProductInterestSearchResult,
   NotificationType,
+  ProductInterestSearchResult,
 } from '../../model/product-interest.model';
 
 const emptyInterestList: ProductInterestSearchResult = {
@@ -35,9 +34,9 @@ describe('UserInterestsService', () => {
       providers: [UserInterestsService],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(UserInterestsService as Type<UserInterestsService>);
+    service = TestBed.inject(UserInterestsService);
   });
 
   it('should UserInterestsService is injected', inject(

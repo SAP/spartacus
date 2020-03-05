@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, Product, PRODUCT_NORMALIZER } from '@spartacus/core';
 import { OccReturnRequestNormalizer } from './occ-return-request-normalizer';
@@ -11,10 +10,8 @@ describe('OccReturnRequestNormalizer', () => {
     TestBed.configureTestingModule({
       providers: [OccReturnRequestNormalizer],
     });
-    normalizer = TestBed.get(OccReturnRequestNormalizer as Type<
-      OccReturnRequestNormalizer
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
+    normalizer = TestBed.inject(OccReturnRequestNormalizer);
+    converter = TestBed.inject(ConverterService);
     spyOn(converter, 'convert').and.callFake(
       product =>
         ({

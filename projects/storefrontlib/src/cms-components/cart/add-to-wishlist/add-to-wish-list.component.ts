@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../cms-components/misc/index';
+import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { CurrentProductService } from '../../product/current-product.service';
 
 @Component({

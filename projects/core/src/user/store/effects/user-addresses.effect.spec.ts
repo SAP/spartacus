@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -49,14 +48,10 @@ describe('User Addresses effect', () => {
       ],
     });
 
-    userAddressesEffect = TestBed.get(
-      fromUserAddressesEffect.UserAddressesEffects as Type<
-        fromUserAddressesEffect.UserAddressesEffects
-      >
+    userAddressesEffect = TestBed.inject(
+      fromUserAddressesEffect.UserAddressesEffects
     );
-    userAddressConnector = TestBed.get(UserAddressConnector as Type<
-      UserAddressConnector
-    >);
+    userAddressConnector = TestBed.inject(UserAddressConnector);
 
     spyOn(userAddressConnector, 'getAll').and.returnValue(
       of(mockUserAddresses)

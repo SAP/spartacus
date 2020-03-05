@@ -2,9 +2,10 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import * as path from 'path';
-import { Schema as ApplicationOptions } from '@schematics/angular/application/schema';
 import { Style } from '@angular/cli/lib/config/schema';
+import { Schema as ApplicationOptions } from '@schematics/angular/application/schema';
+import * as path from 'path';
+import { UTF_8 } from '../shared/constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -75,7 +76,7 @@ describe('add-ssr', () => {
       const buffer = appTree.read('package.json');
       expect(buffer).toBeTruthy();
       if (buffer) {
-        const packageJsonFileObject = JSON.parse(buffer.toString('utf-8'));
+        const packageJsonFileObject = JSON.parse(buffer.toString(UTF_8));
         expect(packageJsonFileObject.scripts['build:ssr']).toBeTruthy();
         expect(packageJsonFileObject.scripts['serve:ssr']).toBeTruthy();
       }
@@ -87,7 +88,7 @@ describe('add-ssr', () => {
       const buffer = appTree.read('angular.json');
       expect(buffer).toBeTruthy();
       if (buffer) {
-        const angularJsonFileObject = JSON.parse(buffer.toString('utf-8'));
+        const angularJsonFileObject = JSON.parse(buffer.toString(UTF_8));
         const projectArchitectObject =
           angularJsonFileObject.projects[defaultOptions.project].architect.build
             .options;
@@ -100,7 +101,7 @@ describe('add-ssr', () => {
       const buffer = appTree.read('angular.json');
       expect(buffer).toBeTruthy();
       if (buffer) {
-        const angularJsonFileObject = JSON.parse(buffer.toString('utf-8'));
+        const angularJsonFileObject = JSON.parse(buffer.toString(UTF_8));
         const projectArchitectObject =
           angularJsonFileObject.projects[defaultOptions.project].architect;
         expect(projectArchitectObject['server']).toBeTruthy();
@@ -118,7 +119,7 @@ describe('add-ssr', () => {
       const buffer = appTree.read(appServerModulePath);
       expect(buffer).toBeTruthy();
       if (buffer) {
-        const appServerModule = buffer.toString('utf-8');
+        const appServerModule = buffer.toString(UTF_8);
         expect(
           appServerModule.includes('ServerTransferStateModule')
         ).toBeTruthy();
@@ -139,7 +140,7 @@ describe('add-ssr', () => {
       const buffer = appTree.read(indexHtmlPath);
       expect(buffer).toBeTruthy();
       if (buffer) {
-        const indexHtmlFile = buffer.toString('utf-8');
+        const indexHtmlFile = buffer.toString(UTF_8);
         expect(
           indexHtmlFile.includes('meta name="occ-backend-base-url"')
         ).toBeTruthy();
@@ -152,7 +153,7 @@ describe('add-ssr', () => {
       const buffer = appTree.read('./webpack.server.config.js');
       expect(buffer).toBeTruthy();
       if (buffer) {
-        const webpackConfigFile = buffer.toString('utf-8');
+        const webpackConfigFile = buffer.toString(UTF_8);
         expect(webpackConfigFile.length).toBeGreaterThan(0);
       }
     });
@@ -163,7 +164,7 @@ describe('add-ssr', () => {
       const buffer = appTree.read('./src/main.server.ts');
       expect(buffer).toBeTruthy();
       if (buffer) {
-        const mainServerFileString = buffer.toString('utf-8');
+        const mainServerFileString = buffer.toString(UTF_8);
         expect(mainServerFileString.length).toBeGreaterThan(0);
 
         expect(
