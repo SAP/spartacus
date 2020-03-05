@@ -161,8 +161,12 @@ Some examples:
 - adding a comment above the removed API method, guiding customers which method they can use instead.
 - adding a comment above the Ngrx action in which we changed parameters
 
-#### HTML and CSS
+#### Component deprecation
 
-Similar to [constructor deprecation](#Constructor-deprecation), `projects/schematics/src/migrations/2_0/component-selectors.ts` performs the html migration tasks. Usually, a developer does not need to touch this file, but they should rather describe the html deprecation in `projects/schematics/src/migrations/2_0/component-selectors-data.ts`. The constant `COMPONENT_SELECTOR_DEPRECATION_DATA` describes the deprecated selectors and has a `comment` property. If needed, there's a `projects/schematics/src/shared/utils/file-utils.ts#insertHtmlComment` method, where you will provide a Spartacus component selector, above which the schematic will insert a comment.
+Similar to [constructor deprecation](#Constructor-deprecation), `projects/schematics/src/migrations/2_0/component-deprecations.ts` performs the component migration tasks, for both component _*.ts_ and _HTML_ templates. Usually, a developer does not need to touch this file, and they should rather describe the component deprecation in `projects/schematics/src/migrations/2_0/component-deprecations-data.ts`. The constant `COMPONENT_DEPRECATION_DATA` describes the deprecated components.
+
+If needed, there's a `projects/schematics/src/shared/utils/file-utils.ts#insertHtmlComment` method, to which you can provide a Spartacus component selector, above which the schematic will insert a comment.
+
+#### CSS
 
 To handle CSS changes, we are printing a link to the CSS docs, where customers can look up which CSS selectors have changed between Spartacus versions. For this reason, if making a change to a CSS selector, please update this docs. (link to follow).
