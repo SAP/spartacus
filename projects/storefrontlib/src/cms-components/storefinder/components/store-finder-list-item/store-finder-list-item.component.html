@@ -4,19 +4,16 @@
       {{ listOrderLabel }}
     </div>
     <div class="cx-store-name">
-      <a
+      <button
         *ngIf="useClickEvent"
         (click)="handleStoreItemClick()"
         (keyup)="onKey($event)"
-        tabindex="0"
-        >{{ location.displayName || location.name }}</a
       >
-      <a
-        *ngIf="!useClickEvent"
-        [href]="prepareRouteUrl(location)"
-        tabindex="0"
-        >{{ location.displayName || location.name }}</a
-      >
+        {{ location.displayName || location.name }}
+      </button>
+      <a *ngIf="!useClickEvent" [href]="prepareRouteUrl(location)">{{
+        location.displayName || location.name
+      }}</a>
     </div>
     <div class="cx-store-address" *ngIf="location.address">
       <div class="cx-store-address-street">
@@ -37,7 +34,6 @@
       </div>
     </div>
     <a
-      tabindex="0"
       href="{{ getDirections(location) }}"
       target="_blank"
       class="btn btn-sm btn-action btn-block cx-button"

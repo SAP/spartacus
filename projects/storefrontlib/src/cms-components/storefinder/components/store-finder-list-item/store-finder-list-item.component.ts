@@ -21,8 +21,8 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
 
   constructor(
     protected storeDataService: StoreDataService,
-    private route: ActivatedRoute,
-    private routingService: RoutingService
+    protected route: ActivatedRoute,
+    protected routingService: RoutingService
   ) {
     super(storeDataService);
   }

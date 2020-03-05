@@ -22,7 +22,25 @@
     @include type('6');
     cursor: default;
     min-height: 40px;
-    .cx-store-name a {
+    button {
+      text-align: left;
+      border: none;
+      margin: 0;
+      padding: 0;
+      width: auto;
+      overflow: visible;
+      background: transparent;
+      color: var(--cx-color-primary);
+      font-weight: var(--cx-font-weight-semi);
+      &:focus {
+        text-decoration: underline;
+      }
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+    a {
       &:hover {
         cursor: pointer;
         text-decoration: underline;
