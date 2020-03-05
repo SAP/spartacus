@@ -24,10 +24,10 @@ import { BudgetFormModule } from '../budget-form/budget-form.module';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
 
-const budgetCode = 'b1';
+const code = 'b1';
 
 const mockBudget: Budget = {
-  code: budgetCode,
+  code,
   name: 'budget1',
   budget: 2230,
   currency: {
@@ -69,7 +69,7 @@ class MockBudgetService implements Partial<BudgetService> {
 const mockRouterState = {
   state: {
     params: {
-      budgetCode,
+      code,
     },
   },
 };
@@ -159,8 +159,8 @@ describe('BudgetEditComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(budgetsService.loadBudget).toHaveBeenCalledWith(budgetCode);
-      expect(budgetsService.get).toHaveBeenCalledWith(budgetCode);
+      expect(budgetsService.loadBudget).toHaveBeenCalledWith(code);
+      expect(budgetsService.get).toHaveBeenCalledWith(code);
       expect(budget).toEqual(mockBudget);
     });
   });
@@ -169,16 +169,13 @@ describe('BudgetEditComponent', () => {
     it('should update budget', () => {
       component.ngOnInit();
       const updateBudget = {
-        code: budgetCode,
+        code: code,
         name: 'newName',
         active: false,
       };
 
       component.updateBudget(updateBudget);
-      expect(budgetsService.update).toHaveBeenCalledWith(
-        budgetCode,
-        updateBudget
-      );
+      expect(budgetsService.update).toHaveBeenCalledWith(code, updateBudget);
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'budgetDetails',
         params: updateBudget,

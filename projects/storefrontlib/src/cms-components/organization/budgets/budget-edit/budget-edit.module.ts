@@ -4,9 +4,7 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe,
   I18nModule,
-  UserService,
 } from '@spartacus/core';
 import { BudgetEditComponent } from './budget-edit.component';
 import { BudgetFormModule } from '../budget-form/budget-form.module';
@@ -38,7 +36,6 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
   ],
   declarations: [BudgetEditComponent],
   exports: [BudgetEditComponent],
-  providers: [UserService, CxDatePipe],
   entryComponents: [BudgetEditComponent],
 })
 export class BudgetEditModule {}

@@ -6,21 +6,20 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   RoutingService,
-  CostCenterService,
+  BudgetService,
   EntitiesModel,
   B2BSearchConfig,
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
-  CostCenter,
+  Budget,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
-
-import { CostCenterListComponent } from './cost-center-list.component';
 import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
+import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
+import { TableModule } from '../table/table.module';
+import { InteractiveTableComponent } from './interactive-table.component';
 
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
@@ -28,44 +27,52 @@ const defaultParams: B2BSearchConfig = {
   pageSize: 5,
 };
 
-const mockCostCenterList: EntitiesModel<CostCenter> = {
+const mockBudgetList: EntitiesModel<Budget> = {
   values: [
     {
-      code: 'c1',
-      name: 'n1',
+      code: '1',
+      name: 'b1',
+      budget: 2230,
       currency: {
-        symbol: '$',
         isocode: 'USD',
+        symbol: '$',
       },
-      unit: { name: 'orgName', uid: 'orgUid' },
+      startDate: '2010-01-01T00:00:00+0000',
+      endDate: '2034-07-12T00:59:59+0000',
+      orgUnit: { name: 'orgName', uid: 'orgUid' },
     },
     {
-      code: 'c2',
-      name: 'n2',
+      code: '2',
+      name: 'b2',
+      budget: 2240,
       currency: {
-        symbol: '$',
         isocode: 'USD',
+        symbol: '$',
       },
-      unit: { name: 'orgName', uid: 'orgUid' },
+      startDate: '2020-01-01T00:00:00+0000',
+      endDate: '2024-07-12T00:59:59+0000',
+      orgUnit: { name: 'orgName', uid: 'orgUid' },
     },
   ],
   pagination: { totalResults: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 
-const mockCostCenterUIList = {
-  values: [
+const mockBudgetUIList = {
+  budgetsList: [
     {
-      code: 'c1',
-      name: 'n1',
-      currency: 'USD',
+      code: '1',
+      name: 'b1',
+      amount: '2230 $',
+      startEndDate: '2010-01-01 - 2034-07-12',
       parentUnit: 'orgName',
       orgUnitId: 'orgUid',
     },
     {
-      code: 'c2',
-      name: 'n2',
-      currency: 'USD',
+      code: '2',
+      name: 'b2',
+      amount: '2240 $',
+      startEndDate: '2020-01-01 - 2024-07-12',
       parentUnit: 'orgName',
       orgUnitId: 'orgUid',
     },
@@ -81,12 +88,12 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-const costCenterList = new BehaviorSubject(mockCostCenterList);
+const budgetList = new BehaviorSubject(mockBudgetList);
 
-class MockCostCenterService implements Partial<CostCenterService> {
-  loadCostCenters = createSpy('loadCostCenters');
+class MockBudgetService implements Partial<BudgetService> {
+  loadBudgets = createSpy('loadBudgets');
 
-  getList = createSpy('getList').and.returnValue(costCenterList);
+  getList = createSpy('getList').and.returnValue(budgetList);
 }
 
 class MockRoutingService {
@@ -116,34 +123,36 @@ class MockCxDatePipe {
   }
 }
 
-describe('CostCenterListComponent', () => {
-  let component: CostCenterListComponent;
-  let fixture: ComponentFixture<CostCenterListComponent>;
-  let costCentersService: MockCostCenterService;
+describe('InteractiveTableComponent', () => {
+  let component: InteractiveTableComponent;
+  let fixture: ComponentFixture<InteractiveTableComponent>;
+  let budgetsService: MockBudgetService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
-      declarations: [CostCenterListComponent, MockUrlPipe],
+      imports: [
+        RouterTestingModule,
+        InteractiveTableComponent,
+        TableModule,
+        I18nTestingModule,
+      ],
+      declarations: [InteractiveTableComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CostCenterService, useClass: MockCostCenterService },
       ],
     }).compileComponents();
 
-    costCentersService = TestBed.get(CostCenterService as Type<
-      CostCenterService
-    >);
+    budgetsService = TestBed.get(BudgetService as Type<BudgetService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CostCenterListComponent);
+    fixture = TestBed.createComponent(InteractiveTableComponent);
     component = fixture.componentInstance;
-    costCenterList.next(mockCostCenterList);
+    budgetList.next(mockBudgetList);
     fixture.detectChanges();
   });
 
@@ -151,44 +160,40 @@ describe('CostCenterListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display No costCenters found page if no costCenters are found', () => {
-    const emptyCostCenterList: EntitiesModel<CostCenter> = {
+  it('should display No budgets found page if no budgets are found', () => {
+    const emptyBudgetList: EntitiesModel<Budget> = {
       values: [],
       pagination: { totalResults: 0, sort: 'byName' },
       sorts: [{ code: 'byName', selected: true }],
     };
 
-    costCenterList.next(emptyCostCenterList);
+    budgetList.next(emptyBudgetList);
     fixture.detectChanges();
 
-    expect(
-      fixture.debugElement.query(By.css('.cx-no-costCenters'))
-    ).not.toBeNull();
+    expect(fixture.debugElement.query(By.css('.cx-no-budgets'))).not.toBeNull();
   });
 
   describe('ngOnInit', () => {
-    it('should read costCenter list', () => {
-      component.ngOnInit();
-      let costCentersList: any;
+    it('should read budget list', () => {
+      let budgetsList: any;
       component.data$
         .subscribe(value => {
-          costCentersList = value;
+          budgetsList = value;
         })
         .unsubscribe();
-      expect(costCentersService.loadCostCenters).toHaveBeenCalledWith(
-        defaultParams
-      );
-      expect(costCentersService.getList).toHaveBeenCalledWith(defaultParams);
-      expect(costCentersList).toEqual(mockCostCenterUIList);
+      expect(budgetsService.loadBudgets).toHaveBeenCalledWith(defaultParams);
+      expect(budgetsService.getList).toHaveBeenCalledWith(defaultParams);
+      expect(budgetsList).toEqual(mockBudgetUIList);
     });
   });
 
   describe('changeSortCode', () => {
     it('should set correctly sort code', () => {
-      component.changeSortCode('byCode');
+      component['queryParams$'] = of(defaultParams);
+      component.sortListEvent('byCode');
       expect(routingService.go).toHaveBeenCalledWith(
         {
-          cxRoute: 'costCenters',
+          cxRoute: 'budgets',
         },
         {
           sort: 'byCode',
@@ -199,10 +204,11 @@ describe('CostCenterListComponent', () => {
 
   describe('pageChange', () => {
     it('should set correctly page', () => {
-      component.pageChange(2);
+      component['queryParams$'] = of(defaultParams);
+      component.viewPageEvent(2);
       expect(routingService.go).toHaveBeenCalledWith(
         {
-          cxRoute: 'costCenters',
+          cxRoute: 'budgets',
         },
         {
           currentPage: 2,

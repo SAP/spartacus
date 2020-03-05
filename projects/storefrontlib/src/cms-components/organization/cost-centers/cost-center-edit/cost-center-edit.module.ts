@@ -4,9 +4,7 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe,
   I18nModule,
-  UserService,
 } from '@spartacus/core';
 import { CostCenterEditComponent } from './cost-center-edit.component';
 import { CostCenterFormModule } from '../cost-center-form/cost-center-form.module';
@@ -38,7 +36,6 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
   ],
   declarations: [CostCenterEditComponent],
   exports: [CostCenterEditComponent],
-  providers: [UserService, CxDatePipe],
   entryComponents: [CostCenterEditComponent],
 })
 export class CostCenterEditModule {}

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
+import { TableModule } from '../table/table.module';
+import { InteractiveTableComponent } from './interactive-table.component';
 import { ListNavigationModule } from '../list-navigation/list-navigation.module';
-import { TableComponent } from './table.component';
 
 @NgModule({
   imports: [
@@ -13,12 +14,14 @@ import { TableComponent } from './table.component';
     RouterModule,
     FormsModule,
     NgSelectModule,
-    ListNavigationModule,
     UrlModule,
     I18nModule,
+    ListNavigationModule,
+    TableModule,
+    ReactiveFormsModule,
   ],
-  declarations: [TableComponent],
-  exports: [TableComponent],
-  entryComponents: [TableComponent],
+  declarations: [InteractiveTableComponent],
+  exports: [InteractiveTableComponent],
+  entryComponents: [InteractiveTableComponent],
 })
-export class TableModule {}
+export class InteractiveTableModule {}

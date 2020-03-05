@@ -4,9 +4,7 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe,
   I18nModule,
-  UserService,
 } from '@spartacus/core';
 import { PermissionCreateComponent } from './permission-create.component';
 import { PermissionFormModule } from '../permission-form/permission-form.module';
@@ -27,7 +25,6 @@ import { PermissionFormModule } from '../permission-form/permission-form.module'
   ],
   declarations: [PermissionCreateComponent],
   exports: [PermissionCreateComponent],
-  providers: [UserService, CxDatePipe],
   entryComponents: [PermissionCreateComponent],
 })
 export class PermissionCreateModule {}

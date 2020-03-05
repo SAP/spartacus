@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 
-interface Column {
+export interface Column {
   key: string;
   value: string;
   cxRoute?: string;

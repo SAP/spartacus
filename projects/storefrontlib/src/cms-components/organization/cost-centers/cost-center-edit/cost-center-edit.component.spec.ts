@@ -24,10 +24,10 @@ import { CostCenterFormModule } from '../cost-center-form/cost-center-form.modul
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
 
-const costCenterCode = 'b1';
+const code = 'b1';
 
 const mockCostCenter: CostCenter = {
-  code: costCenterCode,
+  code,
   name: 'costCenter1',
   currency: {
     symbol: '$',
@@ -62,7 +62,7 @@ class MockCostCenterService implements Partial<CostCenterService> {
 const mockRouterState = {
   state: {
     params: {
-      costCenterCode,
+      code,
     },
   },
 };
@@ -154,10 +154,8 @@ describe('CostCenterEditComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(costCentersService.loadCostCenter).toHaveBeenCalledWith(
-        costCenterCode
-      );
-      expect(costCentersService.get).toHaveBeenCalledWith(costCenterCode);
+      expect(costCentersService.loadCostCenter).toHaveBeenCalledWith(code);
+      expect(costCentersService.get).toHaveBeenCalledWith(code);
       expect(costCenter).toEqual(mockCostCenter);
     });
   });
@@ -166,14 +164,14 @@ describe('CostCenterEditComponent', () => {
     it('should update costCenter', () => {
       component.ngOnInit();
       const updateCostCenter = {
-        code: costCenterCode,
+        code,
         name: 'newName',
         activeFlag: false,
       };
 
       component.updateCostCenter(updateCostCenter);
       expect(costCentersService.update).toHaveBeenCalledWith(
-        costCenterCode,
+        code,
         updateCostCenter
       );
       expect(routingService.go).toHaveBeenCalledWith({
