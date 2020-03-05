@@ -31,6 +31,12 @@ export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
+export const CHECKOUT_SERVICE = 'CheckoutService';
+export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
+export const CART_DATA_SERVICE = 'CartDataService';
+export const ACTIVE_CART_SERVICE = 'ActiveCartService';
+export const CONSENT_MANAGEMENT_FORM_COMPONENT =
+  'ConsentManagementFormComponent';
 /***** Classes end *****/
 
 /***** Properties start *****/

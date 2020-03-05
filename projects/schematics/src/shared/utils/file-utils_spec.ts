@@ -10,7 +10,7 @@ import {
 } from '@schematics/angular/utility/change';
 import * as path from 'path';
 import * as ts from 'typescript';
-import { COMPONENT_SELECTOR_DEPRECATION_DATA } from '../../migrations/2_0/component-selectors-data';
+import { COMPONENT_DEPRECATION_DATA } from '../../migrations/2_0/component-deprecations-data';
 import {
   AUTH_SERVICE,
   FEATURE_CONFIG_SERVICE,
@@ -36,13 +36,14 @@ import {
   InsertDirection,
   insertHtmlComment,
   isCandidateForConstructorDeprecation,
+  isInheriting,
   removeConstructorParam,
   renameIdentifierNode,
 } from './file-utils';
 import { getProjectFromWorkspace, getSourceRoot } from './workspace-utils';
 
 const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
-    import { Store } from '@ngrx/store';
+    import { ActionsSubject, Store } from '@ngrx/store';
     import {
       AuthService,
       StateWithProcess,
@@ -51,10 +52,11 @@ const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
     } from '@spartacus/core';
     export class InheritingService extends UserAddressService {
       constructor(
-        authService: AuthService,
-        store: Store<StateWithUser | StateWithProcess<void>>
+        store: Store<StateWithUser | StateWithProcess<void>>,
+        private actions: ActionsSubject
       ) {
-        super(authService, store);
+        super(store);
+        console.log(this.actions);
       }
     }
 `;
@@ -149,6 +151,23 @@ const VALID_ADD_CONSTRUCTOR_PARAM_CLASS = `
       }
     }
 `;
+const VALID_ADD_CONSTRUCTOR_PARAM_WITH_ADDITIONAL_INJECTED_SERVICE_CLASS = `
+    import { ActionsSubject, Store } from '@ngrx/store';
+    import {
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritedService extends UserAddressService {
+      constructor(
+        store: Store<StateWithUser | StateWithProcess<void>>,
+        private actions: ActionsSubject
+      ) {
+        super(store);
+        console.log(this.actions);
+      }
+    }
+`;
 const VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS = `
     import { Dummy } from '@angular/core';
     import {
@@ -166,6 +185,9 @@ const VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS = `
         super(resolvers, cms, featureConfigService);
       }
     }
+`;
+const INHERITANCE_VALID_TEST_CLASS = `
+export class Test extends UserAddressService {}
 `;
 const HTML_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
@@ -265,9 +287,11 @@ describe('File utils', () => {
 
   describe('insertHtmlComment', () => {
     it('should insert the comment', async () => {
+      const componentDeprecation = COMPONENT_DEPRECATION_DATA[0];
       const result = insertHtmlComment(
         HTML_EXAMPLE,
-        COMPONENT_SELECTOR_DEPRECATION_DATA[0]
+        componentDeprecation.selector,
+        componentDeprecation.removedProperties[0]
       );
 
       expect(result).toBeTruthy();
@@ -378,7 +402,10 @@ describe('File utils', () => {
       );
 
       expect(
-        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, [])
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams: [],
+        })
       ).toEqual(false);
     });
     it('should return false if the imports condition not satisfied', () => {
@@ -388,16 +415,15 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
     it('should return false if the constructor condition is not satisfied', () => {
@@ -407,36 +433,34 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
-    it('should return false if the parameter lengths condition is not satisfied', () => {
+    it('should return true if the parameter lengths condition is not satisfied', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
         PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS,
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
-      ).toEqual(false);
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
+      ).toEqual(true);
     });
     it('should return false if the parameter order is not satisfied', () => {
       const source = ts.createSourceFile(
@@ -445,17 +469,16 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
         { className: USER_ADDRESS_SERVICE, importPath: SPARTACUS_CORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
     it('should return false if the super() call does NOT exist', () => {
@@ -465,16 +488,15 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
     it('should return false if an expression call exists, but it is NOT the super(); call', () => {
@@ -484,16 +506,15 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
     it('should return false if the expected number of parameters is not passed to super() call', () => {
@@ -503,17 +524,41 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
       ).toEqual(false);
+    });
+  });
+
+  describe('isInheriting', async () => {
+    it('should return true if the class is inheriting the provided service name', () => {
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        INHERITANCE_VALID_TEST_CLASS,
+        ts.ScriptTarget.Latest,
+        true
+      );
+
+      expect(
+        isInheriting(getSourceNodes(source), USER_ADDRESS_SERVICE)
+      ).toEqual(true);
+    });
+    it('should return false if the class is NOT inheriting the provided service name', () => {
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        INHERITANCE_VALID_TEST_CLASS,
+        ts.ScriptTarget.Latest,
+        true
+      );
+
+      expect(isInheriting(getSourceNodes(source), 'Xxx')).toEqual(false);
     });
   });
 
@@ -549,6 +594,40 @@ describe('File utils', () => {
       expect(changes[2].description).toEqual(
         `Inserted , authService into position 311 of ${sourcePath}`
       );
+    });
+    describe('when the class has additional services injected', () => {
+      it('should return the expected changes', () => {
+        const sourcePath = 'xxx.ts';
+        const source = ts.createSourceFile(
+          sourcePath,
+          VALID_ADD_CONSTRUCTOR_PARAM_WITH_ADDITIONAL_INJECTED_SERVICE_CLASS,
+          ts.ScriptTarget.Latest,
+          true
+        );
+        const nodes = getSourceNodes(source);
+        const constructorNode = findConstructor(nodes);
+        const paramToAdd: ClassType = {
+          className: AUTH_SERVICE,
+          importPath: SPARTACUS_CORE,
+        };
+
+        const changes = addConstructorParam(
+          source,
+          sourcePath,
+          constructorNode,
+          paramToAdd
+        );
+        expect(changes.length).toEqual(3);
+        expect(changes[0].description).toEqual(
+          `Inserted , authService: AuthService into position 354 of ${sourcePath}`
+        );
+        expect(changes[1].description).toEqual(
+          `Inserted , AuthService into position 140 of ${sourcePath}`
+        );
+        expect(changes[2].description).toEqual(
+          `Inserted , authService into position 384 of ${sourcePath}`
+        );
+      });
     });
   });
 

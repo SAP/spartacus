@@ -28,9 +28,16 @@ export interface ClassType {
   importPath: string;
 }
 
-export interface ComponentSelector {
-  selector: string;
+export interface ComponentProperty {
+  /** property name */
+  name: string;
+  /** comment describing the change to the property */
   comment: string;
+}
+export interface ComponentData {
+  selector: string;
+  componentClassName: string;
+  removedProperties: ComponentProperty[];
 }
 
 export interface ConstructorDeprecation {
@@ -105,11 +112,11 @@ export function getAllHtmlFiles(tree: Tree, directory?: string): string[] {
 
 export function insertHtmlComment(
   content: string,
-  componentSelector: ComponentSelector
+  componentSelector: string,
+  componentProperty: ComponentProperty
 ): string | undefined {
-  const selector = buildSelector(componentSelector.selector);
-  const comment = buildHtmlComment(componentSelector.comment);
-  // return content.slice(0, index) + comment + content.slice(index);
+  const selector = buildSelector(componentSelector);
+  const comment = buildHtmlComment(componentProperty.comment);
 
   let index: number | undefined = 0;
   let newContent = content;
@@ -120,7 +127,7 @@ export function insertHtmlComment(
     }
 
     newContent = newContent.slice(0, index) + comment + newContent.slice(index);
-    index += comment.length + componentSelector.selector.length;
+    index += comment.length + componentSelector.length;
   }
 
   return newContent;
@@ -207,7 +214,6 @@ export function defineProperty(
  * - is the file inheriting the provided `inheritedClass`
  * - is the file importing all the provided `parameterClassTypes` from the expected import path
  * - does the provided file contain a constructor
- * - does the number of the constructor parameters match the expected `parameterClassTypes`
  * - does the `super()` call exist in the constructor
  * - does the param number passed to `super()` match the expected number
  * - does the order and the type of the constructor parameters match the expected `parameterClassTypes`
@@ -221,15 +227,15 @@ export function defineProperty(
 export function isCandidateForConstructorDeprecation(
   source: ts.SourceFile,
   inheritedClass: string,
-  parameterClassTypes: ClassType[]
+  constructorDeprecation: ConstructorDeprecation
 ): boolean {
   const nodes = getSourceNodes(source);
 
-  if (!checkInheritance(nodes, inheritedClass)) {
+  if (!isInheriting(nodes, inheritedClass)) {
     return false;
   }
 
-  if (!checkImports(source, parameterClassTypes)) {
+  if (!checkImports(source, constructorDeprecation.deprecatedParams)) {
     return false;
   }
 
@@ -238,18 +244,26 @@ export function isCandidateForConstructorDeprecation(
     return false;
   }
 
-  if (!checkConstructorParameters(constructorNode, parameterClassTypes)) {
+  if (
+    !checkConstructorParameters(
+      constructorNode,
+      constructorDeprecation.deprecatedParams
+    )
+  ) {
     return false;
   }
 
-  if (!checkSuper(constructorNode, parameterClassTypes)) {
+  if (!checkSuper(constructorNode, constructorDeprecation.deprecatedParams)) {
     return false;
   }
 
   return true;
 }
 
-function checkInheritance(nodes: ts.Node[], inheritedClass: string): boolean {
+export function isInheriting(
+  nodes: ts.Node[],
+  inheritedClass: string
+): boolean {
   const heritageClauseNodes = nodes.filter(
     node => node.kind === ts.SyntaxKind.HeritageClause
   );
@@ -258,10 +272,7 @@ function checkInheritance(nodes: ts.Node[], inheritedClass: string): boolean {
     inheritedClass,
     ts.SyntaxKind.Identifier
   );
-  if (!heritageNodes || heritageNodes.length === 0) {
-    return false;
-  }
-  return true;
+  return heritageNodes.length !== 0;
 }
 
 function checkImports(
@@ -284,10 +295,6 @@ function checkConstructorParameters(
     constructorNode,
     ts.SyntaxKind.Parameter
   );
-  // the number of constructor parameter does not match with the expected number of parameters
-  if (constructorParameters.length !== parameterClassTypes.length) {
-    return false;
-  }
 
   let paramTypeFound = true;
   for (let i = 0; i < parameterClassTypes.length; i++) {
@@ -304,6 +311,29 @@ function checkConstructorParameters(
   }
 
   return paramTypeFound;
+}
+
+function isInjected(
+  constructorNode: ts.Node,
+  parameterClassType: ClassType
+): boolean {
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Parameter
+  );
+
+  for (const constructorParameter of constructorParameters) {
+    const constructorParameterType = findNodes(
+      constructorParameter,
+      ts.SyntaxKind.Identifier
+    ).filter(node => node.getText() === parameterClassType.className);
+
+    if (constructorParameterType.length > 0) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function checkSuper(
@@ -347,14 +377,16 @@ export function addConstructorParam(
 
   const changes: Change[] = [];
 
-  changes.push(
-    injectService(
-      constructorNode,
-      sourcePath,
-      paramToAdd.className,
-      'no-modifier'
-    )
-  );
+  if (!isInjected(constructorNode, paramToAdd)) {
+    changes.push(
+      injectService(
+        constructorNode,
+        sourcePath,
+        paramToAdd.className,
+        'no-modifier'
+      )
+    );
+  }
 
   if (!isImported(source, paramToAdd.className, paramToAdd.importPath)) {
     changes.push(
@@ -367,11 +399,12 @@ export function addConstructorParam(
     );
   }
 
+  const paramName = getParamName(source, constructorNode, paramToAdd);
   changes.push(
     updateConstructorSuperNode(
       sourcePath,
       constructorNode,
-      paramToAdd.className
+      paramName || paramToAdd.className
     )
   );
 
@@ -388,23 +421,108 @@ export function removeConstructorParam(
     throw new SchematicsException(`No constructor found in ${sourcePath}.`);
   }
 
-  const importRemovalChange = removeImport(source, sourcePath, paramToRemove);
-  const constructorParamRemovalChange = removeConstructorParamInternal(
-    sourcePath,
-    constructorNode,
-    paramToRemove
-  );
+  const changes: Change[] = [];
+
+  if (shouldRemoveImportAndParam(source, paramToRemove)) {
+    const importRemovalChange = removeImport(source, sourcePath, paramToRemove);
+    const constructorParamRemovalChanges = removeConstructorParamInternal(
+      sourcePath,
+      constructorNode,
+      paramToRemove
+    );
+
+    changes.push(importRemovalChange, ...constructorParamRemovalChanges);
+  }
+  const paramName = getParamName(source, constructorNode, paramToRemove);
+  if (!paramName) {
+    return [new NoopChange()];
+  }
+
   const superRemoval = removeParamFromSuper(
     sourcePath,
     constructorNode,
-    constructorParamRemovalChange.paramName
+    paramName
   );
+  changes.push(...superRemoval);
 
-  return [
-    importRemovalChange,
-    ...constructorParamRemovalChange.changes,
-    ...superRemoval,
-  ];
+  return changes;
+}
+
+function getParamName(
+  source: ts.SourceFile,
+  constructorNode: ts.Node,
+  classType: ClassType
+): string | undefined {
+  const nodes = getSourceNodes(source);
+
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Parameter
+  );
+  const classDeclarationNode = nodes.find(
+    node => node.kind === ts.SyntaxKind.ClassDeclaration
+  );
+  if (!classDeclarationNode) {
+    return undefined;
+  }
+
+  for (const constructorParameter of constructorParameters) {
+    if (constructorParameter.getText().includes(classType.className)) {
+      const paramVariableNode = constructorParameter
+        .getChildren()
+        .find(node => node.kind === ts.SyntaxKind.Identifier);
+      const paramName = paramVariableNode
+        ? paramVariableNode.getText()
+        : undefined;
+      return paramName;
+    }
+  }
+
+  return undefined;
+}
+
+function shouldRemoveImportAndParam(
+  source: ts.SourceFile,
+  importToRemove: ClassType
+): boolean {
+  const nodes = getSourceNodes(source);
+  const constructorNode = findConstructor(nodes);
+  if (!constructorNode) {
+    return true;
+  }
+
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Parameter
+  );
+  const classDeclarationNode = nodes.find(
+    node => node.kind === ts.SyntaxKind.ClassDeclaration
+  );
+  if (!classDeclarationNode) {
+    return true;
+  }
+
+  for (const constructorParameter of constructorParameters) {
+    if (constructorParameter.getText().includes(importToRemove.className)) {
+      const paramVariableNode = constructorParameter
+        .getChildren()
+        .find(node => node.kind === ts.SyntaxKind.Identifier);
+      const paramName = paramVariableNode ? paramVariableNode.getText() : '';
+
+      const paramUsages = findNodes(
+        classDeclarationNode,
+        ts.SyntaxKind.Identifier
+      ).filter(node => node.getText() === paramName);
+      // if there are more than two usages (injection and passing to super), then the param is used elsewhere in the class
+      if (paramUsages.length > 2) {
+        return false;
+      }
+
+      return true;
+    }
+  }
+
+  return true;
 }
 
 function removeImport(
@@ -501,7 +619,7 @@ function removeConstructorParamInternal(
   sourcePath: string,
   constructorNode: ts.Node,
   importToRemove: ClassType
-): { changes: Change[]; paramName: string } {
+): Change[] {
   const constructorParameters = findNodes(
     constructorNode,
     ts.SyntaxKind.Parameter
@@ -524,15 +642,10 @@ function removeConstructorParamInternal(
           constructorParameter.getText()
         )
       );
-
-      const paramVariableNode = constructorParameter
-        .getChildren()
-        .find(node => node.kind === ts.SyntaxKind.Identifier);
-      const paramName = paramVariableNode ? paramVariableNode.getText() : '';
-      return { changes, paramName };
+      return changes;
     }
   }
-  return { changes: [new NoopChange()], paramName: '' };
+  return [];
 }
 
 function removeParamFromSuper(
@@ -630,7 +743,7 @@ export function injectService(
 
   let toInsert = '';
   let position = constructorNode.getStart() + 'constructor('.length;
-  if (constructorParameters && constructorParameters.length > 0) {
+  if (constructorParameters.length > 0) {
     toInsert += ', ';
     const lastParam = constructorParameters[constructorParameters.length - 1];
     position = lastParam.end;
@@ -651,14 +764,20 @@ export function insertCommentAboveIdentifier(
   source: ts.SourceFile,
   identifierName: string,
   comment: string
-): InsertChange[] {
-  const callExpressionNodes = findLevel1NodesInSourceByTextAndKind(
-    source,
-    identifierName,
-    ts.SyntaxKind.Identifier
+): Change[] {
+  const classNode = getSourceNodes(source).find(
+    node => node.kind === ts.SyntaxKind.ClassDeclaration
   );
+  if (!classNode) {
+    return [new NoopChange()];
+  }
+
+  const identifierNodes = findNodes(classNode, ts.SyntaxKind.Identifier).filter(
+    node => node.getText() === identifierName
+  );
+
   const changes: InsertChange[] = [];
-  callExpressionNodes.forEach(n =>
+  identifierNodes.forEach(n =>
     changes.push(
       new InsertChange(
         sourcePath,
@@ -676,13 +795,13 @@ export function renameIdentifierNode(
   oldName: string,
   newName: string
 ): ReplaceChange[] {
-  const callExpressionNodes = findLevel1NodesInSourceByTextAndKind(
+  const identifierNodes = findLevel1NodesInSourceByTextAndKind(
     source,
     oldName,
     ts.SyntaxKind.Identifier
   );
   const changes: ReplaceChange[] = [];
-  callExpressionNodes.forEach(n =>
+  identifierNodes.forEach(n =>
     changes.push(new ReplaceChange(sourcePath, n.getStart(), oldName, newName))
   );
   return changes;
