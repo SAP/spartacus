@@ -2113,6 +2113,28 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
+  coupons: [
+    { value: 'couponCode', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'Apply', type: TabbingOrderTypes.BUTTON },
+  ],
+  appliedCoupons: [{ type: TabbingOrderTypes.CX_ICON }],
+  myCoupons: [
+    {
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      value: 'Notification',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    { value: 'Find ', type: TabbingOrderTypes.BUTTON },
+    {
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      value: 'Notification Channels',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
   storeFinder: [
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
@@ -2155,6 +2177,26 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: '2',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Notification',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    { value: 'Find ', type: TabbingOrderTypes.BUTTON },
+    {
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
       type: TabbingOrderTypes.LINK,
     },
     {

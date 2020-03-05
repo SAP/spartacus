@@ -49,6 +49,13 @@ import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-orde
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/reset-password';
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
+import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
+import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
+import {
+  checkoutAppliedCouponsTabbingOrder,
+  checkoutCouponsTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/checkout/coupons';
+import { checkoutMyCouponsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-coupons';
 import { searchResultsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/search-results';
 import { defaultViewTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/default-view';
 import { storeDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/store-details';
@@ -419,15 +426,31 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
+  context('Save for later', () => {
+    it('should allow to navigate with tab key', () => {
+      saveForLaterTabbingOrder(config.saveForLater);
+    });
+  });
+
   context('My Interest', () => {
     it('should allow to navigate with tab key', () => {
       myInterestTabbingOrder(config.myInterests);
     });
   });
 
-  context('Save for later', () => {
+  context('Coupons', () => {
     it('should allow to navigate with tab key', () => {
-      saveForLaterTabbingOrder(config.saveForLater);
+      checkoutCouponsTabbingOrder(config.coupons);
+    });
+
+    it('should allow to navigate with tab key (applied coupons)', () => {
+      checkoutAppliedCouponsTabbingOrder(config.appliedCoupons);
+    });
+  });
+
+  context('My-coupons', () => {
+    it('should allow to navigate with tab key', () => {
+      checkoutMyCouponsTabbingOrder(config.myCoupons);
     });
   });
 
