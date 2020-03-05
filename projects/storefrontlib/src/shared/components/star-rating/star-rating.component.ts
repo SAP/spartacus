@@ -78,7 +78,7 @@ export class StarRatingComponent implements OnInit {
     this.change.emit(rating);
   }
 
-  setRateOnKeyup(event: any, rating: number) {
+  setRateOnEvent(event: any, rating: number) {
     if (event.code === 'Space') {
       event.preventDefault();
       this.setRate(rating);
