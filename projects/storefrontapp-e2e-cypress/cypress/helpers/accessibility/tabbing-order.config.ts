@@ -1913,6 +1913,158 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
   ],
+  myAccount: [
+    {
+      value: 'Order History',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Wish List',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Address Book',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Payment Details',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Personal Details',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Password',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Email Address',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Consent Management',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Close Account',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'My Interests',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Notification Preference',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'My Coupons',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Sign Out',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  headerCategoryBrands: [
+    {
+      value: 'Shop all Brands',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Canon',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Sony',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kodak',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Samsung',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Toshiba',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Fujifilm',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kingston',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Icidu',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'TDK',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Sweex',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  headerCategoryDigitalCameras: [
+    {
+      value: 'Shop all Digital Cameras',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Compact Cameras',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'SLR Cameras',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  headerCategoryAccessories: [
+    {
+      value: 'Shop all Accessories',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Camera Flashes',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Tripods',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Camera Lenses',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Flash Memory',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Power Supplies',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Color Films',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Black & White Films',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Blank Videotapes',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
   myInterests: [
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
@@ -1951,6 +2103,608 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: '»',
       type: TabbingOrderTypes.LINK,
+    },
+  ],
+  coupons: [
+    { value: 'couponCode', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'Apply', type: TabbingOrderTypes.BUTTON },
+  ],
+  appliedCoupons: [{ type: TabbingOrderTypes.CX_ICON }],
+  myCoupons: [
+    {
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      value: 'Notification',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    { value: 'Find ', type: TabbingOrderTypes.BUTTON },
+    {
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      value: 'Notification Channels',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  storeFinder: [
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'Use my location',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'View all stores',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
+  storeFinderSearchResults: [
+    {
+      value: 'Nakano',
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'Use my location',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'View all stores',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: '«',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '2',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '»',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Yokohama Hotel JAL City Kannai Yokohama',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Chiba',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Yokosuka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  storeFinderStoreDetails: [
+    {
+      value: 'Back to list',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  storeFinderCountriesList: [
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'Use my location',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'View all stores',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'Japan (49)',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  storeFinderStoresList: [
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'Use my location',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'View all stores',
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'Kawasaki Hotel Sunroute Kawasaki',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kawasaki Mets Kawasaki Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Chiba',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Matsudo',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Koto',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Tokio Park Hotel Tokyo',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Yokosuka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Osaka Ramada Osaka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Nakano',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Osaka Cross Hotel Osaka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Shinbashi',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Misato',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kobe the b',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kawasaki Grand Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Ichikawa',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Osaka Crowne Plaza Hotel Ana Osaka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Fukuoka Hilton Fukuoka Sea Hawk',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Fukuoka Canal City Fukuoka Washington Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Choshi',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Sapporo Hotel Resol Trinity Sapporo',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Fukuoka Best Western Fukuoka Nakasu Inn',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Fukuoka Hotel Nikko Fukuoka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Fukuoka Hotel Monterey La Soeur Fukuoka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kawasaki Mets Mizonokuchi Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kawasaki Pearl Hotel Kawasaki',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kobe Bay Sheraton Hotel and Towers',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kobe Hotel Monterey Amalie',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kobe Hotel Monterey Kobe',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kobe Sannomiya Terminal Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Nagoya Crowne Plaza Ana Grand Court Nagoya',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Nagoya Hilton Nagoya Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Nagoya Marriott Nagoya',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Nagoya Royal Park Inn Nagoya',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Nagoya The Westin Nagoya Castle',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Osaka Best Western Hotel Fino Osaka Shinsaibashi',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Osaka Hilton Osaka Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Sapporo Ana Hotel Sapporo',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Sapporo Best Western Hotel Sapporo Nakajima Koen',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Sapporo Hotel Sunroute Sapporo',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Sapporo Sheraton Sapporo Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Tokio Cerulean Tower Tokyu Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Tokio Dormy Inn Tokyo Hatchobori',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Tokio Flexstay Nippori Inn',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Tokio Hotel Metropolitan Tokyo',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Yokohama Comfort Hotel Yokohama Kannai',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Yokohama Hotel JAL City Kannai Yokohama',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Yokohama Hotel New Grand',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Yokohama Sakuragicho Washington Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Yokohama Shin Yokohama Prince Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  stockNotificationNotLogin: [
+    {
+      value: 'Sign In / Register',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  stockNotificationNoEnabledPreference: [
+    {
+      value: 'Notification Channels',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  stockNotificationSubscribed: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
+  stockNotificationDialog: [
+    {
+      value: 'Notification Preference',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'My Interests',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
+  stockNotification: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
+  consignmentTracking: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'Photosmart E317 Digital Camera',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'DSC-T90',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: 'Micro Webcam',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+  ],
+  consignmentTrackingEvents: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
     },
   ],
 };

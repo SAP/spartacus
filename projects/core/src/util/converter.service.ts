@@ -117,11 +117,8 @@ export class ConverterService {
     source: S,
     injectionToken: InjectionToken<Converter<S, T>>
   ): T {
-    return this.getConverters(injectionToken).reduce(
-      (target, converter) => {
-        return converter.convert(source, target);
-      },
-      undefined as T
-    );
+    return this.getConverters(injectionToken).reduce((target, converter) => {
+      return converter.convert(source, target);
+    }, undefined as T);
   }
 }
