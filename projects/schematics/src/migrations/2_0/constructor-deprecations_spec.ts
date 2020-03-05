@@ -73,7 +73,7 @@ const CALL_EXPRESSION_NO_SUPER = `
       }
     }
 `;
-const ADD_PARAMETER_VALID_TEST_CLASS = `  
+const ADD_PARAMETER_VALID_TEST_CLASS = `
     import { Store } from '@ngrx/store';
     import {
       StateWithProcess,
@@ -155,6 +155,7 @@ export class Test extends PageMetaService {
   }
 }
 `;
+
 const REMOVE_PARAMETER_EXPECTED_CLASS = `
 import { Dummy } from '@angular/core';
 import {
@@ -252,6 +253,26 @@ export class Test extends PageMetaService {
     console.log(this.featureConfigService);
   }
 }
+`;
+
+const ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS = `
+    import { Store } from '@ngrx/store';
+    import { StateWithCheckout, CheckoutService, CartDataService } from '@spartacus/core';
+    export class InheritingService extends CheckoutService {
+      constructor(store: Store<StateWithCheckout>, cartDataService: CartDataService) {
+        super(store, cartDataService);
+      }
+    }
+`;
+
+const ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS = `
+    import { Store } from '@ngrx/store';
+    import { StateWithCheckout, CheckoutService,  AuthService, ActiveCartService } from '@spartacus/core';
+    export class InheritingService extends CheckoutService {
+      constructor(store: Store<StateWithCheckout> , authService: AuthService, activeCartService: ActiveCartService) {
+        super(store , authService, activeCartService);
+      }
+    }
 `;
 
 describe('constructor migrations', () => {
@@ -479,6 +500,21 @@ describe('constructor migrations', () => {
         const content = appTree.readContent('/src/index.ts');
         expect(content).toEqual(REMOVE_PARAMETER_BUT_NOT_IMPORT_EXPECTED_CLASS);
       });
+    });
+  });
+
+  describe('when all the pre-conditions are valid for adding and removing parameters', () => {
+    it('should make the required changes', async () => {
+      writeFile(
+        host,
+        '/src/index.ts',
+        ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS
+      );
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS);
     });
   });
 });
