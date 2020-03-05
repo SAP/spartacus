@@ -655,7 +655,7 @@ export function injectService(
 
   let toInsert = '';
   let position = constructorNode.getStart() + 'constructor('.length;
-  if (constructorParameters && constructorParameters.length > 0) {
+  if (constructorParameters.length > 0) {
     toInsert += ', ';
     const lastParam = constructorParameters[constructorParameters.length - 1];
     position = lastParam.end;
