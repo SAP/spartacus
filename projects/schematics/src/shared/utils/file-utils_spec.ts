@@ -10,7 +10,7 @@ import {
 } from '@schematics/angular/utility/change';
 import * as path from 'path';
 import * as ts from 'typescript';
-import { COMPONENT_SELECTOR_DEPRECATION_DATA } from '../../migrations/2_0/component-selectors-data';
+import { COMPONENT_DEPRECATION_DATA } from '../../migrations/2_0/component-deprecations-data';
 import {
   AUTH_SERVICE,
   FEATURE_CONFIG_SERVICE,
@@ -287,9 +287,11 @@ describe('File utils', () => {
 
   describe('insertHtmlComment', () => {
     it('should insert the comment', async () => {
+      const componentDeprecation = COMPONENT_DEPRECATION_DATA[0];
       const result = insertHtmlComment(
         HTML_EXAMPLE,
-        COMPONENT_SELECTOR_DEPRECATION_DATA[0]
+        componentDeprecation.selector,
+        componentDeprecation.removedProperties[0]
       );
 
       expect(result).toBeTruthy();

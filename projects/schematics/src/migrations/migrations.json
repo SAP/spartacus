@@ -17,7 +17,7 @@
     },
     "migration-v2-component-selectors-04": {
       "version": "2-next",
-      "factory": "./2_0/component-selectors#migrate",
+      "factory": "./2_0/component-deprecations#migrate",
       "description": "Handle deprecated Spartacus components"
     }
   }

@@ -28,9 +28,16 @@ export interface ClassType {
   importPath: string;
 }
 
-export interface ComponentSelector {
-  selector: string;
+export interface ComponentProperty {
+  /** property name */
+  name: string;
+  /** comment describing the change to the property */
   comment: string;
+}
+export interface ComponentData {
+  selector: string;
+  componentClassName: string;
+  removedProperties: ComponentProperty[];
 }
 
 export interface ConstructorDeprecation {
@@ -105,11 +112,11 @@ export function getAllHtmlFiles(tree: Tree, directory?: string): string[] {
 
 export function insertHtmlComment(
   content: string,
-  componentSelector: ComponentSelector
+  componentSelector: string,
+  componentProperty: ComponentProperty
 ): string | undefined {
-  const selector = buildSelector(componentSelector.selector);
-  const comment = buildHtmlComment(componentSelector.comment);
-  // return content.slice(0, index) + comment + content.slice(index);
+  const selector = buildSelector(componentSelector);
+  const comment = buildHtmlComment(componentProperty.comment);
 
   let index: number | undefined = 0;
   let newContent = content;
@@ -120,7 +127,7 @@ export function insertHtmlComment(
     }
 
     newContent = newContent.slice(0, index) + comment + newContent.slice(index);
-    index += comment.length + componentSelector.selector.length;
+    index += comment.length + componentSelector.length;
   }
 
   return newContent;

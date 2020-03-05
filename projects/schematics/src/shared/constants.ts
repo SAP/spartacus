@@ -31,6 +31,8 @@ export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
+export const CONSENT_MANAGEMENT_FORM_COMPONENT =
+  'ConsentManagementFormComponent';
 /***** Classes end *****/
 
 /***** Properties start *****/
