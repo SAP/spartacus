@@ -4,7 +4,7 @@ import { Converter } from '../../../../util/converter.service';
 import { B2BUnitNode } from '../../../../model/org-unit.model';
 
 @Injectable()
-export class OccOrgUnitNormalizer
+export class OccOrgUnitNodeNormalizer
   implements Converter<Occ.B2BUnitNode, B2BUnitNode> {
   constructor() {}
 

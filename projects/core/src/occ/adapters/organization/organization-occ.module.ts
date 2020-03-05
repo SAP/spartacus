@@ -14,6 +14,8 @@ import {
 import {
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
+  B2BUNIT_NORMALIZER,
+  B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
 } from '../../../organization/connectors/org-unit/converters';
 import {
   PERMISSION_NORMALIZER,
@@ -38,6 +40,8 @@ import {
   OccPermissionListNormalizer,
   OccCostCenterListNormalizer,
   OccCostCenterNormalizer,
+  OccOrgUnitNormalizer,
+  OccOrgUnitApprovalProcessNormalizer,
 } from './converters/index';
 
 @NgModule({
@@ -62,6 +66,11 @@ import {
       useClass: OccOrgUnitAdapter,
     },
     {
+      provide: B2BUNIT_NORMALIZER,
+      useClass: OccOrgUnitNormalizer,
+      multi: true,
+    },
+    {
       provide: B2BUNIT_NODE_NORMALIZER,
       useClass: OccOrgUnitNodeNormalizer,
       multi: true,
@@ -69,6 +78,11 @@ import {
     {
       provide: B2BUNIT_NODE_LIST_NORMALIZER,
       useClass: OccOrgUnitNodeListNormalizer,
+      multi: true,
+    },
+    {
+      provide: B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
+      useClass: OccOrgUnitApprovalProcessNormalizer,
       multi: true,
     },
     {
