@@ -103,6 +103,40 @@ const ADD_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS = `
       }
     }
 `;
+const ADD_PARAMETER_WITH_ALREADY_ADDED_SERVICE_VALID_TEST_CLASS = `
+import { ActionsSubject, Store } from '@ngrx/store';
+import {
+  StateWithProcess,
+  StateWithUser,
+  UserAddressService,
+  AuthService
+} from '@spartacus/core';
+export class InheritedService extends UserAddressService {
+  constructor(
+    store: Store<StateWithUser | StateWithProcess<void>>,
+    private authService: AuthService,
+  ) {
+    super(store);
+  }
+}
+`;
+const ADD_PARAMETER_WITH_ALREADY_ADDED_SERVICE_EXPECTED_CLASS = `
+import { ActionsSubject, Store } from '@ngrx/store';
+import {
+  StateWithProcess,
+  StateWithUser,
+  UserAddressService,
+  AuthService
+} from '@spartacus/core';
+export class InheritedService extends UserAddressService {
+  constructor(
+    store: Store<StateWithUser | StateWithProcess<void>>,
+    private authService: AuthService,
+  ) {
+    super(store, authService);
+  }
+}
+`;
 const REMOVE_PARAMETER_VALID_TEST_CLASS = `
 import { Dummy } from '@angular/core';
 import {
@@ -387,6 +421,22 @@ describe('constructor migrations', () => {
           strings.camelize(AUTH_SERVICE),
         ]);
         expect(isImported(source, AUTH_SERVICE, SPARTACUS_CORE)).toEqual(true);
+      });
+    });
+    describe('when the service to be added is already injected', () => {
+      it('should just not add the parameter', async () => {
+        const filePath = '/src/index.ts';
+        writeFile(
+          host,
+          filePath,
+          ADD_PARAMETER_WITH_ALREADY_ADDED_SERVICE_VALID_TEST_CLASS
+        );
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+        const content = appTree.readContent(filePath);
+        expect(content).toEqual(
+          ADD_PARAMETER_WITH_ALREADY_ADDED_SERVICE_EXPECTED_CLASS
+        );
       });
     });
   });

@@ -157,7 +157,6 @@ export function defineProperty(
  * - is the file inheriting the provided `inheritedClass`
  * - is the file importing all the provided `parameterClassTypes` from the expected import path
  * - does the provided file contain a constructor
- * - does the number of the constructor parameters match the expected `parameterClassTypes`
  * - does the `super()` call exist in the constructor
  * - does the param number passed to `super()` match the expected number
  * - does the order and the type of the constructor parameters match the expected `parameterClassTypes`
@@ -171,15 +170,15 @@ export function defineProperty(
 export function isCandidateForConstructorDeprecation(
   source: ts.SourceFile,
   inheritedClass: string,
-  parameterClassTypes: ClassType[]
+  constructorDeprecation: ConstructorDeprecation
 ): boolean {
   const nodes = getSourceNodes(source);
 
-  if (!checkInheritance(nodes, inheritedClass)) {
+  if (!isInheriting(nodes, inheritedClass)) {
     return false;
   }
 
-  if (!checkImports(source, parameterClassTypes)) {
+  if (!checkImports(source, constructorDeprecation.deprecatedParams)) {
     return false;
   }
 
@@ -188,18 +187,26 @@ export function isCandidateForConstructorDeprecation(
     return false;
   }
 
-  if (!checkConstructorParameters(constructorNode, parameterClassTypes)) {
+  if (
+    !checkConstructorParameters(
+      constructorNode,
+      constructorDeprecation.deprecatedParams
+    )
+  ) {
     return false;
   }
 
-  if (!checkSuper(constructorNode, parameterClassTypes)) {
+  if (!checkSuper(constructorNode, constructorDeprecation.deprecatedParams)) {
     return false;
   }
 
   return true;
 }
 
-function checkInheritance(nodes: ts.Node[], inheritedClass: string): boolean {
+export function isInheriting(
+  nodes: ts.Node[],
+  inheritedClass: string
+): boolean {
   const heritageClauseNodes = nodes.filter(
     node => node.kind === ts.SyntaxKind.HeritageClause
   );
@@ -208,10 +215,7 @@ function checkInheritance(nodes: ts.Node[], inheritedClass: string): boolean {
     inheritedClass,
     ts.SyntaxKind.Identifier
   );
-  if (!heritageNodes || heritageNodes.length === 0) {
-    return false;
-  }
-  return true;
+  return heritageNodes.length !== 0;
 }
 
 function checkImports(
@@ -234,6 +238,7 @@ function checkConstructorParameters(
     constructorNode,
     ts.SyntaxKind.Parameter
   );
+
   let paramTypeFound = true;
   for (let i = 0; i < parameterClassTypes.length; i++) {
     const constructorParameter = constructorParameters[i];
@@ -249,6 +254,29 @@ function checkConstructorParameters(
   }
 
   return paramTypeFound;
+}
+
+function isInjected(
+  constructorNode: ts.Node,
+  parameterClassType: ClassType
+): boolean {
+  const constructorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Parameter
+  );
+
+  for (const constructorParameter of constructorParameters) {
+    const constructorParameterType = findNodes(
+      constructorParameter,
+      ts.SyntaxKind.Identifier
+    ).filter(node => node.getText() === parameterClassType.className);
+
+    if (constructorParameterType.length > 0) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function checkSuper(
@@ -292,14 +320,16 @@ export function addConstructorParam(
 
   const changes: Change[] = [];
 
-  changes.push(
-    injectService(
-      constructorNode,
-      sourcePath,
-      paramToAdd.className,
-      'no-modifier'
-    )
-  );
+  if (!isInjected(constructorNode, paramToAdd)) {
+    changes.push(
+      injectService(
+        constructorNode,
+        sourcePath,
+        paramToAdd.className,
+        'no-modifier'
+      )
+    );
+  }
 
   if (!isImported(source, paramToAdd.className, paramToAdd.importPath)) {
     changes.push(
@@ -676,14 +706,20 @@ export function insertCommentAboveIdentifier(
   source: ts.SourceFile,
   identifierName: string,
   comment: string
-): InsertChange[] {
-  const callExpressionNodes = findLevel1NodesInSourceByTextAndKind(
-    source,
-    identifierName,
-    ts.SyntaxKind.Identifier
+): Change[] {
+  const classNode = getSourceNodes(source).find(
+    node => node.kind === ts.SyntaxKind.ClassDeclaration
   );
+  if (!classNode) {
+    return [new NoopChange()];
+  }
+
+  const identifierNodes = findNodes(classNode, ts.SyntaxKind.Identifier).filter(
+    node => node.getText() === identifierName
+  );
+
   const changes: InsertChange[] = [];
-  callExpressionNodes.forEach(n =>
+  identifierNodes.forEach(n =>
     changes.push(
       new InsertChange(
         sourcePath,
@@ -701,13 +737,13 @@ export function renameIdentifierNode(
   oldName: string,
   newName: string
 ): ReplaceChange[] {
-  const callExpressionNodes = findLevel1NodesInSourceByTextAndKind(
+  const identifierNodes = findLevel1NodesInSourceByTextAndKind(
     source,
     oldName,
     ts.SyntaxKind.Identifier
   );
   const changes: ReplaceChange[] = [];
-  callExpressionNodes.forEach(n =>
+  identifierNodes.forEach(n =>
     changes.push(new ReplaceChange(sourcePath, n.getStart(), oldName, newName))
   );
   return changes;

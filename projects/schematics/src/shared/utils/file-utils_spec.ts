@@ -33,6 +33,7 @@ import {
   insertCommentAboveIdentifier,
   InsertDirection,
   isCandidateForConstructorDeprecation,
+  isInheriting,
   removeConstructorParam,
   renameIdentifierNode,
 } from './file-utils';
@@ -181,6 +182,9 @@ const VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS = `
         super(resolvers, cms, featureConfigService);
       }
     }
+`;
+const INHERITANCE_VALID_TEST_CLASS = `
+export class Test extends UserAddressService {}
 `;
 
 const collectionPath = path.join(__dirname, '../../collection.json');
@@ -368,7 +372,10 @@ describe('File utils', () => {
       );
 
       expect(
-        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, [])
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams: [],
+        })
       ).toEqual(false);
     });
     it('should return false if the imports condition not satisfied', () => {
@@ -378,16 +385,15 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
     it('should return false if the constructor condition is not satisfied', () => {
@@ -397,16 +403,15 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
     it('should return true if the parameter lengths condition is not satisfied', () => {
@@ -416,16 +421,15 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
       ).toEqual(true);
     });
     it('should return false if the parameter order is not satisfied', () => {
@@ -435,17 +439,16 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
         { className: USER_ADDRESS_SERVICE, importPath: SPARTACUS_CORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
     it('should return false if the super() call does NOT exist', () => {
@@ -455,16 +458,15 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
     it('should return false if an expression call exists, but it is NOT the super(); call', () => {
@@ -474,16 +476,15 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
     it('should return false if the expected number of parameters is not passed to super() call', () => {
@@ -493,17 +494,41 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
+          class: 'InheritingService',
+          deprecatedParams,
+        })
       ).toEqual(false);
+    });
+  });
+
+  describe('isInheriting', async () => {
+    it('should return true if the class is inheriting the provided service name', () => {
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        INHERITANCE_VALID_TEST_CLASS,
+        ts.ScriptTarget.Latest,
+        true
+      );
+
+      expect(
+        isInheriting(getSourceNodes(source), USER_ADDRESS_SERVICE)
+      ).toEqual(true);
+    });
+    it('should return false if the class is NOT inheriting the provided service name', () => {
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        INHERITANCE_VALID_TEST_CLASS,
+        ts.ScriptTarget.Latest,
+        true
+      );
+
+      expect(isInheriting(getSourceNodes(source), 'Xxx')).toEqual(false);
     });
   });
 
