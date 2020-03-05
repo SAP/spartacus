@@ -23,13 +23,7 @@
     cursor: default;
     min-height: 40px;
     button {
-      text-align: left;
-      border: none;
-      margin: 0;
-      padding: 0;
-      width: auto;
-      overflow: visible;
-      background: transparent;
+      @include button-reset();
       color: var(--cx-color-primary);
       font-weight: var(--cx-font-weight-semi);
       &:focus {
