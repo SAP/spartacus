@@ -114,7 +114,7 @@ import {
 export class InheritedService extends UserAddressService {
   constructor(
     store: Store<StateWithUser | StateWithProcess<void>>,
-    private authService: AuthService,
+    private auth: AuthService,
   ) {
     super(store);
   }
@@ -131,9 +131,9 @@ import {
 export class InheritedService extends UserAddressService {
   constructor(
     store: Store<StateWithUser | StateWithProcess<void>>,
-    private authService: AuthService,
+    private auth: AuthService,
   ) {
-    super(store, authService);
+    super(store, auth);
   }
 }
 `;
