@@ -342,11 +342,12 @@ export function addConstructorParam(
     );
   }
 
+  const paramName = getParamName(source, constructorNode, paramToAdd);
   changes.push(
     updateConstructorSuperNode(
       sourcePath,
       constructorNode,
-      paramToAdd.className
+      paramName || paramToAdd.className
     )
   );
 
@@ -393,7 +394,7 @@ export function removeConstructorParam(
 function getParamName(
   source: ts.SourceFile,
   constructorNode: ts.Node,
-  importToRemove: ClassType
+  classType: ClassType
 ): string | undefined {
   const nodes = getSourceNodes(source);
 
@@ -409,7 +410,7 @@ function getParamName(
   }
 
   for (const constructorParameter of constructorParameters) {
-    if (constructorParameter.getText().includes(importToRemove.className)) {
+    if (constructorParameter.getText().includes(classType.className)) {
       const paramVariableNode = constructorParameter
         .getChildren()
         .find(node => node.kind === ts.SyntaxKind.Identifier);
