@@ -15,8 +15,8 @@ export const myCouponCode2 = 'midautumn';
 
 export function addProductToCart(productCode: string) {
   cy.get('cx-searchbox input')
-    .clear()
-    .type(`${productCode}{enter}{enter}`, { force: true });
+    .clear({ force: true })
+    .type(`${productCode}{enter}`, { force: true });
 
   cy.get('cx-add-to-cart')
     .getAllByText(/Add To Cart/i)
@@ -130,6 +130,7 @@ export function verifyOrderHistory(
   totalPrice?: string,
   savedPrice?: string
 ) {
+  cy.wait(Cypress.env('ORDER_HISTORY_WAIT_TIME'));
   navigateToOrderHistoryPage(orderData);
   if (couponCode) {
     verifyCouponInOrderHistory(couponCode, totalPrice, savedPrice);
@@ -209,8 +210,6 @@ export function verifyCouponInOrderHistory(
   totalPrice: string,
   savedPrice: string
 ) {
-  cy.wait(Cypress.env('ORDER_HISTORY_WAIT_TIME'));
-  cy.get('cx-searchbox input').click({ force: true });
   getCouponItemOrderSummary(couponCode).should('exist');
   cy.get('.cx-summary-partials > .cx-summary-row').should('have.length', 5);
   cy.get('.cx-summary-partials').within(() => {
