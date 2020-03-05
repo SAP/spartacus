@@ -123,7 +123,7 @@ export function checkoutWithVariantsTest() {
   });
 
   it('should add a shipping address', () => {
-    addShippingAddress('apparel-uk-spa', 'GBP', 'GB');
+    addShippingAddress('apparel-uk-spa', 'GBP', 'GB', true);
   });
 
   it('should go to product page from category page', () => {

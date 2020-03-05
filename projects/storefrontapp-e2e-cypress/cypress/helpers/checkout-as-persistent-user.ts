@@ -56,7 +56,8 @@ export function loginSuccessfully() {
 export function addShippingAddress(
   site: string = 'electronics-spa',
   currency: string = 'USD',
-  isocode: string = 'US'
+  isocode: string = 'US',
+  isDefaultAddress: boolean = false
 ) {
   cy.request({
     method: 'POST',
@@ -70,7 +71,7 @@ export function addShippingAddress(
       }`,
     },
     body: {
-      defaultAddress: false,
+      defaultAddress: `${isDefaultAddress}`,
       titleCode: 'mr',
       firstName: 'Test',
       lastName: 'User',

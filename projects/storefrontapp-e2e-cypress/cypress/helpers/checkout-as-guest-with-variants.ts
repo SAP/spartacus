@@ -21,7 +21,6 @@ import {
   displaySummaryPage,
   selectDeliveryMethod,
 } from './checkout-as-persistent-user';
-import { verifyDeliveryMethod } from './checkout-flow';
 
 export function checkoutAsGuestWithVariantsTest() {
   it('should add product to cart and go to login', () => {
