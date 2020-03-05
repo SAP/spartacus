@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -42,8 +41,8 @@ describe(`OrderConfirmationGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(OrderConfirmationGuard as Type<OrderConfirmationGuard>);
-    mockCheckoutService = TestBed.get(CheckoutService as Type<CheckoutService>);
+    guard = TestBed.inject(OrderConfirmationGuard);
+    mockCheckoutService = TestBed.inject(CheckoutService);
   });
 
   describe(`when there is NO order details present`, () => {

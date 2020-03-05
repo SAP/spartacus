@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Address } from '../../../model/address.model';
@@ -20,7 +19,7 @@ describe('Checkout Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithCheckout>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

@@ -1,13 +1,13 @@
-import { Component, Pipe, PipeTransform, Type } from '@angular/core';
+import { Component, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
-  ANONYMOUS_CONSENT_STATUS,
   AuthRedirectService,
   AuthService,
   ConsentTemplate,
@@ -22,7 +22,6 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { RegisterComponent } from './register.component';
-
 import createSpy = jasmine.createSpy;
 
 const mockRegisterFormData: any = {
@@ -150,11 +149,11 @@ describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
-  let userService: MockUserService;
-  let mockGlobalMessageService: MockGlobalMessageService;
-  let mockRoutingService: MockRoutingService;
-  let mockAuthService: MockAuthService;
-  let mockAuthRedirectService: MockAuthRedirectService;
+  let userService: UserService;
+  let mockGlobalMessageService: GlobalMessageService;
+  let mockRoutingService: RoutingService;
+  let mockAuthService: AuthService;
+  let mockAuthRedirectService: AuthRedirectService;
   let anonymousConsentService: AnonymousConsentsService;
 
   beforeEach(async(() => {
@@ -195,18 +194,12 @@ describe('RegisterComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
-    userService = TestBed.get(UserService as Type<UserService>);
-    mockGlobalMessageService = TestBed.get(GlobalMessageService as Type<
-      GlobalMessageService
-    >);
-    mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
-    mockAuthService = TestBed.get(AuthService as Type<AuthService>);
-    mockAuthRedirectService = TestBed.get(AuthRedirectService as Type<
-      AuthRedirectService
-    >);
-    anonymousConsentService = TestBed.get(AnonymousConsentsService as Type<
-      AnonymousConsentsService
-    >);
+    userService = TestBed.inject(UserService);
+    mockGlobalMessageService = TestBed.inject(GlobalMessageService);
+    mockRoutingService = TestBed.inject(RoutingService);
+    mockAuthService = TestBed.inject(AuthService);
+    mockAuthRedirectService = TestBed.inject(AuthRedirectService);
+    anonymousConsentService = TestBed.inject(AnonymousConsentsService);
 
     component = fixture.componentInstance;
 
@@ -219,6 +212,18 @@ describe('RegisterComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('submit button', () => {
+    it('should NOT be disabled', () => {
+      fixture = TestBed.createComponent(RegisterComponent);
+      fixture.detectChanges();
+      const el: HTMLElement = fixture.debugElement.nativeElement;
+      const submitButton: HTMLElement = el.querySelector(
+        'button[type="submit"]'
+      );
+      expect(submitButton.hasAttribute('disabled')).toBeFalsy();
+    });
   });
 
   describe('ngOnInit', () => {
@@ -395,7 +400,7 @@ describe('RegisterComponent', () => {
 
       // TODO(issue:4237) Register flow
       // NOTE: remove isLevelBool
-      isLevelBool.next(true);
+      isLevelBool.next(false);
 
       component.ngOnInit();
       component.submit();

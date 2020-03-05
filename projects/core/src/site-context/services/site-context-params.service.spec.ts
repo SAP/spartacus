@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   contextServiceMapProvider,
@@ -7,13 +6,14 @@ import {
   SiteContextConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import { bufferCount, take } from 'rxjs/operators';
+import { CurrencyService } from '../facade';
 import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
 } from '../providers/context-ids';
 import { SiteContextParamsService } from './site-context-params.service';
-
 import createSpy = jasmine.createSpy;
 
 describe('SiteContextParamsService', () => {
@@ -27,6 +27,7 @@ describe('SiteContextParamsService', () => {
   };
 
   let mockLanguageService: SiteContext<any>;
+  let mockCurrencyService: SiteContext<any>;
 
   let service: SiteContextParamsService;
 
@@ -37,18 +38,23 @@ describe('SiteContextParamsService', () => {
       setActive: createSpy(),
     };
 
+    mockCurrencyService = {
+      getAll: () => of([]),
+      setActive: createSpy(),
+      getActive: createSpy().and.returnValue(of('')),
+    };
+
     TestBed.configureTestingModule({
       providers: [
         contextServiceMapProvider,
         SiteContextParamsService,
         { provide: SiteContextConfig, useValue: siteContextConfig },
         { provide: LanguageService, useValue: mockLanguageService },
+        { provide: CurrencyService, useValue: mockCurrencyService },
       ],
     });
 
-    service = TestBed.get(SiteContextParamsService as Type<
-      SiteContextParamsService
-    >);
+    service = TestBed.inject(SiteContextParamsService);
   });
 
   it('should be created', () => {
@@ -93,5 +99,49 @@ describe('SiteContextParamsService', () => {
   it('setValue should call corresponding service', () => {
     service.setValue(LANGUAGE_CONTEXT_ID, 'en');
     expect(mockLanguageService.setActive).toHaveBeenCalledWith('en');
+  });
+
+  describe('getValues', () => {
+    afterAll(() => {
+      // set to initial mock values
+      mockLanguageService.getActive = createSpy().and.returnValue(of('de'));
+      mockCurrencyService.getActive = createSpy().and.returnValue(of(''));
+    });
+
+    it('should emit empty array for empty context', () => {
+      service
+        .getValues([])
+        .pipe(take(1))
+        .subscribe(value => expect(value).toEqual([]));
+    });
+
+    it('should emit active values for single service', () => {
+      mockLanguageService.getActive = createSpy().and.returnValue(
+        of('en', 'de', 'en')
+      );
+      service
+        .getValues([LANGUAGE_CONTEXT_ID])
+        .pipe(bufferCount(3), take(1))
+        .subscribe(values => {
+          expect(values).toEqual([['en'], ['de'], ['en']]);
+        });
+    });
+
+    it('should emit active values for multiple services', () => {
+      mockLanguageService.getActive = createSpy().and.returnValue(of('ja'));
+      mockCurrencyService.getActive = createSpy().and.returnValue(
+        of('', 'USD', 'JPY', 'USD')
+      );
+      service
+        .getValues([LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID])
+        .pipe(bufferCount(3), take(1))
+        .subscribe(values => {
+          expect(values).toEqual([
+            ['ja', 'USD'],
+            ['ja', 'JPY'],
+            ['ja', 'USD'],
+          ]);
+        });
+    });
   });
 });

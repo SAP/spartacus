@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -120,7 +120,7 @@ describe('CartItemListComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemListComponent);
-    cartService = TestBed.get(CartService as Type<CartService>);
+    cartService = TestBed.inject(CartService);
 
     component = fixture.componentInstance;
     component.items = mockItems;
@@ -202,7 +202,7 @@ describe('CartItemListComponent', () => {
       .subscribe(control => {
         control.get('quantity').setValue(2);
         expect(cartService.updateEntry).toHaveBeenCalledWith(
-          item.entryNumber,
+          item.entryNumber as any,
           2
         );
       })
@@ -216,7 +216,7 @@ describe('CartItemListComponent', () => {
       .subscribe(control => {
         control.get('quantity').setValue(0);
         expect(cartService.updateEntry).toHaveBeenCalledWith(
-          item.entryNumber,
+          item.entryNumber as any,
           0
         );
       })

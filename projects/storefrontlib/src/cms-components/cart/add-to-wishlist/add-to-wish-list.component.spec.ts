@@ -5,7 +5,6 @@ import {
   Input,
   Pipe,
   PipeTransform,
-  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -126,7 +125,7 @@ describe('AddToWishListComponent', () => {
     fixture = TestBed.createComponent(AddToWishListComponent);
     component = fixture.componentInstance;
 
-    wishListService = TestBed.get(WishListService as Type<WishListService>);
+    wishListService = TestBed.inject(WishListService);
 
     el = fixture.debugElement;
     fixture.detectChanges();

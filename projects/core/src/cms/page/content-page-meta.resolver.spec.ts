@@ -46,7 +46,7 @@ describe('ContentPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.get(ContentPageMetaResolver);
+    service = TestBed.inject(ContentPageMetaResolver);
   });
 
   it('should inject service', () => {
