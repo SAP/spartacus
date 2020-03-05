@@ -1,4 +1,8 @@
-import { B2BUnit, B2BUnitNode } from '../../../model/org-unit.model';
+import {
+  B2BUnit,
+  B2BUnitNode,
+  B2BApprovalProcess,
+} from '../../../model/org-unit.model';
 import {
   EntityFailAction,
   EntityLoadAction,
@@ -9,6 +13,7 @@ import {
   ORG_UNIT_NODE_LIST,
   ORG_UNIT_ENTITIES,
   ORG_UNIT_TREE_ENTITY,
+  ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
 } from '../organization-state';
 import { ALL } from '../../utils/serializer';
 import { ListModel } from '../../../model/misc.model';
@@ -181,6 +186,32 @@ export class LoadTreeSuccess extends EntitySuccessAction {
   }
 }
 
+export class LoadApprovalProcesses extends EntityLoadAction {
+  readonly type = LOAD_APPROVAL_PROCESSES;
+  constructor(public payload: { userId: string }) {
+    super(ORG_UNIT_APPROVAL_PROCESSES_ENTITIES, 'approvalProcesses');
+  }
+}
+
+export class LoadApprovalProcessesFail extends EntityFailAction {
+  readonly type = LOAD_APPROVAL_PROCESSES_FAIL;
+  constructor(public payload: { error: any }) {
+    super(
+      ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
+      'approvalProcesses',
+      payload.error
+    );
+  }
+}
+
+export class LoadApprovalProcessesSuccess extends EntitySuccessAction {
+  readonly type = LOAD_APPROVAL_PROCESSES_SUCCESS;
+
+  constructor(public payload: B2BApprovalProcess[]) {
+    super(ORG_UNIT_APPROVAL_PROCESSES_ENTITIES, 'approvalProcesses');
+  }
+}
+
 export type OrgUnitAction =
   | LoadOrgUnitNode
   | LoadOrgUnitNodeFail
@@ -199,4 +230,7 @@ export type OrgUnitAction =
   | UpdateUnitSuccess
   | LoadTree
   | LoadTreeSuccess
-  | LoadTreeFail;
+  | LoadTreeFail
+  | LoadApprovalProcesses
+  | LoadApprovalProcessesSuccess
+  | LoadApprovalProcessesFail;

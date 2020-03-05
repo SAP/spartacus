@@ -37,7 +37,7 @@ export class OrgUnitConnector {
     return this.adapter.loadList(userId, params);
   }
 
-  getApprovalProcesses(userId: string): Observable<B2BApprovalProcess> {
+  getApprovalProcesses(userId: string): Observable<B2BApprovalProcess[]> {
     return this.adapter.loadApprovalProcesses(userId);
   }
 

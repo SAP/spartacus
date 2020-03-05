@@ -66,9 +66,9 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
       .pipe(this.converter.pipeable(B2BUNIT_NODE_LIST_NORMALIZER));
   }
 
-  loadApprovalProcesses(userId: string): Observable<B2BApprovalProcess> {
+  loadApprovalProcesses(userId: string): Observable<B2BApprovalProcess[]> {
     return this.http
-      .get<Occ.B2BApprovalProcess>(
+      .get<Occ.B2BApprovalProcessList>(
         this.getOrgUnitsApprovalProcessesEndpoint(userId)
       )
       .pipe(this.converter.pipeable(B2BUNIT_APPROVAL_PROCESSES_NORMALIZER));

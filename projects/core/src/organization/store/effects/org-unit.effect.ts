@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { B2BUnitNode } from '../../../model/org-unit.model';
+import { B2BApprovalProcess, B2BUnitNode } from '../../../model/org-unit.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { OrgUnitActions } from '../actions/index';
@@ -122,6 +122,31 @@ export class OrgUnitEffects {
         catchError(error =>
           of(
             new OrgUnitActions.LoadTreeFail({
+              error: makeErrorSerializable(error),
+            })
+          )
+        )
+      );
+    })
+  );
+
+  @Effect()
+  loadApprovalProcesses$: Observable<
+    | OrgUnitActions.LoadApprovalProcessesSuccess
+    | OrgUnitActions.LoadApprovalProcessesFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.LOAD_APPROVAL_PROCESSES),
+    map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
+    switchMap(({ userId }) => {
+      return this.orgUnitConnector.getApprovalProcesses(userId).pipe(
+        map((approvalProcesses: B2BApprovalProcess[]) => {
+          return new OrgUnitActions.LoadApprovalProcessesSuccess(
+            approvalProcesses
+          );
+        }),
+        catchError(error =>
+          of(
+            new OrgUnitActions.LoadApprovalProcessesFail({
               error: makeErrorSerializable(error),
             })
           )

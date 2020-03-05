@@ -4225,6 +4225,10 @@ export namespace Occ {
     name?: string;
   }
 
+  export interface B2BApprovalProcessList {
+    approvalProcesses?: B2BApprovalProcess[];
+  }
+
   export interface B2BUnit {
     active?: boolean;
     addresses?: OrgUnitAddress[];

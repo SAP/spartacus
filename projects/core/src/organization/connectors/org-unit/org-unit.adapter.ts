@@ -32,7 +32,7 @@ export abstract class OrgUnitAdapter {
 
   abstract loadApprovalProcesses(
     userId: string
-  ): Observable<B2BApprovalProcess>;
+  ): Observable<B2BApprovalProcess[]>;
 
   abstract loadTree(userId: string, params?: any): Observable<B2BUnitNode>;
 }
