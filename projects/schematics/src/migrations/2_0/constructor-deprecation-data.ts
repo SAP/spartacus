@@ -1,5 +1,8 @@
 import {
+  ACTIVE_CART_SERVICE,
   AUTH_SERVICE,
+  CART_DATA_SERVICE,
+  CHECKOUT_SERVICE,
   CMS_SERVICE,
   FEATURE_CONFIG_SERVICE,
   NGRX_STORE,
@@ -42,6 +45,36 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
     removeParams: [
       {
         className: FEATURE_CONFIG_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/core/src/checkout/facade/checkout.service.ts
+  {
+    class: CHECKOUT_SERVICE,
+    deprecatedParams: [
+      {
+        className: STORE,
+        importPath: NGRX_STORE,
+      },
+      {
+        className: CART_DATA_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    removeParams: [
+      {
+        className: CART_DATA_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    addParams: [
+      {
+        className: AUTH_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: ACTIVE_CART_SERVICE,
         importPath: SPARTACUS_CORE,
       },
     ],

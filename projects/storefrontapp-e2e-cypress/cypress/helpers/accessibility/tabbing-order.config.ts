@@ -2105,6 +2105,28 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
+  coupons: [
+    { value: 'couponCode', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'Apply', type: TabbingOrderTypes.BUTTON },
+  ],
+  appliedCoupons: [{ type: TabbingOrderTypes.CX_ICON }],
+  myCoupons: [
+    {
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      value: 'Notification',
+      type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
+    },
+    { value: 'Find ', type: TabbingOrderTypes.BUTTON },
+    {
+      type: TabbingOrderTypes.NG_SELECT,
+    },
+    {
+      value: 'Notification Channels',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
   storeFinder: [
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
@@ -2647,6 +2669,40 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
   ],
   stockNotification: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
+  consignmentTracking: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'Photosmart E317 Digital Camera',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+    {
+      value: 'DSC-T90',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      value: 'Micro Webcam',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+  ],
+  consignmentTrackingEvents: [
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
     },
