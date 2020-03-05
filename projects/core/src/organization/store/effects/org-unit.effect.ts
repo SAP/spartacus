@@ -108,6 +108,28 @@ export class OrgUnitEffects {
     )
   );
 
+  @Effect()
+  loadTree$: Observable<
+    OrgUnitActions.LoadTreeSuccess | OrgUnitActions.LoadTreeFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.LOAD_UNIT_TREE),
+    map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
+    switchMap(({ userId }) => {
+      return this.orgUnitConnector.getTree(userId).pipe(
+        map((orgUnit: B2BUnitNode) => {
+          return new OrgUnitActions.LoadTreeSuccess(orgUnit);
+        }),
+        catchError(error =>
+          of(
+            new OrgUnitActions.LoadTreeFail({
+              error: makeErrorSerializable(error),
+            })
+          )
+        )
+      );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private orgUnitConnector: OrgUnitConnector

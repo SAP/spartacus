@@ -7,11 +7,6 @@ import {
   B2BApprovalProcess,
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
-import { Occ } from '../../../occ/occ-models/occ.models';
-import {
-  B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
-  B2BUNIT_NODE_NORMALIZER,
-} from './converters';
 
 @Injectable({
   providedIn: 'root',

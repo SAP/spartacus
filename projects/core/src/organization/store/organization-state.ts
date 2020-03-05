@@ -5,6 +5,7 @@ import {
   B2BUnitNode,
   Permission,
   B2BUnit,
+  B2BApprovalProcess,
 } from '../../model';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
@@ -27,6 +28,9 @@ export const ORG_UNIT_FEATURE = 'orgUnit';
 export const ORG_UNIT_NODE_ENTITIES = 'orgUnitNode-entities';
 export const ORG_UNIT_NODE_LIST = 'orgUnitNode-list';
 export const ORG_UNIT_ENTITIES = 'orgUnit-entities';
+export const ORG_UNIT_TREE_ENTITY = 'orgUnit-tree';
+export const ORG_UNIT_APPROVAL_PROCESSES_ENTITIES =
+  'orgUnit-approval-processes';
 
 export interface Management<Type> {
   list: EntityLoaderState<ListModel>;
@@ -36,9 +40,12 @@ export interface Management<Type> {
 export interface BudgetManagement extends Management<Budget> {}
 
 export interface OrgUnits {
+  // TODO: list is unnecessary here
   list: EntityLoaderState<ListModel>;
   nodeEntities: EntityLoaderState<B2BUnitNode>;
   entities: EntityLoaderState<B2BUnit>;
+  tree: EntityLoaderState<B2BUnitNode>;
+  approvalProcesses: EntityLoaderState<B2BApprovalProcess>;
 }
 
 export interface PermissionManagement extends Management<Permission> {}

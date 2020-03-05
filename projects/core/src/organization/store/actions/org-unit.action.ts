@@ -8,6 +8,7 @@ import {
   ORG_UNIT_NODE_ENTITIES,
   ORG_UNIT_NODE_LIST,
   ORG_UNIT_ENTITIES,
+  ORG_UNIT_TREE_ENTITY,
 } from '../organization-state';
 import { ALL } from '../../utils/serializer';
 import { ListModel } from '../../../model/misc.model';
@@ -33,6 +34,17 @@ export const CREATE_ORG_UNIT_SUCCESS = '[B2BUnit] Create B2BUnitNode Success';
 export const UPDATE_ORG_UNIT = '[B2BUnit] Update B2BUnitNode';
 export const UPDATE_ORG_UNIT_FAIL = '[B2BUnit] Update B2BUnitNode Fail';
 export const UPDATE_ORG_UNIT_SUCCESS = '[B2BUnit] Update B2BUnitNode Success';
+
+export const LOAD_UNIT_TREE = '[B2BUnitNode] Load Tree';
+export const LOAD_UNIT_TREE_FAIL = '[B2BUnitNode] Load Tree Fail';
+export const LOAD_UNIT_TREE_SUCCESS = '[B2BUnitNode] Load Tree Success';
+
+export const LOAD_APPROVAL_PROCESSES =
+  '[B2BApprovalProcess] Load Approval Processes';
+export const LOAD_APPROVAL_PROCESSES_FAIL =
+  '[B2BApprovalProcess] Load Approval Processes Fail';
+export const LOAD_APPROVAL_PROCESSES_SUCCESS =
+  '[B2BApprovalProcess] Load Approval Processes Success';
 
 export class LoadOrgUnit extends EntityLoadAction {
   readonly type = LOAD_ORG_UNIT;
@@ -147,6 +159,28 @@ export class UpdateUnitSuccess extends EntitySuccessAction {
   }
 }
 
+export class LoadTree extends EntityLoadAction {
+  readonly type = LOAD_UNIT_TREE;
+  constructor(public payload: { userId: string }) {
+    super(ORG_UNIT_TREE_ENTITY, 'tree');
+  }
+}
+
+export class LoadTreeFail extends EntityFailAction {
+  readonly type = LOAD_UNIT_TREE_FAIL;
+  constructor(public payload: { error: any }) {
+    super(ORG_UNIT_TREE_ENTITY, 'tree', payload.error);
+  }
+}
+
+export class LoadTreeSuccess extends EntitySuccessAction {
+  readonly type = LOAD_UNIT_TREE_SUCCESS;
+
+  constructor(public payload: B2BUnitNode) {
+    super(ORG_UNIT_TREE_ENTITY, 'tree');
+  }
+}
+
 export type OrgUnitAction =
   | LoadOrgUnitNode
   | LoadOrgUnitNodeFail
@@ -162,4 +196,7 @@ export type OrgUnitAction =
   | CreateUnitSuccess
   | UpdateUnit
   | UpdateUnitFail
-  | UpdateUnitSuccess;
+  | UpdateUnitSuccess
+  | LoadTree
+  | LoadTreeSuccess
+  | LoadTreeFail;
