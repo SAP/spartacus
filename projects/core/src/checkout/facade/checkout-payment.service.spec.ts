@@ -21,7 +21,7 @@ describe('CheckoutPaymentService', () => {
     id: 'mockPaymentDetails',
   };
 
-  class ActiveCArtServiceStub {
+  class ActiveCartServiceStub {
     cart;
     isGuestCart() {
       return true;
@@ -51,7 +51,7 @@ describe('CheckoutPaymentService', () => {
       ],
       providers: [
         CheckoutPaymentService,
-        { provide: ActiveCartService, useClass: ActiveCArtServiceStub },
+        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
       ],
     });
