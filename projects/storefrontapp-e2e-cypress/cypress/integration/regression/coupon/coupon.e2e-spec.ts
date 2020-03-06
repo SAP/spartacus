@@ -17,6 +17,7 @@ describe('Cart Coupon', () => {
       '$104.12',
       '$10'
     );
+
     cartCoupon.placeOrder(stateAuth).then(orderData => {
       cartCoupon.verifyOrderHistory(
         orderData,
