@@ -86,12 +86,12 @@ describe('CostCenter Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.CostCenterEffects as Type<
-      fromEffects.CostCenterEffects
-    >);
-    costCenterConnector = TestBed.get(CostCenterConnector as Type<
-      CostCenterConnector
-    >);
+    effects = TestBed.get(
+      fromEffects.CostCenterEffects as Type<fromEffects.CostCenterEffects>
+    );
+    costCenterConnector = TestBed.get(
+      CostCenterConnector as Type<CostCenterConnector>
+    );
     expected = null;
   });
 

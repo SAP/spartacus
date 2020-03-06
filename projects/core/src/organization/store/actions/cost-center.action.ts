@@ -65,7 +65,10 @@ export class LoadCostCenterFail extends EntityFailAction {
 export class LoadCostCenterSuccess extends EntitySuccessAction {
   readonly type = LOAD_COST_CENTER_SUCCESS;
   constructor(public payload: CostCenter[]) {
-    super(COST_CENTER_ENTITIES, payload.map(costCenter => costCenter.code));
+    super(
+      COST_CENTER_ENTITIES,
+      payload.map(costCenter => costCenter.code)
+    );
   }
 }
 

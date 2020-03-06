@@ -32,17 +32,14 @@ export const getOrgUnitsState: MemoizedSelector<
 export const getOrgUnitState = (
   orgUnitId: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<B2BUnitNode>> =>
-  createSelector(
-    getOrgUnitsState,
-    (state: EntityLoaderState<B2BUnitNode>) =>
-      entityStateSelector(state, orgUnitId)
+  createSelector(getOrgUnitsState, (state: EntityLoaderState<B2BUnitNode>) =>
+    entityStateSelector(state, orgUnitId)
   );
 
 export const getOrgUnitList = (): MemoizedSelector<
   StateWithOrganization,
   LoaderState<EntitiesModel<B2BUnitNode>>
 > =>
-  createSelector(
-    getB2BOrgUnitState,
-    (state: OrgUnits) => denormalizeB2BSearch<B2BUnitNode>(state)
+  createSelector(getB2BOrgUnitState, (state: OrgUnits) =>
+    denormalizeB2BSearch<B2BUnitNode>(state)
   );

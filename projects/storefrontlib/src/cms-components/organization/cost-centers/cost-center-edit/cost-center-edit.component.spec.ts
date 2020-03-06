@@ -128,9 +128,9 @@ describe('CostCenterEditComponent', () => {
       ],
     }).compileComponents();
 
-    costCentersService = TestBed.get(CostCenterService as Type<
-      CostCenterService
-    >);
+    costCentersService = TestBed.get(
+      CostCenterService as Type<CostCenterService>
+    );
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
