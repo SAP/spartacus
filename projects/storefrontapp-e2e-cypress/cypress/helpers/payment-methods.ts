@@ -120,7 +120,7 @@ export function addSecondaryPaymentCard() {
     .should('eq', 200);
 
   // fill in payment method
-  cy.getByText('Add New Payment').click({ force: true });
+  cy.contains('Add New Payment').click({ force: true });
 
   fillPaymentDetails(secondPayment);
 
