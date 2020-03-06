@@ -1,10 +1,19 @@
 <ng-container>
-  <div (click)="handleStoreItemClick()">
+  <div>
     <div class="cx-store-list-order">
       {{ listOrderLabel }}
     </div>
     <div class="cx-store-name">
-      {{ location.displayName || location.name }}
+      <button
+        *ngIf="useClickEvent"
+        (click)="handleStoreItemClick()"
+        (keyup)="onKey($event)"
+      >
+        {{ location.displayName || location.name }}
+      </button>
+      <a *ngIf="!useClickEvent" [href]="prepareRouteUrl(location)">{{
+        location.displayName || location.name
+      }}</a>
     </div>
     <div class="cx-store-address" *ngIf="location.address">
       <div class="cx-store-address-street">

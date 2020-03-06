@@ -138,6 +138,24 @@ describe('Multi Cart reducer', () => {
       });
     });
 
+    describe('SET_ACTIVE_CART_ID action', () => {
+      it('should set active cart id', () => {
+        const initialState = 'cartCode';
+        const action = new CartActions.SetActiveCartId('cartId');
+        const state = fromMultiCart.activeCartReducer(initialState, action);
+        expect(state).toEqual('cartId');
+      });
+    });
+
+    describe('CLEAR_MULTI_CART_STATE action', () => {
+      it('should clear active cart id', () => {
+        const initialState = 'cartCode';
+        const action = new CartActions.ClearMultiCartState();
+        const state = fromMultiCart.activeCartReducer(initialState, action);
+        expect(state).toEqual(fromMultiCart.activeCartInitialState);
+      });
+    });
+
     describe('other actions', () => {
       it('should return the default state', () => {
         const initialState = 'otherCode';
@@ -237,6 +255,14 @@ describe('Multi Cart reducer', () => {
           action
         );
         expect(state).toEqual(code);
+      });
+    });
+    describe('CLEAR_MULTI_CART_STATE action', () => {
+      it('should clear wishlist id', () => {
+        const initialState = 'wishlistId';
+        const action = new CartActions.ClearMultiCartState();
+        const state = fromMultiCart.wishListReducer(initialState, action);
+        expect(state).toEqual(fromMultiCart.wishListInitialState);
       });
     });
   });

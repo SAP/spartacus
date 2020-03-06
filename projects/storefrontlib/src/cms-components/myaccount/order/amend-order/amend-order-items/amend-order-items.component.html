@@ -22,7 +22,8 @@
         {{
           (isCancellation()
             ? 'orderDetails.cancellationAndReturn.cancelQty'
-            : 'orderDetails.cancellationAndReturn.returnQty') | cxTranslate
+            : 'orderDetails.cancellationAndReturn.returnQty'
+          ) | cxTranslate
         }}
       </div>
       <div *ngIf="isConfirmation" class="cx-item-list-total col-md-3  col-xl-2">
@@ -111,8 +112,8 @@
               {{
                 (isCancellation()
                   ? 'orderDetails.cancellationAndReturn.cancelQty'
-                  : 'orderDetails.cancellationAndReturn.returnQty')
-                  | cxTranslate
+                  : 'orderDetails.cancellationAndReturn.returnQty'
+                ) | cxTranslate
               }}
             </div>
 
