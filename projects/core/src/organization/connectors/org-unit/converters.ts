@@ -17,5 +17,5 @@ export const B2BUNIT_NORMALIZER = new InjectionToken<Converter<any, B2BUnit>>(
   'B2BUnitNormalizer'
 );
 export const B2BUNIT_APPROVAL_PROCESSES_NORMALIZER = new InjectionToken<
-  Converter<any, B2BApprovalProcess>
+  Converter<any, B2BApprovalProcess[]>
 >('B2BUnitApprovalProcessNormalizer');
