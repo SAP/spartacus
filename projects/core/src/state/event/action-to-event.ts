@@ -17,6 +17,6 @@ export interface ActionToEvent<T> {
   factory?: (action: any) => T;
 }
 
-export const ACTION_TO_EVENT = new InjectionToken<ActionToEvent<any>>(
+export const ACTION_TO_EVENT_MAPPING = new InjectionToken<ActionToEvent<any>>(
   'ACTION_TO_EVENT'
 );

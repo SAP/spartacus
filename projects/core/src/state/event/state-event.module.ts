@@ -3,7 +3,7 @@ import {
   EventSourceMapping,
   provideEventSources,
 } from '../../event/event-source-mapping';
-import { ActionToEvent, ACTION_TO_EVENT } from './action-to-event';
+import { ActionToEvent, ACTION_TO_EVENT_MAPPING } from './action-to-event';
 import { StateEventService } from './state-event.service';
 
 // private
@@ -34,7 +34,7 @@ export class StateEventModule {
       providers: [
         provideEventSources(eventSourcesFactory, [
           StateEventService,
-          ACTION_TO_EVENT,
+          ACTION_TO_EVENT_MAPPING,
         ]),
       ],
     };
@@ -47,7 +47,7 @@ export class StateEventModule {
       ngModule: StateEventModule,
       providers: [
         {
-          provide: ACTION_TO_EVENT,
+          provide: ACTION_TO_EVENT_MAPPING,
           multi: true,
           useValue: mappings,
         },
