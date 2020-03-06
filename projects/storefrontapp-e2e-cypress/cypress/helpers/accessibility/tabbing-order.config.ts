@@ -188,6 +188,17 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
     },
   ],
+  saveForLater: [
+    {
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    { value: 'Move To Cart', type: TabbingOrderTypes.LINK },
+    { value: 'Remove', type: TabbingOrderTypes.LINK },
+  ],
   changePassword: [
     {
       value: 'oldPassword',
