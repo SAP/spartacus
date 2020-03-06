@@ -41,7 +41,7 @@ export class AsmEnablerService {
   /**
    * Indicates whether the ASM module is enabled.
    */
-  private isEnabled(): boolean {
+  isEnabled(): boolean {
     if (this.isLaunched() && !this.isUsedBefore()) {
       if (this.winRef.localStorage) {
         this.winRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, 'true');

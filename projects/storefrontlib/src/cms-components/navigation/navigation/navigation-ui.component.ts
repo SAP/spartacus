@@ -94,12 +94,14 @@ export class NavigationUIComponent implements OnDestroy {
   }
 
   back(): void {
-    this.renderer.removeClass(
-      this.openNodes[this.openNodes.length - 1],
-      'is-open'
-    );
-    this.openNodes.pop();
-    this.updateClasses();
+    if (this.openNodes[this.openNodes.length - 1]) {
+      this.renderer.removeClass(
+        this.openNodes[this.openNodes.length - 1],
+        'is-open'
+      );
+      this.openNodes.pop();
+      this.updateClasses();
+    }
   }
 
   clear(): void {

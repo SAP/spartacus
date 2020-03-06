@@ -103,7 +103,7 @@ describe(`OccConfigLoaderService`, () => {
             rehydratedExternalConfig
           );
           expect(transferState.get).toHaveBeenCalledWith(
-            'cx-external-config',
+            'cx-external-config' as any,
             undefined
           );
           expect(result).toEqual({
@@ -177,7 +177,7 @@ describe(`OccConfigLoaderService`, () => {
         await service.loadConfig();
 
         expect(transferState.set).toHaveBeenCalledWith(
-          'cx-external-config',
+          'cx-external-config' as any,
           mockExternalConfig
         );
       });

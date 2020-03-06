@@ -8,10 +8,7 @@ import { getUserState } from './feature.selector';
 export const getRegionsLoaderState: MemoizedSelector<
   StateWithUser,
   LoaderState<RegionsState>
-> = createSelector(
-  getUserState,
-  (state: UserState) => state.regions
-);
+> = createSelector(getUserState, (state: UserState) => state.regions);
 
 export const getAllRegions: MemoizedSelector<
   StateWithUser,
@@ -53,17 +50,13 @@ export const getRegionsCountry: MemoizedSelector<
 export const getRegionsLoading: MemoizedSelector<
   StateWithUser,
   boolean
-> = createSelector(
-  getRegionsLoaderState,
-  (state: LoaderState<RegionsState>) =>
-    StateLoaderSelectors.loaderLoadingSelector(state)
+> = createSelector(getRegionsLoaderState, (state: LoaderState<RegionsState>) =>
+  StateLoaderSelectors.loaderLoadingSelector(state)
 );
 
 export const getRegionsLoaded: MemoizedSelector<
   StateWithUser,
   boolean
-> = createSelector(
-  getRegionsLoaderState,
-  (state: LoaderState<RegionsState>) =>
-    StateLoaderSelectors.loaderSuccessSelector(state)
+> = createSelector(getRegionsLoaderState, (state: LoaderState<RegionsState>) =>
+  StateLoaderSelectors.loaderSuccessSelector(state)
 );

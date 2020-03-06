@@ -22,7 +22,8 @@
     *ngIf="
       !(searchResultsLoading$ | async) &&
       searchTerm.value.length >= 3 &&
-      (!!results.entries && results.entries.length <= 0)
+      !!results.entries &&
+      results.entries.length <= 0
     "
     >{{ 'asm.customerSearch.noMatch' | cxTranslate }}</a
   >
