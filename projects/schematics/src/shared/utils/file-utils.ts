@@ -531,16 +531,12 @@ function getImportDeclarationNode(
   source: ts.SourceFile,
   importToCheck: ClassType
 ): ts.Node | undefined {
-  const nodes = getSourceNodes(source);
-
   // collect al the import declarations
-  const importDeclarationNodes = nodes
-    .filter(node => node.kind === ts.SyntaxKind.ImportDeclaration)
-    .filter(node =>
-      (node as ts.ImportDeclaration).moduleSpecifier
-        .getText()
-        .includes(importToCheck.importPath)
-    );
+  const importDeclarationNodes = getImportDeclarations(
+    source,
+    importToCheck.importPath
+  );
+
   if (importDeclarationNodes.length === 0) {
     return undefined;
   }
@@ -738,24 +734,21 @@ export function insertCommentAboveIdentifier(
   return changes;
 }
 
-export function getImportDeclarations(
+function getImportDeclarations(
   source: ts.SourceFile,
   importPath: string
 ): ts.ImportDeclaration[] {
   const imports = getSourceNodes(source).filter(
     node => node.kind === ts.SyntaxKind.ImportDeclaration
   );
-  if (!imports) {
-    return [];
-  }
-  return imports.filter(
-    imp =>
-      ((imp as ts.ImportDeclaration).moduleSpecifier as ts.StringLiteral)
-        .text === importPath
+  return imports.filter(imp =>
+    ((imp as ts.ImportDeclaration).moduleSpecifier as ts.StringLiteral)
+      .getText()
+      .includes(importPath)
   ) as ts.ImportDeclaration[];
 }
 
-export function filterNamespacedImports(
+function filterNamespacedImports(
   imports: ts.ImportDeclaration[]
 ): ts.ImportDeclaration[] {
   return imports
@@ -763,7 +756,7 @@ export function filterNamespacedImports(
     .filter(Boolean);
 }
 
-export function filterNamedImports(
+function filterNamedImports(
   imports: ts.ImportDeclaration[]
 ): ts.ImportDeclaration[] {
   return imports
