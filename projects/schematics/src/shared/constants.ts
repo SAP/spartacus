@@ -39,7 +39,6 @@ export const CART_SERVICE = 'CartService';
 export const ACTIVE_CART_SERVICE = 'ActiveCartService';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
-export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
 export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
