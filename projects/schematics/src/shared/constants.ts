@@ -33,6 +33,7 @@ export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
 export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
+export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
 export const CART_DATA_SERVICE = 'CartDataService';
 export const CART_SERVICE = 'CartService';
 export const ACTIVE_CART_SERVICE = 'ActiveCartService';
