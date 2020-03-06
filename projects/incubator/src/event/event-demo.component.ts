@@ -60,7 +60,7 @@ export class EventDemoComponent {
     const multiCartService = this.injector.get(MultiCartService);
     custom$
       .pipe(
-        // mergeMap(event =>
+        // switchMap(event =>
         //   multiCartService.getCart(event.added.cartId).pipe(
         //     take(1), // CAUTION!!! otherwise will emit on each cart state change! not only on specific event emission
         //     map(cart => ({ ...event, cart }))
