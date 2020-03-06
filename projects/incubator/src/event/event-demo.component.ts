@@ -75,6 +75,6 @@ export class EventDemoComponent {
           return { ...event, cart };
         })
       )
-      .subscribe(console.warn);
+      .subscribe(e => console.log('tag collector using data from store', e));
   }
 }
