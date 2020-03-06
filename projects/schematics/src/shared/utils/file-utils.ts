@@ -1,20 +1,8 @@
 import { experimental, strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
-import {
-  findNode,
-  findNodes,
-  getSourceNodes,
-  insertImport,
-  isImported,
-} from '@schematics/angular/utility/ast-utils';
-import {
-  Change,
-  InsertChange,
-  NoopChange,
-  RemoveChange,
-  ReplaceChange,
-} from '@schematics/angular/utility/change';
+import { findNode, findNodes, getSourceNodes, insertImport, isImported } from '@schematics/angular/utility/ast-utils';
+import { Change, InsertChange, NoopChange, RemoveChange, ReplaceChange } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
 
 export enum InsertDirection {
@@ -735,6 +723,90 @@ export function insertCommentAboveIdentifier(
       )
     )
   );
+  return changes;
+}
+
+export function getImportDeclarations(
+  source: ts.SourceFile,
+  importPath: string
+): ts.ImportDeclaration[] {
+  const imports = getSourceNodes(source).filter(
+    node => node.kind === ts.SyntaxKind.ImportDeclaration
+  );
+  if (!imports) {
+    return [];
+  }
+  return imports.filter(
+    imp =>
+      ((imp as ts.ImportDeclaration).moduleSpecifier as ts.StringLiteral)
+        .text === importPath
+  ) as ts.ImportDeclaration[];
+}
+
+export function filterNamespacedImports(
+  imports: ts.ImportDeclaration[]
+): ts.ImportDeclaration[] {
+  return imports.filter(imp => (imp.importClause?.namedBindings as any)?.name).filter(Boolean);
+}
+
+export function filterNamedImports(
+  imports: ts.ImportDeclaration[]
+): ts.ImportDeclaration[] {
+  return imports.filter(imp => (imp.importClause?.namedBindings as any)?.elements).filter(Boolean);
+}
+
+export function insertCommentAboveImportIdentifier(
+  sourcePath: string,
+  source: ts.SourceFile,
+  identifierName: string,
+  importPath: string,
+  comment: string
+): Change[] {
+  const imports = getImportDeclarations(source, importPath);
+  const namedImports = filterNamedImports(imports);
+  const namespacedImports = filterNamespacedImports(imports);
+
+  const namespacedIdentifiers = namespacedImports
+    .map(imp => (imp.importClause?.namedBindings as any)?.name?.escapedText)
+    .filter(Boolean)
+  const namedImportsWithIdentifierName = namedImports
+    .filter(imp =>
+      findNodes(imp, ts.SyntaxKind.ImportSpecifier)
+        .find(node => (node as any).name.escapedText === identifierName)
+    );
+
+  const propertyAccessExpressions = getSourceNodes(source).filter(
+    node => node.kind === ts.SyntaxKind.PropertyAccessExpression
+  );
+
+  const accessPropertiesToIdentifierName = propertyAccessExpressions
+    .filter((member) => namespacedIdentifiers.includes((member as any)?.expression?.escapedText))
+    .filter(((member) => identifierName === (member as any)?.name?.escapedText))
+    .filter(Boolean);
+
+
+  const changes: InsertChange[] = [];
+
+  namedImportsWithIdentifierName.forEach(n =>  
+    changes.push(
+      new InsertChange(
+        sourcePath,
+        getLineStartFromTSFile(source, n.getStart()),
+        comment
+      )
+    )
+  );
+
+  accessPropertiesToIdentifierName.forEach(n =>  
+    changes.push(
+      new InsertChange(
+        sourcePath,
+        getLineStartFromTSFile(source, n.getStart()),
+        comment
+      )
+    )
+  );
+  
   return changes;
 }
 
