@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, queueScheduler, of } from 'rxjs';
+import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
@@ -10,6 +10,8 @@ import { OrgUnitActions } from '../store/actions/index';
 import {
   getOrgUnitState,
   getOrgUnitList,
+  getApprovalProcessesState,
+  getOrgUnitTreeState,
 } from '../store/selectors/org-unit.selector';
 import {
   B2BUnit,
@@ -37,14 +39,36 @@ export class OrgUnitService {
     );
   }
 
+  loadTree() {
+    this.withUserId(userId =>
+      this.store.dispatch(new OrgUnitActions.LoadTree({ userId }))
+    );
+  }
+
+  loadApprovalProcesses() {
+    this.withUserId(userId =>
+      this.store.dispatch(new OrgUnitActions.LoadApprovalProcesses({ userId }))
+    );
+  }
+
   private getOrgUnitState(orgUnitId: string) {
     return this.store.select(getOrgUnitState(orgUnitId));
+  }
+
+  private getTreeState(): Observable<LoaderState<B2BUnitNode>> {
+    return this.store.select(getOrgUnitTreeState());
   }
 
   private getOrgUnitsList(): Observable<
     LoaderState<EntitiesModel<B2BUnitNode>>
   > {
     return this.store.select(getOrgUnitList());
+  }
+
+  private getApprovalProcessesList(): Observable<
+    LoaderState<B2BApprovalProcess[]>
+  > {
+    return this.store.select(getApprovalProcessesState());
   }
 
   get(orgUnitId: string): Observable<B2BUnit> {
@@ -60,13 +84,35 @@ export class OrgUnitService {
     );
   }
 
+  getTree(): Observable<B2BUnitNode> {
+    return this.getTreeState().pipe(
+      observeOn(queueScheduler),
+      tap((process: LoaderState<B2BUnitNode>) => {
+        if (!(process.loading || process.success || process.error)) {
+          this.loadTree();
+        }
+      }),
+      filter(
+        (process: LoaderState<B2BUnitNode>) => process.success || process.error
+      ),
+      map(result => result.value)
+    );
+  }
+
   getApprovalProcesses(): Observable<B2BApprovalProcess[]> {
-    return of([
-      {
-        code: 'accApproval',
-        name: 'Escalation Approval with Merchant Check',
-      },
-    ]);
+    return this.getApprovalProcessesList().pipe(
+      observeOn(queueScheduler),
+      tap((process: LoaderState<B2BApprovalProcess[]>) => {
+        if (!(process.loading || process.success || process.error)) {
+          this.loadApprovalProcesses();
+        }
+      }),
+      filter(
+        (process: LoaderState<B2BApprovalProcess[]>) =>
+          process.success || process.error
+      ),
+      map(result => result.value)
+    );
   }
 
   getList(): Observable<EntitiesModel<B2BUnitNode>> {
