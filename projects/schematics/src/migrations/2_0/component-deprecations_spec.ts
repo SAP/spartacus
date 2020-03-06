@@ -34,7 +34,7 @@ const COMPONENT_INHERITANCE_EXPECTED_CLASS = `
 import { ConsentManagementFormComponent } from '@spartacus/core';
 export class Test extends ConsentManagementFormComponent {
   usingIsLevel13(): void {
-// 'isLevel13' property has been removed.
+// TODO:Spartacus - 'isLevel13' property has been removed.
     console.log(this.isLevel13);
   }
 }
