@@ -79,7 +79,7 @@ export class MediaComponent implements OnChanges {
     this.media = this.mediaService.getMedia(
       this.container,
       this.format,
-      this.alt.replace(/<.*?>/g, '')
+      this.alt
     );
     if (!this.media.src) {
       this.handleMissing();

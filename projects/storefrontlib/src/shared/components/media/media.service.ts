@@ -38,6 +38,7 @@ export class MediaService {
   }
 
   getMedia(container, format?: string, alt?: string): Media {
+    alt = alt ? alt.replace(/<.*?>/g, '') : null;
     return {
       src: this.getMainImage(container, format),
       srcset: this.getSrcSet(container),
@@ -83,9 +84,11 @@ export class MediaService {
     if (!media) {
       return undefined;
     } else if (media[format || DEFAULT_MEDIA_FORMAT]) {
-      return media[format || DEFAULT_MEDIA_FORMAT].altText;
+      const altText = media[format || DEFAULT_MEDIA_FORMAT].altText;
+      return altText ? altText.replace(/<.*?>/g, '') : altText;
     } else if (media.altText) {
-      return media.altText;
+      const altText = media.altText;
+      return altText ? altText.replace(/<.*?>/g, '') : altText;
     }
   }
 
