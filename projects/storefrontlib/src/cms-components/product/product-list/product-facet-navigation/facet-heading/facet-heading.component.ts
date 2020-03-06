@@ -1,13 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   HostListener,
   Input,
+  Output,
 } from '@angular/core';
-import { Facet } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
-import { FacetCollapseState, FacetService } from '../facet.service';
 
 @Component({
   selector: 'cx-facet-heading',
@@ -15,33 +14,25 @@ import { FacetCollapseState, FacetService } from '../facet.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FacetHeadingComponent {
-  @Input() facet: Facet;
+  @Input() name: string;
+  @Input() expanded: boolean;
 
-  // @HostBinding('tabindex') tabindex;
+  @Input() expandIcon: ICON_TYPE = ICON_TYPE.EXPAND;
+  @Input() collapseIcon: ICON_TYPE = ICON_TYPE.COLLAPSE;
 
-  icons = ICON_TYPE;
+  @Output() toggle = new EventEmitter<boolean>();
 
   //   aria-controls=""
   //   [attr.aria-expanded]="state.collapsed"
 
   @HostListener('click', ['$event'])
-  @HostListener('keydown.enter', ['$event'])
-  @HostListener('keydown.space', ['$event'])
   onEvent(event: MouseEvent) {
-    this.facetService.toggleGroup(this.facet);
-    // we'll stop event bubbling to ensure that
-    // the space key will not force a scroll down
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  constructor(private facetService: FacetService) {}
-
-  get state(): BehaviorSubject<FacetCollapseState> {
-    return this.facetService.getState(this.facet);
-  }
-
-  getIndex(state: FacetCollapseState): number {
-    return state.focussed ? 0 : -1;
+    if (this.expanded) {
+      // if the panel will collapse by a mouse click, we stop event bubbling
+      // as it would trigger the focus event handler.
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    this.toggle.emit(true);
   }
 }

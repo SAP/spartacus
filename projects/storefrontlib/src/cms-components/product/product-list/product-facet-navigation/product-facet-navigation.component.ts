@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { Breadcrumb, Facet } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
-import { FacetService } from './facet.service';
+import { ProductFacetService } from './product-facet.service';
 
 @Component({
   selector: 'cx-product-facet-navigation',
@@ -18,20 +18,13 @@ export class ProductFacetNavigationComponent {
    */
   showNav = false;
 
-  facets$: Observable<Facet[]> = this.facetService.facets$;
-  activeFacets$: Observable<Breadcrumb[]> = this.facetService.breadcrumbs$;
+  facets$: Observable<Facet[]> = this.productFacetService.facets$;
+  activeFacets$: Observable<Breadcrumb[]> = this.productFacetService
+    .breadcrumbs$;
 
   @HostBinding('class.container') container = true;
 
-  constructor(private facetService: FacetService) {}
-
-  getLinkParams(facet: Breadcrumb) {
-    return this.facetService.getLinkParams(facet.removeQuery.query.value);
-  }
-
-  toggleBreadcrumb(breadcrumb: Breadcrumb): void {
-    this.facetService.toggleValue(breadcrumb.removeQuery);
-  }
+  constructor(protected productFacetService: ProductFacetService) {}
 
   toggleNavigation() {
     this.showNav = !this.showNav;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MOVE_FOCUS } from '../keyboard-focus.model';
+import { MOVE_FOCUS, TrapFocusConfig } from '../keyboard-focus.model';
 import { TabFocusService } from '../tab/tab-focus.service';
 
 @Injectable({
@@ -19,30 +19,46 @@ export class TrapFocusService extends TabFocusService {
    * Focus the next or previous element of all available focussable elments.
    * The focus is _trapped_ in case there's no next or previous available element.
    * The focus will automatically move the start or end of the list.
-   *
-   * @param host the `HTMLElement` that is used to get all focusable elements for
-   * @param target the current `HTMLElement` that indicates the index
-   * @param increment a number, expects either 1 (down) or -1 (up)
    */
   moveFocus(
     host: HTMLElement,
-    target: HTMLElement,
-    increment: MOVE_FOCUS
+    event: UIEvent,
+    increment: MOVE_FOCUS,
+    config: TrapFocusConfig
   ): void {
     const focusable: HTMLElement[] = this.findFocusable(host);
 
-    let index = focusable.findIndex(v => v === target) + increment;
+    let index = focusable.findIndex(v => v === event.target) + increment;
 
-    if (index >= focusable.length) {
-      index = 0;
-    }
-    if (index < 0) {
-      index = focusable.length - 1;
-    }
+    const shouldFocus =
+      (index >= 0 && index <= focusable.length) ||
+      (index < 0 && this.getTrapStart(config.trap)) ||
+      (index > focusable.length && this.getTrapEnd(config.trap));
 
-    const el = focusable[index];
-    if (el.getAttribute('tabindex') !== '-1') {
-      el.focus();
+    // focus
+    if (shouldFocus) {
+      if (index >= focusable.length) {
+        index = 0;
+      }
+      if (index < 0) {
+        index = focusable.length - 1;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const el = focusable[index];
+      if (el.getAttribute('tabindex') !== '-1') {
+        el.focus();
+      }
     }
+  }
+
+  protected getTrapStart(trap: boolean | 'start' | 'end'): boolean {
+    return trap === true || trap === 'start';
+  }
+
+  protected getTrapEnd(trap: boolean | 'start' | 'end'): boolean {
+    return trap === true || trap === 'end';
   }
 }

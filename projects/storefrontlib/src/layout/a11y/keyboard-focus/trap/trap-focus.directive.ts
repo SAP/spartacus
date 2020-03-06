@@ -28,17 +28,13 @@ export class TrapFocusDirective extends TabFocusDirective
   @HostListener('keydown.arrowdown', ['$event'])
   @HostListener('keydown.tab', ['$event'])
   protected handleTrapDown = (event: KeyboardEvent) => {
-    if (this.trapEnd) {
-      this.moveFocus(event, MOVE_FOCUS.NEXT);
-    }
+    this.moveFocus(event, MOVE_FOCUS.NEXT);
   };
 
   @HostListener('keydown.arrowup', ['$event'])
   @HostListener('keydown.shift.tab', ['$event'])
   protected handleTrapUp = (event: KeyboardEvent) => {
-    if (this.trapStart) {
-      this.moveFocus(event, MOVE_FOCUS.PREV);
-    }
+    this.moveFocus(event, MOVE_FOCUS.PREV);
   };
 
   constructor(
@@ -46,13 +42,6 @@ export class TrapFocusDirective extends TabFocusDirective
     protected service: TrapFocusService
   ) {
     super(elementRef, service);
-  }
-
-  protected get trapStart(): boolean {
-    return this.config?.trap === true || this.config.trap === 'start';
-  }
-  protected get trapEnd(): boolean {
-    return this.config?.trap === true || this.config.trap === 'end';
   }
 
   /**
@@ -64,13 +53,13 @@ export class TrapFocusDirective extends TabFocusDirective
    * @param increment indicates whether the next or previous is focussed.
    */
   protected moveFocus(event: UIEvent, increment: number) {
-    // console.log('move???', this.host);
     if (this.service.isFocussed(this.host)) {
-      // console.log('move!!');
-
-      event.preventDefault();
-      event.stopPropagation();
-      this.service.moveFocus(this.host, event.target as HTMLElement, increment);
+      this.service.moveFocus(
+        this.host,
+        event as UIEvent,
+        increment,
+        this.config
+      );
     }
   }
 }

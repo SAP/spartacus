@@ -107,7 +107,6 @@ export class ProductFacetService {
    * since either the category or brand code should match those codes.
    */
   private hasBreadcrumb(breadcrumb: Breadcrumb, params: Params): boolean {
-    // console.log('hasB', breadcrumb, params);
     return (
       // breadcrumb.facetCode === 'category' ||
       breadcrumb.facetCode === 'allCategories' &&

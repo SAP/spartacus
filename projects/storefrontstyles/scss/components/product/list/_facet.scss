@@ -1,28 +1,24 @@
-// body {
-//   // why did we need this again... ? I assume native directionality.
-//   text-align: start;
-// }
-
 %cx-facet {
   display: block;
 
   &:not(.expanded) {
-    a {
+    a,
+    button {
       display: none;
     }
   }
 
-  a {
+  a,
+  button {
     display: flex;
     align-items: baseline;
     padding: 0.4rem;
 
     cursor: pointer;
 
+    color: var(--cx-color-text);
+
     &.value {
-      // outline: none;
-      color: var(--cx-color-text);
-      // &:focus-within
       &:hover {
         text-decoration: none;
         color: var(--cx-color-primary);
@@ -37,10 +33,17 @@
     }
   }
 
+  button {
+    background: none;
+    border: none;
+    display: inline-flex;
+    &:hover {
+      color: var(--cx-color-primary);
+    }
+  }
+
   &.multi-select a.value {
     &:hover {
-      // &:focus-within
-
       &:not(.selected)::before {
         border-color: var(--cx-color-primary);
       }

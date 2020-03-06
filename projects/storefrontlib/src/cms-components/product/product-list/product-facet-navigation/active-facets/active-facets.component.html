@@ -1,0 +1,11 @@
+<h4 *ngIf="facets?.length > 0">
+  {{ 'productList.appliedFilter' | cxTranslate }}
+</h4>
+<a
+  *ngFor="let facet of facets"
+  routerLink="./"
+  [queryParams]="getLinkParams(facet)"
+>
+  <span>{{ facet.facetValueName }}</span>
+  <cx-icon aria-hidden="true" [type]="closeIcon"></cx-icon>
+</a>

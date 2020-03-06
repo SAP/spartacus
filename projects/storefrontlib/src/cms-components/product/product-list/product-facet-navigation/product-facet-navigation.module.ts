@@ -1,23 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import {
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-  UrlModule,
-} from '@spartacus/core';
+import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import { KeyboardFocusModule } from '../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { IconModule } from '../../../misc';
+import { ActiveFacetsModule } from './active-facets/active-facets.module';
 import { FacetModule } from './facet/facet.module';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
-    UrlModule,
     I18nModule,
     IconModule,
     FacetModule,
+    ActiveFacetsModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductRefinementComponent: {
@@ -25,6 +20,7 @@ import { ProductFacetNavigationComponent } from './product-facet-navigation.comp
         },
       },
     }),
+    KeyboardFocusModule,
   ],
   declarations: [ProductFacetNavigationComponent],
   exports: [ProductFacetNavigationComponent],

@@ -1,16 +1,17 @@
-<cx-facet-heading [facet]="facet"></cx-facet-heading>
-
 <ng-container *ngIf="state$ | async as state">
+  <cx-facet-heading
+    [name]="facet.name"
+    [expanded]="state.expanded"
+    (toggle)="toggleGroup($event)"
+  ></cx-facet-heading>
+
   <a
-    #facetValue
     *ngFor="let value of facet.values | slice: 0:state.top"
     routerLink="./"
     [queryParams]="getLinkParams(value)"
     class="value"
     [class.selected]="value.selected"
-    (click)="clickValueHandler(value, $event)"
-    (keydown.enter)="clickValueHandler(value, $event)"
-    [tabIndex]="getIndex(state)"
+    [cxFocus]="value.name"
   >
     <span
       >{{ value.name }}<span class="count">{{ value.count }}</span></span
@@ -24,30 +25,25 @@
       [queryParams]="getLinkParams(value)"
       class="value"
       [class.selected]="value.selected"
-      [tabIndex]="getIndex(state)"
     >
       <span
         >{{ value.name }}<span class="count">{{ value.count }}</span></span
       >
     </a>
-    <a
+
+    <button
       *ngIf="state.visible > state.top"
       (click)="decreaseCount()"
-      (keydown.enter)="decreaseCount()"
-      (keydown.space)="decreaseCount()"
-      [tabIndex]="getIndex(state)"
+      cxFocus="moreorless"
     >
       {{ 'productList.showLess' | cxTranslate }}
-    </a>
+    </button>
 
-    <a
+    <button
       *ngIf="state.visible > 0 && state.visible < facet.values.length"
       (click)="increaseCount()"
-      (keydown.enter)="increaseCount()"
-      (keydown.space)="increaseCount()"
-      [tabIndex]="getIndex(state)"
     >
       {{ 'productList.showMore' | cxTranslate }}
-    </a>
+    </button>
   </div>
 </ng-container>

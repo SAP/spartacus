@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
+import { IconModule } from '../../../../../cms-components/misc/icon/index';
+import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { FacetHeadingModule } from '../facet-heading/facet-heading.module';
 import { FacetComponent } from './facet.component';
 @NgModule({
@@ -11,6 +13,8 @@ import { FacetComponent } from './facet.component';
     UrlModule,
     I18nModule,
     FacetHeadingModule,
+    IconModule,
+    KeyboardFocusModule,
   ],
   declarations: [FacetComponent],
   exports: [FacetComponent],

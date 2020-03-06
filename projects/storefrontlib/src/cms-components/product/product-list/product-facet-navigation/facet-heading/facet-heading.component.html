@@ -1,4 +1,2 @@
-{{ facet.name }}
-<cx-icon
-  [type]="(state | async)?.expanded ? icons.COLLAPSE : icons.EXPAND"
-></cx-icon>
+{{ name }}
+<cx-icon [type]="expanded ? collapseIcon : expandIcon"></cx-icon>

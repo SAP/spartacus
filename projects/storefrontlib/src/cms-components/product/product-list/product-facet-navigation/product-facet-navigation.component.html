@@ -2,36 +2,22 @@
   {{ 'productList.filterBy.label' | cxTranslate }}
 </button>
 
-<div *ngIf="activeFacets$ | async as facets" class="active">
-  <h4 *ngIf="facets.length > 0">
-    {{ 'productList.appliedFilter' | cxTranslate }}
-  </h4>
-  <a
-    *ngFor="let facet of facets"
-    routerLink="./"
-    [queryParams]="getLinkParams(facet)"
-  >
-    <span>{{ facet.facetValueName }}</span>
-    <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
-  </a>
-</div>
+<cx-active-facets [facets]="activeFacets$ | async"></cx-active-facets>
 
 <div class="facets" [class.open]="showNav">
-  <!-- -->
   <button
     type="button"
     class="close"
     aria-label="Close"
     (click)="toggleNavigation()"
-    #close
   >
     <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
   </button>
 
-  <!-- 
-      TODO: 
-      We'd like to offer custom facet components here. most likely we're 
-      going to use sproutlets for this. 
-    -->
-  <cx-facet *ngFor="let facet of facets$ | async" [facet]="facet"></cx-facet>
+  <!-- TODO: support custom facet components here -->
+  <cx-facet
+    *ngFor="let facet of facets$ | async"
+    [facet]="facet"
+    [cxFocus]="{ lock: true, trap: 'end' }"
+  ></cx-facet>
 </div>
