@@ -31,9 +31,9 @@ export class TrapFocusService extends TabFocusService {
     let index = focusable.findIndex(v => v === event.target) + increment;
 
     const shouldFocus =
-      (index >= 0 && index <= focusable.length) ||
+      (index >= 0 && index < focusable.length) ||
       (index < 0 && this.getTrapStart(config.trap)) ||
-      (index > focusable.length && this.getTrapEnd(config.trap));
+      (index >= focusable.length && this.getTrapEnd(config.trap));
 
     // focus
     if (shouldFocus) {
@@ -48,6 +48,7 @@ export class TrapFocusService extends TabFocusService {
       event.stopPropagation();
 
       const el = focusable[index];
+
       if (el.getAttribute('tabindex') !== '-1') {
         el.focus();
       }

@@ -1,10 +1,10 @@
 import {
-  AfterViewInit,
   Directive,
   ElementRef,
   EventEmitter,
   HostListener,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
 import { MOVE_FOCUS, TrapFocusConfig } from '../keyboard-focus.model';
@@ -18,8 +18,7 @@ import { TrapFocusService } from './trap-focus.service';
 @Directive({
   selector: '[cxTrapFocus]',
 })
-export class TrapFocusDirective extends TabFocusDirective
-  implements AfterViewInit {
+export class TrapFocusDirective extends TabFocusDirective implements OnInit {
   /** configuration options to steer the usage */
   @Input('cxTrapFocus') protected config: TrapFocusConfig;
 
@@ -42,6 +41,10 @@ export class TrapFocusDirective extends TabFocusDirective
     protected service: TrapFocusService
   ) {
     super(elementRef, service);
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
   }
 
   /**
