@@ -10,6 +10,7 @@ import {
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
+import { ɵEventDemoModule } from '@spartacus/incubator';
 import {
   B2cStorefrontModule,
   JsonLdBuilderModule,
@@ -35,7 +36,7 @@ if (!environment.production) {
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
-          baseUrl: environment.occBaseUrl,
+          baseUrl: 'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002',
           legacy: false,
         },
       },
@@ -76,6 +77,8 @@ if (!environment.production) {
 
     ...devImports,
     ConfigModule,
+
+    ɵEventDemoModule,
   ],
 
   bootstrap: [StorefrontComponent],

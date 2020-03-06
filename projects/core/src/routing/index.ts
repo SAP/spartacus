@@ -1,4 +1,5 @@
 export * from './configurable-routes/index';
+export * from './event/index';
 export * from './external-routes/index';
 export * from './facade/routing.service';
 export * from './models/cms-route';

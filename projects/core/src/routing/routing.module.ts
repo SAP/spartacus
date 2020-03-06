@@ -9,6 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import { Config } from '../config/config.module';
 import { RoutingConfig } from './configurable-routes/config/routing-config';
 import { ConfigurableRoutesService } from './configurable-routes/configurable-routes.service';
+import { RoutingEventModule } from './event/routing-event.module';
 import { effects } from './store/effects/index';
 import {
   CustomSerializer,
@@ -32,6 +33,7 @@ export function initConfigurableRoutes(
       routerState: RouterState.Minimal,
       stateKey: ROUTING_FEATURE, // name of reducer key
     }),
+    RoutingEventModule,
   ],
 })
 export class RoutingModule {

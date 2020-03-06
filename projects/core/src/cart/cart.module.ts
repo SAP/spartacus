@@ -1,6 +1,7 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
 import { ConfigInitializerService } from '../config/config-initializer/config-initializer.service';
+import { CartEventModule } from './event/cart-event.module';
 import { ActiveCartService } from './facade/active-cart.service';
 import { CartDataService } from './facade/cart-data.service';
 import {
@@ -27,7 +28,7 @@ export function cartStatePersistenceFactory(
 }
 
 @NgModule({
-  imports: [CartStoreModule, MultiCartStoreModule],
+  imports: [CartStoreModule, MultiCartStoreModule, CartEventModule],
 })
 export class CartModule {
   static forRoot(): ModuleWithProviders<CartModule> {

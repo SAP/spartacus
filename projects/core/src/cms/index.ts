@@ -1,6 +1,7 @@
 export * from './cms.module';
 export * from './config/index';
 export * from './connectors/index';
+export * from './event/index';
 export * from './facade/index';
 export * from './model/content-slot-component-data.model';
 export * from './model/content-slot-data.model';
