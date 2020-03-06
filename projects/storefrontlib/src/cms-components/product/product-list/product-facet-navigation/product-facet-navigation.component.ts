@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  ViewChild,
+} from '@angular/core';
 import { Breadcrumb, Facet } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
@@ -18,6 +24,8 @@ export class ProductFacetNavigationComponent {
    */
   showNav = false;
 
+  @ViewChild('filterBy') filterBy: ElementRef;
+
   facets$: Observable<Facet[]> = this.productFacetService.facets$;
   activeFacets$: Observable<Breadcrumb[]> = this.productFacetService
     .breadcrumbs$;
@@ -28,5 +36,8 @@ export class ProductFacetNavigationComponent {
 
   toggleNavigation() {
     this.showNav = !this.showNav;
+    if (!this.showNav) {
+      this.filterBy?.nativeElement?.focus();
+    }
   }
 }

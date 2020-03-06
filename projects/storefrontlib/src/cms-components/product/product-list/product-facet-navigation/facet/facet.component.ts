@@ -26,7 +26,7 @@ export class FacetComponent {
   @HostBinding('class.expanded') isExpanded: boolean;
   @HostBinding('class.multi-select') isMultiSelect: boolean;
 
-  @Input('facet') set facetFn(value: Facet) {
+  @Input('facet') protected set handleFacet(value: Facet) {
     this.isMultiSelect = value.multiSelect;
     this.facet = value;
 
@@ -42,10 +42,11 @@ export class FacetComponent {
     );
   }
 
+  @Input() collapse: boolean;
+
   constructor(private facetService: FacetService) {}
 
-  toggleGroup(toggle) {
-    console.log('toggle target', toggle);
+  toggleGroup() {
     this.facetService.toggleGroup(this.facet);
   }
 

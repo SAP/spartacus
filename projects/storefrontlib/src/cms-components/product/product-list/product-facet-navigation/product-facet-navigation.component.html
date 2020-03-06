@@ -1,23 +1,42 @@
-<button class="btn btn-action btn-block" (click)="toggleNavigation()">
-  {{ 'productList.filterBy.label' | cxTranslate }}
-</button>
+<ng-container *ngIf="facets$ | async as facets">
+  <cx-active-facets [facets]="activeFacets$ | async"></cx-active-facets>
 
-<cx-active-facets [facets]="activeFacets$ | async"></cx-active-facets>
-
-<div class="facets" [class.open]="showNav">
   <button
-    type="button"
-    class="close"
-    aria-label="Close"
+    *ngIf="facets.length > 0"
+    class="btn btn-action btn-block"
     (click)="toggleNavigation()"
+    #filterBy
   >
-    <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+    {{ 'productList.filterBy.label' | cxTranslate }}??
   </button>
 
-  <!-- TODO: support custom facet components here -->
-  <cx-facet
-    *ngFor="let facet of facets$ | async"
-    [facet]="facet"
-    [cxFocus]="{ lock: true, trap: 'end' }"
-  ></cx-facet>
-</div>
+  <div
+    *ngIf="facets.length > 0"
+    class="facets"
+    [class.open]="showNav"
+    [cxFocus]="{
+      autofocus: 'cx-facet',
+      trap: showNav,
+      block: true,
+      focusOnEscape: showNav
+    }"
+    (esc)="toggleNavigation()"
+  >
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="toggleNavigation()"
+    >
+      <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+    </button>
+
+    <!-- TODO: support custom facet components here -->
+    <cx-facet
+      *ngFor="let facet of facets"
+      [facet]="facet"
+      [cxFocus]="{ lock: true, trap: true }"
+      [collapse]="showNav"
+    ></cx-facet>
+  </div>
+</ng-container>
