@@ -10,10 +10,9 @@ import {
   ORG_UNIT_FEATURE,
   ORG_UNIT_TREE,
   ORG_UNIT_APPROVAL_PROCESSES,
+  ORG_UNIT_NODES,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
-import { denormalizeCustomB2BSearch } from '../../utils/serializer';
-import { EntitiesModel } from '../../../model/misc.model';
 
 export const getB2BOrgUnitState: MemoizedSelector<
   StateWithOrganization,
@@ -23,12 +22,12 @@ export const getB2BOrgUnitState: MemoizedSelector<
   (state: OrganizationState) => state[ORG_UNIT_FEATURE]
 );
 
-export const getOrgUnitNodesState: MemoizedSelector<
+export const getOrgUnitsNodeListState: MemoizedSelector<
   StateWithOrganization,
-  EntityLoaderState<B2BUnitNode>
+  EntityLoaderState<B2BUnitNode[]>
 > = createSelector(
   getB2BOrgUnitState,
-  (state: OrgUnits) => state && state.nodeEntities
+  (state: OrgUnits) => state && state.availableOrgUnitNodes
 );
 
 export const getOrgUnitsState: MemoizedSelector<
@@ -66,12 +65,12 @@ export const getOrgUnitState = (
 
 export const getOrgUnitList = (): MemoizedSelector<
   StateWithOrganization,
-  LoaderState<EntitiesModel<B2BUnitNode>>
+  LoaderState<B2BUnitNode[]>
 > =>
   createSelector(
-    getB2BOrgUnitState,
-    (state: OrgUnits) =>
-      denormalizeCustomB2BSearch(state.list, state.nodeEntities)
+    getOrgUnitsNodeListState,
+    (state: EntityLoaderState<B2BUnitNode[]>) =>
+      entityStateSelector(state, ORG_UNIT_NODES)
   );
 
 export const getOrgUnitTreeState = (): MemoizedSelector<

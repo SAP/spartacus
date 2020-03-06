@@ -6,8 +6,6 @@ import { B2BApprovalProcess, B2BUnitNode } from '../../../model/org-unit.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { OrgUnitActions } from '../actions/index';
-import { EntitiesModel } from '../../../model/misc.model';
-import { normalizeListPage } from '../../utils/serializer';
 
 @Injectable()
 export class OrgUnitEffects {
@@ -19,9 +17,10 @@ export class OrgUnitEffects {
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
     switchMap(({ userId, orgUnitId }) => {
       return this.orgUnitConnector.get(userId, orgUnitId).pipe(
-        map((orgUnit: B2BUnitNode) => {
-          return new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]);
-        }),
+        map(
+          (orgUnit: B2BUnitNode) =>
+            new OrgUnitActions.LoadOrgUnitSuccess([orgUnit])
+        ),
         catchError(error =>
           of(
             new OrgUnitActions.LoadOrgUnitFail({
@@ -36,23 +35,16 @@ export class OrgUnitEffects {
 
   @Effect()
   loadAvailableOrgUnits$: Observable<
-    | OrgUnitActions.LoadOrgUnitNodeSuccess
-    | OrgUnitActions.LoadOrgUnitNodesSuccess
-    | OrgUnitActions.LoadOrgUnitNodesFail
+    OrgUnitActions.LoadOrgUnitNodesSuccess | OrgUnitActions.LoadOrgUnitNodesFail
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_UNIT_NODES),
     map((action: OrgUnitActions.LoadOrgUnitNodes) => action.payload),
     switchMap(payload =>
       this.orgUnitConnector.getList(payload.userId).pipe(
-        switchMap((orgUnitsList: EntitiesModel<B2BUnitNode>) => {
-          const { values, page } = normalizeListPage(orgUnitsList, 'id');
-          return [
-            new OrgUnitActions.LoadOrgUnitNodeSuccess(values),
-            new OrgUnitActions.LoadOrgUnitNodesSuccess({
-              page,
-            }),
-          ];
-        }),
+        map(
+          (orgUnitsList: B2BUnitNode[]) =>
+            new OrgUnitActions.LoadOrgUnitNodesSuccess(orgUnitsList)
+        ),
         catchError(error =>
           of(
             new OrgUnitActions.LoadOrgUnitNodesFail({
@@ -116,9 +108,9 @@ export class OrgUnitEffects {
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
     switchMap(({ userId }) => {
       return this.orgUnitConnector.getTree(userId).pipe(
-        map((orgUnit: B2BUnitNode) => {
-          return new OrgUnitActions.LoadTreeSuccess(orgUnit);
-        }),
+        map(
+          (orgUnit: B2BUnitNode) => new OrgUnitActions.LoadTreeSuccess(orgUnit)
+        ),
         catchError(error =>
           of(
             new OrgUnitActions.LoadTreeFail({
@@ -139,11 +131,10 @@ export class OrgUnitEffects {
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
     switchMap(({ userId }) => {
       return this.orgUnitConnector.getApprovalProcesses(userId).pipe(
-        map((approvalProcesses: B2BApprovalProcess[]) => {
-          return new OrgUnitActions.LoadApprovalProcessesSuccess(
-            approvalProcesses
-          );
-        }),
+        map(
+          (approvalProcesses: B2BApprovalProcess[]) =>
+            new OrgUnitActions.LoadApprovalProcessesSuccess(approvalProcesses)
+        ),
         catchError(error =>
           of(
             new OrgUnitActions.LoadApprovalProcessesFail({

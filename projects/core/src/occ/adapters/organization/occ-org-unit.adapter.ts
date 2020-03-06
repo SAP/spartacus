@@ -17,7 +17,6 @@ import {
   B2BUnit,
   B2BApprovalProcess,
 } from '../../../model/org-unit.model';
-import { EntitiesModel } from '../../../model/misc.model';
 
 @Injectable()
 export class OccOrgUnitAdapter implements OrgUnitAdapter {
@@ -55,10 +54,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
       .pipe(this.converter.pipeable(B2BUNIT_NODE_NORMALIZER));
   }
 
-  loadList(
-    userId: string,
-    params?: any
-  ): Observable<EntitiesModel<B2BUnitNode>> {
+  loadList(userId: string, params?: any): Observable<B2BUnitNode[]> {
     return this.http
       .get<Occ.B2BUnitNodeList>(
         this.getAvailableOrgUnitsEndpoint(userId, params)

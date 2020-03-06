@@ -5,13 +5,12 @@ import {
   B2BUnit,
   B2BUnitNode,
 } from '../../../model/org-unit.model';
-import { EntitiesModel } from '../../../model/misc.model';
 
 export const B2BUNIT_NODE_NORMALIZER = new InjectionToken<
   Converter<any, B2BUnitNode>
 >('B2BUnitNodeNormalizer');
 export const B2BUNIT_NODE_LIST_NORMALIZER = new InjectionToken<
-  Converter<any, EntitiesModel<B2BUnitNode>>
+  Converter<any, B2BUnitNode[]>
 >('B2BUnitNodeListNormalizer');
 export const B2BUNIT_NORMALIZER = new InjectionToken<Converter<any, B2BUnit>>(
   'B2BUnitNormalizer'

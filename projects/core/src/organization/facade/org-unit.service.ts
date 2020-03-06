@@ -13,12 +13,7 @@ import {
   getApprovalProcessesState,
   getOrgUnitTreeState,
 } from '../store/selectors/org-unit.selector';
-import {
-  B2BUnit,
-  B2BUnitNode,
-  EntitiesModel,
-  B2BApprovalProcess,
-} from '../../model';
+import { B2BUnit, B2BUnitNode, B2BApprovalProcess } from '../../model';
 
 @Injectable()
 export class OrgUnitService {
@@ -59,9 +54,7 @@ export class OrgUnitService {
     return this.store.select(getOrgUnitTreeState());
   }
 
-  private getOrgUnitsList(): Observable<
-    LoaderState<EntitiesModel<B2BUnitNode>>
-  > {
+  private getOrgUnitsList(): Observable<LoaderState<B2BUnitNode[]>> {
     return this.store.select(getOrgUnitList());
   }
 
@@ -115,16 +108,16 @@ export class OrgUnitService {
     );
   }
 
-  getList(): Observable<EntitiesModel<B2BUnitNode>> {
+  getList(): Observable<B2BUnitNode[]> {
     return this.getOrgUnitsList().pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<B2BUnitNode>>) => {
+      tap((process: LoaderState<B2BUnitNode[]>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadOrgUnitNodes();
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<B2BUnitNode>>) =>
+        (process: LoaderState<B2BUnitNode[]>) =>
           process.success || process.error
       ),
       map(result => result.value)

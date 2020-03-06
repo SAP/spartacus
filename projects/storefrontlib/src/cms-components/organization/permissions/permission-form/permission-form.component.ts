@@ -6,13 +6,11 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 
 import {
   B2BUnitNode,
   Currency,
   CurrencyService,
-  EntitiesModel,
   OrderApprovalPermissionType,
   OrgUnitService,
   Period,
@@ -69,10 +67,7 @@ export class PermissionFormComponent extends AbstractFormComponent
   ngOnInit() {
     this.permissionTypes$ = this.permissionService.getTypes();
     this.currencies$ = this.currencyService.getAll();
-    this.businessUnits$ = this.orgUnitService.getList().pipe(
-      filter(Boolean),
-      map((list: EntitiesModel<B2BUnitNode>) => list.values)
-    );
+    this.businessUnits$ = this.orgUnitService.getList();
     if (this.permissionData && Object.keys(this.permissionData).length !== 0) {
       this.form.patchValue(this.permissionData);
       this.typeSelected(this.permissionData.orderApprovalPermissionType);

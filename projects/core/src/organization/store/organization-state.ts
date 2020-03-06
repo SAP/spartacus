@@ -34,6 +34,7 @@ export const ORG_UNIT_APPROVAL_PROCESSES_ENTITIES =
 
 export const ORG_UNIT_TREE = 'tree';
 export const ORG_UNIT_APPROVAL_PROCESSES = 'approvalProcesses';
+export const ORG_UNIT_NODES = 'availableOrgUnitNodes';
 
 export interface Management<Type> {
   list: EntityLoaderState<ListModel>;
@@ -43,9 +44,7 @@ export interface Management<Type> {
 export interface BudgetManagement extends Management<Budget> {}
 
 export interface OrgUnits {
-  // TODO: list is unnecessary here
-  list: EntityLoaderState<ListModel>;
-  nodeEntities: EntityLoaderState<B2BUnitNode>;
+  availableOrgUnitNodes: EntityLoaderState<B2BUnitNode[]>;
   entities: EntityLoaderState<B2BUnit>;
   tree: EntityLoaderState<B2BUnitNode>;
   approvalProcesses: EntityLoaderState<B2BApprovalProcess[]>;

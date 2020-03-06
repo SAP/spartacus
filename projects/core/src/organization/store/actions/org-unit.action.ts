@@ -9,16 +9,14 @@ import {
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import {
-  ORG_UNIT_NODE_ENTITIES,
   ORG_UNIT_NODE_LIST,
   ORG_UNIT_ENTITIES,
   ORG_UNIT_TREE_ENTITY,
   ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
   ORG_UNIT_TREE,
   ORG_UNIT_APPROVAL_PROCESSES,
+  ORG_UNIT_NODES,
 } from '../organization-state';
-import { ALL } from '../../utils/serializer';
-import { ListModel } from '../../../model/misc.model';
 
 export const LOAD_ORG_UNIT = '[B2BUnit] Load B2BUnit Data';
 export const LOAD_ORG_UNIT_FAIL = '[B2BUnit] Load B2BUnit Data Fail';
@@ -75,28 +73,6 @@ export class LoadOrgUnitSuccess extends EntitySuccessAction {
   }
 }
 
-export class LoadOrgUnitNode extends EntityLoadAction {
-  readonly type = LOAD_UNIT_NODE;
-  constructor(public payload: { userId: string; orgUnitId: string }) {
-    super(ORG_UNIT_NODE_ENTITIES, payload.orgUnitId);
-  }
-}
-
-export class LoadOrgUnitNodeFail extends EntityFailAction {
-  readonly type = LOAD_UNIT_NODE_FAIL;
-  constructor(public payload: { orgUnitId: string; error: any }) {
-    super(ORG_UNIT_NODE_ENTITIES, payload.orgUnitId, payload.error);
-  }
-}
-
-export class LoadOrgUnitNodeSuccess extends EntitySuccessAction {
-  readonly type = LOAD_UNIT_NODE_SUCCESS;
-
-  constructor(public payload: B2BUnitNode[]) {
-    super(ORG_UNIT_NODE_ENTITIES, payload.map(orgUnit => orgUnit.id));
-  }
-}
-
 export class LoadOrgUnitNodes extends EntityLoadAction {
   readonly type = LOAD_UNIT_NODES;
   constructor(
@@ -104,21 +80,21 @@ export class LoadOrgUnitNodes extends EntityLoadAction {
       userId: string;
     }
   ) {
-    super(ORG_UNIT_NODE_LIST, ALL);
+    super(ORG_UNIT_NODE_LIST, ORG_UNIT_NODES);
   }
 }
 
 export class LoadOrgUnitNodesFail extends EntityFailAction {
   readonly type = LOAD_UNIT_NODES_FAIL;
   constructor(public payload: any) {
-    super(ORG_UNIT_NODE_LIST, ALL, payload.error);
+    super(ORG_UNIT_NODE_LIST, ORG_UNIT_NODES, payload.error);
   }
 }
 
 export class LoadOrgUnitNodesSuccess extends EntitySuccessAction {
   readonly type = LOAD_UNIT_NODES_SUCCESS;
-  constructor(public payload: { page: ListModel }) {
-    super(ORG_UNIT_NODE_LIST, ALL);
+  constructor(public payload: B2BUnitNode[]) {
+    super(ORG_UNIT_NODE_LIST, ORG_UNIT_NODES);
   }
 }
 
@@ -215,9 +191,6 @@ export class LoadApprovalProcessesSuccess extends EntitySuccessAction {
 }
 
 export type OrgUnitAction =
-  | LoadOrgUnitNode
-  | LoadOrgUnitNodeFail
-  | LoadOrgUnitNodeSuccess
   | LoadOrgUnitNodes
   | LoadOrgUnitNodesFail
   | LoadOrgUnitNodesSuccess

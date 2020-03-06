@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 
 import {
   CostCenter,
@@ -14,7 +13,6 @@ import {
   CurrencyService,
   B2BUnitNode,
   OrgUnitService,
-  EntitiesModel,
 } from '@spartacus/core';
 import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
 
@@ -52,10 +50,7 @@ export class CostCenterFormComponent extends AbstractFormComponent
 
   ngOnInit() {
     this.currencies$ = this.currencyService.getAll();
-    this.businessUnits$ = this.orgUnitService.getList().pipe(
-      filter(Boolean),
-      map((list: EntitiesModel<B2BUnitNode>) => list.values)
-    );
+    this.businessUnits$ = this.orgUnitService.getList();
     if (this.costCenterData && Object.keys(this.costCenterData).length !== 0) {
       this.form.patchValue(this.costCenterData);
     }

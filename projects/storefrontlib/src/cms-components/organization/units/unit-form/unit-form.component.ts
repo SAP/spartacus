@@ -6,13 +6,11 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 
 import {
   B2BUnitNode,
   CurrencyService,
   OrgUnitService,
-  EntitiesModel,
   B2BApprovalProcess,
 } from '@spartacus/core';
 import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
@@ -50,10 +48,7 @@ export class UnitFormComponent extends AbstractFormComponent implements OnInit {
 
   ngOnInit() {
     this.approvalProcesses$ = this.orgUnitService.getApprovalProcesses();
-    this.businessUnits$ = this.orgUnitService.getList().pipe(
-      filter(Boolean),
-      map((list: EntitiesModel<B2BUnitNode>) => list.values)
-    );
+    this.businessUnits$ = this.orgUnitService.getList();
     if (this.orgUnitData && Object.keys(this.orgUnitData).length !== 0) {
       this.form.patchValue(this.orgUnitData);
     }

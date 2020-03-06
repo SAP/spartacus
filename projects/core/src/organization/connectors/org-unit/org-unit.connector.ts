@@ -6,7 +6,6 @@ import {
   B2BUnit,
   B2BApprovalProcess,
 } from '../../../model/org-unit.model';
-import { EntitiesModel } from '../../../model/misc.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,10 +29,7 @@ export class OrgUnitConnector {
     return this.adapter.update(userId, orgUnitId, orgUnit);
   }
 
-  getList(
-    userId: string,
-    params?: any
-  ): Observable<EntitiesModel<B2BUnitNode>> {
+  getList(userId: string, params?: any): Observable<B2BUnitNode[]> {
     return this.adapter.loadList(userId, params);
   }
 
