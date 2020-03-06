@@ -62,7 +62,8 @@ export function paymentDetailCard() {
     .its('status')
     .should('eq', 200);
 
-  cy.get('#deliveryMode-standard-net').check({ force: true });
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  cy.get('#deliveryMode-standard-net').should('be.checked');
   cy.get('button.btn-primary').click({ force: true });
 
   cy.wait(`@${request.paymentPage}`)
@@ -104,7 +105,9 @@ export function addSecondaryPaymentCard() {
     .should('eq', 200);
 
   // select shipping address
-  cy.getByText(/Ship to this address/i).click({ force: true });
+  cy.get('cx-shipping-address .cx-card-link')
+    .getByText(/Ship to this address/i)
+    .click({ force: true });
   cy.get('button.btn-primary').click({ force: true });
 
   cy.wait(`@${waitAliases.deliveryPage}`)
@@ -112,7 +115,8 @@ export function addSecondaryPaymentCard() {
     .should('eq', 200);
 
   // set delivery method
-  cy.get('#deliveryMode-standard-net').check({ force: true });
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  cy.get('#deliveryMode-standard-net').should('be.checked');
   cy.get('button.btn-primary').click({ force: true });
 
   cy.wait(`@${waitAliases.paymentPage}`)
@@ -120,7 +124,9 @@ export function addSecondaryPaymentCard() {
     .should('eq', 200);
 
   // fill in payment method
-  cy.getByText('Add New Payment').click({ force: true });
+  cy.get('cx-payment-method .cx-checkout-btns:first .btn-action')
+    .getByText('Add New Payment')
+    .click({ force: true });
 
   fillPaymentDetails(secondPayment);
 
@@ -136,7 +142,9 @@ export function addSecondaryPaymentCard() {
 }
 
 export function setOtherPaymentToDefault() {
-  cy.getByText('Set as default').click({ force: true });
+  cy.get('cx-payment-methods .cx-card-link')
+    .getByText('Set as default')
+    .click({ force: true });
 
   const firstCard = cy.get('.cx-payment-card').first();
   firstCard.should('contain', 'Default Payment Method');
