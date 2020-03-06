@@ -169,7 +169,7 @@ export const organization = {
       placeholder: 'Code',
     },
     name: {
-      label: 'Create Cost name',
+      label: 'Cost Center name',
       placeholder: 'Name',
     },
     businessUnits: {
@@ -177,6 +177,48 @@ export const organization = {
       placeholder: 'Select business unit',
     },
     currency: 'Currency',
+    message: {
+      required: 'Value is required',
+    },
+  },
+  orgUnitsList: {
+    orgUnitManagement: 'Organization Units Management',
+    create: 'Create new Unit',
+  },
+  orgUnit: {
+    details: 'Unit Details',
+    uid: 'ID',
+    name: 'Name',
+    approvalProcess: 'Approval process',
+    parentUnit: 'Parent Unit',
+    edit: 'Edit',
+    disable: 'Disable',
+    enable: 'Enable',
+    status: 'Status',
+    back: 'Back to list',
+    active: 'Active',
+    deactivated: 'Deactivated',
+  },
+  orgUnitForm: {
+    create: 'Create Unit',
+    edit: 'Edit Unit',
+    update: 'Update Unit',
+    uid: {
+      label: 'Unit ID',
+      placeholder: 'ID',
+    },
+    name: {
+      label: 'Unit name',
+      placeholder: 'Name',
+    },
+    parentOrgUnit: {
+      label: 'Parent business unit',
+      placeholder: 'Select business unit',
+    },
+    approvalProcess: {
+      label: 'Approval process',
+      placeholder: 'Select approval process',
+    },
     message: {
       required: 'Value is required',
     },
