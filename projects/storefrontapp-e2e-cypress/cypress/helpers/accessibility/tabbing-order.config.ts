@@ -2147,11 +2147,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Use my location',
-      type: TabbingOrderTypes.GENERIC_BUTTON,
+      type: TabbingOrderTypes.LINK,
     },
     {
       value: 'View all stores',
-      type: TabbingOrderTypes.GENERIC_BUTTON,
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
     },
   ],
   storeFinderSearchResults: [
@@ -2164,11 +2167,11 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Use my location',
-      type: TabbingOrderTypes.GENERIC_BUTTON,
+      type: TabbingOrderTypes.LINK,
     },
     {
       value: 'View all stores',
-      type: TabbingOrderTypes.GENERIC_BUTTON,
+      type: TabbingOrderTypes.LINK,
     },
     {
       value: '«',
@@ -2176,14 +2179,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: '1',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '2',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '»',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -2210,11 +2205,17 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Get Directions',
       type: TabbingOrderTypes.LINK,
     },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
   ],
   storeFinderStoreDetails: [
     {
       value: 'Back to list',
-      type: TabbingOrderTypes.GENERIC_BUTTON,
+      type: TabbingOrderTypes.LINK,
     },
     {
       value: 'Get Directions',
@@ -2230,14 +2231,17 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Use my location',
-      type: TabbingOrderTypes.GENERIC_BUTTON,
+      type: TabbingOrderTypes.LINK,
     },
     {
       value: 'View all stores',
-      type: TabbingOrderTypes.GENERIC_BUTTON,
+      type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Japan (49)',
+      value: 'Japan(49)',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       type: TabbingOrderTypes.LINK,
     },
   ],
@@ -2250,150 +2254,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Use my location',
-      type: TabbingOrderTypes.GENERIC_BUTTON,
+      type: TabbingOrderTypes.LINK,
     },
     {
       value: 'View all stores',
-      type: TabbingOrderTypes.GENERIC_BUTTON,
-    },
-    {
-      value: 'Kawasaki Hotel Sunroute Kawasaki',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Kawasaki Mets Kawasaki Hotel',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
       type: TabbingOrderTypes.LINK,
     },
     {
       value: 'Chiba',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Matsudo',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Koto',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Tokio Park Hotel Tokyo',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Yokosuka',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Osaka Ramada Osaka',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Nakano',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Osaka Cross Hotel Osaka',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Shinbashi',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Misato',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Kobe the b',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Kawasaki Grand Hotel',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Ichikawa',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Osaka Crowne Plaza Hotel Ana Osaka',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Fukuoka Hilton Fukuoka Sea Hawk',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Get Directions',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Fukuoka Canal City Fukuoka Washington Hotel',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -2409,7 +2277,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Sapporo Hotel Resol Trinity Sapporo',
+      value: 'Fukuoka Best Western Fukuoka Nakasu Inn',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -2417,7 +2285,23 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Fukuoka Best Western Fukuoka Nakasu Inn',
+      value: 'Fukuoka Canal City Fukuoka Washington Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Fukuoka Hilton Fukuoka Sea Hawk',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Fukuoka Hotel Monterey La Soeur Fukuoka',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -2433,7 +2317,31 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Fukuoka Hotel Monterey La Soeur Fukuoka',
+      value: 'Ichikawa',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kawasaki Grand Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kawasaki Hotel Sunroute Kawasaki',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Kawasaki Mets Kawasaki Hotel',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -2489,6 +2397,38 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Kobe the b',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Koto',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Matsudo',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Misato',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Nagoya Crowne Plaza Ana Grand Court Nagoya',
       type: TabbingOrderTypes.LINK,
     },
@@ -2529,6 +2469,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Nakano',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Osaka Best Western Hotel Fino Osaka Shinsaibashi',
       type: TabbingOrderTypes.LINK,
     },
@@ -2537,7 +2485,31 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Osaka Cross Hotel Osaka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Osaka Crowne Plaza Hotel Ana Osaka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Osaka Hilton Osaka Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Osaka Ramada Osaka',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -2561,6 +2533,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
+      value: 'Sapporo Hotel Resol Trinity Sapporo',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Sapporo Hotel Sunroute Sapporo',
       type: TabbingOrderTypes.LINK,
     },
@@ -2570,6 +2550,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Sapporo Sheraton Sapporo Hotel',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Shinbashi',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -2602,6 +2590,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Tokio Hotel Metropolitan Tokyo',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Tokio Park Hotel Tokyo',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -2646,6 +2642,17 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Yokosuka',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       type: TabbingOrderTypes.LINK,
     },
   ],
