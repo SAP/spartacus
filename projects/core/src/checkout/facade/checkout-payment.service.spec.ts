@@ -1,6 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { CartDataService } from '../../cart/facade/cart-data.service';
+import { of } from 'rxjs';
+import { AuthService } from '../../auth';
+import { ActiveCartService } from '../../cart';
 import { CardType, Cart, PaymentDetails } from '../../model/cart.model';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
@@ -9,7 +11,8 @@ import { CheckoutPaymentService } from './checkout-payment.service';
 
 describe('CheckoutPaymentService', () => {
   let service: CheckoutPaymentService;
-  let cartData: CartDataServiceStub;
+  let authService: AuthService;
+  let activeCartService: ActiveCartService;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
@@ -18,14 +21,25 @@ describe('CheckoutPaymentService', () => {
     id: 'mockPaymentDetails',
   };
 
-  class CartDataServiceStub {
-    userId;
+  class ActiveCArtServiceStub {
     cart;
-    get cartId() {
-      return this.cart.code;
-    }
-    get isGuestCart() {
+    isGuestCart() {
       return true;
+    }
+
+    getActiveCartId() {
+      return of(cart.code);
+    }
+
+    getActive() {
+      return of(cart);
+    }
+  }
+
+  class AuthServiceStub {
+    userId;
+    getOccUserId() {
+      return of(userId);
     }
   }
 
@@ -37,16 +51,18 @@ describe('CheckoutPaymentService', () => {
       ],
       providers: [
         CheckoutPaymentService,
-        { provide: CartDataService, useClass: CartDataServiceStub },
+        { provide: ActiveCartService, useClass: ActiveCArtServiceStub },
+        { provide: AuthService, useClass: AuthServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutPaymentService);
-    cartData = TestBed.inject(CartDataService);
+    authService = TestBed.inject(AuthService);
+    activeCartService = TestBed.inject(ActiveCartService);
     store = TestBed.inject(Store);
 
-    cartData.userId = userId;
-    cartData.cart = cart;
+    authService['userId'] = userId;
+    activeCartService['cart'] = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -116,14 +132,14 @@ describe('CheckoutPaymentService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.SetPaymentDetails({
         userId: userId,
-        cartId: cartData.cart.code,
+        cartId: cart.code,
         paymentDetails,
       })
     );
   });
 
   it('should allow actions for login user or guest user', () => {
-    cartData.userId = 'anonymous';
+    authService['userId'] = 'anonymous';
     expect(service['actionAllowed']()).toBeTruthy();
   });
 });
