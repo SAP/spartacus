@@ -56,7 +56,7 @@ export class AutoFocusDirective extends EscapeFocusDirective
     super.ngOnInit();
   }
   /**
-   * Focus the element explicitely if it was focussed before.
+   * Focus the element explicitly if it was focussed before.
    */
   ngAfterViewInit(): void {
     if (this.hasPersistedFocus || !this.isAutofocus) {

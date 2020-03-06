@@ -49,7 +49,7 @@ export class SkipLinkService {
         ? skipLink.target
         : (skipLink.target as Element).parentElement;
 
-    // we force a tabindex if not availale, to ensure we can focus into the element
+    // we force a tabindex if not available, to ensure we can focus into the element
     const currentTabIndex = target.getAttribute('tabindex');
     if (!currentTabIndex) {
       target.setAttribute('tabindex', '-1');

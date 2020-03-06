@@ -22,7 +22,8 @@ import { PersistFocusService } from './persist-focus.service';
  * The focus state can be part of a focus group, so that the state is shared
  * and remember for the given group.
  *
- * The focus key is peristed on the focus element, so that
+ * The focus key is persisted on the focus element, so that we can resolve
+ * the focus state in case of a repaint.
  *
  * In order to detect the persistence for a given element, we store the persistence
  * key as a data attribute (`FOCUS_ATTR`).
@@ -33,7 +34,7 @@ import { PersistFocusService } from './persist-focus.service';
 export class PersistFocusDirective extends BaseFocusDirective
   implements OnInit, AfterViewInit {
   /**
-   * The peristence key can be passed directly or through the `FocusConfig.key`.
+   * The persistence key can be passed directly or through the `FocusConfig.key`.
    * While this could be considered a global key, the likeliness of conflicts
    * is very small since the key is cleared when the focus is changed.
    */
@@ -48,7 +49,7 @@ export class PersistFocusDirective extends BaseFocusDirective
 
   /**
    * The persistence key is maintained in a singleton cross the app to ensure we
-   * can reset the focus if the DOM gots rebuild.
+   * can reset the focus if the DOM gets rebuild.
    */
   @HostListener('focus', ['$event'])
   protected handleFocus(event?: KeyboardEvent) {
@@ -77,7 +78,7 @@ export class PersistFocusDirective extends BaseFocusDirective
   }
 
   /**
-   * Focus the element explicitely if it was focussed before.
+   * Focus the element explicitly if it was focussed before.
    */
   ngAfterViewInit() {
     if (this.isPersisted) {

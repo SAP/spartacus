@@ -33,7 +33,7 @@ export class PersistFocusUtility {
   }
 
   /**
-   * Indicates whether any of the focusabe child elements is focused.
+   * Indicates whether any of the focusable child elements is focused.
    */
   hasPersistedFocus(host: HTMLElement, config: PersistFocusConfig): boolean {
     return !!this.getPersisted(host, this.getPersistenceGroup(host, config));
@@ -47,10 +47,10 @@ export class PersistFocusUtility {
   }
 
   /**
-   * Returns the element that has a persted focus state.
+   * Returns the element that has a persisted focus state.
    *
-   * @param host the `HTMLElement` used to query for focusable childs
-   * @param group the optional group for the persitent state, to separate different focus
+   * @param host the `HTMLElement` used to query for focusable children
+   * @param group the optional group for the persistent state, to separate different focus
    *   groups and remain the persistance
    */
   getPersisted(host: HTMLElement, group?: string): HTMLElement {
