@@ -39,7 +39,7 @@ const mockMedia = {
   url: 'mediaUrl',
 };
 
-fdescribe('MediaService', () => {
+describe('MediaService', () => {
   let mediaService: MediaService;
 
   beforeEach(() => {
