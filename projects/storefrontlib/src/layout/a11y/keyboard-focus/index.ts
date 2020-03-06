@@ -1,5 +1,6 @@
 export * from './autofocus/index';
 export * from './base-focus.directive';
+export * from './block/index';
 export * from './escape/index';
 export * from './focus.directive';
 export * from './keyboard-focus.model';

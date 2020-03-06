@@ -7,7 +7,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { BaseFocusDirective } from '../base-focus.directive';
+import { BlockFocusDirective } from '../block/block-focus.directive';
 import { FOCUS_ATTR, PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusService } from './persist-focus.service';
 
@@ -30,7 +30,7 @@ import { PersistFocusService } from './persist-focus.service';
 @Directive({
   selector: '[cxPersistFocus]',
 })
-export class PersistFocusDirective extends BaseFocusDirective
+export class PersistFocusDirective extends BlockFocusDirective
   implements OnInit, AfterViewInit {
   /**
    * The peristence key can be passed directly or through the `FocusConfig.key`.
@@ -50,6 +50,7 @@ export class PersistFocusDirective extends BaseFocusDirective
    * The persistence key is maintained in a singleton cross the app to ensure we
    * can reset the focus if the DOM gots rebuild.
    */
+
   @HostListener('focus', ['$event'])
   protected handleFocus(event?: KeyboardEvent) {
     if (this.key) {

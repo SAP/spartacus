@@ -49,18 +49,27 @@ export class AutoFocusDirective extends EscapeFocusDirective
     if (!this.config || this.config === '') {
       this.config = { autofocus: true };
     }
-    if (this.isAutofocus) {
-      // if (this.host.getAttribute('tabindex') === undefined) {
-      //   console.log('autofocus set to -1???');
-      //   // this.tabIndex = -1;
-      // }
-    }
+
     super.ngOnInit();
   }
   /**
    * Focus the element explicitely if it was focussed before.
    */
   ngAfterViewInit(): void {
+    // new...
+    // console.log(
+    //   'ngAfterViewInit',
+    //   this.host,
+    //   this.host.getAttribute('tabindex')
+    // );
+    if (this.isAutofocus) {
+      this.host.focus();
+      // if (this.host.getAttribute('tabindex') === undefined) {
+      //   console.log('autofocus set to -1???');
+      //   // this.tabIndex = -1;
+      // }
+    }
+
     if (this.hasPersistedFocus || !this.isAutofocus) {
       super.ngAfterViewInit();
     }
@@ -70,6 +79,7 @@ export class AutoFocusDirective extends EscapeFocusDirective
    * Handles the autofocus of the nested focusable element.
    */
   protected handleFocus(event: KeyboardEvent) {
+    // console.log('auto focus', this.host);
     if (this.isAutofocus) {
       this.firstFocusable?.focus();
     }

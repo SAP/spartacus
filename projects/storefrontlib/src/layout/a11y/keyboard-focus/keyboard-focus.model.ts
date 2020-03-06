@@ -8,7 +8,11 @@ export const enum MOVE_FOCUS {
   PREV = -1,
 }
 
-export interface PersistFocusConfig {
+export interface BlockFocusConfig {
+  block?: boolean;
+}
+
+export interface PersistFocusConfig extends BlockFocusConfig {
   /**
    * A key to maintain the focus of an element in case the component is
    * recreated (which often is the case when an `*ngIf` or `*ngFor` is used).
