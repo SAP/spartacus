@@ -33,6 +33,9 @@ export class FindStoresEffect {
                 store =>
                   store.address.country.isocode === payload.countryIsoCode
               );
+              data.stores.sort((a, b) =>
+                a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+              );
             }
 
             return new StoreFinderActions.FindStoresSuccess(data);
