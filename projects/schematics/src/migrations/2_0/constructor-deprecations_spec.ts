@@ -86,6 +86,57 @@ const ADD_PARAMETER_VALID_TEST_CLASS = `
       }
     }
 `;
+const ADD_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS = `
+    import { ActionsSubject, Store } from '@ngrx/store';
+    import {
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritedService extends UserAddressService {
+      constructor(
+        store: Store<StateWithUser | StateWithProcess<void>>,
+        private actions: ActionsSubject
+      ) {
+        super(store);
+        console.log(this.actions);
+      }
+    }
+`;
+const ADD_PARAMETER_WITH_ALREADY_ADDED_SERVICE_VALID_TEST_CLASS = `
+import { ActionsSubject, Store } from '@ngrx/store';
+import {
+  StateWithProcess,
+  StateWithUser,
+  UserAddressService,
+  AuthService
+} from '@spartacus/core';
+export class InheritedService extends UserAddressService {
+  constructor(
+    store: Store<StateWithUser | StateWithProcess<void>>,
+    private auth: AuthService,
+  ) {
+    super(store);
+  }
+}
+`;
+const ADD_PARAMETER_WITH_ALREADY_ADDED_SERVICE_EXPECTED_CLASS = `
+import { ActionsSubject, Store } from '@ngrx/store';
+import {
+  StateWithProcess,
+  StateWithUser,
+  UserAddressService,
+  AuthService
+} from '@spartacus/core';
+export class InheritedService extends UserAddressService {
+  constructor(
+    store: Store<StateWithUser | StateWithProcess<void>>,
+    private auth: AuthService,
+  ) {
+    super(store, auth);
+  }
+}
+`;
 const REMOVE_PARAMETER_VALID_TEST_CLASS = `
 import { Dummy } from '@angular/core';
 import {
@@ -122,6 +173,106 @@ export class Test extends PageMetaService {
     super(resolvers, cms );
   }
 }
+`;
+const REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS = `
+import { ActionsSubject } from '@ngrx/store';
+import {
+  CmsService,
+  FeatureConfigService,
+  PageMetaResolver,
+  PageMetaService
+} from '@spartacus/core';
+export class Test extends PageMetaService {
+  constructor(
+    resolvers: PageMetaResolver[],
+    cms: CmsService,
+    featureConfigService: FeatureConfigService,
+    private actions: ActionsSubject
+  ) {
+    super(resolvers, cms, featureConfigService);
+    console.log(this.actions);
+  }
+}
+`;
+const REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_EXPECTED_CLASS = `
+import { ActionsSubject } from '@ngrx/store';
+import {
+  CmsService,
+  
+  PageMetaResolver,
+  PageMetaService
+} from '@spartacus/core';
+export class Test extends PageMetaService {
+  constructor(
+    resolvers: PageMetaResolver[],
+    cms: CmsService
+    ,
+    private actions: ActionsSubject
+  ) {
+    super(resolvers, cms );
+    console.log(this.actions);
+  }
+}
+`;
+const REMOVE_PARAMETER_BUT_NOT_IMPORT_VALID_TEST_CLASS = `
+import {
+  CmsService,
+  FeatureConfigService,
+  PageMetaResolver,
+  PageMetaService
+} from '@spartacus/core';
+export class Test extends PageMetaService {
+  constructor(
+    resolvers: PageMetaResolver[],
+    cms: CmsService,
+    featureConfigService: FeatureConfigService
+  ) {
+    super(resolvers, cms, featureConfigService);
+  }
+  test(): void {
+    console.log(this.featureConfigService);
+  }
+}
+`;
+const REMOVE_PARAMETER_BUT_NOT_IMPORT_EXPECTED_CLASS = `
+import {
+  CmsService,
+  FeatureConfigService,
+  PageMetaResolver,
+  PageMetaService
+} from '@spartacus/core';
+export class Test extends PageMetaService {
+  constructor(
+    resolvers: PageMetaResolver[],
+    cms: CmsService,
+    featureConfigService: FeatureConfigService
+  ) {
+    super(resolvers, cms );
+  }
+  test(): void {
+    console.log(this.featureConfigService);
+  }
+}
+`;
+
+const ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS = `
+    import { Store } from '@ngrx/store';
+    import { StateWithCheckout, CheckoutService, CartDataService } from '@spartacus/core';
+    export class InheritingService extends CheckoutService {
+      constructor(store: Store<StateWithCheckout>, cartDataService: CartDataService) {
+        super(store, cartDataService);
+      }
+    }
+`;
+
+const ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS = `
+    import { Store } from '@ngrx/store';
+    import { StateWithCheckout, CheckoutService,  AuthService, ActiveCartService } from '@spartacus/core';
+    export class InheritingService extends CheckoutService {
+      constructor(store: Store<StateWithCheckout> , authService: AuthService, activeCartService: ActiveCartService) {
+        super(store , authService, activeCartService);
+      }
+    }
 `;
 
 const ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS = `
@@ -281,6 +432,54 @@ describe('constructor migrations', () => {
       ]);
       expect(isImported(source, AUTH_SERVICE, SPARTACUS_CORE)).toEqual(true);
     });
+    describe('when the class has additional services injected', () => {
+      it('should just append the missing parameters', async () => {
+        const filePath = '/src/index.ts';
+        writeFile(
+          host,
+          filePath,
+          ADD_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS
+        );
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent(filePath);
+
+        const source = ts.createSourceFile(
+          filePath,
+          content,
+          ts.ScriptTarget.Latest,
+          true
+        );
+        const nodes = getSourceNodes(source);
+        const constructorNode = getConstructor(nodes);
+        const params = getParams(constructorNode, [
+          strings.camelize(STORE),
+          strings.camelize(AUTH_SERVICE),
+        ]);
+        expect(params).toEqual([
+          strings.camelize(STORE),
+          strings.camelize(AUTH_SERVICE),
+        ]);
+        expect(isImported(source, AUTH_SERVICE, SPARTACUS_CORE)).toEqual(true);
+      });
+    });
+    describe('when the service to be added is already injected', () => {
+      it('should just not add the parameter', async () => {
+        const filePath = '/src/index.ts';
+        writeFile(
+          host,
+          filePath,
+          ADD_PARAMETER_WITH_ALREADY_ADDED_SERVICE_VALID_TEST_CLASS
+        );
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+        const content = appTree.readContent(filePath);
+        expect(content).toEqual(
+          ADD_PARAMETER_WITH_ALREADY_ADDED_SERVICE_EXPECTED_CLASS
+        );
+      });
+    });
   });
 
   describe('when all the pre-conditions are valid for removing a parameter', () => {
@@ -291,6 +490,51 @@ describe('constructor migrations', () => {
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(REMOVE_PARAMETER_EXPECTED_CLASS);
+    });
+    describe('when an additional parameter is injected', () => {
+      it('should make the required changes', async () => {
+        writeFile(
+          host,
+          '/src/index.ts',
+          REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_VALID_TEST_CLASS
+        );
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent('/src/index.ts');
+        expect(content).toEqual(
+          REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_EXPECTED_CLASS
+        );
+      });
+    });
+    describe('when the param to be removed is being used elsewhere', () => {
+      it('should make the required changes, but not remove the import and param from the ctor', async () => {
+        writeFile(
+          host,
+          '/src/index.ts',
+          REMOVE_PARAMETER_BUT_NOT_IMPORT_VALID_TEST_CLASS
+        );
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent('/src/index.ts');
+        expect(content).toEqual(REMOVE_PARAMETER_BUT_NOT_IMPORT_EXPECTED_CLASS);
+      });
+    });
+  });
+
+  describe('when all the pre-conditions are valid for adding and removing parameters', () => {
+    it('should make the required changes', async () => {
+      writeFile(
+        host,
+        '/src/index.ts',
+        ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS
+      );
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS);
     });
   });
 
