@@ -1,6 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { getSourceNodes } from '@angular/cdk/schematics';
-import { UTF_8 } from '../../shared/constants';
+import { TODO_SPARTACUS, UTF_8 } from '../../shared/constants';
 import {
   commitChanges,
   getAllHtmlFiles,
@@ -70,5 +70,5 @@ export function migrate(): Rule {
 }
 
 function buildComment(comment: string): string {
-  return `// ${comment}\n`;
+  return `// ${TODO_SPARTACUS} ${comment}\n`;
 }
