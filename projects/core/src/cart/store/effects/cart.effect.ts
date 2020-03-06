@@ -138,7 +138,7 @@ export class CartEffects {
                 return actions;
               }),
               catchError(error => {
-                if (error && error.error && error.error.errors) {
+                if (error?.error?.errors) {
                   const couponExpiredErrors = error.error.errors.filter(
                     err => err.reason === 'invalid'
                   );
