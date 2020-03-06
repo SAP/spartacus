@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { AuthService, CartService, RoutingService } from '@spartacus/core';
+import {
+  ActiveCartService,
+  AuthService,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -11,7 +15,7 @@ export class NotCheckoutAuthGuard implements CanActivate {
   constructor(
     private routingService: RoutingService,
     private authService: AuthService,
-    private cartService: CartService
+    protected activeCartService: ActiveCartService
   ) {}
 
   canActivate(): Observable<boolean> {
@@ -19,7 +23,7 @@ export class NotCheckoutAuthGuard implements CanActivate {
       map(token => {
         if (token.access_token) {
           this.routingService.go({ cxRoute: 'home' });
-        } else if (this.cartService.isGuestCart()) {
+        } else if (this.activeCartService.isGuestCart()) {
           this.routingService.go({ cxRoute: 'cart' });
           return false;
         }

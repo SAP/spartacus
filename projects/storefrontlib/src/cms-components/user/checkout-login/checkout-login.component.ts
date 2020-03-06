@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { AuthRedirectService, CartService } from '@spartacus/core';
+import { ActiveCartService, AuthRedirectService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { FormUtils } from '../../../shared/utils/forms/form-utils';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
@@ -29,8 +29,8 @@ export class CheckoutLoginComponent implements OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private cartService: CartService,
-    private authRedirectService: AuthRedirectService
+    private authRedirectService: AuthRedirectService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   isNotValid(formControlName: string): boolean {
@@ -58,11 +58,11 @@ export class CheckoutLoginComponent implements OnDestroy {
     }
 
     const email = this.form.value.email;
-    this.cartService.addEmail(email);
+    this.activeCartService.addEmail(email);
 
     if (!this.sub) {
-      this.sub = this.cartService.getAssignedUser().subscribe(_ => {
-        if (this.cartService.isGuestCart()) {
+      this.sub = this.activeCartService.getAssignedUser().subscribe(_ => {
+        if (this.activeCartService.isGuestCart()) {
           this.authRedirectService.redirect();
         }
       });
