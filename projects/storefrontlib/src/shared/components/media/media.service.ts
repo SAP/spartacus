@@ -6,6 +6,7 @@ import { Media, MediaFormats } from './media.model';
 
 /** the default format is used for browsers that do not support   */
 const DEFAULT_MEDIA_FORMAT = 'tablet';
+const matchHtmlTags: RegExp = /\<.*?\>/g;
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +39,7 @@ export class MediaService {
   }
 
   getMedia(container, format?: string, alt?: string): Media {
-    alt = alt ? alt.replace(/<.*?>/g, '') : null;
+    alt = alt ? alt.replace(matchHtmlTags, '') : null;
     return {
       src: this.getMainImage(container, format),
       srcset: this.getSrcSet(container),
@@ -85,10 +86,10 @@ export class MediaService {
       return undefined;
     } else if (media[format || DEFAULT_MEDIA_FORMAT]) {
       const altText = media[format || DEFAULT_MEDIA_FORMAT].altText;
-      return altText ? altText.replace(/<.*?>/g, '') : altText;
+      return altText ? altText.replace(matchHtmlTags, '') : altText;
     } else if (media.altText) {
       const altText = media.altText;
-      return altText ? altText.replace(/<.*?>/g, '') : altText;
+      return altText ? altText.replace(matchHtmlTags, '') : altText;
     }
   }
 

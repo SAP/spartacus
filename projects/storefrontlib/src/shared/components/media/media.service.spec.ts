@@ -39,7 +39,7 @@ const mockMedia = {
   url: 'mediaUrl',
 };
 
-describe('MediaService', () => {
+fdescribe('MediaService', () => {
   let mediaService: MediaService;
 
   beforeEach(() => {
@@ -79,7 +79,7 @@ describe('MediaService', () => {
     );
   });
 
-  it('should return alt text from media object', () => {
+  it('should return unchanged alt text that does not contain any HTML from media object', () => {
     expect(mediaService.getMedia(mockMediaContainer, 'desktop').alt).toBe(
       'alt text'
     );
