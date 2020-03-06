@@ -3,6 +3,7 @@ import { standardUser } from '../sample-data/shared-users';
 import { generateMail, randomString } from './user';
 import * as alerts from './global-message';
 import { config, retrieveAuthToken } from '../support/utils/login';
+import { waitForPage } from './checkout-flow';
 
 export const testUser = 'test-user-with-coupons@ydev.hybris.com';
 export const testPassword = 'Password123.';
@@ -24,6 +25,13 @@ export function verifyPagingAndSorting() {
   const firstCouponEndDateDescending = 'customerCoupon11';
   const firstCouponCodeSelector =
     'cx-my-coupons .cx-coupon-card:first .cx-coupon-card-id';
+
+  const alias = this.waitForCoupons();
+  cy.selectUserMenuOption({
+    option: 'My Coupons',
+  });
+  cy.wait(alias);
+
   cy.get(firstCouponCodeSelector).should(
     'contain',
     firstCouponStartDateAscending
@@ -93,6 +101,11 @@ export function goMyCoupon() {
 }
 
 export function verifyMyCoupons() {
+  const alias = this.waitForCoupons();
+  cy.selectUserMenuOption({
+    option: 'My Coupons',
+  });
+  cy.wait(alias);
   verifyCouponsClaiming();
   verifyEnableDisableNotification();
   verifyReadMore();
@@ -205,4 +218,13 @@ export function verifyFindProduct(couponCode: string, productNumber: number) {
     cy.get('h1').should('contain', couponCode);
   });
   cy.get('cx-product-list-item').should('have.length', productNumber);
+}
+
+export function waitForCoupons(): string {
+  const aliasName = 'customerCoupons';
+  cy.server();
+  cy.route('GET', '/rest/v2/electronics-spa/users/current/customercoupons*').as(
+    aliasName
+  );
+  return `@${aliasName}`;
 }

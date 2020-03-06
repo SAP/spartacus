@@ -47,9 +47,6 @@ describe(`${formats.mobile.width +
   });
 
   it('claim customer coupon, switch notification button and find product', () => {
-    cy.selectUserMenuOption({
-      option: 'My Coupons',
-    });
     myCoupons.verifyMyCoupons();
   });
 
@@ -69,9 +66,6 @@ describe(`${formats.mobile.width +
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.login(myCoupons.testUser, myCoupons.testPassword);
     cy.visit('/');
-    cy.selectUserMenuOption({
-      option: 'My Coupons',
-    });
   });
 
   it('should page and sort my coupon list', () => {

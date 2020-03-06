@@ -39,9 +39,6 @@ describe('My coupons test for login user', () => {
   });
 
   it('claim customer coupon, switch notification button and find product', () => {
-    cy.selectUserMenuOption({
-      option: 'My Coupons',
-    });
     myCoupons.verifyMyCoupons();
   });
 
@@ -59,9 +56,6 @@ describe('My coupons test for pagination and sort', () => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.login(myCoupons.testUser, myCoupons.testPassword);
     cy.visit('/');
-    cy.selectUserMenuOption({
-      option: 'My Coupons',
-    });
   });
 
   it('should page and sort my coupon list', () => {
