@@ -46,7 +46,7 @@ export class OrgUnitService {
     );
   }
 
-  private getOrgUnitState(orgUnitId: string) {
+  private getOrgUnitState(orgUnitId: string): Observable<LoaderState<B2BUnit>> {
     return this.store.select(getOrgUnitState(orgUnitId));
   }
 

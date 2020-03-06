@@ -1,5 +1,9 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { B2BApprovalProcess, B2BUnitNode } from '../../../model/org-unit.model';
+import {
+  B2BApprovalProcess,
+  B2BUnitNode,
+  B2BUnit,
+} from '../../../model/org-unit.model';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
@@ -56,11 +60,10 @@ export const getOrgUnitsApprovalProcesses: MemoizedSelector<
 
 export const getOrgUnitState = (
   orgUnitId: string
-): MemoizedSelector<StateWithOrganization, LoaderState<B2BUnitNode>> =>
+): MemoizedSelector<StateWithOrganization, LoaderState<B2BUnit>> =>
   createSelector(
     getOrgUnitsState,
-    (state: EntityLoaderState<B2BUnitNode>) =>
-      entityStateSelector(state, orgUnitId)
+    (state: EntityLoaderState<B2BUnit>) => entityStateSelector(state, orgUnitId)
   );
 
 export const getOrgUnitList = (): MemoizedSelector<
