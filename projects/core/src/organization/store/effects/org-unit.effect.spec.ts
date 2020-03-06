@@ -62,9 +62,9 @@ describe('OrgUnit Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.OrgUnitEffects as Type<
-      fromEffects.OrgUnitEffects
-    >);
+    effects = TestBed.get(
+      fromEffects.OrgUnitEffects as Type<fromEffects.OrgUnitEffects>
+    );
     orgUnitConnector = TestBed.get(OrgUnitConnector as Type<OrgUnitConnector>);
     expected = null;
   });

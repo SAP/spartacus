@@ -46,9 +46,9 @@ describe('OccOrgUnitAdapter', () => {
     });
     converterService = TestBed.get(ConverterService as Type<ConverterService>);
     service = TestBed.get(OccOrgUnitAdapter as Type<OccOrgUnitAdapter>);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
+    httpMock = TestBed.get(
+      HttpTestingController as Type<HttpTestingController>
+    );
     spyOn(converterService, 'pipeable').and.callThrough();
   });
 

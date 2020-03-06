@@ -75,9 +75,9 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<OrganizationState>
-> = new InjectionToken<ActionReducerMap<OrganizationState>>(
+export const reducerToken: InjectionToken<ActionReducerMap<
+  OrganizationState
+>> = new InjectionToken<ActionReducerMap<OrganizationState>>(
   'OrganizationReducers'
 );
 

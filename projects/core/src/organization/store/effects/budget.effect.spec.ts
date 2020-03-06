@@ -71,9 +71,9 @@ describe('Budget Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.BudgetEffects as Type<
-      fromEffects.BudgetEffects
-    >);
+    effects = TestBed.get(
+      fromEffects.BudgetEffects as Type<fromEffects.BudgetEffects>
+    );
     budgetConnector = TestBed.get(BudgetConnector as Type<BudgetConnector>);
     expected = null;
   });

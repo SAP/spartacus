@@ -132,9 +132,9 @@ describe('PermissionEditComponent', () => {
       ],
     }).compileComponents();
 
-    permissionsService = TestBed.get(PermissionService as Type<
-      PermissionService
-    >);
+    permissionsService = TestBed.get(
+      PermissionService as Type<PermissionService>
+    );
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 

@@ -38,10 +38,8 @@ export const getCostCentersState: MemoizedSelector<
 export const getCostCenterState = (
   costCenterCode: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<CostCenter>> =>
-  createSelector(
-    getCostCentersState,
-    (state: EntityLoaderState<CostCenter>) =>
-      entityStateSelector(state, costCenterCode)
+  createSelector(getCostCentersState, (state: EntityLoaderState<CostCenter>) =>
+    entityStateSelector(state, costCenterCode)
   );
 
 export const getCostCenterList = (
@@ -50,10 +48,8 @@ export const getCostCenterList = (
   StateWithOrganization,
   LoaderState<EntitiesModel<CostCenter>>
 > =>
-  createSelector(
-    getCostCenterManagementState,
-    (state: CostCenterManagement) =>
-      denormalizeB2BSearch<CostCenter>(state, params)
+  createSelector(getCostCenterManagementState, (state: CostCenterManagement) =>
+    denormalizeB2BSearch<CostCenter>(state, params)
   );
 
 export const getAssignedBudgets = (
