@@ -14,6 +14,8 @@ import {
   ORG_UNIT_ENTITIES,
   ORG_UNIT_TREE_ENTITY,
   ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
+  ORG_UNIT_TREE,
+  ORG_UNIT_APPROVAL_PROCESSES,
 } from '../organization-state';
 import { ALL } from '../../utils/serializer';
 import { ListModel } from '../../../model/misc.model';
@@ -167,14 +169,14 @@ export class UpdateUnitSuccess extends EntitySuccessAction {
 export class LoadTree extends EntityLoadAction {
   readonly type = LOAD_UNIT_TREE;
   constructor(public payload: { userId: string }) {
-    super(ORG_UNIT_TREE_ENTITY, 'tree');
+    super(ORG_UNIT_TREE_ENTITY, ORG_UNIT_TREE);
   }
 }
 
 export class LoadTreeFail extends EntityFailAction {
   readonly type = LOAD_UNIT_TREE_FAIL;
   constructor(public payload: { error: any }) {
-    super(ORG_UNIT_TREE_ENTITY, 'tree', payload.error);
+    super(ORG_UNIT_TREE_ENTITY, ORG_UNIT_TREE, payload.error);
   }
 }
 
@@ -182,14 +184,14 @@ export class LoadTreeSuccess extends EntitySuccessAction {
   readonly type = LOAD_UNIT_TREE_SUCCESS;
 
   constructor(public payload: B2BUnitNode) {
-    super(ORG_UNIT_TREE_ENTITY, 'tree');
+    super(ORG_UNIT_TREE_ENTITY, ORG_UNIT_TREE);
   }
 }
 
 export class LoadApprovalProcesses extends EntityLoadAction {
   readonly type = LOAD_APPROVAL_PROCESSES;
   constructor(public payload: { userId: string }) {
-    super(ORG_UNIT_APPROVAL_PROCESSES_ENTITIES, 'approvalProcesses');
+    super(ORG_UNIT_APPROVAL_PROCESSES_ENTITIES, ORG_UNIT_APPROVAL_PROCESSES);
   }
 }
 
@@ -198,7 +200,7 @@ export class LoadApprovalProcessesFail extends EntityFailAction {
   constructor(public payload: { error: any }) {
     super(
       ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
-      'approvalProcesses',
+      ORG_UNIT_APPROVAL_PROCESSES,
       payload.error
     );
   }
@@ -208,7 +210,7 @@ export class LoadApprovalProcessesSuccess extends EntitySuccessAction {
   readonly type = LOAD_APPROVAL_PROCESSES_SUCCESS;
 
   constructor(public payload: B2BApprovalProcess[]) {
-    super(ORG_UNIT_APPROVAL_PROCESSES_ENTITIES, 'approvalProcesses');
+    super(ORG_UNIT_APPROVAL_PROCESSES_ENTITIES, ORG_UNIT_APPROVAL_PROCESSES);
   }
 }
 

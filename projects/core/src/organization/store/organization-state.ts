@@ -32,6 +32,9 @@ export const ORG_UNIT_TREE_ENTITY = 'orgUnit-tree';
 export const ORG_UNIT_APPROVAL_PROCESSES_ENTITIES =
   'orgUnit-approval-processes';
 
+export const ORG_UNIT_TREE = 'tree';
+export const ORG_UNIT_APPROVAL_PROCESSES = 'approvalProcesses';
+
 export interface Management<Type> {
   list: EntityLoaderState<ListModel>;
   entities: EntityLoaderState<Type>;
@@ -45,7 +48,7 @@ export interface OrgUnits {
   nodeEntities: EntityLoaderState<B2BUnitNode>;
   entities: EntityLoaderState<B2BUnit>;
   tree: EntityLoaderState<B2BUnitNode>;
-  approvalProcesses: EntityLoaderState<B2BApprovalProcess>;
+  approvalProcesses: EntityLoaderState<B2BApprovalProcess[]>;
 }
 
 export interface PermissionManagement extends Management<Permission> {}
