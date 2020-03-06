@@ -1,4 +1,8 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import {
+  EventSourceMapping,
+  provideEventSources,
+} from './event-source-mapping';
 import { EventSourceMappingService } from './event-source-mapping.service';
 
 @NgModule()
@@ -9,6 +13,16 @@ export class EventModule {
   static forRoot(): ModuleWithProviders<EventModule> {
     return {
       ngModule: EventModule,
+    };
+  }
+
+  static forChild<T>(
+    factory: (..._args: any[]) => EventSourceMapping<T>[],
+    deps?: any[]
+  ): ModuleWithProviders<EventModule> {
+    return {
+      ngModule: EventModule,
+      providers: [provideEventSources(factory, deps)],
     };
   }
 }

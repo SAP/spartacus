@@ -11,13 +11,13 @@ export const EVENT_SOURCE_MAPPINGS = new InjectionToken<
 >('EVENT_SOURCE_MAPPINGS');
 
 export function provideEventSources<T>(
-  useFactory: (..._args: any[]) => EventSourceMapping<T>[],
+  factory: (..._args: any[]) => EventSourceMapping<T>[],
   deps?: any[]
 ): FactoryProvider {
   return {
     provide: EVENT_SOURCE_MAPPINGS,
     multi: true,
-    useFactory,
+    useFactory: factory,
     deps,
   };
 }
