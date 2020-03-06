@@ -38,6 +38,7 @@
               [location]="location"
               [locationIndex]="i"
               [displayDistance]="useMylocation"
+              [useClickEvent]="true"
               (storeItemClick)="centerStoreOnMapByIndex($event, location)"
               [listOrderLabel]="
                 i +
@@ -87,6 +88,7 @@
                     [location]="location"
                     [locationIndex]="i"
                     [displayDistance]="useMylocation"
+                    [useClickEvent]="true"
                     (storeItemClick)="centerStoreOnMapByIndex($event, location)"
                     [listOrderLabel]="
                       i +
