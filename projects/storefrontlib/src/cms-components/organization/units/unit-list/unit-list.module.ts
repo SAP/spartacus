@@ -10,6 +10,7 @@ import {
 } from '@spartacus/core';
 import { ManageUnitsListComponent } from './unit-list.component';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
+import { NavigationModule } from '../../../navigation/navigation/navigation.module';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
     UrlModule,
     I18nModule,
     InteractiveTableModule,
+    NavigationModule,
   ],
   declarations: [ManageUnitsListComponent],
   exports: [ManageUnitsListComponent],
