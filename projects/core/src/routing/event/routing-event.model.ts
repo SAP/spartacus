@@ -1,22 +1,15 @@
+import { BaseEvent } from '../../event/base-event.model';
+
 export namespace RoutingEvents {
-  export class Navigation {
+  export class Navigation extends BaseEvent<Navigation> {
     url: string;
-    constructor(data: Navigation) {
-      Object.assign(this, data);
-    }
   }
 
-  export class NavigationSuccess {
+  export class NavigationSuccess extends BaseEvent<NavigationSuccess> {
     url: string;
-    constructor(data: NavigationSuccess) {
-      Object.assign(this, data);
-    }
   }
 
-  export class NavigationCancel {
+  export class NavigationCancel extends BaseEvent<NavigationCancel> {
     url: string;
-    constructor(data: NavigationCancel) {
-      Object.assign(this, data);
-    }
   }
 }
