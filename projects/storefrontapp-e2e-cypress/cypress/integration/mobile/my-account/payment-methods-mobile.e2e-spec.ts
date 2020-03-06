@@ -1,3 +1,4 @@
+import { visitHomePage } from '../../../helpers/checkout-flow';
 import * as login from '../../../helpers/login';
 import {
   checkAnonymous,
@@ -8,7 +9,6 @@ import { formats } from '../../../sample-data/viewports';
 describe(`${formats.mobile.width + 1}p resolution - Payment Methods`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
   beforeEach(() => {
@@ -21,14 +21,23 @@ describe(`${formats.mobile.width + 1}p resolution - Payment Methods`, () => {
 
   describe('Authenticated user', () => {
     before(() => {
-      cy.viewport(formats.mobile.width, formats.mobile.height);
       cy.requireLoggedIn();
       cy.reload();
-      cy.visit('/');
+
+      cy.server();
+      visitHomePage();
+
+      cy.route(
+        'GET',
+        '/rest/v2/electronics-spa/cms/pages*/my-account/payment-details*'
+      ).as('payment_details');
+
       cy.selectUserMenuOption({
         option: 'Payment Details',
         isMobile: true,
       });
+
+      cy.wait('@payment_details');
     });
 
     beforeEach(() => {

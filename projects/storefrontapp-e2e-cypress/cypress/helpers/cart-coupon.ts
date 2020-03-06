@@ -1,4 +1,5 @@
 import { user } from '../sample-data/checkout-flow';
+import { waitForPage } from './checkout-flow';
 
 export const productCode1 = '300938';
 export const couponCode1 = 'CouponForCart';
@@ -14,16 +15,20 @@ export const myCouponCode2 = 'midautumn';
 
 export function addProductToCart(productCode: string) {
   cy.get('cx-searchbox input')
-    .clear()
+    .clear({ force: true })
     .type(`${productCode}{enter}`, { force: true });
+
   cy.get('cx-add-to-cart')
     .getAllByText(/Add To Cart/i)
     .first()
     .click();
+
+  const waitForCart: string = waitForPage('/cart', 'waitForCart');
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-code').should('contain', productCode);
     cy.getByText(/view cart/i).click();
   });
+  cy.wait(`@${waitForCart}`);
 }
 
 export function verifyEmptyCoupons() {
@@ -124,6 +129,7 @@ export function verifyOrderHistory(
   totalPrice?: string,
   savedPrice?: string
 ) {
+  cy.wait(Cypress.env('ORDER_HISTORY_WAIT_TIME'));
   navigateToOrderHistoryPage(orderData);
   if (couponCode) {
     verifyCouponInOrderHistory(couponCode, totalPrice, savedPrice);
