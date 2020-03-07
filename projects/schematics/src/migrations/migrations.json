@@ -14,6 +14,11 @@
       "version": "2-next",
       "factory": "./2_0/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
+    },
+    "migration-v2-removed-public-api-04": {
+      "version": "2-next",
+      "factory": "./2_0/removed-public-api#migrate",
+      "description": "Comment about usage of removed public api"
     }
   }
 }
