@@ -19,7 +19,6 @@ import {
   templateUrl: './order-detail-items.component.html',
 })
 export class OrderDetailItemsComponent implements OnInit {
-
   constructor(
     private orderDetailsService: OrderDetailsService,
     protected promotionService: PromotionService

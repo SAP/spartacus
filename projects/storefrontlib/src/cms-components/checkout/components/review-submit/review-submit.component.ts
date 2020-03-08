@@ -144,7 +144,7 @@ export class ReviewSubmitComponent implements OnInit {
   }
 
   getCheckoutStepUrl(stepType: CheckoutStepType): string {
-      const step = this.checkoutConfigService.getCheckoutStep(stepType);
-      return step && step.routeName;
+    const step = this.checkoutConfigService.getCheckoutStep(stepType);
+    return step && step.routeName;
   }
 }
