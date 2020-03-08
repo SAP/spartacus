@@ -249,13 +249,6 @@ describe('OrderDetailItemsComponent', () => {
     expect(cancel).toContain(mockOrder.consignments[3]);
   });
 
-  it('should return getConsignmentProducts', () => {
-    const products = component.getConsignmentProducts(
-      mockOrder.consignments[1]
-    );
-    expect(products).toEqual([mockProduct]);
-  });
-
   it('should order details item be rendered', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();

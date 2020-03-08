@@ -30,41 +30,17 @@ export class CartDetailsComponent implements OnInit {
   promotions$: Observable<PromotionResult[]>;
 
   constructor(
-    cartService: CartService,
-    // tslint:disable-next-line:unified-signatures
-    promotionService: PromotionService,
-    selectiveCartService: SelectiveCartService,
-    authService: AuthService,
-    routingService: RoutingService,
-    featureConfig: FeatureConfigService
-  );
-
-  /**
-   * @deprecated Since 1.5
-   * Use promotionService instead of the promotion inputs.
-   * Remove issue: #5670
-   */
-  constructor(cartService: CartService);
-
-  constructor(
     protected cartService: CartService,
-    protected promotionService?: PromotionService,
-    protected selectiveCartService?: SelectiveCartService,
-    private authService?: AuthService,
-    private routingService?: RoutingService,
-    private featureConfig?: FeatureConfigService
+    protected promotionService: PromotionService,
+    protected selectiveCartService: SelectiveCartService,
+    private authService: AuthService,
+    private routingService: RoutingService,
+    private featureConfig: FeatureConfigService
   ) {}
 
   ngOnInit() {
     this.cart$ = this.cartService.getActive();
-
-    /**
-     * TODO Remove the check for promotion service
-     * Issue: GH-5670
-     */
-    if (this.promotionService) {
-      this.promotions$ = this.promotionService.getOrderPromotionsFromCart();
-    }
+    this.promotions$ = this.promotionService.getOrderPromotionsFromCart();
 
     this.entries$ = this.cartService
       .getEntries()
@@ -87,11 +63,10 @@ export class CartDetailsComponent implements OnInit {
       this.cartLoaded$ = this.cartService.getLoaded();
     }
     //TODO  remove for #5958 end
-    if (this.promotionService) {
-      this.orderPromotions$ = this.promotionService.getOrderPromotions(
-        this.promotionLocation
-      );
-    }
+
+    this.orderPromotions$ = this.promotionService.getOrderPromotions(
+      this.promotionLocation
+    );
   }
 
   //TODO remove feature flag for #5958
@@ -102,23 +77,6 @@ export class CartDetailsComponent implements OnInit {
     return false;
   }
   //TODO remove feature flag for #5958 end
-
-  /**
-   * @deprecated Since 1.5
-   * Use promotionService instead of the promotion inputs.
-   * Remove issue: #5670
-   */
-  getAllPromotionsForCart(cart: Cart): any[] {
-    const potentialPromotions = [];
-    potentialPromotions.push(...(cart.potentialOrderPromotions || []));
-    potentialPromotions.push(...(cart.potentialProductPromotions || []));
-
-    const appliedPromotions = [];
-    appliedPromotions.push(...(cart.appliedOrderPromotions || []));
-    appliedPromotions.push(...(cart.appliedProductPromotions || []));
-
-    return [...potentialPromotions, ...appliedPromotions];
-  }
 
   saveForLater(item: Item) {
     if (this.loggedIn) {
