@@ -9,14 +9,7 @@ import {
   PaymentDetails,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import {
-  filter,
-  map,
-  shareReplay,
-  skipWhile,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { filter, map, skipWhile, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +39,6 @@ export class CheckoutDetailsService {
 
     this.getCheckoutDetailsLoaded$ = this.cartId$.pipe(
       tap(cartId => this.checkoutService.loadCheckoutDetails(cartId)),
-      shareReplay(1),
       switchMap(() => this.checkoutService.getCheckoutDetailsLoaded()),
       skipWhile(loaded => !loaded)
     );
