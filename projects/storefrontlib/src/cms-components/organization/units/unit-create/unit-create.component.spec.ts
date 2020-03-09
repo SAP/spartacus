@@ -6,34 +6,28 @@ import { Observable, of } from 'rxjs';
 import {
   I18nTestingModule,
   RoutingService,
-  OrgUnitService,
   RoutesConfig,
   RoutingConfig,
-  OrgUnit,
   OrgUnitService,
   Currency,
   CurrencyService,
   EntitiesModel,
   B2BUnitNode,
   LanguageService,
+  B2BUnit,
 } from '@spartacus/core';
 
-import { OrgUnitCreateComponent } from './cost-center-create.component';
+import { UnitCreateComponent } from './unit-create.component';
 import createSpy = jasmine.createSpy;
-import { OrgUnitFormModule } from '../unit-form/cost-center-form.module';
+import { UnitFormModule } from '../unit-form/unit-form.module';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
 
 const orgUnitCode = 'b1';
 
-const mockOrgUnit: OrgUnit = {
-  code: orgUnitCode,
+const mockOrgUnit: B2BUnit = {
+  uid: orgUnitCode,
   name: 'orgUnit1',
-  currency: {
-    symbol: '$',
-    isocode: 'USD',
-  },
-  unit: { name: 'orgName', uid: 'orgCode' },
 };
 
 const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
@@ -51,9 +45,6 @@ const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
-}
-
-class MockOrgUnitService implements Partial<OrgUnitService> {
   create = createSpy('create');
 }
 
@@ -104,15 +95,15 @@ class LanguageServiceStub {
 }
 
 describe('OrgUnitCreateComponent', () => {
-  let component: OrgUnitCreateComponent;
-  let fixture: ComponentFixture<OrgUnitCreateComponent>;
+  let component: UnitCreateComponent;
+  let fixture: ComponentFixture<UnitCreateComponent>;
   let orgUnitsService: MockOrgUnitService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, OrgUnitFormModule, RouterTestingModule],
-      declarations: [OrgUnitCreateComponent],
+      imports: [I18nTestingModule, UnitFormModule, RouterTestingModule],
+      declarations: [UnitCreateComponent],
       providers: [
         {
           provide: LanguageService,
@@ -131,7 +122,7 @@ describe('OrgUnitCreateComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrgUnitCreateComponent);
+    fixture = TestBed.createComponent(UnitCreateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

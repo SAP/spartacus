@@ -3,34 +3,27 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import {
   I18nTestingModule,
   OrgUnitService,
-  OrgUnit,
-  OrgUnitService,
-  Currency,
-  CurrencyService,
   EntitiesModel,
   B2BUnitNode,
+  B2BUnit,
+  B2BApprovalProcess,
 } from '@spartacus/core';
 
-import { OrgUnitFormComponent } from './cost-center-form.component';
+import { UnitFormComponent } from './unit-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
 
-const orgUnitCode = 'b1';
+const code = 'b1';
 
-const mockOrgUnit: OrgUnit = {
-  code: orgUnitCode,
+const mockOrgUnit: B2BUnit = {
+  uid: code,
   name: 'orgUnit1',
-  currency: {
-    symbol: '$',
-    isocode: 'USD',
-  },
-  unit: { name: 'orgName', uid: 'orgCode' },
 };
 
 const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
@@ -52,15 +45,20 @@ const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
   ],
 };
 
+const mockApprovalProcesses: B2BApprovalProcess[] = [
+  { code: 'test1', name: 'test' },
+];
+
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
-}
-
-class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnit = createSpy('loadOrgUnit');
   get = createSpy('get').and.returnValue(of(mockOrgUnit));
   update = createSpy('update');
+  loadApprovalProcesses = createSpy('loadApprovalProcesses');
+  getApprovalProcesses = createSpy('getApprovalProcesses').and.returnValue(
+    of(mockApprovalProcesses)
+  );
 }
 
 @Pipe({
@@ -70,28 +68,10 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-const mockCurrencies: Currency[] = [
-  { active: true, isocode: 'USD', name: 'Dolar', symbol: '$' },
-  { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
-];
-const mockActiveCurr = new BehaviorSubject('USD');
-
-class MockCurrencyService implements Partial<CurrencyService> {
-  getAll = jasmine.createSpy('getAll').and.returnValue(of(mockCurrencies));
-  getActive(): Observable<string> {
-    return mockActiveCurr;
-  }
-  setActive(isocode: string) {
-    mockActiveCurr.next(isocode);
-    return mockActiveCurr.subscribe();
-  }
-}
-
 describe('OrgUnitFormComponent', () => {
-  let component: OrgUnitFormComponent;
-  let fixture: ComponentFixture<OrgUnitFormComponent>;
+  let component: UnitFormComponent;
+  let fixture: ComponentFixture<UnitFormComponent>;
   let orgUnitService: OrgUnitService;
-  let currencyService: CurrencyService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -102,20 +82,18 @@ describe('OrgUnitFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [OrgUnitFormComponent, MockUrlPipe],
+      declarations: [UnitFormComponent, MockUrlPipe],
       providers: [
-        { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
       ],
     }).compileComponents();
 
     orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
-    currencyService = TestBed.get(CurrencyService as Type<CurrencyService>);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrgUnitFormComponent);
+    fixture = TestBed.createComponent(UnitFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -127,14 +105,15 @@ describe('OrgUnitFormComponent', () => {
   describe('ngOnInit', () => {
     it('should load currencies', () => {
       component.ngOnInit();
-      let currencies: any;
-      component.currencies$
+      let approvalProcesses: any;
+      component.approvalProcesses$
         .subscribe(value => {
-          currencies = value;
+          approvalProcesses = value;
         })
         .unsubscribe();
-      expect(currencyService.getAll).toHaveBeenCalled();
-      expect(currencies).toEqual(mockCurrencies);
+
+      expect(orgUnitService.getApprovalProcesses).toHaveBeenCalled();
+      expect(approvalProcesses).toEqual(mockApprovalProcesses);
     });
 
     it('should load businessUnits', () => {
@@ -153,7 +132,7 @@ describe('OrgUnitFormComponent', () => {
       spyOn(component.form, 'patchValue');
       component.orgUnitData = null;
       component.ngOnInit();
-      expect(component.form.patchValue).not.toHaveBeenCalledWith();
+      expect(component.form.patchValue).not.toHaveBeenCalled();
       expect(component.form.valid).toBeFalsy();
     });
 

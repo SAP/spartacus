@@ -10,34 +10,19 @@ import {
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
-  OrgUnit,
+  B2BUnit,
 } from '@spartacus/core';
 
-import { OrgUnitDetailsComponent } from './cost-center-details.component';
+import { UnitDetailsComponent } from './unit-details.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { TableModule } from '../../../../shared/components/table/table.module';
 
 const code = 'b1';
 
-const mockOrgUnit: OrgUnit = {
-  code,
+const mockOrgUnit: B2BUnit = {
+  uid: code,
   name: 'orgUnit1',
-  currency: {
-    symbol: '$',
-    isocode: 'USD',
-  },
-  unit: { name: 'orgName', uid: 'orgCode' },
-};
-
-const mockOrgUnitUI: any = {
-  code,
-  name: 'orgUnit1',
-  currency: {
-    symbol: '$',
-    isocode: 'USD',
-  },
-  unit: { name: 'orgName', uid: 'orgCode' },
 };
 
 @Pipe({
@@ -82,15 +67,15 @@ class MockCxDatePipe {
 }
 
 describe('OrgUnitDetailsComponent', () => {
-  let component: OrgUnitDetailsComponent;
-  let fixture: ComponentFixture<OrgUnitDetailsComponent>;
+  let component: UnitDetailsComponent;
+  let fixture: ComponentFixture<UnitDetailsComponent>;
   let orgUnitsService: MockOrgUnitService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, TableModule, I18nTestingModule],
-      declarations: [OrgUnitDetailsComponent, MockUrlPipe],
+      declarations: [UnitDetailsComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
@@ -104,7 +89,7 @@ describe('OrgUnitDetailsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrgUnitDetailsComponent);
+    fixture = TestBed.createComponent(UnitDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -125,7 +110,7 @@ describe('OrgUnitDetailsComponent', () => {
       expect(routingService.getRouterState).toHaveBeenCalled();
       expect(orgUnitsService.loadOrgUnit).toHaveBeenCalledWith(code);
       expect(orgUnitsService.get).toHaveBeenCalledWith(code);
-      expect(orgUnit).toEqual(mockOrgUnitUI);
+      expect(orgUnit).toEqual(mockOrgUnit);
     });
   });
 
@@ -133,14 +118,14 @@ describe('OrgUnitDetailsComponent', () => {
     it('should update orgUnit', () => {
       component.ngOnInit();
 
-      component.update({ activeFlag: false });
+      component.update({ active: false });
       expect(orgUnitsService.update).toHaveBeenCalledWith(code, {
-        activeFlag: false,
+        active: false,
       });
 
-      component.update({ activeFlag: true });
+      component.update({ active: true });
       expect(orgUnitsService.update).toHaveBeenCalledWith(code, {
-        activeFlag: true,
+        active: true,
       });
     });
   });

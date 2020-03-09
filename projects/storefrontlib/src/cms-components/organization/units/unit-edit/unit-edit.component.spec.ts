@@ -9,31 +9,25 @@ import {
   OrgUnitService,
   RoutesConfig,
   RoutingConfig,
-  OrgUnit,
-  OrgUnitService,
   Currency,
   CurrencyService,
   EntitiesModel,
   B2BUnitNode,
   LanguageService,
+  B2BUnit,
 } from '@spartacus/core';
 
-import { OrgUnitEditComponent } from './cost-center-edit.component';
+import { UnitEditComponent } from './unit-edit.component';
 import createSpy = jasmine.createSpy;
-import { OrgUnitFormModule } from '../unit-form/cost-center-form.module';
+import { UnitFormModule } from '../unit-form/unit-form.module';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
 
 const code = 'b1';
 
-const mockOrgUnit: OrgUnit = {
-  code,
+const mockOrgUnit: B2BUnit = {
+  uid: code,
   name: 'orgUnit1',
-  currency: {
-    symbol: '$',
-    isocode: 'USD',
-  },
-  unit: { name: 'orgName', uid: 'orgCode' },
 };
 
 const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
@@ -51,9 +45,6 @@ const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
-}
-
-class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnit = createSpy('loadOrgUnit');
   get = createSpy('get').and.returnValue(of(mockOrgUnit));
   update = createSpy('update');
@@ -106,15 +97,15 @@ class LanguageServiceStub {
 }
 
 describe('OrgUnitEditComponent', () => {
-  let component: OrgUnitEditComponent;
-  let fixture: ComponentFixture<OrgUnitEditComponent>;
+  let component: UnitEditComponent;
+  let fixture: ComponentFixture<UnitEditComponent>;
   let orgUnitsService: MockOrgUnitService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, OrgUnitFormModule, RouterTestingModule],
-      declarations: [OrgUnitEditComponent],
+      imports: [I18nTestingModule, UnitFormModule, RouterTestingModule],
+      declarations: [UnitEditComponent],
       providers: [
         {
           provide: LanguageService,
@@ -133,7 +124,7 @@ describe('OrgUnitEditComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrgUnitEditComponent);
+    fixture = TestBed.createComponent(UnitEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

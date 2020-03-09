@@ -157,7 +157,7 @@ describe('PermissionFormComponent', () => {
       spyOn(component.form, 'patchValue');
       component.permissionData = null;
       component.ngOnInit();
-      expect(component.form.patchValue).not.toHaveBeenCalledWith();
+      expect(component.form.patchValue).not.toHaveBeenCalled();
       expect(component.form.valid).toBeFalsy();
     });
 
