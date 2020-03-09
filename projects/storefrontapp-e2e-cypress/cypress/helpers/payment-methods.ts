@@ -172,7 +172,7 @@ export function paymentMethodsTest(isMobile: boolean = false) {
     verifyPaymentCard(1);
   });
 
-  it('should add product a second product via search', () => {
+  it('should add a second product via search', () => {
     addProductToCartViaSearchPage(false);
   });
 
