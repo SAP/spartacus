@@ -22,6 +22,8 @@ export const FORM_BUILDER = 'FormBuilder';
 
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 
+export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
+
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_CONFIG = 'CmsConfig';
@@ -53,6 +55,13 @@ export const ROUTING_SERVICE = 'RoutingService';
 export const SHIPPING_ADDRESS_COMPONENT = 'ShippingAddressComponent';
 export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const TRANSLATION_SERVICE = 'TranslationService';
+export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
+export const ADD_TO_CART_COMPONENT = 'AddToCartComponent';
+export const MODAL_SERVICE = 'ModalService';
+export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
+export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
+export const CART_TOTALS_COMPONENT = 'CartTotalsComponent';
+export const MINI_CART_COMPONENT = 'MiniCartComponent';
 /***** Classes end *****/
 
 /***** Cart removed public api start *****/
