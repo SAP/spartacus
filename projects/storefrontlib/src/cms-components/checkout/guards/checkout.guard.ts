@@ -14,11 +14,11 @@ export class CheckoutGuard implements CanActivate {
   private readonly firstStep$: Observable<UrlTree>;
 
   constructor(
-    private router: Router,
-    private routingConfigService: RoutingConfigService,
+    protected router: Router,
+    protected routingConfigService: RoutingConfigService,
     protected checkoutConfigService: CheckoutConfigService,
     protected expressCheckoutService: ExpressCheckoutService,
-    protected cartService: ActiveCartService
+    protected activeCartService: ActiveCartService
   ) {
     this.firstStep$ = of(
       this.router.parseUrl(
@@ -32,7 +32,7 @@ export class CheckoutGuard implements CanActivate {
   canActivate(): Observable<boolean | UrlTree> {
     if (
       this.checkoutConfigService.isExpressCheckout() &&
-      !this.cartService.isGuestCart()
+      !this.activeCartService.isGuestCart()
     ) {
       return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
         switchMap((expressCheckoutPossible: boolean) => {
