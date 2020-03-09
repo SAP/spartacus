@@ -3,7 +3,7 @@ import { waitForPage } from '../../../helpers/checkout-flow';
 import { navigation } from '../../../helpers/navigation';
 import { cdsHelper } from '../../../helpers/vendor/cds/cds';
 import { profileTagHelper } from '../../../helpers/vendor/cds/profile-tag';
-describe.skip('Profile-tag events', () => {
+describe('Profile-tag events', () => {
   beforeEach(() => {
     cy.server();
     cdsHelper.setUpMocks();
@@ -41,11 +41,13 @@ describe.skip('Profile-tag events', () => {
     goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary').click();
-    cy.get('cx-cart-item-list')
-      .get('.cx-counter-action')
-      .contains('+')
+    cy.get('cx-cart-item cx-item-counter')
+      .getByText('+')
       .click();
-    cy.wait(500);
+    cy.route('GET', '/rest/v2/electronics-spa/users/anonymous/carts/*').as(
+      'getRefreshedCart'
+    );
+    cy.wait('@getRefreshedCart');
     cy.window().then(win => {
       expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(4);
       expect(
@@ -62,7 +64,10 @@ describe.skip('Profile-tag events', () => {
     cy.get('cx-cart-item-list')
       .get('.cx-remove-btn > .link')
       .click();
-    cy.wait(500);
+    cy.route('GET', '/rest/v2/electronics-spa/users/anonymous/carts/*').as(
+      'getRefreshedCart'
+    );
+    cy.wait('@getRefreshedCart');
     cy.window().then(win => {
       expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(4);
       expect(
