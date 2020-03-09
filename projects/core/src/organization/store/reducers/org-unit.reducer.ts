@@ -1,6 +1,5 @@
 import { B2BUnitNode } from '../../../model/org-unit.model';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
-import * as OrgUnitActions from '../actions/org-unit.action';
 
 export const orgUnitInitialState = {};
 export const orgUnitsInitialState = undefined;

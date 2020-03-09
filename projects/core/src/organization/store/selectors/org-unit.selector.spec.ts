@@ -1,11 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import {
-  // B2BApprovalProcess,
-  B2BUnit,
-  B2BUnitNode,
-} from '../../../model/org-unit.model';
+import { B2BUnit, B2BUnitNode } from '../../../model/org-unit.model';
 import { OrgUnitActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
