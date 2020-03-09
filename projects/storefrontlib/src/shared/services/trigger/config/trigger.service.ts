@@ -14,7 +14,7 @@ export class TriggerService {
     config: TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping,
     template?: ComponentFactory<any>
   ): void | string {
-    if (typeof config === 'string') {
+    if (Boolean((config as TriggerUrlMapping).url)) {
       return (config as TriggerUrlMapping).url;
     } else if (Boolean((config as TriggerOutletMapping).outlet)) {
       this.renderOutlet(config as TriggerOutletMapping, template);
