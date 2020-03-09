@@ -89,9 +89,18 @@
         color: var(--cx-color-primary);
       }
 
+      &:focus {
+        z-index: 1;
+        position: relative;
+      }
+
       a {
         display: block;
         width: 100%;
+        &:focus {
+          z-index: 1;
+          position: relative;
+        }
       }
     }
 
