@@ -17,6 +17,7 @@ export const NGRX_STORE = '@ngrx/store';
 export const OBSERVABLE_CLASS = 'Observable';
 
 export const STORE = 'Store';
+export const ROUTER = 'Router';
 
 export const FORM_BUILDER = 'FormBuilder';
 
@@ -43,8 +44,8 @@ export const CHECKOUT_SERVICE = 'CheckoutService';
 export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
 export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
 export const CART_DATA_SERVICE = 'CartDataService';
-export const ACTIVE_CART_SERVICE = 'ActiveCartService';
 export const CART_SERVICE = 'CartService';
+export const ACTIVE_CART_SERVICE = 'ActiveCartService';
 export const PROMOTION_SERVICE = 'PromotionService';
 export const ORDER_DETAILS_SERVICE = 'OrderDetailsService';
 export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
@@ -62,6 +63,11 @@ export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
 export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
 export const CART_TOTALS_COMPONENT = 'CartTotalsComponent';
 export const MINI_CART_COMPONENT = 'MiniCartComponent';
+export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
+export const CHECKOUT_GUARD = 'CheckoutGuard';
+export const CHECKOUT_CONFIG = 'CheckoutConfig';
+export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
+export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService ';
 /***** Classes end *****/
 
 /***** Cart removed public api start *****/

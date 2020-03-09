@@ -28,8 +28,8 @@ export class CheckoutLoginComponent implements OnDestroy {
   private submitClicked = false;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private authRedirectService: AuthRedirectService,
+    protected formBuilder: FormBuilder,
+    protected authRedirectService: AuthRedirectService,
     protected activeCartService: ActiveCartService
   ) {}
 

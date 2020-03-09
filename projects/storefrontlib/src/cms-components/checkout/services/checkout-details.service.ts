@@ -26,9 +26,9 @@ export class CheckoutDetailsService {
   getCheckoutDetailsLoaded$: Observable<boolean>;
 
   constructor(
-    private checkoutService: CheckoutService,
-    private checkoutDeliveryService: CheckoutDeliveryService,
-    private checkoutPaymentService: CheckoutPaymentService,
+    protected checkoutService: CheckoutService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutPaymentService: CheckoutPaymentService,
     protected activeCartService: ActiveCartService
   ) {
     this.cartId$ = this.activeCartService.getActive().pipe(

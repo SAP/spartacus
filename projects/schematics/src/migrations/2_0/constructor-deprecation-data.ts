@@ -1,6 +1,7 @@
 import {
   ACTIVATED_ROUTE,
   ACTIVE_CART_SERVICE,
+  ADDRESS_BOOK_COMPONENT_SERVICE,
   ADD_TO_CART_COMPONENT,
   ANGULAR_CORE,
   ANGULAR_FORMS,
@@ -12,15 +13,18 @@ import {
   CART_SERVICE,
   CART_TOTALS_COMPONENT,
   CHANGE_DETECTOR_REF,
+  CHECKOUT_CONFIG,
   CHECKOUT_CONFIG_SERVICE,
   CHECKOUT_DELIVERY_SERVICE,
   CHECKOUT_DETAILS_SERVICE,
+  CHECKOUT_GUARD,
   CHECKOUT_LOGIN_COMPONENT,
   CHECKOUT_PAGE_META_RESOLVER,
   CHECKOUT_PAYMENT_SERVICE,
   CHECKOUT_SERVICE,
   CMS_SERVICE,
   CURRENT_PRODUCT_SERVICE,
+  EXPRESS_CHECKOUT_SERVICE,
   FEATURE_CONFIG_SERVICE,
   FORM_BUILDER,
   MINI_CART_COMPONENT,
@@ -31,6 +35,8 @@ import {
   PAGE_META_RESOLVER,
   PAGE_META_SERVICE,
   PROMOTION_SERVICE,
+  ROUTER,
+  ROUTING_CONFIG_SERVICE,
   ROUTING_SERVICE,
   SHIPPING_ADDRESS_COMPONENT,
   SPARTACUS_CORE,
@@ -460,6 +466,60 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
       },
     ],
     addParams: [
+      {
+        className: ACTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.spec.ts
+  {
+    class: ADDRESS_BOOK_COMPONENT_SERVICE,
+    deprecatedParams: [
+      {
+        className: USER_ADDRESS_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    addParams: [
+      {
+        className: CHECKOUT_DELIVERY_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts
+  {
+    class: CHECKOUT_GUARD,
+    deprecatedParams: [
+      {
+        className: ROUTER,
+        importPath: ANGULAR_ROUTER,
+      },
+      {
+        className: CHECKOUT_CONFIG,
+        importPath: SPARTACUS_STOREFRONTLIB,
+      },
+      {
+        className: ROUTING_CONFIG_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    removeParams: [
+      {
+        className: CHECKOUT_CONFIG,
+        importPath: SPARTACUS_STOREFRONTLIB,
+      },
+    ],
+    addParams: [
+      {
+        className: CHECKOUT_CONFIG_SERVICE,
+        importPath: SPARTACUS_STOREFRONTLIB,
+      },
+      {
+        className: EXPRESS_CHECKOUT_SERVICE,
+        importPath: SPARTACUS_STOREFRONTLIB,
+      },
       {
         className: ACTIVE_CART_SERVICE,
         importPath: SPARTACUS_CORE,
