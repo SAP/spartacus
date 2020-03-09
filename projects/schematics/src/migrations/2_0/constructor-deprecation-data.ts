@@ -21,7 +21,6 @@ import {
   EXPRESS_CHECKOUT_SERVICE,
   ROUTER,
   ROUTING_CONFIG_SERVICE,
-  CART_SERVICE,
   ANGULAR_ROUTER,
 } from '../../shared/constants';
 import { ConstructorDeprecation } from '../../shared/utils/file-utils';
@@ -188,10 +187,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
       {
         className: CHECKOUT_CONFIG,
         importPath: SPARTACUS_STOREFRONTLIB,
-      },
-      {
-        className: CART_SERVICE,
-        importPath: SPARTACUS_CORE,
       },
     ],
     addParams: [
