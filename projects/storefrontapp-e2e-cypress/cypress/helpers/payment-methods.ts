@@ -1,4 +1,3 @@
-import { user } from '../sample-data/checkout-flow';
 import {
   addProductToCartViaAutoComplete,
   addProductToCartViaSearchPage,
@@ -6,7 +5,6 @@ import {
 } from './cart';
 import { addPaymentMethod } from './checkout-as-persistent-user';
 import { visitHomePage, waitForPage } from './checkout-flow';
-import { fillPaymentDetails, fillShippingAddress } from './checkout-forms';
 
 interface PaymentDetail {
   accountHolderName: string;
@@ -93,111 +91,6 @@ export function verifyPaymentCard(cardLength: number) {
   });
 }
 
-export function paymentDetailCard() {
-  const request = getWaitAliases();
-
-  // go to product page
-  const productId = '3595723';
-  cy.visit(`/product/${productId}`);
-
-  // add product to cart and go to checkout
-  cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
-    .click({ force: true });
-  cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.getByText(/proceed to checkout/i).click({ force: true });
-  });
-
-  // checkout steps
-  cy.wait(`@${request.shippingPage}`)
-    .its('status')
-    .should('eq', 200);
-
-  fillShippingAddress(user);
-
-  cy.wait(`@${request.deliveryPage}`)
-    .its('status')
-    .should('eq', 200);
-
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-net').should('be.checked');
-  cy.get('button.btn-primary').click({ force: true });
-
-  cy.wait(`@${request.paymentPage}`)
-    .its('status')
-    .should('eq', 200);
-
-  // fill in payment method
-  fillPaymentDetails(user);
-
-  cy.wait(`@${request.reviewPage}`)
-    .its('status')
-    .should('eq', 200);
-
-  // go to payment details page
-  cy.get('cx-review-submit').should('exist');
-
-  cy.visit('/my-account/payment-details');
-  cy.get('.cx-payment .cx-body').then(() => {
-    cy.get('cx-card').should('exist');
-  });
-}
-
-export function addSecondaryPaymentCard() {
-  const waitAliases = getWaitAliases();
-
-  // go to product page
-  const productId = '3595723';
-  cy.visit(`/product/${productId}`);
-  // add product to cart and go to checkout
-  cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
-    .click({ force: true });
-  cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.getByText(/proceed to checkout/i).click({ force: true });
-  });
-
-  cy.wait(`@${waitAliases.shippingPage}`)
-    .its('status')
-    .should('eq', 200);
-
-  // select shipping address
-  cy.get('cx-shipping-address .cx-card-link')
-    .getByText(/Ship to this address/i)
-    .click({ force: true });
-  cy.get('button.btn-primary').click({ force: true });
-
-  cy.wait(`@${waitAliases.deliveryPage}`)
-    .its('status')
-    .should('eq', 200);
-
-  // set delivery method
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-net').should('be.checked');
-  cy.get('button.btn-primary').click({ force: true });
-
-  cy.wait(`@${waitAliases.paymentPage}`)
-    .its('status')
-    .should('eq', 200);
-
-  // fill in payment method
-  cy.get('cx-payment-method .cx-checkout-btns:first .btn-action')
-    .getByText('Add New Payment')
-    .click({ force: true });
-
-  fillPaymentDetails(testPaymentDetail[1]);
-
-  cy.wait(`@${waitAliases.reviewPage}`)
-    .its('status')
-    .should('eq', 200);
-
-  // go to payment details page
-  cy.get('cx-review-submit').should('exist');
-
-  cy.visit('/my-account/payment-details');
-  cy.get('.cx-payment-card').should('have.length', 2);
-}
-
 export function setOtherPaymentToDefault() {
   cy.get('cx-payment-methods .cx-card-link')
     .getByText('Set as default')
@@ -239,7 +132,7 @@ export function deletePayment() {
   // verify remaining address is now the default one
   const defaultCard = cy.get('.cx-payment-card');
   defaultCard.should('contain', 'Default Payment Method');
-  defaultCard.should('contain', 'Winston Rumfoord');
+  defaultCard.should('contain', 'test user');
 }
 
 export function visitPaymentDetailsPage(isMobile: boolean = false) {
@@ -298,9 +191,9 @@ export function paymentMethodsTest(isMobile: boolean) {
     setOtherPaymentToDefault();
   });
 
-  // it('should be able to delete payment method', () => {
-  //   deletePayment();
-  // });
+  it('should be able to delete payment method', () => {
+    deletePayment();
+  });
 }
 
 function addPaymentMethod(paymentDetail: PaymentDetail) {
@@ -324,25 +217,4 @@ function addPaymentMethod(paymentDetail: PaymentDetail) {
         expect(response.status).to.eq(201);
       });
     });
-}
-
-function getWaitAliases() {
-  const shippingPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
-  );
-
-  const deliveryPage = waitForPage(
-    '/checkout/delivery-mode',
-    'getDeliveryPage'
-  );
-
-  const paymentPage = waitForPage(
-    '/checkout/payment-details',
-    'getPaymentPage'
-  );
-
-  const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
-
-  return { shippingPage, deliveryPage, paymentPage, reviewPage };
 }
