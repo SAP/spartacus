@@ -18,13 +18,6 @@ import { CartActions } from '../actions';
 import { StateWithMultiCart } from '../multi-cart-state';
 import { MultiCartSelectors } from '../selectors';
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx effects will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 @Injectable()
 export class WishListEffects {
   @Effect()

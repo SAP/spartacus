@@ -15,7 +15,12 @@
       "factory": "./2_0/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
     },
-    "migration-v2-component-selectors-04": {
+    "migration-v2-removed-public-api-04": {
+      "version": "2-next",
+      "factory": "./2_0/removed-public-api#migrate",
+      "description": "Comment about usage of removed public api"
+    },
+    "migration-v2-component-deprecations-05": {
       "version": "2-next",
       "factory": "./2_0/component-deprecations#migrate",
       "description": "Handle deprecated Spartacus components"

@@ -47,6 +47,12 @@ export interface ConstructorDeprecation {
   removeParams?: ClassType[];
 }
 
+export interface DeprecatedNode {
+  node: string;
+  importPath: string;
+  comment?: string;
+}
+
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   const buffer = tree.read(path);
   if (!buffer) {
@@ -582,16 +588,12 @@ function getImportDeclarationNode(
   source: ts.SourceFile,
   importToCheck: ClassType
 ): ts.Node | undefined {
-  const nodes = getSourceNodes(source);
-
   // collect al the import declarations
-  const importDeclarationNodes = nodes
-    .filter(node => node.kind === ts.SyntaxKind.ImportDeclaration)
-    .filter(node =>
-      (node as ts.ImportDeclaration).moduleSpecifier
-        .getText()
-        .includes(importToCheck.importPath)
-    );
+  const importDeclarationNodes = getImportDeclarations(
+    source,
+    importToCheck.importPath
+  );
+
   if (importDeclarationNodes.length === 0) {
     return undefined;
   }
@@ -786,6 +788,92 @@ export function insertCommentAboveIdentifier(
       )
     )
   );
+  return changes;
+}
+
+function getImportDeclarations(
+  source: ts.SourceFile,
+  importPath: string
+): ts.ImportDeclaration[] {
+  const imports = getSourceNodes(source).filter(
+    node => node.kind === ts.SyntaxKind.ImportDeclaration
+  );
+  return imports.filter(imp =>
+    ((imp as ts.ImportDeclaration).moduleSpecifier as ts.StringLiteral)
+      .getText()
+      .includes(importPath)
+  ) as ts.ImportDeclaration[];
+}
+
+function filterNamespacedImports(
+  imports: ts.ImportDeclaration[]
+): ts.ImportDeclaration[] {
+  return imports
+    .filter(imp => (imp.importClause?.namedBindings as any)?.name)
+    .filter(Boolean);
+}
+
+function filterNamedImports(
+  imports: ts.ImportDeclaration[]
+): ts.ImportDeclaration[] {
+  return imports
+    .filter(imp => (imp.importClause?.namedBindings as any)?.elements)
+    .filter(Boolean);
+}
+
+export function insertCommentAboveImportIdentifier(
+  sourcePath: string,
+  source: ts.SourceFile,
+  identifierName: string,
+  importPath: string,
+  comment: string
+): Change[] {
+  const imports = getImportDeclarations(source, importPath);
+  const namedImports = filterNamedImports(imports);
+  const namespacedImports = filterNamespacedImports(imports);
+
+  const namespacedIdentifiers = namespacedImports
+    .map(imp => (imp.importClause?.namedBindings as any)?.name?.escapedText)
+    .filter(Boolean);
+  const namedImportsWithIdentifierName = namedImports.filter(imp =>
+    findNodes(imp, ts.SyntaxKind.ImportSpecifier).find(
+      node => (node as any).name.escapedText === identifierName
+    )
+  );
+
+  const propertyAccessExpressions = getSourceNodes(source).filter(
+    node => node.kind === ts.SyntaxKind.PropertyAccessExpression
+  );
+
+  const accessPropertiesToIdentifierName = propertyAccessExpressions
+    .filter(member =>
+      namespacedIdentifiers.includes((member as any)?.expression?.escapedText)
+    )
+    .filter(member => identifierName === (member as any)?.name?.escapedText)
+    .filter(Boolean);
+
+  const changes: InsertChange[] = [];
+
+  namedImportsWithIdentifierName.forEach(n =>
+    changes.push(
+      new InsertChange(
+        sourcePath,
+        getLineStartFromTSFile(source, n.getStart()),
+        comment
+      )
+    )
+  );
+
+  accessPropertiesToIdentifierName.forEach(n =>
+    changes.push(
+      new InsertChange(
+        sourcePath,
+        getLineStartFromTSFile(source, n.getStart()),
+        comment
+      )
+    )
+  );
+
   return changes;
 }
 
