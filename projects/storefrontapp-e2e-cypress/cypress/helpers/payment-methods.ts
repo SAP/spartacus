@@ -3,7 +3,6 @@ import {
   addProductToCartViaSearchPage,
   loginRegisteredUser,
 } from './cart';
-import { addPaymentMethod } from './checkout-as-persistent-user';
 import { visitHomePage, waitForPage } from './checkout-flow';
 
 interface PaymentDetail {
@@ -163,7 +162,7 @@ export function paymentMethodsTest(isMobile: boolean = false) {
     addProductToCartViaAutoComplete(false);
   });
 
-  it('should create payment details using POST request', () => {
+  it('should create a payment detail using POST request', () => {
     addPaymentMethod(testPaymentDetail[0]);
   });
 
@@ -177,7 +176,7 @@ export function paymentMethodsTest(isMobile: boolean = false) {
     addProductToCartViaSearchPage(false);
   });
 
-  it('should add a second a payment details using POST request', () => {
+  it('should add a second payment detail using POST request', () => {
     addPaymentMethod(testPaymentDetail[1]);
   });
 
