@@ -149,7 +149,7 @@ export function visitPaymentDetailsPage(isMobile: boolean = false) {
     .should('eq', 200);
 }
 
-export function paymentMethodsTest(isMobile: boolean) {
+export function paymentMethodsTest(isMobile: boolean = false) {
   it('should visit payment details page', () => {
     loginRegisteredUser();
     visitPaymentDetailsPage(isMobile);
