@@ -1,13 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
+  ActiveCartService,
   Address,
-  CartService,
   CheckoutDeliveryService,
   RoutingService,
   TranslationService,
@@ -15,9 +15,9 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { CheckoutStepType } from '../..';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
-import { CheckoutStepType } from '../..';
 
 export interface CardWithAddress {
   card: Card;
@@ -32,12 +32,12 @@ export interface CardWithAddress {
 export class ShippingAddressComponent implements OnInit, OnDestroy {
   constructor(
     protected userAddressService: UserAddressService,
-    protected cartService: CartService,
     protected routingService: RoutingService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
-    private checkoutConfigService: CheckoutConfigService,
-    private activatedRoute: ActivatedRoute,
-    private translation: TranslationService
+    protected checkoutConfigService: CheckoutConfigService,
+    protected activatedRoute: ActivatedRoute,
+    protected translation: TranslationService,
+    protected activeCartService: ActiveCartService
   ) {}
   existingAddresses$: Observable<Address[]>;
   newAddressFormManuallyOpened = false;
@@ -155,7 +155,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       )
     );
 
-    if (!this.cartService.isGuestCart()) {
+    if (!this.activeCartService.isGuestCart()) {
       this.userAddressService.loadAddresses();
     } else {
       this.isGuestCheckout = true;
