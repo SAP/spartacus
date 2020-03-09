@@ -25,7 +25,7 @@
       "factory": "./2_0/component-deprecations#migrate",
       "description": "Handle deprecated Spartacus components"
     },
-    "migration-v2-css-05": {
+    "migration-v2-css-06": {
       "version": "2-next",
       "factory": "./2_0/css#migrate",
       "description": "Handle deprecated CSS"
