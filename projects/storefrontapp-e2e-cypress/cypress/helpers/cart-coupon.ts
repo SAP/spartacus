@@ -27,37 +27,27 @@ export function addProductToCart(productCode: string) {
 }
 
 export function verifyEmptyCoupons() {
-  cy.get('.cx-customer-coupons').should('not.exist');
+  cy.get('.cx-available-coupon').should('not.exist');
 }
 
 export function verifyMyCoupons() {
-  cy.get('.cx-customer-coupons .coupon-id').should('have.length', 2);
-  cy.get('.cx-customer-coupons .coupon-id').should('contain', myCouponCode1);
-  cy.get('.cx-customer-coupons .coupon-id').should('contain', myCouponCode2);
+  cy.get('.cx-available-coupon .coupon-id').should('have.length', 2);
+  cy.get('.cx-available-coupon .coupon-id').should('contain', myCouponCode1);
+  cy.get('.cx-available-coupon .coupon-id').should('contain', myCouponCode2);
 }
 
-export function filterAndApplyMyCoupons(
-  filterCode: string,
-  couponCode: string
-) {
-  cy.get('#applyVoucher').type(filterCode);
-  cy.get('.cx-customer-coupons .coupon-id').should('have.length', 1);
-  cy.get('.cx-customer-coupons .coupon-id').should('contain', couponCode);
-  cy.get('.cx-customer-coupons a').click({ force: true });
+export function ApplyMyCoupons(couponCode: string) {
+  cy.get('.cx-available-coupon').within(() => {
+    cy.getByText(couponCode)
+      .parent()
+      .click();
+  });
   cy.get('cx-global-message').should(
     'contain',
     `${couponCode} has been applied`
   );
   getCouponItemFromCart(couponCode).should('exist');
-  cy.get('.cx-customer-coupons .coupon-id').should('not.contain', couponCode);
-  verifyMyCouponsAfterApply(couponCode);
-}
-
-export function verifyMyCouponsAfterApply(couponCode: string) {
-  navigateToCheckoutPage();
-  navigateToCartPage();
-  getCouponItemFromCart(couponCode).should('exist');
-  cy.get('.cx-customer-coupons .coupon-id').should('not.contain', couponCode);
+  cy.get('.cx-available-coupon .coupon-id').should('not.contain', couponCode);
 }
 
 export function claimCoupon(couponCode: string) {
@@ -88,9 +78,11 @@ export function applyMyCouponAsAnonymous(couponCode: string) {
 export function applyCoupon(couponCode: string) {
   cy.get('#applyVoucher').type(couponCode);
   cy.get('.col-md-4 > .btn').click();
-  return cy
-    .get('cx-global-message')
-    .should('contain', `${couponCode} has been applied`);
+  cy.get('cx-global-message').should(
+    'contain',
+    `${couponCode} has been applied`
+  );
+  getCouponItemFromCart(couponCode).should('exist');
 }
 
 export function removeCoupon(couponCode: string) {
@@ -248,23 +240,31 @@ export function getCouponItemOrderSummary(couponCode: string) {
     .contains('.cx-applied-coupon-code', couponCode);
 }
 
+export function verifyProductInCart(productCode: string) {
+  cy.get('cx-cart-item').within(() => {
+    cy.get('.cx-code').should('contain', productCode);
+  });
+}
+
 export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
   const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
     .auth;
   addProductToCart(productCode4);
+  verifyProductInCart(productCode4);
   verifyEmptyCoupons();
   claimCoupon(myCouponCode1);
   claimCoupon(myCouponCode2);
 
   navigateToCartPage();
   verifyMyCoupons();
-  filterAndApplyMyCoupons('autumn', myCouponCode2);
+  ApplyMyCoupons(myCouponCode2);
   applyCoupon(couponCode1);
   //don't verify the total price which easy to changed by sample data
   verifyCouponAndSavedPrice(myCouponCode2, '$30');
 
   placeOrder(stateAuth).then(orderData => {
     verifyOrderHistoryForCouponAndPrice(orderData, myCouponCode2, '$30');
+    getCouponItemOrderSummary(couponCode1).should('exist');
   });
 }
 
@@ -273,7 +273,7 @@ export function verifyCustomerCouponRemoving() {
     .auth;
   claimCoupon(myCouponCode2);
   addProductToCart(productCode4);
-  filterAndApplyMyCoupons('autumn', myCouponCode2);
+  ApplyMyCoupons(myCouponCode2);
   verifyCouponAndSavedPrice(myCouponCode2, '$20');
 
   navigateToCheckoutPage();
