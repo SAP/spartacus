@@ -1,20 +1,10 @@
 @import '../../theme';
 
 %cx-cart-coupon {
-  .couponbox-is-active {
-    .cx-customer-coupons {
-      display: block;
-    }
-  }
   padding: 2rem 3rem;
 
   @include media-breakpoint-down(md) {
     padding: 0 3rem 2rem 3rem;
-  }
-
-  .cx-cart-coupon-title {
-    @include type('5');
-    margin: 1.125rem 0 0.5rem;
   }
 
   .form-group .col-md-4 {
@@ -22,47 +12,51 @@
       padding: 0;
     }
   }
-  .cx-apply-voucher {
-    position: relative;
+
+  .cx-cart-coupon-title {
+    @include type('5');
+    margin: 1.125rem 0 0.5rem;
   }
 
-  .cx-customer-coupons {
-    display: none;
-    z-index: 100;
-    position: absolute;
-    max-height: 130px;
-    overflow: auto;
-    width: 100%;
-    background-color: var(--cx-color-inverse);
-    @include type();
+  .cx-available-coupon {
+    .title {
+      font-weight: bold;
+    }
 
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
-      0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    margin-top: -0.25rem;
+    .message {
+      display: flex;
+      flex-wrap: wrap;
+    }
 
-    .coupons {
-      @include media-breakpoint-down(sm) {
-        display: block;
-      }
+    .scroll {
+      display: block;
+      height: auto;
+      box-sizing: border-box;
+      max-height: 240px;
+      overflow-y: auto;
+    }
 
-      a {
-        display: grid;
-        text-decoration: none;
-        cursor: pointer;
+    .card {
+      @include type('7');
+      display: inline-flex;
+      align-items: flex-start;
+      padding: var(--cx-padding, 0.25rem 0.25rem);
+      word-break: break-all;
+      margin: var(--cx-margin, 0.25rem 0.25rem 0 0);
+      background: var(--cx-color-background);
+      border: 1px solid $light;
+      border-radius: $border-radius;
+    }
+  }
 
-        &:hover {
-          background: var(--cx-color-light);
-          color: currentColor;
-        }
-
-        .coupon-id {
-          @include type('7');
-          padding: 6px 3px;
-          word-break: break-word;
-        }
-      }
+  button.link {
+    @include type('8');
+    color: var(--cx-color-text);
+    border-width: 0;
+    text-decoration: none;
+    background: var(--cx-color-background);
+    &:hover {
+      text-decoration: underline;
     }
   }
 }

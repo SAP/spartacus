@@ -55,12 +55,19 @@
     border-style: solid;
     border-color: var(--cx-color-light);
 
+    .cx-store-name {
+      color: var(--cx-color-primary);
+      cursor: default;
+      a {
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
     &:hover {
       background-color: var(--cx-color-background);
-
-      .cx-store-name {
-        text-decoration: underline;
-      }
     }
 
     &.cx-selected-item {
