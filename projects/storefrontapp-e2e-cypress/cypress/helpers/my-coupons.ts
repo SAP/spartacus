@@ -3,7 +3,6 @@ import { standardUser } from '../sample-data/shared-users';
 import { generateMail, randomString } from './user';
 import * as alerts from './global-message';
 import { config, retrieveAuthToken } from '../support/utils/login';
-import { waitForPage } from './checkout-flow';
 
 export const testUser = 'test-user-with-coupons@ydev.hybris.com';
 export const testPassword = 'Password123.';
@@ -26,11 +25,11 @@ export function verifyPagingAndSorting() {
   const firstCouponCodeSelector =
     'cx-my-coupons .cx-coupon-card:first .cx-coupon-card-id';
 
-  const alias = this.waitForCoupons();
+  const getCoupons = waitForCoupons();
   cy.selectUserMenuOption({
     option: 'My Coupons',
   });
-  cy.wait(alias);
+  cy.wait(getCoupons);
 
   cy.get(firstCouponCodeSelector).should(
     'contain',
@@ -101,11 +100,11 @@ export function goMyCoupon() {
 }
 
 export function verifyMyCoupons() {
-  const alias = this.waitForCoupons();
+  const getCoupons = waitForCoupons();
   cy.selectUserMenuOption({
     option: 'My Coupons',
   });
-  cy.wait(alias);
+  cy.wait(getCoupons);
   verifyCouponsClaiming();
   verifyEnableDisableNotification();
   verifyReadMore();
@@ -150,6 +149,7 @@ export function retrieveTokenAndRegister() {
 }
 
 export function verifyCouponsClaiming() {
+  const getCoupons = waitForCoupons();
   cy.get('cx-my-coupons .cx-section-msg').should(
     'contain',
     'You have no coupons available'
@@ -160,8 +160,12 @@ export function verifyCouponsClaiming() {
     cy.get('.cx-coupon-card-id').should('contain', CouponWithOpenCatalog);
   });
   claimCoupon(CouponWithProductCategory);
+
+  cy.wait(getCoupons);
   cy.get('.cx-coupon-card').should('have.length', 2);
   claimCoupon(CouponWithProducts);
+
+  cy.wait(getCoupons);
   cy.get('.cx-coupon-card').should('have.length', 3);
 }
 

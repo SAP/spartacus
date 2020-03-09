@@ -184,6 +184,7 @@ export function verifyOrderHistoryForCouponAndPrice(
   couponCode?: string,
   savedPrice?: string
 ) {
+  cy.wait(Cypress.env('ORDER_HISTORY_WAIT_TIME'));
   navigateToOrderHistoryPage(orderData);
   if (couponCode) {
     verifyCouponAndSavedPriceInOrder(couponCode, savedPrice);
