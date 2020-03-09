@@ -9,6 +9,7 @@ export const RXJS = 'rxjs';
 
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
+export const SPARTACUS_CDS = '@spartacus/cds';
 
 export const NGRX_STORE = '@ngrx/store';
 /***** Imports end *****/
@@ -21,6 +22,7 @@ export const STORE = 'Store';
 export const FORM_BUILDER = 'FormBuilder';
 
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
+export const ROUTER = 'Router';
 
 export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
@@ -62,6 +64,20 @@ export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
 export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
 export const CART_TOTALS_COMPONENT = 'CartTotalsComponent';
 export const MINI_CART_COMPONENT = 'MiniCartComponent';
+export const CHECKOUT_ORDER_SUMMARY_COMPONENT = 'CheckoutOrderSummaryComponent';
+export const CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT =
+  'CheckoutProgressMobileTopComponent';
+export const CHECKOUT_CONFIG = 'CheckoutConfig';
+export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService';
+export const PAYMENT_METHOD_COMPONENT = 'PaymentMethodComponent';
+export const USER_PAYMENT_SERVICE = 'UserPaymentService';
+export const GLOBAL_MESSAGE_SERVICE = 'GlobalMessageService';
+export const CHECKOUT_AUTH_GUARD = 'CheckoutAuthGuard';
+export const CART_PAGE_LAYOUT_HANDLER = 'CartPageLayoutHandler';
+export const SELECTIVE_CART_SERVICE = 'SelectiveCartService';
+export const CDS_SPARTACUS_EVENT_SERVICE = 'SpartacusEventService';
+export const CONSENT_SERVICE = 'ConsentService';
+export const CDS_CONFIG = 'CdsConfig';
 /***** Classes end *****/
 
 /***** Cart removed public api start *****/
