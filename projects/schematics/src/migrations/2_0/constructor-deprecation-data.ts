@@ -15,11 +15,14 @@ import {
   USER_ADDRESS_SERVICE,
   ADDRESS_BOOK_COMPONENT_SERVICE,
   CHECKOUT_GUARD,
-  CART_SERVICE,
   SPARTACUS_STOREFRONTLIB,
   CHECKOUT_CONFIG,
   CHECKOUT_CONFIG_SERVICE,
   EXPRESS_CHECKOUT_SERVICE,
+  ANGULAR_CORE,
+  ROUTER,
+  ROUTING_CONFIG_SERVICE,
+  CART_SERVICE,
 } from '../../shared/constants';
 import { ConstructorDeprecation } from '../../shared/utils/file-utils';
 
@@ -175,29 +178,29 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
     class: CHECKOUT_GUARD,
     deprecatedParams: [
       {
-        className: CART_SERVICE,
-        importPath: SPARTACUS_CORE,
+        className: ROUTER,
+        importPath: ANGULAR_CORE,
       },
       {
         className: CHECKOUT_CONFIG,
         importPath: SPARTACUS_STOREFRONTLIB,
+      },
+      {
+        className: ROUTING_CONFIG_SERVICE,
+        importPath: SPARTACUS_CORE,
       },
     ],
     removeParams: [
       {
-        className: CART_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-      {
         className: CHECKOUT_CONFIG,
         importPath: SPARTACUS_STOREFRONTLIB,
       },
-    ],
-    addParams: [
       {
-        className: ACTIVE_CART_SERVICE,
+        className: CART_SERVICE,
         importPath: SPARTACUS_CORE,
       },
+    ],
+    addParams: [
       {
         className: CHECKOUT_CONFIG_SERVICE,
         importPath: SPARTACUS_STOREFRONTLIB,
@@ -205,6 +208,10 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
       {
         className: EXPRESS_CHECKOUT_SERVICE,
         importPath: SPARTACUS_STOREFRONTLIB,
+      },
+      {
+        className: ACTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
       },
     ],
   },

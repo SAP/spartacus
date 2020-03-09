@@ -42,6 +42,8 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
 export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
+export const ROUTER = 'Router';
+export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService ';
 /***** Classes end *****/
 
 /***** Properties start *****/
