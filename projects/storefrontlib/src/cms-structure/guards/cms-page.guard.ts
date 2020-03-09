@@ -31,56 +31,27 @@ export class CmsPageGuard implements CanActivate {
   static guardName = 'CmsPageGuard';
 
   constructor(
-    routingService: RoutingService,
-    cmsService: CmsService,
-    cmsRoutes: CmsRoutesService,
-    cmsI18n: CmsI18nService,
-    cmsGuards: CmsGuardsService,
-    semanticPathService: SemanticPathService,
-    protectedRoutesGuard: ProtectedRoutesGuard // tslint:disable-line
-  );
-
-  /**
-   * @deprecated since version 1.2.0
-   * Use constructor with more dependencies and make them all required.
-   *
-   * TODO(issue:4646) deprecated since version 1.2.0
-   */
-  constructor(
-    routingService: RoutingService,
-    cmsService: CmsService,
-    cmsRoutes: CmsRoutesService,
-    cmsI18n: CmsI18nService,
-    cmsGuards: CmsGuardsService,
-    semanticPathService: SemanticPathService
-  );
-  constructor(
     // expose as `protected` only services from public API:
     protected routingService: RoutingService,
     protected cmsService: CmsService,
-    private cmsRoutes: CmsRoutesService,
-    private cmsI18n: CmsI18nService,
-    private cmsGuards: CmsGuardsService,
+    private cmsRoutes: CmsRoutesService, // private API
+    private cmsI18n: CmsI18nService, // private API
+    private cmsGuards: CmsGuardsService, // private API
     protected semanticPathService: SemanticPathService,
-    protected protectedRoutesGuard?: ProtectedRoutesGuard
+    protected protectedRoutesGuard: ProtectedRoutesGuard
   ) {}
 
   canActivate(
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
-    /**
-     * TODO(issue:4646) Expect that `ProtectedRoutesGuard` dependency is required (remove `if` logic)
-     */
     return this.protectedRoutesGuard
-      ? this.protectedRoutesGuard
-          .canActivate(route)
-          .pipe(
-            switchMap(result =>
-              result ? this.getCmsPage(route, state) : of(result)
-            )
-          )
-      : this.getCmsPage(route, state);
+      .canActivate(route)
+      .pipe(
+        switchMap(result =>
+          result ? this.getCmsPage(route, state) : of(result)
+        )
+      );
   }
 
   private getCmsPage(
