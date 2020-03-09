@@ -16,7 +16,7 @@ import {
   ReplaceChange,
 } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
-import { UTF_8 } from '../constants';
+import { TODO_SPARTACUS, UTF_8 } from '../constants';
 
 export enum InsertDirection {
   LEFT,
@@ -759,6 +759,10 @@ export function injectService(
   toInsert += `${propertyName}: ${strings.classify(serviceName)}`;
 
   return new InsertChange(path, position, toInsert);
+}
+
+export function buildSpartacusComment(comment: string): string {
+  return `// ${TODO_SPARTACUS} ${comment}\n`;
 }
 
 export function insertCommentAboveIdentifier(

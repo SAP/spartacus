@@ -17,11 +17,13 @@ import {
   NGRX_STORE,
   SPARTACUS_CORE,
   STORE,
+  TODO_SPARTACUS,
   USER_ADDRESS_SERVICE,
   UTF_8,
 } from '../constants';
 import {
   addConstructorParam,
+  buildSpartacusComment,
   ClassType,
   commitChanges,
   defineProperty,
@@ -691,6 +693,15 @@ describe('File utils', () => {
       );
       expect(result).toBeTruthy();
       expect(result.toAdd).toEqual(`private dummyProperty: DummyService`);
+    });
+  });
+
+  describe('buildSpartacusComment', () => {
+    it('should build a proper comment', () => {
+      const comment = 'test';
+      expect(buildSpartacusComment(comment)).toEqual(
+        `// ${TODO_SPARTACUS} ${comment}\n`
+      );
     });
   });
 

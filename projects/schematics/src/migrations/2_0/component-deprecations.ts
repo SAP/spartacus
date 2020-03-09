@@ -1,7 +1,8 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { getSourceNodes } from '@angular/cdk/schematics';
-import { TODO_SPARTACUS, UTF_8 } from '../../shared/constants';
+import { UTF_8 } from '../../shared/constants';
 import {
+  buildSpartacusComment,
   commitChanges,
   getAllHtmlFiles,
   getAllTsSourceFiles,
@@ -55,7 +56,7 @@ export function migrate(): Rule {
               sourcePath,
               originalSource,
               removedProperty.name,
-              buildComment(removedProperty.comment)
+              buildSpartacusComment(removedProperty.comment)
             );
             if (changes.length) {
               commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
@@ -67,8 +68,4 @@ export function migrate(): Rule {
 
     return tree;
   };
-}
-
-function buildComment(comment: string): string {
-  return `// ${TODO_SPARTACUS} ${comment}\n`;
 }
