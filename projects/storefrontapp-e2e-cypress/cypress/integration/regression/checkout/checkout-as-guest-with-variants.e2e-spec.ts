@@ -1,4 +1,3 @@
-import { CheckoutConfig } from '@spartacus/storefront';
 import { checkoutAsGuestWithVariantsTest } from '../../../helpers/checkout-as-guest-with-variants';
 import { configureApparelProduct } from '../../../helpers/checkout-with-variants';
 

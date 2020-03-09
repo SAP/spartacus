@@ -118,88 +118,91 @@ export function displaySummaryPageForOrderWithMultipleProducts() {
 }
 
 export function checkoutWithVariantsTest() {
-  it('should login successfully', () => {
-    loginSuccessfully();
-  });
+  describe('Select single variant product, add to cart, and complete checkout.', () => {
+    it('should login successfully', () => {
+      loginSuccessfully();
+    });
 
-  it('should add a shipping address', () => {
-    addShippingAddress('apparel-uk-spa', 'GBP', 'GB', true);
-  });
+    it('should add a shipping address', () => {
+      addShippingAddress('apparel-uk-spa', 'GBP', 'GB', true);
+    });
 
-  it('should go to product page from category page', () => {
-    goToProductPageFromCategory(variantProduct, '4');
-  });
+    it('should go to product page from category page', () => {
+      goToProductPageFromCategory(variantProduct, '4');
+    });
 
-  it('should add product variant to cart', () => {
-    addProductVariant();
-  });
+    it('should add product variant to cart', () => {
+      addProductVariant();
+    });
 
-  it('should get cartId and add a payment method', () => {
-    addPaymentMethod('apparel-uk-spa');
-  });
+    it('should get cartId and add a payment method', () => {
+      addPaymentMethod('apparel-uk-spa');
+    });
 
-  it('should proceed to checkout and select shipping address', () => {
-    selectShippingAddress('apparel-uk-spa');
-  });
+    it('should proceed to checkout and select shipping address', () => {
+      selectShippingAddress('apparel-uk-spa');
+    });
 
-  it('should choose delivery', () => {
-    selectDeliveryMethod('apparel-uk-spa');
-  });
+    it('should choose delivery', () => {
+      selectDeliveryMethod('apparel-uk-spa');
+    });
 
-  it('should select payment method', () => {
-    selectPaymentMethod();
-  });
+    it('should select payment method', () => {
+      selectPaymentMethod();
+    });
 
-  it('should review and place order', () => {
-    verifyAndPlaceOrder();
-  });
+    it('should review and place order', () => {
+      verifyAndPlaceOrder();
+    });
 
-  it('should display summary page', () => {
-    displaySummaryPage(variantProduct.code);
+    it('should display summary page', () => {
+      displaySummaryPage(variantProduct.code);
+    });
   });
+  describe('Add different variants of same product and N number of SKUs without variants to cart and complete checkout', () => {
+    it('should visit the product with variants page', () => {
+      cy.visit('/apparel-uk-spa/en/GBP');
+      goToProductPageFromCategory(variantProduct, '4');
+    });
 
-  it('should visit the product with variants page', () => {
-    cy.visit('/apparel-uk-spa/en/GBP');
-    goToProductPageFromCategory(variantProduct, '4');
-  });
+    it('should add two variants of same product to cart', () => {
+      addTwoProductVariantsToCart();
+    });
 
-  it('should add two variants of same product to cart', () => {
-    addTwoProductVariantsToCart();
-  });
+    it('should visit the product without variants page', () => {
+      visitProductWithoutVariantPage();
+    });
 
-  it('should visit the product without variants page', () => {
-    visitProductWithoutVariantPage();
-  });
+    it('should add N number of SKUs to cart', () => {
+      addMutipleProductWithoutVariantToCart();
+    });
 
-  it('should add N number of SKUs to cart', () => {
-    addMutipleProductWithoutVariantToCart();
-  });
+    it('should proceed to checkout and select shipping address', () => {
+      selectShippingAddress('apparel-uk-spa');
+    });
 
-  it('should proceed to checkout and select shipping address', () => {
-    selectShippingAddress('apparel-uk-spa');
-  });
+    it('should choose delivery', () => {
+      selectDeliveryMethod('apparel-uk-spa');
+    });
 
-  it('should choose delivery', () => {
-    selectDeliveryMethod('apparel-uk-spa');
-  });
+    it('should select payment method', () => {
+      selectPaymentMethod();
+    });
 
-  it('should select payment method', () => {
-    selectPaymentMethod();
-  });
+    it('should review and place order', () => {
+      verifyAndPlaceOrder();
+    });
 
-  it('should review and place order', () => {
-    verifyAndPlaceOrder();
-  });
+    it('should display summary page for order with multiple product', () => {
+      displaySummaryPageForOrderWithMultipleProducts();
+    });
 
-  it('should display summary page for order with multiple product', () => {
-    displaySummaryPageForOrderWithMultipleProducts();
-  });
+    it('should delete shipping address', () => {
+      deleteShippingAddress('apparel-uk', 'GBP');
+    });
 
-  it('should delete shipping address', () => {
-    deleteShippingAddress('apparel-uk', 'GBP');
-  });
-
-  it('should delete payment card', () => {
-    deletePaymentCard('apparel-uk', 'GBP');
+    it('should delete payment card', () => {
+      deletePaymentCard('apparel-uk', 'GBP');
+    });
   });
 }

@@ -23,83 +23,87 @@ import {
 } from './checkout-as-persistent-user';
 
 export function checkoutAsGuestWithVariantsTest() {
-  it('should add product to cart and go to login', () => {
-    cy.visit('/');
-    goToProductPageFromCategory(variantProduct, '4');
-    addProductVariant();
+  describe('select single variant product, add to cart, and complete checkout as guest user.', () => {
+    it('should add product to cart and go to login', () => {
+      cy.visit('/');
+      goToProductPageFromCategory(variantProduct, '4');
+      addProductVariant();
+    });
+
+    it('should porceed to checkout page', () => {
+      proceedToCheckout();
+    });
+
+    it('should login as guest', () => {
+      loginAsGuest();
+    });
+
+    it('should add shipping address', () => {
+      fillShippingAddressForm(user);
+    });
+
+    it('should verify delivery method', () => {
+      selectDeliveryMethod('apparel-uk-spa');
+    });
+
+    it('should fill payment information', () => {
+      fillPaymentInformation(user);
+    });
+
+    it('should verify and place order', () => {
+      verifyAndPlaceOrder();
+    });
+
+    it('should display summary page', () => {
+      displaySummaryPage(variantProduct.code);
+    });
+
+    it('should visit the product with variants page', () => {
+      cy.visit('/apparel-uk-spa/en/GBP');
+      goToProductPageFromCategory(variantProduct, '4');
+    });
   });
 
-  it('should porceed to checkout page', () => {
-    proceedToCheckout();
-  });
+  describe('Add different variants of same product and N number of SKUs without variants to cart and complete checkout as guest user', () => {
+    it('should add two variants of same product to cart', () => {
+      addTwoProductVariantsToCart();
+    });
 
-  it('should login as guest', () => {
-    loginAsGuest();
-  });
+    it('should visit the product without variants page', () => {
+      visitProductWithoutVariantPage();
+    });
 
-  it('should add shipping address', () => {
-    fillShippingAddressForm(user);
-  });
+    it('should add N number of SKUs to cart', () => {
+      addMutipleProductWithoutVariantToCart();
+    });
 
-  it('should verify delivery method', () => {
-    selectDeliveryMethod('apparel-uk-spa');
-  });
+    it('should porceed to checkout page', () => {
+      proceedToCheckout();
+    });
 
-  it('should fill payment information', () => {
-    fillPaymentInformation(user);
-  });
+    it('should login as guest', () => {
+      loginAsGuest();
+    });
 
-  it('should verify and place order', () => {
-    verifyAndPlaceOrder();
-  });
+    it('should add shipping address', () => {
+      fillShippingAddressForm(user);
+    });
 
-  it('should display summary page', () => {
-    displaySummaryPage(variantProduct.code);
-  });
+    it('should verify delivery method', () => {
+      selectDeliveryMethod('apparel-uk-spa');
+    });
 
-  it('should visit the product with variants page', () => {
-    cy.visit('/apparel-uk-spa/en/GBP');
-    goToProductPageFromCategory(variantProduct, '4');
-  });
+    it('should fill payment information', () => {
+      fillPaymentInformation(user);
+    });
 
-  it('should add two variants of same product to cart', () => {
-    addTwoProductVariantsToCart();
-  });
+    it('should verify and place order', () => {
+      verifyAndPlaceOrder();
+    });
 
-  it('should visit the product without variants page', () => {
-    visitProductWithoutVariantPage();
-  });
-
-  it('should add N number of SKUs to cart', () => {
-    addMutipleProductWithoutVariantToCart();
-  });
-
-  it('should porceed to checkout page', () => {
-    proceedToCheckout();
-  });
-
-  it('should login as guest', () => {
-    loginAsGuest();
-  });
-
-  it('should add shipping address', () => {
-    fillShippingAddressForm(user);
-  });
-
-  it('should verify delivery method', () => {
-    selectDeliveryMethod('apparel-uk-spa');
-  });
-
-  it('should fill payment information', () => {
-    fillPaymentInformation(user);
-  });
-
-  it('should verify and place order', () => {
-    verifyAndPlaceOrder();
-  });
-
-  it('should display summary page for order with multiple product', () => {
-    displaySummaryPageForOrderWithMultipleProducts();
+    it('should display summary page for order with multiple product', () => {
+      displaySummaryPageForOrderWithMultipleProducts();
+    });
   });
 }
 
