@@ -8,7 +8,7 @@ import {
 import * as shx from 'shelljs';
 import { runMigration, writeFile } from '../../shared/utils/test-utils';
 
-const MIGRATION_SCRIPT_NAME = 'migration-v2-component-selectors-04';
+const MIGRATION_SCRIPT_NAME = 'migration-v2-component-deprecations-05';
 
 const SINGLE_USAGE_EXAMPLE = `<div>test</div>
 <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
@@ -34,7 +34,7 @@ const COMPONENT_INHERITANCE_EXPECTED_CLASS = `
 import { ConsentManagementFormComponent } from '@spartacus/core';
 export class Test extends ConsentManagementFormComponent {
   usingIsLevel13(): void {
-// 'isLevel13' property has been removed.
+// TODO:Spartacus - 'isLevel13' property has been removed.
     console.log(this.isLevel13);
   }
 }
