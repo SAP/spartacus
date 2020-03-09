@@ -175,7 +175,7 @@ export function selectShippingAddress() {
     'GET',
     '/rest/v2/electronics-spa/cms/pages?*/checkout/delivery-mode*'
   ).as('getDeliveryPage');
-  cy.get('button.btn-primary').click();
+  cy.get('button.btn-primary').click({ force: true });
   cy.wait('@getDeliveryPage')
     .its('status')
     .should('eq', 200);
@@ -187,9 +187,14 @@ export function selectDeliveryMethod() {
     'GET',
     '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
   ).as('getPaymentPage');
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  cy.get('cx-searchbox input[placeholder="Search here..."]');
+  cy.get('cx-checkout-progress a.is-active').should(
+    'contain',
+    '2. Delivery mode'
+  );
+  cy.get('h3.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-net').should('be.checked');
-  cy.get('button.btn-primary').click();
+  cy.get('button.btn-primary').click({ force: true });
   cy.wait('@getPaymentPage')
     .its('status')
     .should('eq', 200);
@@ -202,7 +207,7 @@ export function selectPaymentMethod() {
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Payment Method');
   cy.get('.card-header').should('contain', 'Selected');
-  cy.get('button.btn-primary').click();
+  cy.get('button.btn-primary').click({ force: true });
 }
 
 export function verifyAndPlaceOrder() {
@@ -220,7 +225,7 @@ export function verifyAndPlaceOrder() {
   );
 
   cy.get('.form-check-input').check();
-  cy.get('button.btn-primary').click();
+  cy.get('button.btn-primary').click({ force: true });
 }
 
 export function displaySummaryPage() {
