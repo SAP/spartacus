@@ -61,9 +61,8 @@ export const getOrgUnitsApprovalProcesses: MemoizedSelector<
 export const getOrgUnitState = (
   orgUnitId: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<B2BUnit>> =>
-  createSelector(
-    getOrgUnitsState,
-    (state: EntityLoaderState<B2BUnit>) => entityStateSelector(state, orgUnitId)
+  createSelector(getOrgUnitsState, (state: EntityLoaderState<B2BUnit>) =>
+    entityStateSelector(state, orgUnitId)
   );
 
 export const getOrgUnitList = (): MemoizedSelector<
@@ -80,10 +79,8 @@ export const getOrgUnitTreeState = (): MemoizedSelector<
   StateWithOrganization,
   LoaderState<B2BUnitNode>
 > =>
-  createSelector(
-    getOrgUnitsTree,
-    (state: EntityLoaderState<B2BUnitNode>) =>
-      entityStateSelector(state, ORG_UNIT_TREE)
+  createSelector(getOrgUnitsTree, (state: EntityLoaderState<B2BUnitNode>) =>
+    entityStateSelector(state, ORG_UNIT_TREE)
   );
 
 export const getApprovalProcessesState = (): MemoizedSelector<

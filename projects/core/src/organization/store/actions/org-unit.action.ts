@@ -69,7 +69,10 @@ export class LoadOrgUnitSuccess extends EntitySuccessAction {
   readonly type = LOAD_ORG_UNIT_SUCCESS;
 
   constructor(public payload: B2BUnit[]) {
-    super(ORG_UNIT_ENTITIES, payload.map(orgUnit => orgUnit.uid));
+    super(
+      ORG_UNIT_ENTITIES,
+      payload.map(orgUnit => orgUnit.uid)
+    );
   }
 }
 
