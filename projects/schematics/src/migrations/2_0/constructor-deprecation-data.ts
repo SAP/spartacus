@@ -156,7 +156,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
     class: ADDRESS_BOOK_COMPONENT_SERVICE,
     deprecatedParams: [
       {
-        className: FEATURE_CONFIG_SERVICE,
+        className: USER_ADDRESS_SERVICE,
         importPath: SPARTACUS_CORE,
       },
     ],
