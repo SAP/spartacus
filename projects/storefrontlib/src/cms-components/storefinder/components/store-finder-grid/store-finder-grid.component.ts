@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RoutingService, StoreFinderService, GeoPoint } from '@spartacus/core';
+import { StoreFinderService, GeoPoint } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -16,8 +16,7 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
 
   constructor(
     private storeFinderService: StoreFinderService,
-    private route: ActivatedRoute,
-    private routingService: RoutingService
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -35,20 +34,6 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
         this.route.snapshot.params.country
       );
     }
-  }
-
-  viewStore(location: any): void {
-    this.routingService.go([this.prepareRouteUrl(location)]);
-  }
-
-  prepareRouteUrl(location: any): string {
-    const countryParam = this.route.snapshot.params.country
-      ? `country/${this.route.snapshot.params.country}/`
-      : '';
-    const regionParam = this.route.snapshot.params.region
-      ? `region/${this.route.snapshot.params.region}/`
-      : '';
-    return `store-finder/${countryParam}${regionParam}${location.name}`;
   }
 
   ngOnDestroy() {}

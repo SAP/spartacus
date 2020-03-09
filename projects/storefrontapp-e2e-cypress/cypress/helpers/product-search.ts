@@ -28,6 +28,8 @@ export const QUERY_ALIAS = {
   CANON: 'canon_query',
   CAMERA: 'camera_query',
   FACET: 'facet_query',
+  PRODUCE_CODE: 'productCode_query',
+  INFINITE_SCROLL_PRODUCT_LOADED: 'productLoaded_query',
 };
 
 export function clickSearchIcon() {
@@ -273,6 +275,10 @@ export function createProductSortQuery(sort: string, alias: string): void {
   cy.route('GET', `${searchUrlPrefix}?fields=*&sort=${sort}*`).as(alias);
 }
 
+export function createAllProductQuery(alias: string): void {
+  cy.route('GET', `${searchUrlPrefix}*`).as(alias);
+}
+
 export function createProductQuery(
   alias: string,
   queryId: string,
@@ -312,14 +318,4 @@ export function assertNumberOfProducts(alias: string, category: string) {
 
     checkFirstItem(firstProduct);
   });
-}
-
-export function createSpecificProductQuery(
-  search: string,
-  alias: string
-): void {
-  cy.route(
-    'GET',
-    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=${search}*`
-  ).as(alias);
 }

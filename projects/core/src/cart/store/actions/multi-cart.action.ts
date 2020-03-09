@@ -40,6 +40,10 @@ export const ADD_EMAIL_TO_MULTI_CART_SUCCESS = '[Multi Cart] Add Email Success';
 export const CART_PROCESSES_INCREMENT = '[Multi Cart] Cart Processes Increment';
 export const CART_PROCESSES_DECREMENT = '[Multi Cart] Cart Processes Decrement';
 
+export const SET_ACTIVE_CART_ID = '[Multi Cart] Set Active Cart Id';
+
+export const CLEAR_MULTI_CART_STATE = '[Multi Cart] Clear Cart State';
+
 /**
  * To keep track of cart creation process we use cart with `temp-${uuid}` id.
  * After creating cart we switch to entity with `code` or `guid`.
@@ -166,6 +170,18 @@ export class CartProcessesDecrement extends EntityProcessesDecrementAction {
   }
 }
 
+export class SetActiveCartId implements Action {
+  readonly type = SET_ACTIVE_CART_ID;
+  constructor(public payload: string) {}
+}
+
+export class ClearMultiCartState extends EntityRemoveAction {
+  readonly type = CLEAR_MULTI_CART_STATE;
+  constructor() {
+    super(MULTI_CART_FEATURE, null);
+  }
+}
+
 export type MultiCartActions =
   | RemoveTempCart
   | SetTempCart
@@ -183,4 +199,6 @@ export type MultiCartActions =
   | AddEmailToMultiCartFail
   | AddEmailToMultiCartSuccess
   | CartProcessesIncrement
-  | CartProcessesDecrement;
+  | CartProcessesDecrement
+  | SetActiveCartId
+  | ClearMultiCartState;
