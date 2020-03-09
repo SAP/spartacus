@@ -10,7 +10,6 @@ import {
   PageImageResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
-import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { Product } from '../../model/product.model';
@@ -35,8 +34,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
     PageDescriptionResolver,
     PageBreadcrumbResolver,
     PageImageResolver {
-  protected readonly PRODUCT_SCOPE =
-    this.features && this.features.isLevel('1.4') ? ProductScope.DETAILS : '';
+  protected readonly PRODUCT_SCOPE = ProductScope.DETAILS;
 
   // reusable observable for product data based on the current page
   private product$ = this.routingService.getRouterState().pipe(
@@ -47,27 +45,9 @@ export class ProductPageMetaResolver extends PageMetaResolver
   );
 
   constructor(
-    routingService: RoutingService,
-    productService: ProductService,
-    translation: TranslationService,
-    // tslint:disable-next-line: unified-signatures
-    features: FeatureConfigService
-  );
-
-  /**
-   * @deprecated since 1.4
-   */
-  constructor(
-    routingService: RoutingService,
-    productService: ProductService,
-    translation: TranslationService
-  );
-
-  constructor(
     protected routingService: RoutingService,
     protected productService: ProductService,
-    protected translation: TranslationService,
-    protected features?: FeatureConfigService
+    protected translation: TranslationService
   ) {
     super();
     this.pageType = PageType.PRODUCT_PAGE;
