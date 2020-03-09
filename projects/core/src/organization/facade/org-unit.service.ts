@@ -22,25 +22,25 @@ export class OrgUnitService {
     protected authService: AuthService
   ) {}
 
-  loadOrgUnit(orgUnitId: string) {
+  loadOrgUnit(orgUnitId: string): void {
     this.withUserId(userId =>
       this.store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }))
     );
   }
 
-  loadOrgUnitNodes() {
+  loadOrgUnitNodes(): void {
     this.withUserId(userId =>
       this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId }))
     );
   }
 
-  loadTree() {
+  loadTree(): void {
     this.withUserId(userId =>
       this.store.dispatch(new OrgUnitActions.LoadTree({ userId }))
     );
   }
 
-  loadApprovalProcesses() {
+  loadApprovalProcesses(): void {
     this.withUserId(userId =>
       this.store.dispatch(new OrgUnitActions.LoadApprovalProcesses({ userId }))
     );
@@ -124,13 +124,13 @@ export class OrgUnitService {
     );
   }
 
-  create(unit: B2BUnit) {
+  create(unit: B2BUnit): void {
     this.withUserId(userId =>
       this.store.dispatch(new OrgUnitActions.CreateUnit({ userId, unit }))
     );
   }
 
-  update(unitCode: string, unit: B2BUnit) {
+  update(unitCode: string, unit: B2BUnit): void {
     this.withUserId(userId =>
       this.store.dispatch(
         new OrgUnitActions.UpdateUnit({ userId, unitCode, unit })
