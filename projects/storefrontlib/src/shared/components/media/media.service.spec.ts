@@ -26,6 +26,15 @@ const mockMediaContainer = {
   wide: {},
 };
 
+const mockMediaContainerWithHtmlAlt = {
+  ...mockMediaContainer,
+  desktop: {
+    ...mockMediaContainer.desktop,
+    altText:
+      'alt text <em class="search-results-highlight">This</em> - <em class="search-results-highlight"> Is A Test</em>',
+  },
+};
+
 const mockMedia = {
   url: 'mediaUrl',
 };
@@ -38,7 +47,6 @@ describe('MediaService', () => {
       providers: [
         MediaService,
         { provide: OccConfig, useValue: MockConfig },
-
         { provide: LayoutConfig, useValue: {} },
       ],
     });
@@ -71,7 +79,7 @@ describe('MediaService', () => {
     );
   });
 
-  it('should return alt text from media object', () => {
+  it('should return unchanged alt text that does not contain any HTML from media object', () => {
     expect(mediaService.getMedia(mockMediaContainer, 'desktop').alt).toBe(
       'alt text'
     );
@@ -85,6 +93,22 @@ describe('MediaService', () => {
     expect(
       mediaService.getMedia(mockMediaContainer, 'desktop', 'other alt').alt
     ).toBe('other alt');
+  });
+
+  it('should strip the alt of any html tags while keeping the innerHTML text content', () => {
+    expect(
+      mediaService.getMedia(
+        mockMediaContainer,
+        'desktop',
+        'other alt <em class="search-results-highlight">Test</em>'
+      ).alt
+    ).toBe('other alt Test');
+  });
+
+  it('should strip the alt of any html tags while keeping the innerHTML text content when an alt param is not provided', () => {
+    expect(
+      mediaService.getMedia(mockMediaContainerWithHtmlAlt, 'desktop').alt
+    ).toBe('alt text This -  Is A Test');
   });
 
   it('should return srcset', () => {
