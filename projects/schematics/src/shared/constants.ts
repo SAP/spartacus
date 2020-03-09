@@ -3,6 +3,7 @@ export const UTF_8 = 'utf-8';
 /***** Imports start *****/
 export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
+export const ANGULAR_ROUTER = '@angular/router';
 export const RXJS = 'rxjs';
 
 export const SPARTACUS_CORE = '@spartacus/core';
@@ -15,6 +16,7 @@ export const NGRX_STORE = '@ngrx/store';
 export const OBSERVABLE_CLASS = 'Observable';
 
 export const STORE = 'Store';
+export const ROUTER = 'Router';
 
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
@@ -42,7 +44,6 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
 export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
-export const ROUTER = 'Router';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService ';
 /***** Classes end *****/
 

@@ -19,10 +19,10 @@ import {
   CHECKOUT_CONFIG,
   CHECKOUT_CONFIG_SERVICE,
   EXPRESS_CHECKOUT_SERVICE,
-  ANGULAR_CORE,
   ROUTER,
   ROUTING_CONFIG_SERVICE,
   CART_SERVICE,
+  ANGULAR_ROUTER,
 } from '../../shared/constants';
 import { ConstructorDeprecation } from '../../shared/utils/file-utils';
 
@@ -160,12 +160,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
         importPath: SPARTACUS_CORE,
       },
     ],
-    removeParams: [
-      {
-        className: FEATURE_CONFIG_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-    ],
     addParams: [
       {
         className: CHECKOUT_DELIVERY_SERVICE,
@@ -179,7 +173,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
     deprecatedParams: [
       {
         className: ROUTER,
-        importPath: ANGULAR_CORE,
+        importPath: ANGULAR_ROUTER,
       },
       {
         className: CHECKOUT_CONFIG,
