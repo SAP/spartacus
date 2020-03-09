@@ -3,6 +3,8 @@ export const UTF_8 = 'utf-8';
 /***** Imports start *****/
 export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
+export const ANGULAR_FORMS = '@angular/forms';
+export const ANGULAR_ROUTER = '@angular/router';
 export const RXJS = 'rxjs';
 
 export const SPARTACUS_CORE = '@spartacus/core';
@@ -15,6 +17,10 @@ export const NGRX_STORE = '@ngrx/store';
 export const OBSERVABLE_CLASS = 'Observable';
 
 export const STORE = 'Store';
+
+export const FORM_BUILDER = 'FormBuilder';
+
+export const ACTIVATED_ROUTE = 'ActivatedRoute';
 
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
@@ -36,6 +42,18 @@ export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
 export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
 export const CART_DATA_SERVICE = 'CartDataService';
 export const ACTIVE_CART_SERVICE = 'ActiveCartService';
+export const CART_SERVICE = 'CartService';
+export const PROMOTION_SERVICE = 'PromotionService';
+export const ORDER_DETAILS_SERVICE = 'OrderDetailsService';
+export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
+export const AUTH_REDIRECT_SERVICE = 'AuthRedirectService';
+export const CHECKOUT_DETAILS_SERVICE = 'CheckoutDetailsService';
+export const NOT_CHECKOUT_AUTH_GUARD = 'NotCheckoutAuthGuard';
+export const ROUTING_SERVICE = 'RoutingService';
+export const SHIPPING_ADDRESS_COMPONENT = 'ShippingAddressComponent';
+export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
+export const TRANSLATION_SERVICE = 'TranslationService';
+
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
 /***** Classes end *****/
