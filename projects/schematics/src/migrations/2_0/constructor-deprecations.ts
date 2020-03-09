@@ -27,7 +27,7 @@ export function migrate(): Rule {
           !isCandidateForConstructorDeprecation(
             originalSource,
             constructorDeprecation.class,
-            constructorDeprecation.deprecatedParams
+            constructorDeprecation
           )
         ) {
           continue;

@@ -14,49 +14,21 @@ import {
   wishListReducer,
 } from './multi-cart.reducer';
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx reducers will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 export function getReducers(): ActionReducerMap<CartsState> {
   return {
     active: loaderReducer<CartState>(CART_DATA, cartReducer),
   };
 }
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx reducers will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 export const reducerToken: InjectionToken<ActionReducerMap<
   CartsState
 >> = new InjectionToken<ActionReducerMap<CartsState>>('CartReducers');
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx reducers will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers,
 };
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx reducers will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 export function clearCartState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
@@ -71,22 +43,8 @@ export function clearCartState(
   };
 }
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx reducers will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 export const metaReducers: MetaReducer<any>[] = [clearCartState];
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx reducers will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 export function clearMultiCartState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
@@ -98,33 +56,12 @@ export function clearMultiCartState(
   };
 }
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx reducers will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 export const multiCartMetaReducers: MetaReducer<any>[] = [clearMultiCartState];
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx reducers will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 export const multiCartReducerToken: InjectionToken<ActionReducerMap<
   MultiCartState
 >> = new InjectionToken<ActionReducerMap<MultiCartState>>('MultiCartReducers');
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx reducers will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 export function getMultiCartReducers(): ActionReducerMap<MultiCartState> {
   return {
     carts: entityProcessesLoaderReducer<Cart>(
@@ -136,13 +73,6 @@ export function getMultiCartReducers(): ActionReducerMap<MultiCartState> {
   };
 }
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx reducers will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 export const multiCartReducerProvider: Provider = {
   provide: multiCartReducerToken,
   useFactory: getMultiCartReducers,
