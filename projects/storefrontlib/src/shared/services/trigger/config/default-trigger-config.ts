@@ -1,5 +1,5 @@
 import { TriggerConfig } from './trigger-config';
-import { OutletPosition } from 'projects/storefrontlib/src/cms-structure';
+import { OutletPosition } from '../../../../cms-structure/outlet/index';
 
 export const DEFAULT_TRIGGER_CONFIG: TriggerConfig = {
   trigger: {

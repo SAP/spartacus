@@ -84,7 +84,6 @@ export class AsmEnablerService {
       AsmMainUiComponent
     );
     this.triggerService.renderDialog(this.triggerConfig.trigger?.asm, factory);
-    // this.outletService.add('cx-storefront', factory, OutletPosition.BEFORE);
     this.isUiAdded = true;
   }
 }

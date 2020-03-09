@@ -13,15 +13,27 @@ export class TriggerService {
   renderDialog(
     config: TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping,
     template?: ComponentFactory<any>
-  ) {
+  ): void | string {
     if (typeof config === 'string') {
-      // TODO: add link
+      return (config as TriggerUrlMapping).url;
     } else if (Boolean((config as TriggerOutletMapping).outlet)) {
-      const conf = config as TriggerOutletMapping;
-      this.outletService.add(conf.outlet, template, conf.position);
+      this.renderOutlet(config as TriggerOutletMapping, template);
     } else if (Boolean((config as TriggerInlineMapping).inline)) {
-      const conf = config as TriggerInlineMapping;
-      this.outletService.add('cx-storefront', template, conf.position);
+      this.renderInline(config as TriggerInlineMapping, template);
     }
+  }
+
+  protected renderOutlet(
+    config: TriggerOutletMapping,
+    template?: ComponentFactory<any>
+  ) {
+    this.outletService.add(config.outlet, template, config.position);
+  }
+
+  protected renderInline(
+    config: TriggerInlineMapping,
+    template?: ComponentFactory<any>
+  ) {
+    this.outletService.add('cx-storefront', template, config.position);
   }
 }
