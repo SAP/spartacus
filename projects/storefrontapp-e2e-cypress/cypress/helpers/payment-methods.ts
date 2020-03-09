@@ -6,11 +6,7 @@ import {
 } from './cart';
 import { addPaymentMethod } from './checkout-as-persistent-user';
 import { visitHomePage, waitForPage } from './checkout-flow';
-import {
-  fillPaymentDetails,
-  fillShippingAddress,
-  PaymentDetails,
-} from './checkout-forms';
+import { fillPaymentDetails, fillShippingAddress } from './checkout-forms';
 
 interface PaymentDetail {
   accountHolderName: string;
@@ -260,10 +256,10 @@ export function visitPaymentDetailsPage(isMobile: boolean = false) {
     .should('eq', 200);
 }
 
-export function paymentMethodsTest() {
+export function paymentMethodsTest(isMobile: boolean) {
   it('should visit payment details page', () => {
     loginRegisteredUser();
-    visitPaymentDetailsPage();
+    visitPaymentDetailsPage(isMobile);
   });
 
   it('should render page with no payment methods', () => {
@@ -280,7 +276,7 @@ export function paymentMethodsTest() {
 
   it('should render page with only one payment methods', () => {
     visitHomePage();
-    visitPaymentDetailsPage();
+    visitPaymentDetailsPage(isMobile);
     verifyPaymentCard(1);
   });
 
@@ -294,7 +290,7 @@ export function paymentMethodsTest() {
 
   it('should render page with only two payment methods', () => {
     visitHomePage();
-    visitPaymentDetailsPage();
+    visitPaymentDetailsPage(isMobile);
     verifyPaymentCard(2);
   });
 
@@ -307,7 +303,7 @@ export function paymentMethodsTest() {
   // });
 }
 
-function addPaymentMethod(paymentDetail: PaymentDetails) {
+function addPaymentMethod(paymentDetail: PaymentDetail) {
   cy.get('.cx-total')
     .first()
     .then($cart => {
