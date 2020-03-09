@@ -4,17 +4,14 @@ import { HttpClient } from '@angular/common/http';
 
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { ConverterService } from '../../../util/converter.service';
-import {
-  COST_CENTER_NORMALIZER,
-  COST_CENTERS_NORMALIZER,
-} from '../../../organization/connectors/cost-center/converters';
-import { BUDGETS_NORMALIZER } from '../../../organization/connectors/budget/converters';
 import { B2BSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
-import { CostCenter } from '../../../model/cost-center.model';
-import { EntitiesModel } from '../../../model/misc.model';
-import { Budget } from '../../../model/budget.model';
-import { OrgUnitUserGroupAdapter } from 'projects/core/src/organization/connectors/org-unit-user-group';
+import {
+  OrgUnitUserGroupAdapter,
+  ORG_UNIT_USER_GROUP_NORMALIZER,
+  ORG_UNIT_USER_GROUPS_NORMALIZER,
+} from '../../../organization/connectors/org-unit-user-group';
+import { OrgUnitUserGroup, EntitiesModel, User } from '../../../model';
 
 @Injectable()
 export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
@@ -24,114 +21,252 @@ export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
     protected converter: ConverterService
   ) {}
 
-  load(userId: string, costCenterCode: string): Observable<CostCenter> {
+  load(
+    userId: string,
+    orgUnitUserGroupUid: string
+  ): Observable<OrgUnitUserGroup> {
     return this.http
-      .get<Occ.CostCenter>(this.getCostCenterEndpoint(userId, costCenterCode))
-      .pipe(this.converter.pipeable(COST_CENTER_NORMALIZER));
+      .get<Occ.OrgUnitUserGroup>(
+        this.getOrgUnitUserGroupEndpoint(userId, orgUnitUserGroupUid)
+      )
+      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUP_NORMALIZER));
   }
 
   loadList(
     userId: string,
     params?: B2BSearchConfig
-  ): Observable<EntitiesModel<CostCenter>> {
+  ): Observable<EntitiesModel<OrgUnitUserGroup>> {
     return this.http
-      .get<Occ.CostCentersList>(this.getAllCostCentersEndpoint(userId, params))
-      .pipe(this.converter.pipeable(COST_CENTERS_NORMALIZER));
+      .get<Occ.OrgUnitUserGroupList>(
+        this.getOrgUnitUserGroupsEndpoint(userId, params)
+      )
+      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUPS_NORMALIZER));
   }
 
-  create(userId: string, costCenter: CostCenter): Observable<CostCenter> {
+  loadAvailableOrderApprovalPermissions(
+    userId: string,
+    orgUnitUserGroupUid: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<OrgUnitUserGroup>> {
     return this.http
-      .post<Occ.CostCenter>(this.getCostCentersEndpoint(userId), costCenter)
-      .pipe(this.converter.pipeable(COST_CENTER_NORMALIZER));
+      .get<Occ.OrgUnitUserGroupList>(
+        this.getOrgUnitUserGroupAvailableOrderApprovalPermissionsEndpoint(
+          userId,
+          orgUnitUserGroupUid,
+          params
+        )
+      )
+      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUPS_NORMALIZER));
+  }
+
+  loadAvailableOrgCustomers(
+    userId: string,
+    orgUnitUserGroupUid: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<User>> {
+    return this.http
+      .get<Occ.OrgUnitUserGroupList>(
+        this.getOrgUnitUserGroupAvailableOrgCustomersEndpoint(
+          userId,
+          orgUnitUserGroupUid,
+          params
+        )
+      )
+      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUPS_NORMALIZER));
+  }
+
+  create(
+    userId: string,
+    orgUnitUserGroup: OrgUnitUserGroup
+  ): Observable<OrgUnitUserGroup> {
+    return this.http
+      .post<Occ.OrgUnitUserGroup>(
+        this.getOrgUnitUserGroupsEndpoint(userId),
+        orgUnitUserGroup
+      )
+      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUP_NORMALIZER));
+  }
+
+  delete(
+    userId: string,
+    orgUnitUserGroupUid: string
+  ): Observable<OrgUnitUserGroup> {
+    return this.http
+      .delete<Occ.OrgUnitUserGroup>(
+        this.getOrgUnitUserGroupEndpoint(userId, orgUnitUserGroupUid)
+      )
+      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUP_NORMALIZER));
   }
 
   update(
     userId: string,
-    costCenterCode: string,
-    costCenter: CostCenter
-  ): Observable<CostCenter> {
+    orgUnitUserGroupUid: string,
+    orgUnitUserGroup: OrgUnitUserGroup
+  ): Observable<OrgUnitUserGroup> {
     return this.http
-      .patch<Occ.CostCenter>(
-        this.getCostCenterEndpoint(userId, costCenterCode),
-        costCenter
+      .patch<Occ.OrgUnitUserGroup>(
+        this.getOrgUnitUserGroupEndpoint(userId, orgUnitUserGroupUid),
+        orgUnitUserGroup
       )
-      .pipe(this.converter.pipeable(COST_CENTER_NORMALIZER));
+      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUP_NORMALIZER));
   }
 
-  loadBudgets(
+  assignMember(
     userId: string,
-    costCenterCode: string,
-    params?: B2BSearchConfig
-  ): Observable<EntitiesModel<Budget>> {
-    return this.http
-      .get<Occ.BudgetsList>(
-        this.getBudgetsEndpoint(userId, costCenterCode, params)
-      )
-      .pipe(this.converter.pipeable(BUDGETS_NORMALIZER));
-  }
-
-  assignBudget(
-    userId: string,
-    costCenterCode: string,
-    budgetCode: string
+    orgUnitUserGroupUid: string,
+    orgCustomerId: string
   ): Observable<any> {
     return this.http.post<any>(
-      this.getBudgetsEndpoint(userId, costCenterCode, { budgetCode }),
+      this.getOrgUnitUserGroupMembersEndpoint(userId, orgUnitUserGroupUid, {
+        orgCustomerId,
+      }),
       null
     );
   }
 
-  unassignBudget(
+  assignOrderApprovalPermission(
     userId: string,
-    costCenterCode: string,
-    budgetCode: string
+    orgUnitUserGroupUid: string,
+    orderApprovalPermissionCode: string
   ): Observable<any> {
-    return this.http.delete<any>(
-      this.getBudgetEndpoint(userId, costCenterCode, budgetCode)
+    return this.http.post<any>(
+      this.getOrgUnitUserGroupOrderApprovalPermissionsEndpoint(
+        userId,
+        orgUnitUserGroupUid,
+        {
+          orderApprovalPermissionCode,
+        }
+      ),
+      null
     );
   }
-  protected getCostCenterEndpoint(
+
+  unassignMember(
     userId: string,
-    costCenterCode: string
-  ): string {
-    return this.occEndpoints.getUrl('costCenter', { userId, costCenterCode });
+    orgUnitUserGroupUid: string,
+    orgCustomerId: string
+  ): Observable<any> {
+    return this.http.delete<any>(
+      this.getOrgUnitUserGroupsMemberEndpoint(
+        userId,
+        orgUnitUserGroupUid,
+        orgCustomerId
+      )
+    );
   }
 
-  protected getCostCentersEndpoint(
+  unassignAllMembers(
+    userId: string,
+    orgUnitUserGroupUid: string
+  ): Observable<any> {
+    return this.http.delete<any>(
+      this.getOrgUnitUserGroupMembersEndpoint(userId, orgUnitUserGroupUid)
+    );
+  }
+
+  unassignOrderApprovalPermission(
+    userId: string,
+    orgUnitUserGroupUid: string,
+    orderApprovalPermissionCode: string
+  ): Observable<any> {
+    return this.http.delete<any>(
+      this.getOrgUnitUserGroupsOrderApprovalPermissionEndpoint(
+        userId,
+        orgUnitUserGroupUid,
+        orderApprovalPermissionCode
+      )
+    );
+  }
+
+  protected getOrgUnitUserGroupEndpoint(
+    userId: string,
+    orgUnitUserGroupUid: string
+  ): string {
+    return this.occEndpoints.getUrl('orgUnitUserGroup', {
+      userId,
+      orgUnitUserGroupUid,
+    });
+  }
+
+  protected getOrgUnitUserGroupsEndpoint(
     userId: string,
     params?: B2BSearchConfig
   ): string {
-    return this.occEndpoints.getUrl('costCenters', { userId }, params);
+    return this.occEndpoints.getUrl('orgUnitUserGroups', { userId }, params);
   }
 
-  protected getAllCostCentersEndpoint(
+  protected getOrgUnitUserGroupAvailableOrgCustomersEndpoint(
     userId: string,
-    params?: B2BSearchConfig
-  ): string {
-    return this.occEndpoints.getUrl('costCentersAll', { userId }, params);
-  }
-
-  protected getBudgetsEndpoint(
-    userId: string,
-    costCenterCode: string,
-    params?: B2BSearchConfig | { budgetCode: string }
+    orgUnitUserGroupUid: string,
+    params?: B2BSearchConfig | { orgCustomerId: string }
   ): string {
     return this.occEndpoints.getUrl(
-      'costCenterBudgets',
-      { userId, costCenterCode },
+      'orgUnitUserGroupAvailableOrgCustomers',
+      { userId, orgUnitUserGroupUid },
       params
     );
   }
 
-  protected getBudgetEndpoint(
+  protected getOrgUnitUserGroupAvailableOrderApprovalPermissionsEndpoint(
     userId: string,
-    costCenterCode: string,
-    budgetCode: string
+    orgUnitUserGroupUid: string,
+    params?: B2BSearchConfig | { orgCustomerId: string }
   ): string {
-    return this.occEndpoints.getUrl('costCenterBudget', {
+    return this.occEndpoints.getUrl(
+      'orgUnitUserGroupAvailableOrderApprovalPermissions',
+      { userId, orgUnitUserGroupUid },
+      params
+    );
+  }
+
+  protected getOrgUnitUserGroupsMemberEndpoint(
+    userId: string,
+    orgUnitUserGroupUid: string,
+    orgCustomerId: string
+  ): string {
+    return this.occEndpoints.getUrl('orgUnitUserGroupMember', {
       userId,
-      costCenterCode,
-      budgetCode,
+      orgUnitUserGroupUid,
+      orgCustomerId,
+    });
+  }
+
+  protected getOrgUnitUserGroupMembersEndpoint(
+    userId: string,
+    orgUnitUserGroupUid: string,
+    params?: B2BSearchConfig | { orgCustomerId: string }
+  ): string {
+    return this.occEndpoints.getUrl(
+      'orgUnitUserGroupMembers',
+      { userId, orgUnitUserGroupUid },
+      params
+    );
+  }
+
+  protected getOrgUnitUserGroupOrderApprovalPermissionsEndpoint(
+    userId: string,
+    orgUnitUserGroupUid: string,
+    params?: B2BSearchConfig | { orderApprovalPermissionCode: string }
+  ): string {
+    return this.occEndpoints.getUrl(
+      'orgUnitUserGroupOrderApprovalPermissions',
+      {
+        userId,
+        orgUnitUserGroupUid,
+      },
+      params
+    );
+  }
+
+  protected getOrgUnitUserGroupsOrderApprovalPermissionEndpoint(
+    userId: string,
+    orgUnitUserGroupUid: string,
+    orderApprovalPermissionCode: string
+  ): string {
+    return this.occEndpoints.getUrl('orgUnitUserGroupOrderApprovalPermission', {
+      userId,
+      orgUnitUserGroupUid,
+      orderApprovalPermissionCode,
     });
   }
 }

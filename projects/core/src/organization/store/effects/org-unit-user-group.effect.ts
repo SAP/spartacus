@@ -4,9 +4,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { OrgUnitUserGroupActions } from '../actions/index';
+import { OrgUnitUserGroupActions, PermissionActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
-import { OrgUnitUserGroup } from '../../../model';
+import { OrgUnitUserGroup, Permission } from '../../../model';
 import { OrgUnitUserGroupConnector } from '../../connectors';
 
 @Injectable()
@@ -20,9 +20,9 @@ export class OrgUnitUserGroupEffects {
     map(
       (action: OrgUnitUserGroupActions.LoadOrgUnitUserGroup) => action.payload
     ),
-    switchMap(({ userId, orgUnitUserGroupCode }) => {
+    switchMap(({ userId, orgUnitUserGroupUid }) => {
       return this.orgUnitUserGroupConnector
-        .get(userId, orgUnitUserGroupCode)
+        .get(userId, orgUnitUserGroupUid)
         .pipe(
           map((orgUnitUserGroup: OrgUnitUserGroup) => {
             return new OrgUnitUserGroupActions.LoadOrgUnitUserGroupSuccess([
@@ -32,7 +32,7 @@ export class OrgUnitUserGroupEffects {
           catchError(error =>
             of(
               new OrgUnitUserGroupActions.LoadOrgUnitUserGroupFail({
-                orgUnitUserGroupCode,
+                orgUnitUserGroupUid,
                 error: makeErrorSerializable(error),
               })
             )
@@ -81,6 +81,56 @@ export class OrgUnitUserGroupEffects {
   );
 
   @Effect()
+  loadOrgUnitUserGroupAvailableOrderApprovalPermissions$: Observable<
+    | OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsSuccess
+    | PermissionActions.LoadPermissionSuccess
+    | OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsFail
+  > = this.actions$.pipe(
+    ofType(
+      OrgUnitUserGroupActions.LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS
+    ),
+    map(
+      (
+        action: OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissions
+      ) => action.payload
+    ),
+    switchMap(payload =>
+      this.orgUnitUserGroupConnector
+        .getAvailableOrderApprovalPermissions(
+          payload.userId,
+          payload.orgUnitUserGroupUid,
+          payload.params
+        )
+        .pipe(
+          switchMap((permissions: EntitiesModel<Permission>) => {
+            const { values, page } = normalizeListPage(permissions, 'code');
+            return [
+              new PermissionActions.LoadPermissionSuccess(values),
+              new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsSuccess(
+                {
+                  orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
+                  page,
+                  params: payload.params,
+                }
+              ),
+            ];
+          }),
+          catchError(error =>
+            of(
+              new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsFail(
+                {
+                  orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
+                  params: payload.params,
+                  error: makeErrorSerializable(error),
+                }
+              )
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
   createOrgUnitUserGroup$: Observable<
     | OrgUnitUserGroupActions.CreateOrgUnitUserGroupSuccess
     | OrgUnitUserGroupActions.CreateOrgUnitUserGroupFail
@@ -100,7 +150,7 @@ export class OrgUnitUserGroupEffects {
           catchError(error =>
             of(
               new OrgUnitUserGroupActions.CreateOrgUnitUserGroupFail({
-                orgUnitUserGroupCode: payload.orgUnitUserGroup.code,
+                orgUnitUserGroupUid: payload.orgUnitUserGroup.uid,
                 error: makeErrorSerializable(error),
               })
             )
@@ -122,7 +172,7 @@ export class OrgUnitUserGroupEffects {
       this.orgUnitUserGroupConnector
         .update(
           payload.userId,
-          payload.orgUnitUserGroupCode,
+          payload.orgUnitUserGroupUid,
           payload.orgUnitUserGroup
         )
         .pipe(
@@ -133,7 +183,7 @@ export class OrgUnitUserGroupEffects {
           catchError(error =>
             of(
               new OrgUnitUserGroupActions.UpdateOrgUnitUserGroupFail({
-                orgUnitUserGroupCode: payload.orgUnitUserGroup.code,
+                orgUnitUserGroupUid: payload.orgUnitUserGroup.uid,
                 error: makeErrorSerializable(error),
               })
             )

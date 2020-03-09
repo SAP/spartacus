@@ -9,10 +9,18 @@ import {
   ORG_UNIT_USER_GROUP_FEATURE,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
-import { denormalizeB2BSearch } from '../../utils/serializer';
-import { EntitiesModel } from '../../../model/misc.model';
-import { OrgUnitUserGroup } from 'projects/core/src/model';
+import {
+  denormalizeB2BSearch,
+  denormalizeCustomB2BSearch,
+} from '../../utils/serializer';
+import {
+  OrgUnitUserGroup,
+  EntitiesModel,
+  Permission,
+  User,
+} from '../../../model';
 import { B2BSearchConfig } from '../../model';
+import { getPermissionsState } from './permission.selector';
 
 export const getOrgUnitUserGroupManagementState: MemoizedSelector<
   StateWithOrganization,
@@ -31,12 +39,12 @@ export const getOrgUnitUserGroupsState: MemoizedSelector<
 );
 
 export const getOrgUnitUserGroupState = (
-  orgUnitUserGroupCode: string
+  orgUnitUserGroupUid: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<OrgUnitUserGroup>> =>
   createSelector(
     getOrgUnitUserGroupsState,
     (state: EntityLoaderState<OrgUnitUserGroup>) =>
-      entityStateSelector(state, orgUnitUserGroupCode)
+      entityStateSelector(state, orgUnitUserGroupUid)
   );
 
 export const getOrgUnitUserGroupList = (
@@ -49,4 +57,32 @@ export const getOrgUnitUserGroupList = (
     getOrgUnitUserGroupManagementState,
     (state: OrgUnitUserGroupManagement) =>
       denormalizeB2BSearch<OrgUnitUserGroup>(state, params)
+  );
+
+export const getMembers = (
+  code: string,
+  params: B2BSearchConfig
+): MemoizedSelector<StateWithOrganization, LoaderState<EntitiesModel<User>>> =>
+  createSelector(
+    getOrgUnitUserGroupManagementState,
+    getPermissionsState,
+    (state: OrgUnitUserGroupManagement, customers: EntityLoaderState<User>) =>
+      denormalizeCustomB2BSearch(state.customers, customers, params, code)
+  );
+
+export const getOrgUnitUserGroupAvailableOrderApprovalPermissions = (
+  code: string,
+  params: B2BSearchConfig
+): MemoizedSelector<
+  StateWithOrganization,
+  LoaderState<EntitiesModel<Permission>>
+> =>
+  createSelector(
+    getOrgUnitUserGroupManagementState,
+    getPermissionsState,
+    (
+      state: OrgUnitUserGroupManagement,
+      permissions: EntityLoaderState<Permission>
+    ) =>
+      denormalizeCustomB2BSearch(state.permissions, permissions, params, code)
   );

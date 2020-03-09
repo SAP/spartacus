@@ -402,6 +402,42 @@ export interface OccEndpoints {
    *
    * @member {string}
    */
+  orgUnitUserGroupAvailableOrderApprovalPermissions?: string;
+  /**
+   * Endpoint for orgUnitUserGroupAvailableOrderApprovalPermissions list
+   *
+   * @member {string}
+   */
+  orgUnitUserGroupAvailableOrgCustomers?: string;
+  /**
+   * Endpoint for orgUnitUserGroupAvailableOrgCustomers list
+   *
+   * @member {string}
+   */
+  orgUnitUserGroupMembers?: string;
+  /**
+   * Endpoint for orgUnitUserGroupMembers list
+   *
+   * @member {string}
+   */
+  orgUnitUserGroupMember?: string;
+  /**
+   * Endpoint for orgUnitUserGroupMember
+   *
+   * @member {string}
+   */
+  orgUnitUserGroupOrderApprovalPermissions?: string;
+  /**
+   * Endpoint for orgUnitUserGroupOrderApprovalPermissions list
+   *
+   * @member {string}
+   */
+  orgUnitUserGroupOrderApprovalPermission?: string;
+  /**
+   * Endpoint for orgUnitUserGroupOrderApprovalPermission
+   *
+   * @member {string}
+   */
   costCenters?: string;
   /**
    * Endpoint for all costCenters

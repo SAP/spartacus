@@ -30,6 +30,8 @@ export const ORG_UNIT_LIST = 'orgUnit-list';
 export const ORG_UNIT_USER_GROUP_FEATURE = 'orgUnitUserGroup';
 export const ORG_UNIT_USER_GROUP_ENTITIES = 'orgUnitUserGroup-entities';
 export const ORG_UNIT_USER_GROUP_LIST = 'orgUnitUserGroup-list';
+export const ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS =
+  'orgUnitUserGroup-available-order-approval-permissions';
 
 export interface Management<Type> {
   list: EntityLoaderState<ListModel>;
@@ -41,7 +43,10 @@ export interface BudgetManagement extends Management<Budget> {}
 export interface OrgUnits extends Management<B2BUnitNode> {}
 
 export interface OrgUnitUserGroupManagement
-  extends Management<OrgUnitUserGroup> {}
+  extends Management<OrgUnitUserGroup> {
+  permissions: EntityLoaderState<ListModel>;
+  customers: EntityLoaderState<ListModel>;
+}
 
 export interface PermissionManagement extends Management<Permission> {}
 

@@ -8,8 +8,21 @@ export const defaultOccOrganizationConfig: OccConfig = {
         budget: '/users/${userId}/budgets/${budgetCode}',
         orgUnits: '/users/${userId}/availableOrgUnitNodes',
         orgUnit: '/users/${userId}/orgUnits/${orgUnitId}',
-        orgUnitUserGroups: '/orgUnitUserGroups',
-        orgUnitUserGroup: '/orgUnitUserGroups/${orgUnitUserGrouppId}',
+        orgUnitUserGroups: '/users/${userId}/orgUnitUserGroups',
+        orgUnitUserGroup:
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}',
+        orgUnitUserGroupAvailableOrderApprovalPermissions:
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}/availableOrderApprovalPermissions',
+        orgUnitUserGroupAvailableOrgCustomers:
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}/availableOrgCustomers',
+        orgUnitUserGroupMembers:
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}/members',
+        orgUnitUserGroupMember:
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}/members/${orgCustomerId}',
+        orgUnitUserGroupOrderApprovalPermissions:
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}/orderApprovalPermissions',
+        orgUnitUserGroupOrderApprovalPermission:
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}/orderApprovalPermissions/${orderApprovalPermissionCode}',
         costCenters: '/costcenters',
         costCenter: '/costcenters/${costCenterCode}',
         costCentersAll: '/costcentersall',

@@ -1,6 +1,11 @@
 import { Observable } from 'rxjs';
 import { B2BSearchConfig } from '../../model/search-config';
-import { EntitiesModel, OrgUnitUserGroup } from '../../../model';
+import {
+  EntitiesModel,
+  OrgUnitUserGroup,
+  Permission,
+  User,
+} from '../../../model';
 
 export abstract class OrgUnitUserGroupAdapter {
   /**
@@ -9,17 +14,29 @@ export abstract class OrgUnitUserGroupAdapter {
    * converts to the `OrgUnitUserGroup`.
    *
    * @param userId The `userId` for given orgUnitUserGroupManagement
-   * @param orgUnitUserGroupCode The `orgUnitUserGroupCode` for given orgUnitUserGroupManagement
+   * @param orgUnitUserGroupUid The `orgUnitUserGroupUid` for given orgUnitUserGroupManagement
    */
   abstract load(
     userId: string,
-    orgUnitUserGroupCode: string
+    orgUnitUserGroupUid: string
   ): Observable<OrgUnitUserGroup>;
 
   abstract loadList(
     userId: string,
     params?: B2BSearchConfig
   ): Observable<EntitiesModel<OrgUnitUserGroup>>;
+
+  abstract loadAvailableOrderApprovalPermissions(
+    userId: string,
+    orgUnitUserGroupUid: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<Permission>>;
+
+  abstract loadAvailableOrgCustomers(
+    userId: string,
+    orgUnitUserGroupUid: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<User>>;
 
   abstract create(
     userId: string,
@@ -28,7 +45,41 @@ export abstract class OrgUnitUserGroupAdapter {
 
   abstract update(
     userId: string,
-    orgUnitUserGroupCode: string,
+    orgUnitUserGroupUid: string,
     orgUnitUserGroup: OrgUnitUserGroup
   ): Observable<OrgUnitUserGroup>;
+
+  abstract delete(
+    userId: string,
+    orgUnitUserGroupUid: string
+  ): Observable<OrgUnitUserGroup>;
+
+  abstract assignMember(
+    userId: string,
+    orgUnitUserGroupUid: string,
+    orgCustomerId: string
+  ): Observable<any>;
+
+  abstract assignOrderApprovalPermission(
+    userId: string,
+    orgUnitUserGroupUid: string,
+    orderApprovalPermissionCode: string
+  ): Observable<any>;
+
+  abstract unassignMember(
+    userId: string,
+    orgUnitUserGroupUid: string,
+    orgCustomerId: string
+  ): Observable<any>;
+
+  abstract unassignAllMembers(
+    userId: string,
+    orgUnitUserGroupUid: string
+  ): Observable<any>;
+
+  abstract unassignOrderApprovalPermission(
+    userId: string,
+    orgUnitUserGroupUid: string,
+    orderApprovalPermissionCode: string
+  ): Observable<any>;
 }

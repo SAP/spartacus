@@ -4173,7 +4173,12 @@ export namespace Occ {
   }
 
   export interface OrgUnitUserGroup {
-    code?: string;
+    name?: string;
+    uid?: string;
+    members?: User[];
+    orgUnit?: B2BUnit;
+    permissions?: Permission[];
+    selected?: boolean;
   }
 
   export interface OrgUnitAddress {

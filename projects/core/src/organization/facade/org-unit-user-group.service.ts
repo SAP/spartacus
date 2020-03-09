@@ -5,11 +5,11 @@ import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
-import { EntitiesModel } from '../../model/misc.model';
+import { EntitiesModel, User } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
 import { OrgUnitUserGroupActions } from '../store/actions/index';
 import { B2BSearchConfig } from '../model/search-config';
-import { OrgUnitUserGroup } from '../../model';
+import { OrgUnitUserGroup, Permission } from '../../model';
 import {
   getOrgUnitUserGroupState,
   getOrgUnitUserGroupList,
@@ -22,12 +22,12 @@ export class OrgUnitUserGroupService {
     protected authService: AuthService
   ) {}
 
-  loadOrgUnitUserGroup(orgUnitUserGroupCode: string) {
+  loadOrgUnitUserGroup(orgUnitUserGroupUid: string) {
     this.withUserId(userId =>
       this.store.dispatch(
         new OrgUnitUserGroupActions.LoadOrgUnitUserGroup({
           userId,
-          orgUnitUserGroupCode,
+          orgUnitUserGroupUid,
         })
       )
     );
@@ -41,8 +41,8 @@ export class OrgUnitUserGroupService {
     );
   }
 
-  private getOrgUnitUserGroupState(orgUnitUserGroupCode: string) {
-    return this.store.select(getOrgUnitUserGroupState(orgUnitUserGroupCode));
+  private getOrgUnitUserGroupState(orgUnitUserGroupUid: string) {
+    return this.store.select(getOrgUnitUserGroupState(orgUnitUserGroupUid));
   }
 
   private getOrgUnitUserGroupList(
@@ -51,12 +51,26 @@ export class OrgUnitUserGroupService {
     return this.store.select(getOrgUnitUserGroupList(params));
   }
 
-  get(orgUnitUserGroupCode: string): Observable<OrgUnitUserGroup> {
-    return this.getOrgUnitUserGroupState(orgUnitUserGroupCode).pipe(
+  private getMembersList(
+    orgUnitUserGroupUid: string,
+    params
+  ): Observable<LoaderState<EntitiesModel<User>>> {
+    return this.store.select(getAssignedBudgets(orgUnitUserGroupUid, params));
+  }
+
+  private getOrderApprovalPermissionsList(
+    orgUnitUserGroupUid: string,
+    params
+  ): Observable<LoaderState<EntitiesModel<Permission>>> {
+    return this.store.select(getAssignedBudgets(orgUnitUserGroupUid, params));
+  }
+
+  get(orgUnitUserGroupUid: string): Observable<OrgUnitUserGroup> {
+    return this.getOrgUnitUserGroupState(orgUnitUserGroupUid).pipe(
       observeOn(queueScheduler),
       tap(state => {
         if (!(state.loading || state.success || state.error)) {
-          this.loadOrgUnitUserGroup(orgUnitUserGroupCode);
+          this.loadOrgUnitUserGroup(orgUnitUserGroupUid);
         }
       }),
       filter(state => state.success || state.error),
@@ -93,12 +107,12 @@ export class OrgUnitUserGroupService {
     );
   }
 
-  update(orgUnitUserGroupCode: string, orgUnitUserGroup: OrgUnitUserGroup) {
+  update(orgUnitUserGroupUid: string, orgUnitUserGroup: OrgUnitUserGroup) {
     this.withUserId(userId =>
       this.store.dispatch(
         new OrgUnitUserGroupActions.UpdateOrgUnitUserGroup({
           userId,
-          orgUnitUserGroupCode,
+          orgUnitUserGroupUid,
           orgUnitUserGroup,
         })
       )
