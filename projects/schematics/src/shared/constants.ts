@@ -46,6 +46,25 @@ export const ROUTER = 'Router';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService ';
 /***** Classes end *****/
 
+/***** Cart removed public api start *****/
+export const CART_EFFECTS = 'CartEffects';
+export const WISHLIST_EFFECTS = 'WishlistEffects';
+export const CART_VOUCHER_EFFECTS = 'CartVoucherEffects';
+export const CART_ENTRY_EFFECTS = 'CartEntryEffects';
+export const CART_COMBINED_EFFECTS = 'effects';
+
+export const GET_REDUCERS = 'getReducers';
+export const REDUCER_TOKEN = 'reducerToken';
+export const REDUCER_PROVIDER = 'reducerProvider';
+export const CLEAR_CART_STATE = 'clearCartState';
+export const META_REDUCERS = 'metaReducers';
+export const CLEAR_MULTI_CART_STATE = 'clearMultiCartState';
+export const MULTI_CART_META_REDUCERS = 'multiCartMetaReducers';
+export const MULTI_CART_REDUCER_TOKEN = 'multiCartReducerToken';
+export const GET_MULTI_CART_REDUCERS = 'getMultiCartReducers';
+export const MULTI_CART_REDUCER_PROVIDER = 'multiCartReducerProvider';
+/***** Cart removed public api end *****/
+
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 /***** Properties end *****/
