@@ -1,9 +1,9 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { Config, ConfigModule } from '../config/config.module';
 import { provideConfigValidator } from '../config/config-validator/config-validator';
+import { Config, ConfigModule } from '../config/config.module';
 import { StateModule } from '../state/index';
 import { baseSiteConfigValidator } from './config/base-site-config-validator';
-import { defaultSiteContextConfigFactory } from './config/default-site-context-config';
+import { defaultSiteContextConfig } from './config/default-site-context-config';
 import { SiteContextConfig } from './config/site-context-config';
 import { contextServiceMapProvider } from './providers/context-service-map';
 import { contextServiceProviders } from './providers/context-service-providers';
@@ -13,7 +13,7 @@ import { SiteContextStoreModule } from './store/site-context-store.module';
 // @dynamic
 @NgModule({
   imports: [
-    ConfigModule.withConfigFactory(defaultSiteContextConfigFactory),
+    ConfigModule.withConfig(defaultSiteContextConfig),
     StateModule,
     SiteContextStoreModule,
   ],

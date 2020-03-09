@@ -48,6 +48,8 @@ if (!environment.production) {
           'apparel-uk',
           'apparel-uk-spa',
         ],
+        language: ['en', 'de', 'ja', 'zh'],
+        currency: ['USD', 'EUR', 'JPY', 'GBP'],
       },
 
       // custom routing configuration for e2e testing
