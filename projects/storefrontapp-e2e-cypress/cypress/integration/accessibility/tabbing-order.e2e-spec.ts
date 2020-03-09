@@ -49,11 +49,30 @@ import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-orde
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/reset-password';
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
+import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
+import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
+import {
+  checkoutAppliedCouponsTabbingOrder,
+  checkoutCouponsTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/checkout/coupons';
+import { checkoutMyCouponsTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-coupons';
 import { searchResultsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/search-results';
 import { defaultViewTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/default-view';
 import { storeDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/store-details';
 import { countriesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/countries-list';
 import { storesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/stores-list';
+import { saveForLaterTabbingOrder } from '../../helpers/accessibility/tabbing-order/save-for-later';
+import {
+  stockNotificationNotLoginTabbingOrder,
+  stockNotificationNoEnbaledPreferenceTabbingOrder,
+  stockNotificationProductSubscribedTabbingOrder,
+  stockNotificationDialogTabbingOrder,
+  stockNotificationTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/stock-notification';
+import {
+  consignmentTrackingTabbingOrder,
+  consignmentTrackingEventsTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/consignment-tracking';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -238,6 +257,12 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
       });
     });
   });
+
+  context('Stock Notification', () => {
+    it('should allow to navigate with tab key (not login)', () => {
+      stockNotificationNotLoginTabbingOrder(config.stockNotificationNotLogin);
+    });
+  });
 });
 
 describe('Tabbing order - tests do require user to be logged in', () => {
@@ -401,9 +426,63 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
+  context('Save for later', () => {
+    it('should allow to navigate with tab key', () => {
+      saveForLaterTabbingOrder(config.saveForLater);
+    });
+  });
+
   context('My Interest', () => {
     it('should allow to navigate with tab key', () => {
       myInterestTabbingOrder(config.myInterests);
+    });
+  });
+
+  context('Coupons', () => {
+    it('should allow to navigate with tab key', () => {
+      checkoutCouponsTabbingOrder(config.coupons);
+    });
+
+    it('should allow to navigate with tab key (applied coupons)', () => {
+      checkoutAppliedCouponsTabbingOrder(config.appliedCoupons);
+    });
+  });
+
+  context('My-coupons', () => {
+    it('should allow to navigate with tab key', () => {
+      checkoutMyCouponsTabbingOrder(config.myCoupons);
+    });
+  });
+
+  context('Stock Notification', () => {
+    it('should allow to navigate with tab key (no enabled notification preference)', () => {
+      stockNotificationNoEnbaledPreferenceTabbingOrder(
+        config.stockNotificationNoEnabledPreference
+      );
+    });
+
+    it('should allow to navigate with tab key (product was been subscribed)', () => {
+      stockNotificationProductSubscribedTabbingOrder(
+        config.stockNotificationSubscribed
+      );
+    });
+
+    it('should allow to navigate with tab key (dialog)', () => {
+      stockNotificationDialogTabbingOrder(config.stockNotificationDialog);
+    });
+
+    it('should allow to navigate with tab key', () => {
+      stockNotificationTabbingOrder(config.stockNotification);
+    });
+  });
+
+  context('Consignment Tracking', () => {
+    it('should allow to navigate with tab key', () => {
+      consignmentTrackingTabbingOrder(config.consignmentTracking);
+    });
+
+    it('should allow to navigate with tab key(tracking events)', () => {
+      consignmentTrackingEventsTabbingOrder(config.consignmentTrackingEvents);
     });
   });
 });

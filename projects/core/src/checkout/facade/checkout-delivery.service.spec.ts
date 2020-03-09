@@ -1,28 +1,48 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { CartDataService } from '../../cart/facade/cart-data.service';
+import {
+  ActiveCartService,
+  LoaderState,
+  PROCESS_FEATURE,
+} from '@spartacus/core';
+import { of } from 'rxjs';
+import { AuthService } from '../../auth';
 import { Address, AddressValidation } from '../../model/address.model';
 import { Cart } from '../../model/cart.model';
 import { DeliveryMode } from '../../model/order.model';
+import * as fromProcessReducers from '../../process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutDeliveryService } from './checkout-delivery.service';
-import { LoaderState, PROCESS_FEATURE } from '@spartacus/core';
-import * as fromProcessReducers from '../../process/store/reducers/index';
 
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
-  let cartData: CartDataServiceStub;
+  let activeCartService: ActiveCartService;
+  let authService: AuthService;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
-  class CartDataServiceStub {
-    userId;
+  class ActiveCartServiceStub {
     cart;
-    get cartId() {
-      return this.cart.code;
+    isGuestCart() {
+      return true;
+    }
+
+    getActiveCartId() {
+      return of(cart.code);
+    }
+
+    getActive() {
+      return of(cart);
+    }
+  }
+
+  class AuthServiceStub {
+    userId;
+    getOccUserId() {
+      return of(userId);
     }
   }
 
@@ -48,16 +68,18 @@ describe('CheckoutDeliveryService', () => {
       ],
       providers: [
         CheckoutDeliveryService,
-        { provide: CartDataService, useClass: CartDataServiceStub },
+        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutDeliveryService);
-    cartData = TestBed.inject(CartDataService);
+    activeCartService = TestBed.inject(ActiveCartService);
+    authService = TestBed.inject(AuthService);
     store = TestBed.inject(Store);
 
-    cartData.userId = userId;
-    cartData.cart = cart;
+    authService['userId'] = userId;
+    activeCartService['cart'] = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -303,7 +325,7 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.AddDeliveryAddress({
         userId: userId,
-        cartId: cartData.cartId,
+        cartId: cart.code,
         address: address,
       })
     );
@@ -315,7 +337,7 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.LoadSupportedDeliveryModes({
         userId: userId,
-        cartId: cartData.cartId,
+        cartId: cart.code,
       })
     );
   });
@@ -327,7 +349,7 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.SetDeliveryMode({
         userId: userId,
-        cartId: cartData.cartId,
+        cartId: cart.code,
         selectedModeId: modeId,
       })
     );
@@ -350,7 +372,7 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.SetDeliveryAddress({
         userId: userId,
-        cartId: cartData.cartId,
+        cartId: cart.code,
         address: address,
       })
     );
@@ -368,7 +390,7 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.ClearCheckoutDeliveryAddress({
         userId: userId,
-        cartId: cartData.cartId,
+        cartId: cart.code,
       })
     );
   });
@@ -378,7 +400,7 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.ClearCheckoutDeliveryMode({
         userId: userId,
-        cartId: cartData.cartId,
+        cartId: cart.code,
       })
     );
   });
@@ -388,13 +410,13 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.ClearCheckoutDeliveryAddress({
         userId: userId,
-        cartId: cartData.cartId,
+        cartId: cart.code,
       })
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.ClearCheckoutDeliveryMode({
         userId: userId,
-        cartId: cartData.cartId,
+        cartId: cart.code,
       })
     );
     expect(store.dispatch).toHaveBeenCalledWith(
