@@ -1,19 +1,27 @@
 import {
   ACTIVATED_ROUTE,
   ACTIVE_CART_SERVICE,
+  ADDRESS_BOOK_COMPONENT_SERVICE,
   ANGULAR_FORMS,
   ANGULAR_ROUTER,
   AUTH_REDIRECT_SERVICE,
   AUTH_SERVICE,
   CART_DATA_SERVICE,
   CART_SERVICE,
+  CHECKOUT_CONFIG,
   CHECKOUT_CONFIG_SERVICE,
   CHECKOUT_DELIVERY_SERVICE,
   CHECKOUT_DETAILS_SERVICE,
+  CHECKOUT_GUARD,
   CHECKOUT_LOGIN_COMPONENT,
   CHECKOUT_PAYMENT_SERVICE,
   CHECKOUT_SERVICE,
+  CMS_GUARDS_SERVICE,
+  CMS_I18N_SERVICE,
+  CMS_PAGE_GUARD,
+  CMS_ROUTES_SERVICE,
   CMS_SERVICE,
+  EXPRESS_CHECKOUT_SERVICE,
   FEATURE_CONFIG_SERVICE,
   FORM_BUILDER,
   NGRX_STORE,
@@ -22,19 +30,17 @@ import {
   PAGE_META_RESOLVER,
   PAGE_META_SERVICE,
   PROMOTION_SERVICE,
+  PROTECTED_ROUTES_GUARD,
+  ROUTER,
+  ROUTING_CONFIG_SERVICE,
   ROUTING_SERVICE,
+  SEMANTIC_PATH_SERVICE,
   SHIPPING_ADDRESS_COMPONENT,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
   STORE,
   TRANSLATION_SERVICE,
   USER_ADDRESS_SERVICE,
-  ADDRESS_BOOK_COMPONENT_SERVICE,
-  CHECKOUT_GUARD,
-  CHECKOUT_CONFIG,
-  EXPRESS_CHECKOUT_SERVICE,
-  ROUTER,
-  ROUTING_CONFIG_SERVICE,
 } from '../../shared/constants';
 import { ConstructorDeprecation } from '../../shared/utils/file-utils';
 
@@ -383,6 +389,46 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
     addParams: [
       {
         className: ACTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts
+  {
+    class: CMS_PAGE_GUARD,
+    deprecatedParams: [
+      {
+        className: ROUTING_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: CMS_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: CMS_ROUTES_SERVICE,
+        importPath: SPARTACUS_STOREFRONTLIB,
+      },
+      {
+        className: CMS_I18N_SERVICE,
+        importPath: SPARTACUS_STOREFRONTLIB,
+      },
+      {
+        className: CMS_GUARDS_SERVICE,
+        importPath: SPARTACUS_STOREFRONTLIB,
+      },
+      {
+        className: SEMANTIC_PATH_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: PROTECTED_ROUTES_GUARD,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    addParams: [
+      {
+        className: PROTECTED_ROUTES_GUARD,
         importPath: SPARTACUS_CORE,
       },
     ],

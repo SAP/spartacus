@@ -59,6 +59,12 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService ';
+export const CMS_PAGE_GUARD = 'CmsPageGuard';
+export const CMS_ROUTES_SERVICE = 'CmsRoutesService';
+export const CMS_I18N_SERVICE = 'CmsI18nService';
+export const CMS_GUARDS_SERVICE = 'CmsGuardsService';
+export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
+export const PROTECTED_ROUTES_GUARD = 'ProtectedRoutesGuard';
 /***** Classes end *****/
 
 /***** Cart removed public api start *****/
