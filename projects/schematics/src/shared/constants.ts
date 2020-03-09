@@ -61,7 +61,7 @@ export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService ';
 /***** Classes end *****/
 
-/***** Cart removed public api start *****/
+/***** Removed public api start *****/
 export const CART_EFFECTS = 'CartEffects';
 export const WISHLIST_EFFECTS = 'WishlistEffects';
 export const CART_VOUCHER_EFFECTS = 'CartVoucherEffects';
@@ -78,7 +78,10 @@ export const MULTI_CART_META_REDUCERS = 'multiCartMetaReducers';
 export const MULTI_CART_REDUCER_TOKEN = 'multiCartReducerToken';
 export const GET_MULTI_CART_REDUCERS = 'getMultiCartReducers';
 export const MULTI_CART_REDUCER_PROVIDER = 'multiCartReducerProvider';
-/***** Cart removed public api end *****/
+
+export const SITE_CONTEXT_PARAMS_PROVIDERS = 'siteContextParamsProviders';
+export const INIT_SITE_CONTEXT_ROUTES_HANDLER = 'initSiteContextRoutesHandler';
+/***** Removed public api end *****/
 
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
