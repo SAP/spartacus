@@ -7,7 +7,6 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
-  FeaturesConfigModule,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { AutoFocusDirectiveModule } from '../../../shared/directives/auto-focus/auto-focus.directive.module';
@@ -25,7 +24,6 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
     RouterModule,
     SpinnerModule,
     PromotionsModule,
-    FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductAddToCartComponent: {

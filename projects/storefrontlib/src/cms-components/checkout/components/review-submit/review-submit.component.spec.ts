@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   Address,
   Cart,
-  CartService,
+  ActiveCartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   Country,
@@ -116,7 +116,7 @@ class MockUserAddressService {
   }
 }
 
-class MockCartService {
+class MockActiveCartService {
   getActive(): Observable<Cart> {
     return of(mockCart);
   }
@@ -183,7 +183,7 @@ describe('ReviewSubmitComponent', () => {
           useClass: MockCheckoutPaymentService,
         },
         { provide: UserAddressService, useClass: MockUserAddressService },
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         {
           provide: CheckoutConfigService,
           useClass: MockCheckoutConfigService,

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   Address,
   Cart,
-  CartService,
+  ActiveCartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   Country,
@@ -41,15 +41,15 @@ export class ReviewSubmitComponent implements OnInit {
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected userAddressService: UserAddressService,
-    protected cartService: CartService,
+    protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
     protected checkoutConfigService: CheckoutConfigService,
     protected promotionService: PromotionService
   ) {}
 
   ngOnInit() {
-    this.cart$ = this.cartService.getActive();
-    this.entries$ = this.cartService.getEntries();
+    this.cart$ = this.activeCartService.getActive();
+    this.entries$ = this.activeCartService.getEntries();
     this.deliveryAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
     this.paymentDetails$ = this.checkoutPaymentService.getPaymentDetails();
     this.orderPromotions$ = this.promotionService.getOrderPromotions(

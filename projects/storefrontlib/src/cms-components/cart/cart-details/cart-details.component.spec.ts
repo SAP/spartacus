@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthService,
   Cart,
-  CartService,
+  ActiveCartService,
   FeatureConfigService,
   FeaturesConfig,
   FeaturesConfigModule,
@@ -23,7 +23,7 @@ import { CartDetailsComponent } from './cart-details.component';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 import { By } from '@angular/platform-browser';
 
-class MockCartService {
+class MockActiveCartService {
   removeEntry(): void {}
   loadDetails(): void {}
   updateEntry(): void {}
@@ -85,7 +85,7 @@ class MockCartCouponComponent {
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
-  let cartService: CartService;
+  let activeCartService: activeCartService;
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
@@ -121,8 +121,8 @@ describe('CartDetailsComponent', () => {
         { provide: AuthService, useValue: mockAuthService },
         { provide: RoutingService, useValue: mockRoutingService },
         {
-          provide: CartService,
-          useClass: MockCartService,
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
         {
           provide: PromotionService,
@@ -141,7 +141,7 @@ describe('CartDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartDetailsComponent);
     component = fixture.componentInstance;
-    cartService = TestBed.inject(CartService);
+    activeCartService = TestBed.inject(ActiveCartService);
   });
 
   it('should create cart details component', () => {
@@ -166,12 +166,12 @@ describe('CartDetailsComponent', () => {
     mockAuthService.isUserLoggedIn.and.returnValue(of(true));
     mockSelectiveCartService.addEntry.and.callThrough();
     mockSelectiveCartService.getLoaded.and.returnValue(of(true));
-    spyOn(cartService, 'removeEntry').and.callThrough();
-    spyOn(cartService, 'getEntries').and.callThrough();
-    spyOn(cartService, 'getLoaded').and.returnValue(of(true));
+    spyOn(activeCartService, 'removeEntry').and.callThrough();
+    spyOn(activeCartService, 'getEntries').and.callThrough();
+    spyOn(activeCartService, 'getLoaded').and.returnValue(of(true));
     fixture.detectChanges();
     component.saveForLater(mockItem);
-    expect(cartService.removeEntry).toHaveBeenCalledWith(mockItem);
+    expect(activeCartService.removeEntry).toHaveBeenCalledWith(mockItem);
     expect(mockSelectiveCartService.addEntry).toHaveBeenCalledWith(
       mockItem.product.code,
       mockItem.quantity

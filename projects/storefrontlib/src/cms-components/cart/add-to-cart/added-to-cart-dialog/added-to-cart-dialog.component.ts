@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   Cart,
-  CartService,
+  ActiveCartService,
   OrderEntry,
   PromotionLocation,
   PromotionResult,
@@ -39,7 +39,7 @@ export class AddedToCartDialogComponent implements OnInit {
 
   constructor(
     protected modalService: ModalService,
-    protected cartService: CartService,
+    protected cartService: ActiveCartService,
     protected promotionService: PromotionService
   ) {}
   /**

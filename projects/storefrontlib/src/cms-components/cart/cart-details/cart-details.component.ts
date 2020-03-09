@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   AuthService,
   Cart,
-  CartService,
+  ActiveCartService,
   FeatureConfigService,
   OrderEntry,
   PromotionLocation,
   PromotionResult,
   RoutingService,
-  SelectiveCartService,
+  SelectiveActiveCartService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
@@ -30,7 +30,7 @@ export class CartDetailsComponent implements OnInit {
   promotions$: Observable<PromotionResult[]>;
 
   constructor(
-    protected cartService: CartService,
+    protected activeCartService: ActiveCartService,
     protected promotionService: PromotionService,
     protected selectiveCartService: SelectiveCartService,
     private authService: AuthService,
@@ -39,16 +39,16 @@ export class CartDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cart$ = this.cartService.getActive();
+    this.cart$ = this.activeCartService.getActive();
     this.promotions$ = this.promotionService.getOrderPromotionsFromCart();
 
-    this.entries$ = this.cartService
+    this.entries$ = this.activeCartService
       .getEntries()
       .pipe(filter(entries => entries.length > 0));
 
     if (this.isSaveForLaterEnabled()) {
       this.cartLoaded$ = combineLatest([
-        this.cartService.getLoaded(),
+        this.activeCartService.getLoaded(),
         this.selectiveCartService.getLoaded(),
         this.authService.isUserLoggedIn(),
       ]).pipe(
@@ -60,7 +60,7 @@ export class CartDetailsComponent implements OnInit {
     }
     //TODO remove for #5958
     else {
-      this.cartLoaded$ = this.cartService.getLoaded();
+      this.cartLoaded$ = this.activeCartService.getLoaded();
     }
     //TODO  remove for #5958 end
 
@@ -80,7 +80,7 @@ export class CartDetailsComponent implements OnInit {
 
   saveForLater(item: Item) {
     if (this.loggedIn) {
-      this.cartService.removeEntry(item);
+      this.activeCartService.removeEntry(item);
       this.selectiveCartService.addEntry(item.product.code, item.quantity);
     } else {
       this.routingService.go({ cxRoute: 'login' });
