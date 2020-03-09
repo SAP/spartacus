@@ -3,8 +3,8 @@ export const UTF_8 = 'utf-8';
 /***** Imports start *****/
 export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
-export const ANGULAR_ROUTER = '@angular/router';
 export const ANGULAR_FORMS = '@angular/forms';
+export const ANGULAR_ROUTER = '@angular/router';
 export const RXJS = 'rxjs';
 
 export const SPARTACUS_CORE = '@spartacus/core';
@@ -22,6 +22,8 @@ export const ROUTER = 'Router';
 export const FORM_BUILDER = 'FormBuilder';
 
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
+
+export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
@@ -54,6 +56,13 @@ export const ROUTING_SERVICE = 'RoutingService';
 export const SHIPPING_ADDRESS_COMPONENT = 'ShippingAddressComponent';
 export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const TRANSLATION_SERVICE = 'TranslationService';
+export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
+export const ADD_TO_CART_COMPONENT = 'AddToCartComponent';
+export const MODAL_SERVICE = 'ModalService';
+export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
+export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
+export const CART_TOTALS_COMPONENT = 'CartTotalsComponent';
+export const MINI_CART_COMPONENT = 'MiniCartComponent';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
