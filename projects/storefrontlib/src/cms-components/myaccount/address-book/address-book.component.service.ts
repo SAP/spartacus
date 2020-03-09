@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class AddressBookComponentService {
   constructor(
-    private userAddressService: UserAddressService,
+    protected userAddressService: UserAddressService,
     protected checkoutDeliveryService: CheckoutDeliveryService
   ) {}
 

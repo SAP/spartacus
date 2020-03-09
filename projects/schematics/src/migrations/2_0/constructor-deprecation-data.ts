@@ -472,7 +472,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
       },
     ],
   },
-  // projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.spec.ts
+  // projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts
   {
     class: ADDRESS_BOOK_COMPONENT_SERVICE,
     deprecatedParams: [
