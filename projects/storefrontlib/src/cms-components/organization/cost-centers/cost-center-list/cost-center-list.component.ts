@@ -43,7 +43,7 @@ export class CostCenterListComponent extends AbstractListingComponent
               name: costCenter.name,
               currency: costCenter.currency && costCenter.currency.isocode,
               parentUnit: costCenter.unit && costCenter.unit.name,
-              orgUnitId: costCenter.unit && costCenter.unit.uid,
+              uid: costCenter.unit && costCenter.unit.uid,
             })),
           }))
         )

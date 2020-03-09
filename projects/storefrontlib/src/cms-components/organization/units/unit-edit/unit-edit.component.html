@@ -1,0 +1,11 @@
+<div class="cx-header">
+  <h3>{{ 'orgUnitForm.edit' | cxTranslate }}</h3>
+</div>
+<cx-unit-form
+  *ngIf="orgUnit$ | async as orgUnit"
+  [actionBtnLabel]="'orgUnitForm.update' | cxTranslate"
+  [orgUnitData]="orgUnit"
+  [routerBackLink]="{ cxRoute: 'orgUnits' }"
+  (submit)="updateOrgUnit($event)"
+>
+</cx-unit-form>

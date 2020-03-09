@@ -6,8 +6,6 @@ import { CostCenter } from '../../../../model/cost-center.model';
 @Injectable()
 export class OccCostCenterNormalizer
   implements Converter<Occ.CostCenter, CostCenter> {
-  constructor() {}
-
   convert(source: Occ.CostCenter, target?: CostCenter): CostCenter {
     if (target === undefined) {
       target = {
