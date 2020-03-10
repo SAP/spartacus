@@ -558,6 +558,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/checkout/components/checkout-order-summary/checkout-order-summary.component.ts
   {
     class: CHECKOUT_ORDER_SUMMARY_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: CART_SERVICE,
@@ -580,6 +581,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/checkout/components/checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.ts
   {
     class: CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: CHECKOUT_CONFIG,
@@ -614,6 +616,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts
   {
     class: PAYMENT_METHOD_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: USER_PAYMENT_SERVICE,
@@ -662,6 +665,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts
   {
     class: CHECKOUT_AUTH_GUARD,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: ROUTING_SERVICE,
@@ -700,6 +704,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/cms-components/cart/cart-page-layout-handler.ts
   {
     class: CART_PAGE_LAYOUT_HANDLER,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: CART_SERVICE,
@@ -726,6 +731,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/cds/src/profiletag/services/spartacus-event.service.ts
   {
     class: CDS_SPARTACUS_EVENT_SERVICE,
+    importPath: SPARTACUS_CDS,
     deprecatedParams: [
       {
         className: CART_SERVICE,
