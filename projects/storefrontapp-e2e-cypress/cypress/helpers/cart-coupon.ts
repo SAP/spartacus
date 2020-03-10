@@ -15,6 +15,7 @@ export const myCouponCode1 = 'springfestival';
 export const myCouponCode2 = 'midautumn';
 
 export function addProductToCart(productCode: string) {
+  cy.server();
   createSpecificProductQuery(productCode, 'productCode_query');
 
   cy.get('cx-searchbox input')
