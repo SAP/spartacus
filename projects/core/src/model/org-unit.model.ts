@@ -13,7 +13,7 @@ export interface B2BUnit {
   addresses?: OrgUnitAddress[];
   uid?: string;
   name?: string;
-  parentOrgUnit?: string;
+  parentOrgUnit?: Partial<B2BUnit>;
   approvalProcess?: B2BApprovalProcess;
   administrators?: B2BUser[];
   approvers?: B2BUser[];

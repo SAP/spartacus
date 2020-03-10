@@ -5,8 +5,6 @@ import { Budget } from '../../../../model/budget.model';
 
 @Injectable()
 export class OccBudgetNormalizer implements Converter<Occ.Budget, Budget> {
-  constructor() {}
-
   convert(source: Occ.Budget, target?: Budget): Budget {
     if (target === undefined) {
       target = {

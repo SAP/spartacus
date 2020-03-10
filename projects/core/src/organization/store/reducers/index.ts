@@ -6,6 +6,8 @@ import {
   ListModel,
   Permission,
   CostCenter,
+  B2BUnit,
+  B2BApprovalProcess,
 } from '../../../model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import {
@@ -13,9 +15,8 @@ import {
   BUDGET_ENTITIES,
   BUDGET_FEATURE,
   BUDGET_LIST,
-  ORG_UNIT_ENTITIES,
   ORG_UNIT_FEATURE,
-  ORG_UNIT_LIST,
+  ORG_UNIT_NODE_LIST,
   PERMISSION_ENTITIES,
   PERMISSION_FEATURE,
   PERMISSION_LIST,
@@ -23,9 +24,11 @@ import {
   COST_CENTER_ENTITIES,
   COST_CENTER_LIST,
   COST_CENTER_ASSIGNED_BUDGETS,
+  ORG_UNIT_ENTITIES,
+  ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
+  ORG_UNIT_TREE_ENTITY,
 } from '../organization-state';
 import { budgetsListReducer, budgetsEntitiesReducer } from './budget.reducer';
-import { orgUnitListReducer } from './org-unit.reducer';
 import { permissionsListReducer } from './permission.reducer';
 import {
   costCentersListReducer,
@@ -49,8 +52,14 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       ),
     }),
     [ORG_UNIT_FEATURE]: combineReducers({
-      entities: entityLoaderReducer<B2BUnitNode>(ORG_UNIT_ENTITIES),
-      list: entityLoaderReducer<ListModel>(ORG_UNIT_LIST, orgUnitListReducer),
+      entities: entityLoaderReducer<B2BUnit>(ORG_UNIT_ENTITIES),
+      availableOrgUnitNodes: entityLoaderReducer<B2BUnitNode[]>(
+        ORG_UNIT_NODE_LIST
+      ),
+      tree: entityLoaderReducer<B2BUnitNode>(ORG_UNIT_TREE_ENTITY),
+      approvalProcesses: entityLoaderReducer<B2BApprovalProcess[]>(
+        ORG_UNIT_APPROVAL_PROCESSES_ENTITIES
+      ),
     }),
     [COST_CENTER_FEATURE]: combineReducers({
       entities: entityLoaderReducer<CostCenter>(COST_CENTER_ENTITIES),
@@ -66,9 +75,9 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<OrganizationState>
-> = new InjectionToken<ActionReducerMap<OrganizationState>>(
+export const reducerToken: InjectionToken<ActionReducerMap<
+  OrganizationState
+>> = new InjectionToken<ActionReducerMap<OrganizationState>>(
   'OrganizationReducers'
 );
 

@@ -12,8 +12,10 @@ import {
   BUDGETS_NORMALIZER,
 } from '../../../organization/connectors/budget/converters';
 import {
+  B2BUNIT_NODE_NORMALIZER,
+  B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NORMALIZER,
-  B2BUNIT_LIST_NORMALIZER,
+  B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
 } from '../../../organization/connectors/org-unit/converters';
 import {
   PERMISSION_NORMALIZER,
@@ -32,12 +34,14 @@ import { OccCostCenterAdapter } from './occ-cost-center.adapter';
 import {
   OccBudgetNormalizer,
   OccBudgetListNormalizer,
-  OccOrgUnitNormalizer,
-  OccOrgUnitListNormalizer,
+  OccOrgUnitNodeNormalizer,
+  OccOrgUnitNodeListNormalizer,
   OccPermissionNormalizer,
   OccPermissionListNormalizer,
   OccCostCenterListNormalizer,
   OccCostCenterNormalizer,
+  OccOrgUnitNormalizer,
+  OccOrgUnitApprovalProcessNormalizer,
 } from './converters/index';
 
 @NgModule({
@@ -67,8 +71,18 @@ import {
       multi: true,
     },
     {
-      provide: B2BUNIT_LIST_NORMALIZER,
-      useClass: OccOrgUnitListNormalizer,
+      provide: B2BUNIT_NODE_NORMALIZER,
+      useClass: OccOrgUnitNodeNormalizer,
+      multi: true,
+    },
+    {
+      provide: B2BUNIT_NODE_LIST_NORMALIZER,
+      useClass: OccOrgUnitNodeListNormalizer,
+      multi: true,
+    },
+    {
+      provide: B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
+      useClass: OccOrgUnitApprovalProcessNormalizer,
       multi: true,
     },
     {

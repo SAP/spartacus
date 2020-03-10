@@ -10,8 +10,10 @@ import { OrgUnitActions } from '../store/actions/index';
 import {
   getOrgUnitState,
   getOrgUnitList,
+  getApprovalProcessesState,
+  getOrgUnitTreeState,
 } from '../store/selectors/org-unit.selector';
-import { B2BUnitNode, EntitiesModel } from '../../model';
+import { B2BUnit, B2BUnitNode, B2BApprovalProcess } from '../../model';
 
 @Injectable()
 export class OrgUnitService {
@@ -20,29 +22,49 @@ export class OrgUnitService {
     protected authService: AuthService
   ) {}
 
-  private loadOrgUnit(orgUnitId: string) {
+  loadOrgUnit(orgUnitId: string): void {
     this.withUserId(userId =>
       this.store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }))
     );
   }
 
-  loadOrgUnits() {
+  loadOrgUnitNodes(): void {
     this.withUserId(userId =>
-      this.store.dispatch(new OrgUnitActions.LoadOrgUnits({ userId }))
+      this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId }))
     );
   }
 
-  private getOrgUnitState(orgUnitId: string) {
+  loadTree(): void {
+    this.withUserId(userId =>
+      this.store.dispatch(new OrgUnitActions.LoadTree({ userId }))
+    );
+  }
+
+  loadApprovalProcesses(): void {
+    this.withUserId(userId =>
+      this.store.dispatch(new OrgUnitActions.LoadApprovalProcesses({ userId }))
+    );
+  }
+
+  private getOrgUnitState(orgUnitId: string): Observable<LoaderState<B2BUnit>> {
     return this.store.select(getOrgUnitState(orgUnitId));
   }
 
-  private getOrgUnitsList(): Observable<
-    LoaderState<EntitiesModel<B2BUnitNode>>
-  > {
+  private getTreeState(): Observable<LoaderState<B2BUnitNode>> {
+    return this.store.select(getOrgUnitTreeState());
+  }
+
+  private getOrgUnitsList(): Observable<LoaderState<B2BUnitNode[]>> {
     return this.store.select(getOrgUnitList());
   }
 
-  get(orgUnitId: string): Observable<B2BUnitNode> {
+  private getApprovalProcessesList(): Observable<
+    LoaderState<B2BApprovalProcess[]>
+  > {
+    return this.store.select(getApprovalProcessesState());
+  }
+
+  get(orgUnitId: string): Observable<B2BUnit> {
     return this.getOrgUnitState(orgUnitId).pipe(
       observeOn(queueScheduler),
       tap(state => {
@@ -55,19 +77,64 @@ export class OrgUnitService {
     );
   }
 
-  getList(): Observable<EntitiesModel<B2BUnitNode>> {
-    return this.getOrgUnitsList().pipe(
+  getTree(): Observable<B2BUnitNode> {
+    return this.getTreeState().pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<B2BUnitNode>>) => {
+      tap((process: LoaderState<B2BUnitNode>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadOrgUnits();
+          this.loadTree();
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<B2BUnitNode>>) =>
+        (process: LoaderState<B2BUnitNode>) => process.success || process.error
+      ),
+      map(result => result.value)
+    );
+  }
+
+  getApprovalProcesses(): Observable<B2BApprovalProcess[]> {
+    return this.getApprovalProcessesList().pipe(
+      observeOn(queueScheduler),
+      tap((process: LoaderState<B2BApprovalProcess[]>) => {
+        if (!(process.loading || process.success || process.error)) {
+          this.loadApprovalProcesses();
+        }
+      }),
+      filter(
+        (process: LoaderState<B2BApprovalProcess[]>) =>
           process.success || process.error
       ),
       map(result => result.value)
+    );
+  }
+
+  getList(): Observable<B2BUnitNode[]> {
+    return this.getOrgUnitsList().pipe(
+      observeOn(queueScheduler),
+      tap((process: LoaderState<B2BUnitNode[]>) => {
+        if (!(process.loading || process.success || process.error)) {
+          this.loadOrgUnitNodes();
+        }
+      }),
+      filter(
+        (process: LoaderState<B2BUnitNode[]>) =>
+          process.success || process.error
+      ),
+      map(result => result.value)
+    );
+  }
+
+  create(unit: B2BUnit): void {
+    this.withUserId(userId =>
+      this.store.dispatch(new OrgUnitActions.CreateUnit({ userId, unit }))
+    );
+  }
+
+  update(unitCode: string, unit: B2BUnit): void {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new OrgUnitActions.UpdateUnit({ userId, unitCode, unit })
+      )
     );
   }
 

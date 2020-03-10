@@ -5,21 +5,36 @@ import createSpy = jasmine.createSpy;
 
 import { OrgUnitAdapter } from './org-unit.adapter';
 import { OrgUnitConnector } from './org-unit.connector';
+import { B2BApprovalProcess } from '@spartacus/core';
 
 const userId = 'userId';
 const orgUnitId = 'orgUnitId';
+const approvalProcessCode = 'approvalProcessCode';
+
+const orgUnitNode = {
+  id: orgUnitId,
+};
 
 const orgUnit = {
-  id: orgUnitId,
+  uid: orgUnitId,
+};
+
+const approvalProcess: B2BApprovalProcess = {
+  code: approvalProcessCode,
+  name: 'approvalProcessName',
 };
 
 class MockOrgUnitAdapter implements OrgUnitAdapter {
   load = createSpy('OrgUnitAdapter.load').and.returnValue(of(orgUnit));
   loadList = createSpy('OrgUnitAdapter.loadList').and.returnValue(
-    of([orgUnit])
+    of([orgUnitNode])
   );
   create = createSpy('OrgUnitAdapter.create').and.returnValue(of(orgUnit));
   update = createSpy('OrgUnitAdapter.update').and.returnValue(of(orgUnit));
+  loadTree = createSpy('OrgUnitAdapter.loadTree').and.returnValue(of(orgUnit));
+  loadApprovalProcesses = createSpy(
+    'OrgUnitAdapter.loadApprovalProcesses'
+  ).and.returnValue(of([approvalProcess]));
 }
 
 describe('OrgUnitConnector', () => {

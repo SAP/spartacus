@@ -82,5 +82,8 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'costCentersList',
     'costCenterForm',
     'costCenterAssignBudgets',
+    'orgUnitsList',
+    'orgUnit',
+    'orgUnitForm',
   ],
 };

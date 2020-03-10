@@ -54,9 +54,9 @@ export function getReducers(): ActionReducerMap<CmsState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<CmsState>
-> = new InjectionToken<ActionReducerMap<CmsState>>('CmsReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<
+  CmsState
+>> = new InjectionToken<ActionReducerMap<CmsState>>('CmsReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

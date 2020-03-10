@@ -1,19 +1,22 @@
-import { ORG_UNIT_ENTITIES, ORG_UNIT_LIST } from '../organization-state';
-import { B2BUnitNode } from '../../../model/org-unit.model';
+import {
+  ORG_UNIT_NODE_LIST,
+  ORG_UNIT_NODES,
+  ORG_UNIT_ENTITIES,
+} from '../organization-state';
+import { B2BUnit, B2BUnitNode } from '../../../model/org-unit.model';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
-import { ALL } from '../../utils/serializer';
 import { OrgUnitActions } from './index';
 
 const orgUnitId = 'testOrgUnitId';
-const orgUnit: B2BUnitNode = {
-  id: orgUnitId,
-};
+const orgUnit: Partial<B2BUnit> = { uid: orgUnitId };
+
+const orgUnitNode: Partial<B2BUnitNode> = { id: orgUnitId };
+const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
+
+const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
+
 const userId = 'xxx@xxx.xxx';
 const error = 'anError';
-
-const pagination = { currentPage: 1 };
-const sorts = [{ selected: true, name: 'code' }];
-const page = { ids: [orgUnitId], pagination, sorts };
 
 describe('OrgUnit Actions', () => {
   describe('LoadOrgUnit Actions', () => {
@@ -66,47 +69,55 @@ describe('OrgUnit Actions', () => {
     });
   });
 
-  describe('LoadOrgUnits Actions', () => {
-    describe('LoadOrgUnits', () => {
+  describe('LoadOrgUnitNodes Actions', () => {
+    describe('LoadOrgUnitNodes', () => {
       it('should create the action', () => {
-        const action = new OrgUnitActions.LoadOrgUnits({
+        const action = new OrgUnitActions.LoadOrgUnitNodes({
           userId,
         });
 
         expect({ ...action }).toEqual({
-          type: OrgUnitActions.LOAD_ORG_UNITS,
+          type: OrgUnitActions.LOAD_UNIT_NODES,
           payload: { userId },
-          meta: StateEntityLoaderActions.entityLoadMeta(ORG_UNIT_LIST, ALL),
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            ORG_UNIT_NODE_LIST,
+            ORG_UNIT_NODES
+          ),
         });
       });
     });
 
-    describe('LoadOrgUnitsFail', () => {
+    describe('LoadOrgUnitNodesFail', () => {
       it('should create the action', () => {
-        const action = new OrgUnitActions.LoadOrgUnitsFail({
+        const action = new OrgUnitActions.LoadOrgUnitNodesFail({
           error: { error },
         });
 
         expect({ ...action }).toEqual({
-          type: OrgUnitActions.LOAD_ORG_UNITS_FAIL,
+          type: OrgUnitActions.LOAD_UNIT_NODES_FAIL,
           payload: { error: { error } },
-          meta: StateEntityLoaderActions.entityFailMeta(ORG_UNIT_LIST, ALL, {
-            error,
-          }),
+          meta: StateEntityLoaderActions.entityFailMeta(
+            ORG_UNIT_NODE_LIST,
+            ORG_UNIT_NODES,
+            {
+              error,
+            }
+          ),
         });
       });
     });
 
-    describe('LoadOrgUnitsSuccess', () => {
+    describe('LoadOrgUnitNodesSuccess', () => {
       it('should create the action', () => {
-        const action = new OrgUnitActions.LoadOrgUnitsSuccess({
-          page,
-        });
+        const action = new OrgUnitActions.LoadOrgUnitNodesSuccess(orgUnitList);
 
         expect({ ...action }).toEqual({
-          type: OrgUnitActions.LOAD_ORG_UNITS_SUCCESS,
-          payload: { page },
-          meta: StateEntityLoaderActions.entitySuccessMeta(ORG_UNIT_LIST, ALL),
+          type: OrgUnitActions.LOAD_UNIT_NODES_SUCCESS,
+          payload: orgUnitList,
+          meta: StateEntityLoaderActions.entitySuccessMeta(
+            ORG_UNIT_NODE_LIST,
+            ORG_UNIT_NODES
+          ),
         });
       });
     });
