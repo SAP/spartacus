@@ -3,7 +3,6 @@ import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
-  Page,
   PageContext,
   PageType,
   ProtectedRoutesGuard,
@@ -11,18 +10,8 @@ import {
   SemanticPathService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import {
-  filter,
-  first,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
-import { CmsGuardsService } from '../services/cms-guards.service';
-import { CmsI18nService } from '../services/cms-i18n.service';
-import { CmsRoutesService } from '../services/cms-routes.service';
+import { filter, first, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { CmsPageGuardService } from './cms-page-guard.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,14 +20,11 @@ export class CmsPageGuard implements CanActivate {
   static guardName = 'CmsPageGuard';
 
   constructor(
-    // expose as `protected` only services from public API:
     protected routingService: RoutingService,
     protected cmsService: CmsService,
-    private cmsRoutes: CmsRoutesService, // private API
-    private cmsI18n: CmsI18nService, // private API
-    private cmsGuards: CmsGuardsService, // private API
     protected semanticPathService: SemanticPathService,
-    protected protectedRoutesGuard: ProtectedRoutesGuard
+    protected protectedRoutesGuard: ProtectedRoutesGuard,
+    protected service: CmsPageGuardService
   ) {}
 
   canActivate(
@@ -54,7 +40,7 @@ export class CmsPageGuard implements CanActivate {
       );
   }
 
-  private getCmsPage(
+  protected getCmsPage(
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
@@ -66,50 +52,13 @@ export class CmsPageGuard implements CanActivate {
       ),
       switchMap(([pageData, pageContext]) =>
         pageData
-          ? this.resolveCmsPageLogic(pageContext, pageData, route, state)
+          ? this.service.handlePage(pageContext, pageData, route, state)
           : this.handleNotFoundPage(pageContext, route, state)
       )
     );
   }
 
-  private resolveCmsPageLogic(
-    pageContext: PageContext,
-    pageData: Page,
-    route: CmsActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> {
-    return this.cmsService.getPageComponentTypes(pageContext).pipe(
-      take(1),
-      switchMap(componentTypes =>
-        this.cmsGuards
-          .cmsPageCanActivate(componentTypes, route, state)
-          .pipe(withLatestFrom(of(componentTypes)))
-      ),
-      tap(([canActivate, componentTypes]) => {
-        if (canActivate === true) {
-          this.cmsI18n.loadChunksForComponents(componentTypes);
-        }
-      }),
-      map(([canActivate, componentTypes]) => {
-        const pageLabel = pageData.label || pageContext.id; // for content pages the page label returned from backend can be different than ID initially assumed from route
-        if (
-          canActivate === true &&
-          !route.data.cxCmsRouteContext &&
-          !this.cmsRoutes.cmsRouteExist(pageLabel)
-        ) {
-          return this.cmsRoutes.handleCmsRoutesInGuard(
-            pageContext,
-            componentTypes,
-            state.url,
-            pageLabel
-          );
-        }
-        return canActivate;
-      })
-    );
-  }
-
-  private handleNotFoundPage(
+  protected handleNotFoundPage(
     pageContext: PageContext,
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -132,7 +81,7 @@ export class CmsPageGuard implements CanActivate {
               )
             ),
             switchMap(() =>
-              this.resolveCmsPageLogic(pageContext, notFoundPage, route, state)
+              this.service.handlePage(pageContext, notFoundPage, route, state)
             )
           );
         }
