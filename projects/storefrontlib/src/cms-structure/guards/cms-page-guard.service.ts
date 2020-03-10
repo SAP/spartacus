@@ -13,7 +13,7 @@ import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
 
 /**
- * Logic for guarding given angular route an cms page
+ * Helper service for CmsPageGuard
  */
 @Injectable({
   providedIn: 'root',
