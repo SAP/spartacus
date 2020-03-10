@@ -23,6 +23,8 @@ import { EscapeFocusService } from './escape-focus.service';
 })
 export class EscapeFocusDirective extends PersistFocusDirective
   implements OnInit {
+  protected defaultConfig: EscapeFocusConfig = { focusOnEscape: true };
+
   @Input('cxEscFocus') protected config: EscapeFocusConfig;
 
   @Output() esc = new EventEmitter<boolean>();
@@ -33,14 +35,23 @@ export class EscapeFocusDirective extends PersistFocusDirective
    */
   @HostListener('keydown.escape', ['$event'])
   protected handleEscape(event: KeyboardEvent): void {
-    this.escapeFocusService.handleEscape(this.host, this.config, event);
-    this.esc.emit(true);
+    if (this.service.shouldFocus(this.config)) {
+      this.service.handleEscape(this.host, this.config, event);
+    }
+    this.esc.emit(this.service.shouldFocus(this.config));
   }
 
   constructor(
     protected elementRef: ElementRef,
-    protected escapeFocusService: EscapeFocusService
+    protected service: EscapeFocusService
   ) {
-    super(elementRef, escapeFocusService);
+    super(elementRef, service);
+  }
+
+  ngOnInit() {
+    if (this.service.shouldFocus(this.config) && !this.currentIndex) {
+      this.currentIndex = '-1';
+    }
+    super.ngOnInit();
   }
 }

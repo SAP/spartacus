@@ -12,17 +12,24 @@ import { TabFocusService } from './tab-focus.service';
   selector: '[cxTabFocus]',
 })
 export class TabFocusDirective extends AutoFocusDirective {
+  /** tab is default if the directive is used directly */
+  protected defaultConfig: TabFocusConfig = { tab: true };
+
   /** configuration options to steer the usage */
-  @Input('cxTabFocus') protected config: TabFocusConfig;
+  @Input('cxTabFocus') protected config: TabFocusConfig = {};
 
   @HostListener('keydown.arrowRight', ['$event'])
   protected handleNextTab(event: KeyboardEvent) {
-    this.moveTab(event, MOVE_FOCUS.NEXT);
+    if (this.config?.tab) {
+      this.service.moveTab(this.host, this.config, MOVE_FOCUS.NEXT, event);
+    }
   }
 
   @HostListener('keydown.arrowLeft', ['$event'])
   protected handlePreviousTab(event: KeyboardEvent) {
-    this.moveTab(event, MOVE_FOCUS.PREV);
+    if (this.config?.tab) {
+      this.service.moveTab(this.host, this.config, MOVE_FOCUS.PREV, event);
+    }
   }
 
   constructor(
@@ -30,35 +37,5 @@ export class TabFocusDirective extends AutoFocusDirective {
     protected service: TabFocusService
   ) {
     super(elementRef, service);
-  }
-
-  /**
-   * Moves to the next (or previous) tab. This can be driven by
-   */
-  protected moveTab(event: KeyboardEvent, increment: MOVE_FOCUS): void {
-    if (this.config?.tab) {
-      this.service.focusNext(this.host, this.config, increment);
-
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  }
-
-  /**
-   * Focus the next element. If the element is focusable, it will
-   * get focus instantly. If the element itself isn't focusable,
-   * the first focusable decendant will be focussed. If that also fails,
-   * we use scrollIntoView only.
-   */
-  protected focus(next: HTMLElement) {
-    if (next !== document.activeElement) {
-      this.service
-        .findFocusable(next, true)
-        .find(Boolean)
-        ?.focus();
-    }
-    if (next !== document.activeElement) {
-      next.scrollIntoView();
-    }
   }
 }

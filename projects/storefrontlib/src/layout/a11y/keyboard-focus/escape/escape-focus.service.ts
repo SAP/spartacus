@@ -1,37 +1,39 @@
 import { Injectable } from '@angular/core';
 import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusService } from '../persist/persist-focus.service';
+import { SelectFocusUtility } from '../services/select-focus.util';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EscapeFocusService extends PersistFocusService {
+  constructor(protected selectFocusUtil: SelectFocusUtility) {
+    super();
+  }
+
+  shouldFocus(config: EscapeFocusConfig): boolean {
+    return !!config?.focusOnEscape;
+  }
+
   handleEscape(
     host: HTMLElement,
     config: EscapeFocusConfig,
     event: KeyboardEvent
-  ) {
-    if (config?.focusOnEscape) {
-      const currentTabIndex = this.getTabIndex(host);
-      if (!currentTabIndex || currentTabIndex === '-1') {
-        host.setAttribute('tabindex', '0');
-      }
-
+  ): void {
+    if (this.shouldFocus(config)) {
       if (host !== event.target) {
-        if (host.getAttribute('tabindex') !== '-1') {
-          host.focus({ preventScroll: true });
-          event.preventDefault();
-          event.stopPropagation();
-        }
+        // if (config.initialTabindex && config.initialTabindex !== -1) {
+        host.focus({ preventScroll: true });
+        event.preventDefault();
+        event.stopPropagation();
+        // }
       } else {
         if (config?.focusOnDoubleEscape) {
           this.selectFocusUtil
-            .findfirstFocusable(host, { autofocus: true })
+            .findFirstFocusable(host, { autofocus: true })
             ?.focus();
         }
       }
-
-      this.setTabIndex(host, currentTabIndex || '-1');
     }
   }
 }

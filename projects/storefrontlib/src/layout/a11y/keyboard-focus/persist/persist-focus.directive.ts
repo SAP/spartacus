@@ -7,13 +7,13 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { BaseFocusDirective } from '../base-focus.directive';
+import { BlockFocusDirective } from '../block/block-focus.directive';
 import { FOCUS_ATTR, PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusService } from './persist-focus.service';
 
 /**
  * Directive for focusable elements that provides persistence of the focussed
- * state. This is useful when a group of focusable elements got refocused or
+ * state. This is useful when a group of focusable elements got refocued or
  * even recreated.
  *
  * The focus state is based on a configured _key_, which can be passed in the
@@ -22,8 +22,7 @@ import { PersistFocusService } from './persist-focus.service';
  * The focus state can be part of a focus group, so that the state is shared
  * and remember for the given group.
  *
- * The focus key is persisted on the focus element, so that we can resolve
- * the focus state in case of a repaint.
+ * The focus key is peristed on the focus element, so that
  *
  * In order to detect the persistence for a given element, we store the persistence
  * key as a data attribute (`FOCUS_ATTR`).
@@ -31,14 +30,16 @@ import { PersistFocusService } from './persist-focus.service';
 @Directive({
   selector: '[cxPersistFocus]',
 })
-export class PersistFocusDirective extends BaseFocusDirective
+export class PersistFocusDirective extends BlockFocusDirective
   implements OnInit, AfterViewInit {
+  protected defaultConfig: PersistFocusConfig = {};
+
   /**
    * The persistence key can be passed directly or through the `FocusConfig.key`.
    * While this could be considered a global key, the likeliness of conflicts
    * is very small since the key is cleared when the focus is changed.
    */
-  @Input('cxPersistFocus') protected config: string | PersistFocusConfig = {};
+  @Input('cxPersistFocus') protected config: PersistFocusConfig = {};
 
   /**
    * The persistance key is maintained in an element attribute for other
@@ -51,6 +52,7 @@ export class PersistFocusDirective extends BaseFocusDirective
    * The persistence key is maintained in a singleton cross the app to ensure we
    * can reset the focus if the DOM gets rebuild.
    */
+
   @HostListener('focus', ['$event'])
   protected handleFocus(event?: KeyboardEvent) {
     if (this.key) {
@@ -65,16 +67,19 @@ export class PersistFocusDirective extends BaseFocusDirective
     protected elementRef: ElementRef,
     protected persistFocusService: PersistFocusService
   ) {
-    super(elementRef);
+    super(elementRef, persistFocusService);
   }
 
   ngOnInit() {
-    if (typeof this.config === 'string') {
+    super.ngOnInit();
+    this.attr = this.key ? this.key : undefined;
+  }
+
+  protected setDefaultConfiguration() {
+    if (typeof this.config === 'string' && this.config !== '') {
       this.config = { key: this.config };
     }
-    this.attr = this.key ? this.key : undefined;
-
-    super.ngOnInit();
+    super.setDefaultConfiguration();
   }
 
   /**

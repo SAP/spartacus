@@ -22,29 +22,26 @@ export abstract class SelectFocusUtility {
   //   `iframe`, // we really don't like iframes...
   //   `area[href]`, // very debatable!
 
-  findfirstFocusable(
-    host: HTMLElement,
-    config: AutoFocusConfig = { autofocus: true }
-  ): HTMLElement {
-    const select =
-      typeof config?.autofocus === 'string' ? config.autofocus : '[autofocus]';
-
-    let element = this.query(host, select).find(Boolean);
-
-    // fallback to first focusable
-    if (!element) {
-      element = this.findFocusable(host).find(Boolean);
-    }
-
-    return element;
-  }
-
   query(host: HTMLElement, selector: string): HTMLElement[] {
     if (!selector || selector === '') {
       return [];
     }
     return Array.from(
       host.querySelectorAll(selector) as NodeListOf<HTMLElement>
+    );
+  }
+
+  findFirstFocusable(
+    host: HTMLElement,
+    config: AutoFocusConfig = { autofocus: true }
+  ): HTMLElement {
+    const selector =
+      typeof config?.autofocus === 'string' ? config.autofocus : '[autofocus]';
+
+    // fallback to first focusable
+    return (
+      this.query(host, selector).find(Boolean) ||
+      this.findFocusable(host).find(Boolean)
     );
   }
 
