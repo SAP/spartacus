@@ -129,9 +129,7 @@ function modifyIndexHtmlFile(
   };
 }
 
-function provideServerFile(
-  options: SpartacusOptions
-): Source {
+function provideServerFile(options: SpartacusOptions): Source {
   return apply(url('./files'), [
     template({
       ...strings,
