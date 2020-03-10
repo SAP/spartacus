@@ -10,21 +10,25 @@ import {
 } from '@schematics/angular/utility/change';
 import * as path from 'path';
 import * as ts from 'typescript';
+import { COMPONENT_DEPRECATION_DATA } from '../../migrations/2_0/component-deprecations-data';
 import {
   AUTH_SERVICE,
   FEATURE_CONFIG_SERVICE,
   NGRX_STORE,
   SPARTACUS_CORE,
   STORE,
+  TODO_SPARTACUS,
   USER_ADDRESS_SERVICE,
   UTF_8,
 } from '../constants';
 import {
   addConstructorParam,
+  buildSpartacusComment,
   ClassType,
   commitChanges,
   defineProperty,
   findConstructor,
+  getAllHtmlFiles,
   getAllTsSourceFiles,
   getIndexHtmlPath,
   getPathResultsForFile,
@@ -32,6 +36,7 @@ import {
   injectService,
   insertCommentAboveIdentifier,
   InsertDirection,
+  insertHtmlComment,
   isCandidateForConstructorDeprecation,
   isInheriting,
   removeConstructorParam,
@@ -186,6 +191,12 @@ const VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS = `
 const INHERITANCE_VALID_TEST_CLASS = `
 export class Test extends UserAddressService {}
 `;
+const HTML_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+<div>test</div>
+<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+const HTML_EXAMPLE_EXPECTED = `<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+<div>test</div>
+<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -250,10 +261,7 @@ describe('File utils', () => {
 
   describe('getIndexHtmlPath', () => {
     it('should return index.html path', async () => {
-      const project = getProjectFromWorkspace(appTree, defaultOptions, [
-        '/angular.json',
-        '/.angular.json',
-      ]);
+      const project = getProjectFromWorkspace(appTree, defaultOptions);
       const projectIndexHtmlPath = getIndexHtmlPath(project);
 
       expect(projectIndexHtmlPath).toEqual(`src/index.html`);
@@ -266,6 +274,30 @@ describe('File utils', () => {
 
       expect(pathsToFile.length).toBeGreaterThan(0);
       expect(pathsToFile[0]).toEqual('/src/test.ts');
+    });
+  });
+
+  describe('getAllHtmlFiles', () => {
+    it('should return proper path for file', async () => {
+      const pathsToFile = getAllHtmlFiles(appTree, 'src');
+
+      expect(pathsToFile.length).toEqual(2);
+      expect(pathsToFile[0]).toEqual('/src/index.html');
+      expect(pathsToFile[1]).toEqual('/src/app/app.component.html');
+    });
+  });
+
+  describe('insertHtmlComment', () => {
+    it('should insert the comment', async () => {
+      const componentDeprecation = COMPONENT_DEPRECATION_DATA[0];
+      const result = insertHtmlComment(
+        HTML_EXAMPLE,
+        componentDeprecation.selector,
+        componentDeprecation.removedProperties[0]
+      );
+
+      expect(result).toBeTruthy();
+      expect(result).toEqual(HTML_EXAMPLE_EXPECTED);
     });
   });
 
@@ -661,6 +693,15 @@ describe('File utils', () => {
       );
       expect(result).toBeTruthy();
       expect(result.toAdd).toEqual(`private dummyProperty: DummyService`);
+    });
+  });
+
+  describe('buildSpartacusComment', () => {
+    it('should build a proper comment', () => {
+      const comment = 'test';
+      expect(buildSpartacusComment(comment)).toEqual(
+        `// ${TODO_SPARTACUS} ${comment}\n`
+      );
     });
   });
 
