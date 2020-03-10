@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { SelectFocusUtility } from '../services';
 import { LockFocusService } from './lock-focus.service';
 
@@ -27,10 +27,6 @@ class MockSelectFocusUtility {
 
 describe('LockFocusService', () => {
   let service: LockFocusService;
-  let focusUtility: SelectFocusUtility;
-
-  let component: MockComponent;
-  let fixture: ComponentFixture<MockComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -45,10 +41,6 @@ describe('LockFocusService', () => {
     }).compileComponents();
 
     service = TestBed.inject(LockFocusService);
-    focusUtility = TestBed.inject(SelectFocusUtility);
-
-    fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
   }));
 
   it('should inject service', () => {

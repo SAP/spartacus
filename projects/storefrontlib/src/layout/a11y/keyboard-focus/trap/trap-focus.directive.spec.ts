@@ -23,7 +23,6 @@ class MockTrapFocusService {
 }
 
 describe('TrapFocusDirective', () => {
-  let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
   let service: TrapFocusService;
   beforeEach(async(() => {
@@ -38,7 +37,6 @@ describe('TrapFocusDirective', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
     service = TestBed.inject(TrapFocusService);
   }));
 

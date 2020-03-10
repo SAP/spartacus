@@ -31,7 +31,6 @@ describe('AutoFocusService', () => {
   let service: AutoFocusService;
   let focusUtility: SelectFocusUtility;
 
-  let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
 
   beforeEach(async(() => {
@@ -50,7 +49,6 @@ describe('AutoFocusService', () => {
     focusUtility = TestBed.inject(SelectFocusUtility);
 
     fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
   }));
 
   it('should inject service', () => {

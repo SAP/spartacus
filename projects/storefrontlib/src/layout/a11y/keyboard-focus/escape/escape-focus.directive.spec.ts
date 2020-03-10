@@ -107,7 +107,7 @@ describe('EscapeFocusDirective', () => {
       expect(service.handleEscape).toHaveBeenCalledWith(
         el.nativeElement,
         { focusOnEscape: true },
-        mockEvent
+        mockEvent as KeyboardEvent
       );
     });
 

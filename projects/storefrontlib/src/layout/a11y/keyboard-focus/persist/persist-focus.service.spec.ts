@@ -15,8 +15,6 @@ class MockSelectFocusUtility {}
 class MockComponent {}
 describe('PersistFocusService', () => {
   let service: PersistFocusService;
-
-  let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
 
   beforeEach(async(() => {
@@ -32,9 +30,7 @@ describe('PersistFocusService', () => {
     }).compileComponents();
 
     service = TestBed.inject(PersistFocusService);
-
     fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
   }));
 
   it('should inject service', () => {

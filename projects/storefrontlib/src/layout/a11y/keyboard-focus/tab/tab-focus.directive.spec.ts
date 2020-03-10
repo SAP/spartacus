@@ -21,7 +21,6 @@ class MockTabFocusService {
 }
 
 describe('TabFocusDirective', () => {
-  let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
   let service: TabFocusService;
   beforeEach(async(() => {
@@ -36,14 +35,13 @@ describe('TabFocusDirective', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
     service = TestBed.inject(TabFocusService);
   }));
 
   const event = {
     preventDefault: () => {},
     stopPropagation: () => {},
-  };
+  } as KeyboardEvent;
 
   describe('configuration', () => {
     it('should use tab by default', () => {

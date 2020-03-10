@@ -16,11 +16,11 @@ import { PersistFocusService } from './persist-focus.service';
 class MockComponent {}
 
 class MockPersistFocusService {
-  set(key: string, group?: string): void {}
-  get(group?: string) {
+  set(): void {}
+  get() {
     return 'key-d';
   }
-  getPersistenceGroup(_host, _config) {
+  getPersistenceGroup() {
     return 'test-group';
   }
 }

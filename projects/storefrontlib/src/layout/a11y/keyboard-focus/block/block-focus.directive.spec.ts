@@ -18,9 +18,7 @@ class MockComponent {}
 class MockBaseFocusService {}
 
 describe('BlockFocusDirective', () => {
-  let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
-  let service: BaseFocusService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MockComponent, BlockFocusDirective],
@@ -33,8 +31,6 @@ describe('BlockFocusDirective', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
-    service = TestBed.inject(BaseFocusService);
 
     fixture.detectChanges();
   }));
