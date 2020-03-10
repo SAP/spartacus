@@ -68,6 +68,9 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService ';
+
+export const CONSENT_MANAGEMENT_FORM_COMPONENT =
+  'ConsentManagementFormComponent';
 /***** Classes end *****/
 
 /***** Cart removed public api start *****/
@@ -110,3 +113,8 @@ export const COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API =
 export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
 export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 /***** APIs end *****/
+
+/***** Misc start *****/
+export const CSS_DOCS_URL =
+  'https://sap.github.io/cloud-commerce-spartacus-storefront-docs/deprecation-guide/css';
+/***** Misc end *****/
