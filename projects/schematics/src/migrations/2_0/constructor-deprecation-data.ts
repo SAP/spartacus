@@ -55,7 +55,10 @@ import {
   STORE,
   TRANSLATION_SERVICE,
   USER_ADDRESS_SERVICE,
+  USER_CONSENT_SERVICE,
+  USER_ORDER_SERVICE,
   USER_PAYMENT_SERVICE,
+  USER_SERVICE,
 } from '../../shared/constants';
 import { ConstructorDeprecation } from '../../shared/utils/file-utils';
 
@@ -759,6 +762,74 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
     addParams: [
       {
         className: ACTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/core/src/user/facade/user-consent.service.ts
+  {
+    class: USER_CONSENT_SERVICE,
+    importPath: SPARTACUS_CORE,
+    deprecatedParams: [
+      {
+        className: STORE,
+        importPath: NGRX_STORE,
+      },
+    ],
+    addParams: [
+      {
+        className: AUTH_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/core/src/user/facade/user-order.service.ts
+  {
+    class: USER_ORDER_SERVICE,
+    importPath: SPARTACUS_CORE,
+    deprecatedParams: [
+      {
+        className: STORE,
+        importPath: NGRX_STORE,
+      },
+    ],
+    addParams: [
+      {
+        className: AUTH_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/core/src/user/facade/user-payment.service.ts
+  {
+    class: USER_PAYMENT_SERVICE,
+    importPath: SPARTACUS_CORE,
+    deprecatedParams: [
+      {
+        className: STORE,
+        importPath: NGRX_STORE,
+      },
+    ],
+    addParams: [
+      {
+        className: AUTH_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/core/src/user/facade/user.service.ts
+  {
+    class: USER_SERVICE,
+    importPath: SPARTACUS_CORE,
+    deprecatedParams: [
+      {
+        className: STORE,
+        importPath: NGRX_STORE,
+      },
+    ],
+    addParams: [
+      {
+        className: AUTH_SERVICE,
         importPath: SPARTACUS_CORE,
       },
     ],
