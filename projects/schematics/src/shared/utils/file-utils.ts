@@ -219,7 +219,7 @@ export function defineProperty(
  *
  * Method performs the following checks on the provided `source` file:
  * - is the file inheriting the provided `constructorDeprecation.class`
- * - is the `constructorDeprecation.class` imported from one the specified `constructorDeprecation.importPath`
+ * - is the `constructorDeprecation.class` imported from the specified `constructorDeprecation.importPath`
  * - is the file importing all the provided `parameterClassTypes` from the expected import path
  * - does the provided file contain a constructor
  * - does the `super()` call exist in the constructor
