@@ -25,6 +25,6 @@ export class PersistFocusService extends BaseFocusService {
   }
 
   getPersistenceGroup(host: HTMLElement, config?: PersistFocusConfig): string {
-    return config.group ? config.group : host.getAttribute(FOCUS_GROUP_ATTR);
+    return config?.group ? config.group : host.getAttribute(FOCUS_GROUP_ATTR);
   }
 }

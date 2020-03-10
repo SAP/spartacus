@@ -85,11 +85,19 @@ describe('PersistFocusService', () => {
       expect(group).toEqual('g');
     });
 
+    it('should return falsy if no config is added', () => {
+      const el: HTMLElement = fixture.debugElement.query(By.css('#a'))
+        .nativeElement;
+
+      const group = service.getPersistenceGroup(el);
+      expect(group).toBeFalsy();
+    });
+
     it('should return persisted group from attr', () => {
       const el: HTMLElement = fixture.debugElement.query(By.css('#b'))
         .nativeElement;
 
-      const group = service.getPersistenceGroup(el, {});
+      const group = service.getPersistenceGroup(el);
       expect(group).toEqual('pg');
     });
 
