@@ -75,6 +75,8 @@ export const CMS_I18N_SERVICE = 'CmsI18nService';
 export const CMS_GUARDS_SERVICE = 'CmsGuardsService';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const PROTECTED_ROUTES_GUARD = 'ProtectedRoutesGuard';
+export const CONSENT_MANAGEMENT_FORM_COMPONENT =
+  'ConsentManagementFormComponent';
 /***** Classes end *****/
 
 /***** Cart removed public api start *****/
@@ -117,3 +119,8 @@ export const COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API =
 export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
 export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 /***** APIs end *****/
+
+/***** Misc start *****/
+export const CSS_DOCS_URL =
+  'https://sap.github.io/cloud-commerce-spartacus-storefront-docs/deprecation-guide/css';
+/***** Misc end *****/
