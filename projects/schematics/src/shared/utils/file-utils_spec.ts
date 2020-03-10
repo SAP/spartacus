@@ -69,6 +69,16 @@ const INHERITANCE_TEST_CLASS = `
       constructor(_store: Store<StateWithUser | StateWithProcess<void>>) {}
     }
 `;
+const INHERITANCE_IMPORT_TEST_CLASS = `
+    import { Store } from '@ngrx/store';
+    import { StateWithProcess, StateWithUser } from '@spartacus/core';
+    import { UserAddressService } from './customer-class';
+    export class InheritedService extends UserAddressService {
+      constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
+        super(store);
+      }
+    }
+`;
 const IMPORT_MISSING_TEST_CLASS = `
     import { StateWithProcess, StateWithUser, UserAddressService } from '@spartacus/core';
     export class InheritingService extends UserAddressService {
@@ -404,13 +414,33 @@ describe('File utils', () => {
       );
 
       expect(
-        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
-          class: 'InheritingService',
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
           deprecatedParams: [],
         })
       ).toEqual(false);
     });
-    it('should return false if the imports condition not satisfied', () => {
+    it('should return false if the inheriting class import condition not satisfied', () => {
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        INHERITANCE_IMPORT_TEST_CLASS,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const deprecatedParams: ClassType[] = [
+        { className: STORE, importPath: NGRX_STORE },
+      ];
+
+      expect(
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
+          deprecatedParams,
+        })
+      ).toEqual(false);
+    });
+    it('should return false if the parameter import condition not satisfied', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
         IMPORT_MISSING_TEST_CLASS,
@@ -422,8 +452,9 @@ describe('File utils', () => {
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
-          class: 'InheritingService',
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
           deprecatedParams,
         })
       ).toEqual(false);
@@ -440,8 +471,9 @@ describe('File utils', () => {
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
-          class: 'InheritingService',
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
           deprecatedParams,
         })
       ).toEqual(false);
@@ -458,8 +490,9 @@ describe('File utils', () => {
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
-          class: 'InheritingService',
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
           deprecatedParams,
         })
       ).toEqual(true);
@@ -477,8 +510,9 @@ describe('File utils', () => {
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
-          class: 'InheritingService',
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
           deprecatedParams,
         })
       ).toEqual(false);
@@ -495,8 +529,9 @@ describe('File utils', () => {
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
-          class: 'InheritingService',
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
           deprecatedParams,
         })
       ).toEqual(false);
@@ -513,8 +548,9 @@ describe('File utils', () => {
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
-          class: 'InheritingService',
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
           deprecatedParams,
         })
       ).toEqual(false);
@@ -531,8 +567,9 @@ describe('File utils', () => {
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, {
-          class: 'InheritingService',
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
           deprecatedParams,
         })
       ).toEqual(false);

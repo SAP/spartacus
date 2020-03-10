@@ -58,6 +58,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/core/src/user/facade/user-address.service.ts
   {
     class: USER_ADDRESS_SERVICE,
+    importPath: SPARTACUS_CORE,
     deprecatedParams: [
       {
         className: STORE,
@@ -74,6 +75,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/core/src/cms/facade/page-meta.service.ts
   {
     class: PAGE_META_SERVICE,
+    importPath: SPARTACUS_CORE,
     deprecatedParams: [
       { className: PAGE_META_RESOLVER, importPath: SPARTACUS_CORE },
       { className: CMS_SERVICE, importPath: SPARTACUS_CORE },
@@ -92,6 +94,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/core/src/checkout/facade/checkout.service.ts
   {
     class: CHECKOUT_SERVICE,
+    importPath: SPARTACUS_CORE,
     deprecatedParams: [
       {
         className: STORE,
@@ -122,6 +125,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/core/src/checkout/facade/checkout-payment.service.ts
   {
     class: CHECKOUT_PAYMENT_SERVICE,
+    importPath: SPARTACUS_CORE,
     deprecatedParams: [
       {
         className: STORE,
@@ -152,6 +156,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/core/src/checkout/facade/checkout-delivery.service.ts
   {
     class: CHECKOUT_DELIVERY_SERVICE,
+    importPath: SPARTACUS_CORE,
     deprecatedParams: [
       {
         className: STORE,
@@ -182,6 +187,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/shared/services/promotion/promotion.service.ts
   {
     class: PROMOTION_SERVICE,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: CART_SERVICE,
@@ -212,6 +218,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/user/checkout-login/checkout-login.component.ts
   {
     class: CHECKOUT_LOGIN_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: FORM_BUILDER,
@@ -242,6 +249,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts
   {
     class: CHECKOUT_DETAILS_SERVICE,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: CHECKOUT_SERVICE,
@@ -276,6 +284,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/checkout/guards/not-checkout-auth-guard.ts
   {
     class: NOT_CHECKOUT_AUTH_GUARD,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: ROUTING_SERVICE,
@@ -306,6 +315,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts
   {
     class: SHIPPING_ADDRESS_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: USER_ADDRESS_SERVICE,
@@ -352,6 +362,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/core/src/checkout/services/checkout-page-meta.resolver.ts
   {
     class: CHECKOUT_PAGE_META_RESOLVER,
+    importPath: SPARTACUS_CORE,
     deprecatedParams: [
       {
         className: CART_SERVICE,
@@ -378,6 +389,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/cart/add-to-cart/add-to-cart.component.ts
   {
     class: ADD_TO_CART_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: CART_SERVICE,
@@ -412,6 +424,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/cart/cart-not-empty.guard.ts
   {
     class: CART_NOT_EMPTY_GUARD,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: CART_SERVICE,
@@ -438,6 +451,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/cart/cart-totals/cart-totals.component.ts
   {
     class: CART_TOTALS_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: CART_SERVICE,
@@ -460,6 +474,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/cart/mini-cart/mini-cart.component.ts
   {
     class: MINI_CART_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: CART_SERVICE,
@@ -482,6 +497,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts
   {
     class: ADDRESS_BOOK_COMPONENT_SERVICE,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: USER_ADDRESS_SERVICE,
@@ -498,6 +514,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   // projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts
   {
     class: CHECKOUT_GUARD,
+    importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
         className: ROUTER,
