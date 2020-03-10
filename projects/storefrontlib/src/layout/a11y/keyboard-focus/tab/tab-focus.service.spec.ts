@@ -32,9 +32,6 @@ class MockSelectFocusUtility {
 
 describe('TabFocusService', () => {
   let service: TabFocusService;
-  let focusUtility: SelectFocusUtility;
-
-  let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
 
   beforeEach(async(() => {
@@ -50,10 +47,7 @@ describe('TabFocusService', () => {
     }).compileComponents();
 
     service = TestBed.inject(TabFocusService);
-    focusUtility = TestBed.inject(SelectFocusUtility);
-
     fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
   }));
 
   it('should inject service', () => {

@@ -23,8 +23,6 @@ class MockComponent {}
 
 describe('SelectFocusUtility', () => {
   let service: SelectFocusUtility;
-
-  let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
 
   beforeEach(async(() => {
@@ -36,7 +34,6 @@ describe('SelectFocusUtility', () => {
     service = TestBed.inject(SelectFocusUtility);
 
     fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
   }));
 
   it('should inject service', () => {

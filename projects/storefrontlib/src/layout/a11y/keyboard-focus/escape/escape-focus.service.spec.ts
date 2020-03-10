@@ -14,8 +14,6 @@ class MockSelectFocusUtility {
 describe('EscapeFocusService', () => {
   let service: EscapeFocusService;
   let focusUtility: SelectFocusUtility;
-
-  let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
 
   beforeEach(async(() => {
@@ -34,7 +32,6 @@ describe('EscapeFocusService', () => {
     focusUtility = TestBed.inject(SelectFocusUtility);
 
     fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
   }));
 
   it('should inject service', () => {

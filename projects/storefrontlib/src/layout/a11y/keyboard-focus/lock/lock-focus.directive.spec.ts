@@ -55,7 +55,6 @@ class MockLockFocusService {
 }
 
 describe('LockFocusDirective', () => {
-  let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
   let service: LockFocusService;
   beforeEach(async(() => {
@@ -70,7 +69,6 @@ describe('LockFocusDirective', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
     service = TestBed.inject(LockFocusService);
   }));
 

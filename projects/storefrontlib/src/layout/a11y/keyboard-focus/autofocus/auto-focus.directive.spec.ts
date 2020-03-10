@@ -39,7 +39,6 @@ class MockAutoFocusService {
 }
 
 describe('AutoFocusDirective', () => {
-  let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
   let service: AutoFocusService;
   beforeEach(async(() => {
@@ -54,7 +53,6 @@ describe('AutoFocusDirective', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
     service = TestBed.inject(AutoFocusService);
   }));
   const event = {

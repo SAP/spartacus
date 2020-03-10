@@ -4,18 +4,11 @@ import { By } from '@angular/platform-browser';
 import { BaseFocusDirective } from './base-focus.directive';
 import { BaseFocusService } from './base-focus.service';
 
-// TODO: test protected!
-
 // create custom mock to test extending from the abstract base
 @Directive({
   selector: '[cxCustomFocus]',
 })
-class CustomFocusDirective extends BaseFocusDirective {
-  // @Input('cxCustomFocus')
-  // set index(value: string) {
-  //   this.service.setTabIndex(this.host, value);
-  // }
-}
+class CustomFocusDirective extends BaseFocusDirective {}
 
 @Component({
   selector: 'cx-host',
@@ -35,7 +28,6 @@ class MockComponent {}
 class MockBaseFocusService {}
 
 describe('BaseFocusDirective', () => {
-  let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
 
   beforeEach(async(() => {
@@ -50,7 +42,6 @@ describe('BaseFocusDirective', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
-    component = fixture.componentInstance;
 
     fixture.detectChanges();
   }));
