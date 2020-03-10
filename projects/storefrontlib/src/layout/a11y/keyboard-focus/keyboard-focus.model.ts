@@ -8,7 +8,10 @@ export const enum MOVE_FOCUS {
   PREV = -1,
 }
 
-export interface BlockFocusConfig {
+// tslint:disable-next-line: no-empty-interface
+export interface BaseFocusConfig {}
+
+export interface BlockFocusConfig extends BaseFocusConfig {
   block?: boolean;
 }
 
@@ -26,7 +29,15 @@ export interface PersistFocusConfig extends BlockFocusConfig {
   group?: string;
 }
 
-export interface AutoFocusConfig extends PersistFocusConfig {
+export interface EscapeFocusConfig extends PersistFocusConfig {
+  focusOnEscape?: boolean;
+  /**
+   * Force an autofocus in case of double-escape
+   */
+  focusOnDoubleEscape?: boolean;
+}
+
+export interface AutoFocusConfig extends EscapeFocusConfig {
   /**
    * Autofocus is enabled by default, and will try to focus an _autofocus_ element.
    * In case the focus is explicitly set to `true`, the first accessible element
@@ -45,19 +56,8 @@ export interface AutoFocusConfig extends PersistFocusConfig {
   skipFocus?: string;
 }
 
-export interface EscapeFocusConfig extends AutoFocusConfig {
-  focusOnEscape?: boolean;
-  /**
-   * Force an autofocus in case of double-escape
-   */
-  focusOnDoubleEscape?: boolean;
-}
-
 export interface TabFocusConfig extends AutoFocusConfig {
-  tab?: boolean | 'scroll';
-
-  // selector
-  childs?: string;
+  tab?: boolean | 'scroll' | string;
 }
 
 /**
@@ -66,7 +66,7 @@ export interface TabFocusConfig extends AutoFocusConfig {
  * "leave" the elements. If the last element is focused, the keyboard will
  * navigate to the first element and visa versa.
  */
-export interface TrapFocusConfig extends EscapeFocusConfig {
+export interface TrapFocusConfig extends TabFocusConfig {
   /** traps the focus */
   trap?: boolean | 'start' | 'end';
 }

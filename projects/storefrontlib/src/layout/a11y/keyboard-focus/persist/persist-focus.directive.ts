@@ -13,7 +13,7 @@ import { PersistFocusService } from './persist-focus.service';
 
 /**
  * Directive for focusable elements that provides persistence of the focussed
- * state. This is useful when a group of focusable elements got refocused or
+ * state. This is useful when a group of focusable elements got refocued or
  * even recreated.
  *
  * The focus state is based on a configured _key_, which can be passed in the
@@ -32,12 +32,14 @@ import { PersistFocusService } from './persist-focus.service';
 })
 export class PersistFocusDirective extends BlockFocusDirective
   implements OnInit, AfterViewInit {
+  protected defaultConfig: PersistFocusConfig = {};
+
   /**
-   * The peristence key can be passed directly or through the `FocusConfig.key`.
+   * The persistence key can be passed directly or through the `FocusConfig.key`.
    * While this could be considered a global key, the likeliness of conflicts
    * is very small since the key is cleared when the focus is changed.
    */
-  @Input('cxPersistFocus') protected config: string | PersistFocusConfig = {};
+  @Input('cxPersistFocus') protected config: PersistFocusConfig = {};
 
   /**
    * The persistance key is maintained in an element attribute for other
@@ -48,7 +50,7 @@ export class PersistFocusDirective extends BlockFocusDirective
 
   /**
    * The persistence key is maintained in a singleton cross the app to ensure we
-   * can reset the focus if the DOM gots rebuild.
+   * can reset the focus if the DOM gets rebuild.
    */
 
   @HostListener('focus', ['$event'])
@@ -65,20 +67,23 @@ export class PersistFocusDirective extends BlockFocusDirective
     protected elementRef: ElementRef,
     protected persistFocusService: PersistFocusService
   ) {
-    super(elementRef);
+    super(elementRef, persistFocusService);
   }
 
   ngOnInit() {
-    if (typeof this.config === 'string') {
+    super.ngOnInit();
+    this.attr = this.key ? this.key : undefined;
+  }
+
+  protected setDefaultConfiguration() {
+    if (typeof this.config === 'string' && this.config !== '') {
       this.config = { key: this.config };
     }
-    this.attr = this.key ? this.key : undefined;
-
-    super.ngOnInit();
+    super.setDefaultConfiguration();
   }
 
   /**
-   * Focus the element explicitely if it was focussed before.
+   * Focus the element explicitly if it was focussed before.
    */
   ngAfterViewInit() {
     if (this.isPersisted) {

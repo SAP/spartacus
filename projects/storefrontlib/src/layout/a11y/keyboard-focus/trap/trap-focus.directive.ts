@@ -1,11 +1,9 @@
 import {
   Directive,
   ElementRef,
-  EventEmitter,
   HostListener,
   Input,
   OnInit,
-  Output,
 } from '@angular/core';
 import { MOVE_FOCUS, TrapFocusConfig } from '../keyboard-focus.model';
 import { TabFocusDirective } from '../tab/tab-focus.directive';
@@ -19,21 +17,25 @@ import { TrapFocusService } from './trap-focus.service';
   selector: '[cxTrapFocus]',
 })
 export class TrapFocusDirective extends TabFocusDirective implements OnInit {
-  /** configuration options to steer the usage */
-  @Input('cxTrapFocus') protected config: TrapFocusConfig;
+  protected defaultConfig: TrapFocusConfig = { trap: true };
 
-  @Output() esc = new EventEmitter<boolean>();
+  /** configuration options to steer the usage */
+  @Input('cxTrapFocus') protected config: TrapFocusConfig = {};
 
   @HostListener('keydown.arrowdown', ['$event'])
   @HostListener('keydown.tab', ['$event'])
   protected handleTrapDown = (event: KeyboardEvent) => {
-    this.moveFocus(event, MOVE_FOCUS.NEXT);
+    if (!!this.config.trap) {
+      this.moveFocus(event, MOVE_FOCUS.NEXT);
+    }
   };
 
   @HostListener('keydown.arrowup', ['$event'])
   @HostListener('keydown.shift.tab', ['$event'])
   protected handleTrapUp = (event: KeyboardEvent) => {
-    this.moveFocus(event, MOVE_FOCUS.PREV);
+    if (!!this.config.trap) {
+      this.moveFocus(event, MOVE_FOCUS.PREV);
+    }
   };
 
   constructor(
@@ -41,10 +43,6 @@ export class TrapFocusDirective extends TabFocusDirective implements OnInit {
     protected service: TrapFocusService
   ) {
     super(elementRef, service);
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
   }
 
   /**
@@ -56,12 +54,12 @@ export class TrapFocusDirective extends TabFocusDirective implements OnInit {
    * @param increment indicates whether the next or previous is focussed.
    */
   protected moveFocus(event: UIEvent, increment: number) {
-    if (this.service.isFocussed(this.host)) {
+    if (this.service.hasFocusableChilds(this.host)) {
       this.service.moveFocus(
         this.host,
-        event as UIEvent,
+        this.config,
         increment,
-        this.config
+        event as UIEvent
       );
     }
   }

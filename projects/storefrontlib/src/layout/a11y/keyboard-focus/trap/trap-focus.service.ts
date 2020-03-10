@@ -7,11 +7,11 @@ import { TabFocusService } from '../tab/tab-focus.service';
 })
 export class TrapFocusService extends TabFocusService {
   /**
-   * Indiccates whether any of the child elements of the host are focusable.
+   * Indicates whether any of the child elements of the host are focusable.
    *
    * @param host `HTMLElement` that is used to query the focusable elements.
    */
-  isFocussed(host: HTMLElement): boolean {
+  hasFocusableChilds(host: HTMLElement): boolean {
     return this.findFocusable(host).length > 0;
   }
 
@@ -22,21 +22,20 @@ export class TrapFocusService extends TabFocusService {
    */
   moveFocus(
     host: HTMLElement,
-    event: UIEvent,
+    config: TrapFocusConfig,
     increment: MOVE_FOCUS,
-    config: TrapFocusConfig
+    event: UIEvent
   ): void {
     const focusable: HTMLElement[] = this.findFocusable(host);
 
     let index = focusable.findIndex(v => v === event.target) + increment;
 
-    const shouldFocus =
+    const shouldMoveFocus =
       (index >= 0 && index < focusable.length) ||
       (index < 0 && this.getTrapStart(config.trap)) ||
       (index >= focusable.length && this.getTrapEnd(config.trap));
 
-    // focus
-    if (shouldFocus) {
+    if (shouldMoveFocus) {
       if (index >= focusable.length) {
         index = 0;
       }
@@ -49,6 +48,7 @@ export class TrapFocusService extends TabFocusService {
 
       const el = focusable[index];
 
+      // TODO: evalute if this is required
       if (el.getAttribute('tabindex') !== '-1') {
         el.focus();
       }

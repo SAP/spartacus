@@ -2,8 +2,8 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
+  HostListener,
   Input,
-  OnInit,
 } from '@angular/core';
 import { EscapeFocusDirective } from '../escape/escape-focus.directive';
 import { AutoFocusConfig } from '../keyboard-focus.model';
@@ -34,9 +34,18 @@ import { AutoFocusService } from './auto-focus.service';
   selector: '[cxAutoFocus]',
 })
 export class AutoFocusDirective extends EscapeFocusDirective
-  implements OnInit, AfterViewInit {
+  implements AfterViewInit {
+  /** The AutoFocusDirective will be using autofocus by default  */
+  protected defaultConfig: AutoFocusConfig = { autofocus: true };
+
   /** configuration options to steer the usage. defaults to true.  */
   @Input('cxAutoFocus') protected config: AutoFocusConfig;
+
+  private isTouchedByMouse = false;
+  @HostListener('mousedown')
+  protected handleMousedown() {
+    this.isTouchedByMouse = true;
+  }
 
   constructor(
     protected elementRef: ElementRef,
@@ -45,60 +54,51 @@ export class AutoFocusDirective extends EscapeFocusDirective
     super(elementRef, autoFocusService);
   }
 
-  ngOnInit() {
-    if (!this.config || this.config === '') {
-      this.config = { autofocus: true };
-    }
-
-    super.ngOnInit();
-  }
   /**
-   * Focus the element explicitely if it was focussed before.
+   * Focus the element explicitly if it was focussed before.
    */
   ngAfterViewInit(): void {
-    // new...
-    // console.log(
-    //   'ngAfterViewInit',
-    //   this.host,
-    //   this.host.getAttribute('tabindex')
-    // );
-    if (this.isAutofocus) {
-      this.host.focus();
-      // if (this.host.getAttribute('tabindex') === undefined) {
-      //   console.log('autofocus set to -1???');
-      //   // this.tabIndex = -1;
-      // }
+    if (this.shouldAutofocus) {
+      this.host.focus({ preventScroll: true });
     }
-
-    if (this.hasPersistedFocus || !this.isAutofocus) {
+    if (!this.shouldAutofocus || this.hasPersistedFocus) {
       super.ngAfterViewInit();
     }
   }
 
   /**
-   * Handles the autofocus of the nested focusable element.
+   * Handles autofocus for the nested focusable element. The first focusable
+   * element will be focussed.
    */
   protected handleFocus(event: KeyboardEvent) {
-    // console.log('auto focus', this.host);
-    if (this.isAutofocus) {
+    if (!this.isTouchedByMouse && this.shouldAutofocus) {
       this.firstFocusable?.focus();
     }
     super.handleFocus(event);
+    this.isTouchedByMouse = false;
   }
 
-  protected get firstFocusable(): HTMLElement {
-    return this.autoFocusService.findfirstFocusable(this.host, this.config);
-  }
-
+  /**
+   * Helper function to get the first focusable child element
+   */
   protected get hasPersistedFocus() {
     return this.autoFocusService.hasPersistedFocus(this.host, this.config);
   }
 
-  // protected get group() {
-  //   return this.persistService.getPersistenceGroup(this.host, this.config);
-  // }
-
-  protected get isAutofocus(): boolean {
+  /**
+   * Helper function to indicate whether we should use autofocus for the
+   * child elements.
+   * We keep this private to not polute the API.
+   */
+  private get shouldAutofocus(): boolean {
     return !!this.config?.autofocus;
+  }
+
+  /**
+   * Helper function to get the first focusable child element.
+   * We keep this private to not polute the API.
+   */
+  private get firstFocusable(): HTMLElement {
+    return this.autoFocusService.findFirstFocusable(this.host, this.config);
   }
 }

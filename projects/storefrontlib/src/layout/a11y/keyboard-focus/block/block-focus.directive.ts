@@ -1,16 +1,19 @@
 import { Directive, Input, OnInit } from '@angular/core';
-import { BaseFocusDirective } from '../base-focus.directive';
+import { BaseFocusDirective } from '../base/base-focus.directive';
 import { BlockFocusConfig } from '../keyboard-focus.model';
 
 @Directive({
   selector: '[cxBlockFocus]',
 })
 export class BlockFocusDirective extends BaseFocusDirective implements OnInit {
-  @Input('cxBlockFocus') protected config: BlockFocusConfig;
+  protected defaultConfig: BlockFocusConfig = { block: true };
+
+  @Input('cxBlockFocus') protected config: BlockFocusConfig = {};
 
   ngOnInit() {
+    super.ngOnInit();
     if (this.config.block) {
-      this.tabIndex = -1;
+      this.tabindex = -1;
     }
   }
 }
