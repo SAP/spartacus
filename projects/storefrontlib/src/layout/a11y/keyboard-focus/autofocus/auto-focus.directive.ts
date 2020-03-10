@@ -72,7 +72,7 @@ export class AutoFocusDirective extends EscapeFocusDirective
    */
   protected handleFocus(event: KeyboardEvent) {
     if (!this.isTouchedByMouse && this.shouldAutofocus) {
-      this.firstFocusable?.focus({ preventScroll: true });
+      this.firstFocusable?.focus();
     }
     super.handleFocus(event);
     this.isTouchedByMouse = false;
