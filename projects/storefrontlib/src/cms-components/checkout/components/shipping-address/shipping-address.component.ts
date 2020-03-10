@@ -34,9 +34,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected userAddressService: UserAddressService,
     protected routingService: RoutingService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
-    private checkoutConfigService: CheckoutConfigService,
-    private activatedRoute: ActivatedRoute,
-    private translation: TranslationService,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected activatedRoute: ActivatedRoute,
+    protected translation: TranslationService,
     protected activeCartService: ActiveCartService
   ) {}
   existingAddresses$: Observable<Address[]>;

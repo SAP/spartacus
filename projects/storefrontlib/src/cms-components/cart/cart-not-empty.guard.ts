@@ -9,7 +9,7 @@ import { filter, map } from 'rxjs/operators';
 })
 export class CartNotEmptyGuard implements CanActivate {
   constructor(
-    private routingService: RoutingService,
+    protected routingService: RoutingService,
     protected activeCartService: ActiveCartService
   ) {}
 

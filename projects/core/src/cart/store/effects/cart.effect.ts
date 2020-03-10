@@ -131,22 +131,22 @@ export class CartEffects {
                 return actions;
               }),
               catchError(error => {
-                const couponExpiredErrors = error.error.errors.filter(
-                  err => err.reason === 'invalid'
-                );
-                if (couponExpiredErrors.length > 0) {
-                  // clear coupons actions just wanted to reload cart again
-                  // no need to do it in refresh or keep that action
-                  // however removing this action will be a breaking change
-                  // remove that action in 2.0 release
-                  // @deprecated since 1.4
-                  return from([
-                    new CartActions.LoadCart({ ...payload }),
-                    new CartActions.ClearExpiredCoupons({}),
-                  ]);
-                }
+                if (error?.error?.errors) {
+                  const couponExpiredErrors = error.error.errors.filter(
+                    err => err.reason === 'invalid'
+                  );
+                  if (couponExpiredErrors.length > 0) {
+                    // clear coupons actions just wanted to reload cart again
+                    // no need to do it in refresh or keep that action
+                    // however removing this action will be a breaking change
+                    // remove that action in 2.0 release
+                    // @deprecated since 1.4
+                    return from([
+                      new CartActions.LoadCart({ ...payload }),
+                      new CartActions.ClearExpiredCoupons({}),
+                    ]);
+                  }
 
-                if (error && error.error && error.error.errors) {
                   const cartNotFoundErrors = error.error.errors.filter(
                     err => err.reason === 'notFound' || 'UnknownResourceError'
                   );

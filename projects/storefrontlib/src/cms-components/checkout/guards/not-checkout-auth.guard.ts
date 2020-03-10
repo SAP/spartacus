@@ -13,8 +13,8 @@ import { map } from 'rxjs/operators';
 })
 export class NotCheckoutAuthGuard implements CanActivate {
   constructor(
-    private routingService: RoutingService,
-    private authService: AuthService,
+    protected routingService: RoutingService,
+    protected authService: AuthService,
     protected activeCartService: ActiveCartService
   ) {}
 

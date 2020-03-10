@@ -21,10 +21,10 @@ export const STORE = 'Store';
 
 export const FORM_BUILDER = 'FormBuilder';
 
+export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
+
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 export const ROUTER = 'Router';
-
-export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
@@ -45,8 +45,8 @@ export const CHECKOUT_SERVICE = 'CheckoutService';
 export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
 export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
 export const CART_DATA_SERVICE = 'CartDataService';
-export const ACTIVE_CART_SERVICE = 'ActiveCartService';
 export const CART_SERVICE = 'CartService';
+export const ACTIVE_CART_SERVICE = 'ActiveCartService';
 export const PROMOTION_SERVICE = 'PromotionService';
 export const ORDER_DETAILS_SERVICE = 'OrderDetailsService';
 export const CHECKOUT_LOGIN_COMPONENT = 'CheckoutLoginComponent';
@@ -78,6 +78,9 @@ export const SELECTIVE_CART_SERVICE = 'SelectiveCartService';
 export const CDS_SPARTACUS_EVENT_SERVICE = 'SpartacusEventService';
 export const CONSENT_SERVICE = 'ConsentService';
 export const CDS_CONFIG = 'CdsConfig';
+export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
+export const CHECKOUT_GUARD = 'CheckoutGuard';
+export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 /***** Classes end *****/
 
 /***** Cart removed public api start *****/
