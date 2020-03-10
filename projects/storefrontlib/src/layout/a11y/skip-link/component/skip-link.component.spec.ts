@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkipLinkComponent } from './skip-link.component';
 import { I18nTestingModule } from '@spartacus/core';
-import { SkipLinkConfig, SkipLink } from '../config/index';
-import { SkipLinkService } from '../service/skip-link.service';
 import { BehaviorSubject } from 'rxjs';
+import { SkipLink, SkipLinkConfig } from '../config/index';
+import { SkipLinkService } from '../service/skip-link.service';
+import { SkipLinkComponent } from './skip-link.component';
 
 const mockSkipLinks: SkipLink[] = [
   {
@@ -79,12 +79,12 @@ describe('SkipLinkComponent', () => {
     expect(buttons.length).toEqual(3);
     expect(spyComponent).not.toHaveBeenCalled();
 
-    const mouseEvent = new MouseEvent('mousedown');
+    // const mouseEvent = new MouseEvent('mousedown');
     buttons[0].click();
-    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0], mouseEvent);
+    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0]);
     buttons[1].click();
-    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[1], mouseEvent);
+    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0]);
     buttons[2].click();
-    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[2], mouseEvent);
+    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0]);
   });
 });

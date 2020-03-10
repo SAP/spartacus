@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkipLinkService } from './skip-link.service';
+import { I18nTestingModule } from '@spartacus/core';
+import { BehaviorSubject } from 'rxjs';
 import {
   SkipLink,
   SkipLinkConfig,
   SkipLinkScrollPosition,
 } from '../config/index';
-import { I18nTestingModule } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { SkipLinkService } from './skip-link.service';
 
 const SKIP_KEY_1 = 'Key1';
 const SKIP_KEY_2 = 'Key2';
@@ -27,7 +27,12 @@ const MockSkipLinkConfig: SkipLinkConfig = {
 };
 
 @Component({
-  template: '<ng-container></ng-container><div></div>',
+  template: `
+    <ng-container></ng-container>
+    <div></div>
+    <a id="skip1">skip 1</a>
+    <a id="skip2">skip 2</a>
+  `,
 })
 class TestContainerComponent {}
 
@@ -90,37 +95,15 @@ describe('SkipLinkService', () => {
 
   it('should scroll to skip link target', () => {
     const nodes = fixture.debugElement.nativeElement.childNodes;
-    const mouseEvent: any = { target: fixture.debugElement.nativeElement };
     service.add(SKIP_KEY_1, nodes[0]);
     service.add(SKIP_KEY_2, nodes[1]);
     fixture.detectChanges();
 
     const skipLink = skipLinks[0];
-    const spy = spyOn(
-      <HTMLElement>skipLink.target.parentNode,
-      'scrollIntoView'
-    );
+    const spy = spyOn(skipLink.target, 'focus');
     expect(spy).not.toHaveBeenCalled();
-    service.scrollToTarget(skipLink.target, skipLink.position, mouseEvent);
-    expect(spy).toHaveBeenCalledWith({});
-    spy.calls.reset();
-  });
-
-  it('should scroll to skip link target with AFTER position', () => {
-    const nodes = fixture.debugElement.nativeElement.childNodes;
-    const mouseEvent: any = { target: fixture.debugElement.nativeElement };
-    service.add(SKIP_KEY_1, nodes[0]);
-    service.add(SKIP_KEY_2, nodes[1]);
-    fixture.detectChanges();
-
-    const skipLink = skipLinks[1];
-    const spy = spyOn(
-      <HTMLElement>skipLink.target.parentNode,
-      'scrollIntoView'
-    );
-    expect(spy).not.toHaveBeenCalled();
-    service.scrollToTarget(skipLink.target, skipLink.position, mouseEvent);
-    expect(spy).toHaveBeenCalledWith({ inline: 'end' });
+    service.scrollToTarget(skipLink);
+    expect(spy).toHaveBeenCalled();
     spy.calls.reset();
   });
 });
