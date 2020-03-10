@@ -68,6 +68,9 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService ';
+
+export const CONSENT_MANAGEMENT_FORM_COMPONENT =
+  'ConsentManagementFormComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
