@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, combineLatest } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
+import { BreadcrumbMeta, Page } from '../../cms/model/page.model';
 import {
+  PageBreadcrumbResolver,
   PageMetaResolver,
   PageTitleResolver,
-  PageBreadcrumbResolver,
 } from '../../cms/page';
-import { PageMeta, Page } from '../../cms/model/page.model';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
-import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductSearchService } from '../../product/facade/product-search.service';
-import { AuthService } from '../../auth/facade/auth.service';
+import { RoutingService } from '../../routing/facade/routing.service';
 
 @Injectable({
   providedIn: 'root',
 })
+// TODO: refactor this name, as it's not product related. The getScore method
+// indicates it is related to coupons.
 export class FindProductPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
   totalAndCode$: Observable<[number, any]> = combineLatest([
@@ -40,23 +42,12 @@ export class FindProductPageMetaResolver extends PageMetaResolver
     this.pageTemplate = 'SearchResultsListPageTemplate';
   }
 
-  /**
-   * @deprecated since version 1.3
-   *
-   * The resolve method is no longer preferred and will be removed with release 2.0.
-   * The caller `PageMetaService` service is improved to expect all individual resolvers
-   * instead, so that the code is easier extensible.
-   */
-  resolve(): Observable<PageMeta> {
-    return combineLatest([this.resolveTitle(), this.resolveBreadcrumbs()]).pipe(
-      map(([title, breadcrumbs]: [string, any[]]) => ({
-        title,
-        breadcrumbs,
-      }))
-    );
-  }
-
-  resolveBreadcrumbs(): Observable<any[]> {
+  resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
+    // TODO: refactor code below, we should observe the home breadcrumb from
+    // the translations and combine this with a stream for the logged in user.
+    // Given that the myaccount is only available to logged in uses, we should
+    // savely load the coupon breadcrumb without checking if the user is logged
+    // in.
     const breadcrumbs = [{ label: 'Home', link: '/' }];
     this.authService.isUserLoggedIn().subscribe(login => {
       if (login)
@@ -78,13 +69,10 @@ export class FindProductPageMetaResolver extends PageMetaResolver
   }
 
   getScore(page: Page): number {
-    let score = 0;
-    if (this.pageType) {
-      score += page.type === this.pageType ? 1 : -1;
-    }
-    if (this.pageTemplate) {
-      score += page.template === this.pageTemplate ? 1 : -1;
-    }
+    let score = super.getScore(page);
+
+    // TODO: refactor the code below, as it will likely miss out on
+    // the async loaded data while the resolver is scored.
     this.routingService
       .getRouterState()
       .pipe(
