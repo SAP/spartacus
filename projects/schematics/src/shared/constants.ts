@@ -68,9 +68,12 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService ';
+
+export const CONSENT_MANAGEMENT_FORM_COMPONENT =
+  'ConsentManagementFormComponent';
 /***** Classes end *****/
 
-/***** Cart removed public api start *****/
+/***** Removed public api start *****/
 export const CART_EFFECTS = 'CartEffects';
 export const WISHLIST_EFFECTS = 'WishlistEffects';
 export const CART_VOUCHER_EFFECTS = 'CartVoucherEffects';
@@ -87,7 +90,10 @@ export const MULTI_CART_META_REDUCERS = 'multiCartMetaReducers';
 export const MULTI_CART_REDUCER_TOKEN = 'multiCartReducerToken';
 export const GET_MULTI_CART_REDUCERS = 'getMultiCartReducers';
 export const MULTI_CART_REDUCER_PROVIDER = 'multiCartReducerProvider';
-/***** Cart removed public api end *****/
+
+export const INITITIALIZE_CONTEXT = 'inititializeContext';
+export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
+/***** Removed public api end *****/
 
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
@@ -110,3 +116,8 @@ export const COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API =
 export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
 export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 /***** APIs end *****/
+
+/***** Misc start *****/
+export const CSS_DOCS_URL =
+  'https://sap.github.io/cloud-commerce-spartacus-storefront-docs/deprecation-guide/css';
+/***** Misc end *****/
