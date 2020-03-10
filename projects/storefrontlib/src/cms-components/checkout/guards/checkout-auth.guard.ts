@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { ActiveCartService, AuthRedirectService, AuthService, RoutingService, User, UserToken } from '@spartacus/core';
+import {
+  ActiveCartService,
+  AuthRedirectService,
+  AuthService,
+  RoutingService,
+  User,
+  UserToken,
+} from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
