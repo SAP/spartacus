@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable, of } from 'rxjs';
 import {
+  ActiveCartService,
   AuthService,
-  CartService,
   RoutingService,
   UrlCommands,
   UserToken,
 } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { NotCheckoutAuthGuard } from './not-checkout-auth.guard';
 
 const mockUserToken = {
@@ -39,7 +39,7 @@ describe('NotCheckoutAuthGuard', () => {
   let guard: NotCheckoutAuthGuard;
   let authService: AuthServiceStub;
   let routing: RoutingService;
-  let cartService: CartService;
+  let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -47,7 +47,7 @@ describe('NotCheckoutAuthGuard', () => {
         { provide: RoutingService, useClass: RoutingServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
         {
-          provide: CartService,
+          provide: ActiveCartService,
           useClass: CartServiceStub,
         },
       ],
@@ -56,7 +56,7 @@ describe('NotCheckoutAuthGuard', () => {
     authService = TestBed.inject(AuthService);
     guard = TestBed.inject(NotCheckoutAuthGuard);
     routing = TestBed.inject(RoutingService);
-    cartService = TestBed.inject(CartService);
+    activeCartService = TestBed.inject(ActiveCartService);
   });
 
   describe('when user is authorized,', () => {
@@ -116,7 +116,7 @@ describe('NotCheckoutAuthGuard', () => {
       spyOn(authService, 'getUserToken').and.returnValue(
         of({ access_token: undefined } as UserToken)
       );
-      spyOn(cartService, 'isGuestCart').and.returnValue(false);
+      spyOn(activeCartService, 'isGuestCart').and.returnValue(false);
     });
 
     it('should return true', () => {

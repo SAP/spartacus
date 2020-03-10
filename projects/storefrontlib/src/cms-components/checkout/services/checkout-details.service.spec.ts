@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  ActiveCartService,
   Address,
   Cart,
-  CartService,
   CheckoutDeliveryService,
   CheckoutDetails,
   CheckoutPaymentService,
@@ -48,7 +48,7 @@ class MockCheckoutPaymentService {
   }
 }
 
-class MockCartService {
+class MockActiveCartService {
   getActive(): Observable<Cart> {
     return of({ code: cartId, guid: 'guid', user: { uid: 'test-user' } });
   }
@@ -62,7 +62,7 @@ describe('CheckoutDetailsService', () => {
   let checkoutService;
   let checkoutDeliveryService;
   let checkoutPaymentService;
-  let cartService;
+  let activeCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -81,8 +81,8 @@ describe('CheckoutDetailsService', () => {
           useClass: MockCheckoutPaymentService,
         },
         {
-          provide: CartService,
-          useClass: MockCartService,
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
       ],
     });
@@ -91,7 +91,7 @@ describe('CheckoutDetailsService', () => {
     checkoutService = TestBed.inject(CheckoutService);
     checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
     checkoutPaymentService = TestBed.inject(CheckoutPaymentService);
-    cartService = TestBed.inject(CartService);
+    activeCartService = TestBed.inject(ActiveCartService);
   });
 
   it('should be created', () => {
@@ -99,7 +99,7 @@ describe('CheckoutDetailsService', () => {
   });
 
   it(`should load details data and call getDeliveryAddress`, () => {
-    spyOn(cartService, 'getActive');
+    spyOn(activeCartService, 'getActive');
     spyOn(checkoutService, 'loadCheckoutDetails');
     spyOn(checkoutDeliveryService, 'getDeliveryAddress').and.returnValue(
       of(mockDetails)
@@ -116,7 +116,7 @@ describe('CheckoutDetailsService', () => {
   });
 
   it(`should load details data and call getSelectedDeliveryModeCode`, () => {
-    spyOn(cartService, 'getActive');
+    spyOn(activeCartService, 'getActive');
     spyOn(checkoutService, 'loadCheckoutDetails');
     spyOn(
       checkoutDeliveryService,
@@ -136,7 +136,7 @@ describe('CheckoutDetailsService', () => {
   });
 
   it(`should load details data and call getPaymentDetails`, () => {
-    spyOn(cartService, 'getActive');
+    spyOn(activeCartService, 'getActive');
     spyOn(checkoutService, 'loadCheckoutDetails');
     spyOn(checkoutPaymentService, 'getPaymentDetails').and.returnValue(
       of(mockDetails)

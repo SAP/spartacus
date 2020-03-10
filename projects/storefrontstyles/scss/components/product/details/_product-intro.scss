@@ -22,6 +22,10 @@
       @include button-reset();
 
       text-decoration: underline;
+
+      &:focus {
+        outline: auto;
+      }
     }
 
     cx-star-rating {
