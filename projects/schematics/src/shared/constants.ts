@@ -3,8 +3,8 @@ export const UTF_8 = 'utf-8';
 /***** Imports start *****/
 export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
-export const ANGULAR_ROUTER = '@angular/router';
 export const ANGULAR_FORMS = '@angular/forms';
+export const ANGULAR_ROUTER = '@angular/router';
 export const RXJS = 'rxjs';
 
 export const SPARTACUS_CORE = '@spartacus/core';
@@ -22,6 +22,8 @@ export const ROUTER = 'Router';
 export const FORM_BUILDER = 'FormBuilder';
 
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
+
+export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
@@ -54,11 +56,21 @@ export const ROUTING_SERVICE = 'RoutingService';
 export const SHIPPING_ADDRESS_COMPONENT = 'ShippingAddressComponent';
 export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const TRANSLATION_SERVICE = 'TranslationService';
+export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
+export const ADD_TO_CART_COMPONENT = 'AddToCartComponent';
+export const MODAL_SERVICE = 'ModalService';
+export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
+export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
+export const CART_TOTALS_COMPONENT = 'CartTotalsComponent';
+export const MINI_CART_COMPONENT = 'MiniCartComponent';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService ';
+
+export const CONSENT_MANAGEMENT_FORM_COMPONENT =
+  'ConsentManagementFormComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -81,6 +93,8 @@ export const MULTI_CART_REDUCER_PROVIDER = 'multiCartReducerProvider';
 
 export const SITE_CONTEXT_PARAMS_PROVIDERS = 'siteContextParamsProviders';
 export const INIT_SITE_CONTEXT_ROUTES_HANDLER = 'initSiteContextRoutesHandler';
+export const INITITIALIZE_CONTEXT = 'inititializeContext';
+export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -104,3 +118,8 @@ export const COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API =
 export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
 export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 /***** APIs end *****/
+
+/***** Misc start *****/
+export const CSS_DOCS_URL =
+  'https://sap.github.io/cloud-commerce-spartacus-storefront-docs/deprecation-guide/css';
+/***** Misc end *****/

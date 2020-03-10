@@ -295,12 +295,7 @@ function updateIndexFile(
 
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const possibleProjectFiles = ['/angular.json', '/.angular.json'];
-    const project = getProjectFromWorkspace(
-      tree,
-      options,
-      possibleProjectFiles
-    );
+    const project = getProjectFromWorkspace(tree, options);
 
     return chain([
       addPackageJsonDependencies(),

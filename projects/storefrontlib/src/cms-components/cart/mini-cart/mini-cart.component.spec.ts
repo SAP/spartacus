@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartService,
   Cart,
-  CartService,
   CmsComponent,
   CmsMiniCartComponent,
   I18nTestingModule,
@@ -59,7 +59,7 @@ const mockComponentData: CmsMiniCartComponent = {
 
 const activeCart = new ReplaySubject<Cart>();
 
-class MockCartService {
+class MockActiveCartService {
   getActive(): Observable<Cart> {
     return activeCart.asObservable();
   }
@@ -79,7 +79,7 @@ describe('MiniCartComponent', () => {
       declarations: [MiniCartComponent, MockUrlPipe, MockCxIconComponent],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
       ],
     }).compileComponents();
   }));
