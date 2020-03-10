@@ -11,28 +11,48 @@
   }
 }
 
-.invalid-feedback {
-  text-align: left;
-  &::before {
-    content: '!';
-    color: var(--cx-color-inverse);
-    text-align: center;
-    border-radius: 50%;
-    display: inline-block;
+input.ng-invalid {
+  &.ng-dirty,
+  &.ng-touched {
+    border-color: red;
+  }
+}
+
+.form-error {
+  margin: var(--cx-margin, 6px 0);
+  padding: var(--cx-padding, 0 0 0 25px);
+  position: relative;
+  word-break: break-word;
+
+  &::before,
+  &::after {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
     width: 20px;
     height: 20px;
-    background-color: var(--cx-color-danger);
-    margin-right: 6px;
-    font-weight: var(--cx-font-weight-bold);
   }
+
+  &::before {
+    content: '';
+    background-color: var(--cx-color-danger);
+    border-radius: 50%;
+  }
+
+  &::after {
+    content: '!';
+    color: var(--cx-color-inverse);
+    font-weight: var(--cx-font-weight-bold);
+    text-align: center;
+    line-height: 20px;
+  }
+
   &:focus {
     box-shadow: none;
     -webkit-box-shadow: none;
   }
-}
-
-.is-invalid {
-  color: var(--cx-color-danger);
 }
 
 input[type='checkbox'],

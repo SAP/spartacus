@@ -22,4 +22,29 @@ export class FormUtils {
     const control: AbstractControl = form.get(formControlName);
     return control.invalid && (submitted || (control.touched && control.dirty));
   }
+
+  /**
+   * Marks all form fields as 'touched'
+   * Helpful when checking empty or invalid forms
+   * @param form Form with fields to mark
+   */
+  static markFormAsTouched(form: FormGroup): void {
+    Object.keys(form.controls).forEach(controlName => {
+      form.get(controlName).markAsTouched();
+    });
+  }
+
+  /**
+   * Prefills form field with passed value
+   * @param form Form with field to prefill
+   * @param controlName Field name to prefill
+   * @param value Value of the filled
+   */
+  static prefillForm(form: FormGroup, controlName: string, value: string): void {
+    form.patchValue({
+      [controlName]: value,
+    });
+
+    form.get(controlName).markAsTouched(); // this action will check field validity on load
+  }
 }

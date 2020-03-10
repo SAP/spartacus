@@ -9,8 +9,12 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 import { CheckoutConfigService } from '../../checkout/services/checkout-config.service';
+import {
+  CustomFormValidators,
+  FormUtils,
+  FormErrorsService,
+} from '../../../shared/index';
 
 @Component({
   selector: 'cx-login-form',
@@ -28,7 +32,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     private authRedirectService: AuthRedirectService,
     private winRef: WindowRef,
     private activatedRoute: ActivatedRoute,
-    private checkoutConfigService: CheckoutConfigService
+    private checkoutConfigService: CheckoutConfigService,
+    protected formErrorsService: FormErrorsService
   ) {}
 
   ngOnInit(): void {
@@ -51,20 +56,27 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         this.winRef.nativeWindow.history.state;
 
       if (routeState && routeState['newUid'] && routeState['newUid'].length) {
-        this.prefillForm('userId', routeState['newUid']);
+        FormUtils.prefillForm(this.form, 'userId', routeState['newUid']);
       }
     }
   }
 
-  login(): void {
+  submitForm(): void {
     if (this.form.valid) {
-      this.submitLogin();
+      this.login();
     } else {
-      this.markFormAsTouched();
+      FormUtils.markFormAsTouched(this.form);
+      this.formErrorsService.showFormErrorGlobalMessage();
     }
   }
 
-  private submitLogin(): void {
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+  }
+
+  private login(): void {
     const { userId, password } = this.form.controls;
     this.auth.authorize(
       userId.value.toLowerCase(), // backend accepts lowercase emails only
@@ -79,25 +91,5 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         }
       });
     }
-  }
-
-  private markFormAsTouched(): void {
-    Object.keys(this.form.controls).forEach(key => {
-      this.form.controls[key].markAsTouched();
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-  }
-
-  private prefillForm(field: string, value: string): void {
-    this.form.patchValue({
-      [field]: value,
-    });
-
-    this.form.get(field).markAsTouched(); // this action will check field validity on load
   }
 }

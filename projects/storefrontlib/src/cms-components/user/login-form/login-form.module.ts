@@ -10,6 +10,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { LoginFormComponent } from './login-form.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { LoginFormComponent } from './login-form.component';
       },
     }),
     I18nModule,
+    FormErrorsModule,
   ],
   declarations: [LoginFormComponent],
   exports: [LoginFormComponent],

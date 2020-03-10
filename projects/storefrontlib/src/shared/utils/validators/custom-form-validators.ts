@@ -7,24 +7,33 @@ export class CustomFormValidators {
   ): ValidationErrors | null {
     const email = control.value as string;
 
-    return email.match('[.][a-zA-Z]+$') ? null : { InvalidEmail: true };
+    return !email.length || email.match('[.][a-zA-Z]+$')
+      ? null
+      : { cxInvalidEmail: true };
   }
 
   static emailValidator(control: AbstractControl): ValidationErrors | null {
     const email = control.value as string;
 
-    return email.match(EMAIL_PATTERN) ? null : { InvalidEmail: true };
+    return !email.length || email.match(EMAIL_PATTERN)
+      ? null
+      : { cxInvalidEmail: true };
   }
 
   static passwordValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.value as string;
-    return password.match(PASSWORD_PATTERN) ? null : { InvalidPassword: true };
+
+    return !password.length || password.match(PASSWORD_PATTERN)
+      ? null
+      : { cxInvalidPassword: true };
   }
 
-  static matchPassword(control: AbstractControl): { NotEqual: boolean } {
-    if (control.get('password').value !== control.get('passwordconf').value) {
-      return { NotEqual: true };
-    }
-    return null;
+  static matchPassword(control: AbstractControl): ValidationErrors | null {
+    const pass1 = control?.get('password')?.value;
+    const pass2 = control?.get('passwordconf')?.value;
+
+    return (!pass1.length && !pass2.length) || pass1 === pass2
+      ? null
+      : { cxPasswordsNotEqual: true };
   }
 }
