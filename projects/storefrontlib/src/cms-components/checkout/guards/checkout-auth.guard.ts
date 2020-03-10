@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import {
+  ActiveCartService,
   AuthRedirectService,
   AuthService,
-  CartService,
   RoutingService,
   User,
   UserToken,
@@ -17,21 +17,21 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
 })
 export class CheckoutAuthGuard implements CanActivate {
   constructor(
-    private routingService: RoutingService,
-    private authService: AuthService,
-    private authRedirectService: AuthRedirectService,
-    private cartService: CartService,
-    private checkoutConfigService: CheckoutConfigService
+    protected routingService: RoutingService,
+    protected authService: AuthService,
+    protected authRedirectService: AuthRedirectService,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   canActivate(): Observable<boolean> {
     return combineLatest([
       this.authService.getUserToken(),
-      this.cartService.getAssignedUser(),
+      this.activeCartService.getAssignedUser(),
     ]).pipe(
       map(([token, user]: [UserToken, User]) => {
         if (!token.access_token) {
-          if (this.cartService.isGuestCart()) {
+          if (this.activeCartService.isGuestCart()) {
             return Boolean(user);
           }
           if (this.checkoutConfigService.isGuestCheckout()) {

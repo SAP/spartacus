@@ -9,9 +9,7 @@ import {
   PageRobotsMeta,
 } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
-import { Cart } from '../../model/cart.model';
 import { PageType } from '../../model/cms.model';
-import { CartService } from '../facade/cart.service';
 import { CartPageMetaResolver } from './cart-page-meta.resolver';
 
 const mockContentPage: Page = {
@@ -21,19 +19,9 @@ const mockContentPage: Page = {
   slots: {},
 };
 
-const mockCart: Cart = {
-  code: '1234',
-};
-
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of(mockContentPage);
-  }
-}
-
-class MockCartService {
-  getActive(): Observable<Cart> {
-    return of(mockCart);
   }
 }
 
@@ -45,7 +33,6 @@ describe('CartPageMetaResolver', () => {
       imports: [I18nTestingModule],
       providers: [
         PageMetaService,
-        { provide: CartService, useClass: MockCartService },
         { provide: CmsService, useClass: MockCmsService },
         {
           provide: PageMetaResolver,

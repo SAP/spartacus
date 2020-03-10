@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Cart, CartService, ConsentService } from '@spartacus/core';
+import { ActiveCartService, Cart, ConsentService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
@@ -10,10 +10,10 @@ import { CdsConfig } from '../../config/cds-config';
 })
 export class SpartacusEventService {
   constructor(
-    private cartService: CartService,
-    private consentService: ConsentService,
-    private router: Router,
-    private config: CdsConfig
+    protected consentService: ConsentService,
+    protected router: Router,
+    protected config: CdsConfig,
+    protected activeCartService: ActiveCartService
   ) {}
 
   navigated(): Observable<boolean> {
@@ -43,7 +43,7 @@ export class SpartacusEventService {
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
   cartChanged(): Observable<{ cart: Cart }> {
-    return this.cartService.getActive().pipe(
+    return this.activeCartService.getActive().pipe(
       skipWhile(cart => !Boolean(cart.entries) || cart.entries.length === 0),
       map(cart => ({
         cart,

@@ -12,7 +12,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cart-coupon',
@@ -22,11 +22,9 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;
   form: FormGroup;
   cartIsLoading$: Observable<boolean>;
-  submitDisabled$: Observable<boolean>;
   cart$: Observable<Cart>;
   cartId: string;
   applicableCoupons: CustomerCoupon[];
-  filteredCoupons: CustomerCoupon[];
 
   private ignoreCloseEvent = false;
 
@@ -117,20 +115,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       couponCode: ['', [Validators.required]],
     });
 
-    this.submitDisabled$ = combineLatest([
-      this.cartIsLoading$,
-      this.form.valueChanges.pipe(
-        startWith(true),
-        map(() => this.form.valid)
-      ),
-      this.cartVoucherService.getAddVoucherResultLoading(),
-    ]).pipe(
-      map(
-        ([cartIsLoading, btnEnabled, addVoucherIsLoading]) =>
-          cartIsLoading || !btnEnabled || addVoucherIsLoading
-      )
-    );
-
     this.subscription.add(
       this.cartVoucherService
         .getAddVoucherResultSuccess()
@@ -174,30 +158,18 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         );
       });
     }
-    this.filteredCoupons = this.applicableCoupons;
   }
 
   applyVoucher(): void {
+    if (!this.form.valid) {
+      this.form.markAsTouched();
+      return;
+    }
     this.cartVoucherService.addVoucher(this.form.value.couponCode, this.cartId);
   }
   applyCustomerCoupon(couponId: string): void {
     this.cartVoucherService.addVoucher(couponId, this.cartId);
     this.couponBoxIsActive = false;
-  }
-
-  filter(query: string): void {
-    const filterValue = query.toLowerCase();
-
-    this.filteredCoupons = this.applicableCoupons.filter(
-      coupon => coupon.couponId.toLowerCase().indexOf(filterValue) > -1
-    );
-  }
-
-  open(): void {
-    this.filteredCoupons = this.applicableCoupons;
-    if (this.applicableCoupons.length > 0) {
-      this.couponBoxIsActive = true;
-    }
   }
 
   close(event: UIEvent): void {
