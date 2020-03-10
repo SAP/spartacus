@@ -10,23 +10,31 @@ import {
   AUTH_SERVICE,
   CART_DATA_SERVICE,
   CART_NOT_EMPTY_GUARD,
+  CART_PAGE_LAYOUT_HANDLER,
   CART_SERVICE,
   CART_TOTALS_COMPONENT,
+  CDS_CONFIG,
+  CDS_SPARTACUS_EVENT_SERVICE,
   CHANGE_DETECTOR_REF,
+  CHECKOUT_AUTH_GUARD,
   CHECKOUT_CONFIG,
   CHECKOUT_CONFIG_SERVICE,
   CHECKOUT_DELIVERY_SERVICE,
   CHECKOUT_DETAILS_SERVICE,
   CHECKOUT_GUARD,
   CHECKOUT_LOGIN_COMPONENT,
+  CHECKOUT_ORDER_SUMMARY_COMPONENT,
   CHECKOUT_PAGE_META_RESOLVER,
   CHECKOUT_PAYMENT_SERVICE,
+  CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT,
   CHECKOUT_SERVICE,
   CMS_SERVICE,
+  CONSENT_SERVICE,
   CURRENT_PRODUCT_SERVICE,
   EXPRESS_CHECKOUT_SERVICE,
   FEATURE_CONFIG_SERVICE,
   FORM_BUILDER,
+  GLOBAL_MESSAGE_SERVICE,
   MINI_CART_COMPONENT,
   MODAL_SERVICE,
   NGRX_STORE,
@@ -34,16 +42,20 @@ import {
   ORDER_DETAILS_SERVICE,
   PAGE_META_RESOLVER,
   PAGE_META_SERVICE,
+  PAYMENT_METHOD_COMPONENT,
   PROMOTION_SERVICE,
   ROUTER,
   ROUTING_CONFIG_SERVICE,
   ROUTING_SERVICE,
+  SELECTIVE_CART_SERVICE,
   SHIPPING_ADDRESS_COMPONENT,
+  SPARTACUS_CDS,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
   STORE,
   TRANSLATION_SERVICE,
   USER_ADDRESS_SERVICE,
+  USER_PAYMENT_SERVICE,
 } from '../../shared/constants';
 import { ConstructorDeprecation } from '../../shared/utils/file-utils';
 
@@ -537,6 +549,214 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
         className: EXPRESS_CHECKOUT_SERVICE,
         importPath: SPARTACUS_STOREFRONTLIB,
       },
+      {
+        className: ACTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/storefrontlib/src/cms-components/checkout/components/checkout-order-summary/checkout-order-summary.component.ts
+  {
+    class: CHECKOUT_ORDER_SUMMARY_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    deprecatedParams: [
+      {
+        className: CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    removeParams: [
+      {
+        className: CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    addParams: [
+      {
+        className: ACTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/storefrontlib/src/cms-components/checkout/components/checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.ts
+  {
+    class: CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    deprecatedParams: [
+      {
+        className: CHECKOUT_CONFIG,
+        importPath: SPARTACUS_STOREFRONTLIB,
+      },
+      {
+        className: ROUTING_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: ROUTING_CONFIG_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    removeParams: [
+      {
+        className: CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    addParams: [
+      {
+        className: ACTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts
+  {
+    class: PAYMENT_METHOD_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    deprecatedParams: [
+      {
+        className: USER_PAYMENT_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: CHECKOUT_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: CHECKOUT_DELIVERY_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: CHECKOUT_PAYMENT_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: GLOBAL_MESSAGE_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: ROUTING_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: CHECKOUT_CONFIG_SERVICE,
+        importPath: SPARTACUS_STOREFRONTLIB,
+      },
+      {
+        className: ACTIVATED_ROUTE,
+        importPath: ANGULAR_ROUTER,
+      },
+      {
+        className: TRANSLATION_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    addParams: [
+      {
+        className: ACTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts
+  {
+    class: CHECKOUT_AUTH_GUARD,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    deprecatedParams: [
+      {
+        className: ROUTING_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: AUTH_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: AUTH_REDIRECT_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: CHECKOUT_CONFIG_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    removeParams: [
+      {
+        className: CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    addParams: [
+      {
+        className: ACTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/storefrontlib/cms-components/cart/cart-page-layout-handler.ts
+  {
+    class: CART_PAGE_LAYOUT_HANDLER,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    deprecatedParams: [
+      {
+        className: CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    removeParams: [
+      {
+        className: CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    addParams: [
+      {
+        className: ACTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: SELECTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+  },
+  // projects/cds/src/profiletag/services/spartacus-event.service.ts
+  {
+    class: CDS_SPARTACUS_EVENT_SERVICE,
+    importPath: SPARTACUS_CDS,
+    deprecatedParams: [
+      {
+        className: CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: CONSENT_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: ROUTER,
+        importPath: ANGULAR_ROUTER,
+      },
+      {
+        className: CDS_CONFIG,
+        importPath: SPARTACUS_CDS,
+      },
+    ],
+    removeParams: [
+      {
+        className: CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    addParams: [
       {
         className: ACTIVE_CART_SERVICE,
         importPath: SPARTACUS_CORE,
