@@ -22,10 +22,10 @@ export class SkipLinkService {
     if (found) {
       const existing: SkipLink[] = this.skipLinks$.value;
       existing.splice(this.getSkipLinkIndexInArray(key), 0, {
-        target: target,
+        target,
         i18nKey: found.i18nKey,
         position: found.position,
-        key: key,
+        key,
       });
       this.skipLinks$.next(existing);
     }

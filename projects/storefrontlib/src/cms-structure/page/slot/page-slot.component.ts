@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -72,13 +71,6 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   );
 
   private subscription = new Subscription();
-
-  @HostListener('focus', ['$event'])
-  handleFocus() {
-    this.focusService
-      .findfirstFocusable(this.hostElement.nativeElement)
-      ?.focus();
-  }
 
   constructor(
     cmsService: CmsService,
