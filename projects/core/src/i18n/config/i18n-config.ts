@@ -23,11 +23,6 @@ export abstract class I18nConfig {
        */
 
       loadPath?: string;
-
-      /**
-       * @deprecated since 1.4 - this property can be removed since it's not used and we are using Angular HttpClient for loading JSON translations
-       */
-      crossDomain?: boolean;
     };
 
     /**
