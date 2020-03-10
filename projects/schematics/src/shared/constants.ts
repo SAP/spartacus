@@ -79,7 +79,7 @@ export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
 /***** Classes end *****/
 
-/***** Cart removed public api start *****/
+/***** Removed public api start *****/
 export const CART_EFFECTS = 'CartEffects';
 export const WISHLIST_EFFECTS = 'WishlistEffects';
 export const CART_VOUCHER_EFFECTS = 'CartVoucherEffects';
@@ -96,7 +96,10 @@ export const MULTI_CART_META_REDUCERS = 'multiCartMetaReducers';
 export const MULTI_CART_REDUCER_TOKEN = 'multiCartReducerToken';
 export const GET_MULTI_CART_REDUCERS = 'getMultiCartReducers';
 export const MULTI_CART_REDUCER_PROVIDER = 'multiCartReducerProvider';
-/***** Cart removed public api end *****/
+
+export const INITITIALIZE_CONTEXT = 'inititializeContext';
+export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
+/***** Removed public api end *****/
 
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
