@@ -14,7 +14,14 @@ export const CART_UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
 
 export class CartAddEntry extends StateLoaderActions.LoaderLoadAction {
   readonly type = CART_ADD_ENTRY;
-  constructor(public payload: any) {
+  constructor(
+    public payload: {
+      cartId: string;
+      userId: string;
+      productCode: string;
+      quantity: number;
+    }
+  ) {
     super(CART_DATA);
   }
 }
