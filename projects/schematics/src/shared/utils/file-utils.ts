@@ -16,6 +16,7 @@ import {
   ReplaceChange,
 } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
+import { TODO_SPARTACUS, UTF_8 } from '../constants';
 
 export enum InsertDirection {
   LEFT,
@@ -25,6 +26,18 @@ export enum InsertDirection {
 export interface ClassType {
   className: string;
   importPath: string;
+}
+
+export interface ComponentProperty {
+  /** property name */
+  name: string;
+  /** comment describing the change to the property */
+  comment: string;
+}
+export interface ComponentData {
+  selector: string;
+  componentClassName: string;
+  removedProperties: ComponentProperty[];
 }
 
 export interface ConstructorDeprecation {
@@ -45,7 +58,7 @@ export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   if (!buffer) {
     throw new SchematicsException(`Could not read file (${path}).`);
   }
-  const content = buffer.toString();
+  const content = buffer.toString(UTF_8);
   const source = ts.createSourceFile(
     path,
     content,
@@ -97,6 +110,50 @@ export function getPathResultsForFile(
   });
 
   return results;
+}
+
+export function getAllHtmlFiles(tree: Tree, directory?: string): string[] {
+  return getPathResultsForFile(tree, '.html', directory);
+}
+
+export function insertHtmlComment(
+  content: string,
+  componentSelector: string,
+  componentProperty: ComponentProperty
+): string | undefined {
+  const selector = buildSelector(componentSelector);
+  const comment = buildHtmlComment(componentProperty.comment);
+
+  let index: number | undefined = 0;
+  let newContent = content;
+  while (true) {
+    index = getTextPosition(newContent, selector, index);
+    if (index == null) {
+      break;
+    }
+
+    newContent = newContent.slice(0, index) + comment + newContent.slice(index);
+    index += comment.length + componentSelector.length;
+  }
+
+  return newContent;
+}
+
+function getTextPosition(
+  content: string,
+  text: string,
+  startingPosition = 0
+): number | undefined {
+  const index = content.indexOf(text, startingPosition);
+  return index !== -1 ? index : undefined;
+}
+
+function buildSelector(selector: string): string {
+  return `<${selector}`;
+}
+
+function buildHtmlComment(commentText: string): string {
+  return `<!-- ${commentText} -->`;
 }
 
 export function commitChanges(
@@ -702,6 +759,10 @@ export function injectService(
   toInsert += `${propertyName}: ${strings.classify(serviceName)}`;
 
   return new InsertChange(path, position, toInsert);
+}
+
+export function buildSpartacusComment(comment: string): string {
+  return `// ${TODO_SPARTACUS} ${comment}\n`;
 }
 
 export function insertCommentAboveIdentifier(

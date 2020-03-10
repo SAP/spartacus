@@ -275,26 +275,6 @@ const ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS = `
     }
 `;
 
-const ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS = `
-    import { Store } from '@ngrx/store';
-    import { StateWithCheckout, CheckoutService, CartDataService } from '@spartacus/core';
-    export class InheritingService extends CheckoutService {
-      constructor(store: Store<StateWithCheckout>, cartDataService: CartDataService) {
-        super(store, cartDataService);
-      }
-    }
-`;
-
-const ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS = `
-    import { Store } from '@ngrx/store';
-    import { StateWithCheckout, CheckoutService,  AuthService, ActiveCartService } from '@spartacus/core';
-    export class InheritingService extends CheckoutService {
-      constructor(store: Store<StateWithCheckout> , authService: AuthService, activeCartService: ActiveCartService) {
-        super(store , authService, activeCartService);
-      }
-    }
-`;
-
 describe('constructor migrations', () => {
   let host = new TempScopedNodeJsSyncHost();
   let appTree = Tree.empty() as UnitTestTree;

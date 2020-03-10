@@ -266,12 +266,7 @@ function modifyMainServerTSFile() {
 
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const possibleProjectFiles = ['/angular.json', '/.angular.json'];
-    const project = getProjectFromWorkspace(
-      tree,
-      options,
-      possibleProjectFiles
-    );
+    const project = getProjectFromWorkspace(tree, options);
     const templates = provideServerAndWebpackServerConfigs(options);
 
     return chain([
