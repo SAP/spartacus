@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
@@ -18,7 +18,7 @@ import { CmsRoutesService } from '../services/cms-routes.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CmsPageGuardService implements CanActivate {
+export class CmsPageGuardService {
   constructor(
     private cmsService: CmsService,
     private cmsRoutes: CmsRoutesService,
