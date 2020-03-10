@@ -1,5 +1,6 @@
 import { user } from '../sample-data/checkout-flow';
 import { waitForPage } from './checkout-flow';
+import { createSpecificProductQuery } from './product-search';
 
 export const productCode1 = '300938';
 export const couponCode1 = 'CouponForCart';
@@ -14,9 +15,16 @@ export const myCouponCode1 = 'springfestival';
 export const myCouponCode2 = 'midautumn';
 
 export function addProductToCart(productCode: string) {
+  createSpecificProductQuery(productCode, 'productCode_query');
+
   cy.get('cx-searchbox input')
     .clear({ force: true })
-    .type(`${productCode}{enter}`, { force: true });
+    .type(`${productCode}`, { force: true })
+    .type('{enter}', { force: true });
+
+  cy.wait('@productCode_query')
+    .its('status')
+    .should('eq', 200);
 
   cy.get('cx-add-to-cart')
     .getAllByText(/Add To Cart/i)
