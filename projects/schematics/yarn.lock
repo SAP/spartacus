@@ -29,10 +29,10 @@
   optionalDependencies:
     parse5 "^5.0.0"
 
-"@angular/localize@^9.0.0":
-  version "9.0.3"
-  resolved "https://registry.yarnpkg.com/@angular/localize/-/localize-9.0.3.tgz#b91233ec65abb5462f53447be9847cef075136df"
-  integrity sha512-n2PL3anfo7KAGfR3s4NpbazkkmHZVNgCd76h87qJmVLjLnVbLnaNHjKDM5b2zppp5b917+Y0u0t5lBVPpKw11g==
+"@angular/localize@^9.0.3":
+  version "9.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/localize/-/localize-9.0.5.tgz#08101b2c777399786277d0be5ee5e3c977cf8bdb"
+  integrity sha512-BABEY9UeFPOFZcLxLXPnQnJwSHbIQKTtjYv7pHqB9O30wZ8XeExhTzb/7GXxweudlOk0w2QGRxUVMSpqR+3Txw==
   dependencies:
     "@babel/core" "7.8.3"
     glob "7.1.2"
@@ -165,10 +165,17 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@nguniversal/express-engine@^8.1.1":
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/@nguniversal/express-engine/-/express-engine-8.1.1.tgz#253f2a484764cf183a679847a0c25c52d5b25ab9"
-  integrity sha512-LKfNnKb1BU1IyI/U7LcDgU744ptrn7fTYb3QqHAlGaozHUNRjXpNuBdkrcAS5+8UAhRlTllpSt1c+TmY2/tomA==
+"@nguniversal/common@9.0.1":
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/@nguniversal/common/-/common-9.0.1.tgz#f200003ef5e98d7bf8d54d43b2d64b163d5042da"
+  integrity sha512-AprW7oREmywDudrBI1auy4lB6AQFKHLeebdY7vAXjviIEzBDm9Zd1Z59SqFtp+H4Pce8R7tQ3zoXY1n7azCigg==
+
+"@nguniversal/express-engine@^9.0.1":
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/@nguniversal/express-engine/-/express-engine-9.0.1.tgz#109078bda23093dbdfec7a722c360a4e394931fb"
+  integrity sha512-uICu/CVrKuRYKUhpn91tRoERRhorDH038zyUsQt3yqsKV5BXyclr+H0lHh94dXyi+W0RKmksvzGNshwc4IWnUA==
+  dependencies:
+    "@nguniversal/common" "9.0.1"
 
 "@schematics/angular@9.0.3", "@schematics/angular@^9.0.0":
   version "9.0.3"
@@ -192,10 +199,10 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/jasmine@^3.4.0":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.4.0.tgz#018c56db42400c092aae47de21f710b7f04e4b06"
-  integrity sha512-6pUnBg6DuSB55xnxJ5+gW9JOkFrPsXkYAuqqEE8oyrpgDiPQ+TZ+1Zt4S+CHcRJcxyNYXeIXG4vHSzdF6y9Uvw==
+"@types/jasmine@^3.5.0":
+  version "3.5.8"
+  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.5.8.tgz#448e81df1693943b09466ad33d460dc427dd22fb"
+  integrity sha512-q/L59BjgE6VJtuIM4iDEEwT7xdSWVHMqC+td9sft5RfgHpDZ4Gdn0vLV59wKZ7PjGuVLCL7aNCdoiw5u6ZKSgA==
 
 "@types/minimatch@*":
   version "3.0.3"
@@ -207,10 +214,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.0.tgz#b417deda18cf8400f278733499ad5547ed1abec4"
   integrity sha512-GnZbirvmqZUzMgkFn70c74OQpTTUcCzlhQliTzYjQMqg+hVKcDnxdL19Ne3UdYzdMA/+W3eb646FWn/ZaT1NfQ==
 
-"@types/node@^10.14.19":
-  version "10.14.19"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.19.tgz#f52742c7834a815dedf66edfc8a51547e2a67342"
-  integrity sha512-j6Sqt38ssdMKutXBUuAcmWF8QtHW1Fwz/mz4Y+Wd9mzpBiVFirjpNQf363hG5itkG+yGaD+oiLyb50HxJ36l9Q==
+"@types/node@^12.11.1":
+  version "12.12.29"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.29.tgz#46275f028b4e463b9ac5fefc1d08bc66cc193f25"
+  integrity sha512-yo8Qz0ygADGFptISDj3pOC9wXfln/5pQaN/ysDIzOaAWXt73cNHmtEC8zSO2Y+kse/txmwIAJzkYZ5fooaS5DQ==
 
 "@types/shelljs@^0.8.6":
   version "0.8.6"
