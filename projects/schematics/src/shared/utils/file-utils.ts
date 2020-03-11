@@ -804,7 +804,7 @@ export function insertCommentAboveIdentifier(
     changes.push(
       new InsertChange(
         sourcePath,
-        getLineStartFromTSFile(source, n.getFullStart()),
+        getLineStartFromTSFile(source, n.getStart()),
         comment
       )
     )
@@ -954,9 +954,7 @@ function getLineStartFromTSFile(
   position: number
 ): number {
   const lac = source.getLineAndCharacterOfPosition(position);
-  const lineStart = source.getPositionOfLineAndCharacter(lac.line, 0);
-
-  return lineStart;
+  return source.getPositionOfLineAndCharacter(lac.line, 0);
 }
 
 // as this is copied from https://github.com/angular/angular-cli/blob/master/packages/schematics/angular/app-shell/index.ts#L211, no need to test Angular's code
