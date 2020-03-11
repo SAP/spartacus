@@ -11,13 +11,13 @@ import {
 } from '@schematics/angular/utility/ast-utils';
 import * as shx from 'shelljs';
 import * as ts from 'typescript';
-import { AUTH_SERVICE, SPARTACUS_CORE, STORE } from '../../shared/constants';
+import { AUTH_SERVICE, SPARTACUS_CORE, STORE } from '../../../shared/constants';
 import {
   getConstructor,
   getParams,
   runMigration,
   writeFile,
-} from '../../shared/utils/test-utils';
+} from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-deprecations-03';
 const NOT_INHERITING_SPARTACUS_CLASS = `
@@ -285,7 +285,7 @@ describe('constructor migrations', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../migrations.json')
+      require.resolve('../../migrations.json')
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
