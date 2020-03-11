@@ -27,12 +27,27 @@ export const Config = new InjectionToken('Configuration');
 export const ConfigChunk = new InjectionToken('ConfigurationChunk');
 
 /**
+ * Config chunk token, can be used to provide configuration chunk and contribute to the global configuration object.
+ * Should not be used directly, use `provideConfig` or import `ConfigModule.withConfig` instead.
+ */
+export const DefaultConfigChunk = new InjectionToken(
+  'DefaultConfigurationChunk'
+);
+
+/**
  * Helper function to provide configuration chunk using ConfigChunk token
  *
  * @param config Config object to merge with the global configuration
  */
-export function provideConfig(config: any = {}): Provider {
-  return { provide: ConfigChunk, useValue: config, multi: true };
+export function provideConfig(
+  config: any = {},
+  defaultConfig = false
+): Provider {
+  return {
+    provide: defaultConfig ? DefaultConfigChunk : ConfigChunk,
+    useValue: config,
+    multi: true,
+  };
 }
 
 /**
@@ -43,10 +58,42 @@ export function provideConfig(config: any = {}): Provider {
  */
 export function provideConfigFactory(
   configFactory: Function,
+  deps?: any[],
+  defaultConfig = false
+): Provider {
+  return {
+    provide: defaultConfig ? DefaultConfigChunk : ConfigChunk,
+    useFactory: configFactory,
+    multi: true,
+    deps: deps,
+  };
+}
+
+/**
+ * Helper function to provide default configuration chunk using DefaultConfigChunk token
+ *
+ * @param config Config object to merge with the default configuration
+ */
+export function provideDefaultConfig(config: any = {}): Provider {
+  return {
+    provide: DefaultConfigChunk,
+    useValue: config,
+    multi: true,
+  };
+}
+
+/**
+ * Helper function to provide default configuration with factory function, using DefaultConfigChunk token
+ *
+ * @param configFactory Factory Function that will generate config object
+ * @param deps Optional dependencies to a factory function
+ */
+export function provideDefaultConfigFactory(
+  configFactory: Function,
   deps?: any[]
 ): Provider {
   return {
-    provide: ConfigChunk,
+    provide: DefaultConfigChunk,
     useFactory: configFactory,
     multi: true,
     deps: deps,
@@ -58,11 +105,12 @@ export function provideConfigFactory(
  *
  */
 export function configurationFactory(
-  configChunks: any[],
+  configChunks: any[] = [],
+  defaultConfigChunks: any[] = [],
   configValidators: ConfigValidator[], // TODO: remove, deprecated since 1.3, issue #5279
   configInitializerGuard?: boolean // TODO: remove, deprecated since 1.3, issue #5279
 ) {
-  const config = deepMerge({}, ...configChunks);
+  const config = deepMerge({}, ...defaultConfigChunks, ...configChunks);
   // TODO: remove as validators should run independently, deprecated since 1.3, issue #5279
   if (isDevMode() && !configInitializerGuard) {
     validateConfig(config, configValidators || []);
@@ -117,7 +165,8 @@ export class ConfigModule {
           provide: Config,
           useFactory: configurationFactory,
           deps: [
-            ConfigChunk,
+            [new Optional(), ConfigChunk],
+            [new Optional(), DefaultConfigChunk],
             [new Optional(), ConfigValidatorToken], // TODO: remove, deprecated since 1.3, issue #5279
             [new Optional(), CONFIG_INITIALIZER_FORROOT_GUARD], // TODO: remove, deprecated since 1.3, issue #5279
           ],
