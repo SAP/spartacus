@@ -1,4 +1,10 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  HostListener,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
@@ -13,6 +19,15 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   @HostBinding('class.start-navigating') startNavigating;
   @HostBinding('class.stop-navigating') stopNavigating;
+
+  /** controls a polyfill for the lacking focus-visible feature */
+  @HostBinding('class.focus-visible') focusVisible = true;
+  @HostListener('mousedown') handleMousedown() {
+    this.focusVisible = false;
+  }
+  @HostListener('keydown') handleKeydown() {
+    this.focusVisible = true;
+  }
 
   constructor(
     private hamburgerMenuService: HamburgerMenuService,

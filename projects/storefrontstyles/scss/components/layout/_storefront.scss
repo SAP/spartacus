@@ -15,4 +15,11 @@
   > footer {
     margin-top: auto;
   }
+
+  &:not(.focus-visible) {
+    :focus,
+    .ng-select-focused {
+      outline-width: 0;
+    }
+  }
 }
