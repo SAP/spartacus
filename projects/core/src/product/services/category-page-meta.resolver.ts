@@ -49,10 +49,12 @@ export class CategoryPageMetaResolver extends PageMetaResolver
   resolveTitle(): Observable<string> {
     return this.searchPage$.pipe(
       filter((page: ProductSearchPage) => !!page.pagination),
-      switchMap(p =>
+      switchMap((p: ProductSearchPage) =>
         this.translation.translate('pageMetaResolver.category.title', {
-          count: (<ProductSearchPage>p).pagination.totalResults,
-          query: (<ProductSearchPage>p).breadcrumbs[0].facetValueName,
+          count: p.pagination.totalResults,
+          query: p.breadcrumbs?.length
+            ? p.breadcrumbs[0].facetValueName
+            : undefined,
         })
       )
     );
