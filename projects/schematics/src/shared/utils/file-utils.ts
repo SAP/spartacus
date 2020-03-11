@@ -43,8 +43,14 @@ export interface ComponentData {
 export interface ConstructorDeprecation {
   class: string;
   importPath: string;
+
+  /**  */
   deprecatedParams: ClassType[];
+
+  /** The list of constructor parameters that are _added_ for the given version. */
   addParams?: ClassType[];
+
+  /** The list of constructor parameters that are _removed_ for the given version. */
   removeParams?: ClassType[];
 }
 
@@ -161,9 +167,9 @@ export function commitChanges(
   host: Tree,
   path: string,
   changes: Change[] | null,
-  insertDirection: InsertDirection
+  insertDirection: InsertDirection = InsertDirection.RIGHT
 ): void {
-  if (!changes) {
+  if (!changes || changes.length === 0) {
     return;
   }
 

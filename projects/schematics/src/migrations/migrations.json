@@ -29,6 +29,11 @@
       "version": "2-next",
       "factory": "./2_0/css#migrate",
       "description": "Handle deprecated CSS"
+    },
+    "migration-v2-page-meta-07": {
+      "version": "2-next",
+      "factory": "./2_0/page-meta/page-meta-data.migration#migrate",
+      "description": "Updates page meta changes for 2.0"
     }
   }
 }
