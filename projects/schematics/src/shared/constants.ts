@@ -106,6 +106,8 @@ export const MULTI_CART_REDUCER_TOKEN = 'multiCartReducerToken';
 export const GET_MULTI_CART_REDUCERS = 'getMultiCartReducers';
 export const MULTI_CART_REDUCER_PROVIDER = 'multiCartReducerProvider';
 
+export const SITE_CONTEXT_PARAMS_PROVIDERS = 'siteContextParamsProviders';
+export const INIT_SITE_CONTEXT_ROUTES_HANDLER = 'initSiteContextRoutesHandler';
 export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
 /***** Removed public api end *****/
