@@ -110,7 +110,6 @@ export function configurationFactory(
   configValidators: ConfigValidator[], // TODO: remove, deprecated since 1.3, issue #5279
   configInitializerGuard?: boolean // TODO: remove, deprecated since 1.3, issue #5279
 ) {
-  debugger;
   const config = deepMerge(
     {},
     ...(defaultConfigChunks ?? []),
