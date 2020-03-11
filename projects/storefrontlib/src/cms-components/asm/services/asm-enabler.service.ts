@@ -4,7 +4,10 @@ import { WindowRef } from '@spartacus/core';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmMainUiComponent } from '../asm-main-ui/asm-main-ui.component';
 import { TriggerService } from 'projects/storefrontlib/src/shared/services/trigger/config/trigger.service';
-import { TriggerConfig } from 'projects/storefrontlib/src/shared/services/trigger/config/trigger-config';
+import {
+  TriggerConfig,
+  TRIGGER_CALLER,
+} from 'projects/storefrontlib/src/shared/services/trigger/config/trigger-config';
 
 /**
  * The AsmEnablerService is used to enable ASM for those scenario's
@@ -77,7 +80,7 @@ export class AsmEnablerService {
     const factory = this.componentFactoryResolver.resolveComponentFactory(
       AsmMainUiComponent
     );
-    this.triggerService.renderDialog(this.triggerConfig.trigger?.asm, factory);
+    this.triggerService.renderDialog(TRIGGER_CALLER.ASM, factory);
     this.isUiAdded = true;
   }
 }

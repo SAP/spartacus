@@ -3,17 +3,23 @@ import {
   TriggerOutletMapping,
   TriggerInlineMapping,
   TriggerUrlMapping,
+  TriggerConfig,
+  TRIGGER_CALLER,
 } from './trigger-config';
 import { OutletService } from '../../../../cms-structure/outlet/index';
 
 @Injectable({ providedIn: 'root' })
 export class TriggerService {
-  constructor(protected outletService: OutletService<ComponentFactory<any>>) {}
+  constructor(
+    protected outletService: OutletService<ComponentFactory<any>>,
+    protected triggerConfig: TriggerConfig
+  ) {}
 
   renderDialog(
-    config: TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping,
+    caller: TRIGGER_CALLER,
     template?: ComponentFactory<any>
   ): void | string {
+    const config = this.findMapping(caller);
     if (Boolean((config as TriggerUrlMapping).url)) {
       return (config as TriggerUrlMapping).url;
     } else if (Boolean((config as TriggerOutletMapping).outlet)) {
@@ -35,5 +41,11 @@ export class TriggerService {
     template?: ComponentFactory<any>
   ) {
     this.outletService.add('cx-storefront', template, config.position);
+  }
+
+  private findMapping(
+    caller: TRIGGER_CALLER
+  ): TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping {
+    return this.triggerConfig?.trigger[caller];
   }
 }
