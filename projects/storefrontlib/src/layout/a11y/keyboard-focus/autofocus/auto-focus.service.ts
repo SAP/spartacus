@@ -12,7 +12,6 @@ import {
 export class AutoFocusService extends EscapeFocusService {
   /**
    * Returns the first focusable child element of the host element.
-   * The
    */
   findFirstFocusable(
     host: HTMLElement,
