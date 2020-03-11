@@ -55,10 +55,12 @@ describe('AutoFocusDirective', () => {
     fixture = TestBed.createComponent(MockComponent);
     service = TestBed.inject(AutoFocusService);
   }));
+
   const event = {
     preventDefault: () => {},
     stopPropagation: () => {},
   };
+
   describe('default', () => {
     it('should focus host element by default if autofocus is not provided', () => {
       const host: HTMLElement = fixture.debugElement.query(By.css('#a'))

@@ -29,11 +29,12 @@ describe('BlockFocusDirective', () => {
         },
       ],
     }).compileComponents();
-
     fixture = TestBed.createComponent(MockComponent);
-
-    fixture.detectChanges();
   }));
+
+  beforeEach(() => {
+    fixture.detectChanges();
+  });
 
   it('should render tabindex -1 by default', () => {
     const el: HTMLElement = fixture.debugElement.query(By.css('#a'))

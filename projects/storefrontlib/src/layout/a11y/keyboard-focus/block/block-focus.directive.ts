@@ -1,4 +1,5 @@
-import { Directive, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit } from '@angular/core';
+import { BaseFocusService } from '../base';
 import { BaseFocusDirective } from '../base/base-focus.directive';
 import { BlockFocusConfig } from '../keyboard-focus.model';
 
@@ -9,6 +10,13 @@ export class BlockFocusDirective extends BaseFocusDirective implements OnInit {
   protected defaultConfig: BlockFocusConfig = { block: true };
 
   @Input('cxBlockFocus') protected config: BlockFocusConfig = {};
+
+  constructor(
+    protected elementRef: ElementRef,
+    protected service: BaseFocusService
+  ) {
+    super(elementRef, service);
+  }
 
   ngOnInit() {
     super.ngOnInit();

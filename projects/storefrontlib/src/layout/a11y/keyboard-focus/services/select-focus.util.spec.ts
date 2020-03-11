@@ -80,5 +80,15 @@ describe('SelectFocusUtility', () => {
       const child = fixture.debugElement.query(By.css('#b3')).nativeElement;
       expect(service.query(host, 'button:nth-of-type(2)')).toEqual([child]);
     });
+
+    it('should return empty list with falsy selector', () => {
+      const host = fixture.debugElement.query(By.css('#b')).nativeElement;
+      expect(service.query(host, null)).toEqual([]);
+    });
+
+    it('should return empty list with empty string selector', () => {
+      const host = fixture.debugElement.query(By.css('#b')).nativeElement;
+      expect(service.query(host, '')).toEqual([]);
+    });
   });
 });
