@@ -73,11 +73,11 @@ describe('LockFocusDirective', () => {
   }));
 
   beforeEach(() => {
-    const childs = fixture.debugElement.queryAll(
+    const children = fixture.debugElement.queryAll(
       By.css('#a1,#a2,#b1,#b2,#b3,#d1,#d2')
     );
     spyOn(service, 'findFocusable').and.returnValue(
-      childs.map(c => c.nativeElement)
+      children.map(c => c.nativeElement)
     );
   });
 
@@ -136,7 +136,7 @@ describe('LockFocusDirective', () => {
     });
   });
 
-  describe('lock focusable childs', () => {
+  describe('lock focusable children', () => {
     it('should lock child elements', () => {
       const b1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
       const b2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
@@ -179,7 +179,7 @@ describe('LockFocusDirective', () => {
       fixture.detectChanges();
     });
 
-    it('should unlock focusable childs', () => {
+    it('should unlock focusable children', () => {
       const b1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
       const b2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
       const b3 = fixture.debugElement.query(By.css('#b3')).nativeElement;
@@ -191,7 +191,7 @@ describe('LockFocusDirective', () => {
       expect(b3.getAttribute('tabindex')).toEqual('0');
     });
 
-    it('should not unlock non-focusable childs', () => {
+    it('should not unlock non-focusable children', () => {
       const b4 = fixture.debugElement.query(By.css('#b4')).nativeElement;
       const b5 = fixture.debugElement.query(By.css('#b5')).nativeElement;
       const host = fixture.debugElement.query(By.css('#b'));
@@ -202,8 +202,8 @@ describe('LockFocusDirective', () => {
     });
   });
 
-  describe('persist group on focusable childs', () => {
-    it('should persist group on focusable childs', () => {
+  describe('persist group on focusable children', () => {
+    it('should persist group on focusable children', () => {
       spyOn(service, 'getPersistenceGroup').and.returnValue('g1');
       const b1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
       const b2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
@@ -214,7 +214,7 @@ describe('LockFocusDirective', () => {
       expect(b3.getAttribute('data-cx-focus-group')).toEqual('g1');
     });
 
-    it('should not persist group on non-focusable childs', () => {
+    it('should not persist group on non-focusable children', () => {
       spyOn(service, 'getPersistenceGroup').and.returnValue('g1');
       const b4 = fixture.debugElement.query(By.css('#b4')).nativeElement;
       const b5 = fixture.debugElement.query(By.css('#b5')).nativeElement;

@@ -136,7 +136,7 @@ export class LockFocusDirective extends TrapFocusDirective
   }
 
   /**
-   * Utility method, returns all focusable childs for the host element.
+   * Utility method, returns all focusable children for the host element.
    * We keep this private to not polute the API.
    */
   private get hasFocusableChilds(): boolean {
@@ -144,7 +144,7 @@ export class LockFocusDirective extends TrapFocusDirective
   }
 
   /**
-   * Returns the focusable childs of the host element. If the host element
+   * Returns the focusable children of the host element. If the host element
    * is configured to be locked, the query is restricted to child elements
    * with a tabindex !== `-1`.
    *

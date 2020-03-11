@@ -91,7 +91,7 @@ describe('AutoFocusService', () => {
   });
 
   describe('hasPersistedFocus', () => {
-    it('should not have persisted focus for host without childs', () => {
+    it('should not have persisted focus for host without children', () => {
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
       expect(service.hasPersistedFocus(host, {})).toEqual(false);
     });

@@ -16,7 +16,7 @@ export class TrapFocusService extends TabFocusService {
   }
 
   /**
-   * Focus the next or previous element of all available focussable elments.
+   * Focus the next or previous element of all available focusable elements.
    * The focus is _trapped_ in case there's no next or previous available element.
    * The focus will automatically move the start or end of the list.
    */

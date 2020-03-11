@@ -79,7 +79,7 @@ export interface LockFocusConfig extends TrapFocusConfig {
    *
    * `<div [cxLockFocus]="{lock:'a'}"></div>`
    *
-   * Using the `lock` property as a group works similar as provifing an
+   * Using the `lock` property as a group works similar as providing an
    * explicit `group`:
    *
    *
