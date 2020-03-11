@@ -11,7 +11,7 @@ export class TrapFocusService extends TabFocusService {
    *
    * @param host `HTMLElement` that is used to query the focusable elements.
    */
-  hasFocusableChilds(host: HTMLElement): boolean {
+  hasFocusableChildren(host: HTMLElement): boolean {
     return this.findFocusable(host).length > 0;
   }
 

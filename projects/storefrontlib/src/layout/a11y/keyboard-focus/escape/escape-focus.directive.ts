@@ -25,6 +25,7 @@ export class EscapeFocusDirective extends PersistFocusDirective
   implements OnInit {
   protected defaultConfig: EscapeFocusConfig = { focusOnEscape: true };
 
+  /** Optional configuration to drive behaviour of the directive. */
   @Input('cxEscFocus') protected config: EscapeFocusConfig;
 
   @Output() esc = new EventEmitter<boolean>();

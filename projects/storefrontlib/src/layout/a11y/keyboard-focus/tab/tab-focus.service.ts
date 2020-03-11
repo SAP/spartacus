@@ -96,8 +96,8 @@ export class TabFocusService extends AutoFocusService {
   }
 
   /**
-   * finds the active child (if any) of the child elements.
-   * Defaults to the first child, if no active available.
+   * Returns the active focusable child element. If there's no active
+   * focusable child element, the first focusable child is returned.
    */
   protected getActiveChild(
     host: HTMLElement,
@@ -107,13 +107,12 @@ export class TabFocusService extends AutoFocusService {
     if (persisted) {
       return persisted;
     }
-    let index = this.getChildren(host, config)?.findIndex(tab =>
-      this.isActive(tab)
-    );
+    const children = this.getChildren(host, config);
+    let index = children.findIndex(tab => this.isActive(tab));
     if (!index || index === -1) {
       index = 0;
     }
-    return this.getChildren(host, config)[index];
+    return children[index];
   }
 
   protected getChildren(

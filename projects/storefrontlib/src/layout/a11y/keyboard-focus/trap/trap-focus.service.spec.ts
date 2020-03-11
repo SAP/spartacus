@@ -54,7 +54,7 @@ describe('TrapFocusService', () => {
   describe('hasFocusableChilds', () => {
     it('should return false when there are no children', () => {
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
-      expect(service.hasFocusableChilds(host)).toBeFalsy();
+      expect(service.hasFocusableChildren(host)).toBeFalsy();
     });
 
     it('should return true when there are children', () => {
@@ -63,7 +63,7 @@ describe('TrapFocusService', () => {
       spyOn(service, 'findFocusable').and.returnValue(
         children.map(c => c.nativeElement)
       );
-      expect(service.hasFocusableChilds(host)).toBeTruthy();
+      expect(service.hasFocusableChildren(host)).toBeTruthy();
     });
   });
 

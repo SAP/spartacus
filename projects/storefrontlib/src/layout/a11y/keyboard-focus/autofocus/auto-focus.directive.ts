@@ -38,7 +38,6 @@ export class AutoFocusDirective extends EscapeFocusDirective
   /** The AutoFocusDirective will be using autofocus by default  */
   protected defaultConfig: AutoFocusConfig = { autofocus: true };
 
-  /** configuration options to steer the usage. defaults to true.  */
   @Input('cxAutoFocus') protected config: AutoFocusConfig;
 
   private isTouchedByMouse = false;
