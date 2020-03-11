@@ -106,28 +106,7 @@ class PageWithAllResolvers extends PageMetaResolver
   }
 }
 
-// @Injectable({
-//   providedIn: 'root',
-// })
-// class NewPageResolver extends PageMetaResolver implements PageTitleResolver {
-//   constructor(protected cms: CmsService) {
-//     super();
-//     this.pageType = PageType.CONTENT_PAGE;
-//     this.pageTemplate = 'template-new';
-//   }
-
-//   // resolve(): Observable<PageMeta> | any {
-//   //   return of({
-//   //     title: 'new title resolved by resolve()',
-//   //   });
-//   // }
-
-//   resolveTitle(): Observable<string> {
-//     return of('new title resolved by resolveTitle');
-//   }
-// }
-
-describe('PageTitleService', () => {
+describe('PageMetaService', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
 
@@ -160,12 +139,9 @@ describe('PageTitleService', () => {
     cmsService = TestBed.inject(CmsService);
   });
 
-  it('PageTitleService should be created', inject(
-    [PageMetaService],
-    (pageTitleService: PageMetaService) => {
-      expect(pageTitleService).toBeTruthy();
-    }
-  ));
+  it('PageMetaService should be created', () => {
+    expect(service).toBeTruthy();
+  });
 
   it('should resolve page title using resolveTitle()', () => {
     const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
