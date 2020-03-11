@@ -12,7 +12,7 @@ export class TabFocusService extends AutoFocusService {
   moveTab(
     host: HTMLElement,
     config: TabFocusConfig,
-    increment: number,
+    increment: MOVE_FOCUS,
     event: KeyboardEvent
   ): void {
     if (config?.tab) {
@@ -62,7 +62,7 @@ export class TabFocusService extends AutoFocusService {
       nextVirtualSlide = virtualSlideCount - 1;
     }
 
-    const firstItemOnNextSlide = this.getChilds(host, config)?.find(
+    const firstItemOnNextSlide = this.getChildren(host, config)?.find(
       tab =>
         tab.offsetLeft >=
         (host.scrollWidth / virtualSlideCount) * nextVirtualSlide
@@ -76,7 +76,7 @@ export class TabFocusService extends AutoFocusService {
     config: TabFocusConfig,
     increment: MOVE_FOCUS
   ): HTMLElement {
-    const childs = this.getChilds(host, config);
+    const childs = this.getChildren(host, config);
     let activeIndex = childs?.findIndex(
       c => c === this.getActiveChild(host, config)
     );
@@ -107,17 +107,16 @@ export class TabFocusService extends AutoFocusService {
     if (persisted) {
       return persisted;
     }
-    let index = this.getChilds(host, config)?.findIndex(tab =>
+    let index = this.getChildren(host, config)?.findIndex(tab =>
       this.isActive(tab)
     );
     if (!index || index === -1) {
       index = 0;
     }
-    return this.getChilds(host, config)[index];
+    return this.getChildren(host, config)[index];
   }
 
-  // considering dropping the config or tab
-  protected getChilds(
+  protected getChildren(
     host: HTMLElement,
     config: TabFocusConfig
   ): HTMLElement[] {
