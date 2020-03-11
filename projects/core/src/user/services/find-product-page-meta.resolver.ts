@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { BreadcrumbMeta, Page } from '../../cms/model/page.model';
@@ -11,31 +12,33 @@ import {
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { ProductSearchService } from '../../product/facade/product-search.service';
-import { RoutingService } from '../../routing/facade/routing.service';
+import { SemanticPathService } from '../../routing/configurable-routes/url-translation/semantic-path.service';
 
+/**
+ * Resolves page meta data for the search result page, in case it's used
+ * to query coupons. This is done by adding a `couponcode` query parameter
+ * to the search page route.
+ *
+ * The page resolves an alternative page title and breadcrumb.
+ */
 @Injectable({
   providedIn: 'root',
 })
-// TODO: refactor this name, as it's not product related. The getScore method
-// indicates it is related to coupons.
 export class FindProductPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  totalAndCode$: Observable<[number, any]> = combineLatest([
-    this.productSearchService.getResults().pipe(
-      filter(data => !!(data && data.pagination)),
-      map(results => results.pagination.totalResults)
-    ),
-    this.routingService.getRouterState().pipe(
-      map(state => state.state.queryParams['couponcode']),
-      filter(Boolean)
-    ),
-  ]);
+  protected total$: Observable<
+    number
+  > = this.productSearchService.getResults().pipe(
+    filter(data => !!data?.pagination),
+    map(results => results.pagination.totalResults)
+  );
 
   constructor(
-    protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
     protected translation: TranslationService,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected route: ActivatedRoute,
+    protected semanticPathService: SemanticPathService
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -43,50 +46,43 @@ export class FindProductPageMetaResolver extends PageMetaResolver
   }
 
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
-    // TODO: refactor code below, we should observe the home breadcrumb from
-    // the translations and combine this with a stream for the logged in user.
-    // Given that the myaccount is only available to logged in uses, we should
-    // savely load the coupon breadcrumb without checking if the user is logged
-    // in.
-    const breadcrumbs = [{ label: 'Home', link: '/' }];
-    this.authService.isUserLoggedIn().subscribe(login => {
-      if (login)
-        breadcrumbs.push({ label: 'My Coupons', link: '/my-account/coupons' });
-    });
-
-    return of(breadcrumbs);
+    return combineLatest([
+      this.translation.translate('common.home'),
+      this.translation.translate('myCoupons.myCoupons'),
+      this.authService.isUserLoggedIn(),
+    ]).pipe(
+      map(([homeLabel, couponLabel, isLoggedIn]: [string, string, boolean]) => {
+        const breadcrumbs = [];
+        breadcrumbs.push({ label: homeLabel, link: '/' });
+        if (isLoggedIn) {
+          breadcrumbs.push({
+            label: couponLabel,
+            link: this.semanticPathService.transform({
+              cxRoute: 'coupons',
+            }),
+          });
+        }
+        return breadcrumbs;
+      })
+    );
   }
 
   resolveTitle(): Observable<string> {
-    return this.totalAndCode$.pipe(
-      switchMap(([total, code]: [number, string]) =>
+    return this.total$.pipe(
+      switchMap((total: number) =>
         this.translation.translate('pageMetaResolver.search.findProductTitle', {
           count: total,
-          coupon: code,
+          coupon: this.couponCode,
         })
       )
     );
   }
 
   getScore(page: Page): number {
-    let score = super.getScore(page);
+    return super.getScore(page) + (this.couponCode ? 1 : -1);
+  }
 
-    // TODO: refactor the code below, as it will likely miss out on
-    // the async loaded data while the resolver is scored.
-    this.routingService
-      .getRouterState()
-      .pipe(
-        map(state => {
-          return state.state.queryParams;
-        }),
-        filter(Boolean)
-      )
-      .subscribe((queryParams: any) => {
-        if (queryParams) {
-          score += queryParams['couponcode'] ? 1 : -1;
-        }
-      })
-      .unsubscribe();
-    return score;
+  protected get couponCode(): string {
+    return this.route.snapshot?.queryParams?.couponcode;
   }
 }
