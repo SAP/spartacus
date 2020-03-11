@@ -32,6 +32,8 @@ export const ORG_UNIT_USER_GROUP_ENTITIES = 'orgUnitUserGroup-entities';
 export const ORG_UNIT_USER_GROUP_LIST = 'orgUnitUserGroup-list';
 export const ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS =
   'orgUnitUserGroup-available-order-approval-permissions';
+export const ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS =
+  'orgUnitUserGroup-available-org-customers';
 
 export interface Management<Type> {
   list: EntityLoaderState<ListModel>;

@@ -9,6 +9,7 @@ import {
   ORG_UNIT_USER_GROUP_ENTITIES,
   ORG_UNIT_USER_GROUP_LIST,
   ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+  ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
 } from '../organization-state';
 import { ListModel } from '../../../model/misc.model';
 import { OrgUnitUserGroup } from 'projects/core/src/model/org-unit-user-group.model';
@@ -211,8 +212,17 @@ export class LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsSuccess extend
 
 export class LoadOrgUnitUserGroupAvailableOrgCustomers extends EntityLoadAction {
   readonly type = LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS;
-  constructor(public payload: { userId: string; orgUnitUserGroupUid: string }) {
-    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.orgUnitUserGroupUid);
+  constructor(
+    public payload: {
+      userId: string;
+      orgUnitUserGroupUid: string;
+      params: B2BSearchConfig;
+    }
+  ) {
+    super(
+      ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+      payload.orgUnitUserGroupUid
+    );
   }
 }
 
@@ -220,7 +230,7 @@ export class LoadOrgUnitUserGroupAvailableOrgCustomersFail extends EntityFailAct
   readonly type = LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS;
   constructor(public payload: { orgUnitUserGroupUid: string; error: any }) {
     super(
-      ORG_UNIT_USER_GROUP_ENTITIES,
+      ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
       payload.orgUnitUserGroupUid,
       payload.error
     );
@@ -231,7 +241,7 @@ export class LoadOrgUnitUserGroupAvailableOrgCustomersSuccess extends EntitySucc
   readonly type = LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS;
   constructor(public payload: OrgUnitUserGroup[]) {
     super(
-      ORG_UNIT_USER_GROUP_ENTITIES,
+      ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
       payload.map(orgUnitUserGroup => orgUnitUserGroup.uid)
     );
   }
@@ -267,9 +277,17 @@ export class CreateOrgUnitUserGroupSuccess extends EntitySuccessAction {
 export class CreateOrgUnitUserGroupMember extends EntityLoadAction {
   readonly type = CREATE_ORG_UNIT_USER_GROUP_MEMBER;
   constructor(
-    public payload: { userId: string; orgUnitUserGroup: OrgUnitUserGroup }
+    public payload: {
+      userId: string;
+      orgUnitUserGroupUid: string;
+      customerId: string;
+    }
   ) {
-    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.orgUnitUserGroup.uid);
+    super(
+      ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+      payload.orgUnitUserGroupUid,
+      payload.customerId
+    );
   }
 }
 

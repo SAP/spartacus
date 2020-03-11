@@ -26,6 +26,8 @@ import {
   ORG_UNIT_USER_GROUP_ENTITIES,
   ORG_UNIT_USER_GROUP_FEATURE,
   ORG_UNIT_USER_GROUP_LIST,
+  ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+  ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
 } from '../organization-state';
 import { budgetsListReducer, budgetsEntitiesReducer } from './budget.reducer';
 import { orgUnitListReducer } from './org-unit.reducer';
@@ -35,6 +37,10 @@ import {
   costCenterAssignedBudgetsListReducer,
 } from './cost-center.reducer';
 import { OrgUnitUserGroup } from 'projects/core/src/model/org-unit-user-group.model';
+import {
+  orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer,
+  orgUnitUserGroupAvailablOrgCustomersListReducer,
+} from './org-unit-user-group.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -64,6 +70,14 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         ORG_UNIT_USER_GROUP_LIST,
         orgUnitListReducer
       ),
+      permissions: entityLoaderReducer<ListModel>(
+        ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+        orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer
+      ),
+      customers: entityLoaderReducer<ListModel>(
+        ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+        orgUnitUserGroupAvailablOrgCustomersListReducer
+      ),
     }),
     [COST_CENTER_FEATURE]: combineReducers({
       entities: entityLoaderReducer<CostCenter>(COST_CENTER_ENTITIES),
@@ -79,9 +93,9 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<OrganizationState>
-> = new InjectionToken<ActionReducerMap<OrganizationState>>(
+export const reducerToken: InjectionToken<ActionReducerMap<
+  OrganizationState
+>> = new InjectionToken<ActionReducerMap<OrganizationState>>(
   'OrganizationReducers'
 );
 

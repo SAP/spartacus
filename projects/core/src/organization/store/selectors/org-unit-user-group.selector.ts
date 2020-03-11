@@ -59,7 +59,7 @@ export const getOrgUnitUserGroupList = (
       denormalizeB2BSearch<OrgUnitUserGroup>(state, params)
   );
 
-export const getMembers = (
+export const getOrgUnitUserGroupAvailableOrgCustomers = (
   code: string,
   params: B2BSearchConfig
 ): MemoizedSelector<StateWithOrganization, LoaderState<EntitiesModel<User>>> =>
