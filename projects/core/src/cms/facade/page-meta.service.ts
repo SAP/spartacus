@@ -24,7 +24,7 @@ export class PageMetaService {
    *       aren't needed during browsing.
    * TODO: we can make the list of resolver types configurable
    */
-  protected resolverMethods: any = {
+  protected resolverMethods: { [key: string]: string } = {
     title: 'resolveTitle',
     heading: 'resolveHeading',
     description: 'resolveDescription',
