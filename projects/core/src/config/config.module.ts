@@ -110,10 +110,15 @@ export function configurationFactory(
   configValidators: ConfigValidator[], // TODO: remove, deprecated since 1.3, issue #5279
   configInitializerGuard?: boolean // TODO: remove, deprecated since 1.3, issue #5279
 ) {
-  const config = deepMerge({}, ...defaultConfigChunks, ...configChunks);
+  debugger;
+  const config = deepMerge(
+    {},
+    ...(defaultConfigChunks ?? []),
+    ...(configChunks ?? [])
+  );
   // TODO: remove as validators should run independently, deprecated since 1.3, issue #5279
   if (isDevMode() && !configInitializerGuard) {
-    validateConfig(config, configValidators || []);
+    validateConfig(config, configValidators ?? []);
   }
   return config;
 }
