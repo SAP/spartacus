@@ -277,17 +277,9 @@ export class CreateOrgUnitUserGroupSuccess extends EntitySuccessAction {
 export class CreateOrgUnitUserGroupMember extends EntityLoadAction {
   readonly type = CREATE_ORG_UNIT_USER_GROUP_MEMBER;
   constructor(
-    public payload: {
-      userId: string;
-      orgUnitUserGroupUid: string;
-      customerId: string;
-    }
+    public payload: { userId: string; orgUnitUserGroup: OrgUnitUserGroup }
   ) {
-    super(
-      ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
-      payload.orgUnitUserGroupUid,
-      payload.customerId
-    );
+    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.orgUnitUserGroup.uid);
   }
 }
 
