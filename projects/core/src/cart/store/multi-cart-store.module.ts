@@ -4,12 +4,12 @@ import { StoreModule } from '@ngrx/store';
 import { StateModule } from '../../state/state.module';
 import { MULTI_CART_FEATURE } from './multi-cart-state';
 import {
+  multiCartMetaReducers,
   multiCartReducerProvider,
   multiCartReducerToken,
-  multiCartMetaReducers,
 } from './reducers/index';
-import { ConfigModule } from '../../config/config.module';
-import { StorageSyncType, StateConfig } from '../../state/config/state-config';
+import { provideDefaultConfigFactory } from '../../config/config.module';
+import { StateConfig, StorageSyncType } from '../../state/config/state-config';
 import { MultiCartEffects } from './effects/multi-cart.effect';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -34,8 +34,10 @@ export function multiCartStoreConfigFactory(): StateConfig {
       metaReducers: multiCartMetaReducers,
     }),
     EffectsModule.forFeature([MultiCartEffects]),
-    ConfigModule.withConfigFactory(multiCartStoreConfigFactory),
   ],
-  providers: [multiCartReducerProvider],
+  providers: [
+    multiCartReducerProvider,
+    provideDefaultConfigFactory(multiCartStoreConfigFactory),
+  ],
 })
 export class MultiCartStoreModule {}

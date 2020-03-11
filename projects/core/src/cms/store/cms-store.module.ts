@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { ConfigModule } from '../../config/config.module';
+import { provideDefaultConfigFactory } from '../../config/config.module';
 import {
   StateConfig,
   StateTransferType,
@@ -32,8 +32,10 @@ export function cmsStoreConfigFactory(): StateConfig {
     StateModule,
     StoreModule.forFeature(CMS_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfigFactory(cmsStoreConfigFactory),
   ],
-  providers: [reducerProvider],
+  providers: [
+    provideDefaultConfigFactory(cmsStoreConfigFactory),
+    reducerProvider,
+  ],
 })
 export class CmsStoreModule {}
