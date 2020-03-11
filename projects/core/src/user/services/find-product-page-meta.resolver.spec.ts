@@ -1,161 +1,168 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  Params,
+} from '@angular/router';
 import { of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
-import { PageMeta, PageMetaService } from '../../cms';
+import { BreadcrumbMeta, Page } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
+import { PageType } from '../../model';
 import { ProductSearchService } from '../../product/facade/product-search.service';
-import { RoutingService } from '../../routing/index';
+import { SemanticPathService } from '../../routing';
 import { FindProductPageMetaResolver } from './find-product-page-meta.resolver';
 
-fdescribe('FindProductSearchPageMetaResolver', () => {
-  let service: PageMetaService;
+const mockSearchPage: Page = {
+  type: PageType.CONTENT_PAGE,
+  template: 'SearchResultsListPageTemplate',
+  slots: {},
+};
 
-  const prductSearchService = jasmine.createSpyObj('PrductSearchService', [
-    'getResults',
-  ]);
-  const routingService = jasmine.createSpyObj('RoutingService', [
-    'getRouterState',
-  ]);
+const mockAnyContentPage: Page = {
+  type: PageType.CONTENT_PAGE,
+  template: 'otherPageTemplate',
+  slots: {},
+};
+
+const mockProductPage: Page = {
+  type: PageType.PRODUCT_PAGE,
+  template: 'otherPageTemplate',
+  slots: {},
+};
+
+describe('FindProductSearchPageMetaResolver', () => {
+  let service: FindProductPageMetaResolver;
+  let route: ActivatedRoute;
   const authService = jasmine.createSpyObj('AuthService', ['isUserLoggedIn']);
+  const semanticPathService = jasmine.createSpyObj('SemanticPathService', [
+    'transform',
+  ]);
+
+  class MockActivatedRoute {
+    getSnapshot = jasmine.createSpy('getSnapshot');
+    // we need to spyOnProperty...
+    get snapshot() {
+      return this.getSnapshot();
+    }
+  }
+
+  class MockSearchService {
+    getResults() {
+      return of({
+        pagination: {
+          totalResults: 3,
+        },
+      });
+    }
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
         FindProductPageMetaResolver,
-        { provide: ProductSearchService, useValue: prductSearchService },
-        { provide: RoutingService, useValue: routingService },
+        { provide: ProductSearchService, useClass: MockSearchService },
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: AuthService, useValue: authService },
+        { provide: SemanticPathService, useValue: semanticPathService },
       ],
     });
-    // authService.isUserLoggedIn.and.returnValue(of(false));
-    // prductSearchService.getResults.and.returnValue(
-    //   of({
-    //     pagination: {
-    //       totalResults: 3,
-    //     },
-    //   })
-    // );
-    // routingService.getRouterState.and.returnValue(
-    //   of({
-    //     state: {
-    //       queryParams: {
-    //         couponcode: 'coupon1',
-    //       },
-    //     },
-    //   })
-    // );
 
-    service = TestBed.inject(PageMetaService);
+    service = TestBed.inject(FindProductPageMetaResolver);
+    route = TestBed.inject(ActivatedRoute);
   });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
   });
 
-  xdescribe('ContentPage with customer coupon find product results', () => {
-    beforeEach(() => {
-      cmsService.getCurrentPage.and.returnValue(of(mockSearchPage));
+  describe('scoring', () => {
+    describe('with coupon', () => {
+      beforeEach(() => {
+        spyOnProperty(route, 'snapshot').and.returnValue({
+          queryParams: {
+            couponcode: 'a',
+          } as Params,
+        } as ActivatedRouteSnapshot);
+      });
+      it('should score 3 for search page', () => {
+        expect(service.getScore(mockSearchPage)).toEqual(3);
+      });
+
+      it('should score 1 for other content pages', () => {
+        expect(service.getScore(mockAnyContentPage)).toEqual(1);
+      });
+
+      it('should score -1 for other pages', () => {
+        expect(service.getScore(mockProductPage)).toEqual(-1);
+      });
     });
 
-    it('PageTitleService should be created', inject(
-      [PageMetaService],
-      (pageTitleService: PageMetaService) => {
-        expect(pageTitleService).toBeTruthy();
-      }
-    ));
+    describe('without coupon', () => {
+      beforeEach(() => {
+        spyOnProperty(route, 'snapshot').and.returnValue({});
+      });
 
-    it('FindProductPageMetaResolver should resolve search results in title', () => {
-      let result: PageMeta;
+      it('should score 1 for search page without couponcode', () => {
+        expect(service.getScore(mockSearchPage)).toEqual(1);
+      });
+
+      it('should score -1 for other content pages', () => {
+        expect(service.getScore(mockAnyContentPage)).toEqual(-1);
+      });
+
+      it('should score -3 for other pages', () => {
+        expect(service.getScore(mockProductPage)).toEqual(-3);
+      });
+    });
+  });
+
+  describe('resolve metadata', () => {
+    beforeEach(() => {
+      spyOnProperty(route, 'snapshot').and.returnValue({
+        queryParams: {
+          couponcode: 'coupon1',
+        } as Params,
+      } as ActivatedRouteSnapshot);
+    });
+
+    it('should resolve title with count and coupon', () => {
+      let result;
       service
-        .getMeta()
-        .subscribe(value => {
-          result = value;
-        })
+        .resolveTitle()
+        .subscribe(title => (result = title))
         .unsubscribe();
-      expect(result['title']).toEqual(
+      expect(result).toEqual(
         'pageMetaResolver.search.findProductTitle count:3 coupon:coupon1'
       );
     });
 
-    it('should resolve 1 breadcrumbs when anonymous search', () => {
-      let result: PageMeta;
+    it('should resolve 1 breadcrumbs for anonymous search', () => {
+      authService.isUserLoggedIn.and.returnValue(of(false));
+
+      let result: BreadcrumbMeta[];
       service
-        .getMeta()
-        .subscribe(value => {
-          result = value;
-        })
+        .resolveBreadcrumbs()
+        .subscribe(breadcrumb => (result = breadcrumb))
         .unsubscribe();
 
-      expect(result.breadcrumbs.length).toEqual(1);
-      expect(result.breadcrumbs[0].label).toEqual('Home');
+      expect(result.length).toEqual(1);
+      expect(result[0].label).toEqual('common.home');
     });
 
-    it('should resolve 2 breadcrumbs when customer search', () => {
+    it('should resolve 2 breadcrumbs for known user search', () => {
       authService.isUserLoggedIn.and.returnValue(of(true));
-      let result: PageMeta;
+
+      let result: BreadcrumbMeta[];
       service
-        .getMeta()
-        .subscribe(value => {
-          result = value;
-        })
+        .resolveBreadcrumbs()
+        .subscribe(breadcrumb => (result = breadcrumb))
         .unsubscribe();
 
-      expect(result.breadcrumbs.length).toEqual(2);
-      expect(result.breadcrumbs[0].label).toEqual('Home');
-      expect(result.breadcrumbs[1].label).toEqual('My Coupons');
-    });
-  });
-
-  xdescribe('ContentPage with search results', () => {
-    beforeEach(() => {
-      cmsService.getCurrentPage.and.returnValue(of(mockSearchPage));
-      routingService.getRouterState.and.returnValue(
-        of({
-          state: {
-            params: {
-              query: 'ordinarySearch',
-            },
-          },
-        })
-      );
-    });
-
-    it('PageTitleService should be created', inject(
-      [PageMetaService],
-      (pageTitleService: PageMetaService) => {
-        expect(pageTitleService).toBeTruthy();
-      }
-    ));
-
-    it('FakeSearchPageTitleResolver should resolve search results in title ', () => {
-      let result: PageMeta;
-      service
-        .getMeta()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-
-      expect(result.title).toEqual('search page title');
-    });
-  });
-
-  xdescribe('ContentPage with ordinary page', () => {
-    beforeEach(() => {
-      cmsService.getCurrentPage.and.returnValue(of(mockContentPage));
-    });
-
-    it('FakeContentPageTitleResolver should resolve content page title', () => {
-      let result: PageMeta;
-      service
-        .getMeta()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-
-      expect(result.title).toEqual('content page title');
+      expect(result.length).toEqual(2);
+      expect(result[0].label).toEqual('common.home');
+      expect(result[1].label).toEqual('myCoupons.myCoupons');
     });
   });
 });
