@@ -9,6 +9,7 @@ export const RXJS = 'rxjs';
 
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
+export const SPARTACUS_CDS = '@spartacus/cds';
 
 export const NGRX_STORE = '@ngrx/store';
 /***** Imports end *****/
@@ -17,13 +18,13 @@ export const NGRX_STORE = '@ngrx/store';
 export const OBSERVABLE_CLASS = 'Observable';
 
 export const STORE = 'Store';
-export const ROUTER = 'Router';
 
 export const FORM_BUILDER = 'FormBuilder';
 
-export const ACTIVATED_ROUTE = 'ActivatedRoute';
-
 export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
+
+export const ACTIVATED_ROUTE = 'ActivatedRoute';
+export const ROUTER = 'Router';
 
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
@@ -63,12 +64,23 @@ export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
 export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
 export const CART_TOTALS_COMPONENT = 'CartTotalsComponent';
 export const MINI_CART_COMPONENT = 'MiniCartComponent';
+export const CHECKOUT_ORDER_SUMMARY_COMPONENT = 'CheckoutOrderSummaryComponent';
+export const CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT =
+  'CheckoutProgressMobileTopComponent';
+export const CHECKOUT_CONFIG = 'CheckoutConfig';
+export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService';
+export const PAYMENT_METHOD_COMPONENT = 'PaymentMethodComponent';
+export const USER_PAYMENT_SERVICE = 'UserPaymentService';
+export const GLOBAL_MESSAGE_SERVICE = 'GlobalMessageService';
+export const CHECKOUT_AUTH_GUARD = 'CheckoutAuthGuard';
+export const CART_PAGE_LAYOUT_HANDLER = 'CartPageLayoutHandler';
+export const SELECTIVE_CART_SERVICE = 'SelectiveCartService';
+export const CDS_SPARTACUS_EVENT_SERVICE = 'SpartacusEventService';
+export const CONSENT_SERVICE = 'ConsentService';
+export const CDS_CONFIG = 'CdsConfig';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
-export const CHECKOUT_CONFIG = 'CheckoutConfig';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
-export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService ';
-
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
 /***** Classes end *****/
@@ -91,6 +103,8 @@ export const MULTI_CART_REDUCER_TOKEN = 'multiCartReducerToken';
 export const GET_MULTI_CART_REDUCERS = 'getMultiCartReducers';
 export const MULTI_CART_REDUCER_PROVIDER = 'multiCartReducerProvider';
 
+export const SITE_CONTEXT_PARAMS_PROVIDERS = 'siteContextParamsProviders';
+export const INIT_SITE_CONTEXT_ROUTES_HANDLER = 'initSiteContextRoutesHandler';
 export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
 /***** Removed public api end *****/

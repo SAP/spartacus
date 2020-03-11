@@ -6,7 +6,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
-import { runMigration, writeFile } from '../../shared/utils/test-utils';
+import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-component-deprecations-05';
 
@@ -50,7 +50,7 @@ describe('component selectors migration', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../migrations.json')
+      require.resolve('../../migrations.json')
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
