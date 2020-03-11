@@ -28,7 +28,7 @@ export abstract class BaseFocusDirective implements OnInit {
    * an explicit tabindex if we set the focus.
    */
   // tslint:disable-next-line: no-input-rename
-  @Input('tabindex') currentIndex = '-1';
+  @Input('tabindex') protected currentIndex = '-1';
 
   // the tabindex attribute we like to replace
   @HostBinding('attr.tabindex') protected tabindex: number;
