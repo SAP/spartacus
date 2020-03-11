@@ -4,7 +4,7 @@ import { AutoFocusConfig } from '../keyboard-focus.model';
 @Injectable({
   providedIn: 'root',
 })
-export abstract class SelectFocusUtility {
+export class SelectFocusUtility {
   /**
    * Query selectors used to query focusable child elements of the host element.
    * The selectors are supplemented with `:not([disabled])` and `:not([hidden])`.
@@ -15,7 +15,7 @@ export abstract class SelectFocusUtility {
     '[tabindex]',
     'input',
     'select',
-    `textarea`,
+    'textarea',
   ];
   // like to leave out the following as we don't use it, and make this list exensible.
   //   `[contentEditable=true]`, // very unlikely to suport as we're not a business tool
@@ -53,8 +53,7 @@ export abstract class SelectFocusUtility {
    * @param locked indicates whether inactive (`tabindex="-1"`) focusable elements should be returend as well
    */
   findFocusable(host: HTMLElement, locked = false): HTMLElement[] {
-    // TODO: consider dopping the not-hidden
-    let suffix = ':not([disabled]):not([hidden])';
+    let suffix = ':not([disabled])';
     if (!locked) {
       suffix += `:not([tabindex='-1'])`;
     }

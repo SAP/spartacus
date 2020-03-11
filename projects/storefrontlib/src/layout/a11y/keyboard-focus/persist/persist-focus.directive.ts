@@ -12,20 +12,30 @@ import { FOCUS_ATTR, PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusService } from './persist-focus.service';
 
 /**
- * Directive for focusable elements that provides persistence of the focussed
- * state. This is useful when a group of focusable elements got refocued or
- * even recreated.
+ * Directive that provides persistence of the focused state. This is useful
+ * when a group of focusable elements got refocused or even recreated. That
+ * happens often when the DOM is constructed with an `*ngIf` or `*ngFor`.
  *
  * The focus state is based on a configured _key_, which can be passed in the
- * config input, using a string primitive or `PersistFocusConfig.key`.
+ * config input, either by using a string primitive or `PersistFocusConfig.key`:
  *
- * The focus state can be part of a focus group, so that the state is shared
- * and remember for the given group.
+ * ```html
+ * <button cxPersistFocus="myKey"></button>
+ * <button cxFocus="myKey"></button>
+ * <button [cxFocus]="{{key:'myKey'}"></button>
+ * ```
  *
- * The focus key is peristed on the focus element, so that
+ * The focus state can be part of a focus _group_, so that the state is shared
+ * and remember for the given group. In order to detect the persistence for a
+ * given element, we store the persistence key as a data attribute (`data-cx-focus`):
  *
- * In order to detect the persistence for a given element, we store the persistence
- * key as a data attribute (`FOCUS_ATTR`).
+ * ```html
+ * <button data-cx-focus="myKey"></button>
+ * ```
+ *
+ * Other keyboard focus directives can read the key to understand whether the element
+ * should retrieve focus.
+ *
  */
 @Directive({
   selector: '[cxPersistFocus]',
@@ -83,7 +93,7 @@ export class PersistFocusDirective extends BlockFocusDirective
   }
 
   /**
-   * Focus the element explicitly if it was focussed before.
+   * Focus the element explicitly if it was focused before.
    */
   ngAfterViewInit() {
     if (this.isPersisted) {

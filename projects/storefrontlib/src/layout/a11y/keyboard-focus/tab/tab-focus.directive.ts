@@ -12,10 +12,9 @@ import { TabFocusService } from './tab-focus.service';
   selector: '[cxTabFocus]',
 })
 export class TabFocusDirective extends AutoFocusDirective {
-  /** tab is default if the directive is used directly */
+  /** `tab` defaults to true if the directive `cxTabFocus` is used. */
   protected defaultConfig: TabFocusConfig = { tab: true };
 
-  /** configuration options to steer the usage */
   @Input('cxTabFocus') protected config: TabFocusConfig = {};
 
   @HostListener('keydown.arrowRight', ['$event'])

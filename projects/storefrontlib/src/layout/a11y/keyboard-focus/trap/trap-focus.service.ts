@@ -11,12 +11,12 @@ export class TrapFocusService extends TabFocusService {
    *
    * @param host `HTMLElement` that is used to query the focusable elements.
    */
-  hasFocusableChilds(host: HTMLElement): boolean {
+  hasFocusableChildren(host: HTMLElement): boolean {
     return this.findFocusable(host).length > 0;
   }
 
   /**
-   * Focus the next or previous element of all available focussable elments.
+   * Focus the next or previous element of all available focusable elements.
    * The focus is _trapped_ in case there's no next or previous available element.
    * The focus will automatically move the start or end of the list.
    */
@@ -48,10 +48,7 @@ export class TrapFocusService extends TabFocusService {
 
       const el = focusable[index];
 
-      // TODO: evalute if this is required
-      if (el.getAttribute('tabindex') !== '-1') {
-        el.focus();
-      }
+      el.focus();
     }
   }
 

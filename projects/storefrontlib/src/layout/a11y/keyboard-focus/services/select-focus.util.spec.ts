@@ -41,12 +41,12 @@ describe('SelectFocusUtility', () => {
   });
 
   describe('findFocusable()', () => {
-    it('should find focusable childs', () => {
+    it('should find focusable children', () => {
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
       expect(service.findFocusable(host).length).toEqual(2);
     });
 
-    it('should find (locked) focusable childs', () => {
+    it('should find (locked) focusable children', () => {
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
       expect(service.findFocusable(host, true).length).toEqual(3);
     });

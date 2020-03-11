@@ -15,7 +15,7 @@ import { TrapFocusService } from './trap-focus.service';
 class MockComponent {}
 
 class MockTrapFocusService {
-  hasFocusableChilds() {
+  hasFocusableChildren() {
     return true;
   }
   moveFocus() {}
@@ -83,7 +83,7 @@ describe('TrapFocusDirective', () => {
     });
 
     it('should not move when there are not focusable childs', () => {
-      spyOn(service, 'hasFocusableChilds').and.returnValue(false);
+      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
       const host = fixture.debugElement.query(By.css('#b'));
       spyOn(service, 'moveFocus').and.callThrough();
       fixture.detectChanges();

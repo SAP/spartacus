@@ -51,35 +51,35 @@ describe('TrapFocusService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('hasFocusableChilds', () => {
-    it('should return false when there are no childs', () => {
+  describe('hasFocusableChildren', () => {
+    it('should return false when there are no children', () => {
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
-      expect(service.hasFocusableChilds(host)).toBeFalsy();
+      expect(service.hasFocusableChildren(host)).toBeFalsy();
     });
 
-    it('should return true when there are childs', () => {
+    it('should return true when there are children', () => {
       const host = fixture.debugElement.query(By.css('#b')).nativeElement;
-      const childs = fixture.debugElement.queryAll(By.css('#b > *'));
+      const children = fixture.debugElement.queryAll(By.css('#b > *'));
       spyOn(service, 'findFocusable').and.returnValue(
-        childs.map(c => c.nativeElement)
+        children.map(c => c.nativeElement)
       );
-      expect(service.hasFocusableChilds(host)).toBeTruthy();
+      expect(service.hasFocusableChildren(host)).toBeTruthy();
     });
   });
 
-  describe('move', () => {
+  describe('moveFocus', () => {
     const event = {
       preventDefault: () => {},
       stopPropagation: () => {},
     };
     let host;
-    let childs;
+    let children;
 
     beforeEach(() => {
       host = fixture.debugElement.query(By.css('#b')).nativeElement;
-      childs = fixture.debugElement.queryAll(By.css('#b > *'));
+      children = fixture.debugElement.queryAll(By.css('#b > *'));
       spyOn(service, 'findFocusable').and.returnValue(
-        childs.map(c => c.nativeElement)
+        children.map(c => c.nativeElement)
       );
     });
 
@@ -128,7 +128,17 @@ describe('TrapFocusService', () => {
           expect(next.focus).toHaveBeenCalled();
         });
 
-        it(`should not focus if trap = false`, () => {
+        it(`should focus if trap = 'end'`, () => {
+          service.moveFocus(
+            host,
+            { trap: 'end' },
+            MOVE_FOCUS.NEXT,
+            event as KeyboardEvent
+          );
+          expect(next.focus).toHaveBeenCalled();
+        });
+
+        it('should not focus if trap = false', () => {
           service.moveFocus(
             host,
             { trap: false },
@@ -180,6 +190,21 @@ describe('TrapFocusService', () => {
         service.moveFocus(
           host,
           { trap: true },
+          MOVE_FOCUS.PREV,
+          event as KeyboardEvent
+        );
+        expect(prev.focus).toHaveBeenCalled();
+      });
+
+      it('should focus prev element', () => {
+        const current = fixture.debugElement.query(By.css('#b3')).nativeElement;
+        const prev = fixture.debugElement.query(By.css('#b2')).nativeElement;
+        spyOn(prev, 'focus').and.callThrough();
+
+        (event as any).target = current;
+        service.moveFocus(
+          host,
+          { trap: 'start' },
           MOVE_FOCUS.PREV,
           event as KeyboardEvent
         );

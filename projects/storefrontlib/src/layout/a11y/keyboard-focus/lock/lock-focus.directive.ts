@@ -22,26 +22,30 @@ export class LockFocusDirective extends TrapFocusDirective
   implements OnInit, AfterViewInit {
   protected defaultConfig: LockFocusConfig = { lock: true };
 
-  /** configuration options to steer the usage. defaults to true.  */
   @Input('cxLockFocus') protected config: LockFocusConfig = {};
-
-  // @Output() unlock = new EventEmitter<boolean>();
 
   private hasbeenUnlocked = false;
 
+  /**
+   * When the user selects enter or space, the focusable childs are
+   * unlocked, which means that the tabindex is set to 0.
+   */
   @HostListener('keydown.enter', ['$event'])
   @HostListener('keydown.space', ['$event'])
   protected handleUnlock = (event: KeyboardEvent) => {
-    if (this.isLocked && !this.hasFocusableChilds) {
-      // this.unlock.emit(!this.hasbeenUnlocked);
+    if (this.isLocked && !this.hasFocusableChildren) {
       this.hasbeenUnlocked = true;
-      this.addTabindexToChilds(0);
+      this.addTabindexToChildren(0);
       this.handleFocus(event);
       event.preventDefault();
       event.stopPropagation();
     }
   };
 
+  /**
+   * In case any of the children elements is clicked by the mouse,
+   * the group is unlocked automatically.
+   */
   @HostListener('click', ['$event'])
   protected handleClick(event: KeyboardEvent) {
     if (event.target !== this.host) {
@@ -61,7 +65,7 @@ export class LockFocusDirective extends TrapFocusDirective
 
     if (this.isLocked) {
       // when the host is configured to be locked, we explicitly make
-      // it focusable, if not already
+      // it focusable, if it wasn't already focusable.
       if (
         this.requiresExplicitTabIndex ||
         !this.currentIndex ||
@@ -69,29 +73,35 @@ export class LockFocusDirective extends TrapFocusDirective
       ) {
         this.tabindex = 0;
       }
-      // set autofocus for locked elements, unless set to false
+      // Locked elements will be set to autofocus by default, unless set
+      // to `false`. This will ensure that upon unlock, the autofocus kicks in.
       this.config.autofocus = !(this.config?.autofocus === false);
 
-      // set focusOnEscape for locked elements, unless set to false
+      // Locked elements will be set to use `focusOnEscape` be default, unless
+      // set to `false`. This will ensure that the host gets locked again
+      // when `escape` is pressed.
       this.config.focusOnEscape = !(this.config?.focusOnEscape === false);
     }
   }
 
-  /**
-   * locks the focusable elements by setting the tabIndex to `-1`.
-   */
   ngAfterViewInit(): void {
     if (!!this.group) {
-      // consider using `this.focusable`
+      /**
+       * If the component hosts a group of focusable children elmenents,
+       * we persist the group key to the children, so that they can taken this
+       * into account when they persist their focus state.
+       */
       this.service.findFocusable(this.host).forEach(el => {
         el.setAttribute(FOCUS_GROUP_ATTR, this.group);
       });
     }
 
+    /**
+     * When the component got (re)created, we lock the focusable children elements
+     * by settng the tabindex to `-1`.
+     */
     if (this.isLocked) {
-      // this is a problem; when the after init kicks in
-      // the child components aren't rendered yet
-      this.addTabindexToChilds(this.hasPersistedFocus ? 0 : -1);
+      this.addTabindexToChildren(this.hasPersistedFocus ? 0 : -1);
     }
 
     if (this.isLocked && this.hasPersistedFocus) {
@@ -107,7 +117,7 @@ export class LockFocusDirective extends TrapFocusDirective
    */
   protected handleFocus(event: KeyboardEvent): void {
     if (this.isLocked && !this.hasbeenUnlocked) {
-      this.addTabindexToChilds(-1);
+      this.addTabindexToChildren(-1);
     } else {
       super.handleFocus(event);
       this.hasbeenUnlocked = false;
@@ -122,13 +132,10 @@ export class LockFocusDirective extends TrapFocusDirective
   }
 
   /**
-   * Add the tabindex attribute to the references.
-   * TODO: consider renaming!
-   *
-   * @param index the tabindex that is added to the references, defaults to 0.
+   * Add the tabindex attribute to the focusable children elements
    */
-  protected addTabindexToChilds(index = 0): void {
-    if (!(this.hasFocusableChilds && index === 0) || index === 0) {
+  protected addTabindexToChildren(index = 0): void {
+    if (!(this.hasFocusableChildren && index === 0) || index === 0) {
       this.focusable.forEach(el =>
         el.setAttribute('tabindex', index.toString())
       );
@@ -136,15 +143,16 @@ export class LockFocusDirective extends TrapFocusDirective
   }
 
   /**
-   * Utility method, returns all focusable childs for the host element.
+   * Utility method, returns all focusable children for the host element.
+   *
    * We keep this private to not polute the API.
    */
-  private get hasFocusableChilds(): boolean {
-    return this.service.hasFocusableChilds(this.host);
+  private get hasFocusableChildren(): boolean {
+    return this.service.hasFocusableChildren(this.host);
   }
 
   /**
-   * Returns the focusable childs of the host element. If the host element
+   * Returns the focusable children of the host element. If the host element
    * is configured to be locked, the query is restricted to child elements
    * with a tabindex !== `-1`.
    *

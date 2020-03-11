@@ -19,7 +19,6 @@ import { TrapFocusService } from './trap-focus.service';
 export class TrapFocusDirective extends TabFocusDirective implements OnInit {
   protected defaultConfig: TrapFocusConfig = { trap: true };
 
-  /** configuration options to steer the usage */
   @Input('cxTrapFocus') protected config: TrapFocusConfig = {};
 
   @HostListener('keydown.arrowdown', ['$event'])
@@ -47,14 +46,14 @@ export class TrapFocusDirective extends TabFocusDirective implements OnInit {
 
   /**
    * Moves the focus of the element reference up or down, depending on the increment.
-   * The focus of the element is trapped to avoid it will go out of the group.
+   * The focus of the element is trapped to avoid it from going out of the group.
    *
    * @param event UIEvent that is used to get the target element. The event is blocked
    *   from standard execution and further bubbling.
    * @param increment indicates whether the next or previous is focussed.
    */
   protected moveFocus(event: UIEvent, increment: number) {
-    if (this.service.hasFocusableChilds(this.host)) {
+    if (this.service.hasFocusableChildren(this.host)) {
       this.service.moveFocus(
         this.host,
         this.config,

@@ -22,11 +22,9 @@ export class EscapeFocusService extends PersistFocusService {
   ): void {
     if (this.shouldFocus(config)) {
       if (host !== event.target) {
-        // if (config.initialTabindex && config.initialTabindex !== -1) {
         host.focus({ preventScroll: true });
         event.preventDefault();
         event.stopPropagation();
-        // }
       } else {
         if (config?.focusOnDoubleEscape) {
           this.selectFocusUtil
