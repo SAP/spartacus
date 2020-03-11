@@ -5,11 +5,12 @@ import {
   commitChanges,
   findConstructor,
   getAllTsSourceFiles,
+  getTsSourceFile,
   InsertDirection,
   isCandidateForConstructorDeprecation,
   removeConstructorParam,
-} from '../../shared/utils/file-utils';
-import { getSourceRoot } from '../../shared/utils/workspace-utils';
+} from '../../../shared/utils/file-utils';
+import { getSourceRoot } from '../../../shared/utils/workspace-utils';
 import { CONSTRUCTOR_DEPRECATION_DATA } from './constructor-deprecation-data';
 
 export function migrate(): Rule {
@@ -18,24 +19,26 @@ export function migrate(): Rule {
 
     const project = getSourceRoot(tree, {});
     const sourceFiles = getAllTsSourceFiles(tree, project);
-    for (const source of sourceFiles) {
-      const sourcePath = source.fileName;
+    for (const originalSource of sourceFiles) {
+      const sourcePath = originalSource.fileName;
 
       for (const constructorDeprecation of CONSTRUCTOR_DEPRECATION_DATA) {
         if (
           !isCandidateForConstructorDeprecation(
-            source,
-            constructorDeprecation.class,
-            constructorDeprecation.deprecatedParams
+            originalSource,
+            constructorDeprecation
           )
         ) {
           continue;
         }
 
-        const nodes = getSourceNodes(source);
-        const constructorNode = findConstructor(nodes);
         for (const newConstructorParam of constructorDeprecation.addParams ||
           []) {
+          // 'source' has to be reloaded after each committed change
+          const source = getTsSourceFile(tree, sourcePath);
+          const nodes = getSourceNodes(source);
+          const constructorNode = findConstructor(nodes);
+
           const changes = addConstructorParam(
             source,
             sourcePath,
@@ -49,6 +52,11 @@ export function migrate(): Rule {
 
         for (const constructorParamToRemove of constructorDeprecation.removeParams ||
           []) {
+          // 'source' has to be reloaded after each committed change
+          const source = getTsSourceFile(tree, sourcePath);
+          const nodes = getSourceNodes(source);
+          const constructorNode = findConstructor(nodes);
+
           const changes = removeConstructorParam(
             source,
             sourcePath,
