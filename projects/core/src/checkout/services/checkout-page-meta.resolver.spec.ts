@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { ActiveCartService } from '../../cart';
-import { PageRobotsMeta } from '../../cms';
+import { PageMetaResolver, PageMetaService, PageRobotsMeta } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { Cart } from '../../model/cart.model';
 import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';
@@ -11,7 +11,7 @@ const mockCart: Cart = {
   totalItems: 5,
 };
 
-class MockCartService {
+class MockActiveCartService {
   getActive(): Observable<Cart> {
     return of(mockCart);
   }
@@ -23,7 +23,15 @@ describe('CheckoutPageMetaResolver', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      providers: [{ provide: ActiveCartService, useClass: MockCartService }],
+      providers: [
+        PageMetaService,
+        { provide: ActiveCartService, useClass: MockActiveCartService },
+        {
+          provide: PageMetaResolver,
+          useExisting: CheckoutPageMetaResolver,
+          multi: true,
+        },
+      ],
     });
 
     service = TestBed.inject(CheckoutPageMetaResolver);

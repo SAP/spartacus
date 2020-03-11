@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Cart, CartService, RoutingService } from '@spartacus/core';
+import { ActiveCartService, Cart, RoutingService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
@@ -9,14 +9,14 @@ import { filter, map } from 'rxjs/operators';
 })
 export class CartNotEmptyGuard implements CanActivate {
   constructor(
-    private cartService: CartService,
-    private routingService: RoutingService
+    protected routingService: RoutingService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   canActivate(): Observable<boolean> {
     return combineLatest([
-      this.cartService.getActive(),
-      this.cartService.getLoaded(),
+      this.activeCartService.getActive(),
+      this.activeCartService.getLoaded(),
     ]).pipe(
       filter(([_, loaded]) => loaded),
       map(([cart]) => {
