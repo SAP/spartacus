@@ -3,11 +3,11 @@ import { OutletPosition } from '../../../../cms-structure/outlet/index';
 
 export const DEFAULT_TRIGGER_CONFIG: TriggerConfig = {
   trigger: {
-    asm: {
+    ASM: {
       outlet: 'cx-storefront',
       position: OutletPosition.BEFORE,
     },
-    skipLinks: {
+    SKIP_LINKS: {
       outlet: 'cx-storefront',
       position: OutletPosition.BEFORE,
     },

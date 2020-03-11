@@ -2,8 +2,10 @@ import { OutletPosition } from '../../../../cms-structure/index';
 
 export abstract class TriggerConfig {
   trigger?: {
-    asm?: TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping;
-    skipLinks?: TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping;
+    [TRIGGER_CALLER: string]:
+      | TriggerOutletMapping
+      | TriggerInlineMapping
+      | TriggerUrlMapping;
   };
 }
 
@@ -19,4 +21,9 @@ export interface TriggerInlineMapping {
 
 export interface TriggerUrlMapping {
   url: string;
+}
+
+export enum TRIGGER_CALLER {
+  ASM = 'ASM',
+  SKIP_LINKS = 'SKIP_LINKS',
 }
