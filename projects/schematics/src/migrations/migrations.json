@@ -12,7 +12,7 @@
     },
     "migration-v2-constructor-deprecations-03": {
       "version": "2-next",
-      "factory": "./2_0/constructor-deprecations#migrate",
+      "factory": "./2_0/constructor-deprecations/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
     },
     "migration-v2-removed-public-api-04": {
@@ -22,7 +22,7 @@
     },
     "migration-v2-component-deprecations-05": {
       "version": "2-next",
-      "factory": "./2_0/component-deprecations#migrate",
+      "factory": "./2_0/component-deprecations/component-deprecations#migrate",
       "description": "Handle deprecated Spartacus components"
     },
     "migration-v2-css-06": {
