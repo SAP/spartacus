@@ -10,12 +10,13 @@ import { BaseFocusService } from './base-focus.service';
 
 /**
  * Abstract directive that provides a common interface for all focus directives:
+ * - Block Focus
  * - Persist Focus
- * - Auto Focus
  * - Escape Focus
+ * - Auto Focus
  * - Tab Focus
- * - Lock Focus
  * - Trap Focus
+ * - Lock Focus
  */
 @Directive()
 export abstract class BaseFocusDirective implements OnInit {
@@ -42,6 +43,12 @@ export abstract class BaseFocusDirective implements OnInit {
     this.forceTabindex();
   }
 
+  /**
+   * Override the (input) config if it undefined or an empty string, with the
+   * `defaultConfig`. The `defaultConfig` might be specified for each directive
+   * differently. If a specific directive is used (i.e. `cxAutoFocus`), the
+   * specific (inherited) defaultConfig will be used.
+   */
   protected setDefaultConfiguration(): void {
     if ((!this.config || this.config === '') && this.defaultConfig) {
       this.config = this.defaultConfig;
@@ -49,7 +56,7 @@ export abstract class BaseFocusDirective implements OnInit {
   }
 
   /**
-   * forces a tabindex on the host element if it's lacking or
+   * Forces a tabindex on the host element if it's lacking or
    * not forced by the semantic nature of the host element. Buttons,
    * active links, etc. do no need an explicit tabindex to receive focus.
    */
