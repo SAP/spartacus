@@ -48,10 +48,7 @@ export class TrapFocusService extends TabFocusService {
 
       const el = focusable[index];
 
-      // TODO: evalute if this is required
-      if (el.getAttribute('tabindex') !== '-1') {
-        el.focus();
-      }
+      el.focus();
     }
   }
 

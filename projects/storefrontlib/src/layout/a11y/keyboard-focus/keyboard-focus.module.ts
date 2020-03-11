@@ -24,6 +24,5 @@ const directives = [
   imports: [CommonModule],
   declarations: [...directives],
   exports: [...directives],
-  // providers: [{ provide: KEYBOARD_FOCUS_TOKEN, useValue: { focus } }],
 })
 export class KeyboardFocusModule {}

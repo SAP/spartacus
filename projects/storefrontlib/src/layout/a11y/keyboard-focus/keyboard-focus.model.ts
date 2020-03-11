@@ -73,19 +73,9 @@ export interface TrapFocusConfig extends TabFocusConfig {
 
 export interface LockFocusConfig extends TrapFocusConfig {
   /**
-   * Indicates that the nested DOM is locked for keyboarding (`TAB`)
-   * you can conventiently add a group in the `lock` property, to avoid
-   * boilerplate configuation.
-   *
-   * `<div [cxLockFocus]="{lock:'a'}"></div>`
-   *
-   * Using the `lock` property as a group works similar as providing an
-   * explicit `group`:
-   *
-   *
-   * `<div [cxLockFocus]="{lock:true, group:'a'}"></div>`
+   * Indicates that the nested DOM is locked for keyboarding (`TAB`).
    */
-  lock?: boolean; // we used to have string as well...
+  lock?: boolean;
 }
 
 // tslint:disable-next-line: no-empty-interface

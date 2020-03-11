@@ -35,7 +35,7 @@ import { LockFocusService } from './lock-focus.service';
 class MockComponent {}
 
 class MockLockFocusService {
-  hasFocusableChilds() {
+  hasFocusableChildren() {
     return true;
   }
   findFocusable() {}
@@ -89,7 +89,7 @@ describe('LockFocusDirective', () => {
   describe('configuration', () => {
     beforeEach(() => {
       spyOn(event, 'preventDefault');
-      spyOn(service, 'hasFocusableChilds').and.returnValue(false);
+      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
       fixture.detectChanges();
     });
 
@@ -175,7 +175,7 @@ describe('LockFocusDirective', () => {
 
   describe('unlock group', () => {
     beforeEach(() => {
-      spyOn(service, 'hasFocusableChilds').and.returnValue(false);
+      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
       fixture.detectChanges();
     });
 
@@ -260,7 +260,7 @@ describe('LockFocusDirective', () => {
 
   describe('use autofocus', () => {
     beforeEach(() => {
-      spyOn(service, 'hasFocusableChilds').and.returnValue(false);
+      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
       fixture.detectChanges();
     });
 
