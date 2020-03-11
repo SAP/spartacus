@@ -14,7 +14,7 @@ const USE_OF_RESOLVE_METHODS = `
 
 export class CustomPageMetaService extends PageMetaService {
   resolverMethods() {
-  //   no implementation here...
+    // no implementation here...
   }
 }
 `;
@@ -22,9 +22,9 @@ const EXPECTED_CLASS = `
 // before changes done by test
 
 export class CustomPageMetaService extends PageMetaService {
-// TODO:Spartacus - Be aware that the resolver method for the PageMetaService is no longer public, but protected instead
+  // TODO:Spartacus - the method is no longer public
   resolverMethods() {
-  //   no implementation here...
+    // no implementation here...
   }
 }
 `;

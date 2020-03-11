@@ -800,15 +800,17 @@ export function insertCommentAboveIdentifier(
   );
 
   const changes: InsertChange[] = [];
-  identifierNodes.forEach(n =>
+  identifierNodes.forEach(n => {
+    const leading = n.getLeadingTriviaWidth() - 1;
+    const indent = ' '.repeat(leading);
     changes.push(
       new InsertChange(
         sourcePath,
         getLineStartFromTSFile(source, n.getStart()),
-        comment
+        `${indent}${comment}`
       )
-    )
-  );
+    );
+  });
   return changes;
 }
 
