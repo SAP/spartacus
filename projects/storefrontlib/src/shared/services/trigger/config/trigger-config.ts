@@ -9,14 +9,18 @@ export abstract class TriggerConfig {
   };
 }
 
-export interface TriggerOutletMapping {
-  outlet: string;
+export interface TriggerMapping {
   position?: OutletPosition;
+  // Can the element be rendered multiple times
+  multi?: boolean;
 }
 
-export interface TriggerInlineMapping {
+export interface TriggerOutletMapping extends TriggerMapping {
+  outlet: string;
+}
+
+export interface TriggerInlineMapping extends TriggerMapping {
   inline: boolean;
-  position?: OutletPosition;
 }
 
 export interface TriggerUrlMapping {

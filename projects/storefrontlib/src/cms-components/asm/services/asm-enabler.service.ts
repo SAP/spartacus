@@ -18,9 +18,6 @@ import {
   providedIn: 'root',
 })
 export class AsmEnablerService {
-  /** indicates whether the ASM UI has been added already */
-  private isUiAdded = false;
-
   constructor(
     protected location: Location,
     protected winRef: WindowRef,
@@ -74,13 +71,9 @@ export class AsmEnablerService {
    * Adds the ASM UI by using the `cx-storefront` outlet.
    */
   private addUi(): void {
-    if (this.isUiAdded) {
-      return;
-    }
     const factory = this.componentFactoryResolver.resolveComponentFactory(
       AsmMainUiComponent
     );
     this.triggerService.renderDialog(TRIGGER_CALLER.ASM, factory);
-    this.isUiAdded = true;
   }
 }
