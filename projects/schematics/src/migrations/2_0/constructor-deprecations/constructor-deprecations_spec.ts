@@ -11,13 +11,13 @@ import {
 } from '@schematics/angular/utility/ast-utils';
 import * as shx from 'shelljs';
 import * as ts from 'typescript';
-import { AUTH_SERVICE, SPARTACUS_CORE, STORE } from '../../shared/constants';
+import { AUTH_SERVICE, SPARTACUS_CORE, STORE } from '../../../shared/constants';
 import {
   getConstructor,
   getParams,
   runMigration,
   writeFile,
-} from '../../shared/utils/test-utils';
+} from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-deprecations-03';
 const NOT_INHERITING_SPARTACUS_CLASS = `
@@ -155,7 +155,6 @@ export class Test extends PageMetaService {
   }
 }
 `;
-
 const REMOVE_PARAMETER_EXPECTED_CLASS = `
 import { Dummy } from '@angular/core';
 import {
@@ -264,13 +263,30 @@ const ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS = `
       }
     }
 `;
-
 const ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS = `
     import { Store } from '@ngrx/store';
     import { StateWithCheckout, CheckoutService,  AuthService, ActiveCartService } from '@spartacus/core';
     export class InheritingService extends CheckoutService {
       constructor(store: Store<StateWithCheckout> , authService: AuthService, activeCartService: ActiveCartService) {
         super(store , authService, activeCartService);
+      }
+    }
+`;
+const CART_PAGE_LAYOUT_HANDLER = `
+    import { CartPageLayoutHandler } from '@spartacus/storefront';
+    import { CartService } from '@spartacus/core';
+    export class InheritingService extends CartPageLayoutHandler {
+      constructor(cartService: CartService) {
+        super(cartService);
+      }
+    }
+`;
+const CART_PAGE_LAYOUT_HANDLER_EXPECTED = `
+    import { CartPageLayoutHandler } from '@spartacus/storefront';
+    import {  ActiveCartService, SelectiveCartService } from '@spartacus/core';
+    export class InheritingService extends CartPageLayoutHandler {
+      constructor( activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService) {
+        super( activeCartService, selectiveCartService);
       }
     }
 `;
@@ -285,7 +301,7 @@ describe('constructor migrations', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../migrations.json')
+      require.resolve('../../migrations.json')
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -499,6 +515,16 @@ describe('constructor migrations', () => {
 
         const content = appTree.readContent('/src/index.ts');
         expect(content).toEqual(REMOVE_PARAMETER_BUT_NOT_IMPORT_EXPECTED_CLASS);
+      });
+    });
+    describe('when the first constructor parameter should be removed', () => {
+      it('should remove the trailing comma as well', async () => {
+        writeFile(host, '/src/index.ts', CART_PAGE_LAYOUT_HANDLER);
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent('/src/index.ts');
+        expect(content).toEqual(CART_PAGE_LAYOUT_HANDLER_EXPECTED);
       });
     });
   });

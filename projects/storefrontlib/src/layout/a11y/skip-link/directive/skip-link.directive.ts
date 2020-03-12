@@ -7,18 +7,13 @@ import { SkipLinkService } from '../service/skip-link.service';
 export class SkipLinkDirective implements OnInit, OnDestroy {
   @Input() cxSkipLink: string;
 
-  // @HostBinding('tabindex') protected tabIndex: string = null;
-
   constructor(
-    private elRef: ElementRef<HTMLElement>,
-    private skipLinkService: SkipLinkService
+    protected elementRef: ElementRef<HTMLElement>,
+    protected skipLinkService: SkipLinkService
   ) {}
 
   ngOnInit(): void {
-    // when we merge the skipLink in the focus directives, we should care about
-    // the mix of directives and the final tabindex
-    // this.tabIndex = '-1';
-    this.skipLinkService.add(this.cxSkipLink, this.elRef.nativeElement);
+    this.skipLinkService.add(this.cxSkipLink, this.elementRef.nativeElement);
   }
 
   ngOnDestroy(): void {
