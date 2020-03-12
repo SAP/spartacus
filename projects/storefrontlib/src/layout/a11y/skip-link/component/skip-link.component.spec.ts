@@ -79,12 +79,11 @@ describe('SkipLinkComponent', () => {
     expect(buttons.length).toEqual(3);
     expect(spyComponent).not.toHaveBeenCalled();
 
-    console.log('????');
     // const mouseEvent = new MouseEvent('mousedown');
     buttons[0].click();
     expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0]);
     buttons[1].click();
-    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[1]);
+    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0]);
     buttons[2].click();
     expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0]);
   });
