@@ -294,7 +294,7 @@ describe('ConfiguratorCommonsService', () => {
       .subscribe(pendingChanges => {
         hasPendingChanges = pendingChanges;
       });
-    expect(hasPendingChanges).toBeTrue();
+    expect(hasPendingChanges).toBe(true);
   });
 
   it('should get configuration loading state from store', () => {

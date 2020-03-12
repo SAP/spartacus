@@ -10,12 +10,14 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CmsConfig,
+  Config,
   ConfigModule,
   I18nModule,
   ProductModule,
   UrlModule,
   UserService,
 } from '@spartacus/core';
+import { SpinnerModule } from '../../..//shared/components/spinner';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { OutletPosition, OutletService } from '../../../cms-structure/outlet';
@@ -34,10 +36,12 @@ import { ConfigAttributeSingleSelectionImageComponent } from '../commons/config-
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
 import { ConfigGroupTitleComponent } from '../commons/config-group-title/config-group-title.component';
+import { ConfigMessageComponent } from '../commons/config-message/config-message.component';
 import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/config-price-summary.component';
 import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.component';
-import { ConfigUpdateMessageComponent } from '../commons/config-update-message/config-update-message.component';
+import { DefaultMessageConfig } from '../commons/config/default-message-config';
+import { MessageConfig } from '../commons/config/message-config';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
 
 @NgModule({
@@ -58,6 +62,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
         canActivate: [CmsPageGuard],
       },
     ]),
+    ConfigModule.withConfig(DefaultMessageConfig),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         VariantConfigurationTabBar: {
@@ -145,6 +150,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     HamburgerMenuModule,
     I18nModule,
     IconModule,
+    SpinnerModule,
   ],
 
   declarations: [
@@ -164,7 +170,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
-    ConfigUpdateMessageComponent,
+    ConfigMessageComponent,
   ],
   exports: [
     ConfigFormComponent,
@@ -183,7 +189,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
-    ConfigUpdateMessageComponent,
+    ConfigMessageComponent,
   ],
   providers: [
     UserService,
@@ -193,6 +199,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
       deps: [ComponentFactoryResolver, OutletService],
       multi: true,
     },
+    { provide: MessageConfig, useExisting: Config },
   ],
   entryComponents: [
     ConfigFormComponent,
@@ -211,7 +218,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
-    ConfigUpdateMessageComponent,
+    ConfigMessageComponent,
   ],
 })
 export class VariantConfiguratorModule {}
@@ -222,7 +229,7 @@ export function bannerFactory(
 ) {
   const isReady = () => {
     const factory = componentFactoryResolver.resolveComponentFactory(
-      ConfigUpdateMessageComponent
+      ConfigMessageComponent
     );
     outletService.add('cx-header', factory, OutletPosition.AFTER);
   };
