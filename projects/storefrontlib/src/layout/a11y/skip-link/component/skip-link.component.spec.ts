@@ -72,18 +72,19 @@ describe('SkipLinkComponent', () => {
     expect(buttons[2].outerText).toContain(mockSkipLinks[2].i18nKey);
   });
 
-  it('should call `scrollToTarget` on button click', () => {
+  fit('should call `scrollToTarget` on button click', () => {
     const spyComponent = spyOn(skipLinkComponent, 'scrollToTarget');
     const element = fixture.debugElement.nativeElement;
     const buttons = element.querySelectorAll('button');
     expect(buttons.length).toEqual(3);
     expect(spyComponent).not.toHaveBeenCalled();
 
+    console.log('????');
     // const mouseEvent = new MouseEvent('mousedown');
     buttons[0].click();
     expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0]);
     buttons[1].click();
-    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0]);
+    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[1]);
     buttons[2].click();
     expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0]);
   });

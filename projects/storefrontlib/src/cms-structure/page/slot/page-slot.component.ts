@@ -18,7 +18,6 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
-import { SelectFocusUtility } from '../../../layout/a11y/keyboard-focus/index';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 
 @Component({
@@ -77,7 +76,6 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     dynamicAttributeService: DynamicAttributeService,
     renderer: Renderer2,
     hostElement: ElementRef,
-    focusService: SelectFocusUtility,
     // tslint:disable-next-line:unified-signatures
     config: CmsConfig
   );
@@ -89,15 +87,13 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     cmsService: CmsService,
     dynamicAttributeService: DynamicAttributeService,
     renderer: Renderer2,
-    hostElement: ElementRef,
-    focusService: SelectFocusUtility
+    hostElement: ElementRef
   );
   constructor(
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected hostElement: ElementRef,
-    protected focusService: SelectFocusUtility,
     protected config?: CmsConfig
   ) {}
 
