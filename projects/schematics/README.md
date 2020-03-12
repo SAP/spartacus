@@ -129,6 +129,9 @@ Now create a new angular project:
 - commit the changes, if any.
 - run the following update command `ng update @spartacus/schematics`. If there's an error about the unresolved peer dependencies, you can append `--force` flag just to quickly test something out, but this error should _not_ appear when executing the update schematics without the flag. You should see your update commands executed now.
 
+> NOTE: if _verdaccio_ refuses to publish libraries, and displays an error that says that the lib is already published with the same version, the quickest way around this seems to be [this](https://github.com/verdaccio/verdaccio/issues/1203#issuecomment-457361429) - 
+> open `nano ~/.config/verdaccio/config.yaml` and under `packages: '@*/*':` sections, comment out the `proxy: npmjs` line. After doing this, you should be able to publish the packages.
+
 ### Iterative development
 
 When doing iterative development of the update schematic, it's for the best to do the following before testing the changes:
@@ -161,8 +164,12 @@ Some examples:
 - adding a comment above the removed API method, guiding customers which method they can use instead.
 - adding a comment above the Ngrx action in which we changed parameters
 
-#### HTML and CSS
+#### Component deprecation
 
-To handle HTML changes (such as the DOM structure changes), you can use `projects/schematics/src/shared/utils/file-utils.ts#insertHtmlComment` method, where you will provide a Spartacus component selector, above which the schematic will insert a comment.
+Similar to [constructor deprecation](#Constructor-deprecation), `projects/schematics/src/migrations/2_0/component-deprecations.ts` performs the component migration tasks, for both component _*.ts_ and _HTML_ templates. Usually, a developer does not need to touch this file, and they should rather describe the component deprecation in `projects/schematics/src/migrations/2_0/component-deprecations-data.ts`. The constant `COMPONENT_DEPRECATION_DATA` describes the deprecated components.
+
+If needed, there's a `projects/schematics/src/shared/utils/file-utils.ts#insertHtmlComment` method, to which you can provide a Spartacus component selector, above which the schematic will insert a comment.
+
+#### CSS
 
 To handle CSS changes, we are printing a link to the CSS docs, where customers can look up which CSS selectors have changed between Spartacus versions. For this reason, if making a change to a CSS selector, please update this docs. (link to follow).
