@@ -8,6 +8,7 @@ import {
 describe('Payment Methods', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
+    visitHomePage();
   });
 
   describe('Anonymous user', () => {
@@ -16,21 +17,8 @@ describe('Payment Methods', () => {
 
   describe('Authenticated user', () => {
     before(() => {
-      cy.requireLoggedIn();
-      cy.reload();
-
       cy.server();
       visitHomePage();
-      cy.route(
-        'GET',
-        '/rest/v2/electronics-spa/cms/pages*/my-account/payment-details*'
-      ).as('payment_details');
-
-      cy.selectUserMenuOption({
-        option: 'Payment Details',
-      });
-
-      cy.wait('@payment_details');
     });
 
     beforeEach(() => {
