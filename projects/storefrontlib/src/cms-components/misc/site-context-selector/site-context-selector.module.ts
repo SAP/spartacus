@@ -3,8 +3,8 @@ import { Injector, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
   ContextServiceMap,
+  provideDefaultConfig,
   SiteContextModule,
 } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -14,10 +14,9 @@ import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  imports: [CommonModule, RouterModule, SiteContextModule, IconModule],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CMSSiteContextComponent: {
           component: SiteContextSelectorComponent,
@@ -34,10 +33,9 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
         },
       },
     }),
-    SiteContextModule,
-    IconModule,
+    ,
+    SiteContextComponentService,
   ],
-  providers: [SiteContextComponentService],
   declarations: [SiteContextSelectorComponent, LanguageCurrencyComponent],
   entryComponents: [SiteContextSelectorComponent, LanguageCurrencyComponent],
   exports: [SiteContextSelectorComponent, LanguageCurrencyComponent],
