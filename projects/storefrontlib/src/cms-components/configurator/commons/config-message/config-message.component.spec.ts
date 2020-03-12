@@ -104,13 +104,6 @@ describe('ConfigurationMessageComponent', () => {
     expect(
       htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
     ).toBe(1);
-
-    //Should NOT appear after
-    setTimeout(() => {
-      expect(
-        htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-      ).toBe(1);
-    }, 2000);
   });
 
   it('should show update banner if pending changes is true', () => {
@@ -203,6 +196,6 @@ describe('ConfigurationMessageComponent', () => {
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message').length
       ).toBe(1);
-    }, 200);
+    }, 2000);
   });
 });
