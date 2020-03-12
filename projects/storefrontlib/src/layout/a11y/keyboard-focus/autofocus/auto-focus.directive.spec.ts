@@ -111,7 +111,6 @@ describe('AutoFocusDirective', () => {
     it('should avoid autofocus when mousedown was used', () => {
       const host = fixture.debugElement.query(By.css('#b'));
       const f1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
-      const f2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
 
       spyOn(service, 'findFirstFocusable').and.returnValue(f1);
 
@@ -142,9 +141,12 @@ describe('AutoFocusDirective', () => {
       expect(service.findFirstFocusable).toHaveBeenCalledTimes(
         totalNumberOfAutofocusTimes
       );
-      expect(service.findFirstFocusable).not.toHaveBeenCalledWith(host, {
-        autofocus: false,
-      });
+      expect(service.findFirstFocusable).not.toHaveBeenCalledWith(
+        host.nativeElement,
+        {
+          autofocus: false,
+        }
+      );
     });
   });
 
