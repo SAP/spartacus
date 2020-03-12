@@ -100,7 +100,7 @@ export class LockFocusDirective extends TrapFocusDirective
       this.service
         .findFocusable(this.host)
         .forEach(el =>
-          this.renderer.setAttribute(this.host, FOCUS_GROUP_ATTR, this.group)
+          this.renderer.setAttribute(el, FOCUS_GROUP_ATTR, this.group)
         );
     }
 
