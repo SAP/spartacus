@@ -8,7 +8,7 @@ import {
   PromotionLocation,
   PromotionResult,
   RoutingService,
-  SelectiveActiveCartService,
+  SelectiveCartService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
