@@ -295,7 +295,7 @@ describe('CartService', () => {
           new CartActions.CartRemoveEntry({
             userId: userId,
             cartId: cart.code,
-            entry: mockCartEntry.entryNumber,
+            entry: `${mockCartEntry.entryNumber}`,
           })
         );
       });

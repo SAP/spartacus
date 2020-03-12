@@ -187,7 +187,7 @@ export class CartService {
       new CartActions.CartRemoveEntry({
         userId: this.cartData.userId,
         cartId: this.cartData.cartId,
-        entry: entry.entryNumber,
+        entry: `${entry.entryNumber}`,
       })
     );
   }

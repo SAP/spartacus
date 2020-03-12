@@ -28,7 +28,9 @@ export class CartAddEntry extends StateLoaderActions.LoaderLoadAction {
 
 export class CartAddEntrySuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = CART_ADD_ENTRY_SUCCESS;
-  constructor(public payload: any) {
+  constructor(
+    public payload: { userId: string; cartId: string; [key: string]: any }
+  ) {
     super(CART_DATA);
   }
 }
@@ -42,14 +44,16 @@ export class CartAddEntryFail extends StateLoaderActions.LoaderFailAction {
 
 export class CartRemoveEntry extends StateLoaderActions.LoaderLoadAction {
   readonly type = CART_REMOVE_ENTRY;
-  constructor(public payload: any) {
+  constructor(
+    public payload: { cartId: string; userId: string; entry: string }
+  ) {
     super(CART_DATA);
   }
 }
 
 export class CartRemoveEntrySuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = CART_REMOVE_ENTRY_SUCCESS;
-  constructor(public payload: any) {
+  constructor(public payload: { userId: string; cartId: string }) {
     super(CART_DATA);
   }
 }
@@ -63,14 +67,21 @@ export class CartRemoveEntryFail extends StateLoaderActions.LoaderFailAction {
 
 export class CartUpdateEntry extends StateLoaderActions.LoaderLoadAction {
   readonly type = CART_UPDATE_ENTRY;
-  constructor(public payload: any) {
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      entry: string;
+      qty: number;
+    }
+  ) {
     super(CART_DATA);
   }
 }
 
 export class CartUpdateEntrySuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = CART_UPDATE_ENTRY_SUCCESS;
-  constructor(public payload: any) {
+  constructor(public payload: { userId: string; cartId: string }) {
     super(CART_DATA);
   }
 }
