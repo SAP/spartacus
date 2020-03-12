@@ -37,6 +37,8 @@ export const DefaultConfigChunk = new InjectionToken(
 /**
  * Helper function to provide configuration chunk using ConfigChunk token
  *
+ * To provide default configuration in libraries provideDefaultConfig should be used instead.
+ *
  * @param config Config object to merge with the global configuration
  */
 export function provideConfig(
@@ -52,6 +54,8 @@ export function provideConfig(
 
 /**
  * Helper function to provide configuration with factory function, using ConfigChunk token
+ *
+ * To provide default configuration in libraries provideDefaultConfigFactory should be used instead.
  *
  * @param configFactory Factory Function that will generate config object
  * @param deps Optional dependencies to a factory function
@@ -130,6 +134,8 @@ export class ConfigModule {
   /**
    * Import ConfigModule and contribute config to the global configuration
    *
+   * To provide default configuration in libraries provideDefaultConfig should be used instead.
+   *
    * @param config Config object to merge with the global configuration
    */
   static withConfig(config: object): ModuleWithProviders<ConfigModule> {
@@ -141,6 +147,8 @@ export class ConfigModule {
 
   /**
    * Import ConfigModule and contribute config to the global configuration using factory function
+   *
+   * To provide default configuration in libraries provideDefaultConfigFactory should be used instead.
    *
    * @param configFactory Factory function that will generate configuration
    * @param deps Optional dependencies to factory function
