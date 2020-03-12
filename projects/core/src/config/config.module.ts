@@ -3,6 +3,7 @@ import {
   InjectionToken,
   ModuleWithProviders,
   NgModule,
+  Optional,
   Provider,
 } from '@angular/core';
 import { deepMerge } from './utils/deep-merge';
