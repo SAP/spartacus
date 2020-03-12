@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CartService } from '../../cart';
+import { ActiveCartService } from '../../cart';
 import {
   PageMeta,
   PageMetaResolver,
@@ -16,7 +16,7 @@ const mockCart: Cart = {
   totalItems: 5,
 };
 
-class MockCartService {
+class MockActiveCartService {
   getActive(): Observable<Cart> {
     return of(mockCart);
   }
@@ -30,7 +30,7 @@ describe('CheckoutPageMetaResolver', () => {
       imports: [I18nTestingModule],
       providers: [
         PageMetaService,
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         {
           provide: PageMetaResolver,
           useExisting: CheckoutPageMetaResolver,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { CartService } from '../../cart/facade/cart.service';
+import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
@@ -24,11 +24,11 @@ import { PageType } from '../../model/cms.model';
 })
 export class CheckoutPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
-  private cart$ = this.cartService.getActive();
+  private cart$ = this.activeCartService.getActive();
 
   constructor(
-    protected cartService: CartService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected activeCartService: ActiveCartService
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
