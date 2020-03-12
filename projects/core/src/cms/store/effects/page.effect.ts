@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { merge, Observable, of } from 'rxjs';
 import {
   catchError,
   filter,
   groupBy,
   map,
   mergeMap,
+  skip,
   switchMap,
   take,
 } from 'rxjs/operators';
@@ -23,12 +24,13 @@ import { CmsActions } from '../actions/index';
 @Injectable()
 export class PageEffects {
   @Effect()
-  refreshPage$: Observable<Action> = this.actions$.pipe(
-    ofType(
-      SiteContextActions.LANGUAGE_CHANGE,
-      AuthActions.LOGOUT,
-      AuthActions.LOGIN
-    ),
+  refreshPage$: Observable<Action> = merge(
+    this.actions$.pipe(ofType(AuthActions.LOGOUT, AuthActions.LOGIN)),
+    this.actions$.pipe(
+      ofType(SiteContextActions.LANGUAGE_CHANGE),
+      skip(1) // don't refresh when setting the initial language
+    )
+  ).pipe(
     switchMap(_ =>
       this.routingService.getRouterState().pipe(
         filter(
