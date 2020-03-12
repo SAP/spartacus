@@ -8,7 +8,7 @@ import {
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 // projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts
-export const   REVIEW_SUBMIT_COMPONENT_MIGRATION: ConstructorDeprecation = {
+export const REVIEW_SUBMIT_COMPONENT_MIGRATION: ConstructorDeprecation = {
   class: REVIEW_SUBMIT_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
@@ -31,6 +31,6 @@ export const   REVIEW_SUBMIT_COMPONENT_MIGRATION: ConstructorDeprecation = {
     {
       className: PROMOTION_SERVICE,
       importPath: SPARTACUS_CORE,
-    }
+    },
   ],
 };

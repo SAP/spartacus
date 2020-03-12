@@ -86,7 +86,8 @@ export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
 export const CART_DETAILS_COMPONENT = 'CartDetailsComponent';
 export const ORDER_DETAIL_ITEMS_COMPONENT = 'OrderDetailItemsComponent';
-export const ORDER_CONFIRMATION_ITEMS_COMPONENT = 'OrderConfirmationItemsComponent';
+export const ORDER_CONFIRMATION_ITEMS_COMPONENT =
+  'OrderConfirmationItemsComponent';
 export const REVIEW_SUBMIT_COMPONENT = 'ReviewSubmitComponent';
 /***** Classes end *****/
 
