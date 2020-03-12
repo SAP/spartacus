@@ -1,19 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {
   InjectionToken,
-  isDevMode,
   ModuleWithProviders,
   NgModule,
-  Optional,
   Provider,
 } from '@angular/core';
-import {
-  ConfigValidator,
-  ConfigValidatorToken,
-  validateConfig,
-} from './config-validator/config-validator';
 import { deepMerge } from './utils/deep-merge';
-import { CONFIG_INITIALIZER_FORROOT_GUARD } from './config-initializer/config-initializer';
 
 /**
  * Global Configuration injection token, can be used to inject configuration to any part of the app
@@ -112,19 +104,13 @@ export function provideDefaultConfigFactory(
  */
 export function configurationFactory(
   configChunks: any[] = [],
-  defaultConfigChunks: any[] = [],
-  configValidators: ConfigValidator[], // TODO: remove, deprecated since 1.3, issue #5279
-  configInitializerGuard?: boolean // TODO: remove, deprecated since 1.3, issue #5279
+  defaultConfigChunks: any[] = []
 ) {
   const config = deepMerge(
     {},
     ...(defaultConfigChunks ?? []),
     ...(configChunks ?? [])
   );
-  // TODO: remove as validators should run independently, deprecated since 1.3, issue #5279
-  if (isDevMode() && !configInitializerGuard) {
-    validateConfig(config, configValidators ?? []);
-  }
   return config;
 }
 
@@ -181,8 +167,6 @@ export class ConfigModule {
           deps: [
             [new Optional(), ConfigChunk],
             [new Optional(), DefaultConfigChunk],
-            [new Optional(), ConfigValidatorToken], // TODO: remove, deprecated since 1.3, issue #5279
-            [new Optional(), CONFIG_INITIALIZER_FORROOT_GUARD], // TODO: remove, deprecated since 1.3, issue #5279
           ],
         },
       ],
