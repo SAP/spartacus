@@ -190,6 +190,7 @@ export function selectShippingAddress() {
   cy.wait('@getDeliveryPage')
     .its('status')
     .should('eq', 200);
+  cy.visit(`${Cypress.config('baseUrl')}/checkout/delivery-mode`);
 }
 
 export function selectDeliveryMethod() {
