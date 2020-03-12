@@ -35,17 +35,26 @@ export function verifyPagingAndSorting() {
     'contain',
     firstCouponStartDateAscending
   );
+
   cy.get('.top cx-sorting .ng-select').ngSelect('Start Date (descending)');
+  cy.wait(getCoupons);
+
   cy.get(firstCouponCodeSelector).should(
     'contain',
     firstCouponStartDateDescending
   );
+
   cy.get('.top cx-sorting .ng-select').ngSelect('End Date (ascending)');
+  cy.wait(getCoupons);
+
   cy.get(firstCouponCodeSelector).should(
     'contain',
     firstCouponEndDateAscending
   );
+
   cy.get('.top cx-sorting .ng-select').ngSelect('End Date (descending)');
+  cy.wait(getCoupons);
+
   cy.get(firstCouponCodeSelector).should(
     'contain',
     firstCouponEndDateDescending
@@ -55,6 +64,8 @@ export function verifyPagingAndSorting() {
   cy.get('cx-pagination:last').within(() => {
     cy.getByText('2').click();
   });
+  cy.wait(getCoupons);
+
   cy.get('.cx-coupon-card').should('have.length', NumberInPage2);
   cy.get('cx-pagination:last .page-link:first').click();
   cy.get('.cx-coupon-card').should('have.length', PageSize);
