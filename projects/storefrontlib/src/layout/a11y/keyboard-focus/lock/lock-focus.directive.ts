@@ -73,14 +73,18 @@ export class LockFocusDirective extends TrapFocusDirective
       ) {
         this.tabindex = 0;
       }
-      // Locked elements will be set to autofocus by default, unless set
-      // to `false`. This will ensure that upon unlock, the autofocus kicks in.
-      this.config.autofocus = !(this.config?.autofocus === false);
+      // Locked elements will be set to `autofocus` by default if it's not
+      // been configured. This will ensure that autofocus kicks in upon unlock.
+      if (!this.config.hasOwnProperty('autofocus')) {
+        this.config.autofocus = true;
+      }
 
-      // Locked elements will be set to use `focusOnEscape` be default, unless
-      // set to `false`. This will ensure that the host gets locked again
-      // when `escape` is pressed.
-      this.config.focusOnEscape = !(this.config?.focusOnEscape === false);
+      // Locked elements will be set to `focusOnEscape` by default if it's not
+      // been configured. This will ensure that  the host gets locked again when
+      // `escape` is pressed.
+      if (!this.config.hasOwnProperty('focusOnEscape')) {
+        this.config.focusOnEscape = !(this.config?.focusOnEscape === false);
+      }
     }
   }
 
@@ -91,9 +95,10 @@ export class LockFocusDirective extends TrapFocusDirective
        * we persist the group key to the children, so that they can taken this
        * into account when they persist their focus state.
        */
-      this.service.findFocusable(this.host).forEach(el => {
-        el.setAttribute(FOCUS_GROUP_ATTR, this.group);
-      });
+      this.service.findFocusable(this.host).forEach(el =>
+        // SSR...
+        el.setAttribute(FOCUS_GROUP_ATTR, this.group)
+      );
     }
 
     /**
@@ -137,6 +142,7 @@ export class LockFocusDirective extends TrapFocusDirective
   protected addTabindexToChildren(index = 0): void {
     if (!(this.hasFocusableChildren && index === 0) || index === 0) {
       this.focusable.forEach(el =>
+        // SSR! consider renderer2
         el.setAttribute('tabindex', index.toString())
       );
     }

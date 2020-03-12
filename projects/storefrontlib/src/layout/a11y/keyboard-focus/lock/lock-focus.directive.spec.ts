@@ -30,6 +30,12 @@ import { LockFocusService } from './lock-focus.service';
       <button id="d1"></button>
       <a href="" id="d2" data-cx-focus="d2"></a>
     </div>
+
+    <div [cxLockFocus]="{ lock: true, autofocus: 'button' }" id="e">
+      <a href="" id="e1"></a>
+      <button id="e2"></button>
+      <button id="e3"></button>
+    </div>
   `,
 })
 class MockComponent {}
@@ -326,6 +332,24 @@ describe('LockFocusDirective', () => {
 
       expect(f1.focus).not.toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
+    });
+
+    it('should find focusable with configured autofocus selector', () => {
+      const host = fixture.debugElement.query(By.css('#e'));
+      spyOn(service, 'findFirstFocusable');
+      host.triggerEventHandler('keydown.enter', event);
+
+      const hostConfig = {
+        lock: true,
+        autofocus: 'button',
+        focusOnEscape: true,
+      };
+
+      expect(service.findFirstFocusable).toHaveBeenCalledWith(
+        host.nativeElement,
+        hostConfig
+      );
+      expect(service.findFirstFocusable).toHaveBeenCalledTimes(1);
     });
   });
 });
