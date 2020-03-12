@@ -58,7 +58,8 @@ export class AutoFocusDirective extends EscapeFocusDirective
    */
   ngAfterViewInit(): void {
     if (this.shouldAutofocus) {
-      this.host.focus({ preventScroll: true });
+      // Mimic the focus without setting the actual focus on the host.
+      this.handleFocus();
     }
     if (!this.shouldAutofocus || this.hasPersistedFocus) {
       super.ngAfterViewInit();
@@ -69,7 +70,7 @@ export class AutoFocusDirective extends EscapeFocusDirective
    * Handles autofocus for the nested focusable element. The first focusable
    * element will be focussed.
    */
-  protected handleFocus(event: KeyboardEvent) {
+  protected handleFocus(event?: KeyboardEvent) {
     if (!this.isTouchedByMouse && this.shouldAutofocus) {
       this.firstFocusable?.focus();
     }
