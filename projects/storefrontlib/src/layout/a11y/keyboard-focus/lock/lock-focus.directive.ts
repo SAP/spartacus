@@ -5,6 +5,7 @@ import {
   HostListener,
   Input,
   OnInit,
+  Renderer2,
 } from '@angular/core';
 import { FOCUS_GROUP_ATTR, LockFocusConfig } from '../keyboard-focus.model';
 import { TrapFocusDirective } from '../trap/trap-focus.directive';
@@ -55,7 +56,8 @@ export class LockFocusDirective extends TrapFocusDirective
 
   constructor(
     protected elementRef: ElementRef,
-    protected service: LockFocusService
+    protected service: LockFocusService,
+    protected renderer: Renderer2
   ) {
     super(elementRef, service);
   }
@@ -95,10 +97,11 @@ export class LockFocusDirective extends TrapFocusDirective
        * we persist the group key to the children, so that they can taken this
        * into account when they persist their focus state.
        */
-      this.service.findFocusable(this.host).forEach(el =>
-        // SSR...
-        el.setAttribute(FOCUS_GROUP_ATTR, this.group)
-      );
+      this.service
+        .findFocusable(this.host)
+        .forEach(el =>
+          this.renderer.setAttribute(this.host, FOCUS_GROUP_ATTR, this.group)
+        );
     }
 
     /**
@@ -142,8 +145,7 @@ export class LockFocusDirective extends TrapFocusDirective
   protected addTabindexToChildren(index = 0): void {
     if (!(this.hasFocusableChildren && index === 0) || index === 0) {
       this.focusable.forEach(el =>
-        // SSR! consider renderer2
-        el.setAttribute('tabindex', index.toString())
+        this.renderer.setAttribute(this.host, 'tabindex', index.toString())
       );
     }
   }
