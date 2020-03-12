@@ -365,10 +365,9 @@ export class DeleteOrgUnitUserGroup extends EntityLoadAction {
     public payload: {
       userId: string;
       orgUnitUserGroupUid: string;
-      orgUnitUserGroup: OrgUnitUserGroup;
     }
   ) {
-    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.orgUnitUserGroup.uid);
+    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.orgUnitUserGroupUid);
   }
 }
 

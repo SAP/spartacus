@@ -128,6 +128,17 @@ export class OrgUnitUserGroupService {
     );
   }
 
+  delete(orgUnitUserGroupUid: string) {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new OrgUnitUserGroupActions.DeleteOrgUnitUserGroup({
+          userId,
+          orgUnitUserGroupUid,
+        })
+      )
+    );
+  }
+
   loadOrgUnitUserGroupAvailableOrgCustomers(
     orgUnitUserGroupUid: string,
     params: B2BSearchConfig

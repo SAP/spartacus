@@ -192,6 +192,35 @@ export class OrgUnitUserGroupEffects {
     )
   );
 
+  @Effect()
+  deleteOrgUnitUserGroup$: Observable<
+    | OrgUnitUserGroupActions.DeleteOrgUnitUserGroupSuccess
+    | OrgUnitUserGroupActions.DeleteOrgUnitUserGroupFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitUserGroupActions.DELETE_ORG_UNIT_USER_GROUP),
+    map(
+      (action: OrgUnitUserGroupActions.DeleteOrgUnitUserGroup) => action.payload
+    ),
+    switchMap(payload =>
+      this.orgUnitUserGroupConnector
+        .delete(payload.userId, payload.orgUnitUserGroupUid)
+        .pipe(
+          map(
+            data =>
+              new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupSuccess(data)
+          ),
+          catchError(error =>
+            of(
+              new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupFail({
+                orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private orgUnitUserGroupConnector: OrgUnitUserGroupConnector

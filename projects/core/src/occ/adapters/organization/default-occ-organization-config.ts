@@ -10,19 +10,19 @@ export const defaultOccOrganizationConfig: OccConfig = {
         orgUnit: '/users/${userId}/orgUnits/${orgUnitId}',
         orgUnitUserGroups: '/users/${userId}/orgUnitUserGroups',
         orgUnitUserGroup:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}',
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}',
         orgUnitUserGroupAvailableOrderApprovalPermissions:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}/availableOrderApprovalPermissions',
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}/availableOrderApprovalPermissions',
         orgUnitUserGroupAvailableOrgCustomers:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}/availableOrgCustomers',
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}/availableOrgCustomers',
         orgUnitUserGroupMembers:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}/members',
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}/members',
         orgUnitUserGroupMember:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}/members/${orgCustomerId}',
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}/members/${orgCustomerId}',
         orgUnitUserGroupOrderApprovalPermissions:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}/orderApprovalPermissions',
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}/orderApprovalPermissions',
         orgUnitUserGroupOrderApprovalPermission:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGrouppId}/orderApprovalPermissions/${orderApprovalPermissionCode}',
+          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}/orderApprovalPermissions/${orderApprovalPermissionCode}',
         costCenters: '/costcenters',
         costCenter: '/costcenters/${costCenterCode}',
         costCentersAll: '/costcentersall',
