@@ -66,7 +66,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       this.login();
     } else {
       FormUtils.markFormAsTouched(this.form);
-      this.formErrorsService.showFormErrorGlobalMessage();
+      this.formErrorsService.notifyUser();
     }
   }
 

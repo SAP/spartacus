@@ -125,7 +125,7 @@ describe('LoginFormComponent', () => {
 
       component.form.controls['userId'].setValue(email);
       component.form.controls['password'].setValue(password);
-      component.login();
+      component.submitForm();
 
       expect(authService.authorize).toHaveBeenCalledWith(email, password);
       expect(authRedirectService.redirect).toHaveBeenCalled();
@@ -138,7 +138,7 @@ describe('LoginFormComponent', () => {
 
       component.form.controls['userId'].setValue(email_uppercase);
       component.form.controls['password'].setValue(password);
-      component.login();
+      component.submitForm();
 
       expect(authService.authorize).toHaveBeenCalledWith(
         email_lowercase,

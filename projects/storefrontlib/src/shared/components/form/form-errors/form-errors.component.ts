@@ -1,5 +1,12 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  OnInit,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map, filter, throttleTime } from 'rxjs/operators';
 
 /**
  * This component renders form errors.
@@ -7,30 +14,22 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'cx-form-errors',
   templateUrl: './form-errors.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormErrorComponent {
+export class FormErrorComponent implements OnInit {
   @Input() control: FormControl;
+  errors$: Observable<string[]>;
 
-  /**
-   * Checks if the control is invalid (contains any validation errors).
-   * Also checks if the control was already touched (either with click or focus).
-   * @returns boolean
-   */
-  shouldShowErrors(): boolean {
-    return this.control.invalid && (this.control.dirty || this.control.touched);
-  }
-
-  /**
-   * Retrieves error names from control's errors array.
-   * @returns string[] List of errors' names
-   */
-  getErrorNames(): string[] {
-    if (this.shouldShowErrors() && this?.control?.errors) {
-      return Object.entries(this.control.errors)
-        .filter(error => error[1])
-        .map(error => error[0]);
-    }
-
-    return [];
+  ngOnInit() {
+    this.errors$ = this.control.statusChanges.pipe(
+      startWith({}),
+      throttleTime(500),
+      filter(() => !!this?.control?.errors),
+      map(() =>
+        Object.entries(this.control.errors)
+          .filter(error => error[1])
+          .map(error => error[0])
+      )
+    );
   }
 }

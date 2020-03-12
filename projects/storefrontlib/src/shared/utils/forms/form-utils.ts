@@ -29,9 +29,7 @@ export class FormUtils {
    * @param form Form with fields to mark
    */
   static markFormAsTouched(form: FormGroup): void {
-    Object.keys(form.controls).forEach(controlName => {
-      form.get(controlName).markAsTouched();
-    });
+    form.markAllAsTouched();
   }
 
   /**
@@ -40,7 +38,11 @@ export class FormUtils {
    * @param controlName Field name to prefill
    * @param value Value of the filled
    */
-  static prefillForm(form: FormGroup, controlName: string, value: string): void {
+  static prefillForm(
+    form: FormGroup,
+    controlName: string,
+    value: string
+  ): void {
     form.patchValue({
       [controlName]: value,
     });
