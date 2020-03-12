@@ -79,17 +79,17 @@ export function goToOrderHistoryDetailsFromSummary() {
 }
 
 export function checkAppliedPromotionsForLoggedUser() {
-  it('Should display promotions for product in modal after adding to cart', () => {
+  it('should display promotions for product in modal after adding to cart', () => {
     addProductToCart();
     checkForAppliedPromotionsInCartModal(eosCameraProductName);
   });
 
-  it('Should display promotions in users cart view for added product', () => {
+  it('should display promotions in users cart view for added product', () => {
     goToCartDetailsViewFromCartDialog();
     checkForAppliedPromotions();
   });
 
-  it('Should go through checkout and display promotions for product in submit order', () => {
+  it('should go through checkout and display promotions for product in submit order', () => {
     addShippingAddress();
     addPaymentMethod();
     selectShippingAddress();
@@ -98,12 +98,13 @@ export function checkAppliedPromotionsForLoggedUser() {
     checkForAppliedPromotions();
   });
 
-  it('Should verify and place order, then go to order in order history', () => {
+  it('should verify and place order, then go to order in order history', () => {
     verifyAndPlaceOrder();
     checkForAppliedPromotions();
   });
 
-  it('Should verify promotions in order confirmation details', () => {
+  it('should verify promotions in order confirmation details', () => {
+    cy.wait(Cypress.env('ORDER_HISTORY_WAIT_TIME'));
     goToOrderHistoryDetailsFromSummary();
     checkForAppliedPromotions();
   });
