@@ -27,8 +27,10 @@ export const Config = new InjectionToken('Configuration');
 export const ConfigChunk = new InjectionToken('ConfigurationChunk');
 
 /**
- * Config chunk token, can be used to provide configuration chunk and contribute to the global configuration object.
- * Should not be used directly, use `provideConfig` or import `ConfigModule.withConfig` instead.
+ * Config chunk token, can be used to provide configuration chunk and contribute to the default configuration.
+ * Should not be used directly, use `provideDefaultConfig` or `provideDefaultConfigFactory` instead.
+ *
+ * General rule is, that all config provided in libraries should be provided as default config.
  */
 export const DefaultConfigChunk = new InjectionToken(
   'DefaultConfigurationChunk'
