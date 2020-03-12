@@ -145,7 +145,7 @@ export class LockFocusDirective extends TrapFocusDirective
   protected addTabindexToChildren(index = 0): void {
     if (!(this.hasFocusableChildren && index === 0) || index === 0) {
       this.focusable.forEach(el =>
-        this.renderer.setAttribute(this.host, 'tabindex', index.toString())
+        this.renderer.setAttribute(el, 'tabindex', index.toString())
       );
     }
   }
