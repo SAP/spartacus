@@ -47,9 +47,9 @@ describe('OccPermissionAdapter', () => {
     });
     converterService = TestBed.get(ConverterService as Type<ConverterService>);
     service = TestBed.get(OccPermissionAdapter as Type<OccPermissionAdapter>);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
+    httpMock = TestBed.get(
+      HttpTestingController as Type<HttpTestingController>
+    );
     spyOn(converterService, 'pipeable').and.callThrough();
   });
 

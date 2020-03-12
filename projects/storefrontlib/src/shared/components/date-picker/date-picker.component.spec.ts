@@ -35,9 +35,9 @@ describe('Date Picker Component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DatePickerComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(DatePickerFormatterService as Type<
-      DatePickerFormatterService
-    >);
+    service = TestBed.get(
+      DatePickerFormatterService as Type<DatePickerFormatterService>
+    );
   });
 
   describe('component tests', () => {

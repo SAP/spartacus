@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Occ } from '../../../occ-models/occ.models';
 import { Converter } from '../../../../util/converter.service';
-import { B2BUnitNode } from '../../../../model/org-unit.model';
+import { B2BUnit } from '../../../../model/org-unit.model';
 
 @Injectable()
-export class OccOrgUnitNormalizer
-  implements Converter<Occ.B2BUnitNode, B2BUnitNode> {
-  constructor() {}
-
-  convert(source: Occ.B2BUnitNode, target?: B2BUnitNode): B2BUnitNode {
+export class OccOrgUnitNormalizer implements Converter<Occ.B2BUnit, B2BUnit> {
+  convert(source: Occ.B2BUnit, target?: B2BUnit): B2BUnit {
     if (target === undefined) {
       target = { ...(source as any) };
     }

@@ -66,12 +66,12 @@ describe('Permission Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.PermissionEffects as Type<
-      fromEffects.PermissionEffects
-    >);
-    permissionConnector = TestBed.get(PermissionConnector as Type<
-      PermissionConnector
-    >);
+    effects = TestBed.get(
+      fromEffects.PermissionEffects as Type<fromEffects.PermissionEffects>
+    );
+    permissionConnector = TestBed.get(
+      PermissionConnector as Type<PermissionConnector>
+    );
     expected = null;
   });
 

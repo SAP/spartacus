@@ -160,7 +160,7 @@ describe('BudgetFormComponent', () => {
       spyOn(component.form, 'patchValue');
       component.budgetData = null;
       component.ngOnInit();
-      expect(component.form.patchValue).not.toHaveBeenCalledWith();
+      expect(component.form.patchValue).not.toHaveBeenCalled();
       expect(component.form.valid).toBeFalsy();
     });
 

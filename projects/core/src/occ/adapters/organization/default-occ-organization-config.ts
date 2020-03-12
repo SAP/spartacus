@@ -6,7 +6,11 @@ export const defaultOccOrganizationConfig: OccConfig = {
       endpoints: {
         budgets: '/users/${userId}/budgets',
         budget: '/users/${userId}/budgets/${budgetCode}',
-        orgUnits: '/users/${userId}/availableOrgUnitNodes',
+        orgUnitsAvailable: '/users/${userId}/availableOrgUnitNodes',
+        orgUnitsTree: '/users/${userId}/orgUnitsRootNodeTree',
+        orgUnitsApprovalProcesses:
+          '/users/${userId}/orgUnitsAvailableApprovalProcesses',
+        orgUnits: '/users/${userId}/orgUnits',
         orgUnit: '/users/${userId}/orgUnits/${orgUnitId}',
         orgUnitUserGroups: '/users/${userId}/orgUnitUserGroups',
         orgUnitUserGroup:

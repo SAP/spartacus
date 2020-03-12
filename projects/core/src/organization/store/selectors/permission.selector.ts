@@ -33,10 +33,8 @@ export const getPermissionsState: MemoizedSelector<
 export const getPermissionState = (
   permissionCode: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<Permission>> =>
-  createSelector(
-    getPermissionsState,
-    (state: EntityLoaderState<Permission>) =>
-      entityStateSelector(state, permissionCode)
+  createSelector(getPermissionsState, (state: EntityLoaderState<Permission>) =>
+    entityStateSelector(state, permissionCode)
   );
 
 export const getPermissionList = (
@@ -45,8 +43,6 @@ export const getPermissionList = (
   StateWithOrganization,
   LoaderState<EntitiesModel<Permission>>
 > =>
-  createSelector(
-    getPermissionManagementState,
-    (state: PermissionManagement) =>
-      denormalizeB2BSearch<Permission>(state, params)
+  createSelector(getPermissionManagementState, (state: PermissionManagement) =>
+    denormalizeB2BSearch<Permission>(state, params)
   );

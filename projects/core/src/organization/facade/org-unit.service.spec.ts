@@ -4,7 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { B2BUnitNode } from '../../model/org-unit.model';
+import { B2BUnit, B2BUnitNode } from '../../model/org-unit.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { OrgUnitActions } from '../store/actions/index';
@@ -12,19 +12,18 @@ import * as fromReducers from '../store/reducers/index';
 import { OrgUnitService } from './org-unit.service';
 import {
   AuthService,
-  EntitiesModel,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '@spartacus/core';
 
 const userId = 'current';
 const orgUnitId = 'testOrgUnit';
-const orgUnit = { id: orgUnitId };
-const orgUnit2 = { id: 'testOrgUnit2' };
+const orgUnit: Partial<B2BUnit> = { uid: orgUnitId };
 
-const orgUnitList: EntitiesModel<B2BUnitNode> = {
-  values: [orgUnit, orgUnit2],
-};
+const orgUnitNode: Partial<B2BUnitNode> = { id: orgUnitId };
+const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
+
+const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
 
 class MockAuthService {
   getOccUserId = createSpy().and.returnValue(of(userId));
@@ -85,9 +84,7 @@ describe('OrgUnitService', () => {
     });
 
     it('get() should be able to get orgUnit details when they are present in the store', () => {
-      store.dispatch(
-        new OrgUnitActions.LoadOrgUnitSuccess([orgUnit, orgUnit2])
-      );
+      store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
       let orgUnitDetails: B2BUnitNode;
       service
         .get(orgUnitId)
@@ -106,7 +103,7 @@ describe('OrgUnitService', () => {
 
   describe('get orgUnits', () => {
     it('getList() should trigger load orgUnits when they are not present in the store', () => {
-      let orgUnits: EntitiesModel<B2BUnitNode>;
+      let orgUnits: B2BUnitNode[];
       service
         .getList()
         .subscribe(data => {
@@ -117,22 +114,15 @@ describe('OrgUnitService', () => {
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(orgUnits).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new OrgUnitActions.LoadOrgUnits({ userId })
+        new OrgUnitActions.LoadOrgUnitNodes({ userId })
       );
     });
 
     it('getList() should be able to get orgUnits when they are present in the store', () => {
       store.dispatch(
-        new OrgUnitActions.LoadOrgUnitSuccess([orgUnit, orgUnit2])
+        new OrgUnitActions.LoadOrgUnitNodesSuccess([orgUnitNode, orgUnitNode2])
       );
-      store.dispatch(
-        new OrgUnitActions.LoadOrgUnitsSuccess({
-          page: {
-            ids: [orgUnit.id, orgUnit2.id],
-          },
-        })
-      );
-      let orgUnits: EntitiesModel<B2BUnitNode>;
+      let orgUnits: B2BUnitNode[];
       service
         .getList()
         .subscribe(data => {
@@ -143,7 +133,7 @@ describe('OrgUnitService', () => {
       expect(authService.getOccUserId).not.toHaveBeenCalled();
       expect(orgUnits).toEqual(orgUnitList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
-        new OrgUnitActions.LoadOrgUnits({ userId })
+        new OrgUnitActions.LoadOrgUnitNodes({ userId })
       );
     });
   });

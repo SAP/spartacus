@@ -6,8 +6,6 @@ import { Permission } from '../../../../model/permission.model';
 @Injectable()
 export class OccPermissionNormalizer
   implements Converter<Occ.Permission, Permission> {
-  constructor() {}
-
   convert(source: Occ.Permission, target?: Permission): Permission {
     if (target === undefined) {
       target = {
