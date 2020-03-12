@@ -13,9 +13,9 @@ describe('GenericConfigUtilsService', () => {
     TestBed.configureTestingModule({}).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(GenericConfigUtilsService as Type<
-      GenericConfigUtilsService
-    >);
+    serviceUnderTest = TestBed.inject(
+      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+    );
     owner = {};
   });
 

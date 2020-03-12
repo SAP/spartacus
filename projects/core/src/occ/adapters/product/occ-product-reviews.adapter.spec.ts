@@ -16,7 +16,10 @@ import createSpy = jasmine.createSpy;
 const productCode = 'testCode';
 const maxCount = 2;
 const productReviews: Occ.ReviewList = {
-  reviews: [{ id: '1', comment: 'Review 1' }, { id: '2', comment: 'Review 2' }],
+  reviews: [
+    { id: '1', comment: 'Review 1' },
+    { id: '2', comment: 'Review 2' },
+  ],
 };
 const endpoint = '/productReviews';
 

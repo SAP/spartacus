@@ -23,9 +23,9 @@ describe('ConfiguratorActions', () => {
   let configuratorUtils: GenericConfigUtilsService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({}).compileComponents();
-    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
-      GenericConfigUtilsService
-    >);
+    configuratorUtils = TestBed.inject(
+      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+    );
     configuratorUtils.setOwnerKey(CONFIGURATION.owner);
   }));
   it('should provide create action with proper type', () => {

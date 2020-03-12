@@ -10,7 +10,7 @@ describe('ConfigUIKeyGeneratorService', () => {
   };
 
   beforeEach(() => {
-    classUnderTest = TestBed.get(ConfigUIKeyGeneratorService);
+    classUnderTest = TestBed.inject(ConfigUIKeyGeneratorService);
   });
 
   it('should be created', () => {

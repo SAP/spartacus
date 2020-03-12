@@ -37,26 +37,19 @@ export const getActiveCartState: MemoizedSelector<
 export const getCartState: MemoizedSelector<
   StateWithCart,
   CartState
-> = createSelector(
-  getActiveCartState,
-  state => StateLoaderSelectors.loaderValueSelector(state)
+> = createSelector(getActiveCartState, state =>
+  StateLoaderSelectors.loaderValueSelector(state)
 );
 
 export const getCartContent: MemoizedSelector<
   StateWithCart,
   Cart
-> = createSelector(
-  getCartState,
-  getCartContentSelector
-);
+> = createSelector(getCartState, getCartContentSelector);
 
 export const getCartRefresh: MemoizedSelector<
   StateWithCart,
   boolean
-> = createSelector(
-  getCartState,
-  getCartRefreshSelector
-);
+> = createSelector(getCartState, getCartRefreshSelector);
 
 export const getCartLoaded: MemoizedSelector<
   StateWithCart,
@@ -72,54 +65,41 @@ export const getCartLoaded: MemoizedSelector<
       !StateLoaderSelectors.loaderValueSelector(state).refresh)
 );
 
-export const getCartLoading: MemoizedSelector<any, boolean> = createSelector(
-  getActiveCartState,
-  state => StateLoaderSelectors.loaderLoadingSelector(state)
+export const getCartLoading: MemoizedSelector<
+  any,
+  boolean
+> = createSelector(getActiveCartState, state =>
+  StateLoaderSelectors.loaderLoadingSelector(state)
 );
 
 export const getCartMergeComplete: MemoizedSelector<
   StateWithCart,
   boolean
-> = createSelector(
-  getCartState,
-  getCartMergeCompleteSelector
-);
+> = createSelector(getCartState, getCartMergeCompleteSelector);
 
 export const getCartEntriesMap: MemoizedSelector<
   StateWithCart,
   { [code: string]: OrderEntry }
-> = createSelector(
-  getCartState,
-  getCartEntriesSelector
-);
+> = createSelector(getCartState, getCartEntriesSelector);
 
 export const getCartEntrySelectorFactory = (
   productCode: string
 ): MemoizedSelector<StateWithCart, OrderEntry> => {
-  return createSelector(
-    getCartEntriesMap,
-    entries => {
-      if (entries) {
-        return entries[productCode];
-      }
+  return createSelector(getCartEntriesMap, entries => {
+    if (entries) {
+      return entries[productCode];
     }
-  );
+  });
 };
 
 export const getCartEntries: MemoizedSelector<
   StateWithCart,
   OrderEntry[]
-> = createSelector(
-  getCartEntriesMap,
-  entities => {
-    return Object.keys(entities).map(code => entities[code]);
-  }
-);
+> = createSelector(getCartEntriesMap, entities => {
+  return Object.keys(entities).map(code => entities[code]);
+});
 
 export const getCartUser: MemoizedSelector<
   StateWithCart,
   User
-> = createSelector(
-  getCartContent,
-  content => content.user
-);
+> = createSelector(getCartContent, content => content.user);

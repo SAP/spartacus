@@ -28,9 +28,9 @@ export function getConfiguratorReducers(): ActionReducerMap<
   };
 }
 
-export const configuratorReducerToken: InjectionToken<
-  ActionReducerMap<ConfigurationState>
-> = new InjectionToken<ActionReducerMap<ConfigurationState>>(
+export const configuratorReducerToken: InjectionToken<ActionReducerMap<
+  ConfigurationState
+>> = new InjectionToken<ActionReducerMap<ConfigurationState>>(
   'ConfiguratorReducers'
 );
 

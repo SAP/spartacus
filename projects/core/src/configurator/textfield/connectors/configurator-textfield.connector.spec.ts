@@ -4,7 +4,6 @@ import { ConfiguratorTextfield } from 'projects/core/src/model';
 import { of } from 'rxjs';
 import { ConfiguratorTextfieldAdapter } from './configurator-textfield.adapter';
 import { ConfiguratorTextfieldConnector } from './configurator-textfield.connector';
-
 import createSpy = jasmine.createSpy;
 
 const USER_ID = 'theUser';
@@ -42,9 +41,9 @@ describe('ConfiguratorTextfieldConnector', () => {
       ],
     });
 
-    service = TestBed.get(ConfiguratorTextfieldConnector as Type<
-      ConfiguratorTextfieldConnector
-    >);
+    service = TestBed.inject(
+      ConfiguratorTextfieldConnector as Type<ConfiguratorTextfieldConnector>
+    );
   });
 
   it('should be created', () => {
@@ -52,9 +51,9 @@ describe('ConfiguratorTextfieldConnector', () => {
   });
 
   it('should call adapter on createConfiguration', () => {
-    const adapter = TestBed.get(ConfiguratorTextfieldAdapter as Type<
-      ConfiguratorTextfieldAdapter
-    >);
+    const adapter = TestBed.inject(
+      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
+    );
 
     let result;
     service
@@ -68,9 +67,9 @@ describe('ConfiguratorTextfieldConnector', () => {
   });
 
   it('should call adapter on addToCart', () => {
-    const adapter = TestBed.get(ConfiguratorTextfieldAdapter as Type<
-      ConfiguratorTextfieldAdapter
-    >);
+    const adapter = TestBed.inject(
+      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
+    );
 
     const parameters: ConfiguratorTextfield.AddToCartParameters = {
       userId: USER_ID,

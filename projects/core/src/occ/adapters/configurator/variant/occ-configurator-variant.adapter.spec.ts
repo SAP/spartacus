@@ -58,20 +58,20 @@ describe('OccConfigurationVariantAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
+    httpMock = TestBed.get(
+      HttpTestingController as Type<HttpTestingController>
+    );
     converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    occEnpointsService = TestBed.get(
+      OccEndpointsService as Type<OccEndpointsService>
+    );
 
     occConfiguratorVariantAdapter = TestBed.get(
       OccConfiguratorVariantAdapter as Type<OccConfiguratorVariantAdapter>
     );
-    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
-      GenericConfigUtilsService
-    >);
+    configuratorUtils = TestBed.get(
+      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+    );
     configuratorUtils.setOwnerKey(productConfiguration.owner);
 
     spyOn(converterService, 'pipeable').and.callThrough();

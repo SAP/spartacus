@@ -45,10 +45,10 @@ describe('ConfigRouterExtractorService', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(ConfigRouterExtractorService as Type<
-      ConfigRouterExtractorService
-    >);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    serviceUnderTest = TestBed.inject(
+      ConfigRouterExtractorService as Type<ConfigRouterExtractorService>
+    );
+    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
   });
 
   it('should create component', () => {

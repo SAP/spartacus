@@ -28,7 +28,7 @@ export class ConfigRouterExtractorService {
           owner.type = params.ownerType;
           owner.id = entityKey;
           owner.hasObsoleteState =
-            routingData.state.queryParams.forceReload === 'true';
+            routingData.state?.queryParams?.forceReload === 'true';
         } else {
           owner.type = GenericConfigurator.OwnerType.PRODUCT;
           owner.id = params.rootProduct;

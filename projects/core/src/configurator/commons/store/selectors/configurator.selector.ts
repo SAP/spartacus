@@ -38,26 +38,22 @@ export const getConfigurationProcessLoaderStateFactory = (
   StateWithConfiguration,
   ProcessesLoaderState<Configurator.Configuration>
 > => {
-  return createSelector(
-    getConfigurationState,
-    details =>
-      StateEntityProcessesLoaderSelectors.entityProcessesLoaderStateSelector(
-        details,
-        code
-      )
+  return createSelector(getConfigurationState, details =>
+    StateEntityProcessesLoaderSelectors.entityProcessesLoaderStateSelector(
+      details,
+      code
+    )
   );
 };
 
 export const hasPendingChanges = (
   code: string
 ): MemoizedSelector<StateWithConfiguration, boolean> => {
-  return createSelector(
-    getConfigurationState,
-    details =>
-      StateEntityProcessesLoaderSelectors.entityHasPendingProcessesSelector(
-        details,
-        code
-      )
+  return createSelector(getConfigurationState, details =>
+    StateEntityProcessesLoaderSelectors.entityHasPendingProcessesSelector(
+      details,
+      code
+    )
   );
 };
 

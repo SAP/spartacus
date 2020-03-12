@@ -74,10 +74,15 @@ export class NavigationUIComponent implements OnDestroy {
   }
 
   toggleOpen(event: UIEvent): void {
+    event.preventDefault();
     const node = <HTMLElement>event.currentTarget;
     if (this.openNodes.includes(node)) {
-      this.openNodes = this.openNodes.filter(n => n !== node);
-      this.renderer.removeClass(node, 'is-open');
+      if (event.type === 'keydown') {
+        this.back();
+      } else {
+        this.openNodes = this.openNodes.filter(n => n !== node);
+        this.renderer.removeClass(node, 'is-open');
+      }
     } else {
       this.openNodes.push(node);
     }
@@ -89,12 +94,14 @@ export class NavigationUIComponent implements OnDestroy {
   }
 
   back(): void {
-    this.renderer.removeClass(
-      this.openNodes[this.openNodes.length - 1],
-      'is-open'
-    );
-    this.openNodes.pop();
-    this.updateClasses();
+    if (this.openNodes[this.openNodes.length - 1]) {
+      this.renderer.removeClass(
+        this.openNodes[this.openNodes.length - 1],
+        'is-open'
+      );
+      this.openNodes.pop();
+      this.updateClasses();
+    }
   }
 
   clear(): void {
@@ -177,5 +184,9 @@ export class NavigationUIComponent implements OnDestroy {
     });
 
     this.isOpen = this.openNodes.length > 0;
+  }
+
+  isTabbable(node: any) {
+    return this.flyout && node.children && node.children.length;
   }
 }

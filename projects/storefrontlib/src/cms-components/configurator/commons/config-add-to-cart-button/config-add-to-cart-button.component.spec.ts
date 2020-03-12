@@ -203,13 +203,13 @@ describe('ConfigAddToCartButtonComponent', () => {
     fixture = TestBed.createComponent(ConfigAddToCartButtonComponent);
     classUnderTest = fixture.componentInstance;
     fixture.detectChanges();
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    configuratorCommonsService = TestBed.get(ConfiguratorCommonsService as Type<
-      ConfiguratorCommonsService
-    >);
-    globalMessageService = TestBed.get(GlobalMessageService as Type<
-      GlobalMessageService
-    >);
+    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
+    configuratorCommonsService = TestBed.inject(
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
+    globalMessageService = TestBed.inject(
+      GlobalMessageService as Type<GlobalMessageService>
+    );
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
