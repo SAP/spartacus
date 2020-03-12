@@ -1,6 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { getSourceNodes } from '@angular/cdk/schematics';
-import { UTF_8 } from '../../shared/constants';
+import { UTF_8 } from '../../../shared/constants';
 import {
   buildSpartacusComment,
   commitChanges,
@@ -10,8 +10,8 @@ import {
   InsertDirection,
   insertHtmlComment,
   isInheriting,
-} from '../../shared/utils/file-utils';
-import { getSourceRoot } from '../../shared/utils/workspace-utils';
+} from '../../../shared/utils/file-utils';
+import { getSourceRoot } from '../../../shared/utils/workspace-utils';
 import { COMPONENT_DEPRECATION_DATA } from './component-deprecations-data';
 
 export function migrate(): Rule {

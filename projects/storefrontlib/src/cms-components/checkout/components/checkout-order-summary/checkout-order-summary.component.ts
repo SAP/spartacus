@@ -1,6 +1,6 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActiveCartService, Cart } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CartService, Cart } from '@spartacus/core';
 @Component({
   selector: 'cx-checkout-order-summary',
   templateUrl: './checkout-order-summary.component.html',
@@ -9,7 +9,7 @@ import { CartService, Cart } from '@spartacus/core';
 export class CheckoutOrderSummaryComponent {
   cart$: Observable<Cart>;
 
-  constructor(protected cartService: CartService) {
-    this.cart$ = this.cartService.getActive();
+  constructor(protected activeCartService: ActiveCartService) {
+    this.cart$ = this.activeCartService.getActive();
   }
 }

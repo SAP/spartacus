@@ -42,6 +42,7 @@ export interface ComponentData {
 
 export interface ConstructorDeprecation {
   class: string;
+  importPath: string;
   deprecatedParams: ClassType[];
   addParams?: ClassType[];
   removeParams?: ClassType[];
@@ -217,7 +218,8 @@ export function defineProperty(
 /**
  *
  * Method performs the following checks on the provided `source` file:
- * - is the file inheriting the provided `inheritedClass`
+ * - is the file inheriting the provided `constructorDeprecation.class`
+ * - is the `constructorDeprecation.class` imported from the specified `constructorDeprecation.importPath`
  * - is the file importing all the provided `parameterClassTypes` from the expected import path
  * - does the provided file contain a constructor
  * - does the `super()` call exist in the constructor
@@ -232,12 +234,21 @@ export function defineProperty(
  */
 export function isCandidateForConstructorDeprecation(
   source: ts.SourceFile,
-  inheritedClass: string,
   constructorDeprecation: ConstructorDeprecation
 ): boolean {
   const nodes = getSourceNodes(source);
 
-  if (!isInheriting(nodes, inheritedClass)) {
+  if (!isInheriting(nodes, constructorDeprecation.class)) {
+    return false;
+  }
+
+  if (
+    !isImported(
+      source,
+      constructorDeprecation.class,
+      constructorDeprecation.importPath
+    )
+  ) {
     return false;
   }
 
@@ -635,6 +646,12 @@ function removeConstructorParamInternal(
       if (i !== 0) {
         const previousParameter = constructorParameters[i - 1];
         changes.push(new RemoveChange(sourcePath, previousParameter.end, ','));
+        // if removing the first param, cleanup the comma after it
+      } else if (i === 0 && constructorParameters.length > 1) {
+        const commas = findNodes(constructorNode, ts.SyntaxKind.CommaToken);
+        // get the comma that matches the constructor parameter's position
+        const comma = commas[i];
+        changes.push(new RemoveChange(sourcePath, comma.getStart(), ','));
       }
 
       changes.push(
@@ -676,6 +693,11 @@ function removeParamFromSuper(
       if (i !== 0) {
         const previousCommaPosition = commas[i - 1].getStart();
         changes.push(new RemoveChange(sourcePath, previousCommaPosition, ','));
+        // if removing the first param, cleanup the comma after it
+      } else if (i === 0 && params.length > 0) {
+        // get the comma that matches the constructor parameter's position
+        const comma = commas[i];
+        changes.push(new RemoveChange(sourcePath, comma.getStart(), ','));
       }
 
       changes.push(new RemoveChange(sourcePath, param.getStart(), paramName));
