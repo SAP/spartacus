@@ -36,6 +36,19 @@ export class ConfiguratorCommonsService {
     );
   }
 
+  configurationIsLoading(
+    owner: GenericConfigurator.Owner
+  ): Observable<Boolean> {
+    return this.store.pipe(
+      select(
+        ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
+          owner.key
+        )
+      ),
+      map(configurationState => configurationState.loading)
+    );
+  }
+
   getConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {

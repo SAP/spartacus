@@ -14,6 +14,7 @@ import { GenericConfigUtilsService } from '../../generic/utils/config-utils.serv
 import { ConfiguratorUiActions } from '../store/actions/';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import {
+  ConfigurationState,
   CONFIGURATION_FEATURE,
   StateWithConfiguration,
 } from '../store/configuration-state';
@@ -125,6 +126,10 @@ const productConfigurationChanged: Configurator.Configuration = {
   configId: CONFIG_ID,
 };
 
+const configurationState: ConfigurationState = {
+  configurations: { entities: {} },
+};
+
 const cart: Cart = {
   code: CART_CODE,
   guid: CART_GUID,
@@ -163,12 +168,12 @@ function callGetOrCreate(
   serviceUnderTest: ConfiguratorCommonsService,
   owner: GenericConfigurator.Owner
 ) {
-  const productConfigurationLoaderState: LoaderState<
-    Configurator.Configuration
-  > = { value: productConfiguration };
-  const productConfigurationLoaderStateChanged: LoaderState<
-    Configurator.Configuration
-  > = { value: productConfigurationChanged };
+  const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+    value: productConfiguration,
+  };
+  const productConfigurationLoaderStateChanged: LoaderState<Configurator.Configuration> = {
+    value: productConfigurationChanged,
+  };
   const obs = cold('x-y', {
     x: productConfigurationLoaderState,
     y: productConfigurationLoaderStateChanged,
@@ -241,14 +246,19 @@ describe('ConfiguratorCommonsService', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.get(ConfiguratorCommonsService as Type<
-      ConfiguratorCommonsService
-    >);
-    configuratorUtils = TestBed.get(GenericConfigUtilsService as Type<
-      GenericConfigUtilsService
-    >);
+    serviceUnderTest = TestBed.get(
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
+    configuratorUtils = TestBed.get(
+      GenericConfigUtilsService as Type<GenericConfigUtilsService>
+    );
     configuratorUtils.setOwnerKey(OWNER_PRODUCT);
     configuratorUtils.setOwnerKey(OWNER_CART_ENTRY);
+
+    configurationState.configurations.entities[OWNER_PRODUCT.key] = {
+      ...productConfiguration,
+      loading: false,
+    };
     store = TestBed.get(Store as Type<Store<StateWithConfiguration>>);
     spyOn(serviceUnderTest, 'createConfigurationExtract').and.callThrough();
   });
@@ -273,6 +283,32 @@ describe('ConfiguratorCommonsService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorUiActions.RemoveUiState(productConfiguration.owner.key)
     );
+  });
+
+  it('should get pending changes from store', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(true));
+
+    let hasPendingChanges = null;
+    serviceUnderTest
+      .hasPendingChanges(OWNER_PRODUCT)
+      .subscribe(pendingChanges => {
+        hasPendingChanges = pendingChanges;
+      });
+    expect(hasPendingChanges).toBeTrue();
+  });
+
+  it('should get configuration loading state from store', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(configurationState.configurations.entities[OWNER_PRODUCT.key])
+    );
+
+    let isLoading = null;
+    serviceUnderTest
+      .configurationIsLoading(OWNER_PRODUCT)
+      .subscribe(loading => {
+        isLoading = loading;
+      });
+    expect(isLoading).toBe(false);
   });
 
   it('should be able to get configuration from store', () => {
@@ -566,9 +602,9 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should create configuration if obsolete state', () => {
-      const productConfigurationLoaderState: LoaderState<
-        Configurator.Configuration
-      > = { loading: false };
+      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+        loading: false,
+      };
 
       const obs = cold('x', {
         x: productConfigurationLoaderState,
@@ -607,9 +643,9 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should create a new configuration if not existing yet', () => {
-      const productConfigurationLoaderState: LoaderState<
-        Configurator.Configuration
-      > = { loading: false };
+      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+        loading: false,
+      };
 
       const obs = cold('x', {
         x: productConfigurationLoaderState,
@@ -631,9 +667,9 @@ describe('ConfiguratorCommonsService', () => {
     });
 
     it('should not create a new configuration if not existing yet but status is loading', () => {
-      const productConfigurationLoaderState: LoaderState<
-        Configurator.Configuration
-      > = { loading: true };
+      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+        loading: true,
+      };
 
       const obs = cold('x', {
         x: productConfigurationLoaderState,
