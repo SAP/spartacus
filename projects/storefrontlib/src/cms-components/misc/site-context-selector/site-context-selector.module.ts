@@ -33,7 +33,6 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
         },
       },
     }),
-    ,
     SiteContextComponentService,
   ],
   declarations: [SiteContextSelectorComponent, LanguageCurrencyComponent],
