@@ -1,5 +1,5 @@
-@import '../organization-form';
+@import '../organization-details';
 
 %cx-budget-details {
-  @extend %cx-organization-form;
+  @extend %cx-organization-details;
 }
