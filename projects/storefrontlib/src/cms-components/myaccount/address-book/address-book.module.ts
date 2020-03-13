@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UserAddressService,
 } from '@spartacus/core';
 import { CardModule } from '../../../shared/components/card/card.module';
@@ -16,7 +16,15 @@ import { AddressBookComponentService } from './address-book.component.service';
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    CardModule,
+    AddressFormModule,
+    SpinnerModule,
+    I18nModule,
+  ],
+  declarations: [AddressBookComponent],
+  exports: [AddressBookComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountAddressBookComponent: {
           component: AddressBookComponent,
@@ -31,14 +39,9 @@ import { AddressBookComponentService } from './address-book.component.service';
         },
       },
     }),
-    CardModule,
-    AddressFormModule,
-    SpinnerModule,
-    I18nModule,
+    UserAddressService,
+    AddressBookComponentService,
   ],
-  declarations: [AddressBookComponent],
-  exports: [AddressBookComponent],
-  providers: [UserAddressService, AddressBookComponentService],
   entryComponents: [AddressBookComponent],
 })
 export class AddressBookModule {}

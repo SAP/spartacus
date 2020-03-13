@@ -4,7 +4,12 @@ import {
   ComponentFactoryResolver,
   NgModule,
 } from '@angular/core';
-import { Config, ConfigModule, I18nModule } from '@spartacus/core';
+import {
+  Config,
+  ConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { OutletPosition } from '../../../cms-structure/outlet/outlet.model';
 import { OutletService } from '../../../cms-structure/outlet/outlet.service';
 import { KeyboardFocusModule } from '../keyboard-focus';
@@ -25,6 +30,7 @@ import { SkipLinkDirective } from './directive/skip-link.directive';
   entryComponents: [SkipLinkComponent],
 
   providers: [
+    provideDefaultConfig(defaultSkipLinkConfig),
     { provide: SkipLinkConfig, useExisting: Config },
     {
       provide: APP_INITIALIZER,
