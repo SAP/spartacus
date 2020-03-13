@@ -86,11 +86,27 @@ export class EventService {
    *
    * However, it's recommended to use method `register` instead, whenever the event can come from some stream.
    *  It allows for lazy computations on the input event stream -
-   *  if noone subscribes to the event, the logic of the input stream is not evaluated.
+   *  if no one subscribes to the event, the logic of the input stream won't be evaluated.
    */
   dispatch(event: Object): void {
     const eventType = event.constructor as Type<any>;
-    return this.getEventMeta(eventType).inputSubject$.next(event);
+    const inputSubject$ = this.getInputSubject(eventType);
+    inputSubject$.next(event);
+  }
+
+  /**
+   * Returns the input subject used to dispatch a single event.
+   * The subject is created on demand, when it's needed for the first time.
+   * @param eventType type of event
+   */
+  private getInputSubject<T>(eventType: Type<T>): Subject<T> {
+    const eventMeta = this.getEventMeta(eventType);
+
+    if (!eventMeta.inputSubject$) {
+      eventMeta.inputSubject$ = new Subject<any>();
+      this.register(eventType, eventMeta.inputSubject$);
+    }
+    return eventMeta.inputSubject$;
   }
 
   /**
@@ -111,8 +127,7 @@ export class EventService {
    * Creates the event meta object for the given event type
    */
   protected createEventMeta<T>(eventType: Type<T>): void {
-    const inputSubject$ = new Subject<T>();
-    const sources$ = new BehaviorSubject<Observable<T>[]>([inputSubject$]);
+    const sources$ = new BehaviorSubject<Observable<T>[]>([]);
     let output$ = sources$.pipe(
       switchMap((sources: Observable<T>[]) => merge(...sources)),
       share() // share the result observable to avoid merging sources for each subscriber
@@ -123,7 +138,7 @@ export class EventService {
     }
 
     this.eventsMeta.set(eventType, {
-      inputSubject$,
+      inputSubject$: null, // will be created lazily by the `dispatch` method
       sources$,
       output$,
     });
