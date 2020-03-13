@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   CmsConfig,
-  ConfigModule,
-  I18nModule,
   FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import { CardModule } from '../../shared/components/card/card.module';
 import { CartSharedModule } from '../cart/cart-shared/cart-shared.module';
@@ -37,7 +37,9 @@ const orderConfirmationComponents = [
     I18nModule,
     ReactiveFormsModule,
     FeaturesConfigModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         OrderConfirmationThankMessageComponent: {
           component: OrderConfirmationThankYouMessageComponent,
