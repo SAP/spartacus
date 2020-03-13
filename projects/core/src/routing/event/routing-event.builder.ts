@@ -14,7 +14,7 @@ import { RoutingEvents } from './routing-event.model';
 @Injectable({
   providedIn: 'root',
 })
-export class RoutingEventService {
+export class RoutingEventBuilder {
   /**
    * Maps Angular event `NavigationStart` to spartacus navigation event
    */

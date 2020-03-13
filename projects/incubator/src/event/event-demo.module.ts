@@ -15,7 +15,7 @@ import { EventDemoComponent } from './event-demo.component';
 import { UiEventModule } from './ui/index';
 
 @Injectable()
-export class CustomEventService {
+export class CustomEventBuilder {
   constructor(protected eventService: EventService) {
     this.register();
   }
@@ -59,7 +59,7 @@ export class CustomEventService {
   entryComponents: [EventDemoComponent],
 })
 export class EventDemoModule {
-  constructor(_: CustomEventService) {}
+  constructor(_: CustomEventBuilder) {}
 }
 
 export function incubatorEventFactory(

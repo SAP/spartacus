@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CartEventService } from './cart-event.service';
+import { CartEventBuilder } from './cart-event.builder';
 @NgModule()
 export class CartEventModule {
-  constructor(_: CartEventService) {}
+  constructor(_: CartEventBuilder) {}
 }

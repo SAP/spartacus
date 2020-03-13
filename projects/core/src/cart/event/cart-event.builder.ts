@@ -4,7 +4,7 @@ import { CartActions } from '../store/actions';
 import { CartEvents } from './cart-event.model';
 
 @Injectable({ providedIn: 'root' })
-export class CartEventService {
+export class CartEventBuilder {
   constructor(protected stateEventService: StateEventService) {
     this.register();
   }

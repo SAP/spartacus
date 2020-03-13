@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CmsEventService } from './cms-event.service';
+import { CmsEventBuilder } from './cms-event.builder';
 
 /**
  * Premature event module for building cms related events.
@@ -9,5 +9,5 @@ import { CmsEventService } from './cms-event.service';
  */
 @NgModule()
 export class CmsEventModule {
-  constructor(_: CmsEventService) {}
+  constructor(_: CmsEventBuilder) {}
 }

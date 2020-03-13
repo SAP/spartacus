@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { RoutingEventService } from './routing-event.service';
+import { RoutingEventBuilder } from './routing-event.builder';
 
 @NgModule({})
 export class RoutingEventModule {
-  constructor(_: RoutingEventService) {}
+  constructor(_: RoutingEventBuilder) {}
 }

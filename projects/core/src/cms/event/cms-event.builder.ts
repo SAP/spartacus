@@ -4,7 +4,7 @@ import { CmsActions } from '../store/actions';
 import { CmsEvents } from './cms-event.model';
 
 @Injectable()
-export class CmsEventService {
+export class CmsEventBuilder {
   constructor(protected stateEventService: StateEventService) {
     this.register();
   }
