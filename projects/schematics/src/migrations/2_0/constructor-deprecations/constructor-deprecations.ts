@@ -9,8 +9,8 @@ import {
   InsertDirection,
   isCandidateForConstructorDeprecation,
   removeConstructorParam,
-} from '../../shared/utils/file-utils';
-import { getSourceRoot } from '../../shared/utils/workspace-utils';
+} from '../../../shared/utils/file-utils';
+import { getSourceRoot } from '../../../shared/utils/workspace-utils';
 import { CONSTRUCTOR_DEPRECATION_DATA } from './constructor-deprecation-data';
 
 export function migrate(): Rule {
@@ -26,7 +26,6 @@ export function migrate(): Rule {
         if (
           !isCandidateForConstructorDeprecation(
             originalSource,
-            constructorDeprecation.class,
             constructorDeprecation
           )
         ) {

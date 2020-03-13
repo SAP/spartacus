@@ -5,8 +5,8 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../../../cms-structure/page/page-layout/page-layout.component';
@@ -30,7 +30,13 @@ import { ReturnOrderConfirmationComponent } from './return-order-confirmation.co
         },
       },
     ]),
-    ConfigModule.withConfig(<CmsConfig>{
+    AmendOrderItemsModule,
+    I18nModule,
+    ReactiveFormsModule,
+    AmendOrderActionsModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ReturnOrderConfirmationComponent: {
           component: ReturnOrderConfirmationComponent,
@@ -44,10 +50,6 @@ import { ReturnOrderConfirmationComponent } from './return-order-confirmation.co
         },
       },
     }),
-    AmendOrderItemsModule,
-    I18nModule,
-    ReactiveFormsModule,
-    AmendOrderActionsModule,
   ],
   declarations: [ReturnOrderConfirmationComponent],
   exports: [ReturnOrderConfirmationComponent],
