@@ -3,27 +3,23 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '../../misc/icon/icon.module';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  imports: [CommonModule, I18nModule, IconModule, RouterModule, UrlModule],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AddToWishListComponent: {
           component: AddToWishListComponent,
         },
       },
     }),
-    I18nModule,
-    IconModule,
-    RouterModule,
-    UrlModule,
   ],
   declarations: [AddToWishListComponent],
   entryComponents: [AddToWishListComponent],

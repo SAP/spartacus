@@ -3,6 +3,7 @@ import {
   InjectionToken,
   ModuleWithProviders,
   NgModule,
+  Optional,
   Provider,
 } from '@angular/core';
 import { deepMerge } from './utils/deep-merge';
@@ -19,26 +20,79 @@ export const Config = new InjectionToken('Configuration');
 export const ConfigChunk = new InjectionToken('ConfigurationChunk');
 
 /**
+ * Config chunk token, can be used to provide configuration chunk and contribute to the default configuration.
+ * Should not be used directly, use `provideDefaultConfig` or `provideDefaultConfigFactory` instead.
+ *
+ * General rule is, that all config provided in libraries should be provided as default config.
+ */
+export const DefaultConfigChunk = new InjectionToken(
+  'DefaultConfigurationChunk'
+);
+
+/**
  * Helper function to provide configuration chunk using ConfigChunk token
+ *
+ * To provide default configuration in libraries provideDefaultConfig should be used instead.
  *
  * @param config Config object to merge with the global configuration
  */
-export function provideConfig(config: any = {}): Provider {
-  return { provide: ConfigChunk, useValue: config, multi: true };
+export function provideConfig(
+  config: any = {},
+  defaultConfig = false
+): Provider {
+  return {
+    provide: defaultConfig ? DefaultConfigChunk : ConfigChunk,
+    useValue: config,
+    multi: true,
+  };
 }
 
 /**
  * Helper function to provide configuration with factory function, using ConfigChunk token
+ *
+ * To provide default configuration in libraries provideDefaultConfigFactory should be used instead.
  *
  * @param configFactory Factory Function that will generate config object
  * @param deps Optional dependencies to a factory function
  */
 export function provideConfigFactory(
   configFactory: Function,
+  deps?: any[],
+  defaultConfig = false
+): Provider {
+  return {
+    provide: defaultConfig ? DefaultConfigChunk : ConfigChunk,
+    useFactory: configFactory,
+    multi: true,
+    deps: deps,
+  };
+}
+
+/**
+ * Helper function to provide default configuration chunk using DefaultConfigChunk token
+ *
+ * @param config Config object to merge with the default configuration
+ */
+export function provideDefaultConfig(config: any = {}): Provider {
+  return {
+    provide: DefaultConfigChunk,
+    useValue: config,
+    multi: true,
+  };
+}
+
+/**
+ * Helper function to provide default configuration with factory function, using DefaultConfigChunk token
+ *
+ * @param configFactory Factory Function that will generate config object
+ * @param deps Optional dependencies to a factory function
+ */
+export function provideDefaultConfigFactory(
+  configFactory: Function,
   deps?: any[]
 ): Provider {
   return {
-    provide: ConfigChunk,
+    provide: DefaultConfigChunk,
     useFactory: configFactory,
     multi: true,
     deps: deps,
@@ -49,8 +103,15 @@ export function provideConfigFactory(
  * Factory function that merges all configurations chunks. Should not be used directly without explicit reason.
  *
  */
-export function configurationFactory(configChunks: any[]) {
-  const config = deepMerge({}, ...configChunks);
+export function configurationFactory(
+  configChunks: any[] = [],
+  defaultConfigChunks: any[] = []
+) {
+  const config = deepMerge(
+    {},
+    ...(defaultConfigChunks ?? []),
+    ...(configChunks ?? [])
+  );
   return config;
 }
 
@@ -61,6 +122,8 @@ export function configurationFactory(configChunks: any[]) {
 export class ConfigModule {
   /**
    * Import ConfigModule and contribute config to the global configuration
+   *
+   * To provide default configuration in libraries provideDefaultConfig should be used instead.
    *
    * @param config Config object to merge with the global configuration
    */
@@ -73,6 +136,8 @@ export class ConfigModule {
 
   /**
    * Import ConfigModule and contribute config to the global configuration using factory function
+   *
+   * To provide default configuration in libraries provideDefaultConfigFactory should be used instead.
    *
    * @param configFactory Factory function that will generate configuration
    * @param deps Optional dependencies to factory function
@@ -100,7 +165,10 @@ export class ConfigModule {
         {
           provide: Config,
           useFactory: configurationFactory,
-          deps: [ConfigChunk],
+          deps: [
+            [new Optional(), ConfigChunk],
+            [new Optional(), DefaultConfigChunk],
+          ],
         },
       ],
     };

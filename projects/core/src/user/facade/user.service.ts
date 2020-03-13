@@ -22,7 +22,7 @@ import {
   UPDATE_USER_DETAILS_PROCESS_ID,
 } from '../store/user-state';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserService {
   constructor(
     store: Store<StateWithUser | StateWithProcess<void>>,

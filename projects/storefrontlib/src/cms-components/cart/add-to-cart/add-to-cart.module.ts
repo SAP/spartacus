@@ -4,8 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
@@ -24,18 +25,21 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
     RouterModule,
     SpinnerModule,
     PromotionsModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    FeaturesConfigModule,
+    UrlModule,
+    IconModule,
+    I18nModule,
+    ItemCounterModule,
+    AutoFocusDirectiveModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ProductAddToCartComponent: {
           component: AddToCartComponent,
         },
       },
     }),
-    UrlModule,
-    IconModule,
-    I18nModule,
-    ItemCounterModule,
-    AutoFocusDirectiveModule,
   ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
   entryComponents: [AddToCartComponent, AddedToCartDialogComponent],
