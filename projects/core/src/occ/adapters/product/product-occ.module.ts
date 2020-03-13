@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ConfigModule } from '../../../config/config.module';
+import { provideDefaultConfig } from '../../../config/config.module';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { ProductAdapter } from '../../../product/connectors/product/product.adapter';
 import { PRODUCT_REFERENCES_NORMALIZER } from '../../../product/connectors/references/converters';
@@ -21,12 +21,9 @@ import { defaultOccProductConfig } from './default-occ-product-config';
 import './product-occ-config';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    ConfigModule.withConfig(defaultOccProductConfig),
-  ],
+  imports: [CommonModule, HttpClientModule],
   providers: [
+    provideDefaultConfig(defaultOccProductConfig),
     {
       provide: ProductAdapter,
       useClass: OccProductAdapter,

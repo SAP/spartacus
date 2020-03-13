@@ -142,7 +142,7 @@ describe('RoutingService', () => {
       .unsubscribe();
 
     expect(result).toEqual(pageContext);
-    expect(NgrxStore.select).toHaveBeenCalledWith(
+    expect(NgrxStore.select as any).toHaveBeenCalledWith(
       RoutingSelector.getNextPageContext
     );
   });
@@ -159,6 +159,8 @@ describe('RoutingService', () => {
       .unsubscribe();
 
     expect(result).toEqual(isNavigating);
-    expect(NgrxStore.select).toHaveBeenCalledWith(RoutingSelector.isNavigating);
+    expect(NgrxStore.select as any).toHaveBeenCalledWith(
+      RoutingSelector.isNavigating
+    );
   });
 });
