@@ -13,7 +13,7 @@
  * event.cart
  * ```
  */
-export class BaseEvent<T> {
+export abstract class BaseEvent<T> {
   constructor(data: T) {
     Object.assign(this, data);
   }
