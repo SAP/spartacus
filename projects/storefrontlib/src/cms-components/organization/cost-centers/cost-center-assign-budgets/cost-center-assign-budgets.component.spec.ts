@@ -57,7 +57,7 @@ const mockBudgetList: EntitiesModel<Budget> = {
       },
       startDate: '2010-01-01T00:00:00+0000',
       endDate: '2034-07-12T00:59:59+0000',
-      orgUnit: { name: 'orgName', uid: 'orgUid' },
+      orgUnit: { uid: 'orgUid', name: 'orgName' },
     },
     {
       code: '2',
@@ -70,7 +70,7 @@ const mockBudgetList: EntitiesModel<Budget> = {
       },
       startDate: '2020-01-01T00:00:00+0000',
       endDate: '2024-07-12T00:59:59+0000',
-      orgUnit: { name: 'orgName', uid: 'orgUid' },
+      orgUnit: { uid: 'orgUid2', name: 'orgName2' },
     },
   ],
   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
@@ -85,8 +85,8 @@ const mockBudgetUIList = {
       amount: '2230 $',
       selected: true,
       startEndDate: '2010-01-01 - 2034-07-12',
+      uid: 'orgUid',
       parentUnit: 'orgName',
-      orgUnitId: 'orgUid',
     },
     {
       code: '2',
@@ -94,8 +94,8 @@ const mockBudgetUIList = {
       amount: '2240 $',
       selected: true,
       startEndDate: '2020-01-01 - 2024-07-12',
-      parentUnit: 'orgName',
-      orgUnitId: 'orgUid',
+      uid: 'orgUid2',
+      parentUnit: 'orgName2',
     },
   ],
   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
@@ -185,9 +185,9 @@ describe('CostCenterAssignBudgetsComponent', () => {
       ],
     }).compileComponents();
 
-    costCenterService = TestBed.get(CostCenterService as Type<
-      CostCenterService
-    >);
+    costCenterService = TestBed.get(
+      CostCenterService as Type<CostCenterService>
+    );
   }));
 
   beforeEach(() => {

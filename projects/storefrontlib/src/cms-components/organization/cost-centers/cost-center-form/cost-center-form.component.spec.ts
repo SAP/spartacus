@@ -54,7 +54,7 @@ const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
-  getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
+  getList = createSpy('getList').and.returnValue(of(mockOrgUnits.values));
 }
 
 class MockCostCenterService implements Partial<CostCenterService> {
@@ -71,7 +71,7 @@ class MockUrlPipe implements PipeTransform {
 }
 
 const mockCurrencies: Currency[] = [
-  { active: true, isocode: 'USD', name: 'Dolar', symbol: '$' },
+  { active: true, isocode: 'USD', name: 'US Dollar', symbol: '$' },
   { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
 ];
 const mockActiveCurr = new BehaviorSubject('USD');

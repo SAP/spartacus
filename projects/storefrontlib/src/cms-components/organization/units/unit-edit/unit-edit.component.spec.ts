@@ -43,10 +43,13 @@ const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
 };
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnits = createSpy('loadOrgUnits');
-  getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
+  loadOrgUnits = createSpy('loadOrgUnits').and.returnValue(
+    of(mockOrgUnits.values)
+  );
+  getList = createSpy('getList').and.returnValue(of(mockOrgUnits.values));
   loadOrgUnit = createSpy('loadOrgUnit');
   get = createSpy('get').and.returnValue(of(mockOrgUnit));
+  getApprovalProcesses = createSpy('getApprovalProcesses');
   update = createSpy('update');
 }
 

@@ -63,7 +63,7 @@ const mockBudgetList: EntitiesModel<Budget> = {
       orgUnit: { name: 'orgName', uid: 'orgUid' },
     },
   ],
-  pagination: { pageSize: 2, totalPages: 1, sort:'byName' },
+  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 
@@ -75,7 +75,7 @@ const mockBudgetUIList = {
       amount: '2230 $',
       startEndDate: '2010-01-01 - 2034-07-12',
       parentUnit: 'orgName',
-      orgUnitId: 'orgUid',
+      uid: 'orgUid',
     },
     {
       code: '2',
@@ -83,10 +83,10 @@ const mockBudgetUIList = {
       amount: '2240 $',
       startEndDate: '2020-01-01 - 2024-07-12',
       parentUnit: 'orgName',
-      orgUnitId: 'orgUid',
+      uid: 'orgUid',
     },
   ],
-  pagination: { pageSize: 2, totalPages: 1, sort:'byName' },
+  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 @Component({

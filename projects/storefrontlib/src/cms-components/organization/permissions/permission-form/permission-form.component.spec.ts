@@ -57,7 +57,7 @@ const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
-  getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
+  getList = createSpy('getList').and.returnValue(of(mockOrgUnits.values));
 }
 
 class MockPermissionService implements Partial<PermissionService> {
@@ -81,7 +81,9 @@ const mockCurrencies: Currency[] = [
 const mockActiveCurr = new BehaviorSubject('USD');
 
 class MockCurrencyService implements Partial<CurrencyService> {
-  getAll = jasmine.createSpy('getAll').and.returnValue(of(mockCurrencies));
+  getAll = jasmine
+    .createSpy('getAll')
+    .and.returnValue(of(mockCurrencies.values));
   getActive(): Observable<string> {
     return mockActiveCurr;
   }
@@ -138,7 +140,7 @@ describe('PermissionFormComponent', () => {
         })
         .unsubscribe();
       expect(currencyService.getAll).toHaveBeenCalled();
-      expect(currencies).toEqual(mockCurrencies);
+      expect(currencies).toEqual(mockCurrencies.values);
     });
 
     it('should load businessUnits', () => {

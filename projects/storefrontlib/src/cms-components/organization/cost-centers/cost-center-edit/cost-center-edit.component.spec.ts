@@ -50,7 +50,7 @@ const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
-  getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
+  getList = createSpy('getList').and.returnValue(of(mockOrgUnits.values));
 }
 
 class MockCostCenterService implements Partial<CostCenterService> {
