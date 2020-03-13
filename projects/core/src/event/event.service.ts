@@ -96,8 +96,8 @@ export class EventService {
    * Dispatches a single event.
    *
    * However, it's recommended to use method `register` instead, whenever the event can come from some stream.
-   *  It allows for lazy computations on the input event stream -
-   *  if no one subscribes to the event, the logic of the input stream won't be evaluated.
+   *  It allows for lazy computations in the event source stream -
+   *  if no one subscribes to the event, the logic of the event source stream won't be evaluated.
    */
   dispatch(event: Object): void {
     const eventType = event.constructor as Type<any>;
@@ -156,9 +156,11 @@ export class EventService {
   }
 
   /**
-   * Checks if the event type is a valid type (is a class with constructor). Runs only in dev mode.
+   * Checks if the event type is a valid type (is a class with constructor).
+   *
+   * Should be used only in dev mode.
    */
-  protected validateEventType<T>(eventType: Type<T>): void {
+  private validateEventType<T>(eventType: Type<T>): void {
     if (!eventType?.constructor) {
       throw new Error(
         `EventService:  ${eventType} is not a valid event type. Please provide a class reference.`
@@ -171,7 +173,7 @@ export class EventService {
    *
    * Should be used only in dev mode.
    */
-  protected validateEventStream<T>(
+  private validateEventStream<T>(
     source$: Observable<T>,
     eventType: Type<T>
   ): Observable<T> {
