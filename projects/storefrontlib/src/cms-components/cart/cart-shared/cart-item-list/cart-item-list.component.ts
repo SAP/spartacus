@@ -5,7 +5,6 @@ import {
   ConsignmentEntry,
   FeatureConfigService,
   PromotionLocation,
-  PromotionResult,
   SelectiveCartService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
