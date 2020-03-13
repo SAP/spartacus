@@ -58,7 +58,7 @@ export class OrgUnitUserGroupEffects {
           switchMap((orgUnitUserGroups: EntitiesModel<OrgUnitUserGroup>) => {
             const { values, page } = normalizeListPage(
               orgUnitUserGroups,
-              'code'
+              'uid'
             );
             return [
               new OrgUnitUserGroupActions.LoadOrgUnitUserGroupSuccess(values),

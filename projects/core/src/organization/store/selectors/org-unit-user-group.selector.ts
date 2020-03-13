@@ -19,7 +19,7 @@ import {
   Permission,
   User,
 } from '../../../model';
-import { B2BSearchConfig } from '../../model';
+import { B2BSearchConfig } from '../../model/search-config';
 import { getPermissionsState } from './permission.selector';
 
 export const getOrgUnitUserGroupManagementState: MemoizedSelector<

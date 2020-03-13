@@ -43,7 +43,9 @@ export class OrgUnitUserGroupService {
     );
   }
 
-  private getOrgUnitUserGroupState(orgUnitUserGroupUid: string) {
+  private getOrgUnitUserGroupState(
+    orgUnitUserGroupUid: string
+  ): Observable<LoaderState<OrgUnitUserGroup>> {
     return this.store.select(getOrgUnitUserGroupState(orgUnitUserGroupUid));
   }
 

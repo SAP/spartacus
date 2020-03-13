@@ -43,8 +43,8 @@ import { OrgUnitUserGroup } from 'projects/core/src/model/org-unit-user-group.mo
 import {
   orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer,
   orgUnitUserGroupAvailablOrgCustomersListReducer,
+  orgUnitUserGroupsListReducer,
 } from './org-unit-user-group.reducer';
-import { orgUnitListReducer } from './org-unit.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -78,7 +78,7 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       ),
       list: entityLoaderReducer<ListModel>(
         ORG_UNIT_USER_GROUP_LIST,
-        orgUnitListReducer
+        orgUnitUserGroupsListReducer
       ),
       permissions: entityLoaderReducer<ListModel>(
         ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,

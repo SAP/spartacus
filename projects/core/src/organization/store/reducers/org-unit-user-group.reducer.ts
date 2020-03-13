@@ -3,7 +3,7 @@ import * as OrgUnitUserGroupActions from '../actions/org-unit-user-group.action'
 import { OrgUnitUserGroup } from '../../../model';
 
 export const orgUnitUserGroupInitialState = {};
-export const orgUnitsUserGroupInitialState = undefined;
+export const orgUnitUserGroupsInitialState = undefined;
 
 export function orgUnitUserGroupEntitiesReducer(
   state: OrgUnitUserGroup = orgUnitUserGroupInitialState,
@@ -14,8 +14,8 @@ export function orgUnitUserGroupEntitiesReducer(
   return state;
 }
 
-export function orgUnitUserGroupListReducer(
-  state = orgUnitsUserGroupInitialState,
+export function orgUnitUserGroupsListReducer(
+  state = orgUnitUserGroupsInitialState,
   action: LoaderAction
 ): any {
   switch (action.type) {
@@ -26,7 +26,7 @@ export function orgUnitUserGroupListReducer(
 }
 
 export function orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer(
-  state = orgUnitsUserGroupInitialState,
+  state = orgUnitUserGroupsInitialState,
   action: LoaderAction
 ): any {
   switch (action.type) {
@@ -37,7 +37,7 @@ export function orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer(
 }
 
 export function orgUnitUserGroupAvailablOrgCustomersListReducer(
-  state = orgUnitsUserGroupInitialState,
+  state = orgUnitUserGroupsInitialState,
   action: LoaderAction
 ): any {
   switch (action.type) {
