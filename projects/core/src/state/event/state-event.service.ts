@@ -43,14 +43,13 @@ export class StateEventService {
    * @param mapping mapping from action to event
    */
   protected getFromAction<T>(mapping: ActionToEvent<T>): Observable<T> {
-    const result = this.actionsSubject
+    return this.actionsSubject
       .pipe(ofType(mapping.action))
       .pipe(
         map((action: { type: string; payload: T }) =>
           this.createEvent(action, mapping.event, mapping.factory)
         )
       );
-    return result;
   }
 
   /**
