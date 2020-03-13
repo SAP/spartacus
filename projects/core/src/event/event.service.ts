@@ -54,7 +54,18 @@ export class EventService {
   register<T>(eventType: Type<T>, source$: Observable<T>): () => void {
     const event = this.getEventMeta(eventType);
     const sources: Observable<T>[] = event.sources$.value;
-    event.sources$.next([...sources, source$]);
+    if (sources.includes(source$)) {
+      if (isDevMode()) {
+        console.warn(
+          `EventService: the event source`,
+          source$,
+          `has been already registered for the type`,
+          eventType
+        );
+      }
+    } else {
+      event.sources$.next([...sources, source$]);
+    }
 
     return () => this.unregister(eventType, source$);
   }
@@ -157,6 +168,8 @@ export class EventService {
 
   /**
    * Returns the given event source with runtime validation whether the emitted values are instances of given event type.
+   *
+   * Should be used only in dev mode.
    */
   protected validateEventStream<T>(
     source$: Observable<T>,
@@ -166,12 +179,12 @@ export class EventService {
       tap(event => {
         if (!(event instanceof eventType)) {
           console.warn(
-            `EventService: A stream emitted an event that is not an instance of declared type. Event type:`,
-            eventType.name,
-            `. Event:`,
+            `EventService: The stream`,
+            source$,
+            `emitted the event`,
             event,
-            `. Stream:`,
-            source$
+            `that is not an instance of the declared type`,
+            eventType.name
           );
         }
       })
