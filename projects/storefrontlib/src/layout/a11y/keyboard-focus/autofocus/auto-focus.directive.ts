@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  HostListener,
-  Input,
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
 import { EscapeFocusDirective } from '../escape/escape-focus.directive';
 import { AutoFocusConfig } from '../keyboard-focus.model';
 import { AutoFocusService } from './auto-focus.service';
@@ -40,12 +34,6 @@ export class AutoFocusDirective extends EscapeFocusDirective
 
   @Input('cxAutoFocus') protected config: AutoFocusConfig;
 
-  private isTouchedByMouse = false;
-  @HostListener('mousedown')
-  protected handleMousedown() {
-    this.isTouchedByMouse = true;
-  }
-
   constructor(
     protected elementRef: ElementRef,
     protected autoFocusService: AutoFocusService
@@ -71,11 +59,14 @@ export class AutoFocusDirective extends EscapeFocusDirective
    * element will be focussed.
    */
   protected handleFocus(event?: KeyboardEvent) {
-    if (!this.isTouchedByMouse && this.shouldAutofocus) {
-      this.firstFocusable?.focus();
+    if (this.shouldAutofocus) {
+      if (!event?.target || event.target === this.host) {
+        this.firstFocusable?.focus();
+      } else {
+        (event.target as HTMLElement).focus();
+      }
     }
     super.handleFocus(event);
-    this.isTouchedByMouse = false;
   }
 
   /**
