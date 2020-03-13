@@ -13,7 +13,6 @@ import {
   Order,
   OrderEntry,
   PromotionLocation,
-  PromotionResult,
   RoutingService,
   SelectiveCartService,
 } from '@spartacus/core';
@@ -57,8 +56,6 @@ class MockPromotionService {
 class MockCartItemListComponent {
   @Input()
   items: Item[];
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading: Observable<boolean>;
   @Input()

@@ -8,7 +8,6 @@ import {
   I18nTestingModule,
   Order,
   PromotionLocation,
-  PromotionResult,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
@@ -106,8 +105,6 @@ class MockCartItemListComponent {
   hasHeader = true;
   @Input()
   items = [];
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading = false;
   @Input()

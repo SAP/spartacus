@@ -16,7 +16,6 @@ import {
   OrderEntry,
   PaymentDetails,
   PromotionLocation,
-  PromotionResult,
   UserAddressService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -35,10 +34,6 @@ const mockCart: Cart = {
   code: 'test',
   deliveryItemsQuantity: 123,
   totalPrice: { formattedValue: '$999.98' },
-  potentialProductPromotions: [
-    { description: 'Promotion 1' },
-    { description: 'Promotion 2' },
-  ],
 };
 
 const mockAddress: Address = {
@@ -78,7 +73,6 @@ const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
 class MockCartItemListComponent {
   @Input() items: Item[];
   @Input() readonly: boolean;
-  @Input() potentialProductPromotions: PromotionResult[] = [];
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 

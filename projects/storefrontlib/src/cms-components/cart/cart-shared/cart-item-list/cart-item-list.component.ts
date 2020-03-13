@@ -45,7 +45,6 @@ export class CartItemListComponent {
     return this._items;
   }
 
-  @Input() potentialProductPromotions: PromotionResult[] = [];
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   @Input('cartIsLoading') set setLoading(value: boolean) {
@@ -145,46 +144,5 @@ export class CartItemListComponent {
       }),
       map(() => <FormGroup>this.form.get(item.product.code))
     );
-  }
-
-  getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
-    const entryPromotions: PromotionResult[] = [];
-    //don't show promotions in saveforlater
-    if (this.options.isSaveForLater) {
-      return entryPromotions;
-    }
-    if (
-      this.potentialProductPromotions &&
-      this.potentialProductPromotions.length > 0
-    ) {
-      for (const promotion of this.potentialProductPromotions) {
-        if (
-          promotion.description &&
-          promotion.consumedEntries &&
-          promotion.consumedEntries.length > 0
-        ) {
-          for (const consumedEntry of promotion.consumedEntries) {
-            if (this.isConsumedByEntry(consumedEntry, item)) {
-              entryPromotions.push(promotion);
-            }
-          }
-        }
-      }
-    }
-    return entryPromotions;
-  }
-
-  private isConsumedByEntry(consumedEntry: any, entry: any): boolean {
-    const consumedEntryNumber = consumedEntry.orderEntryNumber;
-    if (entry.entries && entry.entries.length > 0) {
-      for (const subEntry of entry.entries) {
-        if (subEntry.entryNumber === consumedEntryNumber) {
-          return true;
-        }
-      }
-      return false;
-    } else {
-      return consumedEntryNumber === entry.entryNumber;
-    }
   }
 }

@@ -16,7 +16,6 @@ import {
   I18nTestingModule,
   OrderEntry,
   PromotionLocation,
-  PromotionResult,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components';
@@ -73,7 +72,6 @@ class MockModalService {
 class MockCartItemComponent {
   @Input() compact = false;
   @Input() item: Observable<OrderEntry>;
-  @Input() potentialProductPromotions: PromotionResult[];
   @Input() readonly = false;
   @Input() quantityControl: FormControl;
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
