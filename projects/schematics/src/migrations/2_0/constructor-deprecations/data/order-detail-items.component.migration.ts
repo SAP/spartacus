@@ -1,6 +1,6 @@
 import {
+  ORDER_DETAILS_SERVICE,
   ORDER_DETAIL_ITEMS_COMPONENT,
-  SPARTACUS_CORE,
   PROMOTION_SERVICE,
   SPARTACUS_STOREFRONTLIB,
 } from '../../../../shared/constants';
@@ -9,12 +9,16 @@ import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 export const ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION: ConstructorDeprecation = {
   class: ORDER_DETAIL_ITEMS_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
-  deprecatedParams: [],
-  removeParams: [],
+  deprecatedParams: [
+    {
+      className: ORDER_DETAILS_SERVICE,
+      importPath: SPARTACUS_STOREFRONTLIB,
+    },
+  ],
   addParams: [
     {
       className: PROMOTION_SERVICE,
-      importPath: SPARTACUS_CORE,
+      importPath: SPARTACUS_STOREFRONTLIB,
     },
   ],
 };

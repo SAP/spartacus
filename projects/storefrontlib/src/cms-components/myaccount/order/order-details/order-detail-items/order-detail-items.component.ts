@@ -20,7 +20,7 @@ import {
 })
 export class OrderDetailItemsComponent implements OnInit {
   constructor(
-    private orderDetailsService: OrderDetailsService,
+    protected orderDetailsService: OrderDetailsService,
     protected promotionService: PromotionService
   ) {}
 

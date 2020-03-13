@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartService,
   AuthService,
   Cart,
-  ActiveCartService,
   FeatureConfigService,
   FeaturesConfig,
   FeaturesConfigModule,
@@ -17,11 +18,10 @@ import {
   SelectiveCartService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 import { CartDetailsComponent } from './cart-details.component';
-import { PromotionService } from '../../../shared/services/promotion/promotion.service';
-import { By } from '@angular/platform-browser';
 
 class MockActiveCartService {
   removeEntry(): void {}
@@ -85,7 +85,7 @@ class MockCartCouponComponent {
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
-  let activeCartService: activeCartService;
+  let activeCartService: ActiveCartService;
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
