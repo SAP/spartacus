@@ -71,9 +71,6 @@ export class AsmEnablerService {
    * Adds the ASM UI by using the `cx-storefront` outlet.
    */
   private addUi(): void {
-    const factory = this.componentFactoryResolver.resolveComponentFactory(
-      AsmMainUiComponent
-    );
-    this.triggerService.renderDialog(TRIGGER_CALLER.ASM, factory);
+    this.triggerService.renderDialog(TRIGGER_CALLER.ASM, AsmMainUiComponent);
   }
 }

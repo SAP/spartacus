@@ -1,4 +1,8 @@
-import { Injectable, ComponentFactory } from '@angular/core';
+import {
+  Injectable,
+  ComponentFactory,
+  ComponentFactoryResolver,
+} from '@angular/core';
 import {
   TriggerOutletMapping,
   TriggerInlineMapping,
@@ -16,18 +20,22 @@ export class TriggerService {
 
   constructor(
     protected outletService: OutletService<ComponentFactory<any>>,
-    protected triggerConfig: TriggerConfig
+    protected triggerConfig: TriggerConfig,
+    protected componentFactoryResolver: ComponentFactoryResolver
   ) {}
 
-  renderDialog(
-    caller: TRIGGER_CALLER,
-    template?: ComponentFactory<any>
-  ): void | string {
+  renderDialog(caller: TRIGGER_CALLER, component?: any): void | string {
     const config = this.findConfiguration(caller);
     if (Boolean((config as TriggerUrlMapping).url)) {
       this.renderedCallers.push(caller);
       return (config as TriggerUrlMapping).url;
-    } else if (this.shouldRender(caller, config as TriggerMapping)) {
+    } else if (
+      this.shouldRender(caller, config as TriggerMapping) &&
+      component
+    ) {
+      const template = this.componentFactoryResolver.resolveComponentFactory(
+        component
+      );
       if (Boolean((config as TriggerOutletMapping).outlet)) {
         this.renderOutlet(config as TriggerOutletMapping, template);
       } else if (Boolean((config as TriggerInlineMapping).inline)) {
