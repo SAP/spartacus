@@ -3,14 +3,10 @@ import {
   APP_INITIALIZER,
   ComponentFactory,
   ComponentFactoryResolver,
+  Injectable,
   NgModule,
 } from '@angular/core';
-import {
-  CartEvents,
-  CmsEvents,
-  EventService,
-  provideEventSources,
-} from '@spartacus/core';
+import { CartEvents, CmsEvents, EventService } from '@spartacus/core';
 import { OutletPosition, OutletService } from '@spartacus/storefront';
 import { RoutingEvents } from 'projects/core/src/routing/event/routing-event.model';
 import { map, withLatestFrom } from 'rxjs/operators';
@@ -18,24 +14,31 @@ import { AddedToCartContextAware } from './added-to-cart-context-aware';
 import { EventDemoComponent } from './event-demo.component';
 import { UiEventModule } from './ui/index';
 
-export function customEventSourceFactory(eventService: EventService) {
-  const addedToCartWithContext$ = eventService
-    .get(CartEvents.AddCartEntrySuccess)
-    .pipe(
-      withLatestFrom(
-        eventService.get(CmsEvents.LoadCmsPageDataSuccess),
-        eventService.get(RoutingEvents.NavigationSuccess)
-      ),
-      map(
-        ([eAdded, ePage, eNavigated]) =>
-          new AddedToCartContextAware({
-            url: eNavigated.url,
-            page: ePage.page,
-            added: eAdded,
-          })
+@Injectable()
+export class CustomEventService {
+  constructor(protected eventService: EventService) {
+    this.register();
+  }
+
+  protected register() {
+    this.eventService.register(
+      AddedToCartContextAware,
+      this.eventService.get(CartEvents.AddCartEntrySuccess).pipe(
+        withLatestFrom(
+          this.eventService.get(CmsEvents.LoadCmsPageDataSuccess),
+          this.eventService.get(RoutingEvents.NavigationSuccess)
+        ),
+        map(
+          ([eAdded, ePage, eNavigated]) =>
+            new AddedToCartContextAware({
+              url: eNavigated.url,
+              page: ePage.page,
+              added: eAdded,
+            })
+        )
       )
     );
-  return [{ type: AddedToCartContextAware, source$: addedToCartWithContext$ }];
+  }
 }
 
 /**
@@ -51,12 +54,13 @@ export function customEventSourceFactory(eventService: EventService) {
       deps: [ComponentFactoryResolver, OutletService],
       multi: true,
     },
-    provideEventSources(customEventSourceFactory, [EventService]),
   ],
   declarations: [EventDemoComponent],
   entryComponents: [EventDemoComponent],
 })
-export class EventDemoModule {}
+export class EventDemoModule {
+  constructor(_: CustomEventService) {}
+}
 
 export function incubatorEventFactory(
   componentFactoryResolver: ComponentFactoryResolver,

@@ -8,6 +8,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { EventService } from '../../event/event.service';
 import { RoutingEvents } from './routing-event.model';
 
 @Injectable({
@@ -17,14 +18,16 @@ export class RoutingEventService {
   /**
    * Maps Angular event `NavigationStart` to spartacus navigation event
    */
-  navigation$: Observable<RoutingEvents.Navigation> = this.getRouterEvent(
-    NavigationStart
-  ).pipe(map(event => new RoutingEvents.Navigation({ url: event.url })));
+  protected navigation$: Observable<
+    RoutingEvents.Navigation
+  > = this.getRouterEvent(NavigationStart).pipe(
+    map(event => new RoutingEvents.Navigation({ url: event.url }))
+  );
 
   /**
    * Maps Angular event `NavigationEnd` to spartacus navigation success event
    */
-  navigationSuccess$: Observable<
+  protected navigationSuccess$: Observable<
     RoutingEvents.NavigationSuccess
   > = this.getRouterEvent(NavigationEnd).pipe(
     map(
@@ -36,7 +39,7 @@ export class RoutingEventService {
   /**
    * Maps Angular event `NavigationStart` to spartacus navigation event
    */
-  navigationCancel$: Observable<
+  protected navigationCancel$: Observable<
     RoutingEvents.NavigationCancel
   > = this.getRouterEvent(NavigationCancel).pipe(
     map(event => new RoutingEvents.NavigationCancel({ url: event.url }))
@@ -53,5 +56,22 @@ export class RoutingEventService {
     );
   }
 
-  constructor(protected router: Router) {}
+  constructor(protected router: Router, protected eventService: EventService) {
+    this.register();
+  }
+
+  /**
+   * Registers event sources
+   */
+  protected register() {
+    this.eventService.register(
+      RoutingEvents.NavigationSuccess,
+      this.navigationSuccess$
+    );
+    this.eventService.register(RoutingEvents.Navigation, this.navigation$);
+    this.eventService.register(
+      RoutingEvents.NavigationCancel,
+      this.navigationCancel$
+    );
+  }
 }

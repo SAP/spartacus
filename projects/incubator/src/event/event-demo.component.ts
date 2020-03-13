@@ -6,6 +6,7 @@ import {
   MultiCartService,
 } from '@spartacus/core';
 import { RoutingEvents } from 'projects/core/src/routing/event/routing-event.model';
+import { merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AddedToCartContextAware } from './added-to-cart-context-aware';
 import { ClickEvent } from './ui/ui-event.model';
@@ -29,20 +30,20 @@ export class EventDemoComponent {
   }
 
   demo1() {
-    const cartEvents$ = this.eventService.get([
-      CartEvents.AddCartEntry,
-      CartEvents.AddCartEntrySuccess,
-    ]);
+    const cartEvents$ = merge(
+      this.eventService.get(CartEvents.AddCartEntry),
+      this.eventService.get(CartEvents.AddCartEntrySuccess)
+    );
     cartEvents$.subscribe(e => console.log('cart event', e));
     console.log('subscribed cart events');
 
-    const spike$ = this.eventService.get([
-      CmsEvents.LoadCmsPageDataSuccess,
-      ClickEvent,
-      RoutingEvents.NavigationSuccess,
-      RoutingEvents.NavigationCancel,
-      RoutingEvents.Navigation,
-    ]);
+    const spike$ = merge(
+      this.eventService.get(CmsEvents.LoadCmsPageDataSuccess),
+      this.eventService.get(ClickEvent),
+      this.eventService.get(RoutingEvents.NavigationSuccess),
+      this.eventService.get(RoutingEvents.NavigationCancel),
+      this.eventService.get(RoutingEvents.Navigation)
+    );
     spike$.subscribe(console.log);
     console.log('subscribed other events');
 
