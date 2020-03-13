@@ -1,4 +1,5 @@
 import {
+  ANONYMOUS_USERID_CONST,
   CART_COMBINED_EFFECTS,
   CART_EFFECTS,
   CART_ENTRY_EFFECTS,
@@ -117,5 +118,11 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: CONTEXT_SERVICE_PROVIDERS,
     importPath: SPARTACUS_CORE,
+  },
+  // projects/core/src/occ/index.ts
+  {
+    node: ANONYMOUS_USERID_CONST,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ANONYMOUS_USERID_CONST}' is no longer part of the public API. Instead use 'OCC_USER_ID_ANONYMOUS'.`,
   },
 ];
