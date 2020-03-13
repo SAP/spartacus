@@ -83,6 +83,7 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
+export const PRODUCT_IMAGES_COMPONENT = 'ProductImagesComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
