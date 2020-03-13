@@ -107,6 +107,8 @@ export const SITE_CONTEXT_PARAMS_PROVIDERS = 'siteContextParamsProviders';
 export const INIT_SITE_CONTEXT_ROUTES_HANDLER = 'initSiteContextRoutesHandler';
 export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
+
+export const ANONYMOUS_USERID_CONST = 'ANONYMOUS_USERID';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
