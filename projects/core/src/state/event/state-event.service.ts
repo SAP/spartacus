@@ -60,6 +60,7 @@ export class StateEventService {
    *
    * @param action instance of an Action
    * @param mapping mapping from action to event
+   * @param factory optional function getting an action instance and returning an event instance
    *
    * @returns instance of an Event
    */
