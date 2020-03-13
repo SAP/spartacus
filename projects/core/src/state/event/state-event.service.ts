@@ -3,18 +3,46 @@ import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { EventService } from '../../event';
 import { ActionToEvent } from './action-to-event';
 
 /**
- * Transforms the stream of ngrx actions into events streams
+ * Registers streams of ngrx actions as events source streams
  */
 @Injectable({
   providedIn: 'root',
 })
 export class StateEventService {
-  constructor(protected actionsSubject: ActionsSubject) {}
+  constructor(
+    protected actionsSubject: ActionsSubject,
+    protected eventService: EventService
+  ) {}
 
-  getFromAction<T>(mapping: ActionToEvent<T>): Observable<T> {
+  /**
+   * Registers an event source stream of specific events
+   * mapped from a given action type.
+   *
+   * This method can be chained. For example:
+   * ```
+   * service
+   *  .register({ event: EventA, action: ActionA })
+   *  .register({ event: EventB, action: ActionB });
+   * ```
+   *
+   * @param mapping mapping from action to event
+   *
+   * @returns the service
+   */
+  register<T>(mapping: ActionToEvent<T>): StateEventService {
+    this.eventService.register(mapping.event, this.getFromAction(mapping));
+    return this;
+  }
+
+  /**
+   * Returns a stream of specific events mapped from a specific action.
+   * @param mapping mapping from action to event
+   */
+  protected getFromAction<T>(mapping: ActionToEvent<T>): Observable<T> {
     const result = this.actionsSubject
       .pipe(ofType(mapping.action))
       .pipe(
@@ -27,18 +55,19 @@ export class StateEventService {
 
   /**
    * Creates an event instance for given class out from the action object.
-   * Unless the `factory` parameter, the action's `payload` is used the argument for the event's constructor.
+   * Unless the `factory` parameter is given, the action's `payload` is used
+   * as the argument for the event's constructor.
    *
-   * @param action instance of Action
-   * @param mapping mapping object from event ty
+   * @param action instance of an Action
+   * @param mapping mapping from action to event
+   *
+   * @returns instance of an Event
    */
   protected createEvent<T>(
     action: { type: string; payload?: any },
     eventType: Type<T>,
     factory?: (action: any) => T
   ): T {
-    return factory ? 
-      factory(action) : 
-      new eventType(action.payload ?? {});
+    return factory ? factory(action) : new eventType(action.payload ?? {});
   }
 }
