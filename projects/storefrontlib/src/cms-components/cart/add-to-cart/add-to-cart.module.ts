@@ -9,8 +9,8 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { KeyboardFocusModule } from 'projects/storefrontlib/src/layout';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
+import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { ItemCounterModule, SpinnerModule } from '../../../shared/index';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 import { CartSharedModule } from './../cart-shared/cart-shared.module';
