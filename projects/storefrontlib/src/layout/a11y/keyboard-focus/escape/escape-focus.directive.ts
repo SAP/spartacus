@@ -34,8 +34,9 @@ export class EscapeFocusDirective extends PersistFocusDirective
    * Handles the escape key event.
    * @param event the native keyboard event which contains the escape keydown event
    */
-  @HostListener('keydown.escape', ['$event'])
-  protected handleEscape(event: KeyboardEvent): void {
+  @HostListener('keydown.escape', ['$event']) handleEscape(
+    event: KeyboardEvent
+  ): void {
     if (this.service.shouldFocus(this.config)) {
       this.service.handleEscape(this.host, this.config, event);
     }

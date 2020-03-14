@@ -56,7 +56,7 @@ export class PersistFocusDirective extends BlockFocusDirective
    * implementations. This is needed to ensure that we can resolve the focus
    * state in case of a repaint.
    */
-  @HostBinding(`attr.${FOCUS_ATTR}`) protected attr: string;
+  @HostBinding(`attr.${FOCUS_ATTR}`) attr: string;
 
   /**
    * The persistence key is maintained in a singleton cross the app to ensure we
@@ -64,7 +64,7 @@ export class PersistFocusDirective extends BlockFocusDirective
    */
 
   @HostListener('focus', ['$event'])
-  protected handleFocus(event?: KeyboardEvent) {
+  handleFocus(event?: KeyboardEvent) {
     if (this.key) {
       this.persistFocusService.set(this.key, this.group);
     }

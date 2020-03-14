@@ -38,7 +38,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   };
 
   @HostListener('keydown.escape', ['$event'])
-  protected handleEscape(event: KeyboardEvent): void {
+  handleEscape(event: KeyboardEvent): void {
     this.service.handleEscape(
       this.elementRef.nativeElement,
       this.config,

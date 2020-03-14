@@ -41,8 +41,7 @@ export class AutoFocusDirective extends EscapeFocusDirective
   @Input('cxAutoFocus') protected config: AutoFocusConfig;
 
   private isTouchedByMouse = false;
-  @HostListener('mousedown')
-  protected handleMousedown() {
+  @HostListener('mousedown') handleMousedown() {
     this.isTouchedByMouse = true;
   }
 
@@ -70,7 +69,7 @@ export class AutoFocusDirective extends EscapeFocusDirective
    * Handles autofocus for the nested focusable element. The first focusable
    * element will be focussed.
    */
-  protected handleFocus(event?: KeyboardEvent) {
+  handleFocus(event?: KeyboardEvent) {
     if (!this.isTouchedByMouse && this.shouldAutofocus) {
       this.firstFocusable?.focus();
     }

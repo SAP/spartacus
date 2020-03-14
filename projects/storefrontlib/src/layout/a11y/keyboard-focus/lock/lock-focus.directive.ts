@@ -33,7 +33,7 @@ export class LockFocusDirective extends TrapFocusDirective
    */
   @HostListener('keydown.enter', ['$event'])
   @HostListener('keydown.space', ['$event'])
-  protected handleUnlock = (event: KeyboardEvent) => {
+  handleUnlock = (event: KeyboardEvent) => {
     if (this.isLocked && !this.hasFocusableChildren) {
       this.hasbeenUnlocked = true;
       this.addTabindexToChildren(0);
@@ -48,7 +48,7 @@ export class LockFocusDirective extends TrapFocusDirective
    * the group is unlocked automatically.
    */
   @HostListener('click', ['$event'])
-  protected handleClick(event: KeyboardEvent) {
+  handleClick(event: KeyboardEvent) {
     if (event.target !== this.host) {
       this.handleUnlock(event);
     }
@@ -123,7 +123,7 @@ export class LockFocusDirective extends TrapFocusDirective
   /**
    * Locks focus handling in case of a locked experience.
    */
-  protected handleFocus(event: KeyboardEvent): void {
+  handleFocus(event: KeyboardEvent): void {
     if (this.isLocked && !this.hasbeenUnlocked) {
       this.addTabindexToChildren(-1);
     } else {
