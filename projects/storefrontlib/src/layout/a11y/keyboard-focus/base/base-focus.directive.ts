@@ -23,15 +23,7 @@ export abstract class BaseFocusDirective implements OnInit {
   protected config: BaseFocusConfig;
   protected defaultConfig: BaseFocusConfig = {};
 
-  /**
-   * The host tabindex will default to -1 for elements that require
-   * an explicit tabindex if we set the focus.
-   */
-  // tslint:disable-next-line: no-input-rename
-  @Input('tabindex') currentIndex = '-1';
-
-  // the tabindex attribute we like to replace
-  @HostBinding('attr.tabindex') tabindex: number;
+  @Input() @HostBinding('attr.tabindex') tabindex: string;
 
   constructor(
     protected elementRef: ElementRef<HTMLElement>,
@@ -40,7 +32,7 @@ export abstract class BaseFocusDirective implements OnInit {
 
   ngOnInit() {
     this.setDefaultConfiguration();
-    this.forceTabindex();
+    this.requiredTabindex = '-1';
   }
 
   /**
@@ -56,17 +48,6 @@ export abstract class BaseFocusDirective implements OnInit {
   }
 
   /**
-   * Forces a tabindex on the host element if it's lacking or
-   * not forced by the semantic nature of the host element. Buttons,
-   * active links, etc. do no need an explicit tabindex to receive focus.
-   */
-  protected forceTabindex() {
-    if (this.requiresExplicitTabIndex) {
-      this.tabindex = Number(this.currentIndex);
-    }
-  }
-
-  /**
    * Helper method to return the host element for the directive
    * given by the `elementRef`.
    */
@@ -75,13 +56,25 @@ export abstract class BaseFocusDirective implements OnInit {
   }
 
   /**
-   * returns true if the host element does not have a tabindex defined
+   * Rorce a tabindex in case the element is not focusable by nature
+   * or an explicit tabindex isn't added allready.
+   */
+  protected set requiredTabindex(tab: string) {
+    if (this.requiresExplicitTabIndex) {
+      this.tabindex = tab;
+    }
+  }
+
+  /**
+   * Returns true if the host element does not have a tabindex defined
    * and it also doesn't get focus by browsers nature (i.e. button or
    * active link).
+   *
+   * We keep this utility methdod private to not polute the API.
    */
-  protected get requiresExplicitTabIndex(): boolean {
+  private get requiresExplicitTabIndex(): boolean {
     return (
-      this.currentIndex !== undefined &&
+      this.tabindex === undefined &&
       ['button', 'input', 'select', 'textarea'].indexOf(
         this.host.tagName.toLowerCase()
       ) === -1 &&

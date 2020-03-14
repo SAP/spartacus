@@ -51,8 +51,8 @@ export class EscapeFocusDirective extends PersistFocusDirective
   }
 
   ngOnInit() {
-    if (this.service.shouldFocus(this.config) && !this.currentIndex) {
-      this.currentIndex = '-1';
+    if (this.service.shouldFocus(this.config)) {
+      this.requiredTabindex = '-1';
     }
     super.ngOnInit();
   }

@@ -66,15 +66,11 @@ export class LockFocusDirective extends TrapFocusDirective
     super.ngOnInit();
 
     if (this.isLocked) {
-      // when the host is configured to be locked, we explicitly make
-      // it focusable, if it wasn't already focusable.
-      if (
-        this.requiresExplicitTabIndex ||
-        !this.currentIndex ||
-        this.currentIndex === '-1'
-      ) {
-        this.tabindex = 0;
+      // force a tabindex if the element is not focusable by nature or explicitely set
+      if (Number(this.tabindex) < 0) {
+        this.tabindex = '0';
       }
+
       // Locked elements will be set to `autofocus` by default if it's not
       // been configured. This will ensure that autofocus kicks in upon unlock.
       if (!this.config.hasOwnProperty('autofocus')) {
