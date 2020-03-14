@@ -1,10 +1,14 @@
-%cx-navigation-ui-calydon {
-  @include media-breakpoint-up(lg) {
-    > [aria-label]:focus {
-      outline-offset: 0;
-    }
-    &.flyout > nav:last-child {
-      overflow: visible;
-    }
-  }
-}
+// %cx-navigation-ui-calydon {
+
+// this line is no longer needed
+//   @include media-breakpoint-up(lg) {
+// > [aria-label]:focus {
+//   outline-offset: 0;
+// }
+
+// &.flyout > nav:last-child {
+//   overflow: visible;
+// }
+
+//   }
+// }

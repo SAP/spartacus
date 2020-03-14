@@ -70,6 +70,13 @@ $useTabsOnPDP: false !default;
     }
   }
 
+  button {
+    &:focus {
+      z-index: 1;
+      transition: none;
+    }
+  }
+
   @include media-breakpoint-down(sm) {
     > button {
       border-top: 1px var(--cx-color-light) solid;
@@ -165,6 +172,14 @@ $useTabsOnPDP: false !default;
       text-decoration: underline;
     }
   }
+
+  button {
+    &:focus {
+      z-index: 1;
+      transition: none;
+    }
+  }
+
   > div {
     order: 4;
     grid-column: 1 / span 5;
