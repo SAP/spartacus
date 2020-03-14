@@ -9,13 +9,13 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { KeyboardFocusModule } from 'projects/storefrontlib/src/layout';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
-import { AutoFocusDirectiveModule } from '../../../shared/directives/auto-focus/auto-focus.directive.module';
 import { ItemCounterModule, SpinnerModule } from '../../../shared/index';
+import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
-import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 
 @NgModule({
   imports: [
@@ -30,7 +30,7 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
     IconModule,
     I18nModule,
     ItemCounterModule,
-    AutoFocusDirectiveModule,
+    KeyboardFocusModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
