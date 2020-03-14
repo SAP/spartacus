@@ -21,7 +21,7 @@ export class BlockFocusDirective extends BaseFocusDirective implements OnInit {
   ngOnInit() {
     super.ngOnInit();
     if (this.config.block) {
-      this.tabindex = -1;
+      this.tabindex = '-1';
     }
   }
 }

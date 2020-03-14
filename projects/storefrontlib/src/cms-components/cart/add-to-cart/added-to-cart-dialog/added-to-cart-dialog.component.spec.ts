@@ -22,7 +22,6 @@ import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components';
 import { ModalService } from '../../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
-import { AutoFocusDirectiveModule } from '../../../../shared/directives/auto-focus/auto-focus.directive.module';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
@@ -109,7 +108,6 @@ describe('AddedToCartDialogComponent', () => {
         RouterTestingModule,
         SpinnerModule,
         I18nTestingModule,
-        AutoFocusDirectiveModule,
         PromotionsModule,
         FeaturesConfigModule,
       ],
@@ -166,13 +164,6 @@ describe('AddedToCartDialogComponent', () => {
       el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
     ).toEqual('addToCart.updatingCart');
     expect(el.query(By.css('cx-spinner')).nativeElement).toBeDefined();
-  });
-
-  it('should handle focus of elements', () => {
-    fixture.detectChanges();
-    expect(
-      el.query(By.css('.cx-dialog-buttons > .btn-primary')).nativeElement
-    ).toEqual(document.activeElement);
   });
 
   it('should display quantity', () => {
