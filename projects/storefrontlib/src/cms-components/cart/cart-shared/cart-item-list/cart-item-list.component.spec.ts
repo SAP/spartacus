@@ -52,17 +52,6 @@ const mockConsignmentItems: ConsignmentEntry[] = [
   },
 ];
 
-const mockPotentialProductPromotions = [
-  {
-    description: 'Buy two more and win a trip to the Moon',
-    consumedEntries: [
-      {
-        orderEntryNumber: 1,
-      },
-    ],
-  },
-];
-
 @Component({
   template: '',
   selector: 'cx-cart-item',
@@ -71,7 +60,6 @@ class MockCartItemComponent {
   @Input() item;
   @Input() readonly;
   @Input() quantityControl;
-  @Input() potentialProductPromotions;
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
@@ -124,7 +112,6 @@ describe('CartItemListComponent', () => {
 
     component = fixture.componentInstance;
     component.items = mockItems;
-    component.potentialProductPromotions = mockPotentialProductPromotions;
     component.options = { isSaveForLater: false };
 
     spyOn(cartService, 'updateEntry').and.callThrough();
@@ -223,12 +210,6 @@ describe('CartItemListComponent', () => {
       .unsubscribe();
   });
 
-  it('should get potential promotions for product', () => {
-    const item = mockItems[1];
-    const promotions = component.getPotentialProductPromotionsForItem(item);
-    expect(promotions).toEqual(mockPotentialProductPromotions);
-  });
-
   it('should have controls updated on items change', () => {
     fixture.detectChanges();
     const multipleMockItems = [
@@ -259,15 +240,6 @@ describe('CartItemListComponent', () => {
     expect(
       component.form.controls[multipleMockItems[1].product.code]
     ).toBeDefined();
-  });
-
-  it('should get no potential promotions for product for save for later', () => {
-    mockFeatureConfig.isEnabled.and.returnValue(true);
-    component.options = { isSaveForLater: true };
-    fixture.detectChanges();
-    const item = mockItems[0];
-    const promotions = component.getPotentialProductPromotionsForItem(item);
-    expect(promotions.length).toEqual(0);
   });
 
   it('remove entry for save for later', () => {

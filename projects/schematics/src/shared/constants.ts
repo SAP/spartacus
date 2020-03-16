@@ -59,6 +59,7 @@ export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const TRANSLATION_SERVICE = 'TranslationService';
 export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 export const ADD_TO_CART_COMPONENT = 'AddToCartComponent';
+export const ADDED_TO_CART_DIALOG_COMPONENT = 'AddedToCartDialogComponent';
 export const MODAL_SERVICE = 'ModalService';
 export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
 export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
@@ -83,6 +84,11 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
+export const CART_DETAILS_COMPONENT = 'CartDetailsComponent';
+export const ORDER_DETAIL_ITEMS_COMPONENT = 'OrderDetailItemsComponent';
+export const ORDER_CONFIRMATION_ITEMS_COMPONENT =
+  'OrderConfirmationItemsComponent';
+export const REVIEW_SUBMIT_COMPONENT = 'ReviewSubmitComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -107,6 +113,8 @@ export const SITE_CONTEXT_PARAMS_PROVIDERS = 'siteContextParamsProviders';
 export const INIT_SITE_CONTEXT_ROUTES_HANDLER = 'initSiteContextRoutesHandler';
 export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
+
+export const ANONYMOUS_USERID_CONST = 'ANONYMOUS_USERID';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
