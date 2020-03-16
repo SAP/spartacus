@@ -65,9 +65,7 @@ export class PersistFocusDirective extends BlockFocusDirective
 
   @HostListener('focus', ['$event'])
   handleFocus(event?: KeyboardEvent) {
-    if (this.key) {
-      this.persistFocusService.set(this.key, this.group);
-    }
+    this.service.set(this.key, this.group);
 
     event?.preventDefault();
     event?.stopPropagation();
@@ -75,9 +73,9 @@ export class PersistFocusDirective extends BlockFocusDirective
 
   constructor(
     protected elementRef: ElementRef,
-    protected persistFocusService: PersistFocusService
+    protected service: PersistFocusService
   ) {
-    super(elementRef, persistFocusService);
+    super(elementRef, service);
   }
 
   ngOnInit() {
@@ -102,7 +100,7 @@ export class PersistFocusDirective extends BlockFocusDirective
   }
 
   protected get isPersisted(): boolean {
-    return !!this.key && this.persistFocusService.get(this.group) === this.key;
+    return !!this.key && this.service.get(this.group) === this.key;
   }
 
   /**
@@ -117,7 +115,7 @@ export class PersistFocusDirective extends BlockFocusDirective
    * returns the persistence group (if any) for the focusable elements.
    */
   protected get group(): string {
-    return this.persistFocusService.getPersistenceGroup(
+    return this.service.getPersistenceGroup(
       this.host,
       this.config as PersistFocusConfig
     );
