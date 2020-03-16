@@ -2,7 +2,9 @@ import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { ADD_TO_CART_COMPONENT_MIGRATION } from './data/add-to-cart.component.migration';
 import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATIONS } from './data/added-to-cart-dialog.component.migration';
 import { ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATIONS } from './data/address-book.component.service.migration';
+import { CART_COUPON_COMPONENT_MIGRATIONS } from './data/cart-coupon.component.migration';
 import { CART_DETAILS_COMPONENT_MIGRATIONS } from './data/cart-details.component.migration';
+import { CART_ITEM_LIST_COMPONENT_MIGRATIONS } from './data/cart-item-list.component.migration';
 import { CART_NOT_EMPTY_GUARD_MIGRATION } from './data/cart-not-empty.guard.migration';
 import { CART_PAGE_LAYOUT_HANDLER_MIGRATIONS } from './data/cart-page-layout-handler.migration';
 import { CART_TOTALS_COMPONENT_MIGRATION } from './data/cart-totals.component.migration';
@@ -59,4 +61,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,
   ORDER_CONFIRMATION_ITEMS_COMPONENT_MIGRATION,
   CART_VOUCHER_SERVICE_MIGRATION,
+  ...CART_COUPON_COMPONENT_MIGRATIONS,
+  ...CART_ITEM_LIST_COMPONENT_MIGRATIONS,
 ];
