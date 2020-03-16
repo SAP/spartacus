@@ -125,9 +125,6 @@ describe('ProfileTagEventTracker', () => {
       .pipe(tap(_ => loaded++))
       .subscribe();
     getActiveBehavior.next('electronics-test');
-    eventListener[ProfileTagEventNames.LOADED](
-      new CustomEvent(ProfileTagEventNames.LOADED)
-    );
     subscription.unsubscribe();
 
     expect(loaded).toEqual(1);
