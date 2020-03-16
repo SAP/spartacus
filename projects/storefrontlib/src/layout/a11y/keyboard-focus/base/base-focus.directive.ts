@@ -73,7 +73,7 @@ export abstract class BaseFocusDirective implements OnInit {
    * and it also doesn't get focus by browsers nature (i.e. button or
    * active link).
    *
-   * We keep this utility methdod private to not polute the API.
+   * We keep this utility method private to not pollute the API.
    */
   private get requiresExplicitTabIndex(): boolean {
     return (
