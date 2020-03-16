@@ -70,6 +70,16 @@ export class ConfigRouterExtractorService {
     );
   }
 
+  isConfigurator(routingService: RoutingService): Observable<any> {
+    return routingService.getRouterState().pipe(
+      map(routingData => ({
+        isConfigurator:
+          routingData.state.url.includes('configure') &&
+          !routingData.state.url.includes('configureOverview'),
+      }))
+    );
+  }
+
   getConfiguratorType(routingService: RoutingService): Observable<string> {
     return routingService
       .getRouterState()
