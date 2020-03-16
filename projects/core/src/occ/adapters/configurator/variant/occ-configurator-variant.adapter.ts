@@ -74,16 +74,16 @@ export class OccConfiguratorVariantAdapter
   updateConfiguration(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
-    const productCode = configuration.productCode;
+    const configId = configuration.configId;
     const url = this.occEndpointsService.getUrl('updateConfiguration', {
-      productCode,
+      configId,
     });
     const occConfiguration = this.converterService.convert(
       configuration,
       CONFIGURATION_SERIALIZER
     );
 
-    return this.http.put(url, occConfiguration).pipe(
+    return this.http.patch(url, occConfiguration).pipe(
       this.converterService.pipeable(CONFIGURATION_NORMALIZER),
       tap(
         resultConfiguration => (resultConfiguration.owner = configuration.owner)
@@ -144,6 +144,7 @@ export class OccConfiguratorVariantAdapter
       {
         userId: parameters.userId,
         cartId: parameters.cartId,
+        cartEntryNumber: parameters.cartEntryNumber,
       }
     );
 
@@ -157,7 +158,7 @@ export class OccConfiguratorVariantAdapter
     );
 
     return this.http
-      .patch<CartModification>(url, occUpdateCartEntryParameters, { headers })
+      .put<CartModification>(url, occUpdateCartEntryParameters, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
@@ -168,8 +169,7 @@ export class OccConfiguratorVariantAdapter
       configId: configuration.configId,
     });
 
-    //Send empty object as delta prices are not supported yet
-    return this.http.patch(url, {}).pipe(
+    return this.http.get(url).pipe(
       this.converterService.pipeable(CONFIGURATION_PRICE_SUMMARY_NORMALIZER),
       tap(
         resultConfiguration => (resultConfiguration.owner = configuration.owner)
