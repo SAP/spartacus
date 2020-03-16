@@ -29,9 +29,17 @@ import { REVIEW_SUBMIT_COMPONENT_MIGRATIONS } from './data/review-submit.compone
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { CDS_SPARTACUS_EVENT_SERVICE_MIGRATION } from './data/spartacus-event.service.migration';
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
+import { USER_CONSENT_SERVICE_MIGRATION } from './data/user-consent.service.migration';
+import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
+import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
+import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
+  USER_CONSENT_SERVICE_MIGRATION,
+  USER_PAYMENT_SERVICE_MIGRATION,
+  USER_SERVICE_MIGRATION,
+  USER_ORDER_SERVICE_MIGRATION,
   PAGE_META_SERVICE_MIGRATION,
   CHECKOUT_SERVICE_MIGRATION,
   CHECKOUT_PAYMENT_SERVICE_MIGRATION,
