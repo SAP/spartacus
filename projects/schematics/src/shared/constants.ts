@@ -5,6 +5,8 @@ export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
 export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
+export const ANGULAR_HTTP = '@angular/common/http';
+
 export const RXJS = 'rxjs';
 
 export const SPARTACUS_CORE = '@spartacus/core';
@@ -25,6 +27,8 @@ export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 export const ROUTER = 'Router';
+
+export const HTTP_CLIENT = 'HttpClient';
 
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
@@ -83,6 +87,17 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
+export const CLIENT_AUTHENTICATION_TOKEN_SERVICE =
+  'ClientAuthenticationTokenService';
+export const USER_AUTHENTICATION_TOKEN_SERVICE =
+  'UserAuthenticationTokenService';
+export const OCC_ENDPOINTS_SERVICE = 'OccEndpointsService';
+export const AUTH_CONFIG = 'AuthConfig';
+export const OCC_CART_ENTRY_ADAPTER = 'OccCartEntryAdapter';
+export const OCC_CART_ADAPTER = 'OccCartAdapter';
+export const OCC_USER_ORDER_ADAPTER = 'OccUserOrderAdapter';
+export const CONVERTER_SERVICE = 'ConverterService';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/

@@ -14,14 +14,19 @@ import { CHECKOUT_PAYMENT_SERVICE_MIGRATION } from './data/checkout-payment.serv
 import { CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT_MIGRATION } from './data/checkout-progress-mobile-top.migration';
 import { CHECKOUT_GUARD_MIGRATIONS } from './data/checkout.guard.migration';
 import { CHECKOUT_SERVICE_MIGRATION } from './data/checkout.service.migration';
+import { CLIENT_AUTHENTICATION_TOKEN_SERVICE_MIGRATION } from './data/client-authentication-token.service.migration';
 import { MINI_CART_COMPONENT_MIGRATION } from './data/mini-cart.component.migration';
 import { NOT_CHECKOUT_AUTH_GUARD_MIGRATION } from './data/not-checkout-auth-guard.migration';
+import { OCC_CART_ENTRY_ADAPTER_MIGRATION } from './data/occ-cart-entry.adapter.migration';
+import { OCC_CART_ADAPTER_MIGRATION } from './data/occ-cart.adapter.migration';
+import { OCC_USER_ORDER_ADAPTER_MIGRATION } from './data/occ-user-order.adapter.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATIONS } from './data/payment-method.component.migration';
 import { PROMOTION_SERVICE_MIGRATION } from './data/promotion.service.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { CDS_SPARTACUS_EVENT_SERVICE_MIGRATION } from './data/spartacus-event.service.migration';
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
+import { USER_AUTHENTICATION_TOKEN_SERVICE_MIGRATION } from './data/user-authentication-token.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -47,4 +52,9 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_AUTH_GUARD_MIGRATION,
   ...CART_PAGE_LAYOUT_HANDLER_MIGRATIONS,
   CDS_SPARTACUS_EVENT_SERVICE_MIGRATION,
+  CLIENT_AUTHENTICATION_TOKEN_SERVICE_MIGRATION,
+  USER_AUTHENTICATION_TOKEN_SERVICE_MIGRATION,
+  OCC_CART_ENTRY_ADAPTER_MIGRATION,
+  OCC_CART_ADAPTER_MIGRATION,
+  OCC_USER_ORDER_ADAPTER_MIGRATION,
 ];
