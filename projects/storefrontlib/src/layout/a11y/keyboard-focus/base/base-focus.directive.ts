@@ -56,8 +56,8 @@ export abstract class BaseFocusDirective implements OnInit {
   }
 
   /**
-   * Rorce a tabindex in case the element is not focusable by nature
-   * or an explicit tabindex isn't added allready.
+   * Force a tabindex in case the element is not focusable by nature
+   * or an explicit tabindex isn't added already.
    */
   protected set requiredTabindex(tab: string) {
     if (this.requiresExplicitTabIndex) {
@@ -70,7 +70,7 @@ export abstract class BaseFocusDirective implements OnInit {
    * and it also doesn't get focus by browsers nature (i.e. button or
    * active link).
    *
-   * We keep this utility methdod private to not polute the API.
+   * We keep this utility method private to not pollute the API.
    */
   private get requiresExplicitTabIndex(): boolean {
     return (
