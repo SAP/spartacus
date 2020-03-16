@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  APP_INITIALIZER,
-  ComponentFactory,
-  ComponentFactoryResolver,
-  NgModule,
-} from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -19,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
-import { OutletPosition, OutletService } from '../../../cms-structure/outlet';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 import { HamburgerMenuModule } from '../../../layout/header/hamburger-menu/hamburger-menu.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
@@ -42,6 +36,7 @@ import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/con
 import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.component';
 import { DefaultMessageConfig } from '../commons/config/default-message-config';
 import { MessageConfig } from '../commons/config/message-config';
+import { ConfigMessageEnablerService } from '../commons/service/config-message-enabler.service';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
 
 @NgModule({
@@ -196,7 +191,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     {
       provide: APP_INITIALIZER,
       useFactory: bannerFactory,
-      deps: [ComponentFactoryResolver, OutletService],
+      deps: [ConfigMessageEnablerService],
       multi: true,
     },
     { provide: MessageConfig, useExisting: Config },
@@ -224,14 +219,10 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
 export class VariantConfiguratorModule {}
 
 export function bannerFactory(
-  componentFactoryResolver: ComponentFactoryResolver,
-  outletService: OutletService<ComponentFactory<any>>
+  configMessageEnable: ConfigMessageEnablerService
 ) {
   const isReady = () => {
-    const factory = componentFactoryResolver.resolveComponentFactory(
-      ConfigMessageComponent
-    );
-    outletService.add('cx-header', factory, OutletPosition.AFTER);
+    configMessageEnable.load();
   };
   return isReady;
 }
