@@ -181,7 +181,7 @@ export class OrderReturnRequestService {
   }
 
   /*
-   * Utility method to distinquish user id  in a convenient way
+   * Utility method to distinquish user id in a convenient way
    */
   private withUserId(callback: (userId: string) => void): void {
     this.authService
