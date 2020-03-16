@@ -3,7 +3,7 @@ import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { EventService } from '../../event';
+import { EventService } from '../../event/event.service';
 import { ActionToEvent } from './action-to-event';
 
 /**
