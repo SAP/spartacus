@@ -134,7 +134,7 @@ export class LockFocusDirective extends TrapFocusDirective
     if (this.shouldLock) {
       this.lockFocus();
 
-      if (!event && this.service.hasPersistedFocus(this.host, this.config)) {
+      if (this.shouldUnlockAfterAutofocus(event)) {
         // Delay unlocking in case the host is using `ChangeDetectionStrategy.Default`
         setTimeout(() => this.unlockFocus(event));
       } else {
@@ -149,6 +149,17 @@ export class LockFocusDirective extends TrapFocusDirective
     }
 
     super.handleFocus(event);
+  }
+
+  /**
+   * When the handleFocus is called without an actual event, it's coming from Autofocus.
+   * In this case we unlock the focusable children in case there's a focusable child that
+   * was unlocked before.
+   *
+   * We keep this private to not polute the API.
+   */
+  private shouldUnlockAfterAutofocus(event?: KeyboardEvent) {
+    return !event && this.service.hasPersistedFocus(this.host, this.config);
   }
 
   /**
