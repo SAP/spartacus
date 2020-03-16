@@ -13,7 +13,6 @@ import {
   OrgUnitService,
   Currency,
   CurrencyService,
-  EntitiesModel,
   B2BUnitNode,
   LanguageService,
 } from '@spartacus/core';
@@ -43,21 +42,19 @@ const mockBudget: Budget = {
   ],
 };
 
-const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
-  values: [
-    {
-      active: true,
-      children: [],
-      id: 'unitNode1',
-      name: 'Org Unit 1',
-      parent: 'parentUnit',
-    },
-  ],
-};
+const mockOrgUnits: B2BUnitNode[] = [
+  {
+    active: true,
+    children: [],
+    id: 'unitNode1',
+    name: 'Org Unit 1',
+    parent: 'parentUnit',
+  },
+];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
-  getList = createSpy('getList').and.returnValue(of(mockOrgUnits.values));
+  getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
 }
 
 class MockBudgetService implements Partial<BudgetService> {

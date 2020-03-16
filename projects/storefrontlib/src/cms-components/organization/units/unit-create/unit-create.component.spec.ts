@@ -11,7 +11,6 @@ import {
   OrgUnitService,
   Currency,
   CurrencyService,
-  EntitiesModel,
   B2BUnitNode,
   LanguageService,
   B2BUnit,
@@ -30,21 +29,19 @@ const mockOrgUnit: B2BUnit = {
   name: 'orgUnit1',
 };
 
-const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
-  values: [
-    {
-      active: true,
-      children: [],
-      id: 'unitNode1',
-      name: 'Org Unit 1',
-      parent: 'parentUnit',
-    },
-  ],
-};
+const mockOrgUnits: B2BUnitNode[] = [
+  {
+    active: true,
+    children: [],
+    id: 'unitNode1',
+    name: 'Org Unit 1',
+    parent: 'parentUnit',
+  },
+];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
-  getList = createSpy('getList').and.returnValue(of(mockOrgUnits.values));
+  getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
   create = createSpy('create');
   getApprovalProcesses = createSpy('getApprovalProcesses');
 }

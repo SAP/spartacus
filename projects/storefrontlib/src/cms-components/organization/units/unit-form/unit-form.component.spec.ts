@@ -8,7 +8,6 @@ import { of, BehaviorSubject, Observable } from 'rxjs';
 import {
   I18nTestingModule,
   OrgUnitService,
-  EntitiesModel,
   B2BUnitNode,
   B2BApprovalProcess,
   Currency,
@@ -33,28 +32,26 @@ const mockOrgUnit: B2BUnit = {
   approvalProcess: mockApprovalProcesses[0],
 };
 
-const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
-  values: [
-    {
-      active: true,
-      children: [],
-      id: 'unitNode1',
-      name: 'Org Unit 1',
-      parent: 'parentUnit',
-    },
-    {
-      active: true,
-      children: [],
-      id: 'unitNode2',
-      name: 'Org Unit 2',
-      parent: 'parentUnit',
-    },
-  ],
-};
+const mockOrgUnits: B2BUnitNode[] = [
+  {
+    active: true,
+    children: [],
+    id: 'unitNode1',
+    name: 'Org Unit 1',
+    parent: 'parentUnit',
+  },
+  {
+    active: true,
+    children: [],
+    id: 'unitNode2',
+    name: 'Org Unit 2',
+    parent: 'parentUnit',
+  },
+];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
-  getList = createSpy('getList').and.returnValue(of(mockOrgUnits.values));
+  getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
   loadOrgUnit = createSpy('loadOrgUnit');
   get = createSpy('get').and.returnValue(of(mockOrgUnit));
   update = createSpy('update');
@@ -147,7 +144,7 @@ describe('OrgUnitFormComponent', () => {
         })
         .unsubscribe();
       expect(orgUnitService.getList).toHaveBeenCalled();
-      expect(businessUnits).toEqual(mockOrgUnits.values);
+      expect(businessUnits).toEqual(mockOrgUnits);
     });
 
     it('should setup clean form', () => {
