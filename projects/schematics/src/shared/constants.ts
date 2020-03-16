@@ -89,6 +89,7 @@ export const ORDER_DETAIL_ITEMS_COMPONENT = 'OrderDetailItemsComponent';
 export const ORDER_CONFIRMATION_ITEMS_COMPONENT =
   'OrderConfirmationItemsComponent';
 export const REVIEW_SUBMIT_COMPONENT = 'ReviewSubmitComponent';
+export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -97,6 +98,7 @@ export const WISHLIST_EFFECTS = 'WishlistEffects';
 export const CART_VOUCHER_EFFECTS = 'CartVoucherEffects';
 export const CART_ENTRY_EFFECTS = 'CartEntryEffects';
 export const CART_COMBINED_EFFECTS = 'effects';
+export const CART_SELECTORS = 'CartSelectors';
 
 export const GET_REDUCERS = 'getReducers';
 export const REDUCER_TOKEN = 'reducerToken';
