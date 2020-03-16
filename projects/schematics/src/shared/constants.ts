@@ -89,6 +89,10 @@ export const ORDER_DETAIL_ITEMS_COMPONENT = 'OrderDetailItemsComponent';
 export const ORDER_CONFIRMATION_ITEMS_COMPONENT =
   'OrderConfirmationItemsComponent';
 export const REVIEW_SUBMIT_COMPONENT = 'ReviewSubmitComponent';
+export const CART_COUPON_COMPONENT = 'CartCouponComponent';
+export const CART_VOUCHER_SERVICE = 'CartVoucherService';
+export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
+export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
