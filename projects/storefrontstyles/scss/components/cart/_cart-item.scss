@@ -12,7 +12,15 @@
     min-width: 100%;
 
     &[format='thumbnail'] {
-      background-size: 100%;
+      @include media-breakpoint-up(xl) {
+        background-size: 90%;
+      }
+      @include media-breakpoint-down(md) {
+        background-size: 120px;
+      }
+      @include media-breakpoint-down(xs) {
+        background-size: 96px;
+      }
     }
   }
 
