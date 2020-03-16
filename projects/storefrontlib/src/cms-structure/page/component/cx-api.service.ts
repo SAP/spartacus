@@ -3,7 +3,6 @@ import {
   ActiveCartService,
   AuthService,
   BaseSiteService,
-  CartDataService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -44,7 +43,6 @@ export class CxApiService {
     @Optional() public auth: AuthService,
     // cart
     @Optional() public cart: ActiveCartService,
-    @Optional() public cartData: CartDataService,
     // checkout
     @Optional() public checkout: CheckoutService,
     @Optional() public checkoutDelivery: CheckoutDeliveryService,
