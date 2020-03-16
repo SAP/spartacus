@@ -9,7 +9,11 @@ describe('BaseEvent', () => {
         c: number;
       }
       const testEvent = new TestEvent({ a: 1, b: 2, c: 3 });
-      expect(Object.entries(testEvent)).toEqual([['a', 1], ['b', 2], ['c', 3]]);
+      expect(Object.entries(testEvent)).toEqual([
+        ['a', 1],
+        ['b', 2],
+        ['c', 3],
+      ]);
       expect(testEvent instanceof TestEvent).toBeTruthy();
     });
   });
