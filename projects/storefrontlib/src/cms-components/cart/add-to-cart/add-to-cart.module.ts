@@ -4,10 +4,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
-  I18nModule,
-  UrlModule,
   FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+  UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { AutoFocusDirectiveModule } from '../../../shared/directives/auto-focus/auto-focus.directive.module';
@@ -26,18 +26,20 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
     SpinnerModule,
     PromotionsModule,
     FeaturesConfigModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    UrlModule,
+    IconModule,
+    I18nModule,
+    ItemCounterModule,
+    AutoFocusDirectiveModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ProductAddToCartComponent: {
           component: AddToCartComponent,
         },
       },
     }),
-    UrlModule,
-    IconModule,
-    I18nModule,
-    ItemCounterModule,
-    AutoFocusDirectiveModule,
   ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
   entryComponents: [AddToCartComponent, AddedToCartDialogComponent],
