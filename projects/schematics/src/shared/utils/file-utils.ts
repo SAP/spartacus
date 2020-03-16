@@ -313,21 +313,21 @@ function checkConstructorParameters(
     ts.SyntaxKind.Parameter
   );
 
-  let paramTypeFound = true;
-  for (let i = 0; i < parameterClassTypes.length; i++) {
-    const constructorParameter = constructorParameters[i];
-    const constructorParameterType = findNodes(
-      constructorParameter,
-      ts.SyntaxKind.Identifier
-    ).filter(node => node.getText() === parameterClassTypes[i].className);
+  const foundClassTypes: ClassType[] = [];
+  for (const parameterClassType of parameterClassTypes) {
+    for (const constructorParameter of constructorParameters) {
+      const constructorParameterType = findNodes(
+        constructorParameter,
+        ts.SyntaxKind.Identifier
+      ).filter(node => node.getText() === parameterClassType.className);
 
-    if (constructorParameterType.length === 0) {
-      paramTypeFound = false;
-      break;
+      if (constructorParameterType.length !== 0) {
+        foundClassTypes.push(parameterClassType);
+      }
     }
   }
 
-  return paramTypeFound;
+  return foundClassTypes.length === parameterClassTypes.length;
 }
 
 function isInjected(
