@@ -93,6 +93,9 @@ export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const REGISTER_COMPONENT = 'RegisterComponent';
+export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
+export const ANONYMOUS_CONSENTS_CONFIG = 'AnonymousConsentsConfig';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

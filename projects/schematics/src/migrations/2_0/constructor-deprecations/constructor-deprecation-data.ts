@@ -29,6 +29,7 @@ import { REVIEW_SUBMIT_COMPONENT_MIGRATIONS } from './data/review-submit.compone
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { CDS_SPARTACUS_EVENT_SERVICE_MIGRATION } from './data/spartacus-event.service.migration';
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
+import { REGISTER_COMPONENT_MIGRATIONS } from './data/register.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -61,4 +62,5 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ORDER_CONFIRMATION_ITEMS_COMPONENT_MIGRATION,
   ...CART_COUPON_COMPONENT_MIGRATIONS,
   ...CART_ITEM_LIST_COMPONENT_MIGRATIONS,
+  ...REGISTER_COMPONENT_MIGRATIONS,
 ];
