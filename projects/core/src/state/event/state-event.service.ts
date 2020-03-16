@@ -4,7 +4,7 @@ import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
-import { ActionToEvent } from './action-to-event';
+import { ActionToEventMapping } from './action-to-event-mapping';
 
 /**
  * Registers streams of ngrx actions as events source streams
@@ -33,7 +33,7 @@ export class StateEventService {
    *
    * @returns the service
    */
-  register<T>(mapping: ActionToEvent<T>): StateEventService {
+  register<T>(mapping: ActionToEventMapping<T>): StateEventService {
     this.eventService.register(mapping.event, this.getFromAction(mapping));
     return this;
   }
@@ -42,7 +42,7 @@ export class StateEventService {
    * Returns a stream of specific events mapped from a specific action.
    * @param mapping mapping from action to event
    */
-  protected getFromAction<T>(mapping: ActionToEvent<T>): Observable<T> {
+  protected getFromAction<T>(mapping: ActionToEventMapping<T>): Observable<T> {
     return this.actionsSubject
       .pipe(ofType(mapping.action))
       .pipe(
