@@ -20,6 +20,7 @@ import { FormErrorsModule } from '../../../shared/index';
     RouterModule,
     UrlModule,
     I18nModule,
+    FormErrorsModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -30,8 +31,6 @@ import { FormErrorsModule } from '../../../shared/index';
         },
       },
     }),
-    I18nModule,
-    FormErrorsModule,
   ],
   declarations: [LoginFormComponent],
   exports: [LoginFormComponent],
