@@ -1,7 +1,9 @@
 import {
   ACTIVE_CART_SERVICE,
   ANONYMOUS_USERID_CONST,
+  AUTH_SERVICE,
   CART_COMBINED_EFFECTS,
+  CART_DATA_SERVICE,
   CART_EFFECTS,
   CART_ENTRY_EFFECTS,
   CART_SERVICE,
@@ -132,5 +134,11 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: CART_SERVICE,
     importPath: SPARTACUS_CORE,
     comment: `'${CART_SERVICE}' is no longer part of the public API. Instead use '${ACTIVE_CART_SERVICE}'.`,
+  },
+  // projects/core/src/cart/facade/cart-data.service.ts
+  {
+    node: CART_DATA_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${CART_DATA_SERVICE}' is no longer part of the public API. Instead use methods from '${ACTIVE_CART_SERVICE}' and '${AUTH_SERVICE}.'`,
   },
 ];
