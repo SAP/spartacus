@@ -1,4 +1,12 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import {
+  Pipe,
+  PipeTransform,
+  Type,
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -20,6 +28,7 @@ import { BudgetListComponent } from './budget-list.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
+import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
 
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
@@ -54,7 +63,7 @@ const mockBudgetList: EntitiesModel<Budget> = {
       orgUnit: { name: 'orgName', uid: 'orgUid' },
     },
   ],
-  pagination: { totalResults: 1, sort: 'byName' },
+  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 
@@ -66,7 +75,7 @@ const mockBudgetUIList = {
       amount: '2230 $',
       startEndDate: '2010-01-01 - 2034-07-12',
       parentUnit: 'orgName',
-      orgUnitId: 'orgUid',
+      uid: 'orgUid',
     },
     {
       code: '2',
@@ -74,13 +83,20 @@ const mockBudgetUIList = {
       amount: '2240 $',
       startEndDate: '2020-01-01 - 2024-07-12',
       parentUnit: 'orgName',
-      orgUnitId: 'orgUid',
+      uid: 'orgUid',
     },
   ],
-  pagination: { totalResults: 1, sort: 'byName' },
+  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
-
+@Component({
+  template: '',
+  selector: 'cx-pagination',
+})
+class MockPaginationComponent {
+  @Input() pagination;
+  @Output() viewPageEvent = new EventEmitter<string>();
+}
 @Pipe({
   name: 'cxUrl',
 })
@@ -132,12 +148,18 @@ describe('BudgetListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
-      declarations: [BudgetListComponent, MockUrlPipe],
+      declarations: [BudgetListComponent, MockUrlPipe, MockPaginationComponent],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: BudgetService, useClass: MockBudgetService },
+        {
+          provide: PaginationConfig,
+          useValue: {
+            pagination: {},
+          },
+        },
       ],
     }).compileComponents();
 
@@ -159,14 +181,17 @@ describe('BudgetListComponent', () => {
   it('should display No budgets found page if no budgets are found', () => {
     const emptyBudgetList: EntitiesModel<Budget> = {
       values: [],
-      pagination: { totalResults: 0, sort: 'byName' },
+      pagination: {
+        currentPage: 0,
+        totalResults: 0,
+      },
       sorts: [{ code: 'byName', selected: true }],
     };
 
     budgetList.next(emptyBudgetList);
     fixture.detectChanges();
 
-    expect(fixture.debugElement.query(By.css('.cx-no-budgets'))).not.toBeNull();
+    expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
   });
 
   describe('ngOnInit', () => {
