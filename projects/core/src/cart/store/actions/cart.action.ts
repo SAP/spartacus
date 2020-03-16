@@ -65,7 +65,7 @@ export class AddEmailToCartFail extends StateLoaderActions.LoaderFailAction {
 
 export class AddEmailToCartSuccess extends StateLoaderActions.LoaderSuccessAction {
   readonly type = ADD_EMAIL_TO_CART_SUCCESS;
-  constructor(public payload: any) {
+  constructor(public payload: { userId: string; cartId: string }) {
     super(CART_DATA);
   }
 }
@@ -100,7 +100,7 @@ export class MergeCart implements Action {
 
 export class MergeCartSuccess implements Action {
   readonly type = MERGE_CART_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: { cartId: string; userId: string }) {}
 }
 
 export class ResetCartDetails implements Action {
