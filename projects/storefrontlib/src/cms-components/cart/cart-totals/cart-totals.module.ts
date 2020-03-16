@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
@@ -16,16 +16,18 @@ import { CartTotalsComponent } from './cart-totals.component';
     CommonModule,
     RouterModule,
     UrlModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    CartSharedModule,
+    I18nModule,
+    CartCouponModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CartTotalsComponent: {
           component: CartTotalsComponent,
         },
       },
     }),
-    CartSharedModule,
-    I18nModule,
-    CartCouponModule,
   ],
   declarations: [CartTotalsComponent],
   exports: [CartTotalsComponent],

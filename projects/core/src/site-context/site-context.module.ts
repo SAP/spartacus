@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { Config, ConfigModule } from '../config/config.module';
+import { Config, provideDefaultConfigFactory } from '../config/config.module';
 import { provideConfigValidator } from '../config/config-validator/config-validator';
 import { StateModule } from '../state/index';
 import { baseSiteConfigValidator } from './config/base-site-config-validator';
@@ -12,17 +12,14 @@ import { SiteContextStoreModule } from './store/site-context-store.module';
 
 // @dynamic
 @NgModule({
-  imports: [
-    ConfigModule.withConfigFactory(defaultSiteContextConfigFactory),
-    StateModule,
-    SiteContextStoreModule,
-  ],
+  imports: [StateModule, SiteContextStoreModule],
 })
 export class SiteContextModule {
   static forRoot(): ModuleWithProviders<SiteContextModule> {
     return {
       ngModule: SiteContextModule,
       providers: [
+        provideDefaultConfigFactory(defaultSiteContextConfigFactory),
         contextServiceMapProvider,
         ...contextServiceProviders,
         ...siteContextParamsProviders,
