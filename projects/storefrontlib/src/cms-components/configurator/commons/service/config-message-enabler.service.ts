@@ -1,10 +1,10 @@
-import { Location } from '@angular/common';
 import {
   ComponentFactory,
   ComponentFactoryResolver,
   Injectable,
 } from '@angular/core';
-import { RoutingService, WindowRef } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
+import { map, switchMap } from 'rxjs/operators';
 import { OutletPosition, OutletService } from '../../../../cms-structure/index';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 import { ConfigMessageComponent } from '../config-message/config-message.component';
@@ -17,8 +17,6 @@ export class ConfigMessageEnablerService {
   private isUiAdded = false;
 
   constructor(
-    protected location: Location,
-    protected winRef: WindowRef,
     protected componentFactoryResolver: ComponentFactoryResolver,
     protected outletService: OutletService<ComponentFactory<any>>,
     private configRouterExtractorService: ConfigRouterExtractorService,
@@ -29,12 +27,25 @@ export class ConfigMessageEnablerService {
    * Loads the configuration message component
    */
   load(): void {
-    if (
-      this.configRouterExtractorService.isConfigurator(this.routingService) ||
-      this.configRouterExtractorService.isOverview(this.routingService)
-    ) {
-      this.addUi();
-    }
+    this.configRouterExtractorService
+      .isConfigurator(this.routingService)
+      .pipe(
+        switchMap(isConfiguration =>
+          this.configRouterExtractorService
+            .isOverview(this.routingService)
+            .pipe(
+              map(
+                isOverview =>
+                  isConfiguration.isConfigurator || isOverview.isOverview
+              )
+            )
+        )
+      )
+      .subscribe(isConfigurationOrOverviewPage => {
+        if (isConfigurationOrOverviewPage) {
+          this.addUi();
+        }
+      });
   }
 
   private addUi(): void {
