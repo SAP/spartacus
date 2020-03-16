@@ -4,7 +4,6 @@ import { ConfigInitializerService } from '../config/config-initializer/config-in
 import { ActiveCartService } from './facade/active-cart.service';
 import { CartDataService } from './facade/cart-data.service';
 import {
-  CartService,
   CartVoucherService,
   SelectiveCartService,
   WishListService,
@@ -36,7 +35,6 @@ export class CartModule {
       providers: [
         CartDataService,
         CartVoucherService,
-        CartService,
         MultiCartService,
         WishListService,
         ActiveCartService,
