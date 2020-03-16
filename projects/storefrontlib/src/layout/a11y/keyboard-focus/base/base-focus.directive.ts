@@ -23,7 +23,7 @@ export abstract class BaseFocusDirective implements OnInit {
   protected config: BaseFocusConfig;
   protected defaultConfig: BaseFocusConfig = {};
 
-  @Input() @HostBinding('attr.tabindex') tabindex: string;
+  @Input() @HostBinding('attr.tabindex') tabindex: number;
 
   constructor(
     protected elementRef: ElementRef<HTMLElement>,
@@ -32,7 +32,7 @@ export abstract class BaseFocusDirective implements OnInit {
 
   ngOnInit() {
     this.setDefaultConfiguration();
-    this.requiredTabindex = '-1';
+    this.requiredTabindex = -1;
   }
 
   /**
@@ -56,12 +56,15 @@ export abstract class BaseFocusDirective implements OnInit {
   }
 
   /**
-   * Rorce a tabindex in case the element is not focusable by nature
-   * or an explicit tabindex isn't added allready.
+   * Force a tabindex on the host element if it is _requried_ to make the element
+   * focusable. If the element is focusable by nature or by a given tabindex, the
+   * `tabindex` is not applied.
+   *
+   * Buttons, active links, etc. do no need an explicit tabindex to receive focus.
    */
-  protected set requiredTabindex(tab: string) {
+  protected set requiredTabindex(tabindex: number) {
     if (this.requiresExplicitTabIndex) {
-      this.tabindex = tab;
+      this.tabindex = tabindex;
     }
   }
 

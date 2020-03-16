@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
+import { BaseFocusService } from '../base';
 import { BaseFocusDirective } from '../base/base-focus.directive';
-import { BaseFocusService } from '../base/base-focus.service';
 import { BlockFocusConfig } from '../keyboard-focus.model';
 
 @Directive({
@@ -21,7 +21,7 @@ export class BlockFocusDirective extends BaseFocusDirective implements OnInit {
   ngOnInit() {
     super.ngOnInit();
     if (this.config.block) {
-      this.tabindex = '-1';
+      this.tabindex = -1;
     }
   }
 }
