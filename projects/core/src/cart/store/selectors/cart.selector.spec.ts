@@ -93,6 +93,8 @@ describe('Cart selectors', () => {
       store.dispatch(
         new CartActions.CartAddEntrySuccess({
           quantity: 1,
+          cartId: 'cartId',
+          userId: 'userId',
         })
       );
       expect(result).toEqual(true);
@@ -123,7 +125,12 @@ describe('Cart selectors', () => {
         new DeprecatedCartActions.CreateCartSuccess(testEmptyCart)
       );
       expect(result).toEqual(true);
-      store.dispatch(new DeprecatedCartActions.MergeCartSuccess(testEmptyCart));
+      store.dispatch(
+        new DeprecatedCartActions.MergeCartSuccess({
+          cartId: 'cartId',
+          userId: 'userId',
+        })
+      );
       expect(result).toEqual(false);
     });
   });
@@ -152,7 +159,12 @@ describe('Cart selectors', () => {
 
       store.dispatch(new DeprecatedCartActions.MergeCart({}));
       expect(result).toEqual(false);
-      store.dispatch(new DeprecatedCartActions.MergeCartSuccess({}));
+      store.dispatch(
+        new DeprecatedCartActions.MergeCartSuccess({
+          cartId: 'cartId',
+          userId: 'userId',
+        })
+      );
       expect(result).toEqual(true);
     });
   });
