@@ -1,7 +1,10 @@
 import {
+  ACTIVE_CART_SERVICE,
+  ANONYMOUS_USERID_CONST,
   CART_COMBINED_EFFECTS,
   CART_EFFECTS,
   CART_ENTRY_EFFECTS,
+  CART_SERVICE,
   CART_VOUCHER_EFFECTS,
   CLEAR_CART_STATE,
   CLEAR_MULTI_CART_STATE,
@@ -117,5 +120,17 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: CONTEXT_SERVICE_PROVIDERS,
     importPath: SPARTACUS_CORE,
+  },
+  // projects/core/src/occ/index.ts
+  {
+    node: ANONYMOUS_USERID_CONST,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ANONYMOUS_USERID_CONST}' is no longer part of the public API. Instead use 'OCC_USER_ID_ANONYMOUS'.`,
+  },
+  // projects/core/src/cart/facade/cart.service.ts
+  {
+    node: CART_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${CART_SERVICE}' is no longer part of the public API. Instead use '${ACTIVE_CART_SERVICE}'.`,
   },
 ];
