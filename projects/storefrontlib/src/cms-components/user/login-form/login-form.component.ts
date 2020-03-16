@@ -10,11 +10,7 @@ import {
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CheckoutConfigService } from '../../checkout/services/checkout-config.service';
-import {
-  CustomFormValidators,
-  FormUtils,
-  FormErrorsService,
-} from '../../../shared/index';
+import { CustomFormValidators, FormErrorsService } from '../../../shared/index';
 
 @Component({
   selector: 'cx-login-form',
@@ -37,8 +33,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    const routeState = this.winRef.nativeWindow?.history?.state;
+    const prefilledEmail = routeState?.['newUid'];
+
     this.form = this.fb.group({
-      userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
+      userId: [
+        prefilledEmail?.length ? prefilledEmail : '',
+        [Validators.required, CustomFormValidators.emailValidator],
+      ],
       password: ['', Validators.required],
     });
 
@@ -48,25 +50,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     ) {
       this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
     }
-
-    // TODO(issue:#4055) Deprecated since 1.1.0
-    if (this.winRef && this.winRef.nativeWindow) {
-      const routeState =
-        this.winRef.nativeWindow.history &&
-        this.winRef.nativeWindow.history.state;
-
-      if (routeState && routeState['newUid'] && routeState['newUid'].length) {
-        FormUtils.prefillForm(this.form, 'userId', routeState['newUid']);
-      }
-    }
   }
 
   submitForm(): void {
     if (this.form.valid) {
       this.login();
     } else {
-      FormUtils.markFormAsTouched(this.form);
-      this.formErrorsService.notifyUser();
+      this.form.markAllAsTouched();
+      this.formErrorsService.notify();
     }
   }
 

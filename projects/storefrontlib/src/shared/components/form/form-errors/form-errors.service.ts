@@ -7,7 +7,7 @@ import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 export class FormErrorsService {
   constructor(protected globalMessageService: GlobalMessageService) {}
 
-  notifyUser(): void {
+  notify(): void {
     this.globalMessageService.add(
       {
         key: 'formErrors.globalMessage',

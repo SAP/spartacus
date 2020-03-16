@@ -15,8 +15,8 @@ cx-form-errors {
   display: none;
 
   p {
-    margin: var(--cx-margin, 6px 0);
-    padding: var(--cx-padding, 0 0 0 25px);
+    margin: 6px 0;
+    padding: 0 0 0 25px;
     position: relative;
     word-break: break-word;
 
@@ -55,7 +55,7 @@ cx-form-errors {
 input.ng-invalid {
   &.ng-dirty,
   &.ng-touched {
-    border-color: red;
+    border-color: var(--cx-color-danger);
 
     & + cx-form-errors {
       display: initial;

@@ -24,15 +24,6 @@ export class FormUtils {
   }
 
   /**
-   * Marks all form fields as 'touched'
-   * Helpful when checking empty or invalid forms
-   * @param form Form with fields to mark
-   */
-  static markFormAsTouched(form: FormGroup): void {
-    form.markAllAsTouched();
-  }
-
-  /**
    * Prefills form field with passed value
    * @param form Form with field to prefill
    * @param controlName Field name to prefill

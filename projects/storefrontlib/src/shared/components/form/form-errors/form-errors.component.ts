@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { startWith, map, filter, throttleTime } from 'rxjs/operators';
+import { startWith, map, throttleTime } from 'rxjs/operators';
 
 /**
  * This component renders form errors.
@@ -24,9 +24,9 @@ export class FormErrorComponent implements OnInit {
     this.errors$ = this.control.statusChanges.pipe(
       startWith({}),
       throttleTime(500),
-      filter(() => !!this?.control?.errors),
-      map(() =>
-        Object.entries(this.control.errors)
+      map(() => this.control.errors || {}),
+      map(errors =>
+        Object.entries(errors)
           .filter(error => error[1])
           .map(error => error[0])
       )
