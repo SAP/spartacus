@@ -168,6 +168,7 @@ export class ConfiguratorCommonsService {
       const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
         userId: this.getUserId(cartState.value),
         cartId: this.getCartId(cartState.value),
+        cartEntryNumber: configuration.owner.id,
         configuration: configuration,
       };
       this.store.dispatch(new ConfiguratorActions.UpdateCartEntry(parameters));
