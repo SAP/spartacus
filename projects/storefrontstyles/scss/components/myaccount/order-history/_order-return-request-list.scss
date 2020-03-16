@@ -82,6 +82,10 @@
 
   .cx-order-history-code {
     text-decoration: underline;
+
+    @include media-breakpoint-down(sm) {
+      text-decoration: none;
+    }
   }
 
   .cx-order-history-placed {
@@ -123,6 +127,7 @@
 
     @include media-breakpoint-down(sm) {
       @include type('5');
+      text-decoration: underline;
     }
   }
 
