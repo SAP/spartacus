@@ -132,10 +132,13 @@ describe('Cart Actions', () => {
 
     describe('AddEmailToCartSuccess', () => {
       it('should create the action', () => {
-        const action = new DeprecatedCartActions.AddEmailToCartSuccess({});
+        const action = new DeprecatedCartActions.AddEmailToCartSuccess({
+          userId: 'userId',
+          cartId: 'cartId',
+        });
         expect({ ...action }).toEqual({
           type: DeprecatedCartActions.ADD_EMAIL_TO_CART_SUCCESS,
-          payload: {},
+          payload: { userId: 'userId', cartId: 'cartId' },
           meta: StateLoaderActions.successMeta(CART_DATA),
         });
       });
