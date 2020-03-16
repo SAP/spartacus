@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
   I18nModule,
   NotAuthGuard,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { LoginFormComponent } from './login-form.component';
@@ -19,7 +19,10 @@ import { FormErrorsModule } from '../../../shared/index';
     ReactiveFormsModule,
     RouterModule,
     UrlModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    I18nModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ReturningCustomerLoginComponent: {
           component: LoginFormComponent,

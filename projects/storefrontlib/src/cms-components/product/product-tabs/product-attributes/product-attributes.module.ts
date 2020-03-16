@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ConfigModule, CmsConfig, I18nModule } from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ProductAttributesComponent } from './product-attributes.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  imports: [CommonModule, I18nModule],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ProductSpecsTabComponent: {
           component: ProductAttributesComponent,

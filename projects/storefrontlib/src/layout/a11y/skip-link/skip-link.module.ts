@@ -4,7 +4,7 @@ import {
   ComponentFactoryResolver,
   NgModule,
 } from '@angular/core';
-import { Config, ConfigModule, I18nModule } from '@spartacus/core';
+import { Config, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { OutletPosition } from '../../../cms-structure/outlet/outlet.model';
 import { SkipLinkComponent } from './component/skip-link.component';
 import { defaultSkipLinkConfig } from './config/default-skip-link.config';
@@ -13,16 +13,13 @@ import { SkipLinkDirective } from './directive/skip-link.directive';
 import { OutletService } from '../../../cms-structure/outlet/outlet.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    ConfigModule.withConfig(defaultSkipLinkConfig),
-  ],
+  imports: [CommonModule, I18nModule],
   declarations: [SkipLinkComponent, SkipLinkDirective],
   exports: [SkipLinkDirective],
   entryComponents: [SkipLinkComponent],
 
   providers: [
+    provideDefaultConfig(defaultSkipLinkConfig),
     { provide: SkipLinkConfig, useExisting: Config },
     {
       provide: APP_INITIALIZER,

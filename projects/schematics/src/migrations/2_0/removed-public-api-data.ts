@@ -1,4 +1,5 @@
 import {
+  ANONYMOUS_USERID_CONST,
   CART_COMBINED_EFFECTS,
   CART_EFFECTS,
   CART_ENTRY_EFFECTS,
@@ -9,12 +10,14 @@ import {
   GET_MULTI_CART_REDUCERS,
   GET_REDUCERS,
   INITITIALIZE_CONTEXT,
+  INIT_SITE_CONTEXT_ROUTES_HANDLER,
   META_REDUCERS,
   MULTI_CART_META_REDUCERS,
   MULTI_CART_REDUCER_PROVIDER,
   MULTI_CART_REDUCER_TOKEN,
   REDUCER_PROVIDER,
   REDUCER_TOKEN,
+  SITE_CONTEXT_PARAMS_PROVIDERS,
   SPARTACUS_CORE,
   WISHLIST_EFFECTS,
 } from '../../shared/constants';
@@ -96,6 +99,16 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: MULTI_CART_REDUCER_PROVIDER,
     importPath: SPARTACUS_CORE,
   },
+  // projects/core/src/site-context/providers/site-context-params-providers.ts
+  {
+    node: SITE_CONTEXT_PARAMS_PROVIDERS,
+    importPath: SPARTACUS_CORE,
+  },
+  // projects/core/src/site-context/providers/site-context-params-providers.ts
+  {
+    node: INIT_SITE_CONTEXT_ROUTES_HANDLER,
+    importPath: SPARTACUS_CORE,
+  },
   // projects/core/src/site-context/providers/index.ts
   {
     node: INITITIALIZE_CONTEXT,
@@ -105,5 +118,11 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: CONTEXT_SERVICE_PROVIDERS,
     importPath: SPARTACUS_CORE,
+  },
+  // projects/core/src/occ/index.ts
+  {
+    node: ANONYMOUS_USERID_CONST,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ANONYMOUS_USERID_CONST}' is no longer part of the public API. Instead use 'OCC_USER_ID_ANONYMOUS'.`,
   },
 ];
