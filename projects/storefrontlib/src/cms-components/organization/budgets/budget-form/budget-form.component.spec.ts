@@ -12,7 +12,6 @@ import {
   OrgUnitService,
   Currency,
   CurrencyService,
-  EntitiesModel,
   B2BUnitNode,
 } from '@spartacus/core';
 
@@ -40,24 +39,22 @@ const mockBudget: Budget = {
   ],
 };
 
-const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
-  values: [
-    {
-      active: true,
-      children: [],
-      id: 'unitNode1',
-      name: 'Org Unit 1',
-      parent: 'parentUnit',
-    },
-    {
-      active: true,
-      children: [],
-      id: 'unitNode2',
-      name: 'Org Unit 2',
-      parent: 'parentUnit',
-    },
-  ],
-};
+const mockOrgUnits: B2BUnitNode[] = [
+  {
+    active: true,
+    children: [],
+    id: 'unitNode1',
+    name: 'Org Unit 1',
+    parent: 'parentUnit',
+  },
+  {
+    active: true,
+    children: [],
+    id: 'unitNode2',
+    name: 'Org Unit 2',
+    parent: 'parentUnit',
+  },
+];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
@@ -153,7 +150,7 @@ describe('BudgetFormComponent', () => {
         })
         .unsubscribe();
       expect(orgUnitService.getList).toHaveBeenCalled();
-      expect(businessUnits).toEqual(mockOrgUnits.values);
+      expect(businessUnits).toEqual(mockOrgUnits);
     });
 
     it('should setup clean form', () => {

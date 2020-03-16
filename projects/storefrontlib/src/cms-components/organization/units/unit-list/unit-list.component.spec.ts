@@ -53,7 +53,7 @@ class MockCxDatePipe {
   }
 }
 
-describe('OrgUnitListComponent', () => {
+xdescribe('OrgUnitListComponent', () => {
   let component: ManageUnitsListComponent;
   let fixture: ComponentFixture<ManageUnitsListComponent>;
   let orgUnitsService: MockOrgUnitService;
@@ -83,7 +83,7 @@ describe('OrgUnitListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
+  xdescribe('ngOnInit', () => {
     it('should read orgUnit list', () => {
       component.ngOnInit();
       let orgUnitsList: any;

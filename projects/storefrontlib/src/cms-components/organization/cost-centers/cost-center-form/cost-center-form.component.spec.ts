@@ -12,7 +12,6 @@ import {
   OrgUnitService,
   Currency,
   CurrencyService,
-  EntitiesModel,
   B2BUnitNode,
 } from '@spartacus/core';
 
@@ -33,24 +32,22 @@ const mockCostCenter: CostCenter = {
   unit: { name: 'orgName', uid: 'orgCode' },
 };
 
-const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
-  values: [
-    {
-      active: true,
-      children: [],
-      id: 'unitNode1',
-      name: 'Org Unit 1',
-      parent: 'parentUnit',
-    },
-    {
-      active: true,
-      children: [],
-      id: 'unitNode2',
-      name: 'Org Unit 2',
-      parent: 'parentUnit',
-    },
-  ],
-};
+const mockOrgUnits: B2BUnitNode[] = [
+  {
+    active: true,
+    children: [],
+    id: 'unitNode1',
+    name: 'Org Unit 1',
+    parent: 'parentUnit',
+  },
+  {
+    active: true,
+    children: [],
+    id: 'unitNode2',
+    name: 'Org Unit 2',
+    parent: 'parentUnit',
+  },
+];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
@@ -71,7 +68,7 @@ class MockUrlPipe implements PipeTransform {
 }
 
 const mockCurrencies: Currency[] = [
-  { active: true, isocode: 'USD', name: 'Dolar', symbol: '$' },
+  { active: true, isocode: 'USD', name: 'US Dollar', symbol: '$' },
   { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
 ];
 const mockActiveCurr = new BehaviorSubject('USD');
@@ -146,7 +143,7 @@ describe('CostCenterFormComponent', () => {
         })
         .unsubscribe();
       expect(orgUnitService.getList).toHaveBeenCalled();
-      expect(businessUnits).toEqual(mockOrgUnits.values);
+      expect(businessUnits).toEqual(mockOrgUnits);
     });
 
     it('should setup clean form', () => {
