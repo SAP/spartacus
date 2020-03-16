@@ -12,8 +12,16 @@ import {
   getOrgUnitList,
   getApprovalProcessesState,
   getOrgUnitTreeState,
+  getAssignedUsers,
 } from '../store/selectors/org-unit.selector';
-import { B2BUnit, B2BUnitNode, B2BApprovalProcess } from '../../model';
+import {
+  B2BUnit,
+  B2BUnitNode,
+  B2BApprovalProcess,
+  B2BUser,
+  EntitiesModel,
+} from '../../model';
+import { B2BSearchConfig } from '../model/search-config';
 
 @Injectable()
 export class OrgUnitService {
@@ -46,6 +54,19 @@ export class OrgUnitService {
     );
   }
 
+  loadUsers(orgUnitId: string, roleId: string, params: B2BSearchConfig): void {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new OrgUnitActions.LoadAssignedUsers({
+          userId,
+          orgUnitId,
+          roleId,
+          params,
+        })
+      )
+    );
+  }
+
   private getOrgUnitState(orgUnitId: string): Observable<LoaderState<B2BUnit>> {
     return this.store.select(getOrgUnitState(orgUnitId));
   }
@@ -56,6 +77,14 @@ export class OrgUnitService {
 
   private getOrgUnitsList(): Observable<LoaderState<B2BUnitNode[]>> {
     return this.store.select(getOrgUnitList());
+  }
+
+  private getAssignedUsers(
+    orgUnitId: string,
+    roleId: string,
+    params: B2BSearchConfig
+  ): Observable<LoaderState<EntitiesModel<B2BUser>>> {
+    return this.store.select(getAssignedUsers(orgUnitId, roleId, params));
   }
 
   private getApprovalProcessesList(): Observable<
@@ -118,6 +147,26 @@ export class OrgUnitService {
       }),
       filter(
         (process: LoaderState<B2BUnitNode[]>) =>
+          process.success || process.error
+      ),
+      map(result => result.value)
+    );
+  }
+
+  getUsers(
+    orgUnitId: string,
+    roleId: string,
+    params: B2BSearchConfig
+  ): Observable<EntitiesModel<B2BUser>> {
+    return this.getAssignedUsers(orgUnitId, roleId, params).pipe(
+      observeOn(queueScheduler),
+      tap((process: LoaderState<EntitiesModel<B2BUser>>) => {
+        if (!(process.loading || process.success || process.error)) {
+          this.loadUsers(orgUnitId, roleId, params);
+        }
+      }),
+      filter(
+        (process: LoaderState<EntitiesModel<B2BUser>>) =>
           process.success || process.error
       ),
       map(result => result.value)

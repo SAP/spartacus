@@ -3,7 +3,9 @@ import {
   B2BUnitNode,
   B2BUnit,
   B2BApprovalProcess,
+  B2BUser,
 } from '../../../model/org-unit.model';
+import { EntitiesModel } from '../../../model/misc.model';
 
 export abstract class OrgUnitAdapter {
   /**
@@ -31,4 +33,11 @@ export abstract class OrgUnitAdapter {
   ): Observable<B2BApprovalProcess[]>;
 
   abstract loadTree(userId: string, params?: any): Observable<B2BUnitNode>;
+
+  abstract loadUsers(
+    userId: string,
+    orgUnitId: string,
+    roleId: string,
+    params?: any
+  ): Observable<EntitiesModel<B2BUser>>;
 }

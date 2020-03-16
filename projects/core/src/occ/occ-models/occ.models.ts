@@ -4276,4 +4276,9 @@ export namespace Occ {
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }
+  export interface B2BUserList {
+    users: B2BUser[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
 }

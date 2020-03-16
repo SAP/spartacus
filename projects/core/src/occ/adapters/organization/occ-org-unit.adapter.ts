@@ -16,7 +16,9 @@ import {
   B2BUnitNode,
   B2BUnit,
   B2BApprovalProcess,
+  B2BUser,
 } from '../../../model/org-unit.model';
+import { EntitiesModel } from '../../../model/misc.model';
 
 @Injectable()
 export class OccOrgUnitAdapter implements OrgUnitAdapter {
@@ -70,6 +72,19 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
       .pipe(this.converter.pipeable(B2BUNIT_APPROVAL_PROCESSES_NORMALIZER));
   }
 
+  loadUsers(
+    userId: string,
+    orgUnitId: string,
+    roleId: string,
+    params?: any
+  ): Observable<EntitiesModel<B2BUser>> {
+    return this.http
+      .get<Occ.B2BUserList>(
+        this.getUsersEndpoint(userId, orgUnitId, roleId, params)
+      )
+      .pipe(this.converter.pipeable(B2B_USER_LIST_NORMALIZER));
+  }
+
   protected getOrgUnitEndpoint(userId: string, orgUnitId: string): string {
     return this.occEndpoints.getUrl('orgUnit', { userId, orgUnitId });
   }
@@ -88,5 +103,18 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
 
   protected getOrgUnitsApprovalProcessesEndpoint(userId: string): string {
     return this.occEndpoints.getUrl('orgUnitsApprovalProcesses', { userId });
+  }
+
+  protected getUsersEndpoint(
+    userId: string,
+    orgUnitId: string,
+    roleId: string,
+    params?: any
+  ): string {
+    return this.occEndpoints.getUrl(
+      'orgUnitUsers',
+      { userId, orgUnitId, roleId },
+      params
+    );
   }
 }

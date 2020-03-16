@@ -34,11 +34,10 @@ export const UPDATE_COST_CENTER_FAIL = '[CostCenter] Update CostCenter Fail';
 export const UPDATE_COST_CENTER_SUCCESS =
   '[CostCenter] Update CostCenter Success';
 
-export const LOAD_ASSIGNED_BUDGETS = '[CostCenter] Load assigned Budgets';
+export const LOAD_ASSIGNED_BUDGETS = '[CostCenter] Load Budgets';
 export const LOAD_ASSIGNED_BUDGETS_SUCCESS =
-  '[CostCenter] Load assigned Budgets success';
-export const LOAD_ASSIGNED_BUDGETS_FAIL =
-  '[CostCenter] Load assigned Budgets fail';
+  '[CostCenter] Load Budgets success';
+export const LOAD_ASSIGNED_BUDGETS_FAIL = '[CostCenter] Load Budgets fail';
 
 export const ASSIGN_BUDGET = '[CostCenter] Assign Budget';
 export const ASSIGN_BUDGET_SUCCESS = '[CostCenter] Assign Budget success';

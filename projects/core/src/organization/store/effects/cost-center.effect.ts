@@ -122,31 +122,29 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.LOAD_ASSIGNED_BUDGETS),
     map((action: CostCenterActions.LoadAssignedBudgets) => action.payload),
-    switchMap(payload =>
-      this.costCenterConnector
-        .getBudgets(payload.userId, payload.costCenterCode, payload.params)
-        .pipe(
-          switchMap((budgets: EntitiesModel<Budget>) => {
-            const { values, page } = normalizeListPage(budgets, 'code');
-            return [
-              new BudgetActions.LoadBudgetSuccess(values),
-              new CostCenterActions.LoadAssignedBudgetsSuccess({
-                costCenterCode: payload.costCenterCode,
-                page,
-                params: payload.params,
-              }),
-            ];
-          }),
-          catchError(error =>
-            of(
-              new CostCenterActions.LoadAssignedBudgetsFail({
-                costCenterCode: payload.costCenterCode,
-                params: payload.params,
-                error: makeErrorSerializable(error),
-              })
-            )
+    switchMap(({ userId, costCenterCode, params }) =>
+      this.costCenterConnector.getBudgets(userId, costCenterCode, params).pipe(
+        switchMap((budgets: EntitiesModel<Budget>) => {
+          const { values, page } = normalizeListPage(budgets, 'code');
+          return [
+            new BudgetActions.LoadBudgetSuccess(values),
+            new CostCenterActions.LoadAssignedBudgetsSuccess({
+              costCenterCode,
+              page,
+              params,
+            }),
+          ];
+        }),
+        catchError(error =>
+          of(
+            new CostCenterActions.LoadAssignedBudgetsFail({
+              costCenterCode,
+              params,
+              error: makeErrorSerializable(error),
+            })
           )
         )
+      )
     )
   );
 
@@ -156,26 +154,22 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.ASSIGN_BUDGET),
     map((action: CostCenterActions.AssignBudget) => action.payload),
-    switchMap(payload =>
+    switchMap(({ userId, costCenterCode, budgetCode }) =>
       this.costCenterConnector
-        .assignBudget(
-          payload.userId,
-          payload.costCenterCode,
-          payload.budgetCode
-        )
+        .assignBudget(userId, costCenterCode, budgetCode)
         .pipe(
           map(
             () =>
               new CostCenterActions.AssignBudgetSuccess({
-                code: payload.budgetCode,
+                code: budgetCode,
                 selected: true,
               })
           ),
           catchError(error =>
             of(
               new CostCenterActions.AssignBudgetFail({
-                costCenterCode: payload.costCenterCode,
-                budgetCode: payload.budgetCode,
+                costCenterCode,
+                budgetCode,
                 error: makeErrorSerializable(error),
               })
             )

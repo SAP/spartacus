@@ -404,6 +404,12 @@ export interface OccEndpoints {
    */
   orgUnit?: string;
   /**
+   * Endpoint for orgUnitUsers:
+   *
+   * @member {string}
+   */
+  orgUnitUsers?: string;
+  /**
    * Endpoint for costCenter list
    *
    * @member {string}

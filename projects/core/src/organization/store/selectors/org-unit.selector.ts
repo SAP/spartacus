@@ -3,6 +3,7 @@ import {
   B2BApprovalProcess,
   B2BUnitNode,
   B2BUnit,
+  B2BUser,
 } from '../../../model/org-unit.model';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
@@ -17,6 +18,9 @@ import {
   ORG_UNIT_NODES,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
+import { B2BSearchConfig } from '../../model/search-config';
+import { EntitiesModel } from '../../../model/misc.model';
+import { denormalizeCustomB2BSearch } from '../../utils/serializer';
 
 export const getB2BOrgUnitState: MemoizedSelector<
   StateWithOrganization,
@@ -91,4 +95,24 @@ export const getApprovalProcessesState = (): MemoizedSelector<
     getOrgUnitsApprovalProcesses,
     (state: EntityLoaderState<B2BApprovalProcess[]>) =>
       entityStateSelector(state, ORG_UNIT_APPROVAL_PROCESSES)
+  );
+
+export const getAssignedUsers = (
+  orgUnitId: string,
+  roleId: string,
+  params: B2BSearchConfig
+): MemoizedSelector<
+  StateWithOrganization,
+  LoaderState<EntitiesModel<B2BUser>>
+> =>
+  createSelector(
+    getB2BOrgUnitState,
+    getUsersState,
+    (state: OrgUnits, users: EntityLoaderState<B2BUser>) =>
+      denormalizeCustomB2BSearch(
+        state.users,
+        users,
+        params,
+        `${orgUnitId},${roleId}`
+      )
   );

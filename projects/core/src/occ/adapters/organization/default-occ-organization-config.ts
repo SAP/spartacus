@@ -12,6 +12,8 @@ export const defaultOccOrganizationConfig: OccConfig = {
           '/users/${userId}/orgUnitsAvailableApprovalProcesses',
         orgUnits: '/users/${userId}/orgUnits',
         orgUnit: '/users/${userId}/orgUnits/${orgUnitId}',
+        orgUnitUsers:
+          '/users/${userId}/orgUnits/${orgUnitId}/availableUsers/${roleId}',
         costCenters: '/costcenters',
         costCenter: '/costcenters/${costCenterCode}',
         costCentersAll: '/costcentersall',
