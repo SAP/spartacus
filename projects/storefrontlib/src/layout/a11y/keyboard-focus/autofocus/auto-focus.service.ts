@@ -26,12 +26,6 @@ export class AutoFocusService extends EscapeFocusService {
     }
   }
 
-  hasPersistedFocusForGroup(
-    host: HTMLElement,
-    config: PersistFocusConfig
-  ): boolean {
-    return !!this.get(this.getPersistenceGroup(host, config));
-  }
   /**
    * Indicates whether any of the focusabe child elements is focused.
    */
