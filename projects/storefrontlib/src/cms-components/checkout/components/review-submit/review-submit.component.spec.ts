@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   Address,
   Cart,
-  CartService,
+  ActiveCartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   Country,
@@ -16,7 +16,6 @@ import {
   OrderEntry,
   PaymentDetails,
   PromotionLocation,
-  PromotionResult,
   UserAddressService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -35,10 +34,6 @@ const mockCart: Cart = {
   code: 'test',
   deliveryItemsQuantity: 123,
   totalPrice: { formattedValue: '$999.98' },
-  potentialProductPromotions: [
-    { description: 'Promotion 1' },
-    { description: 'Promotion 2' },
-  ],
 };
 
 const mockAddress: Address = {
@@ -78,7 +73,6 @@ const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
 class MockCartItemListComponent {
   @Input() items: Item[];
   @Input() readonly: boolean;
-  @Input() potentialProductPromotions: PromotionResult[] = [];
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
@@ -116,7 +110,7 @@ class MockUserAddressService {
   }
 }
 
-class MockCartService {
+class MockActiveCartService {
   getActive(): Observable<Cart> {
     return of(mockCart);
   }
@@ -183,7 +177,7 @@ describe('ReviewSubmitComponent', () => {
           useClass: MockCheckoutPaymentService,
         },
         { provide: UserAddressService, useClass: MockUserAddressService },
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         {
           provide: CheckoutConfigService,
           useClass: MockCheckoutConfigService,
