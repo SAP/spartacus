@@ -26,6 +26,12 @@ export class AutoFocusService extends EscapeFocusService {
     }
   }
 
+  hasPersistedFocusForGroup(
+    host: HTMLElement,
+    config: PersistFocusConfig
+  ): boolean {
+    return !!this.get(this.getPersistenceGroup(host, config));
+  }
   /**
    * Indicates whether any of the focusabe child elements is focused.
    */
@@ -41,6 +47,9 @@ export class AutoFocusService extends EscapeFocusService {
    *   groups and remain the persistance
    */
   protected getPersisted(host: HTMLElement, group?: string): HTMLElement {
+    if (!this.get(group)) {
+      return;
+    }
     const focussed = Array.from(
       host.querySelectorAll(
         `[${FOCUS_ATTR}='${this.get(group)}']`

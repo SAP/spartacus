@@ -4,24 +4,23 @@ import { AutoFocusConfig } from '../keyboard-focus.model';
 import { AutoFocusService } from './auto-focus.service';
 
 /**
- * Directive that focus the first nested focusable element based on
- * state and configuration:
- * 1. element that was left in a focused state
- * 2. element selected based on a specific selector configured (i.e. 'button[type=submit]')
- * 3. element marked with the native `autofocus` attribute
- * 4. select the first focusable element
+ * Directive that focus the first nested _focusable_ element based on state and configuration:
  *
- * The autofocus selector configuration allows for the pseudo host selector, which means that
- * the host element is selected (similar to autofocus = false).
- *
- * Please note that the configured selector must
- * select a focusable element.
+ * 1. focusable element that was left in a focused state
+ * 2. focusable element selected by configured CSS selector (i.e. 'button[type=submit]')
+ * 3. focusable element marked with the native HTML5 `autofocus` attribute
+ * 4. first focusable element
+ * 5. the host element, in case the configured CSS selector is `:host`.
  *
  * Example configurations:
+ *
+ * `<div cxAutoFocus>[...]</div>`
  *
  * `<div [cxAutoFocus]="{autofocus: false}">[...]</div>`
  *
  * `<div [cxAutoFocus]="{autofocus: 'button.active'}">[...]</div>`
+ *
+ * `<div [cxAutoFocus]="{autofocus: ':host'}">[...]</div>`
  *
  */
 @Directive({
@@ -36,9 +35,9 @@ export class AutoFocusDirective extends EscapeFocusDirective
 
   constructor(
     protected elementRef: ElementRef,
-    protected autoFocusService: AutoFocusService
+    protected service: AutoFocusService
   ) {
-    super(elementRef, autoFocusService);
+    super(elementRef, service);
   }
 
   /**
@@ -46,7 +45,6 @@ export class AutoFocusDirective extends EscapeFocusDirective
    */
   ngAfterViewInit(): void {
     if (this.shouldAutofocus) {
-      // Mimic the focus without setting the actual focus on the host.
       this.handleFocus();
     }
     if (!this.shouldAutofocus || this.hasPersistedFocus) {
@@ -55,10 +53,10 @@ export class AutoFocusDirective extends EscapeFocusDirective
   }
 
   /**
-   * Handles autofocus for the nested focusable element. The first focusable
-   * element will be focussed.
+   * Mimic the focus without setting the actual focus on the host. The first
+   * focusable child element will be focussed.
    */
-  protected handleFocus(event?: KeyboardEvent) {
+  handleFocus(event?: KeyboardEvent) {
     if (this.shouldAutofocus) {
       if (!event?.target || event.target === this.host) {
         this.firstFocusable?.focus();
@@ -73,12 +71,13 @@ export class AutoFocusDirective extends EscapeFocusDirective
    * Helper function to get the first focusable child element
    */
   protected get hasPersistedFocus() {
-    return this.autoFocusService.hasPersistedFocus(this.host, this.config);
+    return this.service.hasPersistedFocus(this.host, this.config);
   }
 
   /**
    * Helper function to indicate whether we should use autofocus for the
    * child elements.
+   *
    * We keep this private to not polute the API.
    */
   private get shouldAutofocus(): boolean {
@@ -87,9 +86,10 @@ export class AutoFocusDirective extends EscapeFocusDirective
 
   /**
    * Helper function to get the first focusable child element.
+   *
    * We keep this private to not polute the API.
    */
   private get firstFocusable(): HTMLElement {
-    return this.autoFocusService.findFirstFocusable(this.host, this.config);
+    return this.service.findFirstFocusable(this.host, this.config);
   }
 }

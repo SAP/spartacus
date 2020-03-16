@@ -23,7 +23,7 @@ export class TrapFocusDirective extends TabFocusDirective implements OnInit {
 
   @HostListener('keydown.arrowdown', ['$event'])
   @HostListener('keydown.tab', ['$event'])
-  protected handleTrapDown = (event: KeyboardEvent) => {
+  handleTrapDown = (event: KeyboardEvent) => {
     if (!!this.config.trap) {
       this.moveFocus(event, MOVE_FOCUS.NEXT);
     }
@@ -31,7 +31,7 @@ export class TrapFocusDirective extends TabFocusDirective implements OnInit {
 
   @HostListener('keydown.arrowup', ['$event'])
   @HostListener('keydown.shift.tab', ['$event'])
-  protected handleTrapUp = (event: KeyboardEvent) => {
+  handleTrapUp = (event: KeyboardEvent) => {
     if (!!this.config.trap) {
       this.moveFocus(event, MOVE_FOCUS.PREV);
     }
