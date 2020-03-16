@@ -3,7 +3,6 @@ import {
   AuthService,
   BaseSiteService,
   CartDataService,
-  CartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -21,15 +20,15 @@ import {
   ProductService,
   RoutingService,
   SearchboxService,
+  SelectiveCartService,
   TranslationService,
   UserAddressService,
   UserConsentService,
+  UserInterestsService,
+  UserNotificationPreferenceService,
   UserOrderService,
   UserPaymentService,
   UserService,
-  UserNotificationPreferenceService,
-  UserInterestsService,
-  SelectiveCartService,
 } from '@spartacus/core';
 import { CmsComponentData } from '../model';
 
@@ -43,7 +42,6 @@ export class CxApiService {
     // auth
     @Optional() public auth: AuthService,
     // cart
-    @Optional() public cart: CartService,
     @Optional() public cartData: CartDataService,
     // checkout
     @Optional() public checkout: CheckoutService,

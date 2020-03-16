@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-  CartService,
+  ActiveCartService,
   ConsignmentEntry,
   FeatureConfigService,
   PromotionLocation,
@@ -57,22 +57,9 @@ export class CartItemListComponent {
   }
 
   constructor(
-    cartService: CartService,
-    selectiveCartService: SelectiveCartService,
-    featureConfig: FeatureConfigService
-  );
-
-  /**
-   * @deprecated Since 1.5
-   * Add selectiveCartService authService routingService and featureConfig for save for later.
-   * Remove issue: #5958
-   */
-  constructor(cartService: CartService);
-
-  constructor(
-    protected cartService: CartService,
-    protected selectiveCartService?: SelectiveCartService,
-    private featureConfig?: FeatureConfigService
+    protected activeCartService: ActiveCartService,
+    protected selectiveCartService: SelectiveCartService,
+    protected featureConfig: FeatureConfigService
   ) {}
 
   //TODO remove feature flag for #5958
@@ -122,7 +109,7 @@ export class CartItemListComponent {
     if (this.selectiveCartService && this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
     } else {
-      this.cartService.removeEntry(item);
+      this.activeCartService.removeEntry(item);
     }
     delete this.form.controls[item.product.code];
   }
@@ -138,7 +125,7 @@ export class CartItemListComponent {
             value.quantity
           );
         } else if (value) {
-          this.cartService.updateEntry(value.entryNumber, value.quantity);
+          this.activeCartService.updateEntry(value.entryNumber, value.quantity);
         }
       }),
       map(() => <FormGroup>this.form.get(item.product.code))
