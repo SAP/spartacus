@@ -56,7 +56,7 @@ export class PersistFocusDirective extends BlockFocusDirective
    * implementations. This is needed to ensure that we can resolve the focus
    * state in case of a repaint.
    */
-  @HostBinding(`attr.${FOCUS_ATTR}`) protected attr: string;
+  @HostBinding(`attr.${FOCUS_ATTR}`) attr: string;
 
   /**
    * The persistence key is maintained in a singleton cross the app to ensure we
@@ -64,10 +64,8 @@ export class PersistFocusDirective extends BlockFocusDirective
    */
 
   @HostListener('focus', ['$event'])
-  protected handleFocus(event?: KeyboardEvent) {
-    if (this.key) {
-      this.persistFocusService.set(this.key, this.group);
-    }
+  handleFocus(event?: KeyboardEvent) {
+    this.service.set(this.key, this.group);
 
     event?.preventDefault();
     event?.stopPropagation();
@@ -75,9 +73,9 @@ export class PersistFocusDirective extends BlockFocusDirective
 
   constructor(
     protected elementRef: ElementRef,
-    protected persistFocusService: PersistFocusService
+    protected service: PersistFocusService
   ) {
-    super(elementRef, persistFocusService);
+    super(elementRef, service);
   }
 
   ngOnInit() {
@@ -102,7 +100,7 @@ export class PersistFocusDirective extends BlockFocusDirective
   }
 
   protected get isPersisted(): boolean {
-    return !!this.key && this.persistFocusService.get(this.group) === this.key;
+    return !!this.key && this.service.get(this.group) === this.key;
   }
 
   /**
@@ -117,7 +115,7 @@ export class PersistFocusDirective extends BlockFocusDirective
    * returns the persistence group (if any) for the focusable elements.
    */
   protected get group(): string {
-    return this.persistFocusService.getPersistenceGroup(
+    return this.service.getPersistenceGroup(
       this.host,
       this.config as PersistFocusConfig
     );
