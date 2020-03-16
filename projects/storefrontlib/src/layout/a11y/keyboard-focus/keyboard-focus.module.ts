@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { AutoFocusDirective } from './autofocus/index';
-import { BlockFocusDirective } from './block/index';
+import { BlockFocusDirective } from './block';
 import { EscapeFocusDirective } from './escape/index';
 import { FocusDirective } from './focus.directive';
 import { LockFocusDirective } from './lock/index';

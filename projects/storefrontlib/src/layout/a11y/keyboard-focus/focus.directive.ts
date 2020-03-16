@@ -7,5 +7,5 @@ import { LockFocusDirective } from './lock';
 })
 export class FocusDirective extends LockFocusDirective {
   // tslint:disable-next-line: no-input-rename
-  @Input('cxFocus') protected config: FocusConfig;
+  @Input('cxFocus') protected config: FocusConfig = {};
 }
