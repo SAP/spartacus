@@ -35,7 +35,7 @@ class MockAuthRedirectService {
   reportNotAuthGuard = jasmine.createSpy('reportNotAuthGuard');
 }
 
-fdescribe('NotAuthGuard', () => {
+describe('NotAuthGuard', () => {
   let guard: GuestOrderDetailsGuard;
   let authService: AuthServiceStub;
   let routing: RoutingService;
@@ -57,9 +57,9 @@ fdescribe('NotAuthGuard', () => {
     authService = TestBed.get(AuthService as Type<AuthService>);
     guard = TestBed.get(GuestOrderDetailsGuard as Type<GuestOrderDetailsGuard>);
     routing = TestBed.get(RoutingService as Type<RoutingService>);
-    authRedirectService = TestBed.get(
-      AuthRedirectService as Type<AuthRedirectService>
-    );
+    authRedirectService = TestBed.get(AuthRedirectService as Type<
+      AuthRedirectService
+    >);
   });
 
   describe(', when user is authorized,', () => {
