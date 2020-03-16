@@ -63,6 +63,7 @@ export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const TRANSLATION_SERVICE = 'TranslationService';
 export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 export const ADD_TO_CART_COMPONENT = 'AddToCartComponent';
+export const ADDED_TO_CART_DIALOG_COMPONENT = 'AddedToCartDialogComponent';
 export const MODAL_SERVICE = 'ModalService';
 export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
 export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
@@ -97,7 +98,18 @@ export const OCC_CART_ENTRY_ADAPTER = 'OccCartEntryAdapter';
 export const OCC_CART_ADAPTER = 'OccCartAdapter';
 export const OCC_USER_ORDER_ADAPTER = 'OccUserOrderAdapter';
 export const CONVERTER_SERVICE = 'ConverterService';
-
+export const USER_CONSENT_SERVICE = 'UserConsentService';
+export const USER_ORDER_SERVICE = 'UserOrderService';
+export const USER_SERVICE = 'UserService';
+export const CART_DETAILS_COMPONENT = 'CartDetailsComponent';
+export const ORDER_DETAIL_ITEMS_COMPONENT = 'OrderDetailItemsComponent';
+export const ORDER_CONFIRMATION_ITEMS_COMPONENT =
+  'OrderConfirmationItemsComponent';
+export const REVIEW_SUBMIT_COMPONENT = 'ReviewSubmitComponent';
+export const CART_COUPON_COMPONENT = 'CartCouponComponent';
+export const CART_VOUCHER_SERVICE = 'CartVoucherService';
+export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
+export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

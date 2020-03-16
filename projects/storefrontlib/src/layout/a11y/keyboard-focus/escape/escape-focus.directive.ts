@@ -35,7 +35,7 @@ export class EscapeFocusDirective extends PersistFocusDirective
    * @param event the native keyboard event which contains the escape keydown event
    */
   @HostListener('keydown.escape', ['$event'])
-  protected handleEscape(event: KeyboardEvent): void {
+  handleEscape(event: KeyboardEvent): void {
     if (this.service.shouldFocus(this.config)) {
       this.service.handleEscape(this.host, this.config, event);
     }
@@ -50,8 +50,8 @@ export class EscapeFocusDirective extends PersistFocusDirective
   }
 
   ngOnInit() {
-    if (this.service.shouldFocus(this.config) && !this.currentIndex) {
-      this.currentIndex = '-1';
+    if (this.service.shouldFocus(this.config)) {
+      this.requiredTabindex = -1;
     }
     super.ngOnInit();
   }

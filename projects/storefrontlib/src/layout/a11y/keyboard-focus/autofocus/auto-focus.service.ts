@@ -41,6 +41,9 @@ export class AutoFocusService extends EscapeFocusService {
    *   groups and remain the persistance
    */
   protected getPersisted(host: HTMLElement, group?: string): HTMLElement {
+    if (!this.get(group)) {
+      return;
+    }
     const focussed = Array.from(
       host.querySelectorAll(
         `[${FOCUS_ATTR}='${this.get(group)}']`

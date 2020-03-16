@@ -1,10 +1,13 @@
 import {
-  AfterViewInit,
+  AfterContentInit,
   Directive,
   ElementRef,
+  EventEmitter,
+  HostBinding,
   HostListener,
   Input,
   OnInit,
+  Output,
   Renderer2,
 } from '@angular/core';
 import { FOCUS_GROUP_ATTR, LockFocusConfig } from '../keyboard-focus.model';
@@ -20,12 +23,25 @@ import { LockFocusService } from './lock-focus.service';
   selector: '[cxLockFocus]',
 })
 export class LockFocusDirective extends TrapFocusDirective
-  implements OnInit, AfterViewInit {
+  implements OnInit, AfterContentInit {
   protected defaultConfig: LockFocusConfig = { lock: true };
 
   @Input('cxLockFocus') protected config: LockFocusConfig = {};
 
-  private hasbeenUnlocked = false;
+  /**
+   * Indicates that the host is configured to use locking. This is available as a
+   * CSS class `focus-lock`.
+   */
+  @HostBinding('class.focus-lock') shouldLock: boolean;
+  /**
+   * Indicates that the host is locked. This is available as a CSS class `is-locked`.
+   */
+  @HostBinding('class.is-locked') isLocked: boolean;
+
+  /**
+   * Emits an event when the host is unlocked.
+   */
+  @Output() unlock = new EventEmitter<boolean>();
 
   /**
    * When the user selects enter or space, the focusable childs are
@@ -33,24 +49,22 @@ export class LockFocusDirective extends TrapFocusDirective
    */
   @HostListener('keydown.enter', ['$event'])
   @HostListener('keydown.space', ['$event'])
-  protected handleUnlock = (event: KeyboardEvent) => {
-    if (this.isLocked && !this.hasFocusableChildren) {
-      this.hasbeenUnlocked = true;
-      this.addTabindexToChildren(0);
-      this.handleFocus(event);
-      event.preventDefault();
+  handleEnter(event: KeyboardEvent) {
+    if (this.shouldLock && this.host === (event.target as HTMLElement)) {
+      this.unlockFocus(event);
       event.stopPropagation();
     }
-  };
+  }
 
   /**
-   * In case any of the children elements is clicked by the mouse,
-   * the group is unlocked automatically.
+   * In case any of the children elements is touched by the mouse,
+   * we unlock the group to not break the mouse-experience.
    */
   @HostListener('click', ['$event'])
-  protected handleClick(event: KeyboardEvent) {
-    if (event.target !== this.host) {
-      this.handleUnlock(event);
+  handleClick(event: UIEvent): void {
+    if (this.shouldLock && this.isLocked) {
+      this.unlockFocus(event);
+      event.stopPropagation();
     }
   }
 
@@ -62,25 +76,32 @@ export class LockFocusDirective extends TrapFocusDirective
     super(elementRef, service);
   }
 
+  protected lockFocus() {
+    this.addTabindexToChildren(-1);
+  }
+
+  protected unlockFocus(event?: UIEvent) {
+    this.unlock.emit(true);
+    this.addTabindexToChildren(0);
+    // we focus the host if the event target was a nested child
+    if (event?.target === this.host) {
+      super.handleFocus(event as KeyboardEvent);
+    }
+  }
+
   ngOnInit() {
     super.ngOnInit();
 
-    if (this.isLocked) {
-      // when the host is configured to be locked, we explicitly make
-      // it focusable, if it wasn't already focusable.
-      if (
-        this.requiresExplicitTabIndex ||
-        !this.currentIndex ||
-        this.currentIndex === '-1'
-      ) {
-        this.tabindex = 0;
-      }
+    this.shouldLock = this.config?.lock;
+
+    if (this.shouldLock) {
+      this.tabindex = 0;
+
       // Locked elements will be set to `autofocus` by default if it's not
       // been configured. This will ensure that autofocus kicks in upon unlock.
       if (!this.config.hasOwnProperty('autofocus')) {
         this.config.autofocus = true;
       }
-
       // Locked elements will be set to `focusOnEscape` by default if it's not
       // been configured. This will ensure that  the host gets locked again when
       // `escape` is pressed.
@@ -90,63 +111,68 @@ export class LockFocusDirective extends TrapFocusDirective
     }
   }
 
-  ngAfterViewInit(): void {
-    if (!!this.group) {
+  ngAfterContentInit() {
+    if (this.shouldLock) {
       /**
        * If the component hosts a group of focusable children elmenents,
        * we persist the group key to the children, so that they can taken this
        * into account when they persist their focus state.
        */
-      this.service
-        .findFocusable(this.host)
-        .forEach(el =>
-          this.renderer.setAttribute(el, FOCUS_GROUP_ATTR, this.group)
-        );
-    }
+      if (!!this.group) {
+        this.service
+          .findFocusable(this.host)
+          .forEach(el =>
+            this.renderer.setAttribute(el, FOCUS_GROUP_ATTR, this.group)
+          );
+      }
 
-    /**
-     * When the component got (re)created, we lock the focusable children elements
-     * by settng the tabindex to `-1`.
-     */
-    if (this.isLocked) {
-      this.addTabindexToChildren(this.hasPersistedFocus ? 0 : -1);
-    }
-
-    if (this.isLocked && this.hasPersistedFocus) {
-      this.hasbeenUnlocked = true;
-      this.handleFocus(null);
-    } else {
-      super.ngAfterViewInit();
+      this.lockFocus();
     }
   }
 
-  /**
-   * Locks focus handling in case of a locked experience.
-   */
-  protected handleFocus(event: KeyboardEvent): void {
-    if (this.isLocked && !this.hasbeenUnlocked) {
-      this.addTabindexToChildren(-1);
-    } else {
-      super.handleFocus(event);
-      this.hasbeenUnlocked = false;
+  handleFocus(event?: KeyboardEvent): void {
+    if (this.shouldLock) {
+      this.lockFocus();
+
+      if (this.shouldUnlockAfterAutofocus(event)) {
+        // Delay unlocking in case the host is using `ChangeDetectionStrategy.Default`
+        setTimeout(() => this.unlockFocus(event));
+      } else {
+        this.lockFocus();
+      }
+
+      // let's not bubble up the handleFocus event if the host is locked
+      if (this.isLocked) {
+        event?.stopPropagation();
+        return;
+      }
     }
+
+    super.handleFocus(event);
   }
 
   /**
-   * Indicates that the host element is locked for keyboarding.
+   * When the handleFocus is called without an actual event, it's coming from Autofocus.
+   * In this case we unlock the focusable children in case there's a focusable child that
+   * was unlocked before.
+   *
+   * We keep this private to not polute the API.
    */
-  protected get isLocked(): boolean {
-    return this.config?.lock;
+  private shouldUnlockAfterAutofocus(event?: KeyboardEvent) {
+    return !event && this.service.hasPersistedFocus(this.host, this.config);
   }
 
   /**
    * Add the tabindex attribute to the focusable children elements
    */
-  protected addTabindexToChildren(index = 0): void {
-    if (!(this.hasFocusableChildren && index === 0) || index === 0) {
-      this.focusable.forEach(el =>
-        this.renderer.setAttribute(el, 'tabindex', index.toString())
-      );
+  protected addTabindexToChildren(i = 0): void {
+    if (this.shouldLock) {
+      this.isLocked = i === -1;
+      if (!(this.hasFocusableChildren && i === 0) || i === 0) {
+        this.focusable.forEach(el => {
+          this.renderer.setAttribute(el, 'tabindex', i.toString());
+        });
+      }
     }
   }
 
@@ -167,6 +193,6 @@ export class LockFocusDirective extends TrapFocusDirective
    * We keep this private to not polute the API.
    */
   private get focusable(): HTMLElement[] {
-    return this.service.findFocusable(this.host, this.isLocked);
+    return this.service.findFocusable(this.host, this.shouldLock);
   }
 }

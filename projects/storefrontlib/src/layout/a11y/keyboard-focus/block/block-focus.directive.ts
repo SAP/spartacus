@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
-import { BaseFocusService } from '../base';
 import { BaseFocusDirective } from '../base/base-focus.directive';
+import { BaseFocusService } from '../base/base-focus.service';
 import { BlockFocusConfig } from '../keyboard-focus.model';
 
 @Directive({
