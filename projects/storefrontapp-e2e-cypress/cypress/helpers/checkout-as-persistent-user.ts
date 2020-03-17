@@ -190,7 +190,6 @@ export function selectShippingAddress() {
   cy.wait('@getDeliveryPage')
     .its('status')
     .should('eq', 200);
-  cy.visit(`${Cypress.config('baseUrl')}/checkout/delivery-mode`);
 }
 
 export function selectDeliveryMethod() {
@@ -361,19 +360,19 @@ export function checkoutAsPersistentUserTest() {
     selectPaymentMethod();
   });
 
-  it('should review and place order', () => {
+  xit('should review and place order', () => {
     verifyAndPlaceOrder();
   });
 
-  it('should display summary page', () => {
+  xit('should display summary page', () => {
     displaySummaryPage();
   });
 
-  it('should delete shipping address', () => {
+  xit('should delete shipping address', () => {
     deleteShippingAddress();
   });
 
-  it('should delete payment card', () => {
+  xit('should delete payment card', () => {
     deletePaymentCard();
   });
 }
