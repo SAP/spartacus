@@ -1,15 +1,12 @@
-import { TriggerConfig } from './trigger-config';
-import { OutletPosition } from '../../../../cms-structure/outlet/index';
+import { TriggerConfig, TRIGGER_CALLER } from './trigger-config';
 
 export const DEFAULT_TRIGGER_CONFIG: TriggerConfig = {
   trigger: {
-    ASM: {
+    [TRIGGER_CALLER.ASM]: {
       outlet: 'cx-storefront',
-      position: OutletPosition.BEFORE,
     },
-    SKIP_LINKS: {
+    [TRIGGER_CALLER.SKIP_LINKS]: {
       outlet: 'cx-storefront',
-      position: OutletPosition.BEFORE,
     },
   },
 };

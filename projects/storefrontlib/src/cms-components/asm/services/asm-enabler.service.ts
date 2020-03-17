@@ -1,13 +1,13 @@
 import { Location } from '@angular/common';
 import { ComponentFactoryResolver, Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
-import { AsmMainUiComponent } from '../asm-main-ui/asm-main-ui.component';
-import { TriggerService } from 'projects/storefrontlib/src/shared/services/trigger/config/trigger.service';
 import {
   TriggerConfig,
+  TriggerService,
   TRIGGER_CALLER,
-} from 'projects/storefrontlib/src/shared/services/trigger/config/trigger-config';
+} from '../../../shared/services/trigger/index';
+import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
+import { AsmMainUiComponent } from '../asm-main-ui/asm-main-ui.component';
 
 /**
  * The AsmEnablerService is used to enable ASM for those scenario's
@@ -52,7 +52,7 @@ export class AsmEnablerService {
    * Indicates whether ASM is launched through the URL,
    * using the asm flag in the URL.
    */
-  private isLaunched(): boolean {
+  protected isLaunched(): boolean {
     const params = this.location.path().split('?')[1];
     return params && params.split('&').includes('asm=true');
   }
@@ -60,7 +60,7 @@ export class AsmEnablerService {
   /**
    * Evaluates local storage where we persist the usage of ASM.
    */
-  private isUsedBefore(): boolean {
+  protected isUsedBefore(): boolean {
     return (
       this.winRef.localStorage &&
       this.winRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY) === 'true'
@@ -70,7 +70,7 @@ export class AsmEnablerService {
   /**
    * Adds the ASM UI by using the `cx-storefront` outlet.
    */
-  private addUi(): void {
-    this.triggerService.renderDialog(TRIGGER_CALLER.ASM, AsmMainUiComponent);
+  protected addUi(): void {
+    this.triggerService.render(TRIGGER_CALLER.ASM, AsmMainUiComponent);
   }
 }

@@ -1,17 +1,21 @@
 import {
-  Injectable,
   ComponentFactory,
   ComponentFactoryResolver,
+  Injectable,
+  ViewContainerRef,
 } from '@angular/core';
 import {
-  TriggerOutletMapping,
-  TriggerInlineMapping,
-  TriggerUrlMapping,
+  OutletPosition,
+  OutletService,
+} from '../../../../cms-structure/outlet/index';
+import {
   TriggerConfig,
-  TRIGGER_CALLER,
+  TriggerInlineMapping,
   TriggerMapping,
-} from './trigger-config';
-import { OutletService } from '../../../../cms-structure/outlet/index';
+  TriggerOutletMapping,
+  TriggerUrlMapping,
+  TRIGGER_CALLER,
+} from '../config/trigger-config';
 
 @Injectable({ providedIn: 'root' })
 export class TriggerService {
@@ -24,7 +28,11 @@ export class TriggerService {
     protected componentFactoryResolver: ComponentFactoryResolver
   ) {}
 
-  renderDialog(caller: TRIGGER_CALLER, component?: any): void | string {
+  render(
+    caller: TRIGGER_CALLER,
+    component?: any,
+    vcr?: ViewContainerRef
+  ): void | string {
     const config = this.findConfiguration(caller);
     if (Boolean((config as TriggerUrlMapping).url)) {
       this.renderedCallers.push(caller);
@@ -38,8 +46,8 @@ export class TriggerService {
       );
       if (Boolean((config as TriggerOutletMapping).outlet)) {
         this.renderOutlet(config as TriggerOutletMapping, template);
-      } else if (Boolean((config as TriggerInlineMapping).inline)) {
-        this.renderInline(config as TriggerInlineMapping, template);
+      } else if (Boolean((config as TriggerInlineMapping).inline) && !!vcr) {
+        this.renderInline(template, vcr);
       }
       this.renderedCallers.push(caller);
     }
@@ -58,16 +66,20 @@ export class TriggerService {
 
   protected renderOutlet(
     config: TriggerOutletMapping,
-    template?: ComponentFactory<any>
+    template: ComponentFactory<any>
   ) {
-    this.outletService.add(config.outlet, template, config.position);
+    this.outletService.add(
+      config.outlet,
+      template,
+      config.position ? config.position : OutletPosition.BEFORE
+    );
   }
 
   protected renderInline(
-    config: TriggerInlineMapping,
-    template?: ComponentFactory<any>
+    template: ComponentFactory<any>,
+    vcr: ViewContainerRef
   ) {
-    this.outletService.add('cx-storefront', template, config.position);
+    vcr.createComponent(template);
   }
 
   private findConfiguration(

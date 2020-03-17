@@ -10,6 +10,7 @@ export abstract class TriggerConfig {
 }
 
 export interface TriggerMapping {
+  // Default: OutletPosition.BEFORE
   position?: OutletPosition;
   // Can the element be rendered multiple times
   multi?: boolean;
