@@ -5,8 +5,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { startWith, map, throttleTime } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { startWith, map, switchMap } from 'rxjs/operators';
 
 /**
  * This component renders form errors.
@@ -17,18 +17,27 @@ import { startWith, map, throttleTime } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormErrorComponent implements OnInit {
-  @Input() control: FormControl;
   errors$: Observable<string[]>;
 
+  private _control = new BehaviorSubject<FormControl>(null);
+
+  @Input()
+  set control(control: FormControl) {
+    this._control.next(control);
+  }
+
   ngOnInit() {
-    this.errors$ = this.control.statusChanges.pipe(
-      startWith({}),
-      throttleTime(500),
-      map(() => this.control.errors || {}),
-      map(errors =>
-        Object.entries(errors)
-          .filter(error => error[1])
-          .map(error => error[0])
+    this.errors$ = this._control.pipe(
+      switchMap(control =>
+        control.statusChanges.pipe(
+          startWith({}),
+          map(() => control.errors || {}),
+          map(errors =>
+            Object.entries(errors)
+              .filter(error => error[1])
+              .map(error => error[0])
+          )
+        )
       )
     );
   }
