@@ -73,6 +73,7 @@ $space: 0.5rem;
   }
 
   .SiteLogo {
+    display: block;
     width: 90px;
   }
 
@@ -86,7 +87,7 @@ $space: 0.5rem;
 
   .NavigationBar {
     flex: 100%;
-    overflow: hidden;
+    overflow: visible;
     min-height: 67px;
 
     @include media-breakpoint-down(md) {

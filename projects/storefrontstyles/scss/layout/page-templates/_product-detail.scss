@@ -14,23 +14,34 @@
         grid-template-rows: repeat(2, auto) 1fr;
         cx-product-images {
           grid-column: 1;
-          grid-row: 1 / span 3;
+          grid-row: 1 / span 5;
         }
 
         cx-product-intro {
           grid-column: 2;
-          grid-row: 1 / 2;
+          grid-row: initial;
         }
 
         cx-product-summary {
           grid-column: 2;
-          grid-row: 2 / 3;
+          grid-row: initial;
+        }
+
+        cx-product-variants {
+          grid-column: 2;
+          grid-row: 3;
         }
 
         cx-add-to-cart {
           grid-column: 2;
-          grid-row: 3 / 4;
-          padding: 0 20px 20px 20px;
+          grid-row: initial;
+          padding: 20px 20px 0 20px;
+        }
+
+        cx-add-to-wishlist {
+          grid-column: 2;
+          grid-row: initial;
+          margin: 0;
         }
 
         cx-stock-notification {

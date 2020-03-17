@@ -5,6 +5,16 @@
   margin: auto;
 
   cx-page-slot {
+    cx-banner {
+      a {
+        display: block;
+        &:focus {
+          position: relative;
+          z-index: 1;
+        }
+      }
+    }
+
     &.Section1 {
       max-width: 1140px;
       margin: auto;
