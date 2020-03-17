@@ -212,10 +212,7 @@ export function selectDeliveryMethod() {
 
 export function selectPaymentMethod() {
   cy.get('cx-breadcrumb h1').should('contain', 'Checkout');
-  cy.get('cx-payment-method > h3.cx-checkout-title').should(
-    'contain',
-    'Payment'
-  );
+  cy.get('cx-payment-method h3.cx-checkout-title').should('contain', 'Payment');
   cy.get('p.cx-checkout-text').should('contain', 'Choose a payment method');
 
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
