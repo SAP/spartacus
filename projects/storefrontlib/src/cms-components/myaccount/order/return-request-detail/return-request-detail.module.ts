@@ -4,10 +4,10 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
-  I18nModule,
-  UrlModule,
   FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+  UrlModule,
 } from '@spartacus/core';
 import { MediaModule } from '../../../../shared/index';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
@@ -33,7 +33,14 @@ const components = [
         data: { cxRoute: 'returnRequestDetails' },
       },
     ]),
-    ConfigModule.withConfig(<CmsConfig>{
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    MediaModule,
+    FeaturesConfigModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ReturnRequestOverviewComponent: {
           component: ReturnRequestOverviewComponent,
@@ -46,11 +53,6 @@ const components = [
         },
       },
     }),
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    MediaModule,
-    FeaturesConfigModule,
   ],
   declarations: [...components],
   exports: [...components],
