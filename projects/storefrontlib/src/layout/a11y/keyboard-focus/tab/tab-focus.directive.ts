@@ -18,14 +18,14 @@ export class TabFocusDirective extends AutoFocusDirective {
   @Input('cxTabFocus') protected config: TabFocusConfig = {};
 
   @HostListener('keydown.arrowRight', ['$event'])
-  protected handleNextTab(event: KeyboardEvent) {
+  handleNextTab(event: KeyboardEvent) {
     if (this.config?.tab) {
       this.service.moveTab(this.host, this.config, MOVE_FOCUS.NEXT, event);
     }
   }
 
   @HostListener('keydown.arrowLeft', ['$event'])
-  protected handlePreviousTab(event: KeyboardEvent) {
+  handlePreviousTab(event: KeyboardEvent) {
     if (this.config?.tab) {
       this.service.moveTab(this.host, this.config, MOVE_FOCUS.PREV, event);
     }

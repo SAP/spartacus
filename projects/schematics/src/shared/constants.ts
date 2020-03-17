@@ -16,6 +16,8 @@ export const NGRX_STORE = '@ngrx/store';
 
 /***** Classes start *****/
 export const OBSERVABLE_CLASS = 'Observable';
+export const RENDERER_2 = 'Renderer2';
+export const ELEMENT_REF = 'ElementRef';
 
 export const STORE = 'Store';
 
@@ -59,6 +61,7 @@ export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const TRANSLATION_SERVICE = 'TranslationService';
 export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 export const ADD_TO_CART_COMPONENT = 'AddToCartComponent';
+export const ADDED_TO_CART_DIALOG_COMPONENT = 'AddedToCartDialogComponent';
 export const MODAL_SERVICE = 'ModalService';
 export const CURRENT_PRODUCT_SERVICE = 'CurrentProductService';
 export const CART_NOT_EMPTY_GUARD = 'CartNotEmptyGuard';
@@ -83,6 +86,19 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
+export const USER_CONSENT_SERVICE = 'UserConsentService';
+export const USER_ORDER_SERVICE = 'UserOrderService';
+export const USER_SERVICE = 'UserService';
+export const CART_DETAILS_COMPONENT = 'CartDetailsComponent';
+export const ORDER_DETAIL_ITEMS_COMPONENT = 'OrderDetailItemsComponent';
+export const ORDER_CONFIRMATION_ITEMS_COMPONENT =
+  'OrderConfirmationItemsComponent';
+export const REVIEW_SUBMIT_COMPONENT = 'ReviewSubmitComponent';
+export const CART_VOUCHER_SERVICE = 'CartVoucherService';
+export const CART_COUPON_COMPONENT = 'CartCouponComponent';
+export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
+export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const STAR_RATING_COMPONENT = 'StarRatingComponent';
 export const PRODUCT_SERVICE = 'ProductService';
 export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
 export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
@@ -94,6 +110,7 @@ export const WISHLIST_EFFECTS = 'WishlistEffects';
 export const CART_VOUCHER_EFFECTS = 'CartVoucherEffects';
 export const CART_ENTRY_EFFECTS = 'CartEntryEffects';
 export const CART_COMBINED_EFFECTS = 'effects';
+export const CART_SELECTORS = 'CartSelectors';
 
 export const GET_REDUCERS = 'getReducers';
 export const REDUCER_TOKEN = 'reducerToken';
@@ -110,6 +127,8 @@ export const SITE_CONTEXT_PARAMS_PROVIDERS = 'siteContextParamsProviders';
 export const INIT_SITE_CONTEXT_ROUTES_HANDLER = 'initSiteContextRoutesHandler';
 export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
+
+export const ANONYMOUS_USERID_CONST = 'ANONYMOUS_USERID';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
