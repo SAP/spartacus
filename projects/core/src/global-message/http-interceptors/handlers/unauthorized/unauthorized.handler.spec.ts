@@ -3,6 +3,7 @@ import * as AngularCore from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { GlobalMessageService } from '../../../facade';
 import { GlobalMessageType } from '../../../models/global-message.model';
+import { HttpResponseStatus } from '../../../models/response-status.model';
 import { UnauthorizedErrorHandler } from './unauthorized.handler';
 
 const MockRequest = {} as HttpRequest<any>;
@@ -46,6 +47,10 @@ describe('UnauthorizedErrorHandler', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should register 401 responseStatus ', () => {
+    expect(service.responseStatus).toEqual(HttpResponseStatus.UNAUTHORIZED);
   });
 
   describe('Unknown Response', () => {
