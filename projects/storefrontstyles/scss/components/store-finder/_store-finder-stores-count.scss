@@ -4,9 +4,6 @@
     border-width: 1px 0 0 0;
     border-color: var(--cx-color-light);
     display: inline-block;
-
-    @include media-breakpoint-down(md) {
-    }
   }
 
   .cx-set {
@@ -18,17 +15,11 @@
 
     &:hover {
       background-color: var(--cx-color-background);
-
-      a.btn-link {
-        text-decoration: underline;
-        color: var(--cx-color-primary);
-      }
     }
   }
 
-  a.btn-link {
+  a {
     padding: 1.5rem;
-    text-decoration: none;
     width: 100%;
   }
 
