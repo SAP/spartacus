@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, queueScheduler } from 'rxjs';
+import { Observable, of, queueScheduler } from 'rxjs';
 import { map, observeOn, shareReplay, tap } from 'rxjs/operators';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
@@ -70,7 +70,9 @@ export class ProductService {
     }
     // END OF (TODO: Remove, deprecated since 1.4)
 
-    return this.productLoading.get(productCode, [].concat(scopes));
+    return productCode
+      ? this.productLoading.get(productCode, [].concat(scopes))
+      : of(undefined);
   }
 
   /**
