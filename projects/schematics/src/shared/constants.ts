@@ -17,6 +17,7 @@ export const NGRX_STORE = '@ngrx/store';
 /***** Classes start *****/
 export const OBSERVABLE_CLASS = 'Observable';
 export const RENDERER_2 = 'Renderer2';
+export const ELEMENT_REF = 'ElementRef';
 
 export const STORE = 'Store';
 
