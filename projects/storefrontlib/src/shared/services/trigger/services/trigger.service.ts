@@ -1,13 +1,8 @@
 import {
-  ComponentFactory,
   ComponentFactoryResolver,
   Injectable,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  OutletPosition,
-  OutletService,
-} from '../../../../cms-structure/outlet/index';
 import {
   TriggerConfig,
   TriggerInlineMapping,
@@ -16,6 +11,9 @@ import {
   TriggerUrlMapping,
   TRIGGER_CALLER,
 } from '../config/trigger-config';
+import { InlineRenderService } from './inline-render-strategy.service';
+import { OutletRenderService } from './outlet-render-strategy.service';
+import { RoutingRenderService } from './routing-render-strategy.service';
 
 @Injectable({ providedIn: 'root' })
 export class TriggerService {
@@ -23,20 +21,21 @@ export class TriggerService {
   protected renderedCallers: TRIGGER_CALLER[] = [];
 
   constructor(
-    protected outletService: OutletService<ComponentFactory<any>>,
     protected triggerConfig: TriggerConfig,
-    protected componentFactoryResolver: ComponentFactoryResolver
+    protected componentFactoryResolver: ComponentFactoryResolver,
+    protected outletRenderService: OutletRenderService,
+    protected inlineRenderService: InlineRenderService,
+    protected routingRenderService: RoutingRenderService
   ) {}
 
   render(
     caller: TRIGGER_CALLER,
     component?: any,
     vcr?: ViewContainerRef
-  ): void | string {
+  ): void {
     const config = this.findConfiguration(caller);
-    if (Boolean((config as TriggerUrlMapping).url)) {
-      this.renderedCallers.push(caller);
-      return (config as TriggerUrlMapping).url;
+    if (Boolean((config as TriggerUrlMapping).cxRoute)) {
+      this.routingRenderService.render(config as TriggerUrlMapping);
     } else if (
       this.shouldRender(caller, config as TriggerMapping) &&
       component
@@ -45,9 +44,12 @@ export class TriggerService {
         component
       );
       if (Boolean((config as TriggerOutletMapping).outlet)) {
-        this.renderOutlet(config as TriggerOutletMapping, template);
+        this.outletRenderService.render(
+          config as TriggerOutletMapping,
+          template
+        );
       } else if (Boolean((config as TriggerInlineMapping).inline) && !!vcr) {
-        this.renderInline(template, vcr);
+        this.inlineRenderService.render(template, vcr);
       }
       this.renderedCallers.push(caller);
     }
@@ -62,24 +64,6 @@ export class TriggerService {
     config: TriggerMapping
   ): boolean {
     return this.renderedCallers.includes(caller) ? !!config.multi : true;
-  }
-
-  protected renderOutlet(
-    config: TriggerOutletMapping,
-    template: ComponentFactory<any>
-  ) {
-    this.outletService.add(
-      config.outlet,
-      template,
-      config.position ? config.position : OutletPosition.BEFORE
-    );
-  }
-
-  protected renderInline(
-    template: ComponentFactory<any>,
-    vcr: ViewContainerRef
-  ) {
-    vcr.createComponent(template);
   }
 
   private findConfiguration(

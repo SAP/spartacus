@@ -10,14 +10,14 @@ export abstract class TriggerConfig {
 }
 
 export interface TriggerMapping {
-  // Default: OutletPosition.BEFORE
-  position?: OutletPosition;
   // Can the element be rendered multiple times
   multi?: boolean;
 }
 
 export interface TriggerOutletMapping extends TriggerMapping {
   outlet: string;
+  // Default: OutletPosition.BEFORE
+  position?: OutletPosition;
 }
 
 export interface TriggerInlineMapping extends TriggerMapping {
@@ -25,7 +25,8 @@ export interface TriggerInlineMapping extends TriggerMapping {
 }
 
 export interface TriggerUrlMapping {
-  url: string;
+  cxRoute: string;
+  params?: { [param: string]: any };
 }
 
 export enum TRIGGER_CALLER {
