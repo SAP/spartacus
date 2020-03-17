@@ -1,6 +1,5 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Provider } from '@angular/core';
-import { UnauthorizedErrorHandler } from './handlers';
 import { BadGatewayHandler } from './handlers/bad-gateway.handler';
 import { BadRequestHandler } from './handlers/bad-request.handler';
 import { ConflictHandler } from './handlers/conflict.handler';
@@ -9,6 +8,7 @@ import { GatewayTimeoutHandler } from './handlers/gateway-timeout.handler';
 import { HttpErrorHandler } from './handlers/http-error.handler';
 import { InternalServerErrorHandler } from './handlers/internal-server-error.handler';
 import { NotFoundHandler } from './handlers/not-found.handler';
+import { UnauthorizedErrorHandler } from './handlers/unauthorized/unauthorized.handler';
 import { UnknownErrorHandler } from './handlers/unknown-error.handler';
 import { HttpErrorInterceptor } from './http-error.interceptor';
 
