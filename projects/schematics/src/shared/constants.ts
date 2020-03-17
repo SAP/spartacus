@@ -81,6 +81,7 @@ export const CONSENT_SERVICE = 'ConsentService';
 export const CDS_CONFIG = 'CdsConfig';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
+export const LOGOUT_GUARD = 'LogoutGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
@@ -96,6 +97,9 @@ export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
+export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
