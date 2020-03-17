@@ -68,6 +68,10 @@ export class TabParagraphContainerComponent
           this.cmsService.getComponentData<any>(component).pipe(
             distinctUntilChanged(),
             map(tab => {
+              if (!tab) {
+                return undefined;
+              }
+
               if (!tab.flexType) {
                 tab = {
                   ...tab,
