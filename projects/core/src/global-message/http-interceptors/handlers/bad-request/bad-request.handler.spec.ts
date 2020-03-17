@@ -71,7 +71,8 @@ class MockGlobalMessageService {
   add() {}
   remove() {}
 }
-fdescribe('BadRequestHandler', () => {
+
+describe('BadRequestHandler', () => {
   let service: BadRequestHandler;
   let globalMessageService: GlobalMessageService;
 
