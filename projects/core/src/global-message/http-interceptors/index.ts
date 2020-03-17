@@ -1,15 +1,17 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Provider } from '@angular/core';
-import { BadGatewayHandler } from './handlers/bad-gateway.handler';
-import { BadRequestHandler } from './handlers/bad-request.handler';
-import { ConflictHandler } from './handlers/conflict.handler';
-import { ForbiddenHandler } from './handlers/forbidden.handler';
-import { GatewayTimeoutHandler } from './handlers/gateway-timeout.handler';
-import { HttpErrorHandler } from './handlers/http-error.handler';
-import { InternalServerErrorHandler } from './handlers/internal-server-error.handler';
-import { NotFoundHandler } from './handlers/not-found.handler';
-import { UnauthorizedErrorHandler } from './handlers/unauthorized/unauthorized.handler';
-import { UnknownErrorHandler } from './handlers/unknown-error.handler';
+import {
+  BadGatewayHandler,
+  BadRequestHandler,
+  ConflictHandler,
+  ForbiddenHandler,
+  GatewayTimeoutHandler,
+  HttpErrorHandler,
+  InternalServerErrorHandler,
+  NotFoundHandler,
+  UnauthorizedErrorHandler,
+  UnknownErrorHandler,
+} from './handlers/index';
 import { HttpErrorInterceptor } from './http-error.interceptor';
 
 export const errorHandlers: Provider[] = [
