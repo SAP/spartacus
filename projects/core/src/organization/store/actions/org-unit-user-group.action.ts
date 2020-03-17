@@ -12,7 +12,7 @@ import {
   ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
 } from '../organization-state';
 import { ListModel } from '../../../model/misc.model';
-import { OrgUnitUserGroup } from 'projects/core/src/model/org-unit-user-group.model';
+import { OrgUnitUserGroup } from '../../model/org-unit-user-group.model';
 
 export const LOAD_ORG_UNIT_USER_GROUP =
   '[OrgUnitUserGroup] Load OrgUnitUserGroup Data';

@@ -39,7 +39,7 @@ import {
   costCentersListReducer,
   costCenterAssignedBudgetsListReducer,
 } from './cost-center.reducer';
-import { OrgUnitUserGroup } from 'projects/core/src/model/org-unit-user-group.model';
+import { OrgUnitUserGroup } from '../../../model/org-unit-user-group.model';
 import {
   orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer,
   orgUnitUserGroupAvailablOrgCustomersListReducer,
