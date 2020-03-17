@@ -39,12 +39,12 @@ import {
   costCentersListReducer,
   costCenterAssignedBudgetsListReducer,
 } from './cost-center.reducer';
-import { OrgUnitUserGroup } from '../../../model/org-unit-user-group.model';
+import { OrgUnitUserGroup } from '../../../model/user-group.model';
 import {
   orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer,
   orgUnitUserGroupAvailablOrgCustomersListReducer,
   orgUnitUserGroupsListReducer,
-} from './org-unit-user-group.reducer';
+} from './user-group.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {

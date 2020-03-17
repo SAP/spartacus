@@ -7,7 +7,7 @@ import { BudgetAdapter } from '../../../organization/connectors/budget/budget.ad
 import { PermissionAdapter } from '../../../organization/connectors/permission/permission.adapter';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
 import { CostCenterAdapter } from '../../../organization/connectors/cost-center/cost-center.adapter';
-import { OrgUnitUserGroupAdapter } from '../../../organization/connectors/org-unit-user-group/org-unit-user-group.adapter';
+import { OrgUnitUserGroupAdapter } from '../../../organization/connectors/user-group/user-group.adapter';
 
 import {
   BUDGET_NORMALIZER,
@@ -30,13 +30,13 @@ import {
 import {
   ORG_UNIT_USER_GROUP_NORMALIZER,
   ORG_UNIT_USER_GROUPS_NORMALIZER,
-} from '../../../organization/connectors/org-unit-user-group/converters';
+} from '../../../organization/connectors/user-group/converters';
 import { defaultOccOrganizationConfig } from './default-occ-organization-config';
 import { OccBudgetAdapter } from './occ-budget.adapter';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 import { OccPermissionAdapter } from './occ-permission.adapter';
 import { OccCostCenterAdapter } from './occ-cost-center.adapter';
-import { OccOrgUnitUserGroupAdapter } from './occ-org-unit-user-group.adapter';
+import { OccOrgUnitUserGroupAdapter } from './occ-user-group.adapter';
 import {
   OccBudgetNormalizer,
   OccBudgetListNormalizer,
