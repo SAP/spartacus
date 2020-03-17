@@ -9,7 +9,6 @@ export const b2cLayoutConfig: LayoutConfig = {
     header: {
       md: {
         slots: [
-          'PreHeader',
           'SiteContext',
           'SiteLinks',
           'SiteLogo',
