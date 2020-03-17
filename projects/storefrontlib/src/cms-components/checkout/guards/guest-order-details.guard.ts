@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import {
   AuthRedirectService,
   AuthService,
+  RoutingService,
   UserToken,
-} from '../../../../../core/src/auth/index';
-import { RoutingService } from '../../../../../core/src/routing/index';
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
