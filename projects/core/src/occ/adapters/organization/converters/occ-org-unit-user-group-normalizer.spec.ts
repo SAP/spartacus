@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { OrgUnitUserGroup } from '../../../../model/';
+import { OrgUnitUserGroup } from '../../../../model/org-unit-user-group.model';
 import { OccConfig } from '../../../config/occ-config';
 import { Occ } from '../../../occ-models/occ.models';
 import { OccOrgUnitUserGroupNormalizer } from './occ-org-unit-user-group-normalizer';

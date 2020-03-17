@@ -7,6 +7,8 @@ import { BudgetAdapter } from '../../../organization/connectors/budget/budget.ad
 import { PermissionAdapter } from '../../../organization/connectors/permission/permission.adapter';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
 import { CostCenterAdapter } from '../../../organization/connectors/cost-center/cost-center.adapter';
+import { OrgUnitUserGroupAdapter } from '../../../organization/connectors/org-unit-user-group/org-unit-user-group.adapter';
+
 import {
   BUDGET_NORMALIZER,
   BUDGETS_NORMALIZER,
@@ -25,12 +27,16 @@ import {
   COST_CENTER_NORMALIZER,
   COST_CENTERS_NORMALIZER,
 } from '../../../organization/connectors/cost-center/converters';
-
+import {
+  ORG_UNIT_USER_GROUP_NORMALIZER,
+  ORG_UNIT_USER_GROUPS_NORMALIZER,
+} from '../../../organization/connectors/org-unit-user-group/converters';
 import { defaultOccOrganizationConfig } from './default-occ-organization-config';
 import { OccBudgetAdapter } from './occ-budget.adapter';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 import { OccPermissionAdapter } from './occ-permission.adapter';
 import { OccCostCenterAdapter } from './occ-cost-center.adapter';
+import { OccOrgUnitUserGroupAdapter } from './occ-org-unit-user-group.adapter';
 import {
   OccBudgetNormalizer,
   OccBudgetListNormalizer,
@@ -45,12 +51,6 @@ import {
   OccOrgUnitNormalizer,
   OccOrgUnitApprovalProcessNormalizer,
 } from './converters/index';
-import {
-  OrgUnitUserGroupAdapter,
-  ORG_UNIT_USER_GROUP_NORMALIZER,
-  ORG_UNIT_USER_GROUPS_NORMALIZER,
-} from '../../../organization';
-import { OccOrgUnitUserGroupAdapter } from './occ-org-unit-user-group.adapter';
 
 @NgModule({
   imports: [

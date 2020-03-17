@@ -12,7 +12,9 @@ import {
   ORG_UNIT_USER_GROUPS_NORMALIZER,
   PERMISSIONS_NORMALIZER,
 } from '../../../organization/connectors/index';
-import { OrgUnitUserGroup, EntitiesModel, User } from '../../../model';
+import { OrgUnitUserGroup } from '../../../model/org-unit-user-group.model';
+import { B2BUser } from '../../../model/org-unit.model';
+import { EntitiesModel } from '../../../model/misc.model';
 
 @Injectable()
 export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
@@ -64,7 +66,7 @@ export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
     userId: string,
     orgUnitUserGroupUid: string,
     params?: B2BSearchConfig
-  ): Observable<EntitiesModel<User>> {
+  ): Observable<EntitiesModel<B2BUser>> {
     return this.http
       .get<Occ.OrgUnitUserGroupList>(
         this.getOrgUnitUserGroupAvailableOrgCustomersEndpoint(

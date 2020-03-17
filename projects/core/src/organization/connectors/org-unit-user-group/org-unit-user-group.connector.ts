@@ -3,7 +3,8 @@ import { Observable } from 'rxjs';
 import { B2BSearchConfig } from '../../model/search-config';
 import { EntitiesModel, User } from '../../../model/misc.model';
 import { OrgUnitUserGroupAdapter } from './org-unit-user-group.adapter';
-import { OrgUnitUserGroup, Permission } from '../../../model';
+import { OrgUnitUserGroup } from '../../../model/org-unit-user-group.model';
+import { Permission } from '../../../model/permission.model';
 
 @Injectable({
   providedIn: 'root',

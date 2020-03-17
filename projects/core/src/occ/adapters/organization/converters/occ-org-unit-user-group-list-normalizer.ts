@@ -4,7 +4,8 @@ import {
   Converter,
   ConverterService,
 } from '../../../../util/converter.service';
-import { OrgUnitUserGroup, EntitiesModel } from '../../../../model';
+import { OrgUnitUserGroup } from '../../../../model/org-unit-user-group.model';
+import { EntitiesModel } from '../../../../model/misc.model';
 import { ORG_UNIT_USER_GROUP_NORMALIZER } from '../../../../organization';
 
 @Injectable()

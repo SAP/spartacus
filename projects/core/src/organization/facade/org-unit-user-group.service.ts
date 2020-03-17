@@ -9,7 +9,8 @@ import { EntitiesModel, User } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
 import { OrgUnitUserGroupActions } from '../store/actions/index';
 import { B2BSearchConfig } from '../model/search-config';
-import { OrgUnitUserGroup, Permission } from '../../model';
+import { OrgUnitUserGroup } from '../../model/org-unit-user-group.model';
+import { Permission } from '../../model/permission.model';
 import {
   getOrgUnitUserGroupState,
   getOrgUnitUserGroupList,

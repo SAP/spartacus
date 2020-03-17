@@ -3,11 +3,12 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { EntitiesModel } from '../../../model/misc.model';
+import { OrgUnitUserGroup } from '../../../model/org-unit-user-group.model';
+import { Permission } from '../../../model/permission.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { OrgUnitUserGroupActions, PermissionActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
-import { OrgUnitUserGroup, Permission } from '../../../model';
-import { OrgUnitUserGroupConnector } from '../../connectors';
+import { OrgUnitUserGroupConnector } from '../../connectors/org-unit-user-group/org-unit-user-group.connector';
 
 @Injectable()
 export class OrgUnitUserGroupEffects {

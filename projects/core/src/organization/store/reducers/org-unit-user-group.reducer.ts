@@ -1,6 +1,6 @@
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
 import * as OrgUnitUserGroupActions from '../actions/org-unit-user-group.action';
-import { OrgUnitUserGroup } from '../../../model';
+import { OrgUnitUserGroup } from '../../../model/org-unit-user-group.model';
 
 export const orgUnitUserGroupInitialState = {};
 export const orgUnitUserGroupsInitialState = undefined;

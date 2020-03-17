@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Occ } from '../../../occ-models/occ.models';
 import { Converter } from '../../../../util/converter.service';
-import { OrgUnitUserGroup } from '../../../../model';
+import { OrgUnitUserGroup } from '../../../../model/org-unit-user-group.model';
 
 @Injectable()
 export class OccOrgUnitUserGroupNormalizer
