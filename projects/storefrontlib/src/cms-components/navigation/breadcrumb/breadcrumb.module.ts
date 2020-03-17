@@ -1,21 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ConfigModule, CmsConfig, CmsPageTitleModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  CmsPageTitleModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { BreadcrumbComponent } from './breadcrumb.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  imports: [CommonModule, RouterModule, CmsPageTitleModule],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         BreadcrumbComponent: {
           component: BreadcrumbComponent,
         },
       },
     }),
-    CmsPageTitleModule,
   ],
   declarations: [BreadcrumbComponent],
   exports: [BreadcrumbComponent],
