@@ -4172,6 +4172,15 @@ export namespace Occ {
     unit?: B2BUnit;
   }
 
+  export interface OrgUnitUserGroup {
+    name?: string;
+    uid?: string;
+    members?: User[];
+    orgUnit?: B2BUnit;
+    permissions?: Permission[];
+    selected?: boolean;
+  }
+
   export interface OrgUnitAddress {
     cellphone?: string;
     companyName?: string;
@@ -4273,6 +4282,12 @@ export namespace Occ {
 
   export interface CostCentersList {
     costCenters: CostCenter[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
+  export interface OrgUnitUserGroupList {
+    orgUnitUserGroups: OrgUnitUserGroup[];
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }

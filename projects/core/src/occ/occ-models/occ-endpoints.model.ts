@@ -404,7 +404,55 @@ export interface OccEndpoints {
    */
   orgUnit?: string;
   /**
+   * Endpoint for organizational unit user groups list
+   *
+   * @member {string}
+   */
+  orgUnitUserGroups?: string;
+  /**
+   * Endpoint for organizational unit user group
+   *
+   * @member {string}
+   */
+  orgUnitUserGroup?: string;
+  /**
    * Endpoint for costCenter list
+   *
+   * @member {string}
+   */
+  orgUnitUserGroupAvailableOrderApprovalPermissions?: string;
+  /**
+   * Endpoint for orgUnitUserGroupAvailableOrderApprovalPermissions list
+   *
+   * @member {string}
+   */
+  orgUnitUserGroupAvailableOrgCustomers?: string;
+  /**
+   * Endpoint for orgUnitUserGroupAvailableOrgCustomers list
+   *
+   * @member {string}
+   */
+  orgUnitUserGroupMembers?: string;
+  /**
+   * Endpoint for orgUnitUserGroupMembers list
+   *
+   * @member {string}
+   */
+  orgUnitUserGroupMember?: string;
+  /**
+   * Endpoint for orgUnitUserGroupMember
+   *
+   * @member {string}
+   */
+  orgUnitUserGroupOrderApprovalPermissions?: string;
+  /**
+   * Endpoint for orgUnitUserGroupOrderApprovalPermissions list
+   *
+   * @member {string}
+   */
+  orgUnitUserGroupOrderApprovalPermission?: string;
+  /**
+   * Endpoint for orgUnitUserGroupOrderApprovalPermission
    *
    * @member {string}
    */
