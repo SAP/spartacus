@@ -14,7 +14,7 @@ import { AddedToCartContextAware } from './added-to-cart-context-aware';
 import { EventDemoComponent } from './event-demo.component';
 import { UiEventModule } from './ui/index';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CustomEventBuilder {
   constructor(protected eventService: EventService) {
     this.register();

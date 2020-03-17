@@ -13,20 +13,19 @@ export class CartEventBuilder {
    * Registers event sources
    */
   protected register() {
-    this.stateEventService
-      .register({
-        action: CartActions.CART_ADD_ENTRY,
-        event: CartEvents.AddCartEntry,
-      })
-      .register({
-        action: CartActions.CART_ADD_ENTRY_SUCCESS,
-        event: CartEvents.AddCartEntrySuccess,
-      })
-      .register({
-        action: CartActions.CREATE_CART_SUCCESS,
-        event: CartEvents.CreateCartSuccess,
-        factory: ({ payload }: CartActions.CreateCartSuccess) =>
-          new CartEvents.CreateCartSuccess({ cart: payload }),
-      });
+    this.stateEventService.register({
+      action: CartActions.CART_ADD_ENTRY,
+      event: CartEvents.AddCartEntry,
+    });
+    this.stateEventService.register({
+      action: CartActions.CART_ADD_ENTRY_SUCCESS,
+      event: CartEvents.AddCartEntrySuccess,
+    });
+    this.stateEventService.register({
+      action: CartActions.CREATE_CART_SUCCESS,
+      event: CartEvents.CreateCartSuccess,
+      factory: ({ payload }: CartActions.CreateCartSuccess) =>
+        new CartEvents.CreateCartSuccess({ cart: payload }),
+    });
   }
 }
