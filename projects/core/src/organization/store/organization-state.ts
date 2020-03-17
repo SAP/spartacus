@@ -6,6 +6,7 @@ import {
   Permission,
   B2BUnit,
   B2BApprovalProcess,
+  OrgUnitCustomer,
 } from '../../model';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
@@ -36,6 +37,10 @@ export const ORG_UNIT_TREE = 'tree';
 export const ORG_UNIT_APPROVAL_PROCESSES = 'approvalProcesses';
 export const ORG_UNIT_NODES = 'availableOrgUnitNodes';
 
+export const ORG_UNIT_CUSTOMER_FEATURE = 'orgUnitCustomer';
+export const ORG_UNIT_CUSTOMER_ENTITIES = 'orgUnitCustomer-entities';
+export const ORG_UNIT_CUSTOMER_LIST = 'orgUnitCustomer-list';
+
 export interface Management<Type> {
   list: EntityLoaderState<ListModel>;
   entities: EntityLoaderState<Type>;
@@ -65,4 +70,8 @@ export interface OrganizationState {
   [ORG_UNIT_FEATURE]: OrgUnits;
   [PERMISSION_FEATURE]: PermissionManagement;
   [COST_CENTER_FEATURE]: CostCenterManagement;
+  [ORG_UNIT_CUSTOMER_FEATURE]: OrgUnitCustomerManagement;
 }
+
+export interface OrgUnitCustomerManagement
+  extends Management<OrgUnitCustomer> {}

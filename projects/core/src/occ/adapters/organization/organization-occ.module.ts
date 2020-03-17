@@ -42,7 +42,15 @@ import {
   OccCostCenterNormalizer,
   OccOrgUnitNormalizer,
   OccOrgUnitApprovalProcessNormalizer,
+  OccOrgUnitCustomerNormalizer,
+  OccOrgUnitCustomerListNormalizer,
 } from './converters/index';
+import {
+  OrgUnitCustomerAdapter,
+  ORG_UNIT_CUSTOMER_NORMALIZER,
+  ORG_UNIT_CUSTOMERS_NORMALIZER,
+} from '../../../organization';
+import { OccOrgUnitCustomerAdapter } from './occ-org-unit-customers.adapter';
 
 @NgModule({
   imports: [
@@ -111,6 +119,20 @@ import {
     {
       provide: COST_CENTERS_NORMALIZER,
       useClass: OccCostCenterListNormalizer,
+      multi: true,
+    },
+    {
+      provide: OrgUnitCustomerAdapter,
+      useClass: OccOrgUnitCustomerAdapter,
+    },
+    {
+      provide: ORG_UNIT_CUSTOMER_NORMALIZER,
+      useClass: OccOrgUnitCustomerNormalizer,
+      multi: true,
+    },
+    {
+      provide: ORG_UNIT_CUSTOMERS_NORMALIZER,
+      useClass: OccOrgUnitCustomerListNormalizer,
       multi: true,
     },
   ],

@@ -4,6 +4,7 @@ import { OrgUnitService } from './facade/org-unit.service';
 import { PermissionService } from './facade/permission.service';
 import { CostCenterService } from './facade/cost-center.service';
 import { OrganizationStoreModule } from './store/organization-store.module';
+import { OrgUnitCustomerService } from './facade/org-unit-customer.service';
 
 @NgModule({
   imports: [OrganizationStoreModule],
@@ -17,6 +18,7 @@ export class OrganizationModule {
         OrgUnitService,
         PermissionService,
         CostCenterService,
+        OrgUnitCustomerService,
       ],
     };
   }

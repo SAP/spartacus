@@ -4276,4 +4276,31 @@ export namespace Occ {
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }
+
+  export interface OrgUnitCustomer {
+    active?: boolean;
+    approvers?: any[];
+    currency?: Currency;
+    customerId?: string;
+    deactivationDate?: string;
+    defaultAddress?: Address;
+    displayUid?: string;
+    email?: string;
+    firstName?: string;
+    language?: Language;
+    lastName?: string;
+    name?: string;
+    orgUnit?: B2BUnit;
+    roles?: string[];
+    selected?: boolean;
+    title?: string;
+    titleCode?: string;
+    uid?: string;
+  }
+
+  export interface OrgUnitCustomerList {
+    orgUnitCustomers: OrgUnitCustomer[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
 }
