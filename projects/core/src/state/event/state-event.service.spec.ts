@@ -4,10 +4,10 @@ import { Subject } from 'rxjs';
 import { EventService } from '../../event/event.service';
 import { StateEventService } from './state-event.service';
 
-class EventA {
-  a: number;
-  constructor(a: number) {
-    this.a = a;
+class TestEvent {
+  test: number;
+  constructor(test: number) {
+    this.test = test;
   }
 }
 
@@ -15,7 +15,7 @@ interface ActionWithPayload extends Action {
   payload: any;
 }
 
-fdescribe('StateEventService', () => {
+describe('StateEventService', () => {
   let mockActionsSubject$: Subject<ActionWithPayload>;
   let service: StateEventService;
   let eventService: EventService;
@@ -46,7 +46,7 @@ fdescribe('StateEventService', () => {
       it('mapped implicitly from action payload', () => {
         service.register({
           action: 'A',
-          event: EventA,
+          event: TestEvent,
         });
         const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
         const results = [];
@@ -56,38 +56,62 @@ fdescribe('StateEventService', () => {
         mockActionsSubject$.next({ type: 'B', payload: 2 });
         mockActionsSubject$.next({ type: 'A', payload: 3 });
 
-        expect(results).toEqual([new EventA(1), new EventA(3)]);
+        expect(results).toEqual([new TestEvent(1), new TestEvent(3)]);
         expect(eventService.register).toHaveBeenCalledWith(
-          EventA,
+          TestEvent,
+          jasmine.any(Object)
+        );
+      });
+
+      it('mapped explicity with factory function', () => {
+        service.register({
+          action: 'A',
+          event: TestEvent,
+          factory: (action: ActionWithPayload) =>
+            new TestEvent(100 + action.payload),
+        });
+        const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
+        const results = [];
+        registeredSource$.subscribe(e => results.push(e));
+
+        mockActionsSubject$.next({ type: 'A', payload: 1 });
+        mockActionsSubject$.next({ type: 'B', payload: 2 });
+        mockActionsSubject$.next({ type: 'A', payload: 3 });
+
+        expect(results).toEqual([new TestEvent(101), new TestEvent(103)]);
+        expect(eventService.register).toHaveBeenCalledWith(
+          TestEvent,
+          jasmine.any(Object)
+        );
+      });
+
+      it('mapped from many action types to a single event', () => {
+        service.register({
+          action: ['A', 'B'],
+          event: TestEvent,
+        });
+        const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
+        const results = [];
+        registeredSource$.subscribe(e => results.push(e));
+
+        mockActionsSubject$.next({ type: 'A', payload: 1 });
+        mockActionsSubject$.next({ type: 'B', payload: 2 });
+        mockActionsSubject$.next({ type: 'A', payload: 3 });
+
+        expect(results).toEqual([
+          new TestEvent(1),
+          new TestEvent(2),
+          new TestEvent(3),
+        ]);
+        expect(eventService.register).toHaveBeenCalledWith(
+          TestEvent,
           jasmine.any(Object)
         );
       });
     });
 
-    it('mapped explicity with factory function', () => {
-      service.register({
-        action: 'A',
-        event: EventA,
-        factory: (action: ActionWithPayload) =>
-          new EventA(100 + action.payload),
-      });
-      const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
-      const results = [];
-      registeredSource$.subscribe(e => results.push(e));
-
-      mockActionsSubject$.next({ type: 'A', payload: 1 });
-      mockActionsSubject$.next({ type: 'B', payload: 2 });
-      mockActionsSubject$.next({ type: 'A', payload: 3 });
-
-      expect(results).toEqual([new EventA(101), new EventA(103)]);
-      expect(eventService.register).toHaveBeenCalledWith(
-        EventA,
-        jasmine.any(Object)
-      );
-    });
-
-    it('that can be unregistered with a returned teardown function mapped implicitly from action payload', () => {
-      expect(service.register({ action: 'A', event: EventA })).toBe(
+    it('should return a teardown function to unregister the event source', () => {
+      expect(service.register({ action: 'A', event: TestEvent })).toBe(
         mockTearDown
       );
     });

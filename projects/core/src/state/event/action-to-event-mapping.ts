@@ -2,9 +2,9 @@ import { Type } from '@angular/core';
 
 export interface ActionToEventMapping<T> {
   /**
-   * Action type string
+   * String type of action (or types) to be mapped to the event
    */
-  action: string;
+  action: string | string[];
 
   /**
    * Event class type (constructor)
@@ -12,7 +12,7 @@ export interface ActionToEventMapping<T> {
   event: Type<T> | null;
 
   /**
-   * Function mapping the instance of
+   * Function mapping the instance of the action to the event
    */
   factory?: (action: any) => T;
 }
