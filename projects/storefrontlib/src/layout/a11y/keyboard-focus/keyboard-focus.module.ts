@@ -8,11 +8,13 @@ import { LockFocusDirective } from './lock/index';
 import { PersistFocusDirective } from './persist/index';
 import { TabFocusDirective } from './tab/index';
 import { TrapFocusDirective } from './trap/index';
+import { VisibleFocusDirective } from './visible/index';
 
 const directives = [
   PersistFocusDirective,
-  AutoFocusDirective,
+  VisibleFocusDirective,
   BlockFocusDirective,
+  AutoFocusDirective,
   EscapeFocusDirective,
   LockFocusDirective,
   TrapFocusDirective,

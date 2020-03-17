@@ -1,12 +1,13 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
-import { BaseFocusDirective } from '../base/base-focus.directive';
 import { BaseFocusService } from '../base/base-focus.service';
 import { BlockFocusConfig } from '../keyboard-focus.model';
+import { VisibleFocusDirective } from '../visible/index';
 
 @Directive({
   selector: '[cxBlockFocus]',
 })
-export class BlockFocusDirective extends BaseFocusDirective implements OnInit {
+export class BlockFocusDirective extends VisibleFocusDirective
+  implements OnInit {
   protected defaultConfig: BlockFocusConfig = { block: true };
 
   @Input('cxBlockFocus') protected config: BlockFocusConfig = {};
