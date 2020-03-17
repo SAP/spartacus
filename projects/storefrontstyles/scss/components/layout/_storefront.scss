@@ -19,7 +19,8 @@
     margin-top: auto;
   }
 
-  &:not(.focus-visible) {
+  // prevents visible focus when the UI is not used by keyboard.
+  .mouse-focus {
     :focus,
     .ng-select-focused {
       outline-width: 0;
