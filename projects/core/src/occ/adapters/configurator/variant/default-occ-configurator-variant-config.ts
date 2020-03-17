@@ -5,26 +5,24 @@ export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
     backend: {
       occ: {
         endpoints: {
-          createConfiguration:
-            'products/${productCode}/configurator/cpqconfigurator',
+          createConfiguration: 'products/${productCode}/cpqconfigurator',
 
-          readConfiguration: 'configuration/${configId}/cpqconfigurator',
+          readConfiguration: 'cpqconfigurator/${configId}',
 
-          updateConfiguration:
-            'products/${productCode}/configurator/cpqconfigurator',
+          updateConfiguration: 'cpqconfigurator/${configId}',
 
           addConfigurationToCart:
-            'users/${userId}/carts/${cartId}/entries/configurator/cpqconfigurator',
+            'users/${userId}/carts/${cartId}/entries/cpqconfigurator',
 
           readConfigurationForCartEntry:
-            'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/configurator/cpqconfigurator',
+            'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator',
 
           updateConfigurationForCartEntry:
-            'users/${userId}/carts/${cartId}/entries/configurator/cpqconfigurator',
+            'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator',
 
-          readPriceSummary: '/pricing/${configId}/cpqconfigurator',
+          readPriceSummary: 'cpqconfigurator/${configId}/pricing',
           getConfigurationOverview:
-            'configurationOverview/${configId}/cpqconfigurator',
+            'cpqconfigurator/${configId}/configurationOverview',
         },
       },
     },

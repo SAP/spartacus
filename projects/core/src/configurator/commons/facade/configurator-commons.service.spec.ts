@@ -481,6 +481,7 @@ describe('ConfiguratorCommonsService', () => {
       const params: Configurator.UpdateConfigurationForCartEntryParameters = {
         cartId: CART_GUID,
         userId: OCC_USER_ID_ANONYMOUS,
+        cartEntryNumber: productConfiguration.owner.id,
         configuration: productConfiguration,
       };
 

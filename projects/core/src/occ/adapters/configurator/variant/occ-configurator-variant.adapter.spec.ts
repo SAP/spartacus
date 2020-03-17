@@ -134,13 +134,13 @@ describe('OccConfigurationVariantAdapter', () => {
       .subscribe();
 
     const mockReq = httpMock.expectOne(req => {
-      return req.method === 'PUT' && req.url === 'updateConfiguration';
+      return req.method === 'PATCH' && req.url === 'updateConfiguration';
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
       'updateConfiguration',
       {
-        productCode,
+        configId,
       }
     );
 
@@ -161,7 +161,7 @@ describe('OccConfigurationVariantAdapter', () => {
       .subscribe();
 
     const mockReq = httpMock.expectOne(req => {
-      return req.method === 'PATCH' && req.url === 'readPriceSummary';
+      return req.method === 'GET' && req.url === 'readPriceSummary';
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith('readPriceSummary', {
@@ -221,7 +221,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
     const mockReq = httpMock.expectOne(req => {
       return (
-        req.method === 'PATCH' && req.url === 'updateConfigurationForCartEntry'
+        req.method === 'PUT' && req.url === 'updateConfigurationForCartEntry'
       );
     });
 
@@ -230,6 +230,7 @@ describe('OccConfigurationVariantAdapter', () => {
       {
         userId,
         cartId,
+        cartEntryNumber,
       }
     );
 
