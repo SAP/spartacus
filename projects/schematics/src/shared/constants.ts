@@ -25,6 +25,7 @@ export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 export const ROUTER = 'Router';
+export const WINDOW_REF = 'WindowRef';
 
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
@@ -96,6 +97,7 @@ export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
