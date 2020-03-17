@@ -6,8 +6,8 @@ import {
   AuthRedirectService,
   AuthService,
   UserToken,
-} from '../../../../../core/src/auth';
-import { RoutingService } from '../../../../../core/src/routing';
+} from '../../../../../core/src/auth/index';
+import { RoutingService } from '../../../../../core/src/routing/index';
 
 @Injectable({
   providedIn: 'root',
