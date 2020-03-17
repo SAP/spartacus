@@ -13,7 +13,6 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import * as fromUserReducers from '../../../user/store/reducers/index';
 import { USER_FEATURE } from '../../../user/store/user-state';
 import { CartConnector } from '../../connectors/cart/cart.connector';
-import { CartDataService } from '../../facade/cart-data.service';
 import * as fromCartReducers from '../../store/reducers/index';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
@@ -85,7 +84,6 @@ describe('Cart effect', () => {
         },
         fromEffects.CartEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        CartDataService,
         provideMockActions(() => actions$),
       ],
     });

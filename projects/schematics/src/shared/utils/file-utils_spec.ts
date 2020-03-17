@@ -10,7 +10,7 @@ import {
 } from '@schematics/angular/utility/change';
 import * as path from 'path';
 import * as ts from 'typescript';
-import { COMPONENT_DEPRECATION_DATA } from '../../migrations/2_0/component-deprecations-data';
+import { COMPONENT_DEPRECATION_DATA } from '../../migrations/2_0/component-deprecations/component-deprecations-data';
 import {
   AUTH_SERVICE,
   FEATURE_CONFIG_SERVICE,
@@ -478,7 +478,7 @@ describe('File utils', () => {
         })
       ).toEqual(false);
     });
-    it('should return true if the parameter lengths condition is not satisfied', () => {
+    it('should return true even if the parameter lengths condition is not satisfied', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
         PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS,

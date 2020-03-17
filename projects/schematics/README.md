@@ -100,7 +100,12 @@ The `projects/schematics/src/migrations/migrations.json` file contains all migra
   - _migration-feature-name_ is a short name that describes what the migration is doing.
   - _sequence-number_ is the sequence number in which the migrations should be executed
   - An example is _migration-v2-update-cms-component-state-02_.
-- _version_ is important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project.
+- _version_ is _really_ important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project's version.
+It's also important to note that after we release a Spartacus _next.x_, or an _rc.x_ version, all the migration scripts that are written after the release _have_ to specify the future release version.
+E.g. if Spartacus _2.0.0-next.1_ has been released, then the future migration scripts should specify the next version - _2.0.0-next.2_.
+This is required for clients that upgrade frequently and it will make angular to run only the new migration scripts for them.
+At the same time, all the scripts are going to be ran for the clients that do the upgrade for the first time.
+However, there are exceptions from this rule - as we have data-driven generic mechanisms for e.g. constructor deprecation, we have to bump the version in `migrations.json` for those scripts.
 - _factory_ - points to the specific migration script.
 - _description_ - a short free-form description field for developers.
 

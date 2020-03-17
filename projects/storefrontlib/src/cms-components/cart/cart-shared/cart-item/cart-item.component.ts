@@ -28,7 +28,6 @@ export interface CartItemComponentOptions {
 export class CartItemComponent implements OnInit {
   @Input() compact = false;
   @Input() item: Item;
-  @Input() potentialProductPromotions: any[];
   @Input() readonly = false;
   @Input() quantityControl: FormControl;
 
