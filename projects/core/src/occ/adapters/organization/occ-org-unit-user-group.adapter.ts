@@ -10,7 +10,8 @@ import {
   OrgUnitUserGroupAdapter,
   ORG_UNIT_USER_GROUP_NORMALIZER,
   ORG_UNIT_USER_GROUPS_NORMALIZER,
-} from '../../../organization/connectors/org-unit-user-group';
+  PERMISSIONS_NORMALIZER,
+} from '../../../organization/connectors/index';
 import { OrgUnitUserGroup, EntitiesModel, User } from '../../../model';
 
 @Injectable()
@@ -56,7 +57,7 @@ export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
           params
         )
       )
-      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUPS_NORMALIZER));
+      .pipe(this.converter.pipeable(PERMISSIONS_NORMALIZER));
   }
 
   loadAvailableOrgCustomers(
@@ -73,6 +74,8 @@ export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
         )
       )
       .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUPS_NORMALIZER));
+    // TODO: Change whn Org Unit Users exitst
+    // .pipe(this.converter.pipeable(ORG_UNIT_USERS_NORMALIZER));
   }
 
   create(
