@@ -1,23 +1,23 @@
-import { Component, Input, DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import {
-  CartService,
-  I18nTestingModule,
-  Voucher,
+  ActiveCartService,
+  AuthService,
   Cart,
   CartVoucherService,
-  AuthService,
-  CustomerCouponService,
   CustomerCouponSearchResult,
+  CustomerCouponService,
   FeaturesConfig,
   FeaturesConfigModule,
+  I18nTestingModule,
+  Voucher,
 } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';
-import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-icon',
@@ -46,7 +46,7 @@ describe('CartCouponComponent', () => {
   let input: HTMLInputElement;
   let el: DebugElement;
 
-  const mockCartService = jasmine.createSpyObj('CartService', [
+  const mockActiveCartService = jasmine.createSpyObj('ActiveCartService', [
     'getActive',
     'getLoaded',
   ]);
@@ -88,7 +88,7 @@ describe('CartCouponComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
-        { provide: CartService, useValue: mockCartService },
+        { provide: ActiveCartService, useValue: mockActiveCartService },
         { provide: AuthService, useValue: mockAuthService },
         { provide: CartVoucherService, useValue: mockCartVoucherService },
         { provide: CustomerCouponService, useValue: mockCustomerCouponService },
@@ -107,8 +107,10 @@ describe('CartCouponComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    mockCartService.getActive.and.returnValue(of<Cart>({ code: '123' }));
-    mockCartService.getLoaded.and.returnValue(of(true));
+    mockActiveCartService.getActive.and.returnValue(
+      of<Cart>({ code: '123' })
+    );
+    mockActiveCartService.getLoaded.and.returnValue(of(true));
     mockAuthService.getOccUserId.and.returnValue(of('testUserId'));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of());
     mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of());
@@ -134,9 +136,7 @@ describe('CartCouponComponent', () => {
     expect(el.query(By.css('.cx-cart-coupon-title'))).toBeTruthy();
     expect(el.query(By.css('.input-coupon-code'))).toBeTruthy();
     expect(el.query(By.css('.apply-coupon-button'))).toBeTruthy();
-    expect(
-      el.query(By.css('.apply-coupon-button')).nativeElement.disabled
-    ).toBeTruthy();
+    expect(el.query(By.css('.apply-coupon-button'))).toBeTruthy();
   });
 
   it('should form is valid when inputting coupon code', () => {
@@ -148,23 +148,7 @@ describe('CartCouponComponent', () => {
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    expect(component.form.valid).toBeTruthy();
-  });
-
-  it('should enable button when inputting coupon code', () => {
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(
-      of(false)
-    );
-    fixture.detectChanges();
-
-    const applyBtn = el.query(By.css('.apply-coupon-button')).nativeElement;
-    expect(applyBtn.disabled).toBeTruthy();
-
-    input = el.query(By.css('.input-coupon-code')).nativeElement;
-    input.value = 'couponCode1';
-    input.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-    expect(applyBtn.disabled).toBeFalsy();
+    expect(component.form.controls['couponCode'].value).toBe('couponCode1');
   });
 
   it('should disable button when coupon is in process', () => {
@@ -189,7 +173,6 @@ describe('CartCouponComponent', () => {
     fixture.detectChanges();
 
     expect(mockCartVoucherService.addVoucher).toHaveBeenCalled();
-    expect(applyBtn.disabled).toBeTruthy();
   });
 
   it('should coupon is applied successfully', () => {
@@ -201,33 +184,13 @@ describe('CartCouponComponent', () => {
     input = el.query(By.css('.input-coupon-code')).nativeElement;
     input.value = 'couponCode1';
     el.query(By.css('.apply-coupon-button')).nativeElement.click();
-
-    expect(
-      el.query(By.css('.apply-coupon-button')).nativeElement.disabled
-    ).toBeTruthy();
-    expect(input.readOnly).toBeFalsy();
-  });
-
-  it('should disable button when apply coupon failed', () => {
-    mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(
-      of(false)
-    );
-    mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(
-      of(false)
-    );
-    fixture.detectChanges();
-
-    input = el.query(By.css('.input-coupon-code')).nativeElement;
-    expect(input.readOnly).toBeFalsy();
-
-    const button = el.query(By.css('.apply-coupon-button')).nativeElement;
-    expect(button.disabled).toBeTruthy();
+    expect(component.form.controls['couponCode'].value).toBeNull();
   });
 
   it('should not list customer coupons when no customer coupons', () => {
     fixture.detectChanges();
     expect(
-      fixture.debugElement.queryAll(By.css('.cx-customer-coupons a')).length
+      fixture.debugElement.queryAll(By.css('.cx-available-coupon')).length
     ).toEqual(0);
   });
 
@@ -236,40 +199,22 @@ describe('CartCouponComponent', () => {
       of(couponsSearchResult)
     );
     fixture.detectChanges();
-    input = el.query(By.css('.input-coupon-code')).nativeElement;
-    input.click();
-    fixture.detectChanges();
-    expect(
-      fixture.debugElement.queryAll(By.css('.cx-customer-coupons a')).length
-    ).toEqual(2);
-    expect(
-      fixture.debugElement.queryAll(By.css('.couponbox-is-active'))
-    ).toBeTruthy();
-  });
 
-  it('should filter customer coupons', () => {
-    mockCustomerCouponService.getCustomerCoupons.and.returnValue(
-      of(couponsSearchResult)
-    );
-    fixture.detectChanges();
-    input = el.query(By.css('.input-coupon-code')).nativeElement;
-    input.value = 'coupon2';
-    input.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
     expect(
-      fixture.debugElement.queryAll(By.css('.cx-customer-coupons a')).length
+      fixture.debugElement.queryAll(By.css('.cx-available-coupon .title'))
+        .length
     ).toEqual(1);
-
-    const customerCouponResult = el.query(
-      By.css('.cx-customer-coupons .coupon-id')
-    ).nativeElement;
-    expect((<HTMLElement>customerCouponResult).innerText).toEqual(
-      'CustomerCoupon2'
-    );
+    expect(
+      fixture.debugElement.queryAll(By.css('.cx-available-coupon .message'))
+        .length
+    ).toEqual(1);
+    expect(
+      fixture.debugElement.queryAll(By.css('.cx-available-coupon .card')).length
+    ).toEqual(2);
   });
 
   it('should not show applied customer coupon', () => {
-    mockCartService.getActive.and.returnValue(
+    mockActiveCartService.getActive.and.returnValue(
       of<Cart>({ appliedVouchers: appliedVouchers })
     );
     mockCustomerCouponService.getCustomerCoupons.and.returnValue(
@@ -277,7 +222,7 @@ describe('CartCouponComponent', () => {
     );
     fixture.detectChanges();
     expect(
-      fixture.debugElement.queryAll(By.css('.cx-customer-coupons a')).length
+      fixture.debugElement.queryAll(By.css('.cx-available-coupon .card')).length
     ).toEqual(1);
   });
 
@@ -286,7 +231,7 @@ describe('CartCouponComponent', () => {
       of(couponsSearchResult)
     );
     fixture.detectChanges();
-    const customerCoupon = el.queryAll(By.css('.cx-customer-coupons a'))[0]
+    const customerCoupon = el.queryAll(By.css('.cx-available-coupon .card'))[0]
       .nativeElement;
     customerCoupon.click();
     fixture.detectChanges();

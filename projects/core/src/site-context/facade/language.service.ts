@@ -60,10 +60,7 @@ export class LanguageService implements SiteContext<Language> {
    */
   setActive(isocode: string) {
     return this.store
-      .pipe(
-        select(SiteContextSelectors.getActiveLanguage),
-        take(1)
-      )
+      .pipe(select(SiteContextSelectors.getActiveLanguage), take(1))
       .subscribe(activeLanguage => {
         if (activeLanguage !== isocode) {
           this.store.dispatch(

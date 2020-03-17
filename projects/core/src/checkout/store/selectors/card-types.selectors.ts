@@ -11,25 +11,16 @@ import { getCheckoutState } from './checkout.selectors';
 export const getCardTypesState: MemoizedSelector<
   StateWithCheckout,
   CardTypesState
-> = createSelector(
-  getCheckoutState,
-  (state: CheckoutState) => state.cardTypes
-);
+> = createSelector(getCheckoutState, (state: CheckoutState) => state.cardTypes);
 
 export const getCardTypesEntites: MemoizedSelector<
   StateWithCheckout,
   { [code: string]: CardType }
-> = createSelector(
-  getCardTypesState,
-  fromReducer.getCardTypesEntites
-);
+> = createSelector(getCardTypesState, fromReducer.getCardTypesEntites);
 
 export const getAllCardTypes: MemoizedSelector<
   StateWithCheckout,
   CardType[]
-> = createSelector(
-  getCardTypesEntites,
-  entites => {
-    return Object.keys(entites).map(code => entites[code]);
-  }
-);
+> = createSelector(getCardTypesEntites, entites => {
+  return Object.keys(entites).map(code => entites[code]);
+});

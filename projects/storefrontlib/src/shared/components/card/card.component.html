@@ -3,6 +3,7 @@
   class="cx-card"
   [class.cx-card-border]="border"
   [class.cx-card-fit-to-container]="fitToContainer"
+  cxAutoFocus
 >
   <!-- Card Header -->
   <div *ngIf="content.header && !editMode" class="card-header">
@@ -42,7 +43,7 @@
         </button>
       </div>
       <div class="col-md-6">
-        <button class="btn btn-block btn-primary" (click)="delete()">
+        <button class="btn btn-block btn-primary" (click)="delete()" autofocus>
           {{ 'common.delete' | cxTranslate }}
         </button>
       </div>
