@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  SkipLink,
-  SkipLinkConfig,
-  SkipLinkScrollPosition,
-} from '../config/skip-link.config';
+import { SkipLink, SkipLinkConfig } from '../config/skip-link.config';
 
 @Injectable({
   providedIn: 'root',
@@ -26,10 +22,10 @@ export class SkipLinkService {
     if (found) {
       const existing: SkipLink[] = this.skipLinks$.value;
       existing.splice(this.getSkipLinkIndexInArray(key), 0, {
-        target: target,
+        target,
         i18nKey: found.i18nKey,
         position: found.position,
-        key: key,
+        key,
       });
       this.skipLinks$.next(existing);
     }
@@ -47,17 +43,24 @@ export class SkipLinkService {
     }
   }
 
-  scrollToTarget(
-    target: HTMLElement,
-    position: SkipLinkScrollPosition,
-    event: MouseEvent
-  ): void {
-    target = <HTMLElement>target.parentNode;
-    (<HTMLElement>event.target).blur();
-    const options: ScrollIntoViewOptions =
-      position === SkipLinkScrollPosition.AFTER ? { inline: 'end' } : {};
+  scrollToTarget(skipLink: SkipLink): void {
+    const target =
+      skipLink.target instanceof HTMLElement
+        ? skipLink.target
+        : (skipLink.target as Element).parentElement;
 
-    target.scrollIntoView(options);
+    // we force a tabindex if not available, to ensure we can focus into the element
+    const currentTabIndex = target.getAttribute('tabindex');
+    if (!currentTabIndex) {
+      target.setAttribute('tabindex', '-1');
+    }
+
+    (target as HTMLElement).focus();
+
+    // drop the tmp tabindex
+    if (!currentTabIndex) {
+      target.removeAttribute('tabindex');
+    }
   }
 
   protected getSkipLinkIndexInArray(key: string): number {

@@ -14,6 +14,8 @@ const GLOBAL_GROUP = '_g_';
   providedIn: 'root',
 })
 export class PersistFocusService extends BaseFocusService {
+  // this is going to fail as we have sub services. They will al have their own map.
+  // We must bring this to a singlton map.
   protected focus = new Map<string, string>();
 
   get(group?: string): string {
@@ -21,7 +23,9 @@ export class PersistFocusService extends BaseFocusService {
   }
 
   set(value: string, group?: string) {
-    this.focus.set(group || GLOBAL_GROUP, value);
+    if (value) {
+      this.focus.set(group || GLOBAL_GROUP, value);
+    }
   }
 
   getPersistenceGroup(host: HTMLElement, config?: PersistFocusConfig): string {

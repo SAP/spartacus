@@ -3,7 +3,6 @@ import {
   ActiveCartService,
   AuthService,
   BaseSiteService,
-  CartDataService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -35,7 +34,6 @@ import { CxApiService } from './cx-api.service';
 
 class MockAuthService {}
 class MockActiveCartService {}
-class MockCartDataService {}
 class MockCheckoutService {}
 class MockCheckoutDeliveryService {}
 class MockCheckoutPaymentService {}
@@ -80,7 +78,6 @@ describe('CxApiService', () => {
         CxApiService,
         { provide: AuthService, useClass: MockAuthService },
         { provide: ActiveCartService, useClass: MockActiveCartService },
-        { provide: CartDataService, useClass: MockCartDataService },
         { provide: CheckoutService, useClass: MockCheckoutService },
         {
           provide: CheckoutDeliveryService,
