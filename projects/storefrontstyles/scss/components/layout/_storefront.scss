@@ -18,4 +18,12 @@
   > footer {
     margin-top: auto;
   }
+
+  // prevents visible focus when the UI is not used by keyboard.
+  .mouse-focus {
+    :focus,
+    .ng-select-focused {
+      outline-width: 0;
+    }
+  }
 }
