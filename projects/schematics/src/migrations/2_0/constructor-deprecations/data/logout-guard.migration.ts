@@ -1,4 +1,13 @@
-import { AUTH_SERVICE, CMS_SERVICE, FEATURE_CONFIG_SERVICE, LOGOUT_GUARD, PROTECTED_ROUTES_SERVICE, ROUTING_SERVICE, SEMANTIC_PATH_SERVICE, SPARTACUS_CORE } from '../../../../shared/constants';
+import {
+  AUTH_SERVICE,
+  CMS_SERVICE,
+  FEATURE_CONFIG_SERVICE,
+  LOGOUT_GUARD,
+  PROTECTED_ROUTES_SERVICE,
+  ROUTING_SERVICE,
+  SEMANTIC_PATH_SERVICE,
+  SPARTACUS_CORE,
+} from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const LOGOUT_GUARD_MIGRATION: ConstructorDeprecation = {
@@ -10,7 +19,7 @@ export const LOGOUT_GUARD_MIGRATION: ConstructorDeprecation = {
     { className: CMS_SERVICE, importPath: SPARTACUS_CORE },
     { className: ROUTING_SERVICE, importPath: SPARTACUS_CORE },
     { className: SEMANTIC_PATH_SERVICE, importPath: SPARTACUS_CORE },
-    { className: PROTECTED_ROUTES_SERVICE, importPath: SPARTACUS_CORE}
+    { className: PROTECTED_ROUTES_SERVICE, importPath: SPARTACUS_CORE },
     {
       className: FEATURE_CONFIG_SERVICE,
       importPath: SPARTACUS_CORE,
