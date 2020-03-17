@@ -3,7 +3,7 @@ import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { EventService } from '../../event/event.service';
+import { EventService } from '../../event/index';
 import { ActionToEventMapping } from './action-to-event-mapping';
 
 /**
@@ -22,20 +22,15 @@ export class StateEventService {
    * Registers an event source stream of specific events
    * mapped from a given action type.
    *
-   * This method can be chained. For example:
-   * ```
-   * service
-   *  .register({ event: EventA, action: ActionA })
-   *  .register({ event: EventB, action: ActionB });
-   * ```
-   *
    * @param mapping mapping from action to event
    *
-   * @returns the service
+   * @returns a teardown function that unregisters the event source
    */
-  register<T>(mapping: ActionToEventMapping<T>): StateEventService {
-    this.eventService.register(mapping.event, this.getFromAction(mapping));
-    return this;
+  register<T>(mapping: ActionToEventMapping<T>): () => void {
+    return this.eventService.register(
+      mapping.event,
+      this.getFromAction(mapping)
+    );
   }
 
   /**
@@ -44,7 +39,7 @@ export class StateEventService {
    */
   protected getFromAction<T>(mapping: ActionToEventMapping<T>): Observable<T> {
     return this.actionsSubject
-      .pipe(ofType(mapping.action))
+      .pipe(ofType(...[].concat(mapping.action)))
       .pipe(
         map((action: { type: string; payload: T }) =>
           this.createEvent(action, mapping.event, mapping.factory)
