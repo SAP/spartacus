@@ -9,6 +9,7 @@ import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { CartActions } from '../store/actions/index';
 import { StateWithCart } from '../store/cart-state';
 import * as fromReducers from '../store/reducers/index';
+import { ActiveCartService } from './active-cart.service';
 import { CartVoucherService } from './cart-voucher.service';
 
 const userId = 'testUserId';
@@ -16,6 +17,12 @@ const userId = 'testUserId';
 class AuthServiceStub {
   getOccUserId(): Observable<string> {
     return of(userId);
+  }
+}
+
+class ActiveCartServiceStub {
+  getActiveCartId(): Observable<string> {
+    return of('testCartId');
   }
 }
 
@@ -39,6 +46,7 @@ describe('CartVoucherService', () => {
       providers: [
         CartVoucherService,
         { provide: AuthService, useClass: AuthServiceStub },
+        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
       ],
     });
 
