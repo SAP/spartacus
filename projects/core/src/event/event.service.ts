@@ -37,7 +37,7 @@ export class EventService {
   /**
    * The various events meta are collected in a map, stored by the event type class
    */
-  protected eventsMeta = new Map<Type<any>, EventMeta<any>>();
+  private eventsMeta = new Map<Type<any>, EventMeta<any>>();
 
   /**
    * Register an event source for the given event type.
@@ -123,7 +123,7 @@ export class EventService {
   /**
    * Returns the event meta object for the given event type
    */
-  protected getEventMeta<T>(eventType: Type<T>): EventMeta<T> {
+  private getEventMeta<T>(eventType: Type<T>): EventMeta<T> {
     if (isDevMode()) {
       this.validateEventType(eventType);
     }
@@ -137,7 +137,7 @@ export class EventService {
   /**
    * Creates the event meta object for the given event type
    */
-  protected createEventMeta<T>(eventType: Type<T>): void {
+  private createEventMeta<T>(eventType: Type<T>): void {
     const sources$ = new BehaviorSubject<Observable<T>[]>([]);
     let output$ = sources$.pipe(
       switchMap((sources: Observable<T>[]) => merge(...sources)),

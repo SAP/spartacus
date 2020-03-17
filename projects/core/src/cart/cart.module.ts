@@ -3,9 +3,7 @@ import { PageMetaResolver } from '../cms/page/page-meta.resolver';
 import { ConfigInitializerService } from '../config/config-initializer/config-initializer.service';
 import { CartEventModule } from './event/cart-event.module';
 import { ActiveCartService } from './facade/active-cart.service';
-import { CartDataService } from './facade/cart-data.service';
 import {
-  CartService,
   CartVoucherService,
   SelectiveCartService,
   WishListService,
@@ -35,9 +33,7 @@ export class CartModule {
     return {
       ngModule: CartModule,
       providers: [
-        CartDataService,
         CartVoucherService,
-        CartService,
         MultiCartService,
         WishListService,
         ActiveCartService,
