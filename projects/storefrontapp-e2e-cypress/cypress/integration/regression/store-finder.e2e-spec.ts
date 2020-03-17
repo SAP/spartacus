@@ -32,7 +32,7 @@ context('Store finder', () => {
     cy.get(resultListItem)
       .first()
       .within(() => {
-        cy.get('.cx-store-name a').click();
+        cy.get('.cx-store-name button').click();
       });
 
     cy.get('.cx-store-details').should('exist');
