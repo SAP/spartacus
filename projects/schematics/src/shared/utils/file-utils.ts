@@ -313,21 +313,21 @@ function checkConstructorParameters(
     ts.SyntaxKind.Parameter
   );
 
-  let paramTypeFound = true;
-  for (let i = 0; i < parameterClassTypes.length; i++) {
-    const constructorParameter = constructorParameters[i];
-    const constructorParameterType = findNodes(
-      constructorParameter,
-      ts.SyntaxKind.Identifier
-    ).filter(node => node.getText() === parameterClassTypes[i].className);
+  const foundClassTypes: ClassType[] = [];
+  for (const parameterClassType of parameterClassTypes) {
+    for (const constructorParameter of constructorParameters) {
+      const constructorParameterType = findNodes(
+        constructorParameter,
+        ts.SyntaxKind.Identifier
+      ).filter(node => node.getText() === parameterClassType.className);
 
-    if (constructorParameterType.length === 0) {
-      paramTypeFound = false;
-      break;
+      if (constructorParameterType.length !== 0) {
+        foundClassTypes.push(parameterClassType);
+      }
     }
   }
 
-  return paramTypeFound;
+  return foundClassTypes.length === parameterClassTypes.length;
 }
 
 function isInjected(
@@ -646,6 +646,12 @@ function removeConstructorParamInternal(
       if (i !== 0) {
         const previousParameter = constructorParameters[i - 1];
         changes.push(new RemoveChange(sourcePath, previousParameter.end, ','));
+        // if removing the first param, cleanup the comma after it
+      } else if (i === 0 && constructorParameters.length > 1) {
+        const commas = findNodes(constructorNode, ts.SyntaxKind.CommaToken);
+        // get the comma that matches the constructor parameter's position
+        const comma = commas[i];
+        changes.push(new RemoveChange(sourcePath, comma.getStart(), ','));
       }
 
       changes.push(
@@ -687,6 +693,11 @@ function removeParamFromSuper(
       if (i !== 0) {
         const previousCommaPosition = commas[i - 1].getStart();
         changes.push(new RemoveChange(sourcePath, previousCommaPosition, ','));
+        // if removing the first param, cleanup the comma after it
+      } else if (i === 0 && params.length > 0) {
+        // get the comma that matches the constructor parameter's position
+        const comma = commas[i];
+        changes.push(new RemoveChange(sourcePath, comma.getStart(), ','));
       }
 
       changes.push(new RemoveChange(sourcePath, param.getStart(), paramName));
