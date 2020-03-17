@@ -3,6 +3,10 @@ import { ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { OutletService } from '../../../cms-structure/outlet/index';
+import {
+  TriggerConfig,
+  TriggerService,
+} from '../../../shared/services/trigger/index';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmEnablerService } from './asm-enabler.service';
 
@@ -37,6 +41,18 @@ class MockLocation {
   }
 }
 
+class MockTriggerService {
+  render() {}
+}
+
+const mockTriggerConfig: TriggerConfig = {
+  trigger: {
+    ASM: {
+      outlet: 'cx-outlet-test',
+    },
+  },
+};
+
 describe('AsmEnablerService', () => {
   let asmEnablerService: AsmEnablerService;
   let windowRef: WindowRef;
@@ -52,6 +68,8 @@ describe('AsmEnablerService', () => {
         },
         { provide: OutletService, useClass: MockOutletService },
         { provide: Location, useClass: MockLocation },
+        { provide: TriggerConfig, useValue: mockTriggerConfig },
+        { provide: TriggerService, useClass: MockTriggerService },
       ],
     });
 
