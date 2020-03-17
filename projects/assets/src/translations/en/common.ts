@@ -62,10 +62,6 @@ export const common = {
     internalServerError:
       'An Internal Server Error occurred. Please try again later.',
     unknownError: 'An unknown error occurred',
-    unauthorized: {
-      common: 'An unknown authorization error occured',
-      invalid_client: 'Bad client credentials',
-    },
     validationErrors: {
       missing: {
         card_cardType:
