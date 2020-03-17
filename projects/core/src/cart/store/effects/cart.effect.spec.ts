@@ -16,7 +16,6 @@ import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromCartReducers from '../../store/reducers/index';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
-import { CART_FEATURE } from '../cart-state';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
 import createSpy = jasmine.createSpy;
@@ -68,7 +67,6 @@ describe('Cart effect', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CART_FEATURE, fromCartReducers.getReducers()),
         StoreModule.forFeature(USER_FEATURE, fromUserReducers.getReducers()),
         StoreModule.forFeature(AUTH_FEATURE, fromAuthReducers.getReducers()),
         StoreModule.forFeature(
@@ -330,9 +328,6 @@ describe('Cart effect', () => {
 
   describe('refresh$', () => {
     const cartChangesSuccessActions = [
-      'CartAddEntrySuccess',
-      'CartUpdateEntrySuccess',
-      'CartRemoveEntrySuccess',
       'CartAddVoucherSuccess',
       'CartRemoveVoucherSuccess',
     ];
@@ -363,22 +358,31 @@ describe('Cart effect', () => {
   });
 
   describe('refreshWithoutProcesses$', () => {
-    it(`should refresh cart on MergeCartSuccess`, () => {
-      const action = new CartActions.MergeCartSuccess({
-        userId: userId,
-        cartId: cartId,
-      });
-      const loadCompletion = new DeprecatedCartActions.LoadCart({
-        userId: userId,
-        cartId: cartId,
-      });
+    const cartChangesSuccessActions = [
+      'CartAddEntrySuccess',
+      'CartUpdateEntrySuccess',
+      'CartRemoveEntrySuccess',
+      'MergeCartSuccess',
+    ];
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: loadCompletion,
-      });
+    cartChangesSuccessActions.forEach(actionName => {
+      it(`should refresh cart on ${actionName}`, () => {
+        const action = new CartActions[actionName]({
+          userId: userId,
+          cartId: cartId,
+        });
+        const loadCompletion = new DeprecatedCartActions.LoadCart({
+          userId: userId,
+          cartId: cartId,
+        });
 
-      expect(cartEffects.refreshWithoutProcesses$).toBeObservable(expected);
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', {
+          b: loadCompletion,
+        });
+
+        expect(cartEffects.refreshWithoutProcesses$).toBeObservable(expected);
+      });
     });
   });
 

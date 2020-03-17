@@ -10,7 +10,8 @@ import {
   loadMeta,
   successMeta,
 } from '../../../state/utils/loader/loader.action';
-import { ADD_VOUCHER_PROCESS_ID, CART_DATA } from '../cart-state';
+import { CART_DATA } from '../cart-state';
+import { ADD_VOUCHER_PROCESS_ID } from '../multi-cart-state';
 import { CartActions } from './index';
 
 const userId = 'xxx@xxx.xxx';

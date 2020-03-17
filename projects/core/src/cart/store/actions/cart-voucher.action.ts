@@ -10,7 +10,8 @@ import {
   LoaderLoadAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
-import { ADD_VOUCHER_PROCESS_ID, CART_DATA } from '../cart-state';
+import { CART_DATA } from '../cart-state';
+import { ADD_VOUCHER_PROCESS_ID } from '../multi-cart-state';
 
 export const CART_ADD_VOUCHER = '[Cart-voucher] Add Cart Vouchers';
 export const CART_ADD_VOUCHER_FAIL = '[Cart-voucher] Add Cart Voucher Fail';

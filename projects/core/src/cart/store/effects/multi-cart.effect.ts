@@ -66,9 +66,6 @@ export class MultiCartEffects {
     CartActions.CartProcessesIncrement
   > = this.actions$.pipe(
     ofType(
-      CartActions.CART_ADD_ENTRY,
-      CartActions.CART_UPDATE_ENTRY,
-      CartActions.CART_REMOVE_ENTRY,
       DeprecatedCartActions.ADD_EMAIL_TO_CART,
       CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE,
       CartActions.CART_ADD_VOUCHER,
@@ -77,9 +74,6 @@ export class MultiCartEffects {
     map(
       (
         action:
-          | CartActions.CartAddEntry
-          | CartActions.CartUpdateEntry
-          | CartActions.CartRemoveEntry
           | DeprecatedCartActions.AddEmailToCart
           | CheckoutActions.ClearCheckoutDeliveryMode
           | CartActions.CartAddVoucher
