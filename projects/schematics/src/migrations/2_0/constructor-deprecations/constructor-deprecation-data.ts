@@ -22,6 +22,8 @@ import { PROMOTION_SERVICE_MIGRATION } from './data/promotion.service.migration'
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { CDS_SPARTACUS_EVENT_SERVICE_MIGRATION } from './data/spartacus-event.service.migration';
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
+import { CURRENT_PRODUCT_SERVICE_MIGRATION } from './data/current-product-service.migration';
+import { PRODUCT_SERVICE_MIGRATION } from './data/product-service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -47,4 +49,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_AUTH_GUARD_MIGRATION,
   ...CART_PAGE_LAYOUT_HANDLER_MIGRATIONS,
   CDS_SPARTACUS_EVENT_SERVICE_MIGRATION,
+  CURRENT_PRODUCT_SERVICE_MIGRATION,
+  PRODUCT_SERVICE_MIGRATION,
 ];
