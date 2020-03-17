@@ -14,7 +14,7 @@ export interface BaseFocusConfig {}
 export interface VisibleFocusConfig {
   /**
    * When set to true, the mouse-focus class is added to the host element,
-   * indicating that the elmeent focus was not caused by the keyboard.
+   * indicating that the element focus was not caused by the keyboard.
    */
   disableMouseFocus?: boolean;
 }
