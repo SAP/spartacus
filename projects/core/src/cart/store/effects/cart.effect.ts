@@ -250,8 +250,7 @@ export class CartEffects {
     ofType(
       DeprecatedCartActions.ADD_EMAIL_TO_CART_SUCCESS,
       CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
-      CartActions.CART_ADD_VOUCHER_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_SUCCESS
+      CartActions.CART_ADD_VOUCHER_SUCCESS
     ),
     map(
       (
@@ -259,7 +258,6 @@ export class CartEffects {
           | DeprecatedCartActions.AddEmailToCartSuccess
           | CheckoutActions.ClearCheckoutDeliveryModeSuccess
           | CartActions.CartAddVoucherSuccess
-          | CartActions.CartRemoveVoucherSuccess
       ) => action.payload
     ),
     concatMap(payload =>
@@ -281,7 +279,8 @@ export class CartEffects {
       DeprecatedCartActions.MERGE_CART_SUCCESS,
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
-      CartActions.CART_UPDATE_ENTRY_SUCCESS
+      CartActions.CART_UPDATE_ENTRY_SUCCESS,
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS
     ),
     map(
       (
@@ -290,6 +289,7 @@ export class CartEffects {
           | CartActions.CartUpdateEntrySuccess
           | DeprecatedCartActions.MergeCartSuccess
           | CartActions.CartRemoveEntrySuccess
+          | CartActions.CartRemoveVoucherSuccess
       ) => action.payload
     ),
     map(

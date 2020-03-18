@@ -68,8 +68,7 @@ export class MultiCartEffects {
     ofType(
       DeprecatedCartActions.ADD_EMAIL_TO_CART,
       CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE,
-      CartActions.CART_ADD_VOUCHER,
-      CartActions.CART_REMOVE_VOUCHER
+      CartActions.CART_ADD_VOUCHER
     ),
     map(
       (
@@ -77,7 +76,6 @@ export class MultiCartEffects {
           | DeprecatedCartActions.AddEmailToCart
           | CheckoutActions.ClearCheckoutDeliveryMode
           | CartActions.CartAddVoucher
-          | CartActions.CartRemoveVoucher
       ) => action.payload
     ),
     map(payload => new CartActions.CartProcessesIncrement(payload.cartId))

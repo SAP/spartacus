@@ -2,7 +2,7 @@ import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
 } from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
-import { MULTI_CART_FEATURE } from '../multi-cart-state';
+import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CART_ADD_ENTRY = '[Cart-entry] Add Entry';
 export const CART_ADD_ENTRY_SUCCESS = '[Cart-entry] Add Entry Success';
@@ -25,7 +25,7 @@ export class CartAddEntry extends EntityProcessesIncrementAction {
       quantity: number;
     }
   ) {
-    super(MULTI_CART_FEATURE, payload.cartId);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
@@ -34,14 +34,14 @@ export class CartAddEntrySuccess extends EntityProcessesDecrementAction {
   constructor(
     public payload: { userId: string; cartId: string; [key: string]: any }
   ) {
-    super(MULTI_CART_FEATURE, payload.cartId);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 export class CartAddEntryFail extends EntityProcessesDecrementAction {
   readonly type = CART_ADD_ENTRY_FAIL;
   constructor(public payload: { userId: string; cartId: string; error: any }) {
-    super(MULTI_CART_FEATURE, payload.cartId);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
@@ -50,21 +50,21 @@ export class CartRemoveEntry extends EntityProcessesIncrementAction {
   constructor(
     public payload: { cartId: string; userId: string; entry: string }
   ) {
-    super(MULTI_CART_FEATURE, payload.cartId);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 export class CartRemoveEntrySuccess extends EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_SUCCESS;
   constructor(public payload: { userId: string; cartId: string }) {
-    super(MULTI_CART_FEATURE, payload.cartId);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 export class CartRemoveEntryFail extends EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_FAIL;
   constructor(public payload: { error: any; cartId: string; userId: string }) {
-    super(MULTI_CART_FEATURE, payload.cartId);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
@@ -78,21 +78,21 @@ export class CartUpdateEntry extends EntityProcessesIncrementAction {
       qty: number;
     }
   ) {
-    super(MULTI_CART_FEATURE, payload.cartId);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 export class CartUpdateEntrySuccess extends EntityProcessesDecrementAction {
   readonly type = CART_UPDATE_ENTRY_SUCCESS;
   constructor(public payload: { userId: string; cartId: string }) {
-    super(MULTI_CART_FEATURE, payload.cartId);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 export class CartUpdateEntryFail extends EntityProcessesDecrementAction {
   readonly type = CART_UPDATE_ENTRY_FAIL;
   constructor(public payload: { error: any; userId: string; cartId: string }) {
-    super(MULTI_CART_FEATURE, payload.cartId);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 

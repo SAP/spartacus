@@ -3,7 +3,7 @@ import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { Cart } from '../../../model/cart.model';
 import { entityProcessesLoaderReducer } from '../../../state/utils/entity-processes-loader/entity-processes-loader.reducer';
-import { MultiCartState, MULTI_CART_FEATURE } from '../multi-cart-state';
+import { MultiCartState, MULTI_CART_DATA } from '../multi-cart-state';
 import {
   activeCartReducer,
   cartEntitiesReducer,
@@ -30,7 +30,7 @@ export const multiCartReducerToken: InjectionToken<ActionReducerMap<
 export function getMultiCartReducers(): ActionReducerMap<MultiCartState> {
   return {
     carts: entityProcessesLoaderReducer<Cart>(
-      MULTI_CART_FEATURE,
+      MULTI_CART_DATA,
       cartEntitiesReducer
     ),
     active: activeCartReducer,

@@ -1,5 +1,5 @@
 import { StateEntityProcessesLoaderActions } from '../../../state/utils/index';
-import { MULTI_CART_FEATURE } from '../multi-cart-state';
+import { MULTI_CART_DATA } from '../multi-cart-state';
 import { CartActions } from './index';
 
 const userId = 'xxx@xxx.xxx';
@@ -22,7 +22,7 @@ describe('Cart-entry Actions', () => {
           type: CartActions.CART_ADD_ENTRY,
           payload: payload,
           meta: StateEntityProcessesLoaderActions.entityProcessesIncrementMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             cartId
           ),
         });
@@ -39,7 +39,7 @@ describe('Cart-entry Actions', () => {
           type: CartActions.CART_ADD_ENTRY_FAIL,
           payload,
           meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             cartId
           ),
         });
@@ -57,7 +57,7 @@ describe('Cart-entry Actions', () => {
           type: CartActions.CART_ADD_ENTRY_SUCCESS,
           payload,
           meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             'cartId'
           ),
         });
@@ -74,7 +74,7 @@ describe('Cart-entry Actions', () => {
           type: CartActions.CART_REMOVE_ENTRY,
           payload: payload,
           meta: StateEntityProcessesLoaderActions.entityProcessesIncrementMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             cartId
           ),
         });
@@ -90,7 +90,7 @@ describe('Cart-entry Actions', () => {
           type: CartActions.CART_REMOVE_ENTRY_FAIL,
           payload,
           meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             cartId
           ),
         });
@@ -108,7 +108,7 @@ describe('Cart-entry Actions', () => {
           type: CartActions.CART_REMOVE_ENTRY_SUCCESS,
           payload,
           meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             'cartId'
           ),
         });
@@ -130,7 +130,7 @@ describe('Cart-entry Actions', () => {
           type: CartActions.CART_UPDATE_ENTRY,
           payload: payload,
           meta: StateEntityProcessesLoaderActions.entityProcessesIncrementMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             cartId
           ),
         });
@@ -146,7 +146,7 @@ describe('Cart-entry Actions', () => {
           type: CartActions.CART_UPDATE_ENTRY_FAIL,
           payload,
           meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             cartId
           ),
         });
@@ -164,7 +164,7 @@ describe('Cart-entry Actions', () => {
           type: CartActions.CART_UPDATE_ENTRY_SUCCESS,
           payload,
           meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             'cartId'
           ),
         });

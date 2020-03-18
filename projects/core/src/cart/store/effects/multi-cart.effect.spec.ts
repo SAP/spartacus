@@ -162,25 +162,19 @@ describe('Multi Cart effect', () => {
         ...payload,
         voucherId: 'voucherId',
       });
-      const action7 = new CartActions.CartRemoveVoucher({
-        ...payload,
-        voucherId: 'voucherId',
-      });
 
       const processesIncrementCompletion = new CartActions.CartProcessesIncrement(
         payload.cartId
       );
-      actions$ = hot('-d-e-f-g', {
+      actions$ = hot('-d-e-f', {
         d: action4,
         e: action5,
         f: action6,
-        g: action7,
       });
-      const expected = cold('-4-5-6-7', {
+      const expected = cold('-4-5-6', {
         4: processesIncrementCompletion,
         5: processesIncrementCompletion,
         6: processesIncrementCompletion,
-        7: processesIncrementCompletion,
       });
       expect(cartEffects.processesIncrement$).toBeObservable(expected);
     });

@@ -327,10 +327,7 @@ describe('Cart effect', () => {
   });
 
   describe('refresh$', () => {
-    const cartChangesSuccessActions = [
-      'CartAddVoucherSuccess',
-      'CartRemoveVoucherSuccess',
-    ];
+    const cartChangesSuccessActions = ['CartAddVoucherSuccess'];
 
     cartChangesSuccessActions.forEach(actionName => {
       it(`should refresh cart on ${actionName}`, () => {
@@ -363,6 +360,7 @@ describe('Cart effect', () => {
       'CartUpdateEntrySuccess',
       'CartRemoveEntrySuccess',
       'MergeCartSuccess',
+      'CartRemoveVoucherSuccess',
     ];
 
     cartChangesSuccessActions.forEach(actionName => {
