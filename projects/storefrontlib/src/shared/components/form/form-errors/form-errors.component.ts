@@ -11,7 +11,7 @@ import { startWith, map } from 'rxjs/operators';
   templateUrl: './form-errors.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormErrorComponent {
+export class FormErrorsComponent {
   errors$: Observable<string[]>;
 
   @Input()

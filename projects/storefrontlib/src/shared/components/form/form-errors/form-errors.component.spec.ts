@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormErrorComponent } from './form-errors.component';
+import { FormErrorsComponent } from './form-errors.component';
 import { FormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 
@@ -8,19 +8,19 @@ const mockErrorName = 'exampleError';
 const mockError = { [mockErrorName]: true };
 
 describe('FormErrors', () => {
-  let component: FormErrorComponent;
-  let fixture: ComponentFixture<FormErrorComponent>;
+  let component: FormErrorsComponent;
+  let fixture: ComponentFixture<FormErrorsComponent>;
   let control: FormControl;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [FormErrorComponent],
+      declarations: [FormErrorsComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormErrorComponent);
+    fixture = TestBed.createComponent(FormErrorsComponent);
     component = fixture.componentInstance;
     control = new FormControl('exampleControl');
 
