@@ -4,7 +4,8 @@ import {
   Converter,
   ConverterService,
 } from '../../../../util/converter.service';
-import { B2BUser, EntitiesModel } from '../../../../model';
+import { EntitiesModel } from '../../../../model/misc.model';
+import { B2BUser } from '../../../../model/org-unit.model';
 import { B2B_USER_NORMALIZER } from '../../../../organization';
 
 @Injectable()

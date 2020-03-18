@@ -9,7 +9,7 @@ import { EntitiesModel } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
 import { B2BUserActions } from '../store/actions/index';
 import { B2BSearchConfig } from '../model/search-config';
-import { B2BUser } from '../../model';
+import { B2BUser } from '../../model/org-unit.model';
 import {
   getB2BUserState,
   getUserList,

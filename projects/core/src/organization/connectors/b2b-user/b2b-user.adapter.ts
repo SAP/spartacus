@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { B2BSearchConfig } from '../../model/search-config';
-import { EntitiesModel, B2BUser } from '../../../model';
+import { EntitiesModel } from '../../../model/misc.model';
+import { B2BUser } from '../../../model/org-unit.model';
 
 export abstract class B2BUserAdapter {
   /**

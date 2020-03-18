@@ -1,6 +1,6 @@
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
 import * as B2BUserActions from '../actions/b2b-user.action';
-import { B2BUser } from '../../../model';
+import { B2BUser } from '../../../model/org-unit.model';
 
 export const b2bUserInitialState = {};
 export const b2bUsersInitialState = undefined;

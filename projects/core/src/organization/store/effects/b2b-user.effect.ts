@@ -6,8 +6,8 @@ import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { B2BUserActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
-import { B2BUser } from '../../../model';
-import { B2BUserConnector } from '../../connectors';
+import { B2BUser } from '../../../model/org-unit.model';
+import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
 
 @Injectable()
 export class B2BUserEffects {

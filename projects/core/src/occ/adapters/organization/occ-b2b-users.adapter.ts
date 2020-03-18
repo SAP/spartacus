@@ -11,7 +11,8 @@ import {
   B2B_USER_NORMALIZER,
   B2B_USERS_NORMALIZER,
 } from '../../../organization/connectors/b2b-user';
-import { B2BUser, EntitiesModel } from '../../../model';
+import { EntitiesModel } from '../../../model/misc.model';
+import { B2BUser } from '../../../model/org-unit.model';
 
 @Injectable()
 export class OccB2BUserAdapter implements B2BUserAdapter {

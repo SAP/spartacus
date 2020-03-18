@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Occ } from '../../../occ-models/occ.models';
 import { Converter } from '../../../../util/converter.service';
-import { B2BUser } from '../../../../model';
+import { B2BUser } from '../../../../model/org-unit.model';
 
 @Injectable()
 export class OccB2BUserNormalizer implements Converter<Occ.B2BUser, B2BUser> {

@@ -10,7 +10,8 @@ import {
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
 import { denormalizeB2BSearch } from '../../utils/serializer';
-import { B2BUser, EntitiesModel } from '../../../model';
+import { EntitiesModel } from '../../../model/misc.model';
+import { B2BUser } from '../../../model/org-unit.model';
 import { B2BSearchConfig } from '../../model/search-config';
 
 export const getB2BUserManagementState: MemoizedSelector<
