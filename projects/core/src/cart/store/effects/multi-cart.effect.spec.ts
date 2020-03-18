@@ -155,9 +155,20 @@ describe('Multi Cart effect', () => {
         userId: 'userId',
         cartId: 'cartId',
       };
-      const action1 = new CartActions.CartAddEntry(payload);
-      const action2 = new CartActions.CartUpdateEntry(payload);
-      const action3 = new CartActions.CartRemoveEntry(payload);
+      const action1 = new CartActions.CartAddEntry({
+        ...payload,
+        productCode: 'productCode',
+        quantity: 1,
+      });
+      const action2 = new CartActions.CartUpdateEntry({
+        ...payload,
+        entry: 'entry',
+        qty: 1,
+      });
+      const action3 = new CartActions.CartRemoveEntry({
+        ...payload,
+        entry: 'entry',
+      });
       const action4 = new DeprecatedCartActions.AddEmailToCart({
         ...payload,
         email: 'email',

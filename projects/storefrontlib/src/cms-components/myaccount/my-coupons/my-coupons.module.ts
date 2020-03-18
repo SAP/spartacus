@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
-  I18nModule,
-  ConfigModule,
-  CmsConfig,
   AuthGuard,
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { CardModule } from '../../../shared/components/card/card.module';
@@ -30,18 +30,6 @@ import { IconModule } from '../../misc/icon/icon.module';
     UrlModule,
     IconModule,
     ListNavigationModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        MyCouponsComponent: {
-          component: MyCouponsComponent,
-          guards: [AuthGuard],
-        },
-        CouponClaimComponent: {
-          component: CouponClaimComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
     RouterModule.forChild([
       {
         path: null,
@@ -56,6 +44,20 @@ import { IconModule } from '../../misc/icon/icon.module';
     CouponCardComponent,
     CouponDialogComponent,
     CouponClaimComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        MyCouponsComponent: {
+          component: MyCouponsComponent,
+          guards: [AuthGuard],
+        },
+        CouponClaimComponent: {
+          component: CouponClaimComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
   ],
   exports: [MyCouponsComponent, CouponClaimComponent],
   entryComponents: [

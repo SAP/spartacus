@@ -41,10 +41,14 @@ describe('Cart-entry Actions', () => {
 
     describe('CartAddEntrySuccess', () => {
       it('should create the action', () => {
-        const action = new CartActions.CartAddEntrySuccess({});
+        const payload = {
+          cartId: 'cartId',
+          userId: 'userId',
+        };
+        const action = new CartActions.CartAddEntrySuccess(payload);
         expect({ ...action }).toEqual({
           type: CartActions.CART_ADD_ENTRY_SUCCESS,
-          payload: {},
+          payload,
           meta: StateLoaderActions.successMeta(CART_DATA),
         });
       });
@@ -79,10 +83,14 @@ describe('Cart-entry Actions', () => {
 
     describe('CartRemoveEntrySuccess', () => {
       it('should create the action', () => {
-        const action = new CartActions.CartRemoveEntrySuccess({});
+        const payload = {
+          userId: 'userId',
+          cartId: 'cartId',
+        };
+        const action = new CartActions.CartRemoveEntrySuccess(payload);
         expect({ ...action }).toEqual({
           type: CartActions.CART_REMOVE_ENTRY_SUCCESS,
-          payload: {},
+          payload,
           meta: StateLoaderActions.successMeta(CART_DATA),
         });
       });
@@ -95,8 +103,8 @@ describe('Cart-entry Actions', () => {
         const payload = {
           userId: userId,
           cartId: cartId,
-          productCode: productCode,
-          quantity: 1,
+          entry: productCode,
+          qty: 1,
         };
         const action = new CartActions.CartUpdateEntry(payload);
         expect({ ...action }).toEqual({
@@ -122,10 +130,14 @@ describe('Cart-entry Actions', () => {
 
     describe('CartUpdateEntrySuccess', () => {
       it('should create the action', () => {
-        const action = new CartActions.CartUpdateEntrySuccess({});
+        const payload = {
+          cartId: 'cartId',
+          userId: 'userId',
+        };
+        const action = new CartActions.CartUpdateEntrySuccess(payload);
         expect({ ...action }).toEqual({
           type: CartActions.CART_UPDATE_ENTRY_SUCCESS,
-          payload: {},
+          payload,
           meta: StateLoaderActions.successMeta(CART_DATA),
         });
       });
