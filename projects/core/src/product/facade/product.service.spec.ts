@@ -32,109 +32,97 @@ describe('ProductService', () => {
           fromStoreReducers.getReducers()
         ),
       ],
-      providers: [ProductService],
+      providers: [
+        ProductService,
+        {
+          provide: ProductLoadingService,
+          useClass: MockProductLoadingService,
+        },
+      ],
+    });
+    store = TestBed.inject(Store);
+    service = TestBed.inject(ProductService);
+    spyOn(store, 'dispatch').and.stub();
+  });
+
+  it('should ProductService is injected', inject(
+    [ProductService],
+    (productService: ProductService) => {
+      expect(productService).toBeTruthy();
+    }
+  ));
+
+  describe('get(productCode)', () => {
+    it('should be able to get product by code', async () => {
+      const result: Product = await service.get('testId').toPromise();
+      expect(result).toEqual(mockProduct('testId'));
+    });
+
+    it('should be able to get product by code and scope', async () => {
+      const result: Product = await service.get('testId', 'scope').toPromise();
+      expect(result).toEqual(mockProduct('testId', ['scope']));
+    });
+
+    it('should be able to get product by code and scopes', async () => {
+      const result: Product = await service
+        .get('testId', ['scope1', 'scope2'])
+        .toPromise();
+      expect(result).toEqual(mockProduct('testId', ['scope1', 'scope2']));
     });
   });
 
-  describe('Current Implementation', () => {
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: ProductLoadingService,
-            useClass: MockProductLoadingService,
-          },
-        ],
+  describe('isLoading(productCode)', () => {
+    it('should be able to get loading flag by code', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of({
+          loading: true,
+        })
+      );
+      let isLoading: boolean;
+      service.isLoading('testId').subscribe(value => {
+        isLoading = value;
       });
-
-      store = TestBed.inject(Store);
-      service = TestBed.inject(ProductService);
-      spyOn(store, 'dispatch').and.stub();
+      expect(isLoading).toBeTruthy();
     });
+  });
 
-    it('should ProductService is injected', inject(
-      [ProductService],
-      (productService: ProductService) => {
-        expect(productService).toBeTruthy();
-      }
-    ));
-
-    describe('get(productCode)', () => {
-      it('should be able to get product by code', async () => {
-        const result: Product = await service.get('testId').toPromise();
-        expect(result).toEqual(mockProduct('testId'));
+  describe('hasError(productCode)', () => {
+    it('should be able to get loading flag by code', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of({
+          error: true,
+        })
+      );
+      let hasError: boolean;
+      service.hasError('testId').subscribe(value => {
+        hasError = value;
       });
-
-      it('should be able to get product by code and scope', async () => {
-        const result: Product = await service
-          .get('testId', 'scope')
-          .toPromise();
-        expect(result).toEqual(mockProduct('testId', ['scope']));
-      });
-
-      it('should be able to get product by code and scopes', async () => {
-        const result: Product = await service
-          .get('testId', ['scope1', 'scope2'])
-          .toPromise();
-        expect(result).toEqual(mockProduct('testId', ['scope1', 'scope2']));
-      });
+      expect(hasError).toBeTruthy();
     });
+  });
 
-    describe('isLoading(productCode)', () => {
-      it('should be able to get loading flag by code', () => {
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          of({
-            loading: true,
-          })
-        );
-        let isLoading: boolean;
-        service.isLoading('testId').subscribe(value => {
-          isLoading = value;
-        });
-        expect(isLoading).toBeTruthy();
+  describe('hasError(productCode)', () => {
+    it('should be able to get loading flag by code', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of({
+          success: true,
+        })
+      );
+      let isSuccess: boolean;
+      service.isSuccess('testId').subscribe(value => {
+        isSuccess = value;
       });
+      expect(isSuccess).toBeTruthy();
     });
+  });
 
-    describe('hasError(productCode)', () => {
-      it('should be able to get loading flag by code', () => {
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          of({
-            error: true,
-          })
-        );
-        let hasError: boolean;
-        service.hasError('testId').subscribe(value => {
-          hasError = value;
-        });
-        expect(hasError).toBeTruthy();
-      });
-    });
-
-    describe('hasError(productCode)', () => {
-      it('should be able to get loading flag by code', () => {
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          of({
-            success: true,
-          })
-        );
-        let isSuccess: boolean;
-        service.isSuccess('testId').subscribe(value => {
-          isSuccess = value;
-        });
-        expect(isSuccess).toBeTruthy();
-      });
-    });
-
-    describe('isProductLoaded(productCode)', () => {
-      it('should be true that the product is loaded when a product is returned by the store', async () => {
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          of({ value: mockedProduct })
-        );
-        const result: Product = await service
-          .get('existingProduct')
-          .toPromise();
-        expect(result).toBeTruthy();
-      });
+  describe('isProductLoaded(productCode)', () => {
+    it('should be true that the product is loaded when a product is returned by the store', async () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of({ value: mockedProduct })
+      );
+      const result: Product = await service.get('existingProduct').toPromise();
+      expect(result).toBeTruthy();
     });
   });
 });
