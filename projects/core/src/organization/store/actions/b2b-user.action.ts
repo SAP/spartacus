@@ -7,7 +7,7 @@ import { B2BSearchConfig } from '../../model/search-config';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
 import { B2B_USER_ENTITIES, USER_LIST } from '../organization-state';
 import { ListModel } from '../../../model/misc.model';
-import { B2BUser } from '@spartacus/core';
+import { B2BUser } from '../../../model/org-unit.model';
 
 export const LOAD_B2B_USER = '[B2BUser] Load B2BUser Data';
 export const LOAD_B2B_USER_FAIL = '[B2BUser] Load B2BUser Data Fail';
