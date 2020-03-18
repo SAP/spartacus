@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {
-  FeatureConfigService,
   Product,
   ProductScope,
   ProductService,
@@ -14,25 +13,11 @@ import { map, switchMap } from 'rxjs/operators';
 })
 export class CurrentProductService {
   constructor(
-    routingService: RoutingService,
-    productService: ProductService,
-    // tslint:disable-next-line: unified-signatures
-    features?: FeatureConfigService
-  );
-
-  /**
-   * @deprecated since 1.4
-   */
-  constructor(routingService: RoutingService, productService: ProductService);
-
-  constructor(
     private routingService: RoutingService,
-    private productService: ProductService,
-    protected features?: FeatureConfigService
+    private productService: ProductService
   ) {}
 
-  protected readonly DEFAULT_PRODUCT_SCOPE =
-    this.features && this.features.isLevel('1.4') ? ProductScope.DETAILS : '';
+  protected readonly DEFAULT_PRODUCT_SCOPE = ProductScope.DETAILS;
 
   getProduct(
     scopes?: (ProductScope | string)[] | ProductScope | string
@@ -42,11 +27,7 @@ export class CurrentProductService {
       switchMap((productCode: string) =>
         this.productService.get(
           productCode,
-          // TODO deprecated since 1.4 - should be replaced with 'scopes || this.DEFAULT_PRODUCT_SCOPE'
-          this.features && this.features.isLevel('1.4')
-            ? scopes || this.DEFAULT_PRODUCT_SCOPE
-            : undefined
-          // deprecated END
+          scopes || this.DEFAULT_PRODUCT_SCOPE
         )
       )
     );

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, of, queueScheduler } from 'rxjs';
-import { map, observeOn, shareReplay, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
@@ -12,22 +11,9 @@ import { ProductScope } from '../model/product-scope';
 @Injectable()
 export class ProductService {
   constructor(
-    store: Store<StateWithProduct>,
-    // tslint:disable-next-line:unified-signatures
-    productLoading: ProductLoadingService
-  );
-  /**
-   * @deprecated since 1.4
-   */
-  constructor(store: Store<StateWithProduct>);
-
-  constructor(
     protected store: Store<StateWithProduct>,
-    protected productLoading?: ProductLoadingService
+    protected productLoading: ProductLoadingService
   ) {}
-
-  /** @deprecated since 1.4 */
-  private products: { [code: string]: Observable<Product> } = {};
 
   /**
    * Returns the product observable. The product will be loaded
@@ -46,30 +32,6 @@ export class ProductService {
     productCode: string,
     scopes: (ProductScope | string)[] | ProductScope | string = ''
   ): Observable<Product> {
-    // TODO: Remove, deprecated since 1.4
-    if (!this.productLoading) {
-      if (!this.products[productCode]) {
-        this.products[productCode] = this.store.pipe(
-          select(ProductSelectors.getSelectedProductStateFactory(productCode)),
-          observeOn(queueScheduler),
-          tap(productState => {
-            const attemptedLoad =
-              productState.loading ||
-              productState.success ||
-              productState.error;
-
-            if (!attemptedLoad) {
-              this.store.dispatch(new ProductActions.LoadProduct(productCode));
-            }
-          }),
-          map(productState => productState.value),
-          shareReplay({ bufferSize: 1, refCount: true })
-        );
-      }
-      return this.products[productCode];
-    }
-    // END OF (TODO: Remove, deprecated since 1.4)
-
     return productCode
       ? this.productLoading.get(productCode, [].concat(scopes))
       : of(undefined);
