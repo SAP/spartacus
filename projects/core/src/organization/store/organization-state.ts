@@ -7,6 +7,7 @@ import {
   OrgUnitUserGroup,
   B2BUnit,
   B2BApprovalProcess,
+  B2BUser,
 } from '../../model';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
@@ -36,6 +37,10 @@ export const ORG_UNIT_APPROVAL_PROCESSES_ENTITIES =
 export const ORG_UNIT_TREE = 'tree';
 export const ORG_UNIT_APPROVAL_PROCESSES = 'approvalProcesses';
 export const ORG_UNIT_NODES = 'availableOrgUnitNodes';
+
+export const B2B_USER_FEATURE = 'b2bUser';
+export const B2B_USER_ENTITIES = 'b2bUser-entities';
+export const USER_LIST = 'b2bUser-list';
 
 export const ORG_UNIT_USER_GROUP_FEATURE = 'orgUnitUserGroup';
 export const ORG_UNIT_USER_GROUP_ENTITIES = 'orgUnitUserGroup-entities';
@@ -81,4 +86,7 @@ export interface OrganizationState {
   [ORG_UNIT_USER_GROUP_FEATURE]: OrgUnitUserGroupManagement;
   [PERMISSION_FEATURE]: PermissionManagement;
   [COST_CENTER_FEATURE]: CostCenterManagement;
+  [B2B_USER_FEATURE]: B2BUserManagement;
 }
+
+export interface B2BUserManagement extends Management<B2BUser> {}

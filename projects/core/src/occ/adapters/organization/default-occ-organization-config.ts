@@ -36,6 +36,20 @@ export const defaultOccOrganizationConfig: OccConfig = {
         permissions: '/users/${userId}/orderApprovalPermissions',
         permission:
           '/users/${userId}/orderApprovalPermissions/${orderApprovalPermissionCode}',
+        b2bUsers: '/users/${userId}/orgCustomers',
+        b2bUser: '/users/${userId}/orgCustomers/${orgCustomerId}',
+        b2bUserApprovers:
+          '/users/${userId}/orgCustomers/${orgCustomerId}/approvers',
+        b2bUserApprover:
+          '/users/${userId}/orgCustomers/${orgCustomerId}/approvers/${approverId}',
+        b2bUserUserGroups:
+          '/users/${userId}/orgCustomers/${orgCustomerId}/orgUserGroups',
+        b2bUserUserGroup:
+          '/users/${userId}/orgCustomers/${orgCustomerId}/orgUserGroups/${userGroupId}',
+        b2bUserPermissions:
+          '/users/${userId}/orgCustomers/${orgCustomerId}/permissions',
+        b2bUserPermission:
+          '/users/${userId}/orgCustomers/${orgCustomerId}/permissions/${permissionId}',
       },
     },
   },
