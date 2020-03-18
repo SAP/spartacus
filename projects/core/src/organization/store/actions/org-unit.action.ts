@@ -3,6 +3,9 @@ import {
   B2BUnitNode,
   B2BApprovalProcess,
 } from '../../../model/org-unit.model';
+import { ListModel } from '../../../model/misc.model';
+import { B2BSearchConfig } from '../../model/search-config';
+
 import {
   EntityFailAction,
   EntityLoadAction,
@@ -18,7 +21,6 @@ import {
   ORG_UNIT_NODES,
   ORG_UNIT_ASSIGNED_USERS,
 } from '../organization-state';
-import { B2BSearchConfig, ListModel } from '@spartacus/core';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
 
 export const LOAD_ORG_UNIT = '[B2BUnit] Load B2BUnit Data';

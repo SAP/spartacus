@@ -1,6 +1,6 @@
 import { B2BUnitNode } from '../../../model/org-unit.model';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
-import { OrgUnitActions } from '@spartacus/core';
+import { OrgUnitActions } from '../actions/index';
 
 export const orgUnitInitialState = {};
 export const orgUnitsInitialState = undefined;

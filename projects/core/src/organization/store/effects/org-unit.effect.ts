@@ -10,7 +10,7 @@ import {
 import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
-import { OrgUnitActions } from '../actions/index';
+import { B2BUserActions, OrgUnitActions } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
 
 @Injectable()
@@ -156,6 +156,7 @@ export class OrgUnitEffects {
   loadUsers$: Observable<
     | OrgUnitActions.LoadAssignedUsersSuccess
     | OrgUnitActions.LoadAssignedUsersFail
+    | B2BUserActions.LoadB2BUserSuccess
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_ASSIGNED_USERS),
     map((action: OrgUnitActions.LoadAssignedUsers) => action.payload),
@@ -166,7 +167,7 @@ export class OrgUnitEffects {
           switchMap((users: EntitiesModel<B2BUser>) => {
             const { values, page } = normalizeListPage(users, 'code');
             return [
-              new UserActions.LoadUserSuccess(values),
+              new B2BUserActions.LoadB2BUserSuccess(values),
               new OrgUnitActions.LoadAssignedUsersSuccess({
                 orgUnitId,
                 roleId,

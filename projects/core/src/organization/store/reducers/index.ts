@@ -8,6 +8,8 @@ import {
   CostCenter,
   B2BUnit,
   B2BApprovalProcess,
+  OrgUnitUserGroup,
+  B2BUser,
 } from '../../../model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import {
@@ -24,9 +26,17 @@ import {
   COST_CENTER_ENTITIES,
   COST_CENTER_LIST,
   COST_CENTER_ASSIGNED_BUDGETS,
+  ORG_UNIT_USER_GROUP_ENTITIES,
+  ORG_UNIT_USER_GROUP_FEATURE,
+  ORG_UNIT_USER_GROUP_LIST,
+  ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+  ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
   ORG_UNIT_ENTITIES,
   ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
   ORG_UNIT_TREE_ENTITY,
+  B2B_USER_FEATURE,
+  B2B_USER_ENTITIES,
+  USER_LIST,
   ORG_UNIT_ASSIGNED_USERS,
 } from '../organization-state';
 import { budgetsListReducer, budgetsEntitiesReducer } from './budget.reducer';
@@ -35,6 +45,12 @@ import {
   costCentersListReducer,
   costCenterAssignedBudgetsListReducer,
 } from './cost-center.reducer';
+import { userListReducer } from './b2b-user.reducer';
+import {
+  orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer,
+  orgUnitUserGroupAvailablOrgCustomersListReducer,
+  orgUnitUserGroupsListReducer,
+} from './user-group.reducer';
 import { orgUnitUserListReducer } from './org-unit.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
@@ -67,6 +83,23 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         orgUnitUserListReducer
       ),
     }),
+    [ORG_UNIT_USER_GROUP_FEATURE]: combineReducers({
+      entities: entityLoaderReducer<OrgUnitUserGroup>(
+        ORG_UNIT_USER_GROUP_ENTITIES
+      ),
+      list: entityLoaderReducer<ListModel>(
+        ORG_UNIT_USER_GROUP_LIST,
+        orgUnitUserGroupsListReducer
+      ),
+      permissions: entityLoaderReducer<ListModel>(
+        ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+        orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer
+      ),
+      customers: entityLoaderReducer<ListModel>(
+        ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+        orgUnitUserGroupAvailablOrgCustomersListReducer
+      ),
+    }),
     [COST_CENTER_FEATURE]: combineReducers({
       entities: entityLoaderReducer<CostCenter>(COST_CENTER_ENTITIES),
       list: entityLoaderReducer<ListModel>(
@@ -77,6 +110,10 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         COST_CENTER_ASSIGNED_BUDGETS,
         costCenterAssignedBudgetsListReducer
       ),
+    }),
+    [B2B_USER_FEATURE]: combineReducers({
+      entities: entityLoaderReducer<B2BUser>(B2B_USER_ENTITIES),
+      list: entityLoaderReducer<ListModel>(USER_LIST, userListReducer),
     }),
   };
 }

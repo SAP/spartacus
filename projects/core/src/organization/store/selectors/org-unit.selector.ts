@@ -21,6 +21,7 @@ import { getOrganizationState } from './feature.selector';
 import { B2BSearchConfig } from '../../model/search-config';
 import { EntitiesModel } from '../../../model/misc.model';
 import { denormalizeCustomB2BSearch } from '../../utils/serializer';
+import { getB2BUsersState } from './b2b-user.selector';
 
 export const getB2BOrgUnitState: MemoizedSelector<
   StateWithOrganization,
@@ -107,7 +108,7 @@ export const getAssignedUsers = (
 > =>
   createSelector(
     getB2BOrgUnitState,
-    getUsersState,
+    getB2BUsersState,
     (state: OrgUnits, users: EntityLoaderState<B2BUser>) =>
       denormalizeCustomB2BSearch(
         state.users,

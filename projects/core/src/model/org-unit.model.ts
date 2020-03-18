@@ -55,6 +55,9 @@ export interface OrgUnitAddress {
 export interface B2BUser extends User {
   active?: boolean;
   approvers?: [];
+  orgUnit?: B2BUnit;
+  roles?: string[];
+  selected?: boolean;
 }
 
 export interface B2BApprovalProcess {

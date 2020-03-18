@@ -10,6 +10,7 @@ import {
   B2BUNIT_NORMALIZER,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
 } from '../../../organization/connectors/org-unit/converters';
+import { B2B_USERS_NORMALIZER } from '../../../organization/connectors/b2b-user/converters';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
 import { Occ } from '../../occ-models/occ.models';
 import {
@@ -82,7 +83,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
       .get<Occ.B2BUserList>(
         this.getUsersEndpoint(userId, orgUnitId, roleId, params)
       )
-      .pipe(this.converter.pipeable(B2B_USER_LIST_NORMALIZER));
+      .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
   }
 
   protected getOrgUnitEndpoint(userId: string, orgUnitId: string): string {

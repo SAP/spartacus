@@ -8,3 +8,7 @@ export * from './occ-org-unit-node-normalizer';
 export * from './occ-org-unit-node-list-normalizer';
 export * from './occ-cost-center-normalizer';
 export * from './occ-cost-center-list-normalizer';
+export * from './occ-b2b-user-normalizer';
+export * from './occ-user-list-normalizer';
+export * from './occ-user-group-normalizer';
+export * from './occ-user-group-list-normalizer';
