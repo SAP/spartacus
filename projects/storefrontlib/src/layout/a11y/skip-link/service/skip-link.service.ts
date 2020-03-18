@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AutoFocusService } from '../../keyboard-focus/autofocus/auto-focus.service';
 import { SkipLink, SkipLinkConfig } from '../config/skip-link.config';
 
 @Injectable({
@@ -8,7 +9,10 @@ import { SkipLink, SkipLinkConfig } from '../config/skip-link.config';
 export class SkipLinkService {
   private skipLinks$ = new BehaviorSubject<SkipLink[]>([]);
 
-  constructor(protected config: SkipLinkConfig) {}
+  constructor(
+    protected config: SkipLinkConfig,
+    protected autoFocusService: AutoFocusService
+  ) {}
 
   getSkipLinks(): Observable<SkipLink[]> {
     return this.skipLinks$;
@@ -49,16 +53,20 @@ export class SkipLinkService {
         ? skipLink.target
         : (skipLink.target as Element).parentElement;
 
+    // focus first focusable element in the
+    const firstFocusable =
+      this.autoFocusService.findFirstFocusable(target) || target;
+
     // we force a tabindex if not available, to ensure we can focus into the element
-    const currentTabIndex = target.getAttribute('tabindex');
-    if (!currentTabIndex) {
+    const hasTabindex = target.hasAttribute('tabindex');
+    if (!hasTabindex) {
       target.setAttribute('tabindex', '-1');
     }
 
-    (target as HTMLElement).focus();
+    firstFocusable.focus();
 
     // drop the tmp tabindex
-    if (!currentTabIndex) {
+    if (!hasTabindex) {
       target.removeAttribute('tabindex');
     }
   }
