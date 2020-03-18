@@ -4290,7 +4290,7 @@ export namespace Occ {
   }
 
   export interface UserList {
-    b2bUsers: B2BUser[];
+    users: B2BUser[];
   }
 
   export interface OrgUnitUserGroupList {
