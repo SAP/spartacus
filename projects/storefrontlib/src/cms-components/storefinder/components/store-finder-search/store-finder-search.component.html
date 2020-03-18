@@ -15,6 +15,7 @@
           [type]="iconTypes.SEARCH"
           aria-label="search"
           class="search"
+          (keyup)="onKey($event)"
           [routerLink]="['/store-finder/find']"
           [queryParams]="{ query: queryInput.value }"
           [ngClass]="{

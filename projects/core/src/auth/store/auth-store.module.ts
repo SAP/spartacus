@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { ConfigModule } from '../../config/config.module';
+import { provideDefaultConfigFactory } from '../../config/config.module';
 import { StateConfig, StorageSyncType } from '../../state/config/state-config';
 import { StateModule } from '../../state/state.module';
 import { AUTH_FEATURE } from './auth-state';
@@ -36,8 +36,10 @@ export function authStoreConfigFactory(): StateConfig {
     StateModule,
     StoreModule.forFeature(AUTH_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfigFactory(authStoreConfigFactory),
   ],
-  providers: [reducerProvider],
+  providers: [
+    provideDefaultConfigFactory(authStoreConfigFactory),
+    reducerProvider,
+  ],
 })
 export class AuthStoreModule {}
