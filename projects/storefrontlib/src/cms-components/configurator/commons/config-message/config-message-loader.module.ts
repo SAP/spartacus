@@ -1,7 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  ComponentFactory,
+  ComponentFactoryResolver,
+  NgModule,
+} from '@angular/core';
+import { OutletPosition } from '../../../../cms-structure/outlet/outlet.model';
+import { OutletService } from '../../../../cms-structure/outlet/outlet.service';
 import { PageComponentModule } from '../../../../cms-structure/page/component/page-component.module';
-import { ConfigMessageEnablerService } from './service/config-message-enabler.service';
+import { ConfigMessageComponent } from './config-message.component';
 
 @NgModule({
   imports: [CommonModule, PageComponentModule],
@@ -9,7 +16,7 @@ import { ConfigMessageEnablerService } from './service/config-message-enabler.se
     {
       provide: APP_INITIALIZER,
       useFactory: bannerFactory,
-      deps: [ConfigMessageEnablerService],
+      deps: [ComponentFactoryResolver, OutletService],
       multi: true,
     },
   ],
@@ -17,10 +24,14 @@ import { ConfigMessageEnablerService } from './service/config-message-enabler.se
 export class ConfigurationMessageLoaderModule {}
 
 export function bannerFactory(
-  configMessageEnable: ConfigMessageEnablerService
+  componentFactoryResolver: ComponentFactoryResolver,
+  outletService: OutletService<ComponentFactory<any>>
 ) {
   const isReady = () => {
-    configMessageEnable.load();
+    const factory = componentFactoryResolver.resolveComponentFactory(
+      ConfigMessageComponent
+    );
+    outletService.add('cx-header', factory, OutletPosition.AFTER);
   };
   return isReady;
 }
