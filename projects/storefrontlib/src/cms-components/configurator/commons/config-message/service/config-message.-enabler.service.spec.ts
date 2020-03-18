@@ -8,8 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { of } from 'rxjs';
-import { OutletService } from '../../../../cms-structure/outlet/outlet.service';
-import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
+import { OutletService } from '../../../../../cms-structure/outlet/outlet.service';
+import { ConfigRouterExtractorService } from '../../../generic/service/config-router-extractor.service';
 import { ConfigMessageEnablerService } from './config-message-enabler.service';
 
 let isOverview = false;

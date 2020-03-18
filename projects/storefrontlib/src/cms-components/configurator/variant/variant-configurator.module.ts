@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -30,13 +30,13 @@ import { ConfigAttributeSingleSelectionImageComponent } from '../commons/config-
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
 import { ConfigGroupTitleComponent } from '../commons/config-group-title/config-group-title.component';
+import { ConfigurationMessageLoaderModule } from '../commons/config-message/config-message-loader.module';
 import { ConfigMessageComponent } from '../commons/config-message/config-message.component';
 import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/config-price-summary.component';
 import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.component';
 import { DefaultMessageConfig } from '../commons/config/default-message-config';
 import { MessageConfig } from '../commons/config/message-config';
-import { ConfigMessageEnablerService } from '../commons/service/config-message-enabler.service';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
 
 @NgModule({
@@ -44,6 +44,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     CommonModule,
     GenericConfiguratorModule,
     ProductModule,
+    ConfigurationMessageLoaderModule,
     RouterModule.forChild([
       {
         path: 'configureCPQCONFIGURATOR/:ownerType',
@@ -181,16 +182,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigTabBarComponent,
     ConfigMessageComponent,
   ],
-  providers: [
-    UserService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: bannerFactory,
-      deps: [ConfigMessageEnablerService],
-      multi: true,
-    },
-    { provide: MessageConfig, useExisting: Config },
-  ],
+  providers: [UserService, { provide: MessageConfig, useExisting: Config }],
   entryComponents: [
     ConfigFormComponent,
     ConfigAttributeRadioButtonComponent,
@@ -212,12 +204,3 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
   ],
 })
 export class VariantConfiguratorModule {}
-
-export function bannerFactory(
-  configMessageEnable: ConfigMessageEnablerService
-) {
-  const isReady = () => {
-    configMessageEnable.load();
-  };
-  return isReady;
-}

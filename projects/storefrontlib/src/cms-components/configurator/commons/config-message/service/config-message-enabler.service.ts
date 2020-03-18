@@ -5,9 +5,12 @@ import {
 } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { map, switchMap } from 'rxjs/operators';
-import { OutletPosition, OutletService } from '../../../../cms-structure/index';
-import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
-import { ConfigMessageComponent } from '../config-message/config-message.component';
+import {
+  OutletPosition,
+  OutletService,
+} from '../../../../../cms-structure/index';
+import { ConfigRouterExtractorService } from '../../../generic/service/config-router-extractor.service';
+import { ConfigMessageComponent } from '../config-message.component';
 
 @Injectable({
   providedIn: 'root',
@@ -55,7 +58,7 @@ export class ConfigMessageEnablerService {
     const factory = this.componentFactoryResolver.resolveComponentFactory(
       ConfigMessageComponent
     );
-    this.outletService.add('cx-header', factory, OutletPosition.AFTER);
+    this.outletService.add('cx-storefront', factory, OutletPosition.BEFORE);
 
     this.isUiAdded = true;
   }
