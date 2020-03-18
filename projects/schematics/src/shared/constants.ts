@@ -128,6 +128,11 @@ export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
 
 export const ANONYMOUS_USERID_CONST = 'ANONYMOUS_USERID';
+
+export const PWA_CONFIGURATION_FACTORY = 'pwaConfigurationFactory';
+export const PWA_FACTORY = 'pwaFactory';
+export const GET_STRUCTURED_DATA_FACTORY = 'getStructuredDataFactory';
+export const SKIP_LINK_FACTORY = 'skipLinkFactory';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
