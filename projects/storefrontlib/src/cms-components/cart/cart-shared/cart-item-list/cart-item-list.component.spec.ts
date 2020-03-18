@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CartService,
+  ActiveCartService,
   ConsignmentEntry,
   FeatureConfigService,
   FeaturesConfig,
@@ -17,7 +17,7 @@ import { PromotionsModule } from '../../../checkout';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
 
-class MockCartService {
+class MockActiveCartService {
   updateEntry() {}
 }
 
@@ -70,7 +70,7 @@ class MockCartItemComponent {
 describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
-  let cartService: CartService;
+  let activeCartService: ActiveCartService;
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
@@ -93,7 +93,7 @@ describe('CartItemListComponent', () => {
       ],
       declarations: [CartItemListComponent, MockCartItemComponent],
       providers: [
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: SelectiveCartService, useValue: mockSelectiveCartService },
         { provide: FeatureConfigService, useValue: mockFeatureConfig },
         {
@@ -108,13 +108,13 @@ describe('CartItemListComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemListComponent);
-    cartService = TestBed.inject(CartService);
+    activeCartService = TestBed.inject(ActiveCartService);
 
     component = fixture.componentInstance;
     component.items = mockItems;
     component.options = { isSaveForLater: false };
 
-    spyOn(cartService, 'updateEntry').and.callThrough();
+    spyOn(activeCartService, 'updateEntry').and.callThrough();
     mockFeatureConfig.isEnabled.and.returnValue(false);
 
     fixture.detectChanges();
@@ -188,7 +188,7 @@ describe('CartItemListComponent', () => {
       .getControl(item)
       .subscribe(control => {
         control.get('quantity').setValue(2);
-        expect(cartService.updateEntry).toHaveBeenCalledWith(
+        expect(activeCartService.updateEntry).toHaveBeenCalledWith(
           item.entryNumber as any,
           2
         );
@@ -202,7 +202,7 @@ describe('CartItemListComponent', () => {
       .getControl(item)
       .subscribe(control => {
         control.get('quantity').setValue(0);
-        expect(cartService.updateEntry).toHaveBeenCalledWith(
+        expect(activeCartService.updateEntry).toHaveBeenCalledWith(
           item.entryNumber as any,
           0
         );
