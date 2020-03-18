@@ -22,10 +22,12 @@ export class NavigationService {
   ): Observable<NavigationNode> {
     return combineLatest([data$, this.getNavigationNode(data$)]).pipe(
       map(([data, nav]) => {
-        return {
-          title: data.name,
-          children: [nav],
-        };
+        return data
+          ? {
+              title: data.name,
+              children: [nav],
+            }
+          : undefined;
       })
     );
   }

@@ -22,7 +22,7 @@ export class FooterNavigationComponent {
   );
 
   styleClass$: Observable<string> = this.componentData.data$.pipe(
-    map(d => d.styleClass)
+    map(d => d?.styleClass)
   );
 
   // in order to preserve the backwards compatibility, this should render only if anonymous consents feature is disabled
@@ -45,7 +45,7 @@ export class FooterNavigationComponent {
   /**
    * @deprecated since version 1.3
    * Instead, use:
-   * 
+   *
     ```ts
       constructor(
       componentData: CmsComponentData<CmsNavigationComponent>,
