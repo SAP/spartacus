@@ -34,6 +34,7 @@ import { USER_CONSENT_SERVICE_MIGRATION } from './data/user-consent.service.migr
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
+import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -71,4 +72,5 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CART_VOUCHER_SERVICE_MIGRATION,
   ...CART_COUPON_COMPONENT_MIGRATIONS,
   ...CART_ITEM_LIST_COMPONENT_MIGRATIONS,
+  STAR_RATING_COMPONENT_MIGRATION,
 ];

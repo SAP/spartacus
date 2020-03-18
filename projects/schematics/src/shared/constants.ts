@@ -16,6 +16,8 @@ export const NGRX_STORE = '@ngrx/store';
 
 /***** Classes start *****/
 export const OBSERVABLE_CLASS = 'Observable';
+export const RENDERER_2 = 'Renderer2';
+export const ELEMENT_REF = 'ElementRef';
 
 export const STORE = 'Store';
 
@@ -96,6 +98,7 @@ export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const STAR_RATING_COMPONENT = 'StarRatingComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
