@@ -69,6 +69,11 @@ describe('ProductService', () => {
         .toPromise();
       expect(result).toEqual(mockProduct('testId', ['scope1', 'scope2']));
     });
+
+    it('should return undefined when no product code was provided', async () => {
+      const result: Product = await service.get(undefined).toPromise();
+      expect(result).toEqual(undefined);
+    });
   });
 
   describe('isLoading(productCode)', () => {
