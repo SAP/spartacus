@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { FeatureConfigService, Product, ProductScope, ProductService, RoutingService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  Product,
+  ProductScope,
+  ProductService,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
