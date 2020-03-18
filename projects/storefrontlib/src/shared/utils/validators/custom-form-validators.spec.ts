@@ -5,26 +5,27 @@ describe('FormValidationService', () => {
   let email: FormControl;
   let emailError: ValidationErrors;
   let passwordError: ValidationErrors;
-  let matchError: any;
+  let matchPasswordError: any;
   let form: FormGroup;
 
   beforeEach(() => {
     email = new FormControl();
-    emailError = {
-      InvalidEmail: true,
-    };
 
     form = new FormGroup({
       password: new FormControl(),
       passwordconf: new FormControl(),
     });
 
-    passwordError = {
-      InvalidPassword: true,
+    emailError = {
+      cxInvalidEmail: true,
     };
 
-    matchError = {
-      NotEqual: true,
+    passwordError = {
+      cxInvalidPassword: true,
+    };
+
+    matchPasswordError = {
+      cxPasswordsNotEqual: true,
     };
   });
 
@@ -60,7 +61,6 @@ describe('FormValidationService', () => {
       'firstname-lastname@example.com',
     ];
     const invalidEmails = [
-      '',
       ' ',
       'plainaddress',
       ' startspace@example.com',
@@ -128,7 +128,7 @@ describe('FormValidationService', () => {
       expect(CustomFormValidators.matchPassword(form)).toBeNull();
 
       form.get('passwordconf').setValue('Test1234');
-      expect(CustomFormValidators.matchPassword(form)).toEqual(matchError);
+      expect(CustomFormValidators.matchPassword(form)).toEqual(matchPasswordError);
     });
   });
 });

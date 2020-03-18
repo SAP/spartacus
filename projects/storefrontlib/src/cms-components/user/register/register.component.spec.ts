@@ -288,7 +288,9 @@ describe('RegisterComponent', () => {
       controls['password'].setValue('test');
       controls['passwordconf'].setValue('test1');
 
-      const isNotEqual = component.userRegistrationForm.hasError('NotEqual');
+      const isNotEqual = component.userRegistrationForm.hasError(
+        'cxPasswordsNotEqual'
+      );
       expect(isNotEqual).toBeTruthy();
     });
 
@@ -299,7 +301,9 @@ describe('RegisterComponent', () => {
       controls['password'].setValue(form.password);
       controls['passwordconf'].setValue(form.password);
 
-      const isNotEqual = component.userRegistrationForm.hasError('NotEqual');
+      const isNotEqual = component.userRegistrationForm.hasError(
+        'cxPasswordsNotEqual'
+      );
       expect(isNotEqual).toBeFalsy();
     });
 
