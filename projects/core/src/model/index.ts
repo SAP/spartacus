@@ -19,4 +19,3 @@ export * from './product.model';
 export * from './scoped-data';
 export * from './shared.model';
 export * from './store-finder.model';
-export * from './b2b-user.model';
