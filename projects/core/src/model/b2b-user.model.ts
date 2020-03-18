@@ -1,6 +1,6 @@
 import { B2BUnit } from './org-unit.model';
 
-export interface OrgUnitCustomer {
+export interface B2BUser {
   firstName?: string;
   lastName?: string;
   uid?: string;

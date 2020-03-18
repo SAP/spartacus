@@ -21,19 +21,19 @@ export const defaultOccOrganizationConfig: OccConfig = {
         permissions: '/users/${userId}/orderApprovalPermissions',
         permission:
           '/users/${userId}/orderApprovalPermissions/${orderApprovalPermissionCode}',
-        orgCustomers: '/users/${userId}/orgCustomers',
-        orgCustomer: '/users/${userId}/orgCustomers/${orgCustomerId}',
-        orgCustomerApprovers:
+        b2bUsers: '/users/${userId}/orgCustomers',
+        b2bUser: '/users/${userId}/orgCustomers/${orgCustomerId}',
+        b2bUserApprovers:
           '/users/${userId}/orgCustomers/${orgCustomerId}/approvers',
-        orgCustomerApprover:
+        b2bUserApprover:
           '/users/${userId}/orgCustomers/${orgCustomerId}/approvers/${approverId}',
-        orgCustomerUserGroups:
+        b2bUserUserGroups:
           '/users/${userId}/orgCustomers/${orgCustomerId}/orgUserGroups',
-        orgCustomerUserGroup:
+        b2bUserUserGroup:
           '/users/${userId}/orgCustomers/${orgCustomerId}/orgUserGroups/${userGroupId}',
-        orgCustomerPermissions:
+        b2bUserPermissions:
           '/users/${userId}/orgCustomers/${orgCustomerId}/permissions',
-        orgCustomerPermission:
+        b2bUserPermission:
           '/users/${userId}/orgCustomers/${orgCustomerId}/permissions/${permissionId}',
       },
     },

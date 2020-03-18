@@ -4277,29 +4277,29 @@ export namespace Occ {
     sorts?: SortModel[];
   }
 
-  export interface OrgUnitCustomer {
-    active?: boolean;
-    approvers?: any[];
-    currency?: Currency;
-    customerId?: string;
-    deactivationDate?: string;
-    defaultAddress?: Address;
-    displayUid?: string;
-    email?: string;
-    firstName?: string;
-    language?: Language;
-    lastName?: string;
-    name?: string;
-    orgUnit?: B2BUnit;
-    roles?: string[];
-    selected?: boolean;
-    title?: string;
-    titleCode?: string;
-    uid?: string;
-  }
+  // export interface B2BUser {
+  //   active?: boolean;
+  //   approvers?: any[];
+  //   currency?: Currency;
+  //   customerId?: string;
+  //   deactivationDate?: string;
+  //   defaultAddress?: Address;
+  //   displayUid?: string;
+  //   email?: string;
+  //   firstName?: string;
+  //   language?: Language;
+  //   lastName?: string;
+  //   name?: string;
+  //   orgUnit?: B2BUnit;
+  //   roles?: string[];
+  //   selected?: boolean;
+  //   title?: string;
+  //   titleCode?: string;
+  //   uid?: string;
+  // }
 
-  export interface OrgUnitCustomerList {
-    orgUnitCustomers: OrgUnitCustomer[];
+  export interface UserList {
+    b2bUsers: B2BUser[];
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }

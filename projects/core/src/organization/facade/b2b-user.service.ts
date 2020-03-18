@@ -7,58 +7,54 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
 import { EntitiesModel } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
-import { OrgUnitCustomerActions } from '../store/actions/index';
+import { B2BUserActions } from '../store/actions/index';
 import { B2BSearchConfig } from '../model/search-config';
-import { OrgUnitCustomer } from '../../model';
+import { B2BUser } from '../../model';
 import {
-  getOrgUnitCustomerState,
-  getOrgUnitCustomerList,
-} from '../store/selectors/org-unit-customer.selector';
+  getB2BUserState,
+  getUserList,
+} from '../store/selectors/b2b-user.selector';
 
 @Injectable()
-export class OrgUnitCustomerService {
+export class B2BUserService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
     protected authService: AuthService
   ) {}
 
-  loadOrgUnitCustomer(orgUnitCustomerId: string) {
+  loadB2BUser(orgCustomerId: string) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new OrgUnitCustomerActions.LoadOrgUnitCustomer({
+        new B2BUserActions.LoadB2BUser({
           userId,
-          orgUnitCustomerId,
+          orgCustomerId,
         })
       )
     );
   }
 
-  loadOrgUnitCustomers(params?: B2BSearchConfig) {
+  loadB2BUsers(params?: B2BSearchConfig) {
     this.withUserId(userId =>
-      this.store.dispatch(
-        new OrgUnitCustomerActions.LoadOrgUnitCustomers({ userId, params })
-      )
+      this.store.dispatch(new B2BUserActions.LoadB2BUsers({ userId, params }))
     );
   }
 
-  private getOrgUnitCustomerState(
-    orgUnitCustomerId: string
-  ): Observable<LoaderState<OrgUnitCustomer>> {
-    return this.store.select(getOrgUnitCustomerState(orgUnitCustomerId));
+  private getB2BUserState(
+    orgCustomerId: string
+  ): Observable<LoaderState<B2BUser>> {
+    return this.store.select(getB2BUserState(orgCustomerId));
   }
 
-  private getOrgUnitCustomerList(
-    params
-  ): Observable<LoaderState<EntitiesModel<OrgUnitCustomer>>> {
-    return this.store.select(getOrgUnitCustomerList(params));
+  private getUserList(params): Observable<LoaderState<EntitiesModel<B2BUser>>> {
+    return this.store.select(getUserList(params));
   }
 
-  get(orgUnitCustomerId: string): Observable<OrgUnitCustomer> {
-    return this.getOrgUnitCustomerState(orgUnitCustomerId).pipe(
+  get(orgCustomerId: string): Observable<B2BUser> {
+    return this.getB2BUserState(orgCustomerId).pipe(
       observeOn(queueScheduler),
       tap(state => {
         if (!(state.loading || state.success || state.error)) {
-          this.loadOrgUnitCustomer(orgUnitCustomerId);
+          this.loadB2BUser(orgCustomerId);
         }
       }),
       filter(state => state.success || state.error),
@@ -66,16 +62,16 @@ export class OrgUnitCustomerService {
     );
   }
 
-  getList(params: B2BSearchConfig): Observable<EntitiesModel<OrgUnitCustomer>> {
-    return this.getOrgUnitCustomerList(params).pipe(
+  getList(params: B2BSearchConfig): Observable<EntitiesModel<B2BUser>> {
+    return this.getUserList(params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<OrgUnitCustomer>>) => {
+      tap((process: LoaderState<EntitiesModel<B2BUser>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadOrgUnitCustomers(params);
+          this.loadB2BUsers(params);
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<OrgUnitCustomer>>) =>
+        (process: LoaderState<EntitiesModel<B2BUser>>) =>
           process.success || process.error
       ),
       map(result => result.value)

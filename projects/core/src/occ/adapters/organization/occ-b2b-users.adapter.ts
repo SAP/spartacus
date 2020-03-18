@@ -7,40 +7,36 @@ import { ConverterService } from '../../../util/converter.service';
 import { B2BSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
 import {
-  OrgUnitCustomerAdapter,
-  ORG_UNIT_CUSTOMER_NORMALIZER,
-  ORG_UNIT_CUSTOMERS_NORMALIZER,
-} from '../../../organization/connectors/org-unit-customer';
-import { OrgUnitCustomer, EntitiesModel } from '../../../model';
+  B2BUserAdapter,
+  B2B_USER_NORMALIZER,
+  B2B_USERS_NORMALIZER,
+} from '../../../organization/connectors/b2b-user';
+import { B2BUser, EntitiesModel } from '../../../model';
 
 @Injectable()
-export class OccOrgUnitCustomerAdapter implements OrgUnitCustomerAdapter {
+export class OccB2BUserAdapter implements B2BUserAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 
-  load(userId: string, orgUnitCustomerId: string): Observable<OrgUnitCustomer> {
+  load(userId: string, orgUnitCustomerId: string): Observable<B2BUser> {
     return this.http
-      .get<Occ.OrgUnitCustomer>(
-        this.getOrgUnitCustomerEndpoint(userId, orgUnitCustomerId)
-      )
-      .pipe(this.converter.pipeable(ORG_UNIT_CUSTOMER_NORMALIZER));
+      .get<Occ.B2BUser>(this.getB2BUserEndpoint(userId, orgUnitCustomerId))
+      .pipe(this.converter.pipeable(B2B_USER_NORMALIZER));
   }
 
   loadList(
     userId: string,
     params?: B2BSearchConfig
-  ): Observable<EntitiesModel<OrgUnitCustomer>> {
+  ): Observable<EntitiesModel<B2BUser>> {
     return this.http
-      .get<Occ.OrgUnitCustomerList>(
-        this.getOrgUnitCustomersEndpoint(userId, params)
-      )
-      .pipe(this.converter.pipeable(ORG_UNIT_CUSTOMERS_NORMALIZER));
+      .get<Occ.UserList>(this.getB2BUsersEndpoint(userId, params))
+      .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
   }
 
-  protected getOrgUnitCustomerEndpoint(
+  protected getB2BUserEndpoint(
     userId: string,
     orgUnitCustomerId: string
   ): string {
@@ -50,10 +46,10 @@ export class OccOrgUnitCustomerAdapter implements OrgUnitCustomerAdapter {
     });
   }
 
-  protected getOrgUnitCustomersEndpoint(
+  protected getB2BUsersEndpoint(
     userId: string,
     params?: B2BSearchConfig
   ): string {
-    return this.occEndpoints.getUrl('orgUnitCustomers', { userId }, params);
+    return this.occEndpoints.getUrl('b2bUsers', { userId }, params);
   }
 }

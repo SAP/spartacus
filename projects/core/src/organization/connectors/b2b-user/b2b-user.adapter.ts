@@ -1,31 +1,28 @@
 import { Observable } from 'rxjs';
 import { B2BSearchConfig } from '../../model/search-config';
-import { EntitiesModel, OrgUnitCustomer } from '../../../model';
+import { EntitiesModel, B2BUser } from '../../../model';
 
-export abstract class OrgUnitCustomerAdapter {
+export abstract class B2BUserAdapter {
   /**
    * Abstract method used to load orgUnitCustomerManagement's details data.
    * orgUnitCustomer's data can be loaded from alternative sources, as long as the structure
-   * converts to the `OrgUnitCustomer`.
+   * converts to the `B2BUser`.
    *
    * @param userId The `userId` for given orgUnitCustomerManagement
-   * @param orgUnitCustomerId The `orgUnitCustomerId` for given orgUnitCustomerManagement
+   * @param orgCustomerId The `orgUnitCustomerId` for given orgUnitCustomerManagement
    */
-  abstract load(
-    userId: string,
-    orgCustomerId: string
-  ): Observable<OrgUnitCustomer>;
+  abstract load(userId: string, orgCustomerId: string): Observable<B2BUser>;
 
   abstract loadList(
     userId: string,
     params?: B2BSearchConfig
-  ): Observable<EntitiesModel<OrgUnitCustomer>>;
+  ): Observable<EntitiesModel<B2BUser>>;
 
   // abstract loadApprovers(
   //   userId: string,
   //   orgCustomerId: string,
   //   params?: B2BSearchConfig
-  // ): Observable<EntitiesModel<OrgUnitCustomer>>;
+  // ): Observable<EntitiesModel<B2BUser>>;
 
   // abstract loadUserGroups(
   //   userId: string,

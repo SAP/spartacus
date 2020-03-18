@@ -2,23 +2,23 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { B2BSearchConfig } from '../../model/search-config';
 import { EntitiesModel } from '../../../model/misc.model';
-import { OrgUnitCustomerAdapter } from './org-unit-customer.adapter';
-import { OrgUnitCustomer } from 'projects/core/src/model';
+import { B2BUserAdapter } from './b2b-user.adapter';
+import { B2BUser } from 'projects/core/src/model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OrgUnitCustomerConnector {
-  constructor(protected adapter: OrgUnitCustomerAdapter) {}
+export class B2BUserConnector {
+  constructor(protected adapter: B2BUserAdapter) {}
 
-  get(userId: string, orgUnitCustomerId: string): Observable<OrgUnitCustomer> {
+  get(userId: string, orgUnitCustomerId: string): Observable<B2BUser> {
     return this.adapter.load(userId, orgUnitCustomerId);
   }
 
   getList(
     userId: string,
     params?: B2BSearchConfig
-  ): Observable<EntitiesModel<OrgUnitCustomer>> {
+  ): Observable<EntitiesModel<B2BUser>> {
     return this.adapter.loadList(userId, params);
   }
 

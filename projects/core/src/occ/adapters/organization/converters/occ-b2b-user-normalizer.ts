@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Occ } from '../../../occ-models/occ.models';
 import { Converter } from '../../../../util/converter.service';
-import { OrgUnitCustomer } from '../../../../model';
+import { B2BUser } from '../../../../model';
 
 @Injectable()
-export class OccOrgUnitCustomerNormalizer
-  implements Converter<Occ.OrgUnitCustomer, OrgUnitCustomer> {
+export class OccB2BUserNormalizer implements Converter<Occ.B2BUser, B2BUser> {
   constructor() {}
 
-  convert(
-    source: Occ.OrgUnitCustomer,
-    target?: OrgUnitCustomer
-  ): OrgUnitCustomer {
+  convert(source: Occ.B2BUser, target?: B2BUser): B2BUser {
     if (target === undefined) {
       target = {
         ...(source as any),

@@ -450,47 +450,47 @@ export interface OccEndpoints {
    *
    * @member {string}
    */
-  orgCustomers?: string;
+  b2bUsers?: string;
   /**
    * Endpoint for organization customer
    *
    * @member {string}
    */
-  orgCustomer?: string;
+  b2bUser?: string;
   /**
    * Endpoint for organization customer approvers
    *
    * @member {string}
    */
-  orgCustomerApprovers?: string;
+  b2bUserApprovers?: string;
   /**
    * Endpoint for organization customer approver
    *
    * @member {string}
    */
-  orgCustomerApprover?: string;
+  b2bUserApprover?: string;
   /**
    * Endpoint for organization customer user groups
    *
    * @member {string}
    */
-  orgCustomerUserGroups?: string;
+  b2bUserUserGroups?: string;
   /**
    * Endpoint for organization customer user group
    *
    * @member {string}
    */
-  orgCustomerUserGroup?: string;
+  b2bUserUserGroup?: string;
   /**
    * Endpoint for organization customer permissions
    *
    * @member {string}
    */
-  orgCustomerPermissions?: string;
+  b2bUserPermissions?: string;
   /**
    * Endpoint for organization customer permission
    *
    * @member {string}
    */
-  orgCustomerPermission?: string;
+  b2bUserPermission?: string;
 }

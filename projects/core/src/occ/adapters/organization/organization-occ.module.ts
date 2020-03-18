@@ -42,15 +42,15 @@ import {
   OccCostCenterNormalizer,
   OccOrgUnitNormalizer,
   OccOrgUnitApprovalProcessNormalizer,
-  OccOrgUnitCustomerNormalizer,
-  OccOrgUnitCustomerListNormalizer,
+  OccB2BUserNormalizer,
+  OccUserListNormalizer,
 } from './converters/index';
 import {
-  OrgUnitCustomerAdapter,
-  ORG_UNIT_CUSTOMER_NORMALIZER,
-  ORG_UNIT_CUSTOMERS_NORMALIZER,
+  B2BUserAdapter,
+  B2B_USER_NORMALIZER,
+  B2B_USERS_NORMALIZER,
 } from '../../../organization';
-import { OccOrgUnitCustomerAdapter } from './occ-org-unit-customers.adapter';
+import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
 
 @NgModule({
   imports: [
@@ -122,17 +122,17 @@ import { OccOrgUnitCustomerAdapter } from './occ-org-unit-customers.adapter';
       multi: true,
     },
     {
-      provide: OrgUnitCustomerAdapter,
-      useClass: OccOrgUnitCustomerAdapter,
+      provide: B2BUserAdapter,
+      useClass: OccB2BUserAdapter,
     },
     {
-      provide: ORG_UNIT_CUSTOMER_NORMALIZER,
-      useClass: OccOrgUnitCustomerNormalizer,
+      provide: B2B_USER_NORMALIZER,
+      useClass: OccB2BUserNormalizer,
       multi: true,
     },
     {
-      provide: ORG_UNIT_CUSTOMERS_NORMALIZER,
-      useClass: OccOrgUnitCustomerListNormalizer,
+      provide: B2B_USERS_NORMALIZER,
+      useClass: OccUserListNormalizer,
       multi: true,
     },
   ],
