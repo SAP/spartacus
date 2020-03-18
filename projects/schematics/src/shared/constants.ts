@@ -10,6 +10,7 @@ export const RXJS = 'rxjs';
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_CDS = '@spartacus/cds';
+export const SPARTACUS_ASSETS = '@spartacus/assets';
 
 export const NGRX_STORE = '@ngrx/store';
 /***** Imports end *****/
@@ -28,6 +29,7 @@ export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 export const ROUTER = 'Router';
 
+export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_CONFIG = 'CmsConfig';
@@ -99,6 +101,9 @@ export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
 export const STAR_RATING_COMPONENT = 'StarRatingComponent';
+export const PRODUCT_SERVICE = 'ProductService';
+export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
+export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
