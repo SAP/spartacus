@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
-import { TriggerUrlMapping } from '../config';
+import { TriggerUrlMapping } from '../config/index';
 
 @Injectable({ providedIn: 'root' })
 export class RoutingRenderService {

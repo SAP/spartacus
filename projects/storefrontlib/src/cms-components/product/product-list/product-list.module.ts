@@ -4,11 +4,10 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
   UrlModule,
-  FeaturesConfigModule,
 } from '@spartacus/core';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ViewConfig } from '../../../shared/config/view-config';
 import { ViewConfigModule } from '../../../shared/config/view-config.module';
 import {
@@ -21,13 +20,13 @@ import {
 import { AddToCartModule } from '../../cart/index';
 import { IconModule } from '../../misc/icon/index';
 import { defaultScrollConfig } from '../config/default-scroll-config';
+import { ProductVariantsModule } from '../product-variants/product-variants.module';
 import { ProductListComponent } from './container/product-list.component';
 import { ProductScrollComponent } from './container/product-scroll/product-scroll.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductViewComponent } from './product-view/product-view.component';
-import { ProductVariantsModule } from '../product-variants/product-variants.module';
 
 @NgModule({
   imports: [
@@ -59,7 +58,6 @@ import { ProductVariantsModule } from '../product-variants/product-variants.modu
     StarRatingModule,
     IconModule,
     SpinnerModule,
-    InfiniteScrollModule,
     ViewConfigModule,
     ProductVariantsModule,
     FeaturesConfigModule,

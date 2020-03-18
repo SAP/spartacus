@@ -3,7 +3,7 @@ import {
   OutletPosition,
   OutletService,
 } from '../../../../cms-structure/outlet/index';
-import { TriggerOutletMapping } from '../config';
+import { TriggerOutletMapping } from '../config/index';
 
 @Injectable({ providedIn: 'root' })
 export class OutletRenderService {

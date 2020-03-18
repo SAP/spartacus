@@ -3,9 +3,9 @@ import { ComponentFactoryResolver, Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import {
   TriggerConfig,
-  TriggerService,
   TRIGGER_CALLER,
-} from '../../../shared/services/trigger/index';
+} from '../../../shared/services/trigger/config/index';
+import { TriggerService } from '../../../shared/services/trigger/services/trigger.service';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmMainUiComponent } from '../asm-main-ui/asm-main-ui.component';
 
