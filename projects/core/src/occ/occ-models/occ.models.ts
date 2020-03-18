@@ -4172,6 +4172,15 @@ export namespace Occ {
     unit?: B2BUnit;
   }
 
+  export interface OrgUnitUserGroup {
+    name?: string;
+    uid?: string;
+    members?: User[];
+    orgUnit?: B2BUnit;
+    permissions?: Permission[];
+    selected?: boolean;
+  }
+
   export interface OrgUnitAddress {
     cellphone?: string;
     companyName?: string;
@@ -4280,29 +4289,12 @@ export namespace Occ {
     sorts?: SortModel[];
   }
 
-  // export interface B2BUser {
-  //   active?: boolean;
-  //   approvers?: any[];
-  //   currency?: Currency;
-  //   customerId?: string;
-  //   deactivationDate?: string;
-  //   defaultAddress?: Address;
-  //   displayUid?: string;
-  //   email?: string;
-  //   firstName?: string;
-  //   language?: Language;
-  //   lastName?: string;
-  //   name?: string;
-  //   orgUnit?: B2BUnit;
-  //   roles?: string[];
-  //   selected?: boolean;
-  //   title?: string;
-  //   titleCode?: string;
-  //   uid?: string;
-  // }
-
   export interface UserList {
     b2bUsers: B2BUser[];
+  }
+
+  export interface OrgUnitUserGroupList {
+    orgUnitUserGroups: OrgUnitUserGroup[];
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }

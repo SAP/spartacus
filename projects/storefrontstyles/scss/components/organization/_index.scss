@@ -1,4 +1,9 @@
 @import './budgets/budget-form';
 @import './budgets/budget-list';
+@import './budgets/budget-details';
+@import './cost-centers/_cost-center-details';
+@import './permissions/permission-details';
+@import './units/unit-details';
 
-$organization-components-whitelist: cx-budget-form cx-budget-list !default;
+$organization-components-whitelist: cx-budget-form cx-budget-list
+  cx-cost-center-details cx-budget-details cx-unit-details cx-permission-details !default;

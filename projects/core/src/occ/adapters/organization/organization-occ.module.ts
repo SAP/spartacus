@@ -7,6 +7,8 @@ import { BudgetAdapter } from '../../../organization/connectors/budget/budget.ad
 import { PermissionAdapter } from '../../../organization/connectors/permission/permission.adapter';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
 import { CostCenterAdapter } from '../../../organization/connectors/cost-center/cost-center.adapter';
+import { OrgUnitUserGroupAdapter } from '../../../organization/connectors/user-group/user-group.adapter';
+
 import {
   BUDGET_NORMALIZER,
   BUDGETS_NORMALIZER,
@@ -25,12 +27,16 @@ import {
   COST_CENTER_NORMALIZER,
   COST_CENTERS_NORMALIZER,
 } from '../../../organization/connectors/cost-center/converters';
-
+import {
+  ORG_UNIT_USER_GROUP_NORMALIZER,
+  ORG_UNIT_USER_GROUPS_NORMALIZER,
+} from '../../../organization/connectors/user-group/converters';
 import { defaultOccOrganizationConfig } from './default-occ-organization-config';
 import { OccBudgetAdapter } from './occ-budget.adapter';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 import { OccPermissionAdapter } from './occ-permission.adapter';
 import { OccCostCenterAdapter } from './occ-cost-center.adapter';
+import { OccOrgUnitUserGroupAdapter } from './occ-user-group.adapter';
 import {
   OccBudgetNormalizer,
   OccBudgetListNormalizer,
@@ -40,6 +46,8 @@ import {
   OccPermissionListNormalizer,
   OccCostCenterListNormalizer,
   OccCostCenterNormalizer,
+  OccOrgUnitUserGroupNormalizer,
+  OccOrgUnitUserGroupListNormalizer,
   OccOrgUnitNormalizer,
   OccOrgUnitApprovalProcessNormalizer,
   OccB2BUserNormalizer,
@@ -91,6 +99,20 @@ import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
     {
       provide: B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
       useClass: OccOrgUnitApprovalProcessNormalizer,
+      multi: true,
+    },
+    {
+      provide: OrgUnitUserGroupAdapter,
+      useClass: OccOrgUnitUserGroupAdapter,
+    },
+    {
+      provide: ORG_UNIT_USER_GROUP_NORMALIZER,
+      useClass: OccOrgUnitUserGroupNormalizer,
+      multi: true,
+    },
+    {
+      provide: ORG_UNIT_USER_GROUPS_NORMALIZER,
+      useClass: OccOrgUnitUserGroupListNormalizer,
       multi: true,
     },
     {
