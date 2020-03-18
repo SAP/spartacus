@@ -54,7 +54,7 @@
         <div class="col-md-12 col-lg-6">
           <button
             class="cx-btn btn btn-block btn-primary"
-            [disabled]="!(selectedAddress$ | async)?.shippingAddress"
+            [disabled]="!(selectedAddress$ | async)?.id"
             (click)="goNext()"
           >
             {{ 'common.continue' | cxTranslate }}
