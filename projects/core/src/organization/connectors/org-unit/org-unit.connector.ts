@@ -7,7 +7,7 @@ import {
   B2BApprovalProcess,
   B2BUser,
 } from '../../../model/org-unit.model';
-import { EntitiesModel } from 'projects/core/src/model/misc.model';
+import { EntitiesModel } from '../../../model/misc.model';
 
 @Injectable({
   providedIn: 'root',
