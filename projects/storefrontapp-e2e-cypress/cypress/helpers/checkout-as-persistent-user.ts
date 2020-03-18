@@ -212,6 +212,7 @@ export function selectDeliveryMethod() {
 
 export function selectPaymentMethod() {
   cy.get('cx-breadcrumb h1').should('contain', 'Checkout');
+  cy.get('cx-payment-method').should('exist');
   cy.get('cx-payment-method h3.cx-checkout-title').should('contain', 'Payment');
   cy.get('p.cx-checkout-text').should('contain', 'Choose a payment method');
 
@@ -363,19 +364,19 @@ export function checkoutAsPersistentUserTest() {
     selectPaymentMethod();
   });
 
-  xit('should review and place order', () => {
+  it('should review and place order', () => {
     verifyAndPlaceOrder();
   });
 
-  xit('should display summary page', () => {
+  it('should display summary page', () => {
     displaySummaryPage();
   });
 
-  xit('should delete shipping address', () => {
+  it('should delete shipping address', () => {
     deleteShippingAddress();
   });
 
-  xit('should delete payment card', () => {
+  it('should delete payment card', () => {
     deletePaymentCard();
   });
 }
