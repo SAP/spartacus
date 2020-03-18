@@ -119,16 +119,11 @@
       {{ 'productSummary.outOfStock' | cxTranslate }}
     </div>
     <!-- Promotion -->
-    <ng-container *cxFeatureLevel="'!1.5'">
-      <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
-    </ng-container>
 
-    <ng-container *cxFeatureLevel="'1.5'">
-      <ng-container
-        *ngIf="appliedProductPromotions$ | async as appliedProductPromotions"
-      >
-        <cx-promotions [promotions]="appliedProductPromotions"></cx-promotions>
-      </ng-container>
+    <ng-container
+      *ngIf="appliedProductPromotions$ | async as appliedProductPromotions"
+    >
+      <cx-promotions [promotions]="appliedProductPromotions"></cx-promotions>
     </ng-container>
 
     <!-- Actions -->
