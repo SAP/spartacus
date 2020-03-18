@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { B2BSearchConfig } from '../../model/search-config';
 import { EntitiesModel } from '../../../model/misc.model';
+import { B2BUser } from '../../../model/org-unit.model';
 import { B2BUserAdapter } from './b2b-user.adapter';
-import { B2BUser } from 'projects/core/src/model';
 
 @Injectable({
   providedIn: 'root',
