@@ -218,9 +218,7 @@ export class AssignBudget extends EntityLoadAction {
 
 export class AssignBudgetFail extends EntityFailAction {
   readonly type = ASSIGN_BUDGET_FAIL;
-  constructor(
-    public payload: { costCenterCode: string; budgetCode: string; error: any }
-  ) {
+  constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }
@@ -247,9 +245,7 @@ export class UnassignBudget extends EntityLoadAction {
 
 export class UnassignBudgetFail extends EntityFailAction {
   readonly type = UNASSIGN_BUDGET_FAIL;
-  constructor(
-    public payload: { costCenterCode: string; budgetCode: string; error: any }
-  ) {
+  constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }

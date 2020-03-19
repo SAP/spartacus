@@ -86,6 +86,29 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
       .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
   }
 
+  assignRole(
+    userId: string,
+    orgUnitId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): Observable<any> {
+    return this.http.post<any>(
+      this.getRolesEndpoint(userId, orgUnitId, orgCustomerId, { roleId }),
+      null
+    );
+  }
+
+  unassignRole(
+    userId: string,
+    orgUnitId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): Observable<any> {
+    return this.http.delete<any>(
+      this.getRoleEndpoint(userId, orgUnitId, orgCustomerId, roleId)
+    );
+  }
+
   protected getOrgUnitEndpoint(userId: string, orgUnitId: string): string {
     return this.occEndpoints.getUrl('orgUnit', { userId, orgUnitId });
   }
@@ -114,8 +137,39 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   ): string {
     return this.occEndpoints.getUrl(
       'orgUnitUsers',
-      { userId, orgUnitId, roleId },
+      {
+        userId,
+        orgUnitId,
+        roleId,
+      },
       params
     );
+  }
+
+  protected getRolesEndpoint(
+    userId: string,
+    orgUnitId: string,
+    orgCustomerId: string,
+    params: { roleId: string }
+  ): string {
+    return this.occEndpoints.getUrl(
+      'orgUnitUsers',
+      { userId, orgUnitId, orgCustomerId },
+      params
+    );
+  }
+
+  protected getRoleEndpoint(
+    userId: string,
+    orgUnitId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): string {
+    return this.occEndpoints.getUrl('orgUnitUsers', {
+      userId,
+      orgUnitId,
+      orgCustomerId,
+      roleId,
+    });
   }
 }

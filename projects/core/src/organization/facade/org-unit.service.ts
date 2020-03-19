@@ -187,6 +187,32 @@ export class OrgUnitService {
     );
   }
 
+  assignRole(orgUnitId: string, orgCustomerId: string, roleId: string): void {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new OrgUnitActions.AssignRole({
+          userId,
+          orgUnitId,
+          orgCustomerId,
+          roleId,
+        })
+      )
+    );
+  }
+
+  unassignRole(orgUnitId: string, orgCustomerId: string, roleId: string): void {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new OrgUnitActions.UnassignRole({
+          userId,
+          orgUnitId,
+          orgCustomerId,
+          roleId,
+        })
+      )
+    );
+  }
+
   private withUserId(callback: (userId: string) => void): void {
     this.authService
       .getOccUserId()

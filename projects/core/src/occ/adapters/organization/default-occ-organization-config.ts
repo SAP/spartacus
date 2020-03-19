@@ -14,6 +14,10 @@ export const defaultOccOrganizationConfig: OccConfig = {
         orgUnit: '/users/${userId}/orgUnits/${orgUnitId}',
         orgUnitUsers:
           '/users/${userId}/orgUnits/${orgUnitId}/availableUsers/${roleId}',
+        orgUnitUserRoles:
+          '/${baseSiteId}/users/${userId}/orgUnits/${orgUnitId}/orgCustomers/${orgCustomerId}/roles',
+        orgUnitUserRole:
+          '/${baseSiteId}/users/${userId}/orgUnits/${orgUnitId}/orgCustomers/${orgCustomerId}/roles/${roleId}',
         orgUnitUserGroups: '/users/${userId}/orgUnitUserGroups',
         orgUnitUserGroup:
           '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}',

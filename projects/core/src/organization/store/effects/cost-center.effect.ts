@@ -168,7 +168,6 @@ export class CostCenterEffects {
           catchError(error =>
             of(
               new CostCenterActions.AssignBudgetFail({
-                costCenterCode,
                 budgetCode,
                 error: makeErrorSerializable(error),
               })
@@ -185,26 +184,21 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.UNASSIGN_BUDGET),
     map((action: CostCenterActions.UnassignBudget) => action.payload),
-    switchMap(payload =>
+    switchMap(({ userId, costCenterCode, budgetCode }) =>
       this.costCenterConnector
-        .unassignBudget(
-          payload.userId,
-          payload.costCenterCode,
-          payload.budgetCode
-        )
+        .unassignBudget(userId, costCenterCode, budgetCode)
         .pipe(
           map(
             () =>
               new CostCenterActions.UnassignBudgetSuccess({
-                code: payload.budgetCode,
+                code: budgetCode,
                 selected: false,
               })
           ),
           catchError(error =>
             of(
               new CostCenterActions.UnassignBudgetFail({
-                costCenterCode: payload.costCenterCode,
-                budgetCode: payload.budgetCode,
+                budgetCode,
                 error: makeErrorSerializable(error),
               })
             )

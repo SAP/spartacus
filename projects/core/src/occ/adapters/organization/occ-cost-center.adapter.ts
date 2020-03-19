@@ -90,6 +90,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
       this.getBudgetEndpoint(userId, costCenterCode, budgetCode)
     );
   }
+
   protected getCostCenterEndpoint(
     userId: string,
     costCenterCode: string

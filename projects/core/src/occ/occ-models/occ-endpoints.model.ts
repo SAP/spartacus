@@ -410,6 +410,18 @@ export interface OccEndpoints {
    */
   orgUnitUsers?: string;
   /**
+   * Endpoint for add orgUnitUserRoles:
+   *
+   * @member {string}
+   */
+  orgUnitUserRoles?: string;
+  /**
+   * Endpoint for remove orgUnitUserRole:
+   *
+   * @member {string}
+   */
+  orgUnitUserRole?: string;
+  /**
    * Endpoint for organizational unit user groups list
    *
    * @member {string}

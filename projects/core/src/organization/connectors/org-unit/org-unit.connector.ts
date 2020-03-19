@@ -51,4 +51,22 @@ export class OrgUnitConnector {
   ): Observable<EntitiesModel<B2BUser>> {
     return this.adapter.loadUsers(userId, orgUnitId, roleId, params);
   }
+
+  assignRole(
+    userId: string,
+    orgUnitId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): Observable<any> {
+    return this.adapter.assignRole(userId, orgUnitId, orgCustomerId, roleId);
+  }
+
+  unassignRole(
+    userId: string,
+    orgUnitId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): Observable<any> {
+    return this.adapter.unassignRole(userId, orgUnitId, orgCustomerId, roleId);
+  }
 }

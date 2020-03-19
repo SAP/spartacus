@@ -40,4 +40,18 @@ export abstract class OrgUnitAdapter {
     roleId: string,
     params?: any
   ): Observable<EntitiesModel<B2BUser>>;
+
+  abstract assignRole(
+    userId: string,
+    orgUnitId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): Observable<any>;
+
+  abstract unassignRole(
+    userId: string,
+    orgUnitId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): Observable<any>;
 }

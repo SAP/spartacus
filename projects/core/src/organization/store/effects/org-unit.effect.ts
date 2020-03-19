@@ -190,6 +190,64 @@ export class OrgUnitEffects {
     })
   );
 
+  @Effect()
+  assignRoleToUser: Observable<
+    OrgUnitActions.AssignRoleSuccess | OrgUnitActions.AssignRoleFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.ASSIGN_ROLE),
+    map((action: OrgUnitActions.AssignRole) => action.payload),
+    switchMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
+      this.orgUnitConnector
+        .assignRole(userId, orgUnitId, orgCustomerId, roleId)
+        .pipe(
+          map(
+            () =>
+              new OrgUnitActions.AssignRoleSuccess({
+                uid: orgCustomerId,
+                selected: true,
+              })
+          ),
+          catchError(error =>
+            of(
+              new OrgUnitActions.AssignRoleFail({
+                orgCustomerId,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  unassignRoleToUser$: Observable<
+    OrgUnitActions.UnassignRoleSuccess | OrgUnitActions.UnassignRoleFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.UNASSIGN_ROLE),
+    map((action: OrgUnitActions.UnassignRole) => action.payload),
+    switchMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
+      this.orgUnitConnector
+        .unassignRole(userId, orgUnitId, orgCustomerId, roleId)
+        .pipe(
+          map(
+            () =>
+              new OrgUnitActions.UnassignRoleSuccess({
+                uid: orgCustomerId,
+                selected: false,
+              })
+          ),
+          catchError(error =>
+            of(
+              new OrgUnitActions.UnassignRoleFail({
+                orgCustomerId,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private orgUnitConnector: OrgUnitConnector
