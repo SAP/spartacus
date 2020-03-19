@@ -2,12 +2,16 @@ import {
   ACTIVE_CART_SERVICE,
   ANONYMOUS_USERID_CONST,
   AUTH_SERVICE,
+  CARTS_STATE,
   CART_COMBINED_EFFECTS,
+  CART_DATA_CONST,
   CART_DATA_SERVICE,
   CART_EFFECTS,
   CART_ENTRY_EFFECTS,
+  CART_FEATURE_CONST,
   CART_SELECTORS,
   CART_SERVICE,
+  CART_STATE,
   CART_VOUCHER_EFFECTS,
   CLEAR_CART_STATE,
   CLEAR_MULTI_CART_STATE,
@@ -29,6 +33,7 @@ import {
   SKIP_LINK_FACTORY,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
+  STATE_WITH_CART,
   WISHLIST_EFFECTS,
 } from '../../shared/constants';
 import { DeprecatedNode } from '../../shared/utils/file-utils';
@@ -172,5 +177,35 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: SKIP_LINK_FACTORY,
     importPath: SPARTACUS_STOREFRONTLIB,
+  },
+  // projects/core/src/cart/store/cart-state.ts
+  {
+    node: CART_DATA_CONST,
+    importPath: SPARTACUS_CORE,
+    comment: `'${CART_DATA_CONST}' along with rest of the 'cart' state was removed. Instead use 'multi-cart' state.`,
+  },
+  // projects/core/src/cart/store/cart-state.ts
+  {
+    node: STATE_WITH_CART,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STATE_WITH_CART}' along with rest of the 'cart' state was removed. Instead use 'multi-cart' state.`,
+  },
+  // projects/core/src/cart/store/cart-state.ts
+  {
+    node: CARTS_STATE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${CARTS_STATE}' along with rest of the 'cart' state was removed. Instead use 'multi-cart' state.`,
+  },
+  // projects/core/src/cart/store/cart-state.ts
+  {
+    node: CART_FEATURE_CONST,
+    importPath: SPARTACUS_CORE,
+    comment: `'${CART_FEATURE_CONST}' along with rest of the 'cart' state was removed. Instead use 'multi-cart' state.`,
+  },
+  // projects/core/src/cart/store/cart-state.ts
+  {
+    node: CART_STATE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${CART_STATE}' along with rest of the 'cart' state was removed. Instead use 'multi-cart' state.`,
   },
 ];

@@ -113,6 +113,11 @@ export const CART_VOUCHER_EFFECTS = 'CartVoucherEffects';
 export const CART_ENTRY_EFFECTS = 'CartEntryEffects';
 export const CART_COMBINED_EFFECTS = 'effects';
 export const CART_SELECTORS = 'CartSelectors';
+export const CART_DATA_CONST = 'CART_DATA';
+export const STATE_WITH_CART = 'StateWithCart';
+export const CARTS_STATE = 'CartsState';
+export const CART_FEATURE_CONST = 'CART_FEATURE';
+export const CART_STATE = 'CartState';
 
 export const GET_REDUCERS = 'getReducers';
 export const REDUCER_TOKEN = 'reducerToken';
