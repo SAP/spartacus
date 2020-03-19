@@ -10,12 +10,15 @@ export const RXJS = 'rxjs';
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_CDS = '@spartacus/cds';
+export const SPARTACUS_ASSETS = '@spartacus/assets';
 
 export const NGRX_STORE = '@ngrx/store';
 /***** Imports end *****/
 
 /***** Classes start *****/
 export const OBSERVABLE_CLASS = 'Observable';
+export const RENDERER_2 = 'Renderer2';
+export const ELEMENT_REF = 'ElementRef';
 
 export const STORE = 'Store';
 
@@ -26,6 +29,7 @@ export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 export const ROUTER = 'Router';
 
+export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_CONFIG = 'CmsConfig';
@@ -92,10 +96,14 @@ export const ORDER_DETAIL_ITEMS_COMPONENT = 'OrderDetailItemsComponent';
 export const ORDER_CONFIRMATION_ITEMS_COMPONENT =
   'OrderConfirmationItemsComponent';
 export const REVIEW_SUBMIT_COMPONENT = 'ReviewSubmitComponent';
-export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CART_VOUCHER_SERVICE = 'CartVoucherService';
+export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const STAR_RATING_COMPONENT = 'StarRatingComponent';
+export const PRODUCT_SERVICE = 'ProductService';
+export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
+export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -104,6 +112,12 @@ export const WISHLIST_EFFECTS = 'WishlistEffects';
 export const CART_VOUCHER_EFFECTS = 'CartVoucherEffects';
 export const CART_ENTRY_EFFECTS = 'CartEntryEffects';
 export const CART_COMBINED_EFFECTS = 'effects';
+export const CART_SELECTORS = 'CartSelectors';
+export const CART_DATA_CONST = 'CART_DATA';
+export const STATE_WITH_CART = 'StateWithCart';
+export const CARTS_STATE = 'CartsState';
+export const CART_FEATURE_CONST = 'CART_FEATURE';
+export const CART_STATE = 'CartState';
 
 export const GET_REDUCERS = 'getReducers';
 export const REDUCER_TOKEN = 'reducerToken';
