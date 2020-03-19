@@ -25,16 +25,17 @@ const approvalProcess: B2BApprovalProcess = {
 };
 
 class MockOrgUnitAdapter implements OrgUnitAdapter {
-  load = createSpy('OrgUnitAdapter.load').and.returnValue(of(orgUnit));
-  loadList = createSpy('OrgUnitAdapter.loadList').and.returnValue(
-    of([orgUnitNode])
+  load = createSpy('load').and.returnValue(of(orgUnit));
+  loadList = createSpy('loadList').and.returnValue(of([orgUnitNode]));
+  create = createSpy('create').and.returnValue(of(orgUnit));
+  update = createSpy('update').and.returnValue(of(orgUnit));
+  loadTree = createSpy('loadTree').and.returnValue(of(orgUnit));
+  loadApprovalProcesses = createSpy('loadApprovalProcesses').and.returnValue(
+    of([approvalProcess])
   );
-  create = createSpy('OrgUnitAdapter.create').and.returnValue(of(orgUnit));
-  update = createSpy('OrgUnitAdapter.update').and.returnValue(of(orgUnit));
-  loadTree = createSpy('OrgUnitAdapter.loadTree').and.returnValue(of(orgUnit));
-  loadApprovalProcesses = createSpy(
-    'OrgUnitAdapter.loadApprovalProcesses'
-  ).and.returnValue(of([approvalProcess]));
+  loadUsers = createSpy('loadUsers').and.returnValue(of());
+  assignRole = createSpy('assignRole').and.returnValue(of());
+  unassignRole = createSpy('unassignRole').and.returnValue(of());
 }
 
 describe('OrgUnitConnector', () => {

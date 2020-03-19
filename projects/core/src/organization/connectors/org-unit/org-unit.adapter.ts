@@ -6,6 +6,7 @@ import {
   B2BUser,
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
+import { B2BSearchConfig } from '../../model/search-config';
 
 export abstract class OrgUnitAdapter {
   /**
@@ -38,7 +39,7 @@ export abstract class OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     roleId: string,
-    params?: any
+    params?: B2BSearchConfig
   ): Observable<EntitiesModel<B2BUser>>;
 
   abstract assignRole(
