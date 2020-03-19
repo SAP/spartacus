@@ -215,6 +215,9 @@ export function selectDeliveryMethod() {
     'GET',
     '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
   ).as('getPaymentPage');
+
+  cy.get('cx-checkout-progress').should('exist');
+
   cy.get('cx-checkout-progress a.is-active').should(
     'contain',
     '2. Delivery mode'
