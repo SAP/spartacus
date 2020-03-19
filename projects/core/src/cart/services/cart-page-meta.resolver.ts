@@ -22,7 +22,7 @@ import { PageType } from '../../model/cms.model';
 })
 export class CartPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
-  cms$: Observable<Page> = this.cms
+  protected cms$: Observable<Page> = this.cms
     .getCurrentPage()
     .pipe(filter(page => !!page));
 

@@ -23,11 +23,11 @@ import { PageType } from '../../model/cms.model';
 })
 export class CheckoutPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
-  private cart$ = this.activeCartService.getActive();
+  protected cart$ = this.activeCartService.getActive();
 
   constructor(
-    protected activeCartService: ActiveCartService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected activeCartService: ActiveCartService
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
