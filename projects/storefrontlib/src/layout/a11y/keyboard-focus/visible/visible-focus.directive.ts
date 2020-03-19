@@ -22,22 +22,18 @@ export class VisibleFocusDirective extends BaseFocusDirective
   @Input('cxVisibleFocus') protected config: VisibleFocusConfig;
 
   /** controls a polyfill for the lacking focus-visible feature */
-  @HostBinding('class.mouse-focus') visibleFocus = false;
+  @HostBinding('class.mouse-focus') mouseFocus = false;
 
   @HostListener('mousedown') handleMousedown() {
     if (this.shouldFocusVisible) {
-      this.visibleFocus = true;
+      this.mouseFocus = true;
     }
   }
 
   @HostListener('keydown') handleKeydown() {
     if (this.shouldFocusVisible) {
-      this.visibleFocus = false;
+      this.mouseFocus = false;
     }
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
   }
 
   protected get shouldFocusVisible(): boolean {

@@ -23,11 +23,7 @@ import { SelectFocusUtility } from './select-focus.util';
     </div>
     <div id="d">
       <button id="d1">focusable</button>
-      <button id="d2" disabled>focusable</button>
-    </div>
-    <div id="e">
-      <button id="e1">focusable</button>
-      <button id="e2" class="custom">focusable</button>
+      <button id="d2" hidden>focusable</button>
     </div>
   `,
 })
