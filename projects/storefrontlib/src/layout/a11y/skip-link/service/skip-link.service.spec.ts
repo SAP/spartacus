@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { AutoFocusService } from '../../keyboard-focus';
+import { KeyboardFocusService } from '../../keyboard-focus';
 import {
   SkipLink,
   SkipLinkConfig,
@@ -28,7 +28,7 @@ const MockSkipLinkConfig: SkipLinkConfig = {
   ],
 };
 
-class MockAutoFocusService {
+class MockKeyboadFocusService {
   findFirstFocusable() {}
 }
 
@@ -45,7 +45,7 @@ class TestContainerComponent {}
 describe('SkipLinkService', () => {
   let fixture: ComponentFixture<TestContainerComponent>;
   let service: SkipLinkService;
-  let autoFocusService: AutoFocusService;
+  let keyboardFocusService: KeyboardFocusService;
   let skipLinks: SkipLink[];
 
   beforeEach(async(() => {
@@ -59,8 +59,8 @@ describe('SkipLinkService', () => {
           useValue: MockSkipLinkConfig,
         },
         {
-          provide: AutoFocusService,
-          useClass: MockAutoFocusService,
+          provide: KeyboardFocusService,
+          useClass: MockKeyboadFocusService,
         },
       ],
     }).compileComponents();
@@ -69,7 +69,7 @@ describe('SkipLinkService', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestContainerComponent);
     service = TestBed.inject(SkipLinkService);
-    autoFocusService = TestBed.inject(AutoFocusService);
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
 
     (<BehaviorSubject<SkipLink[]>>service.getSkipLinks()).next([]);
     skipLinks = (<BehaviorSubject<SkipLink[]>>service.getSkipLinks()).value;
@@ -127,7 +127,9 @@ describe('SkipLinkService', () => {
     });
 
     it('should focus skip link target if autoFocusService will respond undefined', () => {
-      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(undefined);
+      spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(
+        undefined
+      );
       const spy = spyOn(firstSkipLink.target, 'focus');
       expect(spy).not.toHaveBeenCalled();
       service.scrollToTarget(firstSkipLink);
@@ -136,15 +138,15 @@ describe('SkipLinkService', () => {
     });
 
     it('should use autoFocusService to find first focusable element for the skiplink target', () => {
-      spyOn(autoFocusService, 'findFirstFocusable');
+      spyOn(keyboardFocusService, 'findFirstFocusable');
       service.scrollToTarget(firstSkipLink);
-      expect(autoFocusService.findFirstFocusable).toHaveBeenCalledWith(
+      expect(keyboardFocusService.findFirstFocusable).toHaveBeenCalledWith(
         firstSkipLink.target
       );
     });
 
     it('should autofocus first focusable element of the skiplink target', () => {
-      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(
+      spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(
         firstSkipLink.target
       );
       spyOn(firstSkipLink.target, 'focus').and.callThrough();
@@ -153,7 +155,7 @@ describe('SkipLinkService', () => {
     });
 
     it('should not temporarily store tabindex when target has a tabindex', () => {
-      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(
+      spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(
         firstSkipLink.target
       );
       spyOn(firstSkipLink.target, 'setAttribute');
@@ -166,7 +168,7 @@ describe('SkipLinkService', () => {
     });
 
     it('should temporarily store tabindex when target does not have a tabindex', () => {
-      spyOn(autoFocusService, 'findFirstFocusable').and.returnValue(
+      spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(
         secondSkipLink.target
       );
       spyOn(secondSkipLink.target, 'setAttribute');

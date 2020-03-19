@@ -11,7 +11,7 @@ import { RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import {
   EscapeFocusConfig,
-  EscapeFocusService,
+  KeyboardFocusService,
 } from '../a11y/keyboard-focus/index';
 import { SkipLinkComponent } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
@@ -39,7 +39,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   @HostListener('keydown.escape', ['$event'])
   handleEscape(event: KeyboardEvent): void {
-    this.service.handleEscape(
+    this.keyboardFocusService.handleEscape(
       this.elementRef.nativeElement,
       this.config,
       event
@@ -50,7 +50,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     private hamburgerMenuService: HamburgerMenuService,
     private routingService: RoutingService,
     protected elementRef: ElementRef<HTMLElement>,
-    protected service: EscapeFocusService
+    protected keyboardFocusService: KeyboardFocusService
   ) {}
 
   ngOnInit(): void {

@@ -24,6 +24,12 @@ export class VisibleFocusDirective extends BaseFocusDirective
   /** controls a polyfill for the lacking focus-visible feature */
   @HostBinding('class.mouse-focus') visibleFocus = false;
 
+  @HostListener('mousedown') handleMousedown() {
+    if (this.shouldFocusVisible) {
+      this.visibleFocus = true;
+    }
+  }
+
   @HostListener('keydown') handleKeydown() {
     if (this.shouldFocusVisible) {
       this.visibleFocus = false;
@@ -32,16 +38,8 @@ export class VisibleFocusDirective extends BaseFocusDirective
 
   ngOnInit() {
     super.ngOnInit();
-    this.handleFocusVisible();
   }
 
-  protected handleFocusVisible(): void {
-    if (this.shouldFocusVisible) {
-      this.host.addEventListener('mousedown', () => {
-        this.visibleFocus = true;
-      });
-    }
-  }
   protected get shouldFocusVisible(): boolean {
     return this.config?.disableMouseFocus;
   }

@@ -57,6 +57,7 @@ describe('VisibleFocusDirective', () => {
       host = fixture.debugElement.query(By.css('#a'));
       fixture.detectChanges();
     });
+
     it('should not have "mouse-focus" class on the host by default', () => {
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
         'mouse-focus'
