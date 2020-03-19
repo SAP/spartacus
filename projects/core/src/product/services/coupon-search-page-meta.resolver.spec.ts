@@ -11,7 +11,7 @@ import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model';
 import { ProductSearchService } from '../../product/facade/product-search.service';
 import { SemanticPathService } from '../../routing';
-import { FindProductPageMetaResolver } from './find-product-page-meta.resolver';
+import { CouponSearchPageResolver } from './coupon-search-page-meta.resolver';
 
 const mockSearchPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -31,8 +31,8 @@ const mockProductPage: Page = {
   slots: {},
 };
 
-describe('FindProductSearchPageMetaResolver', () => {
-  let service: FindProductPageMetaResolver;
+describe('CouponSearchPageResolver', () => {
+  let service: CouponSearchPageResolver;
   let route: ActivatedRoute;
   const authService = jasmine.createSpyObj('AuthService', ['isUserLoggedIn']);
   const semanticPathService = jasmine.createSpyObj('SemanticPathService', [
@@ -61,7 +61,7 @@ describe('FindProductSearchPageMetaResolver', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
-        FindProductPageMetaResolver,
+        CouponSearchPageResolver,
         { provide: ProductSearchService, useClass: MockSearchService },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: AuthService, useValue: authService },
@@ -69,7 +69,7 @@ describe('FindProductSearchPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.inject(FindProductPageMetaResolver);
+    service = TestBed.inject(CouponSearchPageResolver);
     route = TestBed.inject(ActivatedRoute);
   });
 
