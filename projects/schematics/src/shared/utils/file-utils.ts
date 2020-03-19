@@ -43,8 +43,6 @@ export interface ComponentData {
 export interface ConstructorDeprecation {
   class: string;
   importPath: string;
-
-  /**  */
   deprecatedParams: ClassType[];
 
   /** The list of constructor parameters that are _added_ for the given version. */
@@ -797,7 +795,8 @@ export function insertCommentAboveIdentifier(
   sourcePath: string,
   source: ts.SourceFile,
   identifierName: string,
-  comment: string
+  comment: string,
+  identifierType = ts.SyntaxKind.Identifier
 ): Change[] {
   const classNode = getSourceNodes(source).find(
     node => node.kind === ts.SyntaxKind.ClassDeclaration
@@ -806,22 +805,20 @@ export function insertCommentAboveIdentifier(
     return [new NoopChange()];
   }
 
-  const identifierNodes = findNodes(classNode, ts.SyntaxKind.Identifier).filter(
+  const identifierNodes = findNodes(classNode, identifierType).filter(
     node => node.getText() === identifierName
   );
 
   const changes: InsertChange[] = [];
-  identifierNodes.forEach(n => {
-    const leading = n.getLeadingTriviaWidth() - 1;
-    const indent = ' '.repeat(leading);
+  identifierNodes.forEach(n =>
     changes.push(
       new InsertChange(
         sourcePath,
         getLineStartFromTSFile(source, n.getStart()),
-        `${indent}${comment}`
+        `${comment}`
       )
-    );
-  });
+    )
+  );
   return changes;
 }
 
