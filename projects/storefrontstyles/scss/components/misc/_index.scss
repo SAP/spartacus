@@ -4,6 +4,7 @@
 @import './search/index';
 @import './icons';
 @import './tables/index';
+@import './interactive-table/index';
 
 $misc-components-whitelist: cx-icon, cx-spinner, cx-card, cx-pagination,
-  cx-search, cx-table !default;
+  cx-search, cx-table, cx-interactive-table !default;
