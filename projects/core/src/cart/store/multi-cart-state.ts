@@ -3,6 +3,7 @@ import { EntityProcessesLoaderState } from '../../state/utils/entity-processes-l
 
 export const MULTI_CART_FEATURE = 'multi-cart';
 export const MULTI_CART_DATA = '[Multi Cart] Multi Cart Data';
+export const ADD_VOUCHER_PROCESS_ID = 'addVoucher';
 
 export interface StateWithMultiCart {
   [MULTI_CART_FEATURE]: MultiCartState;
