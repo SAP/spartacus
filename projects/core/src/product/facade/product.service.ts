@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Product } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
@@ -32,7 +32,9 @@ export class ProductService {
     productCode: string,
     scopes: (ProductScope | string)[] | ProductScope | string = ''
   ): Observable<Product> {
-    return this.productLoading.get(productCode, [].concat(scopes));
+    return productCode
+      ? this.productLoading.get(productCode, [].concat(scopes))
+      : of(undefined);
   }
 
   /**
