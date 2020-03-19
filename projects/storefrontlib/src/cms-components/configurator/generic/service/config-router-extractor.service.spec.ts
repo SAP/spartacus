@@ -12,6 +12,10 @@ import { ConfigRouterExtractorService } from './config-router-extractor.service'
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_NUMBER = '0';
+const CONFIGURATOR_URL =
+  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
+const OVERVIEW_URL =
+  'electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
 
 const mockRouterState: any = {
   state: {
@@ -20,6 +24,7 @@ const mockRouterState: any = {
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
+    url: CONFIGURATOR_URL,
   },
 };
 
@@ -139,5 +144,39 @@ describe('ConfigRouterExtractorService', () => {
         hasBeenAddedFromRouter => (hasBeenAdded = hasBeenAddedFromRouter)
       );
     expect(hasBeenAdded.isOwnerCartEntry).toBe(false);
+  });
+
+  describe('should know if it is on the overview or configurator page', () => {
+    it('on configurator page', () => {
+      let isOverviewResult;
+      let isConfiguratorResult;
+
+      serviceUnderTest
+        .isOverview(routingService)
+        .subscribe(isOverview => (isOverviewResult = isOverview));
+      serviceUnderTest
+        .isConfigurator(routingService)
+        .subscribe(isConfigurator => (isConfiguratorResult = isConfigurator));
+
+      expect(isConfiguratorResult.isConfigurator).toBe(true);
+      expect(isOverviewResult.isOverview).toBe(false);
+    });
+
+    it('on overview page', () => {
+      let isOverviewResult;
+      let isConfiguratorResult;
+
+      mockRouterState.state.url = OVERVIEW_URL;
+
+      serviceUnderTest
+        .isOverview(routingService)
+        .subscribe(isOverview => (isOverviewResult = isOverview));
+      serviceUnderTest
+        .isConfigurator(routingService)
+        .subscribe(isConfigurator => (isConfiguratorResult = isConfigurator));
+
+      expect(isConfiguratorResult.isConfigurator).toBe(false);
+      expect(isOverviewResult.isOverview).toBe(true);
+    });
   });
 });

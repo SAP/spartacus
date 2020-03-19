@@ -14,6 +14,7 @@ import { GenericConfigUtilsService } from '../../generic/utils/config-utils.serv
 import { ConfiguratorUiActions } from '../store/actions/';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import {
+  ConfigurationState,
   CONFIGURATION_FEATURE,
   StateWithConfiguration,
 } from '../store/configuration-state';
@@ -123,6 +124,10 @@ const productConfigurationMultiLevel: Configurator.Configuration = {
 
 const productConfigurationChanged: Configurator.Configuration = {
   configId: CONFIG_ID,
+};
+
+const configurationState: ConfigurationState = {
+  configurations: { entities: {} },
 };
 
 const cart: Cart = {
@@ -249,6 +254,11 @@ describe('ConfiguratorCommonsService', () => {
     );
     configuratorUtils.setOwnerKey(OWNER_PRODUCT);
     configuratorUtils.setOwnerKey(OWNER_CART_ENTRY);
+
+    configurationState.configurations.entities[OWNER_PRODUCT.key] = {
+      ...productConfiguration,
+      loading: false,
+    };
     store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
     spyOn(serviceUnderTest, 'createConfigurationExtract').and.callThrough();
   });
@@ -273,6 +283,32 @@ describe('ConfiguratorCommonsService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorUiActions.RemoveUiState(productConfiguration.owner.key)
     );
+  });
+
+  it('should get pending changes from store', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(true));
+
+    let hasPendingChanges = null;
+    serviceUnderTest
+      .hasPendingChanges(OWNER_PRODUCT)
+      .subscribe(pendingChanges => {
+        hasPendingChanges = pendingChanges;
+      });
+    expect(hasPendingChanges).toBe(true);
+  });
+
+  it('should get configuration loading state from store', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(configurationState.configurations.entities[OWNER_PRODUCT.key])
+    );
+
+    let isLoading = null;
+    serviceUnderTest
+      .configurationIsLoading(OWNER_PRODUCT)
+      .subscribe(loading => {
+        isLoading = loading;
+      });
+    expect(isLoading).toBe(false);
   });
 
   it('should be able to get configuration from store', () => {

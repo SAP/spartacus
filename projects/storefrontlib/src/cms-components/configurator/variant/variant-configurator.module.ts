@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CmsConfig,
+  Config,
   ConfigModule,
   I18nModule,
   ProductModule,
@@ -15,6 +16,7 @@ import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 import { HamburgerMenuModule } from '../../../layout/header/hamburger-menu/hamburger-menu.module';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ConfigAddToCartButtonComponent } from '../commons/config-add-to-cart-button/config-add-to-cart-button.component';
 import { ConfigAttributeFooterComponent } from '../commons/config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../commons/config-attribute-header/config-attribute-header.component';
@@ -28,9 +30,13 @@ import { ConfigAttributeSingleSelectionImageComponent } from '../commons/config-
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
 import { ConfigGroupTitleComponent } from '../commons/config-group-title/config-group-title.component';
+import { ConfigurationMessageLoaderModule } from '../commons/config-message/config-message-loader.module';
+import { ConfigMessageComponent } from '../commons/config-message/config-message.component';
 import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/config-price-summary.component';
 import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.component';
+import { DefaultMessageConfig } from '../commons/config/default-message-config';
+import { MessageConfig } from '../commons/config/message-config';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
 
 @NgModule({
@@ -38,6 +44,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     CommonModule,
     GenericConfiguratorModule,
     ProductModule,
+    ConfigurationMessageLoaderModule,
     RouterModule.forChild([
       {
         path: 'configureCPQCONFIGURATOR/:ownerType',
@@ -51,6 +58,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
         canActivate: [CmsPageGuard],
       },
     ]),
+    ConfigModule.withConfig(DefaultMessageConfig),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         VariantConfigurationTabBar: {
@@ -103,12 +111,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
 
           navigation: {
             xs: {
-              slots: [
-                'SiteLogin',
-                'VariantConfigMenu',
-                'SiteContext',
-                'SiteLinks',
-              ],
+              slots: ['SiteLogin', 'SiteContext', 'SiteLinks'],
             },
           },
 
@@ -138,6 +141,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     HamburgerMenuModule,
     I18nModule,
     IconModule,
+    SpinnerModule,
   ],
 
   declarations: [
@@ -157,6 +161,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
+    ConfigMessageComponent,
   ],
   exports: [
     ConfigFormComponent,
@@ -175,8 +180,9 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
+    ConfigMessageComponent,
   ],
-  providers: [UserService],
+  providers: [UserService, { provide: MessageConfig, useExisting: Config }],
   entryComponents: [
     ConfigFormComponent,
     ConfigAttributeRadioButtonComponent,
@@ -194,6 +200,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAddToCartButtonComponent,
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
+    ConfigMessageComponent,
   ],
 })
 export class VariantConfiguratorModule {}

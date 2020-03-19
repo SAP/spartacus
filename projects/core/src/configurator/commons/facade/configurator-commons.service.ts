@@ -23,6 +23,25 @@ export class ConfiguratorCommonsService {
     protected activeCartService: ActiveCartService
   ) {}
 
+  hasPendingChanges(owner: GenericConfigurator.Owner): Observable<Boolean> {
+    return this.store.pipe(
+      select(ConfiguratorSelectors.hasPendingChanges(owner.key))
+    );
+  }
+
+  configurationIsLoading(
+    owner: GenericConfigurator.Owner
+  ): Observable<Boolean> {
+    return this.store.pipe(
+      select(
+        ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
+          owner.key
+        )
+      ),
+      map(configurationState => configurationState.loading)
+    );
+  }
+
   getConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
