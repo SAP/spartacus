@@ -7,7 +7,10 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
-import { CONSENT_MANAGEMENT_FORM_COMPONENT, PRODUCT_IMAGES_COMPONENT } from '../../../shared/constants';
+import {
+  CONSENT_MANAGEMENT_FORM_COMPONENT,
+  PRODUCT_IMAGES_COMPONENT,
+} from '../../../shared/constants';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-component-deprecations-05';
 
@@ -150,7 +153,7 @@ describe('component selectors migration', () => {
       });
     });
   });
-  
+
   describe('Product Images Component', () => {
     const htmlFileName = `/src/test-${PRODUCT_IMAGES_COMPONENT}.html`;
     const tsFileName = `/src/inherited-${PRODUCT_IMAGES_COMPONENT}.ts`;
@@ -167,14 +170,19 @@ describe('component selectors migration', () => {
     });
     describe('when the component is extended', () => {
       it('should add comments', async () => {
-        writeFile(host, tsFileName, PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS);
+        writeFile(
+          host,
+          tsFileName,
+          PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS
+        );
 
         await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
         const content = appTree.readContent(tsFileName);
-        expect(content).toEqual(PRODUCT_IMAGES_COMPONENT_INHERITANCE_EXPECTED_CLASS);
+        expect(content).toEqual(
+          PRODUCT_IMAGES_COMPONENT_INHERITANCE_EXPECTED_CLASS
+        );
       });
     });
   });
 });
-
