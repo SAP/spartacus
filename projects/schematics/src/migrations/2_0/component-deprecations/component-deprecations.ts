@@ -29,14 +29,16 @@ export function migrate(): Rule {
       const content = buffer.toString(UTF_8);
 
       for (const deprecatedComponent of COMPONENT_DEPRECATION_DATA) {
-        for (const removedProperty of deprecatedComponent.removedProperties) {
-          const change = insertHtmlComment(
-            content,
-            deprecatedComponent.selector,
-            removedProperty
-          );
-          if (change) {
-            tree.overwrite(htmlFilePath, change);
+        if (htmlFilePath.includes(deprecatedComponent.componentClassName)) {
+          for (const removedProperty of deprecatedComponent.removedProperties) {
+            const change = insertHtmlComment(
+              content,
+              deprecatedComponent.selector,
+              removedProperty
+            );
+            if (change) {
+              tree.overwrite(htmlFilePath, change);
+            }
           }
         }
       }

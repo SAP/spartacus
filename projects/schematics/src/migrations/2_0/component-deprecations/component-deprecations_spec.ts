@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
+import { CONSENT_MANAGEMENT_FORM_COMPONENT, PRODUCT_IMAGES_COMPONENT } from '../../../shared/constants';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-component-deprecations-05';
 
@@ -14,6 +15,11 @@ const SINGLE_USAGE_EXAMPLE = `<div>test</div>
 <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
 const SINGLE_USAGE_EXAMPLE_EXPECTED = `<div>test</div>
 <!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+
+const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE = `<div>test</div>
+<cx-product-images isThumbsEmpty="true"></cx-product-images>`;
+const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE_EXPECTED = `<div>test</div>
+<!-- 'isThumbsEmpty' property has been removed. --><cx-product-images isThumbsEmpty="true"></cx-product-images>`;
 
 const MULTI_USAGE_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
@@ -36,6 +42,23 @@ export class Test extends ConsentManagementFormComponent {
   usingIsLevel13(): void {
 // TODO:Spartacus - 'isLevel13' property has been removed.
     console.log(this.isLevel13);
+  }
+}
+`;
+const PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS = `
+import { ProductImagesComponent } from '@spartacus/core';
+export class Test extends ProductImagesComponent {
+  constructor() {
+    const test = this.isThumbsEmpty;
+  }
+}
+`;
+const PRODUCT_IMAGES_COMPONENT_INHERITANCE_EXPECTED_CLASS = `
+import { ProductImagesComponent } from '@spartacus/core';
+export class Test extends ProductImagesComponent {
+  constructor() {
+// TODO:Spartacus - 'isThumbsEmpty' property has been removed.
+    const test = this.isThumbsEmpty;
   }
 }
 `;
@@ -90,39 +113,68 @@ describe('component selectors migration', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  const htmlFileName = '/src/test.html';
-  const tsFileName = '/src/inherited.ts';
+  describe('consent management form', () => {
+    const htmlFileName = `/src/test-${CONSENT_MANAGEMENT_FORM_COMPONENT}.html`;
+    const tsFileName = `/src/inherited-${CONSENT_MANAGEMENT_FORM_COMPONENT}.ts`;
 
-  describe('when the html file contains a single usage', () => {
-    it('should add a comment', async () => {
-      writeFile(host, htmlFileName, SINGLE_USAGE_EXAMPLE);
+    describe('when the html file contains a single usage', () => {
+      it('should add a comment', async () => {
+        writeFile(host, htmlFileName, SINGLE_USAGE_EXAMPLE);
 
-      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
-      const content = appTree.readContent(htmlFileName);
-      expect(content).toEqual(SINGLE_USAGE_EXAMPLE_EXPECTED);
+        const content = appTree.readContent(htmlFileName);
+        expect(content).toEqual(SINGLE_USAGE_EXAMPLE_EXPECTED);
+      });
+    });
+
+    describe('when the html file contains multiple usages', () => {
+      it('should add comments', async () => {
+        writeFile(host, htmlFileName, MULTI_USAGE_EXAMPLE);
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent(htmlFileName);
+        expect(content).toEqual(MULTI_USAGE_EXAMPLE_EXPECTED);
+      });
+    });
+
+    describe('when the component is extended', () => {
+      it('should add comments', async () => {
+        writeFile(host, tsFileName, COMPONENT_INHERITANCE_TEST_CLASS);
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent(tsFileName);
+        expect(content).toEqual(COMPONENT_INHERITANCE_EXPECTED_CLASS);
+      });
     });
   });
+  
+  describe('Product Images Component', () => {
+    const htmlFileName = `/src/test-${PRODUCT_IMAGES_COMPONENT}.html`;
+    const tsFileName = `/src/inherited-${PRODUCT_IMAGES_COMPONENT}.ts`;
 
-  describe('when the html file contains multiple usages', () => {
-    it('should add comments', async () => {
-      writeFile(host, htmlFileName, MULTI_USAGE_EXAMPLE);
+    describe('when the html file contains a single usage', () => {
+      it('should add a comment', async () => {
+        writeFile(host, htmlFileName, PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE);
 
-      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
-      const content = appTree.readContent(htmlFileName);
-      expect(content).toEqual(MULTI_USAGE_EXAMPLE_EXPECTED);
+        const content = appTree.readContent(htmlFileName);
+        expect(content).toEqual(PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE_EXPECTED);
+      });
     });
-  });
+    describe('when the component is extended', () => {
+      it('should add comments', async () => {
+        writeFile(host, tsFileName, PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS);
 
-  describe('when the component is extended', () => {
-    it('should add comments', async () => {
-      writeFile(host, tsFileName, COMPONENT_INHERITANCE_TEST_CLASS);
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
-      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
-
-      const content = appTree.readContent(tsFileName);
-      expect(content).toEqual(COMPONENT_INHERITANCE_EXPECTED_CLASS);
+        const content = appTree.readContent(tsFileName);
+        expect(content).toEqual(PRODUCT_IMAGES_COMPONENT_INHERITANCE_EXPECTED_CLASS);
+      });
     });
   });
 });
+
