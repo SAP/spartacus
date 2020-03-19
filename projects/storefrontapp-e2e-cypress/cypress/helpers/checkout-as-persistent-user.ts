@@ -156,6 +156,15 @@ export function addPaymentMethod() {
 export function selectShippingAddress() {
   cy.server();
 
+  cy.route('GET', '/rest/v2/electronics-spa//users/current/carts/*').as(
+    'cartLoaded'
+  );
+
+  cy.route(
+    'GET',
+    '/rest/v2/electronics-spa/users/current/carts/*/deliverymodes?*'
+  ).as('loadDeliveryModes');
+
   cy.route(
     'GET',
     '/rest/v2/electronics-spa/cms/pages?*/checkout/shipping-address*'
@@ -188,6 +197,14 @@ export function selectShippingAddress() {
     .should('contain', 'Continue')
     .click();
   cy.wait('@getDeliveryPage')
+    .its('status')
+    .should('eq', 200);
+
+  cy.wait('@cartLoaded')
+    .its('status')
+    .should('eq', 200);
+
+  cy.wait('@loadDeliveryModes')
     .its('status')
     .should('eq', 200);
 }
