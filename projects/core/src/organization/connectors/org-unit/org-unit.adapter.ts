@@ -19,7 +19,7 @@ export abstract class OrgUnitAdapter {
    */
   abstract load(userId: string, orgUnitId: string): Observable<B2BUnit>;
 
-  abstract loadList(userId: string, params?: any): Observable<B2BUnitNode[]>;
+  abstract loadList(userId: string): Observable<B2BUnitNode[]>;
 
   abstract create(userId: string, orgUnit: B2BUnit): Observable<B2BUnit>;
 
@@ -33,7 +33,7 @@ export abstract class OrgUnitAdapter {
     userId: string
   ): Observable<B2BApprovalProcess[]>;
 
-  abstract loadTree(userId: string, params?: any): Observable<B2BUnitNode>;
+  abstract loadTree(userId: string): Observable<B2BUnitNode>;
 
   abstract loadUsers(
     userId: string,

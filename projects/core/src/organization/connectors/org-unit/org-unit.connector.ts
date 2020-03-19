@@ -8,6 +8,7 @@ import {
   B2BUser,
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
+import { B2BSearchConfig } from '../../model/search-config';
 
 @Injectable({
   providedIn: 'root',
@@ -31,23 +32,23 @@ export class OrgUnitConnector {
     return this.adapter.update(userId, orgUnitId, orgUnit);
   }
 
-  getList(userId: string, params?: any): Observable<B2BUnitNode[]> {
-    return this.adapter.loadList(userId, params);
+  getList(userId: string): Observable<B2BUnitNode[]> {
+    return this.adapter.loadList(userId);
   }
 
   getApprovalProcesses(userId: string): Observable<B2BApprovalProcess[]> {
     return this.adapter.loadApprovalProcesses(userId);
   }
 
-  getTree(userId: string, params?: any): Observable<B2BUnitNode> {
-    return this.adapter.loadTree(userId, params);
+  getTree(userId: string): Observable<B2BUnitNode> {
+    return this.adapter.loadTree(userId);
   }
 
   getUsers(
     userId: string,
     orgUnitId: string,
     roleId: string,
-    params?: any
+    params?: B2BSearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.adapter.loadUsers(userId, orgUnitId, roleId, params);
   }

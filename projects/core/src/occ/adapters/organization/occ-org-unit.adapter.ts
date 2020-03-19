@@ -20,6 +20,7 @@ import {
   B2BUser,
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
+import { B2BSearchConfig } from '../../../organization/model/search-config';
 
 @Injectable()
 export class OccOrgUnitAdapter implements OrgUnitAdapter {
@@ -51,17 +52,15 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
       .pipe(this.converter.pipeable(B2BUNIT_NORMALIZER));
   }
 
-  loadTree(userId: string, params?: any): Observable<B2BUnitNode> {
+  loadTree(userId: string): Observable<B2BUnitNode> {
     return this.http
-      .get<Occ.B2BUnitNode>(this.getOrgUnitsTreeEndpoint(userId, params))
+      .get<Occ.B2BUnitNode>(this.getOrgUnitsTreeEndpoint(userId))
       .pipe(this.converter.pipeable(B2BUNIT_NODE_NORMALIZER));
   }
 
-  loadList(userId: string, params?: any): Observable<B2BUnitNode[]> {
+  loadList(userId: string): Observable<B2BUnitNode[]> {
     return this.http
-      .get<Occ.B2BUnitNodeList>(
-        this.getAvailableOrgUnitsEndpoint(userId, params)
-      )
+      .get<Occ.B2BUnitNodeList>(this.getAvailableOrgUnitsEndpoint(userId))
       .pipe(this.converter.pipeable(B2BUNIT_NODE_LIST_NORMALIZER));
   }
 
@@ -77,7 +76,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     roleId: string,
-    params?: any
+    params?: B2BSearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.http
       .get<Occ.B2BUserList>(
@@ -113,16 +112,16 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     return this.occEndpoints.getUrl('orgUnit', { userId, orgUnitId });
   }
 
-  protected getOrgUnitsEndpoint(userId: string, params?: any): string {
-    return this.occEndpoints.getUrl('orgUnits', { userId }, params);
+  protected getOrgUnitsEndpoint(userId: string): string {
+    return this.occEndpoints.getUrl('orgUnits', { userId });
   }
 
-  protected getAvailableOrgUnitsEndpoint(userId: string, params?: any): string {
-    return this.occEndpoints.getUrl('orgUnitsAvailable', { userId }, params);
+  protected getAvailableOrgUnitsEndpoint(userId: string): string {
+    return this.occEndpoints.getUrl('orgUnitsAvailable', { userId });
   }
 
-  protected getOrgUnitsTreeEndpoint(userId: string, params?: any): string {
-    return this.occEndpoints.getUrl('orgUnitsTree', { userId }, params);
+  protected getOrgUnitsTreeEndpoint(userId: string): string {
+    return this.occEndpoints.getUrl('orgUnitsTree', { userId });
   }
 
   protected getOrgUnitsApprovalProcessesEndpoint(userId: string): string {
@@ -133,7 +132,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     userId: string,
     orgUnitId: string,
     roleId: string,
-    params?: any
+    params?: B2BSearchConfig
   ): string {
     return this.occEndpoints.getUrl(
       'orgUnitUsers',
@@ -153,7 +152,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     params: { roleId: string }
   ): string {
     return this.occEndpoints.getUrl(
-      'orgUnitUsers',
+      'orgUnitUserRoles',
       { userId, orgUnitId, orgCustomerId },
       params
     );
@@ -165,7 +164,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     orgCustomerId: string,
     roleId: string
   ): string {
-    return this.occEndpoints.getUrl('orgUnitUsers', {
+    return this.occEndpoints.getUrl('orgUnitUserRole', {
       userId,
       orgUnitId,
       orgCustomerId,

@@ -64,9 +64,8 @@ describe('OrgUnitConnector', () => {
   });
 
   it('should load orgUnits', () => {
-    const params = { sort: 'code' };
-    service.getList(userId, params);
-    expect(adapter.loadList).toHaveBeenCalledWith(userId, params);
+    service.getList(userId);
+    expect(adapter.loadList).toHaveBeenCalledWith(userId);
   });
 
   it('should create orgUnit', () => {
