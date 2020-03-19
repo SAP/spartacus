@@ -1,11 +1,17 @@
 import { apiUrl } from '../support/utils/login';
 import {
+  currentSpecificOrderRoute,
+  waitCurrentSpecificOrder,
+  waitForOrderToBePlacedRequest,
+} from '../support/utils/order-placed';
+import {
   addPaymentMethod,
   addShippingAddress,
   deletePaymentCard,
   deleteShippingAddress,
   verifyAndPlaceOrder,
 } from './checkout-as-persistent-user';
+import { waitForPage } from './checkout-flow';
 
 export const eosCameraProductName = 'EOS450D';
 
@@ -74,8 +80,32 @@ export function selectPaymentMethod() {
 export function goToOrderHistoryDetailsFromSummary() {
   cy.get('.cx-page-title').then(el => {
     const orderNumber = el.text().match(/\d+/)[0];
-    cy.visit(`/my-account/order/${orderNumber}`);
+
+    waitForOrderToBePlacedRequest(orderNumber);
+
+    const orderHistoryPage = waitForPage(
+      '/my-account/orders',
+      'getOrderHistoryPage'
+    );
+    cy.selectUserMenuOption({
+      option: 'Order History',
+    });
+    cy.wait(`@${orderHistoryPage}`)
+      .its('status')
+      .should('eq', 200);
+
+    currentSpecificOrderRoute(orderNumber);
+    cy.get('cx-order-history .cx-order-history-code')
+      .first()
+      .should('contain', orderNumber)
+      .click({ force: true });
+    waitCurrentSpecificOrder();
   });
+
+  // TODO: need to re-render the dom because of the `repaint` issue from cart-list-item.component.ts
+  cy.wait(3000);
+  cy.reload(true);
+  // END TODO
 }
 
 export function checkAppliedPromotionsForLoggedUser() {
@@ -138,19 +168,34 @@ export function removeCartEntry() {
 export function checkAppliedPromotionsFordifferentCartTotals() {
   const batteryProductCode = '266685';
 
-  it('Should add two products to the cart', () => {
+  it('should add two products to the cart', () => {
+    const productPageBattery = waitForPage(
+      `ProductPage&code=${batteryProductCode}`,
+      'getProductPageBattery'
+    );
+
     cy.visit(`/product/${batteryProductCode}`);
+    cy.wait(`@${productPageBattery}`)
+      .its('status')
+      .should('eq', 200);
+
     addProductToCart();
+
     cy.visit(`/product/${batteryProductCode}`);
+
+    cy.wait(`@${productPageBattery}`)
+      .its('status')
+      .should('eq', 200);
+
     addProductToCart();
   });
 
-  it('Should display promotions in users cart view for added products', () => {
+  it('should display promotions in users cart view for added products', () => {
     goToCartDetailsViewFromCartDialog();
     checkForAppliedCartPromotions(true);
   });
 
-  it('Should not display promotions in users cart view after removing first product', () => {
+  it('should not display promotions in users cart view after removing first product', () => {
     decreaseQuantityOfCartEntry();
     checkForAppliedCartPromotions(false);
   });
