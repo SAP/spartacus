@@ -9,13 +9,6 @@ import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector'
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx effects will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 @Injectable()
 export class CartEntryEffects {
   private contextChange$ = this.actions$.pipe(
@@ -74,7 +67,7 @@ export class CartEntryEffects {
     | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_ENTRY),
-    map((action: CartActions.CartAddEntry) => action.payload),
+    map((action: CartActions.CartRemoveEntry) => action.payload),
     concatMap(payload =>
       this.cartEntryConnector
         .remove(payload.userId, payload.cartId, payload.entry)
@@ -108,7 +101,7 @@ export class CartEntryEffects {
     | DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_UPDATE_ENTRY),
-    map((action: CartActions.CartAddEntry) => action.payload),
+    map((action: CartActions.CartUpdateEntry) => action.payload),
     concatMap(payload =>
       this.cartEntryConnector
         .update(payload.userId, payload.cartId, payload.entry, payload.qty)

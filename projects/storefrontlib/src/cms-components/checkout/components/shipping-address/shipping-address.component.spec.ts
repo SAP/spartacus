@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
+  ActiveCartService,
   Address,
-  CartService,
   CheckoutDeliveryService,
   I18nTestingModule,
   RoutingService,
@@ -26,7 +26,7 @@ class MockUserAddressService {
   loadAddresses(): void {}
 }
 
-class MockCartService {
+class MockActiveCartService {
   isGuestCart(): Boolean {
     return false;
   }
@@ -125,7 +125,7 @@ describe('ShippingAddressComponent', () => {
   let mockCheckoutDeliveryService: CheckoutDeliveryService;
   let mockUserAddressService: UserAddressService;
   let mockRoutingService: RoutingService;
-  let mockCartService: CartService;
+  let mockActiveCartService: ActiveCartService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -138,7 +138,7 @@ describe('ShippingAddressComponent', () => {
       ],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         {
           provide: CheckoutDeliveryService,
           useClass: MockCheckoutDeliveryService,
@@ -155,7 +155,7 @@ describe('ShippingAddressComponent', () => {
 
     mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
     mockRoutingService = TestBed.inject(RoutingService);
-    mockCartService = TestBed.inject(CartService);
+    mockActiveCartService = TestBed.inject(ActiveCartService);
   }));
 
   beforeEach(() => {
@@ -192,7 +192,7 @@ describe('ShippingAddressComponent', () => {
         of(false)
       );
       spyOn(mockUserAddressService, 'getAddresses').and.returnValue(of([]));
-      spyOn(mockCartService, 'isGuestCart').and.returnValue(true);
+      spyOn(mockActiveCartService, 'isGuestCart').and.returnValue(true);
       spyOn(mockUserAddressService, 'loadAddresses').and.stub();
 
       component.ngOnInit();

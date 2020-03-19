@@ -27,7 +27,10 @@ describe('Cart reducer', () => {
   describe('MERGE_CART_SUCCESS action', () => {
     it('should set cartMergeComplete and refresh flag to true ', () => {
       const { initialState } = fromCart;
-      const action = new DeprecatedCartActions.MergeCartSuccess({});
+      const action = new DeprecatedCartActions.MergeCartSuccess({
+        cartId: 'cartId',
+        userId: 'userId',
+      });
       const state = fromCart.reducer(initialState, action);
 
       expect(state.cartMergeComplete).toEqual(true);
@@ -96,7 +99,10 @@ describe('Cart reducer', () => {
     it('should set refresh to true', () => {
       const { initialState } = fromCart;
 
-      const action = new CartActions.CartRemoveEntrySuccess({});
+      const action = new CartActions.CartRemoveEntrySuccess({
+        cartId: 'cartId',
+        userId: 'userId',
+      });
       const state = fromCart.reducer(initialState, action);
       expect(state.refresh).toEqual(true);
     });
@@ -106,7 +112,10 @@ describe('Cart reducer', () => {
     it('should set refresh to true', () => {
       const { initialState } = fromCart;
 
-      const action = new CartActions.CartAddEntrySuccess({});
+      const action = new CartActions.CartAddEntrySuccess({
+        cartId: 'cartId',
+        userId: 'userId',
+      });
       const state = fromCart.reducer(initialState, action);
       expect(state.refresh).toEqual(true);
     });
@@ -129,7 +138,10 @@ describe('Cart reducer', () => {
     it('should set refresh to true', () => {
       const { initialState } = fromCart;
 
-      const action = new CartActions.CartUpdateEntrySuccess({});
+      const action = new CartActions.CartUpdateEntrySuccess({
+        cartId: 'cartId',
+        userId: 'userId',
+      });
       const state = fromCart.reducer(initialState, action);
       expect(state.refresh).toEqual(true);
     });
@@ -139,7 +151,10 @@ describe('Cart reducer', () => {
     it('should set refresh to true', () => {
       const { initialState } = fromCart;
 
-      const action = new DeprecatedCartActions.AddEmailToCartSuccess({});
+      const action = new DeprecatedCartActions.AddEmailToCartSuccess({
+        cartId: 'cartId',
+        userId: 'userId',
+      });
       const state = fromCart.reducer(initialState, action);
       expect(state.refresh).toEqual(true);
     });

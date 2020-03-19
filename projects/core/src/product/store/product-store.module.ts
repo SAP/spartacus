@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { ConfigModule } from '../../config/config.module';
+import { provideDefaultConfigFactory } from '../../config/config.module';
 import {
   StateConfig,
   StateTransferType,
@@ -30,8 +30,10 @@ export function productStoreConfigFactory(): StateConfig {
     HttpClientModule,
     StoreModule.forFeature(PRODUCT_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfigFactory(productStoreConfigFactory),
   ],
-  providers: [reducerProvider],
+  providers: [
+    provideDefaultConfigFactory(productStoreConfigFactory),
+    reducerProvider,
+  ],
 })
 export class ProductStoreModule {}
