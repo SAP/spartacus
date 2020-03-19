@@ -55,11 +55,7 @@ export class OccRequestsOptimizerService {
         } else {
           // multiple scopes per url
           // we have to split the model per each scope
-          const data$ = dataFactory(url).pipe(
-            shareReplay(1),
-            // TODO deprecated since 1.4, remove
-            map(data => JSON.parse(JSON.stringify(data)))
-          );
+          const data$ = dataFactory(url).pipe(shareReplay(1));
 
           groupedModels.forEach(modelData => {
             result.push({

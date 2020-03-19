@@ -1,13 +1,11 @@
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 import { Product } from '../../model/product.model';
-import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductService } from './product.service';
-import { take } from 'rxjs/operators';
 import { ProductLoadingService } from '@spartacus/core';
 
 function mockProduct(code, scopes = []) {
@@ -136,98 +134,6 @@ describe('ProductService', () => {
           .get('existingProduct')
           .toPromise();
         expect(result).toBeTruthy();
-      });
-    });
-  });
-
-  describe('Backward Compatibility / deprecated since 1.4', () => {
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: ProductLoadingService,
-            useValue: undefined,
-          },
-        ],
-      });
-
-      store = TestBed.inject(Store);
-      service = TestBed.inject(ProductService);
-      spyOn(store, 'dispatch').and.stub();
-    });
-
-    describe('get(productCode)', () => {
-      it('should be able to get product by code', async () => {
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          of({
-            value: mockedProduct,
-          })
-        );
-        const result: Product = await service.get('testId').toPromise();
-        expect(result).toBe(mockedProduct);
-      });
-
-      it('should be able to trigger the product load action for a product.', async () => {
-        await service
-          .get('productCode')
-          .pipe(take(1))
-          .toPromise();
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new ProductActions.LoadProduct('productCode')
-        );
-      });
-
-      it('should be not trigger multiple product load actions for multiple product subscription.', async () => {
-        const productMock = new BehaviorSubject({});
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          productMock
-        );
-        (store.dispatch as any).and.callFake(() =>
-          productMock.next({ success: true })
-        );
-
-        service
-          .get('productCode')
-          .pipe(take(1))
-          .subscribe();
-        await service
-          .get('productCode')
-          .pipe(take(1))
-          .toPromise();
-
-        expect(store.dispatch).toHaveBeenCalledTimes(1);
-      });
-    });
-
-    describe('isProductLoaded(productCode)', () => {
-      it('should be true that the product is loaded when a product is returned by the store', async () => {
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          of({ value: mockedProduct })
-        );
-        const result: Product = await service
-          .get('existingProduct')
-          .toPromise();
-        expect(result).toBeTruthy();
-      });
-
-      it('should be false that the product is loaded when an empty object is returned by the store', async () => {
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          of({ value: {} })
-        );
-        const result: Product = await service
-          .get('emptyObjectProduct')
-          .toPromise();
-        expect(result).toEqual({});
-      });
-
-      it('should be false that the product is loaded when undefined is returned by the store', async () => {
-        spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-          of({ value: undefined })
-        );
-        const result: Product = await service
-          .get('undefinedProduct')
-          .toPromise();
-        expect(result).toBeFalsy();
       });
     });
   });

@@ -101,6 +101,9 @@ export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
 export const STAR_RATING_COMPONENT = 'StarRatingComponent';
+export const PRODUCT_SERVICE = 'ProductService';
+export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
+export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
