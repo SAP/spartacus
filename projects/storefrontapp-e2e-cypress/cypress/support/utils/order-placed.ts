@@ -18,10 +18,8 @@ export function waitForOrderToBePlacedRequest(
       res.status === 200 &&
       res.body.orders.filter(order => order.code === orderNumber)
     ) {
-      console.log('orders found', res.body);
       return;
     } else {
-      console.log('orders not found', res.body);
       waitForOrderToBePlacedRequest(orderNumber, contentCatalog);
     }
   });
