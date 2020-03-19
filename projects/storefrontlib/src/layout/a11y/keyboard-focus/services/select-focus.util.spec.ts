@@ -17,6 +17,18 @@ import { SelectFocusUtility } from './select-focus.util';
       <a href="" tabindex="-1" id="b2" autofocus>focusable</a>
       <button id="b3">focusable</button>
     </div>
+    <div id="c">
+      <button id="c1">focusable</button>
+      <button id="c2" disabled>focusable</button>
+    </div>
+    <div id="d">
+      <button id="d1">focusable</button>
+      <button id="d2" disabled>focusable</button>
+    </div>
+    <div id="e">
+      <button id="e1">focusable</button>
+      <button id="e2" class="custom">focusable</button>
+    </div>
   `,
 })
 class MockComponent {}
@@ -49,6 +61,20 @@ describe('SelectFocusUtility', () => {
     it('should find (locked) focusable children', () => {
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
       expect(service.findFocusable(host, true).length).toEqual(3);
+    });
+
+    it('should not find disabled children', () => {
+      const host = fixture.debugElement.query(By.css('#c')).nativeElement;
+      const button = fixture.debugElement.query(By.css('#c1')).nativeElement;
+      expect(service.findFocusable(host).length).toEqual(1);
+      expect(service.findFocusable(host)[0]).toEqual(button);
+    });
+
+    it('should not find hidden children', () => {
+      const host = fixture.debugElement.query(By.css('#d')).nativeElement;
+      const button = fixture.debugElement.query(By.css('#d1')).nativeElement;
+      expect(service.findFocusable(host).length).toEqual(1);
+      expect(service.findFocusable(host)[0]).toEqual(button);
     });
   });
 
