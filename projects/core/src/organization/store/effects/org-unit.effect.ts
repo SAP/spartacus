@@ -165,7 +165,7 @@ export class OrgUnitEffects {
         .getUsers(userId, orgUnitId, roleId, params)
         .pipe(
           switchMap((users: EntitiesModel<B2BUser>) => {
-            const { values, page } = normalizeListPage(users, 'code');
+            const { values, page } = normalizeListPage(users, 'uid');
             return [
               new B2BUserActions.LoadB2BUserSuccess(values),
               new OrgUnitActions.LoadAssignedUsersSuccess({
