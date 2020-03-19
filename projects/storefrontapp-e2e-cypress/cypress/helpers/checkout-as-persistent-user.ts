@@ -228,6 +228,13 @@ export function selectDeliveryMethod() {
 }
 
 export function selectPaymentMethod() {
+  cy.server();
+
+  cy.route(
+    'PUT',
+    '/rest/v2/electronics-spa/users/current/carts/*/paymentdetails*'
+  ).as('sendOrderData');
+
   cy.get('cx-breadcrumb h1').should('contain', 'Checkout');
   cy.get('cx-payment-method').should('exist');
   cy.get('cx-payment-method h3.cx-checkout-title').should('contain', 'Payment');
@@ -238,7 +245,10 @@ export function selectPaymentMethod() {
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Payment Method');
   cy.get('.card-header').should('contain', 'Selected');
+
   cy.get('button.btn-primary').click({ force: true });
+
+  cy.wait('@sendOrderData');
 }
 
 export function verifyAndPlaceOrder() {
