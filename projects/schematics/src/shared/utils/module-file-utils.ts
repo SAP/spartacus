@@ -23,7 +23,7 @@ export function addImport(
   importText: string,
   importPath: string
 ): void {
-  const moduleSource = getTsSourceFile(host, filePath) as any;
+  const moduleSource = getTsSourceFile(host, filePath);
   if (!isImported(moduleSource, importText, importPath)) {
     const change = insertImport(moduleSource, filePath, importText, importPath);
     commitChanges(host, filePath, [change], InsertDirection.LEFT);

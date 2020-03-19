@@ -6,6 +6,7 @@ import {
   CART_DATA_SERVICE,
   CART_EFFECTS,
   CART_ENTRY_EFFECTS,
+  CART_SELECTORS,
   CART_SERVICE,
   CART_VOUCHER_EFFECTS,
   CLEAR_CART_STATE,
@@ -128,6 +129,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: ANONYMOUS_USERID_CONST,
     importPath: SPARTACUS_CORE,
     comment: `'${ANONYMOUS_USERID_CONST}' is no longer part of the public API. Instead use 'OCC_USER_ID_ANONYMOUS'.`,
+  },
+  // projects/core/src/cart/store/selectors/index.ts
+  {
+    node: CART_SELECTORS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${CART_SELECTORS}' are no longer part of the public API. Instead use 'ActiveCartService', 'MultiCartState' and 'MultiCartSelectors'.`,
   },
   // projects/core/src/cart/facade/cart.service.ts
   {
