@@ -47,7 +47,7 @@ class MockProductSearchService {
   }
 }
 
-xdescribe('CategoryPageMetaResolver', () => {
+describe('CategoryPageMetaResolver', () => {
   let service: CategoryPageMetaResolver;
 
   beforeEach(() => {
@@ -62,7 +62,7 @@ xdescribe('CategoryPageMetaResolver', () => {
     service = TestBed.inject(CategoryPageMetaResolver);
   });
 
-  it(`should resolve title`, () => {
+  it('should resolve title', () => {
     let result: string;
     service
       .resolveTitle()
