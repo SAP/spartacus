@@ -80,7 +80,7 @@ export class CmsService {
    * @param uid CMS component uid
    * @param pageContext if provided, it will be used to lookup the component data.
    */
-  getComponentData<T extends CmsComponent>(
+  getComponentData<T extends CmsComponent | null>(
     uid: string,
     pageContext?: PageContext
   ): Observable<T> {
@@ -140,8 +140,9 @@ export class CmsService {
     );
 
     const component$ = this.store.pipe(
-      select(CmsSelectors.componentsSelectorFactory(uid, context))
-    ) as Observable<T>;
+      select(CmsSelectors.componentsSelectorFactory(uid, context)),
+      filter(component => component !== undefined)
+    ) as Observable<T | null>;
 
     return using(
       () => loading$.subscribe(),

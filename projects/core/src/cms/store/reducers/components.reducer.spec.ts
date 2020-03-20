@@ -48,7 +48,7 @@ describe('Components Reducer', () => {
           [serializedPageContext]: {
             ...initialLoaderState,
             loading: true,
-            value: false,
+            value: undefined,
           },
         },
       });
