@@ -35,6 +35,10 @@ $useTabsOnPDP: false !default;
     &:hover {
       color: var(--cx-color-primary);
     }
+    &:focus {
+      z-index: 1;
+      transition: none;
+    }
     cursor: pointer;
     @include media-breakpoint-up(md) {
       &.active {
@@ -67,13 +71,6 @@ $useTabsOnPDP: false !default;
     }
     &:not(.active):hover:after {
       opacity: 0.5;
-    }
-  }
-
-  button {
-    &:focus {
-      z-index: 1;
-      transition: none;
     }
   }
 
@@ -162,7 +159,6 @@ $useTabsOnPDP: false !default;
   > button {
     @include button-reset();
     order: 2;
-
     color: var(--cx-color-primary);
     font-weight: normal;
     font-size: 0.9em;
@@ -171,9 +167,6 @@ $useTabsOnPDP: false !default;
     &:hover {
       text-decoration: underline;
     }
-  }
-
-  button {
     &:focus {
       z-index: 1;
       transition: none;
