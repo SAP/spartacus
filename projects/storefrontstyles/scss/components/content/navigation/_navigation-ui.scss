@@ -211,8 +211,6 @@
 }
 
 %nav-wrap {
-
-
   &.flyout .childs {
     &[wrap-after] {
       display: grid;
@@ -228,7 +226,6 @@
       }
     }
   }
-
 
   @for $column from 1 through 10 {
     &.flyout .childs[columns='#{$column}'] {
@@ -302,7 +299,6 @@
     }
 
     @include media-breakpoint-up(lg) {
-
       .childs[depth='2'] {
         > nav {
           &:not(:only-child):not(:last-child) {
@@ -341,7 +337,7 @@
 
       .childs {
         display: flex;
- 
+
         nav:not(:last-child) {
           padding-right: 20px;
         }
