@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 import { FocusConfig } from './keyboard-focus.model';
 import { LockFocusDirective } from './lock/lock-focus.directive';
-import { KeyboardFocusService } from './services/index';
+import { KeyboardFocusService } from './services/keyboard-focus.service';
 
 @Directive({
   selector: '[cxFocus]',
