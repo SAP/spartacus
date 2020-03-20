@@ -7,7 +7,7 @@ import { TriggerInlineMapping, TRIGGER_CALLER } from '../config';
 import { RenderStrategy } from './render.strategy';
 
 @Injectable({ providedIn: 'root' })
-export class InlineRenderService extends RenderStrategy {
+export class InlineRenderStrategy extends RenderStrategy {
   protected renderedCallers: TRIGGER_CALLER[] = [];
 
   constructor(protected componentFactoryResolver: ComponentFactoryResolver) {

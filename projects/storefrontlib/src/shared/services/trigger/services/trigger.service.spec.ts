@@ -12,9 +12,9 @@ import {
   TriggerUrlMapping,
   TRIGGER_CALLER,
 } from '../config/trigger-config';
-import { InlineRenderService } from './inline-render-strategy.service';
-import { OutletRenderService } from './outlet-render-strategy.service';
-import { RoutingRenderService } from './routing-render-strategy.service';
+import { InlineRenderStrategy } from './inline-render-strategy.service';
+import { OutletRenderStrategy } from './outlet-render-strategy.service';
+import { RoutingRenderStrategy } from './routing-render-strategy.service';
 import { TriggerService } from './trigger.service';
 
 const mockTriggerConfig: TriggerConfig = {
@@ -56,17 +56,17 @@ class TestContainerComponent {}
 
 describe('TriggerService', () => {
   let service: TriggerService;
-  let outletRenderService: OutletRenderService;
-  let inlineRenderService: InlineRenderService;
-  let routingRenderService: RoutingRenderService;
+  let outletRenderService: OutletRenderStrategy;
+  let inlineRenderService: InlineRenderStrategy;
+  let routingRenderService: RoutingRenderStrategy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         TriggerService,
-        { provide: OutletRenderService, useClass: MockRenderService },
-        { provide: InlineRenderService, useClass: MockRenderService },
-        { provide: RoutingRenderService, useClass: MockRenderService },
+        { provide: OutletRenderStrategy, useClass: MockRenderService },
+        { provide: InlineRenderStrategy, useClass: MockRenderService },
+        { provide: RoutingRenderStrategy, useClass: MockRenderService },
         {
           provide: ComponentFactoryResolver,
           useClass: MockComponentFactoryResolver,
@@ -76,9 +76,9 @@ describe('TriggerService', () => {
     });
 
     service = TestBed.inject(TriggerService);
-    outletRenderService = TestBed.inject(OutletRenderService);
-    inlineRenderService = TestBed.inject(InlineRenderService);
-    routingRenderService = TestBed.inject(RoutingRenderService);
+    outletRenderService = TestBed.inject(OutletRenderStrategy);
+    inlineRenderService = TestBed.inject(InlineRenderStrategy);
+    routingRenderService = TestBed.inject(RoutingRenderStrategy);
 
     spyOn(outletRenderService, 'render');
     spyOn(inlineRenderService, 'render');

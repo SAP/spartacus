@@ -3,9 +3,9 @@ import { Config, provideConfig } from '@spartacus/core';
 import { DEFAULT_TRIGGER_CONFIG } from './config/default-trigger-config';
 import { TriggerConfig } from './config/trigger-config';
 import {
-  InlineRenderService,
-  OutletRenderService,
-  RoutingRenderService,
+  InlineRenderStrategy,
+  OutletRenderStrategy,
+  RoutingRenderStrategy,
 } from './services/index';
 import { RenderStrategy } from './services/render.strategy';
 
@@ -13,17 +13,17 @@ import { RenderStrategy } from './services/render.strategy';
   providers: [
     {
       provide: RenderStrategy,
-      useExisting: OutletRenderService,
+      useExisting: OutletRenderStrategy,
       multi: true,
     },
     {
       provide: RenderStrategy,
-      useExisting: InlineRenderService,
+      useExisting: InlineRenderStrategy,
       multi: true,
     },
     {
       provide: RenderStrategy,
-      useExisting: RoutingRenderService,
+      useExisting: RoutingRenderStrategy,
       multi: true,
     },
   ],

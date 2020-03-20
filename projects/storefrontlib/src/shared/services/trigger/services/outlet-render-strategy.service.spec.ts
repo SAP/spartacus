@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { OutletPosition, OutletService } from '../../../../cms-structure/index';
 import { TriggerConfig, TriggerOutletMapping } from '../config';
-import { OutletRenderService } from './outlet-render-strategy.service';
+import { OutletRenderStrategy } from './outlet-render-strategy.service';
 
 const mockTriggerConfig: TriggerConfig = {
   trigger: {
@@ -21,19 +21,19 @@ class MockOutletService {
   add() {}
 }
 
-describe('OutletRenderService', () => {
-  let service: OutletRenderService;
+describe('OutletRenderStrategy', () => {
+  let service: OutletRenderStrategy;
   let outletService: OutletService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        OutletRenderService,
+        OutletRenderStrategy,
         { provide: OutletService, useClass: MockOutletService },
       ],
     });
 
-    service = TestBed.get(OutletRenderService);
+    service = TestBed.get(OutletRenderStrategy);
     outletService = TestBed.get(OutletService);
 
     spyOn(outletService, 'add');

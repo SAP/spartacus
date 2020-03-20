@@ -4,7 +4,7 @@ import { TriggerUrlMapping, TRIGGER_CALLER } from '../config/index';
 import { RenderStrategy } from './render.strategy';
 
 @Injectable({ providedIn: 'root' })
-export class RoutingRenderService extends RenderStrategy {
+export class RoutingRenderStrategy extends RenderStrategy {
   constructor(protected routingService: RoutingService) {
     super();
   }

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { TriggerConfig, TriggerUrlMapping } from '../config/index';
-import { RoutingRenderService } from './routing-render-strategy.service';
+import { RoutingRenderStrategy } from './routing-render-strategy.service';
 
 const mockTriggerConfig: TriggerConfig = {
   trigger: {
@@ -19,19 +19,19 @@ class MockRoutingService {
   go() {}
 }
 
-describe('RoutingRenderService', () => {
-  let service: RoutingRenderService;
+describe('RoutingRenderStrategy', () => {
+  let service: RoutingRenderStrategy;
   let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        RoutingRenderService,
+        RoutingRenderStrategy,
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
-    service = TestBed.get(RoutingRenderService);
+    service = TestBed.get(RoutingRenderStrategy);
     routingService = TestBed.get(RoutingService);
 
     spyOn(routingService, 'go');

@@ -1,6 +1,6 @@
 import { Component, ComponentFactory, ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { InlineRenderService } from './inline-render-strategy.service';
+import { InlineRenderStrategy } from './inline-render-strategy.service';
 
 const testTemplate = {} as ComponentFactory<any>;
 
@@ -11,17 +11,17 @@ class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
 
-describe('InlineRenderService', () => {
-  let service: InlineRenderService;
+describe('InlineRenderStrategy', () => {
+  let service: InlineRenderStrategy;
   let component: TestContainerComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [InlineRenderService],
+      providers: [InlineRenderStrategy],
       declarations: [TestContainerComponent],
     }).compileComponents();
 
-    service = TestBed.get(InlineRenderService);
+    service = TestBed.get(InlineRenderStrategy);
     component = TestBed.createComponent(TestContainerComponent)
       .componentInstance;
 

@@ -11,7 +11,7 @@ import { TriggerOutletMapping, TRIGGER_CALLER } from '../config/index';
 import { RenderStrategy } from './render.strategy';
 
 @Injectable({ providedIn: 'root' })
-export class OutletRenderService extends RenderStrategy {
+export class OutletRenderStrategy extends RenderStrategy {
   protected renderedCallers: TRIGGER_CALLER[] = [];
 
   constructor(
