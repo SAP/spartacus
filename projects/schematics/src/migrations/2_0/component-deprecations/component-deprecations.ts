@@ -21,15 +21,15 @@ export function migrate(): Rule {
     const sourceRoot = getSourceRoot(tree);
     const allHtmlFilePaths = getAllHtmlFiles(tree, sourceRoot);
     for (const htmlFilePath of allHtmlFilePaths) {
-      const buffer = tree.read(htmlFilePath);
-      if (!buffer) {
-        context.logger.warn(`Could not read file (${htmlFilePath}).`);
-        continue;
-      }
-      const content = buffer.toString(UTF_8);
-
       for (const deprecatedComponent of COMPONENT_DEPRECATION_DATA) {
         for (const removedProperty of deprecatedComponent.removedProperties) {
+          const buffer = tree.read(htmlFilePath);
+          if (!buffer) {
+            context.logger.warn(`Could not read file (${htmlFilePath}).`);
+            continue;
+          }
+          const content = buffer.toString(UTF_8);
+
           const change = insertHtmlComment(
             content,
             deprecatedComponent.selector,
