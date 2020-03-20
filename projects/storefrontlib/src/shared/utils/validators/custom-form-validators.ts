@@ -37,20 +37,44 @@ export class CustomFormValidators {
       : { cxPasswordsNotEqual: true };
   }
 
-  static passwordsMustMatch(password: string, passwordConfirmation: string) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[password];
-      const matchingControl = formGroup.controls[passwordConfirmation];
+  static passwordsMustMatch(
+    password: string,
+    passwordConfirmation: string
+  ): any {
+    const mustMatch = (formGroup: FormGroup) =>
+      mustMatchFunction(
+        formGroup,
+        password,
+        passwordConfirmation,
+        'cxPasswordsMustMatch'
+      );
 
-      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-        return;
-      }
-
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ cxPasswordsMustMatch: true });
-      } else {
-        matchingControl.setErrors(null);
-      }
-    };
+    return mustMatch;
   }
+}
+
+/**
+ * Generic function for validators, which checks if two passed controls match.
+ *
+ * @param formGroup
+ * @param firstControlName First control to check
+ * @param secondControlName Second control to check
+ * @param errorName Error which will be returned by validator
+ */
+function mustMatchFunction(
+  formGroup: FormGroup,
+  firstControlName: string,
+  secondControlName: string,
+  errorName: string
+): void {
+  const firstControl = formGroup.controls[firstControlName];
+  const secondControl = formGroup.controls[secondControlName];
+
+  if (secondControl.errors && !secondControl.errors[errorName]) {
+    return;
+  }
+
+  secondControl.setErrors(
+    firstControl.value !== secondControl.value ? { [errorName]: true } : null
+  );
 }
