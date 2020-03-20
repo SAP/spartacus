@@ -40,10 +40,6 @@ export const REGISTER_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
         className: FORM_BUILDER,
         importPath: ANGULAR_FORMS,
       },
-      {
-        className: FEATURE_CONFIG_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
     ],
     removeParams: [
       {
@@ -52,10 +48,6 @@ export const REGISTER_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
       },
       {
         className: AUTH_REDIRECT_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-      {
-        className: FEATURE_CONFIG_SERVICE,
         importPath: SPARTACUS_CORE,
       },
     ],
@@ -103,15 +95,15 @@ export const REGISTER_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
         importPath: SPARTACUS_CORE,
       },
       {
+        className: FEATURE_CONFIG_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
         className: ANONYMOUS_CONSENTS_SERVICE,
         importPath: SPARTACUS_CORE,
       },
       {
         className: ANONYMOUS_CONSENTS_CONFIG,
-        importPath: SPARTACUS_CORE,
-      },
-      {
-        className: FEATURE_CONFIG_SERVICE,
         importPath: SPARTACUS_CORE,
       },
     ],
