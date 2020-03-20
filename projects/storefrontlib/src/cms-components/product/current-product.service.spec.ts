@@ -45,7 +45,7 @@ class MockFeatureConfigService {
   isLevel = () => true;
 }
 
-describe('CurrentProductService', () => {
+fdescribe('CurrentProductService', () => {
   let service;
 
   beforeEach(() => {
@@ -81,5 +81,15 @@ describe('CurrentProductService', () => {
     let result: Product;
     service.getProduct('attributes').subscribe(product => (result = product));
     expect(result).toEqual(mockProductWithAttributes);
+  });
+
+  it('should return null if not on product route', () => {
+    let result: Product;
+    const routingService = TestBed.inject(RoutingService);
+    spyOn(routingService, 'getRouterState').and.returnValue(
+      of({ state: { params: {} } } as any)
+    );
+    service.getProduct().subscribe(product => (result = product));
+    expect(result).toBe(null);
   });
 });

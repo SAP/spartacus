@@ -20,7 +20,7 @@ export class CurrentProductService {
   protected readonly DEFAULT_PRODUCT_SCOPE = ProductScope.DETAILS;
 
   /**
-   * Get product will return current product or null, if there is no current product (i.e. we are not on PDP)
+   * Will emit current product or null, if there is no current product (i.e. we are not on PDP)
    *
    * @param scopes
    */
