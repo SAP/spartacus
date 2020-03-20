@@ -88,26 +88,19 @@
     }
   }
 
-  .cx-order-history-placed {
-    text-align: center;
-
-    @include media-breakpoint-down(sm) {
-      text-align: left;
-    }
-  }
-
+  .cx-order-history-placed,
   .cx-order-history-status {
     text-align: center;
-
-    @include media-breakpoint-down(sm) {
-      text-align: left;
-    }
   }
 
   .cx-order-history-total {
     text-align: right;
+  }
 
-    @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(sm) {
+    .cx-order-history-placed,
+    .cx-order-history-status,
+    .cx-order-history-total {
       text-align: left;
     }
   }
