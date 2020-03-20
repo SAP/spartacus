@@ -4,7 +4,6 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
-  Input,
   OnInit,
 } from '@angular/core';
 import { BlockFocusDirective } from '../block/block-focus.directive';
@@ -37,9 +36,7 @@ import { PersistFocusService } from './persist-focus.service';
  * should retrieve focus.
  *
  */
-@Directive({
-  selector: '[cxPersistFocus]',
-})
+@Directive() // selector: '[cxPersistFocus]',
 export class PersistFocusDirective extends BlockFocusDirective
   implements OnInit, AfterViewInit {
   protected defaultConfig: PersistFocusConfig = {};
@@ -49,7 +46,8 @@ export class PersistFocusDirective extends BlockFocusDirective
    * While this could be considered a global key, the likeliness of conflicts
    * is very small since the key is cleared when the focus is changed.
    */
-  @Input('cxPersistFocus') protected config: PersistFocusConfig = {};
+  // @Input('cxPersistFocus')
+  protected config: PersistFocusConfig = {};
 
   /**
    * The persistance key is maintained in an element attribute for other

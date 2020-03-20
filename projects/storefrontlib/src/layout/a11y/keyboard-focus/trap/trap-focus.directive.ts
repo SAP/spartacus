@@ -1,10 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  HostListener,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { Directive, ElementRef, HostListener, OnInit } from '@angular/core';
 import { MOVE_FOCUS, TrapFocusConfig } from '../keyboard-focus.model';
 import { TabFocusDirective } from '../tab/tab-focus.directive';
 import { TrapFocusService } from './trap-focus.service';
@@ -13,13 +7,12 @@ import { TrapFocusService } from './trap-focus.service';
  * Directive that keeps the focus inside the focussable child elements,
  * also known as a _focus trap_.
  */
-@Directive({
-  selector: '[cxTrapFocus]',
-})
+@Directive() // selector: '[cxTrapFocus]'
 export class TrapFocusDirective extends TabFocusDirective implements OnInit {
   protected defaultConfig: TrapFocusConfig = { trap: true };
 
-  @Input('cxTrapFocus') protected config: TrapFocusConfig = {};
+  // @Input('cxTrapFocus')
+  protected config: TrapFocusConfig = {};
 
   @HostListener('keydown.arrowdown', ['$event'])
   @HostListener('keydown.tab', ['$event'])
