@@ -157,7 +157,7 @@ export const organization = {
     assignBudgets: 'Manage Budgets',
   },
   costCenterAssignBudgets: {
-    header: 'Assign budgets',
+    header: 'Manage budgets in {{code}}',
     back: 'Close',
   },
   costCenterForm: {
@@ -225,7 +225,7 @@ export const organization = {
     },
   },
   unitAssignRoles: {
-    header: 'Assign roles',
+    header: 'Manage roles in {{code}}',
     back: 'Close',
   },
   userList: {
