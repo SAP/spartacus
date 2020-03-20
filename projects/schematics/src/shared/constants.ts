@@ -6,6 +6,7 @@ export const ANGULAR_CORE = '@angular/core';
 export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
 export const RXJS = 'rxjs';
+export const ANGULAR_COMMON = '@angular/common';
 
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
@@ -28,6 +29,9 @@ export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 export const ROUTER = 'Router';
+export const LOCATION = 'Location';
+export const WINDOW_REF = 'WindowRef';
+export const COMPONENT_FACTORY_RESOLVER = 'ComponentFactoryResolver';
 
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
@@ -104,6 +108,10 @@ export const STAR_RATING_COMPONENT = 'StarRatingComponent';
 export const PRODUCT_SERVICE = 'ProductService';
 export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
 export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
+export const ASM_ENABLER_SERVICE = 'AsmEnablerService';
+export const OUTLET_SERVICE = 'OutletService';
+export const TRIGGER_SERVICE = 'TriggerService';
+export const TRIGGER_CONFIG = 'TriggerConfig';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
