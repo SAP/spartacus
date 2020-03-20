@@ -17,10 +17,13 @@ export class SelectFocusUtility {
     'select',
     'textarea',
   ];
+
   // like to leave out the following as we don't use it, and make this list exensible.
   //   `[contentEditable=true]`, // very unlikely to suport as we're not a business tool
   //   `iframe`, // we really don't like iframes...
   //   `area[href]`, // very debatable!
+
+  protected focusableSelectorSuffix = ':not([disabled]):not([hidden])';
 
   query(host: HTMLElement, selector: string): HTMLElement[] {
     if (!selector || selector === '') {
@@ -53,7 +56,7 @@ export class SelectFocusUtility {
    * @param locked indicates whether inactive (`tabindex="-1"`) focusable elements should be returend as well
    */
   findFocusable(host: HTMLElement, locked = false): HTMLElement[] {
-    let suffix = ':not([disabled])';
+    let suffix = this.focusableSelectorSuffix;
     if (!locked) {
       suffix += `:not([tabindex='-1'])`;
     }
