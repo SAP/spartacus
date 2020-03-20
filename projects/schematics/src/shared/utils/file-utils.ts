@@ -130,7 +130,8 @@ export function insertHtmlComment(
   content = content.replace(selectorRegExp, `${comment}\$1`);
 
   // for cases like: <div *ngIf="isThumbsEmpty">test</div>
-  if (newContent === content) { // content hasn't been changed by the above selector regexp
+  if (newContent === content) {
+    // content hasn't been changed by the above selector regexp
     const propertyRegExp = new RegExp(`(<.+${componentProperty})`, 'g');
     newContent = content.replace(propertyRegExp, `${comment}\$1`);
   } else {
