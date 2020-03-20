@@ -52,13 +52,17 @@ cx-form-errors {
   }
 }
 
-input.ng-invalid {
-  &.ng-dirty,
-  &.ng-touched {
-    border-color: var(--cx-color-danger);
+input,
+input[type='checkbox'],
+input[type='radio'] {
+  &.ng-invalid {
+    &.ng-dirty,
+    &.ng-touched {
+      border-color: var(--cx-color-danger);
 
-    & + cx-form-errors {
-      display: initial;
+      & ~ cx-form-errors {
+        display: initial;
+      }
     }
   }
 }
@@ -80,7 +84,7 @@ input[type='radio'] {
   border-width: 1px;
   position: absolute;
   margin-top: 0.3rem;
-  margin-left: -1.25rem;
+  margin-left: -2.25rem;
 }
 
 label {
@@ -96,6 +100,7 @@ label {
 
 .form-check {
   margin-bottom: 18px;
+  padding-left: 2.25rem;
 
   label {
     font-weight: var(--cx-font-weight-normal);
@@ -103,7 +108,6 @@ label {
 
   .form-check-label {
     display: inline-block;
-    padding-left: 0.75rem;
     position: relative;
     top: 4px;
   }

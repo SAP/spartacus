@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, ValidationErrors, FormGroup } from '@angular/forms';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '@spartacus/core';
 
 export class CustomFormValidators {
@@ -35,5 +35,22 @@ export class CustomFormValidators {
     return (!pass1.length && !pass2.length) || pass1 === pass2
       ? null
       : { cxPasswordsNotEqual: true };
+  }
+
+  static passwordsMustMatch(password: string, passwordConfirmation: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[password];
+      const matchingControl = formGroup.controls[passwordConfirmation];
+
+      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+        return;
+      }
+
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ cxPasswordsMustMatch: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
   }
 }

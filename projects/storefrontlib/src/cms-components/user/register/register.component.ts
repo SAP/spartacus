@@ -24,8 +24,11 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { sortTitles } from '../../../shared/utils/forms/title-utils';
-import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
+import {
+  sortTitles,
+  CustomFormValidators,
+  FormErrorsService,
+} from '../../../shared/index';
 
 @Component({
   selector: 'cx-register',
@@ -49,7 +52,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.featureConfig &&
     this.featureConfig.isEnabled(ANONYMOUS_CONSENTS_FEATURE);
 
-  userRegistrationForm: FormGroup = this.fb.group(
+  registerForm: FormGroup = this.fb.group(
     {
       titleCode: [''],
       firstName: ['', Validators.required],
@@ -68,7 +71,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
       }),
       termsandconditions: [false, Validators.requiredTrue],
     },
-    { validator: CustomFormValidators.matchPassword }
+    {
+      validators: CustomFormValidators.passwordsMustMatch(
+        'password',
+        'passwordconf'
+      ),
+    }
   );
 
   constructor(
@@ -81,7 +89,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     router: RoutingService,
     featureConfig: FeatureConfigService,
     anonymousConsentsService: AnonymousConsentsService,
-    anonymousConsentsConfig: AnonymousConsentsConfig
+    anonymousConsentsConfig: AnonymousConsentsConfig,
+    formErrorsService: FormErrorsService
   );
 
   /**
@@ -117,7 +126,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected router?: RoutingService,
     protected featureConfig?: FeatureConfigService,
     protected anonymousConsentsService?: AnonymousConsentsService,
-    protected anonymousConsentsConfig?: AnonymousConsentsConfig
+    protected anonymousConsentsConfig?: AnonymousConsentsConfig,
+    protected formErrorsService?: FormErrorsService
   ) {}
 
   ngOnInit() {
@@ -144,7 +154,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             .subscribe((success: boolean) => {
               if (success) {
                 const { uid, password } = this.collectDataFromRegisterForm(
-                  this.userRegistrationForm.value
+                  this.registerForm.value
                 );
                 this.auth.authorize(uid, password);
               }
@@ -209,23 +219,30 @@ export class RegisterComponent implements OnInit, OnDestroy {
       );
 
       this.subscription.add(
-        this.userRegistrationForm
-          .get('newsletter')
-          .valueChanges.subscribe(_ => {
-            this.toggleAnonymousConsent();
-          })
+        this.registerForm.get('newsletter').valueChanges.subscribe(_ => {
+          this.toggleAnonymousConsent();
+        })
       );
     }
   }
 
-  submit(): void {
+  submitForm(): void {
+    if (this.registerForm.valid) {
+      this.register();
+    } else {
+      this.registerForm.markAllAsTouched();
+      this.formErrorsService.notify();
+    }
+  }
+
+  register(): void {
     this.userService.register(
-      this.collectDataFromRegisterForm(this.userRegistrationForm.value)
+      this.collectDataFromRegisterForm(this.registerForm.value)
     );
   }
 
   titleSelected(title: Title): void {
-    this.userRegistrationForm['controls'].titleCode.setValue(title.code);
+    this.registerForm['controls'].titleCode.setValue(title.code);
   }
 
   collectDataFromRegisterForm(formData: any): UserSignUp {
@@ -269,7 +286,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   toggleAnonymousConsent(): void {
-    if (Boolean(this.userRegistrationForm.get('newsletter').value)) {
+    if (Boolean(this.registerForm.get('newsletter').value)) {
       this.anonymousConsentsService.giveConsent(
         this.anonymousConsentsConfig.anonymousConsents.registerConsent
       );

@@ -6,6 +6,7 @@ describe('FormValidationService', () => {
   let emailError: ValidationErrors;
   let passwordError: ValidationErrors;
   let matchPasswordError: any;
+  let passwordsMustMatchErrorName: string;
   let form: FormGroup;
 
   beforeEach(() => {
@@ -27,6 +28,8 @@ describe('FormValidationService', () => {
     matchPasswordError = {
       cxPasswordsNotEqual: true,
     };
+
+    passwordsMustMatchErrorName = 'cxPasswordsMustMatch';
   });
 
   describe('Email domain validator', () => {
@@ -122,13 +125,43 @@ describe('FormValidationService', () => {
   });
 
   describe('Match password validator', () => {
-    it('should match password and passwordconf', () => {
+    it('should not return error, when passwords match', () => {
       form.get('password').setValue('Test123!');
       form.get('passwordconf').setValue('Test123!');
       expect(CustomFormValidators.matchPassword(form)).toBeNull();
+    });
 
-      form.get('passwordconf').setValue('Test1234');
-      expect(CustomFormValidators.matchPassword(form)).toEqual(matchPasswordError);
+    it("should return error, when passwords don't match", () => {
+      form.get('password').setValue('Test123!');
+      form.get('passwordconf').setValue('Test123@');
+
+      expect(CustomFormValidators.matchPassword(form)).toEqual(
+        matchPasswordError
+      );
+    });
+  });
+
+  describe('Password must match validator', () => {
+    it('should not return error, when passwords match', () => {
+      form.get('password').setValue('Test123!');
+      form.get('passwordconf').setValue('Test123!');
+
+      CustomFormValidators.passwordsMustMatch('password', 'passwordconf')(form);
+
+      expect(
+        form.get('passwordconf').hasError(passwordsMustMatchErrorName)
+      ).toEqual(false);
+    });
+
+    it("should return error, when passwords don't match", () => {
+      form.get('password').setValue('Test123!');
+      form.get('passwordconf').setValue('Test123@');
+
+      CustomFormValidators.passwordsMustMatch('password', 'passwordconf')(form);
+
+      expect(
+        form.get('passwordconf').hasError(passwordsMustMatchErrorName)
+      ).toEqual(true);
     });
   });
 });

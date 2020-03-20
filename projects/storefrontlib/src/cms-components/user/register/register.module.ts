@@ -12,6 +12,7 @@ import {
 import { SpinnerModule } from '../../../shared/index';
 import { LoginModule } from '../login/login.module';
 import { RegisterComponent } from './register.component';
+import { FormErrorsModule } from 'projects/storefrontlib/src/shared/components/form/form-errors';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { RegisterComponent } from './register.component';
     UrlModule,
     I18nModule,
     SpinnerModule,
+    FormErrorsModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

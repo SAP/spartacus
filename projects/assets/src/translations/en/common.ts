@@ -127,5 +127,6 @@ export const common = {
     required: 'This field is required',
     cxInvalidEmail: 'This is not a valid email format',
     cxInvalidPassword: 'This is not a valid password format',
+    cxPasswordsMustMatch: 'Password fields must match',
   },
 };
