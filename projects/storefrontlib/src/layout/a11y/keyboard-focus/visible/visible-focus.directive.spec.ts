@@ -1,13 +1,21 @@
-import { Component, DebugElement, Directive } from '@angular/core';
+import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BaseFocusService } from '../base/base-focus.service';
+import { VisibleFocusConfig } from '../keyboard-focus.model';
 import { VisibleFocusDirective } from './visible-focus.directive';
+
+@Directive({
+  selector: '[cxVisibleFocus]',
+})
+class CustomFocusDirective extends VisibleFocusDirective {
+  @Input('cxVisibleFocus') protected config: VisibleFocusConfig;
+}
 
 @Directive({
   selector: '[cxCustomFocus]',
 })
-class CustomFocusDirective extends VisibleFocusDirective {
+class CustomFakeFocusDirective extends VisibleFocusDirective {
   protected defaultConfig = {};
 }
 
@@ -34,8 +42,8 @@ describe('VisibleFocusDirective', () => {
     TestBed.configureTestingModule({
       declarations: [
         MockComponent,
-        VisibleFocusDirective,
         CustomFocusDirective,
+        CustomFakeFocusDirective,
       ],
       providers: [
         {
