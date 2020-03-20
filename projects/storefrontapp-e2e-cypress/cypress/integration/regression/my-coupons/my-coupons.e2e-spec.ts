@@ -1,5 +1,6 @@
-import * as myCoupons from '../../../helpers/my-coupons';
 import * as cartCoupon from '../../../helpers/cart-coupon';
+import { visitHomePage } from '../../../helpers/checkout-flow';
+import * as myCoupons from '../../../helpers/my-coupons';
 
 describe('My coupons test for anonymous user', () => {
   before(() => {
@@ -15,12 +16,11 @@ describe('My coupons test for anonymous user', () => {
   });
 
   describe('claim coupon test for anonymous user', () => {
-    beforeEach(() => {
-      cy.window().then(win => win.sessionStorage.clear());
-      cy.reload();
-      cy.getByText('Sign In / Register').should('exist');
+    before(() => {
+      cy.getByText(/Sign in \/ Register/i).should('exist');
       myCoupons.registerUser();
     });
+
     it('claim customer coupon successfully for anonymous user', () => {
       myCoupons.verifyClaimCouponSuccessAsAnonymous(myCoupons.validCouponCode);
     });
@@ -32,10 +32,18 @@ describe('My coupons test for anonymous user', () => {
 });
 
 describe('My coupons test for login user', () => {
-  beforeEach(() => {
+  before(() => {
+    cy.reload(true);
     cy.window().then(win => win.sessionStorage.clear());
+    cy.clearCookies();
+    cy.clearLocalStorage();
+
     cy.requireLoggedIn();
-    cy.visit('/');
+    visitHomePage();
+  });
+
+  beforeEach(() => {
+    cy.restoreLocalStorage();
   });
 
   it('claim customer coupon, switch notification button and find product', () => {
@@ -49,13 +57,17 @@ describe('My coupons test for login user', () => {
   it('should remove customer coupon from cart', () => {
     cartCoupon.verifyCustomerCouponRemoving();
   });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
 });
 
 describe('My coupons test for pagination and sort', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.login(myCoupons.testUser, myCoupons.testPassword);
-    cy.visit('/');
+    visitHomePage();
   });
 
   it('should page and sort my coupon list', () => {

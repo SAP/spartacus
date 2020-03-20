@@ -1,8 +1,9 @@
-import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
-import { generateMail, randomString } from './user';
-import * as alerts from './global-message';
 import { config, retrieveAuthToken } from '../support/utils/login';
+import { login } from './auth-forms';
+import { waitForPage } from './checkout-flow';
+import * as alerts from './global-message';
+import { generateMail, randomString } from './user';
 
 export const testUser = 'test-user-with-coupons@ydev.hybris.com';
 export const testPassword = 'Password123.';
@@ -26,10 +27,14 @@ export function verifyPagingAndSorting() {
     'cx-my-coupons .cx-coupon-card:first .cx-coupon-card-id';
 
   const getCoupons = waitForCoupons();
+  const couponsPage = waitForPage('/my-account/coupons', 'getCounponsPage');
+
   cy.selectUserMenuOption({
     option: 'My Coupons',
   });
-  cy.wait(getCoupons);
+  cy.wait(`@${couponsPage}`)
+    .its('status')
+    .should('eq', 200);
 
   cy.get(firstCouponCodeSelector).should(
     'contain',
@@ -74,7 +79,12 @@ export function verifyPagingAndSorting() {
 }
 
 export function verifyMyCouponsAsAnonymous() {
+  const couponsPage = waitForPage('/my-account/coupons', 'getCounponsPage');
   cy.visit('/my-account/coupons');
+  cy.wait(`@${couponsPage}`)
+    .its('status')
+    .should('eq', 200);
+
   cy.location('pathname').should('contain', loginContainUrl);
 }
 
@@ -111,11 +121,14 @@ export function goMyCoupon() {
 }
 
 export function verifyMyCoupons() {
-  const getCoupons = waitForCoupons();
+  const couponsPage = waitForPage('/my-account/coupons', 'getCounponsPage');
   cy.selectUserMenuOption({
     option: 'My Coupons',
   });
-  cy.wait(getCoupons);
+  cy.wait(`@${couponsPage}`)
+    .its('status')
+    .should('eq', 200);
+
   verifyCouponsClaiming();
   verifyEnableDisableNotification();
   verifyReadMore();
@@ -166,18 +179,28 @@ export function verifyCouponsClaiming() {
     'You have no coupons available'
   );
   claimCoupon(CouponWithOpenCatalog);
+  cy.wait(getCoupons)
+    .its('status')
+    .should('eq', 200);
+  verifyCouponXHR(getCoupons);
+
   cy.location('pathname').should('contain', myCouponsContainUrl);
   cy.get('.cx-coupon-card:first').within(() => {
     cy.get('.cx-coupon-card-id').should('contain', CouponWithOpenCatalog);
   });
+
   claimCoupon(CouponWithProductCategory);
+  cy.wait(getCoupons)
+    .its('status')
+    .should('eq', 200);
+  verifyCouponXHR(getCoupons);
 
-  cy.wait(getCoupons);
-  cy.get('.cx-coupon-card').should('have.length', 2);
   claimCoupon(CouponWithProducts);
+  cy.wait(getCoupons)
+    .its('status')
+    .should('eq', 200);
 
-  cy.wait(getCoupons);
-  cy.get('.cx-coupon-card').should('have.length', 3);
+  verifyCouponXHR(getCoupons);
 }
 
 export function verifyEnableDisableNotification() {
@@ -233,6 +256,15 @@ export function verifyFindProduct(couponCode: string, productNumber: number) {
     cy.get('h1').should('contain', couponCode);
   });
   cy.get('cx-product-list-item').should('have.length', productNumber);
+}
+
+export function verifyCouponXHR(alias) {
+  cy.get(alias).then(xhr => {
+    const body = xhr.response.body;
+    const couponsLength = body.coupons.length;
+
+    cy.get('.cx-coupon-card').should('have.length', couponsLength);
+  });
 }
 
 export function waitForCoupons(): string {
