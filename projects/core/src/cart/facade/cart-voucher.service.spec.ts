@@ -3,12 +3,13 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
-import { PROCESS_FEATURE } from '../../process/store/process-state';
+import {
+  PROCESS_FEATURE,
+  StateWithProcess,
+} from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { CartActions } from '../store/actions/index';
-import { StateWithCart } from '../store/cart-state';
-import * as fromReducers from '../store/reducers/index';
 import { ActiveCartService } from './active-cart.service';
 import { CartVoucherService } from './cart-voucher.service';
 
@@ -28,7 +29,7 @@ class ActiveCartServiceStub {
 
 describe('CartVoucherService', () => {
   let service: CartVoucherService;
-  let store: Store<StateWithCart>;
+  let store: Store<StateWithProcess<void>>;
 
   const cart: Cart = { code: 'testCartId', guid: 'testGuid', totalItems: 2 };
   const voucherId = 'voucherTest1';
@@ -37,7 +38,6 @@ describe('CartVoucherService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
           fromProcessReducers.getReducers()
