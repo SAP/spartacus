@@ -6,7 +6,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +37,8 @@ export class CurrentProductService {
             )
           : of(null);
       }),
-      filter(x => x !== undefined)
+      filter(x => x !== undefined),
+      distinctUntilChanged()
     );
   }
 }
