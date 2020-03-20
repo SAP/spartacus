@@ -80,10 +80,13 @@ export const componentsSelectorFactory = (
     componentsDataSelectorFactory(uid),
     componentsContextExistsSelectorFactory(uid, context),
     (componentState, exists) => {
-      if (componentState && exists) {
-        return componentState;
-      } else {
-        return exists === false ? null : undefined;
+      switch (exists) {
+        case true:
+          return componentState;
+        case false:
+          return null;
+        case undefined:
+          return undefined;
       }
     }
   );
