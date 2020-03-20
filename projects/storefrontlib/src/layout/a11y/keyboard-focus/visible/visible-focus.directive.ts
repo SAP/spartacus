@@ -1,4 +1,4 @@
-import { Directive, HostBinding, HostListener, Input } from '@angular/core';
+import { Directive, HostBinding, HostListener } from '@angular/core';
 import { BaseFocusDirective } from '../base/base-focus.directive';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
 
@@ -7,14 +7,14 @@ import { VisibleFocusConfig } from '../keyboard-focus.model';
  * when the moused is used to focus an element. As soon as the keyboard
  * is used, the class is removed.
  */
-@Directive({
-  selector: '[cxVisibleFocus]',
-})
+@Directive() // selector: '[cxVisibleFocus]'
 export class VisibleFocusDirective extends BaseFocusDirective {
   protected defaultConfig: VisibleFocusConfig = { disableMouseFocus: true };
-  @Input('cxVisibleFocus') protected config: VisibleFocusConfig;
 
-  /** controls a polyfill for the lacking focus-visible feature */
+  // @Input('cxVisibleFocus')
+  protected config: VisibleFocusConfig;
+
+  /** controls a polyfill class for the lacking focus-visible feature */
   @HostBinding('class.mouse-focus') mouseFocus = false;
 
   @HostListener('mousedown') handleMousedown() {
