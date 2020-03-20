@@ -65,9 +65,9 @@ export const componentsDataSelectorFactory = (
 
 /**
  * This selector will return:
- *   - CmsComponent instance if we have component data for specified context
- *   - null if there is no component data for specified context
- *   - undefined status of component data for specified context is unknown
+ *   - CmsComponent instance: if we have component data for specified context
+ *   - null: if there is no component data for specified context
+ *   - undefined: if status of component data for specified context is unknown
  *
  * @param uid
  * @param context
