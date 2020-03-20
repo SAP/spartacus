@@ -5,8 +5,8 @@ import {
   ProductService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -19,17 +19,25 @@ export class CurrentProductService {
 
   protected readonly DEFAULT_PRODUCT_SCOPE = ProductScope.DETAILS;
 
+  /**
+   * Get product will return current product or null, if there is no current product (i.e. we are not on PDP)
+   *
+   * @param scopes
+   */
   getProduct(
     scopes?: (ProductScope | string)[] | ProductScope | string
-  ): Observable<Product> {
+  ): Observable<Product | null> {
     return this.routingService.getRouterState().pipe(
       map(state => state.state.params['productCode']),
-      switchMap((productCode: string) =>
-        this.productService.get(
-          productCode,
-          scopes || this.DEFAULT_PRODUCT_SCOPE
-        )
-      )
+      switchMap((productCode: string) => {
+        return productCode
+          ? this.productService.get(
+              productCode,
+              scopes || this.DEFAULT_PRODUCT_SCOPE
+            )
+          : of(null);
+      }),
+      filter(x => x !== undefined)
     );
   }
 }
