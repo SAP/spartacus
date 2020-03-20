@@ -5,8 +5,8 @@ import {
   ROUTING_SERVICE,
   SPARTACUS_CORE,
   TRANSLATION_SERVICE,
-} from '../../../../shared/constants';
-import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
+} from '../../../../../shared/constants';
+import { ConstructorDeprecation } from '../../../../../shared/utils/file-utils';
 
 export const PRODUCT_PAGE_META_RESOLVER_MIGRATION: ConstructorDeprecation = {
   class: PRODUCT_PAGE_META_RESOLVER,
