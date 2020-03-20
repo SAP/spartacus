@@ -211,8 +211,7 @@
 }
 
 %nav-wrap {
-  // @if $theme != 'calydon' {
-  // }
+
 
   &.flyout .childs {
     &[wrap-after] {
@@ -230,8 +229,7 @@
     }
   }
 
-  // @if $theme == 'calydon' {
-  // }
+
   @for $column from 1 through 10 {
     &.flyout .childs[columns='#{$column}'] {
       display: block;
@@ -304,8 +302,7 @@
     }
 
     @include media-breakpoint-up(lg) {
-      // @if $theme == 'calydon' {
-      // }
+
       .childs[depth='2'] {
         > nav {
           &:not(:only-child):not(:last-child) {
@@ -344,8 +341,7 @@
 
       .childs {
         display: flex;
-        // @if $theme != 'calydon' {
-        // }
+ 
         nav:not(:last-child) {
           padding-right: 20px;
         }
