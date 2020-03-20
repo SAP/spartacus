@@ -7,7 +7,7 @@
     (click)="toggleNavigation()"
     #filterBy
   >
-    {{ 'productList.filterBy.label' | cxTranslate }}??
+    {{ 'productList.filterBy.label' | cxTranslate }}
   </button>
 
   <div
@@ -15,9 +15,9 @@
     class="facets"
     [class.open]="showNav"
     [cxFocus]="{
-      autofocus: 'cx-facet',
       trap: showNav,
-      block: true,
+      block: showNav,
+      autofocus: 'cx-facet',
       focusOnEscape: showNav
     }"
     (esc)="toggleNavigation()"
@@ -35,8 +35,8 @@
     <cx-facet
       *ngFor="let facet of facets"
       [facet]="facet"
-      [cxFocus]="{ lock: true, trap: true }"
-      [collapse]="showNav"
+      [cxFocus]="{ lock: true, trap: true, autofocus: 'a' }"
+      (unlock)="toggleGroup($event, facet)"
     ></cx-facet>
   </div>
 </ng-container>

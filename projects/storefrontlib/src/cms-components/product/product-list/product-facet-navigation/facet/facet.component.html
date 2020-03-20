@@ -1,9 +1,10 @@
+<!-- facet.component.html -->
+
 <ng-container *ngIf="state$ | async as state">
-  <cx-facet-heading
-    [name]="facet.name"
-    [expanded]="state.expanded"
-    (toggle)="toggleGroup($event)"
-  ></cx-facet-heading>
+  <button class="heading" (click)="toggleGroup($event)">
+    {{ facet.name }}
+    <cx-icon [type]="state.expanded ? collapseIcon : expandIcon"></cx-icon>
+  </button>
 
   <a
     *ngFor="let value of facet.values | slice: 0:state.top"

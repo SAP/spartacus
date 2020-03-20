@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostBinding,
   Input,
 } from '@angular/core';
@@ -22,7 +23,9 @@ export class FacetComponent {
 
   expandedIcon = ICON_TYPE.EXPAND;
 
-  // @HostBinding('tabIndex') tabIndex = 0;
+  @Input() expandIcon: ICON_TYPE = ICON_TYPE.EXPAND;
+  @Input() collapseIcon: ICON_TYPE = ICON_TYPE.COLLAPSE;
+
   @HostBinding('class.expanded') isExpanded: boolean;
   @HostBinding('class.multi-select') isMultiSelect: boolean;
 
@@ -37,17 +40,32 @@ export class FacetComponent {
     this.state$ = state$.pipe(
       tap(state => {
         this.isExpanded = state.expanded;
-        this.handleFocus();
       })
     );
   }
 
-  @Input() collapse: boolean;
+  @Input() @HostBinding('attr.class') class: string;
 
-  constructor(private facetService: FacetService) {}
+  constructor(
+    protected facetService: FacetService,
+    protected elementRef: ElementRef<HTMLElement>
+  ) {}
 
-  toggleGroup() {
-    this.facetService.toggleGroup(this.facet);
+  /**
+   * Handles clicking the heading of the facet group, which means toggling the visibility
+   * of the group (collapse / expand) and optionally focusing the group.
+   */
+  toggleGroup(event: UIEvent) {
+    const host: HTMLElement = this.elementRef.nativeElement;
+    const isLocked = host.classList.contains('is-locked');
+
+    if (!isLocked || this.isExpanded) {
+      this.facetService.toggleGroup(this.facet, false);
+      host.focus();
+      event.stopPropagation();
+    } else {
+      this.facetService.toggleGroup(this.facet, true);
+    }
   }
 
   increaseCount(facetValues: HTMLElement[]): void {
@@ -75,20 +93,20 @@ export class FacetComponent {
   //   return state.focussed ? 0 : -1;
   // }
 
-  private handleFocus() {
-    // if (this.facetService.focussed && this.facetService.focussed.value) {
-    //   console.log('focus now', this.facet.name, this.facetService.focussed);
-    //   const values = this.values.toArray();
-    //   const value = this.facetService.focussed.value;
-    //   const index = values.findIndex(el => {
-    //     return (el.nativeElement as HTMLElement).innerText.includes(value);
-    //   });
-    //   console.log('add focus for', index, value);
-    //   if (index > -1 && values.length > 0) {
-    //     values[index].nativeElement.focus();
-    //   }
-    // }
-  }
+  // private handleFocus() {
+  //   // if (this.facetService.focussed && this.facetService.focussed.value) {
+  //   //   console.log('focus now', this.facet.name, this.facetService.focussed);
+  //   //   const values = this.values.toArray();
+  //   //   const value = this.facetService.focussed.value;
+  //   //   const index = values.findIndex(el => {
+  //   //     return (el.nativeElement as HTMLElement).innerText.includes(value);
+  //   //   });
+  //   //   console.log('add focus for', index, value);
+  //   //   if (index > -1 && values.length > 0) {
+  //   //     values[index].nativeElement.focus();
+  //   //   }
+  //   // }
+  // }
 }
 
 // @ViewChildren('facetValue') values: QueryList<ElementRef<HTMLElement>>;

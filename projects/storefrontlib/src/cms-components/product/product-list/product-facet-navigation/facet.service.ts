@@ -60,7 +60,11 @@ export class FacetService {
 
   toggleGroup(facet: Facet, isFocussed?: boolean) {
     const state = this.getState(facet).value;
-    state.expanded = isFocussed || !state.expanded;
+    if (isFocussed !== undefined) {
+      state.expanded = isFocussed;
+    } else {
+      state.expanded = !state.expanded;
+    }
     if (!state.visible) {
       state.visible = state.top;
     }
