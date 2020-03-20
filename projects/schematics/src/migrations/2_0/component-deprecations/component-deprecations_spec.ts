@@ -19,10 +19,12 @@ const SINGLE_USAGE_EXAMPLE = `<div>test</div>
 const SINGLE_USAGE_EXAMPLE_EXPECTED = `<div>test</div>
 <!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
 
-const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE = `<div>test</div>
-<cx-product-images isThumbsEmpty="true"></cx-product-images>`;
-const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE_EXPECTED = `<div>test</div>
-<!-- 'isThumbsEmpty' property has been removed. --><cx-product-images isThumbsEmpty="true"></cx-product-images>`;
+const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE = `<div *ngIf="isThumbsEmpty">test</div>`;
+const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. --><div *ngIf="isThumbsEmpty">test</div>`;
+const PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE = `<div *ngIf="isThumbsEmpty">test</div>Custom content
+<div class="bottom" *ngIf="isThumbsEmpty">test</div>`;
+const PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. --><div *ngIf="isThumbsEmpty">test</div>Custom content
+<!-- 'isThumbsEmpty' property has been removed. --><div class="bottom" *ngIf="isThumbsEmpty">test</div>`;
 
 const MULTI_USAGE_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
@@ -116,7 +118,7 @@ describe('component selectors migration', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  describe('consent management form', () => {
+  describe('ConsentManagementFormComponent', () => {
     const htmlFileName = `/src/test-${CONSENT_MANAGEMENT_FORM_COMPONENT}.html`;
     const tsFileName = `/src/inherited-${CONSENT_MANAGEMENT_FORM_COMPONENT}.ts`;
 
@@ -154,7 +156,7 @@ describe('component selectors migration', () => {
     });
   });
 
-  describe('Product Images Component', () => {
+  describe('ProductImagesComponent', () => {
     const htmlFileName = `/src/test-${PRODUCT_IMAGES_COMPONENT}.html`;
     const tsFileName = `/src/inherited-${PRODUCT_IMAGES_COMPONENT}.ts`;
 
@@ -166,6 +168,16 @@ describe('component selectors migration', () => {
 
         const content = appTree.readContent(htmlFileName);
         expect(content).toEqual(PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE_EXPECTED);
+      });
+    });
+    describe('when the html file contains a multiple usage', () => {
+      it('should add a comment', async () => {
+        writeFile(host, htmlFileName, PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE);
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent(htmlFileName);
+        expect(content).toEqual(PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE_EXPECTED);
       });
     });
     describe('when the component is extended', () => {
