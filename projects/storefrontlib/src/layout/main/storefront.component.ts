@@ -10,7 +10,7 @@ import {
 import { RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import {
-  EscapeFocusConfig,
+  FocusConfig,
   KeyboardFocusService,
 } from '../a11y/keyboard-focus/index';
 import { SkipLinkComponent } from '../a11y/skip-link/index';
@@ -32,7 +32,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   @ViewChild(SkipLinkComponent) child: SkipLinkComponent;
 
-  private config: EscapeFocusConfig = {
+  private keyboardFocusConfig: FocusConfig = {
     focusOnEscape: true,
     focusOnDoubleEscape: true,
   };
@@ -41,7 +41,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   handleEscape(event: KeyboardEvent): void {
     this.keyboardFocusService.handleEscape(
       this.elementRef.nativeElement,
-      this.config,
+      this.keyboardFocusConfig,
       event
     );
   }

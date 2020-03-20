@@ -1,4 +1,4 @@
-import { Directive, HostBinding, HostListener, OnInit } from '@angular/core';
+import { Directive, HostBinding, HostListener } from '@angular/core';
 import { BaseFocusDirective } from '../base/base-focus.directive';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
 
@@ -8,8 +8,7 @@ import { VisibleFocusConfig } from '../keyboard-focus.model';
  * is used, the class is removed.
  */
 @Directive() // selector: '[cxVisibleFocus]'
-export class VisibleFocusDirective extends BaseFocusDirective
-  implements OnInit {
+export class VisibleFocusDirective extends BaseFocusDirective {
   protected defaultConfig: VisibleFocusConfig = { disableMouseFocus: true };
 
   // @Input('cxVisibleFocus')
