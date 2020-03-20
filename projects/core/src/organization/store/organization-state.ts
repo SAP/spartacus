@@ -33,6 +33,7 @@ export const ORG_UNIT_ENTITIES = 'orgUnit-entities';
 export const ORG_UNIT_TREE_ENTITY = 'orgUnit-tree';
 export const ORG_UNIT_APPROVAL_PROCESSES_ENTITIES =
   'orgUnit-approval-processes';
+export const ORG_UNIT_ASSIGNED_USERS = 'orgUnit-assigned-users';
 
 export const ORG_UNIT_TREE = 'tree';
 export const ORG_UNIT_APPROVAL_PROCESSES = 'approvalProcesses';
@@ -62,6 +63,7 @@ export interface OrgUnits {
   entities: EntityLoaderState<B2BUnit>;
   tree: EntityLoaderState<B2BUnitNode>;
   approvalProcesses: EntityLoaderState<B2BApprovalProcess[]>;
+  users: EntityLoaderState<ListModel>;
 }
 
 export interface OrgUnitUserGroupManagement

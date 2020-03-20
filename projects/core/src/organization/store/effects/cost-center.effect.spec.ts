@@ -343,7 +343,6 @@ describe('CostCenter Effects', () => {
         budgetCode,
       });
       const completion = new CostCenterActions.AssignBudgetFail({
-        costCenterCode,
         budgetCode,
         error,
       });
@@ -390,7 +389,6 @@ describe('CostCenter Effects', () => {
         budgetCode,
       });
       const completion = new CostCenterActions.UnassignBudgetFail({
-        costCenterCode,
         budgetCode,
         error,
       });

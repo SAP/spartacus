@@ -2,10 +2,16 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { B2BApprovalProcess, B2BUnitNode } from '../../../model/org-unit.model';
+import {
+  B2BApprovalProcess,
+  B2BUnitNode,
+  B2BUser,
+} from '../../../model/org-unit.model';
+import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
-import { OrgUnitActions } from '../actions/index';
+import { B2BUserActions, OrgUnitActions } from '../actions/index';
+import { normalizeListPage } from '../../utils/serializer';
 
 @Injectable()
 export class OrgUnitEffects {
@@ -144,6 +150,102 @@ export class OrgUnitEffects {
         )
       );
     })
+  );
+
+  @Effect()
+  loadUsers$: Observable<
+    | OrgUnitActions.LoadAssignedUsersSuccess
+    | OrgUnitActions.LoadAssignedUsersFail
+    | B2BUserActions.LoadB2BUserSuccess
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.LOAD_ASSIGNED_USERS),
+    map((action: OrgUnitActions.LoadAssignedUsers) => action.payload),
+    switchMap(({ userId, orgUnitId, roleId, params }) => {
+      return this.orgUnitConnector
+        .getUsers(userId, orgUnitId, roleId, params)
+        .pipe(
+          switchMap((users: EntitiesModel<B2BUser>) => {
+            const { values, page } = normalizeListPage(users, 'uid');
+            return [
+              new B2BUserActions.LoadB2BUserSuccess(values),
+              new OrgUnitActions.LoadAssignedUsersSuccess({
+                orgUnitId,
+                roleId,
+                page,
+                params,
+              }),
+            ];
+          }),
+          catchError(error =>
+            of(
+              new OrgUnitActions.LoadAssignedUsersFail({
+                orgUnitId,
+                roleId,
+                params,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        );
+    })
+  );
+
+  @Effect()
+  assignRoleToUser: Observable<
+    OrgUnitActions.AssignRoleSuccess | OrgUnitActions.AssignRoleFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.ASSIGN_ROLE),
+    map((action: OrgUnitActions.AssignRole) => action.payload),
+    switchMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
+      this.orgUnitConnector
+        .assignRole(userId, orgUnitId, orgCustomerId, roleId)
+        .pipe(
+          map(
+            () =>
+              new OrgUnitActions.AssignRoleSuccess({
+                uid: orgCustomerId,
+                selected: true,
+              })
+          ),
+          catchError(error =>
+            of(
+              new OrgUnitActions.AssignRoleFail({
+                orgCustomerId,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  unassignRoleToUser$: Observable<
+    OrgUnitActions.UnassignRoleSuccess | OrgUnitActions.UnassignRoleFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.UNASSIGN_ROLE),
+    map((action: OrgUnitActions.UnassignRole) => action.payload),
+    switchMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
+      this.orgUnitConnector
+        .unassignRole(userId, orgUnitId, orgCustomerId, roleId)
+        .pipe(
+          map(
+            () =>
+              new OrgUnitActions.UnassignRoleSuccess({
+                uid: orgCustomerId,
+                selected: false,
+              })
+          ),
+          catchError(error =>
+            of(
+              new OrgUnitActions.UnassignRoleFail({
+                orgCustomerId,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
   );
 
   constructor(

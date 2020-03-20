@@ -10,11 +10,11 @@ import { B2B_USER_NORMALIZER } from '../../../../organization';
 
 @Injectable()
 export class OccUserListNormalizer
-  implements Converter<Occ.UserList, EntitiesModel<B2BUser>> {
+  implements Converter<Occ.B2BUserList, EntitiesModel<B2BUser>> {
   constructor(private converter: ConverterService) {}
 
   convert(
-    source: Occ.UserList,
+    source: Occ.B2BUserList,
     target?: EntitiesModel<B2BUser>
   ): EntitiesModel<B2BUser> {
     if (target === undefined) {

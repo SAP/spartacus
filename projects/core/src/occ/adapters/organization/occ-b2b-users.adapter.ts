@@ -33,7 +33,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     params?: B2BSearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.http
-      .get<Occ.UserList>(this.getB2BUsersEndpoint(userId, params))
+      .get<Occ.B2BUserList>(this.getB2BUsersEndpoint(userId, params))
       .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
   }
 
