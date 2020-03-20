@@ -100,6 +100,12 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-company/organization-management/manage-unit/edit/:code'],
     paramsMapping: { code: 'uid' },
   },
+  orgUnitAssignRoles: {
+    paths: [
+      'my-company/organization-management/manage-unit/assign-roles/:code',
+    ],
+    paramsMapping: { code: 'uid' },
+  },
   costCenters: {
     paths: ['my-company/organization-management/manage-costcenters'],
   },

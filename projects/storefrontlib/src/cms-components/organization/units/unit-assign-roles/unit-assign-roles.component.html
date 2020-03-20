@@ -1,0 +1,60 @@
+<cx-interactive-table
+  [data$]="data$"
+  [header]="'unitAssignRoles.assignRoles' | cxTranslate"
+  [sortLabels]="{
+    byUnitName: 'userList.sorting.byUnitName' | cxTranslate,
+    byName: 'userList.sorting.byName' | cxTranslate,
+    byCode: 'userList.sorting.byCode' | cxTranslate,
+    byValue: 'userList.sorting.byValue' | cxTranslate
+  }"
+  [columns]="[
+    {
+      key: 'selected',
+      value: 'userList.assign' | cxTranslate,
+      checkBox: true
+    },
+    {
+      key: 'email',
+      value: 'userList.uid' | cxTranslate,
+      cxRoute: 'userDetails'
+    },
+    { key: 'name', value: 'userList.name' | cxTranslate },
+    { key: 'roles', value: 'userList.roles' | cxTranslate },
+    {
+      key: 'parentUnit',
+      value: 'userList.parentUnit' | cxTranslate,
+      cxRoute: 'orgUnitDetails'
+    }
+  ]"
+  (pageChange)="pageChange($event)"
+  (changeSortCode)="changeSortCode($event)"
+  (check)="assign($event)"
+  (uncheck)="unassign($event)"
+>
+  <ng-select
+    bindLabel="name"
+    bindValue="code"
+    [(ngModel)]="roleId"
+    [items]="[
+      { name: 'userList.admin' | cxTranslate, code: 'b2badmingroup' },
+      { name: 'userList.manager' | cxTranslate, code: 'b2bmanagergroup' },
+      { name: 'userList.customer' | cxTranslate, code: 'b2bcustomergroup' }
+    ]"
+  ></ng-select>
+
+  <div class="col-md-12 col-lg-3">
+    <div class="row cx-search-links mb-3">
+      <div class="col-12 cx-textalign">
+        <!--          back-->
+        <button
+          [routerLink]="
+            { cxRoute: 'orgUnitDetails', params: { uid: code } } | cxUrl
+          "
+          class="btn btn-primary btn-block"
+        >
+          {{ 'unitAssignRoles.back' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</cx-interactive-table>
