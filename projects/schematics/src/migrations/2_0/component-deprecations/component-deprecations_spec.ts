@@ -7,10 +7,6 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
-import {
-  CONSENT_MANAGEMENT_FORM_COMPONENT,
-  PRODUCT_IMAGES_COMPONENT,
-} from '../../../shared/constants';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-component-deprecations-05';
 
@@ -74,6 +70,8 @@ describe('component selectors migration', () => {
   let schematicRunner: SchematicTestRunner;
   let tmpDirPath: string;
   let previousWorkingDir: string;
+  const htmlFileName = `/src/test.html`;
+  const tsFileName = `/src/inherited.ts`;
 
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
@@ -119,9 +117,6 @@ describe('component selectors migration', () => {
   });
 
   describe('ConsentManagementFormComponent', () => {
-    const htmlFileName = `/src/test-${CONSENT_MANAGEMENT_FORM_COMPONENT}.html`;
-    const tsFileName = `/src/inherited-${CONSENT_MANAGEMENT_FORM_COMPONENT}.ts`;
-
     describe('when the html file contains a single usage', () => {
       it('should add a comment', async () => {
         writeFile(host, htmlFileName, SINGLE_USAGE_EXAMPLE);
@@ -157,9 +152,6 @@ describe('component selectors migration', () => {
   });
 
   describe('ProductImagesComponent', () => {
-    const htmlFileName = `/src/test-${PRODUCT_IMAGES_COMPONENT}.html`;
-    const tsFileName = `/src/inherited-${PRODUCT_IMAGES_COMPONENT}.ts`;
-
     describe('when the html file contains a single usage', () => {
       it('should add a comment', async () => {
         writeFile(host, htmlFileName, PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE);
