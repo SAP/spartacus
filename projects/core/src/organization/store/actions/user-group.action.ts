@@ -10,6 +10,8 @@ import {
   ORG_UNIT_USER_GROUP_LIST,
   ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
   ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+  B2B_USER_ENTITIES,
+  PERMISSION_ENTITIES,
 } from '../organization-state';
 import { ListModel } from '../../../model/misc.model';
 import { OrgUnitUserGroup } from '../../../model/user-group.model';
@@ -227,8 +229,14 @@ export class LoadOrgUnitUserGroupAvailableOrgCustomers extends EntityLoadAction 
 }
 
 export class LoadOrgUnitUserGroupAvailableOrgCustomersFail extends EntityFailAction {
-  readonly type = LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS;
-  constructor(public payload: { orgUnitUserGroupUid: string; error: any }) {
+  readonly type = LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS_FAIL;
+  constructor(
+    public payload: {
+      orgUnitUserGroupUid: string;
+      params: B2BSearchConfig;
+      error: any;
+    }
+  ) {
     super(
       ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
       payload.orgUnitUserGroupUid,
@@ -238,11 +246,17 @@ export class LoadOrgUnitUserGroupAvailableOrgCustomersFail extends EntityFailAct
 }
 
 export class LoadOrgUnitUserGroupAvailableOrgCustomersSuccess extends EntitySuccessAction {
-  readonly type = LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS;
-  constructor(public payload: OrgUnitUserGroup[]) {
+  readonly type = LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS_SUCCESS;
+  constructor(
+    public payload: {
+      orgUnitUserGroupUid: string;
+      page: ListModel;
+      params: B2BSearchConfig;
+    }
+  ) {
     super(
       ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
-      payload.map(orgUnitUserGroup => orgUnitUserGroup.uid)
+      serializeB2BSearchConfig(payload.params, payload.orgUnitUserGroupUid)
     );
   }
 }
@@ -277,54 +291,66 @@ export class CreateOrgUnitUserGroupSuccess extends EntitySuccessAction {
 export class CreateOrgUnitUserGroupMember extends EntityLoadAction {
   readonly type = CREATE_ORG_UNIT_USER_GROUP_MEMBER;
   constructor(
-    public payload: { userId: string; orgUnitUserGroup: OrgUnitUserGroup }
+    public payload: {
+      userId: string;
+      orgUnitUserGroupUid: string;
+      customerId: string;
+    }
   ) {
-    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.orgUnitUserGroup.uid);
+    super(B2B_USER_ENTITIES, payload.customerId);
   }
 }
 
 export class CreateOrgUnitUserGroupMemberFail extends EntityFailAction {
   readonly type = CREATE_ORG_UNIT_USER_GROUP_MEMBER_FAIL;
-  constructor(public payload: { orgUnitUserGroupUid: string; error: any }) {
-    super(
-      ORG_UNIT_USER_GROUP_ENTITIES,
-      payload.orgUnitUserGroupUid,
-      payload.error
-    );
+  constructor(
+    public payload: {
+      orgUnitUserGroupId: string;
+      customerId: string;
+      error: any;
+    }
+  ) {
+    super(B2B_USER_ENTITIES, payload.customerId, payload.error);
   }
 }
 
 export class CreateOrgUnitUserGroupMemberSuccess extends EntitySuccessAction {
   readonly type = CREATE_ORG_UNIT_USER_GROUP_MEMBER_SUCCESS;
-  constructor(public payload: OrgUnitUserGroup) {
-    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.uid, payload);
+  constructor(public payload: { customerId: string; selected: boolean }) {
+    super(B2B_USER_ENTITIES, payload.customerId, payload);
   }
 }
 
-export class CreateOrgUnitUserGroupOrderApprovalPermissions extends EntityLoadAction {
+export class CreateOrgUnitUserGroupOrderApprovalPermission extends EntityLoadAction {
   readonly type = CREATE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION;
   constructor(
-    public payload: { userId: string; orgUnitUserGroup: OrgUnitUserGroup }
+    public payload: {
+      userId: string;
+      orgUnitUserGroupUid: string;
+      permissionUid: string;
+    }
   ) {
-    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.orgUnitUserGroup.uid);
+    super(PERMISSION_ENTITIES, payload.permissionUid);
   }
 }
 
-export class CreateOrgUnitUserGroupOrderApprovalPermissionsFail extends EntityFailAction {
+export class CreateOrgUnitUserGroupOrderApprovalPermissionFail extends EntityFailAction {
   readonly type = CREATE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_FAIL;
-  constructor(public payload: { orgUnitUserGroupUid: string; error: any }) {
-    super(
-      ORG_UNIT_USER_GROUP_ENTITIES,
-      payload.orgUnitUserGroupUid,
-      payload.error
-    );
+  constructor(
+    public payload: {
+      orgUnitUserGroupId: string;
+      permissionUid: string;
+      error: any;
+    }
+  ) {
+    super(PERMISSION_ENTITIES, payload.permissionUid, payload.error);
   }
 }
 
-export class CreateOrgUnitUserGroupOrderApprovalPermissionsSuccess extends EntitySuccessAction {
+export class CreateOrgUnitUserGroupOrderApprovalPermissionSuccess extends EntitySuccessAction {
   readonly type = CREATE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_SUCCESS;
-  constructor(public payload: OrgUnitUserGroup) {
-    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.uid, payload);
+  constructor(public payload: { permissionUid: string; selected: boolean }) {
+    super(PERMISSION_ENTITIES, payload.permissionUid, payload);
   }
 }
 
@@ -395,28 +421,30 @@ export class DeleteOrgUnitUserGroupMember extends EntityLoadAction {
     public payload: {
       userId: string;
       orgUnitUserGroupUid: string;
-      orgUnitUserGroup: OrgUnitUserGroup;
+      customerId: string;
     }
   ) {
-    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.orgUnitUserGroup.uid);
+    super(B2B_USER_ENTITIES, payload.customerId);
   }
 }
 
 export class DeleteOrgUnitUserGroupMemberFail extends EntityFailAction {
   readonly type = DELETE_ORG_UNIT_USER_GROUP_MEMBER_FAIL;
-  constructor(public payload: { orgUnitUserGroupUid: string; error: any }) {
-    super(
-      ORG_UNIT_USER_GROUP_ENTITIES,
-      payload.orgUnitUserGroupUid,
-      payload.error
-    );
+  constructor(
+    public payload: {
+      orgUnitUserGroupId: string;
+      customerId: string;
+      error: any;
+    }
+  ) {
+    super(B2B_USER_ENTITIES, payload.customerId, payload.error);
   }
 }
 
 export class DeleteOrgUnitUserGroupMemberSuccess extends EntitySuccessAction {
   readonly type = DELETE_ORG_UNIT_USER_GROUP_MEMBER_SUCCESS;
-  constructor(public payload: OrgUnitUserGroup) {
-    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.uid, payload);
+  constructor(public payload: { customerId: string; selected: boolean }) {
+    super(B2B_USER_ENTITIES, payload.customerId, payload);
   }
 }
 
@@ -426,28 +454,23 @@ export class DeleteOrgUnitUserGroupMembers extends EntityLoadAction {
     public payload: {
       userId: string;
       orgUnitUserGroupUid: string;
-      orgUnitUserGroup: OrgUnitUserGroup;
     }
   ) {
-    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.orgUnitUserGroup.uid);
+    super(B2B_USER_ENTITIES, payload.orgUnitUserGroupUid);
   }
 }
 
 export class DeleteOrgUnitUserGroupMembersFail extends EntityFailAction {
   readonly type = DELETE_ORG_UNIT_USER_GROUP_MEMBERS_FAIL;
   constructor(public payload: { orgUnitUserGroupUid: string; error: any }) {
-    super(
-      ORG_UNIT_USER_GROUP_ENTITIES,
-      payload.orgUnitUserGroupUid,
-      payload.error
-    );
+    super(B2B_USER_ENTITIES, payload.orgUnitUserGroupUid, payload.error);
   }
 }
 
 export class DeleteOrgUnitUserGroupMembersSuccess extends EntitySuccessAction {
   readonly type = DELETE_ORG_UNIT_USER_GROUP_MEMBERS_SUCCESS;
   constructor(public payload: OrgUnitUserGroup) {
-    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.uid, payload);
+    super(B2B_USER_ENTITIES, payload.uid, payload);
   }
 }
 
@@ -457,28 +480,30 @@ export class DeleteOrgUnitUserGroupOrderApprovalPermission extends EntityLoadAct
     public payload: {
       userId: string;
       orgUnitUserGroupUid: string;
-      orgUnitUserGroup: OrgUnitUserGroup;
+      permissionUid: string;
     }
   ) {
-    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.orgUnitUserGroup.uid);
+    super(PERMISSION_ENTITIES, payload.permissionUid);
   }
 }
 
 export class DeleteOrgUnitUserGroupOrderApprovalPermissionFail extends EntityFailAction {
   readonly type = DELETE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_FAIL;
-  constructor(public payload: { orgUnitUserGroupUid: string; error: any }) {
-    super(
-      ORG_UNIT_USER_GROUP_ENTITIES,
-      payload.orgUnitUserGroupUid,
-      payload.error
-    );
+  constructor(
+    public payload: {
+      orgUnitUserGroupId: string;
+      permissionUid: string;
+      error: any;
+    }
+  ) {
+    super(PERMISSION_ENTITIES, payload.permissionUid, payload.error);
   }
 }
 
 export class DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess extends EntitySuccessAction {
   readonly type = DELETE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_SUCCESS;
-  constructor(public payload: OrgUnitUserGroup) {
-    super(ORG_UNIT_USER_GROUP_ENTITIES, payload.uid, payload);
+  constructor(public payload: { permissionUid: string; selected: boolean }) {
+    super(PERMISSION_ENTITIES, payload.permissionUid, payload);
   }
 }
 
@@ -501,9 +526,9 @@ export type OrgUnitUserGroupAction =
   | CreateOrgUnitUserGroupMember
   | CreateOrgUnitUserGroupMemberFail
   | CreateOrgUnitUserGroupMemberSuccess
-  | CreateOrgUnitUserGroupOrderApprovalPermissions
-  | CreateOrgUnitUserGroupOrderApprovalPermissionsFail
-  | CreateOrgUnitUserGroupOrderApprovalPermissionsSuccess
+  | CreateOrgUnitUserGroupOrderApprovalPermission
+  | CreateOrgUnitUserGroupOrderApprovalPermissionFail
+  | CreateOrgUnitUserGroupOrderApprovalPermissionSuccess
   | UpdateOrgUnitUserGroup
   | UpdateOrgUnitUserGroupFail
   | UpdateOrgUnitUserGroupSuccess
