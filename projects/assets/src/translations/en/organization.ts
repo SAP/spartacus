@@ -157,7 +157,7 @@ export const organization = {
     assignBudgets: 'Manage Budgets',
   },
   costCenterAssignBudgets: {
-    assignBudgets: 'Assign budgets',
+    header: 'Assign budgets',
     back: 'Close',
   },
   costCenterForm: {
@@ -198,6 +198,7 @@ export const organization = {
     back: 'Back to list',
     active: 'Active',
     deactivated: 'Deactivated',
+    assignRoles: 'Manage Roles',
   },
   orgUnitForm: {
     create: 'Create Unit',
@@ -222,5 +223,22 @@ export const organization = {
     message: {
       required: 'Value is required',
     },
+  },
+  unitAssignRoles: {
+    header: 'Assign roles',
+    back: 'Close',
+  },
+  userList: {
+    sorting: {
+      byName: 'Name',
+    },
+    uid: 'Email',
+    name: 'Name',
+    roles: 'Roles',
+    assign: 'Assign',
+    parentUnit: 'Unit',
+    admin: 'Administrator',
+    manager: 'Manager',
+    customer: 'Customer',
   },
 };

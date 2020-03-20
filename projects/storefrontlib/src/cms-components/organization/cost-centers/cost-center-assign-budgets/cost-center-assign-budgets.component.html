@@ -1,6 +1,6 @@
 <cx-interactive-table
   [data$]="data$"
-  [header]="'costCenterAssignBudgets.assignBudgets' | cxTranslate"
+  [header]="'costCenterAssignBudgets.header' | cxTranslate: { code: code }"
   [sortLabels]="{
     byUnitName: 'budgetsList.sorting.byUnitName' | cxTranslate,
     byName: 'budgetsList.sorting.byName' | cxTranslate,

@@ -1,11 +1,8 @@
 <cx-interactive-table
   [data$]="data$"
-  [header]="'unitAssignRoles.assignRoles' | cxTranslate"
+  [header]="'unitAssignRoles.header' | cxTranslate: { code: code }"
   [sortLabels]="{
-    byUnitName: 'userList.sorting.byUnitName' | cxTranslate,
-    byName: 'userList.sorting.byName' | cxTranslate,
-    byCode: 'userList.sorting.byCode' | cxTranslate,
-    byValue: 'userList.sorting.byValue' | cxTranslate
+    byName: 'userList.sorting.byName' | cxTranslate
   }"
   [columns]="[
     {
@@ -31,18 +28,24 @@
   (check)="assign($event)"
   (uncheck)="unassign($event)"
 >
-  <ng-select
-    bindLabel="name"
-    bindValue="code"
-    [(ngModel)]="roleId"
-    [items]="[
-      { name: 'userList.admin' | cxTranslate, code: 'b2badmingroup' },
-      { name: 'userList.manager' | cxTranslate, code: 'b2bmanagergroup' },
-      { name: 'userList.customer' | cxTranslate, code: 'b2bcustomergroup' }
-    ]"
-  ></ng-select>
-
   <div class="col-md-12 col-lg-3">
+    <div class="row cx-search-links mb-3">
+      <div class="col-12 cx-textalign">
+        <ng-select
+          bindLabel="name"
+          bindValue="code"
+          [(ngModel)]="roleId"
+          [items]="[
+            { name: 'userList.admin' | cxTranslate, code: 'b2badmingroup' },
+            { name: 'userList.manager' | cxTranslate, code: 'b2bmanagergroup' },
+            {
+              name: 'userList.customer' | cxTranslate,
+              code: 'b2bcustomergroup'
+            }
+          ]"
+        ></ng-select>
+      </div>
+    </div>
     <div class="row cx-search-links mb-3">
       <div class="col-12 cx-textalign">
         <!--          back-->
