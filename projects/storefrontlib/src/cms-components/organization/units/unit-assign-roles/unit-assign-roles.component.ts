@@ -68,10 +68,10 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
   }
 
   assign({ row }) {
-    this.orgUnitsService.assignRole(this.code, row.uid, this.roleId);
+    this.orgUnitsService.assignRole(this.code, row.email, this.roleId);
   }
 
   unassign({ row }) {
-    this.orgUnitsService.unassignRole(this.code, row.uid, this.roleId);
+    this.orgUnitsService.unassignRole(this.code, row.email, this.roleId);
   }
 }
