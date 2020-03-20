@@ -1,8 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { TabFocusConfig } from '../keyboard-focus.model';
 import { TabFocusDirective } from './tab-focus.directive';
 import { TabFocusService } from './tab-focus.service';
+
+@Directive({
+  selector: '[cxTabFocus]',
+})
+class CustomFocusDirective extends TabFocusDirective {
+  @Input('cxTabFocus') protected config: TabFocusConfig;
+}
 
 @Component({
   selector: 'cx-host',
@@ -25,7 +33,7 @@ describe('TabFocusDirective', () => {
   let service: TabFocusService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, TabFocusDirective],
+      declarations: [MockComponent, CustomFocusDirective],
       providers: [
         {
           provide: TabFocusService,
