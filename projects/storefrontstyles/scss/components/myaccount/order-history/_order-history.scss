@@ -81,15 +81,8 @@
   }
 
   .cx-order-history-code {
-    text-decoration: underline;
-
-    @include media-breakpoint-down(sm) {
-      text-decoration: none;
-    }
     .cx-order-history-value {
-      @include media-breakpoint-down(sm) {
-        text-decoration: underline;
-      }
+      text-decoration: underline;
     }
   }
 
