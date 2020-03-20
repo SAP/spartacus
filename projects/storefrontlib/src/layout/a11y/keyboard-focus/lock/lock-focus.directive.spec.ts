@@ -1,10 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LockFocusConfig } from '../keyboard-focus.model';
 import { LockFocusDirective } from './lock-focus.directive';
 import { LockFocusService } from './lock-focus.service';
 
+@Directive({
+  selector: '[cxLockFocus]',
+})
+class CustomFocusDirective extends LockFocusDirective {
+  @Input('cxLockFocus') protected config: LockFocusConfig;
+}
 @Component({
   selector: 'cx-host',
   template: `
@@ -68,7 +74,7 @@ describe('LockFocusDirective', () => {
   let service: LockFocusService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, LockFocusDirective],
+      declarations: [MockComponent, CustomFocusDirective],
       providers: [
         {
           provide: LockFocusService,
