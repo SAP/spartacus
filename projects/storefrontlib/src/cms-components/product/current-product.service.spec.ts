@@ -45,7 +45,7 @@ class MockFeatureConfigService {
   isLevel = () => true;
 }
 
-fdescribe('CurrentProductService', () => {
+describe('CurrentProductService', () => {
   let service;
 
   beforeEach(() => {
