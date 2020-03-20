@@ -80,7 +80,6 @@ export const componentsSelectorFactory = (
     componentsDataSelectorFactory(uid),
     componentsContextExistsSelectorFactory(uid, context),
     (componentState, exists) => {
-      console.log('uid', uid, exists);
       if (componentState && exists) {
         return componentState;
       } else {
