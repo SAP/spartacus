@@ -79,7 +79,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     params?: B2BSearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.http
-      .get<Occ.B2BUserList>(
+      .get<Occ.OrgUnitUserList>(
         this.getUsersEndpoint(userId, orgUnitId, roleId, params)
       )
       .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));

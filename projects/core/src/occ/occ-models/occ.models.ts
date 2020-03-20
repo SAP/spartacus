@@ -4295,7 +4295,7 @@ export namespace Occ {
     sorts?: SortModel[];
   }
 
-  export interface B2BUserList {
+  export interface OrgUnitUserList {
     users: B2BUser[];
     pagination?: PaginationModel;
     sorts?: SortModel[];
