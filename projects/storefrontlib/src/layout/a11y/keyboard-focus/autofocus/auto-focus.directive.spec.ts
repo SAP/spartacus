@@ -1,8 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { AutoFocusConfig } from '../keyboard-focus.model';
 import { AutoFocusDirective } from './auto-focus.directive';
 import { AutoFocusService } from './auto-focus.service';
+
+@Directive({
+  selector: '[cxAutoFocus]',
+})
+class CustomFocusDirective extends AutoFocusDirective {
+  @Input('cxAutoFocus') protected config: AutoFocusConfig;
+}
 
 @Component({
   selector: 'cx-host',
@@ -45,7 +53,7 @@ describe('AutoFocusDirective', () => {
   let service: AutoFocusService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, AutoFocusDirective],
+      declarations: [MockComponent, CustomFocusDirective],
       providers: [
         {
           provide: AutoFocusService,
