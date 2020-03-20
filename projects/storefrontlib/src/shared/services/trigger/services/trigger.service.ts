@@ -1,19 +1,12 @@
-import {
-  ComponentFactoryResolver,
-  Injectable,
-  ViewContainerRef,
-} from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   TriggerConfig,
   TriggerInlineMapping,
-  TriggerMapping,
   TriggerOutletMapping,
   TriggerUrlMapping,
   TRIGGER_CALLER,
 } from '../config/trigger-config';
-import { InlineRenderService } from './inline-render-strategy.service';
-import { OutletRenderService } from './outlet-render-strategy.service';
-import { RoutingRenderService } from './routing-render-strategy.service';
+import { RenderStrategy } from './render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class TriggerService {
@@ -21,54 +14,35 @@ export class TriggerService {
   protected renderedCallers: TRIGGER_CALLER[] = [];
 
   constructor(
-    protected triggerConfig: TriggerConfig,
-    protected componentFactoryResolver: ComponentFactoryResolver,
-    protected outletRenderService: OutletRenderService,
-    protected inlineRenderService: InlineRenderService,
-    protected routingRenderService: RoutingRenderService
-  ) {}
+    @Inject(RenderStrategy)
+    protected renderStrategies: RenderStrategy[],
+    protected triggerConfig: TriggerConfig
+  ) {
+    this.renderStrategies = this.renderStrategies || [];
+  }
 
-  render(
-    caller: TRIGGER_CALLER,
-    component?: any,
-    vcr?: ViewContainerRef
-  ): void {
+  render(caller: TRIGGER_CALLER): void {
     const config = this.findConfiguration(caller);
-    if (Boolean((config as TriggerUrlMapping).cxRoute)) {
-      this.routingRenderService.render(config as TriggerUrlMapping);
-    } else if (
-      this.shouldRender(caller, config as TriggerMapping) &&
-      component
-    ) {
-      const template = this.componentFactoryResolver.resolveComponentFactory(
-        component
-      );
-      if (Boolean((config as TriggerOutletMapping).outlet)) {
-        this.outletRenderService.render(
-          config as TriggerOutletMapping,
-          template
-        );
-      } else if (Boolean((config as TriggerInlineMapping).inline) && !!vcr) {
-        this.inlineRenderService.render(template, vcr);
-      }
-      this.renderedCallers.push(caller);
+    const renderer = this.getRenderStrategy(config);
+
+    // Render if the strategy exists
+    if (renderer) {
+      renderer.render(config, caller);
     }
-  }
-
-  removeElement(caller: TRIGGER_CALLER): void {
-    this.renderedCallers = this.renderedCallers.filter(el => el === caller);
-  }
-
-  protected shouldRender(
-    caller: TRIGGER_CALLER,
-    config: TriggerMapping
-  ): boolean {
-    return this.renderedCallers.includes(caller) ? !!config.multi : true;
   }
 
   private findConfiguration(
     caller: TRIGGER_CALLER
   ): TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping {
     return this.triggerConfig?.trigger[caller];
+  }
+
+  private getRenderStrategy(
+    config: TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping
+  ): RenderStrategy {
+    const strategies = this.renderStrategies.filter(strategy =>
+      strategy.strategy(config)
+    );
+    return strategies[0];
   }
 }

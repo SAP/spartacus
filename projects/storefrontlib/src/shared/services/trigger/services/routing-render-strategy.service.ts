@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
-import { TriggerUrlMapping } from '../config/index';
+import { TriggerUrlMapping, TRIGGER_CALLER } from '../config/index';
+import { RenderStrategy } from './render.strategy';
 
 @Injectable({ providedIn: 'root' })
-export class RoutingRenderService {
-  constructor(protected routingService: RoutingService) {}
+export class RoutingRenderService extends RenderStrategy {
+  constructor(protected routingService: RoutingService) {
+    super();
+  }
 
-  public render(config: TriggerUrlMapping) {
+  public render(config: TriggerUrlMapping, _caller: TRIGGER_CALLER) {
     this.routingService.go(config);
+  }
+
+  public strategy(config: TriggerUrlMapping) {
+    return Boolean(config.cxRoute);
   }
 }

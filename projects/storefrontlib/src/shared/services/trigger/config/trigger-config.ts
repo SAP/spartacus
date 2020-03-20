@@ -1,4 +1,4 @@
-import { OutletPosition } from '../../../../cms-structure/index';
+import { OutletPosition } from '../../../../cms-structure/outlet/outlet.model';
 
 export abstract class TriggerConfig {
   trigger?: {
@@ -10,8 +10,11 @@ export abstract class TriggerConfig {
 }
 
 export interface TriggerMapping {
+  component: any;
   // Can the element be rendered multiple times
   multi?: boolean;
+  // Optional elements
+  options?: any;
 }
 
 export interface TriggerOutletMapping extends TriggerMapping {
