@@ -42,12 +42,15 @@ export const CMS_GET_COMPONENT_FROM_PAGE = 'CmsGetComponentFromPage';
 export const USER_ADDRESS_SERVICE = 'UserAddressService';
 export const AUTH_SERVICE = 'AuthService';
 export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
-export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
+
+export const PAGE_META_RESOLVER = 'PageMetaResolver';
+export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
 export const CATEGORY_PAGE_META_RESOLVER = 'CategoryPageMetaResolver';
-export const FIND_PRODUCT_PAGE_META_RESOLVER = 'FindProductPageMetaResolver';
+export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
+
 export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
 export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
@@ -65,7 +68,6 @@ export const ROUTING_SERVICE = 'RoutingService';
 export const SHIPPING_ADDRESS_COMPONENT = 'ShippingAddressComponent';
 export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const TRANSLATION_SERVICE = 'TranslationService';
-export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 export const ADD_TO_CART_COMPONENT = 'AddToCartComponent';
 export const ADDED_TO_CART_DIALOG_COMPONENT = 'AddedToCartDialogComponent';
 export const MODAL_SERVICE = 'ModalService';
