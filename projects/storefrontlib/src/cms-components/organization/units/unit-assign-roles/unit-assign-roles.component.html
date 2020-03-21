@@ -33,18 +33,23 @@
       <div class="col-12 cx-textalign">
         <ng-select
           bindLabel="name"
-          bindValue="code"
-          [(ngModel)]="roleId"
+          bindValue="roleId"
+          [clearable]="false"
+          [ngModel]="roleId"
+          (change)="changeRole($event)"
           [items]="[
-            { name: 'userList.admin' | cxTranslate, code: 'b2badmingroup' },
-            { name: 'userList.manager' | cxTranslate, code: 'b2bmanagergroup' },
+            { name: 'userList.admin' | cxTranslate, roleId: 'b2badmingroup' },
+            {
+              name: 'userList.manager' | cxTranslate,
+              roleId: 'b2bmanagergroup'
+            },
             {
               name: 'userList.approver' | cxTranslate,
-              code: 'b2bapprovergroup'
+              roleId: 'b2bapprovergroup'
             },
             {
               name: 'userList.customer' | cxTranslate,
-              code: 'b2bcustomergroup'
+              roleId: 'b2bcustomergroup'
             }
           ]"
         ></ng-select>

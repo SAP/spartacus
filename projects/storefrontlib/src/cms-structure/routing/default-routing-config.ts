@@ -102,7 +102,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   orgUnitAssignRoles: {
     paths: [
-      'my-company/organization-management/manage-unit/assign-roles/:code',
+      'my-company/organization-management/manage-unit/assign-roles/:code/:roleId',
     ],
   },
   costCenters: {

@@ -239,6 +239,7 @@ export const organization = {
     parentUnit: 'Unit',
     admin: 'Administrator',
     manager: 'Manager',
+    approver: 'Approver',
     customer: 'Customer',
   },
 };

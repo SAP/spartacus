@@ -7,7 +7,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 
 import {
   RoutingService,
@@ -20,6 +20,7 @@ import {
   AbstractListingComponent,
   ListingModel,
 } from '../../abstract-component/abstract-listing.component';
+import { Params } from '@angular/router';
 
 @Component({
   selector: 'cx-unit-assign-roles',
@@ -28,8 +29,8 @@ import {
 export class UnitAssignRolesComponent extends AbstractListingComponent
   implements OnInit {
   code: string;
+  roleId: string;
   cxRoute = 'orgUnitAssignRoles';
-  roleId = 'b2bcustomergroup';
 
   constructor(
     protected routingService: RoutingService,
@@ -39,16 +40,24 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
     super(routingService);
   }
 
+  role$: Observable<string> = this.params$.pipe(
+    map((params: Params) => params['roleId'])
+  );
+
   ngOnInit(): void {
     this.code$.pipe(take(1)).subscribe(code => (this.code = code));
+    this.role$.pipe(take(1)).subscribe(role => (this.roleId = role));
 
-    this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
+    this.data$ = <Observable<ListingModel>>combineLatest([
+      this.queryParams$,
+      this.role$,
+    ]).pipe(
       withLatestFrom(this.code$),
-      tap(([queryParams, code]) =>
-        this.orgUnitsService.loadUsers(code, this.roleId, queryParams)
+      tap(([[queryParams, role], code]) =>
+        this.orgUnitsService.loadUsers(code, role, queryParams)
       ),
-      switchMap(([queryParams, code]) =>
-        this.orgUnitsService.getUsers(code, this.roleId, queryParams).pipe(
+      switchMap(([[queryParams, role], code]) =>
+        this.orgUnitsService.getUsers(code, role, queryParams).pipe(
           filter(Boolean),
           map((userList: EntitiesModel<B2BUser>) => ({
             sorts: userList.sorts,
@@ -73,5 +82,9 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
 
   unassign({ row }) {
     this.orgUnitsService.unassignRole(this.code, row.email, this.roleId);
+  }
+
+  changeRole({ roleId }: { roleId: string }) {
+    this.updateQueryParams({}, { roleId });
   }
 }
