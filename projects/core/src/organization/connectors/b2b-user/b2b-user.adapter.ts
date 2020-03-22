@@ -19,15 +19,35 @@ export abstract class B2BUserAdapter {
     params?: B2BSearchConfig
   ): Observable<EntitiesModel<B2BUser>>;
 
-  // abstract loadApprovers(
-  //   userId: string,
-  //   orgCustomerId: string,
-  //   params?: B2BSearchConfig
-  // ): Observable<EntitiesModel<B2BUser>>;
+  abstract create(
+    userId: string,
+    orgCustomer: B2BUser
+  ): Observable<B2BUser>;
 
-  // abstract loadUserGroups(
-  //   userId: string,
-  //   orgCustomerId: string,
-  //   params?: B2BSearchConfig
-  // ): Observable<EntitiesModel<any>>; // TODO: change the type to user groups when they are ready
+  abstract update(
+    userId: string,
+    orgCustomerId: string,
+    orgCustomer: B2BUser
+  ): Observable<B2BUser>;
+
+  abstract loadApprovers(
+    userId: string,
+    orgCustomerId: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<B2BUser>>;
+
+  abstract assignApprover(
+    userId: string,
+    orgCustomerId: string,
+    : string
+  ): Observable<any>
+
+
+  abstract loadUserGroups(
+    userId: string,
+    orgCustomerId: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<any>>; // TODO: change the type to user groups when they are ready
+
+
 }

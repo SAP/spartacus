@@ -37,13 +37,82 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
       .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
   }
 
+  create(
+    userId: string,
+    orgCustomer: B2BUser
+  ): Observable<B2BUser> {
+    return this.http
+      .post<Occ.B2BUser>(
+        this.getB2BUsersEndpoint(userId),
+        orgCustomer
+      )
+      .pipe(this.converter.pipeable(B2B_USER_NORMALIZER));
+  }
+
+  update(
+    userId: string,
+    orgCustomerId: string,
+    orgCustomer: B2BUser
+  ): Observable<B2BUser> {
+    return this.http
+      .patch<Occ.B2BUser>(
+        this.getB2BUserEndpoint(userId, orgCustomerId),
+        orgCustomer
+      )
+      .pipe(this.converter.pipeable(B2B_USER_NORMALIZER));
+  }
+
+  assignApprover(
+    userId: string,
+    orgCustomerId: string,
+    approverId: string
+  ): Observable<any> {
+    return this.http.post<any>(
+      this.getApproverEndpoint(userId, orgCustomerId, approverId),
+      null
+    );
+  }
+
+  unassignApprover(
+    userId: string,
+    orgCustomerId: string,
+    approverId: string
+  ): Observable<any> {
+    return this.http.delete<any>(
+      this.getApproverEndpoint(userId, orgCustomerId, approverId),
+      null
+    );
+  }
+
+  assignPermission(
+    userId: string,
+    orgCustomerId: string,
+    permissionId: string
+  ): Observable<any> {
+    return this.http.post<any>(
+      this.getPermissionEndpoint(userId, orgCustomerId, permissionId),
+      null
+    );
+  }
+
+  unassignPermission(
+    userId: string,
+    orgCustomerId: string,
+    permissionId: string
+  ): Observable<any> {
+    return this.http.delete<any>(
+      this.getPermissionEndpoint(userId, orgCustomerId, permissionId),
+      null
+    );
+  }
+
   protected getB2BUserEndpoint(
     userId: string,
-    orgUnitCustomerId: string
+    orgCustomerId: string
   ): string {
-    return this.occEndpoints.getUrl('orgUnitCustomer', {
+    return this.occEndpoints.getUrl('b2bUser', {
       userId,
-      orgUnitCustomerId,
+      orgCustomerId,
     });
   }
 
@@ -52,5 +121,39 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     params?: B2BSearchConfig
   ): string {
     return this.occEndpoints.getUrl('b2bUsers', { userId }, params);
+  }
+
+  protected getApproverEndpoint(
+    userId: string,
+    orgCustomerId: string,
+    approverId: string,
+  ): string {
+    return this.occEndpoints.getUrl(
+      'b2bUserApprover',
+      { userId, orgCustomerId, approverId },
+    );
+  }
+
+  protected getUserGroupEndpoint(
+    userId: string,
+    orgCustomerId: string,
+    userGroupId: string,
+  ): string {
+    return this.occEndpoints.getUrl(
+      'b2bUserUserGroup',
+      { userId, orgCustomerId, userGroupId },
+    );
+  }
+
+  protected getPermissionEndpoint(
+    userId: string,
+    orgCustomerId: string,
+    premissionId: string
+  ): string {
+    return this.occEndpoints.getUrl('b2bUserPermission', {
+      userId,
+      orgCustomerId,
+      premissionId,
+    });
   }
 }
