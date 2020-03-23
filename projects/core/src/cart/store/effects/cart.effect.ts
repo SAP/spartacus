@@ -20,7 +20,6 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { withdrawOn } from '../../../util/withdraw-on';
 import { CartConnector } from '../../connectors/cart/cart.connector';
-import { CartDataService } from '../../facade/cart-data.service';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
@@ -56,124 +55,97 @@ export class CartEffects {
         switchMap(payload => {
           return of(payload).pipe(
             withLatestFrom(
-              // TODO: deprecated -> remove check for store in 2.0 when store will be required
-              !this.store
-                ? of(false)
-                : this.store.pipe(
-                    select(
-                      getCartHasPendingProcessesSelectorFactory(payload.cartId)
-                    )
-                  )
+              this.store.pipe(
+                select(
+                  getCartHasPendingProcessesSelectorFactory(payload.cartId)
+                )
+              )
             )
           );
         }),
         filter(([_, hasPendingProcesses]) => !hasPendingProcesses),
         map(([payload]) => payload),
         switchMap(payload => {
-          const loadCartParams = {
-            userId: (payload && payload.userId) || this.cartData.userId,
-            cartId: (payload && payload.cartId) || this.cartData.cartId,
-          };
-
-          if (this.isMissingData(loadCartParams)) {
-            return from([
-              new DeprecatedCartActions.LoadCartFail({}),
-              new CartActions.LoadMultiCartFail({
-                cartId: loadCartParams.cartId,
-              }),
-            ]);
-          }
-          return this.cartConnector
-            .load(loadCartParams.userId, loadCartParams.cartId)
-            .pipe(
-              // TODO: remove with the `cart` store feature
-              withLatestFrom(
-                // TODO: deprecated -> remove check for store in 2.0 when store will be required
-                !this.store
-                  ? of(payload.cartId)
-                  : this.store.pipe(select(getActiveCartId))
-              ),
-              mergeMap(([cart, activeCartId]: [Cart, string]) => {
-                let actions = [];
-                if (cart) {
-                  // `cart` store branch should only be updated for active cart
-                  // avoid dispatching LoadCartSuccess action on different cart loads
-                  if (
-                    loadCartParams.cartId === activeCartId ||
-                    loadCartParams.cartId === OCC_CART_ID_CURRENT
-                  ) {
-                    actions.push(
-                      new DeprecatedCartActions.LoadCartSuccess(cart)
-                    );
-                  }
-                  actions.push(
-                    new CartActions.LoadMultiCartSuccess({
-                      cart,
-                      userId: loadCartParams.userId,
-                      extraData: payload.extraData,
-                    })
-                  );
-                  if (loadCartParams.cartId === OCC_CART_ID_CURRENT) {
-                    // Removing cart from entity object under `current` key as it is no longer needed.
-                    // Current cart is loaded under it's code entity.
-                    actions.push(
-                      new CartActions.RemoveCart(OCC_CART_ID_CURRENT)
-                    );
-                  }
-                } else {
-                  actions = [
-                    new DeprecatedCartActions.LoadCartFail({}),
-                    new CartActions.LoadMultiCartFail({
-                      cartId: loadCartParams.cartId,
-                    }),
-                  ];
+          return this.cartConnector.load(payload.userId, payload.cartId).pipe(
+            // TODO: remove with the `cart` store feature
+            withLatestFrom(this.store.pipe(select(getActiveCartId))),
+            mergeMap(([cart, activeCartId]: [Cart, string]) => {
+              let actions = [];
+              if (cart) {
+                // `cart` store branch should only be updated for active cart
+                // avoid dispatching LoadCartSuccess action on different cart loads
+                if (
+                  payload.cartId === activeCartId ||
+                  payload.cartId === OCC_CART_ID_CURRENT
+                ) {
+                  actions.push(new DeprecatedCartActions.LoadCartSuccess(cart));
                 }
-                return actions;
-              }),
-              catchError(error => {
-                if (error?.error?.errors) {
-                  const couponExpiredErrors = error.error.errors.filter(
-                    err => err.reason === 'invalid'
-                  );
-                  if (couponExpiredErrors.length > 0) {
-                    // clear coupons actions just wanted to reload cart again
-                    // no need to do it in refresh or keep that action
-                    // however removing this action will be a breaking change
-                    // remove that action in 2.0 release
-                    // @deprecated since 1.4
-                    return from([
-                      new CartActions.LoadCart({ ...payload }),
-                      new CartActions.ClearExpiredCoupons({}),
-                    ]);
-                  }
-
-                  const cartNotFoundErrors = error.error.errors.filter(
-                    err => err.reason === 'notFound' || 'UnknownResourceError'
-                  );
-                  if (
-                    cartNotFoundErrors.length > 0 &&
-                    payload.extraData &&
-                    payload.extraData.active
-                  ) {
-                    // Clear cart is responsible for removing cart in `cart` store feature.
-                    // Remove cart does the same thing, but in `multi-cart` store feature.
-                    return from([
-                      new DeprecatedCartActions.ClearCart(),
-                      new CartActions.RemoveCart(loadCartParams.cartId),
-                    ]);
-                  }
+                actions.push(
+                  new CartActions.LoadMultiCartSuccess({
+                    cart,
+                    userId: payload.userId,
+                    extraData: payload.extraData,
+                  })
+                );
+                if (payload.cartId === OCC_CART_ID_CURRENT) {
+                  // Removing cart from entity object under `current` key as it is no longer needed.
+                  // Current cart is loaded under it's code entity.
+                  actions.push(new CartActions.RemoveCart(OCC_CART_ID_CURRENT));
                 }
-                return from([
-                  new DeprecatedCartActions.LoadCartFail(
-                    makeErrorSerializable(error)
-                  ),
+              } else {
+                actions = [
+                  new DeprecatedCartActions.LoadCartFail({}),
                   new CartActions.LoadMultiCartFail({
-                    cartId: loadCartParams.cartId,
-                    error: makeErrorSerializable(error),
+                    cartId: payload.cartId,
                   }),
-                ]);
-              })
-            );
+                ];
+              }
+              return actions;
+            }),
+            catchError(error => {
+              if (error?.error?.errors) {
+                const couponExpiredErrors = error.error.errors.filter(
+                  err => err.reason === 'invalid'
+                );
+                if (couponExpiredErrors.length > 0) {
+                  // clear coupons actions just wanted to reload cart again
+                  // no need to do it in refresh or keep that action
+                  // however removing this action will be a breaking change
+                  // remove that action in 2.0 release
+                  // @deprecated since 1.4
+                  return from([
+                    new CartActions.LoadCart({ ...payload }),
+                    new CartActions.ClearExpiredCoupons({}),
+                  ]);
+                }
+
+                const cartNotFoundErrors = error.error.errors.filter(
+                  err => err.reason === 'notFound' || 'UnknownResourceError'
+                );
+                if (
+                  cartNotFoundErrors.length > 0 &&
+                  payload.extraData &&
+                  payload.extraData.active
+                ) {
+                  // Clear cart is responsible for removing cart in `cart` store feature.
+                  // Remove cart does the same thing, but in `multi-cart` store feature.
+                  return from([
+                    new DeprecatedCartActions.ClearCart(),
+                    new CartActions.RemoveCart(payload.cartId),
+                  ]);
+                }
+              }
+              return from([
+                new DeprecatedCartActions.LoadCartFail(
+                  makeErrorSerializable(error)
+                ),
+                new CartActions.LoadMultiCartFail({
+                  cartId: payload.cartId,
+                  error: makeErrorSerializable(error),
+                }),
+              ]);
+            })
+          );
         })
       )
     ),
@@ -276,24 +248,16 @@ export class CartEffects {
     DeprecatedCartActions.LoadCart | CartActions.CartProcessesDecrement
   > = this.actions$.pipe(
     ofType(
-      CartActions.CART_ADD_ENTRY_SUCCESS,
-      CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_ENTRY_SUCCESS,
       DeprecatedCartActions.ADD_EMAIL_TO_CART_SUCCESS,
       CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
-      CartActions.CART_ADD_VOUCHER_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_SUCCESS
+      CartActions.CART_ADD_VOUCHER_SUCCESS
     ),
     map(
       (
         action:
-          | CartActions.CartAddEntrySuccess
-          | CartActions.CartUpdateEntrySuccess
-          | CartActions.CartRemoveEntrySuccess
           | DeprecatedCartActions.AddEmailToCartSuccess
           | CheckoutActions.ClearCheckoutDeliveryModeSuccess
           | CartActions.CartAddVoucherSuccess
-          | CartActions.CartRemoveVoucherSuccess
       ) => action.payload
     ),
     concatMap(payload =>
@@ -311,8 +275,23 @@ export class CartEffects {
   refreshWithoutProcesses$: Observable<
     DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
-    ofType(DeprecatedCartActions.MERGE_CART_SUCCESS),
-    map((action: DeprecatedCartActions.MergeCartSuccess) => action.payload),
+    ofType(
+      DeprecatedCartActions.MERGE_CART_SUCCESS,
+      CartActions.CART_ADD_ENTRY_SUCCESS,
+      CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      CartActions.CART_UPDATE_ENTRY_SUCCESS,
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS
+    ),
+    map(
+      (
+        action:
+          | CartActions.CartAddEntrySuccess
+          | CartActions.CartUpdateEntrySuccess
+          | DeprecatedCartActions.MergeCartSuccess
+          | CartActions.CartRemoveEntrySuccess
+          | CartActions.CartRemoveVoucherSuccess
+      ) => action.payload
+    ),
     map(
       payload =>
         new DeprecatedCartActions.LoadCart({
@@ -408,31 +387,8 @@ export class CartEffects {
   );
 
   constructor(
-    actions$: Actions,
-    cartConnector: CartConnector,
-    cartData: CartDataService,
-    // tslint:disable-next-line:unified-signatures
-    store: Store<StateWithMultiCart>
-  );
-
-  /**
-   * @deprecated since version 1.4
-   * Use constructor(actions$: Actions, cartConnector: CartConnector, cartData: CartDataService, store: Store<StateWithMultiCart>) instead
-   */
-  constructor(
-    actions$: Actions,
-    cartConnector: CartConnector,
-    cartData: CartDataService
-  );
-
-  constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
-    private cartData: CartDataService,
-    private store?: Store<StateWithMultiCart>
+    private store: Store<StateWithMultiCart>
   ) {}
-
-  private isMissingData(payload: { userId: string; cartId: string }) {
-    return payload.userId === undefined || payload.cartId === undefined;
-  }
 }
