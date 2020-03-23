@@ -151,7 +151,7 @@ describe('component selectors migration', () => {
     });
   });
 
-  describe('ProductImagesComponent', () => {
+  xdescribe('ProductImagesComponent', () => {
     describe('when the html file contains a single usage', () => {
       it('should add a comment', async () => {
         writeFile(host, htmlFileName, PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE);
