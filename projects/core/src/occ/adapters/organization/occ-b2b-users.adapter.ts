@@ -102,7 +102,27 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   ): Observable<any> {
     return this.http.delete<any>(
       this.getPermissionEndpoint(userId, orgCustomerId, permissionId),
+    );
+  }
+
+  assignUserGroup(
+    userId: string,
+    orgCustomerId: string,
+    userGroupId: string
+  ): Observable<any> {
+    return this.http.post<any>(
+      this.getApproverEndpoint(userId, orgCustomerId, userGroupId),
       null
+    );
+  }
+
+  unassignUserGroup(
+    userId: string,
+    orgCustomerId: string,
+    userGroupId: string
+  ): Observable<any> {
+    return this.http.delete<any>(
+      this.getApproverEndpoint(userId, orgCustomerId, userGroupId),
     );
   }
 
