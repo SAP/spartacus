@@ -17,10 +17,11 @@ import {
   OrgUnitUserGroup,
   EntitiesModel,
   Permission,
-  User,
+  B2BUser,
 } from '../../../model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { getPermissionsState } from './permission.selector';
+import { getB2BUsersState } from './b2b-user.selector';
 
 export const getOrgUnitUserGroupManagementState: MemoizedSelector<
   StateWithOrganization,
@@ -62,12 +63,17 @@ export const getOrgUnitUserGroupList = (
 export const getOrgUnitUserGroupAvailableOrgCustomers = (
   code: string,
   params: B2BSearchConfig
-): MemoizedSelector<StateWithOrganization, LoaderState<EntitiesModel<User>>> =>
+): MemoizedSelector<
+  StateWithOrganization,
+  LoaderState<EntitiesModel<B2BUser>>
+> =>
   createSelector(
     getOrgUnitUserGroupManagementState,
-    getPermissionsState,
-    (state: OrgUnitUserGroupManagement, customers: EntityLoaderState<User>) =>
-      denormalizeCustomB2BSearch(state.customers, customers, params, code)
+    getB2BUsersState,
+    (
+      state: OrgUnitUserGroupManagement,
+      customers: EntityLoaderState<B2BUser>
+    ) => denormalizeCustomB2BSearch(state.customers, customers, params, code)
   );
 
 export const getOrgUnitUserGroupAvailableOrderApprovalPermissions = (
