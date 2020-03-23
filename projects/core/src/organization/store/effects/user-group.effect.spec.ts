@@ -10,7 +10,11 @@ import createSpy = jasmine.createSpy;
 
 import { defaultOccOrganizationConfig } from '../../../occ/adapters/organization/default-occ-organization-config';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { OrgUnitUserGroupActions } from '../actions/index';
+import {
+  OrgUnitUserGroupActions,
+  PermissionActions,
+  B2BUserActions,
+} from '../actions/index';
 import * as fromEffects from './user-group.effect';
 import { B2BSearchConfig } from '../../model/search-config';
 import { OrgUnitUserGroup, OrgUnitUserGroupConnector } from '@spartacus/core';
@@ -25,6 +29,15 @@ const orgUnitUserGroup: OrgUnitUserGroup = {
 };
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'uid' }];
+const permissionUid = 'permissionUid';
+const permission = {
+  uid: permissionUid,
+  code: permissionUid,
+};
+const customerId = 'customerId';
+const customer = {
+  uid: customerId,
+};
 
 class MockOrgUnitUserGroupConnector
   implements Partial<OrgUnitUserGroupConnector> {
@@ -35,6 +48,17 @@ class MockOrgUnitUserGroupConnector
   create = createSpy().and.returnValue(of(orgUnitUserGroup));
   update = createSpy().and.returnValue(of(orgUnitUserGroup));
   delete = createSpy().and.returnValue(of(orgUnitUserGroup));
+  getAvailableOrderApprovalPermissions = createSpy().and.returnValue(
+    of({ values: [permission], pagination, sorts })
+  );
+  assignOrderApprovalPermission = createSpy().and.returnValue(of(null));
+  unassignOrderApprovalPermission = createSpy().and.returnValue(of(null));
+  getAvailableOrgCustomers = createSpy().and.returnValue(
+    of({ values: [customer], pagination, sorts })
+  );
+  assignMember = createSpy().and.returnValue(of(null));
+  unassignMember = createSpy().and.returnValue(of(null));
+  unassignAllMembers = createSpy().and.returnValue(of(null));
 }
 
 describe('OrgUnitUserGroup Effects', () => {
@@ -304,6 +328,396 @@ describe('OrgUnitUserGroup Effects', () => {
 
       expect(effects.deleteOrgUnitUserGroup$).toBeObservable(expected);
       expect(orgUnitUserGroupConnector.delete).toHaveBeenCalledWith(
+        userId,
+        orgUnitUserGroupUid
+      );
+    });
+  });
+
+  describe('loadOrgUnitUserGroupAvailableOrderApprovalPermissions$', () => {
+    const params: B2BSearchConfig = { sort: 'uid' };
+
+    it('should return LoadPermissionSuccess action', () => {
+      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissions(
+        {
+          userId,
+          orgUnitUserGroupUid,
+          params,
+        }
+      );
+      const completion = new PermissionActions.LoadPermissionSuccess([
+        permission,
+      ]);
+      const completion2 = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsSuccess(
+        {
+          orgUnitUserGroupUid,
+          page: { ids: [permissionUid], pagination, sorts },
+          params,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-(bc)', { b: completion, c: completion2 });
+
+      expect(
+        effects.loadOrgUnitUserGroupAvailableOrderApprovalPermissions$
+      ).toBeObservable(expected);
+      expect(
+        orgUnitUserGroupConnector.getAvailableOrderApprovalPermissions
+      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, params);
+    });
+
+    it('should return LoadPermissionFail action if permissions not loaded', () => {
+      orgUnitUserGroupConnector.getAvailableOrderApprovalPermissions = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissions(
+        {
+          userId,
+          orgUnitUserGroupUid,
+          params,
+        }
+      );
+      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsFail(
+        {
+          error,
+          orgUnitUserGroupUid,
+          params,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(
+        effects.loadOrgUnitUserGroupAvailableOrderApprovalPermissions$
+      ).toBeObservable(expected);
+      expect(
+        orgUnitUserGroupConnector.getAvailableOrderApprovalPermissions
+      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, params);
+    });
+  });
+
+  describe('assignPermissionToOrgUnitUserGroup$', () => {
+    it('should return CreateOrgUnitUserGroupOrderApprovalPermissionSuccess action', () => {
+      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermission(
+        {
+          userId,
+          orgUnitUserGroupUid,
+          permissionUid,
+        }
+      );
+      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionSuccess(
+        {
+          permissionUid: permissionUid,
+          selected: true,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.assignPermissionToOrgUnitUserGroup$).toBeObservable(
+        expected
+      );
+      expect(
+        orgUnitUserGroupConnector.assignOrderApprovalPermission
+      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, permissionUid);
+    });
+
+    it('should return CreateOrgUnitUserGroupOrderApprovalPermissionFail action if permission not assigned', () => {
+      orgUnitUserGroupConnector.assignOrderApprovalPermission = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermission(
+        {
+          userId,
+          orgUnitUserGroupUid,
+          permissionUid,
+        }
+      );
+      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionFail(
+        {
+          orgUnitUserGroupUid,
+          permissionUid,
+          error,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.assignPermissionToOrgUnitUserGroup$).toBeObservable(
+        expected
+      );
+      expect(
+        orgUnitUserGroupConnector.assignOrderApprovalPermission
+      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, permissionUid);
+    });
+  });
+  describe('unassignPermissionFromOrgUnitUserGroup$', () => {
+    it('should return DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess action', () => {
+      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermission(
+        {
+          userId,
+          orgUnitUserGroupUid,
+          permissionUid,
+        }
+      );
+      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess(
+        {
+          permissionUid: permissionUid,
+          selected: false,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.unassignPermissionFromOrgUnitUserGroup$).toBeObservable(
+        expected
+      );
+      expect(
+        orgUnitUserGroupConnector.unassignOrderApprovalPermission
+      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, permissionUid);
+    });
+
+    it('should return DeleteOrgUnitUserGroupOrderApprovalPermissionFail action if permission not unassigned', () => {
+      orgUnitUserGroupConnector.unassignOrderApprovalPermission = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermission(
+        {
+          userId,
+          orgUnitUserGroupUid,
+          permissionUid,
+        }
+      );
+      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionFail(
+        {
+          orgUnitUserGroupUid,
+          permissionUid,
+          error,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.unassignPermissionFromOrgUnitUserGroup$).toBeObservable(
+        expected
+      );
+      expect(
+        orgUnitUserGroupConnector.unassignOrderApprovalPermission
+      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, permissionUid);
+    });
+  });
+
+  describe('loadOrgUnitUserGroupAvailableOrgCustomers$', () => {
+    const params: B2BSearchConfig = { sort: 'uid' };
+
+    it('should return LoadOrgUnitUserGroupAvailableOrgCustomersSuccess action', () => {
+      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomers(
+        {
+          userId,
+          orgUnitUserGroupUid,
+          params,
+        }
+      );
+      const completion = new B2BUserActions.LoadB2BUserSuccess([customer]);
+      const completion2 = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersSuccess(
+        {
+          orgUnitUserGroupUid,
+          page: { ids: [customerId], pagination, sorts },
+          params,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-(bc)', { b: completion, c: completion2 });
+
+      expect(effects.loadOrgUnitUserGroupAvailableOrgCustomers$).toBeObservable(
+        expected
+      );
+      expect(
+        orgUnitUserGroupConnector.getAvailableOrgCustomers
+      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, params);
+    });
+
+    it('should return LoadOrgUnitUserGroupAvailableOrgCustomersFail action if users not loaded', () => {
+      orgUnitUserGroupConnector.getAvailableOrgCustomers = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomers(
+        {
+          userId,
+          orgUnitUserGroupUid,
+          params,
+        }
+      );
+      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersFail(
+        {
+          error,
+          orgUnitUserGroupUid,
+          params,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadOrgUnitUserGroupAvailableOrgCustomers$).toBeObservable(
+        expected
+      );
+      expect(
+        orgUnitUserGroupConnector.getAvailableOrgCustomers
+      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, params);
+    });
+  });
+
+  describe('assignMemberToOrgUnitUserGroup$', () => {
+    it('should return CreateOrgUnitUserGroupOrderApprovalPermissionSuccess action', () => {
+      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMember({
+        userId,
+        orgUnitUserGroupUid,
+        customerId,
+      });
+      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMemberSuccess(
+        {
+          customerId: customerId,
+          selected: true,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.assignMemberToOrgUnitUserGroup$).toBeObservable(expected);
+      expect(orgUnitUserGroupConnector.assignMember).toHaveBeenCalledWith(
+        userId,
+        orgUnitUserGroupUid,
+        customerId
+      );
+    });
+
+    it('should return CreateOrgUnitUserGroupOrderApprovalPermissionFail action if user not assigned', () => {
+      orgUnitUserGroupConnector.assignMember = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMember({
+        userId,
+        orgUnitUserGroupUid,
+        customerId,
+      });
+      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMemberFail(
+        {
+          orgUnitUserGroupUid,
+          customerId,
+          error,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.assignMemberToOrgUnitUserGroup$).toBeObservable(expected);
+      expect(orgUnitUserGroupConnector.assignMember).toHaveBeenCalledWith(
+        userId,
+        orgUnitUserGroupUid,
+        customerId
+      );
+    });
+  });
+  describe('unassignMemberFromOrgUnitUserGroup$', () => {
+    it('should return DeleteOrgUnitUserGroupMemberSuccess action', () => {
+      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMember({
+        userId,
+        orgUnitUserGroupUid,
+        customerId,
+      });
+      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMemberSuccess(
+        {
+          customerId: customerId,
+          selected: false,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.unassignMemberFromOrgUnitUserGroup$).toBeObservable(
+        expected
+      );
+      expect(orgUnitUserGroupConnector.unassignMember).toHaveBeenCalledWith(
+        userId,
+        orgUnitUserGroupUid,
+        customerId
+      );
+    });
+
+    it('should return DeleteOrgUnitUserGroupMemberSuccessFail action if users not unassigned', () => {
+      orgUnitUserGroupConnector.unassignMember = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMember({
+        userId,
+        orgUnitUserGroupUid,
+        customerId,
+      });
+      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMemberFail(
+        {
+          orgUnitUserGroupUid,
+          customerId,
+          error,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.unassignMemberFromOrgUnitUserGroup$).toBeObservable(
+        expected
+      );
+      expect(orgUnitUserGroupConnector.unassignMember).toHaveBeenCalledWith(
+        userId,
+        orgUnitUserGroupUid,
+        customerId
+      );
+    });
+  });
+
+  describe('unassignAllMembersFromOrgUnitUserGroup$', () => {
+    it('should return DeleteOrgUnitUserGroupMemberSuccess action', () => {
+      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMembers({
+        userId,
+        orgUnitUserGroupUid,
+      });
+      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMembersSuccess(
+        {
+          selected: false,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.unassignAllMembersFromOrgUnitUserGroup$).toBeObservable(
+        expected
+      );
+      expect(orgUnitUserGroupConnector.unassignAllMembers).toHaveBeenCalledWith(
+        userId,
+        orgUnitUserGroupUid
+      );
+    });
+
+    it('should return DeleteOrgUnitUserGroupMemberSuccessFail action if users not unassigned', () => {
+      orgUnitUserGroupConnector.unassignAllMembers = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMembers({
+        userId,
+        orgUnitUserGroupUid,
+      });
+      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMembersFail(
+        {
+          orgUnitUserGroupUid,
+          error,
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.unassignAllMembersFromOrgUnitUserGroup$).toBeObservable(
+        expected
+      );
+      expect(orgUnitUserGroupConnector.unassignAllMembers).toHaveBeenCalledWith(
         userId,
         orgUnitUserGroupUid
       );

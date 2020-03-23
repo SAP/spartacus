@@ -174,7 +174,7 @@ export class LoadOrgUnitUserGroupAvailableOrderApprovalPermissions extends Entit
   ) {
     super(
       ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
-      payload.orgUnitUserGroupUid
+      serializeB2BSearchConfig(payload.params, payload.orgUnitUserGroupUid)
     );
   }
 }
@@ -190,7 +190,7 @@ export class LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsFail extends E
   ) {
     super(
       ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
-      payload.orgUnitUserGroupUid,
+      serializeB2BSearchConfig(payload.params, payload.orgUnitUserGroupUid),
       payload.error
     );
   }
@@ -223,7 +223,7 @@ export class LoadOrgUnitUserGroupAvailableOrgCustomers extends EntityLoadAction 
   ) {
     super(
       ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
-      payload.orgUnitUserGroupUid
+      serializeB2BSearchConfig(payload.params, payload.orgUnitUserGroupUid)
     );
   }
 }
@@ -239,7 +239,7 @@ export class LoadOrgUnitUserGroupAvailableOrgCustomersFail extends EntityFailAct
   ) {
     super(
       ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
-      payload.orgUnitUserGroupUid,
+      serializeB2BSearchConfig(payload.params, payload.orgUnitUserGroupUid),
       payload.error
     );
   }
@@ -305,7 +305,7 @@ export class CreateOrgUnitUserGroupMemberFail extends EntityFailAction {
   readonly type = CREATE_ORG_UNIT_USER_GROUP_MEMBER_FAIL;
   constructor(
     public payload: {
-      orgUnitUserGroupId: string;
+      orgUnitUserGroupUid: string;
       customerId: string;
       error: any;
     }
@@ -338,7 +338,7 @@ export class CreateOrgUnitUserGroupOrderApprovalPermissionFail extends EntityFai
   readonly type = CREATE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_FAIL;
   constructor(
     public payload: {
-      orgUnitUserGroupId: string;
+      orgUnitUserGroupUid: string;
       permissionUid: string;
       error: any;
     }
@@ -432,7 +432,7 @@ export class DeleteOrgUnitUserGroupMemberFail extends EntityFailAction {
   readonly type = DELETE_ORG_UNIT_USER_GROUP_MEMBER_FAIL;
   constructor(
     public payload: {
-      orgUnitUserGroupId: string;
+      orgUnitUserGroupUid: string;
       customerId: string;
       error: any;
     }
@@ -491,7 +491,7 @@ export class DeleteOrgUnitUserGroupOrderApprovalPermissionFail extends EntityFai
   readonly type = DELETE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_FAIL;
   constructor(
     public payload: {
-      orgUnitUserGroupId: string;
+      orgUnitUserGroupUid: string;
       permissionUid: string;
       error: any;
     }

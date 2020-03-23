@@ -311,7 +311,7 @@ export class OrgUnitUserGroupEffects {
             of(
               new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionFail(
                 {
-                  orgUnitUserGroupId: payload.orgUnitUserGroupUid,
+                  orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
                   permissionUid: payload.permissionUid,
                   error: makeErrorSerializable(error),
                 }
@@ -350,7 +350,7 @@ export class OrgUnitUserGroupEffects {
           catchError(error =>
             of(
               new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMemberFail({
-                orgUnitUserGroupId: payload.orgUnitUserGroupUid,
+                orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
                 customerId: payload.customerId,
                 error: makeErrorSerializable(error),
               })
@@ -388,7 +388,7 @@ export class OrgUnitUserGroupEffects {
           catchError(error =>
             of(
               new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMemberFail({
-                orgUnitUserGroupId: payload.orgUnitUserGroupUid,
+                orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
                 customerId: payload.customerId,
                 error: makeErrorSerializable(error),
               })
@@ -432,7 +432,7 @@ export class OrgUnitUserGroupEffects {
             of(
               new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionFail(
                 {
-                  orgUnitUserGroupId: payload.orgUnitUserGroupUid,
+                  orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
                   permissionUid: payload.permissionUid,
                   error: makeErrorSerializable(error),
                 }
