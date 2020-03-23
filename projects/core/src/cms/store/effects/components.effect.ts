@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { from, merge, Observable, of } from 'rxjs';
-import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { catchError, groupBy, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
-import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
@@ -19,8 +18,7 @@ import { CmsActions } from '../actions/index';
 export class ComponentsEffects {
   constructor(
     private actions$: Actions,
-    private cmsComponentLoader: CmsComponentConnector,
-    private featureConfigService: FeatureConfigService
+    private cmsComponentLoader: CmsComponentConnector
   ) {}
 
   private contextChange$: Observable<Action> = this.actions$.pipe(
@@ -61,34 +59,6 @@ export class ComponentsEffects {
     | CmsActions.LoadCmsComponentSuccess<CmsComponent>
     | CmsActions.LoadCmsComponentFail
   > {
-    // TODO: remove, deprecated behavior since 1.4
-    if (!this.featureConfigService.isLevel('1.4')) {
-      return merge(
-        ...componentUids.map(uid =>
-          this.cmsComponentLoader.get(uid, pageContext).pipe(
-            map(
-              component =>
-                new CmsActions.LoadCmsComponentSuccess({
-                  component,
-                  uid: component.uid,
-                  pageContext,
-                })
-            ),
-            catchError(error =>
-              of(
-                new CmsActions.LoadCmsComponentFail({
-                  uid,
-                  error: makeErrorSerializable(error),
-                  pageContext,
-                })
-              )
-            )
-          )
-        )
-      );
-    }
-    // END OF (TODO: remove, deprecated behavior since 1.4)
-
     return this.cmsComponentLoader.getList(componentUids, pageContext).pipe(
       switchMap(components =>
         from(

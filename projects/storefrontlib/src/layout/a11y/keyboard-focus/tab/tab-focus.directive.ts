@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, HostListener } from '@angular/core';
 import { AutoFocusDirective } from '../autofocus/auto-focus.directive';
 import { MOVE_FOCUS, TabFocusConfig } from '../keyboard-focus.model';
 import { TabFocusService } from './tab-focus.service';
@@ -8,14 +8,13 @@ import { TabFocusService } from './tab-focus.service';
  * for a nested list of tabs, carousel slides or any group of elements that
  * requires horizontal navigation.
  */
-@Directive({
-  selector: '[cxTabFocus]',
-})
+@Directive() // selector: '[cxTabFocus]'
 export class TabFocusDirective extends AutoFocusDirective {
   /** `tab` defaults to true if the directive `cxTabFocus` is used. */
   protected defaultConfig: TabFocusConfig = { tab: true };
 
-  @Input('cxTabFocus') protected config: TabFocusConfig = {};
+  // @Input('cxTabFocus')
+  protected config: TabFocusConfig = {};
 
   @HostListener('keydown.arrowRight', ['$event'])
   handleNextTab(event: KeyboardEvent) {
