@@ -64,7 +64,7 @@
               [class.disabled]="form.dirty"
               [routerLink]="{ cxRoute: 'cart' } | cxUrl"
               class="btn btn-primary"
-              cxAutoFocus
+              autofocus
               (click)="!form.dirty && dismissModal('View Cart click')"
               >{{ 'addToCart.viewCart' | cxTranslate }}</a
             >

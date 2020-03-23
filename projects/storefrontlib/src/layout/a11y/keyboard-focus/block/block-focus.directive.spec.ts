@@ -1,8 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BaseFocusService } from '../base';
+import { BlockFocusConfig } from '../keyboard-focus.model';
 import { BlockFocusDirective } from './block-focus.directive';
+@Directive({
+  selector: '[cxBlockFocus]',
+})
+class CustomFocusDirective extends BlockFocusDirective {
+  @Input('cxBlockFocus') protected config: BlockFocusConfig;
+}
 
 @Component({
   selector: 'cx-host',
@@ -21,7 +28,7 @@ describe('BlockFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, BlockFocusDirective],
+      declarations: [MockComponent, CustomFocusDirective],
       providers: [
         {
           provide: BaseFocusService,

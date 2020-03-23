@@ -3,7 +3,6 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
-  Input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -18,15 +17,13 @@ import { EscapeFocusService } from './escape-focus.service';
  * move up in the DOM tree.
  *
  */
-@Directive({
-  selector: '[cxEscFocus]',
-})
+@Directive() // selector: '[cxEscFocus]',
 export class EscapeFocusDirective extends PersistFocusDirective
   implements OnInit {
   protected defaultConfig: EscapeFocusConfig = { focusOnEscape: true };
 
-  /** Optional configuration to drive behaviour of the directive. */
-  @Input('cxEscFocus') protected config: EscapeFocusConfig;
+  // @Input('cxEscFocus')
+  protected config: EscapeFocusConfig;
 
   @Output() esc = new EventEmitter<boolean>();
 
@@ -35,7 +32,7 @@ export class EscapeFocusDirective extends PersistFocusDirective
    * @param event the native keyboard event which contains the escape keydown event
    */
   @HostListener('keydown.escape', ['$event'])
-  protected handleEscape(event: KeyboardEvent): void {
+  handleEscape(event: KeyboardEvent): void {
     if (this.service.shouldFocus(this.config)) {
       this.service.handleEscape(this.host, this.config, event);
     }
@@ -50,8 +47,8 @@ export class EscapeFocusDirective extends PersistFocusDirective
   }
 
   ngOnInit() {
-    if (this.service.shouldFocus(this.config) && !this.currentIndex) {
-      this.currentIndex = '-1';
+    if (this.service.shouldFocus(this.config)) {
+      this.requiredTabindex = -1;
     }
     super.ngOnInit();
   }
