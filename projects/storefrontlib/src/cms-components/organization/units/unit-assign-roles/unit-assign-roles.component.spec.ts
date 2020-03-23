@@ -53,12 +53,14 @@ const mockUserList: EntitiesModel<B2BUser> = {
       uid: 'aaa@bbb',
       selected: true,
       orgUnit: { uid: 'orgUid', name: 'orgName' },
+      roles: [],
     },
     {
       name: 'b2',
       uid: 'aaa2@bbb',
       selected: false,
       orgUnit: { uid: 'orgUid2', name: 'orgName2' },
+      roles: [],
     },
   ],
   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
@@ -69,15 +71,19 @@ const mockUserUIList = {
   values: [
     {
       name: 'b1',
-      uid: 'aaa@bbb',
+      email: 'aaa@bbb',
       selected: true,
       parentUnit: 'orgName',
+      uid: 'orgUid',
+      roles: [],
     },
     {
       name: 'b2',
-      uid: 'aaa2@bbb',
+      email: 'aaa2@bbb',
       selected: false,
+      uid: 'orgUid2',
       parentUnit: 'orgName2',
+      roles: [],
     },
   ],
   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
@@ -206,9 +212,14 @@ describe('UnitAssignRolesComponent', () => {
 
       expect(orgUnitService.loadUsers).toHaveBeenCalledWith(
         code,
+        roleId,
         defaultParams
       );
-      expect(orgUnitService.getUsers).toHaveBeenCalledWith(code, defaultParams);
+      expect(orgUnitService.getUsers).toHaveBeenCalledWith(
+        code,
+        roleId,
+        defaultParams
+      );
       expect(usersList).toEqual(mockUserUIList);
     });
   });
