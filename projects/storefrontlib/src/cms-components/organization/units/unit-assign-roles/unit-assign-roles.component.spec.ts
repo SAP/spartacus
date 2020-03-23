@@ -2,10 +2,10 @@ import {
   Pipe,
   PipeTransform,
   Type,
-  Component,
   Input,
   Output,
   EventEmitter,
+  Component,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -14,21 +14,31 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   RoutingService,
-  BudgetService,
   EntitiesModel,
   B2BSearchConfig,
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   Budget,
+  OrgUnitService,
+  B2BUser,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { BudgetListComponent } from './budget-list.component';
+import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
+import { UnitAssignRolesComponent } from './unit-assign-roles.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
 import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
+
+const code = 'unitCode';
+const email = 'aaa@bbb';
+const roleId = 'b2bcustomergroup';
+const userRow = {
+  row: {
+    email,
+  },
+};
 
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
@@ -36,57 +46,47 @@ const defaultParams: B2BSearchConfig = {
   pageSize: 5,
 };
 
-const mockBudgetList: EntitiesModel<Budget> = {
+const mockUserList: EntitiesModel<B2BUser> = {
   values: [
     {
-      code: '1',
       name: 'b1',
-      budget: 2230,
-      currency: {
-        isocode: 'USD',
-        symbol: '$',
-      },
-      startDate: '2010-01-01T00:00:00+0000',
-      endDate: '2034-07-12T00:59:59+0000',
-      orgUnit: { name: 'orgName', uid: 'orgUid' },
+      uid: 'aaa@bbb',
+      selected: true,
+      orgUnit: { uid: 'orgUid', name: 'orgName' },
+      roles: [],
     },
     {
-      code: '2',
       name: 'b2',
-      budget: 2240,
-      currency: {
-        isocode: 'USD',
-        symbol: '$',
-      },
-      startDate: '2020-01-01T00:00:00+0000',
-      endDate: '2024-07-12T00:59:59+0000',
-      orgUnit: { name: 'orgName', uid: 'orgUid' },
+      uid: 'aaa2@bbb',
+      selected: false,
+      orgUnit: { uid: 'orgUid2', name: 'orgName2' },
+      roles: [],
     },
   ],
-  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
+  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 
-const mockBudgetUIList = {
+const mockUserUIList = {
   values: [
     {
-      code: '1',
       name: 'b1',
-      amount: '2230 $',
-      startEndDate: '2010-01-01 - 2034-07-12',
+      email: 'aaa@bbb',
+      selected: true,
       parentUnit: 'orgName',
       uid: 'orgUid',
+      roles: [],
     },
     {
-      code: '2',
       name: 'b2',
-      amount: '2240 $',
-      startEndDate: '2020-01-01 - 2024-07-12',
-      parentUnit: 'orgName',
-      uid: 'orgUid',
+      email: 'aaa2@bbb',
+      selected: false,
+      uid: 'orgUid2',
+      parentUnit: 'orgName2',
+      roles: [],
     },
   ],
-  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
+  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 @Component({
@@ -104,12 +104,16 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-const budgetList = new BehaviorSubject(mockBudgetList);
+const userList = new BehaviorSubject(mockUserList);
 
-class MockBudgetService implements Partial<BudgetService> {
-  loadBudgets = createSpy('loadBudgets');
+class MockOrgUnitService implements Partial<OrgUnitService> {
+  loadUsers = createSpy('loadUsers');
 
-  getList = createSpy('getList').and.returnValue(budgetList);
+  getUsers = createSpy('getUsers').and.returnValue(userList);
+
+  assignRole = createSpy('assign');
+
+  unassignRole = createSpy('unassign');
 }
 
 class MockRoutingService {
@@ -117,6 +121,10 @@ class MockRoutingService {
   getRouterState() {
     return of({
       state: {
+        params: {
+          code,
+          roleId,
+        },
         queryParams: {
           sort: 'byName',
           currentPage: '0',
@@ -139,21 +147,24 @@ class MockCxDatePipe {
   }
 }
 
-describe('BudgetListComponent', () => {
-  let component: BudgetListComponent;
-  let fixture: ComponentFixture<BudgetListComponent>;
-  let budgetsService: MockBudgetService;
-  let routingService: RoutingService;
+describe('UnitAssignRolesComponent', () => {
+  let component: UnitAssignRolesComponent;
+  let fixture: ComponentFixture<UnitAssignRolesComponent>;
+  let orgUnitService: MockOrgUnitService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
-      declarations: [BudgetListComponent, MockUrlPipe, MockPaginationComponent],
+      declarations: [
+        UnitAssignRolesComponent,
+        MockUrlPipe,
+        MockPaginationComponent,
+      ],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: BudgetService, useClass: MockBudgetService },
+        { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
           provide: PaginationConfig,
           useValue: {
@@ -163,14 +174,13 @@ describe('BudgetListComponent', () => {
       ],
     }).compileComponents();
 
-    budgetsService = TestBed.get(BudgetService as Type<BudgetService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BudgetListComponent);
+    fixture = TestBed.createComponent(UnitAssignRolesComponent);
     component = fixture.componentInstance;
-    budgetList.next(mockBudgetList);
+    userList.next(mockUserList);
     fixture.detectChanges();
   });
 
@@ -181,14 +191,11 @@ describe('BudgetListComponent', () => {
   it('should display No budgets found page if no budgets are found', () => {
     const emptyBudgetList: EntitiesModel<Budget> = {
       values: [],
-      pagination: {
-        currentPage: 0,
-        totalResults: 0,
-      },
+      pagination: { totalResults: 0, sort: 'byName' },
       sorts: [{ code: 'byName', selected: true }],
     };
 
-    budgetList.next(emptyBudgetList);
+    userList.next(emptyBudgetList);
     fixture.detectChanges();
 
     expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
@@ -197,44 +204,44 @@ describe('BudgetListComponent', () => {
   describe('ngOnInit', () => {
     it('should read budget list', () => {
       component.ngOnInit();
-      let budgetsList: any;
-      component.data$
-        .subscribe(value => {
-          budgetsList = value;
-        })
-        .unsubscribe();
-      expect(budgetsService.loadBudgets).toHaveBeenCalledWith(defaultParams);
-      expect(budgetsService.getList).toHaveBeenCalledWith(defaultParams);
-      expect(budgetsList).toEqual(mockBudgetUIList);
+
+      let usersList: any;
+      component.data$.subscribe(value => {
+        usersList = value;
+      });
+
+      expect(orgUnitService.loadUsers).toHaveBeenCalledWith(
+        code,
+        roleId,
+        defaultParams
+      );
+      expect(orgUnitService.getUsers).toHaveBeenCalledWith(
+        code,
+        roleId,
+        defaultParams
+      );
+      expect(usersList).toEqual(mockUserUIList);
     });
   });
 
-  describe('changeSortCode', () => {
-    it('should set correctly sort code', () => {
-      component.changeSortCode('byCode');
-      expect(routingService.go).toHaveBeenCalledWith(
-        {
-          cxRoute: 'budgets',
-          params: {},
-        },
-        {
-          sort: 'byCode',
-        }
+  describe('assign', () => {
+    it('should assign budget', () => {
+      component.assign(userRow);
+      expect(orgUnitService.assignRole).toHaveBeenCalledWith(
+        code,
+        userRow.row.email,
+        roleId
       );
     });
   });
 
-  describe('pageChange', () => {
-    it('should set correctly page', () => {
-      component.pageChange(2);
-      expect(routingService.go).toHaveBeenCalledWith(
-        {
-          cxRoute: 'budgets',
-          params: {},
-        },
-        {
-          currentPage: 2,
-        }
+  describe('unassign', () => {
+    it('should unassign budget', () => {
+      component.unassign(userRow);
+      expect(orgUnitService.unassignRole).toHaveBeenCalledWith(
+        code,
+        userRow.row.email,
+        roleId
       );
     });
   });

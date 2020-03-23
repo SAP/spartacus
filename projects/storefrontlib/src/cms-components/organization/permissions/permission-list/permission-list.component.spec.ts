@@ -233,6 +233,7 @@ describe('PermissionListComponent', () => {
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'permissions',
+          params: {},
         },
         {
           sort: 'byCode',
@@ -247,6 +248,7 @@ describe('PermissionListComponent', () => {
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'permissions',
+          params: {},
         },
         {
           currentPage: 2,

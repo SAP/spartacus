@@ -72,6 +72,7 @@ import {
   UnitCreateModule,
   UnitDetailsModule,
   UnitEditModule,
+  UnitAssignRolesModule,
 } from './organization/index';
 
 @NgModule({
@@ -141,6 +142,7 @@ import {
     UnitCreateModule,
     UnitDetailsModule,
     UnitEditModule,
+    UnitAssignRolesModule,
   ],
 })
 export class CmsLibModule {}

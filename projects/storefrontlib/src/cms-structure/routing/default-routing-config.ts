@@ -100,6 +100,11 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-company/organization-management/manage-unit/edit/:code'],
     paramsMapping: { code: 'uid' },
   },
+  orgUnitAssignRoles: {
+    paths: [
+      'my-company/organization-management/manage-unit/assign-roles/:code/:roleId',
+    ],
+  },
   costCenters: {
     paths: ['my-company/organization-management/manage-costcenters'],
   },
@@ -128,6 +133,20 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   permissionEdit: {
     paths: ['my-company/organization-management/manage-permission/edit/:code'],
+  },
+  users: {
+    paths: ['my-company/organization-management/manage-users'],
+  },
+  userCreate: {
+    paths: ['my-company/organization-management/manage-user/create'],
+  },
+  userDetails: {
+    paths: ['my-company/organization-management/manage-user/:code'],
+    paramsMapping: { code: 'email' },
+  },
+  userEdit: {
+    paths: ['my-company/organization-management/manage-user/edit/:code'],
+    paramsMapping: { code: 'email' },
   },
 };
 
