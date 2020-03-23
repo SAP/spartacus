@@ -4289,12 +4289,14 @@ export namespace Occ {
     sorts?: SortModel[];
   }
 
-  export interface UserList {
-    users: B2BUser[];
-  }
-
   export interface OrgUnitUserGroupList {
     orgUnitUserGroups: OrgUnitUserGroup[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
+  export interface OrgUnitUserList {
+    users: B2BUser[];
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }

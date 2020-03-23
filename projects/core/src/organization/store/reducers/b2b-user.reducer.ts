@@ -1,5 +1,5 @@
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
-import * as B2BUserActions from '../actions/b2b-user.action';
+import { B2BUserActions, OrgUnitActions } from '../actions/index';
 import { B2BUser } from '../../../model/org-unit.model';
 
 export const b2bUserInitialState = {};
@@ -10,6 +10,14 @@ export function b2bUserEntitiesReducer(
   action: LoaderAction
 ): B2BUser {
   switch (action.type) {
+    case B2BUserActions.LOAD_B2B_USER_SUCCESS:
+      return action.payload;
+    case OrgUnitActions.ASSIGN_ROLE_SUCCESS:
+    case OrgUnitActions.UNASSIGN_ROLE_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+      };
   }
   return state;
 }

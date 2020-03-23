@@ -12,6 +12,12 @@ export const defaultOccOrganizationConfig: OccConfig = {
           '/users/${userId}/orgUnitsAvailableApprovalProcesses',
         orgUnits: '/users/${userId}/orgUnits',
         orgUnit: '/users/${userId}/orgUnits/${orgUnitId}',
+        orgUnitUsers:
+          '/users/${userId}/orgUnits/${orgUnitId}/availableUsers/${roleId}',
+        orgUnitUserRoles:
+          '/users/${userId}/orgUnits/${orgUnitId}/orgCustomers/${orgCustomerId}/roles',
+        orgUnitUserRole:
+          '/users/${userId}/orgUnits/${orgUnitId}/orgCustomers/${orgCustomerId}/roles/${roleId}',
         orgUnitUserGroups: '/users/${userId}/orgUnitUserGroups',
         orgUnitUserGroup:
           '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}',

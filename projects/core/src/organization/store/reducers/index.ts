@@ -8,6 +8,7 @@ import {
   CostCenter,
   B2BUnit,
   B2BApprovalProcess,
+  OrgUnitUserGroup,
   B2BUser,
 } from '../../../model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
@@ -36,6 +37,7 @@ import {
   B2B_USER_FEATURE,
   B2B_USER_ENTITIES,
   USER_LIST,
+  ORG_UNIT_ASSIGNED_USERS,
 } from '../organization-state';
 import { budgetsListReducer, budgetsEntitiesReducer } from './budget.reducer';
 import { permissionsListReducer } from './permission.reducer';
@@ -44,12 +46,12 @@ import {
   costCenterAssignedBudgetsListReducer,
 } from './cost-center.reducer';
 import { userListReducer } from './b2b-user.reducer';
-import { OrgUnitUserGroup } from '../../../model/user-group.model';
 import {
   orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer,
   orgUnitUserGroupAvailablOrgCustomersListReducer,
   orgUnitUserGroupsListReducer,
 } from './user-group.reducer';
+import { orgUnitUserListReducer } from './org-unit.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -75,6 +77,10 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       tree: entityLoaderReducer<B2BUnitNode>(ORG_UNIT_TREE_ENTITY),
       approvalProcesses: entityLoaderReducer<B2BApprovalProcess[]>(
         ORG_UNIT_APPROVAL_PROCESSES_ENTITIES
+      ),
+      users: entityLoaderReducer<ListModel>(
+        ORG_UNIT_ASSIGNED_USERS,
+        orgUnitUserListReducer
       ),
     }),
     [ORG_UNIT_USER_GROUP_FEATURE]: combineReducers({

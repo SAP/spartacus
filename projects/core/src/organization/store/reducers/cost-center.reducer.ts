@@ -1,6 +1,6 @@
 import { CostCenter } from '../../../model/cost-center.model';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
-import * as CostCenterActions from '../actions/cost-center.action';
+import { CostCenterActions } from '../actions/index';
 
 export const costCenterInitialState = {};
 export const costCentersInitialState = undefined;
