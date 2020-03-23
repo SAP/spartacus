@@ -1,5 +1,3 @@
-<!-- facet.component.html -->
-
 <ng-container *ngIf="state$ | async as state">
   <button class="heading" (click)="toggleGroup($event)">
     {{ facet.name }}
@@ -14,9 +12,10 @@
     [class.selected]="value.selected"
     [cxFocus]="value.name"
   >
-    <span
-      >{{ value.name }}<span class="count">{{ value.count }}</span></span
-    >
+    <span>
+      <span class="label">{{ value.name }}</span>
+      <span class="count">{{ value.count }}</span>
+    </span>
   </a>
 
   <div class="more">

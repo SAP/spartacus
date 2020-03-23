@@ -51,11 +51,27 @@
         color: var(--cx-color-primary);
       }
 
-      .count::before {
-        content: ' (';
+      // In mobile view, we keep the facet values on a single line to avoid a lot
+      // of space being used. Multi-line facet will not flow over.
+      @include media-breakpoint-down(md) {
+        > span {
+          display: flex;
+          width: calc(100% - 1.8rem);
+        }
+        .label {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
-      .count::after {
-        content: ')';
+      .count {
+        margin-inline-start: 5px;
+        &::before {
+          content: '(';
+        }
+        &::after {
+          content: ')';
+        }
       }
     }
   }
