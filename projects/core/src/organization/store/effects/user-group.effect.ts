@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { EntitiesModel } from '../../../model/misc.model';
-import { OrgUnitUserGroup } from '../../../model/user-group.model';
-import { Permission } from '../../../model/permission.model';
+import {
+  OrgUnitUserGroup,
+  EntitiesModel,
+  Permission,
+  B2BUser,
+} from '../../../model/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import {
   OrgUnitUserGroupActions,
@@ -13,7 +16,6 @@ import {
 } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
 import { OrgUnitUserGroupConnector } from '../../connectors/user-group/user-group.connector';
-import { B2BUser } from 'projects/core/src/model';
 
 @Injectable()
 export class OrgUnitUserGroupEffects {

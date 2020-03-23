@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { B2BSearchConfig } from '../../model/search-config';
-import { EntitiesModel } from '../../../model/misc.model';
 import { OrgUnitUserGroupAdapter } from './user-group.adapter';
-import { OrgUnitUserGroup } from '../../../model/user-group.model';
-import { Permission } from '../../../model/permission.model';
-import { B2BUser } from 'projects/core/src/model';
+import {
+  Permission,
+  B2BUser,
+  OrgUnitUserGroup,
+  EntitiesModel,
+} from '../../../model/index';
 
 @Injectable({
   providedIn: 'root',
