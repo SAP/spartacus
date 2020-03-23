@@ -211,22 +211,6 @@
 }
 
 %nav-wrap {
-  &.flyout .childs {
-    &[wrap-after] {
-      display: grid;
-      grid-column-gap: 10px;
-      grid-auto-flow: column;
-      grid-template-rows: repeat(15, auto);
-    }
-
-    // support wrapAfter from up to 15
-    @for $wrap from 5 through 15 {
-      &[wrap-after='#{$wrap}'] {
-        grid-template-rows: repeat(#{$wrap}, auto);
-      }
-    }
-  }
-
   @for $column from 1 through 10 {
     &.flyout .childs[columns='#{$column}'] {
       display: block;
@@ -337,10 +321,6 @@
 
       .childs {
         display: flex;
-
-        nav:not(:last-child) {
-          padding-right: 20px;
-        }
       }
 
       .wrapper cx-icon {
