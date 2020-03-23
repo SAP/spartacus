@@ -31,6 +31,7 @@ describe(`${formats.mobile.width + 1}p resolution - Address Book page`, () => {
     });
 
     beforeEach(() => {
+      cy.viewport(formats.mobile.width, formats.mobile.height);
       cy.restoreLocalStorage();
     });
 

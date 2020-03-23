@@ -22,7 +22,6 @@ describe(`${formats.mobile.width +
   describe('consent management test for logged in user', () => {
     before(() => {
       cy.viewport(formats.mobile.width, formats.mobile.height);
-
       cy.requireLoggedIn();
       cy.reload();
       cy.visit('/');
@@ -33,6 +32,7 @@ describe(`${formats.mobile.width +
     });
 
     beforeEach(() => {
+      cy.viewport(formats.mobile.width, formats.mobile.height);
       cy.restoreLocalStorage();
     });
 

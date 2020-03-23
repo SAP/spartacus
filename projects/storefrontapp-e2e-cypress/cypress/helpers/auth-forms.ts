@@ -15,7 +15,7 @@ export interface LoginUser {
 
 export function fillRegistrationForm(
   { firstName, lastName, email, password }: RegisterUser,
-  giveRegistrationConsent = false,
+  giveRegistrationConsent,
   hiddenConsent?
 ) {
   cy.get('cx-register form').within(() => {
