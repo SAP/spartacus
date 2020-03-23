@@ -31,18 +31,18 @@ export class TriggerService {
     }
   }
 
-  private findConfiguration(
+  protected findConfiguration(
     caller: TRIGGER_CALLER
   ): TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping {
     return this.triggerConfig?.trigger[caller];
   }
 
-  private getRenderStrategy(
+  protected getRenderStrategy(
     config: TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping
   ): RenderStrategy {
-    const strategies = this.renderStrategies.filter(strategy =>
-      strategy.strategy(config)
+    const strategies = this.renderStrategies.find(strategy =>
+      strategy.isStrategyForConfiguration(config)
     );
-    return strategies[0];
+    return strategies;
   }
 }

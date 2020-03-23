@@ -13,7 +13,7 @@ export class RoutingRenderStrategy extends RenderStrategy {
     this.routingService.go(config);
   }
 
-  public strategy(config: TriggerUrlMapping) {
+  public isStrategyForConfiguration(config: TriggerUrlMapping) {
     return Boolean(config.cxRoute);
   }
 }

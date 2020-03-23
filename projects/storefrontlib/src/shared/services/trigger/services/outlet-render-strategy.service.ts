@@ -35,7 +35,7 @@ export class OutletRenderStrategy extends RenderStrategy {
     }
   }
 
-  public strategy(config: TriggerOutletMapping) {
+  public isStrategyForConfiguration(config: TriggerOutletMapping) {
     return Boolean(config.outlet);
   }
 }

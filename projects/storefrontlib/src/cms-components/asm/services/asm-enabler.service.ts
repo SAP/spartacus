@@ -1,10 +1,7 @@
 import { Location } from '@angular/common';
-import { ComponentFactoryResolver, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import {
-  TriggerConfig,
-  TRIGGER_CALLER,
-} from '../../../shared/services/trigger/config/index';
+import { TRIGGER_CALLER } from '../../../shared/services/trigger/config/index';
 import { TriggerService } from '../../../shared/services/trigger/services/trigger.service';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 
@@ -20,9 +17,7 @@ export class AsmEnablerService {
   constructor(
     protected location: Location,
     protected winRef: WindowRef,
-    protected componentFactoryResolver: ComponentFactoryResolver,
-    protected triggerService: TriggerService,
-    protected triggerConfig: TriggerConfig
+    protected triggerService: TriggerService
   ) {}
 
   /**

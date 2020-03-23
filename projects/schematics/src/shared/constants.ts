@@ -111,7 +111,6 @@ export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
 export const ASM_ENABLER_SERVICE = 'AsmEnablerService';
 export const OUTLET_SERVICE = 'OutletService';
 export const TRIGGER_SERVICE = 'TriggerService';
-export const TRIGGER_CONFIG = 'TriggerConfig';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

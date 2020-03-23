@@ -25,7 +25,7 @@ export abstract class RenderStrategy {
    *
    * @param config
    */
-  abstract strategy(
+  abstract isStrategyForConfiguration(
     config: TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping
   ): boolean;
 

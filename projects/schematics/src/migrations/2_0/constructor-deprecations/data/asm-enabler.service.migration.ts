@@ -6,7 +6,6 @@ import {
   LOCATION,
   OUTLET_SERVICE,
   SPARTACUS_STOREFRONTLIB,
-  TRIGGER_CONFIG,
   TRIGGER_SERVICE,
   WINDOW_REF,
 } from '../../../../shared/constants';
@@ -36,6 +35,10 @@ export const ASM_ENABLE_SERVICE_MIGRATION: ConstructorDeprecation = {
   ],
   removeParams: [
     {
+      className: COMPONENT_FACTORY_RESOLVER,
+      importPath: ANGULAR_CORE,
+    },
+    {
       className: OUTLET_SERVICE,
       importPath: SPARTACUS_STOREFRONTLIB,
     },
@@ -43,10 +46,6 @@ export const ASM_ENABLE_SERVICE_MIGRATION: ConstructorDeprecation = {
   addParams: [
     {
       className: TRIGGER_SERVICE,
-      importPath: SPARTACUS_STOREFRONTLIB,
-    },
-    {
-      className: TRIGGER_CONFIG,
       importPath: SPARTACUS_STOREFRONTLIB,
     },
   ],
