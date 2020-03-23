@@ -67,6 +67,21 @@ input[type='radio'] {
   }
 }
 
+ng-select {
+  &.ng-invalid {
+    &.ng-dirty,
+    &.ng-touched {
+      .ng-select-container {
+        border-color: var(--cx-color-danger);
+      }
+
+      & ~ cx-form-errors {
+        display: initial;
+      }
+    }
+  }
+}
+
 input[type='checkbox'],
 input[type='radio'] {
   height: 22px;

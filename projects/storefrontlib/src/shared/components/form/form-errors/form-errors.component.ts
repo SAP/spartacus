@@ -16,7 +16,7 @@ export class FormErrorsComponent {
 
   @Input()
   set control(control: FormControl) {
-    this.errors$ = control.statusChanges.pipe(
+    this.errors$ = control?.statusChanges.pipe(
       startWith({}),
       map(() => control.errors || {}),
       map(errors =>
