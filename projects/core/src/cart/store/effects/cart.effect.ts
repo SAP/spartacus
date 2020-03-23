@@ -248,24 +248,16 @@ export class CartEffects {
     DeprecatedCartActions.LoadCart | CartActions.CartProcessesDecrement
   > = this.actions$.pipe(
     ofType(
-      CartActions.CART_ADD_ENTRY_SUCCESS,
-      CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_ENTRY_SUCCESS,
       DeprecatedCartActions.ADD_EMAIL_TO_CART_SUCCESS,
       CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
-      CartActions.CART_ADD_VOUCHER_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_SUCCESS
+      CartActions.CART_ADD_VOUCHER_SUCCESS
     ),
     map(
       (
         action:
-          | CartActions.CartAddEntrySuccess
-          | CartActions.CartUpdateEntrySuccess
-          | CartActions.CartRemoveEntrySuccess
           | DeprecatedCartActions.AddEmailToCartSuccess
           | CheckoutActions.ClearCheckoutDeliveryModeSuccess
           | CartActions.CartAddVoucherSuccess
-          | CartActions.CartRemoveVoucherSuccess
       ) => action.payload
     ),
     concatMap(payload =>
@@ -283,8 +275,23 @@ export class CartEffects {
   refreshWithoutProcesses$: Observable<
     DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
-    ofType(DeprecatedCartActions.MERGE_CART_SUCCESS),
-    map((action: DeprecatedCartActions.MergeCartSuccess) => action.payload),
+    ofType(
+      DeprecatedCartActions.MERGE_CART_SUCCESS,
+      CartActions.CART_ADD_ENTRY_SUCCESS,
+      CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      CartActions.CART_UPDATE_ENTRY_SUCCESS,
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS
+    ),
+    map(
+      (
+        action:
+          | CartActions.CartAddEntrySuccess
+          | CartActions.CartUpdateEntrySuccess
+          | DeprecatedCartActions.MergeCartSuccess
+          | CartActions.CartRemoveEntrySuccess
+          | CartActions.CartRemoveVoucherSuccess
+      ) => action.payload
+    ),
     map(
       payload =>
         new DeprecatedCartActions.LoadCart({

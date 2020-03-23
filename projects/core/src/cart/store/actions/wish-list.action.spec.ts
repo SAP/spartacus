@@ -1,6 +1,6 @@
 import { Cart } from '../../../model/cart.model';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
-import { MULTI_CART_FEATURE } from '../multi-cart-state';
+import { MULTI_CART_DATA } from '../multi-cart-state';
 import { CartActions } from './index';
 
 const userId = 'userId';
@@ -38,7 +38,7 @@ describe('WishList Actions', () => {
           type: CartActions.LOAD_WISH_LIST_SUCCESS,
           payload,
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             testCart.code
           ),
         });
@@ -69,7 +69,7 @@ describe('WishList Actions', () => {
           type: CartActions.CREATE_WISH_LIST_SUCCESS,
           payload,
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             testCart.code
           ),
         });
@@ -84,7 +84,7 @@ describe('WishList Actions', () => {
           type: CartActions.CREATE_WISH_LIST_FAIL,
           payload,
           meta: StateEntityLoaderActions.entityFailMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             payload.cartId,
             payload.error
           ),
