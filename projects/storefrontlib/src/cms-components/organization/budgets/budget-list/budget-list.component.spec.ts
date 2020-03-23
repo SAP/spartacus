@@ -215,6 +215,7 @@ describe('BudgetListComponent', () => {
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'budgets',
+          params: {},
         },
         {
           sort: 'byCode',
@@ -229,6 +230,7 @@ describe('BudgetListComponent', () => {
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'budgets',
+          params: {},
         },
         {
           currentPage: 2,

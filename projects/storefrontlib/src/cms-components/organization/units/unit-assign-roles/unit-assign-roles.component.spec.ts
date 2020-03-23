@@ -20,7 +20,8 @@ import {
   RoutesConfig,
   RoutingConfig,
   Budget,
-  CostCenterService,
+  OrgUnitService,
+  B2BUser,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -30,11 +31,12 @@ import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
 
-const code = 'costCenterCode';
-const budgetCode = '1';
-const budgetRow = {
+const code = 'unitCode';
+const email = 'aaa@bbb';
+const roleId = 'b2bcustomergroup';
+const userRow = {
   row: {
-    code: budgetCode,
+    email,
   },
 };
 
@@ -44,32 +46,18 @@ const defaultParams: B2BSearchConfig = {
   pageSize: 5,
 };
 
-const mockBudgetList: EntitiesModel<Budget> = {
+const mockUserList: EntitiesModel<B2BUser> = {
   values: [
     {
-      code: '1',
       name: 'b1',
-      budget: 2230,
+      uid: 'aaa@bbb',
       selected: true,
-      currency: {
-        isocode: 'USD',
-        symbol: '$',
-      },
-      startDate: '2010-01-01T00:00:00+0000',
-      endDate: '2034-07-12T00:59:59+0000',
       orgUnit: { uid: 'orgUid', name: 'orgName' },
     },
     {
-      code: '2',
       name: 'b2',
-      budget: 2240,
-      selected: true,
-      currency: {
-        isocode: 'USD',
-        symbol: '$',
-      },
-      startDate: '2020-01-01T00:00:00+0000',
-      endDate: '2024-07-12T00:59:59+0000',
+      uid: 'aaa2@bbb',
+      selected: false,
       orgUnit: { uid: 'orgUid2', name: 'orgName2' },
     },
   ],
@@ -77,24 +65,18 @@ const mockBudgetList: EntitiesModel<Budget> = {
   sorts: [{ code: 'byName', selected: true }],
 };
 
-const mockBudgetUIList = {
+const mockUserUIList = {
   values: [
     {
-      code: '1',
       name: 'b1',
-      amount: '2230 $',
+      uid: 'aaa@bbb',
       selected: true,
-      startEndDate: '2010-01-01 - 2034-07-12',
-      uid: 'orgUid',
       parentUnit: 'orgName',
     },
     {
-      code: '2',
       name: 'b2',
-      amount: '2240 $',
-      selected: true,
-      startEndDate: '2020-01-01 - 2024-07-12',
-      uid: 'orgUid2',
+      uid: 'aaa2@bbb',
+      selected: false,
       parentUnit: 'orgName2',
     },
   ],
@@ -116,16 +98,16 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-const budgetList = new BehaviorSubject(mockBudgetList);
+const userList = new BehaviorSubject(mockUserList);
 
-class MockCostCenterService implements Partial<CostCenterService> {
-  loadBudgets = createSpy('loadBudgets');
+class MockOrgUnitService implements Partial<OrgUnitService> {
+  loadUsers = createSpy('loadUsers');
 
-  getBudgets = createSpy('getBudgets').and.returnValue(budgetList);
+  getUsers = createSpy('getUsers').and.returnValue(userList);
 
-  assignBudget = createSpy('assign');
+  assignRole = createSpy('assign');
 
-  unassignBudget = createSpy('unassign');
+  unassignRole = createSpy('unassign');
 }
 
 class MockRoutingService {
@@ -135,6 +117,7 @@ class MockRoutingService {
       state: {
         params: {
           code,
+          roleId,
         },
         queryParams: {
           sort: 'byName',
@@ -158,10 +141,10 @@ class MockCxDatePipe {
   }
 }
 
-describe('CostCenterAssignBudgetsComponent', () => {
+describe('UnitAssignRolesComponent', () => {
   let component: UnitAssignRolesComponent;
   let fixture: ComponentFixture<UnitAssignRolesComponent>;
-  let costCenterService: MockCostCenterService;
+  let orgUnitService: MockOrgUnitService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -175,7 +158,7 @@ describe('CostCenterAssignBudgetsComponent', () => {
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CostCenterService, useClass: MockCostCenterService },
+        { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
           provide: PaginationConfig,
           useValue: {
@@ -185,15 +168,13 @@ describe('CostCenterAssignBudgetsComponent', () => {
       ],
     }).compileComponents();
 
-    costCenterService = TestBed.get(
-      CostCenterService as Type<CostCenterService>
-    );
+    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitAssignRolesComponent);
     component = fixture.componentInstance;
-    budgetList.next(mockBudgetList);
+    userList.next(mockUserList);
     fixture.detectChanges();
   });
 
@@ -208,7 +189,7 @@ describe('CostCenterAssignBudgetsComponent', () => {
       sorts: [{ code: 'byName', selected: true }],
     };
 
-    budgetList.next(emptyBudgetList);
+    userList.next(emptyBudgetList);
     fixture.detectChanges();
 
     expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
@@ -218,39 +199,38 @@ describe('CostCenterAssignBudgetsComponent', () => {
     it('should read budget list', () => {
       component.ngOnInit();
 
-      let budgetsList: any;
+      let usersList: any;
       component.data$.subscribe(value => {
-        budgetsList = value;
+        usersList = value;
       });
 
-      expect(costCenterService.loadBudgets).toHaveBeenCalledWith(
+      expect(orgUnitService.loadUsers).toHaveBeenCalledWith(
         code,
         defaultParams
       );
-      expect(costCenterService.getBudgets).toHaveBeenCalledWith(
-        code,
-        defaultParams
-      );
-      expect(budgetsList).toEqual(mockBudgetUIList);
+      expect(orgUnitService.getUsers).toHaveBeenCalledWith(code, defaultParams);
+      expect(usersList).toEqual(mockUserUIList);
     });
   });
 
   describe('assign', () => {
     it('should assign budget', () => {
-      component.assign(budgetRow);
-      expect(costCenterService.assignBudget).toHaveBeenCalledWith(
+      component.assign(userRow);
+      expect(orgUnitService.assignRole).toHaveBeenCalledWith(
         code,
-        budgetRow.row.code
+        userRow.row.email,
+        roleId
       );
     });
   });
 
   describe('unassign', () => {
     it('should unassign budget', () => {
-      component.unassign(budgetRow);
-      expect(costCenterService.unassignBudget).toHaveBeenCalledWith(
+      component.unassign(userRow);
+      expect(orgUnitService.unassignRole).toHaveBeenCalledWith(
         code,
-        budgetRow.row.code
+        userRow.row.email,
+        roleId
       );
     });
   });
