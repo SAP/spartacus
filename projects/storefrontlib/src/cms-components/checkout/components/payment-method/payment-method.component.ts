@@ -231,31 +231,4 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   goPrevious(): void {
     this.routingService.go(this.checkoutStepUrlPrevious);
   }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use goNext() instead.
-   * TODO(issue:#4992) deprecated since 1.3
-   */
-  next(): void {
-    this.goNext();
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use goPrevious() instead.
-   * TODO(issue:#4992) deprecated since 1.3
-   */
-  back(): void {
-    this.goPrevious();
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use selectPaymentMethod() instead.
-   * TODO(issue:#4992) deprecated since 1.3
-   */
-  paymentMethodSelected(paymentDetails: PaymentDetails): void {
-    this.selectPaymentMethod(paymentDetails);
-  }
 }
