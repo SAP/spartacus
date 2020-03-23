@@ -2,6 +2,7 @@ import {
   ComponentFactory,
   ComponentFactoryResolver,
   Injectable,
+  ViewContainerRef,
 } from '@angular/core';
 import {
   OutletPosition,
@@ -12,8 +13,6 @@ import { RenderStrategy } from './render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class OutletRenderStrategy extends RenderStrategy {
-  protected renderedCallers: TRIGGER_CALLER[] = [];
-
   constructor(
     protected outletService: OutletService<ComponentFactory<any>>,
     protected componentFactoryResolver: ComponentFactoryResolver
@@ -21,7 +20,11 @@ export class OutletRenderStrategy extends RenderStrategy {
     super();
   }
 
-  public render(config: TriggerOutletMapping, caller: TRIGGER_CALLER) {
+  public render(
+    config: TriggerOutletMapping,
+    caller: TRIGGER_CALLER,
+    vcr?: ViewContainerRef
+  ) {
     if (this.shouldRender(caller, config)) {
       const template = this.componentFactoryResolver.resolveComponentFactory(
         config.component
@@ -31,7 +34,11 @@ export class OutletRenderStrategy extends RenderStrategy {
         template,
         config.position ? config.position : OutletPosition.BEFORE
       );
-      this.renderedCallers.push(caller);
+
+      const renderedCaller = vcr?.element
+        ? { caller, element: vcr.element }
+        : { caller };
+      this.renderedCallers.push(renderedCaller);
     }
   }
 

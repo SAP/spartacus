@@ -1,3 +1,4 @@
+import { ViewContainerRef } from '@angular/core';
 import {
   TriggerInlineMapping,
   TriggerMapping,
@@ -8,7 +9,10 @@ import {
 
 export abstract class RenderStrategy {
   // List of called references; only used for rendered elements
-  protected renderedCallers: TRIGGER_CALLER[] = [];
+  protected renderedCallers: Array<{
+    caller: TRIGGER_CALLER;
+    element?: any;
+  }> = [];
 
   /**
    * Render method to implement based on the strategy
@@ -17,7 +21,8 @@ export abstract class RenderStrategy {
    */
   abstract render(
     config: TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping,
-    caller: TRIGGER_CALLER
+    caller: TRIGGER_CALLER,
+    vcr?: ViewContainerRef
   ): void;
 
   /**
@@ -39,7 +44,9 @@ export abstract class RenderStrategy {
     caller: TRIGGER_CALLER,
     config: TriggerMapping
   ): boolean {
-    return this.renderedCallers.includes(caller) ? !!config.multi : true;
+    return this.renderedCallers.some(el => el.caller === caller)
+      ? !!config.multi
+      : true;
   }
 
   /**
@@ -49,6 +56,8 @@ export abstract class RenderStrategy {
    * @param caller
    */
   public removeRendered(caller: TRIGGER_CALLER): void {
-    this.renderedCallers = this.renderedCallers.filter(el => el === caller);
+    this.renderedCallers = this.renderedCallers.filter(
+      el => el.caller === caller
+    );
   }
 }

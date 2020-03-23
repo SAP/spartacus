@@ -1,6 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
-import { TriggerConfig, TriggerUrlMapping } from '../config/index';
+import {
+  TriggerConfig,
+  TriggerUrlMapping,
+  TRIGGER_CALLER,
+} from '../config/index';
 import { RoutingRenderStrategy } from './routing-render-strategy.service';
 
 const mockTriggerConfig: TriggerConfig = {
@@ -11,6 +15,10 @@ const mockTriggerConfig: TriggerConfig = {
     TEST_URL_PARAMS: {
       cxRoute: 'url',
       params: ['test'],
+    },
+    TEST_OUTLET: {
+      outlet: 'cx-outlet-test',
+      component: {},
     },
   },
 };
@@ -45,7 +53,7 @@ describe('RoutingRenderStrategy', () => {
     it('should call RoutingService go', () => {
       const config = mockTriggerConfig.trigger['TEST_URL'] as TriggerUrlMapping;
 
-      service.render(config);
+      service.render(config, 'TEST_URL' as TRIGGER_CALLER);
 
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: config.cxRoute,
@@ -57,12 +65,26 @@ describe('RoutingRenderStrategy', () => {
         'TEST_URL_PARAMS'
       ] as TriggerUrlMapping;
 
-      service.render(config);
+      service.render(config, 'TEST_URL_PARAMS' as TRIGGER_CALLER);
 
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: config.cxRoute,
         params: config.params,
       });
+    });
+  });
+
+  describe('isStrategyForConfiguration', () => {
+    it('should return TRUE for an inline config', () => {
+      const config = mockTriggerConfig.trigger['TEST_URL'] as TriggerUrlMapping;
+      expect(service.isStrategyForConfiguration(config)).toBeTruthy();
+    });
+
+    it('should return FALSE for a different config', () => {
+      const config = mockTriggerConfig.trigger[
+        'TEST_OUTLET'
+      ] as TriggerUrlMapping;
+      expect(service.isStrategyForConfiguration(config)).toBeFalsy();
     });
   });
 });

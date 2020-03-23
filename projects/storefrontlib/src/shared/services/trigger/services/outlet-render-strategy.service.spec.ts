@@ -1,16 +1,24 @@
+import { Component, ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OutletPosition, OutletService } from '../../../../cms-structure/index';
-import { TriggerConfig, TriggerOutletMapping } from '../config';
+import { TriggerConfig, TriggerOutletMapping, TRIGGER_CALLER } from '../config';
 import { OutletRenderStrategy } from './outlet-render-strategy.service';
+
+@Component({
+  template: '',
+})
+class TestContainerComponent {}
 
 const mockTriggerConfig: TriggerConfig = {
   trigger: {
     TEST_OUTLET: {
       outlet: 'cx-outlet-test',
       position: OutletPosition.AFTER,
+      component: TestContainerComponent,
     },
     TEST_OUTLET_NP: {
       outlet: 'cx-outlet-test',
+      component: TestContainerComponent,
     },
   },
 };
@@ -19,6 +27,12 @@ const testTemplate = {} as any;
 
 class MockOutletService {
   add() {}
+}
+
+class MockComponentFactoryResolver {
+  resolveComponentFactory() {
+    return testTemplate;
+  }
 }
 
 describe('OutletRenderStrategy', () => {
@@ -30,6 +44,10 @@ describe('OutletRenderStrategy', () => {
       providers: [
         OutletRenderStrategy,
         { provide: OutletService, useClass: MockOutletService },
+        {
+          provide: ComponentFactoryResolver,
+          useClass: MockComponentFactoryResolver,
+        },
       ],
     });
 
@@ -44,30 +62,45 @@ describe('OutletRenderStrategy', () => {
   });
 
   describe('render', () => {
-    it('should add template to outlet', () => {
-      const config = mockTriggerConfig.trigger[
-        'TEST_OUTLET'
-      ] as TriggerOutletMapping;
-      service.render(config, testTemplate);
+    describe('should render', () => {
+      beforeAll(() => {
+        spyOn<any>(service, 'shouldRender').and.returnValue(true);
+      });
 
-      expect(outletService.add).toHaveBeenCalledWith(
-        config.outlet,
-        testTemplate,
-        config.position
-      );
+      it('should add template to outlet', () => {
+        const config = mockTriggerConfig.trigger[
+          'TEST_OUTLET'
+        ] as TriggerOutletMapping;
+        service.render(config, 'TEST_OUTLET' as TRIGGER_CALLER);
+
+        expect(outletService.add).toHaveBeenCalledWith(
+          config.outlet,
+          testTemplate,
+          config.position
+        );
+      });
+
+      it('should default to position BEFORE if one is not provided', () => {
+        const config = mockTriggerConfig.trigger[
+          'TEST_OUTLET_NP'
+        ] as TriggerOutletMapping;
+        service.render(config, 'TEST_OUTLET_NP' as TRIGGER_CALLER);
+
+        expect(outletService.add).toHaveBeenCalledWith(
+          config.outlet,
+          testTemplate,
+          OutletPosition.BEFORE
+        );
+      });
     });
+    describe('should not render', () => {
+      beforeAll(() => {
+        spyOn<any>(service, 'shouldRender').and.returnValue(false);
+      });
 
-    it('should default to position BEFORE if one is not provided', () => {
-      const config = mockTriggerConfig.trigger[
-        'TEST_OUTLET_NP'
-      ] as TriggerOutletMapping;
-      service.render(config, testTemplate);
-
-      expect(outletService.add).toHaveBeenCalledWith(
-        config.outlet,
-        testTemplate,
-        OutletPosition.BEFORE
-      );
+      it('should not render', () => {
+        expect(outletService.add).not.toHaveBeenCalled();
+      });
     });
   });
 });

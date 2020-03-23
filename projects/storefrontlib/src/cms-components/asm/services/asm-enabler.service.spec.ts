@@ -49,6 +49,7 @@ const mockTriggerConfig: TriggerConfig = {
   trigger: {
     ASM: {
       outlet: 'cx-outlet-test',
+      component: {},
     },
   },
 };

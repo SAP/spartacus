@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, ViewContainerRef } from '@angular/core';
 import {
   TriggerConfig,
   TriggerInlineMapping,
@@ -21,13 +21,13 @@ export class TriggerService {
     this.renderStrategies = this.renderStrategies || [];
   }
 
-  render(caller: TRIGGER_CALLER): void {
+  render(caller: TRIGGER_CALLER, vcr?: ViewContainerRef): void {
     const config = this.findConfiguration(caller);
     const renderer = this.getRenderStrategy(config);
 
     // Render if the strategy exists
     if (renderer) {
-      renderer.render(config, caller);
+      renderer.render(config, caller, vcr);
     }
   }
 

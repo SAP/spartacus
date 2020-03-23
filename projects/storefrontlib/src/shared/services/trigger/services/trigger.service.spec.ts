@@ -1,34 +1,19 @@
-import {
-  Component,
-  ComponentFactory,
-  ComponentFactoryResolver,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, Injectable, ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OutletPosition } from '../../../../cms-structure/outlet/index';
 import {
   TriggerConfig,
-  TriggerOutletMapping,
+  TriggerInlineMapping,
   TriggerUrlMapping,
   TRIGGER_CALLER,
 } from '../config/trigger-config';
-import { InlineRenderStrategy } from './inline-render-strategy.service';
-import { OutletRenderStrategy } from './outlet-render-strategy.service';
-import { RoutingRenderStrategy } from './routing-render-strategy.service';
+import { RenderStrategy } from './render.strategy';
 import { TriggerService } from './trigger.service';
 
 const mockTriggerConfig: TriggerConfig = {
   trigger: {
     TEST_INLINE: {
       inline: true,
-    },
-    TEST_OUTLET: {
-      outlet: 'cx-outlet-test',
-      position: OutletPosition.AFTER,
-    },
-    TEST_MULTI: {
-      outlet: 'cx-outlet1',
-      multi: true,
+      component: {},
     },
     TEST_URL: {
       cxRoute: 'url',
@@ -36,109 +21,129 @@ const mockTriggerConfig: TriggerConfig = {
   },
 };
 
-const testTemplate = {} as ComponentFactory<any>;
-const mockVcr = {} as ViewContainerRef;
+@Injectable({
+  providedIn: 'root',
+})
+class MockRoutingRenderStrategy extends RenderStrategy {
+  public render(
+    _config: TriggerUrlMapping,
+    _caller: TRIGGER_CALLER,
+    _vcr?: ViewContainerRef
+  ) {}
 
-class MockRenderService {
-  render() {}
+  public isStrategyForConfiguration(config: TriggerUrlMapping) {
+    return Boolean(config.cxRoute);
+  }
 }
 
-class MockComponentFactoryResolver {
-  resolveComponentFactory() {
-    return testTemplate;
+@Injectable({
+  providedIn: 'root',
+})
+class MockInlineRenderStrategy extends RenderStrategy {
+  public render(
+    _config: TriggerInlineMapping,
+    _caller: TRIGGER_CALLER,
+    _vcr: ViewContainerRef
+  ) {}
+
+  public isStrategyForConfiguration(config: TriggerInlineMapping) {
+    return Boolean(config.inline);
   }
 }
 
 @Component({
   template: '',
 })
-class TestContainerComponent {}
+class TestContainerComponent {
+  constructor(public vcr: ViewContainerRef) {}
+}
 
 describe('TriggerService', () => {
   let service: TriggerService;
-  let outletRenderService: OutletRenderStrategy;
-  let inlineRenderService: InlineRenderStrategy;
-  let routingRenderService: RoutingRenderStrategy;
+  let routingRenderStrategy: MockRoutingRenderStrategy;
+  let inlineRenderStrategy: MockInlineRenderStrategy;
+  let component: TestContainerComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         TriggerService,
-        { provide: OutletRenderStrategy, useClass: MockRenderService },
-        { provide: InlineRenderStrategy, useClass: MockRenderService },
-        { provide: RoutingRenderStrategy, useClass: MockRenderService },
         {
-          provide: ComponentFactoryResolver,
-          useClass: MockComponentFactoryResolver,
+          provide: RenderStrategy,
+          useExisting: MockRoutingRenderStrategy,
+          multi: true,
+        },
+        {
+          provide: RenderStrategy,
+          useExisting: MockInlineRenderStrategy,
+          multi: true,
         },
         { provide: TriggerConfig, useValue: mockTriggerConfig },
       ],
-    });
+      declarations: [TestContainerComponent],
+    }).compileComponents();
 
     service = TestBed.inject(TriggerService);
-    outletRenderService = TestBed.inject(OutletRenderStrategy);
-    inlineRenderService = TestBed.inject(InlineRenderStrategy);
-    routingRenderService = TestBed.inject(RoutingRenderStrategy);
+    component = TestBed.createComponent(TestContainerComponent)
+      .componentInstance;
+    routingRenderStrategy = TestBed.inject(MockRoutingRenderStrategy);
+    inlineRenderStrategy = TestBed.inject(MockInlineRenderStrategy);
 
-    spyOn(outletRenderService, 'render');
-    spyOn(inlineRenderService, 'render');
-    spyOn(routingRenderService, 'render');
+    spyOn(routingRenderStrategy, 'render');
+    spyOn(inlineRenderStrategy, 'render');
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('render outlet', () => {
-    it('should call outlet render service with template', () => {
-      service.render('TEST_OUTLET' as TRIGGER_CALLER, TestContainerComponent);
-
-      expect(outletRenderService.render).toHaveBeenCalledWith(
-        mockTriggerConfig.trigger['TEST_OUTLET'] as TriggerOutletMapping,
-        testTemplate
-      );
-    });
-
-    it('should render only once by default', () => {
-      service.render('TEST_OUTLET' as TRIGGER_CALLER, TestContainerComponent);
-
-      service.render('TEST_OUTLET' as TRIGGER_CALLER, TestContainerComponent);
-
-      expect(outletRenderService.render).toHaveBeenCalledTimes(1);
-    });
-
-    it('should render multiple times if multi=true', () => {
-      service.render('TEST_MULTI' as TRIGGER_CALLER, TestContainerComponent);
-
-      service.render('TEST_MULTI' as TRIGGER_CALLER, TestContainerComponent);
-
-      service.render('TEST_MULTI' as TRIGGER_CALLER, TestContainerComponent);
-
-      expect(outletRenderService.render).toHaveBeenCalledTimes(3);
-    });
-  });
-
-  describe('render inline', () => {
-    it('should call inline render service with template and view container ref', () => {
-      service.render(
-        'TEST_INLINE' as TRIGGER_CALLER,
-        TestContainerComponent,
-        mockVcr
-      );
-
-      expect(inlineRenderService.render).toHaveBeenCalledWith(
-        testTemplate,
-        mockVcr
-      );
-    });
-  });
-
-  describe('render url', () => {
-    it('should call routing render service', () => {
+  describe('render', () => {
+    it('should call the proper renderer', () => {
+      const urlConfig = mockTriggerConfig.trigger['TEST_URL' as TRIGGER_CALLER];
       service.render('TEST_URL' as TRIGGER_CALLER);
-      expect(routingRenderService.render).toHaveBeenCalledWith(
-        mockTriggerConfig.trigger['TEST_URL'] as TriggerUrlMapping
+      expect(routingRenderStrategy.render).toHaveBeenCalledWith(
+        urlConfig as TriggerUrlMapping,
+        'TEST_URL' as TRIGGER_CALLER,
+        undefined
+      );
+
+      const inlineConfig =
+        mockTriggerConfig.trigger['TEST_INLINE' as TRIGGER_CALLER];
+      service.render('TEST_INLINE' as TRIGGER_CALLER, component.vcr);
+      expect(inlineRenderStrategy.render).toHaveBeenCalledWith(
+        inlineConfig as TriggerInlineMapping,
+        'TEST_INLINE' as TRIGGER_CALLER,
+        component.vcr
       );
     });
   });
+
+  describe('findConfiguration', () => {
+    it('should return configuration for caller', () => {
+      const inlineConfig =
+        mockTriggerConfig.trigger['TEST_INLINE' as TRIGGER_CALLER];
+      expect(
+        service['findConfiguration']('TEST_INLINE' as TRIGGER_CALLER)
+      ).toEqual(inlineConfig);
+
+      const urlConfig = mockTriggerConfig.trigger['TEST_URL' as TRIGGER_CALLER];
+      expect(
+        service['findConfiguration']('TEST_URL' as TRIGGER_CALLER)
+      ).toEqual(urlConfig);
+    });
+  });
+
+  // describe('getRenderStrategy', () => {
+  //   it('should return correct the right strategy', () => {
+  //     const inlineConfig =
+  //       mockTriggerConfig.trigger['TEST_INLINE' as TRIGGER_CALLER];
+  //     const urlConfig = mockTriggerConfig.trigger['TEST_URL' as TRIGGER_CALLER];
+
+  //     const inlineStrategy = service['getRenderStrategy'](inlineConfig);
+  //     const urlStrategy = service['getRenderStrategy'](urlConfig);
+
+  //     expect(inlineStrategy).toEqual(MockInlineRenderStrategy);
+  //     expect(urlStrategy).toEqual(MockRoutingRenderStrategy);
+  //   });
+  // });
 });
