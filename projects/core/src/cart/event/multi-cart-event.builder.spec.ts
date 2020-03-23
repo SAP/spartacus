@@ -7,7 +7,7 @@ import { BaseEvent } from '../../event/base-event.model';
 import { EventService } from '../../event/event.service';
 import { CartActions } from '../store/actions';
 import { MultiCartEventBuilder } from './multi-cart-event.builder';
-import { MultiCartEvents } from './multi-cart.events';
+import { MultiCartAddEntryEvent } from './multi-cart.events';
 
 const MOCK_CART_EVENT = {
   cartId: 'cartId',
@@ -46,14 +46,14 @@ describe('MultiCartEventBuilder', () => {
   }
 
   (() => {
-    const data: MultiCartEvents.MultiCartAddEntry = {
+    const data: MultiCartAddEntryEvent = {
       ...MOCK_CART_EVENT,
       productCode: 'productCode',
       quantity: 123,
     };
     test({
       action: new CartActions.CartAddEntry(data),
-      event: new MultiCartEvents.MultiCartAddEntry(data),
+      event: new MultiCartAddEntryEvent(data),
     });
   })();
 });

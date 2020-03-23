@@ -5,8 +5,8 @@ import { BaseEvent } from '../../event/base-event.model';
 import { EventService } from '../../event/event.service';
 import { ActiveCartService } from '../facade/active-cart.service';
 import { ActiveCartEventBuilder } from './active-cart-event.builder';
-import { ActiveCartEvents } from './active-cart.events';
-import { MultiCartEvents } from './multi-cart.events';
+import { ActiveCartAddEntryEvent } from './active-cart.events';
+import { MultiCartAddEntryEvent } from './multi-cart.events';
 
 const MOCK_ACTIVE_CART_ID = 'activeCartId';
 const MOCK_NOT_ACTIVE_CART_ID = 'notActiveCartId';
@@ -61,8 +61,8 @@ describe('ActiveCartEventBuilder', () => {
   }
 
   test({
-    sourceType: MultiCartEvents.MultiCartAddEntry,
-    targetType: ActiveCartEvents.ActiveCartAddEntry,
+    sourceType: MultiCartAddEntryEvent,
+    targetType: ActiveCartAddEntryEvent,
     data: {
       ...MOCK_ACTIVE_CART_EVENT,
       productCode: 'productCode',

@@ -2,8 +2,8 @@ import { Injectable, Type } from '@angular/core';
 import { filter, map } from 'rxjs/operators';
 import { EventService } from '../../event';
 import { ActiveCartService } from '../facade';
-import { ActiveCartEvents } from './active-cart.events';
-import { MultiCartEvents } from './multi-cart.events';
+import { ActiveCartAddEntryEvent } from './active-cart.events';
+import { MultiCartAddEntryEvent } from './multi-cart.events';
 
 /**
  * Registers active cart events, when being injected
@@ -21,10 +21,7 @@ export class ActiveCartEventBuilder {
    * Registers active cart events
    */
   protected register() {
-    return this.registerMapped(
-      MultiCartEvents.MultiCartAddEntry,
-      ActiveCartEvents.ActiveCartAddEntry
-    );
+    return this.registerMapped(MultiCartAddEntryEvent, ActiveCartAddEntryEvent);
   }
 
   /**

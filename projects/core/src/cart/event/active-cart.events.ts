@@ -1,5 +1,3 @@
-import { MultiCartEvents } from './multi-cart.events';
+import { MultiCartAddEntryEvent } from './multi-cart.events';
 
-export namespace ActiveCartEvents {
-  export class ActiveCartAddEntry extends MultiCartEvents.MultiCartAddEntry {}
-}
+export class ActiveCartAddEntryEvent extends MultiCartAddEntryEvent {}
