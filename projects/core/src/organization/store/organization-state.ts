@@ -42,6 +42,9 @@ export const ORG_UNIT_NODES = 'availableOrgUnitNodes';
 export const B2B_USER_FEATURE = 'b2bUser';
 export const B2B_USER_ENTITIES = 'b2bUser-entities';
 export const USER_LIST = 'b2bUser-list';
+export const B2B_USER_APPROVERS = 'b2bUser-approvers';
+export const B2B_USER_PERMISSIONS = 'b2bUser-permissions';
+export const B2B_USER_USER_GROUPS = 'b2bUser-user-groups';
 
 export const ORG_UNIT_USER_GROUP_FEATURE = 'orgUnitUserGroup';
 export const ORG_UNIT_USER_GROUP_ENTITIES = 'orgUnitUserGroup-entities';
@@ -91,4 +94,8 @@ export interface OrganizationState {
   [B2B_USER_FEATURE]: B2BUserManagement;
 }
 
-export interface B2BUserManagement extends Management<B2BUser> {}
+export interface B2BUserManagement extends Management<B2BUser> {
+  approvers: EntityLoaderState<ListModel>;
+  permissions: EntityLoaderState<ListModel>;
+  userGroups: EntityLoaderState<ListModel>;
+}
