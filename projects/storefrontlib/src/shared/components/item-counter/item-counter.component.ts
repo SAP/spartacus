@@ -78,6 +78,9 @@ export class ItemCounterComponent implements OnInit {
     this.input.nativeElement.focus();
   }
   ngOnInit() {
+    if (this.readonly) {
+      this.control.disable({ emitEvent: false });
+    }
     this.setDisableState();
 
     this.control$ = this.control.valueChanges.pipe(

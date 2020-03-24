@@ -71,6 +71,20 @@ describe('ItemCounterComponent', () => {
         (<HTMLElement>fixture.debugElement.nativeElement).classList
       ).not.toContain('readonly');
     }));
+
+    it('should not mark form disabled when readonly = false', async(() => {
+      component.readonly = false;
+      component.ngOnInit();
+      fixture.detectChanges();
+      expect(component.control.disabled).toBeFalsy();
+    }));
+
+    it('should mark form disabled when readonly = true', async(() => {
+      component.readonly = true;
+      component.ngOnInit();
+      fixture.detectChanges();
+      expect(component.control.disabled).toBeTruthy();
+    }));
   });
 
   describe('validate value', () => {
