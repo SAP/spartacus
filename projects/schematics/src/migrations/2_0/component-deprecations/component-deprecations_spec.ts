@@ -14,13 +14,19 @@ const SINGLE_USAGE_EXAMPLE = `<div>test</div>
 <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
 const SINGLE_USAGE_EXAMPLE_EXPECTED = `<div>test</div>
 <!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
-
 const MULTI_USAGE_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
 <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
 const MULTI_USAGE_EXAMPLE_EXPECTED = `<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
 <!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+
+const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE = `<div *ngIf="isThumbsEmpty">test</div>`;
+const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. --><div *ngIf="isThumbsEmpty">test</div>`;
+const PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE = `<div *ngIf="isThumbsEmpty">test</div>Custom content
+<div class="bottom" *ngIf="isThumbsEmpty">test</div>`;
+const PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. --><div *ngIf="isThumbsEmpty">test</div>Custom content
+<!-- 'isThumbsEmpty' property has been removed. --><div class="bottom" *ngIf="isThumbsEmpty">test</div>`;
 
 const COMPONENT_INHERITANCE_TEST_CLASS = `
 import { ConsentManagementFormComponent } from '@spartacus/core';
@@ -73,6 +79,23 @@ export class Test extends ConsentManagementFormComponent {
   usingIsLevel13(): void {
 // TODO:Spartacus - 'isLevel13' property has been removed.
     console.log(this.isLevel13);
+  }
+}
+`;
+const PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS = `
+import { ProductImagesComponent } from '@spartacus/core';
+export class Test extends ProductImagesComponent {
+  constructor() {
+    const test = this.isThumbsEmpty;
+  }
+}
+`;
+const PRODUCT_IMAGES_COMPONENT_INHERITANCE_EXPECTED_CLASS = `
+import { ProductImagesComponent } from '@spartacus/core';
+export class Test extends ProductImagesComponent {
+  constructor() {
+// TODO:Spartacus - 'isThumbsEmpty' property has been removed.
+    const test = this.isThumbsEmpty;
   }
 }
 `;
@@ -179,6 +202,45 @@ describe('component selectors migration', () => {
       expect(content).toEqual(
         COMPONENT_INHERITANCE_INLINE_TEMPLATE_EXPECTED_CLASS
       );
+    });
+  });
+
+  xdescribe('ProductImagesComponent', () => {
+    describe('when the html file contains a single usage', () => {
+      it('should add a comment', async () => {
+        writeFile(host, htmlFileName, PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE);
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent(htmlFileName);
+        expect(content).toEqual(PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE_EXPECTED);
+      });
+    });
+    describe('when the html file contains a multiple usage', () => {
+      it('should add a comment', async () => {
+        writeFile(host, htmlFileName, PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE);
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent(htmlFileName);
+        expect(content).toEqual(PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE_EXPECTED);
+      });
+    });
+    describe('when the component is extended', () => {
+      it('should add comments', async () => {
+        writeFile(
+          host,
+          tsFileName,
+          PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS
+        );
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent(tsFileName);
+        expect(content).toEqual(
+          PRODUCT_IMAGES_COMPONENT_INHERITANCE_EXPECTED_CLASS
+        );
+      });
     });
   });
 });

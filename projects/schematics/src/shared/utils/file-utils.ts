@@ -44,7 +44,11 @@ export interface ConstructorDeprecation {
   class: string;
   importPath: string;
   deprecatedParams: ClassType[];
+
+  /** The list of constructor parameters that are _added_ for the given version. */
   addParams?: ClassType[];
+
+  /** The list of constructor parameters that are _removed_ for the given version. */
   removeParams?: ClassType[];
 }
 
@@ -126,35 +130,21 @@ export function insertHtmlComment(
   componentSelector: string,
   componentProperty: ComponentProperty
 ): string | undefined {
-  const selector = buildSelector(componentSelector);
+  // const oldContent = content;
   const comment = buildHtmlComment(componentProperty.comment);
 
-  let index: number | undefined = 0;
-  let newContent = content;
-  while (true) {
-    index = getTextPosition(newContent, selector, index);
-    if (index == null) {
-      break;
-    }
+  // for cases like: <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+  const selectorRegExp = new RegExp(`(<${componentSelector}[^>]*>)`, 'gi');
+  content = content.replace(selectorRegExp, `${comment}\$1`);
 
-    newContent = newContent.slice(0, index) + comment + newContent.slice(index);
-    index += comment.length + componentSelector.length;
-  }
+  // // for cases like: <div *ngIf="isThumbsEmpty">test</div>
+  // if (oldContent === content) {
+  //   // content hasn't been changed by the above selector regexp
+  //   const propertyRegExp = new RegExp(`(<.+${componentProperty.name})`, 'g');
+  //   content = content.replace(propertyRegExp, `${comment}\$1`);
+  // }
 
-  return newContent;
-}
-
-function getTextPosition(
-  content: string,
-  text: string,
-  startingPosition = 0
-): number | undefined {
-  const index = content.indexOf(text, startingPosition);
-  return index !== -1 ? index : undefined;
-}
-
-function buildSelector(selector: string): string {
-  return `<${selector}`;
+  return content;
 }
 
 function buildHtmlComment(commentText: string): string {
@@ -165,7 +155,7 @@ export function commitChanges(
   host: Tree,
   path: string,
   changes: Change[] | null,
-  insertDirection: InsertDirection
+  insertDirection: InsertDirection = InsertDirection.RIGHT
 ): void {
   if (!changes || changes.length === 0) {
     return;
@@ -795,7 +785,8 @@ export function insertCommentAboveIdentifier(
   sourcePath: string,
   source: ts.SourceFile,
   identifierName: string,
-  comment: string
+  comment: string,
+  identifierType = ts.SyntaxKind.Identifier
 ): Change[] {
   const classNode = getSourceNodes(source).find(
     node => node.kind === ts.SyntaxKind.ClassDeclaration
@@ -804,7 +795,7 @@ export function insertCommentAboveIdentifier(
     return [new NoopChange()];
   }
 
-  const identifierNodes = findNodes(classNode, ts.SyntaxKind.Identifier).filter(
+  const identifierNodes = findNodes(classNode, identifierType).filter(
     node => node.getText() === identifierName
   );
 
@@ -813,8 +804,8 @@ export function insertCommentAboveIdentifier(
     changes.push(
       new InsertChange(
         sourcePath,
-        getLineStartFromTSFile(source, n.getFullStart()),
-        comment
+        getLineStartFromTSFile(source, n.getStart()),
+        `${comment}`
       )
     )
   );
@@ -963,9 +954,7 @@ function getLineStartFromTSFile(
   position: number
 ): number {
   const lac = source.getLineAndCharacterOfPosition(position);
-  const lineStart = source.getPositionOfLineAndCharacter(lac.line, 0);
-
-  return lineStart;
+  return source.getPositionOfLineAndCharacter(lac.line, 0);
 }
 
 // as this is copied from https://github.com/angular/angular-cli/blob/master/packages/schematics/angular/app-shell/index.ts#L211, no need to test Angular's code
