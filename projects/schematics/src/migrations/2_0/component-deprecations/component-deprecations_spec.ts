@@ -15,6 +15,13 @@ const SINGLE_USAGE_EXAMPLE = `<div>test</div>
 const SINGLE_USAGE_EXAMPLE_EXPECTED = `<div>test</div>
 <!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
 
+const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE = `<div *ngIf="isThumbsEmpty">test</div>`;
+const PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. --><div *ngIf="isThumbsEmpty">test</div>`;
+const PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE = `<div *ngIf="isThumbsEmpty">test</div>Custom content
+<div class="bottom" *ngIf="isThumbsEmpty">test</div>`;
+const PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. --><div *ngIf="isThumbsEmpty">test</div>Custom content
+<!-- 'isThumbsEmpty' property has been removed. --><div class="bottom" *ngIf="isThumbsEmpty">test</div>`;
+
 const MULTI_USAGE_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
 <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
@@ -39,6 +46,23 @@ export class Test extends ConsentManagementFormComponent {
   }
 }
 `;
+const PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS = `
+import { ProductImagesComponent } from '@spartacus/core';
+export class Test extends ProductImagesComponent {
+  constructor() {
+    const test = this.isThumbsEmpty;
+  }
+}
+`;
+const PRODUCT_IMAGES_COMPONENT_INHERITANCE_EXPECTED_CLASS = `
+import { ProductImagesComponent } from '@spartacus/core';
+export class Test extends ProductImagesComponent {
+  constructor() {
+// TODO:Spartacus - 'isThumbsEmpty' property has been removed.
+    const test = this.isThumbsEmpty;
+  }
+}
+`;
 
 describe('component selectors migration', () => {
   let host = new TempScopedNodeJsSyncHost();
@@ -46,6 +70,8 @@ describe('component selectors migration', () => {
   let schematicRunner: SchematicTestRunner;
   let tmpDirPath: string;
   let previousWorkingDir: string;
+  const htmlFileName = `/src/test.html`;
+  const tsFileName = `/src/inherited.ts`;
 
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
@@ -90,39 +116,77 @@ describe('component selectors migration', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  const htmlFileName = '/src/test.html';
-  const tsFileName = '/src/inherited.ts';
+  describe('ConsentManagementFormComponent', () => {
+    describe('when the html file contains a single usage', () => {
+      it('should add a comment', async () => {
+        writeFile(host, htmlFileName, SINGLE_USAGE_EXAMPLE);
 
-  describe('when the html file contains a single usage', () => {
-    it('should add a comment', async () => {
-      writeFile(host, htmlFileName, SINGLE_USAGE_EXAMPLE);
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
-      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+        const content = appTree.readContent(htmlFileName);
+        expect(content).toEqual(SINGLE_USAGE_EXAMPLE_EXPECTED);
+      });
+    });
 
-      const content = appTree.readContent(htmlFileName);
-      expect(content).toEqual(SINGLE_USAGE_EXAMPLE_EXPECTED);
+    describe('when the html file contains multiple usages', () => {
+      it('should add comments', async () => {
+        writeFile(host, htmlFileName, MULTI_USAGE_EXAMPLE);
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent(htmlFileName);
+        expect(content).toEqual(MULTI_USAGE_EXAMPLE_EXPECTED);
+      });
+    });
+
+    describe('when the component is extended', () => {
+      it('should add comments', async () => {
+        writeFile(host, tsFileName, COMPONENT_INHERITANCE_TEST_CLASS);
+
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent(tsFileName);
+        expect(content).toEqual(COMPONENT_INHERITANCE_EXPECTED_CLASS);
+      });
     });
   });
 
-  describe('when the html file contains multiple usages', () => {
-    it('should add comments', async () => {
-      writeFile(host, htmlFileName, MULTI_USAGE_EXAMPLE);
+  xdescribe('ProductImagesComponent', () => {
+    describe('when the html file contains a single usage', () => {
+      it('should add a comment', async () => {
+        writeFile(host, htmlFileName, PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE);
 
-      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
-      const content = appTree.readContent(htmlFileName);
-      expect(content).toEqual(MULTI_USAGE_EXAMPLE_EXPECTED);
+        const content = appTree.readContent(htmlFileName);
+        expect(content).toEqual(PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE_EXPECTED);
+      });
     });
-  });
+    describe('when the html file contains a multiple usage', () => {
+      it('should add a comment', async () => {
+        writeFile(host, htmlFileName, PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE);
 
-  describe('when the component is extended', () => {
-    it('should add comments', async () => {
-      writeFile(host, tsFileName, COMPONENT_INHERITANCE_TEST_CLASS);
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
-      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+        const content = appTree.readContent(htmlFileName);
+        expect(content).toEqual(PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE_EXPECTED);
+      });
+    });
+    describe('when the component is extended', () => {
+      it('should add comments', async () => {
+        writeFile(
+          host,
+          tsFileName,
+          PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS
+        );
 
-      const content = appTree.readContent(tsFileName);
-      expect(content).toEqual(COMPONENT_INHERITANCE_EXPECTED_CLASS);
+        await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+        const content = appTree.readContent(tsFileName);
+        expect(content).toEqual(
+          PRODUCT_IMAGES_COMPONENT_INHERITANCE_EXPECTED_CLASS
+        );
+      });
     });
   });
 });
