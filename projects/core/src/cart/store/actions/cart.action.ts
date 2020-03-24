@@ -34,21 +34,40 @@ export const DELETE_CART_FAIL = '[Cart] Delete Cart Fail';
 
 export class CreateCart extends EntityLoadAction {
   readonly type = CREATE_CART;
-  constructor(public payload: any) {
+  constructor(
+    public payload: {
+      userId: string;
+      tempCartId: string;
+      extraData?: Object;
+      oldCartId?: string;
+      toMergeCartGuid?: string;
+    }
+  ) {
     super(MULTI_CART_DATA, payload.tempCartId);
   }
 }
 
 export class CreateCartFail extends EntityFailAction {
   readonly type = CREATE_CART_FAIL;
-  constructor(public payload: any) {
+  constructor(
+    public payload: {
+      userId: string;
+      tempCartId: string;
+      error: any;
+      extraData?: Object;
+      oldCartId?: string;
+      toMergeCartGuid?: string;
+    }
+  ) {
     super(MULTI_CART_DATA, payload.tempCartId);
   }
 }
 
 export class CreateCartSuccess extends EntitySuccessAction {
   readonly type = CREATE_CART_SUCCESS;
-  constructor(public payload: { cart: Cart; userId: string; extraData?: any }) {
+  constructor(
+    public payload: { cart: Cart; userId: string; extraData?: Object }
+  ) {
     super(MULTI_CART_DATA, getCartIdByUserId(payload.cart, payload.userId));
   }
 }

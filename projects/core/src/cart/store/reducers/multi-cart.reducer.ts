@@ -14,11 +14,7 @@ export function activeCartReducer(
     case CartActions.CREATE_CART_SUCCESS:
     // point to `temp-${uuid}` cart when we are creating/merging cart
     case CartActions.CREATE_CART:
-      if (
-        action.payload &&
-        action.payload.extraData &&
-        action.payload.extraData.active
-      ) {
+      if (action?.payload?.extraData?.active) {
         return action.meta.entityId as string;
       } else {
         return state;

@@ -197,12 +197,16 @@ export class CartEffects {
             ];
           }),
           catchError(error =>
-            from([
+            of(
               new CartActions.CreateCartFail({
                 tempCartId: payload.tempCartId,
                 error: makeErrorSerializable(error),
-              }),
-            ])
+                userId: payload.userId,
+                oldCartId: payload.oldCartId,
+                toMergeCartGuid: payload.toMergeCartGuid,
+                extraData: payload.extraData,
+              })
+            )
           )
         );
     }),

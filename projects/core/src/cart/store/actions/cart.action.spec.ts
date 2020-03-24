@@ -23,12 +23,11 @@ describe('Cart Actions', () => {
   describe('CreateCart Actions', () => {
     describe('CreateCart', () => {
       it('should create the action', () => {
-        const action = new CartActions.CreateCart({
-          tempCartId,
-        });
+        const payload = { tempCartId, userId: 'userId' };
+        const action = new CartActions.CreateCart(payload);
         expect({ ...action }).toEqual({
           type: CartActions.CREATE_CART,
-          payload: { tempCartId },
+          payload,
           meta: StateEntityLoaderActions.entityLoadMeta(
             MULTI_CART_DATA,
             tempCartId
@@ -39,12 +38,11 @@ describe('Cart Actions', () => {
 
     describe('CreateCartFail', () => {
       it('should create the action', () => {
-        const action = new CartActions.CreateCartFail({
-          tempCartId,
-        });
+        const payload = { tempCartId, userId: 'userId', error: 'error' };
+        const action = new CartActions.CreateCartFail(payload);
         expect({ ...action }).toEqual({
           type: CartActions.CREATE_CART_FAIL,
-          payload: { tempCartId },
+          payload,
           meta: StateEntityLoaderActions.entityFailMeta(
             MULTI_CART_DATA,
             tempCartId
