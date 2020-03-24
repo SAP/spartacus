@@ -37,7 +37,6 @@ $useTabsOnPDP: false !default;
     }
     &:focus {
       z-index: 1;
-      transition: none;
     }
     cursor: pointer;
     @include media-breakpoint-up(md) {
@@ -169,7 +168,6 @@ $useTabsOnPDP: false !default;
     }
     &:focus {
       z-index: 1;
-      transition: none;
     }
   }
 
