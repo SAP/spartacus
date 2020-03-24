@@ -115,6 +115,7 @@ export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
 export const URL_MATCHER_SERVICE = 'UrlMatcherService';
 export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
 export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
+export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
