@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef } from '@angular/core';
 import { EscapeFocusDirective } from '../escape/escape-focus.directive';
 import { AutoFocusConfig } from '../keyboard-focus.model';
 import { AutoFocusService } from './auto-focus.service';
@@ -23,15 +23,14 @@ import { AutoFocusService } from './auto-focus.service';
  * `<div [cxAutoFocus]="{autofocus: ':host'}">[...]</div>`
  *
  */
-@Directive({
-  selector: '[cxAutoFocus]',
-})
+@Directive() // selector: '[cxAutoFocus]'
 export class AutoFocusDirective extends EscapeFocusDirective
   implements AfterViewInit {
   /** The AutoFocusDirective will be using autofocus by default  */
   protected defaultConfig: AutoFocusConfig = { autofocus: true };
 
-  @Input('cxAutoFocus') protected config: AutoFocusConfig;
+  // @Input('cxAutoFocus')
+  protected config: AutoFocusConfig;
 
   constructor(
     protected elementRef: ElementRef,

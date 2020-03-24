@@ -4,11 +4,10 @@ import {
   CHECKOUT_PAGE_META_RESOLVER,
   SPARTACUS_CORE,
   TRANSLATION_SERVICE,
-} from '../../../../shared/constants';
-import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
+} from '../../../../../shared/constants';
+import { ConstructorDeprecation } from '../../../../../shared/utils/file-utils';
 
 export const CHECKOUT_PAGE_META_RESOLVER_MIGRATION: ConstructorDeprecation = {
-  // projects/core/src/checkout/services/checkout-page-meta.resolver.ts
   class: CHECKOUT_PAGE_META_RESOLVER,
   importPath: SPARTACUS_CORE,
   deprecatedParams: [
