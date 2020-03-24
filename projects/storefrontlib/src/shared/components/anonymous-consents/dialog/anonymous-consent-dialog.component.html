@@ -55,7 +55,6 @@
             [consentTemplate]="template"
             [requiredConsents]="requiredConsents"
             [consent]="getCorrespondingConsent(template, consents)"
-            [isAnonymousConsentsEnabled]="true"
             (consentChanged)="onConsentChange($event)"
           ></cx-consent-management-form>
         </div>

@@ -33,8 +33,6 @@
             *ngFor="let consentTemplate of templateList"
             [consentTemplate]="consentTemplate"
             [requiredConsents]="requiredConsents"
-            [isAnonymousConsentsEnabled]="isAnonymousConsentsEnabled"
-            [isLevel13]="isLevel13"
             (consentChanged)="onConsentChange($event)"
           ></cx-consent-management-form>
         </div>

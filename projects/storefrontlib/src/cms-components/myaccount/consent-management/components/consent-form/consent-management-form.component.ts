@@ -19,10 +19,6 @@ export class ConsentManagementFormComponent implements OnInit {
   requiredConsents: string[] = [];
 
   @Input()
-  // TODO(issue:4989) Anonymous consents - remove
-  isAnonymousConsentsEnabled = false;
-
-  @Input()
   consent: AnonymousConsent;
 
   @Output()
@@ -34,7 +30,7 @@ export class ConsentManagementFormComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    if (this.isAnonymousConsentsEnabled && this.consent) {
+    if (this.consent) {
       this.consentGiven = Boolean(
         this.consent.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN
       );
@@ -59,8 +55,6 @@ export class ConsentManagementFormComponent implements OnInit {
   }
 
   isRequired(templateId: string): boolean {
-    return this.isAnonymousConsentsEnabled
-      ? this.requiredConsents.includes(templateId)
-      : false;
+    return this.requiredConsents.includes(templateId);
   }
 }
