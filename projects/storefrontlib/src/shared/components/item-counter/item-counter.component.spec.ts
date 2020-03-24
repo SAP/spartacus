@@ -9,7 +9,7 @@ const form = new FormGroup({
   quantity: new FormControl('1'),
 });
 
-describe('ItemCounterComponent', () => {
+fdescribe('ItemCounterComponent', () => {
   let component: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
 
@@ -143,6 +143,7 @@ describe('ItemCounterComponent', () => {
     it('should enable increase button if max number is not reached', () => {
       component.control.setValue(5);
       component.max = 10;
+      component.ngOnInit();
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
@@ -153,6 +154,7 @@ describe('ItemCounterComponent', () => {
     it('should disable increase button if max number is reached', () => {
       component.control.setValue(5);
       component.max = 5;
+      component.ngOnInit();
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
@@ -190,6 +192,7 @@ describe('ItemCounterComponent', () => {
     it('should enable decrease button if min number is not reached', () => {
       component.control.setValue(5);
       component.min = 3;
+      component.ngOnInit();
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')
@@ -200,6 +203,7 @@ describe('ItemCounterComponent', () => {
     it('should disable decrease button if min number is reached', () => {
       component.control.setValue(5);
       component.min = 5;
+      component.ngOnInit();
       fixture.detectChanges();
       const button: DebugElement[] = fixture.debugElement.queryAll(
         By.css('button')

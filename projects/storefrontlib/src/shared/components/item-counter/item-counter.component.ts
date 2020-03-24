@@ -4,6 +4,7 @@ import {
   HostBinding,
   HostListener,
   Input,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -23,7 +24,7 @@ import { map, startWith, tap } from 'rxjs/operators';
   // disabled state in order to ensure that the control cannot be used while
   // the cart is updated.
 })
-export class ItemCounterComponent {
+export class ItemCounterComponent implements OnInit {
   /**
    * Holds the value of the counter, the state of the `FormControl`
    * can be managed outside of the item counter.
@@ -55,7 +56,13 @@ export class ItemCounterComponent {
    */
   @Input() allowZero = false;
 
-  private _control$: Observable<FormControl>;
+  /**
+   * Returns an observable with the control. The value changes of the
+   * control are intercepted in order to suppress invalid values.
+   */
+  control$: Observable<FormControl>;
+
+  disabledState = { increment: undefined, decrement: undefined };
 
   /**
    * In readonly mode the item counter will only be shown as a label,
@@ -69,6 +76,26 @@ export class ItemCounterComponent {
 
   @HostListener('click') handleClick() {
     this.input.nativeElement.focus();
+  }
+  ngOnInit() {
+    this.setDisableState();
+
+    this.control$ = this.control.valueChanges.pipe(
+      startWith(this.control.value),
+      tap(value => {
+        // why are we doing this?
+        this.control.setValue(this.getValidCount(value), { emitEvent: false });
+        this.setDisableState();
+      }),
+      map(() => this.control)
+    );
+  }
+
+  protected setDisableState() {
+    this.disabledState.decrement =
+      this.control.disabled || this.control.value <= this.min || undefined;
+    this.disabledState.increment =
+      this.control.disabled || this.control.value >= this.max || undefined;
   }
 
   increment() {
@@ -84,28 +111,10 @@ export class ItemCounterComponent {
   }
 
   /**
-   * Returns an observable with the control. The value changes of the
-   * control are intercepted in order to suppress invalid values.
-   */
-  getControl(): Observable<FormControl> {
-    if (!this._control$) {
-      this._control$ = this.control.valueChanges.pipe(
-        startWith(this.control.value),
-        tap(value =>
-          this.control.setValue(this.getValidCount(value), { emitEvent: false })
-        ),
-        map(() => this.control)
-      );
-    }
-    return this._control$;
-  }
-
-  /**
    * Validate that the given value is in between
    * the `min` and `max` value. If the value is out
    * of  the min/max range, it will be altered.
    * If `allowZero` is set to true, the 0 value is ignored.
-   *
    */
   private getValidCount(value: number) {
     if (value < this.min && !(value === 0 && this.allowZero)) {

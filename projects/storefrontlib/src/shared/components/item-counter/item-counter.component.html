@@ -1,8 +1,8 @@
 <button
   type="button"
   (click)="decrement()"
-  [disabled]="qty.disabled || qty?.value <= min"
   tabindex="-1"
+  [attr.disabled]="disabledState.decrement"
 >
   -
 </button>
@@ -13,14 +13,14 @@
   [min]="min"
   [max]="max"
   [step]="step"
-  [formControl]="getControl() | async"
+  [formControl]="control$ | async"
 />
 
 <button
   type="button"
   (click)="increment()"
-  [disabled]="qty.disabled || qty?.value >= max"
   tabindex="-1"
+  [attr.disabled]="disabledState.increment"
 >
   +
 </button>
