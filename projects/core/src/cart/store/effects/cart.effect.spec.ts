@@ -206,7 +206,7 @@ describe('Cart effect', () => {
 
   describe('createCart$', () => {
     it('should create a cart', () => {
-      const action = new DeprecatedCartActions.CreateCart({
+      const action = new CartActions.CreateCart({
         userId,
         tempCartId,
       });
@@ -230,7 +230,7 @@ describe('Cart effect', () => {
     });
 
     it('should create and merge cart when oldCartId is provided', () => {
-      const action = new DeprecatedCartActions.CreateCart({
+      const action = new CartActions.CreateCart({
         userId,
         oldCartId: 'testOldCartId',
         tempCartId,
@@ -274,7 +274,7 @@ describe('Cart effect', () => {
         cartId: cartId,
         tempCartId: 'temp-uuid',
       });
-      const completion = new DeprecatedCartActions.CreateCart({
+      const completion = new CartActions.CreateCart({
         userId: userId,
         oldCartId: cartId,
         toMergeCartGuid: 'testGuid',

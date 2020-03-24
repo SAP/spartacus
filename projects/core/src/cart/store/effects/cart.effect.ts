@@ -156,12 +156,12 @@ export class CartEffects {
   createCart$: Observable<
     | DeprecatedCartActions.MergeCartSuccess
     | CartActions.MergeMultiCartSuccess
-    | DeprecatedCartActions.CreateCartSuccess
-    | DeprecatedCartActions.CreateCartFail
+    | CartActions.CreateCartSuccess
+    | CartActions.CreateCartFail
     | CartActions.SetTempCart
   > = this.actions$.pipe(
     ofType(DeprecatedCartActions.CREATE_CART),
-    map((action: DeprecatedCartActions.CreateCart) => action.payload),
+    map((action: CartActions.CreateCart) => action.payload),
     mergeMap(payload => {
       return this.cartConnector
         .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
@@ -214,14 +214,14 @@ export class CartEffects {
   );
 
   @Effect()
-  mergeCart$: Observable<DeprecatedCartActions.CreateCart> = this.actions$.pipe(
+  mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
     ofType(DeprecatedCartActions.MERGE_CART),
     map((action: DeprecatedCartActions.MergeCart) => action.payload),
     mergeMap(payload => {
       return this.cartConnector.load(payload.userId, OCC_CART_ID_CURRENT).pipe(
         mergeMap(currentCart => {
           return [
-            new DeprecatedCartActions.CreateCart({
+            new CartActions.CreateCart({
               userId: payload.userId,
               oldCartId: payload.cartId,
               toMergeCartGuid: currentCart ? currentCart.guid : undefined,
