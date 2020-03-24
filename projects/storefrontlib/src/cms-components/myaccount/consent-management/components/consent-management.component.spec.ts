@@ -41,11 +41,6 @@ class MockConsentManagementFormComponent {
   consentTemplate: ConsentTemplate;
   @Input()
   requiredConsents: string[] = [];
-  @Input()
-  isAnonymousConsentsEnabled = true;
-  // TODO(issue:4989) Anonymous consents - remove `isLevel13`
-  @Input()
-  isLevel13 = false;
   @Output()
   consentChanged = new EventEmitter<{
     given: boolean;
@@ -118,15 +113,6 @@ const mockConsentTemplate: ConsentTemplate = {
   },
 };
 
-const mockAnonymousConsentsConfig = {
-  anonymousConsents: {},
-  features: {
-    // TODO(issue:4989) Anonymous consents - remove `level: '1.3',`
-    level: '1.3',
-    anonymousConsents: true,
-  },
-};
-
 describe('ConsentManagementComponent', () => {
   let component: ConsentManagementComponent;
   let fixture: ComponentFixture<ConsentManagementComponent>;
@@ -138,6 +124,10 @@ describe('ConsentManagementComponent', () => {
   let anonymousConsentsService: AnonymousConsentsService;
 
   beforeEach(async(() => {
+    const mockAnonymousConsentsConfig = {
+      anonymousConsents: {},
+    };
+
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [
@@ -509,18 +499,6 @@ describe('ConsentManagementComponent', () => {
           anonymousConsentsConfig.anonymousConsents.requiredConsents = [
             mockConsentTemplate.id,
           ];
-          const result = component[isRequiredConsentMethod](
-            mockConsentTemplate
-          );
-          expect(result).toEqual(true);
-        });
-      });
-      describe('when the anonymous consents feature is not enabled', () => {
-        it('should return false', () => {
-          anonymousConsentsConfig.anonymousConsents.requiredConsents = [
-            mockConsentTemplate.id,
-          ];
-          mockAnonymousConsentsConfig.features.anonymousConsents = false;
           const result = component[isRequiredConsentMethod](
             mockConsentTemplate
           );
