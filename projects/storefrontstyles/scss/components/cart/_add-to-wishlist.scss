@@ -1,9 +1,7 @@
 %cx-add-to-wishlist {
   @include media-breakpoint-up(lg) {
     grid-column: 2;
-    grid-row: 3;
     padding: 0 20px;
-    margin-top: 155px;
   }
 
   .btn {
