@@ -6,7 +6,7 @@ import { AutoFocusService } from './auto-focus.service';
 /**
  * Directive that focus the first nested _focusable_ element based on state and configuration:
  *
- * 1. focusable element that was left in a focused state
+ * 1. focusable element that was left in a focused state (aka _persisted_ focus)
  * 2. focusable element selected by configured CSS selector (i.e. 'button[type=submit]')
  * 3. focusable element marked with the native HTML5 `autofocus` attribute
  * 4. first focusable element
@@ -43,9 +43,6 @@ export class AutoFocusDirective extends EscapeFocusDirective
    * Focus the element explicitly if it was focussed before.
    */
   ngAfterViewInit(): void {
-    if (this.shouldAutofocus) {
-      this.handleFocus();
-    }
     if (!this.shouldAutofocus || this.hasPersistedFocus) {
       super.ngAfterViewInit();
     }
@@ -76,10 +73,8 @@ export class AutoFocusDirective extends EscapeFocusDirective
   /**
    * Helper function to indicate whether we should use autofocus for the
    * child elements.
-   *
-   * We keep this private to not polute the API.
    */
-  private get shouldAutofocus(): boolean {
+  protected get shouldAutofocus(): boolean {
     return !!this.config?.autofocus;
   }
 
