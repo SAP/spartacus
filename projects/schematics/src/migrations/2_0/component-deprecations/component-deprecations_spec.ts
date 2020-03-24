@@ -24,6 +24,11 @@ const MULTI_USAGE_EXAMPLE_EXPECTED = `<!-- 'isLevel13' property has been removed
 
 const COMPONENT_INHERITANCE_TEST_CLASS = `
 import { ConsentManagementFormComponent } from '@spartacus/core';
+import { Component } from '@angular/core';
+@Component({
+  selector: 'cx-consent-management-form',
+  templateUrl: './test.html',
+})
 export class Test extends ConsentManagementFormComponent {
   usingIsLevel13(): void {
     console.log(this.isLevel13);
@@ -32,6 +37,38 @@ export class Test extends ConsentManagementFormComponent {
 `;
 const COMPONENT_INHERITANCE_EXPECTED_CLASS = `
 import { ConsentManagementFormComponent } from '@spartacus/core';
+import { Component } from '@angular/core';
+@Component({
+  selector: 'cx-consent-management-form',
+  templateUrl: './test.html',
+})
+export class Test extends ConsentManagementFormComponent {
+  usingIsLevel13(): void {
+// TODO:Spartacus - 'isLevel13' property has been removed.
+    console.log(this.isLevel13);
+  }
+}
+`;
+const COMPONENT_INHERITANCE_INLINE_TEMPLATE_TEST_CLASS = `
+import { ConsentManagementFormComponent } from '@spartacus/core';
+import { Component } from '@angular/core';
+@Component({
+  selector: 'cx-consent-management-form',
+  template: \`${SINGLE_USAGE_EXAMPLE}\`,
+})
+export class Test extends ConsentManagementFormComponent {
+  usingIsLevel13(): void {
+    console.log(this.isLevel13);
+  }
+}
+`;
+const COMPONENT_INHERITANCE_INLINE_TEMPLATE_EXPECTED_CLASS = `
+import { ConsentManagementFormComponent } from '@spartacus/core';
+import { Component } from '@angular/core';
+@Component({
+  selector: 'cx-consent-management-form',
+  template: \`${SINGLE_USAGE_EXAMPLE_EXPECTED}\`,
+})
 export class Test extends ConsentManagementFormComponent {
   usingIsLevel13(): void {
 // TODO:Spartacus - 'isLevel13' property has been removed.
@@ -95,6 +132,7 @@ describe('component selectors migration', () => {
 
   describe('when the html file contains a single usage', () => {
     it('should add a comment', async () => {
+      writeFile(host, tsFileName, COMPONENT_INHERITANCE_TEST_CLASS);
       writeFile(host, htmlFileName, SINGLE_USAGE_EXAMPLE);
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -106,6 +144,7 @@ describe('component selectors migration', () => {
 
   describe('when the html file contains multiple usages', () => {
     it('should add comments', async () => {
+      writeFile(host, tsFileName, COMPONENT_INHERITANCE_TEST_CLASS);
       writeFile(host, htmlFileName, MULTI_USAGE_EXAMPLE);
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -123,6 +162,23 @@ describe('component selectors migration', () => {
 
       const content = appTree.readContent(tsFileName);
       expect(content).toEqual(COMPONENT_INHERITANCE_EXPECTED_CLASS);
+    });
+  });
+
+  describe('when the component is extended and has an inline template', () => {
+    it('should add comments to both component and inline template', async () => {
+      writeFile(
+        host,
+        tsFileName,
+        COMPONENT_INHERITANCE_INLINE_TEMPLATE_TEST_CLASS
+      );
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent(tsFileName);
+      expect(content).toEqual(
+        COMPONENT_INHERITANCE_INLINE_TEMPLATE_EXPECTED_CLASS
+      );
     });
   });
 });

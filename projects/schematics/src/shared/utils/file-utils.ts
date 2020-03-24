@@ -113,8 +113,12 @@ export function getPathResultsForFile(
   return results;
 }
 
-export function getAllHtmlFiles(tree: Tree, directory?: string): string[] {
-  return getPathResultsForFile(tree, '.html', directory);
+export function getHtmlFiles(
+  tree: Tree,
+  fileName = '.html',
+  directory?: string
+): string[] {
+  return getPathResultsForFile(tree, fileName || '.html', directory);
 }
 
 export function insertHtmlComment(
@@ -163,7 +167,7 @@ export function commitChanges(
   changes: Change[] | null,
   insertDirection: InsertDirection
 ): void {
-  if (!changes) {
+  if (!changes || changes.length === 0) {
     return;
   }
 
