@@ -25,9 +25,13 @@ describe('ItemCounterComponent', () => {
     component = fixture.componentInstance;
 
     component.control = <FormControl>form.get('quantity');
-
     component.control.setValue(1);
     component.control.markAsPristine();
+
+    component.control.enable({ emitEvent: false });
+    component.readonly = false;
+
+    component.ngOnInit();
     fixture.detectChanges();
   });
 
