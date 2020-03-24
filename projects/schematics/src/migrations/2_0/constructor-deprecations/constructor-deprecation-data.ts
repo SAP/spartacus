@@ -20,6 +20,7 @@ import { CHECKOUT_GUARD_MIGRATIONS } from './data/checkout.guard.migration';
 import { CHECKOUT_SERVICE_MIGRATION } from './data/checkout.service.migration';
 import { CONSENT_MANAGEMENT_COMPONENT_MIGRATION } from './data/consent-management.component.migration';
 import { CURRENT_PRODUCT_SERVICE_MIGRATION } from './data/current-product-service.migration';
+import { FOOTER_NAVIGATION_COMPONENT_MIGRATION } from './data/footer-navigation.component.migration';
 import { MINI_CART_COMPONENT_MIGRATION } from './data/mini-cart.component.migration';
 import { NOT_CHECKOUT_AUTH_GUARD_MIGRATION } from './data/not-checkout-auth-guard.migration';
 import { ORDER_CONFIRMATION_ITEMS_COMPONENT_MIGRATION } from './data/order-confirmation-items.component.migration';
@@ -87,4 +88,5 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   PRODUCT_SERVICE_MIGRATION,
   PRODUCT_CAROUSEL_COMPONENT_MIGRATION,
   CONSENT_MANAGEMENT_COMPONENT_MIGRATION,
+  FOOTER_NAVIGATION_COMPONENT_MIGRATION,
 ];

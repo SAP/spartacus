@@ -114,6 +114,8 @@ export const STAR_RATING_COMPONENT = 'StarRatingComponent';
 export const PRODUCT_SERVICE = 'ProductService';
 export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
 export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
+export const FOOTER_NAVIGATION_COMPONENT = 'FooterNavigationComponent';
+export const NAVIGATION_SERVICE = 'NavigationService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
