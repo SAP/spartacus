@@ -22,6 +22,8 @@ import {
 import { EntitiesModel } from '../../../model/misc.model';
 import { B2BSearchConfig } from '../../../organization/model/search-config';
 
+const APPROVER = 'b2bapprovergroup';
+
 @Injectable()
 export class OccOrgUnitAdapter implements OrgUnitAdapter {
   constructor(
@@ -92,7 +94,9 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     roleId: string
   ): Observable<any> {
     return this.http.post<any>(
-      this.getRolesEndpoint(userId, orgUnitId, orgCustomerId, { roleId }),
+      roleId === APPROVER
+        ? this.getApproversEndpoint(userId, orgUnitId, { roleId })
+        : this.getRolesEndpoint(userId, orgUnitId, orgCustomerId, { roleId }),
       null
     );
   }
@@ -104,7 +108,9 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     roleId: string
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getRoleEndpoint(userId, orgUnitId, orgCustomerId, roleId)
+      roleId === APPROVER
+        ? this.getApproverEndpoint(userId, orgCustomerId, roleId)
+        : this.getRoleEndpoint(userId, orgUnitId, orgCustomerId, roleId)
     );
   }
 
@@ -167,6 +173,30 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     return this.occEndpoints.getUrl('orgUnitUserRole', {
       userId,
       orgUnitId,
+      orgCustomerId,
+      roleId,
+    });
+  }
+
+  protected getApproversEndpoint(
+    userId: string,
+    orgCustomerId: string,
+    params: { roleId: string }
+  ): string {
+    return this.occEndpoints.getUrl(
+      'orgUnitApprovers',
+      { userId, orgCustomerId },
+      params
+    );
+  }
+
+  protected getApproverEndpoint(
+    userId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): string {
+    return this.occEndpoints.getUrl('orgUnitApprover', {
+      userId,
       orgCustomerId,
       roleId,
     });

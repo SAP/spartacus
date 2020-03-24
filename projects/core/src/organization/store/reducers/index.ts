@@ -45,7 +45,7 @@ import {
   costCentersListReducer,
   costCenterAssignedBudgetsListReducer,
 } from './cost-center.reducer';
-import { userListReducer } from './b2b-user.reducer';
+import { userListReducer, b2bUserEntitiesReducer } from './b2b-user.reducer';
 import {
   orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer,
   orgUnitUserGroupAvailablOrgCustomersListReducer,
@@ -112,7 +112,10 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       ),
     }),
     [B2B_USER_FEATURE]: combineReducers({
-      entities: entityLoaderReducer<B2BUser>(B2B_USER_ENTITIES),
+      entities: entityLoaderReducer<B2BUser>(
+        B2B_USER_ENTITIES,
+        b2bUserEntitiesReducer
+      ),
       list: entityLoaderReducer<ListModel>(USER_LIST, userListReducer),
     }),
   };
