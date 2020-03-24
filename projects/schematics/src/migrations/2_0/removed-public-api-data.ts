@@ -18,16 +18,21 @@ import {
   CONTEXT_SERVICE_PROVIDERS,
   GET_MULTI_CART_REDUCERS,
   GET_REDUCERS,
+  GET_STRUCTURED_DATA_FACTORY,
   INITITIALIZE_CONTEXT,
   INIT_SITE_CONTEXT_ROUTES_HANDLER,
   META_REDUCERS,
   MULTI_CART_META_REDUCERS,
   MULTI_CART_REDUCER_PROVIDER,
   MULTI_CART_REDUCER_TOKEN,
+  PWA_CONFIGURATION_FACTORY,
+  PWA_FACTORY,
   REDUCER_PROVIDER,
   REDUCER_TOKEN,
   SITE_CONTEXT_PARAMS_PROVIDERS,
+  SKIP_LINK_FACTORY,
   SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
   STATE_WITH_CART,
   WISHLIST_EFFECTS,
 } from '../../shared/constants';
@@ -152,6 +157,26 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: CART_DATA_SERVICE,
     importPath: SPARTACUS_CORE,
     comment: `'${CART_DATA_SERVICE}' is no longer part of the public API. Instead use methods from '${ACTIVE_CART_SERVICE}' and '${AUTH_SERVICE}.'`,
+  },
+  // projects/storefrontlib/src/cms-structure/pwa/index.ts
+  {
+    node: PWA_CONFIGURATION_FACTORY,
+    importPath: SPARTACUS_STOREFRONTLIB,
+  },
+  // projects/storefrontlib/src/cms-structure/pwa/index.ts
+  {
+    node: PWA_FACTORY,
+    importPath: SPARTACUS_STOREFRONTLIB,
+  },
+  // projects/storefrontlib/src/cms-structure/seo/structured-data/index.ts
+  {
+    node: GET_STRUCTURED_DATA_FACTORY,
+    importPath: SPARTACUS_STOREFRONTLIB,
+  },
+  // projects/storefrontlib/src/layout/a11y/skip-link/index.ts
+  {
+    node: SKIP_LINK_FACTORY,
+    importPath: SPARTACUS_STOREFRONTLIB,
   },
   // projects/core/src/cart/store/cart-state.ts
   {
