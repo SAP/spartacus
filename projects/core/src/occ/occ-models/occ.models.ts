@@ -4175,7 +4175,7 @@ export namespace Occ {
   export interface OrgUnitUserGroup {
     name?: string;
     uid?: string;
-    members?: User[];
+    members?: B2BUser[];
     orgUnit?: B2BUnit;
     permissions?: Permission[];
     selected?: boolean;

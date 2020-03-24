@@ -11,6 +11,7 @@ import {
   ORG_UNIT_USER_GROUP_NORMALIZER,
   ORG_UNIT_USER_GROUPS_NORMALIZER,
   PERMISSIONS_NORMALIZER,
+  B2B_USERS_NORMALIZER,
 } from '../../../organization/connectors/index';
 import { OrgUnitUserGroup } from '../../../model/user-group.model';
 import { B2BUser } from '../../../model/org-unit.model';
@@ -75,9 +76,7 @@ export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
           params
         )
       )
-      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUPS_NORMALIZER));
-    // TODO: Change whn Org Unit Users exitst
-    // .pipe(this.converter.pipeable(ORG_UNIT_USERS_NORMALIZER));
+      .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
   }
 
   create(

@@ -64,7 +64,10 @@ export abstract class AbstractListingComponent {
     this.updateQueryParams({ currentPage });
   }
 
-  protected updateQueryParams(newQueryParams: Partial<B2BSearchConfig>): void {
+  protected updateQueryParams(
+    newQueryParams: Partial<B2BSearchConfig>,
+    newParams: Params = {}
+  ): void {
     this.queryParams$
       .pipe(
         map(queryParams =>
@@ -76,14 +79,10 @@ export abstract class AbstractListingComponent {
       .subscribe(
         ([queryParams, params]: [Partial<B2BSearchConfig>, Params]) => {
           this.routingService.go(
-            params
-              ? {
-                  cxRoute: this.cxRoute,
-                  params,
-                }
-              : {
-                  cxRoute: this.cxRoute,
-                },
+            {
+              cxRoute: this.cxRoute,
+              params: { ...params, ...newParams },
+            },
             { ...queryParams }
           );
         }

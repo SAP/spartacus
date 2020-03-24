@@ -82,4 +82,17 @@
       </div>
     </div>
   </div>
+  <div class="col-md-12 col-lg-6">
+    <a
+      [routerLink]="
+        {
+          cxRoute: 'orgUnitAssignRoles',
+          params: { code: orgUnit.uid, roleId: 'b2bcustomergroup' }
+        } | cxUrl
+      "
+      class="btn btn-primary btn-block"
+    >
+      {{ 'orgUnit.assignRoles' | cxTranslate }}
+    </a>
+  </div>
 </ng-container>
