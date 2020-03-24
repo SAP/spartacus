@@ -126,35 +126,21 @@ export function insertHtmlComment(
   componentSelector: string,
   componentProperty: ComponentProperty
 ): string | undefined {
-  const selector = buildSelector(componentSelector);
+  // const oldContent = content;
   const comment = buildHtmlComment(componentProperty.comment);
 
-  let index: number | undefined = 0;
-  let newContent = content;
-  while (true) {
-    index = getTextPosition(newContent, selector, index);
-    if (index == null) {
-      break;
-    }
+  // for cases like: <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+  const selectorRegExp = new RegExp(`(<${componentSelector}[^>]*>)`, 'gi');
+  content = content.replace(selectorRegExp, `${comment}\$1`);
 
-    newContent = newContent.slice(0, index) + comment + newContent.slice(index);
-    index += comment.length + componentSelector.length;
-  }
+  // // for cases like: <div *ngIf="isThumbsEmpty">test</div>
+  // if (oldContent === content) {
+  //   // content hasn't been changed by the above selector regexp
+  //   const propertyRegExp = new RegExp(`(<.+${componentProperty.name})`, 'g');
+  //   content = content.replace(propertyRegExp, `${comment}\$1`);
+  // }
 
-  return newContent;
-}
-
-function getTextPosition(
-  content: string,
-  text: string,
-  startingPosition = 0
-): number | undefined {
-  const index = content.indexOf(text, startingPosition);
-  return index !== -1 ? index : undefined;
-}
-
-function buildSelector(selector: string): string {
-  return `<${selector}`;
+  return content;
 }
 
 function buildHtmlComment(commentText: string): string {
