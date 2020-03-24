@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActiveCartService, AuthRedirectService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -8,8 +8,19 @@ import { CustomFormValidators } from '../../../shared/utils/validators/custom-fo
   selector: 'cx-checkout-login',
   templateUrl: './checkout-login.component.html',
 })
-export class CheckoutLoginComponent implements OnInit, OnDestroy {
-  checkoutLoginForm: FormGroup;
+export class CheckoutLoginComponent implements OnDestroy {
+  checkoutLoginForm: FormGroup = this.formBuilder.group(
+    {
+      email: ['', [Validators.required, CustomFormValidators.emailValidator]],
+      emailConfirmation: ['', [Validators.required]],
+    },
+    {
+      validators: CustomFormValidators.emailsMustMatch(
+        'email',
+        'emailConfirmation'
+      ),
+    }
+  );
   sub: Subscription;
 
   constructor(
@@ -17,21 +28,6 @@ export class CheckoutLoginComponent implements OnInit, OnDestroy {
     protected authRedirectService: AuthRedirectService,
     protected activeCartService: ActiveCartService
   ) {}
-
-  ngOnInit() {
-    this.checkoutLoginForm = this.formBuilder.group(
-      {
-        email: ['', [Validators.required, CustomFormValidators.emailValidator]],
-        emailConfirmation: ['', [Validators.required]],
-      },
-      {
-        validators: CustomFormValidators.emailsMustMatch(
-          'email',
-          'emailConfirmation'
-        ),
-      }
-    );
-  }
 
   onSubmit() {
     if (this.checkoutLoginForm.valid) {

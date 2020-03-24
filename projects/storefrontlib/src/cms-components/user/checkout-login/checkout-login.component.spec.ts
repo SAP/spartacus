@@ -56,9 +56,6 @@ describe('CheckoutLoginComponent', () => {
   });
 
   beforeEach(() => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
     controls = component.checkoutLoginForm.controls;
     email = controls['email'];
     emailConfirmation = controls['emailConfirmation'];
