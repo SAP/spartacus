@@ -210,13 +210,11 @@ describe('Cart effect', () => {
         userId,
         tempCartId,
       });
-      const createMultiCartSuccessCompletion = new CartActions.CreateCartSuccess(
-        {
-          cart: testCart,
-          userId,
-          extraData: undefined,
-        }
-      );
+      const createCartSuccessCompletion = new CartActions.CreateCartSuccess({
+        cart: testCart,
+        userId,
+        extraData: undefined,
+      });
       const setTempCartCompletion = new CartActions.SetTempCart({
         cart: testCart,
         tempCartId: tempCartId,
@@ -224,38 +222,7 @@ describe('Cart effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
-        b: createMultiCartSuccessCompletion,
-        c: setTempCartCompletion,
-      });
-
-      expect(cartEffects.createCart$).toBeObservable(expected);
-    });
-
-    it('should dispatch CreateCartSuccess action for active cart', () => {
-      const action = new DeprecatedCartActions.CreateCart({
-        userId,
-        extraData: {
-          active: true,
-        },
-        tempCartId,
-      });
-      const createMultiCartSuccessCompletion = new CartActions.CreateCartSuccess(
-        {
-          cart: testCart,
-          userId,
-          extraData: {
-            active: true,
-          },
-        }
-      );
-      const setTempCartCompletion = new CartActions.SetTempCart({
-        cart: testCart,
-        tempCartId,
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: createMultiCartSuccessCompletion,
+        b: createCartSuccessCompletion,
         c: setTempCartCompletion,
       });
 
@@ -269,7 +236,7 @@ describe('Cart effect', () => {
         tempCartId,
       });
 
-      const createMultiCartCompletion = new CartActions.CreateCartSuccess({
+      const createCartCompletion = new CartActions.CreateCartSuccess({
         cart: testCart,
         userId,
         extraData: undefined,
@@ -290,7 +257,7 @@ describe('Cart effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcde)', {
-        b: createMultiCartCompletion,
+        b: createCartCompletion,
         c: setTempCartCompletion,
         d: mergeCartCompletion,
         e: mergeMultiCartCompletion,
