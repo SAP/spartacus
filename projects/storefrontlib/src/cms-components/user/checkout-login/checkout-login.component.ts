@@ -25,7 +25,7 @@ export class CheckoutLoginComponent implements OnInit, OnDestroy {
         emailConfirmation: ['', [Validators.required]],
       },
       {
-        validators: CustomFormValidators.passwordsMustMatch(
+        validators: CustomFormValidators.emailsMustMatch(
           'email',
           'emailConfirmation'
         ),

@@ -58,8 +58,12 @@ describe('GuestRegisterFormComponent', () => {
   });
 
   it('should register customer and redirect to homepage when submit', () => {
-    const password = 'test password';
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const password = 'StrongPass123!@#';
     component.guestRegisterForm.controls['password'].setValue(password);
+    component.guestRegisterForm.controls['passwordconf'].setValue(password);
     component.guid = 'guid';
     component.submit();
 
