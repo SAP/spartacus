@@ -19,6 +19,7 @@ export const NGRX_STORE = '@ngrx/store';
 export const OBSERVABLE_CLASS = 'Observable';
 export const RENDERER_2 = 'Renderer2';
 export const ELEMENT_REF = 'ElementRef';
+export const INJECTOR = 'Injector';
 
 export const STORE = 'Store';
 
@@ -111,6 +112,9 @@ export const STAR_RATING_COMPONENT = 'StarRatingComponent';
 export const PRODUCT_SERVICE = 'ProductService';
 export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
 export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
+export const URL_MATCHER_SERVICE = 'UrlMatcherService';
+export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
+export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -141,6 +145,8 @@ export const SITE_CONTEXT_PARAMS_PROVIDERS = 'siteContextParamsProviders';
 export const INIT_SITE_CONTEXT_ROUTES_HANDLER = 'initSiteContextRoutesHandler';
 export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
+
+export const URL_MATCHER_FACTORY_SERVICE = 'UrlMatcherFactoryService';
 
 export const ANONYMOUS_USERID_CONST = 'ANONYMOUS_USERID';
 
