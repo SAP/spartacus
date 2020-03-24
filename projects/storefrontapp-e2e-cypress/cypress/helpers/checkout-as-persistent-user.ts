@@ -156,8 +156,13 @@ export function addPaymentMethod() {
 export function selectShippingAddress() {
   cy.server();
 
-  cy.route('GET', '/rest/v2/electronics-spa//users/current/carts/*').as(
-    'cartLoaded'
+  cy.route(
+    'GET',
+    '/rest/v2/electronics-spa/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)*'
+  ).as('cartLoaded');
+
+  cy.route('GET', '/rest/v2/electronics-spa/users/current/addresses?*').as(
+    'getAdresses'
   );
 
   cy.route(
@@ -169,10 +174,26 @@ export function selectShippingAddress() {
     'GET',
     '/rest/v2/electronics-spa/cms/pages?*/checkout/shipping-address*'
   ).as('getShippingPage');
+
+  cy.route(
+    'GET',
+    '/rest/v2/electronics-spa/cms/pages?*&pageType=ContentPage&pageLabelOrId=/checkout*'
+  ).as('checkoutPageContent');
   cy.get('button.btn-primary')
     .getByText(/proceed to checkout/i)
     .click();
-  cy.wait('@getShippingPage');
+
+  cy.wait('@checkoutPageContent')
+    .its('status')
+    .should('eq', 200);
+
+  cy.wait('@getShippingPage')
+    .its('status')
+    .should('eq', 200);
+
+  cy.wait('@getAdresses')
+    .its('status')
+    .should('eq', 200);
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
 
@@ -216,6 +237,10 @@ export function selectDeliveryMethod() {
     '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
   ).as('getPaymentPage');
 
+  cy.route('GET', '/rest/v2/electronics-spa/users/current/carts/*').as(
+    'getCurrentUserCart'
+  );
+
   cy.get('cx-checkout-progress')
     .should('exist')
     .then(() => {
@@ -228,6 +253,10 @@ export function selectDeliveryMethod() {
   cy.get('h3.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-net').should('be.checked');
   cy.get('button.btn-primary').click({ force: true });
+
+  cy.wait('@getCurrentUserCart')
+    .its('status')
+    .should('eq', 200);
   cy.wait('@getPaymentPage')
     .its('status')
     .should('eq', 200);
