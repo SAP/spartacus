@@ -210,7 +210,7 @@ describe('Cart effect', () => {
         userId,
         tempCartId,
       });
-      const createMultiCartSuccessCompletion = new CartActions.CreateMultiCartSuccess(
+      const createMultiCartSuccessCompletion = new CartActions.CreateCartSuccess(
         {
           cart: testCart,
           userId,
@@ -239,10 +239,7 @@ describe('Cart effect', () => {
         },
         tempCartId,
       });
-      const createCartSuccessCompletion = new DeprecatedCartActions.CreateCartSuccess(
-        testCart
-      );
-      const createMultiCartSuccessCompletion = new CartActions.CreateMultiCartSuccess(
+      const createMultiCartSuccessCompletion = new CartActions.CreateCartSuccess(
         {
           cart: testCart,
           userId,
@@ -257,10 +254,9 @@ describe('Cart effect', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(bc)', {
         b: createMultiCartSuccessCompletion,
         c: setTempCartCompletion,
-        d: createCartSuccessCompletion,
       });
 
       expect(cartEffects.createCart$).toBeObservable(expected);
@@ -273,7 +269,7 @@ describe('Cart effect', () => {
         tempCartId,
       });
 
-      const createMultiCartCompletion = new CartActions.CreateMultiCartSuccess({
+      const createMultiCartCompletion = new CartActions.CreateCartSuccess({
         cart: testCart,
         userId,
         extraData: undefined,

@@ -17,38 +17,35 @@ const cart: Cart = {
 
 describe('Cart Actions', () => {
   describe('CreateCart Actions', () => {
-    describe('CreateCart', () => {
-      it('should create the action', () => {
-        const userId = 'xxx@xxx.xxx';
-        const action = new DeprecatedCartActions.CreateCart(userId);
-        expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.CREATE_CART,
-          payload: userId,
-        });
-      });
-    });
-
-    describe('CreateCartFail', () => {
-      it('should create the action', () => {
-        const error = 'anError';
-        const action = new DeprecatedCartActions.CreateCartFail(error);
-
-        expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.CREATE_CART_FAIL,
-          payload: error,
-        });
-      });
-    });
-
-    describe('CreateCartSuccess', () => {
-      it('should create the action', () => {
-        const action = new DeprecatedCartActions.CreateCartSuccess(cart);
-        expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.CREATE_CART_SUCCESS,
-          payload: cart,
-        });
-      });
-    });
+    // describe('CreateCart', () => {
+    //   it('should create the action', () => {
+    //     const userId = 'xxx@xxx.xxx';
+    //     const action = new DeprecatedCartActions.CreateCart(userId);
+    //     expect({ ...action }).toEqual({
+    //       type: DeprecatedCartActions.CREATE_CART,
+    //       payload: userId,
+    //     });
+    //   });
+    // });
+    // describe('CreateCartFail', () => {
+    //   it('should create the action', () => {
+    //     const error = 'anError';
+    //     const action = new DeprecatedCartActions.CreateCartFail(error);
+    //     expect({ ...action }).toEqual({
+    //       type: DeprecatedCartActions.CREATE_CART_FAIL,
+    //       payload: error,
+    //     });
+    //   });
+    // });
+    // describe('CreateCartSuccess', () => {
+    //   it('should create the action', () => {
+    //     const action = new DeprecatedCartActions.CreateCartSuccess({ cart });
+    //     expect({ ...action }).toEqual({
+    //       type: DeprecatedCartActions.CREATE_CART_SUCCESS,
+    //       payload: cart,
+    //     });
+    //   });
+    // });
   });
 
   describe('LoadCart Actions', () => {

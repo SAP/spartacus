@@ -162,7 +162,7 @@ describe('MultiCartService', () => {
       );
 
       expect(results[0]).toEqual({
-        loading: false,
+        loading: true,
         error: false,
         success: false,
         value: undefined,

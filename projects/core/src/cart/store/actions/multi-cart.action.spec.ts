@@ -57,53 +57,53 @@ describe('MultiCart Actions', () => {
       });
     });
 
-    describe('CreateMultiCart', () => {
-      it('should create the action', () => {
-        const action = new CartActions.CreateMultiCart({
-          tempCartId,
-        });
-        expect({ ...action }).toEqual({
-          type: CartActions.CREATE_MULTI_CART,
-          payload: { tempCartId },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            MULTI_CART_DATA,
-            tempCartId
-          ),
-        });
-      });
-    });
+    //   describe('CreateMultiCart', () => {
+    //     it('should create the action', () => {
+    //       const action = new CartActions.CreateMultiCart({
+    //         tempCartId,
+    //       });
+    //       expect({ ...action }).toEqual({
+    //         type: CartActions.CREATE_MULTI_CART,
+    //         payload: { tempCartId },
+    //         meta: StateEntityLoaderActions.entityLoadMeta(
+    //           MULTI_CART_DATA,
+    //           tempCartId
+    //         ),
+    //       });
+    //     });
+    //   });
 
-    describe('CreateMultiCartFail', () => {
-      it('should create the action', () => {
-        const action = new CartActions.CreateMultiCartFail({
-          tempCartId,
-        });
-        expect({ ...action }).toEqual({
-          type: CartActions.CREATE_MULTI_CART_FAIL,
-          payload: { tempCartId },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            MULTI_CART_DATA,
-            tempCartId
-          ),
-        });
-      });
-    });
+    //   describe('CreateMultiCartFail', () => {
+    //     it('should create the action', () => {
+    //       const action = new CartActions.CreateMultiCartFail({
+    //         tempCartId,
+    //       });
+    //       expect({ ...action }).toEqual({
+    //         type: CartActions.CREATE_MULTI_CART_FAIL,
+    //         payload: { tempCartId },
+    //         meta: StateEntityLoaderActions.entityFailMeta(
+    //           MULTI_CART_DATA,
+    //           tempCartId
+    //         ),
+    //       });
+    //     });
+    //   });
   });
 
-  describe('CreateMultiCartSuccess', () => {
-    it('should create the action', () => {
-      const payload = { cart, userId: 'userId' };
-      const action = new CartActions.CreateMultiCartSuccess(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.CREATE_MULTI_CART_SUCCESS,
-        payload,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
-          MULTI_CART_DATA,
-          cart.code
-        ),
-      });
-    });
-  });
+  // describe('CreateMultiCartSuccess', () => {
+  //   it('should create the action', () => {
+  //     const payload = { cart, userId: 'userId' };
+  //     const action = new CartActions.CreateMultiCartSuccess(payload);
+  //     expect({ ...action }).toEqual({
+  //       type: CartActions.CREATE_MULTI_CART_SUCCESS,
+  //       payload,
+  //       meta: StateEntityLoaderActions.entitySuccessMeta(
+  //         MULTI_CART_DATA,
+  //         cart.code
+  //       ),
+  //     });
+  //   });
+  // });
 
   describe('LoadMultiCart', () => {
     it('should create the action', () => {

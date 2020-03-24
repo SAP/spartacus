@@ -1,4 +1,12 @@
 import { Action } from '@ngrx/store';
+import { Cart } from '../../../model/cart.model';
+import {
+  EntityFailAction,
+  EntityLoadAction,
+  EntitySuccessAction,
+} from '../../../state/utils/entity-loader/entity-loader.action';
+import { getCartIdByUserId } from '../../utils/utils';
+import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
 export const CREATE_CART_FAIL = '[Cart] Create Cart Fail';
@@ -24,19 +32,25 @@ export const CLEAR_CART = '[Cart] Clear Cart';
 export const DELETE_CART = '[Cart] Delete Cart';
 export const DELETE_CART_FAIL = '[Cart] Delete Cart Fail';
 
-export class CreateCart {
+export class CreateCart extends EntityLoadAction {
   readonly type = CREATE_CART;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(MULTI_CART_DATA, payload.tempCartId);
+  }
 }
 
-export class CreateCartFail {
+export class CreateCartFail extends EntityFailAction {
   readonly type = CREATE_CART_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(MULTI_CART_DATA, payload.tempCartId);
+  }
 }
 
-export class CreateCartSuccess {
+export class CreateCartSuccess extends EntitySuccessAction {
   readonly type = CREATE_CART_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: { cart: Cart; userId: string; extraData?: any }) {
+    super(MULTI_CART_DATA, getCartIdByUserId(payload.cart, payload.userId));
+  }
 }
 
 export class AddEmailToCart {

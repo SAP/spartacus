@@ -63,7 +63,7 @@ describe('Multi Cart reducer', () => {
           },
           userId: 'userId',
         };
-        const action = new CartActions.CreateMultiCartSuccess(payload);
+        const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.activeCartReducer(
           activeCartInitialState,
           action
@@ -80,7 +80,7 @@ describe('Multi Cart reducer', () => {
           },
           userId: 'userId',
         };
-        const action = new CartActions.CreateMultiCartSuccess(payload);
+        const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.activeCartReducer(
           activeCartInitialState,
           action
@@ -99,7 +99,7 @@ describe('Multi Cart reducer', () => {
           userId: 'userId',
           tempCartId: 'temp-uuid',
         };
-        const action = new CartActions.CreateMultiCart(payload);
+        const action = new CartActions.CreateCart(payload);
         const state = fromMultiCart.activeCartReducer(
           activeCartInitialState,
           action
@@ -113,7 +113,7 @@ describe('Multi Cart reducer', () => {
           extraData: {},
           userId: 'userId',
         };
-        const action = new CartActions.CreateMultiCart(payload);
+        const action = new CartActions.CreateCart(payload);
         const state = fromMultiCart.activeCartReducer(
           activeCartInitialState,
           action
@@ -195,7 +195,7 @@ describe('Multi Cart reducer', () => {
           userId: 'userId',
           extraData: {},
         };
-        const action = new CartActions.CreateMultiCartSuccess(payload);
+        const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.cartEntitiesReducer(initialState, action);
         expect(state).toEqual(payload.cart);
       });

@@ -157,9 +157,7 @@ export class CartEffects {
     | DeprecatedCartActions.MergeCartSuccess
     | CartActions.MergeMultiCartSuccess
     | DeprecatedCartActions.CreateCartSuccess
-    | CartActions.CreateMultiCartSuccess
     | DeprecatedCartActions.CreateCartFail
-    | CartActions.CreateMultiCartFail
     | CartActions.SetTempCart
   > = this.actions$.pipe(
     ofType(DeprecatedCartActions.CREATE_CART),
@@ -185,15 +183,8 @@ export class CartEffects {
                 })
               );
             }
-            // `cart` store branch should only be updated for active cart
-            // avoid dispatching CreateCartSuccess action on different cart loads
-            if (payload.extraData && payload.extraData.active) {
-              conditionalActions.push(
-                new DeprecatedCartActions.CreateCartSuccess(cart)
-              );
-            }
             return [
-              new CartActions.CreateMultiCartSuccess({
+              new CartActions.CreateCartSuccess({
                 cart,
                 userId: payload.userId,
                 extraData: payload.extraData,
@@ -207,10 +198,7 @@ export class CartEffects {
           }),
           catchError(error =>
             from([
-              new DeprecatedCartActions.CreateCartFail(
-                makeErrorSerializable(error)
-              ),
-              new CartActions.CreateMultiCartFail({
+              new CartActions.CreateCartFail({
                 tempCartId: payload.tempCartId,
                 error: makeErrorSerializable(error),
               }),
