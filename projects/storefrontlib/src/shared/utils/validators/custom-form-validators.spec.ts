@@ -8,6 +8,7 @@ describe('FormValidationService', () => {
   let starRatingEmpty: ValidationErrors;
   let matchPasswordError: any;
   let passwordsMustMatchErrorName: string;
+  let emailsMustMatchErrorName: string;
   let form: FormGroup;
 
   beforeEach(() => {
@@ -17,6 +18,8 @@ describe('FormValidationService', () => {
       password: new FormControl(),
       passwordconf: new FormControl(),
       rating: new FormControl(),
+      email: new FormControl(),
+      emailconf: new FormControl(),
     });
 
     emailError = {
@@ -36,6 +39,7 @@ describe('FormValidationService', () => {
     };
 
     passwordsMustMatchErrorName = 'cxPasswordsMustMatch';
+    emailsMustMatchErrorName = 'cxEmailsMustMatch';
   });
 
   describe('Email domain validator', () => {
@@ -147,7 +151,31 @@ describe('FormValidationService', () => {
     });
   });
 
-  describe('Password must match validator', () => {
+  describe('Passwords must match validator', () => {
+    it('should not return error, when emails match', () => {
+      form.get('email').setValue('test@test.com');
+      form.get('emailconf').setValue('test@test.com');
+
+      CustomFormValidators.emailsMustMatch('email', 'emailconf')(form);
+
+      expect(form.get('emailconf').hasError(emailsMustMatchErrorName)).toEqual(
+        false
+      );
+    });
+
+    it("should return error, when emails don't match", () => {
+      form.get('email').setValue('test@test.com');
+      form.get('emailconf').setValue('other@email.com');
+
+      CustomFormValidators.emailsMustMatch('email', 'emailconf')(form);
+
+      expect(form.get('emailconf').hasError(emailsMustMatchErrorName)).toEqual(
+        true
+      );
+    });
+  });
+
+  describe('Emails must match validator', () => {
     it('should not return error, when passwords match', () => {
       form.get('password').setValue('Test123!');
       form.get('passwordconf').setValue('Test123!');

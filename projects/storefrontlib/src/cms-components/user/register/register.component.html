@@ -5,7 +5,7 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="cx-section">
-        <form (submit)="submitForm()" [formGroup]="registerForm">
+        <form (ngSubmit)="submitForm()" [formGroup]="registerForm">
           <div class="form-group">
             <label>
               <span class="label-content">{{

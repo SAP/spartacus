@@ -40,9 +40,7 @@ export class CustomFormValidators {
   static starRatingEmpty(control: AbstractControl): ValidationErrors | null {
     const rating = control.value as number;
 
-    return rating >= 1 && rating <= 5
-      ? null
-      : { cxStarRatingEmpty: true };
+    return rating >= 1 && rating <= 5 ? null : { cxStarRatingEmpty: true };
   }
 
   static passwordsMustMatch(
@@ -55,6 +53,21 @@ export class CustomFormValidators {
         password,
         passwordConfirmation,
         'cxPasswordsMustMatch'
+      );
+
+    return mustMatch;
+  }
+
+  static emailsMustMatch(
+    email: string,
+    emailConfirmation: string
+  ): any {
+    const mustMatch = (formGroup: FormGroup) =>
+      mustMatchFunction(
+        formGroup,
+        email,
+        emailConfirmation,
+        'cxEmailsMustMatch'
       );
 
     return mustMatch;
