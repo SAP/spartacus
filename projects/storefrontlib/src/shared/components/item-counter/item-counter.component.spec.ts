@@ -9,7 +9,7 @@ const form = new FormGroup({
   quantity: new FormControl('1'),
 });
 
-fdescribe('ItemCounterComponent', () => {
+describe('ItemCounterComponent', () => {
   let component: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
 
