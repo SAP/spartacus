@@ -94,6 +94,9 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
+export const CONSENT_MANAGEMENT_COMPONENT = 'ConsentManagementComponent';
+export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
+export const ANONYMOUS_CONSENTS_CONFIG = 'AnonymousConsentsConfig';
 export const PRODUCT_IMAGES_COMPONENT = 'ProductImagesComponent';
 export const USER_CONSENT_SERVICE = 'UserConsentService';
 export const USER_ORDER_SERVICE = 'UserOrderService';
