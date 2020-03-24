@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService, RoutingService, UserService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -8,12 +8,26 @@ import { CustomFormValidators } from '../../../../shared/utils/validators/custom
   selector: 'cx-guest-register-form',
   templateUrl: './guest-register-form.component.html',
 })
-export class GuestRegisterFormComponent implements OnInit, OnDestroy {
+export class GuestRegisterFormComponent implements OnDestroy {
   @Input() guid: string;
   @Input() email: string;
 
   subscription: Subscription;
-  guestRegisterForm: FormGroup;
+  guestRegisterForm: FormGroup = this.fb.group(
+    {
+      password: [
+        '',
+        [Validators.required, CustomFormValidators.passwordValidator],
+      ],
+      passwordconf: ['', Validators.required],
+    },
+    {
+      validators: CustomFormValidators.passwordsMustMatch(
+        'password',
+        'passwordconf'
+      ),
+    }
+  );
 
   constructor(
     protected userService: UserService,
@@ -21,24 +35,6 @@ export class GuestRegisterFormComponent implements OnInit, OnDestroy {
     protected authService: AuthService,
     protected fb: FormBuilder
   ) {}
-
-  ngOnInit() {
-    this.guestRegisterForm = this.fb.group(
-      {
-        password: [
-          '',
-          [Validators.required, CustomFormValidators.passwordValidator],
-        ],
-        passwordconf: ['', Validators.required],
-      },
-      {
-        validators: CustomFormValidators.passwordsMustMatch(
-          'password',
-          'passwordconf'
-        ),
-      }
-    );
-  }
 
   submit() {
     if (this.guestRegisterForm.valid) {
