@@ -5,6 +5,7 @@ describe('FormValidationService', () => {
   let email: FormControl;
   let emailError: ValidationErrors;
   let passwordError: ValidationErrors;
+  let starRatingEmpty: ValidationErrors;
   let matchPasswordError: any;
   let passwordsMustMatchErrorName: string;
   let form: FormGroup;
@@ -15,6 +16,7 @@ describe('FormValidationService', () => {
     form = new FormGroup({
       password: new FormControl(),
       passwordconf: new FormControl(),
+      rating: new FormControl(),
     });
 
     emailError = {
@@ -27,6 +29,10 @@ describe('FormValidationService', () => {
 
     matchPasswordError = {
       cxPasswordsNotEqual: true,
+    };
+
+    starRatingEmpty = {
+      cxStarRatingEmpty: true,
     };
 
     passwordsMustMatchErrorName = 'cxPasswordsMustMatch';
@@ -162,6 +168,31 @@ describe('FormValidationService', () => {
       expect(
         form.get('passwordconf').hasError(passwordsMustMatchErrorName)
       ).toEqual(true);
+    });
+  });
+
+  describe('Star rating validator', () => {
+    const invalidValues = [null, 'a', 0, 1000];
+    const validValues = [1, 2, 3, 4, 5];
+
+    it('should reject invalid values', () => {
+      invalidValues.forEach((value: any) => {
+        form.get('rating').setValue(value);
+
+        expect(
+          CustomFormValidators.starRatingEmpty(form.get('rating'))
+        ).toEqual(starRatingEmpty);
+      });
+    });
+
+    it('should allow valid values', () => {
+      validValues.forEach((value: any) => {
+        form.get('rating').setValue(value);
+
+        expect(
+          CustomFormValidators.starRatingEmpty(form.get('rating'))
+        ).toBeNull();
+      });
     });
   });
 });

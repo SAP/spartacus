@@ -128,5 +128,6 @@ export const common = {
     cxInvalidEmail: 'This is not a valid email format',
     cxInvalidPassword: 'This is not a valid password format',
     cxPasswordsMustMatch: 'Password fields must match',
+    cxStarRatingEmpty: 'Rating field is required'
   },
 };

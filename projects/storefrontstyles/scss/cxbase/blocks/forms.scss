@@ -54,7 +54,8 @@ cx-form-errors {
 
 input,
 input[type='checkbox'],
-input[type='radio'] {
+input[type='radio'],
+textarea {
   &.ng-invalid {
     &.ng-dirty,
     &.ng-touched {

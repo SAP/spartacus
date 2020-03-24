@@ -37,6 +37,14 @@ export class CustomFormValidators {
       : { cxPasswordsNotEqual: true };
   }
 
+  static starRatingEmpty(control: AbstractControl): ValidationErrors | null {
+    const rating = control.value as number;
+
+    return rating >= 1 && rating <= 5
+      ? null
+      : { cxStarRatingEmpty: true };
+  }
+
   static passwordsMustMatch(
     password: string,
     passwordConfirmation: string
