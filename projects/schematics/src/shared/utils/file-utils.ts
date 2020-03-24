@@ -130,7 +130,7 @@ export function insertHtmlComment(
   componentSelector: string,
   componentProperty: ComponentProperty
 ): string | undefined {
-  // const oldContent = content;
+  const oldContent = content;
   const comment = buildHtmlComment(componentProperty.comment);
 
   // for cases like: <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
@@ -138,11 +138,11 @@ export function insertHtmlComment(
   content = content.replace(selectorRegExp, `${comment}\$1`);
 
   // // for cases like: <div *ngIf="isThumbsEmpty">test</div>
-  // if (oldContent === content) {
-  //   // content hasn't been changed by the above selector regexp
-  //   const propertyRegExp = new RegExp(`(<.+${componentProperty.name})`, 'g');
-  //   content = content.replace(propertyRegExp, `${comment}\$1`);
-  // }
+  if (oldContent === content) {
+    // content hasn't been changed by the above selector regexp
+    const propertyRegExp = new RegExp(`(<.+${componentProperty.name})`, 'g');
+    content = content.replace(propertyRegExp, `${comment}\$1`);
+  }
 
   return content;
 }

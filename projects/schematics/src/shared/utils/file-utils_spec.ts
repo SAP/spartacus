@@ -313,7 +313,7 @@ describe('File utils', () => {
       expect(result).toBeTruthy();
       expect(result).toEqual(HTML_EXAMPLE_EXPECTED);
     });
-    xit('should insert the comment (with *ngIf)', async () => {
+    it('should insert the comment (with *ngIf)', async () => {
       const componentDeprecation = COMPONENT_DEPRECATION_DATA[1];
       const result = insertHtmlComment(
         HTML_EXAMPLE_NGIF,

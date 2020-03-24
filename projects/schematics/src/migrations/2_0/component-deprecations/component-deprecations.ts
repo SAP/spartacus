@@ -49,12 +49,11 @@ export function migrate(): Rule {
             const htmlFileName = templateInfo.templateUrl;
             if (htmlFileName) {
               const sourceRoot = getSourceRoot(tree);
-              const htmlFilePaths = getHtmlFiles(
+              const htmlFilePath = getHtmlFiles(
                 tree,
                 htmlFileName,
                 sourceRoot
-              );
-              const htmlFilePath = htmlFilePaths[0];
+              )[0];
               const buffer = tree.read(htmlFilePath);
               if (!buffer) {
                 context.logger.warn(`Could not read file (${htmlFilePath}).`);

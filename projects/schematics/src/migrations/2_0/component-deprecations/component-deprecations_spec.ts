@@ -84,6 +84,11 @@ export class Test extends ConsentManagementFormComponent {
 `;
 const PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS = `
 import { ProductImagesComponent } from '@spartacus/core';
+import { Component } from '@angular/core';
+@Component({
+  selector: 'cx-product-images',
+  templateUrl: './test.html',
+})
 export class Test extends ProductImagesComponent {
   constructor() {
     const test = this.isThumbsEmpty;
@@ -92,6 +97,11 @@ export class Test extends ProductImagesComponent {
 `;
 const PRODUCT_IMAGES_COMPONENT_INHERITANCE_EXPECTED_CLASS = `
 import { ProductImagesComponent } from '@spartacus/core';
+import { Component } from '@angular/core';
+@Component({
+  selector: 'cx-product-images',
+  templateUrl: './test.html',
+})
 export class Test extends ProductImagesComponent {
   constructor() {
 // TODO:Spartacus - 'isThumbsEmpty' property has been removed.
@@ -205,9 +215,14 @@ describe('component selectors migration', () => {
     });
   });
 
-  xdescribe('ProductImagesComponent', () => {
+  describe('ProductImagesComponent', () => {
     describe('when the html file contains a single usage', () => {
       it('should add a comment', async () => {
+        writeFile(
+          host,
+          tsFileName,
+          PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS
+        );
         writeFile(host, htmlFileName, PRODUCT_IMAGES_SINGLE_USAGE_EXAMPLE);
 
         await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -218,6 +233,11 @@ describe('component selectors migration', () => {
     });
     describe('when the html file contains a multiple usage', () => {
       it('should add a comment', async () => {
+        writeFile(
+          host,
+          tsFileName,
+          PRODUCT_IMAGES_COMPONENT_INHERITANCE_TEST_CLASS
+        );
         writeFile(host, htmlFileName, PRODUCT_IMAGES_MULTIPLE_USAGE_EXAMPLE);
 
         await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
