@@ -34,45 +34,40 @@ export class SelectFocusUtility {
     );
   }
 
-  /**
-   * Returns the first visible focusable element of the host element. The focusable
-   * element is queried based on the given `AutoFocusConfig`:
-   * - a specific autofocus _selector_ is given (i.e. `{autofocus: 'button[submit]'}`)
-   * - a focusable element that uses the native _autofocus_ attribute
-   * - the first focusuable child element
-   *
-   * The visibility of the focusable child elements is only restricted by `display:none` of
-   * the element or an of it's parents.
-   */
   findFirstFocusable(
     host: HTMLElement,
     config: AutoFocusConfig = { autofocus: true }
   ): HTMLElement {
     const selector =
       typeof config?.autofocus === 'string' ? config.autofocus : '[autofocus]';
+    // fallback to first focusable
     return (
       this.query(host, selector).find(el => !this.isHidden(el)) ||
-      this.findFocusable(host).find(el => Boolean(el))
+      this.findFocusable(host).find(el => !this.isHidden(el))
     );
   }
 
   /**
-   * Returns all visible focusable child elements of the host element. The element selectors
+   * returns all focusable child elements of the host element. The element selectors
    * are build from the `focusableSelectors`.
    *
-   * The visibility of the focusable child elements is only restricted by `display:none` of
-   * the element or an of it's parents.
-   *
    * @param host the `HTMLElement` used to query focusable elements
-   * @param locked indicates whether inactive (`tabindex="-1"`) focusable elements should be returend as well
+   * @param locked indicates whether inactive (`tabindex="-1"`) focusable elements should be returned
+   * @param invisible indicates whether hidden focusable elements should be returend
    */
-  findFocusable(host: HTMLElement, locked = false): HTMLElement[] {
+  findFocusable(
+    host: HTMLElement,
+    locked = false,
+    invisible = false
+  ): HTMLElement[] {
     let suffix = this.focusableSelectorSuffix;
     if (!locked) {
       suffix += `:not([tabindex='-1'])`;
     }
     const selector = this.focusableSelectors.map(s => (s += suffix)).join(',');
-    return this.query(host, selector).filter(el => !this.isHidden(el));
+    return this.query(host, selector).filter(el =>
+      !invisible ? !this.isHidden(el) : Boolean(el)
+    );
   }
 
   /**

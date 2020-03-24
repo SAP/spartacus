@@ -105,7 +105,7 @@ describe('SelectFocusUtility', () => {
         expect(service.findFocusable(host).length).toEqual(5);
       });
 
-      it('should not find fodusable elements hidden by CSS', () => {
+      it('should not find focusable elements hidden by CSS', () => {
         const host: HTMLElement = fixture.debugElement.query(By.css('#e'))
           .nativeElement;
         host.classList.add('hide');
@@ -114,6 +114,13 @@ describe('SelectFocusUtility', () => {
         expect(service.findFocusable(host).length).toEqual(2);
         expect(service.findFocusable(host)).toContain(button1);
         expect(service.findFocusable(host)).toContain(button2);
+      });
+
+      it('should find hidden focusable elements if asked specifically', () => {
+        const host: HTMLElement = fixture.debugElement.query(By.css('#e'))
+          .nativeElement;
+        host.classList.add('hide');
+        expect(service.findFocusable(host, undefined, true).length).toEqual(5);
       });
 
       it('should skip hidden focusable elements for first focusable', () => {
