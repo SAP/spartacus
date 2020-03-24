@@ -52,7 +52,9 @@ describe('CartVoucherService', () => {
     service = TestBed.inject(CartVoucherService);
     store = TestBed.inject(Store);
 
-    // store.dispatch(new DeprecatedCartActions.CreateCartSuccess(cart));
+    store.dispatch(
+      new CartActions.CreateCartSuccess({ cart, userId: 'userId' })
+    );
   });
 
   describe('add Voucher', () => {
