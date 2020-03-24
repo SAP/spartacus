@@ -111,7 +111,12 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
 
           navigation: {
             xs: {
-              slots: ['SiteLogin', 'SiteContext', 'SiteLinks'],
+              slots: [
+                'SiteLogin',
+                'SiteContext',
+                'SiteLinks',
+                'VariantConfigMenu',
+              ],
             },
           },
 
