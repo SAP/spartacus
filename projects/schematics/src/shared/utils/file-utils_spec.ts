@@ -28,8 +28,8 @@ import {
   commitChanges,
   defineProperty,
   findConstructor,
-  getAllHtmlFiles,
   getAllTsSourceFiles,
+  getHtmlFiles,
   getIndexHtmlPath,
   getPathResultsForFile,
   getTsSourceFile,
@@ -280,20 +280,22 @@ describe('File utils', () => {
 
   describe('getPathResultsForFile', () => {
     it('should return proper path for file', async () => {
-      const pathsToFile = getPathResultsForFile(appTree, 'test.ts', 'src');
+      const pathsToFiles = getPathResultsForFile(appTree, 'test.ts', 'src');
 
-      expect(pathsToFile.length).toBeGreaterThan(0);
-      expect(pathsToFile[0]).toEqual('/src/test.ts');
+      expect(pathsToFiles.length).toBeGreaterThan(0);
+      expect(pathsToFiles[0]).toEqual('/src/test.ts');
     });
   });
 
   describe('getAllHtmlFiles', () => {
     it('should return proper path for file', async () => {
-      const pathsToFile = getAllHtmlFiles(appTree, 'src');
+      let pathsToFiles = getHtmlFiles(appTree, undefined, 'src');
+      expect(pathsToFiles).toBeTruthy();
 
-      expect(pathsToFile.length).toEqual(2);
-      expect(pathsToFile[0]).toEqual('/src/index.html');
-      expect(pathsToFile[1]).toEqual('/src/app/app.component.html');
+      pathsToFiles = pathsToFiles || [];
+      expect(pathsToFiles.length).toEqual(2);
+      expect(pathsToFiles[0]).toEqual('/src/index.html');
+      expect(pathsToFiles[1]).toEqual('/src/app/app.component.html');
     });
   });
 
