@@ -24,6 +24,10 @@ export const PRODUCT_PAGE_META_RESOLVER_MIGRATION: ConstructorDeprecation = {
       className: TRANSLATION_SERVICE,
       importPath: SPARTACUS_CORE,
     },
+    {
+      className: FEATURE_CONFIG_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
   ],
   removeParams: [
     {
