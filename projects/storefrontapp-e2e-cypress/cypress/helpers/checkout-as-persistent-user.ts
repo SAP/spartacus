@@ -1,5 +1,6 @@
 import { product } from '../sample-data/checkout-flow';
 import { config, login, setSessionData } from '../support/utils/login';
+import { waitForPage } from './checkout-flow';
 
 export const username = 'test-user-cypress@ydev.hybris.com';
 export const password = 'Password123.';
@@ -162,7 +163,7 @@ export function selectShippingAddress() {
   ).as('cartLoaded');
 
   cy.route('GET', '/rest/v2/electronics-spa/users/current/addresses?*').as(
-    'getAdresses'
+    'getAddresses'
   );
 
   cy.route(
@@ -179,6 +180,7 @@ export function selectShippingAddress() {
     'GET',
     '/rest/v2/electronics-spa/cms/pages?*&pageType=ContentPage&pageLabelOrId=/checkout*'
   ).as('checkoutPageContent');
+
   cy.get('button.btn-primary')
     .getByText(/proceed to checkout/i)
     .click();
@@ -191,33 +193,41 @@ export function selectShippingAddress() {
     .its('status')
     .should('eq', 200);
 
-  cy.wait('@getAdresses')
+  cy.wait('@getAddresses')
     .its('status')
     .should('eq', 200);
 
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('.cx-checkout-title')
+    .should('contain', 'Shipping Address')
+    .click({ force: true });
 
-  cy.get('p.cx-checkout-text').should(
-    'contain',
-    'Select your Shipping Address'
-  );
+  cy.get('p.cx-checkout-text')
+    .should('contain', 'Select your Shipping Address')
+    .click({ force: true });
 
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
 
-  cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
-  cy.get('.card-header').should('contain', 'Selected');
+  cy.get('.cx-card-title')
+    .should('contain', 'Default Shipping Address')
+    .click({ force: true });
+  cy.get('.card-header')
+    .should('contain', 'Selected')
+    .click({ force: true });
 
-  cy.route(
-    'GET',
-    '/rest/v2/electronics-spa/cms/pages?*/checkout/delivery-mode*'
-  ).as('getDeliveryPage');
+  cy.get('button.btn-action').should('contain', 'Add New Address');
+
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
   cy.get('button.cx-btn.btn-primary')
     .should('contain', 'Continue')
-    .click();
-  cy.wait('@getDeliveryPage')
+    .click({ force: true });
+
+  cy.wait(`@${deliveryPage}`)
     .its('status')
     .should('eq', 200);
 
@@ -244,7 +254,7 @@ export function selectDeliveryMethod() {
   cy.get('cx-checkout-progress')
     .should('exist')
     .then(() => {
-      cy.get('cx-checkout-progress a.is-active').should(
+      cy.get('cx-checkout-progress a.cx-link').should(
         'contain',
         '2. Delivery mode'
       );
