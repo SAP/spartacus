@@ -1,7 +1,7 @@
 const delay = 3000;
 
-// 2 mins in milliseconds
-const timerTimeout = 10000;
+// 1 min in milliseconds
+const timerTimeout = 60000;
 
 // start time
 let startTime = 0;
