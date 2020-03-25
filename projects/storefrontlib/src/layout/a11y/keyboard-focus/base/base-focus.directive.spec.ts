@@ -33,7 +33,7 @@ class MockComponent {}
 
 class MockBaseFocusService {}
 
-fdescribe('BaseFocusDirective', () => {
+describe('BaseFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
 
   beforeEach(async(() => {
