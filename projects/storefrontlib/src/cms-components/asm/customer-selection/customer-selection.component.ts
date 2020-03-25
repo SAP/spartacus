@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   AsmConfig,
   AsmService,
@@ -28,7 +28,7 @@ import { debounceTime } from 'rxjs/operators';
   },
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
-  form: FormGroup;
+  customerSelectionForm: FormGroup;
   private subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
   searchResults: Observable<CustomerSearchPage>;
@@ -47,15 +47,15 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      searchTerm: [''],
+    this.customerSelectionForm = this.fb.group({
+      searchTerm: ['', Validators.required],
     });
     this.asmService.customerSearchReset();
     this.searchResultsLoading$ = this.asmService.getCustomerSearchResultsLoading();
     this.searchResults = this.asmService.getCustomerSearchResults();
 
     this.subscription.add(
-      this.form.controls.searchTerm.valueChanges
+      this.customerSelectionForm.controls.searchTerm.valueChanges
         .pipe(debounceTime(300))
         .subscribe(searchTermValue => {
           this.handleSearchTerm(searchTermValue);
@@ -84,13 +84,17 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   selectCustomerFromList(customer: User) {
     this.selectedCustomer = customer;
-    this.form.controls.searchTerm.setValue(this.selectedCustomer.name);
+    this.customerSelectionForm.controls.searchTerm.setValue(this.selectedCustomer.name);
     this.asmService.customerSearchReset();
   }
 
   onSubmit(): void {
-    if (Boolean(this.selectedCustomer)) {
-      this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
+    if (this.customerSelectionForm.valid) {
+      if (Boolean(this.selectedCustomer)) {
+        this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
+      }
+    } else {
+      this.customerSelectionForm.markAllAsTouched();
     }
   }
 
