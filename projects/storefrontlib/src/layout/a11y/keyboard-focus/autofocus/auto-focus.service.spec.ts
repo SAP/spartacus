@@ -19,6 +19,10 @@ import { AutoFocusService } from './auto-focus.service';
       <button id="d1"></button>
       <button id="d2"></button>
     </div>
+    <div id="e">
+      <div id="e1"></div>
+      <div id="e2"></div>
+    </div>
   `,
 })
 class MockComponent {}
@@ -56,11 +60,6 @@ describe('AutoFocusService', () => {
   });
 
   describe('findFirstFocusable', () => {
-    it('should find nothing', () => {
-      const host = fixture.debugElement.query(By.css('#a')).nativeElement;
-      expect(service.findFirstFocusable(host, {})).toBeFalsy();
-    });
-
     it('should find host element', () => {
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
       expect(service.findFirstFocusable(host, { autofocus: ':host' })).toEqual(
@@ -87,6 +86,14 @@ describe('AutoFocusService', () => {
       const el = fixture.debugElement.query(By.css('#d1')).nativeElement;
       spyOn(focusUtility, 'findFirstFocusable').and.returnValue(el);
       expect(service.findFirstFocusable(host, { autofocus: true })).toEqual(el);
+    });
+
+    it('should retun host element if no focusable childs are available', () => {
+      const host = fixture.debugElement.query(By.css('#e')).nativeElement;
+      spyOn(focusUtility, 'findFirstFocusable').and.returnValue(null);
+      expect(service.findFirstFocusable(host, { autofocus: true })).toEqual(
+        host
+      );
     });
   });
 

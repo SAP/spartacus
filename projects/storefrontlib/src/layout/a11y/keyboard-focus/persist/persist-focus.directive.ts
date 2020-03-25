@@ -56,11 +56,6 @@ export class PersistFocusDirective extends BlockFocusDirective
    */
   @HostBinding(`attr.${FOCUS_ATTR}`) attr: string;
 
-  /**
-   * The persistence key is maintained in a singleton cross the app to ensure we
-   * can reset the focus if the DOM gets rebuild.
-   */
-
   @HostListener('focus', ['$event'])
   handleFocus(event?: KeyboardEvent) {
     this.service.set(this.key, this.group);
