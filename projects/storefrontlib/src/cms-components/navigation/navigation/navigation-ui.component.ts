@@ -185,8 +185,4 @@ export class NavigationUIComponent implements OnDestroy {
 
     this.isOpen = this.openNodes.length > 0;
   }
-
-  isTabbable(node: any) {
-    return this.flyout && node.children && node.children.length;
-  }
 }
