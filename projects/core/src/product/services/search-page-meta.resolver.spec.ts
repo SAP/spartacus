@@ -62,35 +62,15 @@ describe('SearchPageMetaResolver', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('deprecated resolve()', () => {
-    it(`should return {title: 'pageMetaResolver.search.title count:3 query:Canon'} for resolve method`, () => {
-      let result: string;
-      service
-        .resolve()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
+  it('should resolve title', () => {
+    let result: string;
+    service
+      .resolveTitle()
+      .subscribe(value => {
+        result = value;
+      })
+      .unsubscribe();
 
-      expect(result).toEqual(
-        'pageMetaResolver.search.title count:3 query:Canon'
-      );
-    });
-  });
-
-  describe('resolvers', () => {
-    it('should return title for resolveTitle with arguments', () => {
-      let result: { title: string } | string;
-      service
-        .resolveTitle(100, 'MYBRAND')
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-
-      expect(result).toEqual(
-        'pageMetaResolver.search.title count:100 query:MYBRAND'
-      );
-    });
+    expect(result).toEqual('pageMetaResolver.search.title count:3 query:Canon');
   });
 });

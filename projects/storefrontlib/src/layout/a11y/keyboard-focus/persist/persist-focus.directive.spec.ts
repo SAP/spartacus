@@ -1,9 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusDirective } from './persist-focus.directive';
 import { PersistFocusService } from './persist-focus.service';
 
+@Directive({
+  selector: '[cxPersistFocus]',
+})
+class CustomFocusDirective extends PersistFocusDirective {
+  @Input('cxPersistFocus') protected config: PersistFocusConfig;
+}
 @Component({
   selector: 'cx-host',
   template: `
@@ -32,7 +39,7 @@ describe('PersistFocusDirective', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, PersistFocusDirective],
+      declarations: [MockComponent, CustomFocusDirective],
       providers: [
         {
           provide: PersistFocusService,
