@@ -21,7 +21,8 @@ import { OutletService } from './outlet.service';
   selector: '[cxOutlet]',
 })
 export class OutletDirective implements OnDestroy, OnChanges {
-  private rendered = [];
+  private renderedTemplate = [];
+
   @Input() cxOutlet: string;
 
   @Input() cxOutletContext: any;
@@ -63,6 +64,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
 
   private initializeOutlet(): void {
     this.vcr.clear();
+    this.renderedTemplate = [];
     this.subscription.unsubscribe();
     this.subscription = new Subscription();
     this.outletRendererService.registerOutlet(this.cxOutlet, this);
@@ -80,6 +82,9 @@ export class OutletDirective implements OnDestroy, OnChanges {
     }
   }
 
+  /**
+   * Re-render the outlet dynamically
+   */
   public dynamicRender() {
     this.initializeOutlet();
   }
@@ -111,7 +116,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
       this.outletService.get(this.cxOutlet, position, USE_STACKED_OUTLETS)
     );
 
-    templates = templates?.filter(el => !this.rendered.includes(el));
+    templates = templates?.filter(el => !this.renderedTemplate.includes(el));
 
     if (!templates && position === OutletPosition.REPLACE) {
       templates = [this.templateRef];
@@ -143,7 +148,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
       // so we apply change detection anyway
       view.markForCheck();
     }
-    this.rendered.push(tmplOrFactory);
+    this.renderedTemplate.push(tmplOrFactory);
   }
 
   /**
