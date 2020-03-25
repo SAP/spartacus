@@ -20,18 +20,19 @@ import { BaseFocusService } from './base-focus.service';
  */
 @Directive()
 export abstract class BaseFocusDirective implements OnInit {
+  /**
+   * Optional configuration for the focus directive drives the behaviour of the keyboard
+   * focus directive.
+   */
   protected config: BaseFocusConfig;
-  protected defaultConfig: BaseFocusConfig = {};
 
   /**
-   * The host tabindex will default to -1 for elements that require
-   * an explicit tabindex if we set the focus.
+   * A default config can be provided for each directive if a specific focus directive
+   * is used directly. i.e. `<div cxAutoFocus></div>`
    */
-  // tslint:disable-next-line: no-input-rename
-  @Input('tabindex') protected currentIndex = '-1';
+  protected defaultConfig: BaseFocusConfig = {};
 
-  // the tabindex attribute we like to replace
-  @HostBinding('attr.tabindex') protected tabindex: number;
+  @Input() @HostBinding('attr.tabindex') tabindex: number;
 
   constructor(
     protected elementRef: ElementRef<HTMLElement>,
@@ -40,7 +41,7 @@ export abstract class BaseFocusDirective implements OnInit {
 
   ngOnInit() {
     this.setDefaultConfiguration();
-    this.forceTabindex();
+    this.requiredTabindex = -1;
   }
 
   /**
@@ -56,17 +57,6 @@ export abstract class BaseFocusDirective implements OnInit {
   }
 
   /**
-   * Forces a tabindex on the host element if it's lacking or
-   * not forced by the semantic nature of the host element. Buttons,
-   * active links, etc. do no need an explicit tabindex to receive focus.
-   */
-  protected forceTabindex() {
-    if (this.requiresExplicitTabIndex) {
-      this.tabindex = Number(this.currentIndex);
-    }
-  }
-
-  /**
    * Helper method to return the host element for the directive
    * given by the `elementRef`.
    */
@@ -75,13 +65,28 @@ export abstract class BaseFocusDirective implements OnInit {
   }
 
   /**
-   * returns true if the host element does not have a tabindex defined
+   * Force a tabindex on the host element if it is _requried_ to make the element
+   * focusable. If the element is focusable by nature or by a given tabindex, the
+   * `tabindex` is not applied.
+   *
+   * Buttons, active links, etc. do no need an explicit tabindex to receive focus.
+   */
+  protected set requiredTabindex(tabindex: number) {
+    if (this.requiresExplicitTabIndex) {
+      this.tabindex = tabindex;
+    }
+  }
+
+  /**
+   * Returns true if the host element does not have a tabindex defined
    * and it also doesn't get focus by browsers nature (i.e. button or
    * active link).
+   *
+   * We keep this utility method private to not pollute the API.
    */
-  protected get requiresExplicitTabIndex(): boolean {
+  private get requiresExplicitTabIndex(): boolean {
     return (
-      this.currentIndex !== undefined &&
+      this.tabindex === undefined &&
       ['button', 'input', 'select', 'textarea'].indexOf(
         this.host.tagName.toLowerCase()
       ) === -1 &&

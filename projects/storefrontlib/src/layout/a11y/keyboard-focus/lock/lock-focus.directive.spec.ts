@@ -1,10 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LockFocusConfig } from '../keyboard-focus.model';
 import { LockFocusDirective } from './lock-focus.directive';
 import { LockFocusService } from './lock-focus.service';
 
+@Directive({
+  selector: '[cxLockFocus]',
+})
+class CustomFocusDirective extends LockFocusDirective {
+  @Input('cxLockFocus') protected config: LockFocusConfig;
+}
 @Component({
   selector: 'cx-host',
   template: `
@@ -44,7 +50,9 @@ class MockLockFocusService {
   hasFocusableChildren() {
     return true;
   }
-  findFocusable() {}
+  findFocusable() {
+    return [];
+  }
   focusable() {}
   findFirstFocusable() {}
 
@@ -58,6 +66,7 @@ class MockLockFocusService {
   shouldFocus(config: LockFocusConfig) {
     return !!config.focusOnEscape;
   }
+  set() {}
 }
 
 describe('LockFocusDirective', () => {
@@ -65,7 +74,7 @@ describe('LockFocusDirective', () => {
   let service: LockFocusService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, LockFocusDirective],
+      declarations: [MockComponent, CustomFocusDirective],
       providers: [
         {
           provide: LockFocusService,
@@ -88,35 +97,10 @@ describe('LockFocusDirective', () => {
   });
 
   const event = {
-    preventDefault: () => {},
     stopPropagation: () => {},
+    preventDefault: () => {},
+    target: undefined,
   };
-
-  describe('configuration', () => {
-    beforeEach(() => {
-      spyOn(event, 'preventDefault');
-      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
-      fixture.detectChanges();
-    });
-
-    it('should unlock with default configuration', () => {
-      const host = fixture.debugElement.query(By.css('#a'));
-      host.triggerEventHandler('keydown.enter', event);
-      expect(event.preventDefault).toHaveBeenCalled();
-    });
-
-    it('should unlock when lock=true', () => {
-      const host = fixture.debugElement.query(By.css('#b'));
-      host.triggerEventHandler('keydown.enter', event);
-      expect(event.preventDefault).toHaveBeenCalled();
-    });
-
-    it('should not unlock when lock=false', () => {
-      const host = fixture.debugElement.query(By.css('#c'));
-      host.triggerEventHandler('keydown.enter', event);
-      expect(event.preventDefault).not.toHaveBeenCalled();
-    });
-  });
 
   describe('make host focusable', () => {
     it('should add tabindex=0 to host element', () => {
@@ -139,6 +123,35 @@ describe('LockFocusDirective', () => {
       fixture.detectChanges();
       expect(host.getAttribute('tabindex')).not.toEqual('0');
       expect(host.getAttribute('tabindex')).toEqual('5');
+    });
+  });
+
+  describe('configuration', () => {
+    beforeEach(() => {
+      spyOn(event, 'stopPropagation');
+      spyOn(service, 'hasFocusableChildren').and.returnValue(false);
+      fixture.detectChanges();
+    });
+
+    it('should unlock with default configuration', () => {
+      const host = fixture.debugElement.query(By.css('#a'));
+      event.target = host.nativeElement;
+      host.triggerEventHandler('keydown.enter', event);
+      expect(event.stopPropagation).toHaveBeenCalled();
+    });
+
+    it('should unlock when lock=true', () => {
+      const host = fixture.debugElement.query(By.css('#b'));
+      event.target = host.nativeElement;
+      host.triggerEventHandler('keydown.enter', event);
+      expect(event.stopPropagation).toHaveBeenCalled();
+    });
+
+    it('should not unlock when lock=false', () => {
+      const host = fixture.debugElement.query(By.css('#c'));
+      event.target = host.nativeElement;
+      host.triggerEventHandler('keydown.enter', event);
+      expect(event.stopPropagation).not.toHaveBeenCalled();
     });
   });
 
@@ -171,9 +184,16 @@ describe('LockFocusDirective', () => {
 
     it('should not lock if child has persisted ...', () => {
       spyOn(service, 'hasPersistedFocus').and.returnValue(true);
+
+      const host = fixture.debugElement.query(By.css('#d'));
       const d1 = fixture.debugElement.query(By.css('#d1')).nativeElement;
       const d2 = fixture.debugElement.query(By.css('#d2')).nativeElement;
+
       fixture.detectChanges();
+
+      event.target = host.nativeElement;
+      host.triggerEventHandler('keydown.enter', event);
+
       expect(d1.getAttribute('tabindex')).not.toEqual('-1');
       expect(d2.getAttribute('tabindex')).not.toEqual('-1');
     });
@@ -185,11 +205,13 @@ describe('LockFocusDirective', () => {
       fixture.detectChanges();
     });
 
-    it('should unlock focusable children', () => {
+    it('should unlock focusable children with enter', () => {
+      const host = fixture.debugElement.query(By.css('#b'));
       const b1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
       const b2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
       const b3 = fixture.debugElement.query(By.css('#b3')).nativeElement;
-      const host = fixture.debugElement.query(By.css('#b'));
+
+      event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
 
       expect(b1.getAttribute('tabindex')).toEqual('0');
@@ -197,10 +219,26 @@ describe('LockFocusDirective', () => {
       expect(b3.getAttribute('tabindex')).toEqual('0');
     });
 
+    it('should unlock focusable children with space', () => {
+      const host = fixture.debugElement.query(By.css('#b'));
+      const b1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
+      const b2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
+      const b3 = fixture.debugElement.query(By.css('#b3')).nativeElement;
+
+      event.target = host.nativeElement;
+      host.triggerEventHandler('keydown.space', event);
+
+      expect(b1.getAttribute('tabindex')).toEqual('0');
+      expect(b2.getAttribute('tabindex')).toEqual('0');
+      expect(b3.getAttribute('tabindex')).toEqual('0');
+    });
+
     it('should not unlock non-focusable children', () => {
+      const host = fixture.debugElement.query(By.css('#b'));
       const b4 = fixture.debugElement.query(By.css('#b4')).nativeElement;
       const b5 = fixture.debugElement.query(By.css('#b5')).nativeElement;
-      const host = fixture.debugElement.query(By.css('#b'));
+
+      event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
 
       expect(b4.hasAttribute('tabindex')).toBeFalsy();
@@ -270,7 +308,7 @@ describe('LockFocusDirective', () => {
       fixture.detectChanges();
     });
 
-    it('should autofocus by default', () => {
+    it('should autofocus first focusable by default', () => {
       const host = fixture.debugElement.query(By.css('#a'));
       const f1 = fixture.debugElement.query(By.css('#a1')).nativeElement;
       const f2 = fixture.debugElement.query(By.css('#a2')).nativeElement;
@@ -279,8 +317,8 @@ describe('LockFocusDirective', () => {
       spyOn(f1, 'focus').and.callThrough();
       spyOn(f2, 'focus').and.callThrough();
 
+      event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
-      host.triggerEventHandler('focus', event);
 
       expect(f1.focus).toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
@@ -295,8 +333,8 @@ describe('LockFocusDirective', () => {
       spyOn(f1, 'focus').and.callThrough();
       spyOn(f2, 'focus').and.callThrough();
 
+      event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
-      host.triggerEventHandler('focus', event);
 
       expect(f1.focus).toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
@@ -311,8 +349,8 @@ describe('LockFocusDirective', () => {
       spyOn(f1, 'focus').and.callThrough();
       spyOn(f2, 'focus').and.callThrough();
 
+      event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
-      host.triggerEventHandler('focus', event);
 
       expect(f1.focus).not.toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
@@ -327,8 +365,8 @@ describe('LockFocusDirective', () => {
       spyOn(f1, 'focus').and.callThrough();
       spyOn(f2, 'focus').and.callThrough();
 
+      event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
-      host.triggerEventHandler('focus', event);
 
       expect(f1.focus).not.toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
@@ -337,6 +375,8 @@ describe('LockFocusDirective', () => {
     it('should find focusable with configured autofocus selector', () => {
       const host = fixture.debugElement.query(By.css('#e'));
       spyOn(service, 'findFirstFocusable');
+
+      event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
 
       const hostConfig = {
