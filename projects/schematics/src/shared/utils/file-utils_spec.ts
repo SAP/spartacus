@@ -35,6 +35,7 @@ import {
   getTsSourceFile,
   injectService,
   insertCommentAboveIdentifier,
+  insertComponentSelectorComment,
   InsertDirection,
   insertHtmlComment,
   isCandidateForConstructorDeprecation,
@@ -301,24 +302,26 @@ describe('File utils', () => {
     });
   });
 
-  describe('insertHtmlComment', () => {
+  describe('insertComponentSelectorComment', () => {
     it('should insert the comment', async () => {
       const componentDeprecation = COMPONENT_DEPRECATION_DATA[0];
-      const result = insertHtmlComment(
+      const result = insertComponentSelectorComment(
         HTML_EXAMPLE,
         componentDeprecation.selector,
-        componentDeprecation.removedProperties[0]
+        (componentDeprecation.removedProperties || [])[0]
       );
 
       expect(result).toBeTruthy();
       expect(result).toEqual(HTML_EXAMPLE_EXPECTED);
     });
-    it('should insert the comment (with *ngIf)', async () => {
+  });
+
+  describe('insertHtmlComment', () => {
+    it('should insert the comment with *ngIf', async () => {
       const componentDeprecation = COMPONENT_DEPRECATION_DATA[1];
       const result = insertHtmlComment(
         HTML_EXAMPLE_NGIF,
-        componentDeprecation.selector,
-        componentDeprecation.removedProperties[0]
+        (componentDeprecation.removedProperties || [])[0]
       );
 
       expect(result).toBeTruthy();

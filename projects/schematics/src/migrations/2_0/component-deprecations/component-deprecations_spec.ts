@@ -11,9 +11,11 @@ import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 const MIGRATION_SCRIPT_NAME = 'migration-v2-component-deprecations-05';
 
 const SINGLE_USAGE_EXAMPLE = `<div>test</div>
-<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+<div *ngIf="isAnonymousConsentsEnabled">Using a removed property</div>`;
 const SINGLE_USAGE_EXAMPLE_EXPECTED = `<div>test</div>
-<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+<!-- 'isAnonymousConsentsEnabled' property has been removed. --><div *ngIf="isAnonymousConsentsEnabled">Using a removed property</div>`;
 const MULTI_USAGE_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
 <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
@@ -36,8 +38,9 @@ import { Component } from '@angular/core';
   templateUrl: './test.html',
 })
 export class Test extends ConsentManagementFormComponent {
-  usingIsLevel13(): void {
+  usingRemovedProperties(): void {
     console.log(this.isLevel13);
+    console.log(this.isAnonymousConsentsEnabled);
   }
 }
 `;
@@ -49,9 +52,11 @@ import { Component } from '@angular/core';
   templateUrl: './test.html',
 })
 export class Test extends ConsentManagementFormComponent {
-  usingIsLevel13(): void {
+  usingRemovedProperties(): void {
 // TODO:Spartacus - 'isLevel13' property has been removed.
     console.log(this.isLevel13);
+// TODO:Spartacus - 'isAnonymousConsentsEnabled' property has been removed.
+    console.log(this.isAnonymousConsentsEnabled);
   }
 }
 `;

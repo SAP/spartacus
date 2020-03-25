@@ -9,6 +9,7 @@ import {
   getHtmlFiles,
   getTsSourceFile,
   insertCommentAboveIdentifier,
+  insertComponentSelectorComment,
   InsertDirection,
   insertHtmlComment,
   isInheriting,
@@ -28,6 +29,31 @@ export function migrate(): Rule {
       const nodes = getSourceNodes(originalSource);
 
       for (const deprecatedComponent of COMPONENT_DEPRECATION_DATA) {
+        // check for usages of inputs / outputs of the deprecated component
+        const sourceRoot = getSourceRoot(tree);
+        const allHtmlFiles = getHtmlFiles(tree, '.html', sourceRoot);
+        for (const htmlFile of allHtmlFiles) {
+          for (const removedProperty of deprecatedComponent.removedInputOutputProperties ||
+            []) {
+            const buffer = tree.read(htmlFile);
+            if (!buffer) {
+              context.logger.warn(`Could not read file (${htmlFile}).`);
+              continue;
+            }
+            const content = buffer.toString(UTF_8);
+
+            const contentChange = insertComponentSelectorComment(
+              content,
+              deprecatedComponent.selector,
+              removedProperty
+            );
+            if (contentChange) {
+              tree.overwrite(htmlFile, contentChange);
+            }
+          }
+        }
+
+        // check for usages of the deprecated component properties in the .ts and the corresponding template (.html) files
         if (isInheriting(nodes, deprecatedComponent.componentClassName)) {
           for (const removedProperty of deprecatedComponent.removedProperties ||
             []) {
@@ -48,7 +74,6 @@ export function migrate(): Rule {
 
             const htmlFileName = templateInfo.templateUrl;
             if (htmlFileName) {
-              const sourceRoot = getSourceRoot(tree);
               const htmlFilePath = getHtmlFiles(
                 tree,
                 htmlFileName,
@@ -62,11 +87,7 @@ export function migrate(): Rule {
               }
               const content = buffer.toString(UTF_8);
 
-              const contentChange = insertHtmlComment(
-                content,
-                deprecatedComponent.selector,
-                removedProperty
-              );
+              const contentChange = insertHtmlComment(content, removedProperty);
               if (contentChange) {
                 tree.overwrite(htmlFilePath, contentChange);
               }
@@ -74,7 +95,6 @@ export function migrate(): Rule {
               const oldContent = templateInfo.inlineTemplateContent;
               const contentChange = insertHtmlComment(
                 oldContent,
-                deprecatedComponent.selector,
                 removedProperty
               );
               if (contentChange) {
