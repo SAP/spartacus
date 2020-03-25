@@ -14,7 +14,6 @@ export const FOOTER_NAVIGATION_COMPONENT_MIGRATION: ConstructorDeprecation = {
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
     {
-      // TODO:#4989 - check this, as it's generic
       className: CMS_COMPONENT_DATA_CLASS,
       importPath: SPARTACUS_STOREFRONTLIB,
     },
