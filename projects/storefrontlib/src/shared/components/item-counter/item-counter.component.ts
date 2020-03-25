@@ -80,6 +80,9 @@ export class ItemCounterComponent implements OnInit {
     this.input.nativeElement.focus();
   }
   ngOnInit() {
+    // We need to initially call the disabled state as we'd otherwise get an
+    // `ExpressionChangedAfterItHasBeenCheckedError`. This is related to the host
+    // binding we use to alter the css classes based on the form state.
     this.setDisableState();
 
     this.control$ = this.control.valueChanges.pipe(
