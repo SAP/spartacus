@@ -90,7 +90,10 @@ export abstract class BaseFocusDirective implements OnInit {
       ['button', 'input', 'select', 'textarea'].indexOf(
         this.host.tagName.toLowerCase()
       ) === -1 &&
-      !(this.host.tagName === 'A' && this.host.hasAttribute('href'))
+      !(
+        this.host.tagName === 'A' &&
+        (this.host.hasAttribute('href') || this.host.hasAttribute('routerlink'))
+      )
     );
   }
 }
