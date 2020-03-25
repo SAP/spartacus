@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
+import { mapTo, startWith, tap } from 'rxjs/operators';
 
 /**
  * Provides a UI to manage the count of the quantity, typically by using
@@ -92,7 +92,7 @@ export class ItemCounterComponent implements OnInit {
         this.control.setValue(this.getValidCount(value), { emitEvent: false });
         this.setDisableState();
       }),
-      map(() => this.control)
+      mapTo(this.control)
     );
   }
 
