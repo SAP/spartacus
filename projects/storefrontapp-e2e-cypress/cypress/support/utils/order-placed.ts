@@ -16,6 +16,8 @@ export function waitForOrderToBePlacedRequest(
   }).then(res => {
     if (
       res.status === 200 &&
+      res.body.orders &&
+      res.body.orders.length &&
       res.body.orders.filter(order => order.code === orderNumber)
     ) {
       return;
