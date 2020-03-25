@@ -43,7 +43,7 @@ export class SelectFocusUtility {
     // fallback to first focusable
     return (
       this.query(host, selector).find(el => !this.isHidden(el)) ||
-      this.findFocusable(host).find(el => !this.isHidden(el))
+      this.findFocusable(host).find(el => Boolean(el))
     );
   }
 
