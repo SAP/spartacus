@@ -97,7 +97,7 @@ describe('SelectFocusUtility', () => {
     });
 
     describe('hide by css', () => {
-      it('should find 4 focusable elements which are not hidden by css', () => {
+      it('should find 5 focusable elements which are not hidden by css', () => {
         const host: HTMLElement = fixture.debugElement.query(By.css('#e'))
           .nativeElement;
         host.classList.remove('hide');

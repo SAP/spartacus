@@ -43,7 +43,7 @@ export class SelectFocusUtility {
     // fallback to first focusable
     return (
       this.query(host, selector).find(el => !this.isHidden(el)) ||
-      this.findFocusable(host).find(el => !this.isHidden(el))
+      this.findFocusable(host).find(el => Boolean(el))
     );
   }
 
@@ -53,7 +53,7 @@ export class SelectFocusUtility {
    *
    * @param host the `HTMLElement` used to query focusable elements
    * @param locked indicates whether inactive (`tabindex="-1"`) focusable elements should be returned
-   * @param invisible indicates whether hidden focusable elements should be returend
+   * @param invisible indicates whether hidden focusable elements should be returned
    */
   findFocusable(
     host: HTMLElement,
