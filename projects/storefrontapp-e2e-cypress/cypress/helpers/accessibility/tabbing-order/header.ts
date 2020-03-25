@@ -54,7 +54,7 @@ export function subCategoryTabbingOrder(
     cy.get('cx-navigation-ui')
       .find('nav')
       .should('have.length', 30);
-    cy.get('cx-navigation-ui nav h5')
+    cy.get('cx-navigation-ui > nav > h5')
       .contains(subCategoryName)
       .should('be.visible')
       .focus()
