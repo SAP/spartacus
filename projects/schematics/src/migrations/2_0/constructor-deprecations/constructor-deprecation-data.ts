@@ -36,6 +36,7 @@ import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.co
 import { CDS_SPARTACUS_EVENT_SERVICE_MIGRATION } from './data/spartacus-event.service.migration';
 import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating.component.migration';
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
+import { REGISTER_COMPONENT_MIGRATIONS } from './data/register.component.migration';
 import { USER_CONSENT_SERVICE_MIGRATION } from './data/user-consent.service.migration';
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
@@ -81,6 +82,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CART_VOUCHER_SERVICE_MIGRATION,
   ...CART_COUPON_COMPONENT_MIGRATIONS,
   ...CART_ITEM_LIST_COMPONENT_MIGRATIONS,
+  ...REGISTER_COMPONENT_MIGRATIONS,
   STAR_RATING_COMPONENT_MIGRATION,
   CURRENT_PRODUCT_SERVICE_MIGRATION,
   PRODUCT_SERVICE_MIGRATION,
