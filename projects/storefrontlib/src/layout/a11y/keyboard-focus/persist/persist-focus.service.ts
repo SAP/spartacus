@@ -22,12 +22,27 @@ export class PersistFocusService extends BaseFocusService {
     return this.focus.get(group || GLOBAL_GROUP);
   }
 
-  set(value: string, group?: string) {
-    if (value) {
-      this.focus.set(group || GLOBAL_GROUP, value);
+  /**
+   * Persist the keyboard focus state for the given key. The focus is stored globally
+   * or for the given group.
+   */
+  set(key: string, group?: string) {
+    if (key) {
+      this.focus.set(group || GLOBAL_GROUP, key);
     }
   }
 
+  /**
+   * Clears the persisted keyboard focus state globally or for the given group.
+   */
+  clear(group?: string) {
+    this.focus.delete(group || GLOBAL_GROUP);
+  }
+
+  /**
+   * Returns the group for the host element based on the configured group or
+   * by the `data-cx-focus-group` attribute stored on the host.
+   */
   getPersistenceGroup(host: HTMLElement, config?: PersistFocusConfig): string {
     return config?.group ? config.group : host.getAttribute(FOCUS_GROUP_ATTR);
   }
