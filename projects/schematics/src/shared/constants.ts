@@ -107,6 +107,9 @@ export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const REGISTER_COMPONENT = 'RegisterComponent';
+export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
+export const ANONYMOUS_CONSENTS_CONFIG = 'AnonymousConsentsConfig';
 export const STAR_RATING_COMPONENT = 'StarRatingComponent';
 export const PRODUCT_SERVICE = 'ProductService';
 export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
@@ -143,6 +146,11 @@ export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
 
 export const ANONYMOUS_USERID_CONST = 'ANONYMOUS_USERID';
+
+export const PWA_CONFIGURATION_FACTORY = 'pwaConfigurationFactory';
+export const PWA_FACTORY = 'pwaFactory';
+export const GET_STRUCTURED_DATA_FACTORY = 'getStructuredDataFactory';
+export const SKIP_LINK_FACTORY = 'skipLinkFactory';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
