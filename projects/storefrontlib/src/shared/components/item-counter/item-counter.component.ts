@@ -67,7 +67,9 @@ export class ItemCounterComponent implements OnInit {
   /**
    * In readonly mode the item counter will only be shown as a label,
    * the form controls are not rendered.
-   * Please not that readonly is different from the `disabled` form state.
+   *
+   * Please note that readonly is different from the `disabled` form state.
+   * We do however explicitly make the control disabled in case of readonly.
    * @default false
    */
   @HostBinding('class.readonly') @Input() readonly = false;
@@ -78,15 +80,12 @@ export class ItemCounterComponent implements OnInit {
     this.input.nativeElement.focus();
   }
   ngOnInit() {
-    if (this.readonly) {
-      this.control.disable({ emitEvent: false });
-    }
     this.setDisableState();
 
     this.control$ = this.control.valueChanges.pipe(
       startWith(this.control.value),
       tap(value => {
-        // why are we doing this?
+        // the control value got updated with a validated count
         this.control.setValue(this.getValidCount(value), { emitEvent: false });
         this.setDisableState();
       }),
@@ -95,6 +94,10 @@ export class ItemCounterComponent implements OnInit {
   }
 
   protected setDisableState() {
+    if (this.readonly) {
+      // we set the disabled in case the caller forgot to to this
+      this.control.disable({ emitEvent: false });
+    }
     this.disabledState.decrement =
       this.control.disabled || this.control.value <= this.min || undefined;
     this.disabledState.increment =
