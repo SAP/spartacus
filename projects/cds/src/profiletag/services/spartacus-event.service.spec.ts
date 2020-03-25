@@ -5,7 +5,12 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
-import { Cart, CartService, ConsentService, OrderEntry } from '@spartacus/core';
+import {
+  ActiveCartService,
+  Cart,
+  ConsentService,
+  OrderEntry,
+} from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config';
@@ -18,7 +23,7 @@ describe('SpartacusEventTracker', () => {
   let routerEventsBehavior;
   let router;
   let consentsService;
-  let cartService;
+  let activeCartService;
   let cartBehavior;
   const mockCDSConfig: CdsConfig = {
     cds: {
@@ -39,7 +44,7 @@ describe('SpartacusEventTracker', () => {
     router = {
       events: routerEventsBehavior,
     };
-    cartService = {
+    activeCartService = {
       getActive: () => cartBehavior,
     };
   }
@@ -53,8 +58,8 @@ describe('SpartacusEventTracker', () => {
           useValue: consentsService,
         },
         {
-          provide: CartService,
-          useValue: cartService,
+          provide: ActiveCartService,
+          useValue: activeCartService,
         },
         {
           provide: CdsConfig,

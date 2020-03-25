@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
-  OrderEntry,
-  PromotionResult,
-  CartService,
+  ActiveCartService,
   Cart,
-  Order,
   CheckoutService,
+  Order,
+  OrderEntry,
   PromotionLocation,
+  PromotionResult,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,9 +17,9 @@ import { OrderDetailsService } from '../../../cms-components/myaccount/order/ord
 })
 export class PromotionService {
   constructor(
-    protected cartService: CartService,
     protected orderDetailsService: OrderDetailsService,
-    protected checkoutService: CheckoutService
+    protected checkoutService: CheckoutService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   getOrderPromotions(
@@ -38,7 +38,7 @@ export class PromotionService {
   }
 
   getOrderPromotionsFromCart(): Observable<PromotionResult[]> {
-    return this.cartService
+    return this.activeCartService
       .getActive()
       .pipe(map(cart => this.getOrderPromotionsFromCartHelper(cart)));
   }
@@ -78,7 +78,7 @@ export class PromotionService {
   ): Observable<PromotionResult[]> {
     switch (promotionLocation) {
       case PromotionLocation.ActiveCart:
-        return this.cartService
+        return this.activeCartService
           .getActive()
           .pipe(
             map(cart =>

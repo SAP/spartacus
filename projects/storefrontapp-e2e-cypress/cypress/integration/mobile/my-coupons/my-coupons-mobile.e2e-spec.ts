@@ -53,7 +53,7 @@ describe(`${formats.mobile.width +
     myCoupons.verifyMyCoupons();
   });
 
-  it('should list customer coupons and able to filter and apply at cart', () => {
+  it('should list customer coupons and apply at cart', () => {
     cartCoupon.verifyOrderPlacingWithCouponAndCustomerCoupon();
   });
 

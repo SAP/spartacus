@@ -45,7 +45,7 @@ describe('My coupons test for login user', () => {
     myCoupons.verifyMyCoupons();
   });
 
-  it('should list customer coupons and able to filter and apply in cart', () => {
+  it('should list customer coupons and apply in cart', () => {
     cartCoupon.verifyOrderPlacingWithCouponAndCustomerCoupon();
   });
 

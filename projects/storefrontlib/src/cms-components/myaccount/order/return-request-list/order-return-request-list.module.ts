@@ -4,8 +4,8 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
@@ -14,7 +14,13 @@ import { OrderReturnRequestListComponent } from './order-return-request-list.com
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    RouterModule,
+    ListNavigationModule,
+    UrlModule,
+    I18nModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         OrderReturnRequestListComponent: {
           component: OrderReturnRequestListComponent,
@@ -22,10 +28,6 @@ import { OrderReturnRequestListComponent } from './order-return-request-list.com
         },
       },
     }),
-    RouterModule,
-    ListNavigationModule,
-    UrlModule,
-    I18nModule,
   ],
   declarations: [OrderReturnRequestListComponent],
   exports: [OrderReturnRequestListComponent],
