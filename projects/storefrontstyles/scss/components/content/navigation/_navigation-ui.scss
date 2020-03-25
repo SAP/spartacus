@@ -211,35 +211,15 @@
 }
 
 %nav-wrap {
-  @if $theme != 'calydon' {
-    &.flyout .childs {
-      &[wrap-after] {
-        display: grid;
-        grid-column-gap: 10px;
-        grid-auto-flow: column;
-        grid-template-rows: repeat(15, auto);
+  @for $column from 1 through 10 {
+    &.flyout .childs[columns='#{$column}'] {
+      display: block;
+
+      @include media-breakpoint-up(md) {
+        column-count: $column;
       }
-
-      // support wrapAfter from up to 15
-      @for $wrap from 5 through 15 {
-        &[wrap-after='#{$wrap}'] {
-          grid-template-rows: repeat(#{$wrap}, auto);
-        }
-      }
-    }
-  }
-
-  @if $theme == 'calydon' {
-    @for $column from 1 through 10 {
-      &.flyout .childs[columns='#{$column}'] {
-        display: block;
-
-        @include media-breakpoint-up(md) {
-          column-count: $column;
-        }
-        @include media-breakpoint-down(sm) {
-          column-count: ceil($column / 3);
-        }
+      @include media-breakpoint-down(sm) {
+        column-count: ceil($column / 3);
       }
     }
   }
@@ -303,12 +283,10 @@
     }
 
     @include media-breakpoint-up(lg) {
-      @if $theme == 'calydon' {
-        .childs[depth='2'] {
-          > nav {
-            &:not(:only-child):not(:last-child) {
-              padding-inline-end: 20px;
-            }
+      .childs[depth='2'] {
+        > nav {
+          &:not(:only-child):not(:last-child) {
+            padding-inline-end: 20px;
           }
         }
       }
@@ -343,11 +321,6 @@
 
       .childs {
         display: flex;
-        @if $theme != 'calydon' {
-          nav:not(:last-child) {
-            padding-right: 20px;
-          }
-        }
       }
 
       .wrapper cx-icon {
@@ -358,9 +331,6 @@
         > .wrapper {
           transition: opacity 0.4s;
         }
-      }
-      > nav:last-child {
-        overflow: hidden;
       }
     }
   }
