@@ -5,7 +5,6 @@ import {
   EventEmitter,
   HostBinding,
   HostListener,
-  Input,
   OnInit,
   Output,
   Renderer2,
@@ -19,14 +18,13 @@ import { LockFocusService } from './lock-focus.service';
  * the elements are being rebuild. This happens often when change
  * detection kicks in because of new data set from the backend.
  */
-@Directive({
-  selector: '[cxLockFocus]',
-})
+@Directive() // selector: '[cxLockFocus]'
 export class LockFocusDirective extends TrapFocusDirective
   implements OnInit, AfterContentInit {
   protected defaultConfig: LockFocusConfig = { lock: true };
 
-  @Input('cxLockFocus') protected config: LockFocusConfig = {};
+  // @Input('cxLockFocus')
+  protected config: LockFocusConfig = {};
 
   /**
    * Indicates that the host is configured to use locking. This is available as a

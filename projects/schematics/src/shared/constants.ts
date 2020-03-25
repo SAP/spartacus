@@ -46,9 +46,16 @@ export const CMS_GET_COMPONENT_FROM_PAGE = 'CmsGetComponentFromPage';
 export const USER_ADDRESS_SERVICE = 'UserAddressService';
 export const AUTH_SERVICE = 'AuthService';
 export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
-export const PAGE_META_RESOLVER = 'PageMetaResolver';
+export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
+
+export const PAGE_META_RESOLVER = 'PageMetaResolver';
+export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
+export const CATEGORY_PAGE_META_RESOLVER = 'CategoryPageMetaResolver';
+export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
+
+export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
 export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
 export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
@@ -65,7 +72,6 @@ export const ROUTING_SERVICE = 'RoutingService';
 export const SHIPPING_ADDRESS_COMPONENT = 'ShippingAddressComponent';
 export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
 export const TRANSLATION_SERVICE = 'TranslationService';
-export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 export const ADD_TO_CART_COMPONENT = 'AddToCartComponent';
 export const ADDED_TO_CART_DIALOG_COMPONENT = 'AddedToCartDialogComponent';
 export const MODAL_SERVICE = 'ModalService';
@@ -92,6 +98,7 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
+export const PRODUCT_IMAGES_COMPONENT = 'ProductImagesComponent';
 export const USER_CONSENT_SERVICE = 'UserConsentService';
 export const USER_ORDER_SERVICE = 'UserOrderService';
 export const USER_SERVICE = 'UserService';
@@ -120,6 +127,11 @@ export const CART_VOUCHER_EFFECTS = 'CartVoucherEffects';
 export const CART_ENTRY_EFFECTS = 'CartEntryEffects';
 export const CART_COMBINED_EFFECTS = 'effects';
 export const CART_SELECTORS = 'CartSelectors';
+export const CART_DATA_CONST = 'CART_DATA';
+export const STATE_WITH_CART = 'StateWithCart';
+export const CARTS_STATE = 'CartsState';
+export const CART_FEATURE_CONST = 'CART_FEATURE';
+export const CART_STATE = 'CartState';
 
 export const GET_REDUCERS = 'getReducers';
 export const REDUCER_TOKEN = 'reducerToken';
@@ -138,6 +150,11 @@ export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
 
 export const ANONYMOUS_USERID_CONST = 'ANONYMOUS_USERID';
+
+export const PWA_CONFIGURATION_FACTORY = 'pwaConfigurationFactory';
+export const PWA_FACTORY = 'pwaFactory';
+export const GET_STRUCTURED_DATA_FACTORY = 'getStructuredDataFactory';
+export const SKIP_LINK_FACTORY = 'skipLinkFactory';
 /***** Removed public api end *****/
 
 /***** Properties start *****/

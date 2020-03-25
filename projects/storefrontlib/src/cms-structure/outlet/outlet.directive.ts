@@ -13,6 +13,7 @@ import {
 import { Subscription } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { IntersectionOptions } from '../../layout/loading/intersection.model';
+import { OutletRendererService } from './outlet-renderer.serivce';
 import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
 import { OutletService } from './outlet.service';
 
@@ -20,6 +21,8 @@ import { OutletService } from './outlet.service';
   selector: '[cxOutlet]',
 })
 export class OutletDirective implements OnDestroy, OnChanges {
+  private renderedTemplate = [];
+
   @Input() cxOutlet: string;
 
   @Input() cxOutletContext: any;
@@ -55,13 +58,16 @@ export class OutletDirective implements OnDestroy, OnChanges {
     private outletService: OutletService<
       TemplateRef<any> | ComponentFactory<any>
     >,
-    private deferLoaderService?: DeferLoaderService
+    private deferLoaderService?: DeferLoaderService,
+    private outletRendererService?: OutletRendererService
   ) {}
 
   private initializeOutlet(): void {
     this.vcr.clear();
+    this.renderedTemplate = [];
     this.subscription.unsubscribe();
     this.subscription = new Subscription();
+    this.outletRendererService.registerOutlet(this.cxOutlet, this);
 
     if (this.cxOutletDefer) {
       this.deferLoading();
@@ -74,6 +80,13 @@ export class OutletDirective implements OnDestroy, OnChanges {
     if (changes.cxOutlet) {
       this.initializeOutlet();
     }
+  }
+
+  /**
+   * Re-render the outlet dynamically
+   */
+  public dynamicRender() {
+    this.initializeOutlet();
   }
 
   private deferLoading(): void {
@@ -102,6 +115,8 @@ export class OutletDirective implements OnDestroy, OnChanges {
     let templates: any[] = <any[]>(
       this.outletService.get(this.cxOutlet, position, USE_STACKED_OUTLETS)
     );
+
+    templates = templates?.filter(el => !this.renderedTemplate.includes(el));
 
     if (!templates && position === OutletPosition.REPLACE) {
       templates = [this.templateRef];
@@ -133,6 +148,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
       // so we apply change detection anyway
       view.markForCheck();
     }
+    this.renderedTemplate.push(tmplOrFactory);
   }
 
   /**
