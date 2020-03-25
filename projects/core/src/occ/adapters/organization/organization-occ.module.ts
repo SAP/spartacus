@@ -53,8 +53,6 @@ import {
   OccCostCenterListNormalizer,
   OccCostCenterNormalizer,
   OccPermissionTypeListNormalizer,
-} from './converters/index';
-import { OccPermissionTypeNormalizer } from './converters/occ-permission-type-normalizer';
   OccOrgUnitUserGroupNormalizer,
   OccOrgUnitUserGroupListNormalizer,
   OccOrgUnitNormalizer,
@@ -62,6 +60,8 @@ import { OccPermissionTypeNormalizer } from './converters/occ-permission-type-no
   OccB2BUserNormalizer,
   OccUserListNormalizer,
 } from './converters/index';
+import { OccPermissionTypeNormalizer } from './converters/occ-permission-type-normalizer';
+
 import {
   B2BUserAdapter,
   B2B_USER_NORMALIZER,
