@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   isNewRegisterFlowEnabled: boolean =
     this.featureConfig && this.featureConfig.isLevel('1.1');
 
-  // TODO:#4989 - this will be removed in https://github.com/SAP/spartacus/issues/4989
+  // TODO(issue:4237) - this will be removed in https://github.com/SAP/spartacus/issues/4989
   isAnonymousConsentEnabled =
     this.featureConfig && this.featureConfig.isEnabled('anonymousConsents');
 
