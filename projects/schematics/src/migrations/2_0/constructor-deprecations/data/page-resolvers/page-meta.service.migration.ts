@@ -4,11 +4,10 @@ import {
   PAGE_META_RESOLVER,
   PAGE_META_SERVICE,
   SPARTACUS_CORE,
-} from '../../../../shared/constants';
-import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
+} from '../../../../../shared/constants';
+import { ConstructorDeprecation } from '../../../../../shared/utils/file-utils';
 
 export const PAGE_META_SERVICE_MIGRATION: ConstructorDeprecation = {
-  // projects/core/src/cms/facade/page-meta.service.ts
   class: PAGE_META_SERVICE,
   importPath: SPARTACUS_CORE,
   deprecatedParams: [

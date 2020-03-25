@@ -39,16 +39,26 @@ export class CartVoucherEffects {
               cartId: payload.cartId,
             });
           }),
-          catchError(error =>
-            from([
+          catchError(error => {
+            if (error?.error?.errors) {
+              error.error.errors.forEach(err => {
+                if (err.message) {
+                  this.messageService.add(
+                    err.message,
+                    GlobalMessageType.MSG_TYPE_ERROR
+                  );
+                }
+              });
+            }
+            return from([
               new CartActions.CartAddVoucherFail(makeErrorSerializable(error)),
               new CartActions.CartProcessesDecrement(payload.cartId),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
-            ])
-          )
+            ]);
+          })
         );
     })
   );
