@@ -6,13 +6,9 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { iif, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
-import {
-  ANONYMOUS_CONSENTS_FEATURE,
-  isFeatureEnabled,
-} from '../../features-config/index';
 import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS } from '../../model/index';
 import { OccEndpointsService } from '../../occ/index';
 import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';
@@ -33,31 +29,27 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return iif(
-      () => isFeatureEnabled(this.config, ANONYMOUS_CONSENTS_FEATURE),
-      this.anonymousConsentsService.getConsents().pipe(
-        take(1),
-        withLatestFrom(this.authService.isUserLoggedIn()),
-        switchMap(([consents, isUserLoggedIn]) => {
-          if (!this.isOccUrl(request.url)) {
-            return next.handle(request);
-          }
+    return this.anonymousConsentsService.getConsents().pipe(
+      take(1),
+      withLatestFrom(this.authService.isUserLoggedIn()),
+      switchMap(([consents, isUserLoggedIn]) => {
+        if (!this.isOccUrl(request.url)) {
+          return next.handle(request);
+        }
 
-          const clonedRequest = this.handleRequest(consents, request);
-          return next.handle(clonedRequest).pipe(
-            tap(event => {
-              if (event instanceof HttpResponse) {
-                this.handleResponse(
-                  isUserLoggedIn,
-                  event.headers.get(ANONYMOUS_CONSENTS_HEADER),
-                  consents
-                );
-              }
-            })
-          );
-        })
-      ),
-      next.handle(request)
+        const clonedRequest = this.handleRequest(consents, request);
+        return next.handle(clonedRequest).pipe(
+          tap(event => {
+            if (event instanceof HttpResponse) {
+              this.handleResponse(
+                isUserLoggedIn,
+                event.headers.get(ANONYMOUS_CONSENTS_HEADER),
+                consents
+              );
+            }
+          })
+        );
+      })
     );
   }
 

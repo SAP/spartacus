@@ -38,9 +38,6 @@ class MockConsentManagementFormComponent {
   @Input()
   requiredConsents: string[] = [];
   @Input()
-  // TODO(issue:4989) Anonymous consents - remove
-  isAnonymousConsentsEnabled = false;
-  @Input()
   consent: AnonymousConsent;
 }
 

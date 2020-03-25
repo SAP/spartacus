@@ -9,7 +9,6 @@ import {
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
-  ANONYMOUS_CONSENTS_FEATURE,
   AuthRedirectService,
   AuthService,
   ConsentTemplate,
@@ -45,9 +44,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   isNewRegisterFlowEnabled: boolean =
     this.featureConfig && this.featureConfig.isLevel('1.1');
 
+  // TODO:#4989 - this will be removed in https://github.com/SAP/spartacus/issues/4989
   isAnonymousConsentEnabled =
-    this.featureConfig &&
-    this.featureConfig.isEnabled(ANONYMOUS_CONSENTS_FEATURE);
+    this.featureConfig && this.featureConfig.isEnabled('anonymousConsents');
 
   userRegistrationForm: FormGroup = this.fb.group(
     {
