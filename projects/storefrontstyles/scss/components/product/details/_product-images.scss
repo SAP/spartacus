@@ -19,6 +19,7 @@ $productThumbSize: 75px !default;
 
   cx-media {
     outline: none;
+    text-align: center;
 
     &.is-missing {
       min-height: 30vh;
