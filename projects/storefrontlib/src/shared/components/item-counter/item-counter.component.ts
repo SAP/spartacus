@@ -96,7 +96,7 @@ export class ItemCounterComponent implements OnInit {
     );
   }
 
-  protected setDisableState() {
+  protected setDisabledState() {
     if (this.readonly) {
       // we set the disabled in case the caller forgot to to this
       this.control.disable({ emitEvent: false });
