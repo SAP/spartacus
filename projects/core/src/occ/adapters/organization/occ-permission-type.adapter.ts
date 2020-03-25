@@ -20,7 +20,9 @@ export class OccPermissionTypeAdapter implements PermissionTypeAdapter {
 
   loadList(): Observable<EntitiesModel<OrderApprovalPermissionType>> {
     return this.http
-      .get<Occ.OrderApprovalPermissionType>(this.getPermissionTypeEndpoint())
+      .get<Occ.OrderApprovalPermissionTypeList>(
+        this.getPermissionTypeEndpoint()
+      )
       .pipe(this.converter.pipeable(PERMISSION_TYPES_NORMALIZER));
   }
 

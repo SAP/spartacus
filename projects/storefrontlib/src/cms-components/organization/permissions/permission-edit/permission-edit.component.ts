@@ -22,7 +22,6 @@ export class PermissionEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('permission');
     this.permission$ = this.permissionCode$.pipe(
       tap(code => this.permissionsService.loadPermission(code)),
       switchMap(code => this.permissionsService.get(code))

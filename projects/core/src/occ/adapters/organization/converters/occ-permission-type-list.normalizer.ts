@@ -18,7 +18,7 @@ export class OccPermissionTypeListNormalizer
   constructor(private converter: ConverterService) {}
 
   convert(
-    source: Occ.OrderApprovalPermissionType,
+    source: Occ.OrderApprovalPermissionTypeList,
     target?: EntitiesModel<OrderApprovalPermissionType>
   ): EntitiesModel<OrderApprovalPermissionType> {
     if (target === undefined) {

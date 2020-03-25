@@ -28,15 +28,6 @@ export const getPermissionTypesState: MemoizedSelector<
   (state: PermissionTypesManagement) => state && state.entities
 );
 
-// export const getPermissionTypeState = (
-//   permissionCode: string
-// ): MemoizedSelector<StateWithOrganization, LoaderState<OrderApprovalPermissionType>> =>
-//   createSelector(
-//     getPermissionsState,
-//     (state: EntityLoaderState<OrderApprovalPermissionType>) =>
-//       entityStateSelector(state, permissionCode)
-//   );
-
 export const getPermissionTypeList = (): MemoizedSelector<
   StateWithOrganization,
   LoaderState<EntitiesModel<OrderApprovalPermissionType>>
