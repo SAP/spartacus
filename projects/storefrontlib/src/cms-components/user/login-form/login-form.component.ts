@@ -38,11 +38,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     });
 
     if (this.checkoutConfigService.isGuestCheckout()) {
-      this.loginAsGuest = this.activatedRoute?.snapshot?.queryParams?.['forced'];
+      this.loginAsGuest = this.activatedRoute?.snapshot?.queryParams?.[
+        'forced'
+      ];
     }
 
-    const routeState = this.winRef?.nativeWindow?.history?.state;
-    const prefilledEmail = routeState?.['newUid'];
+    const prefilledEmail = this.winRef?.nativeWindow?.history?.state?.[
+      'newUid'
+    ];
 
     if (prefilledEmail?.length) {
       this.prefillForm('userId', prefilledEmail);
