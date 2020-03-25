@@ -29,7 +29,7 @@ import {
 } from '../../shared/utils/file-utils';
 import { getSourceRoot } from '../../shared/utils/workspace-utils';
 
-export function updateCmsComponentState(): Rule {
+export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     let cmsComponentSelectorsChangesMade = false;
     let renamedCmsGetComponentFromPageActionChangesMade = false;

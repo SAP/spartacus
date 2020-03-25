@@ -1,6 +1,4 @@
 import { Action } from '@ngrx/store';
-import { StateLoaderActions } from '../../../state/utils/index';
-import { CART_DATA } from '../cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
 export const CREATE_CART_FAIL = '[Cart] Create Cart Fail';
@@ -26,71 +24,53 @@ export const CLEAR_CART = '[Cart] Clear Cart';
 export const DELETE_CART = '[Cart] Delete Cart';
 export const DELETE_CART_FAIL = '[Cart] Delete Cart Fail';
 
-export class CreateCart extends StateLoaderActions.LoaderLoadAction {
+export class CreateCart {
   readonly type = CREATE_CART;
-  constructor(public payload: any) {
-    super(CART_DATA);
-  }
+  constructor(public payload: any) {}
 }
 
-export class CreateCartFail extends StateLoaderActions.LoaderFailAction {
+export class CreateCartFail {
   readonly type = CREATE_CART_FAIL;
-  constructor(public payload: any) {
-    super(CART_DATA, payload);
-  }
+  constructor(public payload: any) {}
 }
 
-export class CreateCartSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class CreateCartSuccess {
   readonly type = CREATE_CART_SUCCESS;
-  constructor(public payload: any) {
-    super(CART_DATA);
-  }
+  constructor(public payload: any) {}
 }
 
-export class AddEmailToCart extends StateLoaderActions.LoaderLoadAction {
+export class AddEmailToCart {
   readonly type = ADD_EMAIL_TO_CART;
   constructor(
     public payload: { userId: string; cartId: string; email: string }
-  ) {
-    super(CART_DATA);
-  }
+  ) {}
 }
 
-export class AddEmailToCartFail extends StateLoaderActions.LoaderFailAction {
+export class AddEmailToCartFail {
   readonly type = ADD_EMAIL_TO_CART_FAIL;
-  constructor(public payload: any) {
-    super(CART_DATA, payload);
-  }
+  constructor(public payload: any) {}
 }
 
-export class AddEmailToCartSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class AddEmailToCartSuccess {
   readonly type = ADD_EMAIL_TO_CART_SUCCESS;
-  constructor(public payload: any) {
-    super(CART_DATA);
-  }
+  constructor(public payload: { userId: string; cartId: string }) {}
 }
 
-export class LoadCart extends StateLoaderActions.LoaderLoadAction {
+export class LoadCart {
   readonly type = LOAD_CART;
   constructor(
     public payload: { userId: string; cartId: string; extraData?: any }
-  ) {
-    super(CART_DATA);
-  }
+  ) {}
 }
 
-export class LoadCartFail extends StateLoaderActions.LoaderFailAction {
+export class LoadCartFail {
   readonly type = LOAD_CART_FAIL;
-  constructor(public payload: any) {
-    super(CART_DATA, payload);
-  }
+  constructor(public payload: any) {}
 }
 
-export class LoadCartSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class LoadCartSuccess {
   readonly type = LOAD_CART_SUCCESS;
-  constructor(public payload: any) {
-    super(CART_DATA);
-  }
+  constructor(public payload: any) {}
 }
 
 export class MergeCart implements Action {
@@ -100,7 +80,7 @@ export class MergeCart implements Action {
 
 export class MergeCartSuccess implements Action {
   readonly type = MERGE_CART_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: { cartId: string; userId: string }) {}
 }
 
 export class ResetCartDetails implements Action {
@@ -113,25 +93,19 @@ export class ClearExpiredCoupons implements Action {
   constructor(public payload: any) {}
 }
 
-export class ClearCart extends StateLoaderActions.LoaderResetAction {
+export class ClearCart {
   readonly type = CLEAR_CART;
-  constructor() {
-    super(CART_DATA);
-  }
+  constructor() {}
 }
 
-export class DeleteCart extends StateLoaderActions.LoaderLoadAction {
+export class DeleteCart {
   readonly type = DELETE_CART;
-  constructor(public payload: { userId: string; cartId: string }) {
-    super(CART_DATA);
-  }
+  constructor(public payload: { userId: string; cartId: string }) {}
 }
 
-export class DeleteCartFail extends StateLoaderActions.LoaderFailAction {
+export class DeleteCartFail {
   readonly type = DELETE_CART_FAIL;
-  constructor(public payload: any) {
-    super(CART_DATA, payload);
-  }
+  constructor(public payload: any) {}
 }
 
 export type CartAction =

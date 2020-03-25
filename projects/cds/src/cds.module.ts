@@ -1,5 +1,10 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { Config, provideConfig, provideConfigValidator } from '@spartacus/core';
+import {
+  Config,
+  provideConfig,
+  provideConfigValidator,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import {
   CdsConfig,
   cdsConfigValidator,
@@ -16,7 +21,7 @@ export class CdsModule {
     return {
       ngModule: CdsModule,
       providers: [
-        provideConfig(DEFAULT_CDS_CONFIG),
+        provideDefaultConfig(DEFAULT_CDS_CONFIG),
         provideConfig(config),
         provideConfigValidator(cdsConfigValidator),
         { provide: CdsConfig, useExisting: Config },

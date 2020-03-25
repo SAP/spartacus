@@ -19,7 +19,7 @@ export const groupSkippingConfigNotLoggedIn: GroupSkippingConfig = {
     pageUrl: '/login/forgot-password',
     expectedSkipperCount: 3,
   },
-  productList: { pageUrl: '/Brands/all/c/brands', expectedSkipperCount: 5 },
+  productList: { pageUrl: '/Brands/all/c/brands', expectedSkipperCount: 3 },
   product: { pageUrl: '/product/779841', expectedSkipperCount: 3 },
   cart: { pageUrl: '/cart', expectedSkipperCount: 3 },
   sale: { pageUrl: '/sale', expectedSkipperCount: 3 },
