@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { B2BSearchConfig } from '../../model/search-config';
 import { EntitiesModel } from '../../../model/misc.model';
 import { B2BUser } from '../../../model/org-unit.model';
+import { OrgUnitUserGroup } from '../../../model/user-group.model';
 
 export abstract class B2BUserAdapter {
   /**
@@ -30,11 +31,11 @@ export abstract class B2BUserAdapter {
     orgCustomer: B2BUser
   ): Observable<B2BUser>;
 
-  // abstract loadApprovers(
-  //   userId: string,
-  //   orgCustomerId: string,
-  //   params?: B2BSearchConfig
-  // ): Observable<EntitiesModel<B2BUser>>;
+  abstract loadApprovers(
+    userId: string,
+    orgCustomerId: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<B2BUser>>;
 
   abstract assignApprover(
     userId: string,
@@ -73,11 +74,11 @@ export abstract class B2BUserAdapter {
   ): Observable<any>
 
 
-  // abstract loadUserGroups(
-  //   userId: string,
-  //   orgCustomerId: string,
-  //   params?: B2BSearchConfig
-  // ): Observable<EntitiesModel<any>>; // TODO: change the type to user groups when they are ready
+  abstract loadUserGroups(
+    userId: string,
+    orgCustomerId: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<OrgUnitUserGroup>>;
 
 
 }
