@@ -85,7 +85,7 @@ describe('PersistFocusService', () => {
       expect(service.get()).toBeUndefined();
     });
 
-    it(`should clear a value for a specific`, () => {
+    it(`should clear a value for a specific group`, () => {
       const key = 'my-key';
       const group = 'group-a';
       service.set(key, group);
