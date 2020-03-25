@@ -6,7 +6,6 @@
     "node": ">=10 <14"
   },
   "scripts": {
-    "okay": "for i in {1..5}; do yarn e2e:cy:run --spec cypress/integration/regression/my-coupons/my-*; done",
     "build": "ng build storefrontapp --prod",
     "build:assets": "ng build assets --prod && yarn generate:translations:ts-2-json",
     "build:core:lib": "ng build core --prod && ng build storefrontlib --prod && yarn build:assets && yarn build:incubator",
