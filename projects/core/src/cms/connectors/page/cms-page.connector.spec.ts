@@ -61,7 +61,7 @@ describe('CmsPageConnector', () => {
       );
       expect(structureConfigService.mergePageStructure).toHaveBeenCalledWith(
         context.id,
-        'page123'
+        'page123' as any
       );
     });
   });

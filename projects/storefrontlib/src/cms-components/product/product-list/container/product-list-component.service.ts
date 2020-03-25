@@ -91,10 +91,7 @@ export class ProductListComponentService {
   readonly model$: Observable<ProductSearchPage> = combineLatest([
     this.searchResults$,
     this.searchByRouting$,
-  ]).pipe(
-    pluck(0),
-    shareReplay({ bufferSize: 1, refCount: true })
-  );
+  ]).pipe(pluck(0), shareReplay({ bufferSize: 1, refCount: true }));
 
   clearSearchResults(): void {
     this.productSearchService.clearResults();

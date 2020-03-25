@@ -13,7 +13,6 @@ import {
   OrgUnitService,
   Currency,
   CurrencyService,
-  EntitiesModel,
   B2BUnitNode,
   LanguageService,
 } from '@spartacus/core';
@@ -24,10 +23,10 @@ import { CostCenterFormModule } from '../cost-center-form/cost-center-form.modul
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
 
-const costCenterCode = 'b1';
+const code = 'b1';
 
 const mockCostCenter: CostCenter = {
-  code: costCenterCode,
+  code,
   name: 'costCenter1',
   currency: {
     symbol: '$',
@@ -36,17 +35,15 @@ const mockCostCenter: CostCenter = {
   unit: { name: 'orgName', uid: 'orgCode' },
 };
 
-const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
-  values: [
-    {
-      active: true,
-      children: [],
-      id: 'unitNode1',
-      name: 'Org Unit 1',
-      parent: 'parentUnit',
-    },
-  ],
-};
+const mockOrgUnits: B2BUnitNode[] = [
+  {
+    active: true,
+    children: [],
+    id: 'unitNode1',
+    name: 'Org Unit 1',
+    parent: 'parentUnit',
+  },
+];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
@@ -62,7 +59,7 @@ class MockCostCenterService implements Partial<CostCenterService> {
 const mockRouterState = {
   state: {
     params: {
-      costCenterCode,
+      code,
     },
   },
 };
@@ -128,9 +125,9 @@ describe('CostCenterEditComponent', () => {
       ],
     }).compileComponents();
 
-    costCentersService = TestBed.get(CostCenterService as Type<
-      CostCenterService
-    >);
+    costCentersService = TestBed.get(
+      CostCenterService as Type<CostCenterService>
+    );
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
@@ -154,10 +151,8 @@ describe('CostCenterEditComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(costCentersService.loadCostCenter).toHaveBeenCalledWith(
-        costCenterCode
-      );
-      expect(costCentersService.get).toHaveBeenCalledWith(costCenterCode);
+      expect(costCentersService.loadCostCenter).toHaveBeenCalledWith(code);
+      expect(costCentersService.get).toHaveBeenCalledWith(code);
       expect(costCenter).toEqual(mockCostCenter);
     });
   });
@@ -166,14 +161,14 @@ describe('CostCenterEditComponent', () => {
     it('should update costCenter', () => {
       component.ngOnInit();
       const updateCostCenter = {
-        code: costCenterCode,
+        code,
         name: 'newName',
         activeFlag: false,
       };
 
       component.updateCostCenter(updateCostCenter);
       expect(costCentersService.update).toHaveBeenCalledWith(
-        costCenterCode,
+        code,
         updateCostCenter
       );
       expect(routingService.go).toHaveBeenCalledWith({

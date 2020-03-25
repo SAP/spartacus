@@ -29,7 +29,7 @@ export class PermissionService {
     protected authService: AuthService
   ) {}
 
-  loadPermission(permissionCode: string) {
+  loadPermission(permissionCode: string): void {
     this.withUserId(userId =>
       this.store.dispatch(
         new PermissionActions.LoadPermission({
@@ -40,7 +40,7 @@ export class PermissionService {
     );
   }
 
-  loadPermissions(params?: B2BSearchConfig) {
+  loadPermissions(params?: B2BSearchConfig): void {
     this.withUserId(userId =>
       this.store.dispatch(
         new PermissionActions.LoadPermissions({ userId, params })
@@ -52,7 +52,9 @@ export class PermissionService {
     this.store.dispatch(new PermissionTypeActions.LoadPermissionTypes());
   }
 
-  private getPermissionState(permissionCode: string) {
+  private getPermissionState(
+    permissionCode: string
+  ): Observable<LoaderState<Permission>> {
     return this.store.select(getPermissionState(permissionCode));
   }
 
@@ -115,7 +117,7 @@ export class PermissionService {
     );
   }
 
-  create(permission: Permission) {
+  create(permission: Permission): void {
     this.withUserId(userId =>
       this.store.dispatch(
         new PermissionActions.CreatePermission({ userId, permission })
@@ -123,7 +125,7 @@ export class PermissionService {
     );
   }
 
-  update(permissionCode: string, permission: Permission) {
+  update(permissionCode: string, permission: Permission): void {
     this.withUserId(userId =>
       this.store.dispatch(
         new PermissionActions.UpdatePermission({

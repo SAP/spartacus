@@ -8,10 +8,7 @@ import { StateLoaderSelectors } from '../../../state/utils/index';
 export const getOrderReturnRequestState: MemoizedSelector<
   StateWithUser,
   LoaderState<ReturnRequest>
-> = createSelector(
-  getUserState,
-  (state: UserState) => state.orderReturn
-);
+> = createSelector(getUserState, (state: UserState) => state.orderReturn);
 
 export const getOrderReturnRequest: MemoizedSelector<
   StateWithUser,
@@ -44,10 +41,7 @@ export const getOrderReturnRequestSuccess: MemoizedSelector<
 export const getOrderReturnRequestListState: MemoizedSelector<
   StateWithUser,
   LoaderState<ReturnRequestList>
-> = createSelector(
-  getUserState,
-  (state: UserState) => state.orderReturnList
-);
+> = createSelector(getUserState, (state: UserState) => state.orderReturnList);
 
 export const getOrderReturnRequestList: MemoizedSelector<
   StateWithUser,

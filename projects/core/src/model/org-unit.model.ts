@@ -13,7 +13,7 @@ export interface B2BUnit {
   addresses?: OrgUnitAddress[];
   uid?: string;
   name?: string;
-  parentOrgUnit?: string;
+  parentOrgUnit?: Partial<B2BUnit>;
   approvalProcess?: B2BApprovalProcess;
   administrators?: B2BUser[];
   approvers?: B2BUser[];
@@ -55,6 +55,9 @@ export interface OrgUnitAddress {
 export interface B2BUser extends User {
   active?: boolean;
   approvers?: [];
+  orgUnit?: B2BUnit;
+  roles?: string[];
+  selected?: boolean;
 }
 
 export interface B2BApprovalProcess {

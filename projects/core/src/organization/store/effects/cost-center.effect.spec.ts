@@ -86,12 +86,12 @@ describe('CostCenter Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.CostCenterEffects as Type<
-      fromEffects.CostCenterEffects
-    >);
-    costCenterConnector = TestBed.get(CostCenterConnector as Type<
-      CostCenterConnector
-    >);
+    effects = TestBed.get(
+      fromEffects.CostCenterEffects as Type<fromEffects.CostCenterEffects>
+    );
+    costCenterConnector = TestBed.get(
+      CostCenterConnector as Type<CostCenterConnector>
+    );
     expected = null;
   });
 
@@ -343,7 +343,6 @@ describe('CostCenter Effects', () => {
         budgetCode,
       });
       const completion = new CostCenterActions.AssignBudgetFail({
-        costCenterCode,
         budgetCode,
         error,
       });
@@ -390,7 +389,6 @@ describe('CostCenter Effects', () => {
         budgetCode,
       });
       const completion = new CostCenterActions.UnassignBudgetFail({
-        costCenterCode,
         budgetCode,
         error,
       });

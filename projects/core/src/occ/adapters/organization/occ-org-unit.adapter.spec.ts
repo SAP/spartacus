@@ -6,8 +6,8 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
+  B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NORMALIZER,
-  B2BUNIT_LIST_NORMALIZER,
 } from '@spartacus/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
@@ -46,9 +46,9 @@ describe('OccOrgUnitAdapter', () => {
     });
     converterService = TestBed.get(ConverterService as Type<ConverterService>);
     service = TestBed.get(OccOrgUnitAdapter as Type<OccOrgUnitAdapter>);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
+    httpMock = TestBed.get(
+      HttpTestingController as Type<HttpTestingController>
+    );
     spyOn(converterService, 'pipeable').and.callThrough();
   });
 
@@ -79,13 +79,13 @@ describe('OccOrgUnitAdapter', () => {
     it('should load orgUnit list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'orgUnits'
+        req => req.method === 'GET' && req.url === 'orgUnitsAvailable'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([orgUnit]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        B2BUNIT_LIST_NORMALIZER
+        B2BUNIT_NODE_LIST_NORMALIZER
       );
     });
   });

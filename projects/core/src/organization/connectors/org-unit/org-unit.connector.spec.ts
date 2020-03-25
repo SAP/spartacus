@@ -5,21 +5,37 @@ import createSpy = jasmine.createSpy;
 
 import { OrgUnitAdapter } from './org-unit.adapter';
 import { OrgUnitConnector } from './org-unit.connector';
+import { B2BApprovalProcess } from '@spartacus/core';
 
 const userId = 'userId';
 const orgUnitId = 'orgUnitId';
+const approvalProcessCode = 'approvalProcessCode';
 
-const orgUnit = {
+const orgUnitNode = {
   id: orgUnitId,
 };
 
+const orgUnit = {
+  uid: orgUnitId,
+};
+
+const approvalProcess: B2BApprovalProcess = {
+  code: approvalProcessCode,
+  name: 'approvalProcessName',
+};
+
 class MockOrgUnitAdapter implements OrgUnitAdapter {
-  load = createSpy('OrgUnitAdapter.load').and.returnValue(of(orgUnit));
-  loadList = createSpy('OrgUnitAdapter.loadList').and.returnValue(
-    of([orgUnit])
+  load = createSpy('load').and.returnValue(of(orgUnit));
+  loadList = createSpy('loadList').and.returnValue(of([orgUnitNode]));
+  create = createSpy('create').and.returnValue(of(orgUnit));
+  update = createSpy('update').and.returnValue(of(orgUnit));
+  loadTree = createSpy('loadTree').and.returnValue(of(orgUnit));
+  loadApprovalProcesses = createSpy('loadApprovalProcesses').and.returnValue(
+    of([approvalProcess])
   );
-  create = createSpy('OrgUnitAdapter.create').and.returnValue(of(orgUnit));
-  update = createSpy('OrgUnitAdapter.update').and.returnValue(of(orgUnit));
+  loadUsers = createSpy('loadUsers').and.returnValue(of());
+  assignRole = createSpy('assignRole').and.returnValue(of());
+  unassignRole = createSpy('unassignRole').and.returnValue(of());
 }
 
 describe('OrgUnitConnector', () => {
@@ -48,9 +64,8 @@ describe('OrgUnitConnector', () => {
   });
 
   it('should load orgUnits', () => {
-    const params = { sort: 'code' };
-    service.getList(userId, params);
-    expect(adapter.loadList).toHaveBeenCalledWith(userId, params);
+    service.getList(userId);
+    expect(adapter.loadList).toHaveBeenCalledWith(userId);
   });
 
   it('should create orgUnit', () => {

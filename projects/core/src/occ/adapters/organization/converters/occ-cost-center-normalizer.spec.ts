@@ -35,9 +35,9 @@ describe('CostCenterNormalizer', () => {
       ],
     });
 
-    service = TestBed.get(OccCostCenterNormalizer as Type<
-      OccCostCenterNormalizer
-    >);
+    service = TestBed.get(
+      OccCostCenterNormalizer as Type<OccCostCenterNormalizer>
+    );
   });
 
   it('should inject OccCostCenterNormalizer', inject(

@@ -4,16 +4,13 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe,
   I18nModule,
-  UserService,
 } from '@spartacus/core';
 import { PermissionEditComponent } from './permission-edit.component';
 import { PermissionFormModule } from '../permission-form/permission-form.module';
 import { RouterModule } from '@angular/router';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
-import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-routes/suffix-url-matcher';
 
 @NgModule({
   imports: [
@@ -24,17 +21,6 @@ import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-route
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'permissionEdit' },
-      },
-      {
-        matcher: suffixUrlMatcher,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: {
-          cxSuffixUrlMatcher: {
-            marker: 'p',
-            paramName: 'permissionCode',
-          },
-        },
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
@@ -50,7 +36,6 @@ import { suffixUrlMatcher } from '../../../../cms-structure/routing/suffix-route
   ],
   declarations: [PermissionEditComponent],
   exports: [PermissionEditComponent],
-  providers: [UserService, CxDatePipe],
   entryComponents: [PermissionEditComponent],
 })
 export class PermissionEditModule {}

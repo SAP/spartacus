@@ -1,103 +1,49 @@
-<ng-container
-  class="container"
-  *ngIf="permissionsList$ | async as permissionsList"
+<cx-interactive-table
+  [data$]="data$"
+  [header]="'permissionsList.permissionManagement' | cxTranslate"
+  [sortLabels]="{
+    byUnitName: 'permissionsList.sorting.byUnitName' | cxTranslate,
+    byName: 'permissionsList.sorting.byName' | cxTranslate,
+    byCode: 'permissionsList.sorting.byCode' | cxTranslate,
+    byValue: 'permissionsList.sorting.byValue' | cxTranslate
+  }"
+  [columns]="[
+    {
+      key: 'code',
+      value: 'permissionsList.code' | cxTranslate,
+      cxRoute: 'permissionDetails'
+    },
+    {
+      key: 'orderType',
+      value: 'permissionsList.type' | cxTranslate
+    },
+    {
+      key: 'threshold',
+      value: 'permissionsList.threshold' | cxTranslate
+    },
+    {
+      key: 'parentUnit',
+      value: 'permissionsList.parentUnit' | cxTranslate,
+      cxRoute: 'orgUnitDetails'
+    },
+    {
+      key: 'timePeriod',
+      value: 'permissionsList.timePeriod' | cxTranslate
+    }
+  ]"
+  (pageChange)="pageChange($event)"
+  (changeSortCode)="changeSortCode($event)"
 >
-  <ng-template #sortAndPagination>
-    <div class="cx-form-group form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
-      <cx-sorting
-        [sortOptions]="permissionsList.sorts"
-        [sortLabels]="{
-          byUnitName: 'permissionsList.sorting.byUnitName' | cxTranslate,
-          byName: 'permissionsList.sorting.byName' | cxTranslate,
-          byCode: 'permissionsList.sorting.byCode' | cxTranslate,
-          byValue: 'permissionsList.sorting.byValue' | cxTranslate
-        }"
-        [selectedOption]="permissionsList.pagination.sort"
-        (sortListEvent)="changeSortCode($event)"
-      ></cx-sorting>
-    </div>
-    <div class="cx-pagination cx-textalign">
-      <cx-pagination
-        [pagination]="permissionsList.pagination"
-        (viewPageEvent)="pageChange($event)"
-      ></cx-pagination>
-    </div>
-  </ng-template>
-
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
-      <div class="cx-table-header cx-textalign">
-        <h3>{{ 'permissionsList.permissionManagement' | cxTranslate }}</h3>
-      </div>
-
-      <!--        <cx-search-->
-      <!--          (searchEvent)="search($event)"-->
-      <!--          [placeholder]="'permissionsList.searchBox' | cxTranslate"-->
-      <!--        >-->
-      <!--        </cx-search>-->
-    </div>
-    <div class="col-md-12 col-lg-3">
-      <div class="row cx-search-links mb-3">
-        <div class="col-12 cx-textalign">
-          <button
-            [routerLink]="{ cxRoute: 'permissionCreate' } | cxUrl"
-            class="btn btn-primary btn-block"
-          >
-            {{ 'permissionsList.create' | cxTranslate }}
-          </button>
-        </div>
+  <div class="col-md-12 col-lg-3">
+    <div class="row cx-search-links mb-3">
+      <div class="col-12 cx-textalign">
+        <button
+          [routerLink]="{ cxRoute: 'permissionCreate' } | cxUrl"
+          class="btn btn-primary btn-block"
+        >
+          {{ 'permissionsList.create' | cxTranslate }}
+        </button>
       </div>
     </div>
   </div>
-
-  <div class="cx-table-body">
-    <ng-container
-      *ngIf="permissionsList.pagination?.totalResults > 0; else noData"
-    >
-      <div class="cx-sort top row">
-        <ng-container *ngTemplateOutlet="sortAndPagination"></ng-container>
-      </div>
-      <!-- TABLE -->
-      <cx-table
-        [tableData]="permissionsList.permissionsList"
-        [columns]="[
-          {
-            key: 'code',
-            value: 'permissionsList.code' | cxTranslate,
-            cxRoute: 'permissionDetails'
-          },
-          {
-            key: 'orderType',
-            value: 'permissionsList.type' | cxTranslate
-          },
-          {
-            key: 'threshold',
-            value: 'permissionsList.threshold' | cxTranslate
-          },
-          {
-            key: 'parentUnit',
-            value: 'permissionsList.parentUnit' | cxTranslate,
-            cxRoute: 'orgUnit'
-          },
-          {
-            key: 'timePeriod',
-            value: 'permissionsList.timePeriod' | cxTranslate
-          }
-        ]"
-      ></cx-table>
-
-      <div class="cx-sort bottom row">
-        <ng-container *ngTemplateOutlet="sortAndPagination"></ng-container>
-      </div>
-    </ng-container>
-
-    <!-- NO ORDER CONTAINER -->
-    <ng-template #noData>
-      <div class="cx-no-permissions row">
-        <div class="col-sm-12 col-md-6 col-lg-4">
-          <div>{{ 'common.noData' | cxTranslate }}</div>
-        </div>
-      </div>
-    </ng-template>
-  </div>
-</ng-container>
+</cx-interactive-table>

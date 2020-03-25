@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { B2BUnitNode } from '../../../model/org-unit.model';
+import { B2BUnit, B2BUnitNode } from '../../../model/org-unit.model';
 import { OrgUnitActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
@@ -15,28 +15,20 @@ import { EntityLoaderState, LoaderState } from '@spartacus/core';
 describe('OrgUnit Selectors', () => {
   let store: Store<StateWithOrganization>;
 
-  const id = 'testId';
-  const orgUnit: B2BUnitNode = {
-    id,
-    name: 'testOrgUnit',
-  };
-  const orgUnit2: B2BUnitNode = {
-    id: 'testId2',
-    name: 'testOrgUnit2',
-  };
+  const orgUnitId = 'testOrgUnitId';
+  const orgUnit: Partial<B2BUnit> = { uid: orgUnitId, name: 'testOrgUnit' };
+
+  const orgUnitNode: Partial<B2BUnitNode> = { id: orgUnitId };
+  const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
+
+  const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
 
   const entities = {
-    testId: {
+    [orgUnitId]: {
       loading: false,
       error: false,
       success: true,
       value: orgUnit,
-    },
-    testId2: {
-      loading: false,
-      error: false,
-      success: true,
-      value: orgUnit2,
     },
   };
 
@@ -62,41 +54,47 @@ describe('OrgUnit Selectors', () => {
         .pipe(select(OrgUnitSelectors.getB2BOrgUnitState))
         .subscribe(value => (result = value));
 
-      store.dispatch(
-        new OrgUnitActions.LoadOrgUnitSuccess([orgUnit, orgUnit2])
-      );
+      store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
       expect(result).toEqual({
+        availableOrgUnitNodes: { entities: {} },
         entities: { entities },
-        list: { entities: {} },
+        tree: { entities: {} },
+        approvalProcesses: { entities: {} },
+        users: { entities: {} },
       });
     });
   });
 
   describe('getOrgUnits', () => {
     it('should return orgUnits', () => {
-      let result: EntityLoaderState<B2BUnitNode>;
+      let result: EntityLoaderState<B2BUnitNode[]>;
       store
-        .pipe(select(OrgUnitSelectors.getOrgUnitsState))
+        .pipe(select(OrgUnitSelectors.getOrgUnitsNodeListState))
         .subscribe(value => (result = value));
 
-      store.dispatch(
-        new OrgUnitActions.LoadOrgUnitSuccess([orgUnit, orgUnit2])
-      );
-      expect(result).toEqual({ entities });
+      store.dispatch(new OrgUnitActions.LoadOrgUnitNodesSuccess(orgUnitList));
+      expect(result).toEqual({
+        entities: {
+          availableOrgUnitNodes: {
+            loading: false,
+            success: true,
+            error: false,
+            value: orgUnitList,
+          },
+        },
+      });
     });
   });
 
   describe('getOrgUnit', () => {
     it('should return orgUnit by id', () => {
-      let result: LoaderState<B2BUnitNode>;
+      let result: LoaderState<B2BUnit>;
       store
-        .pipe(select(OrgUnitSelectors.getOrgUnitState(id)))
+        .pipe(select(OrgUnitSelectors.getOrgUnitState(orgUnitId)))
         .subscribe(value => (result = value));
 
-      store.dispatch(
-        new OrgUnitActions.LoadOrgUnitSuccess([orgUnit, orgUnit2])
-      );
-      expect(result).toEqual(entities.testId);
+      store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
+      expect(result).toEqual(entities[orgUnitId]);
     });
   });
 });

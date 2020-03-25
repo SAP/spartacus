@@ -68,6 +68,11 @@ import {
   CostCenterDetailsModule,
   CostCenterEditModule,
   CostCenterAssignBudgetsModule,
+  UnitListModule,
+  UnitCreateModule,
+  UnitDetailsModule,
+  UnitEditModule,
+  UnitAssignRolesModule,
 } from './organization/index';
 
 @NgModule({
@@ -133,6 +138,11 @@ import {
     CostCenterDetailsModule,
     CostCenterEditModule,
     CostCenterAssignBudgetsModule,
+    UnitListModule,
+    UnitCreateModule,
+    UnitDetailsModule,
+    UnitEditModule,
+    UnitAssignRolesModule,
   ],
 })
 export class CmsLibModule {}

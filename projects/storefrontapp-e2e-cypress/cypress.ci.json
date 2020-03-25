@@ -4,6 +4,7 @@
   "projectId": "k3nmep",
   "requestTimeout": 15000,
   "numTestsKeptInMemory": 1,
+  "video": false,
   "env": {
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",

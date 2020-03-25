@@ -42,7 +42,10 @@ export class LoadBudgetFail extends EntityFailAction {
 export class LoadBudgetSuccess extends EntitySuccessAction {
   readonly type = LOAD_BUDGET_SUCCESS;
   constructor(public payload: Budget[]) {
-    super(BUDGET_ENTITIES, payload.map(budget => budget.code));
+    super(
+      BUDGET_ENTITIES,
+      payload.map(budget => budget.code)
+    );
   }
 }
 

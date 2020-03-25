@@ -1,4 +1,12 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import {
+  Pipe,
+  PipeTransform,
+  Type,
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,12 +24,11 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { TableModule } from '../../../../shared/components/table/table.module';
-
 import { BudgetListComponent } from './budget-list.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
+import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
+import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
 
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
@@ -56,19 +63,19 @@ const mockBudgetList: EntitiesModel<Budget> = {
       orgUnit: { name: 'orgName', uid: 'orgUid' },
     },
   ],
-  pagination: { totalResults: 1, sort: 'byName' },
+  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 
 const mockBudgetUIList = {
-  budgetsList: [
+  values: [
     {
       code: '1',
       name: 'b1',
       amount: '2230 $',
       startEndDate: '2010-01-01 - 2034-07-12',
       parentUnit: 'orgName',
-      orgUnitId: 'orgUid',
+      uid: 'orgUid',
     },
     {
       code: '2',
@@ -76,13 +83,20 @@ const mockBudgetUIList = {
       amount: '2240 $',
       startEndDate: '2020-01-01 - 2024-07-12',
       parentUnit: 'orgName',
-      orgUnitId: 'orgUid',
+      uid: 'orgUid',
     },
   ],
-  pagination: { totalResults: 1, sort: 'byName' },
+  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
-
+@Component({
+  template: '',
+  selector: 'cx-pagination',
+})
+class MockPaginationComponent {
+  @Input() pagination;
+  @Output() viewPageEvent = new EventEmitter<string>();
+}
 @Pipe({
   name: 'cxUrl',
 })
@@ -133,18 +147,19 @@ describe('BudgetListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ListNavigationModule,
-        TableModule,
-        I18nTestingModule,
-      ],
-      declarations: [BudgetListComponent, MockUrlPipe],
+      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
+      declarations: [BudgetListComponent, MockUrlPipe, MockPaginationComponent],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: BudgetService, useClass: MockBudgetService },
+        {
+          provide: PaginationConfig,
+          useValue: {
+            pagination: {},
+          },
+        },
       ],
     }).compileComponents();
 
@@ -166,21 +181,24 @@ describe('BudgetListComponent', () => {
   it('should display No budgets found page if no budgets are found', () => {
     const emptyBudgetList: EntitiesModel<Budget> = {
       values: [],
-      pagination: { totalResults: 0, sort: 'byName' },
+      pagination: {
+        currentPage: 0,
+        totalResults: 0,
+      },
       sorts: [{ code: 'byName', selected: true }],
     };
 
     budgetList.next(emptyBudgetList);
     fixture.detectChanges();
 
-    expect(fixture.debugElement.query(By.css('.cx-no-budgets'))).not.toBeNull();
+    expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
   });
 
   describe('ngOnInit', () => {
     it('should read budget list', () => {
       component.ngOnInit();
       let budgetsList: any;
-      component.budgetsList$
+      component.data$
         .subscribe(value => {
           budgetsList = value;
         })
@@ -193,11 +211,11 @@ describe('BudgetListComponent', () => {
 
   describe('changeSortCode', () => {
     it('should set correctly sort code', () => {
-      component['params$'] = of(defaultParams);
       component.changeSortCode('byCode');
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'budgets',
+          params: {},
         },
         {
           sort: 'byCode',
@@ -208,11 +226,11 @@ describe('BudgetListComponent', () => {
 
   describe('pageChange', () => {
     it('should set correctly page', () => {
-      component['params$'] = of(defaultParams);
       component.pageChange(2);
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'budgets',
+          params: {},
         },
         {
           currentPage: 2,

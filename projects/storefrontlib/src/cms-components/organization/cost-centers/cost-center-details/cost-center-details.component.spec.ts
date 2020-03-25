@@ -18,10 +18,10 @@ import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { TableModule } from '../../../../shared/components/table/table.module';
 
-const costCenterCode = 'b1';
+const code = 'b1';
 
 const mockCostCenter: CostCenter = {
-  code: costCenterCode,
+  code,
   name: 'costCenter1',
   currency: {
     symbol: '$',
@@ -31,7 +31,7 @@ const mockCostCenter: CostCenter = {
 };
 
 const mockCostCenterUI: any = {
-  code: costCenterCode,
+  code,
   name: 'costCenter1',
   currency: {
     symbol: '$',
@@ -56,7 +56,7 @@ class MockCostCenterService implements Partial<CostCenterService> {
 const mockRouterState = {
   state: {
     params: {
-      costCenterCode,
+      code,
     },
   },
 };
@@ -99,9 +99,9 @@ describe('CostCenterDetailsComponent', () => {
       ],
     }).compileComponents();
 
-    costCentersService = TestBed.get(CostCenterService as Type<
-      CostCenterService
-    >);
+    costCentersService = TestBed.get(
+      CostCenterService as Type<CostCenterService>
+    );
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
@@ -125,10 +125,8 @@ describe('CostCenterDetailsComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(costCentersService.loadCostCenter).toHaveBeenCalledWith(
-        costCenterCode
-      );
-      expect(costCentersService.get).toHaveBeenCalledWith(costCenterCode);
+      expect(costCentersService.loadCostCenter).toHaveBeenCalledWith(code);
+      expect(costCentersService.get).toHaveBeenCalledWith(code);
       expect(costCenter).toEqual(mockCostCenterUI);
     });
   });
@@ -138,12 +136,12 @@ describe('CostCenterDetailsComponent', () => {
       component.ngOnInit();
 
       component.update({ activeFlag: false });
-      expect(costCentersService.update).toHaveBeenCalledWith(costCenterCode, {
+      expect(costCentersService.update).toHaveBeenCalledWith(code, {
         activeFlag: false,
       });
 
       component.update({ activeFlag: true });
-      expect(costCentersService.update).toHaveBeenCalledWith(costCenterCode, {
+      expect(costCentersService.update).toHaveBeenCalledWith(code, {
         activeFlag: true,
       });
     });

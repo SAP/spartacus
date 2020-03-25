@@ -7,6 +7,10 @@ import {
   Permission,
   CostCenter,
   OrderApprovalPermissionType,
+  B2BUnit,
+  B2BApprovalProcess,
+  OrgUnitUserGroup,
+  B2BUser,
 } from '../../../model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import {
@@ -14,9 +18,8 @@ import {
   BUDGET_ENTITIES,
   BUDGET_FEATURE,
   BUDGET_LIST,
-  ORG_UNIT_ENTITIES,
   ORG_UNIT_FEATURE,
-  ORG_UNIT_LIST,
+  ORG_UNIT_NODE_LIST,
   PERMISSION_ENTITIES,
   PERMISSION_FEATURE,
   PERMISSION_LIST,
@@ -27,15 +30,33 @@ import {
   COST_CENTER_ENTITIES,
   COST_CENTER_LIST,
   COST_CENTER_ASSIGNED_BUDGETS,
+  ORG_UNIT_USER_GROUP_ENTITIES,
+  ORG_UNIT_USER_GROUP_FEATURE,
+  ORG_UNIT_USER_GROUP_LIST,
+  ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+  ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+  ORG_UNIT_ENTITIES,
+  ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
+  ORG_UNIT_TREE_ENTITY,
+  B2B_USER_FEATURE,
+  B2B_USER_ENTITIES,
+  USER_LIST,
+  ORG_UNIT_ASSIGNED_USERS,
 } from '../organization-state';
 import { budgetsListReducer, budgetsEntitiesReducer } from './budget.reducer';
-import { orgUnitListReducer } from './org-unit.reducer';
 import { permissionsListReducer } from './permission.reducer';
 import { permissionTypeListReducer } from './permission-type.reducer';
 import {
   costCentersListReducer,
   costCenterAssignedBudgetsListReducer,
 } from './cost-center.reducer';
+import { userListReducer, b2bUserEntitiesReducer } from './b2b-user.reducer';
+import {
+  orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer,
+  orgUnitUserGroupAvailablOrgCustomersListReducer,
+  orgUnitUserGroupsListReducer,
+} from './user-group.reducer';
+import { orgUnitUserListReducer } from './org-unit.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -54,8 +75,35 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       ),
     }),
     [ORG_UNIT_FEATURE]: combineReducers({
-      entities: entityLoaderReducer<B2BUnitNode>(ORG_UNIT_ENTITIES),
-      list: entityLoaderReducer<ListModel>(ORG_UNIT_LIST, orgUnitListReducer),
+      entities: entityLoaderReducer<B2BUnit>(ORG_UNIT_ENTITIES),
+      availableOrgUnitNodes: entityLoaderReducer<B2BUnitNode[]>(
+        ORG_UNIT_NODE_LIST
+      ),
+      tree: entityLoaderReducer<B2BUnitNode>(ORG_UNIT_TREE_ENTITY),
+      approvalProcesses: entityLoaderReducer<B2BApprovalProcess[]>(
+        ORG_UNIT_APPROVAL_PROCESSES_ENTITIES
+      ),
+      users: entityLoaderReducer<ListModel>(
+        ORG_UNIT_ASSIGNED_USERS,
+        orgUnitUserListReducer
+      ),
+    }),
+    [ORG_UNIT_USER_GROUP_FEATURE]: combineReducers({
+      entities: entityLoaderReducer<OrgUnitUserGroup>(
+        ORG_UNIT_USER_GROUP_ENTITIES
+      ),
+      list: entityLoaderReducer<ListModel>(
+        ORG_UNIT_USER_GROUP_LIST,
+        orgUnitUserGroupsListReducer
+      ),
+      permissions: entityLoaderReducer<ListModel>(
+        ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+        orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer
+      ),
+      customers: entityLoaderReducer<ListModel>(
+        ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+        orgUnitUserGroupAvailablOrgCustomersListReducer
+      ),
     }),
     [COST_CENTER_FEATURE]: combineReducers({
       entities: entityLoaderReducer<CostCenter>(COST_CENTER_ENTITIES),
@@ -76,6 +124,13 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         PERMISSION_TYPES_LIST,
         permissionTypeListReducer
       ),
+    }),
+    [B2B_USER_FEATURE]: combineReducers({
+      entities: entityLoaderReducer<B2BUser>(
+        B2B_USER_ENTITIES,
+        b2bUserEntitiesReducer
+      ),
+      list: entityLoaderReducer<ListModel>(USER_LIST, userListReducer),
     }),
   };
 }

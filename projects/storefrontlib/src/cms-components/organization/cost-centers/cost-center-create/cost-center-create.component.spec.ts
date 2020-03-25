@@ -13,7 +13,6 @@ import {
   OrgUnitService,
   Currency,
   CurrencyService,
-  EntitiesModel,
   B2BUnitNode,
   LanguageService,
 } from '@spartacus/core';
@@ -36,17 +35,15 @@ const mockCostCenter: CostCenter = {
   unit: { name: 'orgName', uid: 'orgCode' },
 };
 
-const mockOrgUnits: EntitiesModel<B2BUnitNode> = {
-  values: [
-    {
-      active: true,
-      children: [],
-      id: 'unitNode1',
-      name: 'Org Unit 1',
-      parent: 'parentUnit',
-    },
-  ],
-};
+const mockOrgUnits: B2BUnitNode[] = [
+  {
+    active: true,
+    children: [],
+    id: 'unitNode1',
+    name: 'Org Unit 1',
+    parent: 'parentUnit',
+  },
+];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
@@ -55,6 +52,7 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
 
 class MockCostCenterService implements Partial<CostCenterService> {
   create = createSpy('create');
+  getBudgets = createSpy('getBudgets');
 }
 
 const mockRouterState = {
@@ -126,9 +124,9 @@ describe('CostCenterCreateComponent', () => {
       ],
     }).compileComponents();
 
-    costCentersService = TestBed.get(CostCenterService as Type<
-      CostCenterService
-    >);
+    costCentersService = TestBed.get(
+      CostCenterService as Type<CostCenterService>
+    );
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 

@@ -24,7 +24,7 @@ export class CostCenterService {
     protected authService: AuthService
   ) {}
 
-  loadCostCenter(costCenterCode: string) {
+  loadCostCenter(costCenterCode: string): void {
     this.withUserId(userId =>
       this.store.dispatch(
         new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
@@ -32,7 +32,7 @@ export class CostCenterService {
     );
   }
 
-  loadCostCenters(params?: B2BSearchConfig) {
+  loadCostCenters(params?: B2BSearchConfig): void {
     this.withUserId(userId =>
       this.store.dispatch(
         new CostCenterActions.LoadCostCenters({ userId, params })
@@ -40,7 +40,9 @@ export class CostCenterService {
     );
   }
 
-  private getCostCenterState(costCenterCode: string) {
+  private getCostCenterState(
+    costCenterCode: string
+  ): Observable<LoaderState<CostCenter>> {
     return this.store.select(getCostCenterState(costCenterCode));
   }
 
@@ -85,7 +87,7 @@ export class CostCenterService {
     );
   }
 
-  create(costCenter: CostCenter) {
+  create(costCenter: CostCenter): void {
     this.withUserId(userId =>
       this.store.dispatch(
         new CostCenterActions.CreateCostCenter({ userId, costCenter })
@@ -93,7 +95,7 @@ export class CostCenterService {
     );
   }
 
-  update(costCenterCode: string, costCenter: CostCenter) {
+  update(costCenterCode: string, costCenter: CostCenter): void {
     this.withUserId(userId =>
       this.store.dispatch(
         new CostCenterActions.UpdateCostCenter({
@@ -105,7 +107,7 @@ export class CostCenterService {
     );
   }
 
-  loadBudgets(costCenterCode: string, params: B2BSearchConfig) {
+  loadBudgets(costCenterCode: string, params: B2BSearchConfig): void {
     this.withUserId(userId =>
       this.store.dispatch(
         new CostCenterActions.LoadAssignedBudgets({
@@ -136,7 +138,7 @@ export class CostCenterService {
     );
   }
 
-  assignBudget(costCenterCode: string, budgetCode: string) {
+  assignBudget(costCenterCode: string, budgetCode: string): void {
     this.withUserId(userId =>
       this.store.dispatch(
         new CostCenterActions.AssignBudget({
@@ -148,7 +150,7 @@ export class CostCenterService {
     );
   }
 
-  unassignBudget(costCenterCode: string, budgetCode: string) {
+  unassignBudget(costCenterCode: string, budgetCode: string): void {
     this.withUserId(userId =>
       this.store.dispatch(
         new CostCenterActions.UnassignBudget({

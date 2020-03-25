@@ -4,9 +4,7 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe,
   I18nModule,
-  UserService,
 } from '@spartacus/core';
 import { CostCenterCreateComponent } from './cost-center-create.component';
 import { CostCenterFormModule } from '../cost-center-form/cost-center-form.module';
@@ -27,7 +25,6 @@ import { CostCenterFormModule } from '../cost-center-form/cost-center-form.modul
   ],
   declarations: [CostCenterCreateComponent],
   exports: [CostCenterCreateComponent],
-  providers: [UserService, CxDatePipe],
   entryComponents: [CostCenterCreateComponent],
 })
 export class CostCenterCreateModule {}

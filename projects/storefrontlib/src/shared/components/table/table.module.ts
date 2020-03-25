@@ -3,28 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  AuthGuard,
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-  UrlModule,
-  UserService,
-} from '@spartacus/core';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import { ListNavigationModule } from '../list-navigation/list-navigation.module';
 import { TableComponent } from './table.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        BudgetManagementComponent: {
-          component: TableComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
     RouterModule,
     FormsModule,
     NgSelectModule,
@@ -34,7 +19,6 @@ import { TableComponent } from './table.component';
   ],
   declarations: [TableComponent],
   exports: [TableComponent],
-  providers: [UserService],
   entryComponents: [TableComponent],
 })
 export class TableModule {}

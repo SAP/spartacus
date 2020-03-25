@@ -4172,6 +4172,15 @@ export namespace Occ {
     unit?: B2BUnit;
   }
 
+  export interface OrgUnitUserGroup {
+    name?: string;
+    uid?: string;
+    members?: B2BUser[];
+    orgUnit?: B2BUnit;
+    permissions?: Permission[];
+    selected?: boolean;
+  }
+
   export interface OrgUnitAddress {
     cellphone?: string;
     companyName?: string;
@@ -4218,11 +4227,18 @@ export namespace Occ {
   export interface B2BUser extends User {
     active?: boolean;
     approvers?: [];
+    orgUnit?: B2BUnit;
+    roles?: string[];
+    selected?: boolean;
   }
 
   export interface B2BApprovalProcess {
     code?: string;
     name?: string;
+  }
+
+  export interface B2BApprovalProcessList {
+    approvalProcesses?: B2BApprovalProcess[];
   }
 
   export interface B2BUnit {
@@ -4274,6 +4290,18 @@ export namespace Occ {
 
   export interface CostCentersList {
     costCenters: CostCenter[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
+  export interface OrgUnitUserGroupList {
+    orgUnitUserGroups: OrgUnitUserGroup[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
+  export interface OrgUnitUserList {
+    users: B2BUser[];
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }

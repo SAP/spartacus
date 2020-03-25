@@ -22,19 +22,19 @@ export class BudgetService {
     protected authService: AuthService
   ) {}
 
-  loadBudget(budgetCode: string) {
+  loadBudget(budgetCode: string): void {
     this.withUserId(userId =>
       this.store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }))
     );
   }
 
-  loadBudgets(params?: B2BSearchConfig) {
+  loadBudgets(params?: B2BSearchConfig): void {
     this.withUserId(userId =>
       this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
     );
   }
 
-  private getBudgetState(budgetCode: string) {
+  private getBudgetState(budgetCode: string): Observable<LoaderState<Budget>> {
     return this.store.select(getBudgetState(budgetCode));
   }
 
@@ -73,13 +73,13 @@ export class BudgetService {
     );
   }
 
-  create(budget: Budget) {
+  create(budget: Budget): void {
     this.withUserId(userId =>
       this.store.dispatch(new BudgetActions.CreateBudget({ userId, budget }))
     );
   }
 
-  update(budgetCode: string, budget: Budget) {
+  update(budgetCode: string, budget: Budget): void {
     this.withUserId(userId =>
       this.store.dispatch(
         new BudgetActions.UpdateBudget({ userId, budgetCode, budget })

@@ -8,7 +8,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import createSpy = jasmine.createSpy;
 
-import { B2BUnitNode } from '../../../model/org-unit.model';
+import { B2BUnit, B2BUnitNode } from '../../../model/org-unit.model';
 import { defaultOccOrganizationConfig } from '../../../occ/adapters/organization/default-occ-organization-config';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
@@ -16,19 +16,19 @@ import { OrgUnitActions } from '../actions/index';
 import * as fromEffects from './org-unit.effect';
 
 const error = 'error';
-const orgUnitId = 'orgUnit1ID';
 const userId = 'testUser';
-const orgUnit: B2BUnitNode = {
-  active: true,
-  children: [],
-  id: orgUnitId,
-  name: 'orgUnit1 name',
-  parent: 'orgUnit1 parent',
-};
+
+const orgUnitId = 'testOrgUnitId';
+const orgUnit: Partial<B2BUnit> = { uid: orgUnitId };
+
+const orgUnitNode: Partial<B2BUnitNode> = { id: orgUnitId };
+const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
+
+const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
 
 class MockOrgUnitConnector {
   get = createSpy().and.returnValue(of(orgUnit));
-  getList = createSpy().and.returnValue(of({ values: [orgUnit] }));
+  getList = createSpy().and.returnValue(of(orgUnitList));
   create = createSpy().and.returnValue(of(orgUnit));
   update = createSpy().and.returnValue(of(orgUnit));
 }
@@ -62,9 +62,9 @@ describe('OrgUnit Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.OrgUnitEffects as Type<
-      fromEffects.OrgUnitEffects
-    >);
+    effects = TestBed.get(
+      fromEffects.OrgUnitEffects as Type<fromEffects.OrgUnitEffects>
+    );
     orgUnitConnector = TestBed.get(OrgUnitConnector as Type<OrgUnitConnector>);
     expected = null;
   });
@@ -96,27 +96,26 @@ describe('OrgUnit Effects', () => {
   });
 
   describe('loadOrgUnits$', () => {
-    it('should return LoadOrgUnitSuccess action', () => {
-      const action = new OrgUnitActions.LoadOrgUnits({ userId });
-      const completion = new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]);
-      const completion2 = new OrgUnitActions.LoadOrgUnitsSuccess({
-        page: { ids: [orgUnitId] },
-      });
-      actions$ = hot('-a', { a: action });
-      expected = cold('-(bc)', { b: completion, c: completion2 });
-
-      expect(effects.loadOrgUnits$).toBeObservable(expected);
-      expect(orgUnitConnector.getList).toHaveBeenCalledWith(userId);
-    });
-
-    it('should return LoadOrgUnitsFail action if orgUnits not loaded', () => {
-      orgUnitConnector.getList = createSpy().and.returnValue(throwError(error));
-      const action = new OrgUnitActions.LoadOrgUnits({ userId });
-      const completion = new OrgUnitActions.LoadOrgUnitsFail({ error });
+    it('should return LoadOrgUnitNodesSuccess action', () => {
+      const action = new OrgUnitActions.LoadOrgUnitNodes({ userId });
+      const completion = new OrgUnitActions.LoadOrgUnitNodesSuccess(
+        orgUnitList
+      );
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.loadOrgUnits$).toBeObservable(expected);
+      expect(effects.loadAvailableOrgUnits$).toBeObservable(expected);
+      expect(orgUnitConnector.getList).toHaveBeenCalledWith(userId);
+    });
+
+    it('should return LoadOrgUnitNodesFail action if orgUnits not loaded', () => {
+      orgUnitConnector.getList = createSpy().and.returnValue(throwError(error));
+      const action = new OrgUnitActions.LoadOrgUnitNodes({ userId });
+      const completion = new OrgUnitActions.LoadOrgUnitNodesFail({ error });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadAvailableOrgUnits$).toBeObservable(expected);
       expect(orgUnitConnector.getList).toHaveBeenCalledWith(userId);
     });
   });

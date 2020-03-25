@@ -45,7 +45,10 @@ export class LoadPermissionFail extends EntityFailAction {
 export class LoadPermissionSuccess extends EntitySuccessAction {
   readonly type = LOAD_PERMISSION_SUCCESS;
   constructor(public payload: Permission[]) {
-    super(PERMISSION_ENTITIES, payload.map(permission => permission.code));
+    super(
+      PERMISSION_ENTITIES,
+      payload.map(permission => permission.code)
+    );
   }
 }
 

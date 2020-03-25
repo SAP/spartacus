@@ -1,6 +1,6 @@
 import { Permission } from '../../../model/permission.model';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
-import * as PermissionActions from '../actions/permission.action';
+import { PermissionActions } from '../actions/index';
 
 export const permissionInitialState = {};
 export const permissionsInitialState = undefined;

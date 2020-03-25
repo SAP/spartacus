@@ -34,11 +34,10 @@ export const UPDATE_COST_CENTER_FAIL = '[CostCenter] Update CostCenter Fail';
 export const UPDATE_COST_CENTER_SUCCESS =
   '[CostCenter] Update CostCenter Success';
 
-export const LOAD_ASSIGNED_BUDGETS = '[CostCenter] Load assigned Budgets';
+export const LOAD_ASSIGNED_BUDGETS = '[CostCenter] Load Budgets';
 export const LOAD_ASSIGNED_BUDGETS_SUCCESS =
-  '[CostCenter] Load assigned Budgets success';
-export const LOAD_ASSIGNED_BUDGETS_FAIL =
-  '[CostCenter] Load assigned Budgets fail';
+  '[CostCenter] Load Budgets success';
+export const LOAD_ASSIGNED_BUDGETS_FAIL = '[CostCenter] Load Budgets fail';
 
 export const ASSIGN_BUDGET = '[CostCenter] Assign Budget';
 export const ASSIGN_BUDGET_SUCCESS = '[CostCenter] Assign Budget success';
@@ -65,7 +64,10 @@ export class LoadCostCenterFail extends EntityFailAction {
 export class LoadCostCenterSuccess extends EntitySuccessAction {
   readonly type = LOAD_COST_CENTER_SUCCESS;
   constructor(public payload: CostCenter[]) {
-    super(COST_CENTER_ENTITIES, payload.map(costCenter => costCenter.code));
+    super(
+      COST_CENTER_ENTITIES,
+      payload.map(costCenter => costCenter.code)
+    );
   }
 }
 
@@ -216,9 +218,7 @@ export class AssignBudget extends EntityLoadAction {
 
 export class AssignBudgetFail extends EntityFailAction {
   readonly type = ASSIGN_BUDGET_FAIL;
-  constructor(
-    public payload: { costCenterCode: string; budgetCode: string; error: any }
-  ) {
+  constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }
@@ -245,9 +245,7 @@ export class UnassignBudget extends EntityLoadAction {
 
 export class UnassignBudgetFail extends EntityFailAction {
   readonly type = UNASSIGN_BUDGET_FAIL;
-  constructor(
-    public payload: { costCenterCode: string; budgetCode: string; error: any }
-  ) {
+  constructor(public payload: { budgetCode: string; error: any }) {
     super(BUDGET_ENTITIES, payload.budgetCode, payload.error);
   }
 }

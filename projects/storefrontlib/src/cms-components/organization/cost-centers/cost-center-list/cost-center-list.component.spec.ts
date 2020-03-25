@@ -1,4 +1,12 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import {
+  Pipe,
+  PipeTransform,
+  Type,
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,12 +24,12 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
-import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
-import { TableModule } from '../../../../shared/components/table/table.module';
+import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
 
 import { CostCenterListComponent } from './cost-center-list.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
+import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
 
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
@@ -47,34 +55,41 @@ const mockCostCenterList: EntitiesModel<CostCenter> = {
         symbol: '$',
         isocode: 'USD',
       },
-      unit: { name: 'orgName', uid: 'orgUid' },
+      unit: { name: 'orgName2', uid: 'orgUid2' },
     },
   ],
-  pagination: { totalResults: 1, sort: 'byName' },
+  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 
 const mockCostCenterUIList = {
-  costCentersList: [
+  values: [
     {
       code: 'c1',
       name: 'n1',
       currency: 'USD',
       parentUnit: 'orgName',
-      orgUnitId: 'orgUid',
+      uid: 'orgUid',
     },
     {
       code: 'c2',
       name: 'n2',
       currency: 'USD',
-      parentUnit: 'orgName',
-      orgUnitId: 'orgUid',
+      parentUnit: 'orgName2',
+      uid: 'orgUid2',
     },
   ],
-  pagination: { totalResults: 1, sort: 'byName' },
+  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
-
+@Component({
+  template: '',
+  selector: 'cx-pagination',
+})
+class MockPaginationComponent {
+  @Input() pagination;
+  @Output() viewPageEvent = new EventEmitter<string>();
+}
 @Pipe({
   name: 'cxUrl',
 })
@@ -125,24 +140,29 @@ describe('CostCenterListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ListNavigationModule,
-        TableModule,
-        I18nTestingModule,
+      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
+      declarations: [
+        CostCenterListComponent,
+        MockUrlPipe,
+        MockPaginationComponent,
       ],
-      declarations: [CostCenterListComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CostCenterService, useClass: MockCostCenterService },
+        {
+          provide: PaginationConfig,
+          useValue: {
+            pagination: {},
+          },
+        },
       ],
     }).compileComponents();
 
-    costCentersService = TestBed.get(CostCenterService as Type<
-      CostCenterService
-    >);
+    costCentersService = TestBed.get(
+      CostCenterService as Type<CostCenterService>
+    );
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
@@ -160,23 +180,27 @@ describe('CostCenterListComponent', () => {
   it('should display No costCenters found page if no costCenters are found', () => {
     const emptyCostCenterList: EntitiesModel<CostCenter> = {
       values: [],
-      pagination: { totalResults: 0, sort: 'byName' },
+      pagination: {
+        totalPages: 0,
+        pageSize: 0,
+        currentPage: 0,
+        totalResults: 0,
+        sort: 'byName',
+      },
       sorts: [{ code: 'byName', selected: true }],
     };
 
     costCenterList.next(emptyCostCenterList);
     fixture.detectChanges();
 
-    expect(
-      fixture.debugElement.query(By.css('.cx-no-costCenters'))
-    ).not.toBeNull();
+    expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
   });
 
   describe('ngOnInit', () => {
     it('should read costCenter list', () => {
       component.ngOnInit();
       let costCentersList: any;
-      component.costCentersList$
+      component.data$
         .subscribe(value => {
           costCentersList = value;
         })
@@ -191,11 +215,11 @@ describe('CostCenterListComponent', () => {
 
   describe('changeSortCode', () => {
     it('should set correctly sort code', () => {
-      component['params$'] = of(defaultParams);
       component.changeSortCode('byCode');
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'costCenters',
+          params: {},
         },
         {
           sort: 'byCode',
@@ -206,11 +230,11 @@ describe('CostCenterListComponent', () => {
 
   describe('pageChange', () => {
     it('should set correctly page', () => {
-      component['params$'] = of(defaultParams);
       component.pageChange(2);
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'costCenters',
+          params: {},
         },
         {
           currentPage: 2,
