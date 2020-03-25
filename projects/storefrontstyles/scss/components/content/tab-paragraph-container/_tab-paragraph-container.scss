@@ -35,6 +35,9 @@ $useTabsOnPDP: false !default;
     &:hover {
       color: var(--cx-color-primary);
     }
+    &:focus {
+      z-index: 1;
+    }
     cursor: pointer;
     @include media-breakpoint-up(md) {
       &.active {
@@ -155,7 +158,6 @@ $useTabsOnPDP: false !default;
   > button {
     @include button-reset();
     order: 2;
-
     color: var(--cx-color-primary);
     font-weight: normal;
     font-size: 0.9em;
@@ -164,7 +166,11 @@ $useTabsOnPDP: false !default;
     &:hover {
       text-decoration: underline;
     }
+    &:focus {
+      z-index: 1;
+    }
   }
+
   > div {
     order: 4;
     grid-column: 1 / span 5;
