@@ -46,13 +46,15 @@ export class CartItemListComponent {
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
-  @Input('cartIsLoading') set setLoading(value: boolean) {
-    if (!this.readonly) {
-      // Whenver the cart is loading, we disable the complete form
-      // to avoid any user interaction with the cart.
-      value
-        ? this.form.disable({ emitEvent: false })
-        : this.form.enable({ emitEvent: false });
+  @Input('cartIsLoading') set setLoading(isLoaded: boolean) {
+    if (this.readonly) {
+      this.form.disable();
+    } else {
+      if (!isLoaded && this.form.disabled) {
+        this.form.enable();
+      } else if (isLoaded && this.form.enabled) {
+        this.form.disable();
+      }
     }
   }
 
@@ -99,6 +101,7 @@ export class CartItemListComponent {
         quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
       });
       if (!item.updateable || this.readonly) {
+        console.log('group disable?', item);
         group.disable();
       }
       this.form.addControl(code, group);
