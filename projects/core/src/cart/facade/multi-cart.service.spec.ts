@@ -5,7 +5,10 @@ import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { CartActions } from '../store/actions';
 import * as DeprecatedCartActions from '../store/actions/cart.action';
-import { StateWithMultiCart } from '../store/multi-cart-state';
+import {
+  MULTI_CART_FEATURE,
+  StateWithMultiCart,
+} from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
 
 const testCart: Cart = {
@@ -33,7 +36,7 @@ describe('MultiCartService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          'multi-cart',
+          MULTI_CART_FEATURE,
           fromReducers.getMultiCartReducers()
         ),
       ],
