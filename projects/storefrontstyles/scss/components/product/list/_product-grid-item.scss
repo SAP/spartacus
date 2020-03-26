@@ -29,11 +29,17 @@
   .cx-product-name {
     @include type('5');
     text-align: center;
-    display: block;
     margin: 0 0 3px 0;
     color: var(--cx-color-dark);
     text-decoration: none;
-    height: 2.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-orient: vertical;
+    line-clamp: 2;
+    max-width: 100%;
+    height: 40px;
+    display: block;
+    display: -webkit-box;
 
     &:hover {
       color: var(--cx-color-primary);
