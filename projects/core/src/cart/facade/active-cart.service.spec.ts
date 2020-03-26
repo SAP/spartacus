@@ -211,12 +211,12 @@ describe('ActiveCartService', () => {
     });
   });
 
-  describe('getLoaded', () => {
+  describe('isStable', () => {
     it('should return true when isStable returns true', done => {
       spyOn(multiCartService, 'isStable').and.returnValue(of(true));
 
       service
-        .getLoaded()
+        .isStable()
         .pipe(take(1))
         .subscribe(val => {
           expect(val).toBe(true);
@@ -228,7 +228,7 @@ describe('ActiveCartService', () => {
       spyOn(multiCartService, 'isStable').and.returnValue(of(false));
 
       service
-        .getLoaded()
+        .isStable()
         .pipe(take(1))
         .subscribe(val => {
           expect(val).toBe(false);
