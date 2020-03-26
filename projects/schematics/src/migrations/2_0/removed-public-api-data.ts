@@ -34,6 +34,8 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
   STATE_WITH_CART,
+  URL_MATCHER_FACTORY_SERVICE,
+  URL_MATCHER_SERVICE,
   WISHLIST_EFFECTS,
 } from '../../shared/constants';
 import { DeprecatedNode } from '../../shared/utils/file-utils';
@@ -207,5 +209,11 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: CART_STATE,
     importPath: SPARTACUS_CORE,
     comment: `'${CART_STATE}' along with rest of the 'cart' state was removed. Instead use 'multi-cart' state.`,
+  },
+  // projects/core/src/routing/services/url-matcher-factory.service.ts
+  {
+    node: URL_MATCHER_FACTORY_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${URL_MATCHER_FACTORY_SERVICE}' was renamed to '${URL_MATCHER_SERVICE}' and its methods were renamed. For more details, see the migration docs.`,
   },
 ];
