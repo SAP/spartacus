@@ -16,10 +16,6 @@ import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const REMOVE_TEMP_CART = '[Multi Cart] Remove Temp Cart';
 
-export const CREATE_MULTI_CART = '[Multi Cart] Create Cart';
-export const CREATE_MULTI_CART_FAIL = '[Multi Cart] Create Cart Fail';
-export const CREATE_MULTI_CART_SUCCESS = '[Multi Cart] Create Cart Success';
-
 export const LOAD_MULTI_CART = '[Multi Cart] Load Cart';
 export const LOAD_MULTI_CART_FAIL = '[Multi Cart] Load Cart Fail';
 export const LOAD_MULTI_CART_SUCCESS = '[Multi Cart] Load Cart Success';
@@ -60,27 +56,6 @@ export class SetTempCart extends EntitySuccessAction {
   readonly type = SET_TEMP_CART;
   constructor(public payload: { cart: Cart; tempCartId: string }) {
     super(MULTI_CART_DATA, payload.tempCartId, payload.cart);
-  }
-}
-
-export class CreateMultiCart extends EntityLoadAction {
-  readonly type = CREATE_MULTI_CART;
-  constructor(public payload: any) {
-    super(MULTI_CART_DATA, payload.tempCartId);
-  }
-}
-
-export class CreateMultiCartFail extends EntityFailAction {
-  readonly type = CREATE_MULTI_CART_FAIL;
-  constructor(public payload: any) {
-    super(MULTI_CART_DATA, payload.tempCartId);
-  }
-}
-
-export class CreateMultiCartSuccess extends EntitySuccessAction {
-  readonly type = CREATE_MULTI_CART_SUCCESS;
-  constructor(public payload: { cart: Cart; userId: string; extraData?: any }) {
-    super(MULTI_CART_DATA, getCartIdByUserId(payload.cart, payload.userId));
   }
 }
 
@@ -185,9 +160,6 @@ export class ClearMultiCartState extends EntityRemoveAction {
 export type MultiCartActions =
   | RemoveTempCart
   | SetTempCart
-  | CreateMultiCart
-  | CreateMultiCartFail
-  | CreateMultiCartSuccess
   | LoadMultiCart
   | LoadMultiCartFail
   | LoadMultiCartSuccess
