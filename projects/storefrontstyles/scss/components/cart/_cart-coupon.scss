@@ -1,7 +1,7 @@
 @import '../../theme';
 
 %cx-cart-coupon {
-  padding: 2rem 3rem;
+  padding: 2rem 0 2rem 3rem;
 
   @include media-breakpoint-down(md) {
     padding: 0 3rem 2rem 3rem;
