@@ -18,7 +18,9 @@ import { CHECKOUT_PAYMENT_SERVICE_MIGRATION } from './data/checkout-payment.serv
 import { CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT_MIGRATION } from './data/checkout-progress-mobile-top.migration';
 import { CHECKOUT_GUARD_MIGRATIONS } from './data/checkout.guard.migration';
 import { CHECKOUT_SERVICE_MIGRATION } from './data/checkout.service.migration';
+import { CONFIGURABLE_ROUTES_SERVICE_MIGRATION } from './data/configurable-routes.service.migration';
 import { CURRENT_PRODUCT_SERVICE_MIGRATION } from './data/current-product-service.migration';
+import { EXTERNAL_ROUTES_SERVICE_MIGRATION } from './data/external-routes.service.migration';
 import { MINI_CART_COMPONENT_MIGRATION } from './data/mini-cart.component.migration';
 import { NOT_CHECKOUT_AUTH_GUARD_MIGRATION } from './data/not-checkout-auth-guard.migration';
 import { ORDER_CONFIRMATION_ITEMS_COMPONENT_MIGRATION } from './data/order-confirmation-items.component.migration';
@@ -87,4 +89,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CURRENT_PRODUCT_SERVICE_MIGRATION,
   PRODUCT_SERVICE_MIGRATION,
   PRODUCT_CAROUSEL_COMPONENT_MIGRATION,
+  CONFIGURABLE_ROUTES_SERVICE_MIGRATION,
+  EXTERNAL_ROUTES_SERVICE_MIGRATION,
 ];
