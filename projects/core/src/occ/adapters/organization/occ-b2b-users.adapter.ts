@@ -62,6 +62,16 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
       .pipe(this.converter.pipeable(B2B_USER_NORMALIZER));
   }
 
+  loadApprovers(
+    userId: string,
+    orgCustomerId: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<B2BUser>> {
+    return this.http
+      .get<Occ.OrgUnitUserList>(this.getApproversEndpoint(userId, orgCustomerId, params))
+      .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
+  }
+
   assignApprover(
     userId: string,
     orgCustomerId: string,
@@ -84,6 +94,16 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     );
   }
 
+  loadPermissions(
+    userId: string,
+    orgCustomerId: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<B2BUser>> {
+    return this.http
+      .get<Occ.OrgUnitUserList>(this.getPermissionsEndpoint(userId, orgCustomerId, params))
+      .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
+  }
+
   assignPermission(
     userId: string,
     orgCustomerId: string,
@@ -103,6 +123,16 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     return this.http.delete<any>(
       this.getPermissionEndpoint(userId, orgCustomerId, permissionId),
     );
+  }
+
+  loadUserGroups(
+    userId: string,
+    orgCustomerId: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<B2BUser>> {
+    return this.http
+      .get<Occ.OrgUnitUserList>(this.getUserGroupsEndpoint(userId, orgCustomerId, params))
+      .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
   }
 
   assignUserGroup(
@@ -154,14 +184,15 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     );
   }
 
-  protected getUserGroupEndpoint(
+  protected getApproversEndpoint(
     userId: string,
     orgCustomerId: string,
-    userGroupId: string,
+    params?: B2BSearchConfig | { orgCustomerId: string }
   ): string {
     return this.occEndpoints.getUrl(
-      'b2bUserUserGroup',
-      { userId, orgCustomerId, userGroupId },
+      'b2bUserApprovers',
+      { userId, orgCustomerId},
+      params
     );
   }
 
@@ -175,5 +206,39 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
       orgCustomerId,
       premissionId,
     });
+  }
+
+  protected getPermissionsEndpoint(
+    userId: string,
+    orgCustomerId: string,
+    params?: B2BSearchConfig,
+  ): string {
+    return this.occEndpoints.getUrl('b2bUserPermissions', {
+      userId,
+      orgCustomerId,
+    }, params);
+  }
+
+  protected getUserGroupEndpoint(
+    userId: string,
+    orgCustomerId: string,
+    userGroupId: string,
+  ): string {
+    return this.occEndpoints.getUrl(
+      'b2bUserUserGroup',
+      { userId, orgCustomerId, userGroupId },
+    );
+  }
+
+  protected getUserGroupsEndpoint(
+    userId: string,
+    orgCustomerId: string,
+    params?: B2BSearchConfig,
+  ): string {
+    return this.occEndpoints.getUrl(
+      'b2bUserUserGroups',
+      { userId, orgCustomerId },
+      params
+    );
   }
 }

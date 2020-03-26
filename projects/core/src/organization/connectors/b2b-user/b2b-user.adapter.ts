@@ -3,6 +3,7 @@ import { B2BSearchConfig } from '../../model/search-config';
 import { EntitiesModel } from '../../../model/misc.model';
 import { B2BUser } from '../../../model/org-unit.model';
 import { OrgUnitUserGroup } from '../../../model/user-group.model';
+import { Permission } from '../../../model/permission.model';
 
 export abstract class B2BUserAdapter {
   /**
@@ -49,6 +50,12 @@ export abstract class B2BUserAdapter {
     approverId: string,
   ): Observable<any>
 
+  abstract loadPermission(
+    userId: string,
+    orgCustomerId: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<Permission>>;
+
   abstract assignPermission(
     userId: string,
     orgCustomerId: string,
@@ -61,6 +68,12 @@ export abstract class B2BUserAdapter {
     permissionId: string,
   ): Observable<any>
 
+  abstract loadUserGroups(
+    userId: string,
+    orgCustomerId: string,
+    params?: B2BSearchConfig
+  ): Observable<EntitiesModel<OrgUnitUserGroup>>;
+
   abstract assignUserGroup(
     userId: string,
     orgCustomerId: string,
@@ -72,13 +85,4 @@ export abstract class B2BUserAdapter {
     orgCustomerId: string,
     userGroupId: string,
   ): Observable<any>
-
-
-  abstract loadUserGroups(
-    userId: string,
-    orgCustomerId: string,
-    params?: B2BSearchConfig
-  ): Observable<EntitiesModel<OrgUnitUserGroup>>;
-
-
 }
