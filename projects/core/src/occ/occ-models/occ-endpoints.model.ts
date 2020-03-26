@@ -434,6 +434,18 @@ export interface OccEndpoints {
    */
   orgUnitApprover?: string;
   /**
+   * Endpoint for organizational unit addresses
+   *
+   * @member {string}
+   */
+  orgUnitsAddresses?: string;
+  /**
+   * Endpoint for organizational unit address
+   *
+   * @member {string}
+   */
+  orgUnitsAddress?: string;
+  /**
    * Endpoint for organizational unit user groups list
    *
    * @member {string}

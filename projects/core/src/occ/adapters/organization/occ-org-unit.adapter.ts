@@ -9,6 +9,7 @@ import {
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NORMALIZER,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
+  B2B_ADDRESS_NORMALIZER,
 } from '../../../organization/connectors/org-unit/converters';
 import { B2B_USERS_NORMALIZER } from '../../../organization/connectors/b2b-user/converters';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
