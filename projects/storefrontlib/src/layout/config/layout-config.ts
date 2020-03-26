@@ -78,3 +78,11 @@ export abstract class LayoutConfig {
     intersectionMargin?: string;
   };
 }
+
+export const PLPAccessibilityLayoutConfig: LayoutConfig = {
+  layoutSlots: {
+    ProductListPageTemplate: {
+      slots: ['ProductLeftRefinements', 'ProductListSlot'],
+    },
+  },
+};
