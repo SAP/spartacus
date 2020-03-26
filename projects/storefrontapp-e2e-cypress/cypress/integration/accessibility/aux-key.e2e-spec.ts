@@ -132,11 +132,11 @@ context('Auxiliary Keys', () => {
       cy.focused().trigger('keydown', { key: 'ArrowDown' });
       cy.focused().should('contain.text', 'DSC-S930');
       cy.focused().trigger('keydown', { key: 'ArrowDown' });
+      cy.focused().should('contain.text', 'DSC-S930');
+      cy.focused().trigger('keydown', { key: 'ArrowDown' });
+      cy.focused().should('contain.text', 'DSC-W270');
+      cy.focused().trigger('keydown', { key: 'ArrowDown' });
       cy.focused().should('contain.text', 'DSC-HX1');
-      cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'DSC-W270');
-      cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'DSC-W270');
       cy.focused().trigger('keydown', { key: 'ArrowDown' });
       cy.focused().should('contain.text', 'dsa');
     });
@@ -144,11 +144,11 @@ context('Auxiliary Keys', () => {
     it('should navigate through suggestions with ArrowUp key', () => {
       cy.focused().should('contain.text', 'dsa');
       cy.focused().trigger('keydown', { key: 'ArrowUp' });
-      cy.focused().should('contain.text', 'DSC-W270');
-      cy.focused().trigger('keydown', { key: 'ArrowUp' });
-      cy.focused().should('contain.text', 'DSC-W270');
-      cy.focused().trigger('keydown', { key: 'ArrowUp' });
       cy.focused().should('contain.text', 'DSC-HX1');
+      cy.focused().trigger('keydown', { key: 'ArrowUp' });
+      cy.focused().should('contain.text', 'DSC-W270');
+      cy.focused().trigger('keydown', { key: 'ArrowUp' });
+      cy.focused().should('contain.text', 'DSC-S930');
       cy.focused().trigger('keydown', { key: 'ArrowUp' });
       cy.focused().should('contain.text', 'DSC-S930');
       cy.focused().trigger('keydown', { key: 'ArrowUp' });

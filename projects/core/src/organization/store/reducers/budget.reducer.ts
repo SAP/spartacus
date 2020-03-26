@@ -1,7 +1,6 @@
 import { Budget } from '../../../model/budget.model';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
-import * as BudgetActions from '../actions/budget.action';
-import { CostCenterActions } from '../actions';
+import { CostCenterActions, BudgetActions } from '../actions/index';
 
 export const budgetInitialState = {};
 export const budgetsInitialState = undefined;

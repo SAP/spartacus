@@ -348,7 +348,6 @@ describe('CostCenter Actions', () => {
     describe('AssignBudgetFail', () => {
       it('should create the action', () => {
         const action = new CostCenterActions.AssignBudgetFail({
-          costCenterCode,
           budgetCode,
           error,
         });
@@ -356,7 +355,6 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.ASSIGN_BUDGET_FAIL,
           payload: {
-            costCenterCode,
             budgetCode,
             error,
           },
@@ -411,7 +409,6 @@ describe('CostCenter Actions', () => {
     describe('UnassignBudgetFail', () => {
       it('should create the action', () => {
         const action = new CostCenterActions.UnassignBudgetFail({
-          costCenterCode,
           budgetCode,
           error,
         });
@@ -419,7 +416,6 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.UNASSIGN_BUDGET_FAIL,
           payload: {
-            costCenterCode,
             budgetCode,
             error,
           },

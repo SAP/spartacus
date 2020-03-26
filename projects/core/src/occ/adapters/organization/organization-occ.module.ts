@@ -50,7 +50,15 @@ import {
   OccOrgUnitUserGroupListNormalizer,
   OccOrgUnitNormalizer,
   OccOrgUnitApprovalProcessNormalizer,
+  OccB2BUserNormalizer,
+  OccUserListNormalizer,
 } from './converters/index';
+import {
+  B2BUserAdapter,
+  B2B_USER_NORMALIZER,
+  B2B_USERS_NORMALIZER,
+} from '../../../organization';
+import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
 
 @NgModule({
   imports: [
@@ -133,6 +141,20 @@ import {
     {
       provide: COST_CENTERS_NORMALIZER,
       useClass: OccCostCenterListNormalizer,
+      multi: true,
+    },
+    {
+      provide: B2BUserAdapter,
+      useClass: OccB2BUserAdapter,
+    },
+    {
+      provide: B2B_USER_NORMALIZER,
+      useClass: OccB2BUserNormalizer,
+      multi: true,
+    },
+    {
+      provide: B2B_USERS_NORMALIZER,
+      useClass: OccUserListNormalizer,
       multi: true,
     },
   ],

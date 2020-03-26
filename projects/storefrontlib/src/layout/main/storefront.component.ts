@@ -1,6 +1,19 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
+import {
+  FocusConfig,
+  KeyboardFocusService,
+} from '../a11y/keyboard-focus/index';
+import { SkipLinkComponent } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 
 @Component({
@@ -14,9 +27,30 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   @HostBinding('class.start-navigating') startNavigating;
   @HostBinding('class.stop-navigating') stopNavigating;
 
+  // required by esc focus
+  @HostBinding('tabindex') tabindex = '0';
+
+  @ViewChild(SkipLinkComponent) child: SkipLinkComponent;
+
+  private keyboardFocusConfig: FocusConfig = {
+    focusOnEscape: true,
+    focusOnDoubleEscape: true,
+  };
+
+  @HostListener('keydown.escape', ['$event'])
+  handleEscape(event: KeyboardEvent): void {
+    this.keyboardFocusService.handleEscape(
+      this.elementRef.nativeElement,
+      this.keyboardFocusConfig,
+      event
+    );
+  }
+
   constructor(
     private hamburgerMenuService: HamburgerMenuService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    protected elementRef: ElementRef<HTMLElement>,
+    protected keyboardFocusService: KeyboardFocusService
   ) {}
 
   ngOnInit(): void {

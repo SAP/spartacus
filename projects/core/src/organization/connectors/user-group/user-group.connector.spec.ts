@@ -9,9 +9,17 @@ import { OrgUnitUserGroupConnector } from './user-group.connector';
 
 const userId = 'userId';
 const orgUnitUserGroupUid = 'orgUnitUserGroupUid';
+const permissionUid = 'permissionUid';
+const memberUid = 'memberUid';
 
 const orgUnitUserGroup = {
   uid: orgUnitUserGroupUid,
+};
+const permission = {
+  uid: permissionUid,
+};
+const member = {
+  uid: memberUid,
 };
 
 class MockOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
@@ -30,13 +38,21 @@ class MockOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
   delete = createSpy('OrgUnitUserGroupAdapter.delete').and.returnValue(
     of(orgUnitUserGroup)
   );
-  loadAvailableOrderApprovalPermissions;
-  loadAvailableOrgCustomers;
-  assignMember;
-  assignOrderApprovalPermission;
-  unassignMember;
-  unassignAllMembers;
-  unassignOrderApprovalPermission;
+  loadAvailableOrderApprovalPermissions = createSpy(
+    'OrgUnitUserGroupAdapter.loadAvailableOrderApprovalPermissions'
+  ).and.returnValue(of([permission]));
+  loadAvailableOrgCustomers = createSpy(
+    'OrgUnitUserGroupAdapter.loadAvailableOrgCustomers'
+  ).and.returnValue(of([member]));
+  assignMember = createSpy('OrgUnitUserGroupAdapter.assignMember');
+  assignOrderApprovalPermission = createSpy(
+    'OrgUnitUserGroupAdapter.assignOrderApprovalPermission'
+  );
+  unassignMember = createSpy('OrgUnitUserGroupAdapter.unassignMember');
+  unassignAllMembers = createSpy('OrgUnitUserGroupAdapter.unassignAllMembers');
+  unassignOrderApprovalPermission = createSpy(
+    'OrgUnitUserGroupAdapter.unassignOrderApprovalPermission'
+  );
 }
 
 describe('OrgUnitUserGroupConnector', () => {
@@ -94,5 +110,81 @@ describe('OrgUnitUserGroupConnector', () => {
   it('should delete orgUnitUserGroup', () => {
     service.delete(userId, orgUnitUserGroupUid);
     expect(adapter.delete).toHaveBeenCalledWith(userId, orgUnitUserGroupUid);
+  });
+
+  it('should load permissions assigned to orgUnitUserGroup', () => {
+    const params: B2BSearchConfig = { sort: 'uid' };
+    service.getAvailableOrderApprovalPermissions(
+      userId,
+      orgUnitUserGroupUid,
+      params
+    );
+    expect(adapter.loadAvailableOrderApprovalPermissions).toHaveBeenCalledWith(
+      userId,
+      orgUnitUserGroupUid,
+      params
+    );
+  });
+
+  it('should assign permissions to orgUnitUserGroup', () => {
+    service.assignOrderApprovalPermission(
+      userId,
+      orgUnitUserGroupUid,
+      permissionUid
+    );
+    expect(adapter.assignOrderApprovalPermission).toHaveBeenCalledWith(
+      userId,
+      orgUnitUserGroupUid,
+      permissionUid
+    );
+  });
+
+  it('should unassign permissions from orgUnitUserGroup', () => {
+    service.unassignOrderApprovalPermission(
+      userId,
+      orgUnitUserGroupUid,
+      permissionUid
+    );
+    expect(adapter.unassignOrderApprovalPermission).toHaveBeenCalledWith(
+      userId,
+      orgUnitUserGroupUid,
+      permissionUid
+    );
+  });
+
+  it('should load members assigned to orgUnitUserGroup', () => {
+    const params: B2BSearchConfig = { sort: 'uid' };
+    service.getAvailableOrgCustomers(userId, orgUnitUserGroupUid, params);
+    expect(adapter.loadAvailableOrgCustomers).toHaveBeenCalledWith(
+      userId,
+      orgUnitUserGroupUid,
+      params
+    );
+  });
+
+  it('should assign members to orgUnitUserGroup', () => {
+    service.assignMember(userId, orgUnitUserGroupUid, memberUid);
+    expect(adapter.assignMember).toHaveBeenCalledWith(
+      userId,
+      orgUnitUserGroupUid,
+      memberUid
+    );
+  });
+
+  it('should unassign members from orgUnitUserGroup', () => {
+    service.unassignMember(userId, orgUnitUserGroupUid, memberUid);
+    expect(adapter.unassignMember).toHaveBeenCalledWith(
+      userId,
+      orgUnitUserGroupUid,
+      memberUid
+    );
+  });
+
+  it('should unassign all members from orgUnitUserGroup', () => {
+    service.unassignAllMembers(userId, orgUnitUserGroupUid);
+    expect(adapter.unassignAllMembers).toHaveBeenCalledWith(
+      userId,
+      orgUnitUserGroupUid
+    );
   });
 });

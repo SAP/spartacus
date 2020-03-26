@@ -85,5 +85,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'orgUnitsList',
     'orgUnit',
     'orgUnitForm',
+    'unitAssignRoles',
+    'userList',
   ],
 };

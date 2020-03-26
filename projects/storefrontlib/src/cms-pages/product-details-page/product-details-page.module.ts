@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ConfigModule, RoutingConfig } from '@spartacus/core';
+import { provideDefaultConfig, RoutingConfig } from '@spartacus/core';
 import { CmsPageGuard } from '../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
 import { PRODUCT_DETAILS_URL_MATCHER } from './product-details-url-matcher';
@@ -15,7 +15,9 @@ import { PRODUCT_DETAILS_URL_MATCHER } from './product-details-url-matcher';
         data: { cxRoute: 'product' },
       },
     ]),
-    ConfigModule.withConfig(<RoutingConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<RoutingConfig>{
       routing: {
         routes: {
           product: {

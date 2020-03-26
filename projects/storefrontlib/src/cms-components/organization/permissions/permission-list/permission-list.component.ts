@@ -46,8 +46,8 @@ export class PermissionListComponent extends AbstractListingComponent
               orderType:
                 permission.orderApprovalPermissionType &&
                 permission.orderApprovalPermissionType.name,
-              parentUnit: permission.orgUnit && permission.orgUnit.name,
               timePeriod: permission.periodRange,
+              parentUnit: permission.orgUnit && permission.orgUnit.name,
               uid: permission.orgUnit && permission.orgUnit.uid,
             })),
           }))

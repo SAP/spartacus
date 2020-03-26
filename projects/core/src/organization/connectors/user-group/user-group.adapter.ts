@@ -4,7 +4,7 @@ import {
   EntitiesModel,
   OrgUnitUserGroup,
   Permission,
-  User,
+  B2BUser,
 } from '../../../model';
 
 export abstract class OrgUnitUserGroupAdapter {
@@ -36,7 +36,7 @@ export abstract class OrgUnitUserGroupAdapter {
     userId: string,
     orgUnitUserGroupUid: string,
     params?: B2BSearchConfig
-  ): Observable<EntitiesModel<User>>;
+  ): Observable<EntitiesModel<B2BUser>>;
 
   abstract create(
     userId: string,

@@ -219,6 +219,7 @@ describe('CostCenterListComponent', () => {
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'costCenters',
+          params: {},
         },
         {
           sort: 'byCode',
@@ -233,6 +234,7 @@ describe('CostCenterListComponent', () => {
       expect(routingService.go).toHaveBeenCalledWith(
         {
           cxRoute: 'costCenters',
+          params: {},
         },
         {
           currentPage: 2,

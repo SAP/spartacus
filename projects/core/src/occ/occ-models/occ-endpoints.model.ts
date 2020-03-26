@@ -404,6 +404,36 @@ export interface OccEndpoints {
    */
   orgUnit?: string;
   /**
+   * Endpoint for orgUnitUsers:
+   *
+   * @member {string}
+   */
+  orgUnitUsers?: string;
+  /**
+   * Endpoint for add orgUnitUserRoles (except approver):
+   *
+   * @member {string}
+   */
+  orgUnitUserRoles?: string;
+  /**
+   * Endpoint for remove orgUnitUserRole (except approver):
+   *
+   * @member {string}
+   */
+  orgUnitUserRole?: string;
+  /**
+   * Endpoint for add orgUnitApprovers:
+   *
+   * @member {string}
+   */
+  orgUnitApprovers?: string;
+  /**
+   * Endpoint for delete orgUnitApprover:
+   *
+   * @member {string}
+   */
+  orgUnitApprover?: string;
+  /**
    * Endpoint for organizational unit user groups list
    *
    * @member {string}
@@ -493,4 +523,52 @@ export interface OccEndpoints {
    * @member {string}
    */
   permission?: string;
+  /**
+   * Endpoint for organization customers
+   *
+   * @member {string}
+   */
+  b2bUsers?: string;
+  /**
+   * Endpoint for organization customer
+   *
+   * @member {string}
+   */
+  b2bUser?: string;
+  /**
+   * Endpoint for organization customer approvers
+   *
+   * @member {string}
+   */
+  b2bUserApprovers?: string;
+  /**
+   * Endpoint for organization customer approver
+   *
+   * @member {string}
+   */
+  b2bUserApprover?: string;
+  /**
+   * Endpoint for organization customer user groups
+   *
+   * @member {string}
+   */
+  b2bUserUserGroups?: string;
+  /**
+   * Endpoint for organization customer user group
+   *
+   * @member {string}
+   */
+  b2bUserUserGroup?: string;
+  /**
+   * Endpoint for organization customer permissions
+   *
+   * @member {string}
+   */
+  b2bUserPermissions?: string;
+  /**
+   * Endpoint for organization customer permission
+   *
+   * @member {string}
+   */
+  b2bUserPermission?: string;
 }

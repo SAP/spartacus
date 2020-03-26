@@ -60,6 +60,7 @@ describe('OrgUnit Selectors', () => {
         entities: { entities },
         tree: { entities: {} },
         approvalProcesses: { entities: {} },
+        users: { entities: {} },
       });
     });
   });

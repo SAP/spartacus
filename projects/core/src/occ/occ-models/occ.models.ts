@@ -4175,7 +4175,7 @@ export namespace Occ {
   export interface OrgUnitUserGroup {
     name?: string;
     uid?: string;
-    members?: User[];
+    members?: B2BUser[];
     orgUnit?: B2BUnit;
     permissions?: Permission[];
     selected?: boolean;
@@ -4227,6 +4227,9 @@ export namespace Occ {
   export interface B2BUser extends User {
     active?: boolean;
     approvers?: [];
+    orgUnit?: B2BUnit;
+    roles?: string[];
+    selected?: boolean;
   }
 
   export interface B2BApprovalProcess {
@@ -4288,6 +4291,12 @@ export namespace Occ {
 
   export interface OrgUnitUserGroupList {
     orgUnitUserGroups: OrgUnitUserGroup[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
+  export interface OrgUnitUserList {
+    users: B2BUser[];
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }

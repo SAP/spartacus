@@ -52,7 +52,7 @@ describe('OrgUnitUserGroupNormalizer', () => {
     expect(result).toEqual(convertedOrgUnitUserGroup);
   });
 
-  it('should convert costCenter with applied target', () => {
+  it('should convert orgUnitUserGroup with applied target', () => {
     const result = service.convert(orgUnitUserGroup, {});
     expect(result).toEqual({});
   });

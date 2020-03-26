@@ -42,7 +42,7 @@ $space: 0.5rem;
         height: 100%;
         top: 0;
         left: 0;
-        background-color: rgba(black, 0.75);
+        background-color: var(--cx-color-dark);
         z-index: 2;
       }
     }
@@ -86,7 +86,6 @@ $space: 0.5rem;
 
   .NavigationBar {
     flex: 100%;
-    overflow: hidden;
     min-height: 67px;
 
     @include media-breakpoint-down(md) {
