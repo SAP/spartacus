@@ -216,6 +216,8 @@ describe('Cart effect', () => {
         extraData: undefined,
         tempCartId,
         cartId: testCart.code,
+        toMergeCartGuid: undefined,
+        oldCartId: undefined,
       });
       const setTempCartCompletion = new CartActions.SetTempCart({
         cart: testCart,
@@ -244,6 +246,8 @@ describe('Cart effect', () => {
         extraData: undefined,
         tempCartId,
         cartId: testCart.code,
+        toMergeCartGuid: undefined,
+        oldCartId: 'testOldCartId',
       });
       const setTempCartCompletion = new CartActions.SetTempCart({
         cart: testCart,

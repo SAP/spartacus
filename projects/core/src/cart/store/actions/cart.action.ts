@@ -34,7 +34,9 @@ export const DELETE_CART_FAIL = '[Cart] Delete Cart Fail';
 interface CreateCartPayload {
   userId: string;
   tempCartId: string; // used as a unique key in ngrx carts store (we don't know cartId at that time)
-  extraData?: Object;
+  extraData?: {
+    active?: boolean;
+  };
   oldCartId?: string; // anonymous cart which should be merged to new cart
   toMergeCartGuid?: string; // cart to which should we merge (not passing this will create new cart)
 }
