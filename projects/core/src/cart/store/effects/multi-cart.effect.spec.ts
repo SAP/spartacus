@@ -69,24 +69,6 @@ describe('Multi Cart effect', () => {
     });
   });
 
-  describe('createCart2$', () => {
-    it('should dispatch create multi cart action', () => {
-      const action = new DeprecatedCartActions.CreateCart({
-        userId,
-        cartId,
-      });
-      const createMultiCartCompletion = new CartActions.CreateMultiCart({
-        userId,
-        cartId,
-      });
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: createMultiCartCompletion,
-      });
-      expect(cartEffects.createCart2$).toBeObservable(expected);
-    });
-  });
-
   describe('setTempCart$', () => {
     it('should dispatch reset just after setting', () => {
       const payload = { cart: testCart, tempCartId: 'tempCartId' };

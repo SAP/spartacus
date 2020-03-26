@@ -26,7 +26,7 @@ import { PromotionsModule } from '../../../checkout/components/promotions/promot
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
 class MockActiveCartService {
-  getLoaded(): Observable<boolean> {
+  isStable(): Observable<boolean> {
     return of();
   }
 
