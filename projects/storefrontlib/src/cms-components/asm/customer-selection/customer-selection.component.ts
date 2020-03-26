@@ -84,7 +84,9 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   selectCustomerFromList(customer: User) {
     this.selectedCustomer = customer;
-    this.customerSelectionForm.controls.searchTerm.setValue(this.selectedCustomer.name);
+    this.customerSelectionForm.controls.searchTerm.setValue(
+      this.selectedCustomer.name
+    );
     this.asmService.customerSearchReset();
   }
 

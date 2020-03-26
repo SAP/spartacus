@@ -150,7 +150,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       this.couponForm.markAllAsTouched();
     }
   }
-  
+
   applyCustomerCoupon(couponId: string): void {
     this.cartVoucherService.addVoucher(couponId, this.cartId);
     this.couponBoxIsActive = false;

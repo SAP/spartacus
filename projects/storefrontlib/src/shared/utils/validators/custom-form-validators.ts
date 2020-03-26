@@ -58,10 +58,7 @@ export class CustomFormValidators {
     return mustMatch;
   }
 
-  static emailsMustMatch(
-    email: string,
-    emailConfirmation: string
-  ): any {
+  static emailsMustMatch(email: string, emailConfirmation: string): any {
     const mustMatch = (formGroup: FormGroup) =>
       mustMatchFunction(
         formGroup,
