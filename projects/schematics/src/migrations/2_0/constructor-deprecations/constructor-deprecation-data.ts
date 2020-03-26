@@ -18,8 +18,10 @@ import { CHECKOUT_PAYMENT_SERVICE_MIGRATION } from './data/checkout-payment.serv
 import { CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT_MIGRATION } from './data/checkout-progress-mobile-top.migration';
 import { CHECKOUT_GUARD_MIGRATIONS } from './data/checkout.guard.migration';
 import { CHECKOUT_SERVICE_MIGRATION } from './data/checkout.service.migration';
+import { CONFIGURABLE_ROUTES_SERVICE_MIGRATION } from './data/configurable-routes.service.migration';
 import { CONSENT_MANAGEMENT_COMPONENT_MIGRATION } from './data/consent-management.component.migration';
 import { CURRENT_PRODUCT_SERVICE_MIGRATION } from './data/current-product-service.migration';
+import { EXTERNAL_ROUTES_SERVICE_MIGRATION } from './data/external-routes.service.migration';
 import { FOOTER_NAVIGATION_COMPONENT_MIGRATION } from './data/footer-navigation.component.migration';
 import { MINI_CART_COMPONENT_MIGRATION } from './data/mini-cart.component.migration';
 import { NOT_CHECKOUT_AUTH_GUARD_MIGRATION } from './data/not-checkout-auth-guard.migration';
@@ -33,12 +35,12 @@ import { PAYMENT_METHOD_COMPONENT_MIGRATIONS } from './data/payment-method.compo
 import { PRODUCT_CAROUSEL_COMPONENT_MIGRATION } from './data/product-carousel-component.migration';
 import { PRODUCT_SERVICE_MIGRATION } from './data/product-service.migration';
 import { PROMOTION_SERVICE_MIGRATION } from './data/promotion.service.migration';
+import { REGISTER_COMPONENT_MIGRATIONS } from './data/register.component.migration';
 import { REVIEW_SUBMIT_COMPONENT_MIGRATIONS } from './data/review-submit.component.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { CDS_SPARTACUS_EVENT_SERVICE_MIGRATION } from './data/spartacus-event.service.migration';
 import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating.component.migration';
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
-import { REGISTER_COMPONENT_MIGRATIONS } from './data/register.component.migration';
 import { USER_CONSENT_SERVICE_MIGRATION } from './data/user-consent.service.migration';
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
@@ -91,4 +93,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   PRODUCT_CAROUSEL_COMPONENT_MIGRATION,
   CONSENT_MANAGEMENT_COMPONENT_MIGRATION,
   FOOTER_NAVIGATION_COMPONENT_MIGRATION,
+  CONFIGURABLE_ROUTES_SERVICE_MIGRATION,
+  EXTERNAL_ROUTES_SERVICE_MIGRATION,
 ];
