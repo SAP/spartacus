@@ -62,7 +62,7 @@
   </ng-container>
 
   <ng-template #writeReview>
-    <form [formGroup]="reviewForm" (ngSubmit)="submitReview(product)">
+    <form (ngSubmit)="submitReview(product)" [formGroup]="reviewForm">
       <div class="form-group">
         <label>
           <span class="label-content">{{
