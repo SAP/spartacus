@@ -111,6 +111,10 @@ export const STAR_RATING_COMPONENT = 'StarRatingComponent';
 export const PRODUCT_SERVICE = 'ProductService';
 export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
 export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
+export const PRODUCT_LIST_COMPONENT = 'ProductListComponent';
+export const PRODUCT_LIST_COMPONENT_SERVICE = 'ProductListComponentService';
+export const PAGE_LAYOUT_SERVICE = 'PageLayoutService';
+export const VIEW_CONFIG = 'ViewConfig';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
