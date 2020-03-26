@@ -20,6 +20,7 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { withdrawOn } from '../../../util/withdraw-on';
 import { CartConnector } from '../../connectors/cart/cart.connector';
+import { getCartIdByUserId } from '../../utils/utils';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
@@ -188,6 +189,10 @@ export class CartEffects {
                 cart,
                 userId: payload.userId,
                 extraData: payload.extraData,
+                cartId: getCartIdByUserId(cart, payload.userId),
+                tempCartId: payload.tempCartId,
+                oldCartId: payload.oldCartId,
+                toMergeCartGuid: payload.toMergeCartGuid,
               }),
               new CartActions.SetTempCart({
                 cart,

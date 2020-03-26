@@ -5,7 +5,6 @@ import {
   EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
-import { getCartIdByUserId } from '../../utils/utils';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
@@ -32,43 +31,41 @@ export const CLEAR_CART = '[Cart] Clear Cart';
 export const DELETE_CART = '[Cart] Delete Cart';
 export const DELETE_CART_FAIL = '[Cart] Delete Cart Fail';
 
+interface CreateCartPayload {
+  userId: string;
+  tempCartId: string; // used as a unique key in ngrx carts store (we don't know cartId at that time)
+  extraData?: Object;
+  oldCartId?: string; // anonymous cart which should be merged to new cart
+  toMergeCartGuid?: string; // cart to which should we merge (not passing this will create new cart)
+}
+
 export class CreateCart extends EntityLoadAction {
   readonly type = CREATE_CART;
-  constructor(
-    public payload: {
-      userId: string;
-      tempCartId: string;
-      extraData?: Object;
-      oldCartId?: string;
-      toMergeCartGuid?: string;
-    }
-  ) {
+  constructor(public payload: CreateCartPayload) {
     super(MULTI_CART_DATA, payload.tempCartId);
   }
+}
+
+interface CreateCartFailPayload extends CreateCartPayload {
+  error: any;
 }
 
 export class CreateCartFail extends EntityFailAction {
   readonly type = CREATE_CART_FAIL;
-  constructor(
-    public payload: {
-      userId: string;
-      tempCartId: string;
-      error: any;
-      extraData?: Object;
-      oldCartId?: string;
-      toMergeCartGuid?: string;
-    }
-  ) {
+  constructor(public payload: CreateCartFailPayload) {
     super(MULTI_CART_DATA, payload.tempCartId);
   }
 }
 
+interface CreateCartSuccessPayload extends CreateCartPayload {
+  cart: Cart;
+  cartId: string;
+}
+
 export class CreateCartSuccess extends EntitySuccessAction {
   readonly type = CREATE_CART_SUCCESS;
-  constructor(
-    public payload: { cart: Cart; userId: string; extraData?: Object }
-  ) {
-    super(MULTI_CART_DATA, getCartIdByUserId(payload.cart, payload.userId));
+  constructor(public payload: CreateCartSuccessPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 

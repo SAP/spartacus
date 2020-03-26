@@ -53,7 +53,12 @@ describe('CartVoucherService', () => {
     store = TestBed.inject(Store);
 
     store.dispatch(
-      new CartActions.CreateCartSuccess({ cart, userId: 'userId' })
+      new CartActions.CreateCartSuccess({
+        cart,
+        userId: 'userId',
+        tempCartId: 'tempCartId',
+        cartId: cart.code,
+      })
     );
   });
 

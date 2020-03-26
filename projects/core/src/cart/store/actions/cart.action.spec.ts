@@ -53,7 +53,12 @@ describe('Cart Actions', () => {
 
     describe('CreateCartSuccess', () => {
       it('should create the action', () => {
-        const payload = { cart, userId: 'userId' };
+        const payload = {
+          cart,
+          userId: 'userId',
+          tempCartId: 'tempCartId',
+          cartId: cart.code,
+        };
         const action = new CartActions.CreateCartSuccess(payload);
         expect({ ...action }).toEqual({
           type: CartActions.CREATE_CART_SUCCESS,

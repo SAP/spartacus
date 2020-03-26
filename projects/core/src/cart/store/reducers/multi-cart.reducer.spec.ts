@@ -62,6 +62,8 @@ describe('Multi Cart reducer', () => {
             code: 'cartCode',
           },
           userId: 'userId',
+          cartId: 'cartCode',
+          tempCartId: 'tempCartId',
         };
         const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.activeCartReducer(
@@ -78,6 +80,8 @@ describe('Multi Cart reducer', () => {
             code: 'cartCode',
           },
           userId: 'userId',
+          cartId: 'cartCode',
+          tempCartId: 'tempCartId',
         };
         const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.activeCartReducer(
@@ -192,6 +196,8 @@ describe('Multi Cart reducer', () => {
         const payload = {
           cart,
           userId: 'userId',
+          cartId: 'cartCode',
+          tempCartId: 'tempCartId',
         };
         const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.cartEntitiesReducer(initialState, action);

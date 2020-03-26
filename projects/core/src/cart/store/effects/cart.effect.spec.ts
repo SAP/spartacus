@@ -214,6 +214,8 @@ describe('Cart effect', () => {
         cart: testCart,
         userId,
         extraData: undefined,
+        tempCartId,
+        cartId: testCart.code,
       });
       const setTempCartCompletion = new CartActions.SetTempCart({
         cart: testCart,
@@ -240,6 +242,8 @@ describe('Cart effect', () => {
         cart: testCart,
         userId,
         extraData: undefined,
+        tempCartId,
+        cartId: testCart.code,
       });
       const setTempCartCompletion = new CartActions.SetTempCart({
         cart: testCart,
