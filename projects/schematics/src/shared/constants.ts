@@ -29,6 +29,7 @@ export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 export const ROUTER = 'Router';
+export const WINDOW_REF = 'WindowRef';
 
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
@@ -108,6 +109,7 @@ export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
 export const REGISTER_COMPONENT = 'RegisterComponent';
 export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
 export const ANONYMOUS_CONSENTS_CONFIG = 'AnonymousConsentsConfig';
