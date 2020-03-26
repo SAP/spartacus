@@ -1,4 +1,6 @@
 %cx-product-list-item {
+  padding-bottom: 1rem;
+
   .cx-product-search-list {
     border-width: 0 0 1px 0;
     border-style: solid;
@@ -51,5 +53,34 @@
   cx-variant-style-icons {
     display: block;
     margin-top: 1rem;
+  }
+
+  @include media-breakpoint-down(sm) {
+    .cx-product-search-list {
+      padding-bottom: 15px;
+    }
+
+    .cx-product-image {
+      width: 100%;
+      margin: 3rem 0;
+    }
+
+    .cx-product-name,
+    .cx-product-rating,
+    .cx-product-price {
+      text-align: center;
+    }
+
+    .cx-product-name {
+      height: 2.5rem;
+    }
+
+    .cx-product-price {
+      margin: 1rem 0;
+    }
+
+    .cx-product-no-review {
+      text-align: center;
+    }
   }
 }
