@@ -32,7 +32,7 @@ class MockActiveCartService {
   getEntries(): Observable<OrderEntry[]> {
     return of([{}]);
   }
-  getLoaded(): Observable<boolean> {
+  isStable(): Observable<boolean> {
     return of(true);
   }
 }
@@ -165,7 +165,7 @@ describe('CartDetailsComponent', () => {
     mockSelectiveCartService.getLoaded.and.returnValue(of(true));
     spyOn(activeCartService, 'removeEntry').and.callThrough();
     spyOn(activeCartService, 'getEntries').and.callThrough();
-    spyOn(activeCartService, 'getLoaded').and.returnValue(of(true));
+    spyOn(activeCartService, 'isStable').and.returnValue(of(true));
     fixture.detectChanges();
     component.saveForLater(mockItem);
     expect(activeCartService.removeEntry).toHaveBeenCalledWith(mockItem);

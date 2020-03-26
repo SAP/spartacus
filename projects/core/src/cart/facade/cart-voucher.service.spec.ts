@@ -8,7 +8,6 @@ import {
   StateWithProcess,
 } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
-import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { CartActions } from '../store/actions/index';
 import { ActiveCartService } from './active-cart.service';
 import { CartVoucherService } from './cart-voucher.service';
@@ -53,7 +52,14 @@ describe('CartVoucherService', () => {
     service = TestBed.inject(CartVoucherService);
     store = TestBed.inject(Store);
 
-    store.dispatch(new DeprecatedCartActions.CreateCartSuccess(cart));
+    store.dispatch(
+      new CartActions.CreateCartSuccess({
+        cart,
+        userId: 'userId',
+        tempCartId: 'tempCartId',
+        cartId: cart.code,
+      })
+    );
   });
 
   describe('add Voucher', () => {
