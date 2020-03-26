@@ -100,11 +100,6 @@ class MockModalService {
   }
 }
 
-const mockAddressValidation: AddressValidation = {
-  decision: 'test address validation',
-  suggestedAddresses: [{ id: 'address1' }],
-};
-
 class MockCheckoutDeliveryService {
   clearAddressVerificationResults = createSpy();
   verifyAddress = createSpy();
@@ -122,13 +117,11 @@ describe('AddressFormComponent', () => {
   let userAddressService: UserAddressService;
   let userService: UserService;
   let mockGlobalMessageService: any;
-  let mockModalService: MockModalService;
 
   beforeEach(async(() => {
     mockGlobalMessageService = {
       add: createSpy(),
     };
-    mockModalService = new MockModalService();
 
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
@@ -158,7 +151,7 @@ describe('AddressFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressFormComponent);
     component = fixture.componentInstance;
-    controls = component.address.controls;
+    controls = component.addressForm.controls;
     component.showTitleCode = true;
 
     spyOn(component.submitAddress, 'emit').and.callThrough();
@@ -253,7 +246,7 @@ describe('AddressFormComponent', () => {
     spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
     expect(component.submitAddress.emit).toHaveBeenCalledWith(
-      component.address.value
+      component.addressForm.value
     );
   });
 
@@ -318,12 +311,6 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should call verifyAddress() when address has some changes', () => {
-    component.address.markAsDirty();
-    component.verifyAddress();
-    expect(mockCheckoutDeliveryService.verifyAddress).toHaveBeenCalled();
-  });
-
   it('should not call verifyAddress() when address does not have change', () => {
     component.verifyAddress();
     expect(mockCheckoutDeliveryService.verifyAddress).not.toHaveBeenCalled();
@@ -344,13 +331,13 @@ describe('AddressFormComponent', () => {
     fixture.detectChanges();
     checkbox.click();
 
-    expect(component.address.value.defaultAddress).toBeTruthy();
+    expect(component.addressForm.value.defaultAddress).toBeTruthy();
   });
 
   it('should call titleSelected()', () => {
     const mockTitleCode = 'test title code';
     component.titleSelected({ code: mockTitleCode });
-    expect(component.address['controls'].titleCode.value).toEqual(
+    expect(component.addressForm['controls'].titleCode.value).toEqual(
       mockTitleCode
     );
   });
@@ -362,7 +349,7 @@ describe('AddressFormComponent', () => {
     component.ngOnInit();
     component.regions$.subscribe(_ => _);
     expect(
-      component.address['controls'].country['controls'].isocode.value
+      component.addressForm['controls'].country['controls'].isocode.value
     ).toEqual(mockCountryIsocode);
     expect(userAddressService.getRegions).toHaveBeenCalledWith(
       mockCountryIsocode
@@ -373,20 +360,8 @@ describe('AddressFormComponent', () => {
     const mockRegionIsocode = 'test region isocode';
     component.regionSelected({ isocode: mockRegionIsocode });
     expect(
-      component.address['controls'].region['controls'].isocode.value
+      component.addressForm['controls'].region['controls'].isocode.value
     ).toEqual(mockRegionIsocode);
-  });
-
-  it('should call openSuggestedAddress', () => {
-    spyOn(component, 'openSuggestedAddress').and.callThrough();
-    spyOn(mockModalService, 'open').and.callThrough();
-
-    component.openSuggestedAddress(mockAddressValidation);
-    component.suggestedAddressModalRef.result.then(() => {
-      expect(
-        mockCheckoutDeliveryService.clearAddressVerificationResults
-      ).toHaveBeenCalled();
-    });
   });
 
   it('should call verifyAddress', () => {
@@ -397,7 +372,7 @@ describe('AddressFormComponent', () => {
     component.regions$.subscribe(_ => _);
     component.verifyAddress();
     expect(
-      component.address['controls'].region['controls'].isocode.value
+      component.addressForm['controls'].region['controls'].isocode.value
     ).toEqual(mockCountryIsocode);
     expect(component.verifyAddress).toHaveBeenCalled();
   });
