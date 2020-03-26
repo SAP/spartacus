@@ -29,6 +29,11 @@
       "version": "2-next.2",
       "factory": "./2_0/css#migrate",
       "description": "Handle deprecated CSS"
+    },
+    "migration-v2-ssr-07": {
+      "version": "2-next.2",
+      "factory": "./2_0/ssr/ssr#migrate",
+      "description": "Handle Server-Side Rendering changes"
     }
   }
 }

@@ -70,3 +70,26 @@ export function getParams(
     .map(n => n.getText())
     .filter(text => camelizedParamNames.includes(text));
 }
+
+export function updatePackageJson(
+  appTree: UnitTestTree,
+  filePath: string,
+  type: string,
+  pkg: string,
+  version: string
+): void {
+  const packageContent = appTree.read(normalize(filePath));
+  if (!packageContent) {
+    return;
+  }
+  const packageJson = JSON.parse(packageContent.toString());
+  if (!packageJson[type]) {
+    packageJson[type] = {};
+  }
+
+  if (!packageJson[type][pkg]) {
+    packageJson[type][pkg] = version;
+  }
+
+  appTree.overwrite(filePath, JSON.stringify(packageJson));
+}
