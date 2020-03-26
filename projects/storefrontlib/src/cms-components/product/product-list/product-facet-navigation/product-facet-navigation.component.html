@@ -1,42 +1,22 @@
-<ng-container *ngIf="facets$ | async as facets">
-  <cx-active-facets [facets]="activeFacets$ | async"></cx-active-facets>
-
+<ng-container *ngIf="dialogMode$ | async as dialogMode">
   <button
-    *ngIf="facets.length > 0"
-    class="btn btn-action btn-block"
-    (click)="toggleNavigation()"
-    #filterBy
+    *ngIf="!isInline(dialogMode)"
+    #dialogTrigger
+    class="btn btn-action btn-block filter"
+    [class.active]="facetList?.activeFacets?.length > 0"
+    (click)="toggleDialog()"
   >
+    <cx-icon [type]="iconTypes.FILTER"></cx-icon>
     {{ 'productList.filterBy.label' | cxTranslate }}
   </button>
 
-  <div
-    *ngIf="facets.length > 0"
-    class="facets"
-    [class.open]="showNav"
-    [cxFocus]="{
-      trap: showNav,
-      block: showNav,
-      autofocus: 'cx-facet',
-      focusOnEscape: showNav
-    }"
-    (esc)="toggleNavigation()"
-  >
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="toggleNavigation()"
-    >
-      <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
-    </button>
+  <cx-active-facets [facetList]="facetList"></cx-active-facets>
 
-    <!-- TODO: support custom facet components here -->
-    <cx-facet
-      *ngFor="let facet of facets"
-      [facet]="facet"
-      [cxFocus]="{ lock: true, trap: true, autofocus: 'a' }"
-      (unlock)="toggleGroup($event, facet)"
-    ></cx-facet>
-  </div>
+  <cx-facet-dialog
+    *ngIf="isInline(dialogMode) || activeDialog || facetList?.activeFacets"
+    [class.active]="activeDialog"
+    [dialogMode]="dialogMode"
+    (load)="updateFacetList($event)"
+    (close)="toggleDialog()"
+  ></cx-facet-dialog>
 </ng-container>

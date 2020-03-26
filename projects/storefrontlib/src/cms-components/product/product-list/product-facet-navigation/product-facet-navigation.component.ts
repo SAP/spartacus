@@ -2,15 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostBinding,
   ViewChild,
 } from '@angular/core';
-import { Breadcrumb, Facet } from '@spartacus/core';
-import { BreakpointService } from 'projects/storefrontlib/src/layout';
 import { Observable } from 'rxjs';
-import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
-import { FacetService } from './facet.service';
-import { ProductFacetService } from './product-facet.service';
+import { map } from 'rxjs/operators';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
+import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT } from '../../../../layout/config/layout-config';
+import { DialogMode, FacetList } from './facet.model';
 
 @Component({
   selector: 'cx-product-facet-navigation',
@@ -18,38 +17,54 @@ import { ProductFacetService } from './product-facet.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductFacetNavigationComponent {
+  facetList: FacetList;
+
   iconTypes = ICON_TYPE;
 
+  @ViewChild('dialogTrigger') dialogTrigger: ElementRef;
+
   /**
-   * indicates that the navigation is opened,
-   * typically used in mobile
+   * Indicates that the navigation dialog is opened, typically used in mobile.
    */
-  showNav = false;
+  activeDialog: boolean;
 
-  @ViewChild('filterBy') filterBy: ElementRef;
+  /**
+   * Indicates that the facet navigation is rendered in dialog, often a modal or sidenav.
+   */
+  dialogMode$: Observable<DialogMode> = this.breakpointService
+    .isDown(BREAKPOINT.md)
+    .pipe(map(small => (small ? DialogMode.POP : DialogMode.INLINE)));
 
-  facets$: Observable<Facet[]> = this.productFacetService.facets$;
-  activeFacets$: Observable<Breadcrumb[]> = this.productFacetService
-    .breadcrumbs$;
+  constructor(protected breakpointService: BreakpointService) {}
 
-  @HostBinding('class.container') container = true;
-
-  constructor(
-    protected productFacetService: ProductFacetService,
-    protected facetService: FacetService,
-    protected breakpointService: BreakpointService
-  ) {}
-
-  toggleNavigation() {
-    this.showNav = !this.showNav;
-    if (!this.showNav) {
-      this.filterBy?.nativeElement?.focus();
-    }
+  /**
+   * The FacetList is not loaded directly in this component, so that it will
+   * not be loaded regardless in the mobile experience. It's loaded in the
+   * `FacetDialogComponent`, which will output the FacetList when there's an update.
+   */
+  updateFacetList(facetList: FacetList) {
+    this.facetList = facetList;
   }
 
-  toggleGroup(unlockEvent: boolean, facet: Facet) {
-    if (unlockEvent && !this.facetService.getState(facet).value.expanded) {
-      this.facetService.toggleGroup(facet, true);
+  /** Indicates whether the dialog is used inline.   */
+  isInline(dialogMode): boolean {
+    return dialogMode === DialogMode.INLINE;
+  }
+
+  /**
+   * Opens or closes the facet dialog. This is only used in the mobile experience
+   * where facets are shown in a dialog.
+   *
+   * If the dialog is closed, we re-focus the trigger element so that the keyboard
+   * user can continue from the original location.
+   */
+  toggleDialog(dialogMode: DialogMode) {
+    if (this.isInline(dialogMode)) {
+      return;
+    }
+    this.activeDialog = !this.activeDialog;
+    if (!this.activeDialog) {
+      this.dialogTrigger.nativeElement.focus();
     }
   }
 }

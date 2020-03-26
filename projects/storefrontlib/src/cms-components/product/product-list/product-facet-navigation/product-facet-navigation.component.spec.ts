@@ -6,14 +6,12 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { I18nTestingModule } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
-import { ModalService } from '../../../../shared/components/modal/index';
+import { of } from 'rxjs';
+import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import { ProductListComponentService } from '../container/product-list-component.service';
+import { DialogMode, FacetList } from './facet.model';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
-import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-icon',
@@ -22,163 +20,251 @@ import createSpy = jasmine.createSpy;
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
+@Component({
+  selector: 'cx-active-facets',
+  template: '',
+})
+class MockActiveFacetsComponent {
+  @Input() facetList;
+}
+@Component({
+  selector: 'cx-facet-dialog',
+  template: '',
+})
+class MockFacetDialogComponent {
+  @Input() dialogMode;
+}
+
+class MockBreakpointService {
+  isDown() {}
+}
+
+const mockFacetList: FacetList = {
+  facets: [{ name: 'facet-A' }],
+  activeFacets: [{ facetName: 'facet-B' }],
+};
 
 describe('ProductFacetNavigationComponent', () => {
   let component: ProductFacetNavigationComponent;
   let fixture: ComponentFixture<ProductFacetNavigationComponent>;
   let element: DebugElement;
-  let productListComponentService: ProductListComponentService;
-
-  let mockModel;
-
-  class MockActivatedRoute {
-    params = of();
-  }
-
-  const mockFacetsValues = [
-    {
-      name: 'Test Facet 01',
-    },
-    {
-      name: 'Test Facet 02',
-    },
-    {
-      name: 'Test Facet 03',
-    },
-  ];
-
-  const mockFacets = [
-    {
-      name: 'Test Facet 01',
-      values: mockFacetsValues,
-      visible: true,
-    },
-    {
-      name: 'Test Facet 02',
-      values: mockFacetsValues,
-      visible: true,
-    },
-    {
-      name: 'Test Facet 03',
-      values: mockFacetsValues,
-      visible: true,
-    },
-    {
-      name: 'Test Facet 04',
-      values: mockFacetsValues,
-      visible: false,
-    },
-  ];
+  let service: BreakpointService;
 
   beforeEach(async(() => {
-    mockModel = new BehaviorSubject({ facets: mockFacets });
-
-    const mockProductListComponentService = {
-      setQuery: createSpy('setQuery'),
-      model$: mockModel,
-    };
-
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ProductFacetNavigationComponent, MockCxIconComponent],
+      declarations: [
+        ProductFacetNavigationComponent,
+        MockActiveFacetsComponent,
+        MockFacetDialogComponent,
+        MockCxIconComponent,
+      ],
       providers: [
         {
-          provide: ProductListComponentService,
-          useValue: mockProductListComponentService,
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
         },
-        {
-          provide: ActivatedRoute,
-          useClass: MockActivatedRoute,
-        },
-        { provide: ModalService, useValue: { open: () => {} } },
       ],
     })
       .overrideComponent(ProductFacetNavigationComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductFacetNavigationComponent);
-    component = fixture.componentInstance;
-    productListComponentService = TestBed.inject(ProductListComponentService);
+    service = TestBed.inject(BreakpointService);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should define query decoder', () => {
-    expect(component['queryCodec']).toBeDefined();
-  });
-
-  it('should toggle value', () => {
-    component.toggleValue('mockQuery');
-    expect(productListComponentService.setQuery).toHaveBeenCalledWith(
-      'mockQuery'
-    );
-  });
-
-  describe('ProductFacetNavigationComponent UI tests', () => {
+  describe('All', () => {
     beforeEach(() => {
-      component.ngOnInit();
+      spyOn(service, 'isDown').and.returnValue(of(true));
+
+      fixture = TestBed.createComponent(ProductFacetNavigationComponent);
+      component = fixture.componentInstance;
       fixture.detectChanges();
+    });
+
+    it('should store the facetList', () => {
+      component.updateFacetList(mockFacetList);
+      expect(component.facetList).toEqual(mockFacetList);
+    });
+  });
+
+  describe('Mobile', () => {
+    beforeEach(() => {
+      spyOn(service, 'isDown').and.returnValue(of(true));
+
+      fixture = TestBed.createComponent(ProductFacetNavigationComponent);
       element = fixture.debugElement;
+      component = fixture.componentInstance;
+      fixture.detectChanges();
     });
 
-    it('should not show facet groups if there are no facets', () => {
-      mockModel.next({ facets: [] });
-      fixture.detectChanges();
-
-      const facetGroups = element.queryAll(By.css('.cx-facet-group'));
-      expect(facetGroups.length).toEqual(0);
+    it('should create', () => {
+      expect(component).toBeTruthy();
     });
 
-    it('should show correct number of facet groups', () => {
-      fixture.detectChanges();
-
-      const facetGroups = element.queryAll(By.css('.cx-facet-group'));
-      expect(facetGroups.length).toEqual(3);
+    it('should resolve the dialog in POP mode', () => {
+      let result: DialogMode;
+      component.dialogMode$.subscribe(mode => (result = mode)).unsubscribe();
+      expect(result).toEqual(DialogMode.POP);
     });
 
-    it('should show correct title', () => {
-      const facetTitle = element.query(By.css('.cx-facet-header'))
-        .nativeElement;
-      expect(facetTitle.textContent).toContain(mockFacets[0].name);
+    it('should return false for isInline()', () => {
+      expect(component.isInline(DialogMode.POP)).toBeFalsy();
     });
 
-    it('should toggle facet after clicking the title', () => {
-      const group = element.query(By.css('.cx-facet-group'));
-      const trigger = group.children
-        .find(child =>
-          child.nativeElement.className.includes('cx-facet-header')
-        )
-        .query(By.css('.cx-facet-header-link')).nativeElement;
-      const getList = () =>
-        group.children.find(child =>
-          child.nativeElement.className.includes('cx-facet-list')
-        );
-      let list = getList();
+    it('should have an activeDialog by default', () => {
+      expect(component.activeDialog).toBeFalsy();
+    });
 
-      // initial state
-      expect(list && list.nativeElement).toBeTruthy();
+    it('should have an activeDialog if it is toggled', () => {
+      component.toggleDialog(DialogMode.POP);
+      expect(component.activeDialog).toBeTruthy();
+    });
 
-      trigger.click();
+    it('should not have an activeDialog if it is toggled with inline mode', () => {
+      component.toggleDialog(DialogMode.INLINE);
+      expect(component.activeDialog).toBeFalsy();
+    });
+
+    it('should not have an activeDialog if it is toggled twice', () => {
+      component.activeDialog = false;
+      component.toggleDialog(DialogMode.POP);
+      expect(component.activeDialog).toBeTruthy();
+      component.toggleDialog(DialogMode.POP);
+      expect(component.activeDialog).toBeFalsy();
+    });
+
+    it('should focus the trigger button if activeDialog becomes false', () => {
+      const trigger = component.dialogTrigger.nativeElement;
+      spyOn(trigger, 'focus').and.callThrough();
+
+      component.activeDialog = true;
+      component.toggleDialog(DialogMode.POP);
+
+      expect(trigger.focus).toHaveBeenCalled();
+    });
+
+    it('should not focus the trigger button if activeDialog becomes true', () => {
+      const trigger = component.dialogTrigger.nativeElement;
+      spyOn(trigger, 'focus').and.callThrough();
+
+      component.activeDialog = false;
+      component.toggleDialog(DialogMode.POP);
+
+      expect(trigger.focus).not.toHaveBeenCalled();
+    });
+
+    describe('UI', () => {
+      describe('dialogTrigger', () => {
+        it('should render dialogTrigger button', () => {
+          expect(component.dialogTrigger.nativeElement).toBeTruthy();
+        });
+
+        it('should not have active class on dialogTrigger', () => {
+          const triggerElement: HTMLElement =
+            component.dialogTrigger.nativeElement;
+          expect(triggerElement.classList).not.toContain('active');
+        });
+
+        it('should have active class on dialogTrigger', () => {
+          component.facetList = mockFacetList;
+          fixture.detectChanges();
+          const triggerElement: HTMLElement =
+            component.dialogTrigger.nativeElement;
+          expect(triggerElement.classList).toContain('active');
+        });
+      });
+
+      describe('dialog', () => {
+        it('should not render dialog', () => {
+          fixture.detectChanges();
+          const dialog = element.query(By.css('cx-facet-dialog'));
+          expect(dialog).toBeFalsy();
+        });
+
+        it('should render dialog when it is toggled', () => {
+          component.toggleDialog(DialogMode.POP);
+          fixture.detectChanges();
+          const dialog = element.query(By.css('cx-facet-dialog'));
+          expect(dialog).toBeTruthy();
+        });
+
+        it('should render dialog when there are active facets', () => {
+          component.facetList = mockFacetList;
+          fixture.detectChanges();
+          const dialog = element.query(By.css('cx-facet-dialog'));
+          expect(dialog).toBeTruthy();
+        });
+
+        it('should not have active class on dialog', () => {
+          component.facetList = mockFacetList;
+          fixture.detectChanges();
+          const dialog = element.query(By.css('cx-facet-dialog')).nativeElement;
+          expect(dialog.classList).not.toContain('active');
+        });
+
+        it('should have active class on dialog', () => {
+          component.activeDialog = true;
+          fixture.detectChanges();
+          const dialog = element.query(By.css('cx-facet-dialog')).nativeElement;
+          expect(dialog.classList).toContain('active');
+        });
+
+        it('should call updateFacetList on load', () => {
+          spyOn(component, 'updateFacetList').and.stub();
+          component.activeDialog = true;
+          fixture.detectChanges();
+          const dialog = element.query(By.css('cx-facet-dialog'));
+          (dialog.nativeElement as HTMLElement).dispatchEvent(
+            new Event('load')
+          );
+          expect(component.updateFacetList).toHaveBeenCalled();
+        });
+
+        it('should call toggleDialog on close', () => {
+          spyOn(component, 'toggleDialog').and.stub();
+          component.activeDialog = true;
+          fixture.detectChanges();
+          const dialog = element.query(By.css('cx-facet-dialog'));
+          (dialog.nativeElement as HTMLElement).dispatchEvent(
+            new Event('close')
+          );
+          expect(component.toggleDialog).toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
+  describe('Desktop', () => {
+    beforeEach(() => {
+      spyOn(service, 'isDown').and.returnValue(of(false));
+
+      fixture = TestBed.createComponent(ProductFacetNavigationComponent);
+      component = fixture.componentInstance;
       fixture.detectChanges();
-      list = getList();
+    });
 
-      // after first click, should not be visible
-      expect(list && list.nativeElement).toBeFalsy();
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
 
-      trigger.click();
-      fixture.detectChanges();
-      list = getList();
+    it('should resolve the dialog in INLINE mode', () => {
+      let result: DialogMode;
+      component.dialogMode$.subscribe(mode => (result = mode)).unsubscribe();
+      expect(result).toEqual(DialogMode.INLINE);
+    });
 
-      // after second click, should be visible
-      expect(list && list.nativeElement).toBeTruthy();
+    it('should return true for isInline()', () => {
+      expect(component.isInline(DialogMode.INLINE)).toBeTruthy();
+    });
+
+    describe('UI', () => {
+      it('should not render dialogTrigger button', () => {
+        expect(component.dialogTrigger).toBeFalsy();
+      });
     });
   });
 });
