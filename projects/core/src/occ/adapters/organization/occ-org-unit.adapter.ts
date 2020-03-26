@@ -18,6 +18,7 @@ import {
   B2BUnit,
   B2BApprovalProcess,
   B2BUser,
+  B2BAddress,
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { B2BSearchConfig } from '../../../organization/model/search-config';
@@ -114,6 +115,24 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     );
   }
 
+  createAddress(userId: string, orgUnitId: string, address: B2BAddress): Observable<B2BAddress> {
+    return this.http
+      .post<Occ.B2BAddress>(this.getAddressesEndpoint(userId, orgUnitId), address)
+      .pipe(this.converter.pipeable(B2B_ADDRESS_NORMALIZER));
+  }
+
+  updateAddress(userId: string, orgUnitId: string, addressId: string, address: B2BAddress): Observable<B2BAddress> {
+    return this.http
+      .patch<Occ.B2BAddress>(this.getAddressEndpoint(userId, orgUnitId, addressId), address)
+      .pipe(this.converter.pipeable(B2B_ADDRESS_NORMALIZER));
+  }
+
+  deleteAddress(userId: string, orgUnitId: string, addressId: string): Observable<any> {
+    return this.http
+      .delete<Occ.B2BAddress>(this.getAddressEndpoint(userId, orgUnitId, addressId))
+      .pipe(this.converter.pipeable(B2B_ADDRESS_NORMALIZER));
+  }
+
   protected getOrgUnitEndpoint(userId: string, orgUnitId: string): string {
     return this.occEndpoints.getUrl('orgUnit', { userId, orgUnitId });
   }
@@ -200,5 +219,13 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
       orgCustomerId,
       roleId,
     });
+  }
+
+  protected getAddressesEndpoint(userId: string, orgUnitId: string): string {
+    return this.occEndpoints.getUrl('orgUnitsAddresses', { userId, orgUnitId });
+  }
+
+  protected getAddressEndpoint(userId: string, orgUnitId: string, addressId: string): string {
+    return this.occEndpoints.getUrl('orgUnitsAddress', { userId, orgUnitId, addressId });
   }
 }

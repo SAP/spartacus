@@ -10,7 +10,7 @@ export interface B2BUnitNode {
 
 export interface B2BUnit {
   active?: boolean;
-  addresses?: OrgUnitAddress[];
+  addresses?: B2BAddress[];
   uid?: string;
   name?: string;
   parentOrgUnit?: Partial<B2BUnit>;
@@ -21,7 +21,7 @@ export interface B2BUnit {
   managers?: B2BUser[];
 }
 
-export interface OrgUnitAddress {
+export interface B2BAddress {
   cellphone?: string;
   companyName?: string;
   country?: {
