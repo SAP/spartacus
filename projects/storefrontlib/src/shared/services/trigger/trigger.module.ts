@@ -5,9 +5,9 @@ import { TriggerConfig } from './config/trigger-config';
 import {
   InlineRenderStrategy,
   OutletRenderStrategy,
+  RenderStrategy,
   RoutingRenderStrategy,
 } from './services/index';
-import { RenderStrategy } from './services/render.strategy';
 
 @NgModule({
   providers: [
