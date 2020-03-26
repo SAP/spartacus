@@ -1,13 +1,15 @@
 <form (submit)="onSubmit()" [formGroup]="customerSelectionForm">
-  <input
-    #searchTerm
-    type="text"
-    formControlName="searchTerm"
-    placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
-  />
-  <cx-form-errors
-    [control]="customerSelectionForm.get('searchTerm')"
-  ></cx-form-errors>
+  <label>
+    <input
+      #searchTerm
+      type="text"
+      formControlName="searchTerm"
+      placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
+    />
+    <cx-form-errors
+      [control]="customerSelectionForm.get('searchTerm')"
+    ></cx-form-errors>
+  </label>
   <button type="submit">
     {{ 'asm.customerSearch.submit' | cxTranslate }}
   </button>
