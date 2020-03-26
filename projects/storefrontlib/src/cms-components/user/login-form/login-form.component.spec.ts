@@ -96,8 +96,8 @@ describe('LoginFormComponent', () => {
   });
 
   it('should init the form - empty', () => {
-    expect(component.form.controls['userId'].value).toBe('');
-    expect(component.form.controls['password'].value).toBe('');
+    expect(component.loginForm.controls['userId'].value).toBe('');
+    expect(component.loginForm.controls['password'].value).toBe('');
   });
 
   it('should init the form - prefilled', () => {
@@ -112,7 +112,7 @@ describe('LoginFormComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.form.controls['userId'].value).toBe(email);
+    expect(component.loginForm.controls['userId'].value).toBe(email);
 
     // reset the state
     windowRef.nativeWindow.history.replaceState(null, null);
@@ -123,8 +123,8 @@ describe('LoginFormComponent', () => {
       const email = 'test@email.com';
       const password = 'secret';
 
-      component.form.controls['userId'].setValue(email);
-      component.form.controls['password'].setValue(password);
+      component.loginForm.controls['userId'].setValue(email);
+      component.loginForm.controls['password'].setValue(password);
       component.submitForm();
 
       expect(authService.authorize).toHaveBeenCalledWith(email, password);
@@ -136,8 +136,8 @@ describe('LoginFormComponent', () => {
       const email_lowercase = 'test@email.com';
       const password = 'secret';
 
-      component.form.controls['userId'].setValue(email_uppercase);
-      component.form.controls['password'].setValue(password);
+      component.loginForm.controls['userId'].setValue(email_uppercase);
+      component.loginForm.controls['password'].setValue(password);
       component.submitForm();
 
       expect(authService.authorize).toHaveBeenCalledWith(
@@ -151,7 +151,7 @@ describe('LoginFormComponent', () => {
     let control: AbstractControl;
 
     beforeEach(() => {
-      control = component.form.controls['userId'];
+      control = component.loginForm.controls['userId'];
     });
 
     it('should NOT be valid when empty', () => {
@@ -186,7 +186,7 @@ describe('LoginFormComponent', () => {
     let control: AbstractControl;
 
     beforeEach(() => {
-      control = component.form.controls['password'];
+      control = component.loginForm.controls['password'];
     });
 
     it('should be valid when not empty', () => {

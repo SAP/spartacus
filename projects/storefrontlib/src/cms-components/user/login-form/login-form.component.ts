@@ -18,7 +18,7 @@ import { CustomFormValidators, FormErrorsService } from '../../../shared/index';
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
   sub: Subscription;
-  form: FormGroup;
+  loginForm: FormGroup;
   loginAsGuest = false;
 
   constructor(
@@ -36,7 +36,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     const routeState = this.winRef.nativeWindow?.history?.state;
     const prefilledEmail = routeState?.['newUid'];
 
-    this.form = this.fb.group({
+    this.loginForm = this.fb.group({
       userId: [
         prefilledEmail?.length ? prefilledEmail : '',
         [Validators.required, CustomFormValidators.emailValidator],
@@ -53,10 +53,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   submitForm(): void {
-    if (this.form.valid) {
+    if (this.loginForm.valid) {
       this.login();
     } else {
-      this.form.markAllAsTouched();
+      this.loginForm.markAllAsTouched();
       this.formErrorsService.notify();
     }
   }
@@ -68,7 +68,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   private login(): void {
-    const { userId, password } = this.form.controls;
+    const { userId, password } = this.loginForm.controls;
     this.auth.authorize(
       userId.value.toLowerCase(), // backend accepts lowercase emails only
       password.value
