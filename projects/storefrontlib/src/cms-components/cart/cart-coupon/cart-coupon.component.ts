@@ -86,7 +86,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     //TODO(issue:#5971) Deprecated since 1.5
 
     this.cartIsLoading$ = this.activeCartService
-      .getLoaded()
+      .isStable()
       .pipe(map(loaded => !loaded));
 
     this.cartVoucherService.resetAddVoucherProcessingState();
