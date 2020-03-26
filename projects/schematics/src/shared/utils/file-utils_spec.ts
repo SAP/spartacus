@@ -207,6 +207,8 @@ const HTML_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-m
 const HTML_EXAMPLE_EXPECTED = `<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
 <!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+const HTML_EXAMPLE_NGIF = `<div *ngIf="isThumbsEmpty">test</div>`;
+const HTML_EXAMPLE_NGIF_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. --><div *ngIf="isThumbsEmpty">test</div>`;
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -308,6 +310,17 @@ describe('File utils', () => {
 
       expect(result).toBeTruthy();
       expect(result).toEqual(HTML_EXAMPLE_EXPECTED);
+    });
+    xit('should insert the comment (with *ngIf)', async () => {
+      const componentDeprecation = COMPONENT_DEPRECATION_DATA[1];
+      const result = insertHtmlComment(
+        HTML_EXAMPLE_NGIF,
+        componentDeprecation.selector,
+        componentDeprecation.removedProperties[0]
+      );
+
+      expect(result).toBeTruthy();
+      expect(result).toEqual(HTML_EXAMPLE_NGIF_EXPECTED);
     });
   });
 

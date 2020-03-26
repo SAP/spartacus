@@ -19,6 +19,10 @@
       color: var(--cx-color-primary);
       text-decoration: underline;
     }
+    &:focus {
+      position: relative;
+      z-index: 1;
+    }
   }
   cx-media {
     align-self: center;

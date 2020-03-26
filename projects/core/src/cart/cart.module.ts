@@ -11,7 +11,6 @@ import {
 import { MultiCartService } from './facade/multi-cart.service';
 import { CartPageMetaResolver } from './services/cart-page-meta.resolver';
 import { MultiCartStatePersistenceService } from './services/multi-cart-state-persistence.service';
-import { CartStoreModule } from './store/cart-store.module';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
 
 export function cartStatePersistenceFactory(
@@ -26,7 +25,7 @@ export function cartStatePersistenceFactory(
 }
 
 @NgModule({
-  imports: [CartStoreModule, MultiCartStoreModule, CartEventModule],
+  imports: [MultiCartStoreModule, CartEventModule],
 })
 export class CartModule {
   static forRoot(): ModuleWithProviders<CartModule> {

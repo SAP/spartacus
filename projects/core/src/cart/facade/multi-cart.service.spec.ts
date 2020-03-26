@@ -152,7 +152,7 @@ describe('MultiCartService', () => {
       });
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.CreateCart({
+        new CartActions.CreateCart({
           userId: 'userId',
           extraData: undefined,
           oldCartId: undefined,
@@ -162,7 +162,7 @@ describe('MultiCartService', () => {
       );
 
       expect(results[0]).toEqual({
-        loading: false,
+        loading: true,
         error: false,
         success: false,
         value: undefined,

@@ -13,6 +13,7 @@ class MockSelectFocusUtility {}
   `,
 })
 class MockComponent {}
+
 describe('PersistFocusService', () => {
   let service: PersistFocusService;
   let fixture: ComponentFixture<MockComponent>;
@@ -74,6 +75,45 @@ describe('PersistFocusService', () => {
     const groupA = 'group-a';
     service.set(key, groupA);
     expect(service.get()).toBeFalsy();
+  });
+  describe('clear()', () => {
+    it(`should clear the global persisted value`, () => {
+      const key = 'my-key';
+      service.set(key);
+      expect(service.get()).toEqual('my-key');
+      service.clear();
+      expect(service.get()).toBeUndefined();
+    });
+
+    it(`should clear a value for a specific group`, () => {
+      const key = 'my-key';
+      const group = 'group-a';
+      service.set(key, group);
+      expect(service.get(group)).toEqual('my-key');
+      service.clear(group);
+      expect(service.get(group)).toBeUndefined();
+    });
+
+    it(`should not clear the global group if a specific group is cleared`, () => {
+      const keyA = 'my-key-1';
+      const keyB = 'my-key-2';
+      const group = 'group-a';
+      service.set(keyA);
+      service.set(keyB, group);
+      service.clear(group);
+      expect(service.get()).toEqual('my-key-1');
+    });
+
+    it(`should not clear the group if the global group is cleared`, () => {
+      const globalKey = 'my-key-1';
+      const groupKey = 'my-key-2';
+      const group = 'group-a';
+      service.set(globalKey);
+      service.set(groupKey, group);
+      service.clear();
+      expect(service.get(group)).toEqual(groupKey);
+      expect(service.get()).toBeUndefined();
+    });
   });
 
   describe('Persistence Group', () => {
