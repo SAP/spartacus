@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  ActiveCartService,
   AuthService,
   Cart,
-  ActiveCartService,
   FeatureConfigService,
   OrderEntry,
   PromotionLocation,
@@ -48,7 +48,7 @@ export class CartDetailsComponent implements OnInit {
 
     if (this.isSaveForLaterEnabled()) {
       this.cartLoaded$ = combineLatest([
-        this.activeCartService.getLoaded(),
+        this.activeCartService.isStable(),
         this.selectiveCartService.getLoaded(),
         this.authService.isUserLoggedIn(),
       ]).pipe(
@@ -60,7 +60,7 @@ export class CartDetailsComponent implements OnInit {
     }
     //TODO remove for #5958
     else {
-      this.cartLoaded$ = this.activeCartService.getLoaded();
+      this.cartLoaded$ = this.activeCartService.isStable();
     }
     //TODO  remove for #5958 end
 

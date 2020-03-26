@@ -18,15 +18,6 @@ export class MultiCartEffects {
   );
 
   @Effect()
-  createCart2$: Observable<CartActions.CreateMultiCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.CREATE_CART),
-    map(
-      (action: CartActions.CreateCart) =>
-        new CartActions.CreateMultiCart(action.payload)
-    )
-  );
-
-  @Effect()
   setTempCart$ = this.actions$.pipe(
     ofType(CartActions.SET_TEMP_CART),
     map((action: CartActions.SetTempCart) => {

@@ -1,5 +1,11 @@
 @import '../../../theme';
 
+%cx-consignment-tracking {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 0.5rem;
+}
+
 %cx-tracking-events {
   $cx-consignment-tracking-dialog-border-color: 'light' !default;
   $cx-consignment-tracking-dialog-header-padding-left: 2rem !default;
