@@ -2,6 +2,7 @@
   .cx-product-layout {
     @include button-reset();
 
+    cursor: pointer;
     position: relative;
     display: inline-block;
     overflow: hidden;

@@ -117,17 +117,14 @@ describe('ProfileTagEventTracker', () => {
     expect(nativeWindow.Y_TRACKING.eventLayer.push).not.toHaveBeenCalled();
   });
 
-  it(`Should call the pageLoaded method if the site is active,
-        and event receiver callback has been called with loaded`, () => {
+  it(`Should call the pageLoaded method if the site is active even when the event receiver callback
+   has not been called with loaded`, () => {
     let loaded = 0;
     const subscription = profileTagEventTracker
       .addTracker()
       .pipe(tap(_ => loaded++))
       .subscribe();
     getActiveBehavior.next('electronics-test');
-    eventListener[ProfileTagEventNames.LOADED](
-      new CustomEvent(ProfileTagEventNames.LOADED)
-    );
     subscription.unsubscribe();
 
     expect(loaded).toEqual(1);
