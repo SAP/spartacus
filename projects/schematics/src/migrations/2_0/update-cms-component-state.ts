@@ -143,9 +143,7 @@ export function migrate(): Rule {
         ...renameCmsGetComponentFromPageConstantChanges,
         ...actionCommentChanges,
       ];
-      if (allChanges.length) {
-        commitChanges(tree, sourcePath, allChanges, InsertDirection.RIGHT);
-      }
+      commitChanges(tree, sourcePath, allChanges, InsertDirection.RIGHT);
     }
 
     if (cmsComponentSelectorsChangesMade) {

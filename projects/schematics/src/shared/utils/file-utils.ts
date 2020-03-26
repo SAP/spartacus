@@ -35,9 +35,14 @@ export interface ComponentProperty {
   comment: string;
 }
 export interface ComponentData {
+  /** a component's selector, e.g. cx-start-rating */
   selector: string;
+  /** a component.ts' class name */
   componentClassName: string;
-  removedProperties: ComponentProperty[];
+  /** only `@Input` and `@Output` properties should be listed here */
+  removedInputOutputProperties?: ComponentProperty[];
+  /** all other removed component properties should be listed here */
+  removedProperties?: ComponentProperty[];
 }
 
 export interface ConstructorDeprecation {
@@ -117,30 +122,57 @@ export function getPathResultsForFile(
   return results;
 }
 
-export function getAllHtmlFiles(tree: Tree, directory?: string): string[] {
-  return getPathResultsForFile(tree, '.html', directory);
+export function getHtmlFiles(
+  tree: Tree,
+  fileName = '.html',
+  directory?: string
+): string[] {
+  return getPathResultsForFile(tree, fileName || '.html', directory);
 }
 
-export function insertHtmlComment(
+export function insertComponentSelectorComment(
   content: string,
   componentSelector: string,
   componentProperty: ComponentProperty
 ): string | undefined {
-  // const oldContent = content;
+  const selector = buildSelector(componentSelector);
   const comment = buildHtmlComment(componentProperty.comment);
 
-  // for cases like: <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
-  const selectorRegExp = new RegExp(`(<${componentSelector}[^>]*>)`, 'gi');
-  content = content.replace(selectorRegExp, `${comment}\$1`);
+  let index: number | undefined = 0;
+  let newContent = content;
+  while (true) {
+    index = getTextPosition(newContent, selector, index);
+    if (index == null) {
+      break;
+    }
 
-  // // for cases like: <div *ngIf="isThumbsEmpty">test</div>
-  // if (oldContent === content) {
-  //   // content hasn't been changed by the above selector regexp
-  //   const propertyRegExp = new RegExp(`(<.+${componentProperty.name})`, 'g');
-  //   content = content.replace(propertyRegExp, `${comment}\$1`);
-  // }
+    newContent = newContent.slice(0, index) + comment + newContent.slice(index);
+    index += comment.length + componentSelector.length;
+  }
 
-  return content;
+  return newContent;
+}
+
+function getTextPosition(
+  content: string,
+  text: string,
+  startingPosition = 0
+): number | undefined {
+  const index = content.indexOf(text, startingPosition);
+  return index !== -1 ? index : undefined;
+}
+
+function buildSelector(selector: string): string {
+  return `<${selector}`;
+}
+
+export function insertHtmlComment(
+  content: string,
+  componentProperty: ComponentProperty
+): string | undefined {
+  const comment = buildHtmlComment(componentProperty.comment);
+  const propertyRegExp = new RegExp(`(<.+${componentProperty.name})`, 'g');
+  return content.replace(propertyRegExp, `${comment}\$1`);
 }
 
 function buildHtmlComment(commentText: string): string {
