@@ -1,6 +1,7 @@
 import {
   ComponentFactoryResolver,
   Injectable,
+  isDevMode,
   ViewContainerRef,
 } from '@angular/core';
 import { TriggerInlineMapping, TRIGGER_CALLER } from '../config';
@@ -8,12 +9,17 @@ import { RenderStrategy } from './render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class InlineRenderStrategy extends RenderStrategy {
-  protected element;
-
   constructor(protected componentFactoryResolver: ComponentFactoryResolver) {
     super();
   }
 
+  /**
+   * Renders the component from the configuration in the view container ref
+   *
+   * @param config
+   * @param caller
+   * @param vcr
+   */
   public render(
     config: TriggerInlineMapping,
     caller: TRIGGER_CALLER,
@@ -26,6 +32,8 @@ export class InlineRenderStrategy extends RenderStrategy {
       );
       vcr.createComponent(template);
       this.renderedCallers.push({ caller, element: vcr.element });
+    } else if (!vcr && isDevMode()) {
+      console.warn(`No view container ref provided for ${caller}`);
     }
   }
 

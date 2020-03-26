@@ -8,7 +8,12 @@ export class RoutingRenderStrategy extends RenderStrategy {
   constructor(protected routingService: RoutingService) {
     super();
   }
-
+  /**
+   * Navigates to the route configured for the caller
+   *
+   * @param config
+   * @param _caller
+   */
   public render(config: TriggerUrlMapping, _caller: TRIGGER_CALLER) {
     this.routingService.go(config);
   }

@@ -226,4 +226,38 @@ describe('OutletService', () => {
       ).toBeTruthy();
     });
   });
+
+  describe('remove', () => {
+    let componentFactoryResolver: ComponentFactoryResolver;
+    let factory: ComponentFactory<any>;
+
+    beforeEach(() => {
+      componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
+      factory = componentFactoryResolver.resolveComponentFactory(AnyComponent);
+    });
+
+    it('should remove all instance of the provided value', () => {
+      outletService.add(OUTLET_NAME_1, factory, OutletPosition.AFTER);
+      outletService.add(OUTLET_NAME_2, factory, OutletPosition.AFTER);
+      outletService.add(OUTLET_NAME_2, factory, OutletPosition.AFTER);
+      outletService.add(OUTLET_NAME_2, factory, OutletPosition.BEFORE);
+
+      outletService.remove(OUTLET_NAME_2, OutletPosition.AFTER, factory);
+
+      expect(outletService.get(OUTLET_NAME_1, OutletPosition.AFTER)).toEqual(
+        factory
+      );
+      expect(outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE)).toEqual(
+        factory
+      );
+
+      outletService.add(OUTLET_NAME_2, factory, OutletPosition.BEFORE);
+
+      outletService.remove(OUTLET_NAME_2, OutletPosition.BEFORE);
+
+      expect(outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE)).toEqual(
+        undefined
+      );
+    });
+  });
 });

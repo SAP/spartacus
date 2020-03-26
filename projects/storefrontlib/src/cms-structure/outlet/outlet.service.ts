@@ -79,9 +79,40 @@ export class OutletService<T = TemplateRef<any>> {
     return templateRef;
   }
 
+  remove(
+    outlet: string,
+    position: OutletPosition = OutletPosition.REPLACE,
+    value?: T
+  ): void {
+    switch (position) {
+      case OutletPosition.BEFORE:
+        this.removeValueOrAll(this.templatesRefsBefore, outlet, value);
+        break;
+      case OutletPosition.AFTER:
+        this.removeValueOrAll(this.templatesRefsAfter, outlet, value);
+        break;
+      default:
+        this.removeValueOrAll(this.templatesRefs, outlet, value);
+    }
+  }
+
   private store(store: Map<string, T[]>, outlet: string, value: T) {
     const existing = store.get(outlet) || [];
     const newValue: T[] = existing.concat([value]);
     store.set(outlet, newValue);
+  }
+
+  protected removeValueOrAll(
+    store: Map<string, T[]>,
+    outlet: string,
+    value?: T
+  ): void {
+    if (!value && store.has(outlet)) {
+      store.delete(outlet);
+    } else if (value && store.has(outlet)) {
+      let existing = store.get(outlet);
+      existing = existing.filter(val => val === value);
+      store.set(outlet, existing);
+    }
   }
 }

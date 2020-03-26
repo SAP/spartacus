@@ -1,5 +1,6 @@
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { OutletRendererService } from 'projects/storefrontlib/src/cms-structure/outlet/outlet-renderer.serivce';
 import { OutletPosition, OutletService } from '../../../../cms-structure/index';
 import { TriggerConfig, TriggerOutletMapping, TRIGGER_CALLER } from '../config';
 import { OutletRenderStrategy } from './outlet-render-strategy.service';
@@ -29,6 +30,10 @@ class MockOutletService {
   add() {}
 }
 
+class MockOutletRendererService {
+  render(_outlet: string) {}
+}
+
 class MockComponentFactoryResolver {
   resolveComponentFactory() {
     return testTemplate;
@@ -38,6 +43,7 @@ class MockComponentFactoryResolver {
 describe('OutletRenderStrategy', () => {
   let service: OutletRenderStrategy;
   let outletService: OutletService;
+  let outletRendererService: OutletRendererService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,13 +54,16 @@ describe('OutletRenderStrategy', () => {
           provide: ComponentFactoryResolver,
           useClass: MockComponentFactoryResolver,
         },
+        { provide: OutletRendererService, useClass: MockOutletRendererService },
       ],
     });
 
     service = TestBed.get(OutletRenderStrategy);
     outletService = TestBed.get(OutletService);
+    outletRendererService = TestBed.get(OutletRendererService);
 
     spyOn(outletService, 'add');
+    spyOn(outletRendererService, 'render');
   });
 
   it('should be created', () => {
@@ -78,6 +87,10 @@ describe('OutletRenderStrategy', () => {
           testTemplate,
           config.position
         );
+
+        expect(outletRendererService.render).toHaveBeenCalledWith(
+          config.outlet
+        );
       });
 
       it('should default to position BEFORE if one is not provided', () => {
@@ -91,6 +104,10 @@ describe('OutletRenderStrategy', () => {
           testTemplate,
           OutletPosition.BEFORE
         );
+
+        expect(outletRendererService.render).toHaveBeenCalledWith(
+          config.outlet
+        );
       });
     });
     describe('should not render', () => {
@@ -100,6 +117,7 @@ describe('OutletRenderStrategy', () => {
 
       it('should not render', () => {
         expect(outletService.add).not.toHaveBeenCalled();
+        expect(outletRendererService.render).not.toHaveBeenCalled();
       });
     });
   });

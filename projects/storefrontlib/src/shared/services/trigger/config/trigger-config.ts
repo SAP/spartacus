@@ -8,28 +8,49 @@ export abstract class TriggerConfig {
       | TriggerUrlMapping;
   };
 }
-
-export interface TriggerMapping {
+/**
+ * Parent type for configurations that render components
+ */
+export interface TriggerRenderMapping {
   component: any;
   // Can the element be rendered multiple times
   multi?: boolean;
   // Optional elements
-  options?: any;
+  options?: {
+    // Dialog type is used to apply CSS classes
+    dialogType?: DIALOG_TYPE;
+  };
 }
 
-export interface TriggerOutletMapping extends TriggerMapping {
+/**
+ * Configuration type to render a component in an outlet
+ */
+export interface TriggerOutletMapping extends TriggerRenderMapping {
   outlet: string;
   // Default: OutletPosition.BEFORE
   position?: OutletPosition;
 }
 
-export interface TriggerInlineMapping extends TriggerMapping {
+/**
+ * Configuration type to render a component inline (next to the trigger)
+ */
+export interface TriggerInlineMapping extends TriggerRenderMapping {
   inline: boolean;
 }
 
+/**
+ * Configuration type to render as link
+ */
 export interface TriggerUrlMapping {
   cxRoute: string;
   params?: { [param: string]: any };
+}
+
+export enum DIALOG_TYPE {
+  POPOVER = 'POPOVER',
+  DIALOG = 'DIALOG',
+  SIDEBAR_LEFT = 'SIDEBAR_LEFT',
+  SIDEBAR_RIGHT = 'SIDEBAR_RIGHT',
 }
 
 export enum TRIGGER_CALLER {

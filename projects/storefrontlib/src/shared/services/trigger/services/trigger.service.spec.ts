@@ -90,7 +90,9 @@ describe('TriggerService', () => {
     inlineRenderStrategy = TestBed.inject(MockInlineRenderStrategy);
 
     spyOn(routingRenderStrategy, 'render');
+    spyOn(routingRenderStrategy, 'removeRendered');
     spyOn(inlineRenderStrategy, 'render');
+    spyOn(inlineRenderStrategy, 'removeRendered');
   });
 
   it('should be created', () => {
@@ -118,6 +120,26 @@ describe('TriggerService', () => {
     });
   });
 
+  describe('removeRendered', () => {
+    it('should call the proper remove', () => {
+      const urlConfig = mockTriggerConfig.trigger['TEST_URL' as TRIGGER_CALLER];
+      const inlineConfig =
+        mockTriggerConfig.trigger['TEST_INLINE' as TRIGGER_CALLER];
+
+      service.removeRendered('TEST_URL' as TRIGGER_CALLER);
+      expect(routingRenderStrategy.removeRendered).toHaveBeenCalledWith(
+        'TEST_URL' as TRIGGER_CALLER,
+        urlConfig
+      );
+
+      service.removeRendered('TEST_INLINE' as TRIGGER_CALLER);
+      expect(inlineRenderStrategy.removeRendered).toHaveBeenCalledWith(
+        'TEST_INLINE' as TRIGGER_CALLER,
+        inlineConfig
+      );
+    });
+  });
+
   describe('findConfiguration', () => {
     it('should return configuration for caller', () => {
       const inlineConfig =
@@ -132,18 +154,4 @@ describe('TriggerService', () => {
       ).toEqual(urlConfig);
     });
   });
-
-  // describe('getRenderStrategy', () => {
-  //   it('should return correct the right strategy', () => {
-  //     const inlineConfig =
-  //       mockTriggerConfig.trigger['TEST_INLINE' as TRIGGER_CALLER];
-  //     const urlConfig = mockTriggerConfig.trigger['TEST_URL' as TRIGGER_CALLER];
-
-  //     const inlineStrategy = service['getRenderStrategy'](inlineConfig);
-  //     const urlStrategy = service['getRenderStrategy'](urlConfig);
-
-  //     expect(inlineStrategy).toEqual(MockInlineRenderStrategy);
-  //     expect(urlStrategy).toEqual(MockRoutingRenderStrategy);
-  //   });
-  // });
 });
