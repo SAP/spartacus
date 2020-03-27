@@ -1,26 +1,22 @@
-import { isPlatformServer } from '@angular/common';
 import {
   ComponentRef,
   Directive,
-  Inject,
+  ElementRef,
   Injector,
   Input,
   OnDestroy,
   OnInit,
-  PLATFORM_ID,
   Renderer2,
-  ViewContainerRef,
 } from '@angular/core';
 import {
-  CmsComponent,
-  CmsConfig,
   CmsService,
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { CmsComponentData } from '../model/cms-component-data';
-import { ComponentMapperService } from './component-mapper.service';
-import { CxApiService } from './cx-api.service';
+import { Observable, Subscription } from 'rxjs';
+import { ComponentLauncherMap } from './component-launcher-mapping';
+import { ComponentLauncherService } from './launchers/component-launcher.service';
+import { ComponentMapperService } from './services/component-mapper.service';
 
 @Directive({
   selector: '[cxComponentWrapper]',
@@ -28,107 +24,64 @@ import { CxApiService } from './cx-api.service';
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input() cxComponentWrapper: ContentSlotComponentData;
 
-  cmpRef: ComponentRef<any>;
-  webElement: any;
+  /**
+   * @deprecated since 2.0
+   *
+   * This property in unsafe, i.e.
+   * - cmpRef can be set later because of lazy loading or deferred loading
+   * - cmpRef can be not set at all if for example, web components are used as cms components
+   */
+  cmpRef?: ComponentRef<any>;
+
+  initializerSubscription: Subscription;
 
   constructor(
-    private vcr: ViewContainerRef,
     private componentMapper: ComponentMapperService,
     private injector: Injector,
     private cmsService: CmsService,
     private dynamicAttributeService: DynamicAttributeService,
     private renderer: Renderer2,
-    private config: CmsConfig,
-    @Inject(PLATFORM_ID) private platformId: Object
+    protected launcherMap: ComponentLauncherMap
   ) {}
 
   ngOnInit() {
-    if (!this.shouldRenderComponent()) {
-      return;
-    }
-    if (this.componentMapper.isWebComponent(this.cxComponentWrapper.flexType)) {
-      this.launchWebComponent();
-    } else {
-      this.launchComponent();
+    if (
+      this.componentMapper.shouldRenderComponent(
+        this.cxComponentWrapper.flexType
+      )
+    ) {
+      this.launch();
     }
   }
 
-  private shouldRenderComponent(): boolean {
-    const isSSR = isPlatformServer(this.platformId);
-    const isComponentDisabledInSSR = (
-      this.config.cmsComponents[this.cxComponentWrapper.flexType] || {}
-    ).disableSSR;
-    return !(isSSR && isComponentDisabledInSSR);
-  }
-
-  private launchComponent() {
-    const factory = this.componentMapper.getComponentFactoryByCode(
-      this.cxComponentWrapper.flexType
-    );
-
-    if (factory) {
-      this.cmpRef = this.vcr.createComponent(
-        factory,
-        undefined,
-        this.getInjectorForComponent()
-      );
-
-      if (this.cmsService.isLaunchInSmartEdit()) {
-        this.addSmartEditContract(this.cmpRef.location.nativeElement);
+  private launch() {
+    this.initializerSubscription = this.getLauncher()?.subscribe(
+      ([elementRef, componentRef]: [ElementRef, ComponentRef<any>]) => {
+        this.cmpRef = componentRef;
+        // decorate element
+        if (this.cmsService.isLaunchInSmartEdit()) {
+          this.addSmartEditContract(elementRef.nativeElement);
+        }
       }
-    }
-  }
-
-  private async launchWebComponent() {
-    const elementName = await this.componentMapper.initWebComponent(
-      this.cxComponentWrapper.flexType,
-      this.renderer
     );
+  }
 
-    if (elementName) {
-      this.webElement = this.renderer.createElement(elementName);
+  private getLauncher():
+    | Observable<[ElementRef, ComponentRef<any>?]>
+    | undefined {
+    const launcherServiceClass = this.launcherMap[
+      this.componentMapper.getComponentType(this.cxComponentWrapper.flexType)
+    ];
 
-      const cmsComponentData = this.getCmsDataForComponent();
-
-      this.webElement.cxApi = {
-        ...this.injector.get(CxApiService),
-        cmsComponentData,
-      };
-
-      this.renderer.appendChild(
-        this.vcr.element.nativeElement.parentElement,
-        this.webElement
-      );
-
-      if (this.cmsService.isLaunchInSmartEdit()) {
-        this.addSmartEditContract(this.webElement);
-      }
+    if (launcherServiceClass) {
+      return this.injector
+        .get<ComponentLauncherService>(launcherServiceClass)
+        ?.getLauncher(
+          this.cxComponentWrapper.flexType,
+          this.cxComponentWrapper.uid,
+          this.injector
+        );
     }
-  }
-
-  private getCmsDataForComponent<T extends CmsComponent>(): CmsComponentData<
-    T
-  > {
-    return {
-      uid: this.cxComponentWrapper.uid,
-      data$: this.cmsService.getComponentData(this.cxComponentWrapper.uid),
-    };
-  }
-
-  private getInjectorForComponent(): Injector {
-    const configProviders =
-      (this.config.cmsComponents[this.cxComponentWrapper.flexType] || {})
-        .providers || [];
-    return Injector.create({
-      providers: [
-        {
-          provide: CmsComponentData,
-          useValue: this.getCmsDataForComponent(),
-        },
-        ...configProviders,
-      ],
-      parent: this.injector,
-    });
   }
 
   private addSmartEditContract(element: Element) {
@@ -140,11 +93,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.cmpRef) {
-      this.cmpRef.destroy();
-    }
-    if (this.webElement) {
-      this.webElement.remove();
+    if (this.initializerSubscription) {
+      this.initializerSubscription.unsubscribe();
     }
   }
 }
