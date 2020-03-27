@@ -52,8 +52,6 @@ export interface Facet {
   /**
    * The OCC backend has topValues with duplicated facet data.
    * This is not used in the UI, but normalized in the `topValueCount` property.
-   *
-   * TODO: once we implement a dedicated UI model, we should remove the `topValues`.
    */
   topValues?: FacetValue[];
 }

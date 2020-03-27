@@ -20,8 +20,6 @@ export class OccProductSearchPageNormalizer
    * non have been setup by the business.
    */
   protected DEFAULT_TOP_VALUES = 6;
-  /** Indicates the number of expanded facet groups */
-  protected DEFAULT_FACET_EXPANDED_NO = 3;
 
   convert(
     source: Occ.ProductSearchPage,
@@ -42,7 +40,6 @@ export class OccProductSearchPageNormalizer
   }
 
   private normalizeFacets(target: ProductSearchPage): void {
-    // this.limitVisibleFacets(target);
     this.normalizeFacetValues(target);
     this.normalizeUselessFacets(target);
   }
