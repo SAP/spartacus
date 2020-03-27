@@ -1,23 +1,21 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { isPlatformServer } from '@angular/common';
 import {
   ComponentFactoryResolver,
   Inject,
   Injectable,
   PLATFORM_ID,
-  Renderer2,
 } from '@angular/core';
 import { CmsConfig } from '@spartacus/core';
+import { CmsComponentMapping } from '../../../../../../core/src/cms/config';
+import { ComponentType } from '../model/component-type.model';
 
 @Injectable({ providedIn: 'root' })
 export class ComponentMapperService {
   missingComponents: string[] = [];
 
-  private loadedWebComponents: { [path: string]: any } = {};
-
   constructor(
     protected componentFactoryResolver: ComponentFactoryResolver,
     protected config: CmsConfig,
-    @Inject(DOCUMENT) protected document: any,
     @Inject(PLATFORM_ID) protected platform: any
   ) {}
 
@@ -41,8 +39,8 @@ export class ComponentMapperService {
    *
    * @param typeCode the component type
    */
-  protected getComponent(typeCode: string): any {
-    const componentConfig = this.config.cmsComponents[typeCode];
+  public getComponent(typeCode: string): any {
+    const componentConfig = this.getComponentConfig(typeCode);
     if (!componentConfig) {
       if (!this.missingComponents.includes(typeCode)) {
         this.missingComponents.push(typeCode);
@@ -53,6 +51,10 @@ export class ComponentMapperService {
       }
     }
     return componentConfig ? componentConfig.component : null;
+  }
+
+  protected getComponentConfig(typeCode: string): CmsComponentMapping {
+    return this.config.cmsComponents[typeCode];
   }
 
   getComponentFactoryByCode(typeCode: string): any {
@@ -74,48 +76,23 @@ export class ComponentMapperService {
     return factory;
   }
 
-  isWebComponent(typeCode: string): boolean {
-    const component = this.getComponent(typeCode);
-    return typeof component === 'string' && (component || '').includes('#');
+  shouldRenderComponent(typeCode: string): boolean {
+    const isSSR = isPlatformServer(this.platform);
+    const isComponentDisabledInSSR = (this.config.cmsComponents[typeCode] || {})
+      .disableSSR;
+    return !(isSSR && isComponentDisabledInSSR);
   }
 
-  initWebComponent(
-    componentType: string,
-    renderer: Renderer2
-  ): Promise<string> {
-    return new Promise(resolve => {
-      const [path, selector] = this.getComponent(componentType).split('#');
+  getComponentType(typeCode: string): ComponentType {
+    const componentConfig = this.getComponentConfig(typeCode);
 
-      let script = this.loadedWebComponents[path];
+    if (
+      typeof componentConfig.component === 'string' &&
+      (componentConfig.component || '').includes('#')
+    ) {
+      return ComponentType.WebComponent;
+    }
 
-      if (!script) {
-        if (path) {
-          script = renderer.createElement('script');
-          this.loadedWebComponents[path] = script;
-          script.setAttribute('src', path);
-          renderer.appendChild(this.document.body, script);
-          if (isPlatformBrowser(this.platform)) {
-            script.onload = () => {
-              script.onload = null;
-            };
-          }
-        } else {
-          script = {};
-        }
-      }
-
-      if (script.onload) {
-        // If script is still loading (has onload callback defined)
-        // add new callback and chain it with the existing one.
-        // Needed to support loading multiple components from one script
-        const chainedOnload = script.onload;
-        script.onload = () => {
-          chainedOnload();
-          resolve(selector);
-        };
-      } else {
-        resolve(selector);
-      }
-    });
+    return ComponentType.CmsComponent;
   }
 }
