@@ -1,12 +1,10 @@
-// _facet.sccs
-%cx-facet-heading {
+%facet-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   margin: 0.4rem 0;
   padding: 0.4rem;
-
   width: 100%;
 
   border-bottom: 1px solid var(--cx-color-light);
@@ -19,11 +17,21 @@
   &:focus {
     color: var(--cx-color-primary);
   }
+
+  cx-icon {
+    font-size: 1rem;
+  }
+
+  @include media-breakpoint-down(md) {
+    cx-icon {
+      font-size: 1.5rem;
+    }
+  }
 }
 
 %cx-facet {
   button.heading {
-    @extend %cx-facet-heading !optional;
+    @extend %facet-heading !optional;
   }
 
   display: block;
@@ -121,162 +129,3 @@
     }
   }
 }
-
-// /**
-//   A new checkbox proposal:
-//   - stable
-//   - extensible
-//   - cleaner code
-//   - uses the font size for the size and behaviour
-//   - no use of absolute positioning
-//   - no negative margins
-
-// */
-// %checkbox {
-//   // revert any global settings for the checkbox
-//   // all: unset;
-//   input[type='checkbox'] {
-//     all: unset;
-//   }
-
-//   position: relative;
-//   display: flex;
-//   align-items: baseline;
-
-//   line-height: 1.4;
-//   padding: 0.4rem;
-//   // padding-inline-end: 1.5rem; // only needed if we like to position the count at the end
-
-//   transition: all 0.1s;
-//   cursor: pointer;
-//   user-select: none;
-
-//   scroll-snap-align: start;
-
-//   outline: none;
-
-//   &:focus-within,
-//   &:hover {
-//     // background-color: var(--cx-color-highlight);
-//     input[type='checkbox']:not(:checked)::after {
-//       border-color: var(--cx-color-primary);
-//       box-shadow: 0 0px 8px var(--cx-color-primary);
-//     }
-//     a {
-//       color: var(--cx-color-primary);
-//       outline: none;
-//     }
-//   }
-
-//   input[type='checkbox'] {
-//     margin-inline-end: 0.5rem;
-//     outline: none;
-//     appearance: none;
-
-//     &::after {
-//       content: '✓';
-
-//       font-size: 1rem;
-//       font-weight: bold;
-//       color: transparent;
-
-//       display: flex;
-//       align-items: center;
-//       justify-content: center;
-
-//       width: 1.3rem;
-//       height: 1.35rem;
-
-//       border-radius: 0.2rem;
-//       border: solid 1px var(--cx-color-light);
-
-//       transition: all 0.3s;
-//     }
-
-//     &:checked::after {
-//       background-color: var(--cx-color-primary);
-//       border-color: var(--cx-color-primary);
-//       color: var(--cx-color-inverse);
-//     }
-
-//     &:not(.multi-select) {
-//       &::after {
-//         border-radius: 100%;
-//         width: 1.2rem;
-//         height: 1.25rem;
-//       }
-//     }
-//   }
-// }
-
-// %cx-checkbox-facet {
-//   display: flex;
-//   flex-direction: column;
-
-//   margin: 0;
-//   padding: 0; //0.3rem 0
-
-//   height: auto;
-
-//   overflow: scroll;
-//   scroll-snap-type: y mandatory;
-
-//   transition: all 0.3s ease-out;
-
-//   &:not(.hidden) {
-//     // we can control the max height of the facet group so that
-//     // a long list of facets will require inner scrolling rather than
-//     // full page scrolling
-//     // max-height: 100vh;
-//   }
-
-//   &.hidden {
-//     overflow: hidden;
-//     max-height: 0;
-//   }
-
-//   label {
-//     @extend %checkbox !optional;
-//     .count::before {
-//       content: ' (';
-//     }
-//     .count::after {
-//       content: ')';
-//     }
-//     &:first-child {
-//       padding-top: 0.8rem;
-//     }
-//     a {
-//       color: var(--cx-color-text);
-//       &:hover {
-//         text-decoration: none;
-//       }
-//     }
-//   }
-
-//   &.collapsed {
-//     .more {
-//       label {
-//         display: none;
-//       }
-//     }
-//   }
-
-//   // .hidden {
-//   //   overflow: hidden;
-//   //   max-height: 0;
-//   // }
-
-//   .more {
-//     display: flex;
-//     flex-direction: column;
-//     > a {
-//       display: block;
-//       cursor: pointer;
-//       padding: 0.4rem;
-//       line-height: 1.4;
-//       margin-bottom: 0.375rem;
-//       outline: none;
-//     }
-//   }
-// }
