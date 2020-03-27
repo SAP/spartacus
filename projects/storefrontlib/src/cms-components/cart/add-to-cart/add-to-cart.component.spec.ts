@@ -41,7 +41,7 @@ class MockActiveCartService {
   getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }
-  getLoaded(): Observable<boolean> {
+  isStable(): Observable<boolean> {
     return of();
   }
   getActive(): Observable<Cart> {

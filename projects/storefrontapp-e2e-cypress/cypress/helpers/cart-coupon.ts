@@ -1,4 +1,5 @@
 import { user } from '../sample-data/checkout-flow';
+import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 
 export const productCode1 = '300938';
 export const couponCode1 = 'CouponForCart';
@@ -14,7 +15,7 @@ export const myCouponCode2 = 'midautumn';
 
 export function addProductToCart(productCode: string) {
   cy.get('cx-searchbox input')
-    .clear()
+    .clear({ force: true })
     .type(`${productCode}{enter}`, { force: true });
   cy.get('cx-add-to-cart')
     .getAllByText(/Add To Cart/i)
@@ -115,6 +116,7 @@ export function verifyOrderHistory(
   totalPrice?: string,
   savedPrice?: string
 ) {
+  waitForOrderToBePlacedRequest(orderData.body.code);
   navigateToOrderHistoryPage(orderData);
   if (couponCode) {
     verifyCouponInOrderHistory(couponCode, totalPrice, savedPrice);
@@ -169,6 +171,7 @@ export function verifyOrderHistoryForCouponAndPrice(
   couponCode?: string,
   savedPrice?: string
 ) {
+  waitForOrderToBePlacedRequest(orderData.body.code);
   navigateToOrderHistoryPage(orderData);
   if (couponCode) {
     verifyCouponAndSavedPriceInOrder(couponCode, savedPrice);
@@ -262,7 +265,7 @@ export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
   //don't verify the total price which easy to changed by sample data
   verifyCouponAndSavedPrice(myCouponCode2, '$30');
 
-  placeOrder(stateAuth).then(orderData => {
+  placeOrder(stateAuth).then((orderData: any) => {
     verifyOrderHistoryForCouponAndPrice(orderData, myCouponCode2, '$30');
     getCouponItemOrderSummary(couponCode1).should('exist');
   });
@@ -280,7 +283,7 @@ export function verifyCustomerCouponRemoving() {
   navigateToCartPage();
   removeCoupon(myCouponCode2);
 
-  placeOrder(stateAuth).then(orderData => {
+  placeOrder(stateAuth).then((orderData: any) => {
     verifyOrderHistory(orderData);
   });
 }

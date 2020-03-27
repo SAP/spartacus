@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  SelectiveCartService,
-  Cart,
-  OrderEntry,
   ActiveCartService,
+  Cart,
   CmsParagraphComponent,
   CmsService,
+  OrderEntry,
+  SelectiveCartService,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 
@@ -38,7 +38,7 @@ export class SaveForLaterComponent implements OnInit {
       .getEntries()
       .pipe(filter(entries => entries.length > 0));
     this.cartLoaded$ = combineLatest([
-      this.cartService.getLoaded(),
+      this.cartService.isStable(),
       this.selectiveCartService.getLoaded(),
     ]).pipe(map(([cartLoaded, sflLoaded]) => cartLoaded && sflLoaded));
     this.data$ = this.cmsService.getComponentData(
