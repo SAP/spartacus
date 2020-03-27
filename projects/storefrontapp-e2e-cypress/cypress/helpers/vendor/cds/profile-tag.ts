@@ -12,12 +12,5 @@ export const profileTagHelper = {
       return oldAppendChild.call(this, newChild);
     };
   },
-  triggerLoaded() {
-    cy.window().then(win => {
-      const event = new CustomEvent('profiletag_loaded');
-      win.dispatchEvent(event);
-    });
-  },
-
   profileTagScriptResponse: {},
 };
