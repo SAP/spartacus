@@ -31,6 +31,7 @@ export function waitForOrderToBePlacedRequest(
           res.body.orders.length &&
           res.body.orders.filter(order => order.code === orderNumber))
       ) {
+        startTime = 0;
         return;
       } else {
         startTime += delay;
