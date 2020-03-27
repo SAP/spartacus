@@ -8,7 +8,9 @@ export class OutletRendererService {
   private outletRefs = new Map<string, OutletDirective>();
 
   render(outlet: string): void {
-    this.outletRefs.get(outlet).dynamicRender();
+    if (this.outletRefs.size !== 0) {
+      this.outletRefs.get(outlet).dynamicRender();
+    }
   }
 
   registerOutlet(cxOutlet: string, context: OutletDirective): void {
