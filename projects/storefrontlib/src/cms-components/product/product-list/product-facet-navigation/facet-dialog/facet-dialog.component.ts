@@ -19,22 +19,29 @@ import { FacetService } from '../facet.service';
 })
 export class FacetDialogComponent {
   /**
-   * Indicates that the facet navigation is rendered in dialog, often a modal or sidenav.
+   * Indicates that the facet navigation is rendered in dialog
+   * often a modal or sidenav.
    */
-  @Input() dialogMode: DialogMode;
+  protected _dialogMode: DialogMode;
+  @Input()
+  set dialogMode(dialogMode: DialogMode) {
+    this._dialogMode = dialogMode;
+    this.facetList$ = this.facetService
+      .getFacetList(dialogMode)
+      .pipe(tap(facetList => this.load.emit(facetList)));
+  }
+  get dialogMode() {
+    return this._dialogMode;
+  }
 
   /** Emits the FacetList when it's (re)loaded */
   @Output() load = new EventEmitter<FacetList>();
 
-  /** Emits when the dialog must closed */
+  /** Emits when the dialog must close */
   @Output() close = new EventEmitter();
 
-  /**
-   * The list of all facet and values related to the products in the list.
-   */
-  facetList$: Observable<FacetList> = this.facetService
-    .getFacetList(this.dialogMode === DialogMode.POP)
-    .pipe(tap(result => this.load.emit(result)));
+  /** The list of all facet and values related to the products in the list */
+  facetList$: Observable<FacetList>;
 
   iconTypes = ICON_TYPE;
 
@@ -49,7 +56,7 @@ export class FacetDialogComponent {
    */
   collapseFacetGroup(unlockEvent: boolean, facet: Facet) {
     if (unlockEvent && !this.facetService.getState(facet).value.expanded) {
-      this.facetService.toggleGroup(facet, true);
+      this.facetService.toggleExpand(facet, true);
     }
   }
 }

@@ -81,6 +81,7 @@ describe('FacetDialogComponent', () => {
       fixture = TestBed.createComponent(FacetDialogComponent);
       element = fixture.debugElement;
       component = fixture.componentInstance;
+      component.dialogMode = DialogMode.INLINE;
       fixture.detectChanges();
     });
 
@@ -90,17 +91,16 @@ describe('FacetDialogComponent', () => {
 
     it('should require dialog', () => {
       component.dialogMode = DialogMode.POP;
+      fixture.detectChanges();
       expect(component.requiresDialog).toBeTruthy();
     });
 
     it('should not require dialog', () => {
-      component.dialogMode = DialogMode.INLINE;
       expect(component.requiresDialog).toBeFalsy();
     });
 
     it('should render facets', () => {
-      const facets = element.queryAll(By.css('cx-facet'));
-      expect(facets.length).toEqual(1);
+      expect(element.queryAll(By.css('cx-facet')).length).toEqual(1);
     });
 
     it('should emit collapseFacetGroup when handling unlock', () => {
@@ -159,10 +159,5 @@ describe('FacetDialogComponent', () => {
       const facets = element.queryAll(By.css('cx-facet'));
       expect(facets.length).toEqual(0);
     });
-  });
-  //   it('should call close', () => {});
-
-  xit('should...', () => {
-    console.log(element);
   });
 });
