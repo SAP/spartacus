@@ -10,7 +10,7 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { CartConnector } from '../../connectors';
 import { SaveCartConnector } from '../../connectors/save-cart';
 import { CartActions } from '../actions';
-import { StateWithMultiCart } from '../multi-cart-state';
+import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
 import * as fromEffects from './wish-list.effect';
 import { WishListEffects } from './wish-list.effect';
 import createSpy = jasmine.createSpy;
@@ -76,7 +76,7 @@ describe('Wish List Effect', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          'multi-cart',
+          MULTI_CART_FEATURE,
           fromReducers.getMultiCartReducers()
         ),
       ],
