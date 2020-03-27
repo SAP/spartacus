@@ -2,7 +2,7 @@ import { OutletPosition } from '../../../../cms-structure/outlet/outlet.model';
 
 export abstract class TriggerConfig {
   trigger?: {
-    [TRIGGER_CALLER: string]:
+    [key in TRIGGER_CALLER]:
       | TriggerOutletMapping
       | TriggerInlineMapping
       | TriggerUrlMapping;
