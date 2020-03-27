@@ -342,6 +342,28 @@ export class UnassignRoleSuccess extends EntitySuccessAction {
   }
 }
 
+
+// export class CreateAddress extends EntityLoadAction {
+//   readonly type = CREATE_ADDRESS;
+//   constructor(public payload: { userId: string; unit: B2BUnit }) {
+//     super(ORG_UNIT_ENTITIES, payload.unit.uid);
+//   }
+// }
+//
+// export class CreateAddressFail extends EntityFailAction {
+//   readonly type = CREATE_ADDRESS_FAIL;
+//   constructor(public payload: { unitCode: string; error: any }) {
+//     super(ORG_UNIT_ENTITIES, payload.unitCode, payload.error);
+//   }
+// }
+//
+// export class CreateAddressSuccess extends EntitySuccessAction {
+//   readonly type = CREATE_ADDRESS_SUCCESS;
+//   constructor(public payload: B2BUnit) {
+//     super(ORG_UNIT_ENTITIES, payload.uid, payload);
+//   }
+// }
+
 export type OrgUnitAction =
   | LoadOrgUnitNodes
   | LoadOrgUnitNodesFail
