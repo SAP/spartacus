@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
-import { IconModule } from '../../../misc';
+import { IconModule } from '../../../misc/icon/icon.module';
 import { ActiveFacetsModule } from './active-facets/active-facets.module';
 import { FacetDialogModule } from './facet-dialog/facet-dialog.module';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
