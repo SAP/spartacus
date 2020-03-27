@@ -2,6 +2,7 @@ import {
   B2BUnit,
   B2BUnitNode,
   B2BApprovalProcess,
+  B2BAddress,
 } from '../../../model/org-unit.model';
 import { ListModel } from '../../../model/misc.model';
 import { B2BSearchConfig } from '../../model/search-config';
@@ -21,6 +22,7 @@ import {
   ORG_UNIT_NODES,
   ORG_UNIT_ASSIGNED_USERS,
   B2B_USER_ENTITIES,
+  ADDRESS_ENTITIES,
 } from '../organization-state';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
 
@@ -68,6 +70,14 @@ export const ASSIGN_ROLE_FAIL = '[B2BUnit] Assign Role fail';
 export const UNASSIGN_ROLE = '[B2BUnit] Unassign Role';
 export const UNASSIGN_ROLE_SUCCESS = '[B2BUnit] Unassign Role success';
 export const UNASSIGN_ROLE_FAIL = '[B2BUnit] Unassign Role fail';
+
+export const CREATE_ADDRESS = '[B2BUnit] Create address';
+export const CREATE_ADDRESS_SUCCESS = '[B2BUnit] Create address success';
+export const CREATE_ADDRESS_FAIL = '[B2BUnit] Create address fail';
+
+export const UPDATE_ADDRESS = '[B2BUnit] Update address';
+export const UPDATE_ADDRESS_SUCCESS = '[B2BUnit] Update address success';
+export const UPDATE_ADDRESS_FAIL = '[B2BUnit] Update address fail';
 
 export class LoadOrgUnit extends EntityLoadAction {
   readonly type = LOAD_ORG_UNIT;
@@ -342,27 +352,47 @@ export class UnassignRoleSuccess extends EntitySuccessAction {
   }
 }
 
+export class CreateAddress extends EntityLoadAction {
+  readonly type = CREATE_ADDRESS;
+  constructor(public payload: { userId: string; address: B2BAddress }) {
+    super(ADDRESS_ENTITIES, payload.address.id);
+  }
+}
 
-// export class CreateAddress extends EntityLoadAction {
-//   readonly type = CREATE_ADDRESS;
-//   constructor(public payload: { userId: string; unit: B2BUnit }) {
-//     super(ORG_UNIT_ENTITIES, payload.unit.uid);
-//   }
-// }
-//
-// export class CreateAddressFail extends EntityFailAction {
-//   readonly type = CREATE_ADDRESS_FAIL;
-//   constructor(public payload: { unitCode: string; error: any }) {
-//     super(ORG_UNIT_ENTITIES, payload.unitCode, payload.error);
-//   }
-// }
-//
-// export class CreateAddressSuccess extends EntitySuccessAction {
-//   readonly type = CREATE_ADDRESS_SUCCESS;
-//   constructor(public payload: B2BUnit) {
-//     super(ORG_UNIT_ENTITIES, payload.uid, payload);
-//   }
-// }
+export class CreateAddressFail extends EntityFailAction {
+  readonly type = CREATE_ADDRESS_FAIL;
+  constructor(public payload: { addressId: string; error: any }) {
+    super(ADDRESS_ENTITIES, payload.addressId, payload.error);
+  }
+}
+
+export class CreateAddressSuccess extends EntitySuccessAction {
+  readonly type = CREATE_ADDRESS_SUCCESS;
+  constructor(public payload: B2BAddress) {
+    super(ADDRESS_ENTITIES, payload.id, payload);
+  }
+}
+
+export class UpdateAddress extends EntityLoadAction {
+  readonly type = UPDATE_ADDRESS;
+  constructor(public payload: { addressId: string; address: B2BAddress }) {
+    super(ADDRESS_ENTITIES, payload.address.id);
+  }
+}
+
+export class UpdateAddressFail extends EntityFailAction {
+  readonly type = UPDATE_ADDRESS_FAIL;
+  constructor(public payload: { addressId: string; error: any }) {
+    super(ADDRESS_ENTITIES, payload.addressId, payload.error);
+  }
+}
+
+export class UpdateAddressSuccess extends EntitySuccessAction {
+  readonly type = UPDATE_ADDRESS_SUCCESS;
+  constructor(public payload: B2BAddress) {
+    super(ADDRESS_ENTITIES, payload.id, payload);
+  }
+}
 
 export type OrgUnitAction =
   | LoadOrgUnitNodes
@@ -388,4 +418,10 @@ export type OrgUnitAction =
   | AssignRoleFail
   | UnassignRole
   | UnassignRoleSuccess
-  | UnassignRoleSuccess;
+  | UnassignRoleSuccess
+  | CreateAddress
+  | CreateAddressSuccess
+  | CreateAddressFail
+  | UpdateAddress
+  | UpdateAddressSuccess
+  | UpdateAddressFail;
