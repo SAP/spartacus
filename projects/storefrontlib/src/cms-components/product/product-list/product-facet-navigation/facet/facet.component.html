@@ -5,7 +5,7 @@
   </button>
 
   <a
-    *ngFor="let value of facet.values | slice: 0:state.top"
+    *ngFor="let value of facet.values | slice: 0:state.topVisible"
     routerLink="./"
     [queryParams]="getLinkParams(value)"
     class="value"
@@ -20,11 +20,14 @@
 
   <div class="more">
     <a
-      *ngFor="let value of facet.values | slice: state.top:state.visible"
+      *ngFor="
+        let value of facet.values | slice: state.topVisible:state.maxVisible
+      "
       routerLink="./"
       [queryParams]="getLinkParams(value)"
       class="value"
       [class.selected]="value.selected"
+      [cxFocus]="value.name"
     >
       <span
         >{{ value.name }}<span class="count">{{ value.count }}</span></span
@@ -32,7 +35,7 @@
     </a>
 
     <button
-      *ngIf="state.visible > state.top"
+      *ngIf="state.maxVisible > state.topVisible"
       (click)="decreaseCount()"
       cxFocus="moreorless"
     >
@@ -40,7 +43,7 @@
     </button>
 
     <button
-      *ngIf="state.visible > 0 && state.visible < facet.values.length"
+      *ngIf="state.maxVisible > 0 && state.maxVisible < facet.values.length"
       (click)="increaseCount()"
     >
       {{ 'productList.showMore' | cxTranslate }}

@@ -33,7 +33,7 @@ export class ProductFacetNavigationComponent {
    */
   dialogMode$: Observable<DialogMode> = this.breakpointService
     .isDown(BREAKPOINT.md)
-    .pipe(map(small => (small ? DialogMode.POP : DialogMode.INLINE)));
+    .pipe(map(dialogMode => (dialogMode ? DialogMode.POP : DialogMode.INLINE)));
 
   constructor(protected breakpointService: BreakpointService) {}
 
