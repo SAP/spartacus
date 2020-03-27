@@ -57,7 +57,6 @@ export class SkipLinkService {
     const firstFocusable =
       this.keyboardFocusService.findFirstFocusable(target) || target;
 
-    console.log(firstFocusable);
     // we force a tabindex if not available, to ensure we can focus into the element
     const hasTabindex = firstFocusable.hasAttribute('tabindex');
     if (!hasTabindex) {
