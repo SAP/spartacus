@@ -60,8 +60,12 @@ export class PageSlotComponent implements OnInit, OnDestroy {
       slot && slot.components ? slot.components : []
     ),
     distinctUntilChanged(
-      (a, b) =>
-        a.length === b.length && !a.find((el, index) => el.uid !== b[index].uid)
+      (a: ContentSlotComponentData[], b: ContentSlotComponentData[]) =>
+        a.length === b.length &&
+        !a.find(
+          (el: ContentSlotComponentData, index: number) =>
+            el.uid !== b[index].uid
+        )
     )
   );
 
