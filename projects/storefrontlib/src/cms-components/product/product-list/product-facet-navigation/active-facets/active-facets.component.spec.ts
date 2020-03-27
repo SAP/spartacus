@@ -10,7 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetList } from '../facet.model';
-import { FacetService } from '../facet.service';
+import { FacetService } from '../services/facet.service';
 import { ActiveFacetsComponent } from './active-facets.component';
 
 @Component({

@@ -3,14 +3,14 @@ import { Params } from '@angular/router';
 import {
   ActivatedRouterStateSnapshot,
   Breadcrumb,
-  Facet,
   PageType,
   ProductSearchPage,
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, pluck, switchMap } from 'rxjs/operators';
-import { ProductListComponentService } from '../container/product-list-component.service';
+import { ProductListComponentService } from '../../container/product-list-component.service';
+import { FacetList } from '../facet.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ import { ProductListComponentService } from '../container/product-list-component
 export class ProductFacetService {
   readonly routeState$ = this.routing.getRouterState().pipe(pluck('state'));
 
-  private readonly searchResult$: Observable<
+  protected readonly searchResult$: Observable<
     ProductSearchPage
   > = this.routeState$.pipe(
     switchMap(state =>
@@ -29,38 +29,35 @@ export class ProductFacetService {
     )
   );
 
-  readonly facets$: Observable<Facet[]> = this.searchResult$.pipe(
-    pluck('facets'),
-    filter(facets => Boolean(facets)),
-    map(facets => (facets ? facets.filter(facet => facet.visible) : [])),
-    map(facets => facets.map(facet => Object.assign({}, facet)))
-  );
-
-  readonly breadcrumbs$: Observable<any> = this.searchResult$.pipe(
-    pluck('breadcrumbs')
-  );
-
   constructor(
     protected routing: RoutingService,
     protected productListComponentService: ProductListComponentService
   ) {}
 
-  setQuery(query: string): void {
-    this.productListComponentService.setQuery(query);
+  getFacetList(): Observable<FacetList> {
+    return this.searchResult$.pipe(
+      map(
+        (result: ProductSearchPage) =>
+          ({
+            facets: result.facets,
+            activeFacets: result.breadcrumbs,
+          } as FacetList)
+      )
+    );
   }
 
   /**
    * Filters the current result by verifying if the result is related to the page.
    * This is done to avoid a combination of the next page and the current search results.
    */
-  private filterForPage(
+  protected filterForPage(
     state: ActivatedRouterStateSnapshot,
     page: ProductSearchPage
   ): boolean {
     if (state.context.type === PageType.CATEGORY_PAGE) {
       return (
         // TODO: prepare for a lack of the currentQuery
-        page.currentQuery.query.value.indexOf(
+        page.currentQuery?.query?.value?.indexOf(
           `allCategories:${state.context.id}`
         ) > -1
       );
@@ -72,7 +69,7 @@ export class ProductFacetService {
     ) {
       return page.currentQuery.query.value.startsWith(`${state.params.query}:`);
     }
-    return true;
+    return false;
   }
 
   private mapResults(
@@ -103,16 +100,13 @@ export class ProductFacetService {
   }
 
   /**
-   * Indicates whether the breadcrumb is releated navigation parameters,
+   * Indicates whether the breadcrumb is related to navigation parameters,
    * since either the category or brand code should match those codes.
    */
   private hasBreadcrumb(breadcrumb: Breadcrumb, params: Params): boolean {
     return (
-      // breadcrumb.facetCode === 'category' ||
       breadcrumb.facetCode === 'allCategories' &&
       breadcrumb.facetValueCode === params.categoryCode
-      // (breadcrumb.facetCode === 'brand' &&
-      //   breadcrumb.facetValueCode === params.brandCode)
     );
   }
 }

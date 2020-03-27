@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { DialogMode, FacetList } from '../facet.model';
-import { FacetService } from '../facet.service';
+import { FacetService } from '../services/facet.service';
 
 @Component({
   selector: 'cx-facet-dialog',

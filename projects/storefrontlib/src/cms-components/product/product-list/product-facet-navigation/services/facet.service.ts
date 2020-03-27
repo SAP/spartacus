@@ -1,9 +1,9 @@
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Breadcrumb, Facet } from '@spartacus/core';
+import { Facet } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { DialogMode, FacetCollapseState, FacetList } from './facet.model';
+import { DialogMode, FacetCollapseState, FacetList } from '../facet.model';
 import { ProductFacetService } from './product-facet.service';
 
 /**
@@ -31,9 +31,6 @@ export class FacetService {
   protected queryCodec: HttpUrlEncodingCodec = new HttpUrlEncodingCodec();
 
   constructor(protected productFacetService: ProductFacetService) {}
-
-  readonly breadcrumbs$: Observable<Breadcrumb[]> = this.productFacetService
-    .breadcrumbs$;
 
   getFacetList(dialogMode: DialogMode): Observable<FacetList> {
     this.dialogMode = dialogMode;

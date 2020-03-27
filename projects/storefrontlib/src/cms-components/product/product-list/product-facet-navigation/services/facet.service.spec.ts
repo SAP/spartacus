@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Facet } from '@spartacus/core';
 import { of } from 'rxjs';
-import { DialogMode, FacetCollapseState } from './facet.model';
+import { DialogMode, FacetCollapseState } from '../facet.model';
 import { FacetService } from './facet.service';
 import { ProductFacetService } from './product-facet.service';
 

@@ -12,7 +12,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { DialogMode, FacetList } from '../facet.model';
-import { FacetService } from '../facet.service';
+import { FacetService } from '../services/facet.service';
 import { FacetDialogComponent } from './facet-dialog.component';
 
 @Component({
