@@ -48,21 +48,17 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
   readonly position$ = new BehaviorSubject<string>(undefined);
 
-  /**
-   * observable with `ContentSlotData` for the current position
-   *
-   * @deprecated we'll stop supporting this property in 2.0 as
-   * it is not used separately.
-   */
-  readonly slot$: Observable<ContentSlotData> = this.position$.pipe(
-    switchMap(position => this.cmsService.getContentSlot(position)),
-    tap(slot => this.addSmartEditSlotClass(slot))
-  );
-
   readonly components$: Observable<
     ContentSlotComponentData[]
-  > = this.slot$.pipe(
-    map(slot => (slot && slot.components ? slot.components : [])),
+  > = this.position$.pipe(
+    switchMap(
+      (position: string): Observable<ContentSlotData> =>
+        this.cmsService.getContentSlot(position)
+    ),
+    tap((slot: ContentSlotData): void => this.addSmartEditSlotClass(slot)),
+    map((slot: ContentSlotData): ContentSlotComponentData[] =>
+      slot && slot.components ? slot.components : []
+    ),
     distinctUntilChanged(
       (a, b) =>
         a.length === b.length && !a.find((el, index) => el.uid !== b[index].uid)
@@ -72,29 +68,11 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   constructor(
-    cmsService: CmsService,
-    dynamicAttributeService: DynamicAttributeService,
-    renderer: Renderer2,
-    hostElement: ElementRef,
-    // tslint:disable-next-line:unified-signatures
-    config: CmsConfig
-  );
-  /**
-   * @deprecated since version 1.4
-   * Use constructor(cmsService: CmsService, dynamicAttributeService: DynamicAttributeService, renderer: Renderer2, hostElement: ElementRef, config?: CmsConfig) instead
-   */
-  constructor(
-    cmsService: CmsService,
-    dynamicAttributeService: DynamicAttributeService,
-    renderer: Renderer2,
-    hostElement: ElementRef
-  );
-  constructor(
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected hostElement: ElementRef,
-    protected config?: CmsConfig
+    protected config: CmsConfig
   ) {}
 
   ngOnInit() {
