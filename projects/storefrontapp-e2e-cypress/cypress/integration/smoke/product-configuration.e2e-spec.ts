@@ -23,6 +23,10 @@ function goToProductDetailsPage(testProduct) {
   cy.visit(`electronics-spa/en/USD/product/${testProduct}/${testProduct}`);
 }
 
+function goToCart() {
+  cy.visit('/electronics-spa/en/USD/cart');
+}
+
 context('Product Configuration', () => {
   before(() => {
     cy.visit('/');
@@ -43,7 +47,15 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the cart', () => {
-      //TODO: currently not possible
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.clickAddToCartButton();
+      cy.wait(1500);
+      goToCart();
+      cy.wait(1500);
+      //We assume only one product is in the cartå
+      configuration.clickOnConfigureCartEntryButton();
+      configuration.verifyConfigurationPageIsDisplayed();
     });
   });
 
@@ -316,6 +328,24 @@ context('Product Configuration', () => {
       configuration.verifyOverviewPageIsDisplayed();
       configuration.clickAddToCartButton();
       configuration.verifyConfigurableProductInCart(testProduct);
+    });
+
+    it('Should be able to change configration from the cart', () => {
+      goToConfigurationPage(configurator, testProductPricing);
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.clickAddToCartButton();
+      cy.wait(1500);
+      goToCart();
+      cy.wait(1500);
+      cart.checkProductInCart({ name: testProductPricing, price: 22000 }, 1);
+      configuration.clickOnConfigureCartEntryButton();
+
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.selectAttribute('WEC_DC_ENGINE', 'radioGroup', 'D');
+      configuration.clickAddToCartButton(); //In this case it is the updatecart button, the CSS Selector is the same, therefor we can use this method
+
+      cy.wait(1500);
+      cart.checkProductInCart({ name: testProductPricing, price: 22900 }, 1);
     });
   });
 });
