@@ -120,20 +120,15 @@ describe('ProductFacetNavigationComponent', () => {
     });
 
     it('should have an activeDialog if it is toggled', () => {
-      component.toggleDialog(DialogMode.POP);
+      component.toggleDialog();
       expect(component.activeDialog).toBeTruthy();
-    });
-
-    it('should not have an activeDialog if it is toggled with inline mode', () => {
-      component.toggleDialog(DialogMode.INLINE);
-      expect(component.activeDialog).toBeFalsy();
     });
 
     it('should not have an activeDialog if it is toggled twice', () => {
       component.activeDialog = false;
-      component.toggleDialog(DialogMode.POP);
+      component.toggleDialog();
       expect(component.activeDialog).toBeTruthy();
-      component.toggleDialog(DialogMode.POP);
+      component.toggleDialog();
       expect(component.activeDialog).toBeFalsy();
     });
 
@@ -142,7 +137,7 @@ describe('ProductFacetNavigationComponent', () => {
       spyOn(trigger, 'focus').and.callThrough();
 
       component.activeDialog = true;
-      component.toggleDialog(DialogMode.POP);
+      component.toggleDialog();
 
       expect(trigger.focus).toHaveBeenCalled();
     });
@@ -152,7 +147,7 @@ describe('ProductFacetNavigationComponent', () => {
       spyOn(trigger, 'focus').and.callThrough();
 
       component.activeDialog = false;
-      component.toggleDialog(DialogMode.POP);
+      component.toggleDialog();
 
       expect(trigger.focus).not.toHaveBeenCalled();
     });
@@ -186,7 +181,7 @@ describe('ProductFacetNavigationComponent', () => {
         });
 
         it('should render dialog when it is toggled', () => {
-          component.toggleDialog(DialogMode.POP);
+          component.toggleDialog();
           fixture.detectChanges();
           const dialog = element.query(By.css('cx-facet-dialog'));
           expect(dialog).toBeTruthy();

@@ -58,10 +58,10 @@ export class ProductFacetNavigationComponent {
    * If the dialog is closed, we re-focus the trigger element so that the keyboard
    * user can continue from the original location.
    */
-  toggleDialog(dialogMode: DialogMode) {
-    if (this.isInline(dialogMode)) {
-      return;
-    }
+  toggleDialog() {
+    // if (this.isInline(dialogMode)) {
+    //   return;
+    // }
     this.activeDialog = !this.activeDialog;
     if (!this.activeDialog) {
       this.dialogTrigger.nativeElement.focus();
