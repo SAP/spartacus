@@ -6,6 +6,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Renderer2,
 } from '@angular/core';
 import {
@@ -41,7 +42,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     private cmsService: CmsService,
     private dynamicAttributeService: DynamicAttributeService,
     private renderer: Renderer2,
-    protected launcherMap: ComponentLauncherMap
+    @Optional() protected launcherMap: ComponentLauncherMap
   ) {}
 
   ngOnInit() {
@@ -69,9 +70,11 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   private getLauncher():
     | Observable<[ElementRef, ComponentRef<any>?]>
     | undefined {
-    const launcherServiceClass = this.launcherMap[
-      this.componentMapper.getComponentType(this.cxComponentWrapper.flexType)
-    ];
+    const launcherServiceClass =
+      this.launcherMap &&
+      this.launcherMap[
+        this.componentMapper.getComponentType(this.cxComponentWrapper.flexType)
+      ];
 
     if (launcherServiceClass) {
       return this.injector

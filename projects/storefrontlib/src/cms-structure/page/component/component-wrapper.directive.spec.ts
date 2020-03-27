@@ -22,7 +22,8 @@ import {
 } from '@spartacus/core';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { CxApiService } from './cx-api.service';
+import { CxApiService } from './services/cx-api.service';
+import { componentLauncherMapProvider } from './component-launcher-mapping';
 
 const testText = 'test text';
 
@@ -109,6 +110,7 @@ describe('ComponentWrapperDirective', () => {
           useClass: MockDynamicAttributeService,
         },
         { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } },
+        componentLauncherMapProvider,
       ],
     };
   });

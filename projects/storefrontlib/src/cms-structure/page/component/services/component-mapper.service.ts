@@ -87,8 +87,8 @@ export class ComponentMapperService {
     const componentConfig = this.getComponentConfig(typeCode);
 
     if (
-      typeof componentConfig.component === 'string' &&
-      (componentConfig.component || '').includes('#')
+      typeof componentConfig?.component === 'string' &&
+      (componentConfig?.component || '').includes('#')
     ) {
       return ComponentType.WebComponent;
     }
