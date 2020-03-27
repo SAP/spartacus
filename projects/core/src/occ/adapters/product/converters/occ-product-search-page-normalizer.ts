@@ -42,20 +42,9 @@ export class OccProductSearchPageNormalizer
   }
 
   private normalizeFacets(target: ProductSearchPage): void {
-    this.limitVisibleFacets(target);
+    // this.limitVisibleFacets(target);
     this.normalizeFacetValues(target);
     this.normalizeUselessFacets(target);
-  }
-
-  /**
-   * The facets lised on the listing page can be ordered in the backend,
-   * so that the relevant facets will be shown at the top of the facet list.
-   * On top of that, the facets can be collapsed or expanded.
-   */
-  private limitVisibleFacets(target: ProductSearchPage): void {
-    target.facets.map((facet, i) => {
-      facet.expanded = i < this.DEFAULT_FACET_EXPANDED_NO;
-    });
   }
 
   /**
