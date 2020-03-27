@@ -3,18 +3,18 @@ import { Store, StoreModule } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
 import * as fromReducers from '../../cart/store/reducers/index';
+import { OrderEntry, User } from '../../model';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
 } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process';
 import * as fromProcessReducers from '../../process/store/reducers/index';
-import { StateWithMultiCart } from '../store';
-import { SelectiveCartService } from './selective-cart.service';
-import { MultiCartService } from './multi-cart.service';
-import { OrderEntry, User } from '../../model';
-import { UserService } from '../../user';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import { UserService } from '../../user';
+import { MULTI_CART_FEATURE, StateWithMultiCart } from '../store';
+import { MultiCartService } from './multi-cart.service';
+import { SelectiveCartService } from './selective-cart.service';
 
 const TEST_USER_ID = 'test@test.com';
 const TEST_CUSTOMER_ID = '-test-customer-id';
@@ -79,7 +79,7 @@ describe('Selective Cart Service', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          'multi-cart',
+          MULTI_CART_FEATURE,
           fromReducers.getMultiCartReducers()
         ),
         StoreModule.forFeature('process', fromProcessReducers.getReducers()),
