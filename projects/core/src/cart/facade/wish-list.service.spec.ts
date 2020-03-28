@@ -7,7 +7,10 @@ import { OrderEntry, User } from '../../model';
 import { Cart } from '../../model/cart.model';
 import { UserService } from '../../user/index';
 import { CartActions } from '../store/actions/index';
-import { StateWithMultiCart } from '../store/multi-cart-state';
+import {
+  MULTI_CART_FEATURE,
+  StateWithMultiCart,
+} from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
 import { WishListService } from './wish-list.service';
 import createSpy = jasmine.createSpy;
@@ -67,7 +70,7 @@ describe('WishListService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          'multi-cart',
+          MULTI_CART_FEATURE,
           fromReducers.getMultiCartReducers()
         ),
       ],

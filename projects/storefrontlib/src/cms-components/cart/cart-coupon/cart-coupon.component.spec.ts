@@ -48,7 +48,7 @@ describe('CartCouponComponent', () => {
 
   const mockActiveCartService = jasmine.createSpyObj('ActiveCartService', [
     'getActive',
-    'getLoaded',
+    'isStable',
   ]);
 
   const mockAuthService = jasmine.createSpyObj('AuthService', ['getOccUserId']);
@@ -110,7 +110,7 @@ describe('CartCouponComponent', () => {
     mockActiveCartService.getActive.and.returnValue(
       of<Cart>({ code: '123' })
     );
-    mockActiveCartService.getLoaded.and.returnValue(of(true));
+    mockActiveCartService.isStable.and.returnValue(of(true));
     mockAuthService.getOccUserId.and.returnValue(of('testUserId'));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of());
     mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of());

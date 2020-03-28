@@ -19,8 +19,14 @@ class CustomFocusDirective extends BaseFocusDirective {}
     <div id="d" tabindex="5" cxCustomFocus></div>
     <button cxCustomFocus>button</button>
     <input cxCustomFocus />
-    <a id="active" href="www.spartacus.com" cxCustomFocus>active link</a>
+    <select id="select">
+      <option></option>
+      <option></option>
+    </select>
+    <textarea id="textarea"></textarea>
+    <a id="link" href="www.spartacus.com" cxCustomFocus>active link</a>
     <a id="inactive" cxCustomFocus>inactive link</a>
+    <a id="routerlink" routerlink="/link" cxCustomFocus>router link</a>
   `,
 })
 class MockComponent {}
@@ -82,15 +88,33 @@ describe('BaseFocusDirective', () => {
     expect(el.getAttribute('tabindex')).toBeFalsy();
   });
 
-  it('should not add tabindex to active anchor', () => {
-    const el: HTMLElement = fixture.debugElement.query(By.css('a#active'))
+  it('should not add tabindex to select element', () => {
+    const el: HTMLElement = fixture.debugElement.query(By.css('#select'))
       .nativeElement;
     expect(el.getAttribute('tabindex')).toBeFalsy();
   });
 
-  it('should add tabindex to inactive anchor ', () => {
+  it('should not add tabindex to textarea element', () => {
+    const el: HTMLElement = fixture.debugElement.query(By.css('#textarea'))
+      .nativeElement;
+    expect(el.getAttribute('tabindex')).toBeFalsy();
+  });
+
+  it('should not add tabindex to active anchor link', () => {
+    const el: HTMLElement = fixture.debugElement.query(By.css('a#link'))
+      .nativeElement;
+    expect(el.getAttribute('tabindex')).toBeFalsy();
+  });
+
+  it('should add tabindex to inactive anchor link', () => {
     const el: HTMLElement = fixture.debugElement.query(By.css('a#inactive'))
       .nativeElement;
     expect(el.getAttribute('tabindex')).toEqual('-1');
+  });
+
+  it('should not add tabindex to routerlink', () => {
+    const el: HTMLElement = fixture.debugElement.query(By.css('a#routerlink'))
+      .nativeElement;
+    expect(el.getAttribute('tabindex')).toBeFalsy();
   });
 });
