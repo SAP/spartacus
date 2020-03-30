@@ -20,6 +20,7 @@ export const NGRX_STORE = '@ngrx/store';
 export const OBSERVABLE_CLASS = 'Observable';
 export const RENDERER_2 = 'Renderer2';
 export const ELEMENT_REF = 'ElementRef';
+export const INJECTOR = 'Injector';
 
 export const STORE = 'Store';
 
@@ -29,8 +30,8 @@ export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 export const ROUTER = 'Router';
-export const LOCATION = 'Location';
 export const WINDOW_REF = 'WindowRef';
+export const LOCATION = 'Location';
 export const COMPONENT_FACTORY_RESOLVER = 'ComponentFactoryResolver';
 
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
@@ -111,10 +112,18 @@ export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
+export const REGISTER_COMPONENT = 'RegisterComponent';
+export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
+export const ANONYMOUS_CONSENTS_CONFIG = 'AnonymousConsentsConfig';
 export const STAR_RATING_COMPONENT = 'StarRatingComponent';
 export const PRODUCT_SERVICE = 'ProductService';
 export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
 export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
+export const URL_MATCHER_SERVICE = 'UrlMatcherService';
+export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
+export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
+export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
 export const ASM_ENABLER_SERVICE = 'AsmEnablerService';
 export const OUTLET_SERVICE = 'OutletService';
 export const LAUNCH_SERVICE = 'LaunchService';
@@ -148,6 +157,8 @@ export const SITE_CONTEXT_PARAMS_PROVIDERS = 'siteContextParamsProviders';
 export const INIT_SITE_CONTEXT_ROUTES_HANDLER = 'initSiteContextRoutesHandler';
 export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
+
+export const URL_MATCHER_FACTORY_SERVICE = 'UrlMatcherFactoryService';
 
 export const ANONYMOUS_USERID_CONST = 'ANONYMOUS_USERID';
 
