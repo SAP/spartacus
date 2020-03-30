@@ -3,7 +3,7 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import { MultiCartSelectors } from '.';
 import { Cart } from '../../../model/cart.model';
 import { CartActions } from '../actions';
-import { StateWithMultiCart } from '../multi-cart-state';
+import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
 import * as fromReducers from './../reducers/index';
 
 describe('Multi Cart selectors', () => {
@@ -46,7 +46,7 @@ describe('Multi Cart selectors', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          'multi-cart',
+          MULTI_CART_FEATURE,
           fromReducers.getMultiCartReducers()
         ),
       ],

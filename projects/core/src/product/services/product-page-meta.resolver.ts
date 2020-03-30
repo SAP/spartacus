@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
+import { BreadcrumbMeta, PageRobotsMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageBreadcrumbResolver,
   PageDescriptionResolver,
   PageHeadingResolver,
   PageImageResolver,
+  PageRobotsResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
-import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { Product } from '../../model/product.model';
@@ -34,96 +34,32 @@ export class ProductPageMetaResolver extends PageMetaResolver
     PageTitleResolver,
     PageDescriptionResolver,
     PageBreadcrumbResolver,
-    PageImageResolver {
-  protected readonly PRODUCT_SCOPE =
-    this.features && this.features.isLevel('1.4') ? ProductScope.DETAILS : '';
-
+    PageImageResolver,
+    PageRobotsResolver {
   // reusable observable for product data based on the current page
-  private product$ = this.routingService.getRouterState().pipe(
+  protected product$ = this.routingService.getRouterState().pipe(
     map(state => state.state.params['productCode']),
     filter(code => !!code),
-    switchMap(code => this.productService.get(code, this.PRODUCT_SCOPE)),
+    switchMap(code => this.productService.get(code, ProductScope.DETAILS)),
     filter(Boolean)
-  );
-
-  constructor(
-    routingService: RoutingService,
-    productService: ProductService,
-    translation: TranslationService,
-    // tslint:disable-next-line: unified-signatures
-    features: FeatureConfigService
-  );
-
-  /**
-   * @deprecated since 1.4
-   */
-  constructor(
-    routingService: RoutingService,
-    productService: ProductService,
-    translation: TranslationService
   );
 
   constructor(
     protected routingService: RoutingService,
     protected productService: ProductService,
-    protected translation: TranslationService,
-    protected features?: FeatureConfigService
+    protected translation: TranslationService
   ) {
     super();
     this.pageType = PageType.PRODUCT_PAGE;
   }
 
   /**
-   * @deprecated since version 1.3
-   *
-   * The resolve method is no longer preferred and will be removed with release 2.0.
-   * The caller `PageMetaService` service is improved to expect all individual resolvers
-   * instead, so that the code is easier extensible.
+   * Resolves the page heading for the Product Detail Page.
+   * The page heading is used in the UI (`<h1>`), where as the page
+   * title is used by the browser and crawlers.
    */
-  resolve(): Observable<PageMeta> | any {
+  resolveHeading(): Observable<string> {
     return this.product$.pipe(
-      switchMap((p: Product) =>
-        combineLatest([
-          this.resolveHeading(p),
-          this.resolveTitle(p),
-          this.resolveDescription(p),
-          this.resolveBreadcrumbLabel().pipe(
-            switchMap(label => this.resolveBreadcrumbs(p, label))
-          ),
-          this.resolveImage(p),
-          this.resolveRobots(p),
-        ])
-      ),
-      map(
-        ([heading, title, description, breadcrumbs, image, robots]: [
-          string,
-          string,
-          string,
-          any[],
-          string,
-          string[]
-        ]) => ({
-          heading,
-          title,
-          description,
-          breadcrumbs,
-          image,
-          robots,
-        })
-      )
-    );
-  }
-
-  resolveHeading(): Observable<string>;
-  /**
-   * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveHeading()` instead
-   */
-  // tslint:disable-next-line: unified-signatures
-  resolveHeading(product: Product): Observable<string>;
-  resolveHeading(product?: Product): Observable<string> {
-    const product$ = product ? of(product) : this.product$;
-    return product$.pipe(
       switchMap((p: Product) =>
         this.translation.translate('pageMetaResolver.product.heading', {
           heading: p.name,
@@ -132,16 +68,13 @@ export class ProductPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveTitle(): Observable<string>;
   /**
-   * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveTitle()` instead
+   * Resolves the page title for the Product Detail Page. The page title
+   * is resolved with the product name, the first category and the manufactorer.
+   * The page title used by the browser (history, tabs) and crawlers.
    */
-  // tslint:disable-next-line: unified-signatures
-  resolveTitle(product: Product): Observable<string>;
-  resolveTitle(product?: Product): Observable<string> {
-    const product$ = product ? of(product) : this.product$;
-    return product$.pipe(
+  resolveTitle(): Observable<string> {
+    return this.product$.pipe(
       switchMap((p: Product) => {
         let title = p.name;
         title += this.resolveFirstCategory(p);
@@ -153,16 +86,12 @@ export class ProductPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveDescription(): Observable<string>;
   /**
-   * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveDescription()` instead
+   * Resolves the page description for the Product Detail Page. The description
+   * is based on the `product.summary`.
    */
-  // tslint:disable-next-line: unified-signatures
-  resolveDescription(product: Product): Observable<string>;
-  resolveDescription(product?: Product): Observable<string> {
-    const product$: Observable<Product> = product ? of(product) : this.product$;
-    return product$.pipe(
+  resolveDescription(): Observable<string> {
+    return this.product$.pipe(
       switchMap((p: Product) =>
         this.translation.translate('pageMetaResolver.product.description', {
           description: p.summary,
@@ -172,33 +101,14 @@ export class ProductPageMetaResolver extends PageMetaResolver
   }
 
   /**
-   * @deprecated since version 1.3
-   * This method will be removed with with 2.0
+   * Resolves breadcrumbs for the Product Detail Page. The breadcrumbs are driven by
+   * a static home page crum and a crumb for each category.
    */
-  resolveBreadcrumbLabel(): Observable<string> {
-    return this.translation.translate('common.home');
-  }
-
-  resolveBreadcrumbs(): Observable<any[]>;
-  /**
-   * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveBreadcrumbs()` instead
-   */
-  // tslint:disable-next-line: unified-signatures
-  resolveBreadcrumbs(
-    product: Product,
-    breadcrumbLabel: string
-  ): Observable<any[]>;
-  resolveBreadcrumbs(
-    product?: Product,
-    breadcrumbLabel?: string
-  ): Observable<any[]> {
-    const sources =
-      product && breadcrumbLabel
-        ? [of(product), of(breadcrumbLabel)]
-        : [this.product$.pipe(), this.translation.translate('common.home')];
-
-    return combineLatest(sources).pipe(
+  resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
+    return combineLatest([
+      this.product$.pipe(),
+      this.translation.translate('common.home'),
+    ]).pipe(
       map(([p, label]: [Product, string]) => {
         const breadcrumbs = [];
         breadcrumbs.push({ label: label, link: '/' });
@@ -213,30 +123,23 @@ export class ProductPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveImage(): Observable<string>;
   /**
-   * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveImage()` instead
+   * Resolves the main page image for the Product Detail Page. The product image
+   * is based on the PRIMARY product image. The zoom format is used by default.
    */
-  // tslint:disable-next-line: unified-signatures
-  resolveImage(product: Product): Observable<string>;
-  resolveImage(product?: Product): Observable<string> {
-    const product$: Observable<Product> = product ? of(product) : this.product$;
-    return product$.pipe(
+  resolveImage(): Observable<string> {
+    return this.product$.pipe(
       map((p: Product) =>
-        p.images &&
-        p.images.PRIMARY &&
-        (<any>p.images.PRIMARY).zoom &&
-        (<any>p.images.PRIMARY).zoom.url
+        (<any>p.images?.PRIMARY).zoom?.url
           ? (<any>p.images.PRIMARY).zoom.url
           : null
       )
     );
   }
 
-  private resolveFirstCategory(product: Product): string {
+  protected resolveFirstCategory(product: Product): string {
     let firstCategory;
-    if (product.categories && product.categories.length > 0) {
+    if (product.categories?.length > 0) {
       firstCategory = product.categories[0];
     }
     return firstCategory
@@ -244,27 +147,16 @@ export class ProductPageMetaResolver extends PageMetaResolver
       : '';
   }
 
-  private resolveManufacturer(product: Product): string {
+  protected resolveManufacturer(product: Product): string {
     return product.manufacturer ? ` | ${product.manufacturer}` : '';
   }
 
-  resolveRobots(): Observable<PageRobotsMeta[]>;
   /**
-   * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change. Use `resolveRobots()` instead
+   * Resolves the robot information for the Product Detail Page. The
+   * robot instruction defaults to FOLLOW and INDEX for all product pages,
+   * regardless of whether they're purchasable or not.
    */
-  // tslint:disable-next-line: unified-signatures
-  resolveRobots(product: Product): Observable<PageRobotsMeta[]>;
-  resolveRobots(product?: Product): Observable<PageRobotsMeta[]> {
-    const product$ = product ? of(product) : this.product$;
-    return product$.pipe(
-      switchMap((p: Product) => {
-        if (!p.purchasable) {
-          return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.NOINDEX]);
-        } else {
-          return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
-        }
-      })
-    );
+  resolveRobots(): Observable<PageRobotsMeta[]> {
+    return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
   }
 }

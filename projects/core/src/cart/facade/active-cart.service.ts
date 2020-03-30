@@ -146,11 +146,11 @@ export class ActiveCartService {
   /**
    * Returns true when cart is stable (not loading and not pending processes on cart)
    */
-  getLoaded(): Observable<boolean> {
+  isStable(): Observable<boolean> {
     // Debounce is used here, to avoid flickering when we switch between different cart entities.
     // For example during `addEntry` method. We might try to load current cart, so `current cart will be then active id.
     // After load fails we might create new cart so we switch to `temp-${uuid}` cart entity used when creating cart.
-    // At the end we finally switch to cart `code` for cart id. Between those switches cart `getLoaded` function should not flicker.
+    // At the end we finally switch to cart `code` for cart id. Between those switches cart `isStable` function should not flicker.
     return this.activeCartId$.pipe(
       switchMap(cartId => this.multiCartService.isStable(cartId)),
       debounce(state => (state ? timer(0) : EMPTY)),

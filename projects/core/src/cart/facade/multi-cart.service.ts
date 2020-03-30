@@ -83,7 +83,7 @@ export class MultiCartService {
     // simple random uuid generator is used here for entity names
     const tempCartId = this.generateTempCartId();
     this.store.dispatch(
-      new DeprecatedCartActions.CreateCart({
+      new CartActions.CreateCart({
         extraData,
         userId,
         oldCartId,

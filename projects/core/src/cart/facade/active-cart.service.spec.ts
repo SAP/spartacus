@@ -12,8 +12,10 @@ import {
   OCC_USER_ID_CURRENT,
   OCC_USER_ID_GUEST,
 } from '../../occ/utils/occ-constants';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers/index';
 import { ProcessesLoaderState } from '../../state';
+import { MULTI_CART_FEATURE } from '../store/multi-cart-state';
 import { ActiveCartService } from './active-cart.service';
 import { MultiCartService } from './multi-cart.service';
 
@@ -60,10 +62,13 @@ describe('ActiveCartService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          'multi-cart',
+          MULTI_CART_FEATURE,
           fromReducers.getMultiCartReducers()
         ),
-        StoreModule.forFeature('process', fromProcessReducers.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [
         ActiveCartService,
@@ -211,12 +216,12 @@ describe('ActiveCartService', () => {
     });
   });
 
-  describe('getLoaded', () => {
+  describe('isStable', () => {
     it('should return true when isStable returns true', done => {
       spyOn(multiCartService, 'isStable').and.returnValue(of(true));
 
       service
-        .getLoaded()
+        .isStable()
         .pipe(take(1))
         .subscribe(val => {
           expect(val).toBe(true);
@@ -228,7 +233,7 @@ describe('ActiveCartService', () => {
       spyOn(multiCartService, 'isStable').and.returnValue(of(false));
 
       service
-        .getLoaded()
+        .isStable()
         .pipe(take(1))
         .subscribe(val => {
           expect(val).toBe(false);
