@@ -18,8 +18,6 @@ describe('Profile-tag events', () => {
     cy.wait(`@${homePage}`)
       .its('status')
       .should('eq', 200);
-
-    profileTagHelper.triggerLoaded();
   });
   it('should send a CartChanged event on adding an item to cart', () => {
     goToProductPage();
@@ -101,7 +99,7 @@ describe('Profile-tag events', () => {
 });
 
 function goToProductPage() {
-  const productPagePath = 'ProductPage&code=280916';
+  const productPagePath = 'ProductPage';
   const productPage = waitForPage(productPagePath, 'getProductPage');
   cy.get('.Section4 cx-banner')
     .first()

@@ -34,6 +34,8 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
   STATE_WITH_CART,
+  URL_MATCHER_FACTORY_SERVICE,
+  URL_MATCHER_SERVICE,
   WISHLIST_EFFECTS,
 } from '../../shared/constants';
 import { DeprecatedNode } from '../../shared/utils/file-utils';
@@ -182,30 +184,36 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: CART_DATA_CONST,
     importPath: SPARTACUS_CORE,
-    comment: `'${CART_DATA_CONST}' along with rest of the 'cart' state was removed. Instead use 'multi-cart' state.`,
+    comment: `'${CART_DATA_CONST}' along with rest of the 'cart' state was removed. Instead use new 'cart' state.`,
   },
   // projects/core/src/cart/store/cart-state.ts
   {
     node: STATE_WITH_CART,
     importPath: SPARTACUS_CORE,
-    comment: `'${STATE_WITH_CART}' along with rest of the 'cart' state was removed. Instead use 'multi-cart' state.`,
+    comment: `'${STATE_WITH_CART}' along with rest of the 'cart' state was removed. Instead use new 'cart' state.`,
   },
   // projects/core/src/cart/store/cart-state.ts
   {
     node: CARTS_STATE,
     importPath: SPARTACUS_CORE,
-    comment: `'${CARTS_STATE}' along with rest of the 'cart' state was removed. Instead use 'multi-cart' state.`,
+    comment: `'${CARTS_STATE}' along with rest of the 'cart' state was removed. Instead use new 'cart' state.`,
   },
   // projects/core/src/cart/store/cart-state.ts
   {
     node: CART_FEATURE_CONST,
     importPath: SPARTACUS_CORE,
-    comment: `'${CART_FEATURE_CONST}' along with rest of the 'cart' state was removed. Instead use 'multi-cart' state.`,
+    comment: `'${CART_FEATURE_CONST}' along with rest of the 'cart' state was removed. Instead use new 'cart' state.`,
   },
   // projects/core/src/cart/store/cart-state.ts
   {
     node: CART_STATE,
     importPath: SPARTACUS_CORE,
-    comment: `'${CART_STATE}' along with rest of the 'cart' state was removed. Instead use 'multi-cart' state.`,
+    comment: `'${CART_STATE}' along with rest of the 'cart' state was removed. Instead use new 'cart' state.`,
+  },
+  // projects/core/src/routing/services/url-matcher-factory.service.ts
+  {
+    node: URL_MATCHER_FACTORY_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${URL_MATCHER_FACTORY_SERVICE}' was renamed to '${URL_MATCHER_SERVICE}' and its methods were renamed. For more details, see the migration docs.`,
   },
 ];
