@@ -69,7 +69,7 @@ describe('StateEventService', () => {
           action: 'A',
           event: TestEvent,
           factory: (action: ActionWithPayload) =>
-            createFrom(TestEvent, { value: 100 + action.payload }),
+            createFrom(TestEvent, { value: 100 + action.payload.value }),
         });
         const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
         const results = [];
