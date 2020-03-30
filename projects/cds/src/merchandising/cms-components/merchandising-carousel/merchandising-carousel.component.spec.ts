@@ -41,6 +41,7 @@ class MockCarouselComponent {
  */
 @Directive({
   selector: '[cxAttributes]',
+  // tslint:disable-next-line:no-inputs-metadata-property
   inputs: ['cxAttributes', 'cxAttributesNamePrefix'],
 })
 class MockAttributesDirective {
