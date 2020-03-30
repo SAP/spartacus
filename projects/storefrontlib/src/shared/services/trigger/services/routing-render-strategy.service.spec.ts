@@ -74,17 +74,17 @@ describe('RoutingRenderStrategy', () => {
     });
   });
 
-  describe('isStrategyForConfiguration', () => {
+  describe('match', () => {
     it('should return TRUE for an inline config', () => {
       const config = mockTriggerConfig.trigger['TEST_URL'] as TriggerUrlMapping;
-      expect(service.isStrategyForConfiguration(config)).toBeTruthy();
+      expect(service.match(config)).toBeTruthy();
     });
 
     it('should return FALSE for a different config', () => {
       const config = mockTriggerConfig.trigger[
         'TEST_OUTLET'
       ] as TriggerUrlMapping;
-      expect(service.isStrategyForConfiguration(config)).toBeFalsy();
+      expect(service.match(config)).toBeFalsy();
     });
   });
 });

@@ -1,15 +1,13 @@
 import { Inject, Injectable, ViewContainerRef } from '@angular/core';
 import {
   TriggerConfig,
-  TriggerInlineMapping,
-  TriggerOutletMapping,
-  TriggerUrlMapping,
+  TriggerRenderStrategy,
   TRIGGER_CALLER,
 } from '../config/trigger-config';
 import { RenderStrategy } from './render.strategy';
 
 @Injectable({ providedIn: 'root' })
-export class TriggerService {
+export class LaunchService {
   // Keep a list of rendered elements
   protected renderedCallers: TRIGGER_CALLER[] = [];
 
@@ -27,7 +25,7 @@ export class TriggerService {
    * @param caller TRIGGER_CALLER
    * @param vcr View Container Ref of the container for inline rendering
    */
-  render(caller: TRIGGER_CALLER, vcr?: ViewContainerRef): void {
+  launch(caller: TRIGGER_CALLER, vcr?: ViewContainerRef): void {
     const config = this.findConfiguration(caller);
     const renderer = this.getRenderStrategy(config);
 
@@ -42,7 +40,7 @@ export class TriggerService {
    *
    * @param caller TRIGGER_CALLER
    */
-  removeRendered(caller: TRIGGER_CALLER): void {
+  clear(caller: TRIGGER_CALLER): void {
     const config = this.findConfiguration(caller);
     const renderer = this.getRenderStrategy(config);
 
@@ -57,9 +55,7 @@ export class TriggerService {
    *
    * @param caller TRIGGER_CALLER
    */
-  protected findConfiguration(
-    caller: TRIGGER_CALLER
-  ): TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping {
+  protected findConfiguration(caller: TRIGGER_CALLER): TriggerRenderStrategy {
     return this.triggerConfig?.trigger[caller];
   }
 
@@ -68,12 +64,7 @@ export class TriggerService {
    *
    * @param config Configuration for trigger
    */
-  protected getRenderStrategy(
-    config: TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping
-  ): RenderStrategy {
-    const strategies = this.renderStrategies.find(strategy =>
-      strategy.isStrategyForConfiguration(config)
-    );
-    return strategies;
+  protected getRenderStrategy(config: TriggerRenderStrategy): RenderStrategy {
+    return this.renderStrategies.find(strategy => strategy.match(config));
   }
 }

@@ -7,7 +7,7 @@ import {
   TRIGGER_CALLER,
 } from '../config/trigger-config';
 import { RenderStrategy } from './render.strategy';
-import { TriggerService } from './trigger.service';
+import { LaunchService } from './trigger.service';
 
 const mockTriggerConfig: TriggerConfig = {
   trigger: {
@@ -31,7 +31,7 @@ class MockRoutingRenderStrategy extends RenderStrategy {
     _vcr?: ViewContainerRef
   ) {}
 
-  public isStrategyForConfiguration(config: TriggerUrlMapping) {
+  public match(config: TriggerUrlMapping) {
     return Boolean(config.cxRoute);
   }
 }
@@ -46,7 +46,7 @@ class MockInlineRenderStrategy extends RenderStrategy {
     _vcr: ViewContainerRef
   ) {}
 
-  public isStrategyForConfiguration(config: TriggerInlineMapping) {
+  public match(config: TriggerInlineMapping) {
     return Boolean(config.inline);
   }
 }
@@ -58,8 +58,8 @@ class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
 
-describe('TriggerService', () => {
-  let service: TriggerService;
+describe('LaunchService', () => {
+  let service: LaunchService;
   let routingRenderStrategy: MockRoutingRenderStrategy;
   let inlineRenderStrategy: MockInlineRenderStrategy;
   let component: TestContainerComponent;
@@ -67,7 +67,7 @@ describe('TriggerService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        TriggerService,
+        LaunchService,
         {
           provide: RenderStrategy,
           useExisting: MockRoutingRenderStrategy,
@@ -83,7 +83,7 @@ describe('TriggerService', () => {
       declarations: [TestContainerComponent],
     }).compileComponents();
 
-    service = TestBed.inject(TriggerService);
+    service = TestBed.inject(LaunchService);
     component = TestBed.createComponent(TestContainerComponent)
       .componentInstance;
     routingRenderStrategy = TestBed.inject(MockRoutingRenderStrategy);
@@ -99,10 +99,10 @@ describe('TriggerService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('render', () => {
+  describe('launch', () => {
     it('should call the proper renderer', () => {
       const urlConfig = mockTriggerConfig.trigger['TEST_URL' as TRIGGER_CALLER];
-      service.render('TEST_URL' as TRIGGER_CALLER);
+      service.launch('TEST_URL' as TRIGGER_CALLER);
       expect(routingRenderStrategy.render).toHaveBeenCalledWith(
         urlConfig as TriggerUrlMapping,
         'TEST_URL' as TRIGGER_CALLER,
@@ -111,7 +111,7 @@ describe('TriggerService', () => {
 
       const inlineConfig =
         mockTriggerConfig.trigger['TEST_INLINE' as TRIGGER_CALLER];
-      service.render('TEST_INLINE' as TRIGGER_CALLER, component.vcr);
+      service.launch('TEST_INLINE' as TRIGGER_CALLER, component.vcr);
       expect(inlineRenderStrategy.render).toHaveBeenCalledWith(
         inlineConfig as TriggerInlineMapping,
         'TEST_INLINE' as TRIGGER_CALLER,
@@ -120,19 +120,19 @@ describe('TriggerService', () => {
     });
   });
 
-  describe('removeRendered', () => {
+  describe('clear', () => {
     it('should call the proper remove', () => {
       const urlConfig = mockTriggerConfig.trigger['TEST_URL' as TRIGGER_CALLER];
       const inlineConfig =
         mockTriggerConfig.trigger['TEST_INLINE' as TRIGGER_CALLER];
 
-      service.removeRendered('TEST_URL' as TRIGGER_CALLER);
+      service.clear('TEST_URL' as TRIGGER_CALLER);
       expect(routingRenderStrategy.removeRendered).toHaveBeenCalledWith(
         'TEST_URL' as TRIGGER_CALLER,
         urlConfig
       );
 
-      service.removeRendered('TEST_INLINE' as TRIGGER_CALLER);
+      service.clear('TEST_INLINE' as TRIGGER_CALLER);
       expect(inlineRenderStrategy.removeRendered).toHaveBeenCalledWith(
         'TEST_INLINE' as TRIGGER_CALLER,
         inlineConfig

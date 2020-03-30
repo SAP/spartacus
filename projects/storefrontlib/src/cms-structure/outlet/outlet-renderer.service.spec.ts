@@ -5,7 +5,7 @@ import { OutletDirective } from './outlet.directive';
 const outlet = 'mock-outlet';
 
 class MockOutletDirective {
-  dynamicRender() {}
+  render() {}
 }
 
 describe('OutletRendererService', () => {
@@ -26,15 +26,15 @@ describe('OutletRendererService', () => {
   it('should render using outlet the directive', () => {
     const mockDirective = new MockOutletDirective() as OutletDirective;
     const mockDirective2 = new MockOutletDirective() as OutletDirective;
-    spyOn(mockDirective, 'dynamicRender');
-    spyOn(mockDirective2, 'dynamicRender');
+    spyOn(mockDirective, 'render');
+    spyOn(mockDirective2, 'render');
 
     outletRendererService.registerOutlet(outlet, mockDirective);
     outletRendererService.registerOutlet('not-outlet', mockDirective2);
 
     outletRendererService.render(outlet);
-    expect(mockDirective.dynamicRender).toHaveBeenCalled();
-    expect(mockDirective2.dynamicRender).not.toHaveBeenCalled();
+    expect(mockDirective.render).toHaveBeenCalled();
+    expect(mockDirective2.render).not.toHaveBeenCalled();
   });
 
   it('should register outlet', () => {

@@ -2,12 +2,15 @@ import { OutletPosition } from '../../../../cms-structure/outlet/outlet.model';
 
 export abstract class TriggerConfig {
   trigger?: {
-    [key: string]:
-      | TriggerOutletMapping
-      | TriggerInlineMapping
-      | TriggerUrlMapping;
+    [key: string]: TriggerRenderStrategy;
   };
 }
+
+export type TriggerRenderStrategy =
+  | TriggerOutletMapping
+  | TriggerInlineMapping
+  | TriggerUrlMapping;
+
 /**
  * Parent type for configurations that render components
  */
@@ -49,8 +52,8 @@ export interface TriggerUrlMapping {
 export enum DIALOG_TYPE {
   POPOVER = 'POPOVER',
   DIALOG = 'DIALOG',
-  SIDEBAR_LEFT = 'SIDEBAR_LEFT',
-  SIDEBAR_RIGHT = 'SIDEBAR_RIGHT',
+  SIDEBAR_START = 'SIDEBAR_START',
+  SIDEBAR_END = 'SIDEBAR_END',
 }
 
 export enum TRIGGER_CALLER {

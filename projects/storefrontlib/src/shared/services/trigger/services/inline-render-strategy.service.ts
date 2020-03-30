@@ -37,7 +37,7 @@ export class InlineRenderStrategy extends RenderStrategy {
     }
   }
 
-  public isStrategyForConfiguration(config: TriggerInlineMapping) {
+  public match(config: TriggerInlineMapping) {
     return Boolean(config.inline);
   }
 }

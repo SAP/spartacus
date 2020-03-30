@@ -62,7 +62,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
     private outletRendererService?: OutletRendererService
   ) {}
 
-  private initializeOutlet(): void {
+  public render(): void {
     this.vcr.clear();
     this.renderedTemplate = [];
     this.subscription.unsubscribe();
@@ -72,21 +72,14 @@ export class OutletDirective implements OnDestroy, OnChanges {
     if (this.cxOutletDefer) {
       this.deferLoading();
     } else {
-      this.render();
+      this.build();
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cxOutlet) {
-      this.initializeOutlet();
+      this.render();
     }
-  }
-
-  /**
-   * Re-render the outlet dynamically
-   */
-  public dynamicRender() {
-    this.initializeOutlet();
   }
 
   private deferLoading(): void {
@@ -99,19 +92,19 @@ export class OutletDirective implements OnDestroy, OnChanges {
       this.deferLoaderService
         .load(hostElement, this.cxOutletDefer)
         .subscribe(() => {
-          this.render();
+          this.build();
           this.loaded.emit(true);
         })
     );
   }
 
-  private render() {
-    this.renderOutlet(OutletPosition.BEFORE);
-    this.renderOutlet(OutletPosition.REPLACE);
-    this.renderOutlet(OutletPosition.AFTER);
+  private build() {
+    this.buildOutlet(OutletPosition.BEFORE);
+    this.buildOutlet(OutletPosition.REPLACE);
+    this.buildOutlet(OutletPosition.AFTER);
   }
 
-  private renderOutlet(position: OutletPosition): void {
+  private buildOutlet(position: OutletPosition): void {
     let templates: any[] = <any[]>(
       this.outletService.get(this.cxOutlet, position, USE_STACKED_OUTLETS)
     );

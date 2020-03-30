@@ -117,7 +117,7 @@ export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
 export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
 export const ASM_ENABLER_SERVICE = 'AsmEnablerService';
 export const OUTLET_SERVICE = 'OutletService';
-export const TRIGGER_SERVICE = 'TriggerService';
+export const LAUNCH_SERVICE = 'LaunchService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

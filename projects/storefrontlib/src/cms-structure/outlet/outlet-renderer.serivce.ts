@@ -9,7 +9,7 @@ export class OutletRendererService {
 
   render(outlet: string): void {
     if (this.outletRefs.size !== 0) {
-      this.outletRefs.get(outlet).dynamicRender();
+      this.outletRefs.get(outlet).render();
     }
   }
 

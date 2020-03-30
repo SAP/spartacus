@@ -52,7 +52,7 @@ export class OutletRenderStrategy extends RenderStrategy {
     }
   }
 
-  public isStrategyForConfiguration(config: TriggerOutletMapping) {
+  public match(config: TriggerOutletMapping) {
     return Boolean(config.outlet);
   }
 

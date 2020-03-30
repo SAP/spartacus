@@ -1,9 +1,7 @@
 import { ViewContainerRef } from '@angular/core';
 import {
-  TriggerInlineMapping,
-  TriggerOutletMapping,
   TriggerRenderMapping,
-  TriggerUrlMapping,
+  TriggerRenderStrategy,
   TRIGGER_CALLER,
 } from '../config';
 
@@ -20,7 +18,7 @@ export abstract class RenderStrategy {
    * @param config Trigger configuration
    */
   abstract render(
-    config: TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping,
+    config: TriggerRenderStrategy,
     caller: TRIGGER_CALLER,
     vcr?: ViewContainerRef
   ): void;
@@ -30,9 +28,7 @@ export abstract class RenderStrategy {
    *
    * @param config
    */
-  abstract isStrategyForConfiguration(
-    config: TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping
-  ): boolean;
+  abstract match(config: TriggerRenderStrategy): boolean;
 
   /**
    * Determines if element should render
@@ -58,7 +54,7 @@ export abstract class RenderStrategy {
    */
   public removeRendered(
     caller: TRIGGER_CALLER,
-    _config?: TriggerOutletMapping | TriggerInlineMapping | TriggerUrlMapping
+    _config?: TriggerRenderStrategy
   ): void {
     this.renderedCallers = this.renderedCallers.filter(
       el => el.caller === caller
