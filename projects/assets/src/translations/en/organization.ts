@@ -248,7 +248,6 @@ export const organization = {
     name: 'Name',
     noOfUsers: 'No. of Users',
     parentUnit: 'Parent Unit',
-    sortByMostRecent: 'sortByMostRecent',
     noUserGroups: 'No user groups',
     userGroupManagement: 'User Group Management',
     searchBox: 'Find user group',
@@ -264,15 +263,9 @@ export const organization = {
     id: 'ID',
     name: 'User Group Name',
     parentUnit: 'Parent Unit',
-    sortByMostRecent: 'sortByMostRecent',
-    noUserGroups: 'No user groups',
     edit: 'Edit',
-    disable: 'Disable',
-    enable: 'Enable',
-    status: 'Status',
     back: 'Back to list',
-    active: 'Active',
-    deactivated: 'Deactivated',
+
   },
   userGroupForm: {
     create: 'Create User Group',
@@ -289,6 +282,9 @@ export const organization = {
     businessUnits: {
       label: 'Parent business unit',
       placeholder: 'Select business unit',
+    },
+    message: {
+      required: 'Value is required',
     },
   },
 };

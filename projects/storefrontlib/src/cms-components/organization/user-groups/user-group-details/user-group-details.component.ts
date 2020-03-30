@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import {
   RoutingService,
   OrgUnitUserGroup,
@@ -29,15 +29,11 @@ export class UserGroupDetailsComponent implements OnInit {
     this.userGroup$ = this.userGroupCode$.pipe(
       tap(code => this.userGroupsService.loadOrgUnitUserGroup(code)),
       switchMap(code => this.userGroupsService.get(code)),
-      filter(Boolean)
+      filter(Boolean),
+      map((userGroup: OrgUnitUserGroup) => ({
+        ...userGroup,
+        code: userGroup.uid,
+      }))
     );
-  }
-
-  update(userGroup: OrgUnitUserGroup) {
-    this.userGroupCode$
-      .pipe(take(1))
-      .subscribe(userGroupCode =>
-        this.userGroupsService.update(userGroupCode, userGroup)
-      );
   }
 }

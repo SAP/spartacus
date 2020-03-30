@@ -8,7 +8,7 @@
   }"
   [columns]="[
     {
-      key: 'uid',
+      key: 'code',
       value: 'userGroupsList.id' | cxTranslate,
       cxRoute: 'userGroupDetails'
     },
@@ -25,12 +25,12 @@
   <div class="col-md-12 col-lg-3">
     <div class="row cx-search-links mb-3">
       <div class="col-12 cx-textalign">
-        <button
+        <a
           [routerLink]="{ cxRoute: 'userGroupCreate' } | cxUrl"
           class="btn btn-primary btn-block"
         >
           {{ 'userGroupsList.create' | cxTranslate }}
-        </button>
+        </a>
       </div>
     </div>
   </div>
