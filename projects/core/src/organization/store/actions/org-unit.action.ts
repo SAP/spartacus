@@ -79,6 +79,10 @@ export const UPDATE_ADDRESS = '[B2BUnit] Update address';
 export const UPDATE_ADDRESS_SUCCESS = '[B2BUnit] Update address success';
 export const UPDATE_ADDRESS_FAIL = '[B2BUnit] Update address fail';
 
+export const DELETE_ADDRESS = '[B2BUnit] Delete address';
+export const DELETE_ADDRESS_SUCCESS = '[B2BUnit] Delete address success';
+export const DELETE_ADDRESS_FAIL = '[B2BUnit] Delete address fail';
+
 export class LoadOrgUnit extends EntityLoadAction {
   readonly type = LOAD_ORG_UNIT;
   constructor(public payload: { userId: string; orgUnitId: string }) {
@@ -354,7 +358,9 @@ export class UnassignRoleSuccess extends EntitySuccessAction {
 
 export class CreateAddress extends EntityLoadAction {
   readonly type = CREATE_ADDRESS;
-  constructor(public payload: { userId: string; address: B2BAddress }) {
+  constructor(
+    public payload: { userId: string; orgUnitId: string; address: B2BAddress }
+  ) {
     super(ADDRESS_ENTITIES, payload.address.id);
   }
 }
@@ -375,7 +381,14 @@ export class CreateAddressSuccess extends EntitySuccessAction {
 
 export class UpdateAddress extends EntityLoadAction {
   readonly type = UPDATE_ADDRESS;
-  constructor(public payload: { addressId: string; address: B2BAddress }) {
+  constructor(
+    public payload: {
+      userId: string;
+      orgUnitId: string;
+      addressId: string;
+      address: B2BAddress;
+    }
+  ) {
     super(ADDRESS_ENTITIES, payload.address.id);
   }
 }
@@ -389,6 +402,33 @@ export class UpdateAddressFail extends EntityFailAction {
 
 export class UpdateAddressSuccess extends EntitySuccessAction {
   readonly type = UPDATE_ADDRESS_SUCCESS;
+  constructor(public payload: B2BAddress) {
+    super(ADDRESS_ENTITIES, payload.id, payload);
+  }
+}
+
+export class DeleteAddress extends EntityLoadAction {
+  readonly type = DELETE_ADDRESS;
+  constructor(
+    public payload: {
+      userId: string;
+      orgUnitId: string;
+      addressId: string;
+    }
+  ) {
+    super(ADDRESS_ENTITIES, payload.addressId);
+  }
+}
+
+export class DeleteAddressFail extends EntityFailAction {
+  readonly type = DELETE_ADDRESS_FAIL;
+  constructor(public payload: { addressId: string; error: any }) {
+    super(ADDRESS_ENTITIES, payload.addressId, payload.error);
+  }
+}
+
+export class DeleteAddressSuccess extends EntitySuccessAction {
+  readonly type = DELETE_ADDRESS_SUCCESS;
   constructor(public payload: B2BAddress) {
     super(ADDRESS_ENTITIES, payload.id, payload);
   }
@@ -424,4 +464,7 @@ export type OrgUnitAction =
   | CreateAddressFail
   | UpdateAddress
   | UpdateAddressSuccess
-  | UpdateAddressFail;
+  | UpdateAddressFail
+  | DeleteAddress
+  | DeleteAddressSuccess
+  | DeleteAddressFail;

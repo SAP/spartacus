@@ -20,6 +20,7 @@ import {
   B2BApprovalProcess,
   B2BUser,
   EntitiesModel,
+  B2BAddress,
 } from '../../model';
 import { B2BSearchConfig } from '../model/search-config';
 
@@ -208,6 +209,47 @@ export class OrgUnitService {
           orgUnitId,
           orgCustomerId,
           roleId,
+        })
+      )
+    );
+  }
+
+  createAddress(orgUnitId: string, address: B2BAddress): void {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new OrgUnitActions.CreateAddress({
+          userId,
+          orgUnitId,
+          address,
+        })
+      )
+    );
+  }
+
+  updateAddress(
+    orgUnitId: string,
+    addressId: string,
+    address: B2BAddress
+  ): void {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new OrgUnitActions.UpdateAddress({
+          userId,
+          orgUnitId,
+          addressId,
+          address,
+        })
+      )
+    );
+  }
+
+  deleteAddress(orgUnitId: string, addressId: string): void {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new OrgUnitActions.DeleteAddress({
+          userId,
+          orgUnitId,
+          addressId,
         })
       )
     );

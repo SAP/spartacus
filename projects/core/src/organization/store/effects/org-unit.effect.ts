@@ -250,6 +250,80 @@ export class OrgUnitEffects {
     )
   );
 
+  @Effect()
+  createAddress$: Observable<
+    OrgUnitActions.CreateAddressSuccess | OrgUnitActions.CreateAddressFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.CREATE_ADDRESS),
+    map((action: OrgUnitActions.CreateAddress) => action.payload),
+    switchMap(payload =>
+      this.orgUnitConnector
+        .createAddress(payload.userId, payload.orgUnitId, payload.address)
+        .pipe(
+          map(data => new OrgUnitActions.CreateAddressSuccess(data)),
+          catchError(error =>
+            of(
+              new OrgUnitActions.CreateAddressFail({
+                addressId: payload.address.id,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  updateAddress$: Observable<
+    OrgUnitActions.UpdateAddressSuccess | OrgUnitActions.UpdateAddressFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.UPDATE_ADDRESS),
+    map((action: OrgUnitActions.UpdateAddress) => action.payload),
+    switchMap(payload =>
+      this.orgUnitConnector
+        .updateAddress(
+          payload.userId,
+          payload.orgUnitId,
+          payload.addressId,
+          payload.address
+        )
+        .pipe(
+          map(data => new OrgUnitActions.UpdateAddressSuccess(data)),
+          catchError(error =>
+            of(
+              new OrgUnitActions.UpdateAddressFail({
+                addressId: payload.address.id,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  deleteAddress$: Observable<
+    OrgUnitActions.DeleteAddressSuccess | OrgUnitActions.DeleteAddressFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.UPDATE_ADDRESS),
+    map((action: OrgUnitActions.DeleteAddress) => action.payload),
+    switchMap(payload =>
+      this.orgUnitConnector
+        .deleteAddress(payload.userId, payload.orgUnitId, payload.addressId)
+        .pipe(
+          map(data => new OrgUnitActions.DeleteAddressSuccess(data)),
+          catchError(error =>
+            of(
+              new OrgUnitActions.DeleteAddressFail({
+                addressId: payload.addressId,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private orgUnitConnector: OrgUnitConnector

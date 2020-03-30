@@ -6,9 +6,12 @@ import {
   B2BUnit,
   B2BApprovalProcess,
   B2BUser,
+  B2BAddress,
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { B2BSearchConfig } from '../../model/search-config';
+import { Occ } from '../../../occ/occ-models/occ.models';
+import { B2B_ADDRESS_NORMALIZER } from './converters';
 
 @Injectable({
   providedIn: 'root',
@@ -69,5 +72,30 @@ export class OrgUnitConnector {
     roleId: string
   ): Observable<any> {
     return this.adapter.unassignRole(userId, orgUnitId, orgCustomerId, roleId);
+  }
+
+  createAddress(
+    userId: string,
+    orgUnitId: string,
+    address: B2BAddress
+  ): Observable<B2BAddress> {
+    return this.adapter.createAddress(userId, orgUnitId, address);
+  }
+
+  updateAddress(
+    userId: string,
+    orgUnitId: string,
+    addressId: string,
+    address: B2BAddress
+  ): Observable<B2BAddress> {
+    return this.adapter.updateAddress(userId, orgUnitId, addressId, address);
+  }
+
+  deleteAddress(
+    userId: string,
+    orgUnitId: string,
+    addressId: string
+  ): Observable<any> {
+    return this.adapter.deleteAddress(userId, orgUnitId, addressId);
   }
 }
