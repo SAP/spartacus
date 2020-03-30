@@ -28,6 +28,10 @@ describe('WishList Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_WISH_LIST,
           payload,
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            MULTI_CART_DATA,
+            payload.tempCartId
+          ),
         });
       });
     });

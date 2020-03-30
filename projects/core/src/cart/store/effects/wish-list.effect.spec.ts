@@ -154,10 +154,19 @@ describe('Wish List Effect', () => {
         cart: wishList,
         userId,
         cartId: getCartIdByUserId(wishList, userId),
+        tempCartId: getWishlistName(customerId),
+        customerId,
+      });
+
+      const removeTempCartAction = new CartActions.RemoveTempCart({
+        tempCartId: getWishlistName(customerId),
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: loadWishListSuccessAction });
+      const expected = cold('-(bc)', {
+        b: loadWishListSuccessAction,
+        c: removeTempCartAction,
+      });
 
       expect(wishListEffect.loadWishList$).toBeObservable(expected);
     });
@@ -178,7 +187,7 @@ describe('Wish List Effect', () => {
       const resetWishListAction = new CartActions.LoadWishListSuccess({
         cart: wishList,
         userId,
-        cartId: getCartIdByUserId(testCart, userId),
+        cartId: getCartIdByUserId(wishList, userId),
       });
 
       actions$ = hot('-a', { a: action });
