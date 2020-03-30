@@ -4,8 +4,16 @@ import { EventService } from '../../../event';
 import { createFrom } from '../../../util/create-from';
 import { ActiveCartService } from '../../facade';
 import { MultiCartEvent } from '../multi-cart/multi-cart.event';
-import { MultiCartAddEntryEvent } from '../multi-cart/multi-cart.events';
-import { ActiveCartAddEntryEvent } from './active-cart.events';
+import {
+  MultiCartAddEntryEvent,
+  MultiCartAddEntryFailEvent,
+  MultiCartAddEntrySuccessEvent,
+} from '../multi-cart/multi-cart.events';
+import {
+  ActiveCartAddEntryEvent,
+  ActiveCartAddEntryFailEvent,
+  ActiveCartAddEntrySuccessEvent,
+} from './active-cart.events';
 
 /**
  * Registers active cart events, when being injected
@@ -23,7 +31,15 @@ export class ActiveCartEventBuilder {
    * Registers active cart events
    */
   protected register() {
-    return this.registerMapped(MultiCartAddEntryEvent, ActiveCartAddEntryEvent);
+    this.registerMapped(MultiCartAddEntryEvent, ActiveCartAddEntryEvent);
+    this.registerMapped(
+      MultiCartAddEntrySuccessEvent,
+      ActiveCartAddEntrySuccessEvent
+    );
+    this.registerMapped(
+      MultiCartAddEntryFailEvent,
+      ActiveCartAddEntryFailEvent
+    );
   }
 
   /**

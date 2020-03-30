@@ -4,9 +4,15 @@ import { of, Subscription } from 'rxjs';
 import { EventService } from '../../../event/event.service';
 import { createFrom } from '../../../util/create-from';
 import { ActiveCartService } from '../../facade/active-cart.service';
-import { MultiCartAddEntryEvent } from '../multi-cart/multi-cart.events';
+import {
+  MultiCartAddEntryEvent,
+  MultiCartAddEntrySuccessEvent,
+} from '../multi-cart/multi-cart.events';
 import { ActiveCartEventBuilder } from './active-cart-event.builder';
-import { ActiveCartAddEntryEvent } from './active-cart.events';
+import {
+  ActiveCartAddEntryEvent,
+  ActiveCartAddEntrySuccessEvent,
+} from './active-cart.events';
 
 const MOCK_ACTIVE_CART_ID = 'activeCartId';
 const MOCK_NOT_ACTIVE_CART_ID = 'notActiveCartId';
@@ -66,6 +72,20 @@ describe('ActiveCartEventBuilder', () => {
           ...MOCK_ACTIVE_CART_EVENT,
           productCode: 'productCode',
           quantity: 123,
+        },
+      });
+    });
+
+    it('ActiveCartAddEntrySuccessEvent', () => {
+      testEventMapping({
+        sourceType: MultiCartAddEntrySuccessEvent,
+        targetType: ActiveCartAddEntrySuccessEvent,
+        data: {
+          ...MOCK_ACTIVE_CART_EVENT,
+          productCode: 'productCode',
+          quantity: 123,
+          entry: {},
+          quantityAdded: 1,
         },
       });
     });
