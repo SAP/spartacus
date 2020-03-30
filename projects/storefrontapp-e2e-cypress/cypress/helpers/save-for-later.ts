@@ -95,9 +95,7 @@ export function removeItem(product, position: ItemList) {
         cy.wrap(el).click();
       });
   });
-  cy.wait('@refresh_cart')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@refresh_cart').its('status').should('eq', 200);
 }
 
 export function validateProduct(product, qty = 1, position: ItemList) {

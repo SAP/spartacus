@@ -1,8 +1,9 @@
 import * as saveForLater from '../../../helpers/save-for-later';
 import { formats } from '../../../sample-data/viewports';
 
-describe(`${formats.mobile.width +
-  1}p resolution - Save for later - guest`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - Save for later - guest`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.window().then(win => win.sessionStorage.clear());
@@ -14,8 +15,9 @@ describe(`${formats.mobile.width +
   });
 });
 
-describe(`${formats.mobile.width +
-  1}p resolution - Save for later - re-login customer`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - Save for later - re-login customer`, () => {
   beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.window().then(win => win.sessionStorage.clear());
@@ -26,8 +28,9 @@ describe(`${formats.mobile.width +
   });
 });
 
-describe(`${formats.mobile.width +
-  1}p resolution - Save for later - customer`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - Save for later - customer`, () => {
   beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.window().then(win => win.sessionStorage.clear());

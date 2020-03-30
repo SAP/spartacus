@@ -113,9 +113,7 @@ export function claimCoupon(
 
   cy.visit(claimCouponUrl + couponCode);
 
-  cy.wait(`@${claimCouponPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${claimCouponPage}`).its('status').should('eq', 200);
   cy.wait(`@${claimCouponsPostRequest}`)
     .its('status')
     .should('eq', validCouponPostRequest);
@@ -124,12 +122,8 @@ export function claimCoupon(
     alerts.getErrorAlert().should('exist');
   }
 
-  cy.wait(`@${couponsPage}`)
-    .its('status')
-    .should('eq', 200);
-  cy.wait(`@${getCoupons}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${couponsPage}`).its('status').should('eq', 200);
+  cy.wait(`@${getCoupons}`).its('status').should('eq', 200);
 }
 
 export function createStandardUser() {
@@ -204,9 +198,7 @@ export function verifyFindProduct(couponCode: string, productNumber: number) {
         .click();
     });
 
-  cy.wait(`@${productSearchPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${productSearchPage}`).its('status').should('eq', 200);
 
   cy.get('cx-breadcrumb').within(() => {
     cy.get('span:last a').should('contain', 'My coupons');

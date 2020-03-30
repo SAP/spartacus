@@ -29,9 +29,7 @@ export function addProductToCart() {
   cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts/*`).as(
     'cart'
   );
-  cy.wait(`@cart`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@cart`).its('status').should('eq', 200);
 }
 
 export function goToCartDetailsViewFromCartDialog() {
@@ -123,9 +121,7 @@ export function checkForAppliedCartPromotions(shouldContainPromotion) {
 }
 
 export function decreaseQuantityOfCartEntry() {
-  cy.get('cx-item-counter button')
-    .first()
-    .click();
+  cy.get('cx-item-counter button').first().click();
 }
 
 export function removeCartEntry() {

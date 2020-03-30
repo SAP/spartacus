@@ -6,8 +6,9 @@ import {
 import * as login from '../../../helpers/login';
 import { formats } from '../../../sample-data/viewports';
 
-describe(`${formats.mobile.width +
-  1}p resolution - Update Password page`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - Update Password page`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
   });

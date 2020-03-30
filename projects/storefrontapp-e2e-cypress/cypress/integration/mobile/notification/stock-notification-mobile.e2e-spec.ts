@@ -1,8 +1,9 @@
 import { formats } from '../../../sample-data/viewports';
 import * as notification from '../../../helpers/notification';
 
-describe(`${formats.mobile.width +
-  1}p resolution - Stock Notification for guest`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - Stock Notification for guest`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.window().then(win => win.sessionStorage.clear());
@@ -13,8 +14,9 @@ describe(`${formats.mobile.width +
   });
 });
 
-describe(`${formats.mobile.width +
-  1}p resolution - Stock Notification for customer`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - Stock Notification for customer`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.window().then(win => win.sessionStorage.clear());

@@ -366,12 +366,7 @@ export class ActiveCartService {
     return (
       this.cartUser &&
       (this.cartUser.name === OCC_USER_ID_GUEST ||
-        this.isEmail(
-          this.cartUser.uid
-            .split('|')
-            .slice(1)
-            .join('|')
-        ))
+        this.isEmail(this.cartUser.uid.split('|').slice(1).join('|')))
     );
   }
 

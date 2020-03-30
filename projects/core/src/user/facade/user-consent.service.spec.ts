@@ -87,10 +87,7 @@ describe('UserConsentService', () => {
           spyOn(service, 'getConsentsResultLoading').and.returnValue(of(false));
           spyOn(service, 'getConsentsResultSuccess').and.returnValue(of(false));
 
-          service
-            .getConsents(true)
-            .subscribe()
-            .unsubscribe();
+          service.getConsents(true).subscribe().unsubscribe();
 
           expect(service.loadConsents).toHaveBeenCalled();
         });
@@ -107,10 +104,7 @@ describe('UserConsentService', () => {
               of(false)
             );
 
-            service
-              .getConsents(true)
-              .subscribe()
-              .unsubscribe();
+            service.getConsents(true).subscribe().unsubscribe();
 
             expect(service.loadConsents).not.toHaveBeenCalled();
           });
@@ -125,10 +119,7 @@ describe('UserConsentService', () => {
               of(false)
             );
 
-            service
-              .getConsents(true)
-              .subscribe()
-              .unsubscribe();
+            service.getConsents(true).subscribe().unsubscribe();
 
             expect(service.loadConsents).not.toHaveBeenCalled();
           });
@@ -146,10 +137,7 @@ describe('UserConsentService', () => {
               of(true)
             );
 
-            service
-              .getConsents(true)
-              .subscribe()
-              .unsubscribe();
+            service.getConsents(true).subscribe().unsubscribe();
 
             expect(service.loadConsents).not.toHaveBeenCalled();
           });
@@ -241,10 +229,7 @@ describe('UserConsentService', () => {
           spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
           spyOn(service, 'getConsents').and.stub();
 
-          service
-            .getConsent(mockTemplateId)
-            .subscribe()
-            .unsubscribe();
+          service.getConsent(mockTemplateId).subscribe().unsubscribe();
 
           expect(service.getConsents).not.toHaveBeenCalled();
         });

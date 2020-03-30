@@ -50,8 +50,9 @@ export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
     }
     if (review.date) {
       const date = new Date(review.date);
-      reviewSchema.datePublished = `${date.getFullYear()}-${date.getMonth() +
-        1}-${date.getDate()}`;
+      reviewSchema.datePublished = `${date.getFullYear()}-${
+        date.getMonth() + 1
+      }-${date.getDate()}`;
     }
     if (review.headline) {
       reviewSchema.name = review.headline;

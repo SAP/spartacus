@@ -62,10 +62,7 @@ describe('ReferenceService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(undefined)
       );
-      service
-        .get(productCode)
-        .subscribe()
-        .unsubscribe();
+      service.get(productCode).subscribe().unsubscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ProductActions.LoadProductReferences({

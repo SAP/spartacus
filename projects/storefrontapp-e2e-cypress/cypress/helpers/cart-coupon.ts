@@ -39,9 +39,7 @@ export function verifyMyCoupons() {
 
 export function ApplyMyCoupons(couponCode: string) {
   cy.get('.cx-available-coupon').within(() => {
-    cy.getByText(couponCode)
-      .parent()
-      .click();
+    cy.getByText(couponCode).parent().click();
   });
   cy.get('cx-global-message').should(
     'contain',

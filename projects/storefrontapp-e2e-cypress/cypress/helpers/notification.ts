@@ -23,16 +23,12 @@ export function verifyNotificationPrefAsAnonymous() {
 
 export function enableNotificationChannel() {
   navigateToNotificationPreferencePage();
-  cy.get('[type="checkbox"]')
-    .first()
-    .check();
+  cy.get('[type="checkbox"]').first().check();
 }
 
 export function disableNotificationChannel() {
   navigateToNotificationPreferencePage();
-  cy.get('[type="checkbox"]')
-    .first()
-    .uncheck();
+  cy.get('[type="checkbox"]').first().uncheck();
 }
 
 export function verifyNotificationChannel() {
@@ -65,17 +61,13 @@ export function verifyChannelValueUpdating() {
 export function verifyChannelDisabled() {
   cy.visit('/');
   navigateToNotificationPreferencePage();
-  cy.get('[type="checkbox"]')
-    .first()
-    .should('not.be.checked');
+  cy.get('[type="checkbox"]').first().should('not.be.checked');
 }
 
 export function verifyChannelEnabled() {
   cy.visit('/');
   navigateToNotificationPreferencePage();
-  cy.get('[type="checkbox"]')
-    .first()
-    .should('be.checked');
+  cy.get('[type="checkbox"]').first().should('be.checked');
 }
 
 export function verifyEmailChannel(email: String) {
@@ -85,9 +77,7 @@ export function verifyEmailChannel(email: String) {
       'contain',
       'Email: ' + email
     );
-    cy.get('[type="checkbox"]')
-      .first()
-      .should('not.be.checked');
+    cy.get('[type="checkbox"]').first().should('not.be.checked');
   });
 }
 //stock notification
@@ -227,9 +217,7 @@ export function verifyPagingAndSorting() {
   cy.get(firstProductCodeSelector).should('contain', firstProductDescending);
   cy.get('.cx-product-interests-product-item').should('have.length', 10);
   cy.get('cx-pagination:last a').should('have.length', 4);
-  cy.get('cx-pagination:last a')
-    .last()
-    .click();
+  cy.get('cx-pagination:last a').last().click();
   cy.get('.cx-code > span').should('contain.text', 'ID 872912');
 }
 

@@ -80,10 +80,7 @@ describe('AuthGuard', () => {
     });
 
     it('should notify AuthRedirectService with the current navigation', () => {
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(authRedirectService.reportAuthGuard).toHaveBeenCalled();
     });
   });

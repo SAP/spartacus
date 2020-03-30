@@ -98,7 +98,7 @@ describe('LogoutGuard', () => {
   });
 
   describe('When user is authorised,', () => {
-    beforeEach(function() {
+    beforeEach(function () {
       spyOn(authService, 'logout');
     });
 

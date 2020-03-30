@@ -2,8 +2,9 @@ import { doPlaceOrder, orderHistoryTest } from '../../../helpers/order-history';
 import { product } from '../../../sample-data/checkout-flow';
 import { formats } from '../../../sample-data/viewports';
 
-describe(`${formats.mobile.width +
-  1}p resolution - Order History with orders`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - Order History with orders`, () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();

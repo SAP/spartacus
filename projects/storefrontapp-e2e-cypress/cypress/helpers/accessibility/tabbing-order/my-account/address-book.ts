@@ -11,9 +11,7 @@ export function setupForAddressBookTests() {
 export function addressBookFormTabbingOrder(config: TabElement[]) {
   cy.visit('/my-account/address-book');
 
-  cy.get('.BodyContent')
-    .contains('Add new address')
-    .click();
+  cy.get('.BodyContent').contains('Add new address').click();
 
   selectCountryCanada();
 
@@ -23,9 +21,7 @@ export function addressBookFormTabbingOrder(config: TabElement[]) {
 export function addressBookDirectoryTabbingOrder(config: TabElement[]) {
   cy.visit('/my-account/address-book');
 
-  cy.get('.BodyContent')
-    .contains('Add new address')
-    .focus();
+  cy.get('.BodyContent').contains('Add new address').focus();
 
   verifyTabbingOrder(containerSelector, config);
 }

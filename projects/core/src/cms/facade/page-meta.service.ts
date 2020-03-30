@@ -80,7 +80,7 @@ export class PageMetaService {
     const matchingResolvers = this.resolvers.filter(
       resolver => resolver.getScore(page) > 0
     );
-    matchingResolvers.sort(function(a, b) {
+    matchingResolvers.sort(function (a, b) {
       return b.getScore(page) - a.getScore(page);
     });
     return matchingResolvers[0];

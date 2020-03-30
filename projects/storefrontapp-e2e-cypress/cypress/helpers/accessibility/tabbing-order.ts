@@ -20,9 +20,7 @@ export function verifyTabElement(tabElement: TabElement) {
       return;
     }
     case TabbingOrderTypes.GENERIC_INPUT: {
-      cy.focused()
-        .should('have.prop', 'tagName')
-        .should('eq', 'INPUT');
+      cy.focused().should('have.prop', 'tagName').should('eq', 'INPUT');
       break;
     }
     case TabbingOrderTypes.GENERIC_NG_SELECT: {
@@ -77,9 +75,7 @@ export function verifyTabElement(tabElement: TabElement) {
       break;
     }
     case TabbingOrderTypes.CHECKBOX_WITH_LABEL: {
-      cy.focused()
-        .parent()
-        .should('contain', tabElement.value);
+      cy.focused().parent().should('contain', tabElement.value);
       break;
     }
     case TabbingOrderTypes.IMG_LINK: {
@@ -97,28 +93,19 @@ export function verifyTabElement(tabElement: TabElement) {
       return;
     }
     case TabbingOrderTypes.CX_MEDIA: {
-      cy.focused()
-        .find('img')
-        .should('have.attr', 'alt', tabElement.value);
+      cy.focused().find('img').should('have.attr', 'alt', tabElement.value);
       return;
     }
     case TabbingOrderTypes.CX_ICON: {
-      cy.focused()
-        .should('have.prop', 'tagName')
-        .should('eq', 'CX_ICON');
+      cy.focused().should('have.prop', 'tagName').should('eq', 'CX_ICON');
       return;
     }
     case TabbingOrderTypes.SELECT: {
-      cy.focused()
-        .get('select')
-        .parent()
-        .should('contain', tabElement.value);
+      cy.focused().get('select').parent().should('contain', tabElement.value);
       break;
     }
     case TabbingOrderTypes.NAV_CATEGORY_DROPDOWN: {
-      cy.focused()
-        .parent()
-        .should('contain', tabElement.value);
+      cy.focused().parent().should('contain', tabElement.value);
       break;
     }
     case TabbingOrderTypes.INDEX_OF_ELEMENT: {
@@ -126,9 +113,7 @@ export function verifyTabElement(tabElement: TabElement) {
       const index = tabElement.value[1];
 
       cy.focused().then(focusedElement => {
-        cy.get(selector)
-          .eq(index)
-          .should('match', focusedElement.get()[0]);
+        cy.get(selector).eq(index).should('match', focusedElement.get()[0]);
       });
     }
   }
@@ -146,9 +131,7 @@ export function verifyTabbingOrder(
     .as('children')
     .should('have.length', elements.length);
 
-  cy.get('@children')
-    .first()
-    .focus();
+  cy.get('@children').first().focus();
 
   elements.forEach((element: TabElement, index: number) => {
     // skip tabbing on first element
@@ -205,8 +188,6 @@ export function addProduct(productCode?: string): void {
 
 export function checkoutNextStep(url: string) {
   const nextStep = waitForPage(url, 'getNextStep');
-  cy.getAllByText('Continue')
-    .first()
-    .click();
+  cy.getAllByText('Continue').first().click();
   cy.wait(`@${nextStep}`);
 }

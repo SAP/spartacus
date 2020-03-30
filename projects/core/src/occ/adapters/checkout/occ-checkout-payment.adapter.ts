@@ -217,7 +217,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   }
 
   private convertToMap(paramList: { key; value }[]) {
-    return paramList.reduce(function(result, item) {
+    return paramList.reduce(function (result, item) {
       const key = item.key;
       result[key] = item.value;
       return result;

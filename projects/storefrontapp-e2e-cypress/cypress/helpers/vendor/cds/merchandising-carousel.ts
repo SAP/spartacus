@@ -225,9 +225,7 @@ export function applyFacet(facetGroup: string, facetName: string): void {
     .contains(facetGroup)
     .parents('.cx-facet-group')
     .within(() => {
-      cy.get('.cx-facet-label')
-        .contains(facetName)
-        .click();
+      cy.get('.cx-facet-label').contains(facetName).click();
     });
 }
 

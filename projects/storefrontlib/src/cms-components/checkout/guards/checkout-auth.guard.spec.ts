@@ -119,10 +119,7 @@ describe('CheckoutAuthGuard', () => {
 
       it('should redirect to login with forced flag when guestCheckout feature enabled', () => {
         spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
-        checkoutGuard
-          .canActivate()
-          .subscribe()
-          .unsubscribe();
+        checkoutGuard.canActivate().subscribe().unsubscribe();
         expect(service.go).toHaveBeenCalledWith(
           { cxRoute: 'login' },
           { forced: true }
@@ -130,18 +127,12 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should redirect to login without forced flag when guestCheckout feature disabled', () => {
-        checkoutGuard
-          .canActivate()
-          .subscribe()
-          .unsubscribe();
+        checkoutGuard.canActivate().subscribe().unsubscribe();
         expect(service.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       });
 
       it('should notify AuthRedirectService with the current navigation', () => {
-        checkoutGuard
-          .canActivate()
-          .subscribe()
-          .unsubscribe();
+        checkoutGuard.canActivate().subscribe().unsubscribe();
         expect(authRedirectService.reportAuthGuard).toHaveBeenCalled();
       });
     });

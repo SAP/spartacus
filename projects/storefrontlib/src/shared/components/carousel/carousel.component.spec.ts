@@ -26,9 +26,7 @@ class MockCxIconComponent {
 }
 
 @Component({
-  template: `
-    <div id="templateEl"></div>
-  `,
+  template: ` <div id="templateEl"></div> `,
 })
 class MockTemplateComponent {}
 

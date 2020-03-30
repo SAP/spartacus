@@ -97,9 +97,7 @@ export function addressBookNextStep() {
 
   cy.get('cx-shipping-address .btn-primary').click({ force: true });
 
-  cy.wait(`@${deliveryPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
 
 export function deliveryModeNextStep() {
@@ -114,9 +112,7 @@ export function deliveryModeNextStep() {
 
   cy.get('cx-delivery-mode .btn-primary').click({ force: true });
 
-  cy.wait(`@${paymentPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
 }
 
 export function paymentDetailsNextStep() {
@@ -128,9 +124,7 @@ export function paymentDetailsNextStep() {
 
   cy.get('cx-payment-method .btn-primary').click({ force: true });
 
-  cy.wait(`@${reviewPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
 }
 
 export function createRoute(request: string, alias: string): void {
@@ -176,15 +170,11 @@ export function siteContextChange(
       throw new Error(`Unsupported context label : ${label}`);
     }
   }
-  cy.wait(`@${alias}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${alias}`).its('status').should('eq', 200);
 
   cy.route('GET', `*${contextParam}=${selectedOption}*`).as('switchedContext');
   switchSiteContext(selectedOption, label);
-  cy.wait('@switchedContext')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@switchedContext').its('status').should('eq', 200);
 }
 
 export function verifySiteContextChangeUrl(

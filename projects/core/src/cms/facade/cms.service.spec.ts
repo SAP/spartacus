@@ -103,11 +103,7 @@ describe('CmsService', () => {
           spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
           const uid = 'mockUid';
-          service
-            .getComponentData(uid)
-            .pipe(take(1))
-            .subscribe()
-            .unsubscribe();
+          service.getComponentData(uid).pipe(take(1)).subscribe().unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
             new CmsActions.LoadCmsComponent({

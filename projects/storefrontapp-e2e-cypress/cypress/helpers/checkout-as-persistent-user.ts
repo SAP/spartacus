@@ -99,9 +99,7 @@ export function goToProductPageFromCategory() {
 }
 
 export function addProductToCart() {
-  cy.get('cx-item-counter')
-    .getByText('+')
-    .click();
+  cy.get('cx-item-counter').getByText('+').click();
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
@@ -176,9 +174,7 @@ export function selectShippingAddress() {
     '/rest/v2/electronics-spa/cms/pages?*/checkout/delivery-mode*'
   ).as('getDeliveryPage');
   cy.get('button.btn-primary').click();
-  cy.wait('@getDeliveryPage')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@getDeliveryPage').its('status').should('eq', 200);
 }
 
 export function selectDeliveryMethod() {
@@ -190,9 +186,7 @@ export function selectDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-net').should('be.checked');
   cy.get('button.btn-primary').click();
-  cy.wait('@getPaymentPage')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@getPaymentPage').its('status').should('eq', 200);
 }
 
 export function selectPaymentMethod() {

@@ -147,10 +147,7 @@ describe('PageMetaService', () => {
     const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
     spyOn(resolver, 'resolveTitle').and.callThrough();
 
-    service
-      .getMeta()
-      .subscribe()
-      .unsubscribe();
+    service.getMeta().subscribe().unsubscribe();
 
     expect(resolver.resolveTitle).toHaveBeenCalled();
   });

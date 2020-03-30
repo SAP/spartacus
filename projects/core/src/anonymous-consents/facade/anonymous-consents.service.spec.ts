@@ -106,20 +106,14 @@ describe('AnonymousConsentsService', () => {
         spyOn(service, 'loadTemplates').and.stub();
         spyOn(service, 'getLoadTemplatesLoading').and.returnValue(of(true));
 
-        service
-          .getTemplates(true)
-          .subscribe()
-          .unsubscribe();
+        service.getTemplates(true).subscribe().unsubscribe();
         expect(service.loadTemplates).not.toHaveBeenCalled();
       });
       it('should attempt the load if NOT already loading and templates are undefined', () => {
         spyOn(service, 'loadTemplates').and.stub();
         spyOn(service, 'getLoadTemplatesLoading').and.returnValue(of(false));
 
-        service
-          .getTemplates(true)
-          .subscribe()
-          .unsubscribe();
+        service.getTemplates(true).subscribe().unsubscribe();
         expect(service.loadTemplates).toHaveBeenCalled();
       });
       it('should NOT attempt the load if templates already exist', () => {
@@ -131,10 +125,7 @@ describe('AnonymousConsentsService', () => {
           )
         );
 
-        service
-          .getTemplates(true)
-          .subscribe()
-          .unsubscribe();
+        service.getTemplates(true).subscribe().unsubscribe();
         expect(service.loadTemplates).not.toHaveBeenCalled();
       });
     });
@@ -249,10 +240,7 @@ describe('AnonymousConsentsService', () => {
         spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
         spyOn(service, 'getTemplates').and.stub();
 
-        service
-          .getConsent(mockTemplateId)
-          .subscribe()
-          .unsubscribe();
+        service.getConsent(mockTemplateId).subscribe().unsubscribe();
 
         expect(service.getTemplates).not.toHaveBeenCalled();
       });
@@ -270,10 +258,7 @@ describe('AnonymousConsentsService', () => {
     spyOn(service, 'getTemplates').and.returnValue(of(mockConsentTemplates));
     spyOn(service, 'giveConsent').and.stub();
 
-    service
-      .giveAllConsents()
-      .subscribe()
-      .unsubscribe();
+    service.giveAllConsents().subscribe().unsubscribe();
 
     expect(service.getTemplates).toHaveBeenCalled();
     expect(service.giveConsent).toHaveBeenCalledTimes(
@@ -307,10 +292,7 @@ describe('AnonymousConsentsService', () => {
     spyOn(service, 'getTemplates').and.returnValue(of(mockConsentTemplates));
     spyOn(service, 'withdrawConsent').and.stub();
 
-    service
-      .withdrawAllConsents()
-      .subscribe()
-      .unsubscribe();
+    service.withdrawAllConsents().subscribe().unsubscribe();
 
     expect(service.getTemplates).toHaveBeenCalled();
     expect(service.withdrawConsent).toHaveBeenCalledTimes(

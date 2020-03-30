@@ -82,7 +82,7 @@ describe('YotpoService', () => {
 
   it('should add Yotpo init widgets script', () => {
     const yotpoScriptTester = {
-      asymmetricMatch: function(actual) {
+      asymmetricMatch: function (actual) {
         return (
           actual.type === 'text/javascript' &&
           actual.text.includes('yotpo.initWidgets()')

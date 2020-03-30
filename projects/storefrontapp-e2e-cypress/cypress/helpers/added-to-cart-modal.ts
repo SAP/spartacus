@@ -87,10 +87,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
     // we don't show product in search suggestions on mobile
     // instead search and click first result
     cy.get('cx-searchbox input[aria-label="search"]').type('{enter}');
-    cy.get('cx-product-list-item')
-      .first()
-      .get('.cx-product-name')
-      .click();
+    cy.get('cx-product-list-item').first().get('.cx-product-name').click();
   }
   cy.get('cx-breadcrumb h1').contains(productName2);
   cy.get('cx-add-to-cart button[type=submit]').click();
@@ -158,9 +155,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
       expect(totalPrice).equal('$927.89');
     });
 
-  cy.wait('@getRefreshedCart')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@getRefreshedCart').its('status').should('eq', 200);
   // delete the last product in cart
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', productName2)
@@ -200,20 +195,13 @@ export function refreshPage() {
 export function increaseProductQtyOnPDP() {
   // helper function to prettify the text
   function extractPriceFromText(text) {
-    return parseFloat(
-      text
-        .trim()
-        .substring(1)
-        .replace(',', '')
-    );
+    return parseFloat(text.trim().substring(1).replace(',', ''));
   }
 
   cy.visit(`/product/${productId}`);
 
   // increase the quantity to 2 and add it to cart
-  cy.get('cx-add-to-cart cx-item-counter button')
-    .contains('+')
-    .click();
+  cy.get('cx-add-to-cart cx-item-counter button').contains('+').click();
   cy.get('cx-add-to-cart button[type=submit]').click();
   // check if the item price * quantity matches the total
   cy.get('cx-added-to-cart-dialog').within(() => {

@@ -34,9 +34,7 @@ context('Forgot Password Page', () => {
 
   it('should go back to the login page on cancel.', () => {
     // Click 'Cancel'
-    cy.get('cx-forgot-password a')
-      .contains('Cancel')
-      .click();
+    cy.get('cx-forgot-password a').contains('Cancel').click();
     // After requesting a reset password email, we should be taken back to the login page
     cy.url().should('match', /\/login/);
   });

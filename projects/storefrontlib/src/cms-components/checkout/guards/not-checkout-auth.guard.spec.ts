@@ -76,10 +76,7 @@ describe('NotCheckoutAuthGuard', () => {
 
     it('should redirect to homepage', () => {
       spyOn(routing, 'go');
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(routing.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     });
   });
@@ -103,10 +100,7 @@ describe('NotCheckoutAuthGuard', () => {
 
     it('should redirect to cart page', () => {
       spyOn(routing, 'go');
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(routing.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
     });
   });

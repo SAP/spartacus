@@ -79,10 +79,7 @@ describe('QualtricsLoaderService', () => {
         spyOn<any>(service, 'isDataLoaded').and.returnValue(of(false));
         service['qualtricsLoaded$'].next(false);
 
-        service
-          .load()
-          .subscribe()
-          .unsubscribe();
+        service.load().subscribe().unsubscribe();
 
         expect(winRef.nativeWindow['QSI'].API.unload).not.toHaveBeenCalled();
         expect(winRef.nativeWindow['QSI'].API.load).not.toHaveBeenCalled();

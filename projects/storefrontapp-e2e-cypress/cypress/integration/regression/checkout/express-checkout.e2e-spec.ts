@@ -83,9 +83,7 @@ context('Express checkout', () => {
       cy.selectUserMenuOption({
         option: 'Payment Details',
       });
-      cy.getAllByText('Delete')
-        .first()
-        .click({ force: true });
+      cy.getAllByText('Delete').first().click({ force: true });
       cy.get('.btn-primary').click({ force: true });
     });
 

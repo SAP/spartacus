@@ -193,10 +193,7 @@ describe('ProductLoadingService', () => {
 
     it('should expand loading scopes', () => {
       const loadingScopesService = TestBed.inject(LoadingScopesService);
-      service
-        .get(code, ['scope1', 'scope2'])
-        .subscribe()
-        .unsubscribe();
+      service.get(code, ['scope1', 'scope2']).subscribe().unsubscribe();
       expect(loadingScopesService.expand).toHaveBeenCalledWith('product', [
         'scope1',
         'scope2',
@@ -224,10 +221,7 @@ describe('ProductLoadingService', () => {
     it('should be not trigger multiple product load actions for multiple product subscription.', async () => {
       spyOn(store, 'dispatch').and.stub();
 
-      service
-        .get('productCode', [''])
-        .pipe(take(1))
-        .subscribe();
+      service.get('productCode', ['']).pipe(take(1)).subscribe();
       await service
         .get('productCode', [''])
         .pipe(delay(0), take(1))

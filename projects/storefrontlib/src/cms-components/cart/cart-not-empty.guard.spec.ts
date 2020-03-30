@@ -59,10 +59,7 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then Router should redirect to main page', () => {
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe()
-            .unsubscribe();
+          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'home',
           });
@@ -85,10 +82,7 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then Router should redirect to main page', () => {
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe()
-            .unsubscribe();
+          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'home',
           });
@@ -113,10 +107,7 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then Router should NOT redirect', () => {
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe()
-            .unsubscribe();
+          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
           expect(routingService.go).not.toHaveBeenCalled();
         });
 
@@ -140,10 +131,7 @@ describe('CartNotEmptyGuard', () => {
       });
 
       it('then Router should not redirect to main page', () => {
-        cartNotEmptyGuard
-          .canActivate()
-          .subscribe()
-          .unsubscribe();
+        cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
         expect(routingService.go).not.toHaveBeenCalled();
       });
 

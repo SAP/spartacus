@@ -19,8 +19,9 @@ describe(`${formats.mobile.width + 1}p resolution - My interests`, () => {
   });
 });
 
-describe(`${formats.mobile.width +
-  1}p resolution - My interests paging and sorting`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - My interests paging and sorting`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.window().then(win => win.sessionStorage.clear());

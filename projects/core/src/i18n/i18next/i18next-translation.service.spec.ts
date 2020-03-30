@@ -92,10 +92,7 @@ describe('I18nextTranslationService', () => {
       });
 
       it('should load chunk of key', () => {
-        service
-          .translate(testKey, testOptions)
-          .pipe(first())
-          .subscribe();
+        service.translate(testKey, testOptions).pipe(first()).subscribe();
 
         expect(i18next.loadNamespaces).toHaveBeenCalledWith(
           'testChunk',
