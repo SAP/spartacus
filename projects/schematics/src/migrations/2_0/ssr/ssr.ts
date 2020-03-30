@@ -1,37 +1,58 @@
 import {
   apply,
-  chain, mergeWith, move,
+  chain,
+  mergeWith,
+  move,
+  noop,
   Rule,
-  SchematicContext, SchematicsException, template,
-  Tree, UpdateRecorder, url,
+  SchematicContext,
+  SchematicsException,
+  template,
+  Tree,
+  UpdateRecorder,
+  url,
 } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
-import {strings} from "@angular-devkit/core";
+import { strings } from '@angular-devkit/core';
 import * as ts from 'typescript';
-import {getDecoratorMetadata, getMetadataField} from "@schematics/angular/utility/ast-utils";
 import {
-  addPackageJsonDependency, NodeDependency,
+  getDecoratorMetadata,
+  getMetadataField,
+} from '@schematics/angular/utility/ast-utils';
+import {
+  addPackageJsonDependency,
+  NodeDependency,
   NodeDependencyType,
-  removePackageJsonDependency
-} from "@schematics/angular/utility/dependencies";
+  removePackageJsonDependency,
+} from '@schematics/angular/utility/dependencies';
+import { getPathResultsForFile } from '../../../shared/utils/file-utils';
+import {
+  ANGULAR_CORE,
+  ANGULAR_UNIVERSAL_BUILDERS,
+  ANGULAR_UNIVERSAL_EXPRESS_VERSION,
+  UTF_8,
+} from '../../../shared/constants';
 
 export function migrate(): Rule {
-  return async () => {
-    return chain([
-      backupExistingFiles(),
-      overwriteServerTsFile(),
-      modifyPackageJsonScripts(),
-      removeImportsInMainServerFile(),
-      removeMapLoaderModule(),
-      updateAngularJsonFile(),
-    ]);
+  return async (host: any) => {
+    return (await checkIfSSRIsUsed(host))
+      ? chain([
+          backupExistingFiles(),
+          overwriteServerTsFile(),
+          modifyPackageJsonScripts(),
+          removeImportsInMainServerFile(),
+          removeMapLoaderModule(),
+          updateAngularJsonFile(),
+        ])
+      : noop();
   };
 }
 
-
-export function backupExistingFiles() {
+export function backupExistingFiles(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info('Backing up old server.ts and webpack.server.config.js files.');
+    context.logger.info(
+      'Backing up old server.ts and webpack.server.config.js files.'
+    );
 
     const serverPath = '/server.ts';
     const webpackPath = '/webpack.server.config.js';
@@ -41,7 +62,9 @@ export function backupExistingFiles() {
     }
     const webpackBuffer = tree.read(webpackPath);
     if (webpackBuffer === null) {
-      throw new SchematicsException('Could not find webpack.server.config.js file');
+      throw new SchematicsException(
+        'Could not find webpack.server.config.js file'
+      );
     }
 
     tree.rename(serverPath, './server.ts.bak');
@@ -49,27 +72,28 @@ export function backupExistingFiles() {
   };
 }
 
-export function overwriteServerTsFile() {
+export function overwriteServerTsFile(): Rule {
   return async (tree: Tree, context: SchematicContext) => {
     context.logger.info('Creating new server.ts file.');
     const projectName = await getProjectNameFromWorkspace(tree);
 
-    return chain([mergeWith(apply(
-      url('./files'),
-      [
-        template({
-          ...strings,
-          typescriptExt: 'ts',
-          ...({} as object),
-          browserDistDirectory: `dist/${projectName}/browser`,
-        }),
-        move('.'),
-      ]
-    ))]);
+    return chain([
+      mergeWith(
+        apply(url('./files'), [
+          template({
+            ...strings,
+            typescriptExt: 'ts',
+            ...({} as object),
+            browserDistDirectory: `dist/${projectName}/browser`,
+          }),
+          move('.'),
+        ])
+      ),
+    ]);
   };
 }
 
-export function modifyPackageJsonScripts() {
+export function modifyPackageJsonScripts(): Rule {
   return async (tree: Tree, context: SchematicContext) => {
     context.logger.info('Updating package.json scripts');
     const pkgPath = '/package.json';
@@ -78,7 +102,7 @@ export function modifyPackageJsonScripts() {
       throw new SchematicsException('Could not find package.json');
     }
 
-    const packageJson = JSON.parse(buffer.toString());
+    const packageJson = JSON.parse(buffer.toString(UTF_8));
     const scripts = [
       'compile:server',
       'build:ssr',
@@ -88,15 +112,15 @@ export function modifyPackageJsonScripts() {
     const packagesToAddOrUpdate: NodeDependency[] = [
       {
         type: NodeDependencyType.Default,
-        version: '^9.0.0',
+        version: `^${ANGULAR_UNIVERSAL_EXPRESS_VERSION}`,
         name: '@nguniversal/express-engine',
-        overwrite: true
+        overwrite: true,
       },
       {
         type: NodeDependencyType.Dev,
-        version: '^9.0.0',
+        version: `^${ANGULAR_UNIVERSAL_BUILDERS}`,
         name: '@nguniversal/builders',
-        overwrite: true
+        overwrite: true,
       },
     ];
     const projectName = await getProjectNameFromWorkspace(tree);
@@ -111,21 +135,27 @@ export function modifyPackageJsonScripts() {
     });
 
     packageJson.scripts['dev:ssr'] = `ng run ${projectName}:serve-ssr`;
-    packageJson.scripts['serve:ssr'] = `node dist/${projectName}/server/main.js`;
-    packageJson.scripts['build:ssr'] = `ng build --prod && ng run ${projectName}:server:production`;
+    packageJson.scripts[
+      'serve:ssr'
+    ] = `node dist/${projectName}/server/main.js`;
+    packageJson.scripts[
+      'build:ssr'
+    ] = `ng build --prod && ng run ${projectName}:server:production`;
     packageJson.scripts['prerender'] = `ng run ${projectName}:prerender`;
 
     tree.overwrite(pkgPath, JSON.stringify(packageJson, null, 2));
 
-    removePackageJsonDependency(tree, '@nguniversal/module-map-ngfactory-loader');
-    packagesToAddOrUpdate.forEach((dep) => {
+    removePackageJsonDependency(
+      tree,
+      '@nguniversal/module-map-ngfactory-loader'
+    );
+    packagesToAddOrUpdate.forEach(dep => {
       addPackageJsonDependency(tree, dep);
     });
-
   };
 }
 
-export function removeImportsInMainServerFile() {
+export function removeImportsInMainServerFile(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     context.logger.info(
       'Removing unnecessary ngExpressEngine import after migration'
@@ -137,78 +167,104 @@ export function removeImportsInMainServerFile() {
       throw new SchematicsException('Could not find main.server.ts');
     }
 
-    const exportLineToRemove = "export const ngExpressEngine = NgExpressEngineDecorator.get(engine);";
-    const fileContent = buffer.toString();
+    const exportLineToRemove =
+      'export const ngExpressEngine = NgExpressEngineDecorator.get(engine);';
+    const fileContent = buffer.toString(UTF_8);
     const recorder = tree.beginUpdate(mainServerTsPath);
-    const mainServerTsSourceFile = createSourceFileWithStrippedBOM(tree, mainServerTsPath);
+    const mainServerTsSourceFile = createSourceFileWithStrippedBOM(
+      tree,
+      mainServerTsPath
+    );
 
-    removeFullLineFromExportDeclarationsByModuleName(mainServerTsSourceFile, recorder, '@nguniversal/module-map-ngfactory-loader');
-    removeFullLineFromImportDeclarationsByModuleName(mainServerTsSourceFile, recorder, '@nguniversal/express-engine');
-    removeFullLineFromImportDeclarationsByModuleName(mainServerTsSourceFile, recorder, '@spartacus/core');
-    recorder.remove(fileContent.indexOf(exportLineToRemove), exportLineToRemove.length);
+    removeFullLineFromExportDeclarationsByModuleName(
+      mainServerTsSourceFile,
+      recorder,
+      '@nguniversal/module-map-ngfactory-loader'
+    );
+    removeFullLineFromImportDeclarationsByModuleName(
+      mainServerTsSourceFile,
+      recorder,
+      '@nguniversal/express-engine'
+    );
+    removeFullLineFromImportDeclarationsByModuleName(
+      mainServerTsSourceFile,
+      recorder,
+      '@spartacus/core'
+    );
+    recorder.remove(
+      fileContent.indexOf(exportLineToRemove),
+      exportLineToRemove.length
+    );
 
     tree.commitUpdate(recorder);
   };
 }
 
-export function removeMapLoaderModule() {
+export function removeMapLoaderModule(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.logger.info(
-      'Removing MapLoaderModule import'
-    );
+    context.logger.info('Removing MapLoaderModule import');
 
     const mapLoaderModuleTsPath = 'src/app/app.server.module.ts';
-    const buffer = tree.read(mapLoaderModuleTsPath);
 
-    if (!buffer) {
+    if (!tree.read(mapLoaderModuleTsPath)) {
       throw new SchematicsException('Could not find app.server.module.ts');
     }
 
     const recorder = tree.beginUpdate(mapLoaderModuleTsPath);
-    const moduleMapLoaderToBeRemoved = '@nguniversal/module-map-ngfactory-loader';
-    const appServerModuleSourceFile = createSourceFileWithStrippedBOM(tree, mapLoaderModuleTsPath);
+    const moduleMapLoaderToBeRemoved =
+      '@nguniversal/module-map-ngfactory-loader';
+    const appServerModuleSourceFile = createSourceFileWithStrippedBOM(
+      tree,
+      mapLoaderModuleTsPath
+    );
     const printer = ts.createPrinter();
 
-    removeFullLineFromImportDeclarationsByModuleName(appServerModuleSourceFile, recorder, moduleMapLoaderToBeRemoved);
+    removeFullLineFromImportDeclarationsByModuleName(
+      appServerModuleSourceFile,
+      recorder,
+      moduleMapLoaderToBeRemoved
+    );
 
-    getDecoratorMetadata(appServerModuleSourceFile, 'NgModule', '@angular/core')
-      .forEach((metadata: ts.ObjectLiteralExpression) => {
-        const matchingProperties = getMetadataField(metadata, 'imports');
+    getDecoratorMetadata(
+      appServerModuleSourceFile,
+      'NgModule',
+      ANGULAR_CORE
+    ).forEach((metadata: ts.ObjectLiteralExpression) => {
+      const matchingProperties = getMetadataField(metadata, 'imports');
 
-        if (!matchingProperties) {
-          return;
-        }
+      if (!matchingProperties) {
+        return;
+      }
 
-        const assignment = matchingProperties[0] as ts.PropertyAssignment;
-        if (!ts.isArrayLiteralExpression(assignment.initializer)) {
-          return;
-        }
+      const assignment = matchingProperties[0] as ts.PropertyAssignment;
+      if (!ts.isArrayLiteralExpression(assignment.initializer)) {
+        return;
+      }
 
-        const arrayLiteral = assignment.initializer;
-        const newImports = arrayLiteral.elements
-          .filter(n => !(ts.isIdentifier(n) && n.text === 'ModuleMapLoaderModule'));
+      const arrayLiteral = assignment.initializer;
+      const newImports = arrayLiteral.elements.filter(
+        n => !(ts.isIdentifier(n) && n.text === 'ModuleMapLoaderModule')
+      );
 
-        if (arrayLiteral.elements.length !== newImports.length) {
-          const newImportsText = printer.printNode(
-            ts.EmitHint.Unspecified,
-            ts.updateArrayLiteral(arrayLiteral, newImports),
-            appServerModuleSourceFile,
-          );
+      if (arrayLiteral.elements.length !== newImports.length) {
+        const newImportsText = printer.printNode(
+          ts.EmitHint.Unspecified,
+          ts.updateArrayLiteral(arrayLiteral, newImports),
+          appServerModuleSourceFile
+        );
 
-          const index = arrayLiteral.getStart();
-          const length = arrayLiteral.getWidth();
+        const index = arrayLiteral.getStart();
+        const length = arrayLiteral.getWidth();
 
-          recorder
-            .remove(index, length)
-            .insertLeft(index, newImportsText);
-        }
-      });
+        recorder.remove(index, length).insertLeft(index, newImportsText);
+      }
+    });
 
     tree.commitUpdate(recorder);
   };
 }
 
-export function updateAngularJsonFile() {
+export function updateAngularJsonFile(): Rule {
   return async (tree: Tree, context: SchematicContext) => {
     context.logger.info('Updating angular.json builds dist configuration');
     const projectName = await getProjectNameFromWorkspace(tree);
@@ -218,7 +274,7 @@ export function updateAngularJsonFile() {
       throw new SchematicsException('Could not find angular.json');
     }
 
-    const angularJson = JSON.parse(buffer.toString('utf-8'));
+    const angularJson = JSON.parse(buffer.toString(UTF_8));
     angularJson.projects[projectName].architect.build.options[
       'outputPath'
     ] = `dist/${projectName}/browser`;
@@ -247,33 +303,57 @@ export function updateAngularJsonFile() {
   };
 }
 
+async function checkIfSSRIsUsed(tree: Tree): Promise<boolean> {
+  const projectName = await getProjectNameFromWorkspace(tree);
+  const angularFileBuffer = tree.read('angular.json')!.toString(UTF_8);
+  const angularJson = JSON.parse(angularFileBuffer);
+  const isServerConfiguration = !!angularJson.projects[projectName].architect[
+    'server'
+  ];
+  const serverFilePath = getPathResultsForFile(tree, 'server.ts', '/')[0];
+  const serverFileBuffer = tree.read(serverFilePath)!.toString(UTF_8);
+  const isServerSideAvailable = serverFileBuffer && !!serverFileBuffer.length;
+
+  return !!(isServerConfiguration && isServerSideAvailable);
+}
+
 export async function getProjectNameFromWorkspace(tree: Tree): Promise<string> {
   const workspace = await getWorkspace(tree);
   // No other option than guessing that main project exists on first position of projects map
   return workspace.projects.keys().next().value;
 }
 
-function createSourceFileWithStrippedBOM(tree: Tree, path: string): ts.SourceFile {
+function createSourceFileWithStrippedBOM(
+  tree: Tree,
+  path: string
+): ts.SourceFile {
   // Strip BOM as otherwise TSC methods (Ex: getWidth) will return an offset which
   // which breaks the CLI UpdateRecorder.
   // See: https://github.com/angular/angular/pull/30719
   return ts.createSourceFile(
     path,
-    tree.read(path)!.toString().replace(/^\uFEFF/, ''),
+    tree
+      .read(path)!
+      .toString(UTF_8)
+      .replace(/^\uFEFF/, ''),
     ts.ScriptTarget.Latest,
-    true,
+    true
   );
 }
 
-function removeFullLineFromImportDeclarationsByModuleName(sourceTsFile: ts.SourceFile, treeRecorder: UpdateRecorder, moduleNameString: string): void {
-  sourceTsFile
-    .statements
-    .filter(s => (
-      ts.isImportDeclaration(s) &&
-      s.moduleSpecifier &&
-      ts.isStringLiteral(s.moduleSpecifier) &&
-      s.moduleSpecifier.text === moduleNameString
-    ))
+function removeFullLineFromImportDeclarationsByModuleName(
+  sourceTsFile: ts.SourceFile,
+  treeRecorder: UpdateRecorder,
+  moduleNameString: string
+): void {
+  sourceTsFile.statements
+    .filter(
+      s =>
+        ts.isImportDeclaration(s) &&
+        s.moduleSpecifier &&
+        ts.isStringLiteral(s.moduleSpecifier) &&
+        s.moduleSpecifier.text === moduleNameString
+    )
     .forEach(node => {
       const index = node.getFullStart();
       const length = node.getFullWidth();
@@ -281,15 +361,19 @@ function removeFullLineFromImportDeclarationsByModuleName(sourceTsFile: ts.Sourc
     });
 }
 
-function removeFullLineFromExportDeclarationsByModuleName(sourceTsFile: ts.SourceFile, treeRecorder: UpdateRecorder, moduleNameString: string): void {
-  sourceTsFile
-    .statements
-    .filter(s => (
-      ts.isExportDeclaration(s) &&
-      s.moduleSpecifier &&
-      ts.isStringLiteral(s.moduleSpecifier) &&
-      s.moduleSpecifier.text === moduleNameString
-    ))
+function removeFullLineFromExportDeclarationsByModuleName(
+  sourceTsFile: ts.SourceFile,
+  treeRecorder: UpdateRecorder,
+  moduleNameString: string
+): void {
+  sourceTsFile.statements
+    .filter(
+      s =>
+        ts.isExportDeclaration(s) &&
+        s.moduleSpecifier &&
+        ts.isStringLiteral(s.moduleSpecifier) &&
+        s.moduleSpecifier.text === moduleNameString
+    )
     .forEach(node => {
       const index = node.getFullStart();
       const length = node.getFullWidth();

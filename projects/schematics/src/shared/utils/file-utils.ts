@@ -978,10 +978,10 @@ export function getMetadataProperty(
 
 export function getLineFromTSFile(
   host: Tree,
-  mainServerTsPath: string,
+  path: string,
   position: number
 ): [number, number] {
-  const tsFile = getTsSourceFile(host, mainServerTsPath);
+  const tsFile = getTsSourceFile(host, path);
 
   const lac = tsFile.getLineAndCharacterOfPosition(position);
   const lineStart = tsFile.getPositionOfLineAndCharacter(lac.line, 0);
