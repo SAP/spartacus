@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { RoutingService, OrgUnitUserGroupService, OrgUnitUserGroup } from '@spartacus/core';
+import {
+  RoutingService,
+  OrgUnitUserGroupService,
+  OrgUnitUserGroup,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-user-group-create',
@@ -15,7 +19,7 @@ export class UserGroupCreateComponent {
     this.userGroupService.create(userGroup);
     this.routingService.go({
       cxRoute: 'userGroupDetails',
-      params: {code: userGroup.uid},
+      params: { code: userGroup.uid },
     });
   }
 }

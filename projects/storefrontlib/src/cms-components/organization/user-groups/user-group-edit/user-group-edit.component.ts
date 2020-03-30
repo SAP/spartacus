@@ -39,7 +39,7 @@ export class UserGroupEditComponent implements OnInit {
       );
     this.routingService.go({
       cxRoute: 'userGroupDetails',
-      params: {code: userGroup.uid},
+      params: { code: userGroup.uid },
     });
   }
 }

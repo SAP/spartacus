@@ -265,7 +265,6 @@ export const organization = {
     parentUnit: 'Parent Unit',
     edit: 'Edit',
     back: 'Back to list',
-
   },
   userGroupForm: {
     create: 'Create User Group',
