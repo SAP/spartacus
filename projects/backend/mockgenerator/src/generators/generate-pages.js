@@ -44,7 +44,7 @@ function generateProductPage() {
 function generateHomepage() {
   const productCodes = [...products]
     .splice(0, 6)
-    .map(product => product.code)
+    .map((product) => product.code)
     .join(' ');
   const page = {
     uid: 'homepage',

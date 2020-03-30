@@ -61,7 +61,7 @@ export function claimCoupon(couponCode: string) {
           .token.access_token
       }`,
     },
-  }).then(response => {
+  }).then((response) => {
     expect(response.status).to.eq(201);
   });
 }
@@ -100,7 +100,7 @@ export function placeOrder(stateAuth: any) {
   return cy
     .get('.cx-total')
     .first()
-    .then($cart => {
+    .then(($cart) => {
       const cartId = $cart.text().match(/[0-9]+/)[0];
       cy.requireShippingAddressAdded(user.address, stateAuth);
       cy.requireShippingMethodSelected(stateAuth);

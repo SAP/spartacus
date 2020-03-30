@@ -151,13 +151,13 @@ export function verifyEnableDisableNotification() {
   verfifyNotificationDisable();
   cy.get('[type="checkbox"]:first')
     .should('be.enabled')
-    .then(el => {
+    .then((el) => {
       cy.wrap(el).check();
     });
   verfifyNotificationEnable();
   cy.get('[type="checkbox"]:first')
     .should('be.enabled')
-    .then(el => {
+    .then((el) => {
       cy.wrap(el).uncheck();
     });
   verfifyNotificationDisable();
@@ -166,7 +166,7 @@ export function verifyEnableDisableNotification() {
 export function verfifyNotificationEnable() {
   cy.get('[type="checkbox"]:first')
     .should('be.enabled')
-    .then(el => {
+    .then((el) => {
       cy.wrap(el).should('be.checked');
     });
 }
@@ -174,7 +174,7 @@ export function verfifyNotificationEnable() {
 export function verfifyNotificationDisable() {
   cy.get('[type="checkbox"]:first')
     .should('be.enabled')
-    .then(el => {
+    .then((el) => {
       cy.wrap(el).should('not.be.checked');
     });
 }

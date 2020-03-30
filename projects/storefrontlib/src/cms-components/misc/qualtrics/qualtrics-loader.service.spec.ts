@@ -65,7 +65,7 @@ describe('QualtricsLoaderService', () => {
         let result = false;
         service
           .load()
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -91,7 +91,7 @@ describe('QualtricsLoaderService', () => {
   describe('isDataLoadedMethod', () => {
     it('return true by default', () => {
       let result = false;
-      service[isDataLoadedMethod]().subscribe(value => (result = value));
+      service[isDataLoadedMethod]().subscribe((value) => (result = value));
       expect(result).toEqual(true);
     });
   });

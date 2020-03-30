@@ -42,7 +42,7 @@ function addAddress() {
 
   let authObj;
   cy.window()
-    .then(win => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
+    .then((win) => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
     .then(({ auth }) => {
       authObj = auth;
       getAddressRequest(authObj, address, true);

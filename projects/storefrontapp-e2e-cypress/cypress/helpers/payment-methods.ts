@@ -192,7 +192,7 @@ export function paymentMethodsTest(isMobile: boolean = false) {
 function addPaymentMethod(paymentDetail: PaymentDetail) {
   cy.get('.cx-total')
     .first()
-    .then($cart => {
+    .then(($cart) => {
       const cartid = $cart.text().match(/[0-9]+/)[0];
       cy.request({
         method: 'POST',
@@ -206,7 +206,7 @@ function addPaymentMethod(paymentDetail: PaymentDetail) {
           }`,
         },
         body: paymentDetail,
-      }).then(response => {
+      }).then((response) => {
         expect(response.status).to.eq(201);
       });
     });

@@ -8,7 +8,7 @@ describe(`${
   formats.mobile.width + 1
 }p resolution - Order History with no orders`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.visit('/');
 

@@ -56,17 +56,17 @@ export class PageMetaService {
    */
   protected resolve(metaResolver: PageMetaResolver): Observable<PageMeta> {
     const resolveMethods: any[] = Object.keys(this.resolverMethods)
-      .filter(key => metaResolver[this.resolverMethods[key]])
-      .map(key =>
+      .filter((key) => metaResolver[this.resolverMethods[key]])
+      .map((key) =>
         metaResolver[this.resolverMethods[key]]().pipe(
-          map(data => ({
+          map((data) => ({
             [key]: data,
           }))
         )
       );
 
     return combineLatest(resolveMethods).pipe(
-      map(data => Object.assign({}, ...data))
+      map((data) => Object.assign({}, ...data))
     );
   }
 
@@ -78,7 +78,7 @@ export class PageMetaService {
    */
   protected getMetaResolver(page: Page): PageMetaResolver {
     const matchingResolvers = this.resolvers.filter(
-      resolver => resolver.getScore(page) > 0
+      (resolver) => resolver.getScore(page) > 0
     );
     matchingResolvers.sort(function (a, b) {
       return b.getScore(page) - a.getScore(page);

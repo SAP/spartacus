@@ -51,7 +51,7 @@ describe('ReferenceService', () => {
         of(productReferences)
       );
       let result: ProductReference[];
-      service.get(productCode).subscribe(data => {
+      service.get(productCode).subscribe((data) => {
         result = data;
       });
 

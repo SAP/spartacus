@@ -117,7 +117,7 @@ function addPackageJsonDependencies(): Rule {
       },
     ];
 
-    dependencies.forEach(dependency => {
+    dependencies.forEach((dependency) => {
       addPackageJsonDependency(tree, dependency);
       context.logger.info(
         `✅️ Added '${dependency.name}' into ${dependency.type}`
@@ -299,7 +299,7 @@ function updateIndexFile(
       `<meta name="media-backend-base-url" content="MEDIA_BACKEND_BASE_URL_VALUE" />`,
     ];
 
-    metaTags.forEach(metaTag => {
+    metaTags.forEach((metaTag) => {
       appendHtmlElementToHead(host, projectIndexHtmlPath, metaTag);
     });
 

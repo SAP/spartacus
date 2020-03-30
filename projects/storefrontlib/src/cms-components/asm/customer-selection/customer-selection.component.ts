@@ -58,7 +58,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.form.controls.searchTerm.valueChanges
         .pipe(debounceTime(300))
-        .subscribe(searchTermValue => {
+        .subscribe((searchTermValue) => {
           this.handleSearchTerm(searchTermValue);
         })
     );

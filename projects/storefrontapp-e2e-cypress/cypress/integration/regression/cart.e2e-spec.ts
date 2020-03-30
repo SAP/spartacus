@@ -5,7 +5,7 @@ import { apiUrl, login } from '../../support/utils/login';
 
 describe('Cart', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     visitHomePage();
   });
 
@@ -55,7 +55,7 @@ describe('Cart', () => {
     // Wait to make sure everything was processed, so there won't be any ngrx -> localStorage synchronization
     // Related issue: #4672
     cy.wait(2000);
-    cy.window().then(window => {
+    cy.window().then((window) => {
       const storage = JSON.parse(
         window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
       );
@@ -127,7 +127,7 @@ describe('Cart', () => {
       cart.cartUser.registrationData.email,
       cart.cartUser.registrationData.password,
       false
-    ).then(res => {
+    ).then((res) => {
       expect(res.status).to.eq(200);
       // remove cart
       cy.request({
@@ -136,7 +136,7 @@ describe('Cart', () => {
         headers: {
           Authorization: `bearer ${res.body.access_token}`,
         },
-      }).then(response => {
+      }).then((response) => {
         expect(response.status).to.eq(200);
       });
     });
@@ -146,7 +146,7 @@ describe('Cart', () => {
       cart.cartUser.registrationData.email,
       cart.cartUser.registrationData.password,
       false
-    ).then(res => {
+    ).then((res) => {
       cy.request({
         // create cart
         method: 'POST',
@@ -154,7 +154,7 @@ describe('Cart', () => {
         headers: {
           Authorization: `bearer ${res.body.access_token}`,
         },
-      }).then(response => {
+      }).then((response) => {
         // add entry to cart
         return cy.request({
           method: 'POST',
@@ -192,7 +192,7 @@ describe('Cart', () => {
       cart.cartUser.registrationData.email,
       cart.cartUser.registrationData.password,
       false
-    ).then(res => {
+    ).then((res) => {
       expect(res.status).to.eq(200);
       // remove cart
       cy.request({
@@ -201,7 +201,7 @@ describe('Cart', () => {
         headers: {
           Authorization: `bearer ${res.body.access_token}`,
         },
-      }).then(response => {
+      }).then((response) => {
         expect(response.status).to.eq(200);
       });
     });

@@ -37,7 +37,7 @@ export function getTransferStateReducer(
     }
   }
 
-  return reducer => reducer;
+  return (reducer) => reducer;
 }
 
 export function getServerTransferStateReducer(

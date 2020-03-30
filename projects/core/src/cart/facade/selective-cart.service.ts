@@ -27,7 +27,7 @@ export class SelectiveCartService {
   private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
 
   private cartSelector$ = this.cartId$.pipe(
-    switchMap(cartId => {
+    switchMap((cartId) => {
       this.cartId = cartId;
       return this.multiCartService.getCartEntity(cartId);
     })
@@ -52,7 +52,7 @@ export class SelectiveCartService {
       }
     });
 
-    this.authService.getOccUserId().subscribe(userId => {
+    this.authService.getOccUserId().subscribe((userId) => {
       this.userId = userId;
 
       if (this.isJustLoggedIn(userId)) {
@@ -96,7 +96,7 @@ export class SelectiveCartService {
 
   getLoaded(): Observable<boolean> {
     return this.cartSelector$.pipe(
-      map(cart => (cart.success || cart.error) && !cart.loading)
+      map((cart) => (cart.success || cart.error) && !cart.loading)
     );
   }
 
@@ -114,17 +114,17 @@ export class SelectiveCartService {
     this.cartSelector$
       .pipe(
         filter(() => !loadAttempted),
-        switchMap(cartState => {
+        switchMap((cartState) => {
           if (this.isEmpty(cartState.value) && !cartState.loading) {
             loadAttempted = true;
             this.load();
           }
           return of(cartState);
         }),
-        filter(cartState => !this.isEmpty(cartState.value)),
+        filter((cartState) => !this.isEmpty(cartState.value)),
         take(1)
       )
-      .subscribe(_ => {
+      .subscribe((_) => {
         this.multiCartService.addEntry(
           this.userId,
           this.cartId,

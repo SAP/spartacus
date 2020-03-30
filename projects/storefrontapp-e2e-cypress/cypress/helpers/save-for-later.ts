@@ -91,7 +91,7 @@ export function removeItem(product, position: ItemList) {
   getItem(product, position).within(() => {
     cy.get('.cx-remove-btn > .link')
       .should('not.be.disabled')
-      .then(el => {
+      .then((el) => {
         cy.wrap(el).click();
       });
   });

@@ -205,7 +205,7 @@ describe('ConsentManagementComponent', () => {
 
         let loadingResult = false;
         component.loading$
-          .subscribe(result => (loadingResult = result))
+          .subscribe((result) => (loadingResult = result))
           .unsubscribe();
         expect(loadingResult).toEqual(true);
       });
@@ -236,7 +236,7 @@ describe('ConsentManagementComponent', () => {
 
           let result: ConsentTemplate[];
           component.templateList$
-            .subscribe(templates => (result = templates))
+            .subscribe((templates) => (result = templates))
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
@@ -258,7 +258,7 @@ describe('ConsentManagementComponent', () => {
 
           let result: ConsentTemplate[];
           component.templateList$
-            .subscribe(templates => (result = templates))
+            .subscribe((templates) => (result = templates))
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
@@ -288,7 +288,7 @@ describe('ConsentManagementComponent', () => {
 
           let result: ConsentTemplate[];
           component.templateList$
-            .subscribe(templates => (result = templates))
+            .subscribe((templates) => (result = templates))
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(anonymousConsentsService.getTemplates).toHaveBeenCalled();

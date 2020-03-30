@@ -20,7 +20,7 @@ export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
       map((reviews: Review[]) => {
         return {
           aggregateRating: this.buildAggregatedReviews(product, reviews),
-          review: reviews.map(review => this.buildReviews(review)),
+          review: reviews.map((review) => this.buildReviews(review)),
         };
       })
     );
@@ -34,8 +34,8 @@ export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
       aggregated.ratingValue = product.averageRating;
     }
     if (reviews) {
-      aggregated.ratingCount = reviews.filter(rev => !!rev.rating).length;
-      aggregated.reviewCount = reviews.filter(rev => !!rev.comment).length;
+      aggregated.ratingCount = reviews.filter((rev) => !!rev.rating).length;
+      aggregated.reviewCount = reviews.filter((rev) => !!rev.comment).length;
     }
     return aggregated;
   }

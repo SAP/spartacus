@@ -112,7 +112,7 @@ describe('CheckoutAuthGuard', () => {
         let result: boolean;
         checkoutGuard
           .canActivate()
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toBe(false);
       });
@@ -148,7 +148,7 @@ describe('CheckoutAuthGuard', () => {
         let result: boolean;
         checkoutGuard
           .canActivate()
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toBe(true);
       });
@@ -169,7 +169,7 @@ describe('CheckoutAuthGuard', () => {
         let result: boolean;
         checkoutGuard
           .canActivate()
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toBe(true);
       });
@@ -186,7 +186,7 @@ describe('CheckoutAuthGuard', () => {
         let result: boolean;
         checkoutGuard
           .canActivate()
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toBe(true);
       });

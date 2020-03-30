@@ -5,7 +5,7 @@ describe('Currency switch - product-details page', () => {
   const jpCurrency = ' ¥12,750 ';
 
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   siteContextSelector.stub(

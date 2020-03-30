@@ -68,7 +68,7 @@ describe('NotCheckoutAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(false);
@@ -92,7 +92,7 @@ describe('NotCheckoutAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(false);
@@ -117,7 +117,7 @@ describe('NotCheckoutAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(true);

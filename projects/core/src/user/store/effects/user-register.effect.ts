@@ -19,7 +19,7 @@ export class UserRegisterEffects {
     mergeMap((user: UserSignUp) =>
       this.userConnector.register(user).pipe(
         map(() => new UserActions.RegisterUserSuccess()),
-        catchError(error =>
+        catchError((error) =>
           of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
         )
       )
@@ -34,14 +34,14 @@ export class UserRegisterEffects {
     map((action: UserActions.RegisterGuest) => action.payload),
     mergeMap(({ guid, password }) =>
       this.userConnector.registerGuest(guid, password).pipe(
-        switchMap(user => [
+        switchMap((user) => [
           new AuthActions.LoadUserToken({
             userId: user.uid,
             password: password,
           }),
           new UserActions.RegisterGuestSuccess(),
         ]),
-        catchError(error =>
+        catchError((error) =>
           of(new UserActions.RegisterGuestFail(makeErrorSerializable(error)))
         )
       )
@@ -56,11 +56,11 @@ export class UserRegisterEffects {
     map((action: UserActions.RemoveUser) => action.payload),
     mergeMap((userId: string) => {
       return this.userConnector.remove(userId).pipe(
-        switchMap(_result => [
+        switchMap((_result) => [
           new UserActions.RemoveUserSuccess(),
           new AuthActions.Logout(),
         ]),
-        catchError(error =>
+        catchError((error) =>
           of(new UserActions.RemoveUserFail(makeErrorSerializable(error)))
         )
       );

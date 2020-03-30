@@ -2,7 +2,7 @@ import * as login from '../../helpers/login';
 
 describe('Login', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
 
     login.registerUser();

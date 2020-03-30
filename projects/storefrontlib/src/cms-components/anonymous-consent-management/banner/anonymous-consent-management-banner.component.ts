@@ -33,7 +33,7 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
     this.subscriptions.add(
       this.anonymousConsentsService
         .giveAllConsents()
-        .pipe(tap(_ => this.hideBanner()))
+        .pipe(tap((_) => this.hideBanner()))
         .subscribe()
     );
   }

@@ -7,7 +7,7 @@ describe(`${
 }p resolution - Notification Preference for guest`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   it('should redirect to login page for anonymous user', () => {
@@ -20,7 +20,7 @@ describe(`${
 }p resolution - Notification Preference for customer`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     registerAndLogin();
     cy.visit('/');
   });

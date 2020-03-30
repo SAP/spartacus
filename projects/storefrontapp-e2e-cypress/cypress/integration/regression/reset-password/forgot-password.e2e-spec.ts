@@ -3,7 +3,7 @@ import * as alerts from '../../../helpers/global-message';
 context('Forgot Password Page', () => {
   beforeEach(() => {
     // Clear the session to make sure no user is athenticated.
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/login/forgot-password');
   });
 

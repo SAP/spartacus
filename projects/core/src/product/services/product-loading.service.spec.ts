@@ -128,7 +128,7 @@ describe('ProductLoadingService', () => {
         });
       });
 
-      it('should take into account order of scopes for subsequent emissions', done => {
+      it('should take into account order of scopes for subsequent emissions', (done) => {
         const action1scope1 = new ProductActions.LoadProductSuccess(
           { code, name: 'first', summary: 'a' },
           'scope1'
@@ -151,7 +151,7 @@ describe('ProductLoadingService', () => {
           .get(code, ['scope1', 'scope2'])
           .pipe(take(3))
           .subscribe({
-            next: res => {
+            next: (res) => {
               results.push(res);
             },
             complete: () => {
@@ -299,7 +299,7 @@ describe('ProductLoadingService', () => {
          */
         const subscriber$ = timer(0, 20, getTestScheduler()).pipe(
           take(3),
-          switchMap(intervalId => (intervalId % 2 ? NEVER : trigger$))
+          switchMap((intervalId) => (intervalId % 2 ? NEVER : trigger$))
         );
         const expected$ = cold('50ms a', { a: true });
 
@@ -330,7 +330,7 @@ describe('ProductLoadingService', () => {
          */
         const subscriber$ = timer(0, 40, getTestScheduler()).pipe(
           take(3),
-          switchMap(intervalId => (intervalId % 2 ? NEVER : trigger$))
+          switchMap((intervalId) => (intervalId % 2 ? NEVER : trigger$))
         );
         const expected$ = cold('80ms a', { a: true });
 

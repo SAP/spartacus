@@ -20,13 +20,13 @@ export function retrieveTokenAndLogin() {
     });
   }
 
-  login(username, password, false).then(res => {
+  login(username, password, false).then((res) => {
     if (res.status === 200) {
       // User is already registered - only set session in localStorage
       setSessionData({ ...res.body, userId: username });
     } else {
       // User needs to be registered
-      retrieveAuthToken().then(response =>
+      retrieveAuthToken().then((response) =>
         cy.request({
           method: 'POST',
           url: config.newUserUrl,
@@ -77,7 +77,7 @@ export function addShippingAddress() {
       postalCode: 'H4B3L4',
       phone: '',
     },
-  }).then(response => {
+  }).then((response) => {
     expect(response.status).to.eq(201);
   });
 }
@@ -113,7 +113,7 @@ export function addProductToCart() {
 export function addPaymentMethod() {
   cy.get('.cx-total')
     .first()
-    .then($cart => {
+    .then(($cart) => {
       const cartid = $cart.text().match(/[0-9]+/)[0];
       cy.request({
         method: 'POST',
@@ -145,7 +145,7 @@ export function addPaymentMethod() {
             country: { isocode: 'US' },
           },
         },
-      }).then(response => {
+      }).then((response) => {
         expect(response.status).to.eq(201);
       });
     });
@@ -245,12 +245,12 @@ export function deleteShippingAddress() {
       }`,
     },
   })
-    .then(response => {
+    .then((response) => {
       const addressResp = response.body.addresses;
       expect(addressResp[0]).to.have.property('id');
       return addressResp[0].id;
     })
-    .then(id => {
+    .then((id) => {
       // Delete the address
       cy.request({
         method: 'DELETE',
@@ -263,7 +263,7 @@ export function deleteShippingAddress() {
               .userToken.token.access_token
           }`,
         },
-      }).then(response => {
+      }).then((response) => {
         expect(response.status).to.eq(200);
       });
     });
@@ -282,12 +282,12 @@ export function deletePaymentCard() {
       }`,
     },
   })
-    .then(response => {
+    .then((response) => {
       const paymentResp = response.body.payments;
       expect(paymentResp[0]).to.have.property('id');
       return paymentResp[0].id;
     })
-    .then(id => {
+    .then((id) => {
       // Delete the payment
       cy.request({
         method: 'DELETE',
@@ -300,7 +300,7 @@ export function deletePaymentCard() {
               .userToken.token.access_token
           }`,
         },
-      }).then(response => {
+      }).then((response) => {
         expect(response.status).to.eq(200);
       });
     });

@@ -3,7 +3,7 @@ import { product } from '../../../sample-data/checkout-flow';
 
 describe('Order History with orders', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
   });
 

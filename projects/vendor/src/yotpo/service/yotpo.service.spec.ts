@@ -76,7 +76,7 @@ describe('YotpoService', () => {
 
   it('should fetch product data', () => {
     let result: Product;
-    service.getProduct().subscribe(product => (result = product));
+    service.getProduct().subscribe((product) => (result = product));
     expect(result).toEqual(mockProduct);
   });
 

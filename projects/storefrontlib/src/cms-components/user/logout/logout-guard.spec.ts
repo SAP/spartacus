@@ -106,7 +106,7 @@ describe('LogoutGuard', () => {
       let result: boolean;
       logoutGuard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(false);

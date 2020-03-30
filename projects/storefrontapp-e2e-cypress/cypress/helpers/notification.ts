@@ -120,7 +120,7 @@ export function clickNotifyMeBtn(productCode: string) {
   cy.get('cx-stock-notification > .btn')
     .should('contain', 'NOTIFY ME')
     .should('not.be.disabled')
-    .then(el => {
+    .then((el) => {
       cy.wrap(el).click();
     });
 }

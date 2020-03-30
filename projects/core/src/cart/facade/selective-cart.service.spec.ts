@@ -119,7 +119,7 @@ describe('Selective Cart Service', () => {
     let result;
     service
       .getCart()
-      .subscribe(val => (result = val))
+      .subscribe((val) => (result = val))
       .unsubscribe();
     expect(result).toEqual(undefined);
     expect(multiCartService.loadCart).toHaveBeenCalledTimes(0);
@@ -137,7 +137,7 @@ describe('Selective Cart Service', () => {
     let result;
     service
       .getCart()
-      .subscribe(val => (result = val))
+      .subscribe((val) => (result = val))
       .unsubscribe();
     expect(result).toEqual({});
     expect(multiCartService.loadCart).toHaveBeenCalledTimes(0);
@@ -154,7 +154,7 @@ describe('Selective Cart Service', () => {
     let result: boolean;
     service
       .getLoaded()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
@@ -170,7 +170,7 @@ describe('Selective Cart Service', () => {
     let result: boolean;
     service
       .getLoaded()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
@@ -186,7 +186,7 @@ describe('Selective Cart Service', () => {
     let result: boolean;
     service
       .getLoaded()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
   });
@@ -214,7 +214,7 @@ describe('Selective Cart Service', () => {
     let result;
     service
       .getCart()
-      .subscribe(val => (result = val))
+      .subscribe((val) => (result = val))
       .unsubscribe();
     expect(service['load']).toHaveBeenCalled();
     expect(result).toEqual({});
@@ -230,7 +230,7 @@ describe('Selective Cart Service', () => {
     let result;
     service
       .getEntries()
-      .subscribe(val => (result = val))
+      .subscribe((val) => (result = val))
       .unsubscribe();
 
     expect(result).toEqual([mockCartEntry]);
@@ -310,7 +310,7 @@ describe('Selective Cart Service', () => {
     let result;
     service
       .getEntry('code123')
-      .subscribe(entry => (result = entry))
+      .subscribe((entry) => (result = entry))
       .unsubscribe();
 
     expect(result).toEqual(mockCartEntry);

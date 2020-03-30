@@ -15,12 +15,12 @@ export class UserDetailsEffects {
   > = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_DETAILS),
     map((action: UserActions.LoadUserDetails) => action.payload),
-    mergeMap(userId => {
+    mergeMap((userId) => {
       return this.userConnector.get(userId).pipe(
         map((user: User) => {
           return new UserActions.LoadUserDetailsSuccess(user);
         }),
-        catchError(error =>
+        catchError((error) =>
           of(new UserActions.LoadUserDetailsFail(makeErrorSerializable(error)))
         )
       );
@@ -33,10 +33,12 @@ export class UserDetailsEffects {
   > = this.actions$.pipe(
     ofType(UserActions.UPDATE_USER_DETAILS),
     map((action: UserActions.UpdateUserDetails) => action.payload),
-    concatMap(payload =>
+    concatMap((payload) =>
       this.userConnector.update(payload.username, payload.userDetails).pipe(
-        map(_ => new UserActions.UpdateUserDetailsSuccess(payload.userDetails)),
-        catchError(error =>
+        map(
+          (_) => new UserActions.UpdateUserDetailsSuccess(payload.userDetails)
+        ),
+        catchError((error) =>
           of(
             new UserActions.UpdateUserDetailsFail(makeErrorSerializable(error))
           )

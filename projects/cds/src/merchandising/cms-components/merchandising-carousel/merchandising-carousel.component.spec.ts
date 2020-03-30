@@ -107,7 +107,7 @@ merchandisingCarouselModelMetadata.set(
   'custom-metadata-data-value-1'
 );
 const merchandisingCarouselModel: MerchandisingCarouselModel = {
-  items$: merchandisingCarouselModelProducts.map(merchandisingProduct =>
+  items$: merchandisingCarouselModelProducts.map((merchandisingProduct) =>
     of(merchandisingProduct)
   ),
   metadata: merchandisingCarouselModelMetadata,
@@ -164,7 +164,7 @@ describe('MerchandisingCarouselComponent', () => {
   it('should have a title', async(() => {
     let actualTitle: string;
     component.merchandisingCarouselModel$.subscribe(
-      carouselModel => (actualTitle = carouselModel.title)
+      (carouselModel) => (actualTitle = carouselModel.title)
     );
     expect(actualTitle).toBe(mockComponentData.title);
   }));
@@ -172,7 +172,7 @@ describe('MerchandisingCarouselComponent', () => {
   it('should have a background color', async(() => {
     let actualBackgroundColor: string;
     component.merchandisingCarouselModel$.subscribe(
-      carouselModel =>
+      (carouselModel) =>
         (actualBackgroundColor = <string>carouselModel.backgroundColor)
     );
     expect(actualBackgroundColor).toBe(mockComponentData.backgroundColour);
@@ -181,7 +181,7 @@ describe('MerchandisingCarouselComponent', () => {
   it('should have a text color', async(() => {
     let actualTextColor: string;
     component.merchandisingCarouselModel$.subscribe(
-      carouselModel => (actualTextColor = <string>carouselModel.textColor)
+      (carouselModel) => (actualTextColor = <string>carouselModel.textColor)
     );
     expect(actualTextColor).toBe(mockComponentData.textColour);
   }));
@@ -189,10 +189,10 @@ describe('MerchandisingCarouselComponent', () => {
   it('should have MerchandisingProducts populated', async(() => {
     let actualCarouselMetadata: Map<string, string>;
     const actualCarouselProducts: MerchandisingProduct[] = [];
-    component.merchandisingCarouselModel$.subscribe(merchandisingProducts => {
+    component.merchandisingCarouselModel$.subscribe((merchandisingProducts) => {
       actualCarouselMetadata = merchandisingProducts.metadata;
-      merchandisingProducts.items$.forEach(observableProduct =>
-        observableProduct.subscribe(product =>
+      merchandisingProducts.items$.forEach((observableProduct) =>
+        observableProduct.subscribe((product) =>
           actualCarouselProducts.push(product)
         )
       );
@@ -204,7 +204,7 @@ describe('MerchandisingCarouselComponent', () => {
   it('should have 2 items', async(() => {
     let items: Observable<Product>[];
     component.merchandisingCarouselModel$.subscribe(
-      actualMerchandisingCarouselModel =>
+      (actualMerchandisingCarouselModel) =>
         (items = actualMerchandisingCarouselModel.items$)
     );
     expect(items.length).toBe(2);
@@ -213,11 +213,11 @@ describe('MerchandisingCarouselComponent', () => {
   it('should have product code 111 in first product', async(() => {
     let items: Observable<Product>[];
     component.merchandisingCarouselModel$.subscribe(
-      actualMerchandisingCarouselModel =>
+      (actualMerchandisingCarouselModel) =>
         (items = actualMerchandisingCarouselModel.items$)
     );
     let product: Product;
-    items[0].subscribe(p => (product = p));
+    items[0].subscribe((p) => (product = p));
     expect(product).toEqual(merchandisingCarouselModelProducts[0]);
   }));
 

@@ -159,7 +159,7 @@ describe('PageMetaService', () => {
     let result: PageMeta;
     service
       .getMeta()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
@@ -172,7 +172,7 @@ describe('PageMetaService', () => {
     let result: PageMeta;
     service
       .getMeta()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
@@ -253,7 +253,7 @@ describe('Custom PageTitleService', () => {
     let result: CustomPageMeta;
     service
       .getMeta()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result.keywords).toEqual(KEYWORDS);

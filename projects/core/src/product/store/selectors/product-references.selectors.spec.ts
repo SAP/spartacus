@@ -50,7 +50,7 @@ describe('Product References selectors', () => {
           )
         )
       )
-      .subscribe(data => (result = data))
+      .subscribe((data) => (result = data))
       .unsubscribe();
 
     expect(result).toEqual(list);
@@ -75,7 +75,7 @@ describe('Product References selectors', () => {
           )
         )
       )
-      .subscribe(data => (result = data))
+      .subscribe((data) => (result = data))
       .unsubscribe();
 
     expect(result).toEqual([{ referenceType: 'ACCESSORIES', target: product }]);
@@ -100,7 +100,7 @@ describe('Product References selectors', () => {
           )
         )
       )
-      .subscribe(data => (result = data))
+      .subscribe((data) => (result = data))
       .unsubscribe();
 
     expect(result).toEqual([]);

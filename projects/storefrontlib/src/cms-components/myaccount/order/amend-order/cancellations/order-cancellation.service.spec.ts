@@ -85,7 +85,7 @@ describe('OrderCancellationService', () => {
 
     service
       .getForm()
-      .subscribe(f => (form = f))
+      .subscribe((f) => (form = f))
       .unsubscribe();
 
     form.get('entries').get('1').setValue(3);
@@ -103,7 +103,7 @@ describe('OrderCancellationService', () => {
     let result;
     service
       .getEntries()
-      .subscribe(entries => (result = entries))
+      .subscribe((entries) => (result = entries))
       .unsubscribe();
 
     expect(result.length).toEqual(2);
@@ -114,7 +114,7 @@ describe('OrderCancellationService', () => {
 
     service
       .getAmendedEntries()
-      .subscribe(entries => (result = entries))
+      .subscribe((entries) => (result = entries))
       .unsubscribe();
 
     expect(result.length).toEqual(1);

@@ -251,7 +251,7 @@ describe('ComponentWrapperDirective', () => {
         expect(scriptEl.src).toContain('path/to/file.js');
       });
 
-      it('should instantiate web component', done => {
+      it('should instantiate web component', (done) => {
         scriptEl.onload(); // invoke load callbacks
 
         // run in next runloop (to process async tasks)
@@ -266,7 +266,7 @@ describe('ComponentWrapperDirective', () => {
         });
       });
 
-      it('should pass cxApi to web component', done => {
+      it('should pass cxApi to web component', (done) => {
         scriptEl.onload(); // invoke load callbacks
 
         // run in next runloop (to process async tasks)

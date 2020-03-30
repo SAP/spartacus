@@ -53,7 +53,7 @@ describe(`OrderCancellationGuard`, () => {
     let result;
     guard
       .canActivate()
-      .subscribe(r => (result = r))
+      .subscribe((r) => (result = r))
       .unsubscribe();
     expect(result).toBeFalsy();
     expect(routing.go).toHaveBeenCalled();
@@ -64,7 +64,7 @@ describe(`OrderCancellationGuard`, () => {
     let result;
     guard
       .canActivate()
-      .subscribe(r => (result = r))
+      .subscribe((r) => (result = r))
       .unsubscribe();
     expect(result).toBeTruthy();
     expect(routing.go).not.toHaveBeenCalled();

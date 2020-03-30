@@ -22,13 +22,13 @@ export class FooterNavigationComponent {
   );
 
   styleClass$: Observable<string> = this.componentData.data$.pipe(
-    map(d => d.styleClass)
+    map((d) => d.styleClass)
   );
 
   // in order to preserve the backwards compatibility, this should render only if anonymous consents feature is disabled
   data$ = this.componentData.data$.pipe(
     filter(
-      _ =>
+      (_) =>
         !isFeatureEnabled(
           this.anonymousConsentsConfig,
           ANONYMOUS_CONSENTS_FEATURE

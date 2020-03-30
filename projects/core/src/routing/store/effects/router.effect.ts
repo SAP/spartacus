@@ -25,7 +25,7 @@ export class RouterEffects {
   navigateBuUrl$: Observable<any> = this.actions$.pipe(
     ofType(RoutingActions.ROUTER_GO_BY_URL),
     map((action: RoutingActions.RouteGoAction) => action.payload),
-    tap(url => {
+    tap((url) => {
       this.router.navigateByUrl(url);
     })
   );
@@ -37,7 +37,7 @@ export class RouterEffects {
       AuthActions.LOGOUT,
       AuthActions.LOGIN
     ),
-    tap(_ => {
+    tap((_) => {
       const filteredConfig = this.router.config.filter(
         (route: CmsRoute) => !(route.data && route.data.cxCmsRouteContext)
       );

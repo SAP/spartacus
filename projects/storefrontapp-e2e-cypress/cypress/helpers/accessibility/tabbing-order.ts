@@ -48,7 +48,7 @@ export function verifyTabElement(tabElement: TabElement) {
 
     cy.focused()
       .invoke('text')
-      .then(text => {
+      .then((text) => {
         expect(text).to.match(regexp);
       });
   };
@@ -112,7 +112,7 @@ export function verifyTabElement(tabElement: TabElement) {
       const selector = tabElement.value[0];
       const index = tabElement.value[1];
 
-      cy.focused().then(focusedElement => {
+      cy.focused().then((focusedElement) => {
         cy.get(selector).eq(index).should('match', focusedElement.get()[0]);
       });
     }
@@ -125,7 +125,7 @@ export function verifyTabbingOrder(
 ) {
   cy.get(containerSelector)
     .find(focusableSelectors.join(','))
-    .then(focusableElements =>
+    .then((focusableElements) =>
       focusableElements.filter((_, element) => element.offsetParent != null)
     )
     .as('children')

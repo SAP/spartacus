@@ -9,18 +9,18 @@ const currentPage = 1;
 const sort = 'byDate';
 
 class MockUserAdapter implements CustomerCouponAdapter {
-  getCustomerCoupons = createSpy('getCustomerCoupons').and.callFake(userId =>
+  getCustomerCoupons = createSpy('getCustomerCoupons').and.callFake((userId) =>
     of(`loadList-${userId}`)
   );
-  turnOnNotification = createSpy('turnOnNotification').and.callFake(userId =>
+  turnOnNotification = createSpy('turnOnNotification').and.callFake((userId) =>
     of(`subscribe-${userId}`)
   );
   turnOffNotification = createSpy('turnOffNotification').and.returnValue(
     of({})
   );
-  claimCustomerCoupon = createSpy('claimCustomerCoupon').and.callFake(userId =>
-    of(`claim-${userId}`)
-  );
+  claimCustomerCoupon = createSpy(
+    'claimCustomerCoupon'
+  ).and.callFake((userId) => of(`claim-${userId}`));
 }
 
 describe('CustomerCouponConnector', () => {
@@ -46,7 +46,7 @@ describe('CustomerCouponConnector', () => {
     let result;
     service
       .getCustomerCoupons('user-id', PAGE_SIZE, currentPage, sort)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual('loadList-user-id');
     expect(adapter.getCustomerCoupons).toHaveBeenCalledWith(
       'user-id',
@@ -60,7 +60,7 @@ describe('CustomerCouponConnector', () => {
     let result;
     service
       .turnOnNotification('userId', 'couponCode')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual('subscribe-userId');
     expect(adapter.turnOnNotification).toHaveBeenCalledWith(
       'userId',
@@ -72,7 +72,7 @@ describe('CustomerCouponConnector', () => {
     let result;
     service
       .turnOffNotification('userId', 'couponCode')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.turnOffNotification).toHaveBeenCalledWith(
       'userId',
@@ -84,7 +84,7 @@ describe('CustomerCouponConnector', () => {
     let result;
     service
       .claimCustomerCoupon('userId', 'couponCode')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual('claim-userId');
     expect(adapter.claimCustomerCoupon).toHaveBeenCalledWith(
       'userId',

@@ -10,7 +10,7 @@ describe(`${
   formats.mobile.width + 1
 }p resolution - Update Password page`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   beforeEach(() => {

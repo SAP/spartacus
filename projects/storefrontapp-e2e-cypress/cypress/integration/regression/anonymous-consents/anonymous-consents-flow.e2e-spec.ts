@@ -16,7 +16,7 @@ import {
 context('Anonymous consents flow', () => {
   describe('when anonymous user', () => {
     before(() => {
-      cy.window().then(win => {
+      cy.window().then((win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
@@ -29,7 +29,7 @@ context('Anonymous consents flow', () => {
 
   describe('when registering a user and checking registration consent', () => {
     before(() => {
-      cy.window().then(win => {
+      cy.window().then((win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
@@ -41,7 +41,7 @@ context('Anonymous consents flow', () => {
 
   describe('moving from the anonymous user to the registered user', () => {
     before(() => {
-      cy.window().then(win => {
+      cy.window().then((win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
@@ -54,7 +54,7 @@ context('Anonymous consents flow', () => {
 
   describe('moving from anonymous user to the logged in user', () => {
     before(() => {
-      cy.window().then(win => {
+      cy.window().then((win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
@@ -68,7 +68,7 @@ context('Anonymous consents flow', () => {
 
   describe('when a user is logged in', () => {
     before(() => {
-      cy.window().then(win => {
+      cy.window().then((win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
@@ -82,7 +82,7 @@ context('Anonymous consents flow', () => {
 
   describe('when changing the language with consents', () => {
     before(() => {
-      cy.window().then(win => {
+      cy.window().then((win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });

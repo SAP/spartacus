@@ -64,11 +64,11 @@ describe('OccUserAdapter', () => {
 
   describe('load user details', () => {
     it('should load user details for given username and access token', () => {
-      occUserAdapter.load(username).subscribe(result => {
+      occUserAdapter.load(username).subscribe((result) => {
         expect(result).toEqual(user);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -83,7 +83,7 @@ describe('OccUserAdapter', () => {
     it('should use converter', () => {
       occUserAdapter.load(username).subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'GET';
         })
         .flush(user);
@@ -96,9 +96,9 @@ describe('OccUserAdapter', () => {
       const userUpdates: User = {
         title: 'mr',
       };
-      occUserAdapter.update(username, userUpdates).subscribe(_ => _);
+      occUserAdapter.update(username, userUpdates).subscribe((_) => _);
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'PATCH';
       });
       expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
@@ -118,7 +118,7 @@ describe('OccUserAdapter', () => {
 
       occUserAdapter.update(username, userUpdates).subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'PATCH';
         })
         .flush(userUpdates);
@@ -135,9 +135,9 @@ describe('OccUserAdapter', () => {
         uid: 'uid',
         password: 'password',
       };
-      occUserAdapter.register(userSignUp).subscribe(_ => _);
+      occUserAdapter.register(userSignUp).subscribe((_) => _);
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
       });
       expect(occEnpointsService.getUrl).toHaveBeenCalledWith('userRegister');
@@ -155,7 +155,7 @@ describe('OccUserAdapter', () => {
       };
       occUserAdapter.register(userSignUp).subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'POST';
         })
         .flush(userSignUp);
@@ -170,9 +170,9 @@ describe('OccUserAdapter', () => {
     it('should able to register a new user from guest', () => {
       const guid = 'guid';
       const pwd = 'password';
-      occUserAdapter.registerGuest(guid, pwd).subscribe(_ => _);
+      occUserAdapter.registerGuest(guid, pwd).subscribe((_) => _);
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'POST' &&
           req.serializeBody() === `guid=${guid}&password=${pwd}`
@@ -191,9 +191,9 @@ describe('OccUserAdapter', () => {
       const testUserId = 'test@test.com';
       occUserAdapter
         .requestForgotPasswordEmail(testUserId)
-        .subscribe(result => expect(result).toEqual(''));
+        .subscribe((result) => expect(result).toEqual(''));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'POST' &&
           req.serializeBody() === `userId=${testUserId}`
@@ -215,9 +215,9 @@ describe('OccUserAdapter', () => {
 
       occUserAdapter
         .resetPassword(token, newPassword)
-        .subscribe(result => expect(result).toEqual(''));
+        .subscribe((result) => expect(result).toEqual(''));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
       });
 
@@ -239,9 +239,9 @@ describe('OccUserAdapter', () => {
     it('should be able to close user account', () => {
       occUserAdapter
         .remove('testUserId')
-        .subscribe(result => expect(result).toEqual(''));
+        .subscribe((result) => expect(result).toEqual(''));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'DELETE';
       });
 
@@ -263,9 +263,9 @@ describe('OccUserAdapter', () => {
 
       occUserAdapter
         .updateEmail(userId, currentPassword, newUserId)
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PUT' &&
           req.serializeBody() ===
@@ -293,9 +293,9 @@ describe('OccUserAdapter', () => {
 
       occUserAdapter
         .updatePassword(userId, oldPassword, newPassword)
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PUT' &&
           req.serializeBody() === `old=${oldPassword}&new=${newPassword}`
@@ -327,11 +327,11 @@ describe('OccUserAdapter', () => {
         ],
       };
 
-      occUserAdapter.loadTitles().subscribe(result => {
+      occUserAdapter.loadTitles().subscribe((result) => {
         expect(result).toEqual(titlesList.titles);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 

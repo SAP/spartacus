@@ -65,7 +65,7 @@ describe('NotAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(false);
@@ -89,7 +89,7 @@ describe('NotAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(true);

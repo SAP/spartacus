@@ -26,7 +26,7 @@ export const assertAddressForm = (
 ): void => {
   state = state ? state : 'CA-QC';
   cy.get('cx-card .card-header').contains('✓ DEFAULT');
-  cy.get('cx-card .card-body').within(_ => {
+  cy.get('cx-card .card-body').within((_) => {
     cy.get('.cx-card-label-bold').should(
       'contain',
       `${address.firstName} ${address.lastName}`

@@ -63,7 +63,7 @@ export class TabFocusService extends AutoFocusService {
     }
 
     const firstItemOnNextSlide = this.getChildren(host, config)?.find(
-      tab =>
+      (tab) =>
         tab.offsetLeft >=
         (host.scrollWidth / virtualSlideCount) * nextVirtualSlide
     );
@@ -78,7 +78,7 @@ export class TabFocusService extends AutoFocusService {
   ): HTMLElement {
     const childs = this.getChildren(host, config);
     let activeIndex = childs?.findIndex(
-      c => c === this.getActiveChild(host, config)
+      (c) => c === this.getActiveChild(host, config)
     );
 
     if (!activeIndex || activeIndex === -1) {
@@ -108,7 +108,7 @@ export class TabFocusService extends AutoFocusService {
       return persisted;
     }
     const children = this.getChildren(host, config);
-    let index = children.findIndex(tab => this.isActive(tab));
+    let index = children.findIndex((tab) => this.isActive(tab));
     if (!index || index === -1) {
       index = 0;
     }
@@ -147,7 +147,7 @@ export class TabFocusService extends AutoFocusService {
 
     return (
       el === child ||
-      !!Array.from(el.querySelectorAll(selector)).find(e => e === child)
+      !!Array.from(el.querySelectorAll(selector)).find((e) => e === child)
     );
   }
 }

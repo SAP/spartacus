@@ -2,7 +2,7 @@ import * as siteContextSelector from '../../../../helpers/site-context-selector'
 
 describe('Language switch - my-account pages', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
   });
 

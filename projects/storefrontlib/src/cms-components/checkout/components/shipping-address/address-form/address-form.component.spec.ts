@@ -89,7 +89,7 @@ const mockSuggestedAddressModalRef: any = {
     enteredAddress: '',
     suggestedAddresses: '',
   },
-  result: new Promise(resolve => {
+  result: new Promise((resolve) => {
     return resolve(true);
   }),
 };
@@ -169,7 +169,7 @@ describe('AddressFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get countries and titles data even when they not exist', done => {
+  it('should call ngOnInit to get countries and titles data even when they not exist', (done) => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userAddressService, 'loadDeliveryCountries').and.stub();
 
@@ -215,19 +215,19 @@ describe('AddressFormComponent', () => {
 
     let countries: Country[];
     component.countries$
-      .subscribe(data => {
+      .subscribe((data) => {
         countries = data;
       })
       .unsubscribe();
     let titles: Title[];
     component.titles$
-      .subscribe(data => {
+      .subscribe((data) => {
         titles = data;
       })
       .unsubscribe();
     let regions: Region[];
     component.regions$
-      .subscribe(data => {
+      .subscribe((data) => {
         regions = data;
       })
       .unsubscribe();
@@ -360,7 +360,7 @@ describe('AddressFormComponent', () => {
     const mockCountryIsocode = 'test country isocode';
     component.countrySelected({ isocode: mockCountryIsocode });
     component.ngOnInit();
-    component.regions$.subscribe(_ => _);
+    component.regions$.subscribe((_) => _);
     expect(
       component.address['controls'].country['controls'].isocode.value
     ).toEqual(mockCountryIsocode);
@@ -394,7 +394,7 @@ describe('AddressFormComponent', () => {
     const mockCountryIsocode = 'test country isocode';
     component.regionSelected({ isocode: mockCountryIsocode });
     component.ngOnInit();
-    component.regions$.subscribe(_ => _);
+    component.regions$.subscribe((_) => _);
     component.verifyAddress();
     expect(
       component.address['controls'].region['controls'].isocode.value

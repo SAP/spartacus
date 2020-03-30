@@ -74,7 +74,7 @@ describe('AuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toBe(false);
     });
@@ -94,7 +94,7 @@ describe('AuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toBe(true);
     });

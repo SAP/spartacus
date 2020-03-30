@@ -70,7 +70,7 @@ export function selectPaymentMethod() {
 }
 
 export function goToOrderHistoryDetailsFromSummary() {
-  cy.get('.cx-page-title').then(el => {
+  cy.get('.cx-page-title').then((el) => {
     const orderNumber = el.text().match(/\d+/)[0];
     cy.visit(`/my-account/order/${orderNumber}`);
   });

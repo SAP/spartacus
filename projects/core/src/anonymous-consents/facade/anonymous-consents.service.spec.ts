@@ -95,7 +95,7 @@ describe('AnonymousConsentsService', () => {
         let result: ConsentTemplate[];
         service
           .getTemplates()
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(mockConsentTemplates);
         expect(service.loadTemplates).not.toHaveBeenCalled();
@@ -141,7 +141,7 @@ describe('AnonymousConsentsService', () => {
     let result: ConsentTemplate;
     service
       .getTemplate(mockTemplateId)
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(mockConsentTemplates[0]);
   });
@@ -154,7 +154,7 @@ describe('AnonymousConsentsService', () => {
     let result = false;
     service
       .getLoadTemplatesLoading()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
@@ -169,7 +169,7 @@ describe('AnonymousConsentsService', () => {
     let result = false;
     service
       .getLoadTemplatesSuccess()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
@@ -182,7 +182,7 @@ describe('AnonymousConsentsService', () => {
     let result = false;
     service
       .getLoadTemplatesError()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
@@ -202,7 +202,7 @@ describe('AnonymousConsentsService', () => {
     let result: AnonymousConsent[];
     service
       .getConsents()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(mockAnonymousConsents);
   });
@@ -230,7 +230,7 @@ describe('AnonymousConsentsService', () => {
         let result: AnonymousConsent;
         service
           .getConsent(mockTemplateId)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(mockAnonymousConsents[0]);
       });
@@ -323,7 +323,7 @@ describe('AnonymousConsentsService', () => {
       let result = false;
       service
         .isBannerVisible()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(service.isBannerDismissed).toHaveBeenCalled();
@@ -337,7 +337,7 @@ describe('AnonymousConsentsService', () => {
       let result = false;
       service
         .isBannerVisible()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(service.isBannerDismissed).toHaveBeenCalled();
@@ -352,7 +352,7 @@ describe('AnonymousConsentsService', () => {
       let result = true;
       service
         .isBannerVisible()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(service.isBannerDismissed).toHaveBeenCalled();
@@ -392,7 +392,7 @@ describe('AnonymousConsentsService', () => {
     let result = true;
     service
       .isBannerDismissed()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
   });
@@ -409,7 +409,7 @@ describe('AnonymousConsentsService', () => {
       let result = true;
       service
         .getTemplatesUpdated()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toEqual(false);
       expect(service.getTemplates).toHaveBeenCalledWith(true);

@@ -148,7 +148,7 @@ export function checkInputConsentState(position, state) {
 }
 
 export function checkAllInputConsentState(state) {
-  cy.get('input[type="checkbox"]').each($match => {
+  cy.get('input[type="checkbox"]').each(($match) => {
     cy.wrap($match).should(state);
   });
 }
@@ -164,7 +164,7 @@ export function clearAllConsent() {
 export function checkConsentNotExist(text) {
   cy.get(`${ANONYMOUS_DIALOG} .cx-dialog-row`)
     .find('label')
-    .each($match => {
+    .each(($match) => {
       cy.wrap($match).should('not.contain', text);
     });
 }

@@ -75,7 +75,7 @@ describe('ReturnRequestService', () => {
     let result: ReturnRequest;
     service
       .getReturnRequest()
-      .subscribe(returnRequest => (result = returnRequest));
+      .subscribe((returnRequest) => (result = returnRequest));
     expect(result).toEqual(mockReturnRequest);
   });
 

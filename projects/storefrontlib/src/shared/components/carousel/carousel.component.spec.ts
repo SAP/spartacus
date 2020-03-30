@@ -78,7 +78,7 @@ describe('Carousel Component', () => {
       component.ngOnInit();
       let results: number;
 
-      component.size$.subscribe(value => (results = value)).unsubscribe();
+      component.size$.subscribe((value) => (results = value)).unsubscribe();
 
       expect(results).toEqual(4);
     });

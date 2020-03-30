@@ -9,7 +9,7 @@ import { cheapProduct, user } from '../../../sample-data/checkout-flow';
 
 context('Checkout as guest', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
   });
 

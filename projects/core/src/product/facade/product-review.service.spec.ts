@@ -43,7 +43,7 @@ describe('ReviewService', () => {
         of([mockReview])
       );
       let result: Review[];
-      service.getByProductCode('testId').subscribe(reviews => {
+      service.getByProductCode('testId').subscribe((reviews) => {
         result = reviews;
       });
       expect(result).toEqual([mockReview]);

@@ -46,7 +46,7 @@ describe('CheckoutPaymentConnector', () => {
 
   it('getCardTypes should call adapter', () => {
     let result;
-    service.getCardTypes().subscribe(res => (result = res));
+    service.getCardTypes().subscribe((res) => (result = res));
     expect(result).toEqual([]);
     expect(adapter.loadCardTypes).toHaveBeenCalledWith();
   });

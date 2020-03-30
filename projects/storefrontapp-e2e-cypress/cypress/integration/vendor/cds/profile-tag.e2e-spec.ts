@@ -21,7 +21,7 @@ describe('Profile-tag events', () => {
     goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary');
-    cy.window().then(win => {
+    cy.window().then((win) => {
       expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(2);
       expect((<any>win).Y_TRACKING.eventLayer[1]['name']).to.equal(
         'CartSnapshot'
@@ -42,11 +42,11 @@ describe('Profile-tag events', () => {
       'getRefreshedCart'
     );
     cy.wait('@getRefreshedCart');
-    cy.window().then(win => {
+    cy.window().then((win) => {
       expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(4);
       expect(
         (<any>win).Y_TRACKING.eventLayer.filter(
-          event => event.name === 'CartSnapshot'
+          (event) => event.name === 'CartSnapshot'
         ).length
       ).to.equal(2);
     });
@@ -60,11 +60,11 @@ describe('Profile-tag events', () => {
       'getRefreshedCart'
     );
     cy.wait('@getRefreshedCart');
-    cy.window().then(win => {
+    cy.window().then((win) => {
       expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(4);
       expect(
         (<any>win).Y_TRACKING.eventLayer.filter(
-          event => event.name === 'CartSnapshot'
+          (event) => event.name === 'CartSnapshot'
         ).length
       ).to.equal(2);
     });
@@ -75,13 +75,13 @@ describe('Profile-tag events', () => {
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
     ).click();
     cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
-    cy.window().then(win => {
+    cy.window().then((win) => {
       expect((<any>win).Y_TRACKING.eventLayer[0]['name']).to.equal('Navigated');
     });
   });
   it('should wait for a user to accept consent and then send a ConsentChanged event', () => {
     anonymousConsents.clickAllowAllFromBanner();
-    cy.window().then(win => {
+    cy.window().then((win) => {
       expect((<any>win).Y_TRACKING.eventLayer[0]).to.have.property('name');
       expect((<any>win).Y_TRACKING.eventLayer[0]['name']).to.equal(
         'ConsentChanged'

@@ -69,7 +69,7 @@ describe('CartNotEmptyGuard', () => {
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
-            .subscribe(result => (emittedValue = result))
+            .subscribe((result) => (emittedValue = result))
             .unsubscribe();
           expect(emittedValue).toBe(false);
         });
@@ -92,7 +92,7 @@ describe('CartNotEmptyGuard', () => {
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
-            .subscribe(result => (emittedValue = result))
+            .subscribe((result) => (emittedValue = result))
             .unsubscribe();
           expect(emittedValue).toBe(false);
         });
@@ -115,7 +115,7 @@ describe('CartNotEmptyGuard', () => {
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
-            .subscribe(result => (emittedValue = result))
+            .subscribe((result) => (emittedValue = result))
             .unsubscribe();
           expect(emittedValue).toBe(true);
         });
@@ -139,7 +139,7 @@ describe('CartNotEmptyGuard', () => {
         let emittedValue: any = 'nothing was emitted';
         cartNotEmptyGuard
           .canActivate()
-          .subscribe(result => (emittedValue = result))
+          .subscribe((result) => (emittedValue = result))
           .unsubscribe();
         expect(emittedValue).toBe('nothing was emitted');
       });

@@ -35,7 +35,7 @@ export class OrderReturnRequestService {
   createOrderReturnRequest(
     returnRequestInput: ReturnRequestEntryInputList
   ): void {
-    this.withUserId(userId => {
+    this.withUserId((userId) => {
       this.store.dispatch(
         new UserActions.CreateOrderReturnRequest({
           userId,
@@ -58,7 +58,7 @@ export class OrderReturnRequestService {
   getOrderReturnRequestList(pageSize: number): Observable<ReturnRequestList> {
     return this.store.pipe(
       select(UsersSelectors.getOrderReturnRequestListState),
-      tap(returnListState => {
+      tap((returnListState) => {
         const attemptedLoad =
           returnListState.loading ||
           returnListState.success ||
@@ -67,7 +67,7 @@ export class OrderReturnRequestService {
           this.loadOrderReturnRequestList(pageSize);
         }
       }),
-      map(returnListState => returnListState.value)
+      map((returnListState) => returnListState.value)
     );
   }
 
@@ -76,7 +76,7 @@ export class OrderReturnRequestService {
    * @param returnRequestCode
    */
   loadOrderReturnRequestDetail(returnRequestCode: string): void {
-    this.withUserId(userId => {
+    this.withUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderReturnRequest({
           userId: userId,
@@ -97,7 +97,7 @@ export class OrderReturnRequestService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.withUserId(userId => {
+    this.withUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderReturnRequestList({
           userId: userId,
@@ -144,7 +144,7 @@ export class OrderReturnRequestService {
     returnRequestCode: string,
     returnRequestModification: ReturnRequestModification
   ): void {
-    this.withUserId(userId => {
+    this.withUserId((userId) => {
       this.store.dispatch(
         new UserActions.CancelOrderReturnRequest({
           userId,
@@ -187,6 +187,6 @@ export class OrderReturnRequestService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(userId => callback(userId));
+      .subscribe((userId) => callback(userId));
   }
 }

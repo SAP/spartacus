@@ -6,7 +6,7 @@ describe(`${
 }p resolution - Stock Notification for guest`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
   it('should login first when guest want to subcribe notification', () => {
@@ -19,7 +19,7 @@ describe(`${
 }p resolution - Stock Notification for customer`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
     cy.visit('/');
   });

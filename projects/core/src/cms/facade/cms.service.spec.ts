@@ -181,7 +181,7 @@ describe('CmsService', () => {
       let contentSlotReturned: ContentSlotData;
       service
         .getContentSlot('Section1')
-        .subscribe(value => {
+        .subscribe((value) => {
           contentSlotReturned = value;
         })
         .unsubscribe();
@@ -205,7 +205,7 @@ describe('CmsService', () => {
       let result: NodeItem;
       service
         .getNavigationEntryItems(testUid)
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(mockNodeItem);
@@ -239,7 +239,7 @@ describe('CmsService', () => {
       let result: Page;
       service
         .getCurrentPage()
-        .subscribe(value => {
+        .subscribe((value) => {
           result = value;
         })
         .unsubscribe();
@@ -312,7 +312,7 @@ describe('CmsService', () => {
       );
 
       let result;
-      service.getPageState(pageContext).subscribe(res => (result = res));
+      service.getPageState(pageContext).subscribe((res) => (result = res));
       expect(result).toEqual(pageData);
     }
   ));
@@ -338,7 +338,7 @@ describe('CmsService', () => {
       let result: string[];
       service
         .getPageComponentTypes(pageContext)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
       expect(result).toEqual(['test1', 'test2', 'test3']);
     }
   ));
@@ -355,7 +355,7 @@ describe('CmsService', () => {
 
         service
           .hasPage(testPageContext)
-          .subscribe(_ => _)
+          .subscribe((_) => _)
           .unsubscribe();
 
         expect(store.dispatch).toHaveBeenCalledWith(
@@ -375,7 +375,7 @@ describe('CmsService', () => {
 
         service
           .hasPage(testPageContext)
-          .subscribe(_ => _)
+          .subscribe((_) => _)
           .unsubscribe();
 
         expect(store.dispatch).not.toHaveBeenCalledWith(
@@ -396,7 +396,7 @@ describe('CmsService', () => {
 
           service
             .hasPage(testPageContext, true)
-            .subscribe(_ => _)
+            .subscribe((_) => _)
             .unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
@@ -416,7 +416,7 @@ describe('CmsService', () => {
 
           service
             .hasPage(testPageContext, true)
-            .subscribe(_ => _)
+            .subscribe((_) => _)
             .unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
@@ -438,7 +438,7 @@ describe('CmsService', () => {
         let result: boolean;
         service
           .hasPage(testPageContext)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -461,7 +461,7 @@ describe('CmsService', () => {
         let result: boolean;
         service
           .hasPage(testPageContext)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
 
         expect(result).toEqual(false);
@@ -491,7 +491,7 @@ describe('CmsService', () => {
         );
 
         let result;
-        service.getPage(pageContext, true).subscribe(res => (result = res));
+        service.getPage(pageContext, true).subscribe((res) => (result = res));
         expect(service.getPageState).toHaveBeenCalledWith(pageContext);
         expect(result).toEqual({ pageId: 'testId' });
       }
@@ -504,7 +504,7 @@ describe('CmsService', () => {
         spyOn(service, 'getPageState');
 
         let result;
-        service.getPage(pageContext, true).subscribe(res => (result = res));
+        service.getPage(pageContext, true).subscribe((res) => (result = res));
         expect(service.getPageState).not.toHaveBeenCalled();
         expect(result).toEqual(null);
       }
@@ -524,7 +524,7 @@ describe('CmsService', () => {
       );
 
       let result;
-      service.getPageIndex(pageContext).subscribe(res => (result = res));
+      service.getPageIndex(pageContext).subscribe((res) => (result = res));
       expect(result).toEqual('testUid');
     }
   ));

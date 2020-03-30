@@ -6,7 +6,7 @@ describe(`${
   formats.mobile.width + 1
 }p resolution - Order History with orders`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
   });
 
@@ -26,7 +26,7 @@ describe(`${
 
 describe(`${formats.mobile.width + 1}p resolution - Order details page`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
   });
 

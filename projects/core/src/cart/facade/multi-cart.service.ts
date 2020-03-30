@@ -48,7 +48,7 @@ export class MultiCartService {
       // This flickering should only be avoided when switching from false to true
       // Start of loading should be showed instantly (no debounce)
       // Extra actions are only dispatched after some loading
-      debounce(isStable => (isStable ? timer(0) : EMPTY)),
+      debounce((isStable) => (isStable ? timer(0) : EMPTY)),
       distinctUntilChanged()
     );
   }
@@ -178,7 +178,7 @@ export class MultiCartService {
     cartId: string,
     products: Array<{ productCode: string; quantity: number }>
   ): void {
-    products.forEach(product => {
+    products.forEach((product) => {
       this.store.dispatch(
         new CartActions.CartAddEntry({
           userId,

@@ -4,7 +4,7 @@ import {
 } from './group-skipping.config';
 
 export function verifyGroupSkippingFromConfig(config: GroupSkippingConfig) {
-  Object.keys(config).forEach(page => {
+  Object.keys(config).forEach((page) => {
     describe(page, () => {
       it('should tab through group skippers', () => {
         verifyGroupSkippingOnPageFromConfig(config[page]);

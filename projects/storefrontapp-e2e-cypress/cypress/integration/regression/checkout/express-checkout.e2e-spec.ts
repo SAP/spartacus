@@ -3,7 +3,7 @@ import * as checkout from '../../../helpers/checkout-flow';
 
 context('Express checkout', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.cxConfig({ checkout: { express: true } } as CheckoutConfig);
     cy.visit('/');
   });

@@ -30,7 +30,7 @@ export function getWorkspace(
   files = DEFAULT_POSSIBLE_PROJECT_FILES
 ): { path: string; workspace: experimental.workspace.WorkspaceSchema } {
   const angularJson = getAngularJsonFile(host, files);
-  const path = files.filter(filePath => host.exists(filePath))[0];
+  const path = files.filter((filePath) => host.exists(filePath))[0];
 
   return {
     path,
@@ -42,7 +42,7 @@ function getAngularJsonFile(
   tree: Tree,
   possibleProjectFiles = DEFAULT_POSSIBLE_PROJECT_FILES
 ): experimental.workspace.WorkspaceSchema {
-  const path = possibleProjectFiles.filter(filePath =>
+  const path = possibleProjectFiles.filter((filePath) =>
     tree.exists(filePath)
   )[0];
   if (!path) {

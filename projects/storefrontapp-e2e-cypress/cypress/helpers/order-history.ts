@@ -10,7 +10,7 @@ export function doPlaceOrder() {
 
   return cy
     .window()
-    .then(win => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
+    .then((win) => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
     .then(({ auth }) => {
       stateAuth = auth;
       return cy.requireProductAddedToCart(stateAuth);
@@ -77,7 +77,7 @@ export const orderHistoryTest = {
       cy.get('.top cx-sorting .ng-select').ngSelect('Order Number');
       cy.wait('@query_order_asc').its('status').should('eq', 200);
       cy.get('.cx-order-history-code > .cx-order-history-value').then(
-        $orders => {
+        ($orders) => {
           expect(parseInt($orders[0].textContent, 10)).to.be.lessThan(
             parseInt($orders[1].textContent, 10)
           );
@@ -106,7 +106,7 @@ export const orderHistoryTest = {
 
       cy.get('.cx-order-history-placed > .cx-order-history-value')
         .first()
-        .then(element => {
+        .then((element) => {
           dayNumberEN = getDayNumber(element)[1];
         });
 
@@ -114,7 +114,7 @@ export const orderHistoryTest = {
 
       cy.get('.cx-order-history-placed > .cx-order-history-value')
         .first()
-        .then(element => {
+        .then((element) => {
           expect(getDayNumber(element)[0]).to.eq(dayNumberEN);
         });
 

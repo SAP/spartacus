@@ -57,7 +57,7 @@ export function verifyProductSearch(
     .first()
     .invoke('text')
     .should('match', /\w+/)
-    .then(firstProduct => {
+    .then((firstProduct) => {
       // Navigate to next page
       nextPage();
       cy.get(pageLinkSelector).should('contain', '2');
@@ -79,7 +79,7 @@ export function verifyProductSearch(
 export function searchResult() {
   cy.server();
   createCameraQuery(QUERY_ALIAS.CAMERA);
-  cy.wait(`@${QUERY_ALIAS.CAMERA}`).then(xhr => {
+  cy.wait(`@${QUERY_ALIAS.CAMERA}`).then((xhr) => {
     const cameraResults = xhr.response.body.pagination.totalResults;
 
     cy.get(resultsTitleSelector).should(
@@ -142,7 +142,7 @@ export function filterUsingFacetFiltering() {
       cy.get('.cx-facet-checkbox').first().click({ force: true });
     });
 
-  cy.wait(`@${QUERY_ALIAS.FACET}`).then(xhr => {
+  cy.wait(`@${QUERY_ALIAS.FACET}`).then((xhr) => {
     const facetResults = xhr.response.body.pagination.totalResults;
     cy.get(resultsTitleSelector).should(
       'contain',
@@ -207,7 +207,7 @@ export function sortByTopRated() {
 export function checkFirstItem(productName: string): void {
   cy.get('cx-product-list-item .cx-product-name')
     .first()
-    .then(firstProductName => {
+    .then((firstProductName) => {
       const clearHTMLProductName = productName.replace(/<(.|\n)*?>/g, '');
       cy.wrap(firstProductName).should('contain', clearHTMLProductName);
     });
@@ -277,7 +277,7 @@ export function createProductFacetQuery(
 }
 
 export function assertNumberOfProducts(alias: string, category: string) {
-  cy.get(alias).then(xhr => {
+  cy.get(alias).then((xhr) => {
     const body = xhr.response.body;
     const paginationTotalresults: number = body.pagination.totalResults;
     const productLengthInPage: number = body.products.length;

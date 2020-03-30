@@ -6,7 +6,7 @@ describe(`${
 }p resolution - Save for later - guest`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
 
@@ -20,7 +20,7 @@ describe(`${
 }p resolution - Save for later - re-login customer`, () => {
   beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
   it('Should save items in saved for later list when logout', () => {
@@ -33,7 +33,7 @@ describe(`${
 }p resolution - Save for later - customer`, () => {
   beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
     cy.visit('/');
   });

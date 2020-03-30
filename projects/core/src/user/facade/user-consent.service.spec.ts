@@ -76,7 +76,7 @@ describe('UserConsentService', () => {
           let result: ConsentTemplate[];
           service
             .getConsents()
-            .subscribe(consents => (result = consents))
+            .subscribe((consents) => (result = consents))
             .unsubscribe();
           expect(result).toEqual(consentTemplateListMock);
         });
@@ -152,7 +152,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getConsentsResultLoading()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -167,7 +167,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getConsentsResultSuccess()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -180,7 +180,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getConsentsResultError()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -219,7 +219,7 @@ describe('UserConsentService', () => {
           let result: Consent;
           service
             .getConsent(mockTemplateId)
-            .subscribe(value => (result = value))
+            .subscribe((value) => (result = value))
             .unsubscribe();
           expect(result).toEqual(mockConsentTemplates[0].currentConsent);
         });
@@ -318,7 +318,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getGiveConsentResultLoading()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -331,7 +331,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getGiveConsentResultSuccess()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -344,7 +344,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getGiveConsentResultError()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -382,7 +382,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getWithdrawConsentResultLoading()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -395,7 +395,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getWithdrawConsentResultSuccess()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -408,7 +408,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getWithdrawConsentResultError()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
