@@ -148,6 +148,20 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-company/organization-management/manage-user/edit/:code'],
     paramsMapping: { code: 'email' },
   },
+  userGroups: {
+    paths: ['my-company/organization-management/manage-usergroups'],
+  },
+  userGroupCreate: {
+    paths: ['my-company/organization-management/manage-usergroups/create'],
+  },
+  userGroupDetails: {
+    paths: ['my-company/organization-management/manage-usergroup/:code'],
+    paramsMapping: { code: 'uid' },
+  },
+  userGroupEdit: {
+    paths: ['my-company/organization-management/manage-usergroup/edit/:code'],
+    paramsMapping: { code: 'uid' },
+  },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {
