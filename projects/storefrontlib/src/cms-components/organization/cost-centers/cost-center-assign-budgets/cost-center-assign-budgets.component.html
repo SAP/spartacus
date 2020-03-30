@@ -39,14 +39,14 @@
     <div class="row cx-search-links mb-3">
       <div class="col-12 cx-textalign">
         <!--          back-->
-        <button
+        <a
           [routerLink]="
             { cxRoute: 'costCenterDetails', params: { code: code } } | cxUrl
           "
           class="btn btn-primary btn-block"
         >
           {{ 'costCenterAssignBudgets.back' | cxTranslate }}
-        </button>
+        </a>
       </div>
     </div>
   </div>
