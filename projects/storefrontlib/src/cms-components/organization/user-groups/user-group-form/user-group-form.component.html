@@ -96,11 +96,7 @@
   </div>
   <div class="row buttons">
     <div class="col-md-12 col-lg-6 mb-3">
-      <button
-        class="btn btn-block btn-primary"
-        [disabled]="form.invalid"
-        (click)="verifyAndSubmit()"
-      >
+      <button class="btn btn-block btn-primary" (click)="verifyAndSubmit()">
         {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
       </button>
     </div>
