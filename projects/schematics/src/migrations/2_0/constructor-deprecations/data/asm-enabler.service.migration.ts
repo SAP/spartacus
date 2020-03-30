@@ -3,10 +3,10 @@ import {
   ANGULAR_CORE,
   ASM_ENABLER_SERVICE,
   COMPONENT_FACTORY_RESOLVER,
+  LAUNCH_SERVICE,
   LOCATION,
   OUTLET_SERVICE,
   SPARTACUS_STOREFRONTLIB,
-  TRIGGER_SERVICE,
   WINDOW_REF,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
@@ -45,7 +45,7 @@ export const ASM_ENABLE_SERVICE_MIGRATION: ConstructorDeprecation = {
   ],
   addParams: [
     {
-      className: TRIGGER_SERVICE,
+      className: LAUNCH_SERVICE,
       importPath: SPARTACUS_STOREFRONTLIB,
     },
   ],
