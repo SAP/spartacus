@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveCartEventBuilder } from './active-cart-event.builder';
+import { ActiveCartEventBuilder } from './active-cart/active-cart-event.builder';
 import { CartEventModule } from './cart-event.module';
-import { MultiCartEventBuilder } from './multi-cart-event.builder';
+import { MultiCartEventBuilder } from './multi-cart/multi-cart-event.builder';
 
 describe('CartEventModule', () => {
   let activeCartEventBuilderFactory;
   let multiCartEventBuilderFactory;
 
   beforeEach(() => {
-    activeCartEventBuilderFactory = jasmine
-      .createSpy('activeCartEventBuilderFactory')
-      .and.returnValue('spike');
+    activeCartEventBuilderFactory = jasmine.createSpy(
+      'activeCartEventBuilderFactory'
+    );
     multiCartEventBuilderFactory = jasmine.createSpy(
       'multiCartEventBuilderFactory'
     );

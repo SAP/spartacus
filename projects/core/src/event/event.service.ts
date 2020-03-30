@@ -145,7 +145,7 @@ export class EventService {
     );
 
     if (isDevMode()) {
-      output$ = this.validateEventStream(output$, eventType);
+      output$ = this.getValidatedEventStream(output$, eventType);
     }
 
     this.eventsMeta.set(eventType, {
@@ -173,13 +173,13 @@ export class EventService {
    *
    * Should be used only in dev mode.
    */
-  private validateEventStream<T>(
+  private getValidatedEventStream<T>(
     source$: Observable<T>,
     eventType: Type<T>
   ): Observable<T> {
     return source$.pipe(
       tap(event => {
-        if (!(event instanceof eventType)) {
+        if (event?.constructor !== eventType) {
           console.warn(
             `EventService: The stream`,
             source$,

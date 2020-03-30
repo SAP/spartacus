@@ -1,9 +1,11 @@
 import { Injectable, Type } from '@angular/core';
-import { filter, map } from 'rxjs/operators';
-import { EventService } from '../../event';
-import { ActiveCartService } from '../facade';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
+import { EventService } from '../../../event';
+import { createFrom } from '../../../util/create-from';
+import { ActiveCartService } from '../../facade';
+import { MultiCartEvent } from '../multi-cart/multi-cart.event';
+import { MultiCartAddEntryEvent } from '../multi-cart/multi-cart.events';
 import { ActiveCartAddEntryEvent } from './active-cart.events';
-import { MultiCartAddEntryEvent } from './multi-cart.events';
 
 /**
  * Registers active cart events, when being injected
@@ -30,28 +32,19 @@ export class ActiveCartEventBuilder {
    * @param sourceType type of the source event
    * @param targetType type of the target event
    */
-  private registerMapped<
-    S extends { cartId: string },
-    T extends { cartId: string }
-  >(sourceType: Type<S>, targetType: Type<T>): () => void {
+  private registerMapped<S extends MultiCartEvent, T extends S>(
+    sourceType: Type<S>,
+    targetType: Type<T>
+  ): () => void {
     return this.event.register(
       targetType,
       this.event.get(sourceType).pipe(
-        filter(({ cartId }) => this.isActive(cartId)),
-        map(source => new targetType(source))
+        withLatestFrom(this.activeCartService.getActiveCartId()),
+        filter(
+          ([sourceEvent, activeCartId]) => sourceEvent.cartId === activeCartId
+        ),
+        map(([source]) => createFrom(targetType, source))
       )
     );
-  }
-
-  /**
-   * Returns whether the given cartId is the id of the active cart
-   */
-  private isActive(cartId: string): boolean {
-    let activeCartId;
-    this.activeCartService
-      .getActiveCartId()
-      .subscribe(id => (activeCartId = id))
-      .unsubscribe();
-    return cartId === activeCartId;
   }
 }

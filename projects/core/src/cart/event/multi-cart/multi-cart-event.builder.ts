@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { StateEventService } from '../../state/event/state-event.service';
-import { CartActions } from '../store';
+import { StateEventService } from '../../../state/event/state-event.service';
+import { CartActions } from '../../store';
 import { MultiCartAddEntryEvent } from './multi-cart.events';
 
 /**
