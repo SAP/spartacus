@@ -167,6 +167,44 @@ export class B2BUserEffects {
     )
   );
 
+  @Effect()
+  assignApproverToB2BUser$: Observable<
+    | B2BUserActions.CreateB2BUserApproverSuccess
+    | B2BUserActions.CreateB2BUserApproverFail
+  > = this.actions$.pipe(
+    ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
+    map(
+      (action: B2BUserActions.CreateB2BUserApprover) =>
+        action.payload
+    ),
+    switchMap(payload =>
+      this.b2bUserConnector
+        .assignApprover(
+          payload.userId,
+          payload.orgCustomerId,
+          payload.approverId,
+        )
+        .pipe(
+          map(
+            () =>
+              new B2BUserActions.CreateB2BUserApproverSuccess({
+                approverId: payload.approverId,
+                selected: true,
+              })
+          ),
+          catchError(error =>
+            of(
+              new B2BUserActions.CreateB2BUserApproverFail({
+                orgCustomerId: payload.orgCustomerId,
+                approverId: payload.approverId,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private b2bUserConnector: B2BUserConnector

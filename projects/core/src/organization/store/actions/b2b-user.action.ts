@@ -177,14 +177,14 @@ export class CreateB2BUserApproverFail extends EntityFailAction {
   readonly type = CREATE_B2B_USER_APPROVER_FAIL;
   constructor(
     public payload: {
-      userId: string;
       orgCustomerId: string;
       approverId: string;
+      error: any;
     }
   ) {
     super(
       B2B_USER_APPROVERS,
-      payload.approverId
+      payload.approverId,
     );
   }
 }
@@ -193,14 +193,14 @@ export class CreateB2BUserApproverSuccess extends EntitySuccessAction {
   readonly type = CREATE_B2B_USER_APPROVER_SUCCESS;
   constructor(
     public payload: {
-      userId: string;
-      orgCustomerId: string;
       approverId: string;
+      selected: boolean;
     }
   ) {
     super(
       B2B_USER_APPROVERS,
-      payload.approverId
+      payload.approverId,
+      payload
     );
   }
 }
@@ -225,9 +225,9 @@ export class DeleteB2BUserApproverFail extends EntityFailAction {
   readonly type = DELETE_B2B_USER_APPROVER_FAIL;
   constructor(
     public payload: {
-      userId: string;
       orgCustomerId: string;
       approverId: string;
+      error: any;
     }
   ) {
     super(
@@ -325,6 +325,7 @@ export class CreateB2BUserPermissionFail extends EntityFailAction {
       userId: string;
       orgCustomerId: string;
       permissionId: string;
+      error: any;
     }
   ) {
     super(
@@ -373,6 +374,7 @@ export class DeleteB2BUserPermissionFail extends EntityFailAction {
       userId: string;
       orgCustomerId: string;
       permissionId: string;
+      error: any;
     }
   ) {
     super(
@@ -470,6 +472,7 @@ export class CreateB2BUserUserGroupFail extends EntityFailAction {
       userId: string;
       orgCustomerId: string;
       userGroupId: string;
+      error: any;
     }
   ) {
     super(
@@ -518,6 +521,7 @@ export class DeleteB2BUserUserGroupFail extends EntityFailAction {
       userId: string;
       orgCustomerId: string;
       userGroupId: string;
+      error: any;
     }
   ) {
     super(
