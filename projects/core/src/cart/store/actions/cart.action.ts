@@ -1,4 +1,11 @@
 import { Action } from '@ngrx/store';
+import { Cart } from '../../../model/cart.model';
+import {
+  EntityFailAction,
+  EntityLoadAction,
+  EntitySuccessAction,
+} from '../../../state/utils/entity-loader/entity-loader.action';
+import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
 export const CREATE_CART_FAIL = '[Cart] Create Cart Fail';
@@ -24,19 +31,47 @@ export const CLEAR_CART = '[Cart] Clear Cart';
 export const DELETE_CART = '[Cart] Delete Cart';
 export const DELETE_CART_FAIL = '[Cart] Delete Cart Fail';
 
-export class CreateCart {
+interface CreateCartPayload {
+  userId: string;
+  /** Used as a unique key in ngrx carts store (we don't know cartId at that time) */
+  tempCartId: string;
+  extraData?: {
+    active?: boolean;
+  };
+  /** Anonymous cart which should be merged to new cart */
+  oldCartId?: string;
+  /** Cart to which should we merge (not passing this will create new cart) */
+  toMergeCartGuid?: string;
+}
+
+export class CreateCart extends EntityLoadAction {
   readonly type = CREATE_CART;
-  constructor(public payload: any) {}
+  constructor(public payload: CreateCartPayload) {
+    super(MULTI_CART_DATA, payload.tempCartId);
+  }
 }
 
-export class CreateCartFail {
+interface CreateCartFailPayload extends CreateCartPayload {
+  error: any;
+}
+
+export class CreateCartFail extends EntityFailAction {
   readonly type = CREATE_CART_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: CreateCartFailPayload) {
+    super(MULTI_CART_DATA, payload.tempCartId);
+  }
 }
 
-export class CreateCartSuccess {
+interface CreateCartSuccessPayload extends CreateCartPayload {
+  cart: Cart;
+  cartId: string;
+}
+
+export class CreateCartSuccess extends EntitySuccessAction {
   readonly type = CREATE_CART_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: CreateCartSuccessPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
 export class AddEmailToCart {

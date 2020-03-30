@@ -1,5 +1,11 @@
-%AccountPageTemplate-calydon {
+%AccountPageTemplate {
+  --cx-max-width: 100%;
+  @extend %LoginPageTemplate !optional;
+  @extend %LoginPageTemplate-#{$theme} !optional;
+
   cx-order-details-headline {
+    order: 1;
+
     @include media-breakpoint-down(sm) {
       border: none;
     }
@@ -43,9 +49,21 @@
         font-weight: bold;
       }
     }
+
+    .cx-nav {
+      justify-content: center;
+      padding: 1rem 0;
+
+      .btn-action {
+        @include media-breakpoint-down(sm) {
+          margin: 0 0 1rem;
+        }
+      }
+    }
   }
 
   cx-order-details-items {
+    order: 2;
     margin-bottom: 15px;
     .cx-list-header {
       @include media-breakpoint-down(sm) {
@@ -73,6 +91,7 @@
   }
 
   cx-order-details-shipping {
+    order: 4;
     .cx-summary {
       margin-bottom: 48px;
     }
@@ -100,40 +119,8 @@
   }
 
   cx-order-details-totals {
-    margin-bottom: 32px;
-  }
-}
-
-%AccountPageTemplate {
-  --cx-max-width: 100%;
-  @extend %LoginPageTemplate !optional;
-  @extend %LoginPageTemplate-#{$theme} !optional;
-
-  cx-order-details-headline {
-    order: 1;
-
-    .cx-nav {
-      justify-content: center;
-      padding: 1rem 0;
-
-      .btn-action {
-        @include media-breakpoint-down(sm) {
-          margin: 0 0 1rem;
-        }
-      }
-    }
-  }
-
-  cx-order-details-items {
-    order: 2;
-  }
-
-  cx-order-details-shipping {
-    order: 4;
-  }
-
-  cx-order-details-totals {
     order: 3;
+    margin-bottom: 32px;
   }
 
   cx-order-details-actions {
@@ -146,9 +133,7 @@
     }
   }
 
-  @if $theme == 'calydon' {
-    cx-paragraph h4 {
-      text-align: center;
-    }
+  cx-paragraph h4 {
+    text-align: center;
   }
 }

@@ -37,7 +37,7 @@ describe('SaveForLaterComponent', () => {
 
   const mockCartService = jasmine.createSpyObj('ActiveCartService', [
     'addEntry',
-    'getLoaded',
+    'isStable',
     'getActive',
   ]);
 
@@ -66,7 +66,7 @@ describe('SaveForLaterComponent', () => {
     fixture = TestBed.createComponent(SaveForLaterComponent);
     component = fixture.componentInstance;
 
-    mockCartService.getLoaded.and.returnValue(of(true));
+    mockCartService.isStable.and.returnValue(of(true));
     mockCartService.getActive.and.returnValue(
       of<Cart>({ code: '00001', totalItems: 0 })
     );

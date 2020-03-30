@@ -2208,9 +2208,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.LINK,
     },
-    {
-      type: TabbingOrderTypes.LINK,
-    },
   ],
   storeFinderStoreDetails: [
     {

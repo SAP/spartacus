@@ -35,16 +35,25 @@ export interface ComponentProperty {
   comment: string;
 }
 export interface ComponentData {
+  /** a component's selector, e.g. cx-start-rating */
   selector: string;
+  /** a component.ts' class name */
   componentClassName: string;
-  removedProperties: ComponentProperty[];
+  /** only `@Input` and `@Output` properties should be listed here */
+  removedInputOutputProperties?: ComponentProperty[];
+  /** all other removed component properties should be listed here */
+  removedProperties?: ComponentProperty[];
 }
 
 export interface ConstructorDeprecation {
   class: string;
   importPath: string;
   deprecatedParams: ClassType[];
+
+  /** The list of constructor parameters that are _added_ for the given version. */
   addParams?: ClassType[];
+
+  /** The list of constructor parameters that are _removed_ for the given version. */
   removeParams?: ClassType[];
 }
 
@@ -113,11 +122,15 @@ export function getPathResultsForFile(
   return results;
 }
 
-export function getAllHtmlFiles(tree: Tree, directory?: string): string[] {
-  return getPathResultsForFile(tree, '.html', directory);
+export function getHtmlFiles(
+  tree: Tree,
+  fileName = '.html',
+  directory?: string
+): string[] {
+  return getPathResultsForFile(tree, fileName || '.html', directory);
 }
 
-export function insertHtmlComment(
+export function insertComponentSelectorComment(
   content: string,
   componentSelector: string,
   componentProperty: ComponentProperty
@@ -153,6 +166,15 @@ function buildSelector(selector: string): string {
   return `<${selector}`;
 }
 
+export function insertHtmlComment(
+  content: string,
+  componentProperty: ComponentProperty
+): string | undefined {
+  const comment = buildHtmlComment(componentProperty.comment);
+  const propertyRegExp = new RegExp(`(<.+${componentProperty.name})`, 'g');
+  return content.replace(propertyRegExp, `${comment}\$1`);
+}
+
 function buildHtmlComment(commentText: string): string {
   return `<!-- ${commentText} -->`;
 }
@@ -161,9 +183,9 @@ export function commitChanges(
   host: Tree,
   path: string,
   changes: Change[] | null,
-  insertDirection: InsertDirection
+  insertDirection: InsertDirection = InsertDirection.RIGHT
 ): void {
-  if (!changes) {
+  if (!changes || changes.length === 0) {
     return;
   }
 
@@ -791,7 +813,8 @@ export function insertCommentAboveIdentifier(
   sourcePath: string,
   source: ts.SourceFile,
   identifierName: string,
-  comment: string
+  comment: string,
+  identifierType = ts.SyntaxKind.Identifier
 ): Change[] {
   const classNode = getSourceNodes(source).find(
     node => node.kind === ts.SyntaxKind.ClassDeclaration
@@ -800,7 +823,7 @@ export function insertCommentAboveIdentifier(
     return [new NoopChange()];
   }
 
-  const identifierNodes = findNodes(classNode, ts.SyntaxKind.Identifier).filter(
+  const identifierNodes = findNodes(classNode, identifierType).filter(
     node => node.getText() === identifierName
   );
 
@@ -809,8 +832,8 @@ export function insertCommentAboveIdentifier(
     changes.push(
       new InsertChange(
         sourcePath,
-        getLineStartFromTSFile(source, n.getFullStart()),
-        comment
+        getLineStartFromTSFile(source, n.getStart()),
+        `${comment}`
       )
     )
   );
@@ -959,9 +982,7 @@ function getLineStartFromTSFile(
   position: number
 ): number {
   const lac = source.getLineAndCharacterOfPosition(position);
-  const lineStart = source.getPositionOfLineAndCharacter(lac.line, 0);
-
-  return lineStart;
+  return source.getPositionOfLineAndCharacter(lac.line, 0);
 }
 
 // as this is copied from https://github.com/angular/angular-cli/blob/master/packages/schematics/angular/app-shell/index.ts#L211, no need to test Angular's code
