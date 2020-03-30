@@ -156,7 +156,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   userGroupDetails: {
     paths: ['my-company/organization-management/manage-usergroup/:code'],
-    paramsMapping: { code: 'uid' },
   },
   userGroupEdit: {
     paths: ['my-company/organization-management/manage-usergroup/edit/:code'],
