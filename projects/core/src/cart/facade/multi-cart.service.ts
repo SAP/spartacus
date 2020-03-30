@@ -126,7 +126,7 @@ export class MultiCartService {
     extraData?: any;
   }): void {
     this.store.dispatch(
-      new DeprecatedCartActions.LoadCart({
+      new CartActions.LoadCart({
         userId,
         cartId,
         extraData,

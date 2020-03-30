@@ -17,6 +17,7 @@ import { UserService } from '../../user/facade/user.service';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
+import { getWishlistName } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 
 @Injectable()
@@ -57,7 +58,13 @@ export class WishListService {
   }
 
   loadWishList(userId: string, customerId: string): void {
-    this.store.dispatch(new CartActions.LoadWishList({ userId, customerId }));
+    this.store.dispatch(
+      new CartActions.LoadWishList({
+        userId,
+        customerId,
+        tempCartId: getWishlistName(customerId),
+      })
+    );
   }
 
   addEntry(productCode: string): void {

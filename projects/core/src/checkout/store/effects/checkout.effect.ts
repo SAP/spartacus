@@ -192,7 +192,7 @@ export class CheckoutEffects {
   setDeliveryMode$: Observable<
     | CheckoutActions.SetDeliveryModeSuccess
     | CheckoutActions.SetDeliveryModeFail
-    | DeprecatedCartActions.LoadCart
+    | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
@@ -205,7 +205,7 @@ export class CheckoutEffects {
               new CheckoutActions.SetDeliveryModeSuccess(
                 payload.selectedModeId
               ),
-              new DeprecatedCartActions.LoadCart({
+              new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),

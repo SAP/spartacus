@@ -9,15 +9,6 @@ import { CartActions } from '../actions/index';
 @Injectable()
 export class MultiCartEffects {
   @Effect()
-  loadCart2$: Observable<CartActions.LoadMultiCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.LOAD_CART),
-    map(
-      (action: DeprecatedCartActions.LoadCart) =>
-        new CartActions.LoadMultiCart(action.payload)
-    )
-  );
-
-  @Effect()
   setTempCart$ = this.actions$.pipe(
     ofType(CartActions.SET_TEMP_CART),
     map((action: CartActions.SetTempCart) => {

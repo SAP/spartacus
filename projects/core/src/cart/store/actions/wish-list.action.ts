@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { Cart } from '../../../model/cart.model';
 import {
   EntityFailAction,
+  EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { getCartIdByUserId } from '../../utils/utils';
@@ -41,15 +42,28 @@ export class CreateWishListFail extends EntityFailAction {
   }
 }
 
-export class LoadWishList implements Action {
+export class LoadWishList extends EntityLoadAction {
   readonly type = LOAD_WISH_LIST;
-  constructor(public payload: { userId: string; customerId: string }) {}
+  constructor(
+    public payload: { userId: string; customerId: string; tempCartId: string }
+  ) {
+    super(MULTI_CART_DATA, payload.tempCartId);
+  }
 }
 
 export class LoadWishListSuccess extends EntitySuccessAction {
   readonly type = LOAD_WISH_LIST_SUCCESS;
-  constructor(public payload: { cart: Cart; userId: string; extraData?: any }) {
-    super(MULTI_CART_DATA, getCartIdByUserId(payload.cart, payload.userId));
+  constructor(
+    public payload: {
+      cart: Cart;
+      userId: string;
+      extraData?: any;
+      tempCartId?: string;
+      customerId?: string;
+      cartId: string;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
