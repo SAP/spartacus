@@ -43,9 +43,10 @@ export class UserGroupListComponent extends AbstractListingComponent
             sorts: userGroupsList.sorts,
             pagination: userGroupsList.pagination,
             values: userGroupsList.values.map(userGroup => ({
-              uid: userGroup.uid,
+              code: userGroup.uid,
               name: userGroup.name,
               parentUnit: userGroup.orgUnit && userGroup.orgUnit.name,
+              uid: userGroup.orgUnit && userGroup.orgUnit.uid,
             })),
           }))
         )
