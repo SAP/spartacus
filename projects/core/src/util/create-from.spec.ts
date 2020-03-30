@@ -1,7 +1,7 @@
 import { createFrom } from './create-from';
 
 describe('createFrom', () => {
-  it('should copy class properties from the the argument object', () => {
+  it('should create a class instance and with properties from the the argument object', () => {
     class TestEvent {
       a: number;
       b: number;
