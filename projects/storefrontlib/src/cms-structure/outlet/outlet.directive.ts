@@ -34,28 +34,12 @@ export class OutletDirective implements OnDestroy, OnChanges {
   subscription = new Subscription();
 
   constructor(
-    vcr: ViewContainerRef,
-    templateRef: TemplateRef<any>,
-    outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>,
-    // tslint:disable-next-line: unified-signatures
-    intersectionService: DeferLoaderService
-  );
-  /**
-   * @deprecated since version 1.4
-   * Use constructor(vcr: ViewContainerRef, templateRef: TemplateRef<any>, outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>, intersectionService?: IntersectionService) instead
-   */
-  constructor(
-    vcr: ViewContainerRef,
-    templateRef: TemplateRef<any>,
-    outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>
-  );
-  constructor(
     private vcr: ViewContainerRef,
     private templateRef: TemplateRef<any>,
     private outletService: OutletService<
       TemplateRef<any> | ComponentFactory<any>
     >,
-    private deferLoaderService?: DeferLoaderService
+    private deferLoaderService: DeferLoaderService
   ) {}
 
   private initializeOutlet(): void {

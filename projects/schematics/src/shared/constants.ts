@@ -30,6 +30,8 @@ export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 export const ROUTER = 'Router';
 export const WINDOW_REF = 'WindowRef';
+export const VIEW_CONTAINER_REF = 'ViewContainerRef';
+export const TEMPLATE_REF = 'TemplateRef';
 
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
@@ -121,6 +123,9 @@ export const URL_MATCHER_SERVICE = 'UrlMatcherService';
 export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
 export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
 export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
+export const OUTLET_DIRECTIVE = 'OutletDirective';
+export const OUTLET_SERVICE = 'OutletService';
+export const DEFER_LOADER_SERVICE = 'DeferLoaderService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
