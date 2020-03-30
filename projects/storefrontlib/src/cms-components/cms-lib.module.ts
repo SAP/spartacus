@@ -73,6 +73,10 @@ import {
   UnitDetailsModule,
   UnitEditModule,
   UnitAssignRolesModule,
+  UserGroupListModule,
+  UserGroupCreateModule,
+  UserGroupDetailsModule,
+  UserGroupEditModule,
 } from './organization/index';
 
 @NgModule({
@@ -143,6 +147,10 @@ import {
     UnitDetailsModule,
     UnitEditModule,
     UnitAssignRolesModule,
+    UserGroupListModule,
+    UserGroupCreateModule,
+    UserGroupDetailsModule,
+    UserGroupEditModule,
   ],
 })
 export class CmsLibModule {}

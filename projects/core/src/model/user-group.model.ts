@@ -3,10 +3,13 @@ import { B2BUnit } from './org-unit.model';
 import { Permission } from './permission.model';
 
 export interface OrgUnitUserGroup {
+  members?: number;
+  membersCount?: User[];
   name?: string;
-  uid?: string;
-  members?: User[];
   orgUnit?: B2BUnit;
   permissions?: Permission[];
+  roles?: any;
   selected?: boolean;
+  subGroups?: any;
+  uid?: string;
 }

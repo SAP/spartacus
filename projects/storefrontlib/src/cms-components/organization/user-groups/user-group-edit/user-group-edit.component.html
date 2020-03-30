@@ -1,0 +1,11 @@
+<div class="cx-header">
+  <h3>{{ 'userGroupForm.edit' | cxTranslate }}</h3>
+</div>
+<cx-user-group-form
+  *ngIf="userGroup$ | async as userGroup"
+  [actionBtnLabel]="'userGroupForm.update' | cxTranslate"
+  [userGroupData]="userGroup"
+  [routerBackLink]="{ cxRoute: 'userGroups' }"
+  (submit)="updateUserGroup($event)"
+>
+</cx-user-group-form>

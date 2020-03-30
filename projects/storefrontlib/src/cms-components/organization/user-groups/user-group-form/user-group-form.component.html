@@ -6,7 +6,7 @@
   <span class="is-invalid">
     <span *ngFor="let error of control.errors | keyvalue">
       {{
-        'costCenterForm.message.' + error.key | cxTranslate: translationParams
+        'userGroupForm.message.' + error.key | cxTranslate: translationParams
       }}
     </span>
   </span>
@@ -18,21 +18,21 @@
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'costCenterForm.code.label' | cxTranslate
+            'userGroupForm.code.label' | cxTranslate
           }}</span>
           <input
             class="form-control"
             type="text"
             required
-            placeholder="{{ 'costCenterForm.code.placeholder' | cxTranslate }}"
-            formControlName="code"
-            [class.is-invalid]="isNotValid('code')"
+            placeholder="{{ 'userGroupForm.code.placeholder' | cxTranslate }}"
+            formControlName="uid"
+            [class.is-invalid]="isNotValid('uid')"
           />
           <ng-container
-            *ngIf="isNotValid('code')"
+            *ngIf="isNotValid('uid')"
             [ngTemplateOutlet]="validation"
             [ngTemplateOutletContext]="{
-              control: form.controls.code
+              control: form.controls.uid
             }"
           ></ng-container>
         </label>
@@ -41,13 +41,13 @@
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'costCenterForm.name.label' | cxTranslate
+            'userGroupForm.name.label' | cxTranslate
           }}</span>
           <input
             type="text"
             class="form-control"
             required
-            placeholder="{{ 'costCenterForm.name.placeholder' | cxTranslate }}"
+            placeholder="{{ 'userGroupForm.name.placeholder' | cxTranslate }}"
             formControlName="name"
             [class.is-invalid]="isNotValid('name')"
           />
@@ -64,12 +64,12 @@
       <div class="form-group">
         <ng-container
           *ngIf="businessUnits$ | async as businessUnits"
-          formGroupName="unit"
+          formGroupName="orgUnit"
         >
           <div *ngIf="businessUnits.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
-                'costCenterForm.businessUnits.label' | cxTranslate
+                'userGroupForm.businessUnits.label' | cxTranslate
               }}</span>
               <ng-select
                 formControlName="uid"
@@ -78,46 +78,14 @@
                 [items]="businessUnits"
                 bindLabel="name"
                 bindValue="id"
-                [class.invalid]="isNotValid('unit')"
+                [class.invalid]="isNotValid('orgUnit')"
               >
               </ng-select>
               <ng-container
-                *ngIf="isNotValid('unit')"
+                *ngIf="isNotValid('orgUnit')"
                 [ngTemplateOutlet]="validation"
                 [ngTemplateOutletContext]="{
-                  control: form.controls.unit['controls']['uid']
-                }"
-              ></ng-container>
-            </label>
-          </div>
-        </ng-container>
-      </div>
-
-      <div class="form-group">
-        <ng-container
-          *ngIf="currencies$ | async as currencies"
-          formGroupName="currency"
-        >
-          <div *ngIf="currencies.length !== 0">
-            <label aria-required="true">
-              <span class="label-content required">{{
-                'costCenterForm.currency' | cxTranslate
-              }}</span>
-              <ng-select
-                formControlName="isocode"
-                [searchable]="false"
-                [clearable]="false"
-                [items]="currencies"
-                bindLabel="name"
-                bindValue="isocode"
-                [class.invalid]="isNotValid('currency')"
-              >
-              </ng-select>
-              <ng-container
-                *ngIf="isNotValid('currency')"
-                [ngTemplateOutlet]="validation"
-                [ngTemplateOutletContext]="{
-                  control: form.controls.currency['controls']['isocode']
+                  control: form.controls.orgUnit['controls']['uid']
                 }"
               ></ng-container>
             </label>
