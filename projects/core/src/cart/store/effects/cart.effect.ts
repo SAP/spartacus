@@ -45,8 +45,8 @@ export class CartEffects {
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
     map((action: CartActions.LoadCart) => action.payload),
-    groupBy(payload => payload.cartId),
-    mergeMap(group$ =>
+    groupBy((payload) => payload.cartId),
+    mergeMap((group$) =>
       group$.pipe(
         switchMap((payload) => {
           return of(payload).pipe(
@@ -265,7 +265,7 @@ export class CartEffects {
       ) => action.payload
     ),
     map(
-      payload =>
+      (payload) =>
         new CartActions.LoadCart({
           userId: payload.userId,
           cartId: payload.cartId,
