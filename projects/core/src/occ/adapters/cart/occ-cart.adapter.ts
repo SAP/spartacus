@@ -37,9 +37,9 @@ export class OccCartAdapter implements CartAdapter {
   public load(userId: string, cartId: string): Observable<Cart> {
     if (cartId === OCC_CART_ID_CURRENT) {
       return this.loadAll(userId).pipe(
-        map(carts => {
+        map((carts) => {
           if (carts) {
-            const activeCart = carts.find(cart => {
+            const activeCart = carts.find((cart) => {
               return cart['saveTime'] === undefined;
             });
             return activeCart;

@@ -136,7 +136,7 @@ describe('OccUserOrderAdapter', () => {
 
     it('should use converter', () => {
       occUserOrderAdapter.load(userId, orderData.code).subscribe();
-      httpMock.expectOne(req => req.method === 'GET').flush({});
+      httpMock.expectOne((req) => req.method === 'GET').flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
     });
   });
@@ -149,8 +149,8 @@ describe('OccUserOrderAdapter', () => {
       };
       occUserOrderAdapter
         .getConsignmentTracking(orderData.code, consignmentCode, userId)
-        .subscribe(result => expect(result).toEqual(tracking));
-      const mockReq = httpMock.expectOne(req => {
+        .subscribe((result) => expect(result).toEqual(tracking));
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       }, `GET a consignment tracking`);
       expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
@@ -171,7 +171,7 @@ describe('OccUserOrderAdapter', () => {
         .getConsignmentTracking(orderData.code, consignmentCode, userId)
         .subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'GET';
         })
         .flush({});
@@ -190,9 +190,9 @@ describe('OccUserOrderAdapter', () => {
       let result;
       occUserOrderAdapter
         .cancel(userId, orderData.code, cancelRequestInput)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
       });
       expect(occEnpointsService.getUrl).toHaveBeenCalledWith('cancelOrder', {
@@ -216,9 +216,9 @@ describe('OccUserOrderAdapter', () => {
       let result;
       occUserOrderAdapter
         .createReturnRequest(userId, returnRequestInput)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
       });
       expect(occEnpointsService.getUrl).toHaveBeenCalledWith('returnOrder', {
@@ -240,7 +240,7 @@ describe('OccUserOrderAdapter', () => {
         .createReturnRequest(userId, returnRequestInput)
         .subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'POST';
         })
         .flush({});
@@ -301,9 +301,9 @@ describe('OccUserOrderAdapter', () => {
       let result;
       occUserOrderAdapter
         .loadReturnRequestDetail(userId, 'test')
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
       expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
@@ -321,7 +321,7 @@ describe('OccUserOrderAdapter', () => {
     it('should use converter', () => {
       occUserOrderAdapter.loadReturnRequestDetail(userId, 'test').subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'GET';
         })
         .flush({});
@@ -336,9 +336,9 @@ describe('OccUserOrderAdapter', () => {
       let result;
       occUserOrderAdapter
         .cancelReturnRequest(userId, 'returnCode', { status: 'CANCELLING' })
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'PATCH';
       });
       expect(occEnpointsService.getUrl).toHaveBeenCalledWith('cancelReturn', {

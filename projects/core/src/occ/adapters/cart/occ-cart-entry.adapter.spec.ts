@@ -61,7 +61,7 @@ describe('OccCartEntryAdapter', () => {
       let result;
       occCartEntryAdapter
         .add(userId, cartId, '147852', 5)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne({ method: 'POST', url: 'addEntries' });
 
@@ -93,7 +93,7 @@ describe('OccCartEntryAdapter', () => {
       let result;
       occCartEntryAdapter
         .update(userId, cartId, '12345', 5)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne({
         method: 'PATCH',
@@ -152,7 +152,7 @@ describe('OccCartEntryAdapter', () => {
       let result;
       occCartEntryAdapter
         .remove(userId, cartId, '147852')
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne({
         method: 'DELETE',

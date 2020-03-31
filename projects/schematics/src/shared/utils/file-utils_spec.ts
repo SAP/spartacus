@@ -28,13 +28,14 @@ import {
   commitChanges,
   defineProperty,
   findConstructor,
-  getAllHtmlFiles,
   getAllTsSourceFiles,
+  getHtmlFiles,
   getIndexHtmlPath,
   getPathResultsForFile,
   getTsSourceFile,
   injectService,
   insertCommentAboveIdentifier,
+  insertComponentSelectorComment,
   InsertDirection,
   insertHtmlComment,
   isCandidateForConstructorDeprecation,
@@ -207,6 +208,8 @@ const HTML_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-m
 const HTML_EXAMPLE_EXPECTED = `<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
 <!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+const HTML_EXAMPLE_NGIF = `<div *ngIf="isThumbsEmpty">test</div>`;
+const HTML_EXAMPLE_NGIF_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. --><div *ngIf="isThumbsEmpty">test</div>`;
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -280,34 +283,49 @@ describe('File utils', () => {
 
   describe('getPathResultsForFile', () => {
     it('should return proper path for file', async () => {
-      const pathsToFile = getPathResultsForFile(appTree, 'test.ts', 'src');
+      const pathsToFiles = getPathResultsForFile(appTree, 'test.ts', 'src');
 
-      expect(pathsToFile.length).toBeGreaterThan(0);
-      expect(pathsToFile[0]).toEqual('/src/test.ts');
+      expect(pathsToFiles.length).toBeGreaterThan(0);
+      expect(pathsToFiles[0]).toEqual('/src/test.ts');
     });
   });
 
   describe('getAllHtmlFiles', () => {
     it('should return proper path for file', async () => {
-      const pathsToFile = getAllHtmlFiles(appTree, 'src');
+      let pathsToFiles = getHtmlFiles(appTree, undefined, 'src');
+      expect(pathsToFiles).toBeTruthy();
 
-      expect(pathsToFile.length).toEqual(2);
-      expect(pathsToFile[0]).toEqual('/src/index.html');
-      expect(pathsToFile[1]).toEqual('/src/app/app.component.html');
+      pathsToFiles = pathsToFiles || [];
+      expect(pathsToFiles.length).toEqual(2);
+      expect(pathsToFiles[0]).toEqual('/src/index.html');
+      expect(pathsToFiles[1]).toEqual('/src/app/app.component.html');
     });
   });
 
-  describe('insertHtmlComment', () => {
+  describe('insertComponentSelectorComment', () => {
     it('should insert the comment', async () => {
       const componentDeprecation = COMPONENT_DEPRECATION_DATA[0];
-      const result = insertHtmlComment(
+      const result = insertComponentSelectorComment(
         HTML_EXAMPLE,
         componentDeprecation.selector,
-        componentDeprecation.removedProperties[0]
+        (componentDeprecation.removedProperties || [])[0]
       );
 
       expect(result).toBeTruthy();
       expect(result).toEqual(HTML_EXAMPLE_EXPECTED);
+    });
+  });
+
+  describe('insertHtmlComment', () => {
+    it('should insert the comment with *ngIf', async () => {
+      const componentDeprecation = COMPONENT_DEPRECATION_DATA[1];
+      const result = insertHtmlComment(
+        HTML_EXAMPLE_NGIF,
+        (componentDeprecation.removedProperties || [])[0]
+      );
+
+      expect(result).toBeTruthy();
+      expect(result).toEqual(HTML_EXAMPLE_NGIF_EXPECTED);
     });
   });
 

@@ -20,7 +20,16 @@ import { BaseFocusService } from './base-focus.service';
  */
 @Directive()
 export abstract class BaseFocusDirective implements OnInit {
+  /**
+   * Optional configuration for the focus directive drives the behaviour of the keyboard
+   * focus directive.
+   */
   protected config: BaseFocusConfig;
+
+  /**
+   * A default config can be provided for each directive if a specific focus directive
+   * is used directly. i.e. `<div cxAutoFocus></div>`
+   */
   protected defaultConfig: BaseFocusConfig = {};
 
   @Input() @HostBinding('attr.tabindex') tabindex: number;
@@ -72,16 +81,17 @@ export abstract class BaseFocusDirective implements OnInit {
    * Returns true if the host element does not have a tabindex defined
    * and it also doesn't get focus by browsers nature (i.e. button or
    * active link).
-   *
-   * We keep this utility method private to not pollute the API.
    */
-  private get requiresExplicitTabIndex(): boolean {
+  protected get requiresExplicitTabIndex(): boolean {
     return (
       this.tabindex === undefined &&
       ['button', 'input', 'select', 'textarea'].indexOf(
         this.host.tagName.toLowerCase()
       ) === -1 &&
-      !(this.host.tagName === 'A' && this.host.hasAttribute('href'))
+      !(
+        this.host.tagName === 'A' &&
+        (this.host.hasAttribute('href') || this.host.hasAttribute('routerlink'))
+      )
     );
   }
 }

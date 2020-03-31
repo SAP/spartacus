@@ -56,13 +56,13 @@ export class StatePersistenceService {
     subscriptions.add(
       context$
         .pipe(
-          map(context => {
+          map((context) => {
             return readFromStorage(
               storage,
               this.generateKeyWithContext(context, key)
             ) as T;
           }),
-          tap(state => onRead(state))
+          tap((state) => onRead(state))
         )
         .subscribe()
     );

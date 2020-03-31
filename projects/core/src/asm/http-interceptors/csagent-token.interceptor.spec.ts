@@ -69,7 +69,7 @@ describe('CustomerSupportAgentTokenInterceptor', () => {
 
         http
           .get('https://localhost:9002/rest/v2/electronics/test')
-          .subscribe(result => {
+          .subscribe((result) => {
             expect(result).toBeTruthy();
           })
           .unsubscribe();
@@ -95,7 +95,7 @@ describe('CustomerSupportAgentTokenInterceptor', () => {
         );
         http
           .get('https://localhost:9002/rest/v2/electronics/test')
-          .subscribe(result => {
+          .subscribe((result) => {
             expect(result).toBeTruthy();
           })
           .unsubscribe();

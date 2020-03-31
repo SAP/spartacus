@@ -50,10 +50,10 @@ describe('consent reference interceptor', () => {
             testHeader: 'test',
           },
         })
-        .subscribe(res => (response = res));
+        .subscribe((res) => (response = res));
       mock
         .expectOne(
-          req =>
+          (req) =>
             req.headers.has('testHeader') &&
             req.headers.has('X-Consent-Reference') &&
             req.headers.get('X-Consent-Reference') === 'test-123-abc-!@#'
@@ -74,10 +74,10 @@ describe('consent reference interceptor', () => {
             testHeader: 'test',
           },
         })
-        .subscribe(res => (response = res));
+        .subscribe((res) => (response = res));
       mock
         .expectOne(
-          req =>
+          (req) =>
             req.headers.has('testHeader') &&
             !req.headers.has('X-Consent-Reference')
         )
@@ -99,10 +99,10 @@ describe('consent reference interceptor', () => {
             testHeader: 'test',
           },
         })
-        .subscribe(res => (response = res));
+        .subscribe((res) => (response = res));
       mock
         .expectOne(
-          req =>
+          (req) =>
             req.headers.has('testHeader') &&
             !req.headers.has('X-Consent-Reference')
         )

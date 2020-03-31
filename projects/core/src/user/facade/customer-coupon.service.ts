@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
+import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
-import { UserActions } from '../store/actions/index';
-import { UsersSelectors } from '../store/selectors/index';
-import {
-  StateWithUser,
-  SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
-  UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
-  CLAIM_CUSTOMER_COUPON_PROCESS_ID,
-} from '../store/user-state';
 import {
   getProcessErrorFactory,
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
-import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { UserActions } from '../store/actions/index';
+import { UsersSelectors } from '../store/selectors/index';
+import {
+  CLAIM_CUSTOMER_COUPON_PROCESS_ID,
+  StateWithUser,
+  SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+  UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
+} from '../store/user-state';
 
 @Injectable({
   providedIn: 'root',
@@ -51,9 +51,12 @@ export class CustomerCouponService {
    * @param pageSize page size
    */
   getCustomerCoupons(pageSize: number): Observable<CustomerCouponSearchResult> {
-    return this.store.pipe(
-      select(UsersSelectors.getCustomerCouponsState),
-      tap(customerCouponsState => {
+    return combineLatest([
+      this.store.pipe(select(UsersSelectors.getCustomerCouponsState)),
+      this.getClaimCustomerCouponResultLoading(),
+    ]).pipe(
+      filter(([, loading]) => !loading),
+      tap(([customerCouponsState]) => {
         const attemptedLoad =
           customerCouponsState.loading ||
           customerCouponsState.success ||
@@ -62,7 +65,7 @@ export class CustomerCouponService {
           this.loadCustomerCoupons(pageSize);
         }
       }),
-      map(customerCouponsState => customerCouponsState.value)
+      map(([customerCouponsState]) => customerCouponsState.value)
     );
   }
 
@@ -179,6 +182,15 @@ export class CustomerCouponService {
   getClaimCustomerCouponResultSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessSuccessFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the claim customer coupon notification process loading flag
+   */
+  getClaimCustomerCouponResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(CLAIM_CUSTOMER_COUPON_PROCESS_ID))
     );
   }
 }

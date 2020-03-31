@@ -40,7 +40,7 @@ export class UserOrderService {
    * @param orderCode an order code
    */
   loadOrderDetails(orderCode: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.LoadOrderDetails({
           userId,
@@ -63,7 +63,7 @@ export class UserOrderService {
   getOrderHistoryList(pageSize: number): Observable<OrderHistoryList> {
     return this.store.pipe(
       select(UsersSelectors.getOrdersState),
-      tap(orderListState => {
+      tap((orderListState) => {
         const attemptedLoad =
           orderListState.loading ||
           orderListState.success ||
@@ -72,7 +72,7 @@ export class UserOrderService {
           this.loadOrderList(pageSize);
         }
       }),
-      map(orderListState => orderListState.value)
+      map((orderListState) => orderListState.value)
     );
   }
 
@@ -90,7 +90,7 @@ export class UserOrderService {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.LoadUserOrders({
           userId,
@@ -122,7 +122,7 @@ export class UserOrderService {
    * @param consignmentCode a consignment code
    */
   loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.LoadConsignmentTracking({
           userId,
@@ -147,7 +147,7 @@ export class UserOrderService {
     orderCode: string,
     cancelRequestInput: CancellationRequestEntryInputList
   ): void {
-    this.withUserId(userId => {
+    this.withUserId((userId) => {
       this.store.dispatch(
         new UserActions.CancelOrder({
           userId,
@@ -190,6 +190,6 @@ export class UserOrderService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(userId => callback(userId));
+      .subscribe((userId) => callback(userId));
   }
 }

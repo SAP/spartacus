@@ -15,7 +15,7 @@ export class OrderReturnRequestEffect {
   > = this.actions$.pipe(
     ofType(UserActions.CREATE_ORDER_RETURN_REQUEST),
     map((action: UserActions.CreateOrderReturnRequest) => action.payload),
-    switchMap(payload => {
+    switchMap((payload) => {
       return this.orderConnector
         .return(payload.userId, payload.returnRequestInput)
         .pipe(
@@ -23,7 +23,7 @@ export class OrderReturnRequestEffect {
             (returnRequest: ReturnRequest) =>
               new UserActions.CreateOrderReturnRequestSuccess(returnRequest)
           ),
-          catchError(error =>
+          catchError((error) =>
             of(
               new UserActions.CreateOrderReturnRequestFail(
                 makeErrorSerializable(error)
@@ -40,7 +40,7 @@ export class OrderReturnRequestEffect {
   > = this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_RETURN_REQUEST),
     map((action: UserActions.LoadOrderReturnRequest) => action.payload),
-    switchMap(payload => {
+    switchMap((payload) => {
       return this.orderConnector
         .getReturnRequestDetail(payload.userId, payload.returnRequestCode)
         .pipe(
@@ -48,7 +48,7 @@ export class OrderReturnRequestEffect {
             (returnRequest: ReturnRequest) =>
               new UserActions.LoadOrderReturnRequestSuccess(returnRequest)
           ),
-          catchError(error =>
+          catchError((error) =>
             of(
               new UserActions.LoadOrderReturnRequestFail(
                 makeErrorSerializable(error)
@@ -65,7 +65,7 @@ export class OrderReturnRequestEffect {
   > = this.actions$.pipe(
     ofType(UserActions.CANCEL_ORDER_RETURN_REQUEST),
     map((action: UserActions.CancelOrderReturnRequest) => action.payload),
-    switchMap(payload => {
+    switchMap((payload) => {
       return this.orderConnector
         .cancelReturnRequest(
           payload.userId,
@@ -73,8 +73,8 @@ export class OrderReturnRequestEffect {
           payload.returnRequestModification
         )
         .pipe(
-          map(_ => new UserActions.CancelOrderReturnRequestSuccess()),
-          catchError(error =>
+          map(() => new UserActions.CancelOrderReturnRequestSuccess()),
+          catchError((error) =>
             of(
               new UserActions.CancelOrderReturnRequestFail(
                 makeErrorSerializable(error)
@@ -91,7 +91,7 @@ export class OrderReturnRequestEffect {
   > = this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_RETURN_REQUEST_LIST),
     map((action: UserActions.LoadOrderReturnRequestList) => action.payload),
-    switchMap(payload => {
+    switchMap((payload) => {
       return this.orderConnector
         .getReturnRequestList(
           payload.userId,
@@ -106,7 +106,7 @@ export class OrderReturnRequestEffect {
                 returnRequestList
               )
           ),
-          catchError(error =>
+          catchError((error) =>
             of(
               new UserActions.LoadOrderReturnRequestListFail(
                 makeErrorSerializable(error)

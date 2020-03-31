@@ -31,9 +31,7 @@ export function productStoreFlow(mobile?: string) {
 
   cy.get('cx-searchbox input').type('canon{enter}');
 
-  cy.wait(`@${QUERY_ALIAS.CANON}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.CANON}`).its('status').should('eq', 200);
 
   assertNumberOfProducts(`@${QUERY_ALIAS.CANON}`, `"${category}"`);
 
@@ -45,17 +43,13 @@ export function productStoreFlow(mobile?: string) {
 
   clickFacet('Stores');
 
-  cy.wait(`@${QUERY_ALIAS.NAME_DSC_FILTER}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.NAME_DSC_FILTER}`).its('status').should('eq', 200);
 
   assertNumberOfProducts(`@${QUERY_ALIAS.NAME_DSC_FILTER}`, `"${category}"`);
 
   clearSelectedFacet(mobile);
 
-  cy.wait(`@${QUERY_ALIAS.NAME_DSC_FILTER}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.NAME_DSC_FILTER}`).its('status').should('eq', 200);
 
   assertNumberOfProducts(`@${QUERY_ALIAS.NAME_DSC_FILTER}`, `"${category}"`);
 

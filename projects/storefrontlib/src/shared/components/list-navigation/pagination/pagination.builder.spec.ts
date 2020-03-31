@@ -342,7 +342,7 @@ describe('PaginationBuilder', () => {
       pages = service.paginate(3, 0);
     });
     it('should substiture gap', () => {
-      const all = pages.find(page => page.type === PaginationItemType.GAP);
+      const all = pages.find((page) => page.type === PaginationItemType.GAP);
       expect(all).toBeFalsy();
     });
   });
@@ -354,7 +354,7 @@ describe('PaginationBuilder', () => {
       pages = service.paginate(100, 50);
     });
     it('should have 5 pages', () => {
-      const all = pages.filter(page => page.type === PaginationItemType.PAGE);
+      const all = pages.filter((page) => page.type === PaginationItemType.PAGE);
       expect(all.length).toEqual(5);
     });
   });
@@ -369,11 +369,11 @@ describe('PaginationBuilder', () => {
       expect(pages.length).toEqual(3);
     });
     it('should not have a start link', () => {
-      const link = pages.find(page => page.type === PaginationItemType.START);
+      const link = pages.find((page) => page.type === PaginationItemType.START);
       expect(link).toBeFalsy();
     });
     it('should not have an end link', () => {
-      const link = pages.find(page => page.type === PaginationItemType.END);
+      const link = pages.find((page) => page.type === PaginationItemType.END);
       expect(link).toBeFalsy();
     });
   });
@@ -392,12 +392,12 @@ describe('PaginationBuilder', () => {
     });
     it('should have a previous page link', () => {
       const link = pages.find(
-        page => page.type === PaginationItemType.PREVIOUS
+        (page) => page.type === PaginationItemType.PREVIOUS
       );
       expect(link).toBeTruthy();
     });
     it('should have a next page link', () => {
-      const link = pages.find(page => page.type === PaginationItemType.NEXT);
+      const link = pages.find((page) => page.type === PaginationItemType.NEXT);
       expect(link).toBeTruthy();
     });
   });
@@ -412,11 +412,11 @@ describe('PaginationBuilder', () => {
       expect(pages.length).toEqual(7);
     });
     it('should not have a first page link', () => {
-      const link = pages.find(page => page.type === PaginationItemType.FIRST);
+      const link = pages.find((page) => page.type === PaginationItemType.FIRST);
       expect(link).toBeTruthy();
     });
     it('should not have a last page link', () => {
-      const link = pages.find(page => page.type === PaginationItemType.LAST);
+      const link = pages.find((page) => page.type === PaginationItemType.LAST);
       expect(link).toBeTruthy();
     });
   });
@@ -460,7 +460,9 @@ describe('PaginationBuilder', () => {
         expect(pages.length).toEqual(7);
       });
       it('should have 2 gaps', () => {
-        const link = pages.filter(page => page.type === PaginationItemType.GAP);
+        const link = pages.filter(
+          (page) => page.type === PaginationItemType.GAP
+        );
         expect(link.length).toEqual(2);
       });
     });
@@ -475,7 +477,7 @@ describe('PaginationBuilder', () => {
         expect(pages.length).toEqual(5);
       });
       it('should not have gaps', () => {
-        const link = pages.find(page => page.type === PaginationItemType.GAP);
+        const link = pages.find((page) => page.type === PaginationItemType.GAP);
         expect(link).toBeFalsy();
       });
     });

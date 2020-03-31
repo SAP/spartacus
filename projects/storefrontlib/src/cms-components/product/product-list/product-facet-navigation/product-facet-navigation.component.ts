@@ -41,14 +41,14 @@ export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sub = this.activatedRoute.params.subscribe(params => {
+    this.sub = this.activatedRoute.params.subscribe((params) => {
       this.activeFacetValueCode = params.categoryCode || params.brandCode;
     });
 
     this.searchResult$ = this.productListComponentService.model$.pipe(
-      tap(searchResult => {
+      tap((searchResult) => {
         if (searchResult.facets) {
-          searchResult.facets.forEach(el => {
+          searchResult.facets.forEach((el) => {
             this.showAllPerFacetMap.set(el.name, false);
           });
         }
@@ -56,9 +56,9 @@ export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
     );
 
     this.visibleFacets$ = this.searchResult$.pipe(
-      map(searchResult => {
+      map((searchResult) => {
         return searchResult.facets
-          ? searchResult.facets.filter(facet => facet.visible)
+          ? searchResult.facets.filter((facet) => facet.visible)
           : [];
       })
     );
