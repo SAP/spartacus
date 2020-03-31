@@ -16,7 +16,7 @@ describe('Consignment Tracking Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
   describe('getConsignmentTracking', () => {
@@ -24,7 +24,7 @@ describe('Consignment Tracking Selectors', () => {
       let result: ConsignmentTracking;
       store
         .pipe(select(UsersSelectors.getConsignmentTracking))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).not.toBeNull();
     });
   });

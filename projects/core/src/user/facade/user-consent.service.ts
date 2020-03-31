@@ -11,7 +11,6 @@ import {
 } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -31,29 +30,15 @@ import {
 })
 export class UserConsentService {
   constructor(
-    store: Store<StateWithUser | StateWithProcess<void>>,
-    // tslint:disable-next-line:unified-signatures
-    authService: AuthService
-  );
-
-  /**
-   * @deprecated since version 1.3
-   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
-   *  authService: AuthService) instead
-   *
-   *  TODO(issue:#5628) Deprecated since 1.3.0
-   */
-  constructor(store: Store<StateWithUser | StateWithProcess<void>>);
-  constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService?: AuthService
+    protected authService: AuthService
   ) {}
 
   /**
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new UserActions.LoadUserConsents(userId))
     );
   }
@@ -125,14 +110,14 @@ export class UserConsentService {
   getConsent(templateId: string): Observable<Consent> {
     return this.authService.isUserLoggedIn().pipe(
       filter(Boolean),
-      tap(_ => this.getConsents(true)),
-      switchMap(_ =>
+      tap(() => this.getConsents(true)),
+      switchMap(() =>
         this.store.pipe(
           select(UsersSelectors.getConsentByTemplateId(templateId))
         )
       ),
-      filter(template => Boolean(template)),
-      map(template => template.currentConsent)
+      filter((template) => Boolean(template)),
+      map((template) => template.currentConsent)
     );
   }
 
@@ -169,7 +154,7 @@ export class UserConsentService {
    * @param consentTemplateVersion a template version for which to give a consent
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.GiveUserConsent({
           userId,
@@ -219,7 +204,7 @@ export class UserConsentService {
    * @param consentCode for which to withdraw the consent
    */
   withdrawConsent(consentCode: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.WithdrawUserConsent({
           userId,
@@ -291,19 +276,13 @@ export class UserConsentService {
     return updatedTemplateList;
   }
 
-  /**
-   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
-   *
+  /*
+   * Utility method to distinquish user id in a convenient way
    */
   private withUserId(callback: (userId: string) => void): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(userId => callback(userId));
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
-      callback(OCC_USER_ID_CURRENT);
-    }
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe((userId) => callback(userId));
   }
 }

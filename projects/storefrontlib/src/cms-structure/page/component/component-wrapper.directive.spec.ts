@@ -28,11 +28,9 @@ const testText = 'test text';
 
 @Component({
   selector: 'cx-test',
-  template: `
-    <div id="debugEl1">${testText}</div>
-  `,
+  template: ` <div id="debugEl1">${testText}</div> `,
 })
-export class TestComponent {
+class TestComponent {
   constructor(
     public cmsData: CmsComponentData<CmsComponent>,
     @Inject('testService') public testService
@@ -44,7 +42,7 @@ export class TestComponent {
   entryComponents: [TestComponent],
   exports: [TestComponent],
 })
-export class TestModule {}
+class TestModule {}
 
 const MockCmsModuleConfig: CmsConfig = {
   cmsComponents: {
@@ -126,11 +124,11 @@ describe('ComponentWrapperDirective', () => {
 
     describe('with angular component', () => {
       beforeEach(() => {
-        fixture = TestBed.createComponent(TestWrapperComponent as Type<
-          TestWrapperComponent
-        >);
-        cmsService = TestBed.get(CmsService as Type<CmsService>);
-        cmsConfig = TestBed.get(CmsConfig as Type<CmsConfig>);
+        fixture = TestBed.createComponent(
+          TestWrapperComponent as Type<TestWrapperComponent>
+        );
+        cmsService = TestBed.inject(CmsService);
+        cmsConfig = TestBed.inject(CmsConfig);
       });
 
       it('should instantiate the found component if it was enabled for SSR', () => {
@@ -159,10 +157,8 @@ describe('ComponentWrapperDirective', () => {
     describe('with angular component', () => {
       beforeEach(() => {
         fixture = TestBed.createComponent(TestWrapperComponent);
-        cmsService = TestBed.get(CmsService as Type<CmsService>);
-        dynamicAttributeService = TestBed.get(DynamicAttributeService as Type<
-          DynamicAttributeService
-        >);
+        cmsService = TestBed.inject(CmsService);
+        dynamicAttributeService = TestBed.inject(DynamicAttributeService);
         renderer = fixture.componentRef.injector.get<Renderer2>(
           Renderer2 as any
         );
@@ -243,7 +239,7 @@ describe('ComponentWrapperDirective', () => {
       let scriptEl;
 
       beforeEach(() => {
-        const cmsMapping = TestBed.get(CmsConfig as Type<CmsConfig>);
+        const cmsMapping = TestBed.inject(CmsConfig);
         cmsMapping.cmsComponents.CMSTestComponent.component =
           'path/to/file.js#cms-component';
         fixture = TestBed.createComponent(TestWrapperComponent);
@@ -255,7 +251,7 @@ describe('ComponentWrapperDirective', () => {
         expect(scriptEl.src).toContain('path/to/file.js');
       });
 
-      it('should instantiate web component', done => {
+      it('should instantiate web component', (done) => {
         scriptEl.onload(); // invoke load callbacks
 
         // run in next runloop (to process async tasks)
@@ -264,13 +260,13 @@ describe('ComponentWrapperDirective', () => {
             'cms-component'
           );
           expect(cmsComponentElement).toBeTruthy();
-          const componentData = cmsComponentElement.cxApi.CmsComponentData;
+          const componentData = cmsComponentElement.cxApi.cmsComponentData;
           expect(componentData.uid).toEqual('test_uid');
           done();
         });
       });
 
-      it('should pass cxApi to web component', done => {
+      it('should pass cxApi to web component', (done) => {
         scriptEl.onload(); // invoke load callbacks
 
         // run in next runloop (to process async tasks)

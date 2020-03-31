@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/index';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -22,24 +22,11 @@ import {
   UPDATE_USER_DETAILS_PROCESS_ID,
 } from '../store/user-state';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserService {
   constructor(
-    store: Store<StateWithUser | StateWithProcess<void>>,
-    // tslint:disable-next-line:unified-signatures
-    authService: AuthService
-  );
-  /**
-   * @deprecated since version 1.3
-   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
-   *  authService: AuthService) instead
-   *
-   *  TODO(issue:#5628) Deprecated since 1.3.0
-   */
-  constructor(store: Store<StateWithUser | StateWithProcess<void>>);
-  constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService?: AuthService
+    protected authService: AuthService
   ) {}
 
   /**
@@ -48,7 +35,7 @@ export class UserService {
   get(): Observable<User> {
     return this.store.pipe(
       select(UsersSelectors.getDetails),
-      tap(details => {
+      tap((details) => {
         if (Object.keys(details).length === 0) {
           this.load();
         }
@@ -60,9 +47,11 @@ export class UserService {
    * Loads the user's details
    */
   load(): void {
-    this.withUserId(userId =>
-      this.store.dispatch(new UserActions.LoadUserDetails(userId))
-    );
+    this.withUserId((userId) => {
+      if (userId !== OCC_USER_ID_ANONYMOUS) {
+        this.store.dispatch(new UserActions.LoadUserDetails(userId));
+      }
+    });
   }
 
   /**
@@ -122,7 +111,7 @@ export class UserService {
    * Remove user account, that's also called close user's account
    */
   remove(): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new UserActions.RemoveUser(userId))
     );
   }
@@ -188,7 +177,7 @@ export class UserService {
    * @param userDetails to be updated
    */
   updatePersonalDetails(userDetails: User): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.UpdateUserDetails({
           username: userId,
@@ -254,7 +243,7 @@ export class UserService {
    * Updates the user's email
    */
   updateEmail(password: string, newUid: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.UpdateEmailAction({
           uid: userId,
@@ -305,7 +294,7 @@ export class UserService {
    * @param newPassword the new password
    */
   updatePassword(oldPassword: string, newPassword: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.UpdatePassword({
           userId,
@@ -351,19 +340,13 @@ export class UserService {
     this.store.dispatch(new UserActions.UpdatePasswordReset());
   }
 
-  /**
-   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
-   *
+  /*
+   * Utility method to distinquish user id in a convenient way
    */
   private withUserId(callback: (userId: string) => void): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(userId => callback(userId));
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
-      callback(OCC_USER_ID_CURRENT);
-    }
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe((userId) => callback(userId));
   }
 }

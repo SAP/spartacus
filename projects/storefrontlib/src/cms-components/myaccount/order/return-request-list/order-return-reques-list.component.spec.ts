@@ -1,12 +1,12 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
-  ReturnRequestList,
   OrderReturnRequestService,
+  ReturnRequestList,
 } from '@spartacus/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { OrderReturnRequestListComponent } from './order-return-request-list.component';
 
@@ -52,7 +52,7 @@ class MockOrderReturnRequestService {
 describe('OrderReturnRequestListComponent', () => {
   let component: OrderReturnRequestListComponent;
   let fixture: ComponentFixture<OrderReturnRequestListComponent>;
-  let returnService: MockOrderReturnRequestService;
+  let returnService: OrderReturnRequestService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -66,9 +66,7 @@ describe('OrderReturnRequestListComponent', () => {
       ],
     }).compileComponents();
 
-    returnService = TestBed.get(OrderReturnRequestService as Type<
-      OrderReturnRequestService
-    >);
+    returnService = TestBed.inject(OrderReturnRequestService);
   }));
 
   beforeEach(() => {
@@ -83,7 +81,7 @@ describe('OrderReturnRequestListComponent', () => {
   it('should read order return request list', () => {
     let returns: ReturnRequestList;
     component.returnRequests$
-      .subscribe(value => {
+      .subscribe((value) => {
         returns = value;
       })
       .unsubscribe();

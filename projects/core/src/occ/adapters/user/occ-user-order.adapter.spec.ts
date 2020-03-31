@@ -3,23 +3,22 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { ORDER_NORMALIZER } from '../../../checkout/connectors/checkout/converters';
 import { FeatureConfigService } from '../../../features-config/index';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
 import {
-  Order,
-  ReturnRequestEntryInputList,
-  ReturnRequest,
   CancellationRequestEntryInputList,
+  Order,
+  ReturnRequest,
+  ReturnRequestEntryInputList,
 } from '../../../model/order.model';
 import {
   CONSIGNMENT_TRACKING_NORMALIZER,
   ORDER_HISTORY_NORMALIZER,
+  ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
   ORDER_RETURNS_NORMALIZER,
-  ORDER_RETURN_REQUEST_INPUT_SERIALIZER,
 } from '../../../user/connectors/order/converters';
 import { ConverterService } from '../../../util/index';
 import { OccConfig } from '../../config/occ-config';
@@ -72,19 +71,11 @@ describe('OccUserOrderAdapter', () => {
       ],
     });
 
-    occUserOrderAdapter = TestBed.get(OccUserOrderAdapter as Type<
-      OccUserOrderAdapter
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
-    featureConfigService = TestBed.get(FeatureConfigService as Type<
-      FeatureConfigService
-    >);
+    occUserOrderAdapter = TestBed.inject(OccUserOrderAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
@@ -159,7 +150,7 @@ describe('OccUserOrderAdapter', () => {
 
     it('should use converter', () => {
       occUserOrderAdapter.load(userId, orderData.code).subscribe();
-      httpMock.expectOne(req => req.method === 'GET').flush({});
+      httpMock.expectOne((req) => req.method === 'GET').flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
     });
   });
@@ -234,7 +225,7 @@ describe('OccUserOrderAdapter', () => {
 
       it('should use converter', () => {
         occUserOrderAdapter.load(userId, orderData.code).subscribe();
-        httpMock.expectOne(req => req.method === 'GET').flush({});
+        httpMock.expectOne((req) => req.method === 'GET').flush({});
         expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
       });
     });
@@ -246,16 +237,17 @@ describe('OccUserOrderAdapter', () => {
           trackingEvents: [],
         };
         occUserOrderAdapter
-          .getConsignmentTracking(orderData.code, consignmentCode)
-          .subscribe(result => expect(result).toEqual(tracking));
-        const mockReq = httpMock.expectOne(req => {
+          .getConsignmentTracking(orderData.code, consignmentCode, userId)
+          .subscribe((result) => expect(result).toEqual(tracking));
+        const mockReq = httpMock.expectOne((req) => {
           return req.method === 'GET';
         }, `GET a consignment tracking`);
         expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
           'consignmentTracking',
           {
+            userId,
             orderCode: orderData.code,
-            consignmentCode: consignmentCode,
+            consignmentCode,
           }
         );
         expect(mockReq.cancelled).toBeFalsy();
@@ -265,10 +257,10 @@ describe('OccUserOrderAdapter', () => {
 
       it('should use converter', () => {
         occUserOrderAdapter
-          .getConsignmentTracking(orderData.code, consignmentCode)
+          .getConsignmentTracking(orderData.code, consignmentCode, userId)
           .subscribe();
         httpMock
-          .expectOne(req => {
+          .expectOne((req) => {
             return req.method === 'GET';
           })
           .flush({});
@@ -289,9 +281,9 @@ describe('OccUserOrderAdapter', () => {
         let result;
         occUserOrderAdapter
           .cancel(userId, orderData.code, cancelRequestInput)
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return req.method === 'POST';
         });
         expect(occEnpointsService.getUrl).toHaveBeenCalledWith('cancelOrder', {
@@ -315,9 +307,9 @@ describe('OccUserOrderAdapter', () => {
         let result;
         occUserOrderAdapter
           .createReturnRequest(userId, returnRequestInput)
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return req.method === 'POST';
         });
         expect(occEnpointsService.getUrl).toHaveBeenCalledWith('returnOrder', {
@@ -339,7 +331,7 @@ describe('OccUserOrderAdapter', () => {
           .createReturnRequest(userId, returnRequestInput)
           .subscribe();
         httpMock
-          .expectOne(req => {
+          .expectOne((req) => {
             return req.method === 'POST';
           })
           .flush({});
@@ -402,9 +394,9 @@ describe('OccUserOrderAdapter', () => {
         let result;
         occUserOrderAdapter
           .loadReturnRequestDetail(userId, 'test')
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return req.method === 'GET';
         });
         expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
@@ -422,7 +414,7 @@ describe('OccUserOrderAdapter', () => {
       it('should use converter', () => {
         occUserOrderAdapter.loadReturnRequestDetail(userId, 'test').subscribe();
         httpMock
-          .expectOne(req => {
+          .expectOne((req) => {
             return req.method === 'GET';
           })
           .flush({});
@@ -437,9 +429,9 @@ describe('OccUserOrderAdapter', () => {
         let result;
         occUserOrderAdapter
           .cancelReturnRequest(userId, 'returnCode', { status: 'CANCELLING' })
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return req.method === 'PATCH';
         });
         expect(occEnpointsService.getUrl).toHaveBeenCalledWith('cancelReturn', {

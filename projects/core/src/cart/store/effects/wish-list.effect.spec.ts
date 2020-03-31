@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
@@ -11,7 +10,7 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { CartConnector } from '../../connectors';
 import { SaveCartConnector } from '../../connectors/save-cart';
 import { CartActions } from '../actions';
-import { StateWithMultiCart } from '../multi-cart-state';
+import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
 import * as fromEffects from './wish-list.effect';
 import { WishListEffects } from './wish-list.effect';
 import createSpy = jasmine.createSpy;
@@ -77,7 +76,7 @@ describe('Wish List Effect', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          'multi-cart',
+          MULTI_CART_FEATURE,
           fromReducers.getMultiCartReducers()
         ),
       ],
@@ -90,9 +89,9 @@ describe('Wish List Effect', () => {
       ],
     });
 
-    wishListEffect = TestBed.get(fromEffects.WishListEffects);
-    cartConnector = TestBed.get(CartConnector as Type<CartConnector>);
-    store = TestBed.get(Store as Type<Store<StateWithMultiCart>>);
+    wishListEffect = TestBed.inject(WishListEffects);
+    cartConnector = TestBed.inject(CartConnector);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
   });

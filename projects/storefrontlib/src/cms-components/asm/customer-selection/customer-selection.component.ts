@@ -23,6 +23,7 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './customer-selection.component.html',
   styleUrls: ['./customer-selection.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  // tslint:disable-next-line:no-host-metadata-property
   host: {
     '(document:click)': 'onDocumentClick($event)',
   },
@@ -37,8 +38,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   @Output()
   submitEvent = new EventEmitter<{ customerId: string }>();
 
-  @ViewChild('resultList', { static: false }) resultList: ElementRef;
-  @ViewChild('searchTerm', { static: false }) searchTerm: ElementRef;
+  @ViewChild('resultList') resultList: ElementRef;
+  @ViewChild('searchTerm') searchTerm: ElementRef;
 
   constructor(
     private fb: FormBuilder,
@@ -57,7 +58,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.form.controls.searchTerm.valueChanges
         .pipe(debounceTime(300))
-        .subscribe(searchTermValue => {
+        .subscribe((searchTermValue) => {
           this.handleSearchTerm(searchTermValue);
         })
     );

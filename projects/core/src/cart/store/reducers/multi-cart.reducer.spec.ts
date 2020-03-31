@@ -62,8 +62,10 @@ describe('Multi Cart reducer', () => {
             code: 'cartCode',
           },
           userId: 'userId',
+          cartId: 'cartCode',
+          tempCartId: 'tempCartId',
         };
-        const action = new CartActions.CreateMultiCartSuccess(payload);
+        const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.activeCartReducer(
           activeCartInitialState,
           action
@@ -74,13 +76,14 @@ describe('Multi Cart reducer', () => {
       it('should not change active cart id when it is not active cart create', () => {
         const { activeCartInitialState } = fromMultiCart;
         const payload = {
-          extraData: {},
           cart: {
             code: 'cartCode',
           },
           userId: 'userId',
+          cartId: 'cartCode',
+          tempCartId: 'tempCartId',
         };
-        const action = new CartActions.CreateMultiCartSuccess(payload);
+        const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.activeCartReducer(
           activeCartInitialState,
           action
@@ -99,7 +102,7 @@ describe('Multi Cart reducer', () => {
           userId: 'userId',
           tempCartId: 'temp-uuid',
         };
-        const action = new CartActions.CreateMultiCart(payload);
+        const action = new CartActions.CreateCart(payload);
         const state = fromMultiCart.activeCartReducer(
           activeCartInitialState,
           action
@@ -110,10 +113,10 @@ describe('Multi Cart reducer', () => {
       it('should not change active cart id when it is not active cart create', () => {
         const { activeCartInitialState } = fromMultiCart;
         const payload = {
-          extraData: {},
           userId: 'userId',
+          tempCartId: 'temp-uuid',
         };
-        const action = new CartActions.CreateMultiCart(payload);
+        const action = new CartActions.CreateCart(payload);
         const state = fromMultiCart.activeCartReducer(
           activeCartInitialState,
           action
@@ -135,6 +138,24 @@ describe('Multi Cart reducer', () => {
         const action = new CartActions.RemoveCart('cartCode');
         const state = fromMultiCart.activeCartReducer(initialState, action);
         expect(state).toEqual('otherCode');
+      });
+    });
+
+    describe('SET_ACTIVE_CART_ID action', () => {
+      it('should set active cart id', () => {
+        const initialState = 'cartCode';
+        const action = new CartActions.SetActiveCartId('cartId');
+        const state = fromMultiCart.activeCartReducer(initialState, action);
+        expect(state).toEqual('cartId');
+      });
+    });
+
+    describe('CLEAR_MULTI_CART_STATE action', () => {
+      it('should clear active cart id', () => {
+        const initialState = 'cartCode';
+        const action = new CartActions.ClearMultiCartState();
+        const state = fromMultiCart.activeCartReducer(initialState, action);
+        expect(state).toEqual(fromMultiCart.activeCartInitialState);
       });
     });
 
@@ -175,9 +196,10 @@ describe('Multi Cart reducer', () => {
         const payload = {
           cart,
           userId: 'userId',
-          extraData: {},
+          cartId: 'cartCode',
+          tempCartId: 'tempCartId',
         };
-        const action = new CartActions.CreateMultiCartSuccess(payload);
+        const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.cartEntitiesReducer(initialState, action);
         expect(state).toEqual(payload.cart);
       });
@@ -237,6 +259,14 @@ describe('Multi Cart reducer', () => {
           action
         );
         expect(state).toEqual(code);
+      });
+    });
+    describe('CLEAR_MULTI_CART_STATE action', () => {
+      it('should clear wishlist id', () => {
+        const initialState = 'wishlistId';
+        const action = new CartActions.ClearMultiCartState();
+        const state = fromMultiCart.wishListReducer(initialState, action);
+        expect(state).toEqual(fromMultiCart.wishListInitialState);
       });
     });
   });

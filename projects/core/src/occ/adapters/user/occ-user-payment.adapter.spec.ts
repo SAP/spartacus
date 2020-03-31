@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, PAYMENT_DETAILS_NORMALIZER } from '@spartacus/core';
 import { PaymentDetails } from '../../../model/cart.model';
@@ -36,16 +35,10 @@ describe('OccUserPaymentAdapter', () => {
       ],
     });
 
-    occUserPaymentAdapter = TestBed.get(OccUserPaymentAdapter as Type<
-      OccUserPaymentAdapter
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    occUserPaymentAdapter = TestBed.inject(OccUserPaymentAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
@@ -66,11 +59,11 @@ describe('OccUserPaymentAdapter', () => {
         payments: [mockPayment1, mockPayment2],
       };
 
-      occUserPaymentAdapter.loadAll(username).subscribe(result => {
+      occUserPaymentAdapter.loadAll(username).subscribe((result) => {
         expect(result).toEqual(mockUserPaymentMethods.payments);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -88,7 +81,7 @@ describe('OccUserPaymentAdapter', () => {
     it('should use converter', () => {
       occUserPaymentAdapter.loadAll(username).subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'GET';
         })
         .flush({});
@@ -107,11 +100,11 @@ describe('OccUserPaymentAdapter', () => {
 
       occUserPaymentAdapter
         .setDefault(username, mockPayment.id)
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toEqual('');
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'PATCH' && req.body.defaultPayment === true;
       });
 
@@ -133,9 +126,9 @@ describe('OccUserPaymentAdapter', () => {
 
       occUserPaymentAdapter
         .delete(username, mockPayment.id)
-        .subscribe(result => expect(result).toEqual(''));
+        .subscribe((result) => expect(result).toEqual(''));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'DELETE';
       });
 

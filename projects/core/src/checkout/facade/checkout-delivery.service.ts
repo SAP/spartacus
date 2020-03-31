@@ -3,12 +3,13 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import {
   filter,
+  pluck,
   shareReplay,
   tap,
-  pluck,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CartDataService } from '../../cart/facade/cart-data.service';
+import { AuthService } from '../../auth/facade/auth.service';
+import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { Address, AddressValidation } from '../../model/address.model';
 import { DeliveryMode } from '../../model/order.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
@@ -30,7 +31,8 @@ import { CheckoutSelectors } from '../store/selectors/index';
 export class CheckoutDeliveryService {
   constructor(
     protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
-    protected cartData: CartDataService
+    protected authService: AuthService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   /**
@@ -152,7 +154,7 @@ export class CheckoutDeliveryService {
   getAddressVerificationResults(): Observable<AddressValidation | string> {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getAddressVerificationResults),
-      filter(results => Object.keys(results).length !== 0)
+      filter((results) => Object.keys(results).length !== 0)
     );
   }
 
@@ -162,13 +164,26 @@ export class CheckoutDeliveryService {
    */
   createAndSetAddress(address: Address): void {
     if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new CheckoutActions.AddDeliveryAddress({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId,
-          address: address,
-        })
-      );
+      let userId;
+      this.authService
+        .getOccUserId()
+        .subscribe((occUserId) => (userId = occUserId))
+        .unsubscribe();
+
+      let cartId;
+      this.activeCartService
+        .getActiveCartId()
+        .subscribe((activeCartId) => (cartId = activeCartId))
+        .unsubscribe();
+      if (userId && cartId) {
+        this.checkoutStore.dispatch(
+          new CheckoutActions.AddDeliveryAddress({
+            userId,
+            cartId,
+            address: address,
+          })
+        );
+      }
     }
   }
 
@@ -177,12 +192,25 @@ export class CheckoutDeliveryService {
    */
   loadSupportedDeliveryModes(): void {
     if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new CheckoutActions.LoadSupportedDeliveryModes({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId,
-        })
-      );
+      let userId;
+      this.authService
+        .getOccUserId()
+        .subscribe((occUserId) => (userId = occUserId))
+        .unsubscribe();
+
+      let cartId;
+      this.activeCartService
+        .getActiveCartId()
+        .subscribe((activeCartId) => (cartId = activeCartId))
+        .unsubscribe();
+      if (userId && cartId) {
+        this.checkoutStore.dispatch(
+          new CheckoutActions.LoadSupportedDeliveryModes({
+            userId,
+            cartId,
+          })
+        );
+      }
     }
   }
 
@@ -192,13 +220,26 @@ export class CheckoutDeliveryService {
    */
   setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new CheckoutActions.SetDeliveryMode({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId,
-          selectedModeId: mode,
-        })
-      );
+      let userId;
+      this.authService
+        .getOccUserId()
+        .subscribe((occUserId) => (userId = occUserId))
+        .unsubscribe();
+
+      let cartId;
+      this.activeCartService
+        .getActiveCartId()
+        .subscribe((activeCartId) => (cartId = activeCartId))
+        .unsubscribe();
+      if (userId && cartId) {
+        this.checkoutStore.dispatch(
+          new CheckoutActions.SetDeliveryMode({
+            userId,
+            cartId,
+            selectedModeId: mode,
+          })
+        );
+      }
     }
   }
 
@@ -208,12 +249,19 @@ export class CheckoutDeliveryService {
    */
   verifyAddress(address: Address): void {
     if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new CheckoutActions.VerifyAddress({
-          userId: this.cartData.userId,
-          address,
-        })
-      );
+      let userId;
+      this.authService
+        .getOccUserId()
+        .subscribe((occUserId) => (userId = occUserId))
+        .unsubscribe();
+      if (userId) {
+        this.checkoutStore.dispatch(
+          new CheckoutActions.VerifyAddress({
+            userId,
+            address,
+          })
+        );
+      }
     }
   }
 
@@ -223,13 +271,26 @@ export class CheckoutDeliveryService {
    */
   setDeliveryAddress(address: Address): void {
     if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new CheckoutActions.SetDeliveryAddress({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cart.code,
-          address: address,
-        })
-      );
+      let userId;
+      this.authService
+        .getOccUserId()
+        .subscribe((occUserId) => (userId = occUserId))
+        .unsubscribe();
+
+      let cart;
+      this.activeCartService
+        .getActive()
+        .subscribe((activeCart) => (cart = activeCart))
+        .unsubscribe();
+      if (cart && userId) {
+        this.checkoutStore.dispatch(
+          new CheckoutActions.SetDeliveryAddress({
+            userId,
+            cartId: cart.code,
+            address: address,
+          })
+        );
+      }
     }
   }
 
@@ -246,24 +307,50 @@ export class CheckoutDeliveryService {
    * Clear address already setup in last checkout process
    */
   clearCheckoutDeliveryAddress(): void {
-    this.checkoutStore.dispatch(
-      new CheckoutActions.ClearCheckoutDeliveryAddress({
-        userId: this.cartData.userId,
-        cartId: this.cartData.cartId,
-      })
-    );
+    let userId;
+    this.authService
+      .getOccUserId()
+      .subscribe((occUserId) => (userId = occUserId))
+      .unsubscribe();
+
+    let cartId;
+    this.activeCartService
+      .getActiveCartId()
+      .subscribe((activeCartId) => (cartId = activeCartId))
+      .unsubscribe();
+    if (userId && cartId) {
+      this.checkoutStore.dispatch(
+        new CheckoutActions.ClearCheckoutDeliveryAddress({
+          userId,
+          cartId,
+        })
+      );
+    }
   }
 
   /**
    * Clear selected delivery mode setup in last checkout process
    */
   clearCheckoutDeliveryMode(): void {
-    this.checkoutStore.dispatch(
-      new CheckoutActions.ClearCheckoutDeliveryMode({
-        userId: this.cartData.userId,
-        cartId: this.cartData.cartId,
-      })
-    );
+    let userId;
+    this.authService
+      .getOccUserId()
+      .subscribe((occUserId) => (userId = occUserId))
+      .unsubscribe();
+
+    let cartId;
+    this.activeCartService
+      .getActiveCartId()
+      .subscribe((activeCartId) => (cartId = activeCartId))
+      .unsubscribe();
+    if (userId && cartId) {
+      this.checkoutStore.dispatch(
+        new CheckoutActions.ClearCheckoutDeliveryMode({
+          userId,
+          cartId,
+        })
+      );
+    }
   }
 
   /**
@@ -276,9 +363,14 @@ export class CheckoutDeliveryService {
   }
 
   protected actionAllowed(): boolean {
+    let userId;
+    this.authService
+      .getOccUserId()
+      .subscribe((occUserId) => (userId = occUserId))
+      .unsubscribe();
     return (
-      this.cartData.userId !== OCC_USER_ID_ANONYMOUS ||
-      this.cartData.isGuestCart
+      (userId && userId !== OCC_USER_ID_ANONYMOUS) ||
+      this.activeCartService.isGuestCart()
     );
   }
 }

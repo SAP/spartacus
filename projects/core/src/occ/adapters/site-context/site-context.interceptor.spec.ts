@@ -1,10 +1,9 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig, SiteContextConfig } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -36,7 +35,7 @@ class MockLanguageService {
   }
 }
 
-export class MockSiteContextModuleConfig {
+class MockSiteContextModuleConfig {
   server = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/',
@@ -54,8 +53,8 @@ describe('SiteContextInterceptor', () => {
   const currencyJpy = 'JPY';
 
   let httpMock: HttpTestingController;
-  let currencyService: MockCurrencyService;
-  let languageService: MockLanguageService;
+  let currencyService: CurrencyService;
+  let languageService: LanguageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -84,11 +83,9 @@ describe('SiteContextInterceptor', () => {
         },
       ],
     });
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    currencyService = TestBed.get(CurrencyService as Type<CurrencyService>);
-    languageService = TestBed.get(LanguageService as Type<LanguageService>);
+    httpMock = TestBed.inject(HttpTestingController);
+    currencyService = TestBed.inject(CurrencyService);
+    languageService = TestBed.inject(LanguageService);
   });
 
   afterEach(() => {
@@ -98,10 +95,10 @@ describe('SiteContextInterceptor', () => {
   it('should not add parameters: lang and curr to a request', inject(
     [HttpClient],
     (http: HttpClient) => {
-      http.get('/xxx').subscribe(result => {
+      http.get('/xxx').subscribe((result) => {
         expect(result).toBeTruthy();
       });
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -119,11 +116,11 @@ describe('SiteContextInterceptor', () => {
       currencyService.setActive(currencyJpy);
       http
         .get('https://localhost:9002/rest/v2/electronics/')
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toBeTruthy();
         });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
       expect(mockReq.request.params.get('lang')).toEqual(languageDe);

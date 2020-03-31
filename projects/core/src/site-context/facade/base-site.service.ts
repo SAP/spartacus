@@ -24,7 +24,7 @@ export class BaseSiteService implements SiteContext<string> {
   getActive(): Observable<string> {
     return this.store.pipe(
       select(SiteContextSelectors.getActiveBaseSite),
-      filter(active => Boolean(active))
+      filter((active) => Boolean(active))
     );
   }
 
@@ -32,16 +32,13 @@ export class BaseSiteService implements SiteContext<string> {
    * We currently don't support switching baseSite at run time
    */
   getAll(): Observable<string[]> {
-    return this.getActive().pipe(map(baseSite => [baseSite]));
+    return this.getActive().pipe(map((baseSite) => [baseSite]));
   }
 
   setActive(baseSite: string): Subscription {
     return this.store
-      .pipe(
-        select(SiteContextSelectors.getActiveBaseSite),
-        take(1)
-      )
-      .subscribe(activeBaseSite => {
+      .pipe(select(SiteContextSelectors.getActiveBaseSite), take(1))
+      .subscribe((activeBaseSite) => {
         if (baseSite && activeBaseSite !== baseSite) {
           this.store.dispatch(
             new SiteContextActions.SetActiveBaseSite(baseSite)
@@ -65,7 +62,7 @@ export class BaseSiteService implements SiteContext<string> {
   getBaseSiteData(): Observable<BaseSite> {
     return this.store.pipe(
       select(SiteContextSelectors.getBaseSiteData),
-      tap(baseSite => {
+      tap((baseSite) => {
         if (Object.keys(baseSite).length === 0) {
           this.store.dispatch(new SiteContextActions.LoadBaseSite());
         }

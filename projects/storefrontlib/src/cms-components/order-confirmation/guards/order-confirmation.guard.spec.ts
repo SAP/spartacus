@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -42,15 +41,15 @@ describe(`OrderConfirmationGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(OrderConfirmationGuard as Type<OrderConfirmationGuard>);
-    mockCheckoutService = TestBed.get(CheckoutService as Type<CheckoutService>);
+    guard = TestBed.inject(OrderConfirmationGuard);
+    mockCheckoutService = TestBed.inject(CheckoutService);
   });
 
   describe(`when there is NO order details present`, () => {
-    it(`should return UrlTree to order history page`, done => {
+    it(`should return UrlTree to order history page`, (done) => {
       spyOn(mockCheckoutService, 'getOrderDetails').and.returnValue(of({}));
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result.toString()).toEqual('/my-account/orders');
         done();
       });
@@ -58,12 +57,12 @@ describe(`OrderConfirmationGuard`, () => {
   });
 
   describe(`when there is order details present`, () => {
-    it(`should return true`, done => {
+    it(`should return true`, (done) => {
       spyOn(mockCheckoutService, 'getOrderDetails').and.returnValue(
         of({ code: 'test order' })
       );
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result).toEqual(true);
         done();
       });

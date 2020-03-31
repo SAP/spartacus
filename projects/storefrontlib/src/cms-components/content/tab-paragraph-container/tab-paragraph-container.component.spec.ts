@@ -1,11 +1,11 @@
-import { Type, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  CmsConfig,
   CmsService,
   CMSTabParagraphContainer,
   I18nTestingModule,
   WindowRef,
-  CmsConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
@@ -18,7 +18,7 @@ import { LayoutConfig } from '../../../layout/config/layout-config';
   selector: 'cx-test-cmp',
   template: '',
 })
-export class TestComponent {
+class TestComponent {
   tabTitleParam$ = of('title param');
 }
 
@@ -97,8 +97,8 @@ describe('TabParagraphContainerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TabParagraphContainerComponent);
     component = fixture.componentInstance;
-    cmsService = TestBed.get(CmsService as Type<CmsService>);
-    windowRef = TestBed.get(WindowRef as Type<WindowRef>);
+    cmsService = TestBed.inject(CmsService);
+    windowRef = TestBed.inject(WindowRef);
   });
 
   it('should create', () => {
@@ -113,7 +113,7 @@ describe('TabParagraphContainerComponent', () => {
     );
     let childComponents: any[];
     component.components$
-      .subscribe(components => (childComponents = components))
+      .subscribe((components) => (childComponents = components))
       .unsubscribe();
 
     for (let i = 0; i < childComponents.length; i++) {
@@ -153,9 +153,9 @@ describe('TabParagraphContainerComponent', () => {
     component.ngAfterViewInit();
 
     let param = '';
-    component.tabTitleParams.forEach(param$ => {
+    component.tabTitleParams.forEach((param$) => {
       if (param$ != null) {
-        param$.subscribe(value => (param = value)).unsubscribe();
+        param$.subscribe((value) => (param = value)).unsubscribe();
       }
     });
 

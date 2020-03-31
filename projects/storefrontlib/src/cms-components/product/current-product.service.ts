@@ -1,55 +1,44 @@
 import { Injectable } from '@angular/core';
 import {
-  FeatureConfigService,
   Product,
   ProductScope,
   ProductService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurrentProductService {
   constructor(
-    routingService: RoutingService,
-    productService: ProductService,
-    // tslint:disable-next-line: unified-signatures
-    features?: FeatureConfigService
-  );
-
-  /**
-   * @deprecated since 1.4
-   */
-  constructor(routingService: RoutingService, productService: ProductService);
-
-  constructor(
     private routingService: RoutingService,
-    private productService: ProductService,
-    protected features?: FeatureConfigService
+    private productService: ProductService
   ) {}
 
-  protected readonly DEFAULT_PRODUCT_SCOPE =
-    this.features && this.features.isLevel('1.4') ? ProductScope.DETAILS : '';
+  protected readonly DEFAULT_PRODUCT_SCOPE = ProductScope.DETAILS;
 
+  /**
+   * Will emit current product or null, if there is no current product (i.e. we are not on PDP)
+   *
+   * @param scopes
+   */
   getProduct(
     scopes?: (ProductScope | string)[] | ProductScope | string
-  ): Observable<Product> {
+  ): Observable<Product | null> {
     return this.routingService.getRouterState().pipe(
-      map(state => state.state.params['productCode']),
-      filter(Boolean),
-      switchMap((productCode: string) =>
-        this.productService.get(
-          productCode,
-          // TODO deprecated since 1.4 - should be replaced with 'scopes || this.DEFAULT_PRODUCT_SCOPE'
-          this.features && this.features.isLevel('1.4')
-            ? scopes || this.DEFAULT_PRODUCT_SCOPE
-            : undefined
-          // deprecated END
-        )
-      )
+      map((state) => state.state.params['productCode']),
+      switchMap((productCode: string) => {
+        return productCode
+          ? this.productService.get(
+              productCode,
+              scopes || this.DEFAULT_PRODUCT_SCOPE
+            )
+          : of(null);
+      }),
+      filter((x) => x !== undefined),
+      distinctUntilChanged()
     );
   }
 }

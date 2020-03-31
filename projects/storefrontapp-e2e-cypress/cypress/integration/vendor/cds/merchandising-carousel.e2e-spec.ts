@@ -10,9 +10,9 @@ const japaneseLanguage = 'ja';
 const englishFilmProductText = 'Film';
 const japaneseFilmProductText = 'プ';
 const dollarCurrencySymbol = '$';
-const dollarFilmPrice = 7.57;
+const dollarFilmPrice = 7.95;
 const yenCurrencySymbol = '¥';
-const yenFilmPrice = 638;
+const yenFilmPrice = 670;
 const sonyBrandName = 'Sony';
 const sonyBrandCode = 'brand_5';
 const sonyBrandPagePath = `Brands/${sonyBrandName}/c/${sonyBrandCode}`;
@@ -75,9 +75,9 @@ function testPDPPage(productId: string): void {
   );
 }
 
-describe.skip('Merchandising Carousel', () => {
+describe('Merchandising Carousel', () => {
   before(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
     });
   });

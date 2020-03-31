@@ -4,31 +4,29 @@ import {
   Input,
   Pipe,
   PipeTransform,
-  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CartService,
+  ActiveCartService,
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
   PromotionLocation,
-  PromotionResult,
-  FeaturesConfigModule,
-  FeaturesConfig,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components';
 import { ModalService } from '../../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
-import { AutoFocusDirectiveModule } from '../../../../shared/directives/auto-focus/auto-focus.directive.module';
-import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
-import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
-class MockCartService {
-  getLoaded(): Observable<boolean> {
+import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
+import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
+
+class MockActiveCartService {
+  isStable(): Observable<boolean> {
     return of();
   }
 
@@ -71,20 +69,11 @@ class MockModalService {
   template: '',
 })
 class MockCartItemComponent {
-  @Input()
-  compact = false;
-  @Input()
-  item: Observable<OrderEntry>;
-  @Input()
-  isReadOnly = false;
-  @Input()
-  cartIsLoading = false;
-  @Input()
-  parent: FormGroup;
-  @Input()
-  potentialProductPromotions: PromotionResult[];
-  @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+  @Input() compact = false;
+  @Input() item: Observable<OrderEntry>;
+  @Input() readonly = false;
+  @Input() quantityControl: FormControl;
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 @Pipe({
@@ -106,7 +95,7 @@ describe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
   let el: DebugElement;
-  let cartService: CartService;
+  let activeCartService: ActiveCartService;
   let mockModalService: MockModalService;
 
   beforeEach(async(() => {
@@ -117,7 +106,6 @@ describe('AddedToCartDialogComponent', () => {
         RouterTestingModule,
         SpinnerModule,
         I18nTestingModule,
-        AutoFocusDirectiveModule,
         PromotionsModule,
         FeaturesConfigModule,
       ],
@@ -133,8 +121,8 @@ describe('AddedToCartDialogComponent', () => {
           useClass: MockModalService,
         },
         {
-          provide: CartService,
-          useClass: MockCartService,
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
         {
           provide: PromotionService,
@@ -155,11 +143,10 @@ describe('AddedToCartDialogComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     component.entry$ = of(mockOrderEntry[0]);
-    cartService = TestBed.get(CartService as Type<CartService>);
-    mockModalService = TestBed.get(ModalService as Type<ModalService>);
+    activeCartService = TestBed.inject(ActiveCartService);
+    mockModalService = TestBed.inject(ModalService);
 
-    spyOn(cartService, 'removeEntry').and.callThrough();
-    spyOn(cartService, 'updateEntry').and.callThrough();
+    spyOn(activeCartService, 'updateEntry').and.callThrough();
     spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
     component.loaded$ = of(true);
   });
@@ -175,13 +162,6 @@ describe('AddedToCartDialogComponent', () => {
       el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
     ).toEqual('addToCart.updatingCart');
     expect(el.query(By.css('cx-spinner')).nativeElement).toBeDefined();
-  });
-
-  it('should handle focus of elements', () => {
-    fixture.detectChanges();
-    expect(
-      el.query(By.css('.cx-dialog-buttons > .btn-primary')).nativeElement
-    ).toEqual(document.activeElement);
   });
 
   it('should display quantity', () => {
@@ -214,21 +194,15 @@ describe('AddedToCartDialogComponent', () => {
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');
   });
 
-  it('should remove entry', () => {
-    component.ngOnInit();
-    component.entry$.subscribe();
-    const item = mockOrderEntry[0];
-    expect(component.form.controls[item.product.code]).toBeDefined();
-    component.removeEntry(item);
-    expect(cartService.removeEntry).toHaveBeenCalledWith(item);
-    expect(component.form.controls[item.product.code]).toBeUndefined();
-    expect(mockModalService.dismissActiveModal).toHaveBeenCalledWith('Removed');
-  });
+  it('should return formControl with order entry quantity', () => {
+    component.entry$ = of({
+      quantity: 5,
+      entryNumber: 0,
+    } as OrderEntry);
 
-  it('should update entry', () => {
-    const item = mockOrderEntry[0];
-    component.updateEntry({ item, updatedQuantity: 5 });
-    expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 5);
+    component.getQuantityControl().subscribe((control) => {
+      expect(control.value).toEqual(5);
+    });
   });
 
   it('should show added dialog title message', () => {

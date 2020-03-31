@@ -24,7 +24,7 @@ describe('JsonLdProductOfferBuilder', () => {
       providers: [JsonLdProductOfferBuilder],
     });
 
-    service = TestBed.get(JsonLdProductOfferBuilder);
+    service = TestBed.inject(JsonLdProductOfferBuilder);
   });
 
   it('should be created', () => {
@@ -34,7 +34,7 @@ describe('JsonLdProductOfferBuilder', () => {
   it('should build offer schema with price value', () => {
     service
       .build(simpleProductMock)
-      .subscribe(schema => {
+      .subscribe((schema) => {
         expect(schema.offers.price).toEqual(1.0);
       })
       .unsubscribe();
@@ -43,7 +43,7 @@ describe('JsonLdProductOfferBuilder', () => {
   it('should build offer schema with currency', () => {
     service
       .build(simpleProductMock)
-      .subscribe(schema => {
+      .subscribe((schema) => {
         expect(schema.offers.priceCurrency).toEqual('EUR');
       })
       .unsubscribe();
@@ -52,7 +52,7 @@ describe('JsonLdProductOfferBuilder', () => {
   it('should build offer schema with "InStock" availability ', () => {
     service
       .build(simpleProductMock)
-      .subscribe(schema => {
+      .subscribe((schema) => {
         expect(schema.offers.availability).toEqual('InStock');
       })
       .unsubscribe();

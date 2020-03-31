@@ -1,37 +1,37 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
 import { OccEndpointsService } from './occ-endpoints.service';
 
 describe('OccEndpointsService', () => {
-  const mockOccConfig: OccConfig = {
-    backend: {
-      occ: {
-        baseUrl: 'test-baseUrl',
-        prefix: '/test-occPrefix',
-        endpoints: {
-          login: '/authorizationserver/oauth/token',
-          product: 'configured-endpoint1/${test}?fields=abc',
-          product_scopes: {
-            test: 'configured-endpoint1/${test}?fields=test',
-          },
-        },
-      },
-    },
-    context: {
-      baseSite: ['/test-baseSite'],
-    },
-  };
-
+  let mockOccConfig: OccConfig;
   const baseEndpoint = 'test-baseUrl/test-occPrefix/test-baseSite';
 
   let service: OccEndpointsService;
 
   beforeEach(() => {
+    mockOccConfig = {
+      backend: {
+        occ: {
+          baseUrl: 'test-baseUrl',
+          prefix: '/test-occPrefix',
+          endpoints: {
+            login: '/authorizationserver/oauth/token',
+            product: 'configured-endpoint1/${test}?fields=abc',
+            product_scopes: {
+              test: 'configured-endpoint1/${test}?fields=test',
+            },
+          },
+        },
+      },
+      context: {
+        baseSite: ['/test-baseSite'],
+      },
+    };
+
     TestBed.configureTestingModule({
       providers: [{ provide: OccConfig, useValue: mockOccConfig }],
     });
-    service = TestBed.get(OccEndpointsService as Type<OccEndpointsService>);
+    service = TestBed.inject(OccEndpointsService);
   });
 
   it('should be created', () => {
@@ -87,7 +87,7 @@ describe('OccEndpointsService', () => {
       });
 
       it('should not resolve endpoint for missing scope when no default is specified', () => {
-        const config = TestBed.get(OccConfig);
+        const config = TestBed.inject(OccConfig);
         delete config.backend.occ.endpoints.product;
 
         const url = service.getUrl(
@@ -101,7 +101,7 @@ describe('OccEndpointsService', () => {
       });
 
       it('should use string configuration for backward compatibility', () => {
-        const config = TestBed.get(OccConfig);
+        const config = TestBed.inject(OccConfig);
         config.backend.occ.endpoints.product =
           'configured-endpoint1/${test}?fields=fallback';
 

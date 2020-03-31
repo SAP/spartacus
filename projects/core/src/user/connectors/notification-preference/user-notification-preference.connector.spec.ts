@@ -1,10 +1,9 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { UserNotificationPreferenceAdapter } from './user-notification-preference.adapter';
 import { UserNotificationPreferenceConnector } from './user-notification-preference.connector';
-import createSpy = jasmine.createSpy;
 import { NotificationPreference } from '../../../model/notification-preference.model';
+import createSpy = jasmine.createSpy;
 
 const user = 'testUser';
 const mockNotificationPreference: NotificationPreference[] = [
@@ -17,7 +16,7 @@ const mockNotificationPreference: NotificationPreference[] = [
 ];
 
 class MocktAdapter implements UserNotificationPreferenceAdapter {
-  loadAll = createSpy('loadAll').and.callFake(userId =>
+  loadAll = createSpy('loadAll').and.callFake((userId) =>
     of(`loadAll-notification-preferences-${userId}`)
   );
   update = createSpy('update').and.callFake((userId, preferences) =>
@@ -36,12 +35,8 @@ describe('UserNotificationPreferenceConnector', () => {
       ],
     });
 
-    service = TestBed.get(UserNotificationPreferenceConnector as Type<
-      UserNotificationPreferenceConnector
-    >);
-    adapter = TestBed.get(UserNotificationPreferenceAdapter as Type<
-      UserNotificationPreferenceAdapter
-    >);
+    service = TestBed.inject(UserNotificationPreferenceConnector);
+    adapter = TestBed.inject(UserNotificationPreferenceAdapter);
   });
 
   it('should be created', () => {
@@ -50,7 +45,7 @@ describe('UserNotificationPreferenceConnector', () => {
 
   it('loadAll should call adapter', () => {
     let result;
-    service.loadAll(user).subscribe(res => (result = res));
+    service.loadAll(user).subscribe((res) => (result = res));
     expect(result).toEqual('loadAll-notification-preferences-testUser');
     expect(adapter.loadAll).toHaveBeenCalledWith(user);
   });
@@ -59,7 +54,7 @@ describe('UserNotificationPreferenceConnector', () => {
     let result;
     service
       .update(user, mockNotificationPreference)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual('update-notification-preferences-testUser-EMAIL');
     expect(adapter.update).toHaveBeenCalledWith(
       user,

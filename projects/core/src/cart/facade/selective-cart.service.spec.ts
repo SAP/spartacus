@@ -1,20 +1,20 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
-import { BehaviorSubject, of, Observable } from 'rxjs';
+import { Store, StoreModule } from '@ngrx/store';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
 import * as fromReducers from '../../cart/store/reducers/index';
+import { OrderEntry, User } from '../../model';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
 } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process';
 import * as fromProcessReducers from '../../process/store/reducers/index';
-import { StateWithMultiCart } from '../store';
-import { SelectiveCartService } from './selective-cart.service';
-import { MultiCartService } from './multi-cart.service';
-import { User, OrderEntry } from '../../model';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { UserService } from '../../user';
+import { MULTI_CART_FEATURE, StateWithMultiCart } from '../store';
+import { MultiCartService } from './multi-cart.service';
+import { SelectiveCartService } from './selective-cart.service';
 
 const TEST_USER_ID = 'test@test.com';
 const TEST_CUSTOMER_ID = '-test-customer-id';
@@ -63,6 +63,12 @@ class UserServiceStup {
   }
 }
 
+class BaseSiteServiceStub {
+  getActive(): Observable<string> {
+    return of('electronics-spa');
+  }
+}
+
 describe('Selective Cart Service', () => {
   let service: SelectiveCartService;
   let multiCartService: MultiCartService;
@@ -73,7 +79,7 @@ describe('Selective Cart Service', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          'multi-cart',
+          MULTI_CART_FEATURE,
           fromReducers.getMultiCartReducers()
         ),
         StoreModule.forFeature('process', fromProcessReducers.getReducers()),
@@ -83,14 +89,13 @@ describe('Selective Cart Service', () => {
         { provide: MultiCartService, useClass: MultiCartServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
         { provide: UserService, useClass: UserServiceStup },
+        { provide: BaseSiteService, useClass: BaseSiteServiceStub },
       ],
     });
 
-    service = TestBed.get(SelectiveCartService as Type<SelectiveCartService>);
-    multiCartService = TestBed.get(MultiCartService as Type<MultiCartService>);
-    store = TestBed.get(Store as Type<
-      Store<StateWithMultiCart | StateWithProcess<void>>
-    >);
+    service = TestBed.inject(SelectiveCartService);
+    multiCartService = TestBed.inject(MultiCartService);
+    store = TestBed.inject(Store);
     service['cartId$'] = new BehaviorSubject<string>(TEST_CART_ID);
     service['cartSelector$'] = of({
       value: { code: TEST_CART_ID },
@@ -114,7 +119,7 @@ describe('Selective Cart Service', () => {
     let result;
     service
       .getCart()
-      .subscribe(val => (result = val))
+      .subscribe((val) => (result = val))
       .unsubscribe();
     expect(result).toEqual(undefined);
     expect(multiCartService.loadCart).toHaveBeenCalledTimes(0);
@@ -132,7 +137,7 @@ describe('Selective Cart Service', () => {
     let result;
     service
       .getCart()
-      .subscribe(val => (result = val))
+      .subscribe((val) => (result = val))
       .unsubscribe();
     expect(result).toEqual({});
     expect(multiCartService.loadCart).toHaveBeenCalledTimes(0);
@@ -149,7 +154,7 @@ describe('Selective Cart Service', () => {
     let result: boolean;
     service
       .getLoaded()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
@@ -165,7 +170,7 @@ describe('Selective Cart Service', () => {
     let result: boolean;
     service
       .getLoaded()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
@@ -181,7 +186,7 @@ describe('Selective Cart Service', () => {
     let result: boolean;
     service
       .getLoaded()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
   });
@@ -198,10 +203,7 @@ describe('Selective Cart Service', () => {
       })
     );
     service['userId'] = OCC_USER_ID_ANONYMOUS;
-    service
-      .getCart()
-      .subscribe()
-      .unsubscribe();
+    service.getCart().subscribe().unsubscribe();
     expect(service['load']).toHaveBeenCalledTimes(0);
     expect(multiCartService.loadCart).toHaveBeenCalledTimes(0);
   });
@@ -212,31 +214,28 @@ describe('Selective Cart Service', () => {
     let result;
     service
       .getCart()
-      .subscribe(val => (result = val))
+      .subscribe((val) => (result = val))
       .unsubscribe();
     expect(service['load']).toHaveBeenCalled();
     expect(result).toEqual({});
     expect(multiCartService.loadCart).toHaveBeenCalledWith({
       userId: 'current',
-      cartId: 'selectivecart-test-customer-id',
+      cartId: 'selectivecartelectronics-spa-test-customer-id',
     });
   });
 
   it('should return cart entries', () => {
     spyOn(multiCartService, 'getEntries').and.returnValue(of([mockCartEntry]));
-    service
-      .getCart()
-      .subscribe()
-      .unsubscribe();
+    service.getCart().subscribe().unsubscribe();
     let result;
     service
       .getEntries()
-      .subscribe(val => (result = val))
+      .subscribe((val) => (result = val))
       .unsubscribe();
 
     expect(result).toEqual([mockCartEntry]);
     expect(multiCartService['getEntries']).toHaveBeenCalledWith(
-      'selectivecart-test-customer-id'
+      'selectivecartelectronics-spa-test-customer-id'
     );
   });
 
@@ -248,20 +247,14 @@ describe('Selective Cart Service', () => {
     });
     spyOn(multiCartService, 'addEntry').and.callThrough();
     spyOn(multiCartService, 'loadCart').and.callThrough();
-    service
-      .getCart()
-      .subscribe()
-      .unsubscribe();
+    service.getCart().subscribe().unsubscribe();
 
     service.addEntry('productCode', 2);
     expect(multiCartService['loadCart']).toHaveBeenCalled();
   });
   it('should add entry one by one ', () => {
     spyOn(multiCartService, 'addEntry').and.callThrough();
-    service
-      .getCart()
-      .subscribe()
-      .unsubscribe();
+    service.getCart().subscribe().unsubscribe();
 
     service.addEntry('productCode1', 2);
     service.addEntry('productCode2', 2);
@@ -269,13 +262,13 @@ describe('Selective Cart Service', () => {
     expect(multiCartService['addEntry']).toHaveBeenCalledTimes(2);
     expect(multiCartService['addEntry']).toHaveBeenCalledWith(
       OCC_USER_ID_CURRENT,
-      'selectivecart-test-customer-id',
+      'selectivecartelectronics-spa-test-customer-id',
       'productCode1',
       2
     );
     expect(multiCartService['addEntry']).toHaveBeenCalledWith(
       OCC_USER_ID_CURRENT,
-      'selectivecart-test-customer-id',
+      'selectivecartelectronics-spa-test-customer-id',
       'productCode2',
       2
     );
@@ -312,20 +305,17 @@ describe('Selective Cart Service', () => {
 
   it('should return entry by product code', () => {
     spyOn(multiCartService, 'getEntry').and.returnValue(of(mockCartEntry));
-    service
-      .getCart()
-      .subscribe()
-      .unsubscribe();
+    service.getCart().subscribe().unsubscribe();
 
     let result;
     service
       .getEntry('code123')
-      .subscribe(entry => (result = entry))
+      .subscribe((entry) => (result = entry))
       .unsubscribe();
 
     expect(result).toEqual(mockCartEntry);
     expect(multiCartService['getEntry']).toHaveBeenCalledWith(
-      'selectivecart-test-customer-id',
+      'selectivecartelectronics-spa-test-customer-id',
       'code123'
     );
   });

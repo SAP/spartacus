@@ -3,6 +3,7 @@
     <a
       [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
       class="cx-product-image-container"
+      tabindex="-1"
     >
       <cx-media
         class="cx-product-image"
@@ -23,12 +24,18 @@
       [rating]="product?.averageRating"
       [disabled]="true"
     ></cx-star-rating>
-    <div *ngIf="!product.averageRating">
+    <div *ngIf="!product.averageRating" class="cx-product-no-review">
       {{ 'productDetails.noReviews' | cxTranslate }}
     </div>
     <div class="cx-product-price" aria-label="Product price">
       {{ product.price?.formattedValue }}
     </div>
+
+    <cx-variant-style-icons
+      *ngIf="product.variantOptions"
+      [variants]="product.variantOptions"
+    ></cx-variant-style-icons>
+
     <div class="row">
       <div class="col-12 col-md-8">
         <p class="cx-product-summary" [innerHtml]="product.summary">
@@ -43,13 +50,5 @@
         ></cx-add-to-cart>
       </div>
     </div>
-    <ng-container *cxFeatureLevel="'1.5'">
-      <div class="row" *ngIf="product.variantOptions">
-        <cx-variant-style-icons
-          class="list-style-icons"
-          [variants]="product.variantOptions"
-        ></cx-variant-style-icons>
-      </div>
-    </ng-container>
   </div>
 </div>

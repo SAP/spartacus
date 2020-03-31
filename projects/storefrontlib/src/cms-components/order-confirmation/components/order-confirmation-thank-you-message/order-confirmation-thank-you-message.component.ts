@@ -23,7 +23,7 @@ export class OrderConfirmationThankYouMessageComponent
 
   ngOnInit() {
     this.order$ = this.checkoutService.getOrderDetails().pipe(
-      tap(order => {
+      tap((order) => {
         this.isGuestCustomer = order.guestCustomer;
         this.orderGuid = order.guid;
       })

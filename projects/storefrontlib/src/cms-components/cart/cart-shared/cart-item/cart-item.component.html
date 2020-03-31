@@ -4,6 +4,7 @@
     <a
       [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
       (click)="viewItem()"
+      tabindex="-1"
     >
       <cx-media
         [container]="item.product.images?.PRIMARY"
@@ -13,7 +14,7 @@
   </div>
   <!-- Item Information -->
   <div class="cx-info col-10">
-    <div class="cx-info-container row ">
+    <div class="cx-info-container row">
       <!-- Item Description -->
       <div [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
         <div *ngIf="item.product.name" class="cx-name">
@@ -28,16 +29,7 @@
           {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
         </div>
         <!-- Variants -->
-        <ng-container *cxFeatureLevel="'!1.5'">
-          <div
-            *ngFor="let variant of item.product.variantOptionQualifiers"
-            class="cx-property"
-          >
-            <div class="cx-label">{{ variant.name }}</div>
-            <div class="cx-value">{{ variant.value }}</div>
-          </div>
-        </ng-container>
-        <ng-container *cxFeatureLevel="'1.5'">
+        <ng-container *ngIf="item.product.baseOptions?.length">
           <div
             *ngFor="
               let variant of item.product.baseOptions[0]?.selected
@@ -77,23 +69,16 @@
         >
           {{ 'cartItems.quantity' | cxTranslate }}
         </div>
-
-        <div *ngIf="isReadOnly" class="cx-value">
-          {{ item.quantity }}
-        </div>
-        <div
-          *ngIf="!isReadOnly && parent"
-          class="cx-value"
-          [formGroup]="parent"
-        >
+        <div class="cx-value">
           <cx-item-counter
-            [isValueChangeable]="item.updateable"
-            [step]="1"
-            [min]="1"
+            [control]="quantityControl"
+            [readonly]="
+              !item.updateable ||
+              readonly ||
+              (isSaveForLaterEnabled() && options.isSaveForLater)
+            "
             [max]="item.product.stock?.stockLevel || 1000"
-            (update)="updateItem($event)"
-            [cartIsLoading]="cartIsLoading"
-            formControlName="quantity"
+            [allowZero]="true"
           >
           </cx-item-counter>
         </div>
@@ -134,34 +119,35 @@
       {{ 'productSummary.outOfStock' | cxTranslate }}
     </div>
     <!-- Promotion -->
-    <ng-container *cxFeatureLevel="'!1.5'">
-      <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
+
+    <ng-container
+      *ngIf="appliedProductPromotions$ | async as appliedProductPromotions"
+    >
+      <cx-promotions [promotions]="appliedProductPromotions"></cx-promotions>
     </ng-container>
 
-    <ng-container *cxFeatureLevel="'1.5'">
-      <ng-container
-        *ngIf="appliedProductPromotions$ | async as appliedProductPromotions"
-      >
-        <cx-promotions [promotions]="appliedProductPromotions"></cx-promotions>
-      </ng-container>
-    </ng-container>
     <!-- Actions -->
-
     <div
-      *ngIf="(!isReadOnly || options.isSaveForLater) && item.updateable"
+      *ngIf="(!readonly || options.isSaveForLater) && item.updateable"
       class="cx-actions col-12"
     >
       <ng-container *ngIf="!isProductOutOfStock(item.product)">
         <ng-container
           *ngTemplateOutlet="
             options.optionalBtn;
-            context: { $implicit: { loading: cartIsLoading, item: item } }
+            context: {
+              $implicit: { loading: quantityControl.disabled, item: item }
+            }
           "
         ></ng-container>
       </ng-container>
 
-      <div class="col-md-3 col-lg-3 col-xl-3 cx-remove-btn">
-        <button class="link" [disabled]="cartIsLoading" (click)="removeItem()">
+      <div class="col-md-3 cx-remove-btn">
+        <button
+          class="link"
+          [disabled]="quantityControl.disabled"
+          (click)="removeItem()"
+        >
           {{ 'common.remove' | cxTranslate }}
         </button>
       </div>
@@ -173,7 +159,7 @@
   <div
     *ngIf="item.totalPrice"
     class="cx-total"
-    [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
+    [ngClass]="compact ? '' : ' col-md-3 col-xl-2'"
   >
     <div
       class="cx-label"

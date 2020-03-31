@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Store, StoreModule, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 
 import { StateWithUser, USER_FEATURE } from '../user-state';
 import * as fromReducers from '../reducers/index';
@@ -11,6 +11,7 @@ import {
   CustomerCoupon,
   CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
+
 const coupon: CustomerCoupon = {
   couponId: 'coupon',
   name: 'coupon',
@@ -49,7 +50,7 @@ describe('Customer Coupon Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -58,7 +59,7 @@ describe('Customer Coupon Selectors', () => {
       let result: LoaderState<CustomerCouponSearchResult>;
       store
         .pipe(select(UsersSelectors.getCustomerCouponsState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -75,7 +76,7 @@ describe('Customer Coupon Selectors', () => {
       let result: CustomerCouponSearchResult;
       store
         .pipe(select(UsersSelectors.getCustomerCoupons))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(emptyCustomerSearcherResult);
 
@@ -91,7 +92,7 @@ describe('Customer Coupon Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getCustomerCouponsLoaded))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 

@@ -1,12 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { AuthActions } from '../../../auth/store/actions/index';
-import { CartDataService } from '../../../cart/facade/cart-data.service';
 import * as DeprecatedCartActions from '../../../cart/store/actions/cart.action';
 import { CartActions } from '../../../cart/store/actions/index';
 import {
@@ -58,11 +56,6 @@ class MockCheckoutDeliveryConnector {
   setMode = createSpy().and.returnValue(of({}));
 }
 
-class MockCartDataService {
-  cartId = 'cartId';
-  userId = 'userId';
-}
-
 class MockCheckoutPaymentConnector {
   set = createSpy().and.returnValue(of({}));
   create = createSpy().and.returnValue(of(paymentDetails));
@@ -93,18 +86,13 @@ describe('Checkout effect', () => {
           useClass: MockCheckoutPaymentConnector,
         },
         { provide: CheckoutConnector, useClass: MockCheckoutConnector },
-        { provide: CartDataService, useClass: MockCartDataService },
         fromEffects.CheckoutEffects,
         provideMockActions(() => actions$),
       ],
     });
 
-    entryEffects = TestBed.get(fromEffects.CheckoutEffects as Type<
-      fromEffects.CheckoutEffects
-    >);
-    checkoutConnector = TestBed.get(CheckoutConnector as Type<
-      CheckoutConnector
-    >);
+    entryEffects = TestBed.inject(fromEffects.CheckoutEffects);
+    checkoutConnector = TestBed.inject(CheckoutConnector);
 
     spyOn(checkoutConnector, 'placeOrder').and.returnValue(of(orderDetails));
   });
@@ -202,10 +190,11 @@ describe('Checkout effect', () => {
   describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
     it('should dispatch checkout clear miscs data action on language change', () => {
       const action = new SiteContextActions.LanguageChange();
-      const completion = new CheckoutActions.CheckoutClearMiscsData();
+      const completion1 = new CheckoutActions.CheckoutClearMiscsData();
+      const completion2 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(
         entryEffects.clearCheckoutMiscsDataOnLanguageChange$

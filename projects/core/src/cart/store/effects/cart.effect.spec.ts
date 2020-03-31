@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -14,11 +13,9 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import * as fromUserReducers from '../../../user/store/reducers/index';
 import { USER_FEATURE } from '../../../user/store/user-state';
 import { CartConnector } from '../../connectors/cart/cart.connector';
-import { CartDataService } from '../../facade/cart-data.service';
 import * as fromCartReducers from '../../store/reducers/index';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
-import { CART_FEATURE } from '../cart-state';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
 import createSpy = jasmine.createSpy;
@@ -70,7 +67,6 @@ describe('Cart effect', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CART_FEATURE, fromCartReducers.getReducers()),
         StoreModule.forFeature(USER_FEATURE, fromUserReducers.getReducers()),
         StoreModule.forFeature(AUTH_FEATURE, fromAuthReducers.getReducers()),
         StoreModule.forFeature(
@@ -86,14 +82,11 @@ describe('Cart effect', () => {
         },
         fromEffects.CartEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        CartDataService,
         provideMockActions(() => actions$),
       ],
     });
 
-    cartEffects = TestBed.get(fromEffects.CartEffects as Type<
-      fromEffects.CartEffects
-    >);
+    cartEffects = TestBed.inject(fromEffects.CartEffects);
   });
 
   describe('loadCart$', () => {
@@ -187,10 +180,11 @@ describe('Cart effect', () => {
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
 
-    it('should clear cart on "Cart not found" error', () => {
+    it('should clear active cart on "Cart not found" error', () => {
       const action = new DeprecatedCartActions.LoadCart({
         userId,
         cartId,
+        extraData: { active: true },
       });
       loadMock.and.returnValue(
         throwError({
@@ -212,17 +206,19 @@ describe('Cart effect', () => {
 
   describe('createCart$', () => {
     it('should create a cart', () => {
-      const action = new DeprecatedCartActions.CreateCart({
+      const action = new CartActions.CreateCart({
         userId,
         tempCartId,
       });
-      const createMultiCartSuccessCompletion = new CartActions.CreateMultiCartSuccess(
-        {
-          cart: testCart,
-          userId,
-          extraData: undefined,
-        }
-      );
+      const createCartSuccessCompletion = new CartActions.CreateCartSuccess({
+        cart: testCart,
+        userId,
+        extraData: undefined,
+        tempCartId,
+        cartId: testCart.code,
+        toMergeCartGuid: undefined,
+        oldCartId: undefined,
+      });
       const setTempCartCompletion = new CartActions.SetTempCart({
         cart: testCart,
         tempCartId: tempCartId,
@@ -230,59 +226,28 @@ describe('Cart effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
-        b: createMultiCartSuccessCompletion,
+        b: createCartSuccessCompletion,
         c: setTempCartCompletion,
-      });
-
-      expect(cartEffects.createCart$).toBeObservable(expected);
-    });
-
-    it('should dispatch CreateCartSuccess action for active cart', () => {
-      const action = new DeprecatedCartActions.CreateCart({
-        userId,
-        extraData: {
-          active: true,
-        },
-        tempCartId,
-      });
-      const createCartSuccessCompletion = new DeprecatedCartActions.CreateCartSuccess(
-        testCart
-      );
-      const createMultiCartSuccessCompletion = new CartActions.CreateMultiCartSuccess(
-        {
-          cart: testCart,
-          userId,
-          extraData: {
-            active: true,
-          },
-        }
-      );
-      const setTempCartCompletion = new CartActions.SetTempCart({
-        cart: testCart,
-        tempCartId,
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
-        b: createMultiCartSuccessCompletion,
-        c: setTempCartCompletion,
-        d: createCartSuccessCompletion,
       });
 
       expect(cartEffects.createCart$).toBeObservable(expected);
     });
 
     it('should create and merge cart when oldCartId is provided', () => {
-      const action = new DeprecatedCartActions.CreateCart({
+      const action = new CartActions.CreateCart({
         userId,
         oldCartId: 'testOldCartId',
         tempCartId,
       });
 
-      const createMultiCartCompletion = new CartActions.CreateMultiCartSuccess({
+      const createCartCompletion = new CartActions.CreateCartSuccess({
         cart: testCart,
         userId,
         extraData: undefined,
+        tempCartId,
+        cartId: testCart.code,
+        toMergeCartGuid: undefined,
+        oldCartId: 'testOldCartId',
       });
       const setTempCartCompletion = new CartActions.SetTempCart({
         cart: testCart,
@@ -300,7 +265,7 @@ describe('Cart effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcde)', {
-        b: createMultiCartCompletion,
+        b: createCartCompletion,
         c: setTempCartCompletion,
         d: mergeCartCompletion,
         e: mergeMultiCartCompletion,
@@ -315,11 +280,13 @@ describe('Cart effect', () => {
       const action = new DeprecatedCartActions.MergeCart({
         userId: userId,
         cartId: cartId,
+        tempCartId: 'temp-uuid',
       });
-      const completion = new DeprecatedCartActions.CreateCart({
+      const completion = new CartActions.CreateCart({
         userId: userId,
         oldCartId: cartId,
         toMergeCartGuid: 'testGuid',
+        tempCartId: 'temp-uuid',
         extraData: undefined,
       });
 
@@ -331,15 +298,9 @@ describe('Cart effect', () => {
   });
 
   describe('refresh$', () => {
-    const cartChangesSuccessActions = [
-      'CartAddEntrySuccess',
-      'CartUpdateEntrySuccess',
-      'CartRemoveEntrySuccess',
-      'CartAddVoucherSuccess',
-      'CartRemoveVoucherSuccess',
-    ];
+    const cartChangesSuccessActions = ['CartAddVoucherSuccess'];
 
-    cartChangesSuccessActions.forEach(actionName => {
+    cartChangesSuccessActions.forEach((actionName) => {
       it(`should refresh cart on ${actionName}`, () => {
         const action = new CartActions[actionName]({
           userId: userId,
@@ -365,29 +326,39 @@ describe('Cart effect', () => {
   });
 
   describe('refreshWithoutProcesses$', () => {
-    it(`should refresh cart on MergeCartSuccess`, () => {
-      const action = new CartActions.MergeCartSuccess({
-        userId: userId,
-        cartId: cartId,
-      });
-      const loadCompletion = new DeprecatedCartActions.LoadCart({
-        userId: userId,
-        cartId: cartId,
-      });
+    const cartChangesSuccessActions = [
+      'CartAddEntrySuccess',
+      'CartUpdateEntrySuccess',
+      'CartRemoveEntrySuccess',
+      'MergeCartSuccess',
+      'CartRemoveVoucherSuccess',
+    ];
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: loadCompletion,
-      });
+    cartChangesSuccessActions.forEach((actionName) => {
+      it(`should refresh cart on ${actionName}`, () => {
+        const action = new CartActions[actionName]({
+          userId: userId,
+          cartId: cartId,
+        });
+        const loadCompletion = new DeprecatedCartActions.LoadCart({
+          userId: userId,
+          cartId: cartId,
+        });
 
-      expect(cartEffects.refreshWithoutProcesses$).toBeObservable(expected);
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', {
+          b: loadCompletion,
+        });
+
+        expect(cartEffects.refreshWithoutProcesses$).toBeObservable(expected);
+      });
     });
   });
 
   describe('resetCartDetailsOnSiteContextChange$', () => {
     const siteContextChangeActions = ['LanguageChange', 'CurrencyChange'];
 
-    siteContextChangeActions.forEach(actionName => {
+    siteContextChangeActions.forEach((actionName) => {
       it(`should reset cart details on ${actionName}`, () => {
         const action = new SiteContextActions[actionName]();
         const resetCartDetailsCompletion = new DeprecatedCartActions.ResetCartDetails();

@@ -98,7 +98,7 @@ describe('CustomerSelectionComponent', () => {
     fixture = TestBed.createComponent(CustomerSelectionComponent);
     component = fixture.componentInstance;
     component.ngOnInit();
-    asmService = TestBed.get(AsmService);
+    asmService = TestBed.inject(AsmService);
     el = fixture.debugElement;
     fixture.detectChanges();
   });
@@ -188,7 +188,7 @@ describe('CustomerSelectionComponent', () => {
     component.ngOnInit();
     component.form.controls.searchTerm.setValue(validSearchTerm);
     fixture.detectChanges();
-    expect(el.queryAll(By.css('div.asm-results a')).length).toEqual(
+    expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(
       mockCustomerSearchPage.entries.length
     );
   });
@@ -215,11 +215,11 @@ describe('CustomerSelectionComponent', () => {
     component.ngOnInit();
     component.form.controls.searchTerm.setValue(validSearchTerm);
     fixture.detectChanges();
-    expect(el.queryAll(By.css('div.asm-results a')).length).toEqual(1);
+    expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(1);
     expect(
-      el.query(By.css('div.asm-results a')).nativeElement.innerText
+      el.query(By.css('div.asm-results button')).nativeElement.innerText
     ).toEqual('asm.customerSearch.noMatch');
-    el.query(By.css('div.asm-results a')).nativeElement.dispatchEvent(
+    el.query(By.css('div.asm-results button')).nativeElement.dispatchEvent(
       new MouseEvent('click')
     );
     expect(asmService.customerSearchReset).toHaveBeenCalled();
@@ -234,7 +234,7 @@ describe('CustomerSelectionComponent', () => {
     component.ngOnInit();
     component.form.controls.searchTerm.setValue(validSearchTerm);
     fixture.detectChanges();
-    el.query(By.css('div.asm-results a')).nativeElement.dispatchEvent(
+    el.query(By.css('div.asm-results button')).nativeElement.dispatchEvent(
       new MouseEvent('click')
     );
     fixture.detectChanges();

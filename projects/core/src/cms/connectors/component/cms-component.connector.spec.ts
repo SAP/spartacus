@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed, TestBedStatic } from '@angular/core/testing';
 import { PageContext } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
@@ -10,17 +9,17 @@ import { CmsComponentConnector } from './cms-component.connector';
 import createSpy = jasmine.createSpy;
 
 class MockCmsComponentAdapter implements CmsComponentAdapter {
-  load = createSpy('CmsComponentAdapter.load').and.callFake(id =>
+  load = createSpy('CmsComponentAdapter.load').and.callFake((id) =>
     of('component' + id)
   );
 
   findComponentsByIds = createSpy(
     'CmsComponentAdapter.findComponentsByIds'
-  ).and.callFake(idList => of(idList.map(id => 'component' + id)));
+  ).and.callFake((idList) => of(idList.map((id) => 'component' + id)));
 
   findComponentsByIdsLegacy = createSpy(
     'CmsComponentAdapter.findComponentsByIdsLegacy'
-  ).and.callFake(idList => of(idList.map(id => 'component' + id)));
+  ).and.callFake((idList) => of(idList.map((id) => 'component' + id)));
 }
 
 const ids = ['comp_uid1', 'comp_uid2'];
@@ -65,7 +64,7 @@ describe('CmsComponentConnector', () => {
     describe('get', () => {
       it('should call adapter', () => {
         let result;
-        service.get('333', context).subscribe(res => (result = res));
+        service.get('333', context).subscribe((res) => (result = res));
         expect(result).toBe('component333');
         expect(adapter.load).toHaveBeenCalledWith('333', context);
       });
@@ -144,11 +143,9 @@ describe('CmsComponentConnector', () => {
   }
 
   function testBedConnector() {
-    service = TestBed.get(CmsComponentConnector as Type<CmsComponentConnector>);
-    adapter = TestBed.get(CmsComponentAdapter as Type<CmsComponentAdapter>);
-    structureConfigService = TestBed.get(CmsStructureConfigService as Type<
-      CmsStructureConfigService
-    >);
+    service = TestBed.inject(CmsComponentConnector);
+    adapter = TestBed.inject(CmsComponentAdapter);
+    structureConfigService = TestBed.inject(CmsStructureConfigService);
   }
 
   function serviceToBeTruthy() {
@@ -167,7 +164,7 @@ describe('CmsComponentConnector', () => {
 
   function mergeConflictData() {
     let components;
-    service.getList(ids, context).subscribe(res => (components = res));
+    service.getList(ids, context).subscribe((res) => (components = res));
     expect(components).toEqual([
       'config-component',
       'componentcomp_uid1',

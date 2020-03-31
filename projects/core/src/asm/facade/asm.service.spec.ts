@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { User } from '../../model/misc.model';
@@ -8,7 +7,7 @@ import {
   CustomerSearchPage,
 } from '../models/asm.models';
 import { AsmActions } from '../store/actions/index';
-import { AsmState, ASM_FEATURE } from '../store/asm-state';
+import { ASM_FEATURE, AsmState } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
 import { AsmService } from './asm.service';
 
@@ -38,8 +37,8 @@ describe('AsmService', () => {
       providers: [AsmService],
     });
 
-    service = TestBed.get(AsmService);
-    store = TestBed.get(Store as Type<Store<AsmState>>);
+    service = TestBed.inject(AsmService);
+    store = TestBed.inject(Store);
   });
 
   it('should be created', () => {
@@ -63,7 +62,7 @@ describe('AsmService', () => {
     let result: CustomerSearchPage;
     service
       .getCustomerSearchResults()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(mockCustomerSearchPage);
   });
@@ -72,7 +71,7 @@ describe('AsmService', () => {
     let result: boolean;
     service
       .getCustomerSearchResultsLoading()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
   });
@@ -101,7 +100,7 @@ describe('AsmService', () => {
     let result: AsmUi;
     service
       .getAsmUiState()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(asmUi);
   });

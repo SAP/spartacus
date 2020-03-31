@@ -1,9 +1,7 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { UserOrderAdapter } from './user-order.adapter';
 import { UserOrderConnector } from './user-order.connector';
-
 import createSpy = jasmine.createSpy;
 
 class MockOrderAdapter implements UserOrderAdapter {
@@ -11,14 +9,14 @@ class MockOrderAdapter implements UserOrderAdapter {
     of(`order-${userId}-${orderCode}`)
   );
 
-  loadHistory = createSpy('UserOrderAdapter.loadHistory').and.callFake(userId =>
-    of(`orderHistory-${userId}`)
-  );
+  loadHistory = createSpy(
+    'UserOrderAdapter.loadHistory'
+  ).and.callFake((userId) => of(`orderHistory-${userId}`));
 
   getConsignmentTracking = createSpy(
     'UserOrderAdapter.getConsignmentTracking'
-  ).and.callFake((orderCode, consignmentCode) =>
-    of(`consignmentTracking-${orderCode}-${consignmentCode}`)
+  ).and.callFake((orderCode, consignmentCode, userId) =>
+    of(`consignmentTracking-${userId}-${orderCode}-${consignmentCode}`)
   );
 
   createReturnRequest = createSpy(
@@ -27,7 +25,7 @@ class MockOrderAdapter implements UserOrderAdapter {
 
   loadReturnRequestList = createSpy(
     'UserOrderAdapter.loadReturnRequestList'
-  ).and.callFake(userId => of(`loadReturnRequestList-${userId}`));
+  ).and.callFake((userId) => of(`loadReturnRequestList-${userId}`));
 
   loadReturnRequestDetail = createSpy(
     'UserOrderAdapter.loadReturnRequestDetail'
@@ -35,8 +33,10 @@ class MockOrderAdapter implements UserOrderAdapter {
     of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
   );
 
-  cancel = createSpy('UserOrderAdapter.cancel').and.callFake(
-    (userId, orderCode, {}) => of(`cancel-${userId}-${orderCode}`)
+  cancel = createSpy(
+    'UserOrderAdapter.cancel'
+  ).and.callFake((userId, orderCode, {}) =>
+    of(`cancel-${userId}-${orderCode}`)
   );
 
   cancelReturnRequest = createSpy(
@@ -55,8 +55,8 @@ describe('UserOrderConnector', () => {
       providers: [{ provide: UserOrderAdapter, useClass: MockOrderAdapter }],
     });
 
-    service = TestBed.get(UserOrderConnector as Type<UserOrderConnector>);
-    adapter = TestBed.get(UserOrderAdapter as Type<UserOrderAdapter>);
+    service = TestBed.inject(UserOrderConnector);
+    adapter = TestBed.inject(UserOrderAdapter);
   });
 
   it('should be created', () => {
@@ -65,14 +65,14 @@ describe('UserOrderConnector', () => {
 
   it('get should call adapter', () => {
     let result;
-    service.get('user2', 'order2').subscribe(res => (result = res));
+    service.get('user2', 'order2').subscribe((res) => (result = res));
     expect(result).toBe('order-user2-order2');
     expect(adapter.load).toHaveBeenCalledWith('user2', 'order2');
   });
 
   it('getHistory should call adapter', () => {
     let result;
-    service.getHistory('user3').subscribe(res => (result = res));
+    service.getHistory('user3').subscribe((res) => (result = res));
     expect(result).toBe('orderHistory-user3');
     expect(adapter.loadHistory).toHaveBeenCalledWith(
       'user3',
@@ -85,32 +85,35 @@ describe('UserOrderConnector', () => {
   it('getConsignmentTracking should call adapter', () => {
     let result;
     service
-      .getConsignmentTracking('orderCode', 'consignmentCode')
-      .subscribe(res => (result = res));
-    expect(result).toBe('consignmentTracking-orderCode-consignmentCode');
+      .getConsignmentTracking('orderCode', 'consignmentCode', 'userId')
+      .subscribe((res) => (result = res));
+    expect(result).toBe('consignmentTracking-userId-orderCode-consignmentCode');
     expect(adapter.getConsignmentTracking).toHaveBeenCalledWith(
       'orderCode',
-      'consignmentCode'
+      'consignmentCode',
+      'userId'
     );
   });
 
   it('cancel should call adapter', () => {
     let result;
-    service.cancel('userId', 'orderCode', {}).subscribe(res => (result = res));
+    service
+      .cancel('userId', 'orderCode', {})
+      .subscribe((res) => (result = res));
     expect(result).toBe('cancel-userId-orderCode');
     expect(adapter.cancel).toHaveBeenCalledWith('userId', 'orderCode', {});
   });
 
   it('return should call adapter', () => {
     let result;
-    service.return('userId', {}).subscribe(res => (result = res));
+    service.return('userId', {}).subscribe((res) => (result = res));
     expect(result).toBe('orderReturnRequest-userId');
     expect(adapter.createReturnRequest).toHaveBeenCalledWith('userId', {});
   });
 
   it('getReturnRequestList should call adapter', () => {
     let result;
-    service.getReturnRequestList('userId').subscribe(res => (result = res));
+    service.getReturnRequestList('userId').subscribe((res) => (result = res));
     expect(result).toBe('loadReturnRequestList-userId');
     expect(adapter.loadReturnRequestList).toHaveBeenCalledWith(
       'userId',
@@ -124,7 +127,7 @@ describe('UserOrderConnector', () => {
     let result;
     service
       .getReturnRequestDetail('userId', 'returnRequestCode')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toBe('loadReturnRequestDetail-userId-returnRequestCode');
     expect(adapter.loadReturnRequestDetail).toHaveBeenCalledWith(
       'userId',
@@ -138,7 +141,7 @@ describe('UserOrderConnector', () => {
       .cancelReturnRequest('userId', 'returnRequestCode', {
         status: 'CANCELLING',
       })
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toBe('cancelReturnRequest-userId-returnRequestCode');
     expect(adapter.cancelReturnRequest).toHaveBeenCalledWith(
       'userId',

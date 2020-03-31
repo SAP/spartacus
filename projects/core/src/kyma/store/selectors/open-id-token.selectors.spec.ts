@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
@@ -23,7 +22,7 @@ describe('Open ID Token Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithKyma>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -34,7 +33,7 @@ describe('Open ID Token Selectors', () => {
       let result: LoaderState<OpenIdToken>;
       store
         .pipe(select(KymaSelectors.getOpenIdTokenState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -52,7 +51,7 @@ describe('Open ID Token Selectors', () => {
       let result: OpenIdToken;
       store
         .pipe(select(KymaSelectors.getOpenIdTokenValue))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(testToken);
@@ -70,7 +69,7 @@ describe('Open ID Token Selectors', () => {
       let result = false;
       store
         .pipe(select(KymaSelectors.getOpenIdTokenLoading))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -83,7 +82,7 @@ describe('Open ID Token Selectors', () => {
       let result = false;
       store
         .pipe(select(KymaSelectors.getOpenIdTokenSuccess))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -96,7 +95,7 @@ describe('Open ID Token Selectors', () => {
       let result = false;
       store
         .pipe(select(KymaSelectors.getOpenIdTokenError))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);

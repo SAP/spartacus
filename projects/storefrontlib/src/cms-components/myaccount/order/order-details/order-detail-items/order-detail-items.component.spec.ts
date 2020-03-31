@@ -8,7 +8,6 @@ import {
   I18nTestingModule,
   Order,
   PromotionLocation,
-  PromotionResult,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
@@ -101,13 +100,11 @@ const mockOrder: Order = {
 })
 class MockCartItemListComponent {
   @Input()
-  isReadOnly = false;
+  readonly = false;
   @Input()
   hasHeader = true;
   @Input()
   items = [];
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading = false;
   @Input()
@@ -191,7 +188,7 @@ describe('OrderDetailItemsComponent', () => {
     fixture.detectChanges();
     let order: Order;
     component.order$
-      .subscribe(value => {
+      .subscribe((value) => {
         order = value;
       })
       .unsubscribe();
@@ -202,7 +199,7 @@ describe('OrderDetailItemsComponent', () => {
     fixture.detectChanges();
     let others: Consignment[];
     component.others$
-      .subscribe(value => {
+      .subscribe((value) => {
         others = value;
       })
       .unsubscribe();
@@ -216,7 +213,7 @@ describe('OrderDetailItemsComponent', () => {
     fixture.detectChanges();
     let others: Consignment[];
     component.others$
-      .subscribe(value => {
+      .subscribe((value) => {
         others = value;
       })
       .unsubscribe();
@@ -229,7 +226,7 @@ describe('OrderDetailItemsComponent', () => {
     fixture.detectChanges();
     let completed: Consignment[];
     component.completed$
-      .subscribe(value => {
+      .subscribe((value) => {
         completed = value;
       })
       .unsubscribe();
@@ -242,18 +239,11 @@ describe('OrderDetailItemsComponent', () => {
     fixture.detectChanges();
     let cancel: Consignment[];
     component.cancel$
-      .subscribe(value => {
+      .subscribe((value) => {
         cancel = value;
       })
       .unsubscribe();
     expect(cancel).toContain(mockOrder.consignments[3]);
-  });
-
-  it('should return getConsignmentProducts', () => {
-    const products = component.getConsignmentProducts(
-      mockOrder.consignments[1]
-    );
-    expect(products).toEqual([mockProduct]);
   });
 
   it('should order details item be rendered', () => {

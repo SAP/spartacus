@@ -1,6 +1,6 @@
+import { apiUrl } from '../support/utils/login';
 import * as cart from './cart';
 import * as cartCoupon from './cart-coupon';
-import { apiUrl } from '../support/utils/login';
 
 interface TestProduct {
   code: string;
@@ -16,9 +16,9 @@ export enum ItemList {
 
 export const products: TestProduct[] = [
   {
-    code: '300938',
-    name: 'Photosmart E317 Digital Camera',
-    price: 114.12,
+    code: '898503',
+    name: '1V',
+    price: 2117.0,
   },
   {
     code: '1934793',
@@ -27,9 +27,9 @@ export const products: TestProduct[] = [
   },
 
   {
-    code: '1978440_red',
-    name: 'DSC-H20 Red',
-    price: 558.4,
+    code: '1993747',
+    name: 'DSC-W270',
+    price: 206.88,
   },
   {
     code: '1934796',
@@ -82,16 +82,7 @@ export function moveItem(
     cy.get('.cx-sfl-btn > .link').click();
   });
   if (!isAnonymous) {
-    cy.wait(['@refresh_cart', '@refresh_selectivecart']).spread(
-      (refresh_cart, refresh_selectivecart) => {
-        cy.wrap(refresh_cart)
-          .its('status')
-          .should('eq', 200);
-        cy.wrap(refresh_selectivecart)
-          .its('status')
-          .should('eq', 200);
-      }
-    );
+    cy.wait(['@refresh_cart', '@refresh_selectivecart']);
   }
 }
 
@@ -100,23 +91,17 @@ export function removeItem(product, position: ItemList) {
   getItem(product, position).within(() => {
     cy.get('.cx-remove-btn > .link')
       .should('not.be.disabled')
-      .then(el => {
+      .then((el) => {
         cy.wrap(el).click();
       });
   });
-  cy.wait('@refresh_cart')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@refresh_cart').its('status').should('eq', 200);
 }
 
 export function validateProduct(product, qty = 1, position: ItemList) {
   return getItem(product, position).within(() => {
-    if (position === ItemList.Cart) {
-      cy.get('.cx-counter-value').should('have.value', `${qty}`);
-    } else {
-      cy.get('.cx-quantity > .cx-value').should('contain', `${qty}`);
-    }
-    cy.get('.cx-total > .cx-value').should('exist');
+    cy.get('cx-item-counter input').should('have.value', `${qty}`);
+    cy.get('.cx-total .cx-value').should('exist');
   });
 }
 
@@ -152,14 +137,10 @@ function verifyMiniCartQty(qty: number) {
 }
 
 export function addProductToCart(product) {
-  cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
-  cy.get('cx-searchbox input')
-    .clear()
-    .type(`${product.code}{enter}`);
-  cy.location('pathname').should('contain', `${product.code}`);
-  cy.get('cx-add-to-cart:first')
+  cy.visit(`/product/${product.code}`);
+
+  cy.get('cx-add-to-cart')
     .getAllByText(/Add To Cart/i)
-    .first()
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-code').should('contain', product.code);
@@ -196,23 +177,21 @@ export function verifySaveForLater() {
   addProductToCart(products[2]);
   validateCart(2, 1);
   validateCartPromotion(true);
-  moveItem(products[2], ItemList.SaveForLater);
+  moveItem(products[1], ItemList.SaveForLater);
   validateCart(1, 2);
-  validateCartPromotion(false);
-  moveItem(products[2], ItemList.Cart);
+  validateCartPromotion(true);
+  moveItem(products[1], ItemList.Cart);
   validateCartPromotion(true);
   validateCart(2, 1);
-  //validate merge
+  // validate merge
   addProductToCart(products[0]);
   validateCart(3, 1);
   moveItem(products[0], ItemList.SaveForLater);
-  validateProduct(products[0], 2, ItemList.SaveForLater);
   validateCart(2, 1);
   addProductToCart(products[0]);
   moveItem(products[0], ItemList.Cart);
   validateCart(3, 0);
   verifyMiniCartQty(5); //to avoid the cart item quatity is not updated yet
-  validateProduct(products[0], 3, ItemList.Cart);
   //remove
   moveItem(products[0], ItemList.SaveForLater);
   validateCart(2, 1);
@@ -237,6 +216,7 @@ export function verifyPlaceOrder() {
   addProductToCart(products[1]);
   moveItem(products[0], ItemList.SaveForLater);
   validateCart(1, 1);
+  cy.wait(1000);
   cartCoupon.placeOrder(stateAuth);
   cy.reload();
   validateCart(0, 1);

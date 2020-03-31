@@ -1,10 +1,8 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import {
+  ActiveCartService,
   AuthService,
   BaseSiteService,
-  CartDataService,
-  CartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -22,21 +20,20 @@ import {
   ProductService,
   RoutingService,
   SearchboxService,
+  SelectiveCartService,
   TranslationService,
   UserAddressService,
   UserConsentService,
+  UserInterestsService,
+  UserNotificationPreferenceService,
   UserOrderService,
   UserPaymentService,
   UserService,
-  UserNotificationPreferenceService,
-  UserInterestsService,
-  SelectiveCartService,
 } from '@spartacus/core';
 import { CxApiService } from './cx-api.service';
 
 class MockAuthService {}
-class MockCartService {}
-class MockCartDataService {}
+class MockActiveCartService {}
 class MockCheckoutService {}
 class MockCheckoutDeliveryService {}
 class MockCheckoutPaymentService {}
@@ -80,8 +77,7 @@ describe('CxApiService', () => {
       providers: [
         CxApiService,
         { provide: AuthService, useClass: MockAuthService },
-        { provide: CartService, useClass: MockCartService },
-        { provide: CartDataService, useClass: MockCartDataService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: CheckoutService, useClass: MockCheckoutService },
         {
           provide: CheckoutDeliveryService,
@@ -136,21 +132,15 @@ describe('CxApiService', () => {
       ],
     });
 
-    authService = TestBed.get(AuthService as Type<AuthService>);
-    cmsService = TestBed.get(CmsService as Type<CmsService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    currencyService = TestBed.get(CurrencyService as Type<CurrencyService>);
-    languageService = TestBed.get(LanguageService as Type<LanguageService>);
-    productService = TestBed.get(ProductService as Type<ProductService>);
-    productSearchService = TestBed.get(ProductSearchService as Type<
-      ProductSearchService
-    >);
-    productReviewService = TestBed.get(ProductReviewService as Type<
-      ProductReviewService
-    >);
-    translationService = TestBed.get(TranslationService as Type<
-      TranslationService
-    >);
+    authService = TestBed.inject(AuthService);
+    cmsService = TestBed.inject(CmsService);
+    routingService = TestBed.inject(RoutingService);
+    currencyService = TestBed.inject(CurrencyService);
+    languageService = TestBed.inject(LanguageService);
+    productService = TestBed.inject(ProductService);
+    productSearchService = TestBed.inject(ProductSearchService);
+    productReviewService = TestBed.inject(ProductReviewService);
+    translationService = TestBed.inject(TranslationService);
   });
 
   it('should be created', inject([CxApiService], (service: CxApiService) => {

@@ -17,9 +17,10 @@
 <!-- we generate links in a recursive manner -->
 <ng-template #nav let-node="node">
   <nav
-    tabindex="0"
     (click)="toggleOpen($event)"
     (mouseenter)="onMouseEnter($event)"
+    (keydown.space)="toggleOpen($event)"
+    (keydown.esc)="back()"
   >
     <cx-generic-link
       *ngIf="
@@ -37,7 +38,10 @@
     </cx-generic-link>
 
     <ng-template #heading>
-      <h5 [attr.aria-label]="node.title">
+      <h5
+        [attr.aria-label]="node.title"
+        [attr.tabindex]="flyout && node.url ? 0 : -1"
+      >
         {{ node.title }}
         <cx-icon
           *ngIf="flyout && node.children?.length > 0"
@@ -60,6 +64,7 @@
         class="childs"
         [attr.depth]="getDepth(node)"
         [attr.wrap-after]="node.children?.length > wrapAfter ? wrapAfter : null"
+        [attr.columns]="getColumnCount(node.children?.length)"
       >
         <ng-container *ngFor="let child of node.children">
           <ng-container *ngTemplateOutlet="nav; context: { node: child }">

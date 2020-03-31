@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -36,8 +35,8 @@ const product: Product = {
 };
 
 class MockProductConnector {
-  getMany = createSpy().and.callFake(products =>
-    products.map(pr => ({ ...pr, data$: of(product) }))
+  getMany = createSpy().and.callFake((products) =>
+    products.map((pr) => ({ ...pr, data$: of(product) }))
   );
 }
 
@@ -69,9 +68,7 @@ describe('Product Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.ProductEffects as Type<
-      fromEffects.ProductEffects
-    >);
+    effects = TestBed.inject(fromEffects.ProductEffects);
   });
 
   describe('loadProduct$', () => {

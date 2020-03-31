@@ -50,8 +50,8 @@ describe('AsmConnector', () => {
       providers: [{ provide: AsmAdapter, useClass: MockAsmAdapter }],
     });
 
-    asmConnector = TestBed.get(AsmConnector);
-    asmAdapter = TestBed.get(AsmAdapter);
+    asmConnector = TestBed.inject(AsmConnector);
+    asmAdapter = TestBed.inject(AsmAdapter);
   });
 
   it('should be created', () => {
@@ -69,7 +69,7 @@ describe('AsmConnector', () => {
     let results: CustomerSearchPage;
     asmConnector
       .customerSearch(testSearchOptions)
-      .subscribe(value => (results = value))
+      .subscribe((value) => (results = value))
       .unsubscribe();
     expect(results).toEqual(testSearchResults);
   });

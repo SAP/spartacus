@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { ReturnRequest, ReturnRequestList } from '../../../model/order.model';
@@ -27,7 +26,7 @@ describe('Order Return Request Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -36,7 +35,7 @@ describe('Order Return Request Selectors', () => {
       let result: ReturnRequest;
       store
         .pipe(select(UsersSelectors.getOrderReturnRequest))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).not.toBeNull();
     });
   });
@@ -46,7 +45,7 @@ describe('Order Return Request Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getOrderReturnRequestLoading))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).not.toBeNull();
     });
   });
@@ -56,7 +55,7 @@ describe('Order Return Request Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getOrderReturnRequestSuccess))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).not.toBeNull();
     });
   });
@@ -66,7 +65,7 @@ describe('Order Return Request Selectors', () => {
       let result: LoaderState<ReturnRequestList>;
       store
         .pipe(select(UsersSelectors.getOrderReturnRequestListState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -87,7 +86,7 @@ describe('Order Return Request Selectors', () => {
       let result: ReturnRequestList;
       store
         .pipe(select(UsersSelectors.getOrderReturnRequestList))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({
         returnRequests: [],

@@ -1,18 +1,17 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  Address,
   CheckoutService,
+  DeliveryMode,
   I18nTestingModule,
   Order,
-  Address,
-  DeliveryMode,
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Card } from '../../../../shared/components/card/card.component';
 import { OrderConfirmationOverviewComponent } from './order-confirmation-overview.component';
-
 import createSpy = jasmine.createSpy;
 
 @Component({ selector: 'cx-card', template: '' })
@@ -106,9 +105,7 @@ describe('OrderConfirmationOverviewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConfirmationOverviewComponent);
     component = fixture.componentInstance;
-    translationService = TestBed.get(TranslationService as Type<
-      TranslationService
-    >);
+    translationService = TestBed.inject(TranslationService);
   });
 
   it('should create', () => {
@@ -119,7 +116,7 @@ describe('OrderConfirmationOverviewComponent', () => {
   it('should call getAddressCardContent(deliveryAddress: Address)', () => {
     spyOn(component, 'getAddressCardContent').and.callThrough();
     spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component.getAddressCardContent(mockDeliveryAddress).subscribe(data => {
+    component.getAddressCardContent(mockDeliveryAddress).subscribe((data) => {
       expect(data).toBeTruthy();
       expect(data.title).toEqual('test');
     });
@@ -131,7 +128,7 @@ describe('OrderConfirmationOverviewComponent', () => {
   it('should call getDeliveryModeCardContent(deliveryMode: DeliveryMode)', () => {
     spyOn(component, 'getDeliveryModeCardContent').and.callThrough();
     spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component.getDeliveryModeCardContent(mockDeliveryMode).subscribe(data => {
+    component.getDeliveryModeCardContent(mockDeliveryMode).subscribe((data) => {
       expect(data).toBeTruthy();
       expect(data.title).toEqual('test');
     });
@@ -146,7 +143,7 @@ describe('OrderConfirmationOverviewComponent', () => {
     spyOn(translationService, 'translate').and.returnValue(of('test'));
     component
       .getBillingAddressCardContent(mockBillingAddress)
-      .subscribe(data => {
+      .subscribe((data) => {
         expect(data).toBeTruthy();
         expect(data.title).toEqual('test');
       });
@@ -159,7 +156,7 @@ describe('OrderConfirmationOverviewComponent', () => {
   it('should call getPaymentInfoCardContent(payment: PaymentDetails)', () => {
     spyOn(component, 'getPaymentInfoCardContent').and.callThrough();
     spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component.getPaymentInfoCardContent(mockPayment).subscribe(data => {
+    component.getPaymentInfoCardContent(mockPayment).subscribe((data) => {
       expect(data).toBeTruthy();
       expect(data.title).toEqual('test');
     });

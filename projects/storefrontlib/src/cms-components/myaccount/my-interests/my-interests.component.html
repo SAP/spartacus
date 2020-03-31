@@ -53,6 +53,7 @@
                 <div class="cx-product-interests-label">
                   <a
                     class="cx-product-interests-product-image-link"
+                    tabindex="-1"
                     [routerLink]="
                       { cxRoute: 'product', params: product } | cxUrl
                     "
@@ -66,7 +67,7 @@
               </td>
               <td>
                 <div class="cx-info col-10">
-                  <div class="cx-info-container row ">
+                  <div class="cx-info-container row">
                     <div>
                       <div *ngIf="product.name" class="cx-name">
                         <a

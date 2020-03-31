@@ -21,14 +21,20 @@ import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 
 @Component({
-  selector: 'cx-page-slot',
+  selector: 'cx-page-slot,[cx-page-slot]',
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageSlotComponent implements OnInit, OnDestroy {
-  // need to have this host binding at the top as it will override the entire class
-  @HostBinding('class') @Input() set position(position: string) {
+  /**
+   * The position is used to find the CMS page slot (and optional outlet)
+   * that is rendered in the PageSlotComponent. Furthermore, the position
+   * is added as a CSS class name to the host element.
+   */
+  @Input()
+  set position(position: string) {
     this.position$.next(position);
+    this.renderer.addClass(this.hostElement.nativeElement, position);
   }
   get position(): string {
     return this.position$.value;
@@ -49,14 +55,14 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * it is not used separately.
    */
   readonly slot$: Observable<ContentSlotData> = this.position$.pipe(
-    switchMap(position => this.cmsService.getContentSlot(position)),
-    tap(slot => this.addSmartEditSlotClass(slot))
+    switchMap((position) => this.cmsService.getContentSlot(position)),
+    tap((slot) => this.addSmartEditSlotClass(slot))
   );
 
   readonly components$: Observable<
     ContentSlotComponentData[]
   > = this.slot$.pipe(
-    map(slot => (slot && slot.components ? slot.components : [])),
+    map((slot) => (slot && slot.components ? slot.components : [])),
     distinctUntilChanged(
       (a, b) =>
         a.length === b.length && !a.find((el, index) => el.uid !== b[index].uid)
@@ -93,7 +99,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription.add(
-      this.components$.subscribe(components => {
+      this.components$.subscribe((components) => {
         this.hasComponents = components && components.length > 0;
         this.pendingComponentCount = components ? components.length : 0;
         this.isPending = this.pendingComponentCount > 0;

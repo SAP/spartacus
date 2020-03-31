@@ -3,15 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { UserInterestsConnector } from './user-interests.connector';
 import { of } from 'rxjs/internal/observable/of';
 import { UserInterestsAdapter } from './user-interests.adapter';
-import createSpy = jasmine.createSpy;
 import {
-  ProductInterestEntryRelation,
   NotificationType,
+  ProductInterestEntryRelation,
 } from '../../../model/product-interest.model';
-import { Type } from '@angular/core';
+import createSpy = jasmine.createSpy;
 
 class MockUserInterestsAdapter implements UserInterestsAdapter {
-  getInterests = createSpy('getInterests').and.callFake(userId =>
+  getInterests = createSpy('getInterests').and.callFake((userId) =>
     of(`loadList-${userId}`)
   );
   removeInterest = createSpy('removeInterest').and.returnValue(of([]));
@@ -29,10 +28,8 @@ describe('UserInterestsConnector', () => {
       ],
     });
 
-    service = TestBed.get(UserInterestsConnector as Type<
-      UserInterestsConnector
-    >);
-    adapter = TestBed.get(UserInterestsAdapter as Type<UserInterestsAdapter>);
+    service = TestBed.inject(UserInterestsConnector);
+    adapter = TestBed.inject(UserInterestsAdapter);
   });
 
   it('should be created', () => {
@@ -50,7 +47,7 @@ describe('UserInterestsConnector', () => {
         '343898',
         NotificationType.BACK_IN_STOCK
       )
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual('loadList-user-id');
     expect(adapter.getInterests).toHaveBeenCalledWith(
       'user-id',
@@ -70,7 +67,7 @@ describe('UserInterestsConnector', () => {
     };
     service
       .removeInterest('user-id', relationData)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual([]);
     expect(adapter.removeInterest).toHaveBeenCalledWith(
       'user-id',

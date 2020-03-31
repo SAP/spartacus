@@ -2,9 +2,9 @@ import { formats } from '../../../sample-data/viewports';
 import * as notification from '../../../helpers/notification';
 import * as orderDetail from '../../../helpers/consignment-tracking';
 
-describe.skip(`${formats.mobile.width + 1}p resolution - My interests`, () => {
+describe(`${formats.mobile.width + 1}p resolution - My interests`, () => {
   beforeEach(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
     cy.visit('/');
     notification.enableNotificationChannel();
@@ -19,11 +19,12 @@ describe.skip(`${formats.mobile.width + 1}p resolution - My interests`, () => {
   });
 });
 
-describe.skip(`${formats.mobile.width +
-  1}p resolution - My interests paging and sorting`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - My interests paging and sorting`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     orderDetail.loginUsingUserWithOrder();
   });
 

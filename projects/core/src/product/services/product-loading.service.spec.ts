@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Action, Store, StoreModule } from '@ngrx/store';
@@ -48,8 +47,8 @@ describe('ProductLoadingService', () => {
         },
       ],
     });
-    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
-    service = TestBed.get(ProductLoadingService as Type<ProductLoadingService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(ProductLoadingService);
   });
 
   it('should ProductLoadingService is injected', inject(
@@ -87,7 +86,7 @@ describe('ProductLoadingService', () => {
         expect(result).toEqual({ code, name: 'test' });
       });
 
-      it('should emit partial product data', async () => {
+      it('should not emit partial product data', async () => {
         // only one scope is loaded
         store.dispatch(
           new ProductActions.LoadProductSuccess(
@@ -100,7 +99,7 @@ describe('ProductLoadingService', () => {
           .get(code, ['scope1', 'scope2'])
           .pipe(take(1))
           .toPromise();
-        expect(result).toEqual({ code, name: 'test' });
+        expect(result).toEqual(undefined);
       });
 
       it('should take into account order of scopes', async () => {
@@ -129,7 +128,7 @@ describe('ProductLoadingService', () => {
         });
       });
 
-      it('should take into account order of scopes for subsequent emissions', done => {
+      it('should take into account order of scopes for subsequent emissions', (done) => {
         const action1scope1 = new ProductActions.LoadProductSuccess(
           { code, name: 'first', summary: 'a' },
           'scope1'
@@ -152,7 +151,7 @@ describe('ProductLoadingService', () => {
           .get(code, ['scope1', 'scope2'])
           .pipe(take(3))
           .subscribe({
-            next: res => {
+            next: (res) => {
               results.push(res);
             },
             complete: () => {
@@ -193,11 +192,8 @@ describe('ProductLoadingService', () => {
     });
 
     it('should expand loading scopes', () => {
-      const loadingScopesService = TestBed.get(LoadingScopesService);
-      service
-        .get(code, ['scope1', 'scope2'])
-        .subscribe()
-        .unsubscribe();
+      const loadingScopesService = TestBed.inject(LoadingScopesService);
+      service.get(code, ['scope1', 'scope2']).subscribe().unsubscribe();
       expect(loadingScopesService.expand).toHaveBeenCalledWith('product', [
         'scope1',
         'scope2',
@@ -225,16 +221,10 @@ describe('ProductLoadingService', () => {
     it('should be not trigger multiple product load actions for multiple product subscription.', async () => {
       spyOn(store, 'dispatch').and.stub();
 
-      service
-        .get('productCode', [''])
-        .pipe(take(1))
-        .subscribe();
+      service.get('productCode', ['']).pipe(take(1)).subscribe();
       await service
         .get('productCode', [''])
-        .pipe(
-          delay(0),
-          take(1)
-        )
+        .pipe(delay(0), take(1))
         .toPromise();
 
       expect(store.dispatch).toHaveBeenCalledTimes(1);
@@ -309,7 +299,7 @@ describe('ProductLoadingService', () => {
          */
         const subscriber$ = timer(0, 20, getTestScheduler()).pipe(
           take(3),
-          switchMap(intervalId => (intervalId % 2 ? NEVER : trigger$))
+          switchMap((intervalId) => (intervalId % 2 ? NEVER : trigger$))
         );
         const expected$ = cold('50ms a', { a: true });
 
@@ -340,7 +330,7 @@ describe('ProductLoadingService', () => {
          */
         const subscriber$ = timer(0, 40, getTestScheduler()).pipe(
           take(3),
-          switchMap(intervalId => (intervalId % 2 ? NEVER : trigger$))
+          switchMap((intervalId) => (intervalId % 2 ? NEVER : trigger$))
         );
         const expected$ = cold('80ms a', { a: true });
 

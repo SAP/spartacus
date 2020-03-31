@@ -1,6 +1,5 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
@@ -13,11 +12,10 @@ import {
   OCC_USER_ID_CURRENT,
   OCC_USER_ID_GUEST,
 } from '../../occ/utils/occ-constants';
-import { StateWithProcess } from '../../process';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers/index';
 import { ProcessesLoaderState } from '../../state';
-import { StateWithMultiCart } from '../store';
-import * as DeprecatedCartActions from '../store/actions/cart.action';
+import { MULTI_CART_FEATURE } from '../store/multi-cart-state';
 import { ActiveCartService } from './active-cart.service';
 import { MultiCartService } from './multi-cart.service';
 
@@ -44,6 +42,7 @@ class MultiCartServiceStub {
   removeEntry() {}
   getEntries() {}
   createCart() {}
+  mergeToCurrentCart() {}
   addEntry() {}
   isStable() {}
 }
@@ -57,17 +56,19 @@ const mockCartEntry: OrderEntry = {
 describe('ActiveCartService', () => {
   let service: ActiveCartService;
   let multiCartService: MultiCartService;
-  let store: Store<StateWithMultiCart | StateWithProcess<void>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          'multi-cart',
+          MULTI_CART_FEATURE,
           fromReducers.getMultiCartReducers()
         ),
-        StoreModule.forFeature('process', fromProcessReducers.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [
         ActiveCartService,
@@ -75,11 +76,8 @@ describe('ActiveCartService', () => {
         { provide: AuthService, useClass: AuthServiceStub },
       ],
     });
-    service = TestBed.get(ActiveCartService as Type<ActiveCartService>);
-    multiCartService = TestBed.get(MultiCartService as Type<MultiCartService>);
-    store = TestBed.get(Store as Type<
-      Store<StateWithMultiCart | StateWithProcess<void>>
-    >);
+    service = TestBed.inject(ActiveCartService);
+    multiCartService = TestBed.inject(MultiCartService);
   });
 
   describe('getActive', () => {
@@ -97,7 +95,7 @@ describe('ActiveCartService', () => {
       let result;
       service
         .getActive()
-        .subscribe(val => (result = val))
+        .subscribe((val) => (result = val))
         .unsubscribe();
       expect(service['load']).toHaveBeenCalledWith('code');
       expect(result).toEqual({});
@@ -121,7 +119,7 @@ describe('ActiveCartService', () => {
       let result;
       service
         .getActive()
-        .subscribe(val => (result = val))
+        .subscribe((val) => (result = val))
         .unsubscribe();
       expect(result).toEqual({
         user: {
@@ -150,7 +148,7 @@ describe('ActiveCartService', () => {
       let result;
       service
         .getActive()
-        .subscribe(val => (result = val))
+        .subscribe((val) => (result = val))
         .unsubscribe();
       expect(result).toEqual(undefined);
     });
@@ -168,7 +166,7 @@ describe('ActiveCartService', () => {
       let result;
       service
         .getActive()
-        .subscribe(val => (result = val))
+        .subscribe((val) => (result = val))
         .unsubscribe();
       expect(result).toEqual({});
     });
@@ -182,7 +180,7 @@ describe('ActiveCartService', () => {
       let result;
       service
         .getActiveCartId()
-        .subscribe(val => (result = val))
+        .subscribe((val) => (result = val))
         .unsubscribe();
       expect(result).toBe('guid');
     });
@@ -194,7 +192,7 @@ describe('ActiveCartService', () => {
       let result;
       service
         .getActiveCartId()
-        .subscribe(val => (result = val))
+        .subscribe((val) => (result = val))
         .unsubscribe();
       expect(result).toBe('code');
     });
@@ -210,7 +208,7 @@ describe('ActiveCartService', () => {
       let result;
       service
         .getEntries()
-        .subscribe(val => (result = val))
+        .subscribe((val) => (result = val))
         .unsubscribe();
 
       expect(result).toEqual([mockCartEntry]);
@@ -218,26 +216,26 @@ describe('ActiveCartService', () => {
     });
   });
 
-  describe('getLoaded', () => {
-    it('should return true when isStable returns true', done => {
+  describe('isStable', () => {
+    it('should return true when isStable returns true', (done) => {
       spyOn(multiCartService, 'isStable').and.returnValue(of(true));
 
       service
-        .getLoaded()
+        .isStable()
         .pipe(take(1))
-        .subscribe(val => {
+        .subscribe((val) => {
           expect(val).toBe(true);
           done();
         });
     });
 
-    it('should return false when isStable returns false', done => {
+    it('should return false when isStable returns false', (done) => {
       spyOn(multiCartService, 'isStable').and.returnValue(of(false));
 
       service
-        .getLoaded()
+        .isStable()
         .pipe(take(1))
-        .subscribe(val => {
+        .subscribe((val) => {
           expect(val).toBe(false);
           done();
         });
@@ -268,19 +266,18 @@ describe('ActiveCartService', () => {
     });
 
     it('should dispatch merge for non guest cart', () => {
-      spyOn(store, 'dispatch').and.callFake(() => {});
+      spyOn(multiCartService, 'mergeToCurrentCart').and.stub();
+
       service['userId'] = 'userId';
       service['loadOrMerge']('cartId');
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.MergeCart({
-          userId: 'userId',
-          cartId: 'cartId',
-          extraData: {
-            active: true,
-          },
-        })
-      );
+      expect(multiCartService.mergeToCurrentCart).toHaveBeenCalledWith({
+        userId: 'userId',
+        cartId: 'cartId',
+        extraData: {
+          active: true,
+        },
+      });
     });
   });
 
@@ -381,7 +378,7 @@ describe('ActiveCartService', () => {
       let result;
       service
         .getEntry('code123')
-        .subscribe(entry => (result = entry))
+        .subscribe((entry) => (result = entry))
         .unsubscribe();
 
       expect(result).toEqual(mockCartEntry);
@@ -423,7 +420,7 @@ describe('ActiveCartService', () => {
       let result;
       service
         .getAssignedUser()
-        .subscribe(user => (result = user))
+        .subscribe((user) => (result = user))
         .unsubscribe();
 
       expect(result).toEqual(mockCartUser);
@@ -574,13 +571,13 @@ describe('ActiveCartService', () => {
       };
     });
 
-    it('should return cart if this already exists without loading again and creating new one', done => {
+    it('should return cart if this already exists without loading again and creating new one', (done) => {
       spyOn<any>(service, 'load').and.callThrough();
       spyOn(multiCartService, 'createCart').and.callThrough();
 
       service['cartSelector$'] = of(cartState);
 
-      service['requireLoadedCart']().subscribe(cart => {
+      service['requireLoadedCart']().subscribe((cart) => {
         expect(cart).toEqual(cartState);
         expect(service['load']).not.toHaveBeenCalled();
         expect(multiCartService.createCart).not.toHaveBeenCalled();
@@ -588,7 +585,7 @@ describe('ActiveCartService', () => {
       });
     });
 
-    it('should try to load cart for logged user if it is not already loaded', done => {
+    it('should try to load cart for logged user if it is not already loaded', (done) => {
       const cart$ = new BehaviorSubject<ProcessesLoaderState<Cart>>({});
       spyOn<any>(service, 'load').and.callFake(() => {
         cart$.next({
@@ -605,7 +602,7 @@ describe('ActiveCartService', () => {
       service['userId'] = OCC_USER_ID_CURRENT;
       service['cartSelector$'] = cart$.asObservable();
 
-      service['requireLoadedCart']().subscribe(cart => {
+      service['requireLoadedCart']().subscribe((cart) => {
         expect(cart).toEqual(cartState);
         expect(service['load']).toHaveBeenCalledWith(undefined);
         expect(multiCartService.createCart).not.toHaveBeenCalled();
@@ -613,7 +610,7 @@ describe('ActiveCartService', () => {
       });
     });
 
-    it('should try to create cart after failed load cart for logged user', done => {
+    it('should try to create cart after failed load cart for logged user', (done) => {
       const cart$ = new BehaviorSubject<ProcessesLoaderState<Cart>>({});
       spyOn<any>(service, 'load').and.callFake(() => {
         cart$.next({
@@ -638,7 +635,7 @@ describe('ActiveCartService', () => {
       service['userId'] = OCC_USER_ID_CURRENT;
       service['cartSelector$'] = cart$.asObservable();
 
-      service['requireLoadedCart']().subscribe(cart => {
+      service['requireLoadedCart']().subscribe((cart) => {
         expect(cart).toEqual(cartState);
         expect(service['load']).toHaveBeenCalledWith(undefined);
         expect(multiCartService.createCart).toHaveBeenCalledWith({
@@ -651,7 +648,7 @@ describe('ActiveCartService', () => {
       });
     });
 
-    it('should try to create cart for anonymous user', done => {
+    it('should try to create cart for anonymous user', (done) => {
       const cart$ = new BehaviorSubject<ProcessesLoaderState<Cart>>({});
       spyOn<any>(service, 'load').and.callThrough();
 
@@ -670,7 +667,7 @@ describe('ActiveCartService', () => {
       service['userId'] = OCC_USER_ID_ANONYMOUS;
       service['cartSelector$'] = cart$.asObservable();
 
-      service['requireLoadedCart']().subscribe(cart => {
+      service['requireLoadedCart']().subscribe((cart) => {
         expect(cart).toEqual(cartState);
         expect(service['load']).not.toHaveBeenCalled();
         expect(multiCartService.createCart).toHaveBeenCalledWith({

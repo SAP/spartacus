@@ -24,7 +24,7 @@ const MockDeferLayoutConfig: LayoutConfig = {
 })
 class MockAnyComponent {}
 
-export class MockIntersectionService {
+class MockIntersectionService {
   isIntersected() {
     return of(false);
   }
@@ -50,7 +50,7 @@ describe('DeferLoaderService', () => {
     describe('without global loading strategy', () => {
       beforeEach(() => {
         TestBed.configureTestingModule(getModule('browser', {}));
-        service = TestBed.get(DeferLoaderService);
+        service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
         el = fixture.debugElement.query(By.css('#any')).nativeElement;
         fixture.detectChanges();
@@ -60,7 +60,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
       });
@@ -71,7 +71,7 @@ describe('DeferLoaderService', () => {
         TestBed.configureTestingModule(
           getModule('server', MockInstantLayoutConfig)
         );
-        service = TestBed.get(DeferLoaderService);
+        service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
         el = fixture.debugElement.query(By.css('#any')).nativeElement;
         fixture.detectChanges();
@@ -81,7 +81,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
       });
@@ -92,7 +92,7 @@ describe('DeferLoaderService', () => {
         TestBed.configureTestingModule(
           getModule('server', MockDeferLayoutConfig)
         );
-        service = TestBed.get(DeferLoaderService);
+        service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
         el = fixture.debugElement.query(By.css('#any')).nativeElement;
         fixture.detectChanges();
@@ -102,7 +102,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
       });
@@ -113,7 +113,7 @@ describe('DeferLoaderService', () => {
           .load(el, {
             deferLoading: DeferLoadingStrategy.DEFER,
           })
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -125,7 +125,7 @@ describe('DeferLoaderService', () => {
     describe('without global loading strategy', () => {
       beforeEach(() => {
         TestBed.configureTestingModule(getModule('browser', {}));
-        service = TestBed.get(DeferLoaderService);
+        service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
         el = fixture.debugElement.query(By.css('#any')).nativeElement;
         fixture.detectChanges();
@@ -135,7 +135,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
       });
@@ -144,7 +144,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el, { deferLoading: DeferLoadingStrategy.DEFER })
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(false);
       });
@@ -155,7 +155,7 @@ describe('DeferLoaderService', () => {
         TestBed.configureTestingModule(
           getModule('browser', MockInstantLayoutConfig)
         );
-        service = TestBed.get(DeferLoaderService);
+        service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
         el = fixture.debugElement.query(By.css('#any')).nativeElement;
         fixture.detectChanges();
@@ -165,7 +165,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
       });
@@ -174,7 +174,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el, { deferLoading: DeferLoadingStrategy.DEFER })
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(false);
       });
@@ -185,7 +185,7 @@ describe('DeferLoaderService', () => {
         TestBed.configureTestingModule(
           getModule('browser', MockDeferLayoutConfig)
         );
-        service = TestBed.get(DeferLoaderService);
+        service = TestBed.inject(DeferLoaderService);
         fixture = TestBed.createComponent(MockAnyComponent);
         el = fixture.debugElement.query(By.css('#any')).nativeElement;
         fixture.detectChanges();
@@ -194,7 +194,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toBeFalsy();
       });
@@ -203,7 +203,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el, { deferLoading: DeferLoadingStrategy.INSTANT })
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
       });

@@ -1,28 +1,23 @@
-import { Component, Pipe, PipeTransform, Type } from '@angular/core';
+import { Component, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
-  ANONYMOUS_CONSENT_STATUS,
-  AuthRedirectService,
-  AuthService,
   ConsentTemplate,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
   RoutingService,
   Title,
   UserService,
-  UserToken,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { RegisterComponent } from './register.component';
-
 import createSpy = jasmine.createSpy;
 
 const mockRegisterFormData: any = {
@@ -58,28 +53,6 @@ class MockUrlPipe implements PipeTransform {
   template: '',
 })
 class MockSpinnerComponent {}
-
-class MockAuthService {
-  authorize = createSpy();
-  getUserToken(): Observable<UserToken> {
-    return of({ access_token: 'test' } as UserToken);
-  }
-}
-
-class MockAuthRedirectService {
-  redirect = createSpy('AuthRedirectService.redirect');
-}
-
-const isLevelBool: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
-class MockFeatureConfigService {
-  isLevel(_level: string): boolean {
-    return isLevelBool.value;
-  }
-  isEnabled(_feature: string): boolean {
-    return true;
-  }
-}
 
 const registerUserIsLoading: BehaviorSubject<boolean> = new BehaviorSubject(
   false
@@ -146,29 +119,21 @@ const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
 };
 
 describe('RegisterComponent', () => {
-  let controls;
+  let controls: any;
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
-  let userService: MockUserService;
-  let mockGlobalMessageService: MockGlobalMessageService;
-  let mockRoutingService: MockRoutingService;
-  let mockAuthService: MockAuthService;
-  let mockAuthRedirectService: MockAuthRedirectService;
+  let userService: UserService;
+  let mockGlobalMessageService: GlobalMessageService;
+  let mockRoutingService: RoutingService;
   let anonymousConsentService: AnonymousConsentsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
-      // TODO(issue:4237) Register flow
       providers: [
-        {
-          provide: AuthRedirectService,
-          useClass: MockAuthRedirectService,
-        },
         { provide: UserService, useClass: MockUserService },
-        { provide: AuthService, useClass: MockAuthService },
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
@@ -176,10 +141,6 @@ describe('RegisterComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
         {
           provide: AnonymousConsentsService,
@@ -195,30 +156,31 @@ describe('RegisterComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
-    userService = TestBed.get(UserService as Type<UserService>);
-    mockGlobalMessageService = TestBed.get(GlobalMessageService as Type<
-      GlobalMessageService
-    >);
-    mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
-    mockAuthService = TestBed.get(AuthService as Type<AuthService>);
-    mockAuthRedirectService = TestBed.get(AuthRedirectService as Type<
-      AuthRedirectService
-    >);
-    anonymousConsentService = TestBed.get(AnonymousConsentsService as Type<
-      AnonymousConsentsService
-    >);
+    userService = TestBed.inject(UserService);
+    mockGlobalMessageService = TestBed.inject(GlobalMessageService);
+    mockRoutingService = TestBed.inject(RoutingService);
+    anonymousConsentService = TestBed.inject(AnonymousConsentsService);
 
     component = fixture.componentInstance;
 
     fixture.detectChanges();
     controls = component.userRegistrationForm.controls;
-
-    // TODO(issue:4237) Register flow
-    component.isNewRegisterFlowEnabled = true;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('submit button', () => {
+    it('should NOT be disabled', () => {
+      fixture = TestBed.createComponent(RegisterComponent);
+      fixture.detectChanges();
+      const el: HTMLElement = fixture.debugElement.nativeElement;
+      const submitButton: HTMLElement = el.querySelector(
+        'button[type="submit"]'
+      );
+      expect(submitButton.hasAttribute('disabled')).toBeFalsy();
+    });
   });
 
   describe('ngOnInit', () => {
@@ -229,14 +191,14 @@ describe('RegisterComponent', () => {
 
       let titleList: Title[];
       component.titles$
-        .subscribe(data => {
+        .subscribe((data) => {
           titleList = data;
         })
         .unsubscribe();
       expect(titleList).toEqual(mockTitlesList);
     });
 
-    it('should fetch titles if the state is empty', done => {
+    it('should fetch titles if the state is empty', (done) => {
       spyOn(userService, 'loadTitles').and.stub();
       spyOn(userService, 'getTitles').and.returnValue(of([]));
 
@@ -358,44 +320,9 @@ describe('RegisterComponent', () => {
     });
   });
 
-  // TODO(issue:4237) Register flow
-  // NOTE: remove test for old flow
-  describe('submit (old flow)', () => {
-    beforeEach(() => {
-      spyOn(userService, 'register').and.stub();
-      isLevelBool.next(false);
-      component.ngOnInit();
-      component.submit();
-    });
-
-    it('should submit form', () => {
-      expect(userService.register).toHaveBeenCalledWith({
-        firstName: '',
-        lastName: '',
-        uid: '',
-        password: '',
-        titleCode: '',
-      });
-    });
-
-    it('should redirect to homepage and log in user', () => {
-      registerUserIsSuccess.next(true);
-
-      expect(mockAuthService.authorize).toHaveBeenCalledWith('', '');
-      expect(mockGlobalMessageService.remove).toHaveBeenCalledWith(
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-      expect(mockAuthRedirectService.redirect).toHaveBeenCalled();
-    });
-  });
-
   describe('submit', () => {
     beforeEach(() => {
       spyOn(userService, 'register').and.stub();
-
-      // TODO(issue:4237) Register flow
-      // NOTE: remove isLevelBool
-      isLevelBool.next(true);
 
       component.ngOnInit();
       component.submit();

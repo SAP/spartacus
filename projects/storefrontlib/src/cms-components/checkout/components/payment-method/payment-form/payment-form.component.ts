@@ -17,6 +17,7 @@ import {
   Country,
   GlobalMessageService,
   GlobalMessageType,
+  LoaderState,
   UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -49,6 +50,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   cardTypes$: Observable<CardType[]>;
   shippingAddress$: Observable<Address>;
   countries$: Observable<Country[]>;
+  loading$: Observable<LoaderState<void>>;
   sameAsShippingAddress = true;
 
   @Input()
@@ -105,7 +107,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.expMonthAndYear();
     this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
-      tap(countries => {
+      tap((countries) => {
         // If the store is empty fetch countries. This is also used when changing language.
         if (Object.keys(countries).length === 0) {
           this.userPaymentService.loadBillingCountries();
@@ -114,7 +116,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
 
     this.cardTypes$ = this.checkoutPaymentService.getCardTypes().pipe(
-      tap(cardTypes => {
+      tap((cardTypes) => {
         if (Object.keys(cardTypes).length === 0) {
           this.checkoutPaymentService.loadSupportedCardTypes();
         }
@@ -122,6 +124,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
 
     this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
+    this.loading$ = this.checkoutPaymentService.getSetPaymentDetailsResultProcess();
 
     this.checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
       (shouldShowCheckbox: boolean) => {
@@ -182,13 +185,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
   toggleSameAsShippingAddress(): void {
     this.sameAsShippingAddress = !this.sameAsShippingAddress;
-  }
-
-  isContinueButtonDisabled(): boolean {
-    return (
-      this.payment.invalid ||
-      (!this.sameAsShippingAddress && this.billingAddress.invalid)
-    );
   }
 
   /**

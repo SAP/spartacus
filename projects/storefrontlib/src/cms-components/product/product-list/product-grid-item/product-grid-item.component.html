@@ -1,6 +1,7 @@
 <a
   [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
   class="cx-product-image-container"
+  tabindex="-1"
 >
   <cx-media
     class="cx-product-image"
@@ -31,13 +32,11 @@
   </div>
 </div>
 
-<ng-container *cxFeatureLevel="'1.5'">
-  <div class="cx-variant-style-icons" *ngIf="product.variantOptions">
-    <cx-variant-style-icons
-      [variants]="product.variantOptions"
-    ></cx-variant-style-icons>
-  </div>
-</ng-container>
+<div class="cx-variant-style-icons" *ngIf="product.variantOptions">
+  <cx-variant-style-icons
+    [variants]="product.variantOptions"
+  ></cx-variant-style-icons>
+</div>
 
 <cx-add-to-cart
   *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"

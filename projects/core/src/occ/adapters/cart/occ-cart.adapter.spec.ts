@@ -3,7 +3,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { Cart } from '../../../model/cart.model';
@@ -16,8 +15,8 @@ import {
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
 import {
-  OCC_USER_ID_ANONYMOUS,
   OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
 } from '../../utils/occ-constants';
 import { OccCartAdapter } from './occ-cart.adapter';
 
@@ -78,17 +77,11 @@ describe('OccCartAdapter', () => {
       ],
     });
 
-    occCartAdapter = TestBed.get(OccCartAdapter as Type<OccCartAdapter>);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    occEndpointService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
-    featureConfigService = TestBed.get(FeatureConfigService as Type<
-      FeatureConfigService
-    >);
+    occCartAdapter = TestBed.inject(OccCartAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEndpointService = TestBed.inject(OccEndpointsService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
 
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(converterService, 'pipeableMany').and.callThrough();
@@ -102,9 +95,9 @@ describe('OccCartAdapter', () => {
   describe('load all carts', () => {
     it('should load all carts details data for given user with details flag', () => {
       let result;
-      occCartAdapter.loadAll(userId).subscribe(res => (result = res));
+      occCartAdapter.loadAll(userId).subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET' && req.url === 'carts';
       });
 
@@ -121,9 +114,9 @@ describe('OccCartAdapter', () => {
   describe('load cart data', () => {
     it('should load cart detail data for given userId, cartId', () => {
       let result;
-      occCartAdapter.load(userId, cartId).subscribe(res => (result = res));
+      occCartAdapter.load(userId, cartId).subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET' && req.url === 'cart';
       });
 
@@ -141,9 +134,9 @@ describe('OccCartAdapter', () => {
       let result;
       occCartAdapter
         .load(userId, OCC_CART_ID_CURRENT)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET' && req.url === 'carts';
       });
 
@@ -160,9 +153,9 @@ describe('OccCartAdapter', () => {
   describe('create a cart', () => {
     it('should able to create a new cart for the given user ', () => {
       let result;
-      occCartAdapter.create(userId).subscribe(res => (result = res));
+      occCartAdapter.create(userId).subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST' && req.url === 'createCart';
       });
 
@@ -183,9 +176,9 @@ describe('OccCartAdapter', () => {
       let result;
       occCartAdapter
         .create(userId, cartId, toMergeCart.guid)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST' && req.url === 'createCart';
       });
 
@@ -209,7 +202,7 @@ describe('OccCartAdapter', () => {
 
       occCartAdapter
         .addEmail(userId, cartId, email)
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       const mockReq = httpMock.expectOne({ method: 'PUT' });
 
@@ -232,7 +225,7 @@ describe('OccCartAdapter', () => {
 
       occCartAdapter
         .delete(userId, cartId)
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       const mockReq = httpMock.expectOne({
         method: 'DELETE',
@@ -256,7 +249,7 @@ describe('OccCartAdapter', () => {
 
       occCartAdapter
         .delete(OCC_USER_ID_ANONYMOUS, cartId)
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       const mockReq = httpMock.expectOne({
         method: 'DELETE',
@@ -286,9 +279,9 @@ describe('OccCartAdapter', () => {
     describe('load all carts', () => {
       it('should load all carts details data for given user with details flag', () => {
         let result;
-        occCartAdapter.loadAll(userId).subscribe(res => (result = res));
+        occCartAdapter.loadAll(userId).subscribe((res) => (result = res));
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return (
             req.method === 'GET' &&
             req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
@@ -308,9 +301,9 @@ describe('OccCartAdapter', () => {
     describe('load cart data', () => {
       it('should load cart detail data for given userId, cartId', () => {
         let result;
-        occCartAdapter.load(userId, cartId).subscribe(res => (result = res));
+        occCartAdapter.load(userId, cartId).subscribe((res) => (result = res));
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return (
             req.method === 'GET' &&
             req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}`
@@ -328,9 +321,9 @@ describe('OccCartAdapter', () => {
         let result;
         occCartAdapter
           .load(userId, OCC_CART_ID_CURRENT)
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return (
             req.method === 'GET' &&
             req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
@@ -350,9 +343,9 @@ describe('OccCartAdapter', () => {
     describe('create a cart', () => {
       it('should able to create a new cart for the given user ', () => {
         let result;
-        occCartAdapter.create(userId).subscribe(res => (result = res));
+        occCartAdapter.create(userId).subscribe((res) => (result = res));
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return (
             req.method === 'POST' &&
             req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
@@ -372,9 +365,9 @@ describe('OccCartAdapter', () => {
         let result;
         occCartAdapter
           .create(userId, cartId, toMergeCart.guid)
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return (
             req.method === 'POST' &&
             req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`

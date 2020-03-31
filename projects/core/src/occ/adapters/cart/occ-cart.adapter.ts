@@ -62,9 +62,9 @@ export class OccCartAdapter implements CartAdapter {
   public load(userId: string, cartId: string): Observable<Cart> {
     if (cartId === OCC_CART_ID_CURRENT) {
       return this.loadAll(userId).pipe(
-        map(carts => {
+        map((carts) => {
           if (carts) {
-            const activeCart = carts.find(cart => {
+            const activeCart = carts.find((cart) => {
               return cart['saveTime'] === undefined;
             });
             return activeCart;
@@ -136,10 +136,12 @@ export class OccCartAdapter implements CartAdapter {
       fromString: `fields=carts(${DETAILS_PARAMS},saveTime)`,
     });
 
-    return this.http.get<Occ.CartList>(url, { params }).pipe(
-      pluck('carts'),
-      this.converterService.pipeableMany(CART_NORMALIZER)
-    );
+    return this.http
+      .get<Occ.CartList>(url, { params })
+      .pipe(
+        pluck('carts'),
+        this.converterService.pipeableMany(CART_NORMALIZER)
+      );
   }
 
   /**

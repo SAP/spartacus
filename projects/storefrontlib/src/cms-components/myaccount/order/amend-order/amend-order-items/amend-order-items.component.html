@@ -22,10 +22,11 @@
         {{
           (isCancellation()
             ? 'orderDetails.cancellationAndReturn.cancelQty'
-            : 'orderDetails.cancellationAndReturn.returnQty') | cxTranslate
+            : 'orderDetails.cancellationAndReturn.returnQty'
+          ) | cxTranslate
         }}
       </div>
-      <div *ngIf="isConfirmation" class="cx-item-list-total col-md-3  col-xl-2">
+      <div *ngIf="isConfirmation" class="cx-item-list-total col-md-3 col-xl-2">
         {{ 'orderDetails.cancellationAndReturn.totalPrice' | cxTranslate }}
       </div>
     </div>
@@ -52,16 +53,7 @@
               {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
             </div>
             <!-- Variants -->
-            <ng-container *cxFeatureLevel="'!1.5'">
-              <div
-                *ngFor="let variant of item.product.variantOptionQualifiers"
-                class="cx-property"
-              >
-                <div class="cx-label">{{ variant.name }}</div>
-                <div class="cx-value">{{ variant.value }}</div>
-              </div>
-            </ng-container>
-            <ng-container *cxFeatureLevel="'1.5'">
+            <ng-container *ngIf="item.product.baseOptions?.length">
               <div
                 *ngFor="
                   let variant of item.product.baseOptions[0]?.selected
@@ -109,16 +101,16 @@
               {{
                 (isCancellation()
                   ? 'orderDetails.cancellationAndReturn.cancelQty'
-                  : 'orderDetails.cancellationAndReturn.returnQty')
-                  | cxTranslate
+                  : 'orderDetails.cancellationAndReturn.returnQty'
+                ) | cxTranslate
               }}
             </div>
 
             <cx-item-counter
               [min]="0"
               [max]="getMaxAmendQuantity(item)"
-              [isValueChangeable]="!isConfirmation"
-              [formControl]="getControl(form, item)"
+              [control]="getControl(form, item)"
+              [readonly]="isConfirmation"
             >
             </cx-item-counter>
           </div>

@@ -102,9 +102,9 @@ export function getReducers(): ActionReducerMap<UserState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<UserState>
-> = new InjectionToken<ActionReducerMap<UserState>>('UserReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<
+  UserState
+>> = new InjectionToken<ActionReducerMap<UserState>>('UserReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
@@ -114,7 +114,7 @@ export const reducerProvider: Provider = {
 export function clearUserState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
-  return function(state, action) {
+  return function (state, action) {
     if (action.type === AuthActions.LOGOUT) {
       state = undefined;
     }

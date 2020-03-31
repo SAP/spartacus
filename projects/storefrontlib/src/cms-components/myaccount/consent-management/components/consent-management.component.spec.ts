@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -25,17 +24,13 @@ import { ConsentManagementComponent } from './consent-management.component';
 
 @Component({
   selector: 'cx-spinner',
-  template: `
-    <div>spinner</div>
-  `,
+  template: ` <div>spinner</div> `,
 })
 class MockCxSpinnerComponent {}
 
 @Component({
   selector: 'cx-consent-management-form',
-  template: `
-    <div>form</div>
-  `,
+  template: ` <div>form</div> `,
 })
 class MockConsentManagementFormComponent {
   @Input()
@@ -170,16 +165,10 @@ describe('ConsentManagementComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    userService = TestBed.get(UserConsentService as Type<UserConsentService>);
-    globalMessageService = TestBed.get(GlobalMessageService as Type<
-      GlobalMessageService
-    >);
-    anonymousConsentsConfig = TestBed.get(AnonymousConsentsConfig as Type<
-      AnonymousConsentsConfig
-    >);
-    anonymousConsentsService = TestBed.get(AnonymousConsentsService as Type<
-      AnonymousConsentsService
-    >);
+    userService = TestBed.inject(UserConsentService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    anonymousConsentsConfig = TestBed.inject(AnonymousConsentsConfig);
+    anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
 
     fixture.detectChanges();
   });
@@ -216,7 +205,7 @@ describe('ConsentManagementComponent', () => {
 
         let loadingResult = false;
         component.loading$
-          .subscribe(result => (loadingResult = result))
+          .subscribe((result) => (loadingResult = result))
           .unsubscribe();
         expect(loadingResult).toEqual(true);
       });
@@ -247,7 +236,7 @@ describe('ConsentManagementComponent', () => {
 
           let result: ConsentTemplate[];
           component.templateList$
-            .subscribe(templates => (result = templates))
+            .subscribe((templates) => (result = templates))
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
@@ -269,7 +258,7 @@ describe('ConsentManagementComponent', () => {
 
           let result: ConsentTemplate[];
           component.templateList$
-            .subscribe(templates => (result = templates))
+            .subscribe((templates) => (result = templates))
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
@@ -299,7 +288,7 @@ describe('ConsentManagementComponent', () => {
 
           let result: ConsentTemplate[];
           component.templateList$
-            .subscribe(templates => (result = templates))
+            .subscribe((templates) => (result = templates))
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(anonymousConsentsService.getTemplates).toHaveBeenCalled();

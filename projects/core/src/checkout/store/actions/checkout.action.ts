@@ -2,17 +2,17 @@ import { Action } from '@ngrx/store';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
-  StateLoaderActions,
   StateEntityLoaderActions,
+  StateLoaderActions,
 } from '../../../state/utils/index';
 import { CheckoutDetails } from '../../models/checkout.model';
-import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   CHECKOUT_DETAILS,
   SET_DELIVERY_ADDRESS_PROCESS_ID,
-  SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_DELIVERY_MODE_PROCESS_ID,
+  SET_PAYMENT_DETAILS_PROCESS_ID,
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
 } from '../checkout-state';
 
@@ -93,6 +93,7 @@ export const LOAD_CHECKOUT_DETAILS_SUCCESS =
   '[Checkout] Load Checkout Details Success';
 
 export const CHECKOUT_CLEAR_MISCS_DATA = '[Checkout] Clear Miscs Data';
+export const PAYMENT_PROCESS_SUCCESS = '[Checkout] Payment Process Success';
 
 export class AddDeliveryAddress implements Action {
   readonly type = ADD_DELIVERY_ADDRESS;
@@ -199,7 +200,7 @@ export class ResetSetDeliveryModeProcess extends StateEntityLoaderActions.Entity
   }
 }
 
-export class CreatePaymentDetails implements Action {
+export class CreatePaymentDetails extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = CREATE_PAYMENT_DETAILS;
   constructor(
     public payload: {
@@ -207,17 +208,28 @@ export class CreatePaymentDetails implements Action {
       cartId: string;
       paymentDetails: PaymentDetails;
     }
-  ) {}
+  ) {
+    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
+  }
 }
 
-export class CreatePaymentDetailsFail implements Action {
+export class CreatePaymentDetailsFail extends StateEntityLoaderActions.EntityFailAction {
   readonly type = CREATE_PAYMENT_DETAILS_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
+  }
 }
 
 export class CreatePaymentDetailsSuccess implements Action {
   readonly type = CREATE_PAYMENT_DETAILS_SUCCESS;
   constructor(public payload: PaymentDetails) {}
+}
+
+export class PaymentProcessSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = PAYMENT_PROCESS_SUCCESS;
+  constructor() {
+    super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
+  }
 }
 
 export class SetPaymentDetails extends StateEntityLoaderActions.EntityLoadAction {
@@ -329,16 +341,7 @@ export class ClearCheckoutDeliveryMode implements Action {
 
 export class ClearCheckoutDeliveryModeSuccess implements Action {
   readonly type = CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS;
-  // tslint:disable-next-line:unified-signatures
-  constructor(payload: { userId: string; cartId: string });
-  /**
-   * @deprecated since version 1.2
-   * Use constructor(public payload: { userId: string; cartId: string }) instead
-   *
-   * TODO(issue:#4309) Deprecated since 1.2
-   */
-  constructor();
-  constructor(public payload?: { userId: string; cartId: string }) {}
+  constructor(public payload: { userId: string; cartId: string }) {}
 }
 
 export class ClearCheckoutDeliveryModeFail implements Action {

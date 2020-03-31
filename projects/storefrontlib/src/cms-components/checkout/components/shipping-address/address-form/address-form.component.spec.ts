@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Type } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -18,7 +18,6 @@ import {
 import { Observable, of, Subscription } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { AddressFormComponent } from './address-form.component';
-
 import createSpy = jasmine.createSpy;
 
 class MockUserService {
@@ -90,7 +89,7 @@ const mockSuggestedAddressModalRef: any = {
     enteredAddress: '',
     suggestedAddresses: '',
   },
-  result: new Promise(resolve => {
+  result: new Promise((resolve) => {
     return resolve(true);
   }),
 };
@@ -119,7 +118,7 @@ describe('AddressFormComponent', () => {
   let fixture: ComponentFixture<AddressFormComponent>;
   let controls: FormGroup['controls'];
 
-  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
+  let mockCheckoutDeliveryService: CheckoutDeliveryService;
   let userAddressService: UserAddressService;
   let userService: UserService;
   let mockGlobalMessageService: any;
@@ -151,13 +150,9 @@ describe('AddressFormComponent', () => {
       })
       .compileComponents();
 
-    userService = TestBed.get(UserService as Type<UserService>);
-    userAddressService = TestBed.get(UserAddressService as Type<
-      UserAddressService
-    >);
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
+    userService = TestBed.inject(UserService);
+    userAddressService = TestBed.inject(UserAddressService);
+    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
   }));
 
   beforeEach(() => {
@@ -174,7 +169,7 @@ describe('AddressFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get countries and titles data even when they not exist', done => {
+  it('should call ngOnInit to get countries and titles data even when they not exist', (done) => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userAddressService, 'loadDeliveryCountries').and.stub();
 
@@ -220,19 +215,19 @@ describe('AddressFormComponent', () => {
 
     let countries: Country[];
     component.countries$
-      .subscribe(data => {
+      .subscribe((data) => {
         countries = data;
       })
       .unsubscribe();
     let titles: Title[];
     component.titles$
-      .subscribe(data => {
+      .subscribe((data) => {
         titles = data;
       })
       .unsubscribe();
     let regions: Region[];
     component.regions$
-      .subscribe(data => {
+      .subscribe((data) => {
         regions = data;
       })
       .unsubscribe();
@@ -365,7 +360,7 @@ describe('AddressFormComponent', () => {
     const mockCountryIsocode = 'test country isocode';
     component.countrySelected({ isocode: mockCountryIsocode });
     component.ngOnInit();
-    component.regions$.subscribe(_ => _);
+    component.regions$.subscribe();
     expect(
       component.address['controls'].country['controls'].isocode.value
     ).toEqual(mockCountryIsocode);
@@ -399,7 +394,7 @@ describe('AddressFormComponent', () => {
     const mockCountryIsocode = 'test country isocode';
     component.regionSelected({ isocode: mockCountryIsocode });
     component.ngOnInit();
-    component.regions$.subscribe(_ => _);
+    component.regions$.subscribe();
     component.verifyAddress();
     expect(
       component.address['controls'].region['controls'].isocode.value
@@ -420,7 +415,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
 
       getContinueBtn().nativeElement.click();
-      expect(component.verifyAddress).not.toHaveBeenCalled();
+      expect(component.verifyAddress).toHaveBeenCalledTimes(1);
 
       controls['titleCode'].setValue('test titleCode');
       controls['firstName'].setValue('test firstName');
@@ -433,36 +428,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
 
       getContinueBtn().nativeElement.click();
-      expect(component.verifyAddress).toHaveBeenCalled();
-    });
-
-    it('should be enabled only when form has all mandatory fields filled', () => {
-      const isContinueBtnDisabled = () => {
-        fixture.detectChanges();
-        return getContinueBtn().nativeElement.disabled;
-      };
-      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-      spyOn(userService, 'getTitles').and.returnValue(of([]));
-      spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
-
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['titleCode'].setValue('test titleCode');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['firstName'].setValue('test firstName');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['lastName'].setValue('test lastName');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['line1'].setValue('test line1');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['town'].setValue('test town');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.region['controls'].isocode.setValue('test region isocode');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.country['controls'].isocode.setValue('test country isocode');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['postalCode'].setValue('test postalCode');
-
-      expect(isContinueBtnDisabled()).toBeFalsy();
+      expect(component.verifyAddress).toHaveBeenCalledTimes(2);
     });
   });
 

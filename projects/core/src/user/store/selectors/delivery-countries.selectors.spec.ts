@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Country } from '../../../model/address.model';
@@ -18,7 +17,7 @@ describe('Delivery Countries Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -38,7 +37,7 @@ describe('Delivery Countries Selectors', () => {
       let result: Country[];
       store
         .pipe(select(UsersSelectors.getAllDeliveryCountries))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 
@@ -68,7 +67,7 @@ describe('Delivery Countries Selectors', () => {
 
       store
         .pipe(select(UsersSelectors.countrySelectorFactory(isocode)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new UserActions.LoadDeliveryCountriesSuccess(mockCountries)

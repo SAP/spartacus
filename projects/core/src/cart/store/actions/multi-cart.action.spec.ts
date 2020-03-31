@@ -5,7 +5,7 @@ import {
   StateEntityLoaderActions,
   StateEntityProcessesLoaderActions,
 } from '../../../state/utils/index';
-import { MULTI_CART_FEATURE } from '../multi-cart-state';
+import { MULTI_CART_DATA } from '../multi-cart-state';
 import { CartActions } from './index';
 
 const cart: Cart = {
@@ -35,7 +35,7 @@ describe('MultiCart Actions', () => {
           type: CartActions.REMOVE_TEMP_CART,
           payload: { tempCartId },
           meta: StateEntityActions.entityRemoveMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             tempCartId
           ),
         });
@@ -50,57 +50,10 @@ describe('MultiCart Actions', () => {
           type: CartActions.SET_TEMP_CART,
           payload,
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             tempCartId
           ),
         });
-      });
-    });
-
-    describe('CreateMultiCart', () => {
-      it('should create the action', () => {
-        const action = new CartActions.CreateMultiCart({
-          tempCartId,
-        });
-        expect({ ...action }).toEqual({
-          type: CartActions.CREATE_MULTI_CART,
-          payload: { tempCartId },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            MULTI_CART_FEATURE,
-            tempCartId
-          ),
-        });
-      });
-    });
-
-    describe('CreateMultiCartFail', () => {
-      it('should create the action', () => {
-        const action = new CartActions.CreateMultiCartFail({
-          tempCartId,
-        });
-        expect({ ...action }).toEqual({
-          type: CartActions.CREATE_MULTI_CART_FAIL,
-          payload: { tempCartId },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            MULTI_CART_FEATURE,
-            tempCartId
-          ),
-        });
-      });
-    });
-  });
-
-  describe('CreateMultiCartSuccess', () => {
-    it('should create the action', () => {
-      const payload = { cart, userId: 'userId' };
-      const action = new CartActions.CreateMultiCartSuccess(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.CREATE_MULTI_CART_SUCCESS,
-        payload,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
-          MULTI_CART_FEATURE,
-          cart.code
-        ),
       });
     });
   });
@@ -113,7 +66,7 @@ describe('MultiCart Actions', () => {
         type: CartActions.LOAD_MULTI_CART,
         payload,
         meta: StateEntityLoaderActions.entityLoadMeta(
-          MULTI_CART_FEATURE,
+          MULTI_CART_DATA,
           payload.cartId
         ),
       });
@@ -128,7 +81,7 @@ describe('MultiCart Actions', () => {
         type: CartActions.LOAD_MULTI_CART_FAIL,
         payload,
         meta: StateEntityLoaderActions.entityFailMeta(
-          MULTI_CART_FEATURE,
+          MULTI_CART_DATA,
           payload.cartId,
           payload.error
         ),
@@ -144,7 +97,7 @@ describe('MultiCart Actions', () => {
         type: CartActions.LOAD_MULTI_CART_SUCCESS,
         payload,
         meta: StateEntityLoaderActions.entitySuccessMeta(
-          MULTI_CART_FEATURE,
+          MULTI_CART_DATA,
           payload.cart.code
         ),
       });
@@ -173,7 +126,7 @@ describe('MultiCart Actions', () => {
       expect({ ...action }).toEqual({
         type: CartActions.MERGE_MULTI_CART_SUCCESS,
         payload,
-        meta: entityRemoveMeta(MULTI_CART_FEATURE, payload.oldCartId),
+        meta: entityRemoveMeta(MULTI_CART_DATA, payload.oldCartId),
       });
     });
   });
@@ -184,7 +137,7 @@ describe('MultiCart Actions', () => {
       expect({ ...action }).toEqual({
         type: CartActions.RESET_MULTI_CART_DETAILS,
         meta: StateEntityProcessesLoaderActions.entityProcessesLoaderResetMeta(
-          MULTI_CART_FEATURE,
+          MULTI_CART_DATA,
           undefined
         ),
       });
@@ -198,7 +151,7 @@ describe('MultiCart Actions', () => {
       expect({ ...action }).toEqual({
         type: CartActions.REMOVE_CART,
         payload,
-        meta: entityRemoveMeta(MULTI_CART_FEATURE, payload),
+        meta: entityRemoveMeta(MULTI_CART_DATA, payload),
       });
     });
   });
@@ -215,7 +168,7 @@ describe('MultiCart Actions', () => {
         type: CartActions.ADD_EMAIL_TO_MULTI_CART,
         payload,
         meta: StateEntityLoaderActions.entityLoadMeta(
-          MULTI_CART_FEATURE,
+          MULTI_CART_DATA,
           payload.cartId
         ),
       });
@@ -230,7 +183,7 @@ describe('MultiCart Actions', () => {
         type: CartActions.ADD_EMAIL_TO_MULTI_CART_FAIL,
         payload,
         meta: StateEntityLoaderActions.entityFailMeta(
-          MULTI_CART_FEATURE,
+          MULTI_CART_DATA,
           payload.cartId,
           payload.error
         ),
@@ -246,7 +199,7 @@ describe('MultiCart Actions', () => {
         type: CartActions.ADD_EMAIL_TO_MULTI_CART_SUCCESS,
         payload,
         meta: StateEntityLoaderActions.entitySuccessMeta(
-          MULTI_CART_FEATURE,
+          MULTI_CART_DATA,
           payload.cartId
         ),
       });
@@ -261,7 +214,7 @@ describe('MultiCart Actions', () => {
         type: CartActions.CART_PROCESSES_INCREMENT,
         payload,
         meta: StateEntityProcessesLoaderActions.entityProcessesIncrementMeta(
-          MULTI_CART_FEATURE,
+          MULTI_CART_DATA,
           payload
         ),
       });
@@ -276,9 +229,30 @@ describe('MultiCart Actions', () => {
         type: CartActions.CART_PROCESSES_DECREMENT,
         payload,
         meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
-          MULTI_CART_FEATURE,
+          MULTI_CART_DATA,
           payload
         ),
+      });
+    });
+  });
+
+  describe('SetActiveCartId', () => {
+    it('should set active cart id', () => {
+      const payload = 'cartId';
+      const action = new CartActions.SetActiveCartId(payload);
+      expect({ ...action }).toEqual({
+        type: CartActions.SET_ACTIVE_CART_ID,
+        payload,
+      });
+    });
+  });
+
+  describe('ClearMultiCartState', () => {
+    it('should clear whole multi cart state', () => {
+      const action = new CartActions.ClearMultiCartState();
+      expect({ ...action }).toEqual({
+        type: CartActions.CLEAR_MULTI_CART_STATE,
+        meta: StateEntityActions.entityRemoveMeta(MULTI_CART_DATA, null),
       });
     });
   });

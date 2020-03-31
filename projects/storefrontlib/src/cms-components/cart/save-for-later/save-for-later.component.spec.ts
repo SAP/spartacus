@@ -1,39 +1,31 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { SaveForLaterComponent } from './save-for-later.component';
+import { By } from '@angular/platform-browser';
 import {
+  ActiveCartService,
+  Cart,
+  CmsService,
   FeaturesConfigModule,
   I18nTestingModule,
-  SelectiveCartService,
-  PromotionResult,
-  Cart,
-  ActiveCartService,
   OrderEntry,
-  CmsService,
+  SelectiveCartService,
 } from '@spartacus/core';
-import { Component, Input } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import {
-  Item,
   CartItemComponentOptions,
+  Item,
 } from '../cart-shared/cart-item/cart-item.component';
-import { By } from '@angular/platform-browser';
+import { SaveForLaterComponent } from './save-for-later.component';
 
 @Component({
   template: '',
   selector: 'cx-cart-item-list',
 })
 class MockCartItemListComponent {
-  @Input()
-  isReadOnly = false;
-  @Input()
-  items: Item[];
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
-  @Input()
-  cartIsLoading: Observable<boolean>;
-  @Input()
-  options: CartItemComponentOptions = {
+  @Input() readonly = false;
+  @Input() items: Item[];
+  @Input() cartIsLoading: Observable<boolean>;
+  @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,
   };
@@ -45,7 +37,7 @@ describe('SaveForLaterComponent', () => {
 
   const mockCartService = jasmine.createSpyObj('ActiveCartService', [
     'addEntry',
-    'getLoaded',
+    'isStable',
     'getActive',
   ]);
 
@@ -74,14 +66,18 @@ describe('SaveForLaterComponent', () => {
     fixture = TestBed.createComponent(SaveForLaterComponent);
     component = fixture.componentInstance;
 
-    mockCartService.getLoaded.and.returnValue(of(true));
+    mockCartService.isStable.and.returnValue(of(true));
     mockCartService.getActive.and.returnValue(
       of<Cart>({ code: '00001', totalItems: 0 })
     );
     mockCmsService.getComponentData.and.returnValue(of({ content: 'content' }));
     mockSelectiveCartService.getLoaded.and.returnValue(of(true));
-    mockSelectiveCartService.getCart.and.returnValue(of<Cart>({ code: '123' }));
-    mockSelectiveCartService.getEntries.and.returnValue(of<OrderEntry[]>([{}]));
+    mockSelectiveCartService.getCart.and.returnValue(
+      of<Cart>({ code: '123' })
+    );
+    mockSelectiveCartService.getEntries.and.returnValue(
+      of<OrderEntry[]>([{}])
+    );
   });
 
   it('should create', () => {

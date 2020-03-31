@@ -11,7 +11,6 @@ import {
 import { inject, TestBed } from '@angular/core/testing';
 import { USE_CUSTOMER_SUPPORT_AGENT_TOKEN } from '../../occ/utils/interceptor-util';
 import { CustomerSupportAgentAuthErrorInterceptor } from './csagent-auth-error.interceptor';
-import { Type } from '@angular/core';
 import { CustomerSupportAgentErrorHandlingService } from '../services/index';
 
 class MockCustomerSupportAgentErrorHandlingService {
@@ -37,10 +36,8 @@ describe('AuthErrorInterceptor', () => {
         },
       ],
     });
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    csagentErrorHandlingService = TestBed.get(
+    httpMock = TestBed.inject(HttpTestingController);
+    csagentErrorHandlingService = TestBed.inject(
       CustomerSupportAgentErrorHandlingService
     );
     spyOn(
@@ -59,11 +56,11 @@ describe('AuthErrorInterceptor', () => {
       const options = {
         headers,
       };
-      http.get('/test', options).subscribe(result => {
+      http.get('/test', options).subscribe((result) => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
       mockReq.flush(

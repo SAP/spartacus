@@ -5,15 +5,14 @@ import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import * as fromStoreReducers from '../store/reducers/index';
 import { UserActions } from '../store/actions/index';
-import { USER_FEATURE, StateWithUser } from '../store/user-state';
+import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { CustomerCouponService } from './customer-coupon.service';
 import {
-  CustomerCouponSearchResult,
   CustomerCoupon,
+  CustomerCouponSearchResult,
 } from '../../model/customer-coupon.model';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
-import { Type } from '@angular/core';
 
 describe('CustomerCouponService', () => {
   const coupon: CustomerCoupon = {
@@ -51,9 +50,9 @@ describe('CustomerCouponService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(CustomerCouponService as Type<CustomerCouponService>);
+    service = TestBed.inject(CustomerCouponService);
   });
 
   it('should be able to load customer coupons data', () => {
@@ -80,7 +79,7 @@ describe('CustomerCouponService', () => {
     let customerCouponSearchResult: CustomerCouponSearchResult;
     service
       .getCustomerCoupons(1)
-      .subscribe(data => {
+      .subscribe((data) => {
         customerCouponSearchResult = data;
       })
       .unsubscribe();
@@ -97,7 +96,7 @@ describe('CustomerCouponService', () => {
     let customerCouponLoaded: boolean;
     service
       .getCustomerCouponsLoaded()
-      .subscribe(data => {
+      .subscribe((data) => {
         customerCouponLoaded = data;
       })
       .unsubscribe();
@@ -117,7 +116,7 @@ describe('CustomerCouponService', () => {
     let customerCouponLoaded: boolean;
     service
       .getCustomerCouponsLoading()
-      .subscribe(data => {
+      .subscribe((data) => {
         customerCouponLoaded = data;
       })
       .unsubscribe();
@@ -145,7 +144,7 @@ describe('CustomerCouponService', () => {
     let result = false;
     service
       .getSubscribeCustomerCouponResultLoading()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);
@@ -157,7 +156,7 @@ describe('CustomerCouponService', () => {
     let result = false;
     service
       .getSubscribeCustomerCouponResultSuccess()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);
@@ -169,7 +168,7 @@ describe('CustomerCouponService', () => {
     let result = false;
     service
       .getSubscribeCustomerCouponResultError()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);
@@ -196,7 +195,7 @@ describe('CustomerCouponService', () => {
     let result = false;
     service
       .getUnsubscribeCustomerCouponResultLoading()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);
@@ -208,7 +207,7 @@ describe('CustomerCouponService', () => {
     let result = false;
     service
       .getUnsubscribeCustomerCouponResultSuccess()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);
@@ -220,7 +219,7 @@ describe('CustomerCouponService', () => {
     let result = false;
     service
       .getUnsubscribeCustomerCouponResultError()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);

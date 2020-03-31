@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   Event as NgRouterEvent,
@@ -6,7 +5,12 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
-import { Cart, CartService, ConsentService, OrderEntry } from '@spartacus/core';
+import {
+  ActiveCartService,
+  Cart,
+  ConsentService,
+  OrderEntry,
+} from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config';
@@ -19,8 +23,7 @@ describe('SpartacusEventTracker', () => {
   let routerEventsBehavior;
   let router;
   let consentsService;
-  let cartService;
-  let orderEntryBehavior;
+  let activeCartService;
   let cartBehavior;
   const mockCDSConfig: CdsConfig = {
     cds: {
@@ -33,7 +36,6 @@ describe('SpartacusEventTracker', () => {
     routerEventsBehavior = new BehaviorSubject<NgRouterEvent>(
       new NavigationStart(0, 'test.com', 'popstate')
     );
-    orderEntryBehavior = new ReplaySubject<OrderEntry[]>();
     cartBehavior = new ReplaySubject<Cart>();
     consentsService = {
       getConsent: () => getConsentBehavior,
@@ -42,8 +44,7 @@ describe('SpartacusEventTracker', () => {
     router = {
       events: routerEventsBehavior,
     };
-    cartService = {
-      getEntries: () => orderEntryBehavior,
+    activeCartService = {
       getActive: () => cartBehavior,
     };
   }
@@ -57,8 +58,8 @@ describe('SpartacusEventTracker', () => {
           useValue: consentsService,
         },
         {
-          provide: CartService,
-          useValue: cartService,
+          provide: ActiveCartService,
+          useValue: activeCartService,
         },
         {
           provide: CdsConfig,
@@ -66,9 +67,7 @@ describe('SpartacusEventTracker', () => {
         },
       ],
     });
-    spartacusEventTracker = TestBed.get(SpartacusEventService as Type<
-      SpartacusEventService
-    >);
+    spartacusEventTracker = TestBed.inject(SpartacusEventService);
   });
 
   it('should be created', () => {
@@ -80,7 +79,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .consentGranted()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     isConsentGivenValue = false;
     getConsentBehavior.next({ consent: 'test' });
@@ -101,7 +100,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .navigated()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     getConsentBehavior.next({ consent: 'test' });
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
@@ -116,61 +115,64 @@ describe('SpartacusEventTracker', () => {
     expect(timesCalled).toEqual(5);
   });
 
-  it(`Should call the push method for every CartSnapshot event`, () => {
+  it(`Should call the cartChanged method for every CartSnapshot event`, () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .cartChanged()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
-    const mockCartEntry: OrderEntry[] = [{ entryNumber: 7 }];
-    const mockCartEntry2: OrderEntry[] = [{ entryNumber: 1 }];
-    const testCart = { testCart: { id: 123 } };
+    const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
+    const mockOrderEntries: OrderEntry[] = [
+      { entryNumber: 7 },
+      { entryNumber: 1 },
+    ];
+    const testCart = { id: 123, entries: mockOrderEntry };
+    const testCartWithAdditionalOrderEntry = {
+      id: 123,
+      entries: mockOrderEntries,
+    };
     cartBehavior.next(testCart);
-    orderEntryBehavior.next(mockCartEntry);
-    orderEntryBehavior.next(mockCartEntry2);
+    cartBehavior.next(testCartWithAdditionalOrderEntry);
     subscription.unsubscribe();
     expect(timesCalled).toEqual(2);
   });
 
-  it(`Should not call the push method when the cart is not modified`, () => {
+  it(`Should not call the cartChanged method when the cart is not modified`, () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .cartChanged()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     subscription.unsubscribe();
     expect(timesCalled).toEqual(0);
   });
 
-  it(`Should not call the push method when the entries have only ever sent an empty array`, () => {
+  it(`Should not call the cartChanged method even when the entries have an empty array`, () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .cartChanged()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
-    subscription.unsubscribe();
-    cartBehavior.next({ testCart: { id: 123 } });
-    orderEntryBehavior.next([]);
-    orderEntryBehavior.next([]);
-    orderEntryBehavior.next([]);
+    cartBehavior.next({ id: 123, entries: [] });
+    cartBehavior.next({ id: 13, entries: [] });
     subscription.unsubscribe();
     expect(timesCalled).toEqual(0);
   });
 
-  it(`Should call the push method every time after a non-empty orderentry array is passed`, () => {
+  it(`Should call the cartChanged method every time after a non-empty cart is passed`, () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .cartChanged()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
-    cartBehavior.next({ testCart: { id: 123 } });
-    orderEntryBehavior.next([]);
-    orderEntryBehavior.next([]);
-    orderEntryBehavior.next([]);
-    orderEntryBehavior.next([{ test: {} }]);
-    orderEntryBehavior.next([{ test: {} }]);
-    orderEntryBehavior.next([]);
-    orderEntryBehavior.next([]);
+    const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
+    cartBehavior.next({ id: 123, entries: [] });
+    cartBehavior.next({ id: 123, entries: [] });
+    cartBehavior.next({ id: 123, entries: [] });
+    cartBehavior.next({ id: 123, entries: mockOrderEntry });
+    cartBehavior.next({ id: 123, entries: mockOrderEntry });
+    cartBehavior.next({ id: 123, entries: [] });
+    cartBehavior.next({ id: 123, entries: [] });
     subscription.unsubscribe();
     expect(timesCalled).toEqual(4);
   });

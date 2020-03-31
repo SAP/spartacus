@@ -1,15 +1,15 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/index';
 import { Cart } from '../../model/cart.model';
-import { PROCESS_FEATURE } from '../../process/store/process-state';
+import {
+  PROCESS_FEATURE,
+  StateWithProcess,
+} from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
-import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { CartActions } from '../store/actions/index';
-import { StateWithCart } from '../store/cart-state';
-import * as fromReducers from '../store/reducers/index';
+import { ActiveCartService } from './active-cart.service';
 import { CartVoucherService } from './cart-voucher.service';
 
 const userId = 'testUserId';
@@ -20,9 +20,15 @@ class AuthServiceStub {
   }
 }
 
+class ActiveCartServiceStub {
+  getActiveCartId(): Observable<string> {
+    return of('testCartId');
+  }
+}
+
 describe('CartVoucherService', () => {
   let service: CartVoucherService;
-  let store: Store<StateWithCart>;
+  let store: Store<StateWithProcess<void>>;
 
   const cart: Cart = { code: 'testCartId', guid: 'testGuid', totalItems: 2 };
   const voucherId = 'voucherTest1';
@@ -31,7 +37,6 @@ describe('CartVoucherService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromReducers.getReducers()),
         StoreModule.forFeature(
           PROCESS_FEATURE,
           fromProcessReducers.getReducers()
@@ -40,13 +45,21 @@ describe('CartVoucherService', () => {
       providers: [
         CartVoucherService,
         { provide: AuthService, useClass: AuthServiceStub },
+        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
       ],
     });
 
-    service = TestBed.get(CartVoucherService as Type<CartVoucherService>);
-    store = TestBed.get(Store as Type<Store<StateWithCart>>);
+    service = TestBed.inject(CartVoucherService);
+    store = TestBed.inject(Store);
 
-    store.dispatch(new DeprecatedCartActions.CreateCartSuccess(cart));
+    store.dispatch(
+      new CartActions.CreateCartSuccess({
+        cart,
+        userId: 'userId',
+        tempCartId: 'tempCartId',
+        cartId: cart.code,
+      })
+    );
   });
 
   describe('add Voucher', () => {
@@ -67,7 +80,7 @@ describe('CartVoucherService', () => {
       store.dispatch(new CartActions.CartAddVoucherFail('error'));
       service
         .getAddVoucherResultError()
-        .subscribe(result => expect(result).toEqual(true))
+        .subscribe((result) => expect(result).toEqual(true))
         .unsubscribe();
     });
 
@@ -80,7 +93,7 @@ describe('CartVoucherService', () => {
       );
       service
         .getAddVoucherResultSuccess()
-        .subscribe(result => expect(result).toEqual(true))
+        .subscribe((result) => expect(result).toEqual(true))
         .unsubscribe();
     });
 
@@ -95,7 +108,7 @@ describe('CartVoucherService', () => {
       let result = false;
       service
         .getAddVoucherResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);

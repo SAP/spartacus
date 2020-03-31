@@ -62,6 +62,10 @@ export const common = {
     internalServerError:
       'An Internal Server Error occurred. Please try again later.',
     unknownError: 'An unknown error occurred',
+    unauthorized: {
+      common: 'An unknown authorization error occured',
+      invalid_client: 'Bad client credentials',
+    },
     validationErrors: {
       missing: {
         card_cardType:
@@ -90,6 +94,10 @@ export const common = {
       invalid: {
         card_expirationMonth:
           'The credit card expiration date entered is not valid.',
+        firstName: 'First Name entered is not valid.',
+        lastName: 'Last Name entered is not valid.',
+        password: 'Password entered is not valid.',
+        uid: 'UID is not valid.',
       },
     },
     cartNotFound: 'Cart not found.',
@@ -97,6 +105,8 @@ export const common = {
   miniCart: {
     item: '{{count}} item currently in your cart',
     item_plural: '{{count}} items currently in your cart',
+    total: '{{total}}',
+    count: '{{count}}',
   },
   miniLogin: {
     userGreeting: 'Hi, {{name}}',

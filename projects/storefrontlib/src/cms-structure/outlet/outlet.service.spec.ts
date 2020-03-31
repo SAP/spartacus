@@ -31,9 +31,7 @@ const OUTLET_NAME_4 = 'OUTLET.4';
 class TestContainerComponent {}
 
 @Component({
-  template: `
-    any
-  `,
+  template: ` any `,
 })
 class AnyComponent {}
 @NgModule({
@@ -52,7 +50,7 @@ describe('OutletService', () => {
       providers: [OutletService],
     }).compileComponents();
 
-    outletService = TestBed.get(OutletService);
+    outletService = TestBed.inject(OutletService);
   });
 
   it('should be created', () => {
@@ -129,7 +127,7 @@ describe('OutletService', () => {
     let factory: ComponentFactory<any>;
 
     beforeEach(() => {
-      componentFactoryResolver = TestBed.get(ComponentFactoryResolver);
+      componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
       factory = componentFactoryResolver.resolveComponentFactory(AnyComponent);
     });
 

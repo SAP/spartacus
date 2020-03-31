@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { StrategyProducts } from '../model/strategy-products.model';
@@ -69,18 +68,12 @@ describe('CdsMerchandisingProductService', () => {
         },
       ],
     });
-    cdsMerchandisingPrductService = TestBed.get(
-      CdsMerchandisingProductService as Type<CdsMerchandisingProductService>
+    cdsMerchandisingPrductService = TestBed.inject(
+      CdsMerchandisingProductService
     );
-    strategyConnector = TestBed.get(MerchandisingStrategyConnector as Type<
-      MerchandisingStrategyConnector
-    >);
-    siteContextService = TestBed.get(CdsMerchandisingSiteContextService as Type<
-      CdsMerchandisingSiteContextService
-    >);
-    userContextService = TestBed.get(CdsMerchandisingUserContextService as Type<
-      CdsMerchandisingUserContextService
-    >);
+    strategyConnector = TestBed.inject(MerchandisingStrategyConnector);
+    siteContextService = TestBed.inject(CdsMerchandisingSiteContextService);
+    userContextService = TestBed.inject(CdsMerchandisingUserContextService);
   });
 
   it('should be created', () => {
@@ -114,7 +107,7 @@ describe('CdsMerchandisingProductService', () => {
     let actualStartegyProducts: StrategyProducts;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
-      .subscribe(productsForStrategy => {
+      .subscribe((productsForStrategy) => {
         actualStartegyProducts = productsForStrategy;
       })
       .unsubscribe();
@@ -153,7 +146,7 @@ describe('CdsMerchandisingProductService', () => {
     let actualStartegyProducts: StrategyProducts;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
-      .subscribe(productsForStrategy => {
+      .subscribe((productsForStrategy) => {
         actualStartegyProducts = productsForStrategy;
       })
       .unsubscribe();
@@ -189,7 +182,7 @@ describe('CdsMerchandisingProductService', () => {
     let actualStrategyProducts: StrategyProducts;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
-      .subscribe(productsForStrategy => {
+      .subscribe((productsForStrategy) => {
         actualStrategyProducts = productsForStrategy;
       })
       .unsubscribe();

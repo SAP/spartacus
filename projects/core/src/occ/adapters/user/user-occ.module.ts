@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AnonymousConsentTemplatesAdapter } from '../../../anonymous-consents/connectors/anonymous-consent-templates.adapter';
-import { ConfigModule } from '../../../config/config.module';
+import { provideDefaultConfig } from '../../../config/config.module';
 import { UserAddressAdapter } from '../../../user/connectors/address/user-address.adapter';
 import { UserConsentAdapter } from '../../../user/connectors/consent/user-consent.adapter';
 import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
@@ -27,12 +27,9 @@ import { ORDER_RETURN_REQUEST_NORMALIZER } from '../../../user/connectors/order/
 import { OccReturnRequestNormalizer } from './converters/index';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    ConfigModule.withConfig(defaultOccUserConfig),
-  ],
+  imports: [CommonModule, HttpClientModule],
   providers: [
+    provideDefaultConfig(defaultOccUserConfig),
     { provide: UserAdapter, useClass: OccUserAdapter },
     { provide: UserAddressAdapter, useClass: OccUserAddressAdapter },
     { provide: UserConsentAdapter, useClass: OccUserConsentAdapter },

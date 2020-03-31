@@ -1,11 +1,10 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { Review } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
-import { ProductsState, PRODUCT_FEATURE } from '../store/product-state';
+import { PRODUCT_FEATURE, ProductsState } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductReviewService } from './product-review.service';
 
@@ -25,8 +24,8 @@ describe('ReviewService', () => {
       ],
       providers: [ProductReviewService],
     });
-    store = TestBed.get(Store as Type<Store<ProductsState>>);
-    service = TestBed.get(ProductReviewService as Type<ProductReviewService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(ProductReviewService);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -44,7 +43,7 @@ describe('ReviewService', () => {
         of([mockReview])
       );
       let result: Review[];
-      service.getByProductCode('testId').subscribe(reviews => {
+      service.getByProductCode('testId').subscribe((reviews) => {
         result = reviews;
       });
       expect(result).toEqual([mockReview]);
@@ -54,10 +53,7 @@ describe('ReviewService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(undefined)
       );
-      service
-        .getByProductCode('testId')
-        .subscribe()
-        .unsubscribe();
+      service.getByProductCode('testId').subscribe().unsubscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ProductActions.LoadProductReviews('testId')

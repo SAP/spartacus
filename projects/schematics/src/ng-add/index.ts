@@ -5,9 +5,10 @@ import {
   schematic,
   SchematicContext,
   Tree,
+  externalSchematic,
 } from '@angular-devkit/schematics';
 
-export default function(options: any): Rule {
+export default function (options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     const enablePWA = options.pwa;
     const enableSSR = options.ssr;
@@ -19,6 +20,7 @@ export default function(options: any): Rule {
       enableSSR && JSON.parse(options.ssr)
         ? schematic('add-ssr', options)
         : noop(),
+      externalSchematic('@angular/localize', 'ng-add', options),
     ])(host, context);
   };
 }

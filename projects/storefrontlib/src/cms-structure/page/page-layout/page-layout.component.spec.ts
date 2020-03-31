@@ -24,26 +24,24 @@ const slots = {
     </cx-page-layout>
   `,
 })
-export class MockPageTemplateComponent {}
+class MockPageTemplateComponent {}
 
 @Component({
   selector: 'cx-page-header-test',
-  template: `
-    <cx-page-layout section="header"> </cx-page-layout>
-  `,
+  template: ` <cx-page-layout section="header"> </cx-page-layout> `,
 })
-export class MockHeaderComponent {}
+class MockHeaderComponent {}
 
 @Component({
   selector: 'cx-page-slot',
   template: 'dynamic-slot.component',
 })
-export class MockDynamicSlotComponent {
+class MockDynamicSlotComponent {
   @Input() position: string;
   @Input() isPageFold;
 }
 
-export class MockCmsService {
+class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of({
       pageId: 'page_uid',
@@ -63,7 +61,7 @@ export class MockCmsService {
   }
 }
 
-export class MockPageLayoutService {
+class MockPageLayoutService {
   getSlots(section?: string): Observable<string[]> {
     if (section) {
       return of(['LogoSlot']);
@@ -80,7 +78,7 @@ export class MockPageLayoutService {
   }
 }
 
-export class MockDeferLoaderService {
+class MockDeferLoaderService {
   load(_element: HTMLElement, _options?: any) {
     return of(true);
   }
@@ -104,7 +102,7 @@ export class MockDeferLoaderService {
     { provide: DeferLoaderService, useClass: MockDeferLoaderService },
   ],
 })
-export class TestModule {}
+class TestModule {}
 
 describe('PageLayoutComponent', () => {
   let pageLayoutComponent: MockPageTemplateComponent;

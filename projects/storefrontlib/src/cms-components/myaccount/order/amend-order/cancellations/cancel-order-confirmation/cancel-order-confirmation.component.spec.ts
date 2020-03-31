@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -6,7 +6,6 @@ import { I18nTestingModule, Order, OrderEntry } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.component';
-
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -37,7 +36,7 @@ const mockForm: FormGroup = new FormGroup({});
 const entryGroup = new FormGroup({});
 mockForm.addControl('entries', entryGroup);
 mockForm.addControl('orderCode', new FormControl(mockOrder.code));
-mockOrder.entries.forEach(entry => {
+mockOrder.entries.forEach((entry) => {
   const key = entry.entryNumber.toString();
   entryGroup.addControl(key, new FormControl(0));
 });
@@ -74,7 +73,7 @@ describe('CancelOrderConfirmationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CancelOrderConfirmationComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(OrderAmendService as Type<OrderAmendService>);
+    service = TestBed.inject(OrderAmendService);
   });
 
   it('should create', () => {
@@ -89,7 +88,7 @@ describe('CancelOrderConfirmationComponent', () => {
 
   it('should get cancelled entries', () => {
     let entries: OrderEntry[];
-    component.entries$.subscribe(value => (entries = value)).unsubscribe();
+    component.entries$.subscribe((value) => (entries = value)).unsubscribe();
     expect(entries).toEqual([{ entryNumber: 0 }, { entryNumber: 3 }]);
   });
 

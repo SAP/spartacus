@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, ReturnRequest } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -25,7 +24,7 @@ class MockReturnRequestService {
 describe('ReturnRequestOverviewComponent', () => {
   let component: ReturnRequestOverviewComponent;
   let fixture: ComponentFixture<ReturnRequestOverviewComponent>;
-  let returnRequestService: MockReturnRequestService;
+  let returnRequestService: ReturnRequestService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,9 +40,7 @@ describe('ReturnRequestOverviewComponent', () => {
     fixture = TestBed.createComponent(ReturnRequestOverviewComponent);
     component = fixture.componentInstance;
 
-    returnRequestService = TestBed.get(ReturnRequestService as Type<
-      ReturnRequestService
-    >);
+    returnRequestService = TestBed.inject(ReturnRequestService);
   });
 
   it('should create', () => {

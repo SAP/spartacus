@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -38,9 +37,9 @@ describe('UserOrderService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(UserOrderService as Type<UserOrderService>);
+    service = TestBed.inject(UserOrderService);
   });
 
   it('should UserOrderService is injected', inject(
@@ -58,7 +57,7 @@ describe('UserOrderService', () => {
     let order: Order;
     service
       .getOrderDetails()
-      .subscribe(data => {
+      .subscribe((data) => {
         order = data;
       })
       .unsubscribe();
@@ -94,7 +93,7 @@ describe('UserOrderService', () => {
     let orderList: OrderHistoryList;
     service
       .getOrderHistoryList(1)
-      .subscribe(data => {
+      .subscribe((data) => {
         orderList = data;
       })
       .unsubscribe();
@@ -111,7 +110,7 @@ describe('UserOrderService', () => {
     let orderListLoaded: boolean;
     service
       .getOrderHistoryListLoaded()
-      .subscribe(data => {
+      .subscribe((data) => {
         orderListLoaded = data;
       })
       .unsubscribe();
@@ -145,7 +144,7 @@ describe('UserOrderService', () => {
     );
     service
       .getConsignmentTracking()
-      .subscribe(r => expect(r).toEqual({ trackingID: '1234567890' }))
+      .subscribe((r) => expect(r).toEqual({ trackingID: '1234567890' }))
       .unsubscribe();
   });
 
@@ -153,6 +152,7 @@ describe('UserOrderService', () => {
     service.loadConsignmentTracking('orderCode', 'consignmentCode');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadConsignmentTracking({
+        userId: OCC_USER_ID_CURRENT,
         orderCode: 'orderCode',
         consignmentCode: 'consignmentCode',
       })
@@ -187,7 +187,7 @@ describe('UserOrderService', () => {
     );
     service
       .getCancelOrderLoading()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
@@ -195,7 +195,7 @@ describe('UserOrderService', () => {
     store.dispatch(new UserActions.CancelOrderSuccess());
     service
       .getCancelOrderSuccess()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 

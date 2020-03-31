@@ -21,7 +21,7 @@ export class UserOrdersEffect {
   > = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_ORDERS),
     map((action: UserActions.LoadUserOrders) => action.payload),
-    switchMap(payload => {
+    switchMap((payload) => {
       return this.orderConnector
         .getHistory(
           payload.userId,
@@ -33,7 +33,7 @@ export class UserOrdersEffect {
           map((orders: OrderHistoryList) => {
             return new UserActions.LoadUserOrdersSuccess(orders);
           }),
-          catchError(error =>
+          catchError((error) =>
             of(new UserActions.LoadUserOrdersFail(makeErrorSerializable(error)))
           )
         );

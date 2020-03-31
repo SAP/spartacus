@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Order, RoutingService, UserOrderService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -102,9 +101,9 @@ describe('OrderDetailsService', () => {
       ],
     });
 
-    service = TestBed.get(OrderDetailsService as Type<OrderDetailsService>);
-    userService = TestBed.get(UserOrderService as Type<UserOrderService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    service = TestBed.inject(OrderDetailsService);
+    userService = TestBed.inject(UserOrderService);
+    routingService = TestBed.inject(RoutingService);
   });
 
   it('should be created', () => {
@@ -121,7 +120,7 @@ describe('OrderDetailsService', () => {
     let orderDetails;
     service
       .getOrderDetails()
-      .subscribe(data => (orderDetails = data))
+      .subscribe((data) => (orderDetails = data))
       .unsubscribe();
     expect(userService.loadOrderDetails).toHaveBeenCalledWith('1');
     expect(userService.getOrderDetails).toHaveBeenCalled();
@@ -138,7 +137,7 @@ describe('OrderDetailsService', () => {
     let orderDetails;
     service
       .getOrderDetails()
-      .subscribe(data => (orderDetails = data))
+      .subscribe((data) => (orderDetails = data))
       .unsubscribe();
     expect(userService.clearOrderDetails).toHaveBeenCalled();
     expect(userService.getOrderDetails).toHaveBeenCalled();

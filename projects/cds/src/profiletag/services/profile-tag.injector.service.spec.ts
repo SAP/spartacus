@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Cart, OrderEntry } from '@spartacus/core';
 import { of, ReplaySubject, Subject } from 'rxjs';
@@ -15,36 +14,36 @@ describe('ProfileTagInjector', () => {
   let profileTagInjector: ProfileTagInjectorService;
   let addTrackerBehavior: Subject<Event>;
   let profileTagEventTrackerMock: ProfileTagEventService;
-  let cartBehavior: Subject<{ entries: OrderEntry[]; cart: Cart }>;
+  let cartBehavior: Subject<{ cart: Cart }>;
   let consentBehavior: Subject<boolean>;
   let navigatedBehavior: Subject<boolean>;
   let spartacusEventTrackerMock: SpartacusEventService;
   function setVariables() {
-    cartBehavior = new ReplaySubject<{ entries: OrderEntry[]; cart: Cart }>();
+    cartBehavior = new ReplaySubject<{ cart: Cart }>();
     consentBehavior = new ReplaySubject<boolean>();
     navigatedBehavior = new ReplaySubject<boolean>();
     addTrackerBehavior = new ReplaySubject<Event>();
     spartacusEventTrackerMock = <SpartacusEventService>(<unknown>{
       consentGranted: jasmine
         .createSpy('consentGranted')
-        .and.callFake(_ => consentBehavior),
+        .and.callFake(() => consentBehavior),
       navigated: jasmine
         .createSpy('navigated')
-        .and.callFake(_ => navigatedBehavior),
+        .and.callFake(() => navigatedBehavior),
       cartChanged: jasmine
         .createSpy('cartChanged')
-        .and.callFake(_ => cartBehavior),
+        .and.callFake(() => cartBehavior),
     });
     profileTagEventTrackerMock = <ProfileTagEventService>(<unknown>{
       addTracker: jasmine
         .createSpy('addTracker')
-        .and.callFake(_ => addTrackerBehavior),
+        .and.callFake(() => addTrackerBehavior),
       notifyProfileTagOfEventOccurence: jasmine.createSpy(
         'notifyProfileTagOfEventOccurence'
       ),
       getProfileTagEvents: jasmine
         .createSpy('getProfileTagEvents')
-        .and.callFake(_ => of()),
+        .and.callFake(() => of()),
     });
   }
   beforeEach(() => {
@@ -61,9 +60,7 @@ describe('ProfileTagInjector', () => {
         },
       ],
     });
-    profileTagInjector = TestBed.get(ProfileTagInjectorService as Type<
-      ProfileTagInjectorService
-    >);
+    profileTagInjector = TestBed.inject(ProfileTagInjectorService);
   });
 
   it('Should be created', () => {
@@ -89,9 +86,9 @@ describe('ProfileTagInjector', () => {
   it('Should notify profile tag of cart change', () => {
     const subscription = profileTagInjector.track().subscribe();
     const cartEntry: OrderEntry[] = [{ entryNumber: 7 }];
-    const testCart = <Cart>{ testCart: { id: 123 } };
+    const testCart = <Cart>{ testCart: { id: 123, entries: cartEntry } };
     addTrackerBehavior.next(new CustomEvent('test'));
-    cartBehavior.next({ entries: cartEntry, cart: testCart });
+    cartBehavior.next({ cart: testCart });
 
     subscription.unsubscribe();
     expect(
@@ -99,9 +96,7 @@ describe('ProfileTagInjector', () => {
     ).toHaveBeenCalled();
     expect(
       profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
-    ).toHaveBeenCalledWith(
-      new CartChangedPushEvent({ entries: cartEntry, cart: testCart })
-    );
+    ).toHaveBeenCalledWith(new CartChangedPushEvent({ cart: testCart }));
   });
 
   it('Should notify profile tag of page loaded', () => {

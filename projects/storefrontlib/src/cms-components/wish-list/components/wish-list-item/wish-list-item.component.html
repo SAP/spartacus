@@ -1,7 +1,10 @@
 <div class="row">
   <!-- Item Image -->
   <div class="cx-image-container col-2">
-    <a [routerLink]="{ cxRoute: 'product', params: cartEntry.product } | cxUrl">
+    <a
+      [routerLink]="{ cxRoute: 'product', params: cartEntry.product } | cxUrl"
+      tabindex="-1"
+    >
       <cx-media
         [container]="cartEntry.product.images?.PRIMARY"
         format="thumbnail"
@@ -10,7 +13,7 @@
   </div>
   <!-- Item Information -->
   <div class="cx-info col-10">
-    <div class="cx-info-container row ">
+    <div class="cx-info-container row">
       <!-- Item Description -->
       <div class="col-md-5 col-lg-5 col-xl-5">
         <div *ngIf="cartEntry.product.name" class="cx-name">
@@ -26,17 +29,19 @@
           {{ 'cartItems.id' | cxTranslate }} {{ cartEntry.product.code }}
         </div>
         <!-- Variants -->
-        <div
-          *ngFor="
-            let variant of cartEntry.product.baseOptions[0]?.selected
-              ?.variantOptionQualifiers
-          "
-          class="cx-property"
-        >
-          <div class="cx-label" *ngIf="variant.name && variant.value">
-            {{ variant.name }}: {{ variant.value }}
+        <ng-container *ngIf="cartEntry.product.baseOptions?.length">
+          <div
+            *ngFor="
+              let variant of cartEntry.product.baseOptions[0]?.selected
+                ?.variantOptionQualifiers
+            "
+            class="cx-property"
+          >
+            <div class="cx-label" *ngIf="variant.name && variant.value">
+              {{ variant.name }}: {{ variant.value }}
+            </div>
           </div>
-        </div>
+        </ng-container>
       </div>
       <!-- Item Price -->
       <div

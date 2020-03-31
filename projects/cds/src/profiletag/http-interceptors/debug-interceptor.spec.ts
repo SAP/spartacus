@@ -1,24 +1,22 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '@spartacus/core';
 import { ProfileTagEventService } from '../services/profiletag-event.service';
 import { DebugInterceptor } from './debug-interceptor';
 
 describe('Debug interceptor', () => {
-  const ProfileTagEventTrackerMock = {
-    get profileTagDebug() {
-      return false;
-    },
-  };
+  let ProfileTagEventTrackerMock;
   const occEndPointsMock = {
     getBaseEndpoint: () => '/occ',
   };
   beforeEach(() => {
+    ProfileTagEventTrackerMock = {
+      profileTagDebug: false,
+    };
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
@@ -49,10 +47,10 @@ describe('Debug interceptor', () => {
             testHeader: 'test',
           },
         })
-        .subscribe(res => (response = res));
+        .subscribe((res) => (response = res));
       mock
         .expectOne(
-          req =>
+          (req) =>
             req.headers.has('testHeader') &&
             req.headers.has('X-Profile-Tag-Debug') &&
             req.headers.get('X-Profile-Tag-Debug') === 'false'
@@ -66,9 +64,7 @@ describe('Debug interceptor', () => {
   it('Should modify the x-profile-tag-debug header if the value is true', inject(
     [HttpClient, HttpTestingController],
     (http: HttpClient, mock: HttpTestingController) => {
-      const injector = TestBed.get(ProfileTagEventService as Type<
-        ProfileTagEventService
-      >);
+      const injector = TestBed.inject(ProfileTagEventService);
       injector.profileTagDebug = true;
       let response;
       http
@@ -77,10 +73,10 @@ describe('Debug interceptor', () => {
             testHeader: 'test',
           },
         })
-        .subscribe(res => (response = res));
+        .subscribe((res) => (response = res));
       mock
         .expectOne(
-          req =>
+          (req) =>
             req.headers.has('testHeader') &&
             req.headers.has('X-Profile-Tag-Debug') &&
             req.headers.get('X-Profile-Tag-Debug') === 'true'
@@ -94,9 +90,7 @@ describe('Debug interceptor', () => {
   it('Should not add the x-profile-tag-debug header if url is not occ', inject(
     [HttpClient, HttpTestingController],
     (http: HttpClient, mock: HttpTestingController) => {
-      const injector = TestBed.get(ProfileTagEventService as Type<
-        ProfileTagEventService
-      >);
+      const injector = TestBed.inject(ProfileTagEventService);
       injector.profileTagDebug = true;
       let response;
       http
@@ -105,10 +99,10 @@ describe('Debug interceptor', () => {
             testHeader: 'test',
           },
         })
-        .subscribe(res => (response = res));
+        .subscribe((res) => (response = res));
       mock
         .expectOne(
-          req =>
+          (req) =>
             req.headers.has('testHeader') &&
             !req.headers.has('X-Profile-Tag-Debug')
         )

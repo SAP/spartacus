@@ -22,42 +22,13 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   loginAsGuest = false;
 
   constructor(
-    auth: AuthService,
-    globalMessageService: GlobalMessageService,
-    fb: FormBuilder,
-    authRedirectService: AuthRedirectService,
-    winRef: WindowRef, // tslint:disable-line,
-    activatedRoute: ActivatedRoute,
-    checkoutConfigService: CheckoutConfigService
-  );
-
-  /**
-   * @deprecated since 1.1.0
-   * Use constructor(
-   * auth: AuthService,
-   * globalMessageService: GlobalMessageService,
-   * fb: FormBuilder,
-   * authRedirectService: AuthRedirectService,
-   *  winRef: WindowRef,
-   * activatedRoute: ActivatedRoute,
-   * checkoutConfigService: CheckoutConfigService) instead
-   *
-   * TODO(issue:#4055) Deprecated since 1.1.0
-   */
-  constructor(
-    auth: AuthService,
-    globalMessageService: GlobalMessageService,
-    fb: FormBuilder,
-    authRedirectService: AuthRedirectService
-  );
-  constructor(
-    private auth: AuthService,
-    private globalMessageService: GlobalMessageService,
-    private fb: FormBuilder,
-    private authRedirectService: AuthRedirectService,
-    private winRef?: WindowRef,
-    private activatedRoute?: ActivatedRoute,
-    private checkoutConfigService?: CheckoutConfigService
+    protected auth: AuthService,
+    protected globalMessageService: GlobalMessageService,
+    protected fb: FormBuilder,
+    protected authRedirectService: AuthRedirectService,
+    protected winRef: WindowRef,
+    protected activatedRoute: ActivatedRoute,
+    protected checkoutConfigService: CheckoutConfigService
   ) {}
 
   ngOnInit(): void {
@@ -66,26 +37,30 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       password: ['', Validators.required],
     });
 
-    if (
-      this.checkoutConfigService &&
-      this.checkoutConfigService.isGuestCheckout()
-    ) {
-      this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
+    if (this.checkoutConfigService.isGuestCheckout()) {
+      this.loginAsGuest = this.activatedRoute?.snapshot?.queryParams?.[
+        'forced'
+      ];
     }
 
-    // TODO(issue:#4055) Deprecated since 1.1.0
-    if (this.winRef && this.winRef.nativeWindow) {
-      const routeState =
-        this.winRef.nativeWindow.history &&
-        this.winRef.nativeWindow.history.state;
+    const prefilledEmail = this.winRef?.nativeWindow?.history?.state?.[
+      'newUid'
+    ];
 
-      if (routeState && routeState['newUid'] && routeState['newUid'].length) {
-        this.prefillForm('userId', routeState['newUid']);
-      }
+    if (prefilledEmail?.length) {
+      this.prefillForm('userId', prefilledEmail);
     }
   }
 
   login(): void {
+    if (this.form.valid) {
+      this.submitLogin();
+    } else {
+      this.markFormAsTouched();
+    }
+  }
+
+  private submitLogin(): void {
     const { userId, password } = this.form.controls;
     this.auth.authorize(
       userId.value.toLowerCase(), // backend accepts lowercase emails only
@@ -93,13 +68,19 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     );
 
     if (!this.sub) {
-      this.sub = this.auth.getUserToken().subscribe(data => {
+      this.sub = this.auth.getUserToken().subscribe((data) => {
         if (data && data.access_token) {
           this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
           this.authRedirectService.redirect();
         }
       });
     }
+  }
+
+  private markFormAsTouched(): void {
+    Object.keys(this.form.controls).forEach((key) => {
+      this.form.controls[key].markAsTouched();
+    });
   }
 
   ngOnDestroy(): void {

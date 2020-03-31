@@ -1,36 +1,70 @@
-import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { experimental, JsonParseMode, parseJson } from '@angular-devkit/core';
+import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
+
+const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
+
+export function getSourceRoot(
+  host: Tree,
+  options: { project?: string | undefined; path?: string | undefined } = {}
+): string {
+  const workspace = getWorkspace(host).workspace;
+
+  if (!options.project) {
+    options.project =
+      workspace.defaultProject !== undefined
+        ? workspace.defaultProject
+        : Object.keys(workspace.projects)[0];
+  }
+
+  const sourceRoot = workspace.projects[options.project].sourceRoot;
+  if (!sourceRoot) {
+    throw new SchematicsException('No default project found');
+  }
+
+  return sourceRoot;
+}
 
 export function getWorkspace(
   host: Tree,
-  files: string[]
+  files = DEFAULT_POSSIBLE_PROJECT_FILES
 ): { path: string; workspace: experimental.workspace.WorkspaceSchema } {
-  const path = files.filter(filePath => host.exists(filePath))[0];
+  const angularJson = getAngularJsonFile(host, files);
+  const path = files.filter((filePath) => host.exists(filePath))[0];
 
+  return {
+    path,
+    workspace: angularJson,
+  };
+}
+
+function getAngularJsonFile(
+  tree: Tree,
+  possibleProjectFiles = DEFAULT_POSSIBLE_PROJECT_FILES
+): experimental.workspace.WorkspaceSchema {
+  const path = possibleProjectFiles.filter((filePath) =>
+    tree.exists(filePath)
+  )[0];
   if (!path) {
     throw new SchematicsException(`Could not find Angular`);
   }
 
-  const configBuffer = host.read(path);
+  const configBuffer = tree.read(path);
   if (configBuffer === null) {
     throw new SchematicsException(`Could not find (${path})`);
   }
-  const content = configBuffer.toString();
 
-  return {
-    path,
-    workspace: (parseJson(
-      content,
-      JsonParseMode.Loose
-    ) as {}) as experimental.workspace.WorkspaceSchema,
-  };
+  const angularJsonContent = configBuffer.toString();
+  return (parseJson(
+    angularJsonContent,
+    JsonParseMode.Loose
+  ) as unknown) as experimental.workspace.WorkspaceSchema;
 }
 
 export function getProjectFromWorkspace(
   tree: Tree,
   options: SpartacusOptions,
-  files: string[]
+  files = DEFAULT_POSSIBLE_PROJECT_FILES
 ): experimental.workspace.WorkspaceProject {
   const { workspace } = getWorkspace(tree, files);
 

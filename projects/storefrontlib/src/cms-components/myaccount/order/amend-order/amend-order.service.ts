@@ -9,7 +9,7 @@ import { AmendOrderType } from './amend-order.model';
 
 function ValidateQuantity(control: FormControl) {
   let q = 0;
-  Object.keys(control.value).forEach(key => (q += control.value[key]));
+  Object.keys(control.value).forEach((key) => (q += control.value[key]));
 
   return q > 0 ? null : { required: true };
 }
@@ -31,10 +31,12 @@ export abstract class OrderAmendService {
    */
   getAmendedEntries(): Observable<OrderEntry[]> {
     return this.getForm().pipe(
-      switchMap(form => {
+      switchMap((form) => {
         return this.getEntries().pipe(
-          map(entries =>
-            entries.filter(entry => this.getFormControl(form, entry).value > 0)
+          map((entries) =>
+            entries.filter(
+              (entry) => this.getFormControl(form, entry).value > 0
+            )
           )
         );
       })
@@ -55,7 +57,7 @@ export abstract class OrderAmendService {
    */
   getForm(): Observable<FormGroup> {
     return this.getOrder().pipe(
-      tap(order => {
+      tap((order) => {
         if (!this.form || this.form.get('orderCode').value !== order.code) {
           this.buildForm(order);
         }
@@ -71,7 +73,7 @@ export abstract class OrderAmendService {
     const entryGroup = new FormGroup({}, { validators: [ValidateQuantity] });
     this.form.addControl('entries', entryGroup);
 
-    (order.entries || []).forEach(entry => {
+    (order.entries || []).forEach((entry) => {
       const key = entry.entryNumber.toString();
       entryGroup.addControl(
         key,

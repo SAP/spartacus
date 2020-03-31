@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -40,9 +39,9 @@ describe('UserPaymentService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(UserPaymentService as Type<UserPaymentService>);
+    service = TestBed.inject(UserPaymentService);
   });
 
   it('should UserPaymentService is injected', inject(
@@ -70,7 +69,7 @@ describe('UserPaymentService', () => {
     let paymentMethods: PaymentDetails[];
     service
       .getPaymentMethods()
-      .subscribe(data => {
+      .subscribe((data) => {
         paymentMethods = data;
       })
       .unsubscribe();
@@ -83,7 +82,7 @@ describe('UserPaymentService', () => {
     let flag: boolean;
     service
       .getPaymentMethodsLoading()
-      .subscribe(data => {
+      .subscribe((data) => {
         flag = data;
       })
       .unsubscribe();
@@ -96,7 +95,7 @@ describe('UserPaymentService', () => {
     let flag: boolean;
     service
       .getPaymentMethodsLoadedSuccess()
-      .subscribe(data => {
+      .subscribe((data) => {
         flag = data;
       })
       .unsubscribe();
@@ -127,7 +126,7 @@ describe('UserPaymentService', () => {
     let results: Country[];
     service
       .getAllBillingCountries()
-      .subscribe(data => {
+      .subscribe((data) => {
         results = data;
       })
       .unsubscribe();

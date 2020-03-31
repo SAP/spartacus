@@ -3,17 +3,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
+  ActiveCartService,
   AuthRedirectService,
-  CartService,
   I18nTestingModule,
   User,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';
-
 import createSpy = jasmine.createSpy;
 
-class MockCartService {
+class MockActiveCartService {
   addEmail = createSpy('MockCartService.addEmail');
   getAssignedUser() {
     return of();
@@ -31,7 +30,7 @@ const testEmail = 'john@acme.com';
 describe('CheckoutLoginComponent', () => {
   let component: CheckoutLoginComponent;
   let fixture: ComponentFixture<CheckoutLoginComponent>;
-  let cartService: CartService;
+  let activeCartService: ActiveCartService;
   let authRedirectService: AuthRedirectService;
   let el: DebugElement;
 
@@ -44,7 +43,7 @@ describe('CheckoutLoginComponent', () => {
       imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [CheckoutLoginComponent],
       providers: [
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         {
           provide: AuthRedirectService,
           useClass: MockRedirectAfterAuthService,
@@ -62,8 +61,8 @@ describe('CheckoutLoginComponent', () => {
     email = controls['email'];
     emailConfirmation = controls['emailConfirmation'];
 
-    cartService = TestBed.get(CartService);
-    authRedirectService = TestBed.get(AuthRedirectService);
+    activeCartService = TestBed.inject(ActiveCartService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
 
     fixture.detectChanges();
   });
@@ -109,10 +108,10 @@ describe('CheckoutLoginComponent', () => {
 
   describe('on submit', () => {
     it('should submit when form is populated correctly', () => {
-      spyOn(cartService, 'getAssignedUser').and.returnValue(
+      spyOn(activeCartService, 'getAssignedUser').and.returnValue(
         of({ name: 'guest', uid: 'john@acme.com' } as User)
       );
-      spyOn(cartService, 'isGuestCart').and.returnValue(true);
+      spyOn(activeCartService, 'isGuestCart').and.returnValue(true);
 
       email.setValue(testEmail);
       emailConfirmation.setValue(testEmail);
@@ -126,7 +125,7 @@ describe('CheckoutLoginComponent', () => {
         expect(isFormControlDisplayingError('email')).toBeFalsy();
         expect(isFormControlDisplayingError('emailConfirmation')).toBeFalsy();
 
-        expect(cartService.addEmail).toHaveBeenCalledWith(testEmail);
+        expect(activeCartService.addEmail).toHaveBeenCalledWith(testEmail);
         expect(authRedirectService.redirect).toHaveBeenCalled();
       });
     });
