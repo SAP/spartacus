@@ -107,7 +107,7 @@ describe('ProductListComponentService', () => {
   describe('model$', () => {
     it('should return search results', () => {
       let result;
-      service.model$.subscribe(res => (result = res));
+      service.model$.subscribe((res) => (result = res));
       expect(result).toEqual({ products: [] });
     });
 

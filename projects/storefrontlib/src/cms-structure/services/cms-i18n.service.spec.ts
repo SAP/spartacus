@@ -16,7 +16,7 @@ describe('CmsI18nService', () => {
   };
   const mockTranslationChunk = {
     getChunkNameForKey: createSpy('getChunkNameForKey').and.callFake(
-      key => `chunkFor-${key}`
+      (key) => `chunkFor-${key}`
     ),
   };
 

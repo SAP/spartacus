@@ -5,10 +5,11 @@ import {
 import * as login from '../../../helpers/login';
 import { formats } from '../../../sample-data/viewports';
 
-describe(`${formats.mobile.width +
-  1}p resolution - Consent Management Page`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - Consent Management Page`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   beforeEach(() => {

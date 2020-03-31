@@ -4,7 +4,7 @@ import { formats } from '../../sample-data/viewports';
 
 describe(`${formats.mobile.width + 1}p resolution - Login`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.visit('/');
 
@@ -24,9 +24,7 @@ describe(`${formats.mobile.width + 1}p resolution - Login`, () => {
 
     const tokenRevocationRequestAlias = login.listenForTokenRevocationReqest();
     login.signOutUser();
-    cy.wait(tokenRevocationRequestAlias)
-      .its('status')
-      .should('eq', 200);
+    cy.wait(tokenRevocationRequestAlias).its('status').should('eq', 200);
   });
 
   it('login should fail if password is wrong', () => {

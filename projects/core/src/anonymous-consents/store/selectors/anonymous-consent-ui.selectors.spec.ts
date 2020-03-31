@@ -40,7 +40,7 @@ describe('anonymous consent ui selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(updated);
@@ -60,7 +60,7 @@ describe('anonymous consent ui selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentsBannerDismissed)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(dismissed);

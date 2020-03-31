@@ -27,15 +27,15 @@ export class ProfileTagInjectorService {
 
   track(): Observable<boolean> {
     return this.profileTagEventTracker.addTracker().pipe(
-      switchMap(_ => merge(this.injectionsEvents$, this.profileTagEvents$)),
+      switchMap(() => merge(this.injectionsEvents$, this.profileTagEvents$)),
       mapTo(true)
     );
   }
 
   private notifyProfileTagOfConsentGranted(): Observable<boolean> {
     return this.spartacusEventTracker.consentGranted().pipe(
-      filter(granted => Boolean(granted)),
-      tap(granted => {
+      filter((granted) => Boolean(granted)),
+      tap((granted) => {
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
           new ConsentChangedPushEvent(granted)
         );
@@ -45,7 +45,7 @@ export class ProfileTagInjectorService {
 
   private notifyProfileTagOfCartChange(): Observable<boolean> {
     return this.spartacusEventTracker.cartChanged().pipe(
-      tap(cart => {
+      tap((cart) => {
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
           new CartChangedPushEvent(cart)
         );
@@ -56,7 +56,7 @@ export class ProfileTagInjectorService {
 
   private notifyProfileTagOfPageLoaded(): Observable<boolean> {
     return this.spartacusEventTracker.navigated().pipe(
-      tap(_ => {
+      tap(() => {
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
           new NavigatedPushEvent()
         );

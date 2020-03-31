@@ -3,7 +3,7 @@ import * as alerts from '../../../helpers/global-message';
 context('Reset Password Page', () => {
   beforeEach(() => {
     // Clear the session to make sure no user is authenticated.
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/login/pw/change');
   });
 

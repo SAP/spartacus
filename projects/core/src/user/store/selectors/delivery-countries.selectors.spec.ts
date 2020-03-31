@@ -37,7 +37,7 @@ describe('Delivery Countries Selectors', () => {
       let result: Country[];
       store
         .pipe(select(UsersSelectors.getAllDeliveryCountries))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 
@@ -67,7 +67,7 @@ describe('Delivery Countries Selectors', () => {
 
       store
         .pipe(select(UsersSelectors.countrySelectorFactory(isocode)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new UserActions.LoadDeliveryCountriesSuccess(mockCountries)

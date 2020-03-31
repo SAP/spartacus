@@ -267,7 +267,7 @@ describe('Cart effect', () => {
   describe('refresh$', () => {
     const cartChangesSuccessActions = ['CartAddVoucherSuccess'];
 
-    cartChangesSuccessActions.forEach(actionName => {
+    cartChangesSuccessActions.forEach((actionName) => {
       it(`should refresh cart on ${actionName}`, () => {
         const action = new CartActions[actionName]({
           userId: userId,
@@ -301,7 +301,7 @@ describe('Cart effect', () => {
       'CartRemoveVoucherSuccess',
     ];
 
-    cartChangesSuccessActions.forEach(actionName => {
+    cartChangesSuccessActions.forEach((actionName) => {
       it(`should refresh cart on ${actionName}`, () => {
         const action = new CartActions[actionName]({
           userId: userId,
@@ -325,7 +325,7 @@ describe('Cart effect', () => {
   describe('resetCartDetailsOnSiteContextChange$', () => {
     const siteContextChangeActions = ['LanguageChange', 'CurrencyChange'];
 
-    siteContextChangeActions.forEach(actionName => {
+    siteContextChangeActions.forEach((actionName) => {
       it(`should reset cart details on ${actionName}`, () => {
         const action = new SiteContextActions[actionName]();
         const resetCartDetailsCompletion = new DeprecatedCartActions.ResetCartDetails();

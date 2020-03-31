@@ -48,7 +48,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
 
   private resetOnNavigate(): void {
     this.subscriptions.add(
-      this.routingService.isNavigating().subscribe(isNavigating => {
+      this.routingService.isNavigating().subscribe((isNavigating) => {
         if (isNavigating) {
           this.resetTimer();
         }
@@ -61,7 +61,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
       this.authService
         .getOccUserId()
         .pipe(distinctUntilChanged())
-        .subscribe(_ => this.resetTimer())
+        .subscribe(() => this.resetTimer())
     );
   }
 

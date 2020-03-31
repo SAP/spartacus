@@ -12,12 +12,12 @@ import { getCmsState } from './feature.selectors';
 export const getComponentsState: MemoizedSelector<
   StateWithCms,
   ComponentsState
-> = createSelector(getCmsState, state => state.components);
+> = createSelector(getCmsState, (state) => state.components);
 
 export const componentsContextSelectorFactory = (
   uid: string
 ): MemoizedSelector<StateWithCms, ComponentsContext> => {
-  return createSelector(getComponentsState, componentsState =>
+  return createSelector(getComponentsState, (componentsState) =>
     StateEntitySelectors.entitySelector(componentsState, uid)
   );
 };
@@ -28,7 +28,7 @@ export const componentsLoaderStateSelectorFactory = (
 ): MemoizedSelector<StateWithCms, LoaderState<boolean>> => {
   return createSelector(
     componentsContextSelectorFactory(uid),
-    componentsContext =>
+    (componentsContext) =>
       (componentsContext &&
         componentsContext.pageContext &&
         componentsContext.pageContext[context]) ||
@@ -42,7 +42,7 @@ export const componentsContextExistsSelectorFactory = (
 ): MemoizedSelector<StateWithCms, boolean> => {
   return createSelector(
     componentsLoaderStateSelectorFactory(uid, context),
-    loaderState =>
+    (loaderState) =>
       StateLoaderSelectors.loaderValueSelector(loaderState) || false
   );
 };
@@ -50,7 +50,7 @@ export const componentsContextExistsSelectorFactory = (
 export const componentsDataSelectorFactory = (
   uid: string
 ): MemoizedSelector<StateWithCms, CmsComponent> => {
-  return createSelector(componentsContextSelectorFactory(uid), state =>
+  return createSelector(componentsContextSelectorFactory(uid), (state) =>
     state ? state.component : undefined
   );
 };

@@ -25,7 +25,7 @@ export class ProductReferencesComponent {
   /**
    * returns an Obervable string for the title
    */
-  title$ = this.component.data$.pipe(map(d => d.title));
+  title$ = this.component.data$.pipe(map((d) => d.title));
 
   private currentProductCode$: Observable<
     string
@@ -62,7 +62,7 @@ export class ProductReferencesComponent {
   ): Observable<Observable<Product>[]> {
     return this.referenceService.get(code, referenceType).pipe(
       filter(Boolean),
-      map((refs: ProductReference[]) => refs.map(ref => of(ref.target)))
+      map((refs: ProductReference[]) => refs.map((ref) => of(ref.target)))
     );
   }
 }

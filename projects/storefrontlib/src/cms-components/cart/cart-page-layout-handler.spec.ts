@@ -29,7 +29,7 @@ describe('CartPageLayoutHandler', () => {
     let result;
     handler
       .handle(mockSlots$, cartPageTemplate)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual(['test', 'EmptyCartMiddleContent']);
   });
 
@@ -45,7 +45,7 @@ describe('CartPageLayoutHandler', () => {
     let result;
     handler
       .handle(mockSlots$, cartPageTemplate)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual(['test', 'TopContent', 'CenterRightContentSlot']);
   });
 
@@ -61,7 +61,7 @@ describe('CartPageLayoutHandler', () => {
     let result;
     handler
       .handle(mockSlots$, cartPageTemplate)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual(['test', 'TopContent']);
   });
 

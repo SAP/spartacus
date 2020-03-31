@@ -98,7 +98,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Fetching countries
     this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
-      tap(countries => {
+      tap((countries) => {
         if (Object.keys(countries).length === 0) {
           this.userAddressService.loadDeliveryCountries();
         }
@@ -107,12 +107,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     // Fetching titles
     this.titles$ = this.userService.getTitles().pipe(
-      tap(titles => {
+      tap((titles) => {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
       }),
-      map(titles => {
+      map((titles) => {
         titles.sort(sortTitles);
         const noneTitle = { code: '', name: 'Title' };
         return [noneTitle, ...titles];
@@ -121,8 +121,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     // Fetching regions
     this.regions$ = this.selectedCountry$.pipe(
-      switchMap(country => this.userAddressService.getRegions(country)),
-      tap(regions => {
+      switchMap((country) => this.userAddressService.getRegions(country)),
+      tap((regions) => {
         const regionControl = this.address.get('region.isocode');
         if (regions && regions.length > 0) {
           regionControl.enable();
@@ -143,7 +143,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         } else if (results.decision === 'REJECT') {
           // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
           if (
-            results.errors.errors.some(error => error.subject === 'titleCode')
+            results.errors.errors.some((error) => error.subject === 'titleCode')
           ) {
             this.globalMessageService.add(
               { key: 'addressForm.titleRequired' },
@@ -200,9 +200,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   verifyAddress(): void {
     if (this.address.controls['region'].value.isocode) {
-      this.regionsSub = this.regions$.pipe(take(1)).subscribe(regions => {
+      this.regionsSub = this.regions$.pipe(take(1)).subscribe((regions) => {
         const obj = regions.find(
-          region =>
+          (region) =>
             region.isocode === this.address.controls['region'].value.isocode
         );
         Object.assign(this.address.value.region, {
@@ -230,7 +230,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
         results.suggestedAddresses;
       this.suggestedAddressModalRef.result
-        .then(address => {
+        .then((address) => {
           this.checkoutDeliveryService.clearAddressVerificationResults();
           if (address) {
             address = Object.assign(

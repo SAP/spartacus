@@ -22,10 +22,10 @@ export const getSelectedProductsFactory = (
     getProductState,
     (details: EntityLoaderState<Product>) => {
       return codes
-        .map(code =>
+        .map((code) =>
           details.entities[code] ? details.entities[code].value : undefined
         )
-        .filter(product => product !== undefined);
+        .filter((product) => product !== undefined);
     }
   );
 };
@@ -34,7 +34,7 @@ export const getSelectedProductStateFactory = (
   code: string,
   scope?: string
 ): MemoizedSelector<StateWithProduct, LoaderState<Product>> => {
-  return createSelector(getProductState, details =>
+  return createSelector(getProductState, (details) =>
     scope
       ? StateEntityLoaderSelectors.entityStateSelector(details, code)[scope] ||
         initialLoaderState
@@ -48,7 +48,7 @@ export const getSelectedProductFactory = (
 ): MemoizedSelector<StateWithProduct, Product> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
-    productState => StateLoaderSelectors.loaderValueSelector(productState)
+    (productState) => StateLoaderSelectors.loaderValueSelector(productState)
   );
 };
 
@@ -58,7 +58,7 @@ export const getSelectedProductLoadingFactory = (
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
-    productState => StateLoaderSelectors.loaderLoadingSelector(productState)
+    (productState) => StateLoaderSelectors.loaderLoadingSelector(productState)
   );
 };
 
@@ -68,7 +68,7 @@ export const getSelectedProductSuccessFactory = (
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
-    productState => StateLoaderSelectors.loaderSuccessSelector(productState)
+    (productState) => StateLoaderSelectors.loaderSuccessSelector(productState)
   );
 };
 
@@ -78,13 +78,13 @@ export const getSelectedProductErrorFactory = (
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
-    productState => StateLoaderSelectors.loaderErrorSelector(productState)
+    (productState) => StateLoaderSelectors.loaderErrorSelector(productState)
   );
 };
 
 export const getAllProductCodes: MemoizedSelector<
   StateWithProduct,
   string[]
-> = createSelector(getProductState, details => {
+> = createSelector(getProductState, (details) => {
   return Object.keys(details.entities);
 });

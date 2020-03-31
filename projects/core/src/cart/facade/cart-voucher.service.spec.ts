@@ -80,7 +80,7 @@ describe('CartVoucherService', () => {
       store.dispatch(new CartActions.CartAddVoucherFail('error'));
       service
         .getAddVoucherResultError()
-        .subscribe(result => expect(result).toEqual(true))
+        .subscribe((result) => expect(result).toEqual(true))
         .unsubscribe();
     });
 
@@ -93,7 +93,7 @@ describe('CartVoucherService', () => {
       );
       service
         .getAddVoucherResultSuccess()
-        .subscribe(result => expect(result).toEqual(true))
+        .subscribe((result) => expect(result).toEqual(true))
         .unsubscribe();
     });
 
@@ -108,7 +108,7 @@ describe('CartVoucherService', () => {
       let result = false;
       service
         .getAddVoucherResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);

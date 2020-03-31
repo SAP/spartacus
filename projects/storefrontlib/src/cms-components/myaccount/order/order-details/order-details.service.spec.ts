@@ -120,7 +120,7 @@ describe('OrderDetailsService', () => {
     let orderDetails;
     service
       .getOrderDetails()
-      .subscribe(data => (orderDetails = data))
+      .subscribe((data) => (orderDetails = data))
       .unsubscribe();
     expect(userService.loadOrderDetails).toHaveBeenCalledWith('1');
     expect(userService.getOrderDetails).toHaveBeenCalled();
@@ -137,7 +137,7 @@ describe('OrderDetailsService', () => {
     let orderDetails;
     service
       .getOrderDetails()
-      .subscribe(data => (orderDetails = data))
+      .subscribe((data) => (orderDetails = data))
       .unsubscribe();
     expect(userService.clearOrderDetails).toHaveBeenCalled();
     expect(userService.getOrderDetails).toHaveBeenCalled();

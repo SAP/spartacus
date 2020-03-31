@@ -25,7 +25,7 @@ export class CartEntryEffects {
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_ENTRY),
     map((action: CartActions.CartAddEntry) => action.payload),
-    concatMap(payload => {
+    concatMap((payload) => {
       return this.cartEntryConnector
         .add(
           payload.userId,
@@ -42,7 +42,7 @@ export class CartEntryEffects {
                 cartId: payload.cartId,
               })
           ),
-          catchError(error =>
+          catchError((error) =>
             from([
               new CartActions.CartAddEntryFail({
                 error: makeErrorSerializable(error),
@@ -68,7 +68,7 @@ export class CartEntryEffects {
   > = this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_ENTRY),
     map((action: CartActions.CartRemoveEntry) => action.payload),
-    concatMap(payload =>
+    concatMap((payload) =>
       this.cartEntryConnector
         .remove(payload.userId, payload.cartId, payload.entry)
         .pipe(
@@ -78,7 +78,7 @@ export class CartEntryEffects {
               cartId: payload.cartId,
             });
           }),
-          catchError(error =>
+          catchError((error) =>
             from([
               new CartActions.CartRemoveEntryFail({
                 error: makeErrorSerializable(error),
@@ -104,7 +104,7 @@ export class CartEntryEffects {
   > = this.actions$.pipe(
     ofType(CartActions.CART_UPDATE_ENTRY),
     map((action: CartActions.CartUpdateEntry) => action.payload),
-    concatMap(payload =>
+    concatMap((payload) =>
       this.cartEntryConnector
         .update(payload.userId, payload.cartId, payload.entry, payload.qty)
         .pipe(
@@ -114,7 +114,7 @@ export class CartEntryEffects {
               cartId: payload.cartId,
             });
           }),
-          catchError(error =>
+          catchError((error) =>
             from([
               new CartActions.CartUpdateEntryFail({
                 error: makeErrorSerializable(error),

@@ -5,9 +5,7 @@ export const loginLink = 'cx-login [role="link"]';
 
 export function registerUser(user) {
   cy.getByText(/Sign in \/ Register/i).click();
-  cy.get('cx-page-layout')
-    .getByText('Register')
-    .click({ force: true });
+  cy.get('cx-page-layout').getByText('Register').click({ force: true });
   register(user);
 }
 

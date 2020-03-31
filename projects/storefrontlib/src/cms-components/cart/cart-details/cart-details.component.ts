@@ -44,7 +44,7 @@ export class CartDetailsComponent implements OnInit {
 
     this.entries$ = this.activeCartService
       .getEntries()
-      .pipe(filter(entries => entries.length > 0));
+      .pipe(filter((entries) => entries.length > 0));
 
     if (this.isSaveForLaterEnabled()) {
       this.cartLoaded$ = combineLatest([

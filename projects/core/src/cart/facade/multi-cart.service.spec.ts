@@ -52,7 +52,7 @@ describe('MultiCartService', () => {
   describe('getCart', () => {
     it('should return cart with given id', () => {
       let result;
-      service.getCart('xxx').subscribe(cart => {
+      service.getCart('xxx').subscribe((cart) => {
         result = cart;
       });
 
@@ -76,7 +76,7 @@ describe('MultiCartService', () => {
   describe('getCartEntity', () => {
     it('should return cart entity with given id', () => {
       let result;
-      service.getCartEntity('xxx').subscribe(cartEntity => {
+      service.getCartEntity('xxx').subscribe((cartEntity) => {
         result = cartEntity;
       });
 
@@ -110,7 +110,7 @@ describe('MultiCartService', () => {
   });
 
   describe('isStable', () => {
-    it('should return true when cart is stable', done => {
+    it('should return true when cart is stable', (done) => {
       store.dispatch(
         new CartActions.LoadCartSuccess({
           userId: 'userId',
@@ -124,13 +124,13 @@ describe('MultiCartService', () => {
       service
         .isStable('xxx')
         .pipe(take(1))
-        .subscribe(isStable => {
+        .subscribe((isStable) => {
           expect(isStable).toBe(true);
           done();
         });
     });
 
-    it('should return false when there are pending processes', done => {
+    it('should return false when there are pending processes', (done) => {
       store.dispatch(
         new CartActions.LoadCart({
           userId: 'userId',
@@ -139,7 +139,7 @@ describe('MultiCartService', () => {
       );
       service
         .isStable('cartId')
-        .subscribe(isStable => {
+        .subscribe((isStable) => {
           expect(isStable).toBe(false);
           done();
         })
@@ -153,7 +153,7 @@ describe('MultiCartService', () => {
 
       const results = [];
 
-      service.createCart({ userId: 'userId' }).subscribe(cart => {
+      service.createCart({ userId: 'userId' }).subscribe((cart) => {
         results.push(cart);
       });
 
@@ -238,7 +238,7 @@ describe('MultiCartService', () => {
   describe('getEntries', () => {
     it('should return cart entries', () => {
       let result;
-      service.getEntries('xxx').subscribe(cart => {
+      service.getEntries('xxx').subscribe((cart) => {
         result = cart;
       });
 
@@ -342,7 +342,7 @@ describe('MultiCartService', () => {
       let result;
       service
         .getEntry('xxx', testCart.entries[0].product.code)
-        .subscribe(cart => {
+        .subscribe((cart) => {
           result = cart;
         });
 

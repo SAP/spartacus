@@ -6,18 +6,14 @@ context('Auxiliary Keys', () => {
 
     it('should open menu with space key', () => {
       cy.get('cx-category-navigation').within(() => {
-        cy.get('cx-navigation-ui')
-          .find('nav')
-          .should('have.length', 30);
+        cy.get('cx-navigation-ui').find('nav').should('have.length', 30);
         cy.get('cx-navigation-ui')
           .first()
           .should('contain.text', 'Brands')
           .and('be.visible')
           .within(() => {
             cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor(#6743)
-            cy.get('nav h5')
-              .first()
-              .focus();
+            cy.get('nav h5').first().focus();
             cy.focused().trigger('keydown', {
               key: ' ',
               code: 'Space',
@@ -25,25 +21,19 @@ context('Auxiliary Keys', () => {
             });
           });
       });
-      cy.get('cx-navigation-ui nav div.wrapper')
-        .first()
-        .should('be.visible');
+      cy.get('cx-navigation-ui nav div.wrapper').first().should('be.visible');
     });
 
     it('should close menu with space key', () => {
       cy.get('cx-category-navigation').within(() => {
-        cy.get('cx-navigation-ui')
-          .find('nav')
-          .should('have.length', 30);
+        cy.get('cx-navigation-ui').find('nav').should('have.length', 30);
         cy.get('cx-navigation-ui')
           .first()
           .should('contain.text', 'Brands')
           .and('be.visible')
           .within(() => {
             cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor (#6743)
-            cy.get('nav h5')
-              .first()
-              .focus();
+            cy.get('nav h5').first().focus();
             cy.focused().trigger('keydown', {
               key: ' ',
               code: 'Space',
@@ -70,9 +60,7 @@ context('Auxiliary Keys', () => {
           .and('be.visible')
           .within(() => {
             cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor (#6743)
-            cy.get('nav h5')
-              .first()
-              .focus();
+            cy.get('nav h5').first().focus();
             cy.focused().trigger('keydown', {
               key: ' ',
               code: 'Space',
@@ -92,9 +80,7 @@ context('Auxiliary Keys', () => {
           .and('be.visible')
           .within(() => {
             cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor (#6743)
-            cy.get('nav h5')
-              .first()
-              .focus();
+            cy.get('nav h5').first().focus();
             cy.focused().trigger('keydown', {
               key: ' ',
               code: 'Space',

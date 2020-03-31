@@ -113,8 +113,10 @@ export class WishListService {
 
   getWishListLoading(): Observable<boolean> {
     return this.getWishListId().pipe(
-      switchMap(wishListId =>
-        this.multiCartService.isStable(wishListId).pipe(map(stable => !stable))
+      switchMap((wishListId) =>
+        this.multiCartService
+          .isStable(wishListId)
+          .pipe(map((stable) => !stable))
       )
     );
   }

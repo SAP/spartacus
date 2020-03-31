@@ -69,7 +69,7 @@ describe('UserPaymentService', () => {
     let paymentMethods: PaymentDetails[];
     service
       .getPaymentMethods()
-      .subscribe(data => {
+      .subscribe((data) => {
         paymentMethods = data;
       })
       .unsubscribe();
@@ -82,7 +82,7 @@ describe('UserPaymentService', () => {
     let flag: boolean;
     service
       .getPaymentMethodsLoading()
-      .subscribe(data => {
+      .subscribe((data) => {
         flag = data;
       })
       .unsubscribe();
@@ -95,7 +95,7 @@ describe('UserPaymentService', () => {
     let flag: boolean;
     service
       .getPaymentMethodsLoadedSuccess()
-      .subscribe(data => {
+      .subscribe((data) => {
         flag = data;
       })
       .unsubscribe();
@@ -126,7 +126,7 @@ describe('UserPaymentService', () => {
     let results: Country[];
     service
       .getAllBillingCountries()
-      .subscribe(data => {
+      .subscribe((data) => {
         results = data;
       })
       .unsubscribe();

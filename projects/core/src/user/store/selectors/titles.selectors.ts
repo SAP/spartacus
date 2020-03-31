@@ -21,13 +21,13 @@ export const getTitlesEntites: MemoizedSelector<
 export const getAllTitles: MemoizedSelector<
   StateWithUser,
   Title[]
-> = createSelector(getTitlesEntites, entites =>
-  Object.keys(entites).map(code => entites[code])
+> = createSelector(getTitlesEntites, (entites) =>
+  Object.keys(entites).map((code) => entites[code])
 );
 
 export const titleSelectorFactory = (
   code: string
 ): MemoizedSelector<StateWithUser, Title> =>
-  createSelector(getTitlesEntites, entities =>
+  createSelector(getTitlesEntites, (entities) =>
     Object.keys(entities).length !== 0 ? entities[code] : null
   );
