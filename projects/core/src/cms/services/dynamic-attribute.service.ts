@@ -19,16 +19,16 @@ export class DynamicAttributeService {
   ): void {
     if (properties) {
       // check each group of properties, e.g. smartedit
-      Object.keys(properties).forEach(group => {
+      Object.keys(properties).forEach((group) => {
         const name = 'data-' + group + '-';
         const groupProps = properties[group];
 
         // check each property in the group
-        Object.keys(groupProps).forEach(propName => {
+        Object.keys(groupProps).forEach((propName) => {
           const propValue = groupProps[propName];
           if (propName === 'classes') {
             const classes = propValue.split(' ');
-            classes.forEach(classItem => {
+            classes.forEach((classItem) => {
               element.classList.add(classItem);
             });
           } else {

@@ -9,7 +9,7 @@ import {
   mergeMap,
   switchMap,
   tap,
-  withLatestFrom,
+  withLatestFrom
 } from 'rxjs/operators';
 import { AuthActions, AuthService } from '../../../auth/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
@@ -27,7 +27,7 @@ export class AnonymousConsentsEffects {
     AnonymousConsentsActions.AnonymousConsentsActions
   > = this.actions$.pipe(
     ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
-    concatMap(_ =>
+    concatMap(() =>
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
         .pipe(
@@ -50,7 +50,7 @@ export class AnonymousConsentsEffects {
               ),
               new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
                 updated
-              ),
+              )
             ];
           }),
           catchError(error =>
@@ -105,7 +105,7 @@ export class AnonymousConsentsEffects {
                     new UserActions.TransferAnonymousConsent({
                       userId,
                       consentTemplateId: template.id,
-                      consentTemplateVersion: template.version,
+                      consentTemplateVersion: template.version
                     })
                   );
                   break;
@@ -168,7 +168,7 @@ export class AnonymousConsentsEffects {
                 new UserActions.GiveUserConsent({
                   userId,
                   consentTemplateId: template.id,
-                  consentTemplateVersion: template.version,
+                  consentTemplateVersion: template.version
                 })
               );
             }

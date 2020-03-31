@@ -119,7 +119,7 @@ describe('Selective Cart Service', () => {
     let result;
     service
       .getCart()
-      .subscribe(val => (result = val))
+      .subscribe((val) => (result = val))
       .unsubscribe();
     expect(result).toEqual(undefined);
     expect(multiCartService.loadCart).toHaveBeenCalledTimes(0);
@@ -137,7 +137,7 @@ describe('Selective Cart Service', () => {
     let result;
     service
       .getCart()
-      .subscribe(val => (result = val))
+      .subscribe((val) => (result = val))
       .unsubscribe();
     expect(result).toEqual({});
     expect(multiCartService.loadCart).toHaveBeenCalledTimes(0);
@@ -154,7 +154,7 @@ describe('Selective Cart Service', () => {
     let result: boolean;
     service
       .getLoaded()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
@@ -170,7 +170,7 @@ describe('Selective Cart Service', () => {
     let result: boolean;
     service
       .getLoaded()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
@@ -186,7 +186,7 @@ describe('Selective Cart Service', () => {
     let result: boolean;
     service
       .getLoaded()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
   });
@@ -203,10 +203,7 @@ describe('Selective Cart Service', () => {
       })
     );
     service['userId'] = OCC_USER_ID_ANONYMOUS;
-    service
-      .getCart()
-      .subscribe()
-      .unsubscribe();
+    service.getCart().subscribe().unsubscribe();
     expect(service['load']).toHaveBeenCalledTimes(0);
     expect(multiCartService.loadCart).toHaveBeenCalledTimes(0);
   });
@@ -217,7 +214,7 @@ describe('Selective Cart Service', () => {
     let result;
     service
       .getCart()
-      .subscribe(val => (result = val))
+      .subscribe((val) => (result = val))
       .unsubscribe();
     expect(service['load']).toHaveBeenCalled();
     expect(result).toEqual({});
@@ -229,14 +226,11 @@ describe('Selective Cart Service', () => {
 
   it('should return cart entries', () => {
     spyOn(multiCartService, 'getEntries').and.returnValue(of([mockCartEntry]));
-    service
-      .getCart()
-      .subscribe()
-      .unsubscribe();
+    service.getCart().subscribe().unsubscribe();
     let result;
     service
       .getEntries()
-      .subscribe(val => (result = val))
+      .subscribe((val) => (result = val))
       .unsubscribe();
 
     expect(result).toEqual([mockCartEntry]);
@@ -253,20 +247,14 @@ describe('Selective Cart Service', () => {
     });
     spyOn(multiCartService, 'addEntry').and.callThrough();
     spyOn(multiCartService, 'loadCart').and.callThrough();
-    service
-      .getCart()
-      .subscribe()
-      .unsubscribe();
+    service.getCart().subscribe().unsubscribe();
 
     service.addEntry('productCode', 2);
     expect(multiCartService['loadCart']).toHaveBeenCalled();
   });
   it('should add entry one by one ', () => {
     spyOn(multiCartService, 'addEntry').and.callThrough();
-    service
-      .getCart()
-      .subscribe()
-      .unsubscribe();
+    service.getCart().subscribe().unsubscribe();
 
     service.addEntry('productCode1', 2);
     service.addEntry('productCode2', 2);
@@ -317,15 +305,12 @@ describe('Selective Cart Service', () => {
 
   it('should return entry by product code', () => {
     spyOn(multiCartService, 'getEntry').and.returnValue(of(mockCartEntry));
-    service
-      .getCart()
-      .subscribe()
-      .unsubscribe();
+    service.getCart().subscribe().unsubscribe();
 
     let result;
     service
       .getEntry('code123')
-      .subscribe(entry => (result = entry))
+      .subscribe((entry) => (result = entry))
       .unsubscribe();
 
     expect(result).toEqual(mockCartEntry);

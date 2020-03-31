@@ -24,17 +24,13 @@ import { ConsentManagementComponent } from './consent-management.component';
 
 @Component({
   selector: 'cx-spinner',
-  template: `
-    <div>spinner</div>
-  `,
+  template: ` <div>spinner</div> `,
 })
 class MockCxSpinnerComponent {}
 
 @Component({
   selector: 'cx-consent-management-form',
-  template: `
-    <div>form</div>
-  `,
+  template: ` <div>form</div> `,
 })
 class MockConsentManagementFormComponent {
   @Input()
@@ -199,7 +195,7 @@ describe('ConsentManagementComponent', () => {
 
         let loadingResult = false;
         component.loading$
-          .subscribe(result => (loadingResult = result))
+          .subscribe((result) => (loadingResult = result))
           .unsubscribe();
         expect(loadingResult).toEqual(true);
       });
@@ -230,7 +226,7 @@ describe('ConsentManagementComponent', () => {
 
           let result: ConsentTemplate[];
           component.templateList$
-            .subscribe(templates => (result = templates))
+            .subscribe((templates) => (result = templates))
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
@@ -252,7 +248,7 @@ describe('ConsentManagementComponent', () => {
 
           let result: ConsentTemplate[];
           component.templateList$
-            .subscribe(templates => (result = templates))
+            .subscribe((templates) => (result = templates))
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
@@ -282,7 +278,7 @@ describe('ConsentManagementComponent', () => {
 
           let result: ConsentTemplate[];
           component.templateList$
-            .subscribe(templates => (result = templates))
+            .subscribe((templates) => (result = templates))
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(anonymousConsentsService.getTemplates).toHaveBeenCalled();

@@ -107,7 +107,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.expMonthAndYear();
     this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
-      tap(countries => {
+      tap((countries) => {
         // If the store is empty fetch countries. This is also used when changing language.
         if (Object.keys(countries).length === 0) {
           this.userPaymentService.loadBillingCountries();
@@ -116,7 +116,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
 
     this.cardTypes$ = this.checkoutPaymentService.getCardTypes().pipe(
-      tap(cardTypes => {
+      tap((cardTypes) => {
         if (Object.keys(cardTypes).length === 0) {
           this.checkoutPaymentService.loadSupportedCardTypes();
         }

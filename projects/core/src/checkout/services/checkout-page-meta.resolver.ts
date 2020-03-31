@@ -36,7 +36,7 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
 
   resolveTitle(): Observable<string> {
     return this.cart$.pipe(
-      switchMap(c =>
+      switchMap((c) =>
         this.translation.translate('pageMetaResolver.checkout.title', {
           count: c.totalItems,
         })

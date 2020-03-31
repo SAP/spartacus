@@ -13,7 +13,7 @@ describe('OccReturnRequestNormalizer', () => {
     normalizer = TestBed.inject(OccReturnRequestNormalizer);
     converter = TestBed.inject(ConverterService);
     spyOn(converter, 'convert').and.callFake(
-      product =>
+      (product) =>
         ({
           ...product,
           code: (product as Product).code + 'converted',

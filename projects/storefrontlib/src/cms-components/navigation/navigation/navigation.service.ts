@@ -42,11 +42,11 @@ export class NavigationService {
       return of();
     }
     return data$.pipe(
-      filter(data => !!data),
-      switchMap(data => {
+      filter((data) => !!data),
+      switchMap((data) => {
         const navigation = data.navigationNode ? data.navigationNode : data;
         return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
-          tap(items => {
+          tap((items) => {
             if (items === undefined) {
               this.loadNavigationEntryItems(navigation, true);
             } else {
@@ -54,10 +54,10 @@ export class NavigationService {
               const expectedItems = [];
               this.loadNavigationEntryItems(navigation, false, expectedItems);
               const existingItems = Object.keys(items).map(
-                key => items[key].uid
+                (key) => items[key].uid
               );
               const missingItems = expectedItems.filter(
-                it => !existingItems.includes(it.id)
+                (it) => !existingItems.includes(it.id)
               );
               if (missingItems.length > 0) {
                 this.cmsService.loadNavigationItems(
@@ -68,7 +68,7 @@ export class NavigationService {
             }
           }),
           filter(Boolean),
-          map(items => this.populateNavigationNode(navigation, items))
+          map((items) => this.populateNavigationNode(navigation, items))
         );
       })
     );
@@ -86,7 +86,7 @@ export class NavigationService {
     itemsList = []
   ): void {
     if (nodeData.entries && nodeData.entries.length > 0) {
-      nodeData.entries.forEach(entry => {
+      nodeData.entries.forEach((entry) => {
         itemsList.push({
           superType: entry.itemSuperType,
           id: entry.itemId,
@@ -95,7 +95,7 @@ export class NavigationService {
     }
 
     if (nodeData.children && nodeData.children.length > 0) {
-      nodeData.children.forEach(child =>
+      nodeData.children.forEach((child) =>
         this.loadNavigationEntryItems(child, false, itemsList)
       );
     }
@@ -125,7 +125,7 @@ export class NavigationService {
 
     if (nodeData.children && nodeData.children.length > 0) {
       const children = nodeData.children
-        .map(child => this.populateNavigationNode(child, items))
+        .map((child) => this.populateNavigationNode(child, items))
         .filter(Boolean);
       if (children.length > 0) {
         node.children = children;

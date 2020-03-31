@@ -6,7 +6,7 @@ import * as login from '../../../helpers/login';
 
 describe('My Account - Consent Management', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   describe('consent management test for anonymous user', () => {

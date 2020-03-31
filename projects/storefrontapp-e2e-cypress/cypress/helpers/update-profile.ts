@@ -22,12 +22,8 @@ export function cancelUpdateProfileAction() {
 export function updateProfile() {
   cy.get('cx-update-profile-form').within(() => {
     cy.get('[formcontrolname="titleCode"]').select(newTitle);
-    cy.get('[formcontrolname="firstName"]')
-      .clear()
-      .type(newFirstName);
-    cy.get('[formcontrolname="lastName"]')
-      .clear()
-      .type(newLastName);
+    cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
+    cy.get('[formcontrolname="lastName"]').clear().type(newLastName);
     cy.get('button[type="submit"]').click();
   });
 

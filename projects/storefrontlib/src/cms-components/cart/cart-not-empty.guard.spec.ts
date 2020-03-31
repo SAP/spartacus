@@ -59,10 +59,7 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then Router should redirect to main page', () => {
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe()
-            .unsubscribe();
+          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'home',
           });
@@ -72,7 +69,7 @@ describe('CartNotEmptyGuard', () => {
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
-            .subscribe(result => (emittedValue = result))
+            .subscribe((result) => (emittedValue = result))
             .unsubscribe();
           expect(emittedValue).toBe(false);
         });
@@ -85,10 +82,7 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then Router should redirect to main page', () => {
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe()
-            .unsubscribe();
+          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'home',
           });
@@ -98,7 +92,7 @@ describe('CartNotEmptyGuard', () => {
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
-            .subscribe(result => (emittedValue = result))
+            .subscribe((result) => (emittedValue = result))
             .unsubscribe();
           expect(emittedValue).toBe(false);
         });
@@ -113,10 +107,7 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then Router should NOT redirect', () => {
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe()
-            .unsubscribe();
+          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
           expect(routingService.go).not.toHaveBeenCalled();
         });
 
@@ -124,7 +115,7 @@ describe('CartNotEmptyGuard', () => {
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
-            .subscribe(result => (emittedValue = result))
+            .subscribe((result) => (emittedValue = result))
             .unsubscribe();
           expect(emittedValue).toBe(true);
         });
@@ -140,10 +131,7 @@ describe('CartNotEmptyGuard', () => {
       });
 
       it('then Router should not redirect to main page', () => {
-        cartNotEmptyGuard
-          .canActivate()
-          .subscribe()
-          .unsubscribe();
+        cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
         expect(routingService.go).not.toHaveBeenCalled();
       });
 
@@ -151,7 +139,7 @@ describe('CartNotEmptyGuard', () => {
         let emittedValue: any = 'nothing was emitted';
         cartNotEmptyGuard
           .canActivate()
-          .subscribe(result => (emittedValue = result))
+          .subscribe((result) => (emittedValue = result))
           .unsubscribe();
         expect(emittedValue).toBe('nothing was emitted');
       });

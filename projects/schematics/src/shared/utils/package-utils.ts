@@ -28,8 +28,5 @@ export function getSpartacusSchematicsVersion(): string {
 }
 
 export function getSpartacusCurrentFeatureLevel(): string {
-  return version
-    .split('.')
-    .slice(0, 2)
-    .join('.');
+  return version.split('.').slice(0, 2).join('.');
 }

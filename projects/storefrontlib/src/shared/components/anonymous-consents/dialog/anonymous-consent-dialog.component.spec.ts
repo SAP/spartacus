@@ -14,9 +14,7 @@ import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.comp
 
 @Component({
   selector: 'cx-spinner',
-  template: `
-    <div>spinner</div>
-  `,
+  template: ` <div>spinner</div> `,
 })
 class MockCxSpinnerComponent {}
 

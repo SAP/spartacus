@@ -75,7 +75,7 @@ describe('OccCartEntryAdapter', () => {
       let result;
       occCartEntryAdapter
         .add(userId, cartId, '147852', 5)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne({ method: 'POST', url: 'addEntries' });
 
@@ -107,7 +107,7 @@ describe('OccCartEntryAdapter', () => {
       let result;
       occCartEntryAdapter
         .update(userId, cartId, '12345', 5)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne({
         method: 'PATCH',
@@ -166,7 +166,7 @@ describe('OccCartEntryAdapter', () => {
       let result;
       occCartEntryAdapter
         .remove(userId, cartId, '147852')
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne({
         method: 'DELETE',
@@ -199,9 +199,9 @@ describe('OccCartEntryAdapter', () => {
         let result;
         occCartEntryAdapter
           .add(userId, cartId, '147852', 5)
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return (
             req.method === 'POST' &&
             req.url ===
@@ -232,9 +232,9 @@ describe('OccCartEntryAdapter', () => {
         let result;
         occCartEntryAdapter
           .update(userId, cartId, '12345', 5)
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return (
             req.method === 'PATCH' &&
             req.url ===
@@ -268,7 +268,7 @@ describe('OccCartEntryAdapter', () => {
           .subscribe()
           .unsubscribe();
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return (
             req.method === 'PATCH' &&
             req.url ===
@@ -289,9 +289,9 @@ describe('OccCartEntryAdapter', () => {
         let result;
         occCartEntryAdapter
           .remove(userId, cartId, '147852')
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return (
             req.method === 'DELETE' &&
             req.url ===

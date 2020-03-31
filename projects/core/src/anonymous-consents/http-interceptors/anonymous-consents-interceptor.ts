@@ -3,7 +3,7 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse,
+  HttpResponse
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -89,8 +89,8 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     );
     return request.clone({
       setHeaders: {
-        [ANONYMOUS_CONSENTS_HEADER]: rawConsents,
-      },
+        [ANONYMOUS_CONSENTS_HEADER]: rawConsents
+      }
     });
   }
 

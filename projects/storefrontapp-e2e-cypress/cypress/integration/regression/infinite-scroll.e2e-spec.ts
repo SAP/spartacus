@@ -9,7 +9,7 @@ import {
 
 context('Infinite scroll', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   describe('infinite scroll is active and no show more button', () => {

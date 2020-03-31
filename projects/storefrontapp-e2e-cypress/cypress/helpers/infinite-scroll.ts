@@ -79,7 +79,7 @@ export function scrollToFooter(
     defaultProductLimit = productLimit;
   }
 
-  cy.get('cx-breadcrumb h1').then($breadcrumb => {
+  cy.get('cx-breadcrumb h1').then(($breadcrumb) => {
     const breadcrumbQuantityNumber = Number($breadcrumb.text().split(' ')[0]);
 
     numberOfIteration = Math.floor(

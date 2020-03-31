@@ -23,7 +23,7 @@ export class UserPaymentService {
    * Loads all user's payment methods.
    */
   loadPaymentMethods(): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new UserActions.LoadUserPaymentMethods(userId))
     );
   }
@@ -52,7 +52,7 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   setPaymentMethodAsDefault(paymentMethodId: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.SetDefaultUserPaymentMethod({
           userId,
@@ -68,7 +68,7 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   deletePaymentMethod(paymentMethodId: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.DeleteUserPaymentMethod({
           userId,
@@ -99,6 +99,6 @@ export class UserPaymentService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(userId => callback(userId));
+      .subscribe((userId) => callback(userId));
   }
 }
