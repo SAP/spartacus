@@ -4,9 +4,9 @@ import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { OutletService } from '../../../cms-structure/outlet/index';
 import {
-  LaunchComponentService,
   LaunchConfig,
-} from '../../../shared/services/trigger/index';
+  LaunchDialogService,
+} from '../../../shared/services/launch-component/index';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmEnablerService } from './asm-enabler.service';
 
@@ -41,7 +41,7 @@ class MockLocation {
   }
 }
 
-class MockLaunchComponentService {
+class MockLaunchDialogService {
   render() {}
 }
 
@@ -71,8 +71,8 @@ describe('AsmEnablerService', () => {
         { provide: Location, useClass: MockLocation },
         { provide: LaunchConfig, useValue: mockLaunchConfig },
         {
-          provide: LaunchComponentService,
-          useClass: MockLaunchComponentService,
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
         },
       ],
     });

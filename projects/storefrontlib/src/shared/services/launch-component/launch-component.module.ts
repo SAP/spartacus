@@ -28,10 +28,10 @@ import {
     },
   ],
 })
-export class TriggerModule {
-  static forRoot(): ModuleWithProviders<TriggerModule> {
+export class LaunchComponentModule {
+  static forRoot(): ModuleWithProviders<LaunchComponentModule> {
     return {
-      ngModule: TriggerModule,
+      ngModule: LaunchComponentModule,
       providers: [
         provideConfig(DEFAULT_TRIGGER_CONFIG),
         { provide: LaunchConfig, useExisting: Config },

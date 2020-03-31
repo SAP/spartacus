@@ -2,14 +2,14 @@ import { Inject, Injectable, ViewContainerRef } from '@angular/core';
 import {
   LaunchConfig,
   LaunchOptions,
-  TRIGGER_CALLER,
+  LAUNCH_CALLER,
 } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
-export class LaunchComponentService {
+export class LaunchDialogService {
   // Keep a list of rendered elements
-  protected renderedCallers: TRIGGER_CALLER[] = [];
+  protected renderedCallers: LAUNCH_CALLER[] = [];
 
   constructor(
     @Inject(LaunchRenderStrategy)
@@ -22,10 +22,10 @@ export class LaunchComponentService {
   /**
    * Render the element based on the strategy from the trigger configuration
    *
-   * @param caller TRIGGER_CALLER
+   * @param caller LAUNCH_CALLER
    * @param vcr View Container Ref of the container for inline rendering
    */
-  launch(caller: TRIGGER_CALLER, vcr?: ViewContainerRef): void {
+  launch(caller: LAUNCH_CALLER, vcr?: ViewContainerRef): void {
     const config = this.findConfiguration(caller);
     const renderer = this.getStrategy(config);
 
@@ -38,9 +38,9 @@ export class LaunchComponentService {
   /**
    * Util method to remove element from rendered elements list
    *
-   * @param caller TRIGGER_CALLER
+   * @param caller LAUNCH_CALLER
    */
-  clear(caller: TRIGGER_CALLER): void {
+  clear(caller: LAUNCH_CALLER): void {
     const config = this.findConfiguration(caller);
     const renderer = this.getStrategy(config);
 
@@ -53,9 +53,9 @@ export class LaunchComponentService {
   /**
    * Returns the configuration for the caller
    *
-   * @param caller TRIGGER_CALLER
+   * @param caller LAUNCH_CALLER
    */
-  protected findConfiguration(caller: TRIGGER_CALLER): LaunchOptions {
+  protected findConfiguration(caller: LAUNCH_CALLER): LaunchOptions {
     return this.launchConfig?.trigger[caller];
   }
 

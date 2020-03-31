@@ -9,7 +9,7 @@ import {
   OutletService,
 } from '../../../../cms-structure/outlet/index';
 import { OutletRendererService } from '../../../../cms-structure/outlet/outlet-renderer.service';
-import { LaunchOutletDialog, TRIGGER_CALLER } from '../config/index';
+import { LaunchOutletDialog, LAUNCH_CALLER } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
@@ -31,7 +31,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
    */
   render(
     config: LaunchOutletDialog,
-    caller: TRIGGER_CALLER,
+    caller: LAUNCH_CALLER,
     vcr?: ViewContainerRef
   ) {
     if (this.shouldRender(caller, config)) {
@@ -56,7 +56,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
     return Boolean(config.outlet);
   }
 
-  remove(caller: TRIGGER_CALLER, config: LaunchOutletDialog): void {
+  remove(caller: LAUNCH_CALLER, config: LaunchOutletDialog): void {
     const template = this.componentFactoryResolver.resolveComponentFactory(
       config.component
     );

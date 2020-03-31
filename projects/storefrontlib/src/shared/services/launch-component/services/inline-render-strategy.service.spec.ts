@@ -5,7 +5,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { LaunchConfig, LaunchInlineDialog, TRIGGER_CALLER } from '../config';
+import { LaunchConfig, LaunchInlineDialog, LAUNCH_CALLER } from '../config';
 import { InlineRenderStrategy } from './inline-render-strategy.service';
 
 const testTemplate = {} as ComponentFactory<any>;
@@ -68,7 +68,7 @@ describe('InlineRenderStrategy', () => {
       const config = mockLaunchConfig.trigger[
         'TEST_INLINE'
       ] as LaunchInlineDialog;
-      service.render(config, 'TEST_INLINE' as TRIGGER_CALLER, component.vcr);
+      service.render(config, 'TEST_INLINE' as LAUNCH_CALLER, component.vcr);
 
       expect(component.vcr.createComponent).toHaveBeenCalledWith(testTemplate);
     });

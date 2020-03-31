@@ -1,8 +1,8 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { TRIGGER_CALLER } from '../../../shared/services/trigger/config/index';
-import { LaunchComponentService } from '../../../shared/services/trigger/services/launch-component.service';
+import { LAUNCH_CALLER } from '../../../shared/services/launch-component/config/index';
+import { LaunchDialogService } from '../../../shared/services/launch-component/services/launch-component.service';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 
 /**
@@ -17,7 +17,7 @@ export class AsmEnablerService {
   constructor(
     protected location: Location,
     protected winRef: WindowRef,
-    protected launchComponentService: LaunchComponentService
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   /**
@@ -65,6 +65,6 @@ export class AsmEnablerService {
    * Adds the ASM UI by using the `cx-storefront` outlet.
    */
   protected addUi(): void {
-    this.launchComponentService.launch(TRIGGER_CALLER.ASM);
+    this.launchDialogService.launch(LAUNCH_CALLER.ASM);
   }
 }

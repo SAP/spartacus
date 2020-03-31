@@ -4,7 +4,7 @@ import {
   isDevMode,
   ViewContainerRef,
 } from '@angular/core';
-import { LaunchInlineDialog, TRIGGER_CALLER } from '../config';
+import { LaunchInlineDialog, LAUNCH_CALLER } from '../config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
@@ -22,7 +22,7 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
    */
   render(
     config: LaunchInlineDialog,
-    caller: TRIGGER_CALLER,
+    caller: LAUNCH_CALLER,
     vcr: ViewContainerRef
   ) {
     // Only render if a ViewContainerRef is provided

@@ -1,10 +1,10 @@
 import { ViewContainerRef } from '@angular/core';
-import { LaunchDialog, LaunchOptions, TRIGGER_CALLER } from '../config';
+import { LaunchDialog, LaunchOptions, LAUNCH_CALLER } from '../config';
 
 export abstract class LaunchRenderStrategy {
   // List of called references; only used for rendered elements
   protected renderedCallers: Array<{
-    caller: TRIGGER_CALLER;
+    caller: LAUNCH_CALLER;
     element?: any;
   }> = [];
 
@@ -15,7 +15,7 @@ export abstract class LaunchRenderStrategy {
    */
   abstract render(
     config: LaunchOptions,
-    caller: TRIGGER_CALLER,
+    caller: LAUNCH_CALLER,
     vcr?: ViewContainerRef
   ): void;
 
@@ -32,10 +32,7 @@ export abstract class LaunchRenderStrategy {
    * @param caller
    * @param config
    */
-  protected shouldRender(
-    caller: TRIGGER_CALLER,
-    config: LaunchDialog
-  ): boolean {
+  protected shouldRender(caller: LAUNCH_CALLER, config: LaunchDialog): boolean {
     return this.renderedCallers.some((el) => el.caller === caller)
       ? !!config.multi
       : true;
@@ -48,7 +45,7 @@ export abstract class LaunchRenderStrategy {
    * @param caller
    * @param _config optional parameters used in children strategies
    */
-  public remove(caller: TRIGGER_CALLER, _config?: LaunchOptions): void {
+  public remove(caller: LAUNCH_CALLER, _config?: LaunchOptions): void {
     this.renderedCallers = this.renderedCallers.filter(
       (el) => el.caller === caller
     );

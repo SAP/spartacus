@@ -79,7 +79,7 @@ export enum DIALOG_TYPE {
 /**
  * List of available callers
  */
-export enum TRIGGER_CALLER {
+export enum LAUNCH_CALLER {
   ASM = 'ASM',
   SKIP_LINKS = 'SKIP_LINKS',
 }

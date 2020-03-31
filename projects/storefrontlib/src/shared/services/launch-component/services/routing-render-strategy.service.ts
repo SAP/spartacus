@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
-import { LaunchRoute, TRIGGER_CALLER } from '../config/index';
+import { LaunchRoute, LAUNCH_CALLER } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
@@ -14,7 +14,7 @@ export class RoutingRenderStrategy extends LaunchRenderStrategy {
    * @param config
    * @param _caller
    */
-  render(config: LaunchRoute, _caller: TRIGGER_CALLER) {
+  render(config: LaunchRoute, _caller: LAUNCH_CALLER) {
     this.routingService.go(config);
   }
 

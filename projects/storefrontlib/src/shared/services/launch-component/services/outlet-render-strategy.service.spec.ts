@@ -2,7 +2,7 @@ import { Component, ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OutletRendererService } from 'projects/storefrontlib/src/cms-structure/outlet/outlet-renderer.service';
 import { OutletPosition, OutletService } from '../../../../cms-structure/index';
-import { LaunchConfig, LaunchOutletDialog, TRIGGER_CALLER } from '../config';
+import { LaunchConfig, LaunchOutletDialog, LAUNCH_CALLER } from '../config';
 import { OutletRenderStrategy } from './outlet-render-strategy.service';
 
 @Component({
@@ -80,7 +80,7 @@ describe('OutletRenderStrategy', () => {
         const config = mockLaunchConfig.trigger[
           'TEST_OUTLET'
         ] as LaunchOutletDialog;
-        service.render(config, 'TEST_OUTLET' as TRIGGER_CALLER);
+        service.render(config, 'TEST_OUTLET' as LAUNCH_CALLER);
 
         expect(outletService.add).toHaveBeenCalledWith(
           config.outlet,
@@ -97,7 +97,7 @@ describe('OutletRenderStrategy', () => {
         const config = mockLaunchConfig.trigger[
           'TEST_OUTLET_NP'
         ] as LaunchOutletDialog;
-        service.render(config, 'TEST_OUTLET_NP' as TRIGGER_CALLER);
+        service.render(config, 'TEST_OUTLET_NP' as LAUNCH_CALLER);
 
         expect(outletService.add).toHaveBeenCalledWith(
           config.outlet,

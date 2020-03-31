@@ -4,9 +4,9 @@ import {
   LaunchConfig,
   LaunchInlineDialog,
   LaunchRoute,
-  TRIGGER_CALLER,
+  LAUNCH_CALLER,
 } from '../config/launch-config';
-import { LaunchComponentService } from './launch-component.service';
+import { LaunchDialogService } from './launch-component.service';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 const mockLaunchConfig: LaunchConfig = {
@@ -27,7 +27,7 @@ const mockLaunchConfig: LaunchConfig = {
 class MockRoutingRenderStrategy extends LaunchRenderStrategy {
   public render(
     _config: LaunchRoute,
-    _caller: TRIGGER_CALLER,
+    _caller: LAUNCH_CALLER,
     _vcr?: ViewContainerRef
   ) {}
 
@@ -42,7 +42,7 @@ class MockRoutingRenderStrategy extends LaunchRenderStrategy {
 class MockInlineRenderStrategy extends LaunchRenderStrategy {
   public render(
     _config: LaunchInlineDialog,
-    _caller: TRIGGER_CALLER,
+    _caller: LAUNCH_CALLER,
     _vcr: ViewContainerRef
   ) {}
 
@@ -58,8 +58,8 @@ class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
 
-describe('LaunchComponentService', () => {
-  let service: LaunchComponentService;
+describe('LaunchDialogService', () => {
+  let service: LaunchDialogService;
   let routingRenderStrategy: MockRoutingRenderStrategy;
   let inlineRenderStrategy: MockInlineRenderStrategy;
   let component: TestContainerComponent;
@@ -67,7 +67,7 @@ describe('LaunchComponentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        LaunchComponentService,
+        LaunchDialogService,
         {
           provide: LaunchRenderStrategy,
           useExisting: MockRoutingRenderStrategy,
@@ -83,7 +83,7 @@ describe('LaunchComponentService', () => {
       declarations: [TestContainerComponent],
     }).compileComponents();
 
-    service = TestBed.inject(LaunchComponentService);
+    service = TestBed.inject(LaunchDialogService);
     component = TestBed.createComponent(TestContainerComponent)
       .componentInstance;
     routingRenderStrategy = TestBed.inject(MockRoutingRenderStrategy);
@@ -101,20 +101,20 @@ describe('LaunchComponentService', () => {
 
   describe('launch', () => {
     it('should call the proper renderer', () => {
-      const urlConfig = mockLaunchConfig.trigger['TEST_URL' as TRIGGER_CALLER];
-      service.launch('TEST_URL' as TRIGGER_CALLER);
+      const urlConfig = mockLaunchConfig.trigger['TEST_URL' as LAUNCH_CALLER];
+      service.launch('TEST_URL' as LAUNCH_CALLER);
       expect(routingRenderStrategy.render).toHaveBeenCalledWith(
         urlConfig as LaunchRoute,
-        'TEST_URL' as TRIGGER_CALLER,
+        'TEST_URL' as LAUNCH_CALLER,
         undefined
       );
 
       const inlineConfig =
-        mockLaunchConfig.trigger['TEST_INLINE' as TRIGGER_CALLER];
-      service.launch('TEST_INLINE' as TRIGGER_CALLER, component.vcr);
+        mockLaunchConfig.trigger['TEST_INLINE' as LAUNCH_CALLER];
+      service.launch('TEST_INLINE' as LAUNCH_CALLER, component.vcr);
       expect(inlineRenderStrategy.render).toHaveBeenCalledWith(
         inlineConfig as LaunchInlineDialog,
-        'TEST_INLINE' as TRIGGER_CALLER,
+        'TEST_INLINE' as LAUNCH_CALLER,
         component.vcr
       );
     });
@@ -122,19 +122,19 @@ describe('LaunchComponentService', () => {
 
   describe('clear', () => {
     it('should call the proper remove', () => {
-      const urlConfig = mockLaunchConfig.trigger['TEST_URL' as TRIGGER_CALLER];
+      const urlConfig = mockLaunchConfig.trigger['TEST_URL' as LAUNCH_CALLER];
       const inlineConfig =
-        mockLaunchConfig.trigger['TEST_INLINE' as TRIGGER_CALLER];
+        mockLaunchConfig.trigger['TEST_INLINE' as LAUNCH_CALLER];
 
-      service.clear('TEST_URL' as TRIGGER_CALLER);
+      service.clear('TEST_URL' as LAUNCH_CALLER);
       expect(routingRenderStrategy.remove).toHaveBeenCalledWith(
-        'TEST_URL' as TRIGGER_CALLER,
+        'TEST_URL' as LAUNCH_CALLER,
         urlConfig
       );
 
-      service.clear('TEST_INLINE' as TRIGGER_CALLER);
+      service.clear('TEST_INLINE' as LAUNCH_CALLER);
       expect(inlineRenderStrategy.remove).toHaveBeenCalledWith(
-        'TEST_INLINE' as TRIGGER_CALLER,
+        'TEST_INLINE' as LAUNCH_CALLER,
         inlineConfig
       );
     });
@@ -143,15 +143,15 @@ describe('LaunchComponentService', () => {
   describe('findConfiguration', () => {
     it('should return configuration for caller', () => {
       const inlineConfig =
-        mockLaunchConfig.trigger['TEST_INLINE' as TRIGGER_CALLER];
+        mockLaunchConfig.trigger['TEST_INLINE' as LAUNCH_CALLER];
       expect(
-        service['findConfiguration']('TEST_INLINE' as TRIGGER_CALLER)
+        service['findConfiguration']('TEST_INLINE' as LAUNCH_CALLER)
       ).toEqual(inlineConfig);
 
-      const urlConfig = mockLaunchConfig.trigger['TEST_URL' as TRIGGER_CALLER];
-      expect(
-        service['findConfiguration']('TEST_URL' as TRIGGER_CALLER)
-      ).toEqual(urlConfig);
+      const urlConfig = mockLaunchConfig.trigger['TEST_URL' as LAUNCH_CALLER];
+      expect(service['findConfiguration']('TEST_URL' as LAUNCH_CALLER)).toEqual(
+        urlConfig
+      );
     });
   });
 });

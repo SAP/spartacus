@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
-import { LaunchConfig, LaunchRoute, TRIGGER_CALLER } from '../config/index';
+import { LaunchConfig, LaunchRoute, LAUNCH_CALLER } from '../config/index';
 import { RoutingRenderStrategy } from './routing-render-strategy.service';
 
 const mockLaunchConfig: LaunchConfig = {
@@ -49,7 +49,7 @@ describe('RoutingRenderStrategy', () => {
     it('should call RoutingService go', () => {
       const config = mockLaunchConfig.trigger['TEST_URL'] as LaunchRoute;
 
-      service.render(config, 'TEST_URL' as TRIGGER_CALLER);
+      service.render(config, 'TEST_URL' as LAUNCH_CALLER);
 
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: config.cxRoute,
@@ -59,7 +59,7 @@ describe('RoutingRenderStrategy', () => {
     it('should include params', () => {
       const config = mockLaunchConfig.trigger['TEST_URL_PARAMS'] as LaunchRoute;
 
-      service.render(config, 'TEST_URL_PARAMS' as TRIGGER_CALLER);
+      service.render(config, 'TEST_URL_PARAMS' as LAUNCH_CALLER);
 
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: config.cxRoute,
