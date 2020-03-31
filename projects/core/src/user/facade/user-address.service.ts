@@ -22,7 +22,7 @@ export class UserAddressService {
    * Retrieves user's addresses
    */
   loadAddresses(): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new UserActions.LoadUserAddresses(userId))
     );
   }
@@ -32,7 +32,7 @@ export class UserAddressService {
    * @param address a user address
    */
   addUserAddress(address: Address): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.AddUserAddress({
           userId,
@@ -47,7 +47,7 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   setAddressAsDefault(addressId: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.UpdateUserAddress({
           userId,
@@ -64,7 +64,7 @@ export class UserAddressService {
    * @param address a user address
    */
   updateUserAddress(addressId: string, address: Address): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.UpdateUserAddress({
           userId,
@@ -80,7 +80,7 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   deleteUserAddress(addressId: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.DeleteUserAddress({
           userId,
@@ -179,6 +179,6 @@ export class UserAddressService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(userId => callback(userId));
+      .subscribe((userId) => callback(userId));
   }
 }

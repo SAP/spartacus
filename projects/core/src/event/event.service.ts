@@ -79,7 +79,7 @@ export class EventService {
   private unregister<T>(eventType: Type<T>, source$: Observable<T>): void {
     const event = this.getEventMeta(eventType);
     const newSources: Observable<T>[] = event.sources$.value.filter(
-      s$ => s$ !== source$
+      (s$) => s$ !== source$
     );
     event.sources$.next(newSources);
   }
@@ -178,7 +178,7 @@ export class EventService {
     eventType: Type<T>
   ): Observable<T> {
     return source$.pipe(
-      tap(event => {
+      tap((event) => {
         if (!(event instanceof eventType)) {
           console.warn(
             `EventService: The stream`,

@@ -56,11 +56,11 @@ describe('AuthErrorInterceptor', () => {
       const options = {
         headers,
       };
-      http.get('/test', options).subscribe(result => {
+      http.get('/test', options).subscribe((result) => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
       mockReq.flush(

@@ -38,7 +38,7 @@ export class UserConsentService {
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new UserActions.LoadUserConsents(userId))
     );
   }
@@ -110,14 +110,14 @@ export class UserConsentService {
   getConsent(templateId: string): Observable<Consent> {
     return this.authService.isUserLoggedIn().pipe(
       filter(Boolean),
-      tap(_ => this.getConsents(true)),
-      switchMap(_ =>
+      tap(() => this.getConsents(true)),
+      switchMap(() =>
         this.store.pipe(
           select(UsersSelectors.getConsentByTemplateId(templateId))
         )
       ),
-      filter(template => Boolean(template)),
-      map(template => template.currentConsent)
+      filter((template) => Boolean(template)),
+      map((template) => template.currentConsent)
     );
   }
 
@@ -154,7 +154,7 @@ export class UserConsentService {
    * @param consentTemplateVersion a template version for which to give a consent
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.GiveUserConsent({
           userId,
@@ -204,7 +204,7 @@ export class UserConsentService {
    * @param consentCode for which to withdraw the consent
    */
   withdrawConsent(consentCode: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new UserActions.WithdrawUserConsent({
           userId,
@@ -283,6 +283,6 @@ export class UserConsentService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(userId => callback(userId));
+      .subscribe((userId) => callback(userId));
   }
 }

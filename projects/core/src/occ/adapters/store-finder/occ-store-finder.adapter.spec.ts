@@ -128,7 +128,7 @@ describe('OccStoreFinderAdapter', () => {
 
   describe('loadCounts', () => {
     it('should request stores count', () => {
-      occStoreFinderAdapter.loadCounts().subscribe(result => {
+      occStoreFinderAdapter.loadCounts().subscribe((result) => {
         expect(result).toEqual([
           { count: 1, name: 'name1' },
           { count: 2, name: 'name2' },
@@ -153,7 +153,7 @@ describe('OccStoreFinderAdapter', () => {
 
   describe('load', () => {
     it('should request stores by store id', () => {
-      occStoreFinderAdapter.load(storeId).subscribe(result => {
+      occStoreFinderAdapter.load(storeId).subscribe((result) => {
         expect(result).toEqual(searchResults.stores[0]);
       });
 
