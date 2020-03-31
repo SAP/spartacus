@@ -3,12 +3,12 @@
   [cxOutletContext]="{ components$: components$ }"
 >
   <ng-template
-    *ngFor="let components of components$ | async as component"
-    [cxOutlet]="components.flexType"
-    [cxOutletContext]="{ component: components }"
-    [cxOutletDefer]="getComponentDeferOptions(components.flexType)"
+    *ngFor="let component of components$ | async"
+    [cxOutlet]="component.flexType"
+    [cxOutletContext]="{ component: component }"
+    [cxOutletDefer]="getComponentDeferOptions(component.flexType)"
     (loaded)="isLoaded($event)"
   >
-    <ng-container [cxComponentWrapper]="components"></ng-container>
+    <ng-container [cxComponentWrapper]="component"></ng-container>
   </ng-template>
 </ng-template>
