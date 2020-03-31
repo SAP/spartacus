@@ -4,152 +4,153 @@ import {
   ElementRef,
   HostBinding,
   Input,
-  OnDestroy,
   OnInit,
   Renderer2,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   CmsConfig,
   CmsService,
   ContentSlotComponentData,
-  ContentSlotData,
-  DeferLoadingStrategy,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { delay, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 
+/**
+ * The `PageSlotComponent` is used to render the CMS page slot and it's components.
+ *
+ * The Page slot host element will be supplemented with css classes so that the layout
+ * can be fully controlled by customers:
+ * - The page slot _position_ is added as a css class by default.
+ * - The `cx-pending` is added for as long as the slot hasn't start loading.
+ * - The `page-fold` style class is added for the page slot which is configured as the page fold.
+ */
 @Component({
   selector: 'cx-page-slot,[cx-page-slot]',
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
-export class PageSlotComponent implements OnInit, OnDestroy {
+export class PageSlotComponent implements OnInit {
   /**
-   * The position is used to find the CMS page slot (and optional outlet)
-   * that is rendered in the PageSlotComponent. Furthermore, the position
-   * is added as a CSS class name to the host element.
+   * The position represents the unique key for a page slot on a single page, but can
+   * be reused cross pages.
+   *
+   * The position is used to find the CMS components for the page slot. It is also
+   * added as an additional CSS class so that layoutt can be applied.
    */
-  @Input()
-  set position(position: string) {
-    this.position$.next(position);
-    this.renderer.addClass(this.hostElement.nativeElement, position);
-  }
-  get position(): string {
-    return this.position$.value;
-  }
+  @Input() position: string;
 
-  @HostBinding('class.cx-pending') isPending = true;
-  @HostBinding('class.has-components') hasComponents = false;
+  /** Contains css classes introduced by the host. Additional classes are added by the component logic. */
+  @Input() @HostBinding() class: string;
+
+  /** Indicates that the page slot is the last page slot above the fold */
   @HostBinding('class.page-fold') @Input() isPageFold = false;
 
-  private pendingComponentCount: number;
+  /** Indicates that the page slot is indicated as the last page slot above the fold */
+  @HostBinding('class.cx-pending') @Input() isPending = true;
 
-  readonly position$ = new BehaviorSubject<string>(undefined);
+  /** Observes the components for the given page slot. */
+  components$: Observable<ContentSlotComponentData[]>;
 
-  /**
-   * observable with `ContentSlotData` for the current position
-   *
-   * @deprecated we'll stop supporting this property in 2.0 as
-   * it is not used separately.
-   */
-  readonly slot$: Observable<ContentSlotData> = this.position$.pipe(
-    switchMap(position => this.cmsService.getContentSlot(position)),
-    tap(slot => this.addSmartEditSlotClass(slot))
-  );
+  /** Keeps track of the pending components that must be loaded for the page slot */
+  private _pendingComponentCount = 0;
 
-  readonly components$: Observable<
-    ContentSlotComponentData[]
-  > = this.slot$.pipe(
-    map(slot => (slot && slot.components ? slot.components : [])),
-    distinctUntilChanged(
-      (a, b) =>
-        a.length === b.length && !a.find((el, index) => el.uid !== b[index].uid)
-    )
-  );
-
-  private subscription = new Subscription();
-
-  constructor(
-    cmsService: CmsService,
-    dynamicAttributeService: DynamicAttributeService,
-    renderer: Renderer2,
-    hostElement: ElementRef,
-    // tslint:disable-next-line:unified-signatures
-    config: CmsConfig
-  );
-  /**
-   * @deprecated since version 1.4
-   * Use constructor(cmsService: CmsService, dynamicAttributeService: DynamicAttributeService, renderer: Renderer2, hostElement: ElementRef, config?: CmsConfig) instead
-   */
-  constructor(
-    cmsService: CmsService,
-    dynamicAttributeService: DynamicAttributeService,
-    renderer: Renderer2,
-    hostElement: ElementRef
-  );
   constructor(
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
-    protected hostElement: ElementRef,
-    protected config?: CmsConfig
+    protected elementRef: ElementRef,
+    protected config: CmsConfig
   ) {}
 
   ngOnInit() {
-    this.subscription.add(
-      this.components$.subscribe(components => {
-        this.hasComponents = components && components.length > 0;
-        this.pendingComponentCount = components ? components.length : 0;
-        this.isPending = this.pendingComponentCount > 0;
-      })
-    );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.position) {
+      this.toggleStyleClass(this.position, true);
+      this.components$ = this.cmsService.getContentSlot(this.position).pipe(
+        tap(slot => this.addSmartEditSlotClass(slot)),
+        map(slot => slot?.components ?? []),
+        distinctUntilChanged(this.compareComponents),
+        delay(0),
+        tap(components => {
+          this.toggleStyleClass('has-components', components.length > 0);
+          this.pending = components.length || 0;
+        })
+      );
+    } else {
+      this.isPending = false;
+    }
   }
 
   /**
-   * Is triggered when a component is added to the view.
-   * We use this information to dropthe `is-pending` class from the page slot
-   * when all nested components have been added.
+   * Sets the pending count for the page slot components. Once all pending components are
+   * loaded, the `isPending` flag is updated, so that the associated class can be updated
+   */
+  protected set pending(count: number) {
+    this._pendingComponentCount = count;
+    this.isPending = this._pendingComponentCount > 0;
+  }
+
+  protected get pending(): number {
+    return this._pendingComponentCount;
+  }
+
+  /**
+   * Toggles the css classes for the host element.
+   *
+   * @param cls the classname that should be added.
+   * @param forceAdd indicates that the class should be added or not regardless of the current classlist.
+   */
+  protected toggleStyleClass(cls: string, forceAdd?: boolean): void {
+    let classes = this.class || '';
+
+    if (!classes.includes(cls) && forceAdd !== false) {
+      classes += ` ${cls} `;
+    } else if (!forceAdd) {
+      classes = classes.replace(cls, '');
+    }
+    this.class = classes.replace(/\s\s/g, ' ').trim();
+  }
+
+  /*
+   * Is triggered when a component is added to the view. This is used to
+   * update the pending count
    */
   isLoaded(loadState: boolean) {
     if (loadState) {
-      this.pendingComponentCount--;
+      this.pending--;
     }
-    this.isPending = this.pendingComponentCount > 0;
-  }
-
-  getComponentDeferOptions(componentType: string): IntersectionOptions {
-    const deferLoading = this.getDeferLoadingStrategy(componentType);
-    return { deferLoading };
   }
 
   /**
-   * The `DeferLoadingStrategy` indicates whether component rendering
-   * should be deferred.
+   * The `DeferLoadingStrategy` indicates whether the component should be
+   * rendered instantly or whether it should be deferred.
    */
-  private getDeferLoadingStrategy(componentType: string): DeferLoadingStrategy {
-    if (this.config) {
-      return ((this.config as CmsConfig).cmsComponents[componentType] || {})
-        .deferLoading;
-    }
+  getComponentDeferOptions(componentType: string): IntersectionOptions {
+    const deferLoading = (this.config.cmsComponents[componentType] || {})
+      .deferLoading;
+    return { deferLoading };
   }
 
   private addSmartEditSlotClass(slot): void {
     if (slot && this.cmsService.isLaunchInSmartEdit()) {
-      this.addSmartEditContract(slot);
+      this.dynamicAttributeService.addDynamicAttributes(
+        slot.properties,
+        this.elementRef.nativeElement,
+        this.renderer
+      );
     }
   }
 
-  private addSmartEditContract(slot: ContentSlotData): void {
-    this.dynamicAttributeService.addDynamicAttributes(
-      slot.properties,
-      this.hostElement.nativeElement,
-      this.renderer
+  private compareComponents(
+    old: ContentSlotComponentData[],
+    components: ContentSlotComponentData[]
+  ) {
+    return (
+      old.length === components.length &&
+      !old.find((el, index) => el.uid !== components[index].uid)
     );
   }
 }

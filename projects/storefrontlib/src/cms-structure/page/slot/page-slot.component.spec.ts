@@ -1,5 +1,10 @@
 import { Component, Renderer2 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CmsConfig,
@@ -13,7 +18,6 @@ import { SkipLinkConfig, SkipLinkDirective } from '../../../layout/a11y/index';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../../outlet/index';
 import { CmsMappingService } from '../../services/cms-mapping.service';
-import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { PageSlotComponent } from './page-slot.component';
 
 const slotWithOneComp = {
@@ -48,6 +52,7 @@ class MockCmsService {
   isLaunchInSmartEdit(): boolean {
     return true;
   }
+  getComponentData() {}
 }
 
 class MockDynamicAttributeService {
@@ -60,14 +65,17 @@ const MockSkipLinkConfig: SkipLinkConfig = { skipLinks: [] };
 
 @Component({
   template: `
-    <cx-page-slot position="section" class="host classes"></cx-page-slot>
+    <cx-page-slot
+      position="Section1"
+      class="existing-style and-more"
+    ></cx-page-slot>
   `,
 })
 class MockHostComponent {}
 
 @Component({
   template: `
-    <div cx-page-slot position="section" class="host classes"></div>
+    <div cx-page-slot position="Section2" class="existing-style and-more"></div>
   `,
 })
 class MockHostWithDivComponent {}
@@ -124,10 +132,8 @@ describe('PageSlotComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       declarations: [
         PageSlotComponent,
-        ComponentWrapperDirective,
         OutletDirective,
         SkipLinkDirective,
         MockHostComponent,
@@ -136,11 +142,10 @@ describe('PageSlotComponent', () => {
       providers,
     }).compileComponents();
 
+    cmsService = TestBed.inject(CmsService);
+
     fixture = TestBed.createComponent(PageSlotComponent);
     pageSlotComponent = fixture.componentInstance;
-    pageSlotComponent.position = 'left';
-
-    cmsService = TestBed.inject(CmsService);
     dynamicAttributeService = TestBed.inject(DynamicAttributeService);
     renderer = fixture.componentRef.injector.get<Renderer2>(Renderer2 as any);
   });
@@ -150,128 +155,177 @@ describe('PageSlotComponent', () => {
     fixture = TestBed.createComponent(PageSlotComponent);
   });
 
-  describe('use as an attribute selector', () => {
-    let el: HTMLElement;
-    beforeEach(() => {
-      const compFixture = TestBed.createComponent(MockHostWithDivComponent);
-      compFixture.detectChanges();
-      el = compFixture.debugElement.query(By.css('[cx-page-slot]'))
-        .nativeElement;
-    });
-    it('should get a position class', () => {
-      expect(el.classList).toContain('host');
-    });
-
-    it('should keep existing classes', () => {
-      expect(el.classList).toContain('host');
-      expect(el.classList).toContain('classes');
-      expect(el.classList).toContain('section');
-    });
-  });
-
-  describe('use as an element selector', () => {
-    let el: HTMLElement;
-    beforeEach(() => {
-      const compFixture = TestBed.createComponent(MockHostComponent);
-      compFixture.detectChanges();
-      el = compFixture.debugElement.query(By.css('cx-page-slot')).nativeElement;
-    });
-    it('should get a position class', () => {
-      expect(el.classList).toContain('host');
-    });
-    it('should keep existing classes', () => {
-      expect(el.classList).toContain('host');
-      expect(el.classList).toContain('classes');
-      expect(el.classList).toContain('section');
-    });
-  });
-
-  describe('slot position class', () => {
-    it('should have class for the given slot position', () => {
-      pageSlotComponent.position = 'abc';
+  describe('slot position style class', () => {
+    it('should not add style classes if there is no position given', () => {
       fixture.detectChanges();
-      expect(
-        (<HTMLElement>fixture.debugElement.nativeElement).classList
-      ).toContain('abc');
+      const el = <HTMLElement>fixture.debugElement.nativeElement;
+      expect(el.classList.toString()).toEqual('');
+    });
+
+    it('should add style class to the host element', () => {
+      pageSlotComponent.position = 'Section1';
+      fixture.detectChanges();
+      const el = <HTMLElement>fixture.debugElement.nativeElement;
+      expect(el.classList).toContain('Section1');
     });
 
     it('should not remove host class', () => {
-      pageSlotComponent.position = 'abc';
+      pageSlotComponent.class = 'outer-style and-more';
+      pageSlotComponent.position = 'Section1';
       fixture.detectChanges();
-      expect(
-        (<HTMLElement>fixture.debugElement.nativeElement).classList
-      ).toContain('abc');
+      const el = <HTMLElement>fixture.debugElement.nativeElement;
+      expect(el.classList).toContain('outer-style');
+      expect(el.classList).toContain('and-more');
+      expect(el.classList).toContain('Section1');
+    });
+
+    describe('host the page-slot component', () => {
+      let el: HTMLElement;
+      beforeEach(() => {
+        const compFixture = TestBed.createComponent(MockHostComponent);
+        compFixture.detectChanges();
+        el = compFixture.debugElement.query(By.css('cx-page-slot'))
+          .nativeElement;
+      });
+
+      it('should get a position class', () => {
+        expect(el.classList).toContain('Section1');
+      });
+
+      it('should keep existing classes', () => {
+        expect(el.classList).toContain('Section1');
+        expect(el.classList).toContain('existing-style');
+        expect(el.classList).toContain('and-more');
+      });
+    });
+
+    describe('host the page-slot attribute directive', () => {
+      let el: HTMLElement;
+
+      beforeEach(() => {
+        const compFixture = TestBed.createComponent(MockHostWithDivComponent);
+        compFixture.detectChanges();
+        el = compFixture.debugElement.query(By.css('[cx-page-slot]'))
+          .nativeElement;
+      });
+
+      it('should get a position class', fakeAsync(() => {
+        expect(el.classList).toContain('Section2');
+      }));
+
+      it('should keep existing classes', () => {
+        expect(el.classList).toContain('Section2');
+        expect(el.classList).toContain('existing-style');
+        expect(el.classList).toContain('and-more');
+      });
     });
   });
 
-  describe('is-pending class', () => {
-    it('should have isPending set to true initially', () => {
+  describe('cx-pending class', () => {
+    beforeEach(() => {
+      pageSlotComponent.position = 'Section1';
+    });
+
+    it('should control cx-pending class with isPending property', () => {
+      pageSlotComponent.isPending = true;
+      fixture.detectChanges();
+      const el = <HTMLElement>fixture.debugElement.nativeElement;
+      expect(el.classList).toContain('cx-pending');
+    });
+
+    it('should control cx-pending class with isPending property', () => {
+      pageSlotComponent.isPending = false;
+      fixture.detectChanges();
+      const el = <HTMLElement>fixture.debugElement.nativeElement;
+      expect(el.classList).not.toContain('cx-pending');
+    });
+
+    it('should have cx-pending class initially', () => {
+      fixture.detectChanges();
       expect(pageSlotComponent.isPending).toEqual(true);
     });
 
-    it('should not have isPending when there is no slot', () => {
+    it('should not have cx-pending class when there are no components', fakeAsync(() => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(of(null));
       fixture.detectChanges();
+      tick();
+      expect(pageSlotComponent.class).not.toContain('cx-pending');
       expect(pageSlotComponent.isPending).toEqual(false);
-    });
+    }));
 
-    it('should not have isPending with a slot with no components', () => {
+    it('should not have cx-pending class when there are no components', fakeAsync(() => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
       fixture.detectChanges();
+      tick();
       expect(pageSlotComponent.isPending).toEqual(false);
-    });
+    }));
 
-    it('should have isPending set to true with a slot with at least one component', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(
-        of({ components: [{}] } as ContentSlotData)
-      );
+    it('should have cx-pending class when there is at least one component', fakeAsync(() => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithOneComp));
       fixture.detectChanges();
+      tick();
       expect(pageSlotComponent.isPending).toEqual(true);
-    });
+    }));
 
-    it('should add an cx-pending class with at least one component', () => {
+    it('should no longer have cx-pending when the components are loaded', fakeAsync(() => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(
         of({ components: [{}] } as ContentSlotData)
       );
       fixture.detectChanges();
-      expect(
-        (<HTMLElement>fixture.debugElement.nativeElement).classList
-      ).toContain('cx-pending');
-    });
-
-    it('should not have isPending when one component is loaded', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(
-        of({ components: [{}] } as ContentSlotData)
-      );
-      fixture.detectChanges();
+      tick();
+      // simulate component load
       pageSlotComponent.isLoaded(true);
       expect(pageSlotComponent.isPending).toEqual(false);
-    });
+    }));
 
-    it('should still have isPending when only one component is loaded', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(
-        of({ components: [{}, {}] } as ContentSlotData)
-      );
+    it('should still have cx-pending class when not all components are loaded', fakeAsync(() => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
       fixture.detectChanges();
+      tick();
+      // simulate component load
       pageSlotComponent.isLoaded(true);
       expect(pageSlotComponent.isPending).toEqual(true);
-    });
+    }));
 
-    it('should not have isPending when all components are loaded', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(
-        of({ components: [{}, {}] } as ContentSlotData)
-      );
+    it('should no longer have cx-pending when all components are loaded', fakeAsync(() => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
       fixture.detectChanges();
+      tick();
+      expect(pageSlotComponent.isPending).toEqual(true);
+      // simulate component load
       pageSlotComponent.isLoaded(true);
       pageSlotComponent.isLoaded(true);
       expect(pageSlotComponent.isPending).toEqual(false);
-    });
+    }));
   });
 
   describe('page-fold class', () => {
+    it('should not have page-fold class by default', () => {
+      fixture.detectChanges();
+      const el = <HTMLElement>fixture.debugElement.nativeElement;
+      expect(el.classList).not.toContain('page-fold');
+    });
+
+    it('should add page-fold class when isPageFold=true', () => {
+      pageSlotComponent.isPageFold = true;
+      fixture.detectChanges();
+      const el = <HTMLElement>fixture.debugElement.nativeElement;
+      expect(el.classList).toContain('page-fold');
+    });
+
+    it('should remove page-fold class when isPageFold=true', () => {
+      pageSlotComponent.isPageFold = true;
+      fixture.detectChanges();
+      pageSlotComponent.isPageFold = false;
+      fixture.detectChanges();
+      const el = <HTMLElement>fixture.debugElement.nativeElement;
+      expect(el.classList).not.toContain('page-fold');
+    });
+
     it('should set isPageFold to false initially', () => {
       expect(pageSlotComponent.isPageFold).toEqual(false);
     });
+
     it('should set page-fold class when isPageFold is true', () => {
       pageSlotComponent.isPageFold = true;
       fixture.detectChanges();
@@ -282,74 +336,60 @@ describe('PageSlotComponent', () => {
   });
 
   describe('has-components class', () => {
-    it('should have has-components class when slot has at least one components', () => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(
-        of({ components: [{}] } as ContentSlotData)
-      );
-      fixture.detectChanges();
-      expect(
-        (<HTMLElement>fixture.debugElement.nativeElement).classList
-      ).toContain('has-components');
+    beforeEach(() => {
+      pageSlotComponent.position = 'Section1';
     });
 
-    it('should not have has-components class when slot has no components', () => {
+    it('should add has-components class when slot has at least one components', fakeAsync(() => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithOneComp));
+      fixture.detectChanges();
+      tick();
+      expect(pageSlotComponent.class).toContain('has-components');
+    }));
+
+    it('should add has-components class when slot has multiple components', fakeAsync(() => {
+      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
+      fixture.detectChanges();
+      tick();
+      expect(pageSlotComponent.class).toContain('has-components');
+    }));
+
+    it('should not add has-components class when slot has no components', fakeAsync(() => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(
         of({ components: [] } as ContentSlotData)
       );
       fixture.detectChanges();
-      expect(
-        (<HTMLElement>fixture.debugElement.nativeElement).classList
-      ).not.toContain('has-components');
-    });
+      tick();
+      expect(pageSlotComponent.class).not.toContain('has-components');
+    }));
   });
 
   describe('Component Defer Options', () => {
-    it('should DEFER strategy for deferLoading', () => {
+    it('should return DEFER strategy for component', () => {
       fixture.detectChanges();
       expect(
         pageSlotComponent.getComponentDeferOptions('CMSTestComponent')
           .deferLoading
       ).toEqual(DeferLoadingStrategy.DEFER);
     });
+
+    it('should return no strategy for deferLoading for unknown component', () => {
+      fixture.detectChanges();
+      expect(
+        pageSlotComponent.getComponentDeferOptions('UnknownComponent')
+          .deferLoading
+      ).toBeUndefined();
+    });
   });
 
-  describe('isLoaded', () => {
-    it('should not call isLoaded with 0 components', async(() => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
-      spyOn(pageSlotComponent, 'isLoaded').and.callThrough();
-
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(pageSlotComponent.isLoaded).not.toHaveBeenCalled();
-      });
-    }));
-
-    it('should call isLoaded output twice', async(() => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithOneComp));
-      spyOn(pageSlotComponent, 'isLoaded').and.callThrough();
-
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(pageSlotComponent.isLoaded).toHaveBeenCalledWith(false);
-        expect(pageSlotComponent.isLoaded).toHaveBeenCalledWith(true);
-        expect(pageSlotComponent.isLoaded).toHaveBeenCalledTimes(2);
-      });
-    }));
-
-    it('should call isLoaded 4 times', async(() => {
-      spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
-      spyOn(pageSlotComponent, 'isLoaded').and.callThrough();
-
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(pageSlotComponent.isLoaded).toHaveBeenCalledTimes(4);
-      });
-    }));
-  });
-
-  describe('smart edit', () => {
-    it('should add smart edit slot contract if app launch in smart edit', () => {
+  describe('SmartEdit integration', () => {
+    it('should add page slot contract', fakeAsync(() => {
+      pageSlotComponent.position = 'Section1';
       spyOn(dynamicAttributeService, 'addDynamicAttributes').and.callThrough();
+      spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(true);
+
+      fixture.detectChanges();
+      tick();
 
       fixture.detectChanges();
 
@@ -363,24 +403,20 @@ describe('PageSlotComponent', () => {
         native,
         renderer
       );
-    });
+    }));
 
-    it('should not add smart edit slot contract if app not launch in smart edit', () => {
+    it('should not add page slot contract', fakeAsync(() => {
+      pageSlotComponent.position = 'Section1';
       spyOn(dynamicAttributeService, 'addDynamicAttributes').and.callThrough();
       spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
 
-      const native = fixture.debugElement.nativeElement;
+      fixture.detectChanges();
+      tick();
+
+      fixture.detectChanges();
       expect(
         dynamicAttributeService.addDynamicAttributes
-      ).not.toHaveBeenCalledWith(
-        {
-          smartedit: {
-            test: 'test',
-          },
-        },
-        native,
-        renderer
-      );
-    });
+      ).not.toHaveBeenCalled();
+    }));
   });
 });
