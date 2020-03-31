@@ -21,9 +21,7 @@ export function visitHomePage(queryStringParams?: string) {
   } else {
     cy.visit('/');
   }
-  cy.wait(`@${homePage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${homePage}`).its('status').should('eq', 200);
 }
 
 export function signOut() {
@@ -63,10 +61,7 @@ export function signOutUser() {
 export function goToProductDetailsPage() {
   cy.visit('/');
   // click big banner
-  cy.get('.Section1 cx-banner')
-    .first()
-    .find('img')
-    .click({ force: true });
+  cy.get('.Section1 cx-banner').first().find('img').click({ force: true });
   // click small banner number 6 (would be good if label or alt text would be available)
   cy.get('.Section2 cx-banner:nth-of-type(6) img').click({ force: true });
   cy.get('cx-product-intro').within(() => {
@@ -78,9 +73,7 @@ export function goToProductDetailsPage() {
 }
 
 export function addProductToCart() {
-  cy.get('cx-item-counter')
-    .getByText('+')
-    .click();
+  cy.get('cx-item-counter').getByText('+').click();
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
@@ -112,9 +105,7 @@ export function verifyDeliveryMethod() {
     'getPaymentPage'
   );
   cy.get('.cx-checkout-btns button.btn-primary').click();
-  cy.wait(`@${paymentPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
 }
 
 export function fillPaymentForm(
@@ -219,13 +210,8 @@ export function goToCheapProductDetailsPage() {
 export function clickCheapProductDetailsFromHomePage() {
   const productCode = 'ProductPage&code=280916';
   const productPage = waitForPage(productCode, 'getProductPage');
-  cy.get('.Section4 cx-banner')
-    .first()
-    .find('img')
-    .click({ force: true });
-  cy.wait(`@${productPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
+  cy.wait(`@${productPage}`).its('status').should('eq', 200);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', cheapProduct.code);
   });
@@ -245,9 +231,7 @@ export function addCheapProductToCartAndLogin() {
     'getShippingPage'
   );
   loginUser();
-  cy.wait(`@${shippingPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
 }
 
 export function addCheapProductToCartAndProceedToCheckout() {
@@ -264,9 +248,7 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer() {
     'getShippingPage'
   );
   cy.getByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
 }
 
 export function addCheapProductToCart() {
@@ -291,9 +273,7 @@ export function fillAddressFormWithCheapProduct(
     'getDeliveryPage'
   );
   fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
 
 export function fillPaymentFormWithCheapProduct(
@@ -306,9 +286,7 @@ export function fillPaymentFormWithCheapProduct(
     .should('contain', cartWithCheapProduct.totalAndShipping);
   const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.wait(`@${reivewPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${reivewPage}`).its('status').should('eq', 200);
 }
 
 export function placeOrderWithCheapProduct() {
@@ -350,9 +328,7 @@ export function placeOrderWithCheapProduct() {
     'getOrderConfirmationPage'
   );
   cy.get('cx-place-order button.btn-primary').click();
-  cy.wait(`@${orderConfirmationPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
 }
 
 export function verifyOrderConfirmationPageWithCheapProduct() {
@@ -387,9 +363,7 @@ export function viewOrderHistoryWithCheapProduct() {
   cy.selectUserMenuOption({
     option: 'Order History',
   });
-  cy.wait(`@${orderHistoryPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${orderHistoryPage}`).its('status').should('eq', 200);
   cy.get('cx-order-history h3').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()

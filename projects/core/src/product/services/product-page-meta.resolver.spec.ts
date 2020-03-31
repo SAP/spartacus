@@ -84,7 +84,7 @@ describe('ProductPageMetaResolver', () => {
     let result: string;
     service
       .resolveHeading()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual('pageMetaResolver.product.heading:Product title');
@@ -94,7 +94,7 @@ describe('ProductPageMetaResolver', () => {
     let result: string;
     service
       .resolveTitle()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual(
@@ -106,7 +106,7 @@ describe('ProductPageMetaResolver', () => {
     let result: string;
     service
       .resolveDescription()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual(
@@ -118,7 +118,7 @@ describe('ProductPageMetaResolver', () => {
     let result: string;
     service
       .resolveImage()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
@@ -130,7 +130,7 @@ describe('ProductPageMetaResolver', () => {
     let result: any[];
     service
       .resolveBreadcrumbs()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
@@ -142,7 +142,7 @@ describe('ProductPageMetaResolver', () => {
     let result: any[];
     service
       .resolveBreadcrumbs()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
@@ -154,7 +154,7 @@ describe('ProductPageMetaResolver', () => {
     let result: any[];
     service
       .resolveRobots()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();

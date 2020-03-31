@@ -33,7 +33,7 @@ describe('FindStores Selectors', () => {
       let result;
       store
         .pipe(select(StoreFinderSelectors.getFindStoresEntities))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new StoreFinderActions.FindStores({ queryText: 'test' }));
       store.dispatch(new StoreFinderActions.FindStoresSuccess(searchResult));
@@ -47,7 +47,7 @@ describe('FindStores Selectors', () => {
       let result: boolean;
       store
         .pipe(select(StoreFinderSelectors.getStoresLoading))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 

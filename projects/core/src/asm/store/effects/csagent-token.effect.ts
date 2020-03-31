@@ -23,7 +23,7 @@ export class CustomerSupportAgentTokenEffects {
           token.expiration_time = date.toJSON();
           return new AsmActions.LoadCustomerSupportAgentTokenSuccess(token);
         }),
-        catchError(error =>
+        catchError((error) =>
           of(
             new AsmActions.LoadCustomerSupportAgentTokenFail(
               makeErrorSerializable(error)

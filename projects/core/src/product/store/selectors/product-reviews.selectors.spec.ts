@@ -52,7 +52,7 @@ describe('Product Reviews selectors', () => {
       .pipe(
         select(ProductSelectors.getSelectedProductReviewsFactory(productCode))
       )
-      .subscribe(data => (result = data))
+      .subscribe((data) => (result = data))
       .unsubscribe();
 
     expect(result).toEqual(reviews);

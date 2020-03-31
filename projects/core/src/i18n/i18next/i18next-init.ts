@@ -12,7 +12,7 @@ export function i18nextInit(
   serverRequestOrigin: string
 ): () => Promise<any> {
   return () =>
-    configInit.getStableConfig('i18n').then(config => {
+    configInit.getStableConfig('i18n').then((config) => {
       let i18nextConfig: i18next.InitOptions = {
         ns: [], // don't preload any namespaces
         fallbackLng: config.i18n.fallbackLang,
@@ -44,8 +44,8 @@ export function i18nextInit(
 }
 
 export function i18nextAddTranslations(resources: TranslationResources = {}) {
-  Object.keys(resources).forEach(lang => {
-    Object.keys(resources[lang]).forEach(chunkName => {
+  Object.keys(resources).forEach((lang) => {
+    Object.keys(resources[lang]).forEach((chunkName) => {
       i18next.addResourceBundle(
         lang,
         chunkName,
@@ -59,7 +59,7 @@ export function i18nextAddTranslations(resources: TranslationResources = {}) {
 
 export function syncI18nextWithSiteContext(language: LanguageService) {
   // always update language of i18next on site context (language) change
-  language.getActive().subscribe(lang => i18next.changeLanguage(lang));
+  language.getActive().subscribe((lang) => i18next.changeLanguage(lang));
 }
 
 /**
@@ -74,8 +74,8 @@ export function i18nextGetHttpClient(
 ): (url: string, options: object, callback: Function, data: object) => void {
   return (url: string, _options: object, callback: Function, _data: object) => {
     httpClient.get(url, { responseType: 'text' }).subscribe(
-      data => callback(data, { status: 200 }),
-      error => callback(null, { status: error.status })
+      (data) => callback(data, { status: 200 }),
+      (error) => callback(null, { status: error.status })
     );
   };
 }

@@ -26,9 +26,9 @@ export class WishListEffects {
   > = this.actions$.pipe(
     ofType(CartActions.CREATE_WISH_LIST),
     map((action: CartActions.CreateWishList) => action.payload),
-    switchMap(payload => {
+    switchMap((payload) => {
       return this.cartConnector.create(payload.userId).pipe(
-        switchMap(cart => {
+        switchMap((cart) => {
           return this.saveCartConnector
             .saveCart(
               payload.userId,
@@ -37,13 +37,13 @@ export class WishListEffects {
               payload.description
             )
             .pipe(
-              switchMap(saveCartResult => [
+              switchMap((saveCartResult) => [
                 new CartActions.CreateWishListSuccess({
                   cart: saveCartResult.savedCartData,
                   userId: payload.userId,
                 }),
               ]),
-              catchError(error =>
+              catchError((error) =>
                 from([
                   new CartActions.CreateWishListFail({
                     cartId: cart.code,
@@ -65,13 +65,13 @@ export class WishListEffects {
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_WISH_LIST),
     map((action: CartActions.LoadWishList) => action.payload),
-    concatMap(payload => {
+    concatMap((payload) => {
       const { userId, customerId } = payload;
       return this.cartConnector.loadAll(userId).pipe(
-        switchMap(carts => {
+        switchMap((carts) => {
           if (carts) {
             const wishList = carts.find(
-              cart => cart.name === `wishlist${customerId}`
+              (cart) => cart.name === `wishlist${customerId}`
             );
             if (Boolean(wishList)) {
               return [
@@ -90,7 +90,7 @@ export class WishListEffects {
             }
           }
         }),
-        catchError(error =>
+        catchError((error) =>
           from([new CartActions.LoadCartFail(makeErrorSerializable(error))])
         )
       );
@@ -112,10 +112,10 @@ export class WishListEffects {
     switchMap(([, userId, wishListId]) => {
       if (Boolean(wishListId)) {
         return this.cartConnector.load(userId, wishListId).pipe(
-          switchMap(wishList => [
+          switchMap((wishList) => [
             new CartActions.LoadWishListSuccess({ cart: wishList, userId }),
           ]),
-          catchError(error =>
+          catchError((error) =>
             from([new CartActions.LoadCartFail(makeErrorSerializable(error))])
           )
         );

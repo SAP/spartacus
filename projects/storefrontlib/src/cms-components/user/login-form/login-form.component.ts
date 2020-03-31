@@ -68,7 +68,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     );
 
     if (!this.sub) {
-      this.sub = this.auth.getUserToken().subscribe(data => {
+      this.sub = this.auth.getUserToken().subscribe((data) => {
         if (data && data.access_token) {
           this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
           this.authRedirectService.redirect();
@@ -78,7 +78,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   private markFormAsTouched(): void {
-    Object.keys(this.form.controls).forEach(key => {
+    Object.keys(this.form.controls).forEach((key) => {
       this.form.controls[key].markAsTouched();
     });
   }

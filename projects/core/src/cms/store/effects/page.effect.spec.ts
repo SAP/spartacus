@@ -117,7 +117,7 @@ describe('Page Effects', () => {
         const action = new CmsActions.LoadCmsPageData(pageContext);
 
         const completion1 = new CmsActions.CmsGetComponentFromPage(
-          componentsMock.map(component => ({ component, pageContext }))
+          componentsMock.map((component) => ({ component, pageContext }))
         );
         const completion2 = new CmsActions.LoadCmsPageDataSuccess(
           pageContext,

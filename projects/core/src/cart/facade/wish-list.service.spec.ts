@@ -104,9 +104,9 @@ describe('WishListService', () => {
   });
 
   describe('getWishListId', () => {
-    it('should return wish list id', done => {
+    it('should return wish list id', (done) => {
       let result;
-      service['getWishListId']().subscribe(id => {
+      service['getWishListId']().subscribe((id) => {
         result = id;
       });
 
@@ -130,14 +130,14 @@ describe('WishListService', () => {
         new CartActions.LoadWishList(payload)
       );
     });
-    it('should return wish list if loaded', done => {
+    it('should return wish list if loaded', (done) => {
       spyOn(service, 'loadWishList');
       let result;
 
       store.dispatch(
         new CartActions.LoadWishListSuccess({ cart: testCart, userId })
       );
-      service.getWishList().subscribe(cart => (result = cart));
+      service.getWishList().subscribe((cart) => (result = cart));
 
       expect(service.loadWishList).not.toHaveBeenCalled();
 
@@ -206,9 +206,9 @@ describe('WishListService', () => {
   });
 
   describe('getWishListLoading', () => {
-    it('should return if the wish list loading', done => {
+    it('should return if the wish list loading', (done) => {
       let result;
-      service.getWishListLoading().subscribe(loading => {
+      service.getWishListLoading().subscribe((loading) => {
         result = loading;
       });
 

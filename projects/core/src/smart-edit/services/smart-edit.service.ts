@@ -68,7 +68,7 @@ export class SmartEditService {
         }),
         take(1)
       )
-      .subscribe(_ => {
+      .subscribe(() => {
         this.cmsService.launchInSmartEdit = true;
         this.getDefaultPreviewCode();
       });
@@ -78,10 +78,10 @@ export class SmartEditService {
     this.baseSiteService
       .getBaseSiteData()
       .pipe(
-        filter(site => Object.keys(site).length !== 0),
+        filter((site) => Object.keys(site).length !== 0),
         take(1)
       )
-      .subscribe(site => {
+      .subscribe((site) => {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
 
@@ -90,7 +90,7 @@ export class SmartEditService {
   }
 
   protected addPageContract() {
-    this.cmsService.getCurrentPage().subscribe(cmsPage => {
+    this.cmsService.getCurrentPage().subscribe((cmsPage) => {
       if (cmsPage && this._cmsTicketId) {
         this._currentPageId = cmsPage.pageId;
 
@@ -99,17 +99,17 @@ export class SmartEditService {
 
         // remove old page contract
         const previousContract = [];
-        Array.from(this.winRef.document.body.classList).forEach(attr =>
+        Array.from(this.winRef.document.body.classList).forEach((attr) =>
           previousContract.push(attr)
         );
-        previousContract.forEach(attr =>
+        previousContract.forEach((attr) =>
           this.winRef.document.body.classList.remove(attr)
         );
 
         // add new page contract
         if (cmsPage.properties && cmsPage.properties.smartedit) {
           const seClasses = cmsPage.properties.smartedit.classes.split(' ');
-          seClasses.forEach(classItem => {
+          seClasses.forEach((classItem) => {
             this.winRef.document.body.classList.add(classItem);
           });
         }

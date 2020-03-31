@@ -18,8 +18,8 @@ export const getConsentsValue: MemoizedSelector<
 export const getConsentByTemplateId = (
   templateId: string
 ): MemoizedSelector<StateWithUser, ConsentTemplate> =>
-  createSelector(getConsentsValue, templates =>
-    templates.find(template => template.id === templateId)
+  createSelector(getConsentsValue, (templates) =>
+    templates.find((template) => template.id === templateId)
   );
 
 export const getConsentsLoading: MemoizedSelector<

@@ -43,7 +43,7 @@ describe('Cms Component Selectors', () => {
       let result: Product[];
       subscription = store
         .pipe(select(ProductSelectors.getSelectedProductsFactory(['testCode'])))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new ProductActions.LoadProductSuccess(product));
 
@@ -56,7 +56,7 @@ describe('Cms Component Selectors', () => {
       let result: string[];
       subscription = store
         .pipe(select(ProductSelectors.getAllProductCodes))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 
@@ -71,7 +71,7 @@ describe('Cms Component Selectors', () => {
       let result: Product;
       subscription = store
         .pipe(select(ProductSelectors.getSelectedProductFactory(code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new ProductActions.LoadProductSuccess(product));
       expect(result).toEqual(product);
@@ -81,7 +81,7 @@ describe('Cms Component Selectors', () => {
       let result: Product;
       subscription = store
         .pipe(select(ProductSelectors.getSelectedProductFactory(code, scope)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new ProductActions.LoadProductSuccess(product, scope));
       expect(result).toEqual(product);
@@ -94,7 +94,7 @@ describe('Cms Component Selectors', () => {
 
       subscription = store
         .pipe(select(ProductSelectors.getSelectedProductLoadingFactory(code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new ProductActions.LoadProduct(product.code));
       expect(result).toBeTruthy();
@@ -110,7 +110,7 @@ describe('Cms Component Selectors', () => {
         .pipe(
           select(ProductSelectors.getSelectedProductLoadingFactory(code, scope))
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new ProductActions.LoadProduct(product.code, scope));
       expect(result).toBeTruthy();
@@ -126,7 +126,7 @@ describe('Cms Component Selectors', () => {
 
       subscription = store
         .pipe(select(ProductSelectors.getSelectedProductSuccessFactory(code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toBeFalsy();
 
@@ -140,7 +140,7 @@ describe('Cms Component Selectors', () => {
         .pipe(
           select(ProductSelectors.getSelectedProductSuccessFactory(code, scope))
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toBeFalsy();
 
@@ -155,7 +155,7 @@ describe('Cms Component Selectors', () => {
 
       subscription = store
         .pipe(select(ProductSelectors.getSelectedProductErrorFactory(code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toBeFalsy();
 
@@ -170,7 +170,7 @@ describe('Cms Component Selectors', () => {
         .pipe(
           select(ProductSelectors.getSelectedProductErrorFactory(code, scope))
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toBeFalsy();
 

@@ -37,7 +37,7 @@ describe('StoreFinderService', () => {
     nativeWindow: {
       navigator: {
         geolocation: {
-          watchPosition: callback => {
+          watchPosition: (callback) => {
             callback({ coords: longitudeLatitude });
             return geolocationWatchId;
           },

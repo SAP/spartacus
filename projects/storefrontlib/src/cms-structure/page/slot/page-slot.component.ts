@@ -6,13 +6,13 @@ import {
   Input,
   OnInit,
   Renderer2,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import {
   CmsConfig,
   CmsService,
   ContentSlotComponentData,
-  DynamicAttributeService,
+  DynamicAttributeService
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { delay, distinctUntilChanged, map, tap } from 'rxjs/operators';
@@ -31,7 +31,7 @@ import { IntersectionOptions } from '../../../layout/loading/intersection.model'
   selector: 'cx-page-slot,[cx-page-slot]',
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class PageSlotComponent implements OnInit {
   /**

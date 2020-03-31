@@ -6,7 +6,7 @@ import * as login from '../../../helpers/login';
 
 describe('My Account - Address Book', () => {
   before(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
     });
   });
