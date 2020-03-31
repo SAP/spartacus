@@ -32,7 +32,7 @@ export class CheckoutProgressMobileTopComponent implements OnInit {
     this.steps = this.config.checkout.steps;
     this.cart$ = this.activeCartService.getActive();
     this.routerState$ = this.routingService.getRouterState().pipe(
-      tap(router => {
+      tap((router) => {
         this.activeStepUrl = router.state.context.id;
 
         this.steps.forEach((step, index) => {

@@ -55,14 +55,14 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * it is not used separately.
    */
   readonly slot$: Observable<ContentSlotData> = this.position$.pipe(
-    switchMap(position => this.cmsService.getContentSlot(position)),
-    tap(slot => this.addSmartEditSlotClass(slot))
+    switchMap((position) => this.cmsService.getContentSlot(position)),
+    tap((slot) => this.addSmartEditSlotClass(slot))
   );
 
   readonly components$: Observable<
     ContentSlotComponentData[]
   > = this.slot$.pipe(
-    map(slot => (slot && slot.components ? slot.components : [])),
+    map((slot) => (slot && slot.components ? slot.components : [])),
     distinctUntilChanged(
       (a, b) =>
         a.length === b.length && !a.find((el, index) => el.uid !== b[index].uid)
@@ -99,7 +99,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription.add(
-      this.components$.subscribe(components => {
+      this.components$.subscribe((components) => {
         this.hasComponents = components && components.length > 0;
         this.pendingComponentCount = components ? components.length : 0;
         this.isPending = this.pendingComponentCount > 0;

@@ -69,7 +69,7 @@ export class UserInterestsService {
   ): Observable<ProductInterestSearchResult> {
     return this.store.pipe(
       select(UsersSelectors.getInterestsState),
-      tap(interestListState => {
+      tap((interestListState) => {
         const attemptedLoad =
           interestListState.loading ||
           interestListState.success ||
@@ -78,7 +78,7 @@ export class UserInterestsService {
           this.loadProductInterests(pageSize);
         }
       }),
-      map(interestListState => interestListState.value)
+      map((interestListState) => interestListState.value)
     );
   }
 

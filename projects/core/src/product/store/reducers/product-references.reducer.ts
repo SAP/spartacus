@@ -25,7 +25,7 @@ export function reducer(
           ) => {
             if (
               !productReferences.some(
-                obj =>
+                (obj) =>
                   obj.referenceType === productReference.referenceType &&
                   obj.target.code === productReference.target.code
               )

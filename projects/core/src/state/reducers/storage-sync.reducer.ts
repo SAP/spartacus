@@ -15,7 +15,7 @@ export function getStorageSyncReducer<T>(
     !config.state.storageSync ||
     !config.state.storageSync.keys
   ) {
-    return reducer => reducer;
+    return (reducer) => reducer;
   }
 
   const storageSyncConfig = config.state.storageSync;

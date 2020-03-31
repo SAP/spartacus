@@ -41,7 +41,7 @@ describe('ProductDetailsTabComponent', () => {
     productDetailsTabComponent.ngOnInit();
     let result: Product;
     productDetailsTabComponent.product$.subscribe(
-      product => (result = product)
+      (product) => (result = product)
     );
     expect(result).toEqual(mockProduct);
   });

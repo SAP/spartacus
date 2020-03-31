@@ -91,7 +91,7 @@ export class ItemCounterComponent {
     if (!this._control$) {
       this._control$ = this.control.valueChanges.pipe(
         startWith(this.control.value),
-        tap(value =>
+        tap((value) =>
           this.control.setValue(this.getValidCount(value), { emitEvent: false })
         ),
         map(() => this.control)

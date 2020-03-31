@@ -31,7 +31,7 @@ export class AnonymousConsentsEffects {
     AnonymousConsentsActions.AnonymousConsentsActions
   > = this.actions$.pipe(
     ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
-    concatMap(_ =>
+    concatMap(() =>
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
         .pipe(
@@ -57,7 +57,7 @@ export class AnonymousConsentsEffects {
               ),
             ];
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
                 makeErrorSerializable(error)
@@ -140,7 +140,7 @@ export class AnonymousConsentsEffects {
       AuthActions.LOAD_USER_TOKEN_SUCCESS
     ),
     filter(
-      action =>
+      (action) =>
         isFeatureEnabled(
           this.anonymousConsentsConfig,
           ANONYMOUS_CONSENTS_FEATURE

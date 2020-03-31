@@ -13,11 +13,11 @@ export class AddressVerificationEffect {
     CheckoutActions.VerifyAddressSuccess | CheckoutActions.VerifyAddressFail
   > = this.actions$.pipe(
     ofType<CheckoutActions.VerifyAddress>(CheckoutActions.VERIFY_ADDRESS),
-    map(action => action.payload),
-    mergeMap(payload =>
+    map((action) => action.payload),
+    mergeMap((payload) =>
       this.userAddressConnector.verify(payload.userId, payload.address).pipe(
-        map(data => new CheckoutActions.VerifyAddressSuccess(data)),
-        catchError(error =>
+        map((data) => new CheckoutActions.VerifyAddressSuccess(data)),
+        catchError((error) =>
           of(
             new CheckoutActions.VerifyAddressFail(makeErrorSerializable(error))
           )
