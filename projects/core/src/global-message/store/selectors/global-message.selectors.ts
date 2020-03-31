@@ -21,7 +21,7 @@ export const getGlobalMessageEntitiesByType = (
 ): MemoizedSelector<StateWithGlobalMessage, Translatable[]> => {
   return createSelector(
     getGlobalMessageEntities,
-    entities => entities && entities[type]
+    (entities) => entities && entities[type]
   );
 };
 
@@ -30,6 +30,6 @@ export const getGlobalMessageCountByType = (
 ): MemoizedSelector<StateWithGlobalMessage, number> => {
   return createSelector(
     getGlobalMessageEntitiesByType(type),
-    entities => entities && entities.length
+    (entities) => entities && entities.length
   );
 };

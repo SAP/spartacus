@@ -19,15 +19,15 @@ export class ProductReviewsEffects {
   > = this.actions$.pipe(
     ofType(ProductActions.LOAD_PRODUCT_REVIEWS),
     map((action: ProductActions.LoadProductReviews) => action.payload),
-    mergeMap(productCode => {
+    mergeMap((productCode) => {
       return this.productReviewsConnector.get(productCode).pipe(
-        map(data => {
+        map((data) => {
           return new ProductActions.LoadProductReviewsSuccess({
             productCode,
             list: data,
           });
         }),
-        catchError(_error =>
+        catchError((_error) =>
           of(
             new ProductActions.LoadProductReviewsFail({
               message: productCode,
@@ -45,14 +45,14 @@ export class ProductReviewsEffects {
   > = this.actions$.pipe(
     ofType(ProductActions.POST_PRODUCT_REVIEW),
     map((action: ProductActions.PostProductReview) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.productReviewsConnector
         .add(payload.productCode, payload.review)
         .pipe(
-          map(reviewResponse => {
+          map((reviewResponse) => {
             return new ProductActions.PostProductReviewSuccess(reviewResponse);
           }),
-          catchError(_error =>
+          catchError((_error) =>
             of(new ProductActions.PostProductReviewFail(payload.productCode))
           )
         );

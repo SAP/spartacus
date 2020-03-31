@@ -7,7 +7,7 @@ describe('Currency switch - cart page', () => {
   const jpCurrency_total = ' ¥29,160 ';
 
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
     cy.visit('/');
     manipulateCartQuantity();

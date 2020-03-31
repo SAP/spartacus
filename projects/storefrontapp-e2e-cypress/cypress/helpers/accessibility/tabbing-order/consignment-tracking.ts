@@ -12,8 +12,6 @@ export function consignmentTrackingTabbingOrder(config: TabElement[]) {
 export function consignmentTrackingEventsTabbingOrder(config: TabElement[]) {
   loginUsingUserWithOrder();
   cy.visit('/my-account/order/100000');
-  cy.get('cx-consignment-tracking button')
-    .first()
-    .click();
+  cy.get('cx-consignment-tracking button').first().click();
   verifyTabbingOrder('cx-tracking-events', config);
 }

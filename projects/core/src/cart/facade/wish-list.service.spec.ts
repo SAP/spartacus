@@ -7,7 +7,10 @@ import { OrderEntry, User } from '../../model';
 import { Cart } from '../../model/cart.model';
 import { UserService } from '../../user/index';
 import { CartActions } from '../store/actions/index';
-import { StateWithMultiCart } from '../store/multi-cart-state';
+import {
+  MULTI_CART_FEATURE,
+  StateWithMultiCart,
+} from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
 import { WishListService } from './wish-list.service';
 import createSpy = jasmine.createSpy;
@@ -67,7 +70,7 @@ describe('WishListService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          'multi-cart',
+          MULTI_CART_FEATURE,
           fromReducers.getMultiCartReducers()
         ),
       ],
@@ -101,9 +104,9 @@ describe('WishListService', () => {
   });
 
   describe('getWishListId', () => {
-    it('should return wish list id', done => {
+    it('should return wish list id', (done) => {
       let result;
-      service['getWishListId']().subscribe(id => {
+      service['getWishListId']().subscribe((id) => {
         result = id;
       });
 
@@ -127,14 +130,14 @@ describe('WishListService', () => {
         new CartActions.LoadWishList(payload)
       );
     });
-    it('should return wish list if loaded', done => {
+    it('should return wish list if loaded', (done) => {
       spyOn(service, 'loadWishList');
       let result;
 
       store.dispatch(
         new CartActions.LoadWishListSuccess({ cart: testCart, userId })
       );
-      service.getWishList().subscribe(cart => (result = cart));
+      service.getWishList().subscribe((cart) => (result = cart));
 
       expect(service.loadWishList).not.toHaveBeenCalled();
 
@@ -203,9 +206,9 @@ describe('WishListService', () => {
   });
 
   describe('getWishListLoading', () => {
-    it('should return if the wish list loading', done => {
+    it('should return if the wish list loading', (done) => {
       let result;
-      service.getWishListLoading().subscribe(loading => {
+      service.getWishListLoading().subscribe((loading) => {
         result = loading;
       });
 

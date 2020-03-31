@@ -2208,9 +2208,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.LINK,
     },
-    {
-      type: TabbingOrderTypes.LINK,
-    },
   ],
   storeFinderStoreDetails: [
     {
@@ -2723,6 +2720,60 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   consignmentTrackingEvents: [
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
+  asmNotLoggedIn: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: '',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Sign In',
+    },
+  ],
+  asmNoSelectedUser: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: '',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: '',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Linda Wolf',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Linda Wolf',
+    },
+  ],
+  asmWithSelectedUser: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: '',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: '',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Start Session',
     },
   ],
 };

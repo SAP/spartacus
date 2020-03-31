@@ -16,10 +16,10 @@ export class OrderDetailsService {
   ) {
     this.orderCode$ = this.routingService
       .getRouterState()
-      .pipe(map(routingData => routingData.state.params.orderCode));
+      .pipe(map((routingData) => routingData.state.params.orderCode));
 
     this.orderLoad$ = this.orderCode$.pipe(
-      tap(orderCode => {
+      tap((orderCode) => {
         if (orderCode) {
           this.userOrderService.loadOrderDetails(orderCode);
         } else {

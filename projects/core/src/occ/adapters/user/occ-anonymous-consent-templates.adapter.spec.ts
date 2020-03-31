@@ -42,11 +42,8 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
 
   describe('loadAnonymousConsentTemplates', () => {
     it('should load anonymous consent templates', () => {
-      adapter
-        .loadAnonymousConsentTemplates()
-        .subscribe()
-        .unsubscribe();
-      httpMock.expectOne(req => {
+      adapter.loadAnonymousConsentTemplates().subscribe().unsubscribe();
+      httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
       expect(occEnpointsService.getUrl).toHaveBeenCalledWith(

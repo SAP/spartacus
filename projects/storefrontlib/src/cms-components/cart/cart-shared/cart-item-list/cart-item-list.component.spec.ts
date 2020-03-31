@@ -132,7 +132,7 @@ describe('CartItemListComponent', () => {
 
   it('should return form control with quantity ', () => {
     const item = mockItems[0];
-    component.getControl(item).subscribe(control => {
+    component.getControl(item).subscribe((control) => {
       expect(control.get('quantity').value).toEqual(1);
     });
   });
@@ -142,7 +142,7 @@ describe('CartItemListComponent', () => {
     let result: FormGroup;
     component
       .getControl(item)
-      .subscribe(control => {
+      .subscribe((control) => {
         result = control;
       })
       .unsubscribe();
@@ -159,7 +159,7 @@ describe('CartItemListComponent', () => {
     let result: FormGroup;
     component
       .getControl(item)
-      .subscribe(control => {
+      .subscribe((control) => {
         result = control;
       })
       .unsubscribe();
@@ -174,7 +174,7 @@ describe('CartItemListComponent', () => {
     let result: FormGroup;
     component
       .getControl(item)
-      .subscribe(control => {
+      .subscribe((control) => {
         result = control;
       })
       .unsubscribe();
@@ -186,7 +186,7 @@ describe('CartItemListComponent', () => {
     const item = mockItems[0];
     component
       .getControl(item)
-      .subscribe(control => {
+      .subscribe((control) => {
         control.get('quantity').setValue(2);
         expect(activeCartService.updateEntry).toHaveBeenCalledWith(
           item.entryNumber as any,
@@ -200,7 +200,7 @@ describe('CartItemListComponent', () => {
     const item = mockItems[0];
     component
       .getControl(item)
-      .subscribe(control => {
+      .subscribe((control) => {
         control.get('quantity').setValue(0);
         expect(activeCartService.updateEntry).toHaveBeenCalledWith(
           item.entryNumber as any,

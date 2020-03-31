@@ -67,7 +67,7 @@ describe('OrderReturnRequestService', () => {
     );
     service
       .getOrderReturnRequest()
-      .subscribe(r => expect(r).toEqual({ rma: '000000' }))
+      .subscribe((r) => expect(r).toEqual({ rma: '000000' }))
       .unsubscribe();
   });
 
@@ -90,7 +90,7 @@ describe('OrderReturnRequestService', () => {
     );
     service
       .getReturnRequestLoading()
-      .subscribe(r => expect(r).toBeTruthy())
+      .subscribe((r) => expect(r).toBeTruthy())
       .unsubscribe();
   });
 
@@ -102,7 +102,7 @@ describe('OrderReturnRequestService', () => {
     );
     service
       .getReturnRequestSuccess()
-      .subscribe(r => expect(r).toBeTruthy())
+      .subscribe((r) => expect(r).toBeTruthy())
       .unsubscribe();
   });
 
@@ -118,7 +118,7 @@ describe('OrderReturnRequestService', () => {
     let requestList: ReturnRequestList;
     service
       .getOrderReturnRequestList(1)
-      .subscribe(data => {
+      .subscribe((data) => {
         requestList = data;
       })
       .unsubscribe();
@@ -176,7 +176,7 @@ describe('OrderReturnRequestService', () => {
     );
     service
       .getCancelReturnRequestLoading()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
@@ -184,7 +184,7 @@ describe('OrderReturnRequestService', () => {
     store.dispatch(new UserActions.CancelOrderReturnRequestSuccess());
     service
       .getCancelReturnRequestSuccess()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 

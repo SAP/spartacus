@@ -13,7 +13,7 @@ class MockCmsPageAdapter implements CmsPageAdapter {
 }
 
 class MockCmsStructureConfigService {
-  mergePageStructure = createSpy().and.callFake(id => of(id));
+  mergePageStructure = createSpy().and.callFake((id) => of(id));
   shouldIgnoreBackend = createSpy().and.returnValue(of(false));
 }
 
@@ -48,7 +48,7 @@ describe('CmsPageConnector', () => {
       const adapter = TestBed.inject(CmsPageAdapter);
 
       let result;
-      service.get(context).subscribe(res => (result = res));
+      service.get(context).subscribe((res) => (result = res));
       expect(result).toBe('123');
       expect(adapter.load).toHaveBeenCalledWith(context);
     });

@@ -68,14 +68,16 @@ export const getPageStateIndexEntityLoaderState = (
 export const getPageStateIndexLoaderState = (
   pageContext: PageContext
 ): MemoizedSelector<StateWithCms, LoaderState<string>> =>
-  createSelector(getPageStateIndexEntityLoaderState(pageContext), indexState =>
-    StateEntityLoaderSelectors.entityStateSelector(indexState, pageContext.id)
+  createSelector(
+    getPageStateIndexEntityLoaderState(pageContext),
+    (indexState) =>
+      StateEntityLoaderSelectors.entityStateSelector(indexState, pageContext.id)
   );
 
 export const getPageStateIndexValue = (
   pageContext: PageContext
 ): MemoizedSelector<StateWithCms, string> =>
-  createSelector(getPageStateIndexLoaderState(pageContext), entity =>
+  createSelector(getPageStateIndexLoaderState(pageContext), (entity) =>
     StateLoaderSelectors.loaderValueSelector<string>(entity)
   );
 
@@ -97,7 +99,7 @@ export const getPageData = (
 export const getPageComponentTypes = (
   pageContext: PageContext
 ): MemoizedSelector<StateWithCms, string[]> =>
-  createSelector(getPageData(pageContext), pageData =>
+  createSelector(getPageData(pageContext), (pageData) =>
     getPageComponentTypesSelector(pageData)
   );
 
@@ -105,7 +107,7 @@ export const getCurrentSlotSelectorFactory = (
   pageContext: PageContext,
   position: string
 ): MemoizedSelector<StateWithCms, ContentSlotData> => {
-  return createSelector(getPageData(pageContext), entity => {
+  return createSelector(getPageData(pageContext), (entity) => {
     if (entity) {
       return entity.slots[position] || { components: [] };
     }

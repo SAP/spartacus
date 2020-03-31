@@ -23,16 +23,16 @@ export class MultiCartStatePersistenceService {
       key: 'cart',
       state$: this.getCartState(),
       context$: this.siteContextParamsService.getValues([BASE_SITE_CONTEXT_ID]),
-      onRead: state => this.onRead(state),
+      onRead: (state) => this.onRead(state),
     });
   }
 
   protected getCartState(): Observable<{ active: string }> {
     return this.store.pipe(
       select(MultiCartSelectors.getMultiCartState),
-      filter(state => !!state),
+      filter((state) => !!state),
       distinctUntilKeyChanged('active'),
-      map(state => {
+      map((state) => {
         return {
           active: state.active,
         };

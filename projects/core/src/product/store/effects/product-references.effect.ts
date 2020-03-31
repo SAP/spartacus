@@ -15,17 +15,17 @@ export class ProductReferencesEffects {
   > = this.actions$.pipe(
     ofType(ProductActions.LOAD_PRODUCT_REFERENCES),
     map((action: ProductActions.LoadProductReferences) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.productReferencesConnector
         .get(payload.productCode, payload.referenceType, payload.pageSize)
         .pipe(
-          map(data => {
+          map((data) => {
             return new ProductActions.LoadProductReferencesSuccess({
               productCode: payload.productCode,
               list: data,
             });
           }),
-          catchError(_error =>
+          catchError((_error) =>
             of(
               new ProductActions.LoadProductReferencesFail({
                 message: payload.productCode,

@@ -20,6 +20,7 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { withdrawOn } from '../../../util/withdraw-on';
 import { CartConnector } from '../../connectors/cart/cart.connector';
+import { getCartIdByUserId } from '../../utils/utils';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
@@ -49,10 +50,10 @@ export class CartEffects {
   > = this.actions$.pipe(
     ofType(DeprecatedCartActions.LOAD_CART),
     map((action: DeprecatedCartActions.LoadCart) => action.payload),
-    groupBy(payload => payload.cartId),
-    mergeMap(group$ =>
+    groupBy((payload) => payload.cartId),
+    mergeMap((group$) =>
       group$.pipe(
-        switchMap(payload => {
+        switchMap((payload) => {
           return of(payload).pipe(
             withLatestFrom(
               this.store.pipe(
@@ -65,7 +66,7 @@ export class CartEffects {
         }),
         filter(([_, hasPendingProcesses]) => !hasPendingProcesses),
         map(([payload]) => payload),
-        switchMap(payload => {
+        switchMap((payload) => {
           return this.cartConnector.load(payload.userId, payload.cartId).pipe(
             // TODO: remove with the `cart` store feature
             withLatestFrom(this.store.pipe(select(getActiveCartId))),
@@ -102,10 +103,10 @@ export class CartEffects {
               }
               return actions;
             }),
-            catchError(error => {
+            catchError((error) => {
               if (error?.error?.errors) {
                 const couponExpiredErrors = error.error.errors.filter(
-                  err => err.reason === 'invalid'
+                  (err) => err.reason === 'invalid'
                 );
                 if (couponExpiredErrors.length > 0) {
                   // clear coupons actions just wanted to reload cart again
@@ -120,7 +121,7 @@ export class CartEffects {
                 }
 
                 const cartNotFoundErrors = error.error.errors.filter(
-                  err => err.reason === 'notFound' || 'UnknownResourceError'
+                  (err) => err.reason === 'notFound' || 'UnknownResourceError'
                 );
                 if (
                   cartNotFoundErrors.length > 0 &&
@@ -156,15 +157,13 @@ export class CartEffects {
   createCart$: Observable<
     | DeprecatedCartActions.MergeCartSuccess
     | CartActions.MergeMultiCartSuccess
-    | DeprecatedCartActions.CreateCartSuccess
-    | CartActions.CreateMultiCartSuccess
-    | DeprecatedCartActions.CreateCartFail
-    | CartActions.CreateMultiCartFail
+    | CartActions.CreateCartSuccess
+    | CartActions.CreateCartFail
     | CartActions.SetTempCart
   > = this.actions$.pipe(
     ofType(DeprecatedCartActions.CREATE_CART),
-    map((action: DeprecatedCartActions.CreateCart) => action.payload),
-    mergeMap(payload => {
+    map((action: CartActions.CreateCart) => action.payload),
+    mergeMap((payload) => {
       return this.cartConnector
         .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
@@ -185,18 +184,15 @@ export class CartEffects {
                 })
               );
             }
-            // `cart` store branch should only be updated for active cart
-            // avoid dispatching CreateCartSuccess action on different cart loads
-            if (payload.extraData && payload.extraData.active) {
-              conditionalActions.push(
-                new DeprecatedCartActions.CreateCartSuccess(cart)
-              );
-            }
             return [
-              new CartActions.CreateMultiCartSuccess({
+              new CartActions.CreateCartSuccess({
                 cart,
                 userId: payload.userId,
                 extraData: payload.extraData,
+                cartId: getCartIdByUserId(cart, payload.userId),
+                tempCartId: payload.tempCartId,
+                oldCartId: payload.oldCartId,
+                toMergeCartGuid: payload.toMergeCartGuid,
               }),
               new CartActions.SetTempCart({
                 cart,
@@ -205,16 +201,17 @@ export class CartEffects {
               ...conditionalActions,
             ];
           }),
-          catchError(error =>
-            from([
-              new DeprecatedCartActions.CreateCartFail(
-                makeErrorSerializable(error)
-              ),
-              new CartActions.CreateMultiCartFail({
+          catchError((error) =>
+            of(
+              new CartActions.CreateCartFail({
                 tempCartId: payload.tempCartId,
                 error: makeErrorSerializable(error),
-              }),
-            ])
+                userId: payload.userId,
+                oldCartId: payload.oldCartId,
+                toMergeCartGuid: payload.toMergeCartGuid,
+                extraData: payload.extraData,
+              })
+            )
           )
         );
     }),
@@ -222,14 +219,14 @@ export class CartEffects {
   );
 
   @Effect()
-  mergeCart$: Observable<DeprecatedCartActions.CreateCart> = this.actions$.pipe(
+  mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
     ofType(DeprecatedCartActions.MERGE_CART),
     map((action: DeprecatedCartActions.MergeCart) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.cartConnector.load(payload.userId, OCC_CART_ID_CURRENT).pipe(
-        mergeMap(currentCart => {
+        mergeMap((currentCart) => {
           return [
-            new DeprecatedCartActions.CreateCart({
+            new CartActions.CreateCart({
               userId: payload.userId,
               oldCartId: payload.cartId,
               toMergeCartGuid: currentCart ? currentCart.guid : undefined,
@@ -248,27 +245,19 @@ export class CartEffects {
     DeprecatedCartActions.LoadCart | CartActions.CartProcessesDecrement
   > = this.actions$.pipe(
     ofType(
-      CartActions.CART_ADD_ENTRY_SUCCESS,
-      CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_ENTRY_SUCCESS,
       DeprecatedCartActions.ADD_EMAIL_TO_CART_SUCCESS,
       CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
-      CartActions.CART_ADD_VOUCHER_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_SUCCESS
+      CartActions.CART_ADD_VOUCHER_SUCCESS
     ),
     map(
       (
         action:
-          | CartActions.CartAddEntrySuccess
-          | CartActions.CartUpdateEntrySuccess
-          | CartActions.CartRemoveEntrySuccess
           | DeprecatedCartActions.AddEmailToCartSuccess
           | CheckoutActions.ClearCheckoutDeliveryModeSuccess
           | CartActions.CartAddVoucherSuccess
-          | CartActions.CartRemoveVoucherSuccess
       ) => action.payload
     ),
-    concatMap(payload =>
+    concatMap((payload) =>
       from([
         new CartActions.CartProcessesDecrement(payload.cartId),
         new DeprecatedCartActions.LoadCart({
@@ -283,10 +272,25 @@ export class CartEffects {
   refreshWithoutProcesses$: Observable<
     DeprecatedCartActions.LoadCart
   > = this.actions$.pipe(
-    ofType(DeprecatedCartActions.MERGE_CART_SUCCESS),
-    map((action: DeprecatedCartActions.MergeCartSuccess) => action.payload),
+    ofType(
+      DeprecatedCartActions.MERGE_CART_SUCCESS,
+      CartActions.CART_ADD_ENTRY_SUCCESS,
+      CartActions.CART_REMOVE_ENTRY_SUCCESS,
+      CartActions.CART_UPDATE_ENTRY_SUCCESS,
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS
+    ),
     map(
-      payload =>
+      (
+        action:
+          | CartActions.CartAddEntrySuccess
+          | CartActions.CartUpdateEntrySuccess
+          | DeprecatedCartActions.MergeCartSuccess
+          | CartActions.CartRemoveEntrySuccess
+          | CartActions.CartRemoveVoucherSuccess
+      ) => action.payload
+    ),
+    map(
+      (payload) =>
         new DeprecatedCartActions.LoadCart({
           userId: payload.userId,
           cartId: payload.cartId,
@@ -321,7 +325,7 @@ export class CartEffects {
   > = this.actions$.pipe(
     ofType(DeprecatedCartActions.ADD_EMAIL_TO_CART),
     map((action: DeprecatedCartActions.AddEmailToCart) => action.payload),
-    mergeMap(payload =>
+    mergeMap((payload) =>
       this.cartConnector
         .addEmail(payload.userId, payload.cartId, payload.email)
         .pipe(
@@ -337,7 +341,7 @@ export class CartEffects {
               }),
             ];
           }),
-          catchError(error =>
+          catchError((error) =>
             from([
               new DeprecatedCartActions.AddEmailToCartFail(
                 makeErrorSerializable(error)
@@ -363,12 +367,12 @@ export class CartEffects {
   deleteCart$: Observable<any> = this.actions$.pipe(
     ofType(DeprecatedCartActions.DELETE_CART),
     map((action: DeprecatedCartActions.DeleteCart) => action.payload),
-    exhaustMap(payload =>
+    exhaustMap((payload) =>
       this.cartConnector.delete(payload.userId, payload.cartId).pipe(
         map(() => {
           return new DeprecatedCartActions.ClearCart();
         }),
-        catchError(error =>
+        catchError((error) =>
           of(
             new DeprecatedCartActions.DeleteCartFail(
               makeErrorSerializable(error)

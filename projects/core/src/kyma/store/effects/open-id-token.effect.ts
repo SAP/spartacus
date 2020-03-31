@@ -41,12 +41,12 @@ export class OpenIdTokenEffect {
   > = this.actions$.pipe(
     ofType(KymaActions.LOAD_OPEN_ID_TOKEN),
     map((action: KymaActions.LoadOpenIdToken) => action.payload),
-    exhaustMap(payload =>
+    exhaustMap((payload) =>
       this.openIdTokenService
         .loadOpenIdAuthenticationToken(payload.username, payload.password)
         .pipe(
-          map(token => new KymaActions.LoadOpenIdTokenSuccess(token)),
-          catchError(error =>
+          map((token) => new KymaActions.LoadOpenIdTokenSuccess(token)),
+          catchError((error) =>
             of(
               new KymaActions.LoadOpenIdTokenFail(makeErrorSerializable(error))
             )

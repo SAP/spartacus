@@ -14,7 +14,7 @@
   </div>
   <!-- Item Information -->
   <div class="cx-info col-10">
-    <div class="cx-info-container row ">
+    <div class="cx-info-container row">
       <!-- Item Description -->
       <div [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
         <div *ngIf="item.product.name" class="cx-name">
@@ -29,29 +29,18 @@
           {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
         </div>
         <!-- Variants -->
-        <ng-container *cxFeatureLevel="'!1.5'">
+        <ng-container *ngIf="item.product.baseOptions?.length">
           <div
-            *ngFor="let variant of item.product.variantOptionQualifiers"
+            *ngFor="
+              let variant of item.product.baseOptions[0]?.selected
+                ?.variantOptionQualifiers
+            "
             class="cx-property"
           >
-            <div class="cx-label">{{ variant.name }}</div>
-            <div class="cx-value">{{ variant.value }}</div>
-          </div>
-        </ng-container>
-        <ng-container *cxFeatureLevel="'1.5'">
-          <ng-container *ngIf="item.product.baseOptions?.length">
-            <div
-              *ngFor="
-                let variant of item.product.baseOptions[0]?.selected
-                  ?.variantOptionQualifiers
-              "
-              class="cx-property"
-            >
-              <div class="cx-label" *ngIf="variant.name && variant.value">
-                {{ variant.name }}: {{ variant.value }}
-              </div>
+            <div class="cx-label" *ngIf="variant.name && variant.value">
+              {{ variant.name }}: {{ variant.value }}
             </div>
-          </ng-container>
+          </div>
         </ng-container>
       </div>
       <!-- Item Price -->
