@@ -1,7 +1,7 @@
 const faker = require('faker');
 const componentGenerator = require('./generate-components');
 
-exports.generateHeaderSlots = function() {
+exports.generateHeaderSlots = function () {
   return [
     {
       position: 'SiteLogo',
@@ -24,7 +24,7 @@ exports.generateHeaderSlots = function() {
   ];
 };
 
-exports.generateFooterSlots = function() {
+exports.generateFooterSlots = function () {
   return [
     {
       position: 'Footer',
@@ -35,7 +35,7 @@ exports.generateFooterSlots = function() {
   ];
 };
 
-generateLogoConmponent = function() {
+generateLogoConmponent = function () {
   return componentGenerator.banner(
     null,
     null,
@@ -45,7 +45,7 @@ generateLogoConmponent = function() {
   );
 };
 
-generateSearchBoxComponent = function() {
+generateSearchBoxComponent = function () {
   return {
     uid: faker.random.number(),
     typeCode: 'SearchBoxComponent',
@@ -62,7 +62,7 @@ generateSearchBoxComponent = function() {
   };
 };
 
-generateMinicart = function() {
+generateMinicart = function () {
   return {
     uid: faker.random.number(),
     typeCode: 'MiniCartComponent',

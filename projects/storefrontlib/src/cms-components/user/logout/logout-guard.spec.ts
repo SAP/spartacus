@@ -98,7 +98,7 @@ describe('LogoutGuard', () => {
   });
 
   describe('When user is authorised,', () => {
-    beforeEach(function() {
+    beforeEach(function () {
       spyOn(authService, 'logout');
     });
 
@@ -106,7 +106,7 @@ describe('LogoutGuard', () => {
       let result: boolean;
       logoutGuard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(false);

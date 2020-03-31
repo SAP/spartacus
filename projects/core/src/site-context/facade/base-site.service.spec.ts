@@ -54,7 +54,7 @@ describe('BaseSiteService', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
 
     let result;
-    service.getActive().subscribe(res => (result = res));
+    service.getActive().subscribe((res) => (result = res));
 
     expect(result).toEqual(mockBaseSite);
   });
@@ -63,7 +63,7 @@ describe('BaseSiteService', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
 
     let result;
-    service.getAll().subscribe(res => (result = res));
+    service.getAll().subscribe((res) => (result = res));
     expect(result).toEqual([mockBaseSite]);
   });
 
@@ -91,7 +91,7 @@ describe('BaseSiteService', () => {
     );
 
     let result;
-    service.getBaseSiteData().subscribe(res => (result = res));
+    service.getBaseSiteData().subscribe((res) => (result = res));
     expect(result).toEqual({ uid: 'test-basesite' });
   });
 

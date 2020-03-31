@@ -20,7 +20,7 @@ describe('OccCartNormalizer', () => {
 
     occCartNormalizer = TestBed.inject(OccCartNormalizer);
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callFake((product => ({
+    spyOn(converter, 'convert').and.callFake(((product) => ({
       ...product,
       code: product.code + 'converted',
     })) as any);

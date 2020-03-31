@@ -200,7 +200,7 @@ describe('AddedToCartDialogComponent', () => {
       entryNumber: 0,
     } as OrderEntry);
 
-    component.getQuantityControl().subscribe(control => {
+    component.getQuantityControl().subscribe((control) => {
       expect(control.value).toEqual(5);
     });
   });

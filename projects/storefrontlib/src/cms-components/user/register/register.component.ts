@@ -68,12 +68,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.titles$ = this.userService.getTitles().pipe(
-      tap(titles => {
+      tap((titles) => {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
       }),
-      map(titles => {
+      map((titles) => {
         return titles.sort(sortTitles);
       })
     );
@@ -85,7 +85,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.globalMessageService
         .get()
-        .pipe(filter(messages => !!Object.keys(messages).length))
+        .pipe(filter((messages) => !!Object.keys(messages).length))
         .subscribe((globalMessageEntities: GlobalMessageEntities) => {
           const messages =
             globalMessageEntities &&
@@ -93,7 +93,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
           if (
             messages &&
-            messages.some(message => message === 'This field is required.')
+            messages.some((message) => message === 'This field is required.')
           ) {
             this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
             this.globalMessageService.add(
@@ -187,7 +187,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private registerUserProcessInit(): void {
     this.userService.resetRegisterUserProcessState();
     this.subscription.add(
-      this.userService.getRegisterUserResultSuccess().subscribe(success => {
+      this.userService.getRegisterUserResultSuccess().subscribe((success) => {
         this.onRegisterUserSuccess(success);
       })
     );

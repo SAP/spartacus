@@ -27,7 +27,7 @@ describe('UserToken Selectors', () => {
 
       store
         .pipe(select(AuthSelectors.getUserToken))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toEqual(<UserToken>{});
 
       const testToken: UserToken = {

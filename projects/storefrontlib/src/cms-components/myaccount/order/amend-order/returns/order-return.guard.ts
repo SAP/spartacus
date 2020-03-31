@@ -16,7 +16,7 @@ export class OrderReturnGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.orderAmendService.getForm().pipe(
-      map(form => {
+      map((form) => {
         if (!form.valid) {
           // the order code is not available in the route
           // as long as we're inside a guard, hence we redirect

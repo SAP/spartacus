@@ -64,7 +64,7 @@ export class CdsMerchandisingUserContextService {
     return this.profileTagEventService.getConsentReference().pipe(
       startWith(''),
       distinctUntilChanged(),
-      map(consentReference => ({ consentReference }))
+      map((consentReference) => ({ consentReference }))
     );
   }
 
@@ -73,7 +73,7 @@ export class CdsMerchandisingUserContextService {
       withLatestFrom(this.routingService.getPageContext()),
       filter(([_facets, pageContext]) => this.isFacetPage(pageContext)),
       map(([facets, pageContext]) =>
-        facets.filter(facet =>
+        facets.filter((facet) =>
           this.filterFacetByCurrentPage(facet, pageContext)
         )
       ),
@@ -82,7 +82,7 @@ export class CdsMerchandisingUserContextService {
         MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER
       ),
       distinctUntilChanged(),
-      map(facets => ({
+      map((facets) => ({
         facets,
       }))
     );
@@ -90,10 +90,10 @@ export class CdsMerchandisingUserContextService {
 
   private searchResultChangeEvent(): Observable<Breadcrumb[]> {
     return this.productSearchService.getResults().pipe(
-      map(searchResults =>
+      map((searchResults) =>
         searchResults.breadcrumbs ? searchResults.breadcrumbs : []
       ),
-      filter(facets => !!facets)
+      filter((facets) => !!facets)
     );
   }
 
@@ -105,10 +105,10 @@ export class CdsMerchandisingUserContextService {
 
   private getProductNavigationContext(): Observable<MerchandisingUserContext> {
     return this.routingService.getPageContext().pipe(
-      filter(pageContext => pageContext.type === PageType.PRODUCT_PAGE),
-      map(context => context.id),
+      filter((pageContext) => pageContext.type === PageType.PRODUCT_PAGE),
+      map((context) => context.id),
       distinctUntilChanged(),
-      map(productId => ({
+      map((productId) => ({
         products: [productId],
       }))
     );
@@ -116,11 +116,11 @@ export class CdsMerchandisingUserContextService {
 
   private getCategoryNavigationContext(): Observable<MerchandisingUserContext> {
     return this.routingService.getPageContext().pipe(
-      map(context =>
+      map((context) =>
         context.type === PageType.CATEGORY_PAGE ? context.id : undefined
       ),
       distinctUntilChanged(),
-      map(category => ({ category }))
+      map((category) => ({ category }))
     );
   }
 

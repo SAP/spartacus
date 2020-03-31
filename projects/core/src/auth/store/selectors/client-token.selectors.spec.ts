@@ -33,7 +33,7 @@ describe('ClientToken Selectors', () => {
       let result: LoaderState<ClientToken>;
       store
         .pipe(select(AuthSelectors.getClientTokenState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({

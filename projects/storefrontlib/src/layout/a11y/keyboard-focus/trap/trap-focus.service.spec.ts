@@ -61,7 +61,7 @@ describe('TrapFocusService', () => {
       const host = fixture.debugElement.query(By.css('#b')).nativeElement;
       const children = fixture.debugElement.queryAll(By.css('#b > *'));
       spyOn(service, 'findFocusable').and.returnValue(
-        children.map(c => c.nativeElement)
+        children.map((c) => c.nativeElement)
       );
       expect(service.hasFocusableChildren(host)).toBeTruthy();
     });
@@ -79,7 +79,7 @@ describe('TrapFocusService', () => {
       host = fixture.debugElement.query(By.css('#b')).nativeElement;
       children = fixture.debugElement.queryAll(By.css('#b > *'));
       spyOn(service, 'findFocusable').and.returnValue(
-        children.map(c => c.nativeElement)
+        children.map((c) => c.nativeElement)
       );
     });
 

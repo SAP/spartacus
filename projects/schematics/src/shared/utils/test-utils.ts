@@ -61,14 +61,14 @@ export function getParams(
   }
   const params = findNodes(callExpressions[0], ts.SyntaxKind.Identifier);
 
-  camelizedParamNames = camelizedParamNames.map(param =>
+  camelizedParamNames = camelizedParamNames.map((param) =>
     strings.camelize(param)
   );
 
   return params
-    .filter(n => n.kind === ts.SyntaxKind.Identifier)
-    .map(n => n.getText())
-    .filter(text => camelizedParamNames.includes(text));
+    .filter((n) => n.kind === ts.SyntaxKind.Identifier)
+    .map((n) => n.getText())
+    .filter((text) => camelizedParamNames.includes(text));
 }
 
 export function updatePackageJson(
