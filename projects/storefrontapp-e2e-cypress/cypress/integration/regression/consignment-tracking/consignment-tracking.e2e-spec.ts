@@ -2,7 +2,7 @@ import * as orderDetail from '../../../helpers/consignment-tracking';
 
 describe('consignment tracking', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     orderDetail.loginUsingUserWithOrder();
   });
 

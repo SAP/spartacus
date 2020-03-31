@@ -168,7 +168,7 @@ describe('Router Reducer', () => {
 
   it('should return the router state', async () => {
     let routerReducer;
-    store.subscribe(routerStore => {
+    store.subscribe((routerStore) => {
       routerReducer = routerStore.router;
     });
 
@@ -204,7 +204,7 @@ describe('Router Reducer', () => {
     let context;
 
     beforeEach(async () => {
-      store.subscribe(routerStore => {
+      store.subscribe((routerStore) => {
         context = routerStore.router.state.context;
       });
     });

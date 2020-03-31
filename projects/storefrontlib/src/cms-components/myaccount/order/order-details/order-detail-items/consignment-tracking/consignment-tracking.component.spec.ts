@@ -44,7 +44,7 @@ describe('ConsignmentTrackingComponent', () => {
     if (array1 && array2) {
       equals =
         array1.length === array2.length &&
-        array1.every(element => {
+        array1.every((element) => {
           return array2.includes(element);
         });
     }
@@ -125,7 +125,7 @@ describe('ConsignmentTrackingComponent', () => {
   });
 
   it('should display tracking package button', () => {
-    consignmentStatus.forEach(status => {
+    consignmentStatus.forEach((status) => {
       mockConsignment.status = status;
       fixture.detectChanges();
       expect(el.query(By.css('.btn-track'))).toBeTruthy();

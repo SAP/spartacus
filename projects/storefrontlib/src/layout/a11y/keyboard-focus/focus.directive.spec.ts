@@ -6,9 +6,7 @@ import { KeyboardFocusService } from './services';
 
 @Component({
   selector: 'cx-host',
-  template: `
-    <div id="a" cxFocus></div>
-  `,
+  template: ` <div id="a" cxFocus></div> `,
 })
 class MockComponent {}
 

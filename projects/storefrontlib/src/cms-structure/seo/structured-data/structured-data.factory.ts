@@ -25,6 +25,8 @@ export class StructuredDataFactory {
     if (!this.scriptBuilder.isJsonLdRequired() || !this.builders) {
       return of();
     }
-    return combineLatest(this.builders.map(builder => builder.build())).pipe();
+    return combineLatest(
+      this.builders.map((builder) => builder.build())
+    ).pipe();
   }
 }

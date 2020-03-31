@@ -27,12 +27,12 @@ export class ResetPasswordEffects {
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
           }),
         ]),
-        catchError(error => {
+        catchError((error) => {
           const actions: Array<
             UserActions.ResetPasswordFail | GlobalMessageActions.AddMessage
           > = [new UserActions.ResetPasswordFail(makeErrorSerializable(error))];
           if (error?.error?.errors) {
-            error.error.errors.forEach(err => {
+            error.error.errors.forEach((err) => {
               if (err.message) {
                 actions.push(
                   new GlobalMessageActions.AddMessage({

@@ -27,7 +27,7 @@ export class IntersectionService {
     element: HTMLElement,
     options?: IntersectionOptions
   ): Observable<boolean> {
-    return this.intersects(element, options).pipe(first(v => v === true));
+    return this.intersects(element, options).pipe(first((v) => v === true));
   }
 
   /**
@@ -42,10 +42,10 @@ export class IntersectionService {
     element: HTMLElement,
     options?: IntersectionOptions
   ): Observable<boolean> {
-    const elementVisible$ = new Observable(observer => {
+    const elementVisible$ = new Observable((observer) => {
       const rootMargin = this.getRootMargin(options);
       const intersectOptions = { rootMargin };
-      const intersectionObserver = new IntersectionObserver(entries => {
+      const intersectionObserver = new IntersectionObserver((entries) => {
         observer.next(entries);
       }, intersectOptions);
       intersectionObserver.observe(element);

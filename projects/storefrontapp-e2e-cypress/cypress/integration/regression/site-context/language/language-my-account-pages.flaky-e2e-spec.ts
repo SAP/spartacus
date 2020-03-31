@@ -2,7 +2,7 @@ import * as siteContextSelector from '../../../../helpers/site-context-selector'
 
 describe('Language switch - my-account pages', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
   });
 
@@ -77,9 +77,7 @@ describe('Language switch - my-account pages', () => {
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL
       );
-      cy.get('cx-address-book a')
-        .contains('Edit')
-        .click({ force: true });
+      cy.get('cx-address-book a').contains('Edit').click({ force: true });
 
       cy.get(
         'cx-address-form .ng-select[formcontrolname="titleCode"]'

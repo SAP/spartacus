@@ -72,9 +72,9 @@ describe('OccCheckoutDeliveryAdapter', () => {
       let result;
       service
         .createAddress(userId, cartId, mockAddress)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'POST' &&
           req.url ===
@@ -106,9 +106,9 @@ describe('OccCheckoutDeliveryAdapter', () => {
       let result;
       service
         .setAddress(userId, cartId, mockAddressId)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PUT' &&
           req.url ===
@@ -137,9 +137,9 @@ describe('OccCheckoutDeliveryAdapter', () => {
       let result;
       service
         .getSupportedModes(userId, cartId)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'GET' &&
           req.url ===
@@ -164,9 +164,9 @@ describe('OccCheckoutDeliveryAdapter', () => {
   describe('get delivery mode for cart', () => {
     it('should delivery modes for cart for given user id and cart id', () => {
       let result;
-      service.getMode(userId, cartId).subscribe(res => (result = res));
+      service.getMode(userId, cartId).subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'GET' &&
           req.url ===
@@ -193,9 +193,9 @@ describe('OccCheckoutDeliveryAdapter', () => {
       let result;
       service
         .setMode(userId, cartId, mockDeliveryModeId)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PUT' &&
           req.url ===

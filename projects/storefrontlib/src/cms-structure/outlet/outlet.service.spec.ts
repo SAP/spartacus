@@ -31,9 +31,7 @@ const OUTLET_NAME_4 = 'OUTLET.4';
 class TestContainerComponent {}
 
 @Component({
-  template: `
-    any
-  `,
+  template: ` any `,
 })
 class AnyComponent {}
 @NgModule({

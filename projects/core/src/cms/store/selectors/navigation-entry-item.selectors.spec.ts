@@ -46,7 +46,7 @@ describe('Navigation Entry Items Selectors', () => {
         .pipe(
           select(CmsSelectors.getSelectedNavigationEntryItemState('testId'))
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({
         loading: false,
@@ -67,7 +67,7 @@ describe('Navigation Entry Items Selectors', () => {
 
       store
         .pipe(select(CmsSelectors.getNavigationEntryItems('testId')))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new CmsActions.LoadCmsNavigationItemsSuccess(mockPayload));
 

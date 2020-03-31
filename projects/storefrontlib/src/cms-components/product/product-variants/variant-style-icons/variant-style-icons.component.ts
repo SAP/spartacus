@@ -27,7 +27,7 @@ export class VariantStyleIconsComponent implements OnInit {
   variantNames: { [key: string]: string } = {};
 
   ngOnInit() {
-    this.variants.forEach(variant => {
+    this.variants.forEach((variant) => {
       this.variantNames[variant.code] = this.getVariantName(
         variant.variantOptionQualifiers
       );
@@ -38,7 +38,7 @@ export class VariantStyleIconsComponent implements OnInit {
     variantOptionQualifiers: VariantOptionQualifier[]
   ): string {
     const thumbnail = variantOptionQualifiers.find(
-      item => item.qualifier === VariantQualifier.THUMBNAIL
+      (item) => item.qualifier === VariantQualifier.THUMBNAIL
     );
     return thumbnail
       ? `${this.config.backend.occ.baseUrl}${thumbnail.image.url}`
@@ -49,11 +49,11 @@ export class VariantStyleIconsComponent implements OnInit {
     variantOptionQualifiers: VariantOptionQualifier[]
   ): string {
     const rollupProperty = variantOptionQualifiers.find(
-      item => item.qualifier === VariantQualifier.ROLLUP_PROPERTY
+      (item) => item.qualifier === VariantQualifier.ROLLUP_PROPERTY
     );
     const property = rollupProperty
       ? variantOptionQualifiers.find(
-          item => item.qualifier === rollupProperty.value
+          (item) => item.qualifier === rollupProperty.value
         )
       : null;
     return property ? property.value : '';

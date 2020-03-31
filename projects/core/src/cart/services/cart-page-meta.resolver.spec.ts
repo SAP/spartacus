@@ -53,7 +53,7 @@ describe('CartPageMetaResolver', () => {
 
     service
       .resolveTitle()
-      .subscribe(meta => {
+      .subscribe((meta) => {
         result = meta;
       })
       .unsubscribe();
@@ -66,7 +66,7 @@ describe('CartPageMetaResolver', () => {
 
     service
       .resolveRobots()
-      .subscribe(meta => {
+      .subscribe((meta) => {
         result = meta;
       })
       .unsubscribe();

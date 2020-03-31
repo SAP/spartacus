@@ -59,7 +59,7 @@ describe('Customer Coupon Selectors', () => {
       let result: LoaderState<CustomerCouponSearchResult>;
       store
         .pipe(select(UsersSelectors.getCustomerCouponsState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -76,7 +76,7 @@ describe('Customer Coupon Selectors', () => {
       let result: CustomerCouponSearchResult;
       store
         .pipe(select(UsersSelectors.getCustomerCoupons))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(emptyCustomerSearcherResult);
 
@@ -92,7 +92,7 @@ describe('Customer Coupon Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getCustomerCouponsLoaded))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 

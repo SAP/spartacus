@@ -77,14 +77,14 @@ describe('LanguageService', () => {
 
   it('should be able to get languages', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-    service.getAll().subscribe(results => {
+    service.getAll().subscribe((results) => {
       expect(results).toEqual(mockLanguages);
     });
   });
 
   it('should be able to get active languages', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
-    service.getActive().subscribe(results => {
+    service.getActive().subscribe((results) => {
       expect(results).toEqual(mockActiveLang);
     });
   });

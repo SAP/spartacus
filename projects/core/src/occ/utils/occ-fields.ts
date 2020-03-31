@@ -6,7 +6,7 @@ import { deepMerge, isObject } from '../../config/utils/deep-merge';
  * @param fields Fields definition as string or object
  */
 export function mergeFields(fields: (string | object)[]): string {
-  const parsedFields = fields.map(f =>
+  const parsedFields = fields.map((f) =>
     typeof f === 'string' ? parseFields(f) : f
   );
   const mergedFields = optimizeFields(deepMerge({}, ...parsedFields));
@@ -26,7 +26,7 @@ export function optimizeFields(fields: object = {}): object {
   } else if (keys.includes('DEFAULT')) {
     delete fields['BASIC'];
   }
-  Object.keys(fields).forEach(key => {
+  Object.keys(fields).forEach((key) => {
     fields[key] = optimizeFields(fields[key]);
   });
   return fields;
@@ -83,7 +83,7 @@ export function parseFields(
  */
 export function stringifyFields(fields: object): string {
   return Object.keys(fields)
-    .map(key => {
+    .map((key) => {
       const subFields = stringifyFields(fields[key]);
       return subFields ? `${key}(${subFields})` : key;
     })
@@ -112,14 +112,14 @@ function getObjectPart<T>(data: T, fields: object): T {
   if (
     keys.length === 0 ||
     // we should not extract parts of the object with ambiguous fields definitions
-    keys.find(el => el === 'BASIC' || el === 'DEFAULT' || el === 'FULL')
+    keys.find((el) => el === 'BASIC' || el === 'DEFAULT' || el === 'FULL')
   ) {
     return data;
   }
 
   const result = {} as T;
 
-  keys.forEach(key => {
+  keys.forEach((key) => {
     if (data.hasOwnProperty(key)) {
       result[key] = getObjectPart(data[key], fields[key]);
     }

@@ -27,7 +27,9 @@ export function waitForOrderToBePlacedRequest(
       Authorization: `bearer ${access_token}`,
     },
   })
-    .then(res => new Promise(resolve => setTimeout(_ => resolve(res), delay)))
+    .then(
+      (res) => new Promise((resolve) => setTimeout(() => resolve(res), delay))
+    )
     .then((res: Cypress.Response) => {
       if (
         startTime > timerTimeout ||
@@ -35,7 +37,7 @@ export function waitForOrderToBePlacedRequest(
           res.body.orders &&
           res.body.orders.length &&
           (!orderNumber ||
-            res.body.orders.filter(order => order.code === orderNumber)))
+            res.body.orders.filter((order) => order.code === orderNumber)))
       ) {
         startTime = 0;
         return;

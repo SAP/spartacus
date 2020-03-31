@@ -16,7 +16,7 @@ export class OccLoadedConfigConverter {
   constructor(private javaRegExpConverter: JavaRegExpConverter) {}
 
   fromOccBaseSites(baseSites: BaseSite[], currentUrl: string): OccLoadedConfig {
-    const baseSite = baseSites.find(site =>
+    const baseSite = baseSites.find((site) =>
       this.isCurrentBaseSite(site, currentUrl)
     );
     if (!baseSite) {
@@ -69,7 +69,7 @@ export class OccLoadedConfigConverter {
   }
 
   private isCurrentBaseSite(site: Occ.BaseSite, currentUrl: string): boolean {
-    const index = (site.urlPatterns || []).findIndex(javaRegexp => {
+    const index = (site.urlPatterns || []).findIndex((javaRegexp) => {
       const jsRegexp = this.javaRegExpConverter.toJsRegExp(javaRegexp);
       if (jsRegexp) {
         const result = jsRegexp.test(currentUrl);
@@ -88,7 +88,7 @@ export class OccLoadedConfigConverter {
   private getUrlParams(params: string[]): string[] {
     const STOREFRONT_PARAM = 'storefront';
 
-    return (params || []).map(param =>
+    return (params || []).map((param) =>
       param === STOREFRONT_PARAM ? BASE_SITE_CONTEXT_ID : param
     );
   }
@@ -102,8 +102,8 @@ export class OccLoadedConfigConverter {
   ) {
     const result = this.moveToFirst(
       elements,
-      el => el.isocode === defaultElement.isocode
-    ).map(el => el.isocode);
+      (el) => el.isocode === defaultElement.isocode
+    ).map((el) => el.isocode);
     return result;
   }
 

@@ -56,7 +56,7 @@ describe('UserNotificationPreferenceService', () => {
     let notificationPreferences: NotificationPreference[];
     userNotificationPreferenceService
       .getPreferences()
-      .subscribe(preferences => {
+      .subscribe((preferences) => {
         notificationPreferences = preferences;
       })
       .unsubscribe();
@@ -71,7 +71,7 @@ describe('UserNotificationPreferenceService', () => {
     );
     userNotificationPreferenceService
       .getEnabledPreferences()
-      .subscribe(preferences => expect(preferences).toEqual([]))
+      .subscribe((preferences) => expect(preferences).toEqual([]))
       .unsubscribe();
   });
 
@@ -92,7 +92,7 @@ describe('UserNotificationPreferenceService', () => {
     let notificationPreferenceLoading: boolean;
     userNotificationPreferenceService
       .getPreferencesLoading()
-      .subscribe(loading => {
+      .subscribe((loading) => {
         notificationPreferenceLoading = loading;
       })
       .unsubscribe();
@@ -122,7 +122,7 @@ describe('UserNotificationPreferenceService', () => {
     let result = false;
     userNotificationPreferenceService
       .getUpdatePreferencesResultLoading()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);

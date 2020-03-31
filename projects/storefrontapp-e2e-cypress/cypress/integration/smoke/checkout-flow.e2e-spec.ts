@@ -2,7 +2,7 @@ import * as checkout from '../../helpers/checkout-flow';
 
 context('Checkout flow', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     checkout.visitHomePage();
   });
 

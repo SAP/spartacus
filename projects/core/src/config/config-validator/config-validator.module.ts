@@ -20,7 +20,7 @@ export function configValidatorFactory(
     if (isDevMode()) {
       configInitializer
         .getStableConfig()
-        .then(config => validateConfig(config, validators || []));
+        .then((config) => validateConfig(config, validators || []));
     }
   };
   return validate;
