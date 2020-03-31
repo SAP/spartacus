@@ -23,6 +23,7 @@ import {
   ORG_UNIT_ASSIGNED_USERS,
   B2B_USER_ENTITIES,
   ADDRESS_ENTITIES,
+  ADDRESS_LIST,
 } from '../organization-state';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
 
@@ -84,6 +85,7 @@ export const DELETE_ADDRESS_SUCCESS = '[B2BUnit] Delete address success';
 export const DELETE_ADDRESS_FAIL = '[B2BUnit] Delete address fail';
 
 export const LOAD_ADDRESS_SUCCESS = '[B2BUnit] Load address success';
+export const LOAD_ADDRESSES_SUCCESS = '[B2BUnit] Load addresses success';
 
 export class LoadOrgUnit extends EntityLoadAction {
   readonly type = LOAD_ORG_UNIT;
@@ -436,13 +438,25 @@ export class DeleteAddressSuccess extends EntitySuccessAction {
   }
 }
 
-export class LoadAddressesSuccess extends EntitySuccessAction {
+export class LoadAddressSuccess extends EntitySuccessAction {
   readonly type = LOAD_ADDRESS_SUCCESS;
   constructor(public payload: B2BAddress[]) {
     super(
       ADDRESS_ENTITIES,
       payload.map(address => address.id)
     );
+  }
+}
+
+export class LoadAddressesSuccess extends EntitySuccessAction {
+  readonly type = LOAD_ADDRESSES_SUCCESS;
+  constructor(
+    public payload: {
+      page: ListModel;
+      orgUnitId: string;
+    }
+  ) {
+    super(ADDRESS_LIST, payload.orgUnitId);
   }
 }
 

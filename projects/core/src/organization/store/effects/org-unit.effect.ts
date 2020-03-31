@@ -19,6 +19,7 @@ export class OrgUnitEffects {
   @Effect()
   loadOrgUnit$: Observable<
     | OrgUnitActions.LoadOrgUnitSuccess
+    | OrgUnitActions.LoadAddressSuccess
     | OrgUnitActions.LoadAddressesSuccess
     | OrgUnitActions.LoadOrgUnitFail
   > = this.actions$.pipe(
@@ -26,10 +27,17 @@ export class OrgUnitEffects {
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
     switchMap(({ userId, orgUnitId }) => {
       return this.orgUnitConnector.get(userId, orgUnitId).pipe(
-        switchMap((orgUnit: B2BUnit) => [
-          new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]),
-          new OrgUnitActions.LoadAddressesSuccess(orgUnit.addresses),
-        ]),
+        switchMap((orgUnit: B2BUnit) => {
+          const { values, page } = normalizeListPage(
+            { values: orgUnit.addresses },
+            'id'
+          );
+          return [
+            new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]),
+            new OrgUnitActions.LoadAddressSuccess(values),
+            new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
+          ];
+        }),
         catchError(error =>
           of(
             new OrgUnitActions.LoadOrgUnitFail({

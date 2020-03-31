@@ -54,7 +54,10 @@ import {
   orgUnitUserGroupAvailablOrgCustomersListReducer,
   orgUnitUserGroupsListReducer,
 } from './user-group.reducer';
-import { orgUnitUserListReducer } from './org-unit.reducer';
+import {
+  orgUnitUserListReducer,
+  orgUnitAddressListReducer,
+} from './org-unit.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -85,7 +88,10 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         ORG_UNIT_ASSIGNED_USERS,
         orgUnitUserListReducer
       ),
-      addressList: entityLoaderReducer<ListModel>(ADDRESS_LIST),
+      addressList: entityLoaderReducer<ListModel>(
+        ADDRESS_LIST,
+        orgUnitAddressListReducer
+      ),
       addressEntities: entityLoaderReducer<B2BAddress>(ADDRESS_ENTITIES),
     }),
     [ORG_UNIT_USER_GROUP_FEATURE]: combineReducers({
