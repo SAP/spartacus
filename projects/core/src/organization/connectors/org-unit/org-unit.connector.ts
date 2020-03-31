@@ -10,8 +10,6 @@ import {
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { B2BSearchConfig } from '../../model/search-config';
-import { Occ } from '../../../occ/occ-models/occ.models';
-import { B2B_ADDRESS_NORMALIZER } from './converters';
 
 @Injectable({
   providedIn: 'root',

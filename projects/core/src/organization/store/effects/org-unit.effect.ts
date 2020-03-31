@@ -6,6 +6,7 @@ import {
   B2BApprovalProcess,
   B2BUnitNode,
   B2BUser,
+  B2BUnit,
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -17,16 +18,18 @@ import { normalizeListPage } from '../../utils/serializer';
 export class OrgUnitEffects {
   @Effect()
   loadOrgUnit$: Observable<
-    OrgUnitActions.LoadOrgUnitSuccess | OrgUnitActions.LoadOrgUnitFail
+    | OrgUnitActions.LoadOrgUnitSuccess
+    | OrgUnitActions.LoadAddressesSuccess
+    | OrgUnitActions.LoadOrgUnitFail
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_ORG_UNIT),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
     switchMap(({ userId, orgUnitId }) => {
       return this.orgUnitConnector.get(userId, orgUnitId).pipe(
-        map(
-          (orgUnit: B2BUnitNode) =>
-            new OrgUnitActions.LoadOrgUnitSuccess([orgUnit])
-        ),
+        switchMap((orgUnit: B2BUnit) => [
+          new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]),
+          new OrgUnitActions.LoadAddressesSuccess(orgUnit.addresses),
+        ]),
         catchError(error =>
           of(
             new OrgUnitActions.LoadOrgUnitFail({

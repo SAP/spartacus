@@ -83,6 +83,8 @@ export const DELETE_ADDRESS = '[B2BUnit] Delete address';
 export const DELETE_ADDRESS_SUCCESS = '[B2BUnit] Delete address success';
 export const DELETE_ADDRESS_FAIL = '[B2BUnit] Delete address fail';
 
+export const LOAD_ADDRESS_SUCCESS = '[B2BUnit] Load address success';
+
 export class LoadOrgUnit extends EntityLoadAction {
   readonly type = LOAD_ORG_UNIT;
   constructor(public payload: { userId: string; orgUnitId: string }) {
@@ -431,6 +433,16 @@ export class DeleteAddressSuccess extends EntitySuccessAction {
   readonly type = DELETE_ADDRESS_SUCCESS;
   constructor(public payload: B2BAddress) {
     super(ADDRESS_ENTITIES, payload.id, payload);
+  }
+}
+
+export class LoadAddressesSuccess extends EntitySuccessAction {
+  readonly type = LOAD_ADDRESS_SUCCESS;
+  constructor(public payload: B2BAddress[]) {
+    super(
+      ADDRESS_ENTITIES,
+      payload.map(address => address.id)
+    );
   }
 }
 
