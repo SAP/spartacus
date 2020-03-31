@@ -205,6 +205,197 @@ export class B2BUserEffects {
     )
   );
 
+  @Effect()
+  unassignApproverFromB2BUser$: Observable<
+    | B2BUserActions.DeleteB2BUserApproverSuccess
+    | B2BUserActions.DeleteB2BUserApproverFail
+  > = this.actions$.pipe(
+    ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
+    map(
+      (action: B2BUserActions.DeleteB2BUserApprover) =>
+        action.payload
+    ),
+    switchMap(payload =>
+      this.b2bUserConnector
+        .assignApprover(
+          payload.userId,
+          payload.orgCustomerId,
+          payload.approverId,
+        )
+        .pipe(
+          map(
+            () =>
+              new B2BUserActions.DeleteB2BUserApproverSuccess({
+                approverId: payload.approverId,
+                selected: false,
+              })
+          ),
+          catchError(error =>
+            of(
+              new B2BUserActions.DeleteB2BUserApproverFail({
+                orgCustomerId: payload.orgCustomerId,
+                approverId: payload.approverId,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  assignPermissionToB2BUser$: Observable<
+    | B2BUserActions.CreateB2BUserPermissionSuccess
+    | B2BUserActions.CreateB2BUserPermissionFail
+  > = this.actions$.pipe(
+    ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
+    map(
+      (action: B2BUserActions.CreateB2BUserPermission) =>
+        action.payload
+    ),
+    switchMap(payload =>
+      this.b2bUserConnector
+        .assignPermission(
+          payload.userId,
+          payload.orgCustomerId,
+          payload.permissionId,
+        )
+        .pipe(
+          map(
+            () =>
+              new B2BUserActions.CreateB2BUserPermissionSuccess({
+                permissionId: payload.permissionId,
+                selected: true,
+              })
+          ),
+          catchError(error =>
+            of(
+              new B2BUserActions.CreateB2BUserPermissionFail({
+                orgCustomerId: payload.orgCustomerId,
+                permissionId: payload.permissionId,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  unassignPermissionFromB2BUser$: Observable<
+    | B2BUserActions.DeleteB2BUserPermissionSuccess
+    | B2BUserActions.DeleteB2BUserPermissionFail
+  > = this.actions$.pipe(
+    ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
+    map(
+      (action: B2BUserActions.DeleteB2BUserPermission) =>
+        action.payload
+    ),
+    switchMap(payload =>
+      this.b2bUserConnector
+        .assignPermission(
+          payload.userId,
+          payload.orgCustomerId,
+          payload.permissionId,
+        )
+        .pipe(
+          map(
+            () =>
+              new B2BUserActions.DeleteB2BUserPermissionSuccess({
+                permissionId: payload.permissionId,
+                selected: false,
+              })
+          ),
+          catchError(error =>
+            of(
+              new B2BUserActions.DeleteB2BUserPermissionFail({
+                orgCustomerId: payload.orgCustomerId,
+                permissionId: payload.permissionId,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  assignUserGroupToB2BUser$: Observable<
+    | B2BUserActions.CreateB2BUserUserGroupSuccess
+    | B2BUserActions.CreateB2BUserUserGroupFail
+  > = this.actions$.pipe(
+    ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
+    map(
+      (action: B2BUserActions.CreateB2BUserUserGroup) =>
+        action.payload
+    ),
+    switchMap(payload =>
+      this.b2bUserConnector
+        .assignUserGroup(
+          payload.userId,
+          payload.orgCustomerId,
+          payload.userGroupId,
+        )
+        .pipe(
+          map(
+            () =>
+              new B2BUserActions.CreateB2BUserUserGroupSuccess({
+                userGroupId: payload.userGroupId,
+                selected: true,
+              })
+          ),
+          catchError(error =>
+            of(
+              new B2BUserActions.CreateB2BUserUserGroupFail({
+                orgCustomerId: payload.orgCustomerId,
+                userGroupId: payload.userGroupId,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  unassignUserGroupFromB2BUser$: Observable<
+    | B2BUserActions.DeleteB2BUserUserGroupSuccess
+    | B2BUserActions.DeleteB2BUserUserGroupFail
+  > = this.actions$.pipe(
+    ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
+    map(
+      (action: B2BUserActions.DeleteB2BUserUserGroup) =>
+        action.payload
+    ),
+    switchMap(payload =>
+      this.b2bUserConnector
+        .assignUserGroup(
+          payload.userId,
+          payload.orgCustomerId,
+          payload.userGroupId,
+        )
+        .pipe(
+          map(
+            () =>
+              new B2BUserActions.DeleteB2BUserUserGroupSuccess({
+                userGroupId: payload.userGroupId,
+                selected: false,
+              })
+          ),
+          catchError(error =>
+            of(
+              new B2BUserActions.DeleteB2BUserUserGroupFail({
+                orgCustomerId: payload.orgCustomerId,
+                userGroupId: payload.userGroupId,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+
   constructor(
     private actions$: Actions,
     private b2bUserConnector: B2BUserConnector

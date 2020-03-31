@@ -241,14 +241,14 @@ export class DeleteB2BUserApproverSuccess extends EntitySuccessAction {
   readonly type = DELETE_B2B_USER_APPROVER_SUCCESS;
   constructor(
     public payload: {
-      userId: string;
-      orgCustomerId: string;
       approverId: string;
+      selected: boolean;
     }
   ) {
     super(
       B2B_USER_APPROVERS,
-      payload.approverId
+      payload.approverId,
+      payload
     );
   }
 }
@@ -280,7 +280,7 @@ export class LoadB2BUserPermissionsFail extends EntityFailAction {
   ) {
     super(
       B2B_USER_PERMISSIONS,
-      serializeB2BSearchConfig(payload.params, payload.orgCustomerId),
+      payload.orgCustomerId,
       payload.error
     );
   }
@@ -322,7 +322,6 @@ export class CreateB2BUserPermissionFail extends EntityFailAction {
   readonly type = CREATE_B2B_USER_PERMISSION_FAIL;
   constructor(
     public payload: {
-      userId: string;
       orgCustomerId: string;
       permissionId: string;
       error: any;
@@ -330,7 +329,8 @@ export class CreateB2BUserPermissionFail extends EntityFailAction {
   ) {
     super(
       B2B_USER_PERMISSIONS,
-      payload.permissionId
+      payload.permissionId,
+      payload.error
     );
   }
 }
@@ -339,14 +339,14 @@ export class CreateB2BUserPermissionSuccess extends EntitySuccessAction {
   readonly type = CREATE_B2B_USER_PERMISSION_SUCCESS;
   constructor(
     public payload: {
-      userId: string;
-      orgCustomerId: string;
       permissionId: string;
+      selected: boolean;
     }
   ) {
     super(
       B2B_USER_PERMISSIONS,
-      payload.permissionId
+      payload.permissionId,
+      payload
     );
   }
 }
@@ -371,7 +371,6 @@ export class DeleteB2BUserPermissionFail extends EntityFailAction {
   readonly type = DELETE_B2B_USER_PERMISSION_FAIL;
   constructor(
     public payload: {
-      userId: string;
       orgCustomerId: string;
       permissionId: string;
       error: any;
@@ -379,7 +378,8 @@ export class DeleteB2BUserPermissionFail extends EntityFailAction {
   ) {
     super(
       B2B_USER_PERMISSIONS,
-      payload.permissionId
+      payload.permissionId,
+      payload.error
     );
   }
 }
@@ -388,14 +388,14 @@ export class DeleteB2BUserPermissionSuccess extends EntitySuccessAction {
   readonly type = DELETE_B2B_USER_PERMISSION_SUCCESS;
   constructor(
     public payload: {
-      userId: string;
-      orgCustomerId: string;
       permissionId: string;
+      selected: boolean;
     }
   ) {
     super(
       B2B_USER_PERMISSIONS,
-      payload.permissionId
+      payload.permissionId,
+      payload
     );
   }
 }
@@ -469,7 +469,6 @@ export class CreateB2BUserUserGroupFail extends EntityFailAction {
   readonly type = CREATE_B2B_USER_USER_GROUP_FAIL;
   constructor(
     public payload: {
-      userId: string;
       orgCustomerId: string;
       userGroupId: string;
       error: any;
@@ -477,7 +476,8 @@ export class CreateB2BUserUserGroupFail extends EntityFailAction {
   ) {
     super(
       B2B_USER_USER_GROUPS,
-      payload.userGroupId
+      payload.userGroupId,
+      payload.error
     );
   }
 }
@@ -486,14 +486,14 @@ export class CreateB2BUserUserGroupSuccess extends EntitySuccessAction {
   readonly type = CREATE_B2B_USER_USER_GROUP_SUCCESS;
   constructor(
     public payload: {
-      userId: string;
-      orgCustomerId: string;
       userGroupId: string;
+      selected: boolean;
     }
   ) {
     super(
       B2B_USER_USER_GROUPS,
-      payload.userGroupId
+      payload.userGroupId,
+      payload
     );
   }
 }
@@ -518,7 +518,6 @@ export class DeleteB2BUserUserGroupFail extends EntityFailAction {
   readonly type = DELETE_B2B_USER_USER_GROUP_FAIL;
   constructor(
     public payload: {
-      userId: string;
       orgCustomerId: string;
       userGroupId: string;
       error: any;
@@ -526,7 +525,8 @@ export class DeleteB2BUserUserGroupFail extends EntityFailAction {
   ) {
     super(
       B2B_USER_USER_GROUPS,
-      payload.userGroupId
+      payload.userGroupId,
+      payload.error
     );
   }
 }
@@ -535,14 +535,14 @@ export class DeleteB2BUserUserGroupSuccess extends EntitySuccessAction {
   readonly type = DELETE_B2B_USER_USER_GROUP_SUCCESS;
   constructor(
     public payload: {
-      userId: string;
-      orgCustomerId: string;
       userGroupId: string;
+      selected: boolean;
     }
   ) {
     super(
       B2B_USER_USER_GROUPS,
-      payload.userGroupId
+      payload.userGroupId,
+      payload
     );
   }
 }
