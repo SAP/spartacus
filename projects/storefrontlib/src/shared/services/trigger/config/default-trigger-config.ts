@@ -1,8 +1,8 @@
 import { AsmMainUiComponent } from '../../../../cms-components/asm/asm-main-ui/asm-main-ui.component';
 import { SkipLinkComponent } from '../../../../layout/a11y/skip-link/component/skip-link.component';
-import { TriggerConfig } from './trigger-config';
+import { LaunchConfig } from './launch-config';
 
-export const DEFAULT_TRIGGER_CONFIG: TriggerConfig = {
+export const DEFAULT_TRIGGER_CONFIG: LaunchConfig = {
   trigger: {
     ASM: {
       outlet: 'cx-storefront',

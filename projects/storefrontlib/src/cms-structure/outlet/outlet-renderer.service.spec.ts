@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { OutletRendererService } from './outlet-renderer.serivce';
+import { OutletRendererService } from './outlet-renderer.service';
 import { OutletDirective } from './outlet.directive';
 
 const outlet = 'mock-outlet';

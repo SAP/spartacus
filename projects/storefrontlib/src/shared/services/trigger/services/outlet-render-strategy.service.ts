@@ -8,12 +8,12 @@ import {
   OutletPosition,
   OutletService,
 } from '../../../../cms-structure/outlet/index';
-import { OutletRendererService } from '../../../../cms-structure/outlet/outlet-renderer.serivce';
-import { TriggerOutletMapping, TRIGGER_CALLER } from '../config/index';
-import { RenderStrategy } from './render.strategy';
+import { OutletRendererService } from '../../../../cms-structure/outlet/outlet-renderer.service';
+import { LaunchOutletDialog, TRIGGER_CALLER } from '../config/index';
+import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
-export class OutletRenderStrategy extends RenderStrategy {
+export class OutletRenderStrategy extends LaunchRenderStrategy {
   constructor(
     protected outletService: OutletService<ComponentFactory<any>>,
     protected componentFactoryResolver: ComponentFactoryResolver,
@@ -29,8 +29,8 @@ export class OutletRenderStrategy extends RenderStrategy {
    * @param caller
    * @param vcr
    */
-  public render(
-    config: TriggerOutletMapping,
+  render(
+    config: LaunchOutletDialog,
     caller: TRIGGER_CALLER,
     vcr?: ViewContainerRef
   ) {
@@ -52,14 +52,11 @@ export class OutletRenderStrategy extends RenderStrategy {
     }
   }
 
-  public match(config: TriggerOutletMapping) {
+  match(config: LaunchOutletDialog) {
     return Boolean(config.outlet);
   }
 
-  public removeRendered(
-    caller: TRIGGER_CALLER,
-    config: TriggerOutletMapping
-  ): void {
+  remove(caller: TRIGGER_CALLER, config: LaunchOutletDialog): void {
     const template = this.componentFactoryResolver.resolveComponentFactory(
       config.component
     );

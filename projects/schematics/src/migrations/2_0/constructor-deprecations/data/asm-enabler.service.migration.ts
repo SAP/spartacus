@@ -3,7 +3,7 @@ import {
   ANGULAR_CORE,
   ASM_ENABLER_SERVICE,
   COMPONENT_FACTORY_RESOLVER,
-  LAUNCH_SERVICE,
+  LAUNCH_COMPONENT_SERVICE,
   LOCATION,
   OUTLET_SERVICE,
   SPARTACUS_STOREFRONTLIB,
@@ -45,7 +45,7 @@ export const ASM_ENABLE_SERVICE_MIGRATION: ConstructorDeprecation = {
   ],
   addParams: [
     {
-      className: LAUNCH_SERVICE,
+      className: LAUNCH_COMPONENT_SERVICE,
       importPath: SPARTACUS_STOREFRONTLIB,
     },
   ],

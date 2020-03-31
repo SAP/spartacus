@@ -126,7 +126,7 @@ export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
 export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
 export const ASM_ENABLER_SERVICE = 'AsmEnablerService';
 export const OUTLET_SERVICE = 'OutletService';
-export const LAUNCH_SERVICE = 'LaunchService';
+export const LAUNCH_COMPONENT_SERVICE = 'LaunchComponentService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

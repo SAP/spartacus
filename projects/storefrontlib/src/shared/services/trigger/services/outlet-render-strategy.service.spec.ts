@@ -1,8 +1,8 @@
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OutletRendererService } from 'projects/storefrontlib/src/cms-structure/outlet/outlet-renderer.serivce';
+import { OutletRendererService } from 'projects/storefrontlib/src/cms-structure/outlet/outlet-renderer.service';
 import { OutletPosition, OutletService } from '../../../../cms-structure/index';
-import { TriggerConfig, TriggerOutletMapping, TRIGGER_CALLER } from '../config';
+import { LaunchConfig, LaunchOutletDialog, TRIGGER_CALLER } from '../config';
 import { OutletRenderStrategy } from './outlet-render-strategy.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { OutletRenderStrategy } from './outlet-render-strategy.service';
 })
 class TestContainerComponent {}
 
-const mockTriggerConfig: TriggerConfig = {
+const mockLaunchConfig: LaunchConfig = {
   trigger: {
     TEST_OUTLET: {
       outlet: 'cx-outlet-test',
@@ -77,9 +77,9 @@ describe('OutletRenderStrategy', () => {
       });
 
       it('should add template to outlet', () => {
-        const config = mockTriggerConfig.trigger[
+        const config = mockLaunchConfig.trigger[
           'TEST_OUTLET'
-        ] as TriggerOutletMapping;
+        ] as LaunchOutletDialog;
         service.render(config, 'TEST_OUTLET' as TRIGGER_CALLER);
 
         expect(outletService.add).toHaveBeenCalledWith(
@@ -94,9 +94,9 @@ describe('OutletRenderStrategy', () => {
       });
 
       it('should default to position BEFORE if one is not provided', () => {
-        const config = mockTriggerConfig.trigger[
+        const config = mockLaunchConfig.trigger[
           'TEST_OUTLET_NP'
-        ] as TriggerOutletMapping;
+        ] as LaunchOutletDialog;
         service.render(config, 'TEST_OUTLET_NP' as TRIGGER_CALLER);
 
         expect(outletService.add).toHaveBeenCalledWith(

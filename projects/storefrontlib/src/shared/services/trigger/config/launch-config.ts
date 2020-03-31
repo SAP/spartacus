@@ -1,20 +1,20 @@
 import { OutletPosition } from '../../../../cms-structure/outlet/outlet.model';
 
-export abstract class TriggerConfig {
+export abstract class LaunchConfig {
   trigger?: {
-    [key: string]: TriggerRenderStrategy;
+    [key: string]: LaunchOptions;
   };
 }
 
-export type TriggerRenderStrategy =
-  | TriggerOutletMapping
-  | TriggerInlineMapping
-  | TriggerUrlMapping;
+export type LaunchOptions =
+  | LaunchOutletDialog
+  | LaunchInlineDialog
+  | LaunchRoute;
 
 /**
  * Parent type for configurations that render components
  */
-export interface TriggerRenderMapping {
+export interface LaunchDialog {
   component: any;
   /**
    * Can the element be rendered multiple times
@@ -34,7 +34,7 @@ export interface TriggerRenderMapping {
 /**
  * Configuration type to render a component in an outlet
  */
-export interface TriggerOutletMapping extends TriggerRenderMapping {
+export interface LaunchOutletDialog extends LaunchDialog {
   /**
    * The outlet to render the element in
    */
@@ -48,14 +48,14 @@ export interface TriggerOutletMapping extends TriggerRenderMapping {
 /**
  * Configuration type to render a component inline (next to the trigger)
  */
-export interface TriggerInlineMapping extends TriggerRenderMapping {
+export interface LaunchInlineDialog extends LaunchDialog {
   inline: boolean;
 }
 
 /**
  * Configuration type to render as link
  */
-export interface TriggerUrlMapping {
+export interface LaunchRoute {
   /**
    * The route for the url
    */

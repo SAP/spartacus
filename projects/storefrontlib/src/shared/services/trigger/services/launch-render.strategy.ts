@@ -1,11 +1,7 @@
 import { ViewContainerRef } from '@angular/core';
-import {
-  TriggerRenderMapping,
-  TriggerRenderStrategy,
-  TRIGGER_CALLER,
-} from '../config';
+import { LaunchDialog, LaunchOptions, TRIGGER_CALLER } from '../config';
 
-export abstract class RenderStrategy {
+export abstract class LaunchRenderStrategy {
   // List of called references; only used for rendered elements
   protected renderedCallers: Array<{
     caller: TRIGGER_CALLER;
@@ -18,7 +14,7 @@ export abstract class RenderStrategy {
    * @param config Trigger configuration
    */
   abstract render(
-    config: TriggerRenderStrategy,
+    config: LaunchOptions,
     caller: TRIGGER_CALLER,
     vcr?: ViewContainerRef
   ): void;
@@ -28,7 +24,7 @@ export abstract class RenderStrategy {
    *
    * @param config
    */
-  abstract match(config: TriggerRenderStrategy): boolean;
+  abstract match(config: LaunchOptions): boolean;
 
   /**
    * Determines if element should render
@@ -38,7 +34,7 @@ export abstract class RenderStrategy {
    */
   protected shouldRender(
     caller: TRIGGER_CALLER,
-    config: TriggerRenderMapping
+    config: LaunchDialog
   ): boolean {
     return this.renderedCallers.some((el) => el.caller === caller)
       ? !!config.multi
@@ -52,10 +48,7 @@ export abstract class RenderStrategy {
    * @param caller
    * @param _config optional parameters used in children strategies
    */
-  public removeRendered(
-    caller: TRIGGER_CALLER,
-    _config?: TriggerRenderStrategy
-  ): void {
+  public remove(caller: TRIGGER_CALLER, _config?: LaunchOptions): void {
     this.renderedCallers = this.renderedCallers.filter(
       (el) => el.caller === caller
     );

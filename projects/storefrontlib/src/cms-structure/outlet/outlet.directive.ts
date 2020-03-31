@@ -13,7 +13,7 @@ import {
 import { Subscription } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { IntersectionOptions } from '../../layout/loading/intersection.model';
-import { OutletRendererService } from './outlet-renderer.serivce';
+import { OutletRendererService } from './outlet-renderer.service';
 import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
 import { OutletService } from './outlet.service';
 

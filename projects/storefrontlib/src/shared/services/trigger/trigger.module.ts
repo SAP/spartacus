@@ -1,28 +1,28 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config, provideConfig } from '@spartacus/core';
 import { DEFAULT_TRIGGER_CONFIG } from './config/default-trigger-config';
-import { TriggerConfig } from './config/trigger-config';
+import { LaunchConfig } from './config/launch-config';
 import {
   InlineRenderStrategy,
+  LaunchRenderStrategy,
   OutletRenderStrategy,
-  RenderStrategy,
   RoutingRenderStrategy,
 } from './services/index';
 
 @NgModule({
   providers: [
     {
-      provide: RenderStrategy,
+      provide: LaunchRenderStrategy,
       useExisting: OutletRenderStrategy,
       multi: true,
     },
     {
-      provide: RenderStrategy,
+      provide: LaunchRenderStrategy,
       useExisting: InlineRenderStrategy,
       multi: true,
     },
     {
-      provide: RenderStrategy,
+      provide: LaunchRenderStrategy,
       useExisting: RoutingRenderStrategy,
       multi: true,
     },
@@ -34,7 +34,7 @@ export class TriggerModule {
       ngModule: TriggerModule,
       providers: [
         provideConfig(DEFAULT_TRIGGER_CONFIG),
-        { provide: TriggerConfig, useExisting: Config },
+        { provide: LaunchConfig, useExisting: Config },
       ],
     };
   }

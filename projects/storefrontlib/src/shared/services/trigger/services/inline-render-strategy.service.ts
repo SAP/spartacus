@@ -4,11 +4,11 @@ import {
   isDevMode,
   ViewContainerRef,
 } from '@angular/core';
-import { TriggerInlineMapping, TRIGGER_CALLER } from '../config';
-import { RenderStrategy } from './render.strategy';
+import { LaunchInlineDialog, TRIGGER_CALLER } from '../config';
+import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
-export class InlineRenderStrategy extends RenderStrategy {
+export class InlineRenderStrategy extends LaunchRenderStrategy {
   constructor(protected componentFactoryResolver: ComponentFactoryResolver) {
     super();
   }
@@ -20,8 +20,8 @@ export class InlineRenderStrategy extends RenderStrategy {
    * @param caller
    * @param vcr
    */
-  public render(
-    config: TriggerInlineMapping,
+  render(
+    config: LaunchInlineDialog,
     caller: TRIGGER_CALLER,
     vcr: ViewContainerRef
   ) {
@@ -37,7 +37,7 @@ export class InlineRenderStrategy extends RenderStrategy {
     }
   }
 
-  public match(config: TriggerInlineMapping) {
+  match(config: LaunchInlineDialog) {
     return Boolean(config.inline);
   }
 }
