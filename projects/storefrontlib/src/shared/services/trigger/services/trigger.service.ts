@@ -65,6 +65,6 @@ export class LaunchService {
    * @param config Configuration for trigger
    */
   protected getRenderStrategy(config: TriggerRenderStrategy): RenderStrategy {
-    return this.renderStrategies.find(strategy => strategy.match(config));
+    return this.renderStrategies.find((strategy) => strategy.match(config));
   }
 }

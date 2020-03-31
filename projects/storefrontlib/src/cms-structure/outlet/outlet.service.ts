@@ -111,7 +111,7 @@ export class OutletService<T = TemplateRef<any>> {
       store.delete(outlet);
     } else if (value && store.has(outlet)) {
       let existing = store.get(outlet);
-      existing = existing.filter(val => val === value);
+      existing = existing.filter((val) => val === value);
       store.set(outlet, existing);
     }
   }

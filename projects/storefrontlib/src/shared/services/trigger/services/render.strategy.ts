@@ -40,7 +40,7 @@ export abstract class RenderStrategy {
     caller: TRIGGER_CALLER,
     config: TriggerRenderMapping
   ): boolean {
-    return this.renderedCallers.some(el => el.caller === caller)
+    return this.renderedCallers.some((el) => el.caller === caller)
       ? !!config.multi
       : true;
   }
@@ -57,7 +57,7 @@ export abstract class RenderStrategy {
     _config?: TriggerRenderStrategy
   ): void {
     this.renderedCallers = this.renderedCallers.filter(
-      el => el.caller === caller
+      (el) => el.caller === caller
     );
   }
 }

@@ -64,7 +64,7 @@ export class OutletRenderStrategy extends RenderStrategy {
       config.component
     );
     this.renderedCallers = this.renderedCallers.filter(
-      el => el.caller === caller
+      (el) => el.caller === caller
     );
 
     this.outletService.remove(
