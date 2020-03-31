@@ -96,7 +96,7 @@ describe('OccUserAdapter', () => {
       const userUpdates: User = {
         title: 'mr',
       };
-      occUserAdapter.update(username, userUpdates).subscribe((_) => _);
+      occUserAdapter.update(username, userUpdates).subscribe();
 
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'PATCH';
@@ -135,7 +135,7 @@ describe('OccUserAdapter', () => {
         uid: 'uid',
         password: 'password',
       };
-      occUserAdapter.register(userSignUp).subscribe((_) => _);
+      occUserAdapter.register(userSignUp).subscribe();
 
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
@@ -170,7 +170,7 @@ describe('OccUserAdapter', () => {
     it('should able to register a new user from guest', () => {
       const guid = 'guid';
       const pwd = 'password';
-      occUserAdapter.registerGuest(guid, pwd).subscribe((_) => _);
+      occUserAdapter.registerGuest(guid, pwd).subscribe();
 
       const mockReq = httpMock.expectOne((req) => {
         return (

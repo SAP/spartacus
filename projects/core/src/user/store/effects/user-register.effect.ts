@@ -56,7 +56,7 @@ export class UserRegisterEffects {
     map((action: UserActions.RemoveUser) => action.payload),
     mergeMap((userId: string) => {
       return this.userConnector.remove(userId).pipe(
-        switchMap((_result) => [
+        switchMap(() => [
           new UserActions.RemoveUserSuccess(),
           new AuthActions.Logout(),
         ]),

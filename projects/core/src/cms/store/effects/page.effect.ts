@@ -29,7 +29,7 @@ export class PageEffects {
       AuthActions.LOGOUT,
       AuthActions.LOGIN
     ),
-    switchMap((_) =>
+    switchMap(() =>
       this.routingService.getRouterState().pipe(
         filter(
           (routerState) =>

@@ -360,7 +360,7 @@ describe('AddressFormComponent', () => {
     const mockCountryIsocode = 'test country isocode';
     component.countrySelected({ isocode: mockCountryIsocode });
     component.ngOnInit();
-    component.regions$.subscribe((_) => _);
+    component.regions$.subscribe();
     expect(
       component.address['controls'].country['controls'].isocode.value
     ).toEqual(mockCountryIsocode);
@@ -394,7 +394,7 @@ describe('AddressFormComponent', () => {
     const mockCountryIsocode = 'test country isocode';
     component.regionSelected({ isocode: mockCountryIsocode });
     component.ngOnInit();
-    component.regions$.subscribe((_) => _);
+    component.regions$.subscribe();
     component.verifyAddress();
     expect(
       component.address['controls'].region['controls'].isocode.value

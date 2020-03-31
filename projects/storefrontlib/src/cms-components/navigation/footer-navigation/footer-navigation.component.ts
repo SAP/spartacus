@@ -28,7 +28,7 @@ export class FooterNavigationComponent {
   // in order to preserve the backwards compatibility, this should render only if anonymous consents feature is disabled
   data$ = this.componentData.data$.pipe(
     filter(
-      (_) =>
+      () =>
         !isFeatureEnabled(
           this.anonymousConsentsConfig,
           ANONYMOUS_CONSENTS_FEATURE
@@ -45,7 +45,7 @@ export class FooterNavigationComponent {
   /**
    * @deprecated since version 1.3
    * Instead, use:
-   * 
+   *
     ```ts
       constructor(
       componentData: CmsComponentData<CmsNavigationComponent>,

@@ -111,7 +111,7 @@ export class UserConsentService {
     return this.authService.isUserLoggedIn().pipe(
       filter(Boolean),
       tap(() => this.getConsents(true)),
-      switchMap((_) =>
+      switchMap(() =>
         this.store.pipe(
           select(UsersSelectors.getConsentByTemplateId(templateId))
         )

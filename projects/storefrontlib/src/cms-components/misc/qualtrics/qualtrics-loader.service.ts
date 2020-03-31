@@ -22,7 +22,7 @@ export class QualtricsLoaderService {
   }
 
   private initialize(): void {
-    fromEvent(this.winRef.nativeWindow, 'qsi_js_loaded').subscribe((_) =>
+    fromEvent(this.winRef.nativeWindow, 'qsi_js_loaded').subscribe(() =>
       this.qualtricsLoaded$.next(true)
     );
   }

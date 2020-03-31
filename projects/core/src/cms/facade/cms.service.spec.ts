@@ -353,10 +353,7 @@ describe('CmsService', () => {
         );
         spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-        service
-          .hasPage(testPageContext)
-          .subscribe((_) => _)
-          .unsubscribe();
+        service.hasPage(testPageContext).subscribe().unsubscribe();
 
         expect(store.dispatch).toHaveBeenCalledWith(
           new CmsActions.LoadCmsPageData(testPageContext)
@@ -373,10 +370,7 @@ describe('CmsService', () => {
         );
         spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-        service
-          .hasPage(testPageContext)
-          .subscribe((_) => _)
-          .unsubscribe();
+        service.hasPage(testPageContext).subscribe().unsubscribe();
 
         expect(store.dispatch).not.toHaveBeenCalledWith(
           new CmsActions.LoadCmsPageData(testPageContext)
@@ -394,10 +388,7 @@ describe('CmsService', () => {
           );
           spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-          service
-            .hasPage(testPageContext, true)
-            .subscribe((_) => _)
-            .unsubscribe();
+          service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
             new CmsActions.LoadCmsPageData(testPageContext)
@@ -414,10 +405,7 @@ describe('CmsService', () => {
           );
           spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-          service
-            .hasPage(testPageContext, true)
-            .subscribe((_) => _)
-            .unsubscribe();
+          service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
             new CmsActions.LoadCmsPageData(testPageContext)

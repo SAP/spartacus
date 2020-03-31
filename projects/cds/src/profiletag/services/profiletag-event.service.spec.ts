@@ -122,7 +122,7 @@ describe('ProfileTagEventTracker', () => {
     let loaded = 0;
     const subscription = profileTagEventTracker
       .addTracker()
-      .pipe(tap((_) => loaded++))
+      .pipe(tap(() => loaded++))
       .subscribe();
     getActiveBehavior.next('electronics-test');
     subscription.unsubscribe();
@@ -134,7 +134,7 @@ describe('ProfileTagEventTracker', () => {
     let timesCalled = 0;
     const subscription = profileTagEventTracker
       .getProfileTagEvents()
-      .pipe(tap((_) => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
 
     const debugEvent = <DebugEvent>(
@@ -152,7 +152,7 @@ describe('ProfileTagEventTracker', () => {
     let timesCalled = 0;
     const subscription = profileTagEventTracker
       .getProfileTagEvents()
-      .pipe(tap((_) => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
 
     let consentReferenceChangedEvent = <ConsentReferenceEvent>(
