@@ -24,7 +24,7 @@ describe('Cart effect', () => {
   let entryEffects: fromEffects.CartEntryEffects;
   let actions$: Observable<Action>;
 
-  let mockCartModification: Required<CartModification>;
+  let mockCartModification: CartModification;
   const userId = 'testUserId';
   const cartId = 'testCartId';
 

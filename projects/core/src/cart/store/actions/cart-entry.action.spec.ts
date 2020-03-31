@@ -7,7 +7,7 @@ const userId = 'xxx@xxx.xxx';
 const cartId = 'testCartId';
 const productCode = 'testProductCode';
 const entryNumber = 'testEntryNumber';
-let mockCartModification: Required<CartModification>;
+let mockCartModification: CartModification;
 
 describe('Cart-entry Actions', () => {
   beforeEach(() => {
