@@ -1,4 +1,4 @@
-import { OutletPosition } from '../../../../cms-structure/outlet/outlet.model';
+import { OutletPosition } from '../../../cms-structure/outlet/outlet.model';
 
 export abstract class LaunchConfig {
   trigger?: {

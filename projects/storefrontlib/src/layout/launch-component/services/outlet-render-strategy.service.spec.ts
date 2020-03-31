@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OutletRendererService } from 'projects/storefrontlib/src/cms-structure/outlet/outlet-renderer.service';
-import { OutletPosition, OutletService } from '../../../../cms-structure/index';
+import { OutletPosition, OutletService } from '../../../cms-structure/index';
+import { OutletRendererService } from '../../../cms-structure/outlet/outlet-renderer.service';
 import { LaunchConfig, LaunchOutletDialog, LAUNCH_CALLER } from '../config';
 import { OutletRenderStrategy } from './outlet-render-strategy.service';
 

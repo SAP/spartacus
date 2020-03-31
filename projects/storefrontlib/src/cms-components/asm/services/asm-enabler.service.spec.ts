@@ -6,7 +6,7 @@ import { OutletService } from '../../../cms-structure/outlet/index';
 import {
   LaunchConfig,
   LaunchDialogService,
-} from '../../../shared/services/launch-component/index';
+} from '../../../layout/launch-component/index';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmEnablerService } from './asm-enabler.service';
 

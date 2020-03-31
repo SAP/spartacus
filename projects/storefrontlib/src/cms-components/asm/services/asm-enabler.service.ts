@@ -1,8 +1,8 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { LAUNCH_CALLER } from '../../../shared/services/launch-component/config/index';
-import { LaunchDialogService } from '../../../shared/services/launch-component/services/launch-component.service';
+import { LAUNCH_CALLER } from '../../../layout/launch-component/config/index';
+import { LaunchDialogService } from '../../../layout/launch-component/services/launch-component.service';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 
 /**

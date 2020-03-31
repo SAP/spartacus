@@ -1,5 +1,5 @@
-import { AsmMainUiComponent } from '../../../../cms-components/asm/asm-main-ui/asm-main-ui.component';
-import { SkipLinkComponent } from '../../../../layout/a11y/skip-link/component/skip-link.component';
+import { AsmMainUiComponent } from '../../../cms-components/asm/asm-main-ui/asm-main-ui.component';
+import { SkipLinkComponent } from '../../a11y/skip-link/component/skip-link.component';
 import { LaunchConfig } from './launch-config';
 
 export const DEFAULT_TRIGGER_CONFIG: LaunchConfig = {

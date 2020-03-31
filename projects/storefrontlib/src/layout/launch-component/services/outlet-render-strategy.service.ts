@@ -7,8 +7,8 @@ import {
 import {
   OutletPosition,
   OutletService,
-} from '../../../../cms-structure/outlet/index';
-import { OutletRendererService } from '../../../../cms-structure/outlet/outlet-renderer.service';
+} from '../../../cms-structure/outlet/index';
+import { OutletRendererService } from '../../../cms-structure/outlet/outlet-renderer.service';
 import { LaunchOutletDialog, LAUNCH_CALLER } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 

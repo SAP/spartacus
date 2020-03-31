@@ -18,9 +18,9 @@ import {
   UserModule,
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
+import { LaunchComponentModule } from '../layout/launch-component/launch-component.module';
 import { LayoutModule } from '../layout/layout.module';
 import { ViewConfigModule } from '../shared/config/view-config.module';
-import { LaunchComponentModule } from '../shared/services/launch-component/launch-component.module';
 
 @NgModule({
   imports: [
