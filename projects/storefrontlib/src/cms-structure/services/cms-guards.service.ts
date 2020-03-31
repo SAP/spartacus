@@ -25,7 +25,7 @@ export class CmsGuardsService {
     const guards = this.cmsMapping.getGuardsForComponents(componentTypes);
 
     if (guards.length) {
-      const canActivateObservables = guards.map(guardClass => {
+      const canActivateObservables = guards.map((guardClass) => {
         const guard = this.injector.get<CanActivate>(guardClass, null);
         if (isCanActivate(guard)) {
           return wrapIntoObservable(guard.canActivate(route, state)).pipe(

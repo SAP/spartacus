@@ -1,7 +1,7 @@
 import * as productSearchTypeFlow from '../../../helpers/product-search-product-type-flow';
 context('Product search product type flow', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
 

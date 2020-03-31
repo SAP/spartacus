@@ -61,7 +61,7 @@ describe(`ShippingAddressSetGuard`, () => {
   });
 
   describe(`when there is NO shipping address present`, () => {
-    it(`should navigate to shipping address step`, done => {
+    it(`should navigate to shipping address step`, (done) => {
       spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
         of({})
       );
@@ -70,7 +70,7 @@ describe(`ShippingAddressSetGuard`, () => {
         MockCheckoutConfig.checkout.steps[0]
       );
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
@@ -82,14 +82,14 @@ describe(`ShippingAddressSetGuard`, () => {
       });
     });
 
-    it(`should navigate to default if not configured`, done => {
+    it(`should navigate to default if not configured`, (done) => {
       spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
         of({})
       );
       spyOn(console, 'warn');
       mockCheckoutConfig.checkout.steps = [];
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(console.warn).toHaveBeenCalledWith(
           'Missing step with type shippingAddress in checkout configuration.'
         );
@@ -100,12 +100,12 @@ describe(`ShippingAddressSetGuard`, () => {
   });
 
   describe(`when there is shipping address present`, () => {
-    it(`should return true`, done => {
+    it(`should return true`, (done) => {
       spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
         of({ id: 'testAddress' } as any)
       );
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result).toBeTruthy();
         done();
       });

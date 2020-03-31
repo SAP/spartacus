@@ -66,7 +66,7 @@ describe('ClientTokenInterceptor', () => {
 
         http
           .get('https://localhost:9002/rest/v2/electronics/test')
-          .subscribe(result => {
+          .subscribe((result) => {
             expect(result).toBeTruthy();
           })
           .unsubscribe();
@@ -84,7 +84,7 @@ describe('ClientTokenInterceptor', () => {
             'https://localhost:9002/rest/v2/electronics/somestore/forgottenpasswordtokens',
             { userId: 1 }
           )
-          .subscribe(result => {
+          .subscribe((result) => {
             expect(result).toBeTruthy();
           })
           .unsubscribe();
@@ -105,7 +105,7 @@ describe('ClientTokenInterceptor', () => {
         const headers = { Authorization: 'bearer 123' };
         http
           .get('/somestore/forgottenpasswordtokens', { headers })
-          .subscribe(result => {
+          .subscribe((result) => {
             expect(result).toBeTruthy();
           })
           .unsubscribe();

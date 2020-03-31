@@ -62,7 +62,7 @@ describe(`PaymentDetailsSetGuard`, () => {
   });
 
   describe(`when there is NO payment details present`, () => {
-    it(`should navigate to payment details step`, done => {
+    it(`should navigate to payment details step`, (done) => {
       spyOn(mockCheckoutDetailsService, 'getPaymentDetails').and.returnValue(
         of({})
       );
@@ -71,7 +71,7 @@ describe(`PaymentDetailsSetGuard`, () => {
         MockCheckoutConfig.checkout.steps[2]
       );
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
@@ -83,14 +83,14 @@ describe(`PaymentDetailsSetGuard`, () => {
       });
     });
 
-    it(`should navigate to default if not configured`, done => {
+    it(`should navigate to default if not configured`, (done) => {
       spyOn(mockCheckoutDetailsService, 'getPaymentDetails').and.returnValue(
         of({})
       );
       spyOn(console, 'warn');
       mockCheckoutConfig.checkout.steps = [];
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(console.warn).toHaveBeenCalledWith(
           'Missing step with type paymentDetails in checkout configuration.'
         );
@@ -101,12 +101,12 @@ describe(`PaymentDetailsSetGuard`, () => {
   });
 
   describe(`when there is payment details present`, () => {
-    it(`should return true`, done => {
+    it(`should return true`, (done) => {
       spyOn(mockCheckoutDetailsService, 'getPaymentDetails').and.returnValue(
         of({ id: 'testDetails' } as any)
       );
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result).toBeTruthy();
         done();
       });

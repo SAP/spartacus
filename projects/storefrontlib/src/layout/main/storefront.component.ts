@@ -56,7 +56,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.navigateSubscription = this.routingService
       .isNavigating()
-      .subscribe(val => {
+      .subscribe((val) => {
         this.startNavigating = val === true;
         this.stopNavigating = val === false;
       });

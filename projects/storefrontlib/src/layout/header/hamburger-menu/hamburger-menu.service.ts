@@ -11,7 +11,7 @@ export class HamburgerMenuService {
 
   constructor(router: Router) {
     router.events
-      .pipe(filter(event => event instanceof NavigationStart))
+      .pipe(filter((event) => event instanceof NavigationStart))
       .subscribe(() => {
         this.toggle(true);
       });

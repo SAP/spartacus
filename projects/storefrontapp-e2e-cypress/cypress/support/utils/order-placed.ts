@@ -22,14 +22,16 @@ export function waitForOrderToBePlacedRequest(
       }`,
     },
   })
-    .then(res => new Promise(resolve => setTimeout(_ => resolve(res), delay)))
+    .then(
+      (res) => new Promise((resolve) => setTimeout(() => resolve(res), delay))
+    )
     .then((res: Cypress.Response) => {
       if (
         startTime > timerTimeout ||
         (res.status === 200 &&
           res.body.orders &&
           res.body.orders.length &&
-          res.body.orders.filter(order => order.code === orderNumber))
+          res.body.orders.filter((order) => order.code === orderNumber))
       ) {
         startTime = 0;
         return;

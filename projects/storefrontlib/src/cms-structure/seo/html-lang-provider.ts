@@ -16,7 +16,7 @@ export function setHtmlLangAttribute(
   languageService: LanguageService
 ) {
   const result = () => {
-    languageService.getActive().subscribe(lang => {
+    languageService.getActive().subscribe((lang) => {
       winRef.document.documentElement.lang = lang;
     });
   };

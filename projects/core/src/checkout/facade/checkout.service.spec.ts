@@ -78,7 +78,7 @@ describe('CheckoutService', () => {
     let orderDetails: Order;
     service
       .getOrderDetails()
-      .subscribe(data => {
+      .subscribe((data) => {
         orderDetails = data;
       })
       .unsubscribe();
@@ -127,7 +127,7 @@ describe('CheckoutService', () => {
       let loaded: boolean;
       service
         .getCheckoutDetailsLoaded()
-        .subscribe(data => {
+        .subscribe((data) => {
           loaded = data;
         })
         .unsubscribe();
@@ -141,7 +141,7 @@ describe('CheckoutService', () => {
     let loaded: boolean;
     service
       .getCheckoutDetailsLoaded()
-      .subscribe(data => {
+      .subscribe((data) => {
         loaded = data;
       })
       .unsubscribe();

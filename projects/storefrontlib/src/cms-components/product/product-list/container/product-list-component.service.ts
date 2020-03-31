@@ -53,7 +53,7 @@ export class ProductListComponentService {
     ProductSearchPage
   > = this.productSearchService
     .getResults()
-    .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
+    .pipe(filter((searchResult) => Object.keys(searchResult).length > 0));
 
   private searchByRouting$: Observable<
     ActivatedRouterStateSnapshot
@@ -140,7 +140,7 @@ export class ProductListComponentService {
     };
 
     // drop empty keys
-    Object.keys(result).forEach(key => !result[key] && delete result[key]);
+    Object.keys(result).forEach((key) => !result[key] && delete result[key]);
 
     return result;
   }
@@ -159,7 +159,7 @@ export class ProductListComponentService {
   getPageItems(pageNumber: number): void {
     this.routing
       .getRouterState()
-      .subscribe(route => {
+      .subscribe((route) => {
         const routeCriteria = this.getCriteriaFromRoute(
           route.state.params,
           route.state.queryParams
