@@ -12,7 +12,6 @@ import {
   UpdateRecorder,
   url,
 } from '@angular-devkit/schematics';
-import { getWorkspace } from '@schematics/angular/utility/workspace';
 import { strings } from '@angular-devkit/core';
 import * as ts from 'typescript';
 import {
@@ -32,6 +31,7 @@ import {
   ANGULAR_UNIVERSAL_EXPRESS_VERSION,
   UTF_8,
 } from '../../../shared/constants';
+import { getDefaultProjectNameFromWorkspace } from '../../../shared/utils/workspace-utils';
 
 export function migrate(): Rule {
   return async (host: any) => {
@@ -56,10 +56,6 @@ export function backupExistingFiles(): Rule {
 
     const serverPath = '/server.ts';
     const webpackPath = '/webpack.server.config.js';
-    const serverBuffer = tree.read(serverPath);
-    if (serverBuffer === null) {
-      throw new SchematicsException('Could not find server.ts file');
-    }
     const webpackBuffer = tree.read(webpackPath);
     if (webpackBuffer === null) {
       throw new SchematicsException(
@@ -75,7 +71,7 @@ export function backupExistingFiles(): Rule {
 export function overwriteServerTsFile(): Rule {
   return async (tree: Tree, context: SchematicContext) => {
     context.logger.info('Creating new server.ts file.');
-    const projectName = await getProjectNameFromWorkspace(tree);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
 
     return chain([
       mergeWith(
@@ -123,9 +119,9 @@ export function modifyPackageJsonScripts(): Rule {
         overwrite: true,
       },
     ];
-    const projectName = await getProjectNameFromWorkspace(tree);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
 
-    scripts.forEach(key => {
+    scripts.forEach((key) => {
       const keyBackup = `${key}_bak`;
       const scriptValue = packageJson.scripts[key];
       if (scriptValue && !packageJson.scripts[keyBackup]) {
@@ -149,7 +145,7 @@ export function modifyPackageJsonScripts(): Rule {
       tree,
       '@nguniversal/module-map-ngfactory-loader'
     );
-    packagesToAddOrUpdate.forEach(dep => {
+    packagesToAddOrUpdate.forEach((dep) => {
       addPackageJsonDependency(tree, dep);
     });
   };
@@ -243,7 +239,7 @@ export function removeMapLoaderModule(): Rule {
 
       const arrayLiteral = assignment.initializer;
       const newImports = arrayLiteral.elements.filter(
-        n => !(ts.isIdentifier(n) && n.text === 'ModuleMapLoaderModule')
+        (n) => !(ts.isIdentifier(n) && n.text === 'ModuleMapLoaderModule')
       );
 
       if (arrayLiteral.elements.length !== newImports.length) {
@@ -267,7 +263,7 @@ export function removeMapLoaderModule(): Rule {
 export function updateAngularJsonFile(): Rule {
   return async (tree: Tree, context: SchematicContext) => {
     context.logger.info('Updating angular.json builds dist configuration');
-    const projectName = await getProjectNameFromWorkspace(tree);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
 
     const buffer = tree.read('angular.json');
     if (!buffer) {
@@ -304,7 +300,7 @@ export function updateAngularJsonFile(): Rule {
 }
 
 async function checkIfSSRIsUsed(tree: Tree): Promise<boolean> {
-  const projectName = await getProjectNameFromWorkspace(tree);
+  const projectName = getDefaultProjectNameFromWorkspace(tree);
   const angularFileBuffer = tree.read('angular.json')!.toString(UTF_8);
   const angularJson = JSON.parse(angularFileBuffer);
   const isServerConfiguration = !!angularJson.projects[projectName].architect[
@@ -315,12 +311,6 @@ async function checkIfSSRIsUsed(tree: Tree): Promise<boolean> {
   const isServerSideAvailable = serverFileBuffer && !!serverFileBuffer.length;
 
   return !!(isServerConfiguration && isServerSideAvailable);
-}
-
-export async function getProjectNameFromWorkspace(tree: Tree): Promise<string> {
-  const workspace = await getWorkspace(tree);
-  // No other option than guessing that main project exists on first position of projects map
-  return workspace.projects.keys().next().value;
 }
 
 function createSourceFileWithStrippedBOM(
@@ -348,13 +338,13 @@ function removeFullLineFromImportDeclarationsByModuleName(
 ): void {
   sourceTsFile.statements
     .filter(
-      s =>
+      (s) =>
         ts.isImportDeclaration(s) &&
         s.moduleSpecifier &&
         ts.isStringLiteral(s.moduleSpecifier) &&
         s.moduleSpecifier.text === moduleNameString
     )
-    .forEach(node => {
+    .forEach((node) => {
       const index = node.getFullStart();
       const length = node.getFullWidth();
       treeRecorder.remove(index, length);
@@ -368,13 +358,13 @@ function removeFullLineFromExportDeclarationsByModuleName(
 ): void {
   sourceTsFile.statements
     .filter(
-      s =>
+      (s) =>
         ts.isExportDeclaration(s) &&
         s.moduleSpecifier &&
         ts.isStringLiteral(s.moduleSpecifier) &&
         s.moduleSpecifier.text === moduleNameString
     )
-    .forEach(node => {
+    .forEach((node) => {
       const index = node.getFullStart();
       const length = node.getFullWidth();
       treeRecorder.remove(index, length);
