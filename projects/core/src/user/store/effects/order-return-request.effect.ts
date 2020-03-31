@@ -73,7 +73,7 @@ export class OrderReturnRequestEffect {
           payload.returnRequestModification
         )
         .pipe(
-          map((_) => new UserActions.CancelOrderReturnRequestSuccess()),
+          map(() => new UserActions.CancelOrderReturnRequestSuccess()),
           catchError((error) =>
             of(
               new UserActions.CancelOrderReturnRequestFail(

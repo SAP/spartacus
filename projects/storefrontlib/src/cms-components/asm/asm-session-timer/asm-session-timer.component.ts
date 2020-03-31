@@ -61,7 +61,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
       this.authService
         .getOccUserId()
         .pipe(distinctUntilChanged())
-        .subscribe((_) => this.resetTimer())
+        .subscribe(() => this.resetTimer())
     );
   }
 

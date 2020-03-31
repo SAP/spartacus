@@ -52,7 +52,7 @@ export class QualtricsLoaderService {
   load(): Observable<boolean> {
     return this.qualtricsLoaded$.pipe(
       filter((loaded) => loaded),
-      switchMap((_) => {
+      switchMap(() => {
         const qsi = this.winRef.nativeWindow['QSI'];
         return this.isDataLoaded().pipe(
           distinctUntilChanged(),

@@ -36,7 +36,7 @@ export class UserDetailsEffects {
     concatMap((payload) =>
       this.userConnector.update(payload.username, payload.userDetails).pipe(
         map(
-          (_) => new UserActions.UpdateUserDetailsSuccess(payload.userDetails)
+          () => new UserActions.UpdateUserDetailsSuccess(payload.userDetails)
         ),
         catchError((error) =>
           of(

@@ -35,7 +35,7 @@ export class OrderDetailsEffect {
       return this.orderConnector
         .cancel(payload.userId, payload.orderCode, payload.cancelRequestInput)
         .pipe(
-          map((_) => new UserActions.CancelOrderSuccess()),
+          map(() => new UserActions.CancelOrderSuccess()),
           catchError((error) =>
             of(new UserActions.CancelOrderFail(makeErrorSerializable(error)))
           )

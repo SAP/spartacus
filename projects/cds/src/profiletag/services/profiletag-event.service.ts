@@ -57,11 +57,11 @@ export class ProfileTagEventService {
 
   addTracker(): Observable<string> {
     return this.baseSiteService.getActive().pipe(
-      filter((_) => isPlatformBrowser(this.platform)),
+      filter(() => isPlatformBrowser(this.platform)),
       filter((siteId: string) => Boolean(siteId)),
       distinctUntilChanged(),
-      tap((_) => this.addScript()),
-      tap((_) => this.initWindow()),
+      tap(() => this.addScript()),
+      tap(() => this.initWindow()),
       tap((siteId: string) => this.createConfig(siteId))
     );
   }

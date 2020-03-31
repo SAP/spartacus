@@ -61,7 +61,7 @@ export class CheckoutLoginComponent implements OnDestroy {
     this.activeCartService.addEmail(email);
 
     if (!this.sub) {
-      this.sub = this.activeCartService.getAssignedUser().subscribe((_) => {
+      this.sub = this.activeCartService.getAssignedUser().subscribe(() => {
         if (this.activeCartService.isGuestCart()) {
           this.authRedirectService.redirect();
         }

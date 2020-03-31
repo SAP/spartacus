@@ -39,7 +39,7 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
 
   getAddressCardContent(deliveryAddress: Address): Observable<Card> {
     return this.translation.translate('addressCard.shipTo').pipe(
-      filter((_) => Boolean(deliveryAddress)),
+      filter(() => Boolean(deliveryAddress)),
       map((textTitle) => ({
         title: textTitle,
         textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
@@ -55,7 +55,7 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
 
   getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
     return this.translation.translate('checkoutShipping.shippingMethod').pipe(
-      filter((_) => Boolean(deliveryMode)),
+      filter(() => Boolean(deliveryMode)),
       map((textTitle) => ({
         title: textTitle,
         textBold: deliveryMode.name,
@@ -66,7 +66,7 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
 
   getBillingAddressCardContent(billingAddress: Address): Observable<Card> {
     return this.translation.translate('addressCard.billTo').pipe(
-      filter((_) => Boolean(billingAddress)),
+      filter(() => Boolean(billingAddress)),
       map((textTitle) => ({
         title: textTitle,
         textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
@@ -88,7 +88,7 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
         year: Boolean(payment) ? payment.expiryYear : '',
       }),
     ]).pipe(
-      filter((_) => Boolean(payment)),
+      filter(() => Boolean(payment)),
       map(([textTitle, textExpires]) => ({
         title: textTitle,
         textBold: payment.accountHolderName,

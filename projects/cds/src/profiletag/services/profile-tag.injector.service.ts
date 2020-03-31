@@ -27,7 +27,7 @@ export class ProfileTagInjectorService {
 
   track(): Observable<boolean> {
     return this.profileTagEventTracker.addTracker().pipe(
-      switchMap((_) => merge(this.injectionsEvents$, this.profileTagEvents$)),
+      switchMap(() => merge(this.injectionsEvents$, this.profileTagEvents$)),
       mapTo(true)
     );
   }
@@ -56,7 +56,7 @@ export class ProfileTagInjectorService {
 
   private notifyProfileTagOfPageLoaded(): Observable<boolean> {
     return this.spartacusEventTracker.navigated().pipe(
-      tap((_) => {
+      tap(() => {
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
           new NavigatedPushEvent()
         );

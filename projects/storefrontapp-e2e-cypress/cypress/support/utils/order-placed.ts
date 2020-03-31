@@ -23,7 +23,7 @@ export function waitForOrderToBePlacedRequest(
     },
   })
     .then(
-      (res) => new Promise((resolve) => setTimeout((_) => resolve(res), delay))
+      (res) => new Promise((resolve) => setTimeout(() => resolve(res), delay))
     )
     .then((res: Cypress.Response) => {
       if (

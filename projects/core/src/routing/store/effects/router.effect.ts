@@ -37,7 +37,7 @@ export class RouterEffects {
       AuthActions.LOGOUT,
       AuthActions.LOGIN
     ),
-    tap((_) => {
+    tap(() => {
       const filteredConfig = this.router.config.filter(
         (route: CmsRoute) => !(route.data && route.data.cxCmsRouteContext)
       );

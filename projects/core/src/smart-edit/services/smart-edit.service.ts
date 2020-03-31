@@ -68,7 +68,7 @@ export class SmartEditService {
         }),
         take(1)
       )
-      .subscribe((_) => {
+      .subscribe(() => {
         this.cmsService.launchInSmartEdit = true;
         this.getDefaultPreviewCode();
       });

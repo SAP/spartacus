@@ -124,7 +124,7 @@ export class SelectiveCartService {
         filter((cartState) => !this.isEmpty(cartState.value)),
         take(1)
       )
-      .subscribe((_) => {
+      .subscribe(() => {
         this.multiCartService.addEntry(
           this.userId,
           this.cartId,

@@ -134,7 +134,7 @@ export class AnonymousConsentsService {
   getConsent(templateId: string): Observable<AnonymousConsent> {
     return this.authService.isUserLoggedIn().pipe(
       filter((authenticated) => !authenticated),
-      tap((_) => this.getTemplates(true)),
+      tap(() => this.getTemplates(true)),
       switchMap((_) =>
         this.store.pipe(
           select(

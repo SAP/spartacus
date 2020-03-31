@@ -27,7 +27,7 @@ export class UpdatePasswordEffects {
           payload.newPassword
         )
         .pipe(
-          map((_) => new UserActions.UpdatePasswordSuccess()),
+          map(() => new UserActions.UpdatePasswordSuccess()),
           catchError((error) =>
             of(new UserActions.UpdatePasswordFail(makeErrorSerializable(error)))
           )
