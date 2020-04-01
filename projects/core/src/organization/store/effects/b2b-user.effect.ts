@@ -37,54 +37,36 @@ export class B2BUserEffects {
 
   @Effect()
   createB2BUser$: Observable<
-    | B2BUserActions.CreateB2BUserSuccess
-    | B2BUserActions.CreateB2BUserFail
+    B2BUserActions.CreateB2BUserSuccess | B2BUserActions.CreateB2BUserFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER),
-    map(
-      (action: B2BUserActions.CreateB2BUser) => action.payload
-    ),
+    map((action: B2BUserActions.CreateB2BUser) => action.payload),
     switchMap(payload =>
-      this.b2bUserConnector
-        .create(payload.userId, payload.orgCustomer)
-        .pipe(
-          map(
-            data =>
-              new B2BUserActions.CreateB2BUserSuccess(data)
-          ),
-          catchError(error =>
-            of(
-              new B2BUserActions.CreateB2BUserFail({
-                orgCustomerId: payload.orgCustomer.uid,
-                error: makeErrorSerializable(error),
-              })
-            )
+      this.b2bUserConnector.create(payload.userId, payload.orgCustomer).pipe(
+        map(data => new B2BUserActions.CreateB2BUserSuccess(data)),
+        catchError(error =>
+          of(
+            new B2BUserActions.CreateB2BUserFail({
+              orgCustomerId: payload.orgCustomer.uid,
+              error: makeErrorSerializable(error),
+            })
           )
         )
+      )
     )
   );
 
   @Effect()
   updateB2BUser$: Observable<
-    | B2BUserActions.UpdateB2BUserSuccess
-    | B2BUserActions.UpdateB2BUserFail
+    B2BUserActions.UpdateB2BUserSuccess | B2BUserActions.UpdateB2BUserFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER),
-    map(
-      (action: B2BUserActions.UpdateB2BUser) => action.payload
-    ),
+    map((action: B2BUserActions.UpdateB2BUser) => action.payload),
     switchMap(payload =>
       this.b2bUserConnector
-        .update(
-          payload.userId,
-          payload.orgCustomerId,
-          payload.orgCustomer
-        )
+        .update(payload.userId, payload.orgCustomerId, payload.orgCustomer)
         .pipe(
-          map(
-            data =>
-              new B2BUserActions.UpdateB2BUserSuccess(data)
-          ),
+          map(data => new B2BUserActions.UpdateB2BUserSuccess(data)),
           catchError(error =>
             of(
               new B2BUserActions.UpdateB2BUserFail({
@@ -135,44 +117,30 @@ export class B2BUserEffects {
     | B2BUserActions.LoadB2BUserApproversFail
     | B2BUserActions.LoadB2BUserSuccess
   > = this.actions$.pipe(
-    ofType(
-      B2BUserActions.LOAD_B2B_USER_APPROVERS
-    ),
-    map(
-      (
-        action: B2BUserActions.LoadB2BUserApprovers
-      ) => action.payload
-    ),
+    ofType(B2BUserActions.LOAD_B2B_USER_APPROVERS),
+    map((action: B2BUserActions.LoadB2BUserApprovers) => action.payload),
     switchMap(payload =>
       this.b2bUserConnector
-        .getApprovers(
-          payload.userId,
-          payload.orgCustomerId,
-          payload.params
-        )
+        .getApprovers(payload.userId, payload.orgCustomerId, payload.params)
         .pipe(
           switchMap((approvers: EntitiesModel<B2BUser>) => {
             const { values, page } = normalizeListPage(approvers, 'code');
             return [
               new B2BUserActions.LoadB2BUserSuccess(values),
-              new B2BUserActions.LoadB2BUserApproversSuccess(
-                {
-                  orgCustomerId: payload.orgCustomerId,
-                  page,
-                  params: payload.params,
-                }
-              ),
+              new B2BUserActions.LoadB2BUserApproversSuccess({
+                orgCustomerId: payload.orgCustomerId,
+                page,
+                params: payload.params,
+              }),
             ];
           }),
           catchError(error =>
             of(
-              new B2BUserActions.LoadB2BUserApproversFail(
-                {
-                  orgCustomerId: payload.orgCustomerId,
-                  params: payload.params,
-                  error: makeErrorSerializable(error),
-                }
-              )
+              new B2BUserActions.LoadB2BUserApproversFail({
+                orgCustomerId: payload.orgCustomerId,
+                params: payload.params,
+                error: makeErrorSerializable(error),
+              })
             )
           )
         )
@@ -185,44 +153,30 @@ export class B2BUserEffects {
     | B2BUserActions.LoadB2BUserApproversFail
     | PermissionActions.LoadPermissionSuccess
   > = this.actions$.pipe(
-    ofType(
-      B2BUserActions.LOAD_B2B_USER_PERMISSIONS
-    ),
-    map(
-      (
-        action: B2BUserActions.LoadB2BUserPermissions
-      ) => action.payload
-    ),
+    ofType(B2BUserActions.LOAD_B2B_USER_PERMISSIONS),
+    map((action: B2BUserActions.LoadB2BUserPermissions) => action.payload),
     switchMap(payload =>
       this.b2bUserConnector
-        .getPermissions(
-          payload.userId,
-          payload.orgCustomerId,
-          payload.params
-        )
+        .getPermissions(payload.userId, payload.orgCustomerId, payload.params)
         .pipe(
           switchMap((permissions: EntitiesModel<Permission>) => {
             const { values, page } = normalizeListPage(permissions, 'code');
             return [
               new PermissionActions.LoadPermissionSuccess(values),
-              new B2BUserActions.LoadB2BUserApproversSuccess(
-                {
-                  orgCustomerId: payload.orgCustomerId,
-                  page,
-                  params: payload.params,
-                }
-              ),
+              new B2BUserActions.LoadB2BUserApproversSuccess({
+                orgCustomerId: payload.orgCustomerId,
+                page,
+                params: payload.params,
+              }),
             ];
           }),
           catchError(error =>
             of(
-              new B2BUserActions.LoadB2BUserApproversFail(
-                {
-                  orgCustomerId: payload.orgCustomerId,
-                  params: payload.params,
-                  error: makeErrorSerializable(error),
-                }
-              )
+              new B2BUserActions.LoadB2BUserApproversFail({
+                orgCustomerId: payload.orgCustomerId,
+                params: payload.params,
+                error: makeErrorSerializable(error),
+              })
             )
           )
         )
@@ -235,16 +189,13 @@ export class B2BUserEffects {
     | B2BUserActions.CreateB2BUserApproverFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
-    map(
-      (action: B2BUserActions.CreateB2BUserApprover) =>
-        action.payload
-    ),
+    map((action: B2BUserActions.CreateB2BUserApprover) => action.payload),
     switchMap(payload =>
       this.b2bUserConnector
         .assignApprover(
           payload.userId,
           payload.orgCustomerId,
-          payload.approverId,
+          payload.approverId
         )
         .pipe(
           map(
@@ -273,16 +224,13 @@ export class B2BUserEffects {
     | B2BUserActions.DeleteB2BUserApproverFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
-    map(
-      (action: B2BUserActions.DeleteB2BUserApprover) =>
-        action.payload
-    ),
+    map((action: B2BUserActions.DeleteB2BUserApprover) => action.payload),
     switchMap(payload =>
       this.b2bUserConnector
         .assignApprover(
           payload.userId,
           payload.orgCustomerId,
-          payload.approverId,
+          payload.approverId
         )
         .pipe(
           map(
@@ -311,16 +259,13 @@ export class B2BUserEffects {
     | B2BUserActions.CreateB2BUserPermissionFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
-    map(
-      (action: B2BUserActions.CreateB2BUserPermission) =>
-        action.payload
-    ),
+    map((action: B2BUserActions.CreateB2BUserPermission) => action.payload),
     switchMap(payload =>
       this.b2bUserConnector
         .assignPermission(
           payload.userId,
           payload.orgCustomerId,
-          payload.permissionId,
+          payload.permissionId
         )
         .pipe(
           map(
@@ -349,16 +294,13 @@ export class B2BUserEffects {
     | B2BUserActions.DeleteB2BUserPermissionFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
-    map(
-      (action: B2BUserActions.DeleteB2BUserPermission) =>
-        action.payload
-    ),
+    map((action: B2BUserActions.DeleteB2BUserPermission) => action.payload),
     switchMap(payload =>
       this.b2bUserConnector
         .assignPermission(
           payload.userId,
           payload.orgCustomerId,
-          payload.permissionId,
+          payload.permissionId
         )
         .pipe(
           map(
@@ -387,16 +329,13 @@ export class B2BUserEffects {
     | B2BUserActions.CreateB2BUserUserGroupFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
-    map(
-      (action: B2BUserActions.CreateB2BUserUserGroup) =>
-        action.payload
-    ),
+    map((action: B2BUserActions.CreateB2BUserUserGroup) => action.payload),
     switchMap(payload =>
       this.b2bUserConnector
         .assignUserGroup(
           payload.userId,
           payload.orgCustomerId,
-          payload.userGroupId,
+          payload.userGroupId
         )
         .pipe(
           map(
@@ -425,16 +364,13 @@ export class B2BUserEffects {
     | B2BUserActions.DeleteB2BUserUserGroupFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
-    map(
-      (action: B2BUserActions.DeleteB2BUserUserGroup) =>
-        action.payload
-    ),
+    map((action: B2BUserActions.DeleteB2BUserUserGroup) => action.payload),
     switchMap(payload =>
       this.b2bUserConnector
         .assignUserGroup(
           payload.userId,
           payload.orgCustomerId,
-          payload.userGroupId,
+          payload.userGroupId
         )
         .pipe(
           map(
@@ -456,7 +392,6 @@ export class B2BUserEffects {
         )
     )
   );
-
 
   constructor(
     private actions$: Actions,

@@ -5,7 +5,13 @@ import {
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { B2BSearchConfig } from '../../model/search-config';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
-import { B2B_USER_ENTITIES, USER_LIST, B2B_USER_APPROVERS, B2B_USER_PERMISSIONS, B2B_USER_USER_GROUPS } from '../organization-state';
+import {
+  B2B_USER_ENTITIES,
+  USER_LIST,
+  B2B_USER_APPROVERS,
+  B2B_USER_PERMISSIONS,
+  B2B_USER_USER_GROUPS,
+} from '../organization-state';
 import { ListModel } from '../../../model/misc.model';
 import { B2BUser } from '../../../model/org-unit.model';
 
@@ -26,40 +32,58 @@ export const LOAD_B2B_USERS_FAIL = '[B2BUser] Load B2BUsers Fail';
 export const LOAD_B2B_USERS_SUCCESS = '[B2BUser] Load B2BUsers Success';
 
 export const LOAD_B2B_USER_APPROVERS = '[B2BUser] Load B2BUser Approvers';
-export const LOAD_B2B_USER_APPROVERS_FAIL = '[B2BUser] Load B2BUser Approvers Fail';
-export const LOAD_B2B_USER_APPROVERS_SUCCESS = '[B2BUser] Load B2BUser Approvers Success';
+export const LOAD_B2B_USER_APPROVERS_FAIL =
+  '[B2BUser] Load B2BUser Approvers Fail';
+export const LOAD_B2B_USER_APPROVERS_SUCCESS =
+  '[B2BUser] Load B2BUser Approvers Success';
 
 export const CREATE_B2B_USER_APPROVER = '[B2BUser] Create B2BUser Approver';
-export const CREATE_B2B_USER_APPROVER_FAIL = '[B2BUser] Create B2BUser Approver Fail';
-export const CREATE_B2B_USER_APPROVER_SUCCESS = '[B2BUser] Create B2BUser Approver Success';
+export const CREATE_B2B_USER_APPROVER_FAIL =
+  '[B2BUser] Create B2BUser Approver Fail';
+export const CREATE_B2B_USER_APPROVER_SUCCESS =
+  '[B2BUser] Create B2BUser Approver Success';
 
 export const DELETE_B2B_USER_APPROVER = '[B2BUser] Delete B2BUser Approver';
-export const DELETE_B2B_USER_APPROVER_FAIL = '[B2BUser] Delete B2BUser Approver Fail';
-export const DELETE_B2B_USER_APPROVER_SUCCESS = '[B2BUser] Delete B2BUser Approver Success';
+export const DELETE_B2B_USER_APPROVER_FAIL =
+  '[B2BUser] Delete B2BUser Approver Fail';
+export const DELETE_B2B_USER_APPROVER_SUCCESS =
+  '[B2BUser] Delete B2BUser Approver Success';
 
 export const LOAD_B2B_USER_PERMISSIONS = '[B2BUser] Load B2BUser Permissions';
-export const LOAD_B2B_USER_PERMISSIONS_FAIL = '[B2BUser] Load B2BUser Permissions Fail';
-export const LOAD_B2B_USER_PERMISSIONS_SUCCESS = '[B2BUser] Load B2BUser Permissions Success';
+export const LOAD_B2B_USER_PERMISSIONS_FAIL =
+  '[B2BUser] Load B2BUser Permissions Fail';
+export const LOAD_B2B_USER_PERMISSIONS_SUCCESS =
+  '[B2BUser] Load B2BUser Permissions Success';
 
 export const CREATE_B2B_USER_PERMISSION = '[B2BUser] Create B2BUser Permission';
-export const CREATE_B2B_USER_PERMISSION_FAIL = '[B2BUser] Create B2BUser Permission Fail';
-export const CREATE_B2B_USER_PERMISSION_SUCCESS = '[B2BUser] Create B2BUser Permission Success';
+export const CREATE_B2B_USER_PERMISSION_FAIL =
+  '[B2BUser] Create B2BUser Permission Fail';
+export const CREATE_B2B_USER_PERMISSION_SUCCESS =
+  '[B2BUser] Create B2BUser Permission Success';
 
 export const DELETE_B2B_USER_PERMISSION = '[B2BUser] Delete B2BUser Permission';
-export const DELETE_B2B_USER_PERMISSION_FAIL = '[B2BUser] Delete B2BUser Permission Fail';
-export const DELETE_B2B_USER_PERMISSION_SUCCESS = '[B2BUser] Delete B2BUser Permission Success';
+export const DELETE_B2B_USER_PERMISSION_FAIL =
+  '[B2BUser] Delete B2BUser Permission Fail';
+export const DELETE_B2B_USER_PERMISSION_SUCCESS =
+  '[B2BUser] Delete B2BUser Permission Success';
 
 export const LOAD_B2B_USER_USER_GROUPS = '[B2BUser] Load B2BUser User Groups';
-export const LOAD_B2B_USER_USER_GROUPS_FAIL = '[B2BUser] Load B2BUser User Groups Fail';
-export const LOAD_B2B_USER_USER_GROUPS_SUCCESS = '[B2BUser] Load B2BUser User Groups Success';
+export const LOAD_B2B_USER_USER_GROUPS_FAIL =
+  '[B2BUser] Load B2BUser User Groups Fail';
+export const LOAD_B2B_USER_USER_GROUPS_SUCCESS =
+  '[B2BUser] Load B2BUser User Groups Success';
 
 export const CREATE_B2B_USER_USER_GROUP = '[B2BUser] Create B2BUser User Group';
-export const CREATE_B2B_USER_USER_GROUP_FAIL = '[B2BUser] Create B2BUser User Group Fail';
-export const CREATE_B2B_USER_USER_GROUP_SUCCESS = '[B2BUser] Create B2BUser User Group Success';
+export const CREATE_B2B_USER_USER_GROUP_FAIL =
+  '[B2BUser] Create B2BUser User Group Fail';
+export const CREATE_B2B_USER_USER_GROUP_SUCCESS =
+  '[B2BUser] Create B2BUser User Group Success';
 
 export const DELETE_B2B_USER_USER_GROUP = '[B2BUser] Delete B2BUser User Group';
-export const DELETE_B2B_USER_USER_GROUP_FAIL = '[B2BUser] Delete B2BUser User Group Fail';
-export const DELETE_B2B_USER_USER_GROUP_SUCCESS = '[B2BUser] Delete B2BUser User Group Success';
+export const DELETE_B2B_USER_USER_GROUP_FAIL =
+  '[B2BUser] Delete B2BUser User Group Fail';
+export const DELETE_B2B_USER_USER_GROUP_SUCCESS =
+  '[B2BUser] Delete B2BUser User Group Success';
 
 export class LoadB2BUser extends EntityLoadAction {
   readonly type = LOAD_B2B_USER;
@@ -87,9 +111,7 @@ export class LoadB2BUserSuccess extends EntitySuccessAction {
 
 export class CreateB2BUser extends EntityLoadAction {
   readonly type = CREATE_B2B_USER;
-  constructor(
-    public payload: { userId: string; orgCustomer: B2BUser }
-  ) {
+  constructor(public payload: { userId: string; orgCustomer: B2BUser }) {
     super(B2B_USER_ENTITIES, payload.orgCustomer.uid);
   }
 }
@@ -97,11 +119,7 @@ export class CreateB2BUser extends EntityLoadAction {
 export class CreateB2BUserFail extends EntityFailAction {
   readonly type = CREATE_B2B_USER_FAIL;
   constructor(public payload: { orgCustomerId: string; error: any }) {
-    super(
-      B2B_USER_ENTITIES,
-      payload.orgCustomerId,
-      payload.error
-    );
+    super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
   }
 }
 
@@ -228,10 +246,7 @@ export class CreateB2BUserApprover extends EntityLoadAction {
       approverId: string;
     }
   ) {
-    super(
-      B2B_USER_APPROVERS,
-      payload.approverId
-    );
+    super(B2B_USER_APPROVERS, payload.approverId);
   }
 }
 
@@ -244,10 +259,7 @@ export class CreateB2BUserApproverFail extends EntityFailAction {
       error: any;
     }
   ) {
-    super(
-      B2B_USER_APPROVERS,
-      payload.approverId,
-    );
+    super(B2B_USER_APPROVERS, payload.approverId);
   }
 }
 
@@ -259,11 +271,7 @@ export class CreateB2BUserApproverSuccess extends EntitySuccessAction {
       selected: boolean;
     }
   ) {
-    super(
-      B2B_USER_APPROVERS,
-      payload.approverId,
-      payload
-    );
+    super(B2B_USER_APPROVERS, payload.approverId, payload);
   }
 }
 
@@ -276,10 +284,7 @@ export class DeleteB2BUserApprover extends EntityLoadAction {
       approverId: string;
     }
   ) {
-    super(
-      B2B_USER_APPROVERS,
-      payload.approverId
-    );
+    super(B2B_USER_APPROVERS, payload.approverId);
   }
 }
 
@@ -292,10 +297,7 @@ export class DeleteB2BUserApproverFail extends EntityFailAction {
       error: any;
     }
   ) {
-    super(
-      B2B_USER_APPROVERS,
-      payload.approverId
-    );
+    super(B2B_USER_APPROVERS, payload.approverId);
   }
 }
 
@@ -307,11 +309,7 @@ export class DeleteB2BUserApproverSuccess extends EntitySuccessAction {
       selected: boolean;
     }
   ) {
-    super(
-      B2B_USER_APPROVERS,
-      payload.approverId,
-      payload
-    );
+    super(B2B_USER_APPROVERS, payload.approverId, payload);
   }
 }
 
@@ -340,11 +338,7 @@ export class LoadB2BUserPermissionsFail extends EntityFailAction {
       error: any;
     }
   ) {
-    super(
-      B2B_USER_PERMISSIONS,
-      payload.orgCustomerId,
-      payload.error
-    );
+    super(B2B_USER_PERMISSIONS, payload.orgCustomerId, payload.error);
   }
 }
 
@@ -373,10 +367,7 @@ export class CreateB2BUserPermission extends EntityLoadAction {
       permissionId: string;
     }
   ) {
-    super(
-      B2B_USER_PERMISSIONS,
-      payload.permissionId
-    );
+    super(B2B_USER_PERMISSIONS, payload.permissionId);
   }
 }
 
@@ -389,11 +380,7 @@ export class CreateB2BUserPermissionFail extends EntityFailAction {
       error: any;
     }
   ) {
-    super(
-      B2B_USER_PERMISSIONS,
-      payload.permissionId,
-      payload.error
-    );
+    super(B2B_USER_PERMISSIONS, payload.permissionId, payload.error);
   }
 }
 
@@ -405,11 +392,7 @@ export class CreateB2BUserPermissionSuccess extends EntitySuccessAction {
       selected: boolean;
     }
   ) {
-    super(
-      B2B_USER_PERMISSIONS,
-      payload.permissionId,
-      payload
-    );
+    super(B2B_USER_PERMISSIONS, payload.permissionId, payload);
   }
 }
 
@@ -422,10 +405,7 @@ export class DeleteB2BUserPermission extends EntityLoadAction {
       permissionId: string;
     }
   ) {
-    super(
-      B2B_USER_PERMISSIONS,
-      payload.permissionId
-    );
+    super(B2B_USER_PERMISSIONS, payload.permissionId);
   }
 }
 
@@ -438,11 +418,7 @@ export class DeleteB2BUserPermissionFail extends EntityFailAction {
       error: any;
     }
   ) {
-    super(
-      B2B_USER_PERMISSIONS,
-      payload.permissionId,
-      payload.error
-    );
+    super(B2B_USER_PERMISSIONS, payload.permissionId, payload.error);
   }
 }
 
@@ -454,11 +430,7 @@ export class DeleteB2BUserPermissionSuccess extends EntitySuccessAction {
       selected: boolean;
     }
   ) {
-    super(
-      B2B_USER_PERMISSIONS,
-      payload.permissionId,
-      payload
-    );
+    super(B2B_USER_PERMISSIONS, payload.permissionId, payload);
   }
 }
 
@@ -520,10 +492,7 @@ export class CreateB2BUserUserGroup extends EntityLoadAction {
       userGroupId: string;
     }
   ) {
-    super(
-      B2B_USER_USER_GROUPS,
-      payload.userGroupId
-    );
+    super(B2B_USER_USER_GROUPS, payload.userGroupId);
   }
 }
 
@@ -536,11 +505,7 @@ export class CreateB2BUserUserGroupFail extends EntityFailAction {
       error: any;
     }
   ) {
-    super(
-      B2B_USER_USER_GROUPS,
-      payload.userGroupId,
-      payload.error
-    );
+    super(B2B_USER_USER_GROUPS, payload.userGroupId, payload.error);
   }
 }
 
@@ -552,11 +517,7 @@ export class CreateB2BUserUserGroupSuccess extends EntitySuccessAction {
       selected: boolean;
     }
   ) {
-    super(
-      B2B_USER_USER_GROUPS,
-      payload.userGroupId,
-      payload
-    );
+    super(B2B_USER_USER_GROUPS, payload.userGroupId, payload);
   }
 }
 
@@ -569,10 +530,7 @@ export class DeleteB2BUserUserGroup extends EntityLoadAction {
       userGroupId: string;
     }
   ) {
-    super(
-      B2B_USER_USER_GROUPS,
-      payload.userGroupId
-    );
+    super(B2B_USER_USER_GROUPS, payload.userGroupId);
   }
 }
 
@@ -585,11 +543,7 @@ export class DeleteB2BUserUserGroupFail extends EntityFailAction {
       error: any;
     }
   ) {
-    super(
-      B2B_USER_USER_GROUPS,
-      payload.userGroupId,
-      payload.error
-    );
+    super(B2B_USER_USER_GROUPS, payload.userGroupId, payload.error);
   }
 }
 
@@ -601,11 +555,7 @@ export class DeleteB2BUserUserGroupSuccess extends EntitySuccessAction {
       selected: boolean;
     }
   ) {
-    super(
-      B2B_USER_USER_GROUPS,
-      payload.userGroupId,
-      payload
-    );
+    super(B2B_USER_USER_GROUPS, payload.userGroupId, payload);
   }
 }
 

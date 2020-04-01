@@ -9,7 +9,10 @@ import {
   B2B_USER_FEATURE,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
-import { denormalizeB2BSearch, denormalizeCustomB2BSearch } from '../../utils/serializer';
+import {
+  denormalizeB2BSearch,
+  denormalizeCustomB2BSearch,
+} from '../../utils/serializer';
 import { EntitiesModel } from '../../../model/misc.model';
 import { B2BUser } from '../../../model/org-unit.model';
 import { B2BSearchConfig } from '../../model/search-config';
@@ -58,10 +61,8 @@ export const getB2BUserApprovers = (
   createSelector(
     getB2BUserManagementState,
     getB2BUsersState,
-    (
-      state: B2BUserManagement,
-      approvers: EntityLoaderState<B2BUser>
-    ) => denormalizeCustomB2BSearch(state.approvers, approvers, params, code)
+    (state: B2BUserManagement, approvers: EntityLoaderState<B2BUser>) =>
+      denormalizeCustomB2BSearch(state.approvers, approvers, params, code)
   );
 
 export const getB2BUserPermissions = (
@@ -74,24 +75,22 @@ export const getB2BUserPermissions = (
   createSelector(
     getB2BUserManagementState,
     getB2BUsersState,
-    (
-      state: B2BUserManagement,
-      permissions: EntityLoaderState<Permission>
-    ) => denormalizeCustomB2BSearch(state.permissions, permissions, params, code)
+    (state: B2BUserManagement, permissions: EntityLoaderState<Permission>) =>
+      denormalizeCustomB2BSearch(state.permissions, permissions, params, code)
   );
 
-  export const getB2BUserUserGroups = (
-    code: string,
-    params: B2BSearchConfig
-  ): MemoizedSelector<
-    StateWithOrganization,
-    LoaderState<EntitiesModel<OrgUnitUserGroup>>
-  > =>
-    createSelector(
-      getB2BUserManagementState,
-      getB2BUsersState,
-      (
-        state: B2BUserManagement,
-        userGroups: EntityLoaderState<OrgUnitUserGroup>
-      ) => denormalizeCustomB2BSearch(state.userGroups, userGroups, params, code)
-    );
+export const getB2BUserUserGroups = (
+  code: string,
+  params: B2BSearchConfig
+): MemoizedSelector<
+  StateWithOrganization,
+  LoaderState<EntitiesModel<OrgUnitUserGroup>>
+> =>
+  createSelector(
+    getB2BUserManagementState,
+    getB2BUsersState,
+    (
+      state: B2BUserManagement,
+      userGroups: EntityLoaderState<OrgUnitUserGroup>
+    ) => denormalizeCustomB2BSearch(state.userGroups, userGroups, params, code)
+  );

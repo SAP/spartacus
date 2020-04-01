@@ -17,10 +17,7 @@ export class B2BUserConnector {
     return this.adapter.load(userId, orgUnitCustomerId);
   }
 
-  create(
-    userId: string,
-    orgCustomer: B2BUser
-  ): Observable<B2BUser> {
+  create(userId: string, orgCustomer: B2BUser): Observable<B2BUser> {
     return this.adapter.create(userId, orgCustomer);
   }
 
@@ -44,35 +41,23 @@ export class B2BUserConnector {
     orgUnitCustomerId: string,
     params?: B2BSearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
-    return this.adapter.loadApprovers(
-      userId,
-      orgUnitCustomerId,
-      params
-    );
+    return this.adapter.loadApprovers(userId, orgUnitCustomerId, params);
   }
 
   assignApprover(
     userId: string,
     orgCustomerId: string,
-    approverId: string,
+    approverId: string
   ): Observable<any> {
-    return this.adapter.assignApprover(
-      userId,
-      orgCustomerId,
-      approverId,
-    );
+    return this.adapter.assignApprover(userId, orgCustomerId, approverId);
   }
 
   unassignApprover(
     userId: string,
     orgCustomerId: string,
-    approverId: string,
+    approverId: string
   ): Observable<any> {
-    return this.adapter.unassignApprover(
-      userId,
-      orgCustomerId,
-      approverId,
-    );
+    return this.adapter.unassignApprover(userId, orgCustomerId, approverId);
   }
 
   getPermissions(
@@ -80,35 +65,23 @@ export class B2BUserConnector {
     orgUnitCustomerId: string,
     params?: B2BSearchConfig
   ): Observable<EntitiesModel<Permission>> {
-    return this.adapter.loadApprovers(
-      userId,
-      orgUnitCustomerId,
-      params
-    );
+    return this.adapter.loadApprovers(userId, orgUnitCustomerId, params);
   }
 
   assignPermission(
     userId: string,
     orgCustomerId: string,
-    permissionId: string,
+    permissionId: string
   ): Observable<any> {
-    return this.adapter.assignPermission(
-      userId,
-      orgCustomerId,
-      permissionId,
-    );
+    return this.adapter.assignPermission(userId, orgCustomerId, permissionId);
   }
 
   unassignPermission(
     userId: string,
     orgCustomerId: string,
-    permissionId: string,
+    permissionId: string
   ): Observable<any> {
-    return this.adapter.unassignPermission(
-      userId,
-      orgCustomerId,
-      permissionId,
-    );
+    return this.adapter.unassignPermission(userId, orgCustomerId, permissionId);
   }
 
   getUserGroups(
@@ -116,34 +89,22 @@ export class B2BUserConnector {
     orgUnitCustomerId: string,
     params?: B2BSearchConfig
   ): Observable<EntitiesModel<OrgUnitUserGroup>> {
-    return this.adapter.loadUserGroups(
-      userId,
-      orgUnitCustomerId,
-      params
-    );
+    return this.adapter.loadUserGroups(userId, orgUnitCustomerId, params);
   }
 
   assignUserGroup(
     userId: string,
     orgCustomerId: string,
-    userGroupId: string,
+    userGroupId: string
   ): Observable<any> {
-    return this.adapter.assignUserGroup(
-      userId,
-      orgCustomerId,
-      userGroupId,
-    );
+    return this.adapter.assignUserGroup(userId, orgCustomerId, userGroupId);
   }
 
   unassignUserGroup(
     userId: string,
     orgCustomerId: string,
-    userGroupId: string,
+    userGroupId: string
   ): Observable<any> {
-    return this.adapter.unassignUserGroup(
-      userId,
-      orgCustomerId,
-      userGroupId,
-    );
+    return this.adapter.unassignUserGroup(userId, orgCustomerId, userGroupId);
   }
 }
