@@ -14,7 +14,7 @@ export namespace OccConfigurator {
     complete?: boolean;
 
     groups?: Group[];
-    kbKey?: KbKey;
+    rootProduct?: string;
   }
 
   export interface Prices {
@@ -42,16 +42,9 @@ export namespace OccConfigurator {
     minQuantity?: number;
   }
 
-  /**
-   * Key that identifies a knowledge base ( container representing the configuration master data )
-   */
-  export interface KbKey {
-    productCode?: string;
-  }
-
   export interface Group {
     configurable?: boolean;
-    cstics?: Characteristic[];
+    attributes?: Attribute[];
     description?: string;
     groupType?: GroupType;
     id?: string;
@@ -59,11 +52,11 @@ export namespace OccConfigurator {
     subGroups?: Group[];
   }
 
-  export interface Characteristic {
+  export interface Attribute {
     name?: string;
-    langdepname?: string;
+    langDepName?: string;
     type?: UiType;
-    domainvalues?: Value[];
+    domainValues?: Value[];
     required?: boolean;
     value?: string;
     formattedValue?: string;
@@ -74,7 +67,7 @@ export namespace OccConfigurator {
   export interface Value {
     key?: string;
     name?: string;
-    langdepname?: string;
+    langDepName?: string;
     readonly?: boolean;
     selected?: boolean;
     images?: Image[];

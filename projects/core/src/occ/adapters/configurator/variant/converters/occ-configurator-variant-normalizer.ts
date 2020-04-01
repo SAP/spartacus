@@ -22,7 +22,7 @@ export class OccConfiguratorVariantNormalizer
     target = {
       configId: source.configId,
       complete: source.complete,
-      productCode: source.kbKey.productCode,
+      productCode: source.rootProduct,
       groups: [],
       flatGroups: [],
       isCartEntryUpdateRequired: false,
@@ -40,8 +40,8 @@ export class OccConfiguratorVariantNormalizer
     flatGroupList: Configurator.Group[]
   ) {
     const attributes: Configurator.Attribute[] = [];
-    source.cstics.forEach(cstic =>
-      this.convertCharacteristic(cstic, attributes)
+    source.attributes.forEach(sourceAttribute =>
+      this.convertAttribute(sourceAttribute, attributes)
     );
 
     const group = {
@@ -69,30 +69,32 @@ export class OccConfiguratorVariantNormalizer
     groupList.push(group);
   }
 
-  convertCharacteristic(
-    cstic: OccConfigurator.Characteristic,
+  convertAttribute(
+    sourceAttribute: OccConfigurator.Attribute,
     attributeList: Configurator.Attribute[]
   ): void {
     const attribute: Configurator.Attribute = {
-      name: cstic.name,
-      label: cstic.langdepname,
-      required: cstic.required,
-      uiType: this.convertCharacteristicType(cstic.type),
+      name: sourceAttribute.name,
+      label: sourceAttribute.langDepName,
+      required: sourceAttribute.required,
+      uiType: this.convertAttributeType(sourceAttribute.type),
       values: [],
-      userInput: cstic.formattedValue ? cstic.formattedValue : cstic.value,
-      maxlength: cstic.maxlength,
+      userInput: sourceAttribute.formattedValue
+        ? sourceAttribute.formattedValue
+        : sourceAttribute.value,
+      maxlength: sourceAttribute.maxlength,
       selectedSingleValue: null,
       images: [],
     };
 
-    if (cstic.images) {
-      cstic.images.forEach(occImage =>
+    if (sourceAttribute.images) {
+      sourceAttribute.images.forEach(occImage =>
         this.convertImage(occImage, attribute.images)
       );
     }
 
-    if (cstic.domainvalues) {
-      cstic.domainvalues.forEach(value =>
+    if (sourceAttribute.domainValues) {
+      sourceAttribute.domainValues.forEach(value =>
         this.convertValue(value, attribute.values)
       );
       this.setSelectedSingleValue(attribute);
@@ -116,7 +118,7 @@ export class OccConfiguratorVariantNormalizer
   ): void {
     const value: Configurator.Value = {
       valueCode: occValue.key,
-      valueDisplay: occValue.langdepname,
+      valueDisplay: occValue.langDepName,
       name: occValue.name,
       selected: occValue.selected,
       images: [],
@@ -156,7 +158,7 @@ export class OccConfiguratorVariantNormalizer
     images.push(image);
   }
 
-  convertCharacteristicType(type: OccConfigurator.UiType): Configurator.UiType {
+  convertAttributeType(type: OccConfigurator.UiType): Configurator.UiType {
     let uiType: Configurator.UiType;
     switch (type) {
       case OccConfigurator.UiType.RADIO_BUTTON: {

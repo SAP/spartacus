@@ -5,24 +5,26 @@ export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
     backend: {
       occ: {
         endpoints: {
-          createConfiguration: 'products/${productCode}/cpqconfigurator',
+          createConfiguration:
+            'products/${productCode}/configurators/ccpconfigurator',
 
-          readConfiguration: 'cpqconfigurator/${configId}',
+          readConfiguration: 'ccpconfigurator/${configId}',
 
-          updateConfiguration: 'cpqconfigurator/${configId}',
+          updateConfiguration: 'ccpconfigurator/${configId}',
 
           addConfigurationToCart:
-            'users/${userId}/carts/${cartId}/entries/cpqconfigurator',
+            'users/${userId}/carts/${cartId}/entries/ccpconfigurator',
 
           readConfigurationForCartEntry:
-            'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator',
+            'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/ccpconfigurator',
 
           updateConfigurationForCartEntry:
-            'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/cpqconfigurator',
+            'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/ccpconfigurator',
 
-          readPriceSummary: 'cpqconfigurator/${configId}/pricing',
+          readPriceSummary: 'ccpconfigurator/${configId}/pricing',
+
           getConfigurationOverview:
-            'cpqconfigurator/${configId}/configurationOverview',
+            'ccpconfigurator/${configId}/configurationOverview',
         },
       },
     },
