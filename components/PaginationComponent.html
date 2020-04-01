@@ -61,6 +61,15 @@
     <code>projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts</code>
 </p>
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>The <code>PaginationComponent</code> is a generic component that is used for
+all lists in Spartacus that require pagination. The component supports
+all common features, which can be configured or hidden by CSS.</p>
+
+    </p>
 
 
 
@@ -112,6 +121,24 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_pagination">_pagination</a>
+                            </li>
+                            <li>
+                                <a href="#pages">pages</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -122,50 +149,20 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#clickPageNo">clickPageNo</a>
+                                <a href="#getQueryParams">getQueryParams</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getCurrentPageNumber">getCurrentPageNumber</a>
+                                <a href="#isCurrent">isCurrent</a>
                             </li>
                             <li>
-                                <a href="#getPageIndicies">getPageIndicies</a>
-                            </li>
-                            <li>
-                                <a href="#getPageNext">getPageNext</a>
-                            </li>
-                            <li>
-                                <a href="#getPagePrevious">getPagePrevious</a>
-                            </li>
-                            <li>
-                                <a href="#getPageWindowMaxIndex">getPageWindowMaxIndex</a>
-                            </li>
-                            <li>
-                                <a href="#getPageWindowMinIndex">getPageWindowMinIndex</a>
-                            </li>
-                            <li>
-                                <a href="#hasPages">hasPages</a>
-                            </li>
-                            <li>
-                                <a href="#hidePageIndex">hidePageIndex</a>
-                            </li>
-                            <li>
-                                <a href="#onFirstPage">onFirstPage</a>
-                            </li>
-                            <li>
-                                <a href="#onLastPage">onLastPage</a>
-                            </li>
-                            <li>
-                                <a href="#onPageIndex">onPageIndex</a>
+                                <a href="#isInactive">isInactive</a>
                             </li>
                             <li>
                                 <a href="#pageChange">pageChange</a>
                             </li>
                             <li>
-                                <a href="#showDots">showDots</a>
-                            </li>
-                            <li>
-                                <a href="#showPagination">showPagination</a>
+                                    <span class="modifier">Private</span>
+                                <a href="#render">render</a>
                             </li>
                         </ul>
                     </td>
@@ -180,10 +177,16 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#hideOnSinglePage">hideOnSinglePage</a>
+                                <a href="#defaultPage">defaultPage</a>
+                            </li>
+                            <li>
+                                <a href="#pageRoute">pageRoute</a>
                             </li>
                             <li>
                                 <a href="#pagination">pagination</a>
+                            </li>
+                            <li>
+                                <a href="#queryParam">queryParam</a>
                             </li>
                         </ul>
                     </td>
@@ -206,10 +209,84 @@
 
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#pagination">pagination</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
         </tbody>
     </table>
 </section>
 
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(paginationBuilder: <a href="../injectables/PaginationBuilder.html">PaginationBuilder</a>, activatedRoute: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:47</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>paginationBuilder</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/PaginationBuilder.html" target="_self" >PaginationBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>activatedRoute</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
 
     <section>
     <h3 id="inputs">Inputs</h3>
@@ -217,20 +294,49 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="hideOnSinglePage"></a>
-                        <b>hideOnSinglePage</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>false</code>
+                        <a name="defaultPage"></a>
+                        <b>defaultPage</b>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:34</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Whenever there&#39;s a default page specified, the routing logic
+will omit the page number in routeLink or parameters.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pageRoute"></a>
+                        <b>pageRoute</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:25</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The (optional) pageRoute used for the anchor links created in the pagination   </p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table class="table table-sm table-bordered">
@@ -241,17 +347,38 @@
                         <b>pagination</b>
                     </td>
                 </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:40</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/PaginationModel.html" target="_self" >PaginationModel</a></code>
+                        <a name="queryParam"></a>
+                        <b>queryParam</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:28</a></div>
                             </td>
                         </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The (optional) query parameter which is added to the page route.  </p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -273,7 +400,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:21</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:45</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -290,18 +417,18 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="clickPageNo"></a>
+                    <a name="getQueryParams"></a>
                     <span class="name">
                         <b>
-                            clickPageNo
+                            getQueryParams
                         </b>
-                        <a href="#clickPageNo"><span class="icon ion-ios-link"></span></a>
+                        <a href="#getQueryParams"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>clickPageNo(page: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>getQueryParams(item: <a href="../interfaces/PaginationItem.html">PaginationItem</a>)</code>
                 </td>
             </tr>
 
@@ -329,9 +456,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>page</td>
+                                    <td>item</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                <code><a href="../interfaces/PaginationItem.html" target="_self" >PaginationItem</a></code>
                                     </td>
 
                                     <td>
@@ -346,7 +473,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                        <b>Returns : </b>        <code><a href="https://angular.io/api/router/Params" target="_blank" >Params</a></code>
 
                     </div>
                     <div class="io-description">
@@ -360,307 +487,34 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getCurrentPageNumber"></a>
+                    <a name="isCurrent"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
-                            getCurrentPageNumber
+                            isCurrent
                         </b>
-                        <a href="#getCurrentPageNumber"><span class="icon ion-ios-link"></span></a>
+                        <a href="#isCurrent"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getCurrentPageNumber()</code>
+<code>isCurrent(item: <a href="../interfaces/PaginationItem.html">PaginationItem</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:67</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getPageIndicies"></a>
-                    <span class="name">
-                        <b>
-                            getPageIndicies
-                        </b>
-                        <a href="#getPageIndicies"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getPageIndicies()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:37</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Array&lt;number&gt;</code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getPageNext"></a>
-                    <span class="name">
-                        <b>
-                            getPageNext
-                        </b>
-                        <a href="#getPageNext"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getPageNext()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:33</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getPagePrevious"></a>
-                    <span class="name">
-                        <b>
-                            getPagePrevious
-                        </b>
-                        <a href="#getPagePrevious"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getPagePrevious()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:29</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getPageWindowMaxIndex"></a>
-                    <span class="name">
-                        <b>
-                            getPageWindowMaxIndex
-                        </b>
-                        <a href="#getPageWindowMaxIndex"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getPageWindowMaxIndex()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:50</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getPageWindowMinIndex"></a>
-                    <span class="name">
-                        <b>
-                            getPageWindowMinIndex
-                        </b>
-                        <a href="#getPageWindowMinIndex"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getPageWindowMinIndex()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:42</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="hasPages"></a>
-                    <span class="name">
-                        <b>
-                            hasPages
-                        </b>
-                        <a href="#hasPages"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>hasPages()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:58</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="hidePageIndex"></a>
-                    <span class="name">
-                        <b>
-                            hidePageIndex
-                        </b>
-                        <a href="#hidePageIndex"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>hidePageIndex(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:74</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
+                    <div class="io-description"><p>Inidicates whether the given item is the current item.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -670,13 +524,14 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>index</td>
+                                    <td>item</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                <code><a href="../interfaces/PaginationItem.html" target="_self" >PaginationItem</a></code>
                                     </td>
 
                                     <td>
@@ -684,6 +539,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>PaginationItem</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -695,45 +554,7 @@
 
                     </div>
                     <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="onFirstPage"></a>
-                    <span class="name">
-                        <b>
-                            onFirstPage
-                        </b>
-                        <a href="#onFirstPage"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>onFirstPage()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:62</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                        <p>boolean</p>
 
                     </div>
                 </td>
@@ -744,71 +565,36 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="onLastPage"></a>
+                    <a name="isInactive"></a>
                     <span class="name">
                         <b>
-                            onLastPage
+                            isInactive
                         </b>
-                        <a href="#onLastPage"><span class="icon ion-ios-link"></span></a>
+                        <a href="#isInactive"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onLastPage()</code>
+<code>isInactive(item: <a href="../interfaces/PaginationItem.html">PaginationItem</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:83</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="onPageIndex"></a>
-                    <span class="name">
-                        <b>
-                            onPageIndex
-                        </b>
-                        <a href="#onPageIndex"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>onPageIndex(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:70</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
+                    <div class="io-description"><p>Indicates whether the pagination item is inactive. This is used
+to disabled a link or set the tabindex to <code>-1</code>.</p>
+<p>Defaults to true</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -818,13 +604,14 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>index</td>
+                                    <td>item</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                <code><a href="../interfaces/PaginationItem.html" target="_self" >PaginationItem</a></code>
                                     </td>
 
                                     <td>
@@ -832,6 +619,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>PaginationItem</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -843,7 +634,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>returns -1 in case of a disabled</p>
+
                     </div>
                 </td>
             </tr>
@@ -864,15 +656,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>pageChange(page: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>pageChange(page: <a href="../interfaces/PaginationItem.html">PaginationItem</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:110</a></div>
                 </td>
             </tr>
 
@@ -894,7 +686,7 @@
                                 <tr>
                                     <td>page</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                <code><a href="../interfaces/PaginationItem.html" target="_self" >PaginationItem</a></code>
                                     </td>
 
                                     <td>
@@ -923,26 +715,28 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="showDots"></a>
+                    <a name="render"></a>
                     <span class="name">
                         <b>
-                            showDots
+                            <span class="modifier">Private</span>
+                            render
                         </b>
-                        <a href="#showDots"><span class="icon ion-ios-link"></span></a>
+                        <a href="#render"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>showDots(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>render(pagination: <a href="../interfaces/PaginationModel.html">PaginationModel</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:54</a></div>
                 </td>
             </tr>
 
@@ -962,9 +756,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>index</td>
+                                    <td>pagination</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                <code><a href="../interfaces/PaginationModel.html" target="_self" >PaginationModel</a></code>
                                     </td>
 
                                     <td>
@@ -979,7 +773,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -989,47 +783,144 @@
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="showPagination"></a>
-                    <span class="name">
-                        <b>
-                            showPagination
-                        </b>
-                        <a href="#showPagination"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>showPagination()</code>
-                </td>
-            </tr>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_pagination"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            _pagination</b>
+                            <a href="#_pagination"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/PaginationModel.html" target="_self" >PaginationModel</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:36</a></div>
+                            </td>
+                        </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:109</a></div>
-                </td>
-            </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pages"></a>
+                        <span class="name">
+                            <b>
+                            pages</b>
+                            <a href="#pages"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>PaginationItem[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:47</a></div>
+                            </td>
+                        </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 </section>
 
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pagination"></a>
+                        <span class="name"><b>pagination</b><a href="#pagination"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>pagination()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:37</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>pagination(value)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.component.ts:40</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>value</td>
+                                                    
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+</section>
 </div>
 
 
@@ -1041,141 +932,128 @@
   Input,
   Output,
 } from &#x27;@angular/core&#x27;;
+import { ActivatedRoute, Params } from &#x27;@angular/router&#x27;;
 import { PaginationModel } from &#x27;@spartacus/core&#x27;;
+import { PaginationBuilder } from &#x27;./pagination.builder&#x27;;
+import { PaginationItem, PaginationItemType } from &#x27;./pagination.model&#x27;;
 
-const PAGE_FIRST &#x3D; 1;
-const PAGE_WINDOW_SIZE &#x3D; 3;
-
+/**
+ * The &#x60;PaginationComponent&#x60; is a generic component that is used for
+ * all lists in Spartacus that require pagination. The component supports
+ * all common features, which can be configured or hidden by CSS.
+ */
 @Component({
   selector: &#x27;cx-pagination&#x27;,
   templateUrl: &#x27;./pagination.component.html&#x27;,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaginationComponent {
-  @Input() pagination: PaginationModel;
-  @Input() hideOnSinglePage &#x3D; false;
+  /** The (optional) pageRoute used for the anchor links created in the pagination   */
+  @Input() pageRoute: string;
+
+  /** The (optional) query parameter which is added to the page route.  */
+  @Input() queryParam: string;
+
+  /**
+   * Whenever there&#x27;s a default page specified, the routing logic
+   * will omit the page number in routeLink or parameters.
+   */
+  @Input() defaultPage;
+
+  private _pagination: PaginationModel;
+  get pagination(): PaginationModel {
+    return this._pagination;
+  }
+  @Input() set pagination(value: PaginationModel) {
+    this._pagination &#x3D; value;
+    this.render(value);
+  }
+
   @Output() viewPageEvent: EventEmitter&lt;number&gt; &#x3D; new EventEmitter&lt;number&gt;();
 
-  // Because pagination model uses indexes starting from 0,
-  // add 1 to get current page number
-  private getCurrentPageNumber() {
-    return this.pagination.currentPage + 1;
-  }
+  pages: PaginationItem[] &#x3D; [];
 
-  getPagePrevious(): number {
-    return this.getCurrentPageNumber() - 1;
-  }
+  constructor(
+    private paginationBuilder: PaginationBuilder,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
-  getPageNext(): number {
-    return this.getCurrentPageNumber() + 1;
-  }
-
-  getPageIndicies(): Array&lt;number&gt; {
-    return Array(this.pagination.totalPages);
-  }
-
-  // Gets the minimum index of page numbers that can be shown by being within the page window range
-  getPageWindowMinIndex(): number {
-    return (
-      Math.floor(this.pagination.currentPage / PAGE_WINDOW_SIZE) *
-      PAGE_WINDOW_SIZE
+  private render(pagination: PaginationModel) {
+    this.pages &#x3D; this.paginationBuilder.paginate(
+      pagination.totalPages,
+      pagination.currentPage
     );
   }
 
-  // Gets the maximum index of page numbers that can be shown by being within the page window range
-  getPageWindowMaxIndex(): number {
+  /**
+   * Inidicates whether the given item is the current item.
+   *
+   * @param item PaginationItem
+   * @returns boolean
+   */
+  isCurrent(item: PaginationItem): boolean {
     return (
-      Math.floor(this.pagination.currentPage / PAGE_WINDOW_SIZE) *
-        PAGE_WINDOW_SIZE +
-      2
+      item.type &#x3D;&#x3D;&#x3D; PaginationItemType.PAGE &amp;&amp;
+      item.number &#x3D;&#x3D;&#x3D; this.pagination.currentPage
     );
   }
 
-  hasPages(): boolean {
-    return this.pagination.totalPages &gt; 0;
-  }
-
-  onFirstPage(): boolean {
-    return this.pagination.currentPage &#x3D;&#x3D;&#x3D; 0;
-  }
-
-  onLastPage(): boolean {
-    return this.pagination.currentPage &#x3D;&#x3D;&#x3D; this.pagination.totalPages - 1;
-  }
-
-  onPageIndex(index: number): boolean {
-    return this.pagination.currentPage &#x3D;&#x3D;&#x3D; index;
-  }
-
-  hidePageIndex(index: number): boolean {
+  /**
+   * Indicates whether the pagination item is inactive. This is used
+   * to disabled a link or set the tabindex to &#x60;-1&#x60;.
+   *
+   * Defaults to true
+   *
+   * @param item PaginationItem
+   * @returns returns -1 in case of a disabled
+   */
+  isInactive(item: PaginationItem): boolean {
     return (
-      (this.getPageWindowMinIndex() &gt; index ||
-        this.getPageWindowMaxIndex() &lt; index) &amp;&amp;
-      (index &gt; 0 &amp;&amp; index &lt; this.pagination.totalPages - 1)
+      !item.hasOwnProperty(&#x27;number&#x27;) ||
+      item.number &#x3D;&#x3D;&#x3D; this.pagination.currentPage
     );
   }
 
-  showDots(index: number): boolean {
-    return (
-      this.hidePageIndex(index) &amp;&amp;
-      (index &#x3D;&#x3D;&#x3D; this.getPageWindowMaxIndex() + 1 ||
-        index &#x3D;&#x3D;&#x3D; this.getPageWindowMinIndex() - 1)
+  getQueryParams(item: PaginationItem): Params {
+    const queryParams &#x3D; Object.assign(
+      {},
+      this.activatedRoute.snapshot.queryParams
     );
-  }
-
-  clickPageNo(page: number): number {
-    // Change page on valid index
     if (
-      page &gt;&#x3D; PAGE_FIRST &amp;&amp;
-      page &lt;&#x3D; this.pagination.totalPages &amp;&amp;
-      page !&#x3D;&#x3D; this.getCurrentPageNumber()
+      this.queryParam &amp;&amp;
+      item.number &lt; this.pagination.totalPages &amp;&amp;
+      !this.isCurrent(item)
     ) {
-      this.pageChange(page);
-      return page;
+      queryParams[this.queryParam] &#x3D; item.number;
     }
-
-    // Page stays the same on invalid index
-    return this.pagination.currentPage;
+    // omit the page number from the query parameters in case it&#x27;s the default
+    // to clean up the experience and avoid unnecessary polluting of the URL
+    if (queryParams[this.queryParam] &#x3D;&#x3D;&#x3D; this.defaultPage) {
+      delete queryParams[this.queryParam];
+    }
+    return queryParams;
   }
 
-  pageChange(page: number): void {
-    this.viewPageEvent.emit(page - 1);
-  }
-
-  showPagination() {
-    return !(this.hideOnSinglePage &amp;&amp; this.pagination.totalPages &lt;&#x3D; 1);
+  pageChange(page: PaginationItem): void {
+    this.viewPageEvent.emit(page.number);
   }
 }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;ul class&#x3D;&quot;pagination&quot; *ngIf&#x3D;&quot;showPagination()&quot;&gt;
-  &lt;!-- Previous --&gt;
-  &lt;li class&#x3D;&quot;page-item&quot; [ngClass]&#x3D;&quot;{ disabled: onFirstPage() || !hasPages() }&quot;&gt;
-    &lt;a class&#x3D;&quot;page-link&quot; (click)&#x3D;&quot;clickPageNo(getPagePrevious())&quot;&gt;«&lt;/a&gt;
-  &lt;/li&gt;
-
-  &lt;!-- Page Index --&gt;
-  &lt;li
-    class&#x3D;&quot;page-item&quot;
-    *ngFor&#x3D;&quot;let page of getPageIndicies(); let i &#x3D; index&quot;
-    [ngClass]&#x3D;&quot;{ active: onPageIndex(i), disabled: showDots(i) }&quot;
-  &gt;
-    &lt;a class&#x3D;&quot;page-link&quot; *ngIf&#x3D;&quot;showDots(i)&quot;&gt;...&lt;/a&gt;
-    &lt;a
-      class&#x3D;&quot;page-link&quot;
-      *ngIf&#x3D;&quot;!hidePageIndex(i)&quot;
-      (click)&#x3D;&quot;clickPageNo(i + 1)&quot;
-      &gt;{{ i + 1 }}&lt;/a
-    &gt;
-  &lt;/li&gt;
-
-  &lt;!-- Next --&gt;
-  &lt;li class&#x3D;&quot;page-item&quot; [ngClass]&#x3D;&quot;{ disabled: onLastPage() || !hasPages() }&quot;&gt;
-    &lt;a class&#x3D;&quot;page-link&quot; (click)&#x3D;&quot;clickPageNo(getPageNext())&quot;&gt;»&lt;/a&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;a
+  *ngFor&#x3D;&quot;let item of pages&quot;
+  [class]&#x3D;&quot;item.type&quot;
+  [class.disabled]&#x3D;&quot;isInactive(item)&quot;
+  [class.current]&#x3D;&quot;isCurrent(item)&quot;
+  [routerLink]&#x3D;&quot;pageRoute&quot;
+  [queryParams]&#x3D;&quot;getQueryParams(item)&quot;
+  [tabIndex]&#x3D;&quot;isInactive(item) ? -1 : 0&quot;
+  (click)&#x3D;&quot;pageChange(item)&quot;
+&gt;
+  {{ item.label }}
+&lt;/a&gt;
 </code></pre>
     </div>
 
@@ -1205,9 +1083,9 @@ export class PaginationComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ul class="pagination" *ngIf="showPagination()">  <!-- Previous -->  <li class="page-item" [ngClass]="{ disabled: onFirstPage() || !hasPages() }">    <a class="page-link" (click)="clickPageNo(getPagePrevious())">«</a>  </li>  <!-- Page Index -->  <li    class="page-item"    *ngFor="let page of getPageIndicies(); let i = index"    [ngClass]="{ active: onPageIndex(i), disabled: showDots(i) }"  >    <a class="page-link" *ngIf="showDots(i)">...</a>    <a      class="page-link"      *ngIf="!hidePageIndex(i)"      (click)="clickPageNo(i + 1)"      >{{ i + 1 }}</a    >  </li>  <!-- Next -->  <li class="page-item" [ngClass]="{ disabled: onLastPage() || !hasPages() }">    <a class="page-link" (click)="clickPageNo(getPageNext())">»</a>  </li></ul></div>'
-    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressCardComponent', 'selector': 'cx-address-card'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
-    var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'AutoFocusDirective', 'selector': '[cxAutoFocus]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OnlyNumberDirective', 'selector': '[cxOnlyNumber]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
+        var COMPONENT_TEMPLATE = '<div><a  *ngFor="let item of pages"  [class]="item.type"  [class.disabled]="isInactive(item)"  [class.current]="isCurrent(item)"  [routerLink]="pageRoute"  [queryParams]="getQueryParams(item)"  [tabIndex]="isInactive(item) ? -1 : 0"  (click)="pageChange(item)">  {{ item.label }}</a></div>'
+    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+    var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
     var ACTUAL_COMPONENT = {'name': 'PaginationComponent'};
 </script>
 <script src="../js/tree.js"></script>

@@ -165,15 +165,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>add(text: <a href="../interfaces/Translatable.html">string | Translatable</a>, type: <a href="../interfaces/GlobalMessage.html">GlobalMessageType</a>)</code>
+<code>add(text: <a href="../interfaces/Translatable.html">string | Translatable</a>, type: <a href="../interfaces/GlobalMessage.html">GlobalMessageType</a>, timeout?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/core/src/global-message/facade/global-message.service.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/core/src/global-message/facade/global-message.service.ts:34</a></div>
                 </td>
             </tr>
 
@@ -224,6 +224,22 @@
 
                                     <td>
                                         <p>: GlobalMessageType object</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>timeout</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>: number</p>
 
                                     </td>
                                 </tr>
@@ -306,8 +322,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">projects/core/src/global-message/facade/global-message.service.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">projects/core/src/global-message/facade/global-message.service.ts:54</a></div>
                 </td>
             </tr>
 
@@ -407,7 +423,7 @@ export class GlobalMessageService {
   get(): Observable&lt;GlobalMessageEntities&gt; {
     return this.store.pipe(
       select(GlobalMessageSelectors.getGlobalMessageEntities),
-      filter(data &#x3D;&gt; data !&#x3D;&#x3D; undefined)
+      filter((data) &#x3D;&gt; data !&#x3D;&#x3D; undefined)
     );
   }
 
@@ -415,12 +431,18 @@ export class GlobalMessageService {
    * Add one message into store
    * @param text: string | Translatable
    * @param type: GlobalMessageType object
+   * @param timeout: number
    */
-  add(text: string | Translatable, type: GlobalMessageType): void {
+  add(
+    text: string | Translatable,
+    type: GlobalMessageType,
+    timeout?: number
+  ): void {
     this.store.dispatch(
       new GlobalMessageActions.AddMessage({
         text: typeof text &#x3D;&#x3D;&#x3D; &#x27;string&#x27; ? { raw: text } : text,
         type,
+        timeout,
       })
     );
   }

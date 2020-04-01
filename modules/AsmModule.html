@@ -63,41 +63,29 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_AsmModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="116,-70 116,-195 380,-195 380,-70 116,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="174,-70 174,-195 322,-195 322,-70 174,-70"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_AsmModule_imports</title>
-<polygon fill="none" stroke="#000000" points="124,-78 124,-130 372,-130 372,-78 124,-78"/>
+<polygon fill="none" stroke="#000000" points="182,-78 182,-130 314,-130 314,-78 182,-78"/>
 </g>
 <!-- AsmStoreModule -->
 <g id="node1" class="node">
 <title>AsmStoreModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="363.5409,-122 360.5409,-126 339.5409,-126 336.5409,-122 248.4591,-122 248.4591,-86 363.5409,-86 363.5409,-122"/>
-<text text-anchor="middle" x="306" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">AsmStoreModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="305.5409,-122 302.5409,-126 281.5409,-126 278.5409,-122 190.4591,-122 190.4591,-86 305.5409,-86 305.5409,-122"/>
+<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">AsmStoreModule</text>
 </g>
 <!-- AsmModule -->
-<g id="node3" class="node">
+<g id="node2" class="node">
 <title>AsmModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="285.9916,-187 282.9916,-191 261.9916,-191 258.9916,-187 200.0084,-187 200.0084,-151 285.9916,-151 285.9916,-187"/>
-<text text-anchor="middle" x="243" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">AsmModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="290.9916,-187 287.9916,-191 266.9916,-191 263.9916,-187 205.0084,-187 205.0084,-151 290.9916,-151 290.9916,-187"/>
+<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">AsmModule</text>
 </g>
 <!-- AsmStoreModule&#45;&gt;AsmModule -->
 <g id="edge1" class="edge">
 <title>AsmStoreModule&#45;&gt;AsmModule</title>
-<path fill="none" stroke="#000000" d="M267.1129,-122.1061C267.1129,-122.1061 267.1129,-140.991 267.1129,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="263.613,-140.9909 267.1129,-150.991 270.613,-140.991 263.613,-140.9909"/>
-</g>
-<!-- ConfigModule -->
-<g id="node2" class="node">
-<title>ConfigModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="230.4386,-122 227.4386,-126 206.4386,-126 203.4386,-122 131.5614,-122 131.5614,-86 230.4386,-86 230.4386,-122"/>
-<text text-anchor="middle" x="181" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ConfigModule</text>
-</g>
-<!-- ConfigModule&#45;&gt;AsmModule -->
-<g id="edge2" class="edge">
-<title>ConfigModule&#45;&gt;AsmModule</title>
-<path fill="none" stroke="#000000" d="M215.1115,-122.1061C215.1115,-122.1061 215.1115,-140.991 215.1115,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="211.6116,-140.9909 215.1115,-150.991 218.6116,-140.991 211.6116,-140.9909"/>
+<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
 </g>
 </g>
 </svg>
@@ -144,9 +132,6 @@
                         <li class="list-group-item">
                             <a href="../modules/AsmStoreModule.html">AsmStoreModule</a>
                         </li>
-                        <li class="list-group-item">
-                            <a href="../modules/ConfigModule.html">ConfigModule</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -181,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/core/src/asm/asm.module.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">projects/core/src/asm/asm.module.ts:14</a></div>
                 </td>
             </tr>
 
@@ -206,25 +191,24 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
 import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config, ConfigModule } from &#x27;../config/config.module&#x27;;
+import { Config, provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { AsmConfig } from &#x27;./config/asm-config&#x27;;
 import { defaultAsmConfig } from &#x27;./config/default-asm-config&#x27;;
 import { AsmStoreModule } from &#x27;./store/asm-store.module&#x27;;
 import { interceptors } from &#x27;./http-interceptors/index&#x27;;
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    AsmStoreModule,
-    ConfigModule.withConfig(defaultAsmConfig),
-  ],
+  imports: [CommonModule, HttpClientModule, AsmStoreModule],
 })
 export class AsmModule {
   static forRoot(): ModuleWithProviders&lt;AsmModule&gt; {
     return {
       ngModule: AsmModule,
-      providers: [{ provide: AsmConfig, useExisting: Config }, ...interceptors],
+      providers: [
+        { provide: AsmConfig, useExisting: Config },
+        ...interceptors,
+        provideDefaultConfig(defaultAsmConfig),
+      ],
     };
   }
 }

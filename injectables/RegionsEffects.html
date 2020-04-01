@@ -188,13 +188,13 @@
     switchMap((countryCode: string) &#x3D;&gt; {
       return this.siteConnector.getRegions(countryCode).pipe(
         map(
-          regions &#x3D;&gt;
+          (regions) &#x3D;&gt;
             new UserActions.LoadRegionsSuccess({
               entities: regions,
               country: countryCode,
             })
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.LoadRegionsFail(makeErrorSerializable(error)))
         )
       );
@@ -294,13 +294,13 @@ export class RegionsEffects {
     switchMap((countryCode: string) &#x3D;&gt; {
       return this.siteConnector.getRegions(countryCode).pipe(
         map(
-          regions &#x3D;&gt;
+          (regions) &#x3D;&gt;
             new UserActions.LoadRegionsSuccess({
               entities: regions,
               country: countryCode,
             })
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.LoadRegionsFail(makeErrorSerializable(error)))
         )
       );

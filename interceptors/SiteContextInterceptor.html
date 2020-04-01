@@ -386,9 +386,9 @@ export class SiteContextInterceptor implements HttpInterceptor {
 
     this.languageService
       .getActive()
-      .subscribe(data &#x3D;&gt; (this.activeLang &#x3D; data));
+      .subscribe((data) &#x3D;&gt; (this.activeLang &#x3D; data));
 
-    this.currencyService.getActive().subscribe(data &#x3D;&gt; {
+    this.currencyService.getActive().subscribe((data) &#x3D;&gt; {
       this.activeCurr &#x3D; data;
     });
   }

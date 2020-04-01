@@ -261,7 +261,7 @@ export class PaymentDetailsSetGuard implements CanActivate {
     return this.checkoutDetailsService
       .getPaymentDetails()
       .pipe(
-        map(paymentDetails &#x3D;&gt;
+        map((paymentDetails) &#x3D;&gt;
           paymentDetails &amp;&amp; Object.keys(paymentDetails).length !&#x3D;&#x3D; 0
             ? true
             : this.router.parseUrl(

@@ -196,8 +196,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-payment.adapter.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-payment.adapter.ts:36</a></div>
                 </td>
             </tr>
 
@@ -348,8 +348,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-payment.adapter.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-payment.adapter.ts:50</a></div>
                 </td>
             </tr>
 
@@ -440,11 +440,13 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
       &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
     });
 
-    return this.http.get&lt;Occ.PaymentDetailsList&gt;(url, { headers }).pipe(
-      catchError((error: any) &#x3D;&gt; throwError(error)),
-      map(methodList &#x3D;&gt; methodList.payments),
-      this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
-    );
+    return this.http
+      .get&lt;Occ.PaymentDetailsList&gt;(url, { headers })
+      .pipe(
+        catchError((error: any) &#x3D;&gt; throwError(error)),
+        map((methodList) &#x3D;&gt; methodList.payments),
+        this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
+      );
   }
 
   delete(userId: string, paymentMethodID: string): Observable&lt;{}&gt; {

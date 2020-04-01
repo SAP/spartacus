@@ -117,7 +117,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config, provideConfig } from &#x27;../config/config.module&#x27;;
+import { Config, provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { defaultStateConfig } from &#x27;./config/default-state-config&#x27;;
 import { StateConfig } from &#x27;./config/state-config&#x27;;
 import { stateMetaReducers } from &#x27;./reducers/index&#x27;;
@@ -129,7 +129,7 @@ export class StateModule {
       ngModule: StateModule,
       providers: [
         ...stateMetaReducers,
-        provideConfig(defaultStateConfig),
+        provideDefaultConfig(defaultStateConfig),
         { provide: StateConfig, useExisting: Config },
       ],
     };

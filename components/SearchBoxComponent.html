@@ -149,6 +149,10 @@
                                 <a href="#avoidReopen">avoidReopen</a>
                             </li>
                             <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#blurSearchBox">blurSearchBox</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#clear">clear</a>
                             </li>
@@ -157,6 +161,28 @@
                             </li>
                             <li>
                                 <a href="#disableClose">disableClose</a>
+                            </li>
+                            <li>
+                                <a href="#focusNextChild">focusNextChild</a>
+                            </li>
+                            <li>
+                                <a href="#focusPreviousChild">focusPreviousChild</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getFocusedElement">getFocusedElement</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getFocusedIndex">getFocusedIndex</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getResultElements">getResultElements</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isSearchboxFocused">isSearchboxFocused</a>
                             </li>
                             <li>
                                 <a href="#launchSearchResult">launchSearchResult</a>
@@ -216,7 +242,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(searchBoxComponentService: <a href="../injectables/SearchBoxComponentService.html">SearchBoxComponentService</a>, componentData: <a href="../classes/CmsComponentData.html">CmsComponentData<CmsSearchBoxComponent></a>)</code>
+<code>constructor(searchBoxComponentService: <a href="../injectables/SearchBoxComponentService.html">SearchBoxComponentService</a>, componentData: <a href="../classes/CmsComponentData.html">CmsComponentData<CmsSearchBoxComponent></a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -258,6 +284,18 @@ can be reused without CMS integration.</p>
                                                   
                                                         <td>
                                                                         <code><a href="../classes/CmsComponentData.html" target="_self" >CmsComponentData&lt;CmsSearchBoxComponent&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>winRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/WindowRef.html" target="_self" >WindowRef</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -334,8 +372,8 @@ can be reused without CMS integration.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="127"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:127</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:144</a></div>
                 </td>
             </tr>
 
@@ -345,6 +383,78 @@ can be reused without CMS integration.</p>
                     <div class="io-description"><p>Especially in mobile we do not want the search icon
 to focus the input again when it&#39;s already open.</p>
 </div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>UIEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="blurSearchBox"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            blurSearchBox
+                        </b>
+                        <a href="#blurSearchBox"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>blurSearchBox(event: UIEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:121</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -409,8 +519,8 @@ to focus the input again when it&#39;s already open.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="157"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:157</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="224"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:224</a></div>
                 </td>
             </tr>
 
@@ -474,15 +584,15 @@ to focus the input again when it&#39;s already open.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>close(event: UIEvent)</code>
+<code>close(event: UIEvent, force?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="110"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:110</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:112</a></div>
                 </td>
             </tr>
 
@@ -511,6 +621,18 @@ to focus the input again when it&#39;s already open.</p>
 
                                     <td>
                                         No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>force</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
                                     </td>
 
 
@@ -553,8 +675,8 @@ to focus the input again when it&#39;s already open.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="150"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:150</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="217"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:217</a></div>
                 </td>
             </tr>
 
@@ -566,6 +688,302 @@ to focus the input again when it&#39;s already open.</p>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focusNextChild"></a>
+                    <span class="name">
+                        <b>
+                            focusNextChild
+                        </b>
+                        <a href="#focusNextChild"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>focusNextChild(event)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:185</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focusPreviousChild"></a>
+                    <span class="name">
+                        <b>
+                            focusPreviousChild
+                        </b>
+                        <a href="#focusPreviousChild"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>focusPreviousChild(event)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:168</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFocusedElement"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getFocusedElement
+                        </b>
+                        <a href="#getFocusedElement"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getFocusedElement()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:159</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>HTMLElement</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFocusedIndex"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getFocusedIndex
+                        </b>
+                        <a href="#getFocusedIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getFocusedIndex()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:163</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getResultElements"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getResultElements
+                        </b>
+                        <a href="#getResultElements"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getResultElements()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:152</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>HTMLElement[]</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSearchboxFocused"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            isSearchboxFocused
+                        </b>
+                        <a href="#isSearchboxFocused"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isSearchboxFocused()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="132"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:132</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                     </div>
                 </td>
@@ -594,8 +1012,8 @@ to focus the input again when it&#39;s already open.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="139"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:139</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="206"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:206</a></div>
                 </td>
             </tr>
 
@@ -679,8 +1097,8 @@ to focus the input again when it&#39;s already open.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="103"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:103</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:105</a></div>
                 </td>
             </tr>
 
@@ -720,8 +1138,8 @@ to focus the input again when it&#39;s already open.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:96</a></div>
                 </td>
             </tr>
 
@@ -884,14 +1302,14 @@ for example when we click inside the search result section.</p>
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>this.config$.pipe(
-    tap(c &#x3D;&gt; (this.config &#x3D; c)),
-    switchMap(config &#x3D;&gt; this.searchBoxComponentService.getResults(config))
+    tap((c) &#x3D;&gt; (this.config &#x3D; c)),
+    switchMap((config) &#x3D;&gt; this.searchBoxComponentService.getResults(config))
   )</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:59</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:61</a></div>
                             </td>
                         </tr>
 
@@ -981,7 +1399,7 @@ for example when we click inside the search result section.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:67</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box.component.ts:69</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1009,7 +1427,7 @@ for example when we click inside the search result section.</p>
   Input,
   Optional,
 } from &#x27;@angular/core&#x27;;
-import { CmsSearchBoxComponent } from &#x27;@spartacus/core&#x27;;
+import { CmsSearchBoxComponent, WindowRef } from &#x27;@spartacus/core&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { map, switchMap, tap } from &#x27;rxjs/operators&#x27;;
 import { ICON_TYPE } from &#x27;../../../cms-components/misc/icon/index&#x27;;
@@ -1055,15 +1473,17 @@ export class SearchBoxComponent {
    * The component data is optional, so that this component
    * can be reused without CMS integration.
    */
+
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
     @Optional()
-    protected componentData: CmsComponentData&lt;CmsSearchBoxComponent&gt;
+    protected componentData: CmsComponentData&lt;CmsSearchBoxComponent&gt;,
+    protected winRef: WindowRef
   ) {}
 
   results$: Observable&lt;SearchResults&gt; &#x3D; this.config$.pipe(
-    tap(c &#x3D;&gt; (this.config &#x3D; c)),
-    switchMap(config &#x3D;&gt; this.searchBoxComponentService.getResults(config))
+    tap((c) &#x3D;&gt; (this.config &#x3D; c)),
+    switchMap((config) &#x3D;&gt; this.searchBoxComponentService.getResults(config))
   );
 
   /**
@@ -1074,7 +1494,7 @@ export class SearchBoxComponent {
       return &lt;Observable&lt;SearchBoxConfig&gt;&gt;this.componentData.data$.pipe(
         // Since the backend returns string values (i.e. displayProducts: &quot;true&quot;) for
         // boolean values, we replace them with boolean values.
-        map(c &#x3D;&gt; {
+        map((c) &#x3D;&gt; {
           return {
             ...c,
             displayProducts:
@@ -1112,17 +1532,32 @@ export class SearchBoxComponent {
   /**
    * Closes the typehead searchbox.
    */
-  close(event: UIEvent): void {
-    if (!this.ignoreCloseEvent) {
-      this.searchBoxComponentService.toggleBodyClass(
-        &#x27;searchbox-is-active&#x27;,
-        false
-      );
-      if (event &amp;&amp; event.target) {
-        (&lt;HTMLElement&gt;event.target).blur();
+  close(event: UIEvent, force?: boolean): void {
+    // Use timeout to detect changes
+    setTimeout(() &#x3D;&gt; {
+      if ((!this.ignoreCloseEvent &amp;&amp; !this.isSearchboxFocused()) || force) {
+        this.blurSearchBox(event);
       }
+    });
+  }
+
+  protected blurSearchBox(event: UIEvent): void {
+    this.searchBoxComponentService.toggleBodyClass(
+      &#x27;searchbox-is-active&#x27;,
+      false
+    );
+    if (event &amp;&amp; event.target) {
+      (&lt;HTMLElement&gt;event.target).blur();
     }
-    this.ignoreCloseEvent &#x3D; false;
+  }
+
+  // Check if focus is on searchbox or result list elements
+  private isSearchboxFocused(): boolean {
+    return (
+      this.getResultElements().includes(this.getFocusedElement()) ||
+      this.winRef.document.querySelector(&#x27;input[aria-label&#x3D;&quot;search&quot;]&#x27;) &#x3D;&#x3D;&#x3D;
+        this.getFocusedElement()
+    );
   }
 
   /**
@@ -1133,6 +1568,56 @@ export class SearchBoxComponent {
     if (this.searchBoxComponentService.hasBodyClass(&#x27;searchbox-is-active&#x27;)) {
       this.close(event);
       event.preventDefault();
+    }
+  }
+
+  // Return result list as HTMLElement array
+  private getResultElements(): HTMLElement[] {
+    return Array.from(
+      this.winRef.document.querySelectorAll(&#x27;.products &gt; a, .suggestions &gt; a&#x27;)
+    );
+  }
+
+  // Return focused element as HTMLElement
+  private getFocusedElement(): HTMLElement {
+    return &lt;HTMLElement&gt;this.winRef.document.activeElement;
+  }
+
+  private getFocusedIndex(): number {
+    return this.getResultElements().indexOf(this.getFocusedElement());
+  }
+
+  // Focus on previous item in results list
+  focusPreviousChild(event) {
+    event.preventDefault(); // Negate normal keyscroll
+    const [results, focusedIndex] &#x3D; [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
+    // Focus on last index moving to first
+    if (results.length) {
+      if (focusedIndex &lt; 1) {
+        results[results.length - 1].focus();
+      } else {
+        results[focusedIndex - 1].focus();
+      }
+    }
+  }
+
+  // Focus on next item in results list
+  focusNextChild(event) {
+    event.preventDefault(); // Negate normal keyscroll
+    const [results, focusedIndex] &#x3D; [
+      this.getResultElements(),
+      this.getFocusedIndex(),
+    ];
+    // Focus on first index moving to last
+    if (results.length) {
+      if (focusedIndex &gt;&#x3D; results.length - 1) {
+        results[0].focus();
+      } else {
+        results[focusedIndex + 1].focus();
+      }
     }
   }
 
@@ -1178,14 +1663,20 @@ export class SearchBoxComponent {
     (input)&#x3D;&quot;search(searchInput.value)&quot;
     (blur)&#x3D;&quot;close($event)&quot;
     (keydown.escape)&#x3D;&quot;close($event)&quot;
-    (keydown.enter)&#x3D;&quot;launchSearchResult($event, searchInput.value)&quot;
+    (keydown.enter)&#x3D;&quot;
+      close($event, true); launchSearchResult($event, searchInput.value)
+    &quot;
+    (keydown.arrowup)&#x3D;&quot;focusPreviousChild($event)&quot;
+    (keydown.arrowdown)&#x3D;&quot;focusNextChild($event)&quot;
   /&gt;
 
   &lt;cx-icon
     [type]&#x3D;&quot;iconTypes.RESET&quot;
     aria-label&#x3D;&quot;reset&quot;
     (mousedown)&#x3D;&quot;clear(searchInput)&quot;
+    (keydown.enter)&#x3D;&quot;clear(searchInput)&quot;
     class&#x3D;&quot;reset&quot;
+    tabindex&#x3D;&quot;0&quot;
   &gt;&lt;/cx-icon&gt;
 
   &lt;cx-icon
@@ -1193,17 +1684,23 @@ export class SearchBoxComponent {
     aria-label&#x3D;&quot;search&quot;
     class&#x3D;&quot;search&quot;
     (mousedown)&#x3D;&quot;avoidReopen($event)&quot;
+    (keydown.enter)&#x3D;&quot;avoidReopen($event)&quot;
+    tabindex&#x3D;&quot;0&quot;
   &gt;&lt;/cx-icon&gt;
 &lt;/label&gt;
 
-&lt;div *ngIf&#x3D;&quot;results$ | async as result&quot; class&#x3D;&quot;results&quot; (click)&#x3D;&quot;close($event)&quot;&gt;
+&lt;div
+  *ngIf&#x3D;&quot;results$ | async as result&quot;
+  class&#x3D;&quot;results&quot;
+  (click)&#x3D;&quot;close($event, true)&quot;
+&gt;
   &lt;div
     *ngIf&#x3D;&quot;result.message&quot;
     class&#x3D;&quot;message&quot;
     [innerHTML]&#x3D;&quot;result.message&quot;
   &gt;&lt;/div&gt;
 
-  &lt;div class&#x3D;&quot;suggestions&quot; (mousedown)&#x3D;&quot;disableClose()&quot;&gt;
+  &lt;div class&#x3D;&quot;suggestions&quot;&gt;
     &lt;a
       *ngFor&#x3D;&quot;let suggestion of result.suggestions&quot;
       [innerHTML]&#x3D;&quot;suggestion | cxHighlight: searchInput.value&quot;
@@ -1213,11 +1710,16 @@ export class SearchBoxComponent {
           params: { query: suggestion }
         } | cxUrl
       &quot;
+      (keydown.arrowup)&#x3D;&quot;focusPreviousChild($event)&quot;
+      (keydown.arrowdown)&#x3D;&quot;focusNextChild($event)&quot;
+      (keydown.enter)&#x3D;&quot;close($event, true)&quot;
+      (keydown.escape)&#x3D;&quot;close($event, true)&quot;
+      (blur)&#x3D;&quot;close($event)&quot;
     &gt;
     &lt;/a&gt;
   &lt;/div&gt;
 
-  &lt;div class&#x3D;&quot;products&quot; (mousedown)&#x3D;&quot;disableClose()&quot; *ngIf&#x3D;&quot;result.products&quot;&gt;
+  &lt;div class&#x3D;&quot;products&quot; *ngIf&#x3D;&quot;result.products&quot;&gt;
     &lt;a
       *ngFor&#x3D;&quot;let product of result.products&quot;
       [routerLink]&#x3D;&quot;
@@ -1227,6 +1729,11 @@ export class SearchBoxComponent {
         } | cxUrl
       &quot;
       [class.has-media]&#x3D;&quot;config.displayProductImages&quot;
+      (keydown.arrowup)&#x3D;&quot;focusPreviousChild($event)&quot;
+      (keydown.arrowdown)&#x3D;&quot;focusNextChild($event)&quot;
+      (keydown.enter)&#x3D;&quot;close($event, true)&quot;
+      (keydown.escape)&#x3D;&quot;close($event, true)&quot;
+      (blur)&#x3D;&quot;close($event)&quot;
     &gt;
       &lt;cx-media
         *ngIf&#x3D;&quot;config.displayProductImages&quot;
@@ -1268,9 +1775,9 @@ export class SearchBoxComponent {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><label class="searchbox" [class.dirty]="!!searchInput.value">  <input    #searchInput    [placeholder]="\'searchBox.placeholder\' | cxTranslate"    aria-label="search"    (focus)="open()"    (input)="search(searchInput.value)"    (blur)="close($event)"    (keydown.escape)="close($event)"    (keydown.enter)="launchSearchResult($event, searchInput.value)"  />  <cx-icon    [type]="iconTypes.RESET"    aria-label="reset"    (mousedown)="clear(searchInput)"    class="reset"  ></cx-icon>  <cx-icon    [type]="iconTypes.SEARCH"    aria-label="search"    class="search"    (mousedown)="avoidReopen($event)"  ></cx-icon></label><div *ngIf="results$ | async as result" class="results" (click)="close($event)">  <div    *ngIf="result.message"    class="message"    [innerHTML]="result.message"  ></div>  <div class="suggestions" (mousedown)="disableClose()">    <a      *ngFor="let suggestion of result.suggestions"      [innerHTML]="suggestion | cxHighlight: searchInput.value"      [routerLink]="        {          cxRoute: \'search\',          params: { query: suggestion }        } | cxUrl      "    >    </a>  </div>  <div class="products" (mousedown)="disableClose()" *ngIf="result.products">    <a      *ngFor="let product of result.products"      [routerLink]="        {          cxRoute: \'product\',          params: product        } | cxUrl      "      [class.has-media]="config.displayProductImages"    >      <cx-media        *ngIf="config.displayProductImages"        [container]="product.images?.PRIMARY"        format="thumbnail"        [alt]="product.summary"      ></cx-media>      <h4 class="name" [innerHTML]="product.nameHtml"></h4>      <span class="price">{{ product.price?.formattedValue }}</span>    </a>  </div></div></div>'
-    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressCardComponent', 'selector': 'cx-address-card'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
-    var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'AutoFocusDirective', 'selector': '[cxAutoFocus]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OnlyNumberDirective', 'selector': '[cxOnlyNumber]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
+        var COMPONENT_TEMPLATE = '<div><label class="searchbox" [class.dirty]="!!searchInput.value">  <input    #searchInput    [placeholder]="\'searchBox.placeholder\' | cxTranslate"    aria-label="search"    (focus)="open()"    (input)="search(searchInput.value)"    (blur)="close($event)"    (keydown.escape)="close($event)"    (keydown.enter)="      close($event, true); launchSearchResult($event, searchInput.value)    "    (keydown.arrowup)="focusPreviousChild($event)"    (keydown.arrowdown)="focusNextChild($event)"  />  <cx-icon    [type]="iconTypes.RESET"    aria-label="reset"    (mousedown)="clear(searchInput)"    (keydown.enter)="clear(searchInput)"    class="reset"    tabindex="0"  ></cx-icon>  <cx-icon    [type]="iconTypes.SEARCH"    aria-label="search"    class="search"    (mousedown)="avoidReopen($event)"    (keydown.enter)="avoidReopen($event)"    tabindex="0"  ></cx-icon></label><div  *ngIf="results$ | async as result"  class="results"  (click)="close($event, true)">  <div    *ngIf="result.message"    class="message"    [innerHTML]="result.message"  ></div>  <div class="suggestions">    <a      *ngFor="let suggestion of result.suggestions"      [innerHTML]="suggestion | cxHighlight: searchInput.value"      [routerLink]="        {          cxRoute: \'search\',          params: { query: suggestion }        } | cxUrl      "      (keydown.arrowup)="focusPreviousChild($event)"      (keydown.arrowdown)="focusNextChild($event)"      (keydown.enter)="close($event, true)"      (keydown.escape)="close($event, true)"      (blur)="close($event)"    >    </a>  </div>  <div class="products" *ngIf="result.products">    <a      *ngFor="let product of result.products"      [routerLink]="        {          cxRoute: \'product\',          params: product        } | cxUrl      "      [class.has-media]="config.displayProductImages"      (keydown.arrowup)="focusPreviousChild($event)"      (keydown.arrowdown)="focusNextChild($event)"      (keydown.enter)="close($event, true)"      (keydown.escape)="close($event, true)"      (blur)="close($event)"    >      <cx-media        *ngIf="config.displayProductImages"        [container]="product.images?.PRIMARY"        format="thumbnail"        [alt]="product.summary"      ></cx-media>      <h4 class="name" [innerHTML]="product.nameHtml"></h4>      <span class="price">{{ product.price?.formattedValue }}</span>    </a>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+    var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
     var ACTUAL_COMPONENT = {'name': 'SearchBoxComponent'};
 </script>
 <script src="../js/tree.js"></script>

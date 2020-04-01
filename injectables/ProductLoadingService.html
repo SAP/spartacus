@@ -321,8 +321,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="195"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:195</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="196"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:196</a></div>
                 </td>
             </tr>
 
@@ -534,8 +534,8 @@ max age reload implementations</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="147"
-                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:147</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">projects/core/src/product/services/product-loading.service.ts:148</a></div>
                 </td>
             </tr>
 
@@ -868,10 +868,10 @@ export class ProductLoadingService {
 
     if (scopes.length &gt; 1) {
       this.products[productCode][this.getScopesIndex(scopes)] &#x3D; combineLatest(
-        scopes.map(scope &#x3D;&gt; this.products[productCode][scope])
+        scopes.map((scope) &#x3D;&gt; this.products[productCode][scope])
       ).pipe(
         auditTime(0),
-        map(productParts &#x3D;&gt;
+        map((productParts) &#x3D;&gt;
           productParts.every(Boolean)
             ? deepMerge({}, ...productParts)
             : undefined
@@ -900,11 +900,11 @@ export class ProductLoadingService {
         ProductSelectors.getSelectedProductStateFactory(productCode, scope)
       ),
       map(
-        productState &#x3D;&gt;
+        (productState) &#x3D;&gt;
           !productState.loading &amp;&amp; !productState.success &amp;&amp; !productState.error
       ),
       distinctUntilChanged(),
-      filter(x &#x3D;&gt; x)
+      filter((x) &#x3D;&gt; x)
     );
 
     const isLoading$ &#x3D; this.store.pipe(
@@ -932,9 +932,10 @@ export class ProductLoadingService {
       select(ProductSelectors.getSelectedProductFactory(productCode, scope))
     );
 
-    return using(() &#x3D;&gt; productLoadLogic$.subscribe(), () &#x3D;&gt; productData$).pipe(
-      shareReplay({ bufferSize: 1, refCount: true })
-    );
+    return using(
+      () &#x3D;&gt; productLoadLogic$.subscribe(),
+      () &#x3D;&gt; productData$
+    ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
   }
 
   /**

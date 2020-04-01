@@ -1212,7 +1212,7 @@ export class SemanticPathService {
     params: object,
     paramsMapping: ParamsMapping
   ): string[] {
-    return this.urlParser.getPrimarySegments(path).map(segment &#x3D;&gt; {
+    return this.urlParser.getPrimarySegments(path).map((segment) &#x3D;&gt; {
       if (isParam(segment)) {
         const paramName &#x3D; getParamName(segment);
         const mappedParamName &#x3D; this.getMappedParamName(
@@ -1229,8 +1229,8 @@ export class SemanticPathService {
     routeConfig: RouteConfig,
     params: object
   ): string {
-    const foundPath &#x3D; routeConfig.paths.find(path &#x3D;&gt;
-      this.getParams(path).every(paramName &#x3D;&gt; {
+    const foundPath &#x3D; routeConfig.paths.find((path) &#x3D;&gt;
+      this.getParams(path).every((paramName) &#x3D;&gt; {
         const mappedParamName &#x3D; this.getMappedParamName(
           paramName,
           routeConfig.paramsMapping

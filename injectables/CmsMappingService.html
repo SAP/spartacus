@@ -723,7 +723,7 @@ export class CmsMappingService {
   getGuardsForComponents(componentTypes: string[]): any[] {
     const guards &#x3D; new Set&lt;any&gt;();
     for (const componentType of componentTypes) {
-      this.getGuardsForComponent(componentType).forEach(guard &#x3D;&gt;
+      this.getGuardsForComponent(componentType).forEach((guard) &#x3D;&gt;
         guards.add(guard)
       );
     }
@@ -734,7 +734,7 @@ export class CmsMappingService {
     const i18nKeys &#x3D; new Set&lt;string&gt;();
     for (const componentType of componentTypes) {
       if (this.isComponentEnabled(componentType)) {
-        this.getI18nKeysForComponent(componentType).forEach(key &#x3D;&gt;
+        this.getI18nKeysForComponent(componentType).forEach((key) &#x3D;&gt;
           i18nKeys.add(key)
         );
       }

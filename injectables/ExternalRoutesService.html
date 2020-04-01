@@ -125,7 +125,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../interfaces/RoutesConfig.html">ExternalRoutesConfig</a>, matcherFactory: <a href="../injectables/UrlMatcherFactoryService.html">UrlMatcherFactoryService</a>, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
+<code>constructor(config: <a href="../interfaces/RoutesConfig.html">ExternalRoutesConfig</a>, urlMatcherService: <a href="../injectables/UrlMatcherService.html">UrlMatcherService</a>, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -160,10 +160,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>matcherFactory</td>
+                                                        <td>urlMatcherService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/UrlMatcherFactoryService.html" target="_self" >UrlMatcherFactoryService</a></code>
+                                                                        <code><a href="../injectables/UrlMatcherService.html" target="_self" >UrlMatcherService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -359,7 +359,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Injector } from &#x27;@angular/core&#x27;;
 import { Router, Routes, UrlMatcher } from &#x27;@angular/router&#x27;;
-import { UrlMatcherFactoryService } from &#x27;../services/url-matcher-factory.service&#x27;;
+import { UrlMatcherService } from &#x27;../services/url-matcher.service&#x27;;
 import { ExternalRoutesConfig } from &#x27;./external-routes-config&#x27;;
 import { ExternalRoutesGuard } from &#x27;./external-routes.guard&#x27;;
 
@@ -370,7 +370,7 @@ import { ExternalRoutesGuard } from &#x27;./external-routes.guard&#x27;;
 export class ExternalRoutesService {
   constructor(
     protected config: ExternalRoutesConfig,
-    protected matcherFactory: UrlMatcherFactoryService,
+    protected urlMatcherService: UrlMatcherService,
     protected injector: Injector
   ) {}
 
@@ -414,10 +414,10 @@ export class ExternalRoutesService {
    * Returns the URL matcher for the external route
    */
   protected getUrlMatcher(): UrlMatcher {
-    const matcher &#x3D; this.matcherFactory.getGlobUrlMatcher(
+    const matcher &#x3D; this.urlMatcherService.getFromGlob(
       this.internalUrlPatterns
     );
-    return this.matcherFactory.getOppositeUrlMatcher(matcher); // the external route should be activated only when it&#x27;s NOT an internal route
+    return this.urlMatcherService.getOpposite(matcher); // the external route should be activated only when it&#x27;s NOT an internal route
   }
 }
 </code></pre>

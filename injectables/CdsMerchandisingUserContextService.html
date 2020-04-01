@@ -725,7 +725,7 @@ export class CdsMerchandisingUserContextService {
     return this.profileTagEventService.getConsentReference().pipe(
       startWith(&#x27;&#x27;),
       distinctUntilChanged(),
-      map(consentReference &#x3D;&gt; ({ consentReference }))
+      map((consentReference) &#x3D;&gt; ({ consentReference }))
     );
   }
 
@@ -734,7 +734,7 @@ export class CdsMerchandisingUserContextService {
       withLatestFrom(this.routingService.getPageContext()),
       filter(([_facets, pageContext]) &#x3D;&gt; this.isFacetPage(pageContext)),
       map(([facets, pageContext]) &#x3D;&gt;
-        facets.filter(facet &#x3D;&gt;
+        facets.filter((facet) &#x3D;&gt;
           this.filterFacetByCurrentPage(facet, pageContext)
         )
       ),
@@ -743,7 +743,7 @@ export class CdsMerchandisingUserContextService {
         MERCHANDISING_FACET_TO_QUERYPARAM_NORMALIZER
       ),
       distinctUntilChanged(),
-      map(facets &#x3D;&gt; ({
+      map((facets) &#x3D;&gt; ({
         facets,
       }))
     );
@@ -751,10 +751,10 @@ export class CdsMerchandisingUserContextService {
 
   private searchResultChangeEvent(): Observable&lt;Breadcrumb[]&gt; {
     return this.productSearchService.getResults().pipe(
-      map(searchResults &#x3D;&gt;
+      map((searchResults) &#x3D;&gt;
         searchResults.breadcrumbs ? searchResults.breadcrumbs : []
       ),
-      filter(facets &#x3D;&gt; !!facets)
+      filter((facets) &#x3D;&gt; !!facets)
     );
   }
 
@@ -766,10 +766,10 @@ export class CdsMerchandisingUserContextService {
 
   private getProductNavigationContext(): Observable&lt;MerchandisingUserContext&gt; {
     return this.routingService.getPageContext().pipe(
-      filter(pageContext &#x3D;&gt; pageContext.type &#x3D;&#x3D;&#x3D; PageType.PRODUCT_PAGE),
-      map(context &#x3D;&gt; context.id),
+      filter((pageContext) &#x3D;&gt; pageContext.type &#x3D;&#x3D;&#x3D; PageType.PRODUCT_PAGE),
+      map((context) &#x3D;&gt; context.id),
       distinctUntilChanged(),
-      map(productId &#x3D;&gt; ({
+      map((productId) &#x3D;&gt; ({
         products: [productId],
       }))
     );
@@ -777,11 +777,11 @@ export class CdsMerchandisingUserContextService {
 
   private getCategoryNavigationContext(): Observable&lt;MerchandisingUserContext&gt; {
     return this.routingService.getPageContext().pipe(
-      map(context &#x3D;&gt;
+      map((context) &#x3D;&gt;
         context.type &#x3D;&#x3D;&#x3D; PageType.CATEGORY_PAGE ? context.id : undefined
       ),
       distinctUntilChanged(),
-      map(category &#x3D;&gt; ({ category }))
+      map((category) &#x3D;&gt; ({ category }))
     );
   }
 

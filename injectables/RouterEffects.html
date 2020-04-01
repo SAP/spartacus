@@ -207,7 +207,7 @@
       AuthActions.LOGOUT,
       AuthActions.LOGIN
     ),
-    tap(_ &#x3D;&gt; {
+    tap(() &#x3D;&gt; {
       const filteredConfig &#x3D; this.router.config.filter(
         (route: CmsRoute) &#x3D;&gt; !(route.data &amp;&amp; route.data.cxCmsRouteContext)
       );
@@ -350,7 +350,7 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(RoutingActions.ROUTER_GO_BY_URL),
     map((action: RoutingActions.RouteGoAction) &#x3D;&gt; action.payload),
-    tap(url &#x3D;&gt; {
+    tap((url) &#x3D;&gt; {
       this.router.navigateByUrl(url);
     })
   )</code>
@@ -451,7 +451,7 @@ export class RouterEffects {
   navigateBuUrl$: Observable&lt;any&gt; &#x3D; this.actions$.pipe(
     ofType(RoutingActions.ROUTER_GO_BY_URL),
     map((action: RoutingActions.RouteGoAction) &#x3D;&gt; action.payload),
-    tap(url &#x3D;&gt; {
+    tap((url) &#x3D;&gt; {
       this.router.navigateByUrl(url);
     })
   );
@@ -463,7 +463,7 @@ export class RouterEffects {
       AuthActions.LOGOUT,
       AuthActions.LOGIN
     ),
-    tap(_ &#x3D;&gt; {
+    tap(() &#x3D;&gt; {
       const filteredConfig &#x3D; this.router.config.filter(
         (route: CmsRoute) &#x3D;&gt; !(route.data &amp;&amp; route.data.cxCmsRouteContext)
       );

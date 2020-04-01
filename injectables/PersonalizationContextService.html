@@ -306,7 +306,7 @@ export class PersonalizationContextService {
       filter(Boolean),
       map((slot: ContentSlotData) &#x3D;&gt;
         slot.components.find(
-          i &#x3D;&gt; i.uid &#x3D;&#x3D;&#x3D; this.config.personalization.context.componentId
+          (i) &#x3D;&gt; i.uid &#x3D;&#x3D;&#x3D; this.config.personalization.context.componentId
         )
       ),
       filter(Boolean),
@@ -318,8 +318,8 @@ export class PersonalizationContextService {
 
   private buildPersonalizationContext(data: string): PersonalizationContext {
     const context &#x3D; JSON.parse(atob(data));
-    context.actions.forEach(action &#x3D;&gt; {
-      Object.keys(action).forEach(key &#x3D;&gt; {
+    context.actions.forEach((action) &#x3D;&gt; {
+      Object.keys(action).forEach((key) &#x3D;&gt; {
         action[key] &#x3D; atob(action[key]);
       });
     });

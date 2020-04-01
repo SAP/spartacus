@@ -188,14 +188,14 @@
     map((action: UserActions.RegisterGuest) &#x3D;&gt; action.payload),
     mergeMap(({ guid, password }) &#x3D;&gt;
       this.userConnector.registerGuest(guid, password).pipe(
-        switchMap(user &#x3D;&gt; [
+        switchMap((user) &#x3D;&gt; [
           new AuthActions.LoadUserToken({
             userId: user.uid,
             password: password,
           }),
           new UserActions.RegisterGuestSuccess(),
         ]),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.RegisterGuestFail(makeErrorSerializable(error)))
         )
       )
@@ -247,7 +247,7 @@
     mergeMap((user: UserSignUp) &#x3D;&gt;
       this.userConnector.register(user).pipe(
         map(() &#x3D;&gt; new UserActions.RegisterUserSuccess()),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
         )
       )
@@ -298,11 +298,11 @@
     map((action: UserActions.RemoveUser) &#x3D;&gt; action.payload),
     mergeMap((userId: string) &#x3D;&gt; {
       return this.userConnector.remove(userId).pipe(
-        switchMap(_result &#x3D;&gt; [
+        switchMap(() &#x3D;&gt; [
           new UserActions.RemoveUserSuccess(),
           new AuthActions.Logout(),
         ]),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.RemoveUserFail(makeErrorSerializable(error)))
         )
       );
@@ -355,7 +355,7 @@ export class UserRegisterEffects {
     mergeMap((user: UserSignUp) &#x3D;&gt;
       this.userConnector.register(user).pipe(
         map(() &#x3D;&gt; new UserActions.RegisterUserSuccess()),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
         )
       )
@@ -370,14 +370,14 @@ export class UserRegisterEffects {
     map((action: UserActions.RegisterGuest) &#x3D;&gt; action.payload),
     mergeMap(({ guid, password }) &#x3D;&gt;
       this.userConnector.registerGuest(guid, password).pipe(
-        switchMap(user &#x3D;&gt; [
+        switchMap((user) &#x3D;&gt; [
           new AuthActions.LoadUserToken({
             userId: user.uid,
             password: password,
           }),
           new UserActions.RegisterGuestSuccess(),
         ]),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.RegisterGuestFail(makeErrorSerializable(error)))
         )
       )
@@ -392,11 +392,11 @@ export class UserRegisterEffects {
     map((action: UserActions.RemoveUser) &#x3D;&gt; action.payload),
     mergeMap((userId: string) &#x3D;&gt; {
       return this.userConnector.remove(userId).pipe(
-        switchMap(_result &#x3D;&gt; [
+        switchMap(() &#x3D;&gt; [
           new UserActions.RemoveUserSuccess(),
           new AuthActions.Logout(),
         ]),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.RemoveUserFail(makeErrorSerializable(error)))
         )
       );

@@ -218,8 +218,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:69</a></div>
                 </td>
             </tr>
 
@@ -329,8 +329,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="96"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:96</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:98</a></div>
                 </td>
             </tr>
 
@@ -445,8 +445,8 @@ The calculation and validation should be in backend facade layer.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:58</a></div>
                 </td>
             </tr>
 
@@ -488,8 +488,8 @@ The calculation and validation should be in backend facade layer.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:88</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:90</a></div>
                 </td>
             </tr>
 
@@ -570,8 +570,8 @@ The calculation and validation should be in backend facade layer.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="113"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:113</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:115</a></div>
                 </td>
             </tr>
 
@@ -640,8 +640,8 @@ The calculation and validation should be in backend facade layer.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:51</a></div>
                 </td>
             </tr>
 
@@ -679,8 +679,8 @@ The calculation and validation should be in backend facade layer.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:123</a></div>
                 </td>
             </tr>
 
@@ -720,8 +720,8 @@ The calculation and validation should be in backend facade layer.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order.service.ts:49</a></div>
                 </td>
             </tr>
 
@@ -818,7 +818,7 @@ import { AmendOrderType } from &#x27;./amend-order.model&#x27;;
 
 function ValidateQuantity(control: FormControl) {
   let q &#x3D; 0;
-  Object.keys(control.value).forEach(key &#x3D;&gt; (q +&#x3D; control.value[key]));
+  Object.keys(control.value).forEach((key) &#x3D;&gt; (q +&#x3D; control.value[key]));
 
   return q &gt; 0 ? null : { required: true };
 }
@@ -840,10 +840,12 @@ export abstract class OrderAmendService {
    */
   getAmendedEntries(): Observable&lt;OrderEntry[]&gt; {
     return this.getForm().pipe(
-      switchMap(form &#x3D;&gt; {
+      switchMap((form) &#x3D;&gt; {
         return this.getEntries().pipe(
-          map(entries &#x3D;&gt;
-            entries.filter(entry &#x3D;&gt; this.getFormControl(form, entry).value &gt; 0)
+          map((entries) &#x3D;&gt;
+            entries.filter(
+              (entry) &#x3D;&gt; this.getFormControl(form, entry).value &gt; 0
+            )
           )
         );
       })
@@ -864,7 +866,7 @@ export abstract class OrderAmendService {
    */
   getForm(): Observable&lt;FormGroup&gt; {
     return this.getOrder().pipe(
-      tap(order &#x3D;&gt; {
+      tap((order) &#x3D;&gt; {
         if (!this.form || this.form.get(&#x27;orderCode&#x27;).value !&#x3D;&#x3D; order.code) {
           this.buildForm(order);
         }
@@ -880,7 +882,7 @@ export abstract class OrderAmendService {
     const entryGroup &#x3D; new FormGroup({}, { validators: [ValidateQuantity] });
     this.form.addControl(&#x27;entries&#x27;, entryGroup);
 
-    (order.entries || []).forEach(entry &#x3D;&gt; {
+    (order.entries || []).forEach((entry) &#x3D;&gt; {
       const key &#x3D; entry.entryNumber.toString();
       entryGroup.addControl(
         key,

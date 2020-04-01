@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/global-message/http-interceptors/handlers/bad-request.handler.ts</code>
+            <code>projects/core/src/global-message/http-interceptors/handlers/bad-request/bad-request.handler.ts</code>
         </p>
 
 
@@ -100,7 +100,27 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getErrors">getErrors</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#handleBadCartRequest">handleBadCartRequest</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#handleBadLoginResponse">handleBadLoginResponse</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#handleBadPassword">handleBadPassword</a>
+                            </li>
+                            <li>
                                 <a href="#handleError">handleError</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#handleValidationError">handleValidationError</a>
                             </li>
                             <li>
                                     <span class="modifier">Abstract</span>
@@ -128,26 +148,268 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="handleError"></a>
+                    <a name="getErrors"></a>
                     <span class="name">
                         <b>
-                            handleError
+                            <span class="modifier">Protected</span>
+                            getErrors
                         </b>
-                        <a href="#handleError"><span class="icon ion-ios-link"></span></a>
+                        <a href="#getErrors"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>handleError(request: HttpRequest<any>, response: <a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank">HttpErrorResponse</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getErrors(response: <a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank">HttpErrorResponse</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/bad-request.handler.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/bad-request/bad-request.handler.ts:90</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>response</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank" >HttpErrorResponse</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ErrorModel[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleBadCartRequest"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            handleBadCartRequest
+                        </b>
+                        <a href="#handleBadCartRequest"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleBadCartRequest(_request: HttpRequest<any>, response: <a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank">HttpErrorResponse</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/bad-request/bad-request.handler.ts:76</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>_request</td>
+                                    <td>
+                                            <code>HttpRequest&lt;any&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>response</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank" >HttpErrorResponse</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleBadLoginResponse"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            handleBadLoginResponse
+                        </b>
+                        <a href="#handleBadLoginResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleBadLoginResponse(_request: HttpRequest<any>, response: <a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank">HttpErrorResponse</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/bad-request/bad-request.handler.ts:46</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>_request</td>
+                                    <td>
+                                            <code>HttpRequest&lt;any&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>response</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank" >HttpErrorResponse</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleBadPassword"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            handleBadPassword
+                        </b>
+                        <a href="#handleBadPassword"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleBadPassword(request: HttpRequest<any>, response: <a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank">HttpErrorResponse</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/bad-request/bad-request.handler.ts:23</a></div>
                 </td>
             </tr>
 
@@ -168,6 +430,172 @@
                             <tbody>
                                 <tr>
                                     <td>request</td>
+                                    <td>
+                                            <code>HttpRequest&lt;any&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>response</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank" >HttpErrorResponse</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleError"></a>
+                    <span class="name">
+                        <b>
+                            handleError
+                        </b>
+                        <a href="#handleError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleError(request: HttpRequest<any>, response: <a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank">HttpErrorResponse</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/bad-request/bad-request.handler.ts:16</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>request</td>
+                                    <td>
+                                            <code>HttpRequest&lt;any&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>response</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank" >HttpErrorResponse</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleValidationError"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            handleValidationError
+                        </b>
+                        <a href="#handleValidationError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleValidationError(_request: HttpRequest<any>, response: <a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank">HttpErrorResponse</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/bad-request/bad-request.handler.ts:60</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>_request</td>
                                     <td>
                                             <code>HttpRequest&lt;any&gt;</code>
                                     </td>
@@ -332,7 +760,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/bad-request.handler.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/bad-request/bad-request.handler.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -390,11 +818,10 @@ the handler can be found by the error interceptor.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpErrorResponse, HttpRequest } from &#x27;@angular/common/http&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
-import { GlobalMessageType } from &#x27;../../models/global-message.model&#x27;;
-import { HttpResponseStatus } from &#x27;../../models/response-status.model&#x27;;
-import { HttpErrorHandler } from &#x27;./http-error.handler&#x27;;
-import { ErrorModel } from &#x27;../../../model/misc.model&#x27;;
-import { Translatable } from &#x27;../../../i18n/translatable&#x27;;
+import { ErrorModel } from &#x27;../../../../model/misc.model&#x27;;
+import { GlobalMessageType } from &#x27;../../../models/global-message.model&#x27;;
+import { HttpResponseStatus } from &#x27;../../../models/response-status.model&#x27;;
+import { HttpErrorHandler } from &#x27;../http-error.handler&#x27;;
 
 const OAUTH_ENDPOINT &#x3D; &#x27;/authorizationserver/oauth/token&#x27;;
 
@@ -405,11 +832,20 @@ export class BadRequestHandler extends HttpErrorHandler {
   responseStatus &#x3D; HttpResponseStatus.BAD_REQUEST;
 
   handleError(request: HttpRequest&lt;any&gt;, response: HttpErrorResponse): void {
+    this.handleBadPassword(request, response);
+    this.handleBadLoginResponse(request, response);
+    this.handleBadCartRequest(request, response);
+    this.handleValidationError(request, response);
+  }
+
+  protected handleBadPassword(
+    request: HttpRequest&lt;any&gt;,
+    response: HttpErrorResponse
+  ): void {
     if (
-      response.url.includes(OAUTH_ENDPOINT) &amp;&amp;
-      response.error &amp;&amp;
-      response.error.error &#x3D;&#x3D;&#x3D; &#x27;invalid_grant&#x27; &amp;&amp;
-      request.body.get(&#x27;grant_type&#x27;) &#x3D;&#x3D;&#x3D; &#x27;password&#x27;
+      response.url?.includes(OAUTH_ENDPOINT) &amp;&amp;
+      response.error?.error &#x3D;&#x3D;&#x3D; &#x27;invalid_grant&#x27; &amp;&amp;
+      request.body?.get(&#x27;grant_type&#x27;) &#x3D;&#x3D;&#x3D; &#x27;password&#x27;
     ) {
       this.globalMessageService.add(
         {
@@ -422,46 +858,57 @@ export class BadRequestHandler extends HttpErrorHandler {
         GlobalMessageType.MSG_TYPE_ERROR
       );
       this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
-    } else {
-      if (
-        response.error &amp;&amp;
-        response.error.errors &amp;&amp;
-        response.error.errors instanceof Array
-      ) {
-        response.error.errors.forEach((error: ErrorModel) &#x3D;&gt; {
-          let errorMessage: Translatable;
-          if (error.type &#x3D;&#x3D;&#x3D; &#x27;PasswordMismatchError&#x27;) {
-            // uses en translation error message instead of backend exception error
-            // @todo: this condition could be removed if backend gives better message
-            errorMessage &#x3D; {
-              key: &#x27;httpHandlers.badRequestOldPasswordIncorrect&#x27;,
-            };
-          } else if (
-            error.subjectType &#x3D;&#x3D;&#x3D; &#x27;cart&#x27; &amp;&amp;
-            error.reason &#x3D;&#x3D;&#x3D; &#x27;notFound&#x27;
-          ) {
-            errorMessage &#x3D; { key: &#x27;httpHandlers.cartNotFound&#x27; };
-          } else if (error.type &#x3D;&#x3D;&#x3D; &#x27;ValidationError&#x27;) {
-            // build translation key in case of backend field validation error
-            errorMessage &#x3D; {
-              key: &#x60;httpHandlers.validationErrors.${error.reason}.${error.subject}&#x60;,
-            };
-          } else {
-            // this is currently showing up in case we have a page not found. It should be a 404.
-            // see https://jira.hybris.com/browse/CMSX-8516
-            errorMessage &#x3D; { raw: error.message || &#x27;&#x27; };
-          }
-          // @todo: remove this condition once backend is improved, see:
-          // https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/6679
-          if (error.type !&#x3D;&#x3D; &#x27;JaloObjectNoLongerValidError&#x27;) {
-            this.globalMessageService.add(
-              errorMessage,
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-          }
-        });
-      }
     }
+  }
+
+  protected handleBadLoginResponse(
+    _request: HttpRequest&lt;any&gt;,
+    response: HttpErrorResponse
+  ) {
+    this.getErrors(response)
+      .filter((error) &#x3D;&gt; error.type &#x3D;&#x3D;&#x3D; &#x27;PasswordMismatchError&#x27;)
+      .forEach(() &#x3D;&gt; {
+        this.globalMessageService.add(
+          { key: &#x27;httpHandlers.badRequestOldPasswordIncorrect&#x27; },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
+  protected handleValidationError(
+    _request: HttpRequest&lt;any&gt;,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter((e) &#x3D;&gt; e.type &#x3D;&#x3D;&#x3D; &#x27;ValidationError&#x27;)
+      .forEach((error) &#x3D;&gt; {
+        this.globalMessageService.add(
+          {
+            key: &#x60;httpHandlers.validationErrors.${error.reason}.${error.subject}&#x60;,
+          },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
+  protected handleBadCartRequest(
+    _request: HttpRequest&lt;any&gt;,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter((e) &#x3D;&gt; e.subjectType &#x3D;&#x3D;&#x3D; &#x27;cart&#x27; &amp;&amp; e.reason &#x3D;&#x3D;&#x3D; &#x27;notFound&#x27;)
+      .forEach(() &#x3D;&gt; {
+        this.globalMessageService.add(
+          { key: &#x27;httpHandlers.cartNotFound&#x27; },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
+  protected getErrors(response: HttpErrorResponse): ErrorModel[] {
+    return (response.error?.errors || []).filter(
+      (error) &#x3D;&gt; error.type !&#x3D;&#x3D; &#x27;JaloObjectNoLongerValidError&#x27;
+    );
   }
 }
 </code></pre>

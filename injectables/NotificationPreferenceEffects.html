@@ -183,13 +183,13 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.LOAD_NOTIFICATION_PREFERENCES),
     map((action: UserActions.LoadNotificationPreferences) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt;
+    switchMap((payload) &#x3D;&gt;
       this.connector.loadAll(payload).pipe(
         map(
-          preferences &#x3D;&gt;
+          (preferences) &#x3D;&gt;
             new UserActions.LoadNotificationPreferencesSuccess(preferences)
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.LoadNotificationPreferencesFail(
               makeErrorSerializable(error)
@@ -242,7 +242,7 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.UPDATE_NOTIFICATION_PREFERENCES),
     map((action: UserActions.UpdateNotificationPreferences) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt;
+    mergeMap((payload) &#x3D;&gt;
       this.connector.update(payload.userId, payload.preferences).pipe(
         map(
           () &#x3D;&gt;
@@ -250,7 +250,7 @@
               payload.preferences
             )
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.UpdateNotificationPreferencesFail(
               makeErrorSerializable(error)
@@ -302,13 +302,13 @@ export class NotificationPreferenceEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_NOTIFICATION_PREFERENCES),
     map((action: UserActions.LoadNotificationPreferences) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt;
+    switchMap((payload) &#x3D;&gt;
       this.connector.loadAll(payload).pipe(
         map(
-          preferences &#x3D;&gt;
+          (preferences) &#x3D;&gt;
             new UserActions.LoadNotificationPreferencesSuccess(preferences)
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.LoadNotificationPreferencesFail(
               makeErrorSerializable(error)
@@ -325,7 +325,7 @@ export class NotificationPreferenceEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.UPDATE_NOTIFICATION_PREFERENCES),
     map((action: UserActions.UpdateNotificationPreferences) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt;
+    mergeMap((payload) &#x3D;&gt;
       this.connector.update(payload.userId, payload.preferences).pipe(
         map(
           () &#x3D;&gt;
@@ -333,7 +333,7 @@ export class NotificationPreferenceEffects {
               payload.preferences
             )
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.UpdateNotificationPreferencesFail(
               makeErrorSerializable(error)

@@ -366,7 +366,7 @@ export class CxDatePipe extends DatePipe implements PipeTransform {
     let result;
     this.language
       .getActive()
-      .subscribe(lang &#x3D;&gt; (result &#x3D; lang))
+      .subscribe((lang) &#x3D;&gt; (result &#x3D; lang))
       .unsubscribe();
     return result;
   }

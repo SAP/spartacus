@@ -22,73 +22,61 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_ProductAttributesModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="29,-70 29,-268 467,-268 467,-70 29,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="87,-70 87,-268 409,-268 409,-70 87,-70"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_ProductAttributesModule_declarations</title>
-<polygon fill="none" stroke="#000000" points="263,-78 263,-130 459,-130 459,-78 263,-78"/>
+<polygon fill="none" stroke="#000000" points="205,-78 205,-130 401,-130 401,-78 205,-78"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_ProductAttributesModule_imports</title>
-<polygon fill="none" stroke="#000000" points="37,-78 37,-130 255,-130 255,-78 37,-78"/>
+<polygon fill="none" stroke="#000000" points="95,-78 95,-130 197,-130 197,-78 95,-78"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_ProductAttributesModule_exports</title>
-<polygon fill="none" stroke="#000000" points="98,-208 98,-260 298,-260 298,-208 98,-208"/>
+<polygon fill="none" stroke="#000000" points="148,-208 148,-260 348,-260 348,-208 148,-208"/>
 </g>
 <!-- ProductAttributesComponent -->
 <g id="node1" class="node">
 <title>ProductAttributesComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="451.3696,-122 270.6304,-122 270.6304,-86 451.3696,-86 451.3696,-122"/>
-<text text-anchor="middle" x="361" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductAttributesComponent</text>
+<polygon fill="#ffffb3" stroke="#000000" points="393.3696,-122 212.6304,-122 212.6304,-86 393.3696,-86 393.3696,-122"/>
+<text text-anchor="middle" x="303" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductAttributesComponent</text>
 </g>
 <!-- ProductAttributesModule -->
 <g id="node2" class="node">
 <title>ProductAttributesModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="277.587,-187 274.587,-191 253.587,-191 250.587,-187 118.413,-187 118.413,-151 277.587,-151 277.587,-187"/>
-<text text-anchor="middle" x="198" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductAttributesModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="327.587,-187 324.587,-191 303.587,-191 300.587,-187 168.413,-187 168.413,-151 327.587,-151 327.587,-187"/>
+<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductAttributesModule</text>
 </g>
 <!-- ProductAttributesComponent&#45;&gt;ProductAttributesModule -->
 <g id="edge1" class="edge">
 <title>ProductAttributesComponent&#45;&gt;ProductAttributesModule</title>
-<path fill="none" stroke="#000000" d="M283.8642,-122.1061C283.8642,-141.3391 283.8642,-169 283.8642,-169 283.8642,-169 283.2466,-169 283.2466,-169"/>
-<polygon fill="#000000" stroke="#000000" points="287.6891,-165.5002 277.689,-169 287.6889,-172.5002 287.6891,-165.5002"/>
+<path fill="none" stroke="#000000" d="M270.0544,-122.1061C270.0544,-122.1061 270.0544,-140.991 270.0544,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="266.5544,-140.9909 270.0544,-150.991 273.5544,-140.991 266.5544,-140.9909"/>
 </g>
 <!-- ProductAttributesComponent  -->
-<g id="node5" class="node">
+<g id="node4" class="node">
 <title>ProductAttributesComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="290.37,-252 105.63,-252 105.63,-216 290.37,-216 290.37,-252"/>
-<text text-anchor="middle" x="198" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductAttributesComponent </text>
+<polygon fill="#fb8072" stroke="#000000" points="340.37,-252 155.63,-252 155.63,-216 340.37,-216 340.37,-252"/>
+<text text-anchor="middle" x="248" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ProductAttributesComponent </text>
 </g>
 <!-- ProductAttributesModule&#45;&gt;ProductAttributesComponent  -->
-<g id="edge4" class="edge">
+<g id="edge3" class="edge">
 <title>ProductAttributesModule&#45;&gt;ProductAttributesComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M198,-187.1061C198,-187.1061 198,-205.991 198,-205.991"/>
-<polygon fill="#000000" stroke="#000000" points="194.5001,-205.9909 198,-215.991 201.5001,-205.991 194.5001,-205.9909"/>
-</g>
-<!-- ConfigModule -->
-<g id="node3" class="node">
-<title>ConfigModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="247.4386,-122 244.4386,-126 223.4386,-126 220.4386,-122 148.5614,-122 148.5614,-86 247.4386,-86 247.4386,-122"/>
-<text text-anchor="middle" x="198" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ConfigModule</text>
-</g>
-<!-- ConfigModule&#45;&gt;ProductAttributesModule -->
-<g id="edge2" class="edge">
-<title>ConfigModule&#45;&gt;ProductAttributesModule</title>
-<path fill="none" stroke="#000000" d="M198,-122.1061C198,-122.1061 198,-140.991 198,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="194.5001,-140.9909 198,-150.991 201.5001,-140.991 194.5001,-140.9909"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M248,-187.1061C248,-187.1061 248,-205.991 248,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-205.9909 248,-215.991 251.5001,-205.991 244.5001,-205.9909"/>
 </g>
 <!-- I18nModule -->
-<g id="node4" class="node">
+<g id="node3" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="130.7107,-122 127.7107,-126 106.7107,-126 103.7107,-122 45.2893,-122 45.2893,-86 130.7107,-86 130.7107,-122"/>
-<text text-anchor="middle" x="88" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="188.7107,-122 185.7107,-126 164.7107,-126 161.7107,-122 103.2893,-122 103.2893,-86 188.7107,-86 188.7107,-122"/>
+<text text-anchor="middle" x="146" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;ProductAttributesModule -->
-<g id="edge3" class="edge">
+<g id="edge2" class="edge">
 <title>I18nModule&#45;&gt;ProductAttributesModule</title>
-<path fill="none" stroke="#000000" d="M124.5309,-122.1061C124.5309,-122.1061 124.5309,-140.991 124.5309,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="121.0309,-140.9909 124.5309,-150.991 128.0309,-140.991 121.0309,-140.9909"/>
+<path fill="none" stroke="#000000" d="M178.5308,-122.1061C178.5308,-122.1061 178.5308,-140.991 178.5308,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="175.0309,-140.9909 178.5308,-150.991 182.0309,-140.991 175.0309,-140.9909"/>
 </g>
 </g>
 </svg>

@@ -196,8 +196,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-consent.adapter.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-consent.adapter.ts:32</a></div>
                 </td>
             </tr>
 
@@ -360,8 +360,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-consent.adapter.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-consent.adapter.ts:53</a></div>
                 </td>
             </tr>
 
@@ -448,11 +448,13 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
   loadConsents(userId: string): Observable&lt;ConsentTemplate[]&gt; {
     const url &#x3D; this.occEndpoints.getUrl(&#x27;consentTemplates&#x27;, { userId });
     const headers &#x3D; new HttpHeaders({ &#x27;Cache-Control&#x27;: &#x27;no-cache&#x27; });
-    return this.http.get&lt;Occ.ConsentTemplateList&gt;(url, { headers }).pipe(
-      catchError((error: any) &#x3D;&gt; throwError(error)),
-      map(consentList &#x3D;&gt; consentList.consentTemplates),
-      this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
-    );
+    return this.http
+      .get&lt;Occ.ConsentTemplateList&gt;(url, { headers })
+      .pipe(
+        catchError((error: any) &#x3D;&gt; throwError(error)),
+        map((consentList) &#x3D;&gt; consentList.consentTemplates),
+        this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
+      );
   }
 
   giveConsent(
@@ -471,7 +473,7 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
     return this.http
       .post&lt;Occ.ConsentTemplate&gt;(url, httpParams, { headers })
       .pipe(
-        catchError(error &#x3D;&gt; throwError(error)),
+        catchError((error) &#x3D;&gt; throwError(error)),
         this.converter.pipeable(CONSENT_TEMPLATE_NORMALIZER)
       );
   }

@@ -102,7 +102,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cartService: <a href="../injectables/CartService.html">CartService</a>, consentService: <a href="../injectables/ConsentService.html">ConsentService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, config: <a href="../classes/CdsConfig.html">CdsConfig</a>)</code>
+<code>constructor(consentService: <a href="../injectables/ConsentService.html">ConsentService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, config: <a href="../classes/CdsConfig.html">CdsConfig</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -124,18 +124,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                <tr>
-                                                        <td>cartService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/CartService.html" target="_self" >CartService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
                                                 <tr>
                                                         <td>consentService</td>
                                                   
@@ -165,6 +153,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../classes/CdsConfig.html" target="_self" >CdsConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>activeCartService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -315,7 +315,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { NavigationEnd, Router } from &#x27;@angular/router&#x27;;
-import { Cart, CartService, ConsentService } from &#x27;@spartacus/core&#x27;;
+import { ActiveCartService, Cart, ConsentService } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { filter, map, mapTo, skipWhile, take } from &#x27;rxjs/operators&#x27;;
 import { CdsConfig } from &#x27;../../config/cds-config&#x27;;
@@ -325,15 +325,15 @@ import { CdsConfig } from &#x27;../../config/cds-config&#x27;;
 })
 export class SpartacusEventService {
   constructor(
-    private cartService: CartService,
-    private consentService: ConsentService,
-    private router: Router,
-    private config: CdsConfig
+    protected consentService: ConsentService,
+    protected router: Router,
+    protected config: CdsConfig,
+    protected activeCartService: ActiveCartService
   ) {}
 
   navigated(): Observable&lt;boolean&gt; {
     return this.router.events.pipe(
-      filter(event &#x3D;&gt; event instanceof NavigationEnd),
+      filter((event) &#x3D;&gt; event instanceof NavigationEnd),
       mapTo(true)
     );
   }
@@ -346,7 +346,7 @@ export class SpartacusEventService {
       .getConsent(this.config.cds.consentTemplateId)
       .pipe(
         filter(Boolean),
-        filter(profileConsent &#x3D;&gt; {
+        filter((profileConsent) &#x3D;&gt; {
           return this.consentService.isConsentGiven(profileConsent);
         }),
         mapTo(true),
@@ -358,9 +358,9 @@ export class SpartacusEventService {
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
   cartChanged(): Observable&lt;{ cart: Cart }&gt; {
-    return this.cartService.getActive().pipe(
-      skipWhile(cart &#x3D;&gt; !Boolean(cart.entries) || cart.entries.length &#x3D;&#x3D;&#x3D; 0),
-      map(cart &#x3D;&gt; ({
+    return this.activeCartService.getActive().pipe(
+      skipWhile((cart) &#x3D;&gt; !Boolean(cart.entries) || cart.entries.length &#x3D;&#x3D;&#x3D; 0),
+      map((cart) &#x3D;&gt; ({
         cart,
       }))
     );

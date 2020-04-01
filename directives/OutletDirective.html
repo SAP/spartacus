@@ -978,7 +978,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
       templates &#x3D; [templates];
     }
 
-    templates.forEach(obj &#x3D;&gt; {
+    templates.forEach((obj) &#x3D;&gt; {
       this.create(obj);
     });
   }

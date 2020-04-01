@@ -232,8 +232,8 @@ using the <code>JSONLD_PRODUCT_BUILDER</code> token.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/builders/product/product-schema.builder.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/structured-data/builders/product/product-schema.builder.ts:38</a></div>
                 </td>
             </tr>
 
@@ -289,7 +289,7 @@ using the <code>JSONLD_PRODUCT_BUILDER</code> token.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, Optional } from &#x27;@angular/core&#x27;;
 import { Product } from &#x27;@spartacus/core&#x27;;
 import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
-import { map, startWith, switchMap } from &#x27;rxjs/operators&#x27;;
+import { map, switchMap } from &#x27;rxjs/operators&#x27;;
 import { CurrentProductService } from &#x27;../../../../../cms-components/product/current-product.service&#x27;;
 import { JsonLdBuilder, SchemaBuilder } from &#x27;../schema.interface&#x27;;
 import { JSONLD_PRODUCT_BUILDER } from &#x27;../tokens&#x27;;
@@ -312,7 +312,6 @@ export class ProductSchemaBuilder implements SchemaBuilder {
 
   build(): Observable&lt;any&gt; {
     return this.currentProduct.getProduct().pipe(
-      startWith(null as Product),
       switchMap((product: Product) &#x3D;&gt; {
         if (product) {
           return combineLatest(this.collect(product)).pipe(
@@ -329,7 +328,7 @@ export class ProductSchemaBuilder implements SchemaBuilder {
       return [];
     }
     const builders &#x3D; this.builders
-      ? this.builders.map(builder &#x3D;&gt; builder.build(product))
+      ? this.builders.map((builder) &#x3D;&gt; builder.build(product))
       : [];
     return [
       of({

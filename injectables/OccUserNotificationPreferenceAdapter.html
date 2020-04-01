@@ -367,7 +367,7 @@ export class OccUserNotificationPreferenceAdapter
         }
       )
       .pipe(
-        map(list &#x3D;&gt; list.preferences),
+        map((list) &#x3D;&gt; list.preferences),
         this.converter.pipeableMany(NOTIFICATION_PREFERENCE_NORMALIZER),
         catchError((error: any) &#x3D;&gt; throwError(error))
       );

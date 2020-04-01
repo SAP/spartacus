@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">projects/core/src/cms/store/effects/page.effect.ts:95</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">projects/core/src/cms/store/effects/page.effect.ts:97</a></div>
                             </td>
                         </tr>
 
@@ -195,16 +195,18 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(CmsActions.LOAD_CMS_PAGE_DATA),
     map((action: CmsActions.LoadCmsPageData) &#x3D;&gt; action.payload),
-    groupBy(pageContext &#x3D;&gt; serializePageContext(pageContext)),
-    mergeMap(group &#x3D;&gt;
+    groupBy((pageContext) &#x3D;&gt; serializePageContext(pageContext)),
+    mergeMap((group) &#x3D;&gt;
       group.pipe(
-        switchMap(pageContext &#x3D;&gt;
+        switchMap((pageContext) &#x3D;&gt;
           this.cmsPageConnector.get(pageContext).pipe(
             mergeMap((cmsStructure: CmsStructureModel) &#x3D;&gt; {
               const actions: Action[] &#x3D; [
                 new CmsActions.CmsGetComponentFromPage(
-                  cmsStructure.components,
-                  pageContext
+                  cmsStructure.components.map((component) &#x3D;&gt; ({
+                    component,
+                    pageContext,
+                  }))
                 ),
                 new CmsActions.LoadCmsPageDataSuccess(
                   pageContext,
@@ -226,7 +228,7 @@
 
               return actions;
             }),
-            catchError(error &#x3D;&gt;
+            catchError((error) &#x3D;&gt;
               of(
                 new CmsActions.LoadCmsPageDataFail(
                   pageContext,
@@ -285,18 +287,18 @@
       AuthActions.LOGOUT,
       AuthActions.LOGIN
     ),
-    switchMap(_ &#x3D;&gt;
+    switchMap(() &#x3D;&gt;
       this.routingService.getRouterState().pipe(
         filter(
-          routerState &#x3D;&gt;
+          (routerState) &#x3D;&gt;
             routerState &amp;&amp;
             routerState.state &amp;&amp;
             routerState.state.cmsRequired &amp;&amp;
             !routerState.nextState
         ),
         take(1),
-        map(routerState &#x3D;&gt; routerState.state.context),
-        mergeMap(context &#x3D;&gt; of(new CmsActions.LoadCmsPageData(context)))
+        map((routerState) &#x3D;&gt; routerState.state.context),
+        mergeMap((context) &#x3D;&gt; of(new CmsActions.LoadCmsPageData(context)))
       )
     )
   )</code>
@@ -357,18 +359,18 @@ export class PageEffects {
       AuthActions.LOGOUT,
       AuthActions.LOGIN
     ),
-    switchMap(_ &#x3D;&gt;
+    switchMap(() &#x3D;&gt;
       this.routingService.getRouterState().pipe(
         filter(
-          routerState &#x3D;&gt;
+          (routerState) &#x3D;&gt;
             routerState &amp;&amp;
             routerState.state &amp;&amp;
             routerState.state.cmsRequired &amp;&amp;
             !routerState.nextState
         ),
         take(1),
-        map(routerState &#x3D;&gt; routerState.state.context),
-        mergeMap(context &#x3D;&gt; of(new CmsActions.LoadCmsPageData(context)))
+        map((routerState) &#x3D;&gt; routerState.state.context),
+        mergeMap((context) &#x3D;&gt; of(new CmsActions.LoadCmsPageData(context)))
       )
     )
   );
@@ -377,16 +379,18 @@ export class PageEffects {
   loadPageData$: Observable&lt;Action&gt; &#x3D; this.actions$.pipe(
     ofType(CmsActions.LOAD_CMS_PAGE_DATA),
     map((action: CmsActions.LoadCmsPageData) &#x3D;&gt; action.payload),
-    groupBy(pageContext &#x3D;&gt; serializePageContext(pageContext)),
-    mergeMap(group &#x3D;&gt;
+    groupBy((pageContext) &#x3D;&gt; serializePageContext(pageContext)),
+    mergeMap((group) &#x3D;&gt;
       group.pipe(
-        switchMap(pageContext &#x3D;&gt;
+        switchMap((pageContext) &#x3D;&gt;
           this.cmsPageConnector.get(pageContext).pipe(
             mergeMap((cmsStructure: CmsStructureModel) &#x3D;&gt; {
               const actions: Action[] &#x3D; [
                 new CmsActions.CmsGetComponentFromPage(
-                  cmsStructure.components,
-                  pageContext
+                  cmsStructure.components.map((component) &#x3D;&gt; ({
+                    component,
+                    pageContext,
+                  }))
                 ),
                 new CmsActions.LoadCmsPageDataSuccess(
                   pageContext,
@@ -408,7 +412,7 @@ export class PageEffects {
 
               return actions;
             }),
-            catchError(error &#x3D;&gt;
+            catchError((error) &#x3D;&gt;
               of(
                 new CmsActions.LoadCmsPageDataFail(
                   pageContext,

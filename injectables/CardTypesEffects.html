@@ -181,8 +181,8 @@
     ofType(CheckoutActions.LOAD_CARD_TYPES),
     switchMap(() &#x3D;&gt; {
       return this.checkoutPaymentConnector.getCardTypes().pipe(
-        map(cardTypes &#x3D;&gt; new CheckoutActions.LoadCardTypesSuccess(cardTypes)),
-        catchError(error &#x3D;&gt;
+        map((cardTypes) &#x3D;&gt; new CheckoutActions.LoadCardTypesSuccess(cardTypes)),
+        catchError((error) &#x3D;&gt;
           of(
             new CheckoutActions.LoadCardTypesFail(makeErrorSerializable(error))
           )
@@ -233,8 +233,8 @@ export class CardTypesEffects {
     ofType(CheckoutActions.LOAD_CARD_TYPES),
     switchMap(() &#x3D;&gt; {
       return this.checkoutPaymentConnector.getCardTypes().pipe(
-        map(cardTypes &#x3D;&gt; new CheckoutActions.LoadCardTypesSuccess(cardTypes)),
-        catchError(error &#x3D;&gt;
+        map((cardTypes) &#x3D;&gt; new CheckoutActions.LoadCardTypesSuccess(cardTypes)),
+        catchError((error) &#x3D;&gt;
           of(
             new CheckoutActions.LoadCardTypesFail(makeErrorSerializable(error))
           )

@@ -191,16 +191,16 @@
     map(
       (action: fromCustomerCouponsAction.ClaimCustomerCoupon) &#x3D;&gt; action.payload
     ),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.customerCouponConnector
         .claimCustomerCoupon(payload.userId, payload.couponCode)
         .pipe(
-          map(data &#x3D;&gt; {
+          map((data) &#x3D;&gt; {
             return new fromCustomerCouponsAction.ClaimCustomerCouponSuccess(
               data
             );
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new fromCustomerCouponsAction.ClaimCustomerCouponFail(
                 makeErrorSerializable(error)
@@ -255,7 +255,7 @@
     map(
       (action: fromCustomerCouponsAction.LoadCustomerCoupons) &#x3D;&gt; action.payload
     ),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.customerCouponConnector
         .getCustomerCoupons(
           payload.userId,
@@ -269,7 +269,7 @@
               coupons
             );
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new fromCustomerCouponsAction.LoadCustomerCouponsFail(
                 makeErrorSerializable(error)
@@ -325,7 +325,7 @@
       (action: fromCustomerCouponsAction.SubscribeCustomerCoupon) &#x3D;&gt;
         action.payload
     ),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.customerCouponConnector
         .turnOnNotification(payload.userId, payload.couponCode)
         .pipe(
@@ -334,7 +334,7 @@
               data
             );
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
                 makeErrorSerializable(error)
@@ -390,7 +390,7 @@
       (action: fromCustomerCouponsAction.UnsubscribeCustomerCoupon) &#x3D;&gt;
         action.payload
     ),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.customerCouponConnector
         .turnOffNotification(payload.userId, payload.couponCode)
         .pipe(
@@ -399,7 +399,7 @@
               payload.couponCode
             );
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
                 makeErrorSerializable(error)
@@ -454,7 +454,7 @@ export class CustomerCouponEffects {
     map(
       (action: fromCustomerCouponsAction.LoadCustomerCoupons) &#x3D;&gt; action.payload
     ),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.customerCouponConnector
         .getCustomerCoupons(
           payload.userId,
@@ -468,7 +468,7 @@ export class CustomerCouponEffects {
               coupons
             );
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new fromCustomerCouponsAction.LoadCustomerCouponsFail(
                 makeErrorSerializable(error)
@@ -488,7 +488,7 @@ export class CustomerCouponEffects {
       (action: fromCustomerCouponsAction.SubscribeCustomerCoupon) &#x3D;&gt;
         action.payload
     ),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.customerCouponConnector
         .turnOnNotification(payload.userId, payload.couponCode)
         .pipe(
@@ -497,7 +497,7 @@ export class CustomerCouponEffects {
               data
             );
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
                 makeErrorSerializable(error)
@@ -517,7 +517,7 @@ export class CustomerCouponEffects {
       (action: fromCustomerCouponsAction.UnsubscribeCustomerCoupon) &#x3D;&gt;
         action.payload
     ),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.customerCouponConnector
         .turnOffNotification(payload.userId, payload.couponCode)
         .pipe(
@@ -526,7 +526,7 @@ export class CustomerCouponEffects {
               payload.couponCode
             );
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
                 makeErrorSerializable(error)
@@ -545,16 +545,16 @@ export class CustomerCouponEffects {
     map(
       (action: fromCustomerCouponsAction.ClaimCustomerCoupon) &#x3D;&gt; action.payload
     ),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.customerCouponConnector
         .claimCustomerCoupon(payload.userId, payload.couponCode)
         .pipe(
-          map(data &#x3D;&gt; {
+          map((data) &#x3D;&gt; {
             return new fromCustomerCouponsAction.ClaimCustomerCouponSuccess(
               data
             );
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new fromCustomerCouponsAction.ClaimCustomerCouponFail(
                 makeErrorSerializable(error)

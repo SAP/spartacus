@@ -301,8 +301,8 @@ no longer emited upon next search.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="191"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:191</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="192"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:192</a></div>
                 </td>
             </tr>
 
@@ -895,8 +895,8 @@ rules can be applied.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="184"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:184</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts:185</a></div>
                 </td>
             </tr>
 
@@ -1227,7 +1227,7 @@ export class SearchBoxComponentService {
           message,
         };
       }),
-      tap(results &#x3D;&gt;
+      tap((results) &#x3D;&gt;
         this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, this.hasResults(results))
       )
     );
@@ -1283,11 +1283,11 @@ export class SearchBoxComponentService {
       return of([]);
     } else {
       return this.searchService.getSuggestionResults().pipe(
-        map(res &#x3D;&gt; res.map(suggestion &#x3D;&gt; suggestion.value)),
-        switchMap(suggestions &#x3D;&gt; {
+        map((res) &#x3D;&gt; res.map((suggestion) &#x3D;&gt; suggestion.value)),
+        switchMap((suggestions) &#x3D;&gt; {
           if (suggestions.length &#x3D;&#x3D;&#x3D; 0) {
             return this.getExactSuggestion(config).pipe(
-              map(match &#x3D;&gt; (match ? [match] : []))
+              map((match) &#x3D;&gt; (match ? [match] : []))
             );
           } else {
             return of(suggestions);
@@ -1303,7 +1303,7 @@ export class SearchBoxComponentService {
    */
   private getExactSuggestion(config: SearchBoxConfig): Observable&lt;string&gt; {
     return this.getProductResults(config).pipe(
-      switchMap(productResult &#x3D;&gt; {
+      switchMap((productResult) &#x3D;&gt; {
         return productResult.products &amp;&amp; productResult.products.length &gt; 0
           ? this.fetchTranslation(&#x27;searchBox.help.exactMatch&#x27;, {
               term: productResult.freeTextSearch,
@@ -1323,7 +1323,8 @@ export class SearchBoxComponentService {
           productResult &amp;&amp;
           productResult.products &amp;&amp;
           productResult.products.length &#x3D;&#x3D;&#x3D; 0 &amp;&amp;
-          (suggestions &amp;&amp; suggestions.length &#x3D;&#x3D;&#x3D; 0)
+          suggestions &amp;&amp;
+          suggestions.length &#x3D;&#x3D;&#x3D; 0
         ) {
           return this.fetchTranslation(&#x27;searchBox.help.noMatch&#x27;);
         } else {

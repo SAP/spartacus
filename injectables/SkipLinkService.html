@@ -124,12 +124,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../classes/SkipLinkConfig.html">SkipLinkConfig</a>)</code>
+<code>constructor(config: <a href="../classes/SkipLinkConfig.html">SkipLinkConfig</a>, keyboardFocusService: <a href="../injectables/KeyboardFocusService.html">KeyboardFocusService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/service/skip-link.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/service/skip-link.service.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -151,6 +151,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../classes/SkipLinkConfig.html" target="_self" >SkipLinkConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>keyboardFocusService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/KeyboardFocusService.html" target="_self" >KeyboardFocusService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -278,8 +290,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/service/skip-link.service.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/service/skip-link.service.ts:74</a></div>
                 </td>
             </tr>
 
@@ -450,7 +462,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>scrollToTarget(target: HTMLElement, position: <a href="../classes/SkipLink.html">SkipLinkScrollPosition</a>, event: MouseEvent)</code>
+<code>scrollToTarget(skipLink: <a href="../classes/SkipLink.html">SkipLink</a>)</code>
                 </td>
             </tr>
 
@@ -478,33 +490,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>target</td>
+                                    <td>skipLink</td>
                                     <td>
-                                            <code>HTMLElement</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>position</td>
-                                    <td>
-                                                <code><a href="../classes/SkipLink.html" target="_self" >SkipLinkScrollPosition</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>event</td>
-                                    <td>
-                                            <code>MouseEvent</code>
+                                                <code><a href="../classes/SkipLink.html" target="_self" >SkipLink</a></code>
                                     </td>
 
                                     <td>
@@ -555,7 +543,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/service/skip-link.service.ts:13</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/service/skip-link.service.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -570,11 +558,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { BehaviorSubject, Observable } from &#x27;rxjs&#x27;;
-import {
-  SkipLink,
-  SkipLinkConfig,
-  SkipLinkScrollPosition,
-} from &#x27;../config/skip-link.config&#x27;;
+import { KeyboardFocusService } from &#x27;../../keyboard-focus&#x27;;
+import { SkipLink, SkipLinkConfig } from &#x27;../config/skip-link.config&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -582,7 +567,10 @@ import {
 export class SkipLinkService {
   private skipLinks$ &#x3D; new BehaviorSubject&lt;SkipLink[]&gt;([]);
 
-  constructor(protected config: SkipLinkConfig) {}
+  constructor(
+    protected config: SkipLinkConfig,
+    protected keyboardFocusService: KeyboardFocusService
+  ) {}
 
   getSkipLinks(): Observable&lt;SkipLink[]&gt; {
     return this.skipLinks$;
@@ -590,16 +578,16 @@ export class SkipLinkService {
 
   add(key: string, target: HTMLElement): void {
     const found: SkipLink &#x3D; this.config.skipLinks.find(
-      skipLink &#x3D;&gt; skipLink.key &#x3D;&#x3D;&#x3D; key
+      (skipLink) &#x3D;&gt; skipLink.key &#x3D;&#x3D;&#x3D; key
     );
 
     if (found) {
       const existing: SkipLink[] &#x3D; this.skipLinks$.value;
       existing.splice(this.getSkipLinkIndexInArray(key), 0, {
-        target: target,
+        target,
         i18nKey: found.i18nKey,
         position: found.position,
-        key: key,
+        key,
       });
       this.skipLinks$.next(existing);
     }
@@ -607,32 +595,43 @@ export class SkipLinkService {
 
   remove(key: string): void {
     const found: SkipLink &#x3D; this.config.skipLinks.find(
-      skipLink &#x3D;&gt; skipLink.key &#x3D;&#x3D;&#x3D; key
+      (skipLink) &#x3D;&gt; skipLink.key &#x3D;&#x3D;&#x3D; key
     );
 
     if (found) {
       let existing: SkipLink[] &#x3D; this.skipLinks$.value;
-      existing &#x3D; existing.filter(skipLink &#x3D;&gt; skipLink.key !&#x3D;&#x3D; key);
+      existing &#x3D; existing.filter((skipLink) &#x3D;&gt; skipLink.key !&#x3D;&#x3D; key);
       this.skipLinks$.next(existing);
     }
   }
 
-  scrollToTarget(
-    target: HTMLElement,
-    position: SkipLinkScrollPosition,
-    event: MouseEvent
-  ): void {
-    target &#x3D; &lt;HTMLElement&gt;target.parentNode;
-    (&lt;HTMLElement&gt;event.target).blur();
-    const options: ScrollIntoViewOptions &#x3D;
-      position &#x3D;&#x3D;&#x3D; SkipLinkScrollPosition.AFTER ? { inline: &#x27;end&#x27; } : {};
+  scrollToTarget(skipLink: SkipLink): void {
+    const target &#x3D;
+      skipLink.target instanceof HTMLElement
+        ? skipLink.target
+        : (skipLink.target as Element).parentElement;
 
-    target.scrollIntoView(options);
+    // focus first focusable element in the
+    const firstFocusable &#x3D;
+      this.keyboardFocusService.findFirstFocusable(target) || target;
+
+    // we force a tabindex if not available, to ensure we can focus into the element
+    const hasTabindex &#x3D; firstFocusable.hasAttribute(&#x27;tabindex&#x27;);
+    if (!hasTabindex) {
+      firstFocusable.setAttribute(&#x27;tabindex&#x27;, &#x27;-1&#x27;);
+    }
+
+    firstFocusable.focus();
+
+    // drop the tmp tabindex
+    if (!hasTabindex) {
+      firstFocusable.removeAttribute(&#x27;tabindex&#x27;);
+    }
   }
 
   protected getSkipLinkIndexInArray(key: string): number {
     let index: number &#x3D; this.config.skipLinks.findIndex(
-      skipLink &#x3D;&gt; skipLink.key &#x3D;&#x3D;&#x3D; key
+      (skipLink) &#x3D;&gt; skipLink.key &#x3D;&#x3D;&#x3D; key
     );
 
     while (index &gt; 0) {
@@ -641,7 +640,7 @@ export class SkipLinkService {
       if (previous) {
         const existing: SkipLink[] &#x3D; this.skipLinks$.value;
         const found: number &#x3D; existing.findIndex(
-          skipLink &#x3D;&gt; skipLink.key &#x3D;&#x3D;&#x3D; previous.key
+          (skipLink) &#x3D;&gt; skipLink.key &#x3D;&#x3D;&#x3D; previous.key
         );
         if (found &gt; -1) {
           return found + 1;

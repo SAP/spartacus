@@ -329,7 +329,7 @@ export class ProductConnector {
 
   getMany(products: ScopedProductData[]): ScopedProductData[] {
     if (!this.adapter.loadMany) {
-      return products.map(product &#x3D;&gt; ({
+      return products.map((product) &#x3D;&gt; ({
         ...product,
         data$: this.adapter.load(product.code, product.scope),
       }));

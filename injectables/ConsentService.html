@@ -754,7 +754,7 @@ export class ConsentService {
    */
   checkConsentGivenByTemplateId(templateId: string): Observable&lt;boolean&gt; {
     return this.getConsent(templateId).pipe(
-      map(consent &#x3D;&gt; {
+      map((consent) &#x3D;&gt; {
         if (!consent) {
           return false;
         }
@@ -775,7 +775,7 @@ export class ConsentService {
    */
   checkConsentWithdrawnByTemplateId(templateId: string): Observable&lt;boolean&gt; {
     return this.getConsent(templateId).pipe(
-      map(consent &#x3D;&gt; {
+      map((consent) &#x3D;&gt; {
         if (!consent) {
           return true;
         }

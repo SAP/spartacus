@@ -194,12 +194,12 @@ export class GlobService {
       regex: new RegExp(regex),
     }));
 
-    const includePatterns &#x3D; processedPatterns.filter(spec &#x3D;&gt; spec.positive);
-    const excludePatterns &#x3D; processedPatterns.filter(spec &#x3D;&gt; !spec.positive);
+    const includePatterns &#x3D; processedPatterns.filter((spec) &#x3D;&gt; spec.positive);
+    const excludePatterns &#x3D; processedPatterns.filter((spec) &#x3D;&gt; !spec.positive);
 
     return (url: string) &#x3D;&gt;
-      includePatterns.some(pattern &#x3D;&gt; pattern.regex.test(url)) &amp;&amp;
-      !excludePatterns.some(pattern &#x3D;&gt; pattern.regex.test(url));
+      includePatterns.some((pattern) &#x3D;&gt; pattern.regex.test(url)) &amp;&amp;
+      !excludePatterns.some((pattern) &#x3D;&gt; pattern.regex.test(url));
   }
 }
 </code></pre>

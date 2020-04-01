@@ -290,7 +290,7 @@ export class MockTranslationService implements TranslationService {
     options: any &#x3D; {},
     _whitespaceUntilLoaded: boolean &#x3D; false
   ): Observable&lt;string&gt; {
-    return new Observable&lt;string&gt;(subscriber &#x3D;&gt; {
+    return new Observable&lt;string&gt;((subscriber) &#x3D;&gt; {
       const value &#x3D; mockTranslate(key, options);
       subscriber.next(value);
       subscriber.complete();

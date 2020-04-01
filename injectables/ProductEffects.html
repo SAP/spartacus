@@ -318,7 +318,7 @@
         // we are grouping all load actions that happens at the same time
         // to optimize loading and pass them all to productConnector.getMany
         bufferDebounceTime(debounce, scheduler),
-        mergeMap(products &#x3D;&gt;
+        mergeMap((products) &#x3D;&gt;
           merge(
             ...this.productConnector
               .getMany(products)
@@ -381,7 +381,7 @@ export class ProductEffects {
         // we are grouping all load actions that happens at the same time
         // to optimize loading and pass them all to productConnector.getMany
         bufferDebounceTime(debounce, scheduler),
-        mergeMap(products &#x3D;&gt;
+        mergeMap((products) &#x3D;&gt;
           merge(
             ...this.productConnector
               .getMany(products)
@@ -399,13 +399,13 @@ export class ProductEffects {
   &gt; {
     return productLoad.data$.pipe(
       map(
-        data &#x3D;&gt;
+        (data) &#x3D;&gt;
           new ProductActions.LoadProductSuccess(
             { code: productLoad.code, ...data },
             productLoad.scope
           )
       ),
-      catchError(error &#x3D;&gt; {
+      catchError((error) &#x3D;&gt; {
         return of(
           new ProductActions.LoadProductFail(
             productLoad.code,

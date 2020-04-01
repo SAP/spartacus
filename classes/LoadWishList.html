@@ -234,7 +234,7 @@ import {
   EntitySuccessAction,
 } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
 import { getCartIdByUserId } from &#x27;../../utils/utils&#x27;;
-import { MULTI_CART_FEATURE } from &#x27;../multi-cart-state&#x27;;
+import { MULTI_CART_DATA } from &#x27;../multi-cart-state&#x27;;
 
 export const CREATE_WISH_LIST &#x3D; &#x27;[Wish List] Create Wish List&#x27;;
 export const CREATE_WISH_LIST_FAIL &#x3D; &#x27;[Wish List] Create Wish List Fail&#x27;;
@@ -259,14 +259,14 @@ export class CreateWishList implements Action {
 export class CreateWishListSuccess extends EntitySuccessAction {
   readonly type &#x3D; CREATE_WISH_LIST_SUCCESS;
   constructor(public payload: { cart: Cart; userId: string }) {
-    super(MULTI_CART_FEATURE, getCartIdByUserId(payload.cart, payload.userId));
+    super(MULTI_CART_DATA, getCartIdByUserId(payload.cart, payload.userId));
   }
 }
 
 export class CreateWishListFail extends EntityFailAction {
   readonly type &#x3D; CREATE_WISH_LIST_FAIL;
   constructor(public payload: { cartId: string; error?: any }) {
-    super(MULTI_CART_FEATURE, payload.cartId, payload.error);
+    super(MULTI_CART_DATA, payload.cartId, payload.error);
   }
 }
 
@@ -278,7 +278,7 @@ export class LoadWishList implements Action {
 export class LoadWishListSuccess extends EntitySuccessAction {
   readonly type &#x3D; LOAD_WISH_LIST_SUCCESS;
   constructor(public payload: { cart: Cart; userId: string; extraData?: any }) {
-    super(MULTI_CART_FEATURE, getCartIdByUserId(payload.cart, payload.userId));
+    super(MULTI_CART_DATA, getCartIdByUserId(payload.cart, payload.userId));
   }
 }
 

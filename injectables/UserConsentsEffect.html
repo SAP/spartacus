@@ -189,10 +189,10 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.LOAD_USER_CONSENTS),
     map((action: UserActions.LoadUserConsents) &#x3D;&gt; action.payload),
-    concatMap(userId &#x3D;&gt;
+    concatMap((userId) &#x3D;&gt;
       this.userConsentConnector.loadConsents(userId).pipe(
-        map(consents &#x3D;&gt; new UserActions.LoadUserConsentsSuccess(consents)),
-        catchError(error &#x3D;&gt;
+        map((consents) &#x3D;&gt; new UserActions.LoadUserConsentsSuccess(consents)),
+        catchError((error) &#x3D;&gt;
           of(new UserActions.LoadUserConsentsFail(makeErrorSerializable(error)))
         )
       )
@@ -243,7 +243,7 @@
       UserActions.GIVE_USER_CONSENT,
       UserActions.TRANSFER_ANONYMOUS_CONSENT
     ),
-    concatMap(action &#x3D;&gt;
+    concatMap((action) &#x3D;&gt;
       this.userConsentConnector
         .giveConsent(
           action.payload.userId,
@@ -251,8 +251,8 @@
           action.payload.consentTemplateVersion
         )
         .pipe(
-          map(consent &#x3D;&gt; new UserActions.GiveUserConsentSuccess(consent)),
-          catchError(error &#x3D;&gt; {
+          map((consent) &#x3D;&gt; new UserActions.GiveUserConsentSuccess(consent)),
+          catchError((error) &#x3D;&gt; {
             const errors: Array&lt;
               | UserActions.UserConsentsAction
               | GlobalMessageActions.RemoveMessagesByType
@@ -364,7 +364,7 @@
     concatMap(({ userId, consentCode }) &#x3D;&gt;
       this.userConsentConnector.withdrawConsent(userId, consentCode).pipe(
         map(() &#x3D;&gt; new UserActions.WithdrawUserConsentSuccess()),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.WithdrawUserConsentFail(
               makeErrorSerializable(error)
@@ -425,10 +425,10 @@ export class UserConsentsEffect {
   getConsents$: Observable&lt;UserActions.UserConsentsAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_USER_CONSENTS),
     map((action: UserActions.LoadUserConsents) &#x3D;&gt; action.payload),
-    concatMap(userId &#x3D;&gt;
+    concatMap((userId) &#x3D;&gt;
       this.userConsentConnector.loadConsents(userId).pipe(
-        map(consents &#x3D;&gt; new UserActions.LoadUserConsentsSuccess(consents)),
-        catchError(error &#x3D;&gt;
+        map((consents) &#x3D;&gt; new UserActions.LoadUserConsentsSuccess(consents)),
+        catchError((error) &#x3D;&gt;
           of(new UserActions.LoadUserConsentsFail(makeErrorSerializable(error)))
         )
       )
@@ -443,7 +443,7 @@ export class UserConsentsEffect {
       UserActions.GIVE_USER_CONSENT,
       UserActions.TRANSFER_ANONYMOUS_CONSENT
     ),
-    concatMap(action &#x3D;&gt;
+    concatMap((action) &#x3D;&gt;
       this.userConsentConnector
         .giveConsent(
           action.payload.userId,
@@ -451,8 +451,8 @@ export class UserConsentsEffect {
           action.payload.consentTemplateVersion
         )
         .pipe(
-          map(consent &#x3D;&gt; new UserActions.GiveUserConsentSuccess(consent)),
-          catchError(error &#x3D;&gt; {
+          map((consent) &#x3D;&gt; new UserActions.GiveUserConsentSuccess(consent)),
+          catchError((error) &#x3D;&gt; {
             const errors: Array&lt;
               | UserActions.UserConsentsAction
               | GlobalMessageActions.RemoveMessagesByType
@@ -484,7 +484,7 @@ export class UserConsentsEffect {
     concatMap(({ userId, consentCode }) &#x3D;&gt;
       this.userConsentConnector.withdrawConsent(userId, consentCode).pipe(
         map(() &#x3D;&gt; new UserActions.WithdrawUserConsentSuccess()),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.WithdrawUserConsentFail(
               makeErrorSerializable(error)

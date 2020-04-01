@@ -1113,7 +1113,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       PAYMENT_DETAILS_SERIALIZER
     );
     return this.getProviderSubInfo(userId, cartId).pipe(
-      map(data &#x3D;&gt; {
+      map((data) &#x3D;&gt; {
         const labelsMap &#x3D; this.convertToMap(data.mappingLabels.entry);
         return {
           url: data.postUrl,
@@ -1125,11 +1125,11 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
           mappingLabels: labelsMap,
         };
       }),
-      mergeMap(sub &#x3D;&gt; {
+      mergeMap((sub) &#x3D;&gt; {
         // create a subscription directly with payment provider
         return this.createSubWithProvider(sub.url, sub.parameters).pipe(
-          map(response &#x3D;&gt; this.extractPaymentDetailsFromHtml(response)),
-          mergeMap(fromPaymentProvider &#x3D;&gt; {
+          map((response) &#x3D;&gt; this.extractPaymentDetailsFromHtml(response)),
+          mergeMap((fromPaymentProvider) &#x3D;&gt; {
             fromPaymentProvider[&#x27;defaultPayment&#x27;] &#x3D;
               paymentDetails.defaultPayment;
             fromPaymentProvider[&#x27;savePaymentInfo&#x27;] &#x3D; true;
@@ -1162,7 +1162,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     return this.http
       .get&lt;Occ.CardTypeList&gt;(this.occEndpoints.getEndpoint(ENDPOINT_CARD_TYPES))
       .pipe(
-        map(cardTypeList &#x3D;&gt; cardTypeList.cardTypes),
+        map((cardTypeList) &#x3D;&gt; cardTypeList.cardTypes),
         this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
       );
   }
@@ -1187,7 +1187,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       Accept: &#x27;text/html&#x27;,
     });
     let httpParams &#x3D; new HttpParams({ encoder: new CustomEncoder() });
-    Object.keys(parameters).forEach(key &#x3D;&gt; {
+    Object.keys(parameters).forEach((key) &#x3D;&gt; {
       httpParams &#x3D; httpParams.append(key, parameters[key]);
     });
 
@@ -1203,7 +1203,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     parameters: any
   ): Observable&lt;PaymentDetails&gt; {
     let httpParams &#x3D; new HttpParams({ encoder: new CustomEncoder() });
-    Object.keys(parameters).forEach(key &#x3D;&gt; {
+    Object.keys(parameters).forEach((key) &#x3D;&gt; {
       httpParams &#x3D; httpParams.append(key, parameters[key]);
     });
 
@@ -1285,7 +1285,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   }
 
   private convertToMap(paramList: { key; value }[]) {
-    return paramList.reduce(function(result, item) {
+    return paramList.reduce(function (result, item) {
       const key &#x3D; item.key;
       result[key] &#x3D; item.value;
       return result;

@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/login.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/a11y-tab.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#login">login</a>
+                                        <a href="#pressTab">pressTab</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="login"></a>
-                                        <span class="name"><b>login</b><a href="#login"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="pressTab"></a>
+                                        <span class="name"><b>pressTab</b><a href="#pressTab"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>login:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>pressTab:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Headless login</p>
+                                    <div class="io-description"><p>Tab through the app</p>
 </div>
                                 </td>
                             </tr>
@@ -132,30 +132,39 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { login, setSessionData } from &#x27;./utils/login&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { focusableSelectors, getNextFocusableElement } from &#x27;./utils/a11y-tab&#x27;;
 
 declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Headless login
+       * Tab through the app
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.login(username, password)
+        cy.pressTab()
         &#x60;&#x60;&#x60;
        */
-      login: (username: string, password: string) &#x3D;&gt; void;
+      pressTab: () &#x3D;&gt; void;
     }
   }
 }
 
-Cypress.Commands.add(&#x27;login&#x27;, (username: string, password: string) &#x3D;&gt; {
-  cy.server();
-  login(username, password).then(res &#x3D;&gt; {
-    setSessionData(res.body);
+Cypress.Commands.add(&#x27;pressTab&#x27;, () &#x3D;&gt; {
+  cy.document().then((document) &#x3D;&gt; {
+    const elements &#x3D; Array.from(
+      &lt;NodeListOf&lt;HTMLElement&gt;&gt;(
+        document.querySelectorAll(focusableSelectors.join(&#x27;,&#x27;))
+      )
+    ).filter((element) &#x3D;&gt; element.offsetParent !&#x3D;&#x3D; null);
+
+    const activeElementIndex &#x3D; elements.indexOf(
+      document.activeElement as HTMLElement
+    );
+
+    getNextFocusableElement(elements, activeElementIndex).focus();
   });
 });
 </code></pre>

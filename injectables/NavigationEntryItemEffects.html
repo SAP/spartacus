@@ -281,31 +281,31 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(CmsActions.LOAD_CMS_NAVIGATION_ITEMS),
     map((action: CmsActions.LoadCmsNavigationItems) &#x3D;&gt; action.payload),
-    map(payload &#x3D;&gt; {
+    map((payload) &#x3D;&gt; {
       return {
         ids: this.getIdListByItemType(payload.items),
         nodeId: payload.nodeId,
       };
     }),
-    mergeMap(data &#x3D;&gt; {
+    mergeMap((data) &#x3D;&gt; {
       if (data.ids.componentIds.length &gt; 0) {
         return this.routingService.getRouterState().pipe(
-          filter(routerState &#x3D;&gt; routerState !&#x3D;&#x3D; undefined),
-          map(routerState &#x3D;&gt; routerState.state.context),
+          filter((routerState) &#x3D;&gt; routerState !&#x3D;&#x3D; undefined),
+          map((routerState) &#x3D;&gt; routerState.state.context),
           take(1),
-          mergeMap(pageContext &#x3D;&gt;
+          mergeMap((pageContext) &#x3D;&gt;
             // download all items in one request
             this.cmsComponentConnector
               .getList(data.ids.componentIds, pageContext)
               .pipe(
                 map(
-                  components &#x3D;&gt;
+                  (components) &#x3D;&gt;
                     new CmsActions.LoadCmsNavigationItemsSuccess({
                       nodeId: data.nodeId,
                       components: components,
                     })
                 ),
-                catchError(error &#x3D;&gt;
+                catchError((error) &#x3D;&gt;
                   of(
                     new CmsActions.LoadCmsNavigationItemsFail(
                       data.nodeId,
@@ -376,31 +376,31 @@ export class NavigationEntryItemEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(CmsActions.LOAD_CMS_NAVIGATION_ITEMS),
     map((action: CmsActions.LoadCmsNavigationItems) &#x3D;&gt; action.payload),
-    map(payload &#x3D;&gt; {
+    map((payload) &#x3D;&gt; {
       return {
         ids: this.getIdListByItemType(payload.items),
         nodeId: payload.nodeId,
       };
     }),
-    mergeMap(data &#x3D;&gt; {
+    mergeMap((data) &#x3D;&gt; {
       if (data.ids.componentIds.length &gt; 0) {
         return this.routingService.getRouterState().pipe(
-          filter(routerState &#x3D;&gt; routerState !&#x3D;&#x3D; undefined),
-          map(routerState &#x3D;&gt; routerState.state.context),
+          filter((routerState) &#x3D;&gt; routerState !&#x3D;&#x3D; undefined),
+          map((routerState) &#x3D;&gt; routerState.state.context),
           take(1),
-          mergeMap(pageContext &#x3D;&gt;
+          mergeMap((pageContext) &#x3D;&gt;
             // download all items in one request
             this.cmsComponentConnector
               .getList(data.ids.componentIds, pageContext)
               .pipe(
                 map(
-                  components &#x3D;&gt;
+                  (components) &#x3D;&gt;
                     new CmsActions.LoadCmsNavigationItemsSuccess({
                       nodeId: data.nodeId,
                       components: components,
                     })
                 ),
-                catchError(error &#x3D;&gt;
+                catchError((error) &#x3D;&gt;
                   of(
                     new CmsActions.LoadCmsNavigationItemsFail(
                       data.nodeId,
@@ -436,7 +436,7 @@ export class NavigationEntryItemEffects {
     const componentIds: string[] &#x3D; [];
     const mediaIds: string[] &#x3D; [];
 
-    itemList.forEach(item &#x3D;&gt; {
+    itemList.forEach((item) &#x3D;&gt; {
       if (item.superType &#x3D;&#x3D;&#x3D; &#x27;AbstractCMSComponent&#x27;) {
         componentIds.push(item.id);
       } else if (item.superType &#x3D;&#x3D;&#x3D; &#x27;AbstractPage&#x27;) {

@@ -180,17 +180,17 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(ProductActions.LOAD_PRODUCT_REFERENCES),
     map((action: ProductActions.LoadProductReferences) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.productReferencesConnector
         .get(payload.productCode, payload.referenceType, payload.pageSize)
         .pipe(
-          map(data &#x3D;&gt; {
+          map((data) &#x3D;&gt; {
             return new ProductActions.LoadProductReferencesSuccess({
               productCode: payload.productCode,
               list: data,
             });
           }),
-          catchError(_error &#x3D;&gt;
+          catchError((_error) &#x3D;&gt;
             of(
               new ProductActions.LoadProductReferencesFail({
                 message: payload.productCode,
@@ -243,17 +243,17 @@ export class ProductReferencesEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(ProductActions.LOAD_PRODUCT_REFERENCES),
     map((action: ProductActions.LoadProductReferences) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.productReferencesConnector
         .get(payload.productCode, payload.referenceType, payload.pageSize)
         .pipe(
-          map(data &#x3D;&gt; {
+          map((data) &#x3D;&gt; {
             return new ProductActions.LoadProductReferencesSuccess({
               productCode: payload.productCode,
               list: data,
             });
           }),
-          catchError(_error &#x3D;&gt;
+          catchError((_error) &#x3D;&gt;
             of(
               new ProductActions.LoadProductReferencesFail({
                 message: payload.productCode,

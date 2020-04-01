@@ -669,7 +669,7 @@ export class ComponentMapperService {
     componentType: string,
     renderer: Renderer2
   ): Promise&lt;string&gt; {
-    return new Promise(resolve &#x3D;&gt; {
+    return new Promise((resolve) &#x3D;&gt; {
       const [path, selector] &#x3D; this.getComponent(componentType).split(&#x27;#&#x27;);
 
       let script &#x3D; this.loadedWebComponents[path];

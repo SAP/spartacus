@@ -298,6 +298,9 @@
                             <a href="#ItemList" title="projects/storefrontapp-e2e-cypress/cypress/helpers/save-for-later.ts"><b>ItemList</b>&nbsp;&nbsp;&nbsp;(projects/.../save-for-later.ts)</a>
                         </li>
                         <li>
+                            <a href="#MOVE_FOCUS" title="projects/storefrontlib/src/layout/a11y/keyboard-focus/keyboard-focus.model.ts"><b>MOVE_FOCUS</b>&nbsp;&nbsp;&nbsp;(projects/.../keyboard-focus.model.ts)</a>
+                        </li>
+                        <li>
                             <a href="#NotificationType" title="projects/core/src/model/product-interest.model.ts"><b>NotificationType</b>&nbsp;&nbsp;&nbsp;(projects/.../product-interest.model.ts)</a>
                         </li>
                         <li>
@@ -314,6 +317,12 @@
                         </li>
                         <li>
                             <a href="#PageType" title="projects/core/src/occ/occ-models/occ.models.ts"><b>PageType</b>&nbsp;&nbsp;&nbsp;(projects/.../occ.models.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PaginationItemType" title="projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.model.ts"><b>PaginationItemType</b>&nbsp;&nbsp;&nbsp;(projects/.../pagination.model.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PaginationNavigationPosition" title="projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.model.ts"><b>PaginationNavigationPosition</b>&nbsp;&nbsp;&nbsp;(projects/.../pagination.model.ts)</a>
                         </li>
                         <li>
                             <a href="#PriceType" title="projects/core/src/model/product.model.ts"><b>PriceType</b>&nbsp;&nbsp;&nbsp;(projects/.../product.model.ts)</a>
@@ -337,9 +346,6 @@
                             <a href="#PushEventNames" title="projects/cds/src/profiletag/model/profile-tag.model.ts"><b>PushEventNames</b>&nbsp;&nbsp;&nbsp;(projects/.../profile-tag.model.ts)</a>
                         </li>
                         <li>
-                            <a href="#queries" title="projects/storefrontapp-e2e-cypress/cypress/helpers/product-search-store-flow.ts"><b>queries</b>&nbsp;&nbsp;&nbsp;(projects/.../product-search-store-flow.ts)</a>
-                        </li>
-                        <li>
                             <a href="#RoutingScope" title="projects/schematics/src/add-spartacus/schema.ts"><b>RoutingScope</b>&nbsp;&nbsp;&nbsp;(projects/.../schema.ts)</a>
                         </li>
                         <li>
@@ -359,6 +365,9 @@
                         </li>
                         <li>
                             <a href="#Style" title="projects/schematics/src/add-spartacus/schema.ts"><b>Style</b>&nbsp;&nbsp;&nbsp;(projects/.../schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TabbingOrderTypes" title="projects/storefrontapp-e2e-cypress/cypress/helpers/accessibility/tabbing-order.model.ts"><b>TabbingOrderTypes</b>&nbsp;&nbsp;&nbsp;(projects/.../tabbing-order.model.ts)</a>
                         </li>
                         <li>
                             <a href="#Type" title="projects/core/src/occ/occ-models/occ.models.ts"><b>Type</b>&nbsp;&nbsp;&nbsp;(projects/.../occ.models.ts)</a>
@@ -4470,6 +4479,16 @@ let param: Type = <Type>&quot;someUnknownValueThatWillStillBeValid&quot;;</p>
                                 <i>Value : </i><code>[GlobalMessage] Information</code>
                             </td>
                         </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;MSG_TYPE_WARNING
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>[GlobalMessage] Warning</code>
+                            </td>
+                        </tr>
             </tbody>
         </table>
 </section>
@@ -4496,6 +4515,16 @@ let param: Type = <Type>&quot;someUnknownValueThatWillStillBeValid&quot;;</p>
                         <tr>
                             <td class="col-md-4">
                                 <i>Value : </i><code>400</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;UNAUTHORIZED
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>401</code>
                             </td>
                         </tr>
                         <tr>
@@ -4821,6 +4850,13 @@ let param: Type = <Type>&quot;someUnknownValueThatWillStillBeValid&quot;;</p>
                         <span class="name"><b>IconResourceType</b><a href="#IconResourceType"><span class="icon ion-ios-link"></span></a></span>
                     </td>
                 </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>Each ICON type can have an companied resource type, such as SVG, LINK (font) or just TEXT.
+The resources will be automitacally loaded in case they&#39;re required for the <code>ICON_TYPE</code>.</p>
+</div>
+                        </td>
+                    </tr>
                         <tr>
                             <td class="col-md-4">
                                 &nbsp;SVG
@@ -4839,6 +4875,16 @@ let param: Type = <Type>&quot;someUnknownValueThatWillStillBeValid&quot;;</p>
                         <tr>
                             <td class="col-md-4">
                                 <i>Value : </i><code>link</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;TEXT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>text</code>
                             </td>
                         </tr>
             </tbody>
@@ -4923,6 +4969,34 @@ let param: Type = <Type>&quot;someUnknownValueThatWillStillBeValid&quot;;</p>
                         <tr>
                             <td class="col-md-4">
                                 &nbsp;Order
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/storefrontlib/src/layout/a11y/keyboard-focus/keyboard-focus.model.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="MOVE_FOCUS"></a>
+                        <span class="name"><b>MOVE_FOCUS</b><a href="#MOVE_FOCUS"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;NEXT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>1</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;PREV
                             </td>
                         </tr>
             </tbody>
@@ -5042,6 +5116,146 @@ let param: Type = <Type>&quot;someUnknownValueThatWillStillBeValid&quot;;</p>
                         <tr>
                             <td class="col-md-4">
                                 <i>Value : </i><code>NOFOLLOW</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/storefrontlib/src/shared/components/list-navigation/pagination/pagination.model.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="PaginationItemType"></a>
+                        <span class="name"><b>PaginationItemType</b><a href="#PaginationItemType"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-description"><p>The item type is used to add semantic structure to the
+PaginationItem, so that the UI understands the usage.</p>
+</div>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;GAP
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>gap</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;FIRST
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>first</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;LAST
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>last</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;PREVIOUS
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>previous</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;NEXT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>next</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;START
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>start</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;END
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>end</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;PAGE
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>page</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="PaginationNavigationPosition"></a>
+                        <span class="name"><b>PaginationNavigationPosition</b><a href="#PaginationNavigationPosition"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;ASIDE
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>aside</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;BEFORE
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>before</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;AFTER
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>after</code>
                             </td>
                         </tr>
             </tbody>
@@ -5308,16 +5522,6 @@ let param: Type = <Type>&quot;someUnknownValueThatWillStillBeValid&quot;;</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                &nbsp;LOADED
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>profiletag_loaded</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
                                 &nbsp;CONSENT_REFERENCE_LOADED
                             </td>
                         </tr>
@@ -5417,69 +5621,6 @@ let param: Type = <Type>&quot;someUnknownValueThatWillStillBeValid&quot;;</p>
                         <tr>
                             <td class="col-md-4">
                                 <i>Value : </i><code>ORDER</code>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-</section>
-    <h3>projects/storefrontapp-e2e-cypress/cypress/helpers/product-search-store-flow.ts</h3>
-    <section>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="queries"></a>
-                        <span class="name"><b>queries</b><a href="#queries"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;q1
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>query1</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;q2
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>query2</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;q3
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>query3</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;q4
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>query4</code>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;q5
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>query5</code>
                             </td>
                         </tr>
             </tbody>
@@ -5609,6 +5750,209 @@ let param: Type = <Type>&quot;someUnknownValueThatWillStillBeValid&quot;;</p>
                         <tr>
                             <td class="col-md-4">
                                 <i>Value : </i><code>SESSION_STORAGE</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/storefrontapp-e2e-cypress/cypress/helpers/accessibility/tabbing-order.model.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="TabbingOrderTypes"></a>
+                        <span class="name"><b>TabbingOrderTypes</b><a href="#TabbingOrderTypes"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;FORM_FIELD
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>formField</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;LINK
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>link</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;BUTTON
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>button</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;NG_SELECT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>ngSelect</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;GENERIC_CHECKBOX
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>genericCheckbox</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;CHECKBOX_WITH_LABEL
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>checkboxWithLabel</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;IMG_LINK
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>imgLink</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;GENERIC_INPUT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>genericInput</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;GENERIC_BUTTON
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>genericButton</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;GENERIC_NG_SELECT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>genericNgSelect</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;RADIO
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>radio</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;SELECT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>select</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;NAV_CATEGORY_DROPDOWN
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>navCategoryDropdown</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;CAROUSEL
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>carousel</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;CX_MEDIA
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>cxMedia</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;CX_ICON
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>cxIcon</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;H3
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>h3</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;CX_PRODUCT_VIEW
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>cxProductView</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;INDEX_OF_ELEMENT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>indexOfElement</code>
                             </td>
                         </tr>
             </tbody>

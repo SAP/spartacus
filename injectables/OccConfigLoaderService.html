@@ -707,8 +707,8 @@ export class OccConfigLoaderService {
   loadConfig(): Promise&lt;I18nConfig | SiteContextConfig&gt; {
     return this.get()
       .pipe(
-        tap(externalConfig &#x3D;&gt; this.transfer(externalConfig)),
-        map(externalConfig &#x3D;&gt;
+        tap((externalConfig) &#x3D;&gt; this.transfer(externalConfig)),
+        map((externalConfig) &#x3D;&gt;
           deepMerge({}, ...this.getConfigChunks(externalConfig))
         )
       )
@@ -733,7 +733,7 @@ export class OccConfigLoaderService {
     return this.sitesConfigLoader
       .load()
       .pipe(
-        map(baseSites &#x3D;&gt;
+        map((baseSites) &#x3D;&gt;
           this.converter.fromOccBaseSites(baseSites, this.currentUrl)
         )
       );

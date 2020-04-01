@@ -681,11 +681,11 @@ export class SiteContextRoutesHandler implements OnDestroy {
   }
 
   private subscribeChanges(params: string[]) {
-    params.forEach(param &#x3D;&gt; {
+    params.forEach((param) &#x3D;&gt; {
       const service &#x3D; this.siteContextParams.getSiteContextService(param);
       if (service) {
         this.subscription.add(
-          service.getActive().subscribe(value &#x3D;&gt; {
+          service.getActive().subscribe((value) &#x3D;&gt; {
             if (
               !this.isNavigating &amp;&amp;
               this.contextValues[param] &amp;&amp;
@@ -707,7 +707,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
       this.router.events
         .pipe(
           filter(
-            event &#x3D;&gt;
+            (event) &#x3D;&gt;
               event instanceof NavigationStart ||
               event instanceof NavigationEnd ||
               event instanceof NavigationError ||
@@ -725,7 +725,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
 
   private setContextParamsFromRoute(url: string) {
     const { params } &#x3D; this.serializer.urlExtractContextParameters(url);
-    Object.keys(params).forEach(param &#x3D;&gt;
+    Object.keys(params).forEach((param) &#x3D;&gt;
       this.siteContextParams.setValue(param, params[param])
     );
   }

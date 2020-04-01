@@ -112,12 +112,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, productService: <a href="../injectables/ProductService.html">ProductService</a>, features?: <a href="../injectables/FeatureConfigService.html">FeatureConfigService</a>)</code>
+<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, productService: <a href="../injectables/ProductService.html">ProductService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -158,18 +158,6 @@
                                                     </td>
                                                     
                                                 </tr>
-                                                <tr>
-                                                        <td>features</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/FeatureConfigService.html" target="_self" >FeatureConfigService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            Yes
-                                                    </td>
-                                                    
-                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -206,14 +194,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:27</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Will emit current product or null, if there is no current product (i.e. we are not on PDP)</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -244,7 +234,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;Product&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;Product | null&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -276,12 +266,12 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>this.features &amp;&amp; this.features.isLevel(&#x27;1.4&#x27;) ? ProductScope.DETAILS : &#x27;&#x27;</code>
+                            <i>Default value : </i><code>ProductScope.DETAILS</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:34</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -296,56 +286,45 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import {
-  FeatureConfigService,
   Product,
   ProductScope,
   ProductService,
   RoutingService,
 } from &#x27;@spartacus/core&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { filter, map, switchMap } from &#x27;rxjs/operators&#x27;;
+import { Observable, of } from &#x27;rxjs&#x27;;
+import { distinctUntilChanged, filter, map, switchMap } from &#x27;rxjs/operators&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class CurrentProductService {
   constructor(
-    routingService: RoutingService,
-    productService: ProductService,
-    // tslint:disable-next-line: unified-signatures
-    features?: FeatureConfigService
-  );
-
-  /**
-   * @deprecated since 1.4
-   */
-  constructor(routingService: RoutingService, productService: ProductService);
-
-  constructor(
     private routingService: RoutingService,
-    private productService: ProductService,
-    protected features?: FeatureConfigService
+    private productService: ProductService
   ) {}
 
-  protected readonly DEFAULT_PRODUCT_SCOPE &#x3D;
-    this.features &amp;&amp; this.features.isLevel(&#x27;1.4&#x27;) ? ProductScope.DETAILS : &#x27;&#x27;;
+  protected readonly DEFAULT_PRODUCT_SCOPE &#x3D; ProductScope.DETAILS;
 
+  /**
+   * Will emit current product or null, if there is no current product (i.e. we are not on PDP)
+   *
+   * @param scopes
+   */
   getProduct(
     scopes?: (ProductScope | string)[] | ProductScope | string
-  ): Observable&lt;Product&gt; {
+  ): Observable&lt;Product | null&gt; {
     return this.routingService.getRouterState().pipe(
-      map(state &#x3D;&gt; state.state.params[&#x27;productCode&#x27;]),
-      filter(Boolean),
-      switchMap((productCode: string) &#x3D;&gt;
-        this.productService.get(
-          productCode,
-          // TODO deprecated since 1.4 - should be replaced with &#x27;scopes || this.DEFAULT_PRODUCT_SCOPE&#x27;
-          this.features &amp;&amp; this.features.isLevel(&#x27;1.4&#x27;)
-            ? scopes || this.DEFAULT_PRODUCT_SCOPE
-            : undefined
-          // deprecated END
-        )
-      )
+      map((state) &#x3D;&gt; state.state.params[&#x27;productCode&#x27;]),
+      switchMap((productCode: string) &#x3D;&gt; {
+        return productCode
+          ? this.productService.get(
+              productCode,
+              scopes || this.DEFAULT_PRODUCT_SCOPE
+            )
+          : of(null);
+      }),
+      filter((x) &#x3D;&gt; x !&#x3D;&#x3D; undefined),
+      distinctUntilChanged()
     );
   }
 }

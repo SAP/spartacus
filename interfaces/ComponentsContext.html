@@ -204,14 +204,12 @@ import { Page } from &#x27;../model/page.model&#x27;;
 
 export const CMS_FEATURE &#x3D; &#x27;cms&#x27;;
 export const NAVIGATION_DETAIL_ENTITY &#x3D; &#x27;[Cms] Navigation Entity&#x27;;
-// TODO(issue:6027) - fix the const value to &#x60;[Cms] Component Entity&#x60;
-export const COMPONENT_ENTITY &#x3D; &#x27;[Cms[ Component Entity&#x27;;
+export const COMPONENT_ENTITY &#x3D; &#x27;[Cms] Component Entity&#x27;;
 
 export interface StateWithCms {
   [CMS_FEATURE]: CmsState;
 }
 
-export type ComponentState &#x3D; EntityLoaderState&lt;any&gt;;
 export type ComponentsState &#x3D; EntityState&lt;ComponentsContext&gt;;
 
 export interface ComponentsContext {
@@ -274,7 +272,6 @@ export interface PageState {
 
 export interface CmsState {
   page: PageState;
-  component: ComponentState;
   components: ComponentsState;
   navigation: EntityLoaderState&lt;NodeItem&gt;;
 }

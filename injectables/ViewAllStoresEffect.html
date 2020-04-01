@@ -181,11 +181,11 @@
     ofType(StoreFinderActions.VIEW_ALL_STORES),
     switchMap(() &#x3D;&gt; {
       return this.storeFinderConnector.getCounts().pipe(
-        map(data &#x3D;&gt; {
+        map((data) &#x3D;&gt; {
           data.sort((a, b) &#x3D;&gt; (a.name &lt; b.name ? -1 : a.name &gt; b.name ? 1 : 0));
           return new StoreFinderActions.ViewAllStoresSuccess(data);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new StoreFinderActions.ViewAllStoresFail(
               makeErrorSerializable(error)
@@ -244,11 +244,11 @@ export class ViewAllStoresEffect {
     ofType(StoreFinderActions.VIEW_ALL_STORES),
     switchMap(() &#x3D;&gt; {
       return this.storeFinderConnector.getCounts().pipe(
-        map(data &#x3D;&gt; {
+        map((data) &#x3D;&gt; {
           data.sort((a, b) &#x3D;&gt; (a.name &lt; b.name ? -1 : a.name &gt; b.name ? 1 : 0));
           return new StoreFinderActions.ViewAllStoresSuccess(data);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new StoreFinderActions.ViewAllStoresFail(
               makeErrorSerializable(error)

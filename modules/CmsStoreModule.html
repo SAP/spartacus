@@ -63,41 +63,29 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_CmsStoreModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="130,-70 130,-195 366,-195 366,-70 130,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="183,-70 183,-195 313,-195 313,-70 183,-70"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_CmsStoreModule_imports</title>
-<polygon fill="none" stroke="#000000" points="138,-78 138,-130 358,-130 358,-78 138,-78"/>
+<polygon fill="none" stroke="#000000" points="196,-78 196,-130 300,-130 300,-78 196,-78"/>
 </g>
-<!-- ConfigModule -->
+<!-- StateModule -->
 <g id="node1" class="node">
-<title>ConfigModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="350.4386,-122 347.4386,-126 326.4386,-126 323.4386,-122 251.5614,-122 251.5614,-86 350.4386,-86 350.4386,-122"/>
-<text text-anchor="middle" x="301" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ConfigModule</text>
+<title>StateModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="291.544,-122 288.544,-126 267.544,-126 264.544,-122 204.456,-122 204.456,-86 291.544,-86 291.544,-122"/>
+<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">StateModule</text>
 </g>
 <!-- CmsStoreModule -->
-<g id="node3" class="node">
+<g id="node2" class="node">
 <title>CmsStoreModule</title>
 <polygon fill="#8dd3c7" stroke="#000000" points="305.2702,-187 302.2702,-191 281.2702,-191 278.2702,-187 190.7298,-187 190.7298,-151 305.2702,-151 305.2702,-187"/>
 <text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">CmsStoreModule</text>
 </g>
-<!-- ConfigModule&#45;&gt;CmsStoreModule -->
-<g id="edge1" class="edge">
-<title>ConfigModule&#45;&gt;CmsStoreModule</title>
-<path fill="none" stroke="#000000" d="M278.5831,-122.1061C278.5831,-122.1061 278.5831,-140.991 278.5831,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="275.0832,-140.9909 278.5831,-150.991 282.0832,-140.991 275.0832,-140.9909"/>
-</g>
-<!-- StateModule -->
-<g id="node2" class="node">
-<title>StateModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="233.544,-122 230.544,-126 209.544,-126 206.544,-122 146.456,-122 146.456,-86 233.544,-86 233.544,-122"/>
-<text text-anchor="middle" x="190" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">StateModule</text>
-</g>
 <!-- StateModule&#45;&gt;CmsStoreModule -->
-<g id="edge2" class="edge">
+<g id="edge1" class="edge">
 <title>StateModule&#45;&gt;CmsStoreModule</title>
-<path fill="none" stroke="#000000" d="M212.1932,-122.1061C212.1932,-122.1061 212.1932,-140.991 212.1932,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="208.6933,-140.9909 212.1932,-150.991 215.6933,-140.991 208.6933,-140.9909"/>
+<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
 </g>
 </g>
 </svg>
@@ -142,9 +130,6 @@
                                 class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <a href="../modules/ConfigModule.html">ConfigModule</a>
-                        </li>
-                        <li class="list-group-item">
                             <a href="../modules/StateModule.html">StateModule</a>
                         </li>
                     </ul>
@@ -162,7 +147,7 @@ import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { EffectsModule } from &#x27;@ngrx/effects&#x27;;
 import { StoreModule } from &#x27;@ngrx/store&#x27;;
-import { ConfigModule } from &#x27;../../config/config.module&#x27;;
+import { provideDefaultConfigFactory } from &#x27;../../config/config.module&#x27;;
 import {
   StateConfig,
   StateTransferType,
@@ -191,9 +176,11 @@ export function cmsStoreConfigFactory(): StateConfig {
     StateModule,
     StoreModule.forFeature(CMS_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfigFactory(cmsStoreConfigFactory),
   ],
-  providers: [reducerProvider],
+  providers: [
+    provideDefaultConfigFactory(cmsStoreConfigFactory),
+    reducerProvider,
+  ],
 })
 export class CmsStoreModule {}
 </code></pre>

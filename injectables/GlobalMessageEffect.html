@@ -207,21 +207,25 @@
                             <i>Default value : </i><code>isPlatformBrowser(this.platformId) // we don&#x27;t want to run this logic when doing SSR
     ? this.actions$.pipe(
         ofType(GlobalMessageActions.ADD_MESSAGE),
-        pluck(&#x27;payload&#x27;, &#x27;type&#x27;),
-        concatMap((type: GlobalMessageType) &#x3D;&gt; {
-          const config &#x3D; this.config.globalMessages[type];
+        pluck(&#x27;payload&#x27;),
+        concatMap((message: GlobalMessage) &#x3D;&gt; {
+          const config &#x3D; this.config.globalMessages[message.type];
           return this.store.pipe(
-            select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
+            select(
+              GlobalMessageSelectors.getGlobalMessageCountByType(message.type)
+            ),
             take(1),
             filter(
               (count: number) &#x3D;&gt;
-                config &amp;&amp; config.timeout !&#x3D;&#x3D; undefined &amp;&amp; count &amp;&amp; count &gt; 0
+                ((config &amp;&amp; config.timeout !&#x3D;&#x3D; undefined) || message.timeout) &amp;&amp;
+                count &amp;&amp;
+                count &gt; 0
             ),
-            delay(config.timeout),
+            delay(message.timeout || config.timeout),
             switchMap(() &#x3D;&gt;
               of(
                 new GlobalMessageActions.RemoveMessage({
-                  type,
+                  type: message.type,
                   index: 0,
                 })
               )
@@ -243,7 +247,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:66</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:62</a></div>
                             </td>
                         </tr>
 
@@ -311,7 +315,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:34</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -324,7 +328,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, PLATFORM_ID } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { isPlatformBrowser } from &#x27;@angular/common&#x27;;
+import { Inject, Injectable, PLATFORM_ID } from &#x27;@angular/core&#x27;;
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { EMPTY, Observable, of } from &#x27;rxjs&#x27;;
@@ -338,21 +343,16 @@ import {
   take,
   withLatestFrom,
 } from &#x27;rxjs/operators&#x27;;
-
-import { GlobalMessageConfig } from &#x27;../../config/global-message-config&#x27;;
-import {
-  GlobalMessage,
-  GlobalMessageType,
-} from &#x27;../../models/global-message.model&#x27;;
-import { GlobalMessageActions } from &#x27;../actions/index&#x27;;
-import { StateWithGlobalMessage } from &#x27;../global-message-state&#x27;;
-import { GlobalMessageSelectors } from &#x27;../selectors/index&#x27;;
+import { Translatable } from &#x27;../../../i18n/translatable&#x27;;
 import {
   countOfDeepEqualObjects,
   indexOfFirstOccurrence,
 } from &#x27;../../../util/compare-equal-objects&#x27;;
-import { Translatable } from &#x27;../../../i18n/translatable&#x27;;
-import { isPlatformBrowser } from &#x27;@angular/common&#x27;;
+import { GlobalMessageConfig } from &#x27;../../config/global-message-config&#x27;;
+import { GlobalMessage } from &#x27;../../models/global-message.model&#x27;;
+import { GlobalMessageActions } from &#x27;../actions/index&#x27;;
+import { StateWithGlobalMessage } from &#x27;../global-message-state&#x27;;
+import { GlobalMessageSelectors } from &#x27;../selectors/index&#x27;;
 
 @Injectable()
 export class GlobalMessageEffect {
@@ -394,21 +394,25 @@ export class GlobalMessageEffect {
   &gt; &#x3D; isPlatformBrowser(this.platformId) // we don&#x27;t want to run this logic when doing SSR
     ? this.actions$.pipe(
         ofType(GlobalMessageActions.ADD_MESSAGE),
-        pluck(&#x27;payload&#x27;, &#x27;type&#x27;),
-        concatMap((type: GlobalMessageType) &#x3D;&gt; {
-          const config &#x3D; this.config.globalMessages[type];
+        pluck(&#x27;payload&#x27;),
+        concatMap((message: GlobalMessage) &#x3D;&gt; {
+          const config &#x3D; this.config.globalMessages[message.type];
           return this.store.pipe(
-            select(GlobalMessageSelectors.getGlobalMessageCountByType(type)),
+            select(
+              GlobalMessageSelectors.getGlobalMessageCountByType(message.type)
+            ),
             take(1),
             filter(
               (count: number) &#x3D;&gt;
-                config &amp;&amp; config.timeout !&#x3D;&#x3D; undefined &amp;&amp; count &amp;&amp; count &gt; 0
+                ((config &amp;&amp; config.timeout !&#x3D;&#x3D; undefined) || message.timeout) &amp;&amp;
+                count &amp;&amp;
+                count &gt; 0
             ),
-            delay(config.timeout),
+            delay(message.timeout || config.timeout),
             switchMap(() &#x3D;&gt;
               of(
                 new GlobalMessageActions.RemoveMessage({
-                  type,
+                  type: message.type,
                   index: 0,
                 })
               )

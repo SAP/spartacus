@@ -97,7 +97,7 @@
                             <a href="#ClientTokenAction" title="projects/core/src/auth/store/actions/client-token.action.ts"><b>ClientTokenAction</b>&nbsp;&nbsp;&nbsp;(projects/.../client-token.action.ts)</a>
                         </li>
                         <li>
-                            <a href="#CmsComponentAction" title="projects/core/src/cms/store/actions/component.action.ts"><b>CmsComponentAction</b>&nbsp;&nbsp;&nbsp;(projects/.../component.action.ts)</a>
+                            <a href="#CmsComponentAction" title="projects/core/src/cms/store/actions/components.action.ts"><b>CmsComponentAction</b>&nbsp;&nbsp;&nbsp;(projects/.../components.action.ts)</a>
                         </li>
                         <li>
                             <a href="#CmsNavigationEntryItemAction" title="projects/core/src/cms/store/actions/navigation-entry-item.action.ts"><b>CmsNavigationEntryItemAction</b>&nbsp;&nbsp;&nbsp;(projects/.../navigation-entry-item.action.ts)</a>
@@ -107,9 +107,6 @@
                         </li>
                         <li>
                             <a href="#ComponentsState" title="projects/core/src/cms/store/cms-state.ts"><b>ComponentsState</b>&nbsp;&nbsp;&nbsp;(projects/.../cms-state.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#ComponentState" title="projects/core/src/cms/store/cms-state.ts"><b>ComponentState</b>&nbsp;&nbsp;&nbsp;(projects/.../cms-state.ts)</a>
                         </li>
                         <li>
                             <a href="#ConfigValidator" title="projects/core/src/config/config-validator/config-validator.ts"><b>ConfigValidator</b>&nbsp;&nbsp;&nbsp;(projects/.../config-validator.ts)</a>
@@ -242,6 +239,9 @@
                         </li>
                         <li>
                             <a href="#UrlCommands" title="projects/core/src/routing/configurable-routes/url-translation/url-command.ts"><b>UrlCommands</b>&nbsp;&nbsp;&nbsp;(projects/.../url-command.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UrlMatcherFactory" title="projects/core/src/routing/url-matcher/url-matcher-factory.ts"><b>UrlMatcherFactory</b>&nbsp;&nbsp;&nbsp;(projects/.../url-matcher-factory.ts)</a>
                         </li>
                         <li>
                             <a href="#UserAddressesAction" title="projects/core/src/user/store/actions/user-addresses.action.ts"><b>UserAddressesAction</b>&nbsp;&nbsp;&nbsp;(projects/.../user-addresses.action.ts)</a>
@@ -514,7 +514,7 @@
             </tr>
         </tbody>
     </table>
-</section>    <h3>projects/core/src/cms/store/actions/component.action.ts</h3>
+</section>    <h3>projects/core/src/cms/store/actions/components.action.ts</h3>
     <section>
     <table class="table table-sm table-bordered">
         <tbody>
@@ -581,22 +581,6 @@
             <tr>
                 <td class="col-md-4">
                     <code>    <code>EntityState&lt;ComponentsContext&gt;</code>
-</code>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ComponentState"></a>
-                    <span class="name"><b>ComponentState</b><a href="#ComponentState"><span class="icon ion-ios-link"></span></a></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <code>        <code><a href="../miscellaneous/typealiases.html#EntityLoaderState" target="_self" >EntityLoaderState&lt;any&gt;</a></code>
 </code>
                 </td>
             </tr>
@@ -1043,7 +1027,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>    <code>RemoveTempCart | SetTempCart | CreateMultiCart | CreateMultiCartFail | CreateMultiCartSuccess | LoadMultiCart | LoadMultiCartFail | LoadMultiCartSuccess | MergeMultiCart | MergeMultiCartSuccess | ResetMultiCartDetails | RemoveCart | AddEmailToMultiCart | AddEmailToMultiCartFail | AddEmailToMultiCartSuccess | CartProcessesIncrement | CartProcessesDecrement</code>
+                    <code>    <code>RemoveTempCart | SetTempCart | LoadMultiCart | LoadMultiCartFail | LoadMultiCartSuccess | MergeMultiCart | MergeMultiCartSuccess | ResetMultiCartDetails | RemoveCart | AddEmailToMultiCart | AddEmailToMultiCartFail | AddEmailToMultiCartSuccess | CartProcessesIncrement | CartProcessesDecrement | SetActiveCartId | ClearMultiCartState</code>
 </code>
                 </td>
             </tr>
@@ -1329,7 +1313,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >AnonymousConsentsConfig | AuthConfig | CmsConfig | OccConfig | QualtricsConfig | StateConfig | PWAModuleConfig | SiteContextConfig | LayoutConfig | RoutingConfig | I18nConfig | PersonalizationConfig | IconConfig | CheckoutConfig | KymaConfig | GlobalMessageConfig | ExternalRoutesConfig | ViewConfig | FeatureToggles | AsmConfig | SkipLinkConfig</a></code>
+                    <code>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >AnonymousConsentsConfig | AuthConfig | CmsConfig | OccConfig | QualtricsConfig | StateConfig | PWAModuleConfig | SiteContextConfig | LayoutConfig | RoutingConfig | I18nConfig | PersonalizationConfig | IconConfig | CheckoutConfig | KymaConfig | GlobalMessageConfig | ExternalRoutesConfig | ViewConfig | FeatureToggles | AsmConfig | SkipLinkConfig | PaginationConfig</a></code>
 </code>
                 </td>
             </tr>
@@ -1400,6 +1384,24 @@
             <tr>
                 <td class="col-md-4">
                     <code>        <code><a href="../miscellaneous/typealiases.html#UrlCommand" target="_self" >UrlCommand | UrlCommand[]</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>projects/core/src/routing/url-matcher/url-matcher-factory.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UrlMatcherFactory"></a>
+                    <span class="name"><b>UrlMatcherFactory</b><a href="#UrlMatcherFactory"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                 </td>
             </tr>

@@ -452,10 +452,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
    */
   protected getResponseHandler(response: HttpErrorResponse): HttpErrorHandler {
     const status &#x3D; response.status;
-    let handler &#x3D; this.handlers.find(h &#x3D;&gt; h.responseStatus &#x3D;&#x3D;&#x3D; status);
+    let handler &#x3D; this.handlers.find((h) &#x3D;&gt; h.responseStatus &#x3D;&#x3D;&#x3D; status);
     if (!handler) {
       handler &#x3D; this.handlers.find(
-        h &#x3D;&gt; h.responseStatus &#x3D;&#x3D;&#x3D; HttpResponseStatus.UNKNOWN
+        (h) &#x3D;&gt; h.responseStatus &#x3D;&#x3D;&#x3D; HttpResponseStatus.UNKNOWN
       );
     }
     return handler;

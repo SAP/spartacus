@@ -492,7 +492,7 @@ export class ProductCarouselService {
   loadProduct(code: string): Observable&lt;ProductCarouselItem&gt; {
     return this.productService.get(code).pipe(
       filter(Boolean),
-      map(product &#x3D;&gt; this.convertProduct(product))
+      map((product) &#x3D;&gt; this.convertProduct(product))
     );
   }
 
@@ -505,7 +505,7 @@ export class ProductCarouselService {
     return this.referenceService.get(code, referenceType).pipe(
       filter(Boolean),
       map((refs: ProductReference[]) &#x3D;&gt;
-        refs.map(ref &#x3D;&gt;
+        refs.map((ref) &#x3D;&gt;
           this.convertProduct(ref.target, displayTitle, displayProductPrices)
         )
       )

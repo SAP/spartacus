@@ -124,7 +124,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cartService: <a href="../injectables/CartService.html">CartService</a>, orderDetailsService: <a href="../injectables/OrderDetailsService.html">OrderDetailsService</a>, checkoutService: <a href="../injectables/CheckoutService.html">CheckoutService</a>)</code>
+<code>constructor(orderDetailsService: <a href="../injectables/OrderDetailsService.html">OrderDetailsService</a>, checkoutService: <a href="../injectables/CheckoutService.html">CheckoutService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -147,18 +147,6 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>cartService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/CartService.html" target="_self" >CartService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
                                                         <td>orderDetailsService</td>
                                                   
                                                         <td>
@@ -175,6 +163,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/CheckoutService.html" target="_self" >CheckoutService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>activeCartService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -785,13 +785,13 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import {
-  OrderEntry,
-  PromotionResult,
-  CartService,
+  ActiveCartService,
   Cart,
-  Order,
   CheckoutService,
+  Order,
+  OrderEntry,
   PromotionLocation,
+  PromotionResult,
 } from &#x27;@spartacus/core&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
@@ -802,9 +802,9 @@ import { OrderDetailsService } from &#x27;../../../cms-components/myaccount/orde
 })
 export class PromotionService {
   constructor(
-    protected cartService: CartService,
     protected orderDetailsService: OrderDetailsService,
-    protected checkoutService: CheckoutService
+    protected checkoutService: CheckoutService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   getOrderPromotions(
@@ -823,9 +823,9 @@ export class PromotionService {
   }
 
   getOrderPromotionsFromCart(): Observable&lt;PromotionResult[]&gt; {
-    return this.cartService
+    return this.activeCartService
       .getActive()
-      .pipe(map(cart &#x3D;&gt; this.getOrderPromotionsFromCartHelper(cart)));
+      .pipe(map((cart) &#x3D;&gt; this.getOrderPromotionsFromCartHelper(cart)));
   }
 
   private getOrderPromotionsFromCartHelper(cart: Cart): PromotionResult[] {
@@ -841,13 +841,13 @@ export class PromotionService {
   getOrderPromotionsFromCheckout(): Observable&lt;PromotionResult[]&gt; {
     return this.checkoutService
       .getOrderDetails()
-      .pipe(map(order &#x3D;&gt; this.getOrderPromotionsFromOrderHelper(order)));
+      .pipe(map((order) &#x3D;&gt; this.getOrderPromotionsFromOrderHelper(order)));
   }
 
   getOrderPromotionsFromOrder(): Observable&lt;PromotionResult[]&gt; {
     return this.orderDetailsService
       .getOrderDetails()
-      .pipe(map(order &#x3D;&gt; this.getOrderPromotionsFromOrderHelper(order)));
+      .pipe(map((order) &#x3D;&gt; this.getOrderPromotionsFromOrderHelper(order)));
   }
 
   private getOrderPromotionsFromOrderHelper(order: Order): PromotionResult[] {
@@ -863,10 +863,10 @@ export class PromotionService {
   ): Observable&lt;PromotionResult[]&gt; {
     switch (promotionLocation) {
       case PromotionLocation.ActiveCart:
-        return this.cartService
+        return this.activeCartService
           .getActive()
           .pipe(
-            map(cart &#x3D;&gt;
+            map((cart) &#x3D;&gt;
               this.getProductPromotion(
                 item,
                 cart.appliedProductPromotions || []
@@ -877,7 +877,7 @@ export class PromotionService {
         return this.checkoutService
           .getOrderDetails()
           .pipe(
-            map(order &#x3D;&gt;
+            map((order) &#x3D;&gt;
               this.getProductPromotion(
                 item,
                 order.appliedProductPromotions || []
@@ -888,7 +888,7 @@ export class PromotionService {
         return this.orderDetailsService
           .getOrderDetails()
           .pipe(
-            map(order &#x3D;&gt;
+            map((order) &#x3D;&gt;
               this.getProductPromotion(
                 item,
                 order.appliedProductPromotions || []

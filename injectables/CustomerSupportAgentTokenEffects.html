@@ -188,7 +188,7 @@
           token.expiration_time &#x3D; date.toJSON();
           return new AsmActions.LoadCustomerSupportAgentTokenSuccess(token);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new AsmActions.LoadCustomerSupportAgentTokenFail(
               makeErrorSerializable(error)
@@ -249,7 +249,7 @@ export class CustomerSupportAgentTokenEffects {
           token.expiration_time &#x3D; date.toJSON();
           return new AsmActions.LoadCustomerSupportAgentTokenSuccess(token);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new AsmActions.LoadCustomerSupportAgentTokenFail(
               makeErrorSerializable(error)

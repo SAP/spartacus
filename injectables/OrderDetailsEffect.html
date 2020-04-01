@@ -183,12 +183,12 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.CANCEL_ORDER),
     map((action: UserActions.CancelOrder) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .cancel(payload.userId, payload.orderCode, payload.cancelRequestInput)
         .pipe(
-          map(_ &#x3D;&gt; new UserActions.CancelOrderSuccess()),
-          catchError(error &#x3D;&gt;
+          map(() &#x3D;&gt; new UserActions.CancelOrderSuccess()),
+          catchError((error) &#x3D;&gt;
             of(new UserActions.CancelOrderFail(makeErrorSerializable(error)))
           )
         );
@@ -237,12 +237,12 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_DETAILS),
     map((action: UserActions.LoadOrderDetails) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector.get(payload.userId, payload.orderCode).pipe(
         map((order: Order) &#x3D;&gt; {
           return new UserActions.LoadOrderDetailsSuccess(order);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.LoadOrderDetailsFail(makeErrorSerializable(error)))
         )
       );
@@ -291,12 +291,12 @@ export class OrderDetailsEffect {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_DETAILS),
     map((action: UserActions.LoadOrderDetails) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector.get(payload.userId, payload.orderCode).pipe(
         map((order: Order) &#x3D;&gt; {
           return new UserActions.LoadOrderDetailsSuccess(order);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.LoadOrderDetailsFail(makeErrorSerializable(error)))
         )
       );
@@ -307,12 +307,12 @@ export class OrderDetailsEffect {
   cancelOrder$: Observable&lt;UserActions.OrderDetailsAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.CANCEL_ORDER),
     map((action: UserActions.CancelOrder) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .cancel(payload.userId, payload.orderCode, payload.cancelRequestInput)
         .pipe(
-          map(_ &#x3D;&gt; new UserActions.CancelOrderSuccess()),
-          catchError(error &#x3D;&gt;
+          map(() &#x3D;&gt; new UserActions.CancelOrderSuccess()),
+          catchError((error) &#x3D;&gt;
             of(new UserActions.CancelOrderFail(makeErrorSerializable(error)))
           )
         );

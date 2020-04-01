@@ -22,45 +22,29 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_SiteContextOccModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="72,-70 72,-195 424,-195 424,-70 72,-70"/>
-</g>
-<g id="clust3" class="cluster">
-<title>cluster_SiteContextOccModule_imports</title>
-<polygon fill="none" stroke="#000000" points="302,-78 302,-130 416,-130 416,-78 302,-78"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="133,-70 133,-195 363,-195 363,-70 133,-70"/>
 </g>
 <g id="clust6" class="cluster">
 <title>cluster_SiteContextOccModule_providers</title>
-<polygon fill="none" stroke="#000000" points="80,-78 80,-130 294,-130 294,-78 80,-78"/>
+<polygon fill="none" stroke="#000000" points="141,-78 141,-130 355,-130 355,-78 141,-78"/>
 </g>
-<!-- ConfigModule -->
+<!-- SiteContextInterceptor -->
 <g id="node1" class="node">
-<title>ConfigModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="408.4386,-122 405.4386,-126 384.4386,-126 381.4386,-122 309.5614,-122 309.5614,-86 408.4386,-86 408.4386,-122"/>
-<text text-anchor="middle" x="359" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ConfigModule</text>
+<title>SiteContextInterceptor</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="248" cy="-104" rx="98.9916" ry="18"/>
+<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">SiteContextInterceptor</text>
 </g>
 <!-- SiteContextOccModule -->
 <g id="node2" class="node">
 <title>SiteContextOccModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="338.1965,-187 335.1965,-191 314.1965,-191 311.1965,-187 189.8035,-187 189.8035,-151 338.1965,-151 338.1965,-187"/>
-<text text-anchor="middle" x="264" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">SiteContextOccModule</text>
-</g>
-<!-- ConfigModule&#45;&gt;SiteContextOccModule -->
-<g id="edge1" class="edge">
-<title>ConfigModule&#45;&gt;SiteContextOccModule</title>
-<path fill="none" stroke="#000000" d="M323.9397,-122.1061C323.9397,-122.1061 323.9397,-140.991 323.9397,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="320.4398,-140.9909 323.9397,-150.991 327.4398,-140.991 320.4398,-140.9909"/>
-</g>
-<!-- SiteContextInterceptor -->
-<g id="node3" class="node">
-<title>SiteContextInterceptor</title>
-<ellipse fill="#fdb462" stroke="#000000" cx="187" cy="-104" rx="98.9916" ry="18"/>
-<text text-anchor="middle" x="187" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">SiteContextInterceptor</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="322.1965,-187 319.1965,-191 298.1965,-191 295.1965,-187 173.8035,-187 173.8035,-151 322.1965,-151 322.1965,-187"/>
+<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">SiteContextOccModule</text>
 </g>
 <!-- SiteContextInterceptor&#45;&gt;SiteContextOccModule -->
-<g id="edge2" class="edge">
+<g id="edge1" class="edge">
 <title>SiteContextInterceptor&#45;&gt;SiteContextOccModule</title>
-<path fill="none" stroke="#000000" d="M237.9488,-119.7347C237.9488,-119.7347 237.9488,-140.6451 237.9488,-140.6451"/>
-<polygon fill="#000000" stroke="#000000" points="234.4489,-140.645 237.9488,-150.6451 241.4489,-140.6451 234.4489,-140.645"/>
+<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
 </g>
 </g>
 </svg>

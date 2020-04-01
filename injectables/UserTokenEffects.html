@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/core/src/auth/store/effects/user-token.effect.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/core/src/auth/store/effects/user-token.effect.ts:78</a></div>
                             </td>
                         </tr>
 
@@ -198,7 +198,7 @@
           token.userId &#x3D; OCC_USER_ID_CURRENT;
           return new AuthActions.LoadUserTokenSuccess(token);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new AuthActions.LoadUserTokenFail(makeErrorSerializable(error)))
         )
       )
@@ -293,12 +293,19 @@
     map((action: AuthActions.RefreshUserToken) &#x3D;&gt; action.payload),
     exhaustMap(({ refreshToken }) &#x3D;&gt; {
       return this.userTokenService.refreshToken(refreshToken).pipe(
-        map((token: UserToken) &#x3D;&gt; {
-          const date &#x3D; new Date();
-          date.setSeconds(date.getSeconds() + token.expires_in);
-          token.expiration_time &#x3D; date.toJSON();
-          return new AuthActions.RefreshUserTokenSuccess(token);
-        }, catchError(error &#x3D;&gt; of(new AuthActions.RefreshUserTokenFail(makeErrorSerializable(error)))))
+        map(
+          (token: UserToken) &#x3D;&gt; {
+            const date &#x3D; new Date();
+            date.setSeconds(date.getSeconds() + token.expires_in);
+            token.expiration_time &#x3D; date.toJSON();
+            return new AuthActions.RefreshUserTokenSuccess(token);
+          },
+          catchError((error) &#x3D;&gt;
+            of(
+              new AuthActions.RefreshUserTokenFail(makeErrorSerializable(error))
+            )
+          )
+        )
       );
     })
   )</code>
@@ -350,7 +357,7 @@
     mergeMap((userToken: UserToken) &#x3D;&gt; {
       return this.userTokenService.revoke(userToken).pipe(
         map(() &#x3D;&gt; new AuthActions.RevokeUserTokenSuccess(userToken)),
-        catchError(error &#x3D;&gt; of(new AuthActions.RevokeUserTokenFail(error)))
+        catchError((error) &#x3D;&gt; of(new AuthActions.RevokeUserTokenFail(error)))
       );
     })
   )</code>
@@ -367,7 +374,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/core/src/auth/store/effects/user-token.effect.ts:58</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/core/src/auth/store/effects/user-token.effect.ts:65</a></div>
                             </td>
                         </tr>
 
@@ -405,7 +412,7 @@ export class UserTokenEffects {
           token.userId &#x3D; OCC_USER_ID_CURRENT;
           return new AuthActions.LoadUserTokenSuccess(token);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new AuthActions.LoadUserTokenFail(makeErrorSerializable(error)))
         )
       )
@@ -426,12 +433,19 @@ export class UserTokenEffects {
     map((action: AuthActions.RefreshUserToken) &#x3D;&gt; action.payload),
     exhaustMap(({ refreshToken }) &#x3D;&gt; {
       return this.userTokenService.refreshToken(refreshToken).pipe(
-        map((token: UserToken) &#x3D;&gt; {
-          const date &#x3D; new Date();
-          date.setSeconds(date.getSeconds() + token.expires_in);
-          token.expiration_time &#x3D; date.toJSON();
-          return new AuthActions.RefreshUserTokenSuccess(token);
-        }, catchError(error &#x3D;&gt; of(new AuthActions.RefreshUserTokenFail(makeErrorSerializable(error)))))
+        map(
+          (token: UserToken) &#x3D;&gt; {
+            const date &#x3D; new Date();
+            date.setSeconds(date.getSeconds() + token.expires_in);
+            token.expiration_time &#x3D; date.toJSON();
+            return new AuthActions.RefreshUserTokenSuccess(token);
+          },
+          catchError((error) &#x3D;&gt;
+            of(
+              new AuthActions.RefreshUserTokenFail(makeErrorSerializable(error))
+            )
+          )
+        )
       );
     })
   );
@@ -447,7 +461,7 @@ export class UserTokenEffects {
     mergeMap((userToken: UserToken) &#x3D;&gt; {
       return this.userTokenService.revoke(userToken).pipe(
         map(() &#x3D;&gt; new AuthActions.RevokeUserTokenSuccess(userToken)),
-        catchError(error &#x3D;&gt; of(new AuthActions.RevokeUserTokenFail(error)))
+        catchError((error) &#x3D;&gt; of(new AuthActions.RevokeUserTokenFail(error)))
       );
     })
   );

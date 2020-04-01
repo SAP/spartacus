@@ -805,7 +805,7 @@ export class MediaService {
     if (media) {
       let mediaFormat: MediaFormats;
 
-      this.mediaFormats.forEach(format &#x3D;&gt; {
+      this.mediaFormats.forEach((format) &#x3D;&gt; {
         if (
           !mediaFormat ||
           (mediaFormat.threshold &lt; format.threshold &amp;&amp; media[format.code])

@@ -22,51 +22,29 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_QualtricsModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="105,-70 105,-195 391,-195 391,-70 105,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="166,-70 166,-195 330,-195 330,-70 166,-70"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_QualtricsModule_declarations</title>
-<polygon fill="none" stroke="#000000" points="235,-78 235,-130 383,-130 383,-78 235,-78"/>
-</g>
-<g id="clust4" class="cluster">
-<title>cluster_QualtricsModule_imports</title>
-<polygon fill="none" stroke="#000000" points="113,-78 113,-130 227,-130 227,-78 113,-78"/>
+<polygon fill="none" stroke="#000000" points="174,-78 174,-130 322,-130 322,-78 174,-78"/>
 </g>
 <!-- QualtricsComponent -->
 <g id="node1" class="node">
 <title>QualtricsComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="375.1457,-122 242.8543,-122 242.8543,-86 375.1457,-86 375.1457,-122"/>
-<text text-anchor="middle" x="309" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">QualtricsComponent</text>
+<polygon fill="#ffffb3" stroke="#000000" points="314.1457,-122 181.8543,-122 181.8543,-86 314.1457,-86 314.1457,-122"/>
+<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">QualtricsComponent</text>
 </g>
 <!-- QualtricsModule -->
 <g id="node2" class="node">
 <title>QualtricsModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="225.3627,-187 222.3627,-191 201.3627,-191 198.3627,-187 114.6373,-187 114.6373,-151 225.3627,-151 225.3627,-187"/>
-<text text-anchor="middle" x="170" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">QualtricsModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="303.3627,-187 300.3627,-191 279.3627,-191 276.3627,-187 192.6373,-187 192.6373,-151 303.3627,-151 303.3627,-187"/>
+<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">QualtricsModule</text>
 </g>
 <!-- QualtricsComponent&#45;&gt;QualtricsModule -->
 <g id="edge1" class="edge">
 <title>QualtricsComponent&#45;&gt;QualtricsModule</title>
-<path fill="none" stroke="#000000" d="M309,-122.1061C309,-141.3391 309,-169 309,-169 309,-169 235.7357,-169 235.7357,-169"/>
-<polygon fill="#000000" stroke="#000000" points="235.7357,-165.5001 225.7357,-169 235.7357,-172.5001 235.7357,-165.5001"/>
-</g>
-<!-- ConfigModule -->
-<g id="node3" class="node">
-<title>ConfigModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="219.4386,-122 216.4386,-126 195.4386,-126 192.4386,-122 120.5614,-122 120.5614,-86 219.4386,-86 219.4386,-122"/>
-<text text-anchor="middle" x="170" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ConfigModule</text>
-</g>
-<!-- ConfigModule&#45;&gt;QualtricsModule -->
-<g id="edge2" class="edge">
-<title>ConfigModule&#45;&gt;QualtricsModule</title>
-<path fill="none" stroke="#000000" d="M186.4063,-122.1061C186.4063,-122.1061 186.4063,-140.991 186.4063,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="182.9064,-140.9909 186.4063,-150.991 189.9064,-140.991 182.9064,-140.9909"/>
-</g>
-<!-- ConfigModule&#45;&gt;QualtricsModule -->
-<g id="edge3" class="edge">
-<title>ConfigModule&#45;&gt;QualtricsModule</title>
-<path fill="none" stroke="#000000" d="M153.5937,-122.1061C153.5937,-122.1061 153.5937,-140.991 153.5937,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="150.0938,-140.9909 153.5937,-150.991 157.0938,-140.991 150.0938,-140.9909"/>
+<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
 </g>
 </g>
 </svg>

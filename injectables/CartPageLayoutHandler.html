@@ -96,12 +96,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cartService: <a href="../injectables/CartService.html">CartService</a>, selectiveCartService?: <a href="../injectables/SelectiveCartService.html">SelectiveCartService</a>, featureConfig?: <a href="../injectables/FeatureConfigService.html">FeatureConfigService</a>)</code>
+<code>constructor(activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>, selectiveCartService: <a href="../injectables/SelectiveCartService.html">SelectiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-page-layout-handler.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-page-layout-handler.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -119,10 +119,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>cartService</td>
+                                                        <td>activeCartService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CartService.html" target="_self" >CartService</a></code>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -138,19 +138,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>featureConfig</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/FeatureConfigService.html" target="_self" >FeatureConfigService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -190,8 +178,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-page-layout-handler.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-page-layout-handler.ts:16</a></div>
                 </td>
             </tr>
 
@@ -269,11 +257,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import {
-  CartService,
-  SelectiveCartService,
-  FeatureConfigService,
-} from &#x27;@spartacus/core&#x27;;
+import { ActiveCartService, SelectiveCartService } from &#x27;@spartacus/core&#x27;;
 import { combineLatest, Observable } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
 import { PageLayoutHandler } from &#x27;../../cms-structure/page/page-layout/page-layout-handler&#x27;;
@@ -283,21 +267,8 @@ import { PageLayoutHandler } from &#x27;../../cms-structure/page/page-layout/pag
 })
 export class CartPageLayoutHandler implements PageLayoutHandler {
   constructor(
-    cartService: CartService,
-    selectiveCartService: SelectiveCartService,
-    featureConfig: FeatureConfigService
-  );
-  /**
-   * @deprecated Since 1.5
-   * Add selectiveCartService and featureConfig for save for later.
-   * Remove issue: #5958
-   */
-  constructor(cartService: CartService);
-
-  constructor(
-    private cartService: CartService,
-    private selectiveCartService?: SelectiveCartService,
-    private featureConfig?: FeatureConfigService
+    protected activeCartService: ActiveCartService,
+    protected selectiveCartService: SelectiveCartService
   ) {}
 
   handle(
@@ -306,43 +277,28 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
     section?: string
   ) {
     if (pageTemplate &#x3D;&#x3D;&#x3D; &#x27;CartPageTemplate&#x27; &amp;&amp; !section) {
-      if (this.featureConfig &amp;&amp; this.featureConfig.isEnabled(&#x27;saveForLater&#x27;)) {
-        return combineLatest([
-          slots$,
-          this.cartService.getActive(),
-          this.selectiveCartService.getCart(),
-        ]).pipe(
-          map(([slots, cart, selectiveCart]) &#x3D;&gt; {
-            if (cart.totalItems) {
-              return slots.filter(slot &#x3D;&gt; slot !&#x3D;&#x3D; &#x27;EmptyCartMiddleContent&#x27;);
-            } else if (selectiveCart.totalItems) {
-              return slots.filter(
-                slot &#x3D;&gt;
-                  slot !&#x3D;&#x3D; &#x27;EmptyCartMiddleContent&#x27; &amp;&amp;
-                  slot !&#x3D;&#x3D; &#x27;CenterRightContentSlot&#x27;
-              );
-            } else {
-              return slots.filter(
-                slot &#x3D;&gt;
-                  slot !&#x3D;&#x3D; &#x27;TopContent&#x27; &amp;&amp; slot !&#x3D;&#x3D; &#x27;CenterRightContentSlot&#x27;
-              );
-            }
-          })
-        );
-      }
-      //TODO remove old code for #5958
-      return combineLatest([slots$, this.cartService.getActive()]).pipe(
-        map(([slots, cart]) &#x3D;&gt; {
+      return combineLatest([
+        slots$,
+        this.activeCartService.getActive(),
+        this.selectiveCartService.getCart(),
+      ]).pipe(
+        map(([slots, cart, selectiveCart]) &#x3D;&gt; {
           if (cart.totalItems) {
-            return slots.filter(slot &#x3D;&gt; slot !&#x3D;&#x3D; &#x27;EmptyCartMiddleContent&#x27;);
+            return slots.filter((slot) &#x3D;&gt; slot !&#x3D;&#x3D; &#x27;EmptyCartMiddleContent&#x27;);
+          } else if (selectiveCart.totalItems) {
+            return slots.filter(
+              (slot) &#x3D;&gt;
+                slot !&#x3D;&#x3D; &#x27;EmptyCartMiddleContent&#x27; &amp;&amp;
+                slot !&#x3D;&#x3D; &#x27;CenterRightContentSlot&#x27;
+            );
           } else {
             return slots.filter(
-              slot &#x3D;&gt; slot !&#x3D;&#x3D; &#x27;TopContent&#x27; &amp;&amp; slot !&#x3D;&#x3D; &#x27;CenterRightContentSlot&#x27;
+              (slot) &#x3D;&gt;
+                slot !&#x3D;&#x3D; &#x27;TopContent&#x27; &amp;&amp; slot !&#x3D;&#x3D; &#x27;CenterRightContentSlot&#x27;
             );
           }
         })
       );
-      ////TODO remove old code for #5958
     }
     return slots$;
   }

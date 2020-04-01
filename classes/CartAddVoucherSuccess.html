@@ -129,7 +129,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -193,7 +193,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:46</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:45</a></div>
                             </td>
                         </tr>
 
@@ -220,7 +220,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -351,11 +351,10 @@ import {
   EntitySuccessAction,
 } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
 import {
-  LoaderFailAction,
-  LoaderLoadAction,
-  LoaderSuccessAction,
-} from &#x27;../../../state/utils/loader/loader.action&#x27;;
-import { ADD_VOUCHER_PROCESS_ID, CART_DATA } from &#x27;../cart-state&#x27;;
+  EntityProcessesDecrementAction,
+  EntityProcessesIncrementAction,
+} from &#x27;../../../state/utils/entity-processes-loader/entity-processes-loader.action&#x27;;
+import { ADD_VOUCHER_PROCESS_ID, MULTI_CART_DATA } from &#x27;../multi-cart-state&#x27;;
 
 export const CART_ADD_VOUCHER &#x3D; &#x27;[Cart-voucher] Add Cart Vouchers&#x27;;
 export const CART_ADD_VOUCHER_FAIL &#x3D; &#x27;[Cart-voucher] Add Cart Voucher Fail&#x27;;
@@ -401,26 +400,35 @@ export class CartResetAddVoucher extends EntityResetAction {
 }
 
 // Deleting cart voucher
-export class CartRemoveVoucher extends LoaderLoadAction {
+export class CartRemoveVoucher extends EntityProcessesIncrementAction {
   readonly type &#x3D; CART_REMOVE_VOUCHER;
   constructor(
     public payload: { userId: string; cartId: string; voucherId: string }
   ) {
-    super(CART_DATA);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
-export class CartRemoveVoucherFail extends LoaderFailAction {
+export class CartRemoveVoucherFail extends EntityProcessesDecrementAction {
   readonly type &#x3D; CART_REMOVE_VOUCHER_FAIL;
-  constructor(public payload: any) {
-    super(CART_DATA, payload);
+  constructor(
+    public payload: {
+      error: any;
+      cartId: string;
+      userId: string;
+      voucherId: string;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
-export class CartRemoveVoucherSuccess extends LoaderSuccessAction {
+export class CartRemoveVoucherSuccess extends EntityProcessesDecrementAction {
   readonly type &#x3D; CART_REMOVE_VOUCHER_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {
-    super(CART_DATA);
+  constructor(
+    public payload: { userId: string; cartId: string; voucherId: string }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 

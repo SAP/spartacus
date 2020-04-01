@@ -166,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/core/src/product/product.module.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">projects/core/src/product/product.module.ts:40</a></div>
                 </td>
             </tr>
 
@@ -195,6 +195,7 @@ import { ProductReviewService } from &#x27;./facade/product-review.service&#x27;
 import { ProductSearchService } from &#x27;./facade/product-search.service&#x27;;
 import { ProductService } from &#x27;./facade/product.service&#x27;;
 import { CategoryPageMetaResolver } from &#x27;./services/category-page-meta.resolver&#x27;;
+import { CouponSearchPageResolver } from &#x27;./services/coupon-search-page-meta.resolver&#x27;;
 import { ProductPageMetaResolver } from &#x27;./services/product-page-meta.resolver&#x27;;
 import { SearchPageMetaResolver } from &#x27;./services/search-page-meta.resolver&#x27;;
 import { ProductStoreModule } from &#x27;./store/product-store.module&#x27;;
@@ -213,6 +214,11 @@ const pageTitleResolvers &#x3D; [
   {
     provide: PageMetaResolver,
     useExisting: SearchPageMetaResolver,
+    multi: true,
+  },
+  {
+    provide: PageMetaResolver,
+    useExisting: CouponSearchPageResolver,
     multi: true,
   },
 ];

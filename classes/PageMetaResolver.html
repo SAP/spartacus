@@ -63,6 +63,16 @@
             <code>projects/core/src/cms/page/page-meta.resolver.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Abstract class that can be used to resolve meta data for specific pages.
+The <code>getScore</code> method is used to select the right resolver for a specific
+page, based on a score. The score is calculated by the (non)matching page
+type and page template.</p>
+
+            </p>
 
 
 
@@ -99,10 +109,6 @@
                         <ul class="index-list">
                             <li>
                                 <a href="#getScore">getScore</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Abstract</span>
-                                <a href="#resolve">resolve</a>
                             </li>
                         </ul>
                     </td>
@@ -142,10 +148,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">projects/core/src/cms/page/page-meta.resolver.ts:7</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/cms/page/page-meta.resolver.ts:15</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The page template is used to score the (non)matching page template </p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -169,10 +181,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">projects/core/src/cms/page/page-meta.resolver.ts:6</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/cms/page/page-meta.resolver.ts:12</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The <code>PageType</code> is used to score the (non)matching page </p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -205,14 +223,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">projects/core/src/cms/page/page-meta.resolver.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">projects/core/src/cms/page/page-meta.resolver.ts:21</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the matching score for a resolver class, based on
+the page type and page template.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -253,51 +274,6 @@
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="resolve"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Abstract</span>
-                            resolve
-                        </b>
-                        <a href="#resolve"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>resolve()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/core/src/cms/page/page-meta.resolver.ts:16</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>The resolve method is no longer preferred and will be removed with release 2.0.
-The caller <code>PageMetaService</code> service is improved to expect all individual resolvers
-instead, so that the code is easier extensible.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;PageMeta&gt;</code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>
 
 
@@ -308,26 +284,28 @@ instead, so that the code is easier extensible.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &#x27;rxjs&#x27;;
-import { PageType } from &#x27;../../model/cms.model&#x27;;
-import { Page, PageMeta } from &#x27;../model/page.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PageType } from &#x27;../../model/cms.model&#x27;;
+import { Page } from &#x27;../model/page.model&#x27;;
 
+/**
+ * Abstract class that can be used to resolve meta data for specific pages.
+ * The &#x60;getScore&#x60; method is used to select the right resolver for a specific
+ * page, based on a score. The score is calculated by the (non)matching page
+ * type and page template.
+ */
 export abstract class PageMetaResolver {
+  /** The &#x60;PageType&#x60; is used to score the (non)matching page */
   pageType: PageType;
+
+  /** The page template is used to score the (non)matching page template */
   pageTemplate: string;
 
   /**
-   * The resolve method is no longer preferred and will be removed with release 2.0.
-   * The caller &#x60;PageMetaService&#x60; service is improved to expect all individual resolvers
-   * instead, so that the code is easier extensible.
-   *
-   * @deprecated since version 1.3
+   * Returns the matching score for a resolver class, based on
+   * the page type and page template.
    */
-  abstract resolve(): Observable&lt;PageMeta&gt;;
-
   getScore(page: Page): number {
     let score &#x3D; 0;
-
     if (this.pageType) {
       score +&#x3D; page.type &#x3D;&#x3D;&#x3D; this.pageType ? 1 : -1;
     }

@@ -182,9 +182,9 @@
     switchMap(() &#x3D;&gt; {
       return this.siteConnector.getCountries(CountryType.SHIPPING).pipe(
         map(
-          countries &#x3D;&gt; new UserActions.LoadDeliveryCountriesSuccess(countries)
+          (countries) &#x3D;&gt; new UserActions.LoadDeliveryCountriesSuccess(countries)
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.LoadDeliveryCountriesFail(
               makeErrorSerializable(error)
@@ -239,9 +239,9 @@ export class DeliveryCountriesEffects {
     switchMap(() &#x3D;&gt; {
       return this.siteConnector.getCountries(CountryType.SHIPPING).pipe(
         map(
-          countries &#x3D;&gt; new UserActions.LoadDeliveryCountriesSuccess(countries)
+          (countries) &#x3D;&gt; new UserActions.LoadDeliveryCountriesSuccess(countries)
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.LoadDeliveryCountriesFail(
               makeErrorSerializable(error)

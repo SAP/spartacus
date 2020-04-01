@@ -103,7 +103,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cartService: <a href="../injectables/CartService.html">CartService</a>, routingService: <a href="../injectables/RoutingService.html">RoutingService</a>)</code>
+<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -126,10 +126,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>cartService</td>
+                                                        <td>routingService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CartService.html" target="_self" >CartService</a></code>
+                                                                        <code><a href="../injectables/RoutingService.html" target="_self" >RoutingService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -138,10 +138,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>routingService</td>
+                                                        <td>activeCartService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/RoutingService.html" target="_self" >RoutingService</a></code>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -281,7 +281,7 @@
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { CanActivate } from &#x27;@angular/router&#x27;;
-import { Cart, CartService, RoutingService } from &#x27;@spartacus/core&#x27;;
+import { ActiveCartService, Cart, RoutingService } from &#x27;@spartacus/core&#x27;;
 import { combineLatest, Observable } from &#x27;rxjs&#x27;;
 import { filter, map } from &#x27;rxjs/operators&#x27;;
 
@@ -290,14 +290,14 @@ import { filter, map } from &#x27;rxjs/operators&#x27;;
 })
 export class CartNotEmptyGuard implements CanActivate {
   constructor(
-    private cartService: CartService,
-    private routingService: RoutingService
+    protected routingService: RoutingService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   canActivate(): Observable&lt;boolean&gt; {
     return combineLatest([
-      this.cartService.getActive(),
-      this.cartService.getLoaded(),
+      this.activeCartService.getActive(),
+      this.activeCartService.isStable(),
     ]).pipe(
       filter(([_, loaded]) &#x3D;&gt; loaded),
       map(([cart]) &#x3D;&gt; {

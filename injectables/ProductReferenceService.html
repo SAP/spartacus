@@ -311,7 +311,7 @@ export class ProductReferenceService {
           referenceType
         )
       ),
-      tap(references &#x3D;&gt; {
+      tap((references) &#x3D;&gt; {
         if (references &#x3D;&#x3D;&#x3D; undefined &amp;&amp; productCode !&#x3D;&#x3D; undefined) {
           this.store.dispatch(
             new ProductActions.LoadProductReferences({

@@ -445,7 +445,7 @@ export class IntersectionService {
     element: HTMLElement,
     options?: IntersectionOptions
   ): Observable&lt;boolean&gt; {
-    return this.intersects(element, options).pipe(first(v &#x3D;&gt; v &#x3D;&#x3D;&#x3D; true));
+    return this.intersects(element, options).pipe(first((v) &#x3D;&gt; v &#x3D;&#x3D;&#x3D; true));
   }
 
   /**
@@ -460,10 +460,10 @@ export class IntersectionService {
     element: HTMLElement,
     options?: IntersectionOptions
   ): Observable&lt;boolean&gt; {
-    const elementVisible$ &#x3D; new Observable(observer &#x3D;&gt; {
+    const elementVisible$ &#x3D; new Observable((observer) &#x3D;&gt; {
       const rootMargin &#x3D; this.getRootMargin(options);
       const intersectOptions &#x3D; { rootMargin };
-      const intersectionObserver &#x3D; new IntersectionObserver(entries &#x3D;&gt; {
+      const intersectionObserver &#x3D; new IntersectionObserver((entries) &#x3D;&gt; {
         observer.next(entries);
       }, intersectOptions);
       intersectionObserver.observe(element);

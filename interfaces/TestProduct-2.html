@@ -393,7 +393,7 @@ export function addProductToCart(product: TestProduct) {
   ).as(&#x27;add_to_cart&#x27;);
 
   getWishListItem(product.name).within(() &#x3D;&gt; {
-    cy.get(&#x27;cx-add-to-cart&gt;button&#x27;).click();
+    cy.get(&#x27;cx-add-to-cart button&#x27;).click();
   });
 
   cy.wait(&#x27;@add_to_cart&#x27;);
@@ -404,7 +404,7 @@ export function addProductToCart(product: TestProduct) {
 
   getCartItem(product.name).within(() &#x3D;&gt; {
     cy.get(&#x27;.cx-code&#x27;).should(&#x27;contain&#x27;, product.code);
-    cy.get(&#x27;.cx-counter-value&#x27;).should(&#x27;have.value&#x27;, &#x27;1&#x27;);
+    cy.get(&#x27;cx-item-counter input&#x27;).should(&#x27;have.value&#x27;, &#x27;1&#x27;);
   });
 
   verifyProductInWishList(product);
@@ -469,9 +469,7 @@ function proceedToCheckout() {
     &#x27;getShippingAddressPage&#x27;
   );
   cy.getByText(/proceed to checkout/i).click();
-  cy.wait(&#x60;@${shippingAddressPage}&#x60;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${shippingAddressPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 }
 
 function fillAddressForm(shippingAddressData: AddressData &#x3D; user) {
@@ -481,9 +479,7 @@ function fillAddressForm(shippingAddressData: AddressData &#x3D; user) {
     &#x27;getDeliveryPage&#x27;
   );
   fillShippingAddress(shippingAddressData);
-  cy.wait(&#x60;@${deliveryPage}&#x60;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${deliveryPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 }
 
 function fillPaymentForm(
@@ -493,9 +489,7 @@ function fillPaymentForm(
   cy.get(&#x27;.cx-checkout-title&#x27;).should(&#x27;contain&#x27;, &#x27;Payment&#x27;);
   const reviewPage &#x3D; waitForPage(&#x27;/checkout/review-order&#x27;, &#x27;getReviewPage&#x27;);
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.wait(&#x60;@${reviewPage}&#x60;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${reviewPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 }
 
 function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
@@ -518,9 +512,7 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
     &#x27;getOrderConfirmationPage&#x27;
   );
   cy.get(&#x27;cx-place-order button.btn-primary&#x27;).click();
-  cy.wait(&#x60;@${orderConfirmationPage}&#x60;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${orderConfirmationPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 }
 
 function verifyOrderConfirmationPage(checkoutProducts: TestProduct[]) {

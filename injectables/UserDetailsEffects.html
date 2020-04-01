@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/user/store/effects/user-details.effect.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/core/src/user/store/effects/user-details.effect.ts:48</a></div>
                             </td>
                         </tr>
 
@@ -183,12 +183,12 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.LOAD_USER_DETAILS),
     map((action: UserActions.LoadUserDetails) &#x3D;&gt; action.payload),
-    mergeMap(userId &#x3D;&gt; {
+    mergeMap((userId) &#x3D;&gt; {
       return this.userConnector.get(userId).pipe(
         map((user: User) &#x3D;&gt; {
           return new UserActions.LoadUserDetailsSuccess(user);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.LoadUserDetailsFail(makeErrorSerializable(error)))
         )
       );
@@ -237,10 +237,12 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.UPDATE_USER_DETAILS),
     map((action: UserActions.UpdateUserDetails) &#x3D;&gt; action.payload),
-    concatMap(payload &#x3D;&gt;
+    concatMap((payload) &#x3D;&gt;
       this.userConnector.update(payload.username, payload.userDetails).pipe(
-        map(_ &#x3D;&gt; new UserActions.UpdateUserDetailsSuccess(payload.userDetails)),
-        catchError(error &#x3D;&gt;
+        map(
+          () &#x3D;&gt; new UserActions.UpdateUserDetailsSuccess(payload.userDetails)
+        ),
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.UpdateUserDetailsFail(makeErrorSerializable(error))
           )
@@ -291,12 +293,12 @@ export class UserDetailsEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_USER_DETAILS),
     map((action: UserActions.LoadUserDetails) &#x3D;&gt; action.payload),
-    mergeMap(userId &#x3D;&gt; {
+    mergeMap((userId) &#x3D;&gt; {
       return this.userConnector.get(userId).pipe(
         map((user: User) &#x3D;&gt; {
           return new UserActions.LoadUserDetailsSuccess(user);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.LoadUserDetailsFail(makeErrorSerializable(error)))
         )
       );
@@ -309,10 +311,12 @@ export class UserDetailsEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.UPDATE_USER_DETAILS),
     map((action: UserActions.UpdateUserDetails) &#x3D;&gt; action.payload),
-    concatMap(payload &#x3D;&gt;
+    concatMap((payload) &#x3D;&gt;
       this.userConnector.update(payload.username, payload.userDetails).pipe(
-        map(_ &#x3D;&gt; new UserActions.UpdateUserDetailsSuccess(payload.userDetails)),
-        catchError(error &#x3D;&gt;
+        map(
+          () &#x3D;&gt; new UserActions.UpdateUserDetailsSuccess(payload.userDetails)
+        ),
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.UpdateUserDetailsFail(makeErrorSerializable(error))
           )

@@ -202,8 +202,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:44</a></div>
                 </td>
             </tr>
 
@@ -284,8 +284,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:89</a></div>
                 </td>
             </tr>
 
@@ -436,8 +436,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:56</a></div>
                 </td>
             </tr>
 
@@ -530,8 +530,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-address.adapter.ts:71</a></div>
                 </td>
             </tr>
 
@@ -630,11 +630,13 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
       &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
     });
 
-    return this.http.get&lt;Occ.AddressList&gt;(url, { headers }).pipe(
-      catchError((error: any) &#x3D;&gt; throwError(error)),
-      map(addressList &#x3D;&gt; addressList.addresses),
-      this.converter.pipeableMany(ADDRESS_NORMALIZER)
-    );
+    return this.http
+      .get&lt;Occ.AddressList&gt;(url, { headers })
+      .pipe(
+        catchError((error: any) &#x3D;&gt; throwError(error)),
+        map((addressList) &#x3D;&gt; addressList.addresses),
+        this.converter.pipeableMany(ADDRESS_NORMALIZER)
+      );
   }
 
   add(userId: string, address: Address): Observable&lt;{}&gt; {
@@ -674,10 +676,12 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
     }
     address &#x3D; this.converter.convert(address, ADDRESS_SERIALIZER);
 
-    return this.http.post&lt;AddressValidation&gt;(url, address, { headers }).pipe(
-      catchError((error: any) &#x3D;&gt; throwError(error)),
-      this.converter.pipeable(ADDRESS_VALIDATION_NORMALIZER)
-    );
+    return this.http
+      .post&lt;AddressValidation&gt;(url, address, { headers })
+      .pipe(
+        catchError((error: any) &#x3D;&gt; throwError(error)),
+        this.converter.pipeable(ADDRESS_VALIDATION_NORMALIZER)
+      );
   }
 
   delete(userId: string, addressId: string): Observable&lt;{}&gt; {

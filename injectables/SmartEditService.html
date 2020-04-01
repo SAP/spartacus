@@ -838,7 +838,7 @@ export class SmartEditService {
         }),
         take(1)
       )
-      .subscribe(_ &#x3D;&gt; {
+      .subscribe(() &#x3D;&gt; {
         this.cmsService.launchInSmartEdit &#x3D; true;
         this.getDefaultPreviewCode();
       });
@@ -848,10 +848,10 @@ export class SmartEditService {
     this.baseSiteService
       .getBaseSiteData()
       .pipe(
-        filter(site &#x3D;&gt; Object.keys(site).length !&#x3D;&#x3D; 0),
+        filter((site) &#x3D;&gt; Object.keys(site).length !&#x3D;&#x3D; 0),
         take(1)
       )
-      .subscribe(site &#x3D;&gt; {
+      .subscribe((site) &#x3D;&gt; {
         this.defaultPreviewCategoryCode &#x3D; site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode &#x3D; site.defaultPreviewProductCode;
 
@@ -860,7 +860,7 @@ export class SmartEditService {
   }
 
   protected addPageContract() {
-    this.cmsService.getCurrentPage().subscribe(cmsPage &#x3D;&gt; {
+    this.cmsService.getCurrentPage().subscribe((cmsPage) &#x3D;&gt; {
       if (cmsPage &amp;&amp; this._cmsTicketId) {
         this._currentPageId &#x3D; cmsPage.pageId;
 
@@ -869,17 +869,17 @@ export class SmartEditService {
 
         // remove old page contract
         const previousContract &#x3D; [];
-        Array.from(this.winRef.document.body.classList).forEach(attr &#x3D;&gt;
+        Array.from(this.winRef.document.body.classList).forEach((attr) &#x3D;&gt;
           previousContract.push(attr)
         );
-        previousContract.forEach(attr &#x3D;&gt;
+        previousContract.forEach((attr) &#x3D;&gt;
           this.winRef.document.body.classList.remove(attr)
         );
 
         // add new page contract
         if (cmsPage.properties &amp;&amp; cmsPage.properties.smartedit) {
           const seClasses &#x3D; cmsPage.properties.smartedit.classes.split(&#x27; &#x27;);
-          seClasses.forEach(classItem &#x3D;&gt; {
+          seClasses.forEach((classItem) &#x3D;&gt; {
             this.winRef.document.body.classList.add(classItem);
           });
         }

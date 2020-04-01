@@ -436,8 +436,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="142"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:142</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:141</a></div>
                 </td>
             </tr>
 
@@ -532,8 +532,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:104</a></div>
                 </td>
             </tr>
 
@@ -699,7 +699,7 @@ export class CmsPageGuard implements CanActivate {
       ? this.protectedRoutesGuard
           .canActivate(route)
           .pipe(
-            switchMap(result &#x3D;&gt;
+            switchMap((result) &#x3D;&gt;
               result ? this.getCmsPage(route, state) : of(result)
             )
           )
@@ -711,11 +711,10 @@ export class CmsPageGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable&lt;boolean | UrlTree&gt; {
     return this.routingService.getNextPageContext().pipe(
-      switchMap(pageContext &#x3D;&gt;
-        this.cmsService.getPage(pageContext, true).pipe(
-          first(),
-          withLatestFrom(of(pageContext))
-        )
+      switchMap((pageContext) &#x3D;&gt;
+        this.cmsService
+          .getPage(pageContext, true)
+          .pipe(first(), withLatestFrom(of(pageContext)))
       ),
       switchMap(([pageData, pageContext]) &#x3D;&gt;
         pageData
@@ -733,7 +732,7 @@ export class CmsPageGuard implements CanActivate {
   ): Observable&lt;boolean | UrlTree&gt; {
     return this.cmsService.getPageComponentTypes(pageContext).pipe(
       take(1),
-      switchMap(componentTypes &#x3D;&gt;
+      switchMap((componentTypes) &#x3D;&gt;
         this.cmsGuards
           .cmsPageCanActivate(componentTypes, route, state)
           .pipe(withLatestFrom(of(componentTypes)))
@@ -772,16 +771,16 @@ export class CmsPageGuard implements CanActivate {
       id: this.semanticPathService.get(&#x27;notFound&#x27;),
     };
     return this.cmsService.getPage(notFoundCmsPageContext).pipe(
-      switchMap(notFoundPage &#x3D;&gt; {
+      switchMap((notFoundPage) &#x3D;&gt; {
         if (notFoundPage) {
           return this.cmsService.getPageIndex(notFoundCmsPageContext).pipe(
-            tap(notFoundIndex &#x3D;&gt; {
+            tap((notFoundIndex) &#x3D;&gt; {
               this.cmsService.setPageFailIndex(pageContext, notFoundIndex);
             }),
-            switchMap(notFoundIndex &#x3D;&gt;
+            switchMap((notFoundIndex) &#x3D;&gt;
               this.cmsService.getPageIndex(pageContext).pipe(
                 // we have to wait for page index update
-                filter(index &#x3D;&gt; index &#x3D;&#x3D;&#x3D; notFoundIndex)
+                filter((index) &#x3D;&gt; index &#x3D;&#x3D;&#x3D; notFoundIndex)
               )
             ),
             switchMap(() &#x3D;&gt;

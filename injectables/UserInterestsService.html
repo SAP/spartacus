@@ -1026,7 +1026,7 @@ export class UserInterestsService {
   ): Observable&lt;ProductInterestSearchResult&gt; {
     return this.store.pipe(
       select(UsersSelectors.getInterestsState),
-      tap(interestListState &#x3D;&gt; {
+      tap((interestListState) &#x3D;&gt; {
         const attemptedLoad &#x3D;
           interestListState.loading ||
           interestListState.success ||
@@ -1035,7 +1035,7 @@ export class UserInterestsService {
           this.loadProductInterests(pageSize);
         }
       }),
-      map(interestListState &#x3D;&gt; interestListState.value)
+      map((interestListState) &#x3D;&gt; interestListState.value)
     );
   }
 

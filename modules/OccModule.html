@@ -309,7 +309,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config, provideConfig } from &#x27;../config/config.module&#x27;;
+import { Config, provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { provideConfigValidator } from &#x27;../config/config-validator/config-validator&#x27;;
 import { AsmOccModule } from &#x27;./adapters/asm/asm-occ.module&#x27;;
 import { CartOccModule } from &#x27;./adapters/cart/cart-occ.module&#x27;;
@@ -343,7 +343,7 @@ export class OccModule {
       ngModule: OccModule,
       providers: [
         { provide: OccConfig, useExisting: Config },
-        provideConfig(defaultOccConfig),
+        provideDefaultConfig(defaultOccConfig),
         provideConfigValidator(occConfigValidator),
       ],
     };

@@ -202,7 +202,7 @@ export class MerchandisingFacetNormalizer
     target: MerchandisingFacet[] &#x3D; []
   ): MerchandisingFacet[] {
     if (source) {
-      source.forEach(breadcrumb &#x3D;&gt; {
+      source.forEach((breadcrumb) &#x3D;&gt; {
         target.push({
           code: breadcrumb.facetCode,
           value: breadcrumb.facetValueCode,

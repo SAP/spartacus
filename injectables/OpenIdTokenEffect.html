@@ -195,12 +195,12 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(KymaActions.LOAD_OPEN_ID_TOKEN),
     map((action: KymaActions.LoadOpenIdToken) &#x3D;&gt; action.payload),
-    exhaustMap(payload &#x3D;&gt;
+    exhaustMap((payload) &#x3D;&gt;
       this.openIdTokenService
         .loadOpenIdAuthenticationToken(payload.username, payload.password)
         .pipe(
-          map(token &#x3D;&gt; new KymaActions.LoadOpenIdTokenSuccess(token)),
-          catchError(error &#x3D;&gt;
+          map((token) &#x3D;&gt; new KymaActions.LoadOpenIdTokenSuccess(token)),
+          catchError((error) &#x3D;&gt;
             of(
               new KymaActions.LoadOpenIdTokenFail(makeErrorSerializable(error))
             )
@@ -340,12 +340,12 @@ export class OpenIdTokenEffect {
   &gt; &#x3D; this.actions$.pipe(
     ofType(KymaActions.LOAD_OPEN_ID_TOKEN),
     map((action: KymaActions.LoadOpenIdToken) &#x3D;&gt; action.payload),
-    exhaustMap(payload &#x3D;&gt;
+    exhaustMap((payload) &#x3D;&gt;
       this.openIdTokenService
         .loadOpenIdAuthenticationToken(payload.username, payload.password)
         .pipe(
-          map(token &#x3D;&gt; new KymaActions.LoadOpenIdTokenSuccess(token)),
-          catchError(error &#x3D;&gt;
+          map((token) &#x3D;&gt; new KymaActions.LoadOpenIdTokenSuccess(token)),
+          catchError((error) &#x3D;&gt;
             of(
               new KymaActions.LoadOpenIdTokenFail(makeErrorSerializable(error))
             )

@@ -514,7 +514,7 @@ export class OccFieldsService {
     for (const [url, group] of Object.entries(groupedByUrls)) {
       const urlWithFields &#x3D; this.getUrlWithFields(
         url,
-        Object.values(group).map(lo &#x3D;&gt; lo.fields)
+        Object.values(group).map((lo) &#x3D;&gt; lo.fields)
       );
       mergedUrls[urlWithFields] &#x3D; group;
     }
@@ -533,7 +533,7 @@ export class OccFieldsService {
     const paramsMap &#x3D; {};
 
     if (params) {
-      params.split(&#x27;&amp;&#x27;).map(param &#x3D;&gt; {
+      params.split(&#x27;&amp;&#x27;).map((param) &#x3D;&gt; {
         const keyValue &#x3D; param.split(&#x27;&#x3D;&#x27;);
         paramsMap[keyValue[0]] &#x3D; keyValue[1];
       });

@@ -91,7 +91,7 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#cart$">cart$</a>
                             </li>
                             <li>
@@ -113,26 +113,13 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#resolve">resolve</a>
-                            </li>
-                            <li>
                                 <a href="#resolveRobots">resolveRobots</a>
                             </li>
                             <li>
                                 <a href="#resolveTitle">resolveTitle</a>
                             </li>
                             <li>
-                                <a href="#resolveTitle">resolveTitle</a>
-                            </li>
-                            <li>
-                                <a href="#resolveTitle">resolveTitle</a>
-                            </li>
-                            <li>
                                 <a href="#getScore">getScore</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Abstract</span>
-                                <a href="#resolve">resolve</a>
                             </li>
                         </ul>
                     </td>
@@ -152,12 +139,12 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cartService: <a href="../injectables/CartService.html">CartService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>)</code>
+<code>constructor(translation: <a href="../classes/TranslationService.html">TranslationService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -175,10 +162,10 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>cartService</td>
+                                                        <td>translation</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CartService.html" target="_self" >CartService</a></code>
+                                                                        <code><a href="../classes/TranslationService.html" target="_self" >TranslationService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -187,10 +174,10 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>translation</td>
+                                                        <td>activeCartService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/TranslationService.html" target="_self" >TranslationService</a></code>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -216,45 +203,6 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="resolve"></a>
-                    <span class="name">
-                        <b>
-                            resolve
-                        </b>
-                        <a href="#resolve"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>resolve()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:45</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable | any</code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="resolveRobots"></a>
                     <span class="name">
                         <b>
@@ -273,8 +221,8 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:47</a></div>
                 </td>
             </tr>
 
@@ -312,8 +260,8 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:37</a></div>
                 </td>
             </tr>
 
@@ -324,146 +272,6 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
 
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="resolveTitle"></a>
-                    <span class="name">
-                        <b>
-                            resolveTitle
-                        </b>
-                        <a href="#resolveTitle"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>resolveTitle(cart: <a href="../interfaces/Cart.html">Cart</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:60</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>cart</td>
-                                    <td>
-                                                <code><a href="../interfaces/Cart.html" target="_self" >Cart</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="resolveTitle"></a>
-                    <span class="name">
-                        <b>
-                            resolveTitle
-                        </b>
-                        <a href="#resolveTitle"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>resolveTitle(cart?: <a href="../interfaces/Cart.html">Cart</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:61</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>cart</td>
-                                    <td>
-                                                <code><a href="../interfaces/Cart.html" target="_self" >Cart</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -497,7 +305,7 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:18</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:21</a></code>
 </div>
                 </td>
             </tr>
@@ -505,6 +313,9 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the matching score for a resolver class, based on
+the page type and page template.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -545,57 +356,6 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="resolve"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Abstract</span>
-                            resolve
-                        </b>
-                        <a href="#resolve"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>resolve()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/PageMetaResolver.html" target="_self" >PageMetaResolver</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:16</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>The resolve method is no longer preferred and will be removed with release 2.0.
-The caller <code>PageMetaService</code> service is improved to expect all individual resolvers
-instead, so that the code is easier extensible.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;PageMeta&gt;</code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>
             <section>
     
@@ -609,7 +369,7 @@ instead, so that the code is easier extensible.</p>
                         <a name="cart$"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Private</span>
+                                <span class="modifier">Protected</span>
                             cart$</b>
                             <a href="#cart$"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -617,12 +377,12 @@ instead, so that the code is easier extensible.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>this.cartService.getActive()</code>
+                            <i>Default value : </i><code>this.activeCartService.getActive()</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/checkout/services/checkout-page-meta.resolver.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -655,11 +415,17 @@ instead, so that the code is easier extensible.</p>
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:7</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:15</a></code>
 </div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The page template is used to score the (non)matching page template </p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -689,11 +455,17 @@ instead, so that the code is easier extensible.</p>
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:6</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:12</a></code>
 </div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The <code>PageType</code> is used to score the (non)matching page </p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -704,17 +476,16 @@ instead, so that the code is easier extensible.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
-import { map, switchMap } from &#x27;rxjs/operators&#x27;;
-import { CartService } from &#x27;../../cart/facade/cart.service&#x27;;
-import { PageMeta, PageRobotsMeta } from &#x27;../../cms/model/page.model&#x27;;
+import { Observable, of } from &#x27;rxjs&#x27;;
+import { switchMap } from &#x27;rxjs/operators&#x27;;
+import { ActiveCartService } from &#x27;../../cart&#x27;;
+import { PageRobotsMeta } from &#x27;../../cms/model/page.model&#x27;;
 import { PageMetaResolver } from &#x27;../../cms/page/page-meta.resolver&#x27;;
 import {
   PageRobotsResolver,
   PageTitleResolver,
 } from &#x27;../../cms/page/page.resolvers&#x27;;
 import { TranslationService } from &#x27;../../i18n/translation.service&#x27;;
-import { Cart } from &#x27;../../model/cart.model&#x27;;
 import { PageType } from &#x27;../../model/cms.model&#x27;;
 
 /**
@@ -729,44 +500,20 @@ import { PageType } from &#x27;../../model/cms.model&#x27;;
 })
 export class CheckoutPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
-  private cart$ &#x3D; this.cartService.getActive();
+  protected cart$ &#x3D; this.activeCartService.getActive();
 
   constructor(
-    protected cartService: CartService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected activeCartService: ActiveCartService
   ) {
     super();
     this.pageType &#x3D; PageType.CONTENT_PAGE;
     this.pageTemplate &#x3D; &#x27;MultiStepCheckoutSummaryPageTemplate&#x27;;
   }
 
-  /**
-   * @deprecated since version 1.3
-   *
-   * The resolve method is no longer preferred and will be removed with release 2.0.
-   * The caller &#x60;PageMetaService&#x60; service is improved to expect all individual resolvers
-   * instead, so that the code is easier extensible.
-   */
-  resolve(): Observable&lt;PageMeta&gt; | any {
+  resolveTitle(): Observable&lt;string&gt; {
     return this.cart$.pipe(
-      switchMap(cart &#x3D;&gt;
-        combineLatest([this.resolveTitle(cart), this.resolveRobots()])
-      ),
-      map(([title, robots]) &#x3D;&gt; ({ title, robots }))
-    );
-  }
-
-  resolveTitle(): Observable&lt;string&gt;;
-  /**
-   * @deprecated since version 1.3
-   * With 2.0, the argument(s) will be removed and the return type will change. Use &#x60;resolveTitle()&#x60; instead
-   */
-  // tslint:disable-next-line: unified-signatures
-  resolveTitle(cart: Cart): Observable&lt;string&gt;;
-  resolveTitle(cart?: Cart): Observable&lt;string&gt; {
-    const cart$: Observable&lt;Cart&gt; &#x3D; cart ? of(cart) : this.cart$;
-    return cart$.pipe(
-      switchMap(c &#x3D;&gt;
+      switchMap((c) &#x3D;&gt;
         this.translation.translate(&#x27;pageMetaResolver.checkout.title&#x27;, {
           count: c.totalItems,
         })

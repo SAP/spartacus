@@ -325,13 +325,9 @@ import {
 } from &#x27;../../../state/utils/entity-processes-loader/entity-processes-loader.action&#x27;;
 import { EntityRemoveAction } from &#x27;../../../state/utils/entity/entity.action&#x27;;
 import { getCartIdByUserId } from &#x27;../../utils/utils&#x27;;
-import { MULTI_CART_FEATURE } from &#x27;../multi-cart-state&#x27;;
+import { MULTI_CART_DATA } from &#x27;../multi-cart-state&#x27;;
 
 export const REMOVE_TEMP_CART &#x3D; &#x27;[Multi Cart] Remove Temp Cart&#x27;;
-
-export const CREATE_MULTI_CART &#x3D; &#x27;[Multi Cart] Create Cart&#x27;;
-export const CREATE_MULTI_CART_FAIL &#x3D; &#x27;[Multi Cart] Create Cart Fail&#x27;;
-export const CREATE_MULTI_CART_SUCCESS &#x3D; &#x27;[Multi Cart] Create Cart Success&#x27;;
 
 export const LOAD_MULTI_CART &#x3D; &#x27;[Multi Cart] Load Cart&#x27;;
 export const LOAD_MULTI_CART_FAIL &#x3D; &#x27;[Multi Cart] Load Cart Fail&#x27;;
@@ -353,6 +349,10 @@ export const ADD_EMAIL_TO_MULTI_CART_SUCCESS &#x3D; &#x27;[Multi Cart] Add Email
 export const CART_PROCESSES_INCREMENT &#x3D; &#x27;[Multi Cart] Cart Processes Increment&#x27;;
 export const CART_PROCESSES_DECREMENT &#x3D; &#x27;[Multi Cart] Cart Processes Decrement&#x27;;
 
+export const SET_ACTIVE_CART_ID &#x3D; &#x27;[Multi Cart] Set Active Cart Id&#x27;;
+
+export const CLEAR_MULTI_CART_STATE &#x3D; &#x27;[Multi Cart] Clear Cart State&#x27;;
+
 /**
  * To keep track of cart creation process we use cart with &#x60;temp-${uuid}&#x60; id.
  * After creating cart we switch to entity with &#x60;code&#x60; or &#x60;guid&#x60;.
@@ -361,56 +361,35 @@ export const CART_PROCESSES_DECREMENT &#x3D; &#x27;[Multi Cart] Cart Processes D
 export class RemoveTempCart extends EntityRemoveAction {
   readonly type &#x3D; REMOVE_TEMP_CART;
   constructor(public payload: { tempCartId: string }) {
-    super(MULTI_CART_FEATURE, payload.tempCartId);
+    super(MULTI_CART_DATA, payload.tempCartId);
   }
 }
 
 export class SetTempCart extends EntitySuccessAction {
   readonly type &#x3D; SET_TEMP_CART;
   constructor(public payload: { cart: Cart; tempCartId: string }) {
-    super(MULTI_CART_FEATURE, payload.tempCartId, payload.cart);
-  }
-}
-
-export class CreateMultiCart extends EntityLoadAction {
-  readonly type &#x3D; CREATE_MULTI_CART;
-  constructor(public payload: any) {
-    super(MULTI_CART_FEATURE, payload.tempCartId);
-  }
-}
-
-export class CreateMultiCartFail extends EntityFailAction {
-  readonly type &#x3D; CREATE_MULTI_CART_FAIL;
-  constructor(public payload: any) {
-    super(MULTI_CART_FEATURE, payload.tempCartId);
-  }
-}
-
-export class CreateMultiCartSuccess extends EntitySuccessAction {
-  readonly type &#x3D; CREATE_MULTI_CART_SUCCESS;
-  constructor(public payload: { cart: Cart; userId: string; extraData?: any }) {
-    super(MULTI_CART_FEATURE, getCartIdByUserId(payload.cart, payload.userId));
+    super(MULTI_CART_DATA, payload.tempCartId, payload.cart);
   }
 }
 
 export class LoadMultiCart extends EntityLoadAction {
   readonly type &#x3D; LOAD_MULTI_CART;
   constructor(public payload: { userId: string; cartId: string }) {
-    super(MULTI_CART_FEATURE, payload.cartId);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 export class LoadMultiCartFail extends EntityFailAction {
   readonly type &#x3D; LOAD_MULTI_CART_FAIL;
   constructor(public payload: { cartId: string; error?: any }) {
-    super(MULTI_CART_FEATURE, payload.cartId, payload.error);
+    super(MULTI_CART_DATA, payload.cartId, payload.error);
   }
 }
 
 export class LoadMultiCartSuccess extends EntitySuccessAction {
   readonly type &#x3D; LOAD_MULTI_CART_SUCCESS;
   constructor(public payload: { cart: Cart; userId: string; extraData?: any }) {
-    super(MULTI_CART_FEATURE, getCartIdByUserId(payload.cart, payload.userId));
+    super(MULTI_CART_DATA, getCartIdByUserId(payload.cart, payload.userId));
   }
 }
 
@@ -424,21 +403,21 @@ export class MergeMultiCartSuccess extends EntityRemoveAction {
   constructor(
     public payload: { oldCartId: string; cartId: string; userId: string }
   ) {
-    super(MULTI_CART_FEATURE, payload.oldCartId);
+    super(MULTI_CART_DATA, payload.oldCartId);
   }
 }
 
 export class ResetMultiCartDetails extends EntityProcessesLoaderResetAction {
   readonly type &#x3D; RESET_MULTI_CART_DETAILS;
   constructor() {
-    super(MULTI_CART_FEATURE, undefined);
+    super(MULTI_CART_DATA, undefined);
   }
 }
 
 export class RemoveCart extends EntityRemoveAction {
   readonly type &#x3D; REMOVE_CART;
   constructor(public payload: string) {
-    super(MULTI_CART_FEATURE, payload);
+    super(MULTI_CART_DATA, payload);
   }
 }
 
@@ -447,44 +426,53 @@ export class AddEmailToMultiCart extends EntityLoadAction {
   constructor(
     public payload: { userId: string; cartId: string; email: string }
   ) {
-    super(MULTI_CART_FEATURE, payload.cartId);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 export class AddEmailToMultiCartFail extends EntityFailAction {
   readonly type &#x3D; ADD_EMAIL_TO_MULTI_CART_FAIL;
   constructor(public payload: { userId: string; cartId: string; error: any }) {
-    super(MULTI_CART_FEATURE, payload.cartId, payload.error);
+    super(MULTI_CART_DATA, payload.cartId, payload.error);
   }
 }
 
 export class AddEmailToMultiCartSuccess extends EntitySuccessAction {
   readonly type &#x3D; ADD_EMAIL_TO_MULTI_CART_SUCCESS;
   constructor(public payload: { userId: string; cartId: string }) {
-    super(MULTI_CART_FEATURE, payload.cartId);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 export class CartProcessesIncrement extends EntityProcessesIncrementAction {
   readonly type &#x3D; CART_PROCESSES_INCREMENT;
   constructor(public payload: string) {
-    super(MULTI_CART_FEATURE, payload);
+    super(MULTI_CART_DATA, payload);
   }
 }
 
 export class CartProcessesDecrement extends EntityProcessesDecrementAction {
   readonly type &#x3D; CART_PROCESSES_DECREMENT;
   constructor(public payload: string) {
-    super(MULTI_CART_FEATURE, payload);
+    super(MULTI_CART_DATA, payload);
+  }
+}
+
+export class SetActiveCartId implements Action {
+  readonly type &#x3D; SET_ACTIVE_CART_ID;
+  constructor(public payload: string) {}
+}
+
+export class ClearMultiCartState extends EntityRemoveAction {
+  readonly type &#x3D; CLEAR_MULTI_CART_STATE;
+  constructor() {
+    super(MULTI_CART_DATA, null);
   }
 }
 
 export type MultiCartActions &#x3D;
   | RemoveTempCart
   | SetTempCart
-  | CreateMultiCart
-  | CreateMultiCartFail
-  | CreateMultiCartSuccess
   | LoadMultiCart
   | LoadMultiCartFail
   | LoadMultiCartSuccess
@@ -496,7 +484,9 @@ export type MultiCartActions &#x3D;
   | AddEmailToMultiCartFail
   | AddEmailToMultiCartSuccess
   | CartProcessesIncrement
-  | CartProcessesDecrement;
+  | CartProcessesDecrement
+  | SetActiveCartId
+  | ClearMultiCartState;
 </code></pre>
     </div>
 </div>

@@ -327,15 +327,15 @@ export class OccOrderNormalizer implements Converter&lt;Occ.Order, Order&gt; {
     }
 
     if (source.entries) {
-      target.entries &#x3D; source.entries.map(entry &#x3D;&gt;
+      target.entries &#x3D; source.entries.map((entry) &#x3D;&gt;
         this.convertOrderEntry(entry)
       );
     }
 
     if (source.consignments) {
-      target.consignments &#x3D; source.consignments.map(consignment &#x3D;&gt; ({
+      target.consignments &#x3D; source.consignments.map((consignment) &#x3D;&gt; ({
         ...consignment,
-        entries: consignment.entries.map(entry &#x3D;&gt; ({
+        entries: consignment.entries.map((entry) &#x3D;&gt; ({
           ...entry,
           orderEntry: this.convertOrderEntry(entry.orderEntry),
         })),
@@ -343,7 +343,7 @@ export class OccOrderNormalizer implements Converter&lt;Occ.Order, Order&gt; {
     }
 
     if (source.unconsignedEntries) {
-      target.unconsignedEntries &#x3D; source.unconsignedEntries.map(entry &#x3D;&gt;
+      target.unconsignedEntries &#x3D; source.unconsignedEntries.map((entry) &#x3D;&gt;
         this.convertOrderEntry(entry)
       );
     }

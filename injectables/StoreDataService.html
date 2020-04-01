@@ -719,7 +719,7 @@ export class StoreDataService {
   protected getSchedule(location: PointOfService, date: Date): any {
     const weekday &#x3D; this.weekDays[date.getDay()];
     return location.openingHours.weekDayOpeningList.find(
-      weekDayOpeningListItem &#x3D;&gt; weekDayOpeningListItem.weekDay &#x3D;&#x3D;&#x3D; weekday
+      (weekDayOpeningListItem) &#x3D;&gt; weekDayOpeningListItem.weekDay &#x3D;&#x3D;&#x3D; weekday
     );
   }
 }

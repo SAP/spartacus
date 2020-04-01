@@ -243,13 +243,13 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule, ModuleWithProviders } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
 import { TranslatePipe } from &#x27;./translate.pipe&#x27;;
 import { i18nextProviders } from &#x27;./i18next/i18next-providers&#x27;;
 import { defaultI18nConfig } from &#x27;./config/default-i18n-config&#x27;;
 import { I18nConfig } from &#x27;./config/i18n-config&#x27;;
 import { TranslationService } from &#x27;./translation.service&#x27;;
-import { provideConfig, Config } from &#x27;../config/config.module&#x27;;
+import { Config, provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { I18nextTranslationService } from &#x27;./i18next/i18next-translation.service&#x27;;
 import { CxDatePipe } from &#x27;./date.pipe&#x27;;
 import { TranslationChunkService } from &#x27;./translation-chunk.service&#x27;;
@@ -263,7 +263,7 @@ export class I18nModule {
     return {
       ngModule: I18nModule,
       providers: [
-        provideConfig(defaultI18nConfig),
+        provideDefaultConfig(defaultI18nConfig),
         { provide: I18nConfig, useExisting: Config },
         { provide: TranslationService, useClass: I18nextTranslationService },
         TranslationChunkService,

@@ -472,7 +472,7 @@ export class OccSiteAdapter implements SiteAdapter {
     return this.http
       .get&lt;Occ.LanguageList&gt;(this.occEndpointsService.getUrl(&#x27;languages&#x27;))
       .pipe(
-        map(languageList &#x3D;&gt; languageList.languages),
+        map((languageList) &#x3D;&gt; languageList.languages),
         this.converterService.pipeableMany(LANGUAGE_NORMALIZER)
       );
   }
@@ -481,7 +481,7 @@ export class OccSiteAdapter implements SiteAdapter {
     return this.http
       .get&lt;Occ.CurrencyList&gt;(this.occEndpointsService.getUrl(&#x27;currencies&#x27;))
       .pipe(
-        map(currencyList &#x3D;&gt; currencyList.currencies),
+        map((currencyList) &#x3D;&gt; currencyList.currencies),
         this.converterService.pipeableMany(CURRENCY_NORMALIZER)
       );
   }
@@ -496,7 +496,7 @@ export class OccSiteAdapter implements SiteAdapter {
         )
       )
       .pipe(
-        map(countryList &#x3D;&gt; countryList.countries),
+        map((countryList) &#x3D;&gt; countryList.countries),
         this.converterService.pipeableMany(COUNTRY_NORMALIZER)
       );
   }
@@ -507,7 +507,7 @@ export class OccSiteAdapter implements SiteAdapter {
         this.occEndpointsService.getUrl(&#x27;regions&#x27;, { isoCode: countryIsoCode })
       )
       .pipe(
-        map(regionList &#x3D;&gt; regionList.regions),
+        map((regionList) &#x3D;&gt; regionList.regions),
         this.converterService.pipeableMany(REGION_NORMALIZER)
       );
   }
@@ -525,8 +525,8 @@ export class OccSiteAdapter implements SiteAdapter {
     return this.http
       .get&lt;{ baseSites: BaseSite[] }&gt;(url, { params: params })
       .pipe(
-        map(siteList &#x3D;&gt; {
-          return siteList.baseSites.find(site &#x3D;&gt; site.uid &#x3D;&#x3D;&#x3D; activeSite);
+        map((siteList) &#x3D;&gt; {
+          return siteList.baseSites.find((site) &#x3D;&gt; site.uid &#x3D;&#x3D;&#x3D; activeSite);
         })
       );
   }

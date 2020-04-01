@@ -68,9 +68,8 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>Resolves the page title which is first and foremost used
-for the page title tag, but could also be used for the
-page heading in the UI.</p>
+                <p>Resolves the page title which is first and foremost used for the page
+title tag, but could also be used as a fallback for the page heading.</p>
 
             </p>
 
@@ -87,9 +86,6 @@ page heading in the UI.</p>
                     <tr>
                         <td class="col-md-4">
                             <ul class="index-list">
-                                <li>
-                                    <a href="#resolveTitle">resolveTitle</a>
-                                </li>
                                 <li>
                                     <a href="#resolveTitle">resolveTitle</a>
                                 </li>
@@ -120,78 +116,6 @@ page heading in the UI.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>resolveTitle(...args: any[])</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/core/src/cms/page/page.resolvers.ts:39</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Resolves the page title.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>args</td>
-                                    <td>
-                                            <code>any[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="resolveTitle"></a>
-                    <span class="name">
-                        <b>
-                            resolveTitle
-                        </b>
-                        <a href="#resolveTitle"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
 <code>resolveTitle()</code>
                 </td>
             </tr>
@@ -199,8 +123,8 @@ page heading in the UI.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">projects/core/src/cms/page/page.resolvers.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/core/src/cms/page/page.resolvers.ts:29</a></div>
                 </td>
             </tr>
 
@@ -225,24 +149,19 @@ page heading in the UI.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &#x27;rxjs&#x27;;
-import { PageRobotsMeta } from &#x27;../model/page.model&#x27;;
+import { BreadcrumbMeta, PageRobotsMeta } from &#x27;../model/page.model&#x27;;
 
 /**
- * Resolves the page heading which is used in the UI. The page
- * heading might differ from the page title, which is used to address
- * the page in the browser (history, tabs) and outside the storefront
- * (Goolge, bots, etc).
+ * Resolves the page heading value which is used in the UI (typically
+ * the &#x60;&lt;H1&gt;&#x60;). The page heading might differ from the page title,
+ * which is used in the browser (history, tabs) and outside the storefront
+ * by search crawlers (Google Seach, Bing) and social crawlers (facebook,
+ * pinterest).
+ *
+ * While there are multiple standard resolvers available, nothing stops you
+ * from adding custom resolvers to the list of &#x60;PageMetaService.resolverMethods&#x60;.
  */
 export interface PageHeadingResolver {
-  /**
-   * Resolves the page heading.
-   *
-   * @deprecated since version 1.3
-   * Use &#x60;resolveHeading()&#x60; instead.
-   */
-  // tslint:disable-next-line: unified-signatures
-  resolveHeading(...args): Observable&lt;string&gt;;
-
   /**
    * Resolves the page heading.
    */
@@ -250,20 +169,10 @@ export interface PageHeadingResolver {
 }
 
 /**
- * Resolves the page title which is first and foremost used
- * for the page title tag, but could also be used for the
- * page heading in the UI.
+ * Resolves the page title which is first and foremost used for the page
+ * title tag, but could also be used as a fallback for the page heading.
  */
 export interface PageTitleResolver {
-  /**
-   * Resolves the page title.
-   *
-   * @deprecated since version 1.3
-   * Use &#x60;resolveTitle()&#x60; instead.
-   */
-  // tslint:disable-next-line: unified-signatures
-  resolveTitle(...args): Observable&lt;string&gt;;
-
   /**
    * Resolves the page title.
    */
@@ -277,36 +186,19 @@ export interface PageTitleResolver {
 export interface PageDescriptionResolver {
   /**
    * Resolves the page description.
-   *
-   * @deprecated since version 1.3
-   * Use &#x60;resolveHeading()&#x60; instead.
-   */
-  // tslint:disable-next-line: unified-signatures
-  resolveDescription(...args): Observable&lt;string&gt;;
-
-  /**
-   * Resolves the page description.
    */
   resolveDescription(): Observable&lt;string&gt;;
 }
 
 /**
- * Resolves breadcrumbs for the page, which is used in the &#x60;BreadcrumbComponent&#x60;
+ * Resolves breadcrumbs for the page, which are used in the
+ * &#x60;BreadcrumbComponent&#x60; and Structural Data.
  */
 export interface PageBreadcrumbResolver {
   /**
    * Resolves the breadcrumbs for the page.
-   *
-   * @deprecated since version 1.3
-   * Use &#x60;resolveBreadcrumbs()&#x60; instead.
    */
-  // tslint:disable-next-line: unified-signatures
-  resolveBreadcrumbs(...args): Observable&lt;any[]&gt;;
-
-  /**
-   * Resolves the breadcrumbs for the page.
-   */
-  resolveBreadcrumbs(): Observable&lt;any[]&gt;;
+  resolveBreadcrumbs(): Observable&lt;BreadcrumbMeta[]&gt;;
 }
 
 /**
@@ -315,15 +207,6 @@ export interface PageBreadcrumbResolver {
  * the &#x60;og:image&#x60; metatag).
  */
 export interface PageImageResolver {
-  /**
-   * Resolves the main image for the page.
-   *
-   * @deprecated since version 1.3
-   * Use &#x60;resolveImage()&#x60; instead.
-   */
-  // tslint:disable-next-line: unified-signatures
-  resolveImage(...args): Observable&lt;string&gt;;
-
   /**
    * Resolves the main image for the page.
    */
@@ -337,15 +220,6 @@ export interface PageImageResolver {
  *
  */
 export interface PageRobotsResolver {
-  /**
-   * Resolves the robots for the page.
-   *
-   * @deprecated since version 1.3
-   * Use &#x60;resolveRobots()&#x60; instead.
-   */
-  // tslint:disable-next-line: unified-signatures
-  resolveRobots(...args): Observable&lt;PageRobotsMeta[]&gt;;
-
   /**
    * Resolves the robots for the page.
    */

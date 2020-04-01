@@ -414,7 +414,7 @@ export class JsonLdProductReviewBuilder implements JsonLdBuilder&lt;Product&gt; 
       map((reviews: Review[]) &#x3D;&gt; {
         return {
           aggregateRating: this.buildAggregatedReviews(product, reviews),
-          review: reviews.map(review &#x3D;&gt; this.buildReviews(review)),
+          review: reviews.map((review) &#x3D;&gt; this.buildReviews(review)),
         };
       })
     );
@@ -428,8 +428,8 @@ export class JsonLdProductReviewBuilder implements JsonLdBuilder&lt;Product&gt; 
       aggregated.ratingValue &#x3D; product.averageRating;
     }
     if (reviews) {
-      aggregated.ratingCount &#x3D; reviews.filter(rev &#x3D;&gt; !!rev.rating).length;
-      aggregated.reviewCount &#x3D; reviews.filter(rev &#x3D;&gt; !!rev.comment).length;
+      aggregated.ratingCount &#x3D; reviews.filter((rev) &#x3D;&gt; !!rev.rating).length;
+      aggregated.reviewCount &#x3D; reviews.filter((rev) &#x3D;&gt; !!rev.comment).length;
     }
     return aggregated;
   }
@@ -444,8 +444,9 @@ export class JsonLdProductReviewBuilder implements JsonLdBuilder&lt;Product&gt; 
     }
     if (review.date) {
       const date &#x3D; new Date(review.date);
-      reviewSchema.datePublished &#x3D; &#x60;${date.getFullYear()}-${date.getMonth() +
-        1}-${date.getDate()}&#x60;;
+      reviewSchema.datePublished &#x3D; &#x60;${date.getFullYear()}-${
+        date.getMonth() + 1
+      }-${date.getDate()}&#x60;;
     }
     if (review.headline) {
       reviewSchema.name &#x3D; review.headline;

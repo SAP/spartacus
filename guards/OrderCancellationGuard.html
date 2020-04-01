@@ -221,7 +221,7 @@ export class OrderCancellationGuard implements CanActivate {
 
   canActivate(): Observable&lt;boolean | UrlTree&gt; {
     return this.orderAmendService.getForm().pipe(
-      map(form &#x3D;&gt; {
+      map((form) &#x3D;&gt; {
         if (!form.valid) {
           // the order code is not available in the route
           // as long as we&#x27;re inside a guard, hence we redirect

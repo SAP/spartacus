@@ -243,7 +243,8 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { standardUser } from &#x27;../sample-data/shared-users&#x27;;
 import { login, register } from &#x27;./auth-forms&#x27;;
 import { waitForPage } from &#x27;./checkout-flow&#x27;;
-import { createSpecificProductQuery } from &#x27;./product-search&#x27;;
+import { PRODUCT_LISTING } from &#x27;./data-configuration&#x27;;
+import { createProductQuery, QUERY_ALIAS } from &#x27;./product-search&#x27;;
 import { generateMail, randomString } from &#x27;./user&#x27;;
 
 interface TestProduct {
@@ -253,12 +254,21 @@ interface TestProduct {
   price?: number;
 }
 
-const formatPrice &#x3D; (price: number) &#x3D;&gt;
-  new Intl.NumberFormat(&#x27;en-US&#x27;, {
-    style: &#x27;currency&#x27;,
-    currency: &#x27;USD&#x27;,
-    minimumFractionDigits: 2,
-  }).format(price);
+const formatPrice &#x3D; (price: number, currency: string &#x3D; &#x27;USD&#x27;) &#x3D;&gt; {
+  if (currency &#x3D;&#x3D;&#x3D; &#x27;USD&#x27;) {
+    return new Intl.NumberFormat(&#x27;en-US&#x27;, {
+      style: &#x27;currency&#x27;,
+      currency: &#x27;USD&#x27;,
+      minimumFractionDigits: 2,
+    }).format(price);
+  } else if (currency &#x3D;&#x3D;&#x3D; &#x27;GBP&#x27;) {
+    return new Intl.NumberFormat(&#x27;en-GB&#x27;, {
+      style: &#x27;currency&#x27;,
+      currency: &#x27;GBP&#x27;,
+      minimumFractionDigits: 2,
+    }).format(price);
+  }
+};
 
 export const products: TestProduct[] &#x3D; [
   {
@@ -302,9 +312,7 @@ function checkCartSummary(subtotal: string) {
 }
 
 function incrementQuantity() {
-  cy.get(&#x27;.cx-counter-action&#x27;)
-    .contains(&#x27;+&#x27;)
-    .click();
+  cy.get(&#x27;cx-item-counter button&#x27;).contains(&#x27;+&#x27;).click();
 }
 
 function goToFirstProductFromSearch(id: string, mobile: boolean) {
@@ -312,22 +320,19 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
   if (mobile) {
     cy.get(&#x27;cx-searchbox cx-icon[aria-label&#x3D;&quot;search&quot;]&#x27;).click();
 
-    createSpecificProductQuery(id, &#x27;productCode_query&#x27;);
+    createProductQuery(
+      QUERY_ALIAS.PRODUCE_CODE,
+      id,
+      PRODUCT_LISTING.PRODUCTS_PER_PAGE
+    );
 
-    cy.get(&#x27;cx-searchbox input&#x27;)
-      .clear({ force: true })
-      .type(id, { force: true })
-      .type(&#x27;{enter}&#x27;, { force: true });
+    cy.get(&#x27;cx-searchbox input&#x27;).clear().type(&#x60;${id}{enter}&#x60;);
 
-    cy.wait(&#x27;@productCode_query&#x27;)
-      .its(&#x27;status&#x27;)
-      .should(&#x27;eq&#x27;, 200);
+    cy.wait(&#x60;@${QUERY_ALIAS.PRODUCE_CODE}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 
-    cy.get(&#x27;cx-product-list-item&#x27;)
+    cy.get(&#x27;cx-product-list-item .cx-product-name&#x27;)
       .first()
-      .get(&#x27;.cx-product-name&#x27;)
-      .first()
-      .click();
+      .click({ force: true });
   } else {
     cy.get(&#x27;cx-searchbox input&#x27;)
       .clear({ force: true })
@@ -354,10 +359,7 @@ export function validateEmptyCart() {
 }
 
 export function addToCart() {
-  cy.get(&#x27;cx-add-to-cart&#x27;)
-    .getAllByText(/Add To Cart/i)
-    .first()
-    .click({ force: true });
+  cy.get(&#x27;cx-add-to-cart button[type&#x3D;submit]&#x27;).first().click({ force: true });
 }
 
 export function registerCartRefreshRoute() {
@@ -397,13 +399,16 @@ export function closeAddedToCartDialog() {
   cy.get(&#x27;cx-added-to-cart-dialog [aria-label&#x3D;&quot;Close&quot;]&#x27;).click({ force: true });
 }
 
-export function checkProductInCart(product, qty &#x3D; 1) {
+export function checkProductInCart(product, qty &#x3D; 1, currency &#x3D; &#x27;USD&#x27;) {
   return getCartItem(product.name).within(() &#x3D;&gt; {
-    cy.get(&#x27;.cx-price&gt;.cx-value&#x27;).should(&#x27;contain&#x27;, formatPrice(product.price));
-    cy.get(&#x27;.cx-counter-value&#x27;).should(&#x27;have.value&#x27;, &#x60;${qty}&#x60;);
+    cy.get(&#x27;.cx-price&gt;.cx-value&#x27;).should(
+      &#x27;contain&#x27;,
+      formatPrice(product.price, currency)
+    );
+    cy.get(&#x27;cx-item-counter input&#x27;).should(&#x27;have.value&#x27;, &#x60;${qty}&#x60;);
     cy.get(&#x27;.cx-total&gt;.cx-value&#x27;).should(
       &#x27;contain&#x27;,
-      formatPrice(qty * product.price)
+      formatPrice(qty * product.price, currency)
     );
     cy.root();
   });
@@ -426,9 +431,9 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
 }
 
 export function addProductToCartViaSearchPage(mobile: boolean) {
-  const product &#x3D; products[0];
+  const product &#x3D; products[4];
 
-  goToFirstProductFromSearch(product.type, mobile);
+  goToFirstProductFromSearch(product.code, mobile);
 
   addToCart();
 
@@ -440,17 +445,13 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 }
 
 export function removeAllItemsFromCart() {
-  const product0 &#x3D; products[0];
-  const product1 &#x3D; products[4];
-
   registerCartRefreshRoute();
 
-  removeCartItem(product0);
-  cy.wait(&#x27;@refresh_cart&#x27;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
+  removeCartItem(products[0]);
 
-  removeCartItem(product1);
+  cy.wait(&#x27;@refresh_cart&#x27;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+
+  removeCartItem(products[4]);
 
   validateEmptyCart();
 }
@@ -499,9 +500,7 @@ export function logOutAndNavigateToEmptyCart() {
 
   const cartPage &#x3D; waitForPage(&#x27;/cart&#x27;, &#x27;getCartPage&#x27;);
   cy.visit(&#x27;/cart&#x27;);
-  cy.wait(&#x60;@${cartPage}&#x60;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${cartPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 
   validateEmptyCart();
 }
@@ -509,15 +508,17 @@ export function logOutAndNavigateToEmptyCart() {
 export function addProductAsAnonymous() {
   const product &#x3D; products[2];
 
-  createSpecificProductQuery(product.code, &#x27;productCode_query&#x27;);
+  createProductQuery(
+    QUERY_ALIAS.PRODUCE_CODE,
+    product.code,
+    PRODUCT_LISTING.PRODUCTS_PER_PAGE
+  );
 
   cy.get(&#x27;cx-searchbox input&#x27;).type(&#x60;${product.code}{enter}&#x60;, {
     force: true,
   });
 
-  cy.wait(&#x27;@productCode_query&#x27;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${QUERY_ALIAS.PRODUCE_CODE}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 
   cy.get(&#x27;cx-product-list&#x27;)
     .contains(&#x27;cx-product-list-item&#x27;, product.name)
@@ -539,9 +540,7 @@ export function verifyMergedCartWhenLoggedIn() {
 
   const loginPage &#x3D; waitForPage(&#x27;/login&#x27;, &#x27;getLoginPage&#x27;);
   cy.get(&#x27;cx-login [role&#x3D;&quot;link&quot;]&#x27;).click();
-  cy.wait(&#x60;@${loginPage}&#x60;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${loginPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 
   login(
     standardUser.registrationData.email,
@@ -567,9 +566,7 @@ export function logOutAndEmptyCart() {
 
   const cartPage &#x3D; waitForPage(&#x27;/cart&#x27;, &#x27;getCartPage&#x27;);
   cy.visit(&#x27;/cart&#x27;);
-  cy.wait(&#x60;@${cartPage}&#x60;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${cartPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 
   validateEmptyCart();
 }
@@ -583,9 +580,7 @@ export function manipulateCartQuantity() {
 
   addToCart();
 
-  cy.wait(&#x27;@refresh_cart&#x27;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x27;@refresh_cart&#x27;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 
   checkAddedToCartDialog();
   closeAddedToCartDialog();
@@ -639,9 +634,7 @@ export function registerCartUser() {
 export function loginCartUser() {
   const loginPage &#x3D; waitForPage(&#x27;/login&#x27;, &#x27;getLoginPage&#x27;);
   cy.visit(&#x27;/login&#x27;);
-  cy.wait(&#x60;@${loginPage}&#x60;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${loginPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
   login(cartUser.registrationData.email, cartUser.registrationData.password);
   cy.url().should(&#x27;not.contain&#x27;, &#x27;login&#x27;);
 }

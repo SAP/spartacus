@@ -189,7 +189,7 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.CANCEL_ORDER_RETURN_REQUEST),
     map((action: UserActions.CancelOrderReturnRequest) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .cancelReturnRequest(
           payload.userId,
@@ -197,8 +197,8 @@
           payload.returnRequestModification
         )
         .pipe(
-          map(_ &#x3D;&gt; new UserActions.CancelOrderReturnRequestSuccess()),
-          catchError(error &#x3D;&gt;
+          map(() &#x3D;&gt; new UserActions.CancelOrderReturnRequestSuccess()),
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.CancelOrderReturnRequestFail(
                 makeErrorSerializable(error)
@@ -251,7 +251,7 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.CREATE_ORDER_RETURN_REQUEST),
     map((action: UserActions.CreateOrderReturnRequest) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .return(payload.userId, payload.returnRequestInput)
         .pipe(
@@ -259,7 +259,7 @@
             (returnRequest: ReturnRequest) &#x3D;&gt;
               new UserActions.CreateOrderReturnRequestSuccess(returnRequest)
           ),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.CreateOrderReturnRequestFail(
                 makeErrorSerializable(error)
@@ -312,7 +312,7 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_RETURN_REQUEST),
     map((action: UserActions.LoadOrderReturnRequest) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .getReturnRequestDetail(payload.userId, payload.returnRequestCode)
         .pipe(
@@ -320,7 +320,7 @@
             (returnRequest: ReturnRequest) &#x3D;&gt;
               new UserActions.LoadOrderReturnRequestSuccess(returnRequest)
           ),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.LoadOrderReturnRequestFail(
                 makeErrorSerializable(error)
@@ -373,7 +373,7 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_RETURN_REQUEST_LIST),
     map((action: UserActions.LoadOrderReturnRequestList) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .getReturnRequestList(
           payload.userId,
@@ -388,7 +388,7 @@
                 returnRequestList
               )
           ),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.LoadOrderReturnRequestListFail(
                 makeErrorSerializable(error)
@@ -441,7 +441,7 @@ export class OrderReturnRequestEffect {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.CREATE_ORDER_RETURN_REQUEST),
     map((action: UserActions.CreateOrderReturnRequest) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .return(payload.userId, payload.returnRequestInput)
         .pipe(
@@ -449,7 +449,7 @@ export class OrderReturnRequestEffect {
             (returnRequest: ReturnRequest) &#x3D;&gt;
               new UserActions.CreateOrderReturnRequestSuccess(returnRequest)
           ),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.CreateOrderReturnRequestFail(
                 makeErrorSerializable(error)
@@ -466,7 +466,7 @@ export class OrderReturnRequestEffect {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_RETURN_REQUEST),
     map((action: UserActions.LoadOrderReturnRequest) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .getReturnRequestDetail(payload.userId, payload.returnRequestCode)
         .pipe(
@@ -474,7 +474,7 @@ export class OrderReturnRequestEffect {
             (returnRequest: ReturnRequest) &#x3D;&gt;
               new UserActions.LoadOrderReturnRequestSuccess(returnRequest)
           ),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.LoadOrderReturnRequestFail(
                 makeErrorSerializable(error)
@@ -491,7 +491,7 @@ export class OrderReturnRequestEffect {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.CANCEL_ORDER_RETURN_REQUEST),
     map((action: UserActions.CancelOrderReturnRequest) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .cancelReturnRequest(
           payload.userId,
@@ -499,8 +499,8 @@ export class OrderReturnRequestEffect {
           payload.returnRequestModification
         )
         .pipe(
-          map(_ &#x3D;&gt; new UserActions.CancelOrderReturnRequestSuccess()),
-          catchError(error &#x3D;&gt;
+          map(() &#x3D;&gt; new UserActions.CancelOrderReturnRequestSuccess()),
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.CancelOrderReturnRequestFail(
                 makeErrorSerializable(error)
@@ -517,7 +517,7 @@ export class OrderReturnRequestEffect {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_RETURN_REQUEST_LIST),
     map((action: UserActions.LoadOrderReturnRequestList) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .getReturnRequestList(
           payload.userId,
@@ -532,7 +532,7 @@ export class OrderReturnRequestEffect {
                 returnRequestList
               )
           ),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.LoadOrderReturnRequestListFail(
                 makeErrorSerializable(error)

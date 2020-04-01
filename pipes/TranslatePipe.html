@@ -542,7 +542,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
       }
       this.sub &#x3D; this.service
         .translate(key, options, true)
-        .subscribe(val &#x3D;&gt; this.markForCheck(val));
+        .subscribe((val) &#x3D;&gt; this.markForCheck(val));
     }
   }
 

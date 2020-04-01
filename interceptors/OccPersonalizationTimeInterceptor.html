@@ -446,7 +446,7 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(
-      tap(event &#x3D;&gt; {
+      tap((event) &#x3D;&gt; {
         if (event instanceof HttpResponse) {
           if (event.headers.keys().includes(this.requestHeader)) {
             const receivedTimestamp &#x3D; event.headers.get(this.requestHeader);

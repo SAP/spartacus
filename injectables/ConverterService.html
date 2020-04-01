@@ -389,8 +389,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">projects/core/src/util/converter.service.ts:116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">projects/core/src/util/converter.service.ts:118</a></div>
                 </td>
             </tr>
 
@@ -936,7 +936,9 @@ export class ConverterService {
     injectionToken: InjectionToken&lt;Converter&lt;S, T&gt;&gt;
   ): T[] {
     if (this.hasConverters(injectionToken) &amp;&amp; Array.isArray(sources)) {
-      return sources.map(source &#x3D;&gt; this.convertSource(source, injectionToken));
+      return sources.map((source) &#x3D;&gt;
+        this.convertSource(source, injectionToken)
+      );
     } else {
       return sources as any[];
     }
@@ -946,12 +948,9 @@ export class ConverterService {
     source: S,
     injectionToken: InjectionToken&lt;Converter&lt;S, T&gt;&gt;
   ): T {
-    return this.getConverters(injectionToken).reduce(
-      (target, converter) &#x3D;&gt; {
-        return converter.convert(source, target);
-      },
-      undefined as T
-    );
+    return this.getConverters(injectionToken).reduce((target, converter) &#x3D;&gt; {
+      return converter.convert(source, target);
+    }, undefined as T);
   }
 }
 </code></pre>

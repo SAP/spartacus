@@ -202,9 +202,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as cart from &#x27;./cart&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { apiUrl } from &#x27;../support/utils/login&#x27;;
+import * as cart from &#x27;./cart&#x27;;
 import * as cartCoupon from &#x27;./cart-coupon&#x27;;
-import { apiUrl } from &#x27;../support/utils/login&#x27;;
 
 interface TestProduct {
   code: string;
@@ -220,9 +220,9 @@ export enum ItemList {
 
 export const products: TestProduct[] &#x3D; [
   {
-    code: &#x27;300938&#x27;,
-    name: &#x27;Photosmart E317 Digital Camera&#x27;,
-    price: 114.12,
+    code: &#x27;898503&#x27;,
+    name: &#x27;1V&#x27;,
+    price: 2117.0,
   },
   {
     code: &#x27;1934793&#x27;,
@@ -286,16 +286,7 @@ export function moveItem(
     cy.get(&#x27;.cx-sfl-btn &gt; .link&#x27;).click();
   });
   if (!isAnonymous) {
-    cy.wait([&#x27;@refresh_cart&#x27;, &#x27;@refresh_selectivecart&#x27;]).spread(
-      (refresh_cart, refresh_selectivecart) &#x3D;&gt; {
-        cy.wrap(refresh_cart)
-          .its(&#x27;status&#x27;)
-          .should(&#x27;eq&#x27;, 200);
-        cy.wrap(refresh_selectivecart)
-          .its(&#x27;status&#x27;)
-          .should(&#x27;eq&#x27;, 200);
-      }
-    );
+    cy.wait([&#x27;@refresh_cart&#x27;, &#x27;@refresh_selectivecart&#x27;]);
   }
 }
 
@@ -304,23 +295,17 @@ export function removeItem(product, position: ItemList) {
   getItem(product, position).within(() &#x3D;&gt; {
     cy.get(&#x27;.cx-remove-btn &gt; .link&#x27;)
       .should(&#x27;not.be.disabled&#x27;)
-      .then(el &#x3D;&gt; {
+      .then((el) &#x3D;&gt; {
         cy.wrap(el).click();
       });
   });
-  cy.wait(&#x27;@refresh_cart&#x27;)
-    .its(&#x27;status&#x27;)
-    .should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x27;@refresh_cart&#x27;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 }
 
 export function validateProduct(product, qty &#x3D; 1, position: ItemList) {
   return getItem(product, position).within(() &#x3D;&gt; {
-    if (position &#x3D;&#x3D;&#x3D; ItemList.Cart) {
-      cy.get(&#x27;.cx-counter-value&#x27;).should(&#x27;have.value&#x27;, &#x60;${qty}&#x60;);
-    } else {
-      cy.get(&#x27;.cx-quantity &gt; .cx-value&#x27;).should(&#x27;contain&#x27;, &#x60;${qty}&#x60;);
-    }
-    cy.get(&#x27;.cx-total &gt; .cx-value&#x27;).should(&#x27;exist&#x27;);
+    cy.get(&#x27;cx-item-counter input&#x27;).should(&#x27;have.value&#x27;, &#x60;${qty}&#x60;);
+    cy.get(&#x27;.cx-total .cx-value&#x27;).should(&#x27;exist&#x27;);
   });
 }
 
@@ -356,14 +341,10 @@ function verifyMiniCartQty(qty: number) {
 }
 
 export function addProductToCart(product) {
-  cy.get(&#x27;cx-searchbox cx-icon[aria-label&#x3D;&quot;search&quot;]&#x27;).click({ force: true });
-  cy.get(&#x27;cx-searchbox input&#x27;)
-    .clear()
-    .type(&#x60;${product.code}{enter}&#x60;);
-  cy.location(&#x27;pathname&#x27;).should(&#x27;contain&#x27;, &#x60;${product.code}&#x60;);
-  cy.get(&#x27;cx-add-to-cart:first&#x27;)
+  cy.visit(&#x60;/product/${product.code}&#x60;);
+
+  cy.get(&#x27;cx-add-to-cart&#x27;)
     .getAllByText(/Add To Cart/i)
-    .first()
     .click();
   cy.get(&#x27;cx-added-to-cart-dialog&#x27;).within(() &#x3D;&gt; {
     cy.get(&#x27;.cx-code&#x27;).should(&#x27;contain&#x27;, product.code);
@@ -400,23 +381,21 @@ export function verifySaveForLater() {
   addProductToCart(products[2]);
   validateCart(2, 1);
   validateCartPromotion(true);
-  moveItem(products[2], ItemList.SaveForLater);
+  moveItem(products[1], ItemList.SaveForLater);
   validateCart(1, 2);
-  validateCartPromotion(false);
-  moveItem(products[2], ItemList.Cart);
+  validateCartPromotion(true);
+  moveItem(products[1], ItemList.Cart);
   validateCartPromotion(true);
   validateCart(2, 1);
-  //validate merge
+  // validate merge
   addProductToCart(products[0]);
   validateCart(3, 1);
   moveItem(products[0], ItemList.SaveForLater);
-  validateProduct(products[0], 2, ItemList.SaveForLater);
   validateCart(2, 1);
   addProductToCart(products[0]);
   moveItem(products[0], ItemList.Cart);
   validateCart(3, 0);
   verifyMiniCartQty(5); //to avoid the cart item quatity is not updated yet
-  validateProduct(products[0], 3, ItemList.Cart);
   //remove
   moveItem(products[0], ItemList.SaveForLater);
   validateCart(2, 1);
@@ -441,6 +420,7 @@ export function verifyPlaceOrder() {
   addProductToCart(products[1]);
   moveItem(products[0], ItemList.SaveForLater);
   validateCart(1, 1);
+  cy.wait(1000);
   cartCoupon.placeOrder(stateAuth);
   cy.reload();
   validateCart(0, 1);

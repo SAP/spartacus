@@ -369,7 +369,7 @@ export class CarouselService {
   ): Observable&lt;number&gt; {
     return this.winRef.resize$.pipe(
       map(() &#x3D;&gt; (nativeElement as HTMLElement).clientWidth),
-      map(totalWidth &#x3D;&gt; this.calculateItems(totalWidth, itemWidth))
+      map((totalWidth) &#x3D;&gt; this.calculateItems(totalWidth, itemWidth))
     );
   }
 

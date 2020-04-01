@@ -180,12 +180,12 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.UPDATE_EMAIL),
     map((action: UserActions.UpdateEmailAction) &#x3D;&gt; action.payload),
-    concatMap(payload &#x3D;&gt;
+    concatMap((payload) &#x3D;&gt;
       this.userAccountConnector
         .updateEmail(payload.uid, payload.password, payload.newUid)
         .pipe(
           map(() &#x3D;&gt; new UserActions.UpdateEmailSuccessAction(payload.newUid)),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.UpdateEmailErrorAction(
                 makeErrorSerializable(error)
@@ -242,12 +242,12 @@ export class UpdateEmailEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.UPDATE_EMAIL),
     map((action: UserActions.UpdateEmailAction) &#x3D;&gt; action.payload),
-    concatMap(payload &#x3D;&gt;
+    concatMap((payload) &#x3D;&gt;
       this.userAccountConnector
         .updateEmail(payload.uid, payload.password, payload.newUid)
         .pipe(
           map(() &#x3D;&gt; new UserActions.UpdateEmailSuccessAction(payload.newUid)),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.UpdateEmailErrorAction(
                 makeErrorSerializable(error)

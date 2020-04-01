@@ -296,10 +296,10 @@ export class OrderDetailsService {
   ) {
     this.orderCode$ &#x3D; this.routingService
       .getRouterState()
-      .pipe(map(routingData &#x3D;&gt; routingData.state.params.orderCode));
+      .pipe(map((routingData) &#x3D;&gt; routingData.state.params.orderCode));
 
     this.orderLoad$ &#x3D; this.orderCode$.pipe(
-      tap(orderCode &#x3D;&gt; {
+      tap((orderCode) &#x3D;&gt; {
         if (orderCode) {
           this.userOrderService.loadOrderDetails(orderCode);
         } else {

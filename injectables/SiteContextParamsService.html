@@ -94,6 +94,9 @@
                                 <a href="#getValue">getValue</a>
                             </li>
                             <li>
+                                <a href="#getValues">getValues</a>
+                            </li>
+                            <li>
                                 <a href="#setValue">setValue</a>
                             </li>
                         </ul>
@@ -119,7 +122,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -208,8 +211,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:20</a></div>
                 </td>
             </tr>
 
@@ -247,8 +250,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:37</a></div>
                 </td>
             </tr>
 
@@ -317,8 +320,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:33</a></div>
                 </td>
             </tr>
 
@@ -387,8 +390,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -457,8 +460,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:29</a></div>
                 </td>
             </tr>
 
@@ -496,8 +499,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:47</a></div>
                 </td>
             </tr>
 
@@ -548,6 +551,84 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getValues"></a>
+                    <span class="name">
+                        <b>
+                            getValues
+                        </b>
+                        <a href="#getValues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getValues(params: string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:75</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get active values for all provided context parameters</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Context parameters</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;Array&lt;string&gt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Observable emitting array of all passed active context values</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="setValue"></a>
                     <span class="name">
                         <b>
@@ -566,8 +647,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:61</a></div>
                 </td>
             </tr>
 
@@ -633,13 +714,15 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Injector } from &#x27;@angular/core&#x27;;
-import { SiteContextConfig } from &#x27;../config/site-context-config&#x27;;
-import { SiteContext } from &#x27;../facade/site-context.interface&#x27;;
-import { ContextServiceMap } from &#x27;../providers/context-service-map&#x27;;
+import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
+import { distinctUntilChanged, filter } from &#x27;rxjs/operators&#x27;;
 import {
   getContextParameterDefault,
   getContextParameterValues,
 } from &#x27;../config/context-config-utils&#x27;;
+import { SiteContextConfig } from &#x27;../config/site-context-config&#x27;;
+import { SiteContext } from &#x27;../facade/site-context.interface&#x27;;
+import { ContextServiceMap } from &#x27;../providers/context-service-map&#x27;;
 
 @Injectable()
 export class SiteContextParamsService {
@@ -652,7 +735,7 @@ export class SiteContextParamsService {
   getContextParameters(): string[] {
     if (this.config.context) {
       return Object.keys(this.config.context).filter(
-        param &#x3D;&gt; param !&#x3D;&#x3D; &#x27;urlParameters&#x27;
+        (param) &#x3D;&gt; param !&#x3D;&#x3D; &#x27;urlParameters&#x27;
       );
     }
     return [];
@@ -683,7 +766,7 @@ export class SiteContextParamsService {
     if (service) {
       service
         .getActive()
-        .subscribe(val &#x3D;&gt; (value &#x3D; val))
+        .subscribe((val) &#x3D;&gt; (value &#x3D; val))
         .unsubscribe();
     }
 
@@ -695,6 +778,27 @@ export class SiteContextParamsService {
     if (service) {
       service.setActive(value);
     }
+  }
+
+  /**
+   * Get active values for all provided context parameters
+   *
+   * @param params Context parameters
+   *
+   * @returns Observable emitting array of all passed active context values
+   */
+  getValues(params: string[]): Observable&lt;Array&lt;string&gt;&gt; {
+    if (params.length &#x3D;&#x3D;&#x3D; 0) {
+      return of([]);
+    }
+
+    return combineLatest(
+      params.map((param) &#x3D;&gt;
+        this.getSiteContextService(param)
+          .getActive()
+          .pipe(distinctUntilChanged())
+      )
+    ).pipe(filter((value) &#x3D;&gt; value.every((param) &#x3D;&gt; !!param)));
   }
 }
 </code></pre>

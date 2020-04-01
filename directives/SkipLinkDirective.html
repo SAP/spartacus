@@ -133,12 +133,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(elRef: ElementRef<HTMLElement>, skipLinkService: <a href="../injectables/SkipLinkService.html">SkipLinkService</a>)</code>
+<code>constructor(elementRef: ElementRef<HTMLElement>, skipLinkService: <a href="../injectables/SkipLinkService.html">SkipLinkService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/directive/skip-link.directive.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/directive/skip-link.directive.ts:8</a></div>
                             </td>
                         </tr>
 
@@ -156,7 +156,7 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>elRef</td>
+                                                        <td>elementRef</td>
                                                   
                                                         <td>
                                                                     <code>ElementRef&lt;HTMLElement&gt;</code>
@@ -206,7 +206,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/directive/skip-link.directive.ts:9</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/directive/skip-link.directive.ts:8</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -242,8 +242,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/directive/skip-link.directive.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/directive/skip-link.directive.ts:19</a></div>
                 </td>
             </tr>
 
@@ -281,8 +281,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/directive/skip-link.directive.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/skip-link/directive/skip-link.directive.ts:15</a></div>
                 </td>
             </tr>
 
@@ -305,23 +305,22 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, Input, OnDestroy, OnInit, ElementRef } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, ElementRef, Input, OnDestroy, OnInit } from &#x27;@angular/core&#x27;;
 import { SkipLinkService } from &#x27;../service/skip-link.service&#x27;;
 
 @Directive({
   selector: &#x27;[cxSkipLink]&#x27;,
 })
 export class SkipLinkDirective implements OnInit, OnDestroy {
-  @Input()
-  cxSkipLink: string;
+  @Input() cxSkipLink: string;
 
   constructor(
-    private elRef: ElementRef&lt;HTMLElement&gt;,
-    private skipLinkService: SkipLinkService
+    protected elementRef: ElementRef&lt;HTMLElement&gt;,
+    protected skipLinkService: SkipLinkService
   ) {}
 
   ngOnInit(): void {
-    this.skipLinkService.add(this.cxSkipLink, this.elRef.nativeElement);
+    this.skipLinkService.add(this.cxSkipLink, this.elementRef.nativeElement);
   }
 
   ngOnDestroy(): void {

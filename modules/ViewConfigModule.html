@@ -118,7 +118,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
 import { ViewConfig } from &#x27;./view-config&#x27;;
-import { Config, provideConfig } from &#x27;@spartacus/core&#x27;;
+import { Config, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 
 @NgModule({})
 export class ViewConfigModule {
@@ -126,7 +126,7 @@ export class ViewConfigModule {
     return {
       ngModule: ViewConfigModule,
       providers: [
-        provideConfig({
+        provideDefaultConfig({
           view: {},
         }),
         {

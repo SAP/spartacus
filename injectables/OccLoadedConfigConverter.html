@@ -826,7 +826,7 @@ export class OccLoadedConfigConverter {
   constructor(private javaRegExpConverter: JavaRegExpConverter) {}
 
   fromOccBaseSites(baseSites: BaseSite[], currentUrl: string): OccLoadedConfig {
-    const baseSite &#x3D; baseSites.find(site &#x3D;&gt;
+    const baseSite &#x3D; baseSites.find((site) &#x3D;&gt;
       this.isCurrentBaseSite(site, currentUrl)
     );
     if (!baseSite) {
@@ -879,7 +879,7 @@ export class OccLoadedConfigConverter {
   }
 
   private isCurrentBaseSite(site: Occ.BaseSite, currentUrl: string): boolean {
-    const index &#x3D; (site.urlPatterns || []).findIndex(javaRegexp &#x3D;&gt; {
+    const index &#x3D; (site.urlPatterns || []).findIndex((javaRegexp) &#x3D;&gt; {
       const jsRegexp &#x3D; this.javaRegExpConverter.toJsRegExp(javaRegexp);
       if (jsRegexp) {
         const result &#x3D; jsRegexp.test(currentUrl);
@@ -898,7 +898,7 @@ export class OccLoadedConfigConverter {
   private getUrlParams(params: string[]): string[] {
     const STOREFRONT_PARAM &#x3D; &#x27;storefront&#x27;;
 
-    return (params || []).map(param &#x3D;&gt;
+    return (params || []).map((param) &#x3D;&gt;
       param &#x3D;&#x3D;&#x3D; STOREFRONT_PARAM ? BASE_SITE_CONTEXT_ID : param
     );
   }
@@ -912,8 +912,8 @@ export class OccLoadedConfigConverter {
   ) {
     const result &#x3D; this.moveToFirst(
       elements,
-      el &#x3D;&gt; el.isocode &#x3D;&#x3D;&#x3D; defaultElement.isocode
-    ).map(el &#x3D;&gt; el.isocode);
+      (el) &#x3D;&gt; el.isocode &#x3D;&#x3D;&#x3D; defaultElement.isocode
+    ).map((el) &#x3D;&gt; el.isocode);
     return result;
   }
 

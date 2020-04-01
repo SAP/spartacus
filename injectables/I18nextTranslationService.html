@@ -713,7 +713,7 @@ export class I18nextTranslationService implements TranslationService {
     const chunkName &#x3D; this.translationChunk.getChunkNameForKey(key);
     const namespacedKey &#x3D; this.getNamespacedKey(key, chunkName);
 
-    return new Observable&lt;string&gt;(subscriber &#x3D;&gt; {
+    return new Observable&lt;string&gt;((subscriber) &#x3D;&gt; {
       const translate &#x3D; () &#x3D;&gt; {
         if (i18next.exists(namespacedKey, options)) {
           subscriber.next(i18next.t(namespacedKey, options));

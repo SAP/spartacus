@@ -387,7 +387,7 @@ export class ExternalJsFileLoader {
       result &#x3D;
         &#x27;?&#x27; +
         keysArray
-          .map(key &#x3D;&gt; encodeURI(key) + &#x27;&#x3D;&#x27; + encodeURI(params[key]))
+          .map((key) &#x3D;&gt; encodeURI(key) + &#x27;&#x3D;&#x27; + encodeURI(params[key]))
           .join(&#x27;&amp;&#x27;);
     }
     return result;

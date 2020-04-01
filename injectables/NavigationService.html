@@ -733,11 +733,11 @@ export class NavigationService {
       return of();
     }
     return data$.pipe(
-      filter(data &#x3D;&gt; !!data),
-      switchMap(data &#x3D;&gt; {
+      filter((data) &#x3D;&gt; !!data),
+      switchMap((data) &#x3D;&gt; {
         const navigation &#x3D; data.navigationNode ? data.navigationNode : data;
         return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
-          tap(items &#x3D;&gt; {
+          tap((items) &#x3D;&gt; {
             if (items &#x3D;&#x3D;&#x3D; undefined) {
               this.loadNavigationEntryItems(navigation, true);
             } else {
@@ -745,10 +745,10 @@ export class NavigationService {
               const expectedItems &#x3D; [];
               this.loadNavigationEntryItems(navigation, false, expectedItems);
               const existingItems &#x3D; Object.keys(items).map(
-                key &#x3D;&gt; items[key].uid
+                (key) &#x3D;&gt; items[key].uid
               );
               const missingItems &#x3D; expectedItems.filter(
-                it &#x3D;&gt; !existingItems.includes(it.id)
+                (it) &#x3D;&gt; !existingItems.includes(it.id)
               );
               if (missingItems.length &gt; 0) {
                 this.cmsService.loadNavigationItems(
@@ -759,7 +759,7 @@ export class NavigationService {
             }
           }),
           filter(Boolean),
-          map(items &#x3D;&gt; this.populateNavigationNode(navigation, items))
+          map((items) &#x3D;&gt; this.populateNavigationNode(navigation, items))
         );
       })
     );
@@ -777,7 +777,7 @@ export class NavigationService {
     itemsList &#x3D; []
   ): void {
     if (nodeData.entries &amp;&amp; nodeData.entries.length &gt; 0) {
-      nodeData.entries.forEach(entry &#x3D;&gt; {
+      nodeData.entries.forEach((entry) &#x3D;&gt; {
         itemsList.push({
           superType: entry.itemSuperType,
           id: entry.itemId,
@@ -786,7 +786,7 @@ export class NavigationService {
     }
 
     if (nodeData.children &amp;&amp; nodeData.children.length &gt; 0) {
-      nodeData.children.forEach(child &#x3D;&gt;
+      nodeData.children.forEach((child) &#x3D;&gt;
         this.loadNavigationEntryItems(child, false, itemsList)
       );
     }
@@ -816,7 +816,7 @@ export class NavigationService {
 
     if (nodeData.children &amp;&amp; nodeData.children.length &gt; 0) {
       const children &#x3D; nodeData.children
-        .map(child &#x3D;&gt; this.populateNavigationNode(child, items))
+        .map((child) &#x3D;&gt; this.populateNavigationNode(child, items))
         .filter(Boolean);
       if (children.length &gt; 0) {
         node.children &#x3D; children;

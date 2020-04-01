@@ -111,7 +111,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:83</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:102</a></div>
                             </td>
                         </tr>
 
@@ -175,7 +175,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:84</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:103</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +202,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:83</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:102</a></div>
                             </td>
                         </tr>
 
@@ -222,8 +222,13 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Action } from &#x27;@ngrx/store&#x27;;
-import { StateLoaderActions } from &#x27;../../../state/utils/index&#x27;;
-import { CART_DATA } from &#x27;../cart-state&#x27;;
+import { Cart } from &#x27;../../../model/cart.model&#x27;;
+import {
+  EntityFailAction,
+  EntityLoadAction,
+  EntitySuccessAction,
+} from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
+import { MULTI_CART_DATA } from &#x27;../multi-cart-state&#x27;;
 
 export const CREATE_CART &#x3D; &#x27;[Cart] Create Cart&#x27;;
 export const CREATE_CART_FAIL &#x3D; &#x27;[Cart] Create Cart Fail&#x27;;
@@ -249,71 +254,81 @@ export const CLEAR_CART &#x3D; &#x27;[Cart] Clear Cart&#x27;;
 export const DELETE_CART &#x3D; &#x27;[Cart] Delete Cart&#x27;;
 export const DELETE_CART_FAIL &#x3D; &#x27;[Cart] Delete Cart Fail&#x27;;
 
-export class CreateCart extends StateLoaderActions.LoaderLoadAction {
+interface CreateCartPayload {
+  userId: string;
+  /** Used as a unique key in ngrx carts store (we don&#x27;t know cartId at that time) */
+  tempCartId: string;
+  extraData?: {
+    active?: boolean;
+  };
+  /** Anonymous cart which should be merged to new cart */
+  oldCartId?: string;
+  /** Cart to which should we merge (not passing this will create new cart) */
+  toMergeCartGuid?: string;
+}
+
+export class CreateCart extends EntityLoadAction {
   readonly type &#x3D; CREATE_CART;
-  constructor(public payload: any) {
-    super(CART_DATA);
+  constructor(public payload: CreateCartPayload) {
+    super(MULTI_CART_DATA, payload.tempCartId);
   }
 }
 
-export class CreateCartFail extends StateLoaderActions.LoaderFailAction {
+interface CreateCartFailPayload extends CreateCartPayload {
+  error: any;
+}
+
+export class CreateCartFail extends EntityFailAction {
   readonly type &#x3D; CREATE_CART_FAIL;
-  constructor(public payload: any) {
-    super(CART_DATA, payload);
+  constructor(public payload: CreateCartFailPayload) {
+    super(MULTI_CART_DATA, payload.tempCartId);
   }
 }
 
-export class CreateCartSuccess extends StateLoaderActions.LoaderSuccessAction {
+interface CreateCartSuccessPayload extends CreateCartPayload {
+  cart: Cart;
+  cartId: string;
+}
+
+export class CreateCartSuccess extends EntitySuccessAction {
   readonly type &#x3D; CREATE_CART_SUCCESS;
-  constructor(public payload: any) {
-    super(CART_DATA);
+  constructor(public payload: CreateCartSuccessPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
-export class AddEmailToCart extends StateLoaderActions.LoaderLoadAction {
+export class AddEmailToCart {
   readonly type &#x3D; ADD_EMAIL_TO_CART;
   constructor(
     public payload: { userId: string; cartId: string; email: string }
-  ) {
-    super(CART_DATA);
-  }
+  ) {}
 }
 
-export class AddEmailToCartFail extends StateLoaderActions.LoaderFailAction {
+export class AddEmailToCartFail {
   readonly type &#x3D; ADD_EMAIL_TO_CART_FAIL;
-  constructor(public payload: any) {
-    super(CART_DATA, payload);
-  }
+  constructor(public payload: any) {}
 }
 
-export class AddEmailToCartSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class AddEmailToCartSuccess {
   readonly type &#x3D; ADD_EMAIL_TO_CART_SUCCESS;
-  constructor(public payload: any) {
-    super(CART_DATA);
-  }
+  constructor(public payload: { userId: string; cartId: string }) {}
 }
 
-export class LoadCart extends StateLoaderActions.LoaderLoadAction {
+export class LoadCart {
   readonly type &#x3D; LOAD_CART;
   constructor(
     public payload: { userId: string; cartId: string; extraData?: any }
-  ) {
-    super(CART_DATA);
-  }
+  ) {}
 }
 
-export class LoadCartFail extends StateLoaderActions.LoaderFailAction {
+export class LoadCartFail {
   readonly type &#x3D; LOAD_CART_FAIL;
-  constructor(public payload: any) {
-    super(CART_DATA, payload);
-  }
+  constructor(public payload: any) {}
 }
 
-export class LoadCartSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class LoadCartSuccess {
   readonly type &#x3D; LOAD_CART_SUCCESS;
-  constructor(public payload: any) {
-    super(CART_DATA);
-  }
+  constructor(public payload: any) {}
 }
 
 export class MergeCart implements Action {
@@ -323,7 +338,7 @@ export class MergeCart implements Action {
 
 export class MergeCartSuccess implements Action {
   readonly type &#x3D; MERGE_CART_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: { cartId: string; userId: string }) {}
 }
 
 export class ResetCartDetails implements Action {
@@ -336,25 +351,19 @@ export class ClearExpiredCoupons implements Action {
   constructor(public payload: any) {}
 }
 
-export class ClearCart extends StateLoaderActions.LoaderResetAction {
+export class ClearCart {
   readonly type &#x3D; CLEAR_CART;
-  constructor() {
-    super(CART_DATA);
-  }
+  constructor() {}
 }
 
-export class DeleteCart extends StateLoaderActions.LoaderLoadAction {
+export class DeleteCart {
   readonly type &#x3D; DELETE_CART;
-  constructor(public payload: { userId: string; cartId: string }) {
-    super(CART_DATA);
-  }
+  constructor(public payload: { userId: string; cartId: string }) {}
 }
 
-export class DeleteCartFail extends StateLoaderActions.LoaderFailAction {
+export class DeleteCartFail {
   readonly type &#x3D; DELETE_CART_FAIL;
-  constructor(public payload: any) {
-    super(CART_DATA, payload);
-  }
+  constructor(public payload: any) {}
 }
 
 export type CartAction &#x3D;

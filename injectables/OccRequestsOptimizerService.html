@@ -288,7 +288,7 @@ export class OccRequestsOptimizerService {
     const result &#x3D; [];
 
     if (!dataFactory) {
-      dataFactory &#x3D; url &#x3D;&gt; this.http.get&lt;any&gt;(url);
+      dataFactory &#x3D; (url) &#x3D;&gt; this.http.get&lt;any&gt;(url);
     }
 
     const mergedUrls &#x3D; this.occFields.getOptimalUrlGroups(scopedDataWithUrls);
@@ -311,17 +311,13 @@ export class OccRequestsOptimizerService {
         } else {
           // multiple scopes per url
           // we have to split the model per each scope
-          const data$ &#x3D; dataFactory(url).pipe(
-            shareReplay(1),
-            // TODO deprecated since 1.4, remove
-            map(data &#x3D;&gt; JSON.parse(JSON.stringify(data)))
-          );
+          const data$ &#x3D; dataFactory(url).pipe(shareReplay(1));
 
-          groupedModels.forEach(modelData &#x3D;&gt; {
+          groupedModels.forEach((modelData) &#x3D;&gt; {
             result.push({
               ...modelData.scopedData,
               data$: data$.pipe(
-                map(data &#x3D;&gt; extractFields&lt;T&gt;(data, modelData.fields))
+                map((data) &#x3D;&gt; extractFields&lt;T&gt;(data, modelData.fields))
               ),
             });
           });

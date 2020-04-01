@@ -361,14 +361,14 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.ADD_USER_ADDRESS),
     map((action: UserActions.AddUserAddress) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.userAddressConnector
         .add(payload.userId, payload.address)
         .pipe(
           map((data: any) &#x3D;&gt; {
             return new UserActions.AddUserAddressSuccess(data);
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(new UserActions.AddUserAddressFail(makeErrorSerializable(error)))
           )
         );
@@ -417,14 +417,14 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.DELETE_USER_ADDRESS),
     map((action: UserActions.DeleteUserAddress) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.userAddressConnector
         .delete(payload.userId, payload.addressId)
         .pipe(
-          map(data &#x3D;&gt; {
+          map((data) &#x3D;&gt; {
             return new UserActions.DeleteUserAddressSuccess(data);
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.DeleteUserAddressFail(
                 makeErrorSerializable(error)
@@ -477,12 +477,12 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.LOAD_USER_ADDRESSES),
     map((action: UserActions.LoadUserAddresses) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.userAddressConnector.getAll(payload).pipe(
         map((addresses: Address[]) &#x3D;&gt; {
           return new UserActions.LoadUserAddressesSuccess(addresses);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.LoadUserAddressesFail(makeErrorSerializable(error))
           )
@@ -674,11 +674,11 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.UPDATE_USER_ADDRESS),
     map((action: UserActions.UpdateUserAddress) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.userAddressConnector
         .update(payload.userId, payload.addressId, payload.address)
         .pipe(
-          map(data &#x3D;&gt; {
+          map((data) &#x3D;&gt; {
             // don&#x27;t show the message if just setting address as default
             if (
               payload.address &amp;&amp;
@@ -690,7 +690,7 @@
               return new UserActions.UpdateUserAddressSuccess(data);
             }
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.UpdateUserAddressFail(
                 makeErrorSerializable(error)
@@ -748,12 +748,12 @@ export class UserAddressesEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_USER_ADDRESSES),
     map((action: UserActions.LoadUserAddresses) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.userAddressConnector.getAll(payload).pipe(
         map((addresses: Address[]) &#x3D;&gt; {
           return new UserActions.LoadUserAddressesSuccess(addresses);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.LoadUserAddressesFail(makeErrorSerializable(error))
           )
@@ -768,14 +768,14 @@ export class UserAddressesEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.ADD_USER_ADDRESS),
     map((action: UserActions.AddUserAddress) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.userAddressConnector
         .add(payload.userId, payload.address)
         .pipe(
           map((data: any) &#x3D;&gt; {
             return new UserActions.AddUserAddressSuccess(data);
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(new UserActions.AddUserAddressFail(makeErrorSerializable(error)))
           )
         );
@@ -788,11 +788,11 @@ export class UserAddressesEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.UPDATE_USER_ADDRESS),
     map((action: UserActions.UpdateUserAddress) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.userAddressConnector
         .update(payload.userId, payload.addressId, payload.address)
         .pipe(
-          map(data &#x3D;&gt; {
+          map((data) &#x3D;&gt; {
             // don&#x27;t show the message if just setting address as default
             if (
               payload.address &amp;&amp;
@@ -804,7 +804,7 @@ export class UserAddressesEffects {
               return new UserActions.UpdateUserAddressSuccess(data);
             }
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.UpdateUserAddressFail(
                 makeErrorSerializable(error)
@@ -821,14 +821,14 @@ export class UserAddressesEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.DELETE_USER_ADDRESS),
     map((action: UserActions.DeleteUserAddress) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.userAddressConnector
         .delete(payload.userId, payload.addressId)
         .pipe(
-          map(data &#x3D;&gt; {
+          map((data) &#x3D;&gt; {
             return new UserActions.DeleteUserAddressSuccess(data);
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.DeleteUserAddressFail(
                 makeErrorSerializable(error)

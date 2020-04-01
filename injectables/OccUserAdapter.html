@@ -1084,7 +1084,7 @@ export class OccUserAdapter implements UserAdapter {
   loadTitles(): Observable&lt;Title[]&gt; {
     const url &#x3D; this.occEndpoints.getUrl(&#x27;titles&#x27;);
     return this.http.get&lt;Occ.TitleList&gt;(url).pipe(
-      map(titleList &#x3D;&gt; titleList.titles),
+      map((titleList) &#x3D;&gt; titleList.titles),
       this.converter.pipeableMany(TITLE_NORMALIZER)
     );
   }

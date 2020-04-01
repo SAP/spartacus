@@ -341,8 +341,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">projects/storefrontlib/src/recipes/storefront.module.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/storefrontlib/src/recipes/storefront.module.ts:50</a></div>
                 </td>
             </tr>
 
@@ -420,17 +420,7 @@ import { StorefrontFoundationModule } from &#x27;./storefront-foundation.module&
       anchorScrolling: &#x27;enabled&#x27;,
     }),
 
-    StoreModule.forRoot(
-      {},
-      {
-        runtimeChecks: {
-          strictStateImmutability: true,
-          strictStateSerializability: true,
-          strictActionImmutability: true,
-          strictActionSerializability: true,
-        },
-      }
-    ),
+    StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
 
     // ASM module must be imported before the &#x60;AuthModule (which is imported in &#x60;StorefrontFoundationModule&#x60;)

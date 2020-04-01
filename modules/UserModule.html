@@ -166,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">projects/core/src/user/user.module.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="8"
+                            class="link-to-prism">projects/core/src/user/user.module.ts:8</a></div>
                 </td>
             </tr>
 
@@ -189,10 +189,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { UserService } from &#x27;./facade/user.service&#x27;;
 import { UserStoreModule } from &#x27;./store/user-store.module&#x27;;
-import { PageMetaResolver } from &#x27;../cms/page/page-meta.resolver&#x27;;
-import { FindProductPageMetaResolver } from &#x27;./services/find-product-page-meta.resolver&#x27;;
 
 @NgModule({
   imports: [UserStoreModule],
@@ -201,14 +198,6 @@ export class UserModule {
   static forRoot(): ModuleWithProviders&lt;UserModule&gt; {
     return {
       ngModule: UserModule,
-      providers: [
-        UserService,
-        {
-          provide: PageMetaResolver,
-          useExisting: FindProductPageMetaResolver,
-          multi: true,
-        },
-      ],
     };
   }
 }

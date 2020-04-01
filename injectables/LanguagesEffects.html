@@ -246,9 +246,9 @@
     exhaustMap(() &#x3D;&gt; {
       return this.siteConnector.getLanguages().pipe(
         map(
-          languages &#x3D;&gt; new SiteContextActions.LoadLanguagesSuccess(languages)
+          (languages) &#x3D;&gt; new SiteContextActions.LoadLanguagesSuccess(languages)
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new SiteContextActions.LoadLanguagesFail(
               makeErrorSerializable(error)
@@ -304,9 +304,9 @@ export class LanguagesEffects {
     exhaustMap(() &#x3D;&gt; {
       return this.siteConnector.getLanguages().pipe(
         map(
-          languages &#x3D;&gt; new SiteContextActions.LoadLanguagesSuccess(languages)
+          (languages) &#x3D;&gt; new SiteContextActions.LoadLanguagesSuccess(languages)
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new SiteContextActions.LoadLanguagesFail(
               makeErrorSerializable(error)

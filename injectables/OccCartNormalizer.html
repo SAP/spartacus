@@ -417,7 +417,7 @@ export class OccCartNormalizer implements Converter&lt;Occ.Cart, Cart&gt; {
     }
 
     if (source &amp;&amp; source.entries) {
-      target.entries &#x3D; source.entries.map(entry &#x3D;&gt; ({
+      target.entries &#x3D; source.entries.map((entry) &#x3D;&gt; ({
         ...entry,
         product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
       }));
@@ -458,7 +458,7 @@ export class OccCartNormalizer implements Converter&lt;Occ.Cart, Cart&gt; {
 
   private removeDuplicateItems(itemList: any[]): any[] {
     return itemList.filter((p, i, a) &#x3D;&gt; {
-      const b &#x3D; a.map(el &#x3D;&gt; JSON.stringify(el));
+      const b &#x3D; a.map((el) &#x3D;&gt; JSON.stringify(el));
       return i &#x3D;&#x3D;&#x3D; b.indexOf(JSON.stringify(p));
     });
   }

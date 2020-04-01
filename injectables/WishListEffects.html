@@ -61,11 +61,6 @@
 
 
 
-            <p class="comment">
-                <h3>Example</h3>
-            </p>
-            <div class="io-description">
-            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -112,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:132</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:125</a></div>
                             </td>
                         </tr>
 
@@ -227,9 +222,9 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(CartActions.CREATE_WISH_LIST),
     map((action: CartActions.CreateWishList) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.cartConnector.create(payload.userId).pipe(
-        switchMap(cart &#x3D;&gt; {
+        switchMap((cart) &#x3D;&gt; {
           return this.saveCartConnector
             .saveCart(
               payload.userId,
@@ -238,13 +233,13 @@
               payload.description
             )
             .pipe(
-              switchMap(saveCartResult &#x3D;&gt; [
+              switchMap((saveCartResult) &#x3D;&gt; [
                 new CartActions.CreateWishListSuccess({
                   cart: saveCartResult.savedCartData,
                   userId: payload.userId,
                 }),
               ]),
-              catchError(error &#x3D;&gt;
+              catchError((error) &#x3D;&gt;
                 from([
                   new CartActions.CreateWishListFail({
                     cartId: cart.code,
@@ -270,7 +265,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:31</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -300,13 +295,13 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(CartActions.LOAD_WISH_LIST),
     map((action: CartActions.LoadWishList) &#x3D;&gt; action.payload),
-    concatMap(payload &#x3D;&gt; {
+    concatMap((payload) &#x3D;&gt; {
       const { userId, customerId } &#x3D; payload;
       return this.cartConnector.loadAll(userId).pipe(
-        switchMap(carts &#x3D;&gt; {
+        switchMap((carts) &#x3D;&gt; {
           if (carts) {
             const wishList &#x3D; carts.find(
-              cart &#x3D;&gt; cart.name &#x3D;&#x3D;&#x3D; &#x60;wishlist${customerId}&#x60;
+              (cart) &#x3D;&gt; cart.name &#x3D;&#x3D;&#x3D; &#x60;wishlist${customerId}&#x60;
             );
             if (Boolean(wishList)) {
               return [
@@ -325,7 +320,7 @@
             }
           }
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           from([new CartActions.LoadCartFail(makeErrorSerializable(error))])
         )
       );
@@ -344,7 +339,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:68</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:61</a></div>
                             </td>
                         </tr>
 
@@ -383,10 +378,10 @@
     switchMap(([, userId, wishListId]) &#x3D;&gt; {
       if (Boolean(wishListId)) {
         return this.cartConnector.load(userId, wishListId).pipe(
-          switchMap(wishList &#x3D;&gt; [
+          switchMap((wishList) &#x3D;&gt; [
             new CartActions.LoadWishListSuccess({ cart: wishList, userId }),
           ]),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             from([new CartActions.LoadCartFail(makeErrorSerializable(error))])
           )
         );
@@ -407,7 +402,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:108</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">projects/core/src/cart/store/effects/wish-list.effect.ts:101</a></div>
                             </td>
                         </tr>
 
@@ -440,13 +435,6 @@ import { CartActions } from &#x27;../actions&#x27;;
 import { StateWithMultiCart } from &#x27;../multi-cart-state&#x27;;
 import { MultiCartSelectors } from &#x27;../selectors&#x27;;
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx effects will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 @Injectable()
 export class WishListEffects {
   @Effect()
@@ -455,9 +443,9 @@ export class WishListEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(CartActions.CREATE_WISH_LIST),
     map((action: CartActions.CreateWishList) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.cartConnector.create(payload.userId).pipe(
-        switchMap(cart &#x3D;&gt; {
+        switchMap((cart) &#x3D;&gt; {
           return this.saveCartConnector
             .saveCart(
               payload.userId,
@@ -466,13 +454,13 @@ export class WishListEffects {
               payload.description
             )
             .pipe(
-              switchMap(saveCartResult &#x3D;&gt; [
+              switchMap((saveCartResult) &#x3D;&gt; [
                 new CartActions.CreateWishListSuccess({
                   cart: saveCartResult.savedCartData,
                   userId: payload.userId,
                 }),
               ]),
-              catchError(error &#x3D;&gt;
+              catchError((error) &#x3D;&gt;
                 from([
                   new CartActions.CreateWishListFail({
                     cartId: cart.code,
@@ -494,13 +482,13 @@ export class WishListEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(CartActions.LOAD_WISH_LIST),
     map((action: CartActions.LoadWishList) &#x3D;&gt; action.payload),
-    concatMap(payload &#x3D;&gt; {
+    concatMap((payload) &#x3D;&gt; {
       const { userId, customerId } &#x3D; payload;
       return this.cartConnector.loadAll(userId).pipe(
-        switchMap(carts &#x3D;&gt; {
+        switchMap((carts) &#x3D;&gt; {
           if (carts) {
             const wishList &#x3D; carts.find(
-              cart &#x3D;&gt; cart.name &#x3D;&#x3D;&#x3D; &#x60;wishlist${customerId}&#x60;
+              (cart) &#x3D;&gt; cart.name &#x3D;&#x3D;&#x3D; &#x60;wishlist${customerId}&#x60;
             );
             if (Boolean(wishList)) {
               return [
@@ -519,7 +507,7 @@ export class WishListEffects {
             }
           }
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           from([new CartActions.LoadCartFail(makeErrorSerializable(error))])
         )
       );
@@ -541,10 +529,10 @@ export class WishListEffects {
     switchMap(([, userId, wishListId]) &#x3D;&gt; {
       if (Boolean(wishListId)) {
         return this.cartConnector.load(userId, wishListId).pipe(
-          switchMap(wishList &#x3D;&gt; [
+          switchMap((wishList) &#x3D;&gt; [
             new CartActions.LoadWishListSuccess({ cart: wishList, userId }),
           ]),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             from([new CartActions.LoadCartFail(makeErrorSerializable(error))])
           )
         );

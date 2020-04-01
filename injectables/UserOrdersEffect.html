@@ -183,7 +183,7 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.LOAD_USER_ORDERS),
     map((action: UserActions.LoadUserOrders) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .getHistory(
           payload.userId,
@@ -195,7 +195,7 @@
           map((orders: OrderHistoryList) &#x3D;&gt; {
             return new UserActions.LoadUserOrdersSuccess(orders);
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(new UserActions.LoadUserOrdersFail(makeErrorSerializable(error)))
           )
         );
@@ -296,7 +296,7 @@ export class UserOrdersEffect {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_USER_ORDERS),
     map((action: UserActions.LoadUserOrders) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.orderConnector
         .getHistory(
           payload.userId,
@@ -308,7 +308,7 @@ export class UserOrdersEffect {
           map((orders: OrderHistoryList) &#x3D;&gt; {
             return new UserActions.LoadUserOrdersSuccess(orders);
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(new UserActions.LoadUserOrdersFail(makeErrorSerializable(error)))
           )
         );

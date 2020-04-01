@@ -276,7 +276,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
 import { FeaturesConfig } from &#x27;./config/features-config&#x27;;
-import { Config, provideConfig } from &#x27;../config/config.module&#x27;;
+import { Config, provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { FeatureLevelDirective } from &#x27;./directives/feature-level.directive&#x27;;
 import { FeatureDirective } from &#x27;./directives/feature.directive&#x27;;
 
@@ -291,7 +291,7 @@ export class FeaturesConfigModule {
     return {
       ngModule: FeaturesConfigModule,
       providers: [
-        provideConfig(&lt;FeaturesConfig&gt;{
+        provideDefaultConfig(&lt;FeaturesConfig&gt;{
           features: {
             level: defaultLevel || &#x27;*&#x27;,
           },

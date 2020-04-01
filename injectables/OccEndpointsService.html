@@ -701,7 +701,7 @@ export class OccEndpointsService {
     if (this.baseSiteService) {
       this.baseSiteService
         .getActive()
-        .subscribe(value &#x3D;&gt; (this.activeBaseSite &#x3D; value));
+        .subscribe((value) &#x3D;&gt; (this.activeBaseSite &#x3D; value));
     }
   }
 
@@ -764,7 +764,7 @@ export class OccEndpointsService {
     endpoint &#x3D; this.getEndpointForScope(endpoint, scope);
 
     if (urlParams) {
-      Object.keys(urlParams).forEach(key &#x3D;&gt; {
+      Object.keys(urlParams).forEach((key) &#x3D;&gt; {
         urlParams[key] &#x3D; encodeURIComponent(urlParams[key]);
       });
       endpoint &#x3D; DynamicTemplate.resolve(endpoint, urlParams);
@@ -781,7 +781,7 @@ export class OccEndpointsService {
       }
 
       let httpParams &#x3D; new HttpParams(httpParamsOptions);
-      Object.keys(queryParams).forEach(key &#x3D;&gt; {
+      Object.keys(queryParams).forEach((key) &#x3D;&gt; {
         const value &#x3D; queryParams[key];
         if (value !&#x3D;&#x3D; undefined) {
           if (value &#x3D;&#x3D;&#x3D; null) {

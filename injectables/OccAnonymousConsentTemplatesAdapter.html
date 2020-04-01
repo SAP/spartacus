@@ -236,8 +236,8 @@ export class OccAnonymousConsentTemplatesAdapter
   loadAnonymousConsentTemplates(): Observable&lt;ConsentTemplate[]&gt; {
     const url &#x3D; this.occEndpoints.getUrl(&#x27;anonymousConsentTemplates&#x27;);
     return this.http.get&lt;Occ.ConsentTemplateList&gt;(url).pipe(
-      catchError(error &#x3D;&gt; throwError(error)),
-      map(consentList &#x3D;&gt; consentList.consentTemplates),
+      catchError((error) &#x3D;&gt; throwError(error)),
+      map((consentList) &#x3D;&gt; consentList.consentTemplates),
       this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
     );
   }

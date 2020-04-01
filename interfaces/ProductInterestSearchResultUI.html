@@ -204,7 +204,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
       .getAndLoadProductInterests(this.DEFAULT_PAGE_SIZE)
       .pipe(
         tap(
-          interests &#x3D;&gt;
+          (interests) &#x3D;&gt;
             (this.pagination &#x3D; {
               currentPage: interests.pagination.page,
               pageSize: interests.pagination.count,
@@ -213,10 +213,10 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
               sort: &#x27;byNameAsc&#x27;,
             })
         ),
-        map(interest &#x3D;&gt; ({
+        map((interest) &#x3D;&gt; ({
           ...interest,
           results: interest.results
-            ? interest.results.map(result &#x3D;&gt; ({
+            ? interest.results.map((result) &#x3D;&gt; ({
                 ...result,
                 product$: this.getProduct(result),
               }))

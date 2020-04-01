@@ -426,8 +426,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="115"
-                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:115</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:117</a></div>
                 </td>
             </tr>
 
@@ -748,8 +748,10 @@ export class WishListService {
 
   getWishListLoading(): Observable&lt;boolean&gt; {
     return this.getWishListId().pipe(
-      switchMap(wishListId &#x3D;&gt;
-        this.multiCartService.isStable(wishListId).pipe(map(stable &#x3D;&gt; !stable))
+      switchMap((wishListId) &#x3D;&gt;
+        this.multiCartService
+          .isStable(wishListId)
+          .pipe(map((stable) &#x3D;&gt; !stable))
       )
     );
   }

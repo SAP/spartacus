@@ -22,15 +22,11 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_CmsParagraphModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="102,-70 102,-268 394,-268 394,-70 102,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="161,-70 161,-268 335,-268 335,-70 161,-70"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_CmsParagraphModule_declarations</title>
-<polygon fill="none" stroke="#000000" points="232,-78 232,-130 386,-130 386,-78 232,-78"/>
-</g>
-<g id="clust4" class="cluster">
-<title>cluster_CmsParagraphModule_imports</title>
-<polygon fill="none" stroke="#000000" points="110,-78 110,-130 224,-130 224,-78 110,-78"/>
+<polygon fill="none" stroke="#000000" points="171,-78 171,-130 325,-130 325,-78 171,-78"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_CmsParagraphModule_exports</title>
@@ -39,8 +35,8 @@
 <!-- ParagraphComponent -->
 <g id="node1" class="node">
 <title>ParagraphComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="378.08,-122 239.92,-122 239.92,-86 378.08,-86 378.08,-122"/>
-<text text-anchor="middle" x="309" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ParagraphComponent</text>
+<polygon fill="#ffffb3" stroke="#000000" points="317.08,-122 178.92,-122 178.92,-86 317.08,-86 317.08,-122"/>
+<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ParagraphComponent</text>
 </g>
 <!-- CmsParagraphModule -->
 <g id="node2" class="node">
@@ -51,32 +47,20 @@
 <!-- ParagraphComponent&#45;&gt;CmsParagraphModule -->
 <g id="edge1" class="edge">
 <title>ParagraphComponent&#45;&gt;CmsParagraphModule</title>
-<path fill="none" stroke="#000000" d="M279.4723,-122.1061C279.4723,-122.1061 279.4723,-140.991 279.4723,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="275.9724,-140.9909 279.4723,-150.991 282.9724,-140.991 275.9724,-140.9909"/>
+<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
 </g>
 <!-- ParagraphComponent  -->
-<g id="node4" class="node">
+<g id="node3" class="node">
 <title>ParagraphComponent </title>
 <polygon fill="#fb8072" stroke="#000000" points="318.5806,-252 177.4194,-252 177.4194,-216 318.5806,-216 318.5806,-252"/>
 <text text-anchor="middle" x="248" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">ParagraphComponent </text>
 </g>
 <!-- CmsParagraphModule&#45;&gt;ParagraphComponent  -->
-<g id="edge3" class="edge">
+<g id="edge2" class="edge">
 <title>CmsParagraphModule&#45;&gt;ParagraphComponent </title>
 <path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M248,-187.1061C248,-187.1061 248,-205.991 248,-205.991"/>
 <polygon fill="#000000" stroke="#000000" points="244.5001,-205.9909 248,-215.991 251.5001,-205.991 244.5001,-205.9909"/>
-</g>
-<!-- ConfigModule -->
-<g id="node3" class="node">
-<title>ConfigModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="216.4386,-122 213.4386,-126 192.4386,-126 189.4386,-122 117.5614,-122 117.5614,-86 216.4386,-86 216.4386,-122"/>
-<text text-anchor="middle" x="167" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ConfigModule</text>
-</g>
-<!-- ConfigModule&#45;&gt;CmsParagraphModule -->
-<g id="edge2" class="edge">
-<title>ConfigModule&#45;&gt;CmsParagraphModule</title>
-<path fill="none" stroke="#000000" d="M196.6171,-122.1061C196.6171,-122.1061 196.6171,-140.991 196.6171,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="193.1172,-140.9909 196.6171,-150.991 200.1172,-140.991 193.1172,-140.9909"/>
 </g>
 </g>
 </svg>

@@ -612,7 +612,7 @@ export class ExpressCheckoutService {
           LoaderState&lt;void&gt;
         ]) &#x3D;&gt; {
           const defaultAddress &#x3D;
-            addresses.find(address &#x3D;&gt; address.defaultAddress) || addresses[0];
+            addresses.find((address) &#x3D;&gt; address.defaultAddress) || addresses[0];
           if (defaultAddress &amp;&amp; Object.keys(defaultAddress).length) {
             if (
               !(
@@ -637,7 +637,7 @@ export class ExpressCheckoutService {
                 }
                 return of(false);
               }),
-              map(data &#x3D;&gt; Boolean(data &amp;&amp; Object.keys(data).length))
+              map((data) &#x3D;&gt; Boolean(data &amp;&amp; Object.keys(data).length))
             );
           }
           return of(false);
@@ -674,7 +674,7 @@ export class ExpressCheckoutService {
           LoaderState&lt;void&gt;
         ]) &#x3D;&gt; {
           const defaultPayment &#x3D;
-            payments.find(address &#x3D;&gt; address.defaultPayment) || payments[0];
+            payments.find((address) &#x3D;&gt; address.defaultPayment) || payments[0];
           if (defaultPayment &amp;&amp; Object.keys(defaultPayment).length) {
             if (
               !(
@@ -699,7 +699,7 @@ export class ExpressCheckoutService {
                 }
                 return of(false);
               }),
-              map(data &#x3D;&gt; Boolean(data &amp;&amp; Object.keys(data).length))
+              map((data) &#x3D;&gt; Boolean(data &amp;&amp; Object.keys(data).length))
             );
           }
           return of(false);
@@ -792,7 +792,7 @@ export class ExpressCheckoutService {
                           return of(false);
                         }
                       ),
-                      map(data &#x3D;&gt; Boolean(data))
+                      map((data) &#x3D;&gt; Boolean(data))
                     );
                   }
                   return of(false);

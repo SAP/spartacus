@@ -261,7 +261,7 @@ export class OccProductReferencesListNormalizer
     }
 
     if (source &amp;&amp; source.references) {
-      target &#x3D; source.references.map(reference &#x3D;&gt; ({
+      target &#x3D; source.references.map((reference) &#x3D;&gt; ({
         ...reference,
         target: this.converter.convert(reference.target, PRODUCT_NORMALIZER),
       }));

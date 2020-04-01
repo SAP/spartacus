@@ -375,7 +375,7 @@ export class CmsComponentConnector {
     return this.cmsStructureConfigService
       .getComponentFromConfig(id)
       .pipe(
-        switchMap(configuredComponent &#x3D;&gt;
+        switchMap((configuredComponent) &#x3D;&gt;
           configuredComponent
             ? of(configuredComponent)
             : this.adapter.load(id, pageContext)
@@ -385,7 +385,7 @@ export class CmsComponentConnector {
 
   getList(ids: string[], pageContext: PageContext): Observable&lt;CmsComponent[]&gt; {
     return this.cmsStructureConfigService.getComponentsFromConfig(ids).pipe(
-      switchMap(configuredComponents &#x3D;&gt; {
+      switchMap((configuredComponents) &#x3D;&gt; {
         // check if we have some components that are not loaded from configuration
         const missingIds &#x3D; configuredComponents.reduce(
           (acc, component, index) &#x3D;&gt; {
@@ -402,7 +402,7 @@ export class CmsComponentConnector {
             ? this.adapter.findComponentsByIdsLegacy(missingIds, pageContext)
             : this.adapter.findComponentsByIds(missingIds, pageContext)
           ).pipe(
-            map(loadedComponents &#x3D;&gt; [
+            map((loadedComponents) &#x3D;&gt; [
               ...configuredComponents.filter(Boolean),
               ...loadedComponents,
             ])

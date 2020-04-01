@@ -593,7 +593,7 @@ depending on the <code>stacked</code> argument.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>store(store: Map<string | []>, outlet: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: T)</code>
+                    <code>store(store: Map<string | T[]>, outlet: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: T)</code>
                 </td>
             </tr>
 
@@ -623,7 +623,7 @@ depending on the <code>stacked</code> argument.</p>
                                 <tr>
                                     <td>store</td>
                                     <td>
-                                            <code>Map&lt;string | []&gt;</code>
+                                            <code>Map&lt;string | T[]&gt;</code>
                                     </td>
 
                                     <td>
@@ -693,7 +693,7 @@ depending on the <code>stacked</code> argument.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>new Map&lt;string, (T)[]&gt;()</code>
+                            <i>Default value : </i><code>new Map&lt;string, T[]&gt;()</code>
                         </td>
                     </tr>
                         <tr>
@@ -720,7 +720,7 @@ depending on the <code>stacked</code> argument.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>new Map&lt;string, (T)[]&gt;()</code>
+                            <i>Default value : </i><code>new Map&lt;string, T[]&gt;()</code>
                         </td>
                     </tr>
                         <tr>
@@ -747,7 +747,7 @@ depending on the <code>stacked</code> argument.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>new Map&lt;string, (T)[]&gt;()</code>
+                            <i>Default value : </i><code>new Map&lt;string, T[]&gt;()</code>
                         </td>
                     </tr>
                         <tr>
@@ -772,9 +772,9 @@ import { AVOID_STACKED_OUTLETS, OutletPosition } from &#x27;./outlet.model&#x27;
   providedIn: &#x27;root&#x27;,
 })
 export class OutletService&lt;T &#x3D; TemplateRef&lt;any&gt;&gt; {
-  private templatesRefs &#x3D; new Map&lt;string, (T)[]&gt;();
-  private templatesRefsBefore &#x3D; new Map&lt;string, (T)[]&gt;();
-  private templatesRefsAfter &#x3D; new Map&lt;string, (T)[]&gt;();
+  private templatesRefs &#x3D; new Map&lt;string, T[]&gt;();
+  private templatesRefsBefore &#x3D; new Map&lt;string, T[]&gt;();
+  private templatesRefsAfter &#x3D; new Map&lt;string, T[]&gt;();
 
   /**
    * Adds a template or ComponentFactory, so that UI outlets can be replaced dynamically.
@@ -846,7 +846,7 @@ export class OutletService&lt;T &#x3D; TemplateRef&lt;any&gt;&gt; {
     return templateRef;
   }
 
-  private store(store: Map&lt;string, (T)[]&gt;, outlet: string, value: T) {
+  private store(store: Map&lt;string, T[]&gt;, outlet: string, value: T) {
     const existing &#x3D; store.get(outlet) || [];
     const newValue: T[] &#x3D; existing.concat([value]);
     store.set(outlet, newValue);

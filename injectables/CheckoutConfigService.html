@@ -494,8 +494,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts:148</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts:149</a></div>
                 </td>
             </tr>
 
@@ -825,8 +825,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts:122</a></div>
                 </td>
             </tr>
 
@@ -967,8 +967,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="134"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts:134</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="135"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts:135</a></div>
                 </td>
             </tr>
 
@@ -1039,8 +1039,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="144"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts:144</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts:145</a></div>
                 </td>
             </tr>
 
@@ -1109,8 +1109,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts:127</a></div>
                 </td>
             </tr>
 
@@ -1148,8 +1148,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-config.service.ts:131</a></div>
                 </td>
             </tr>
 
@@ -1406,7 +1406,7 @@ export class CheckoutConfigService {
         break;
       case DeliveryModePreferences.LEAST_EXPENSIVE:
         const leastExpensiveFound &#x3D; deliveryModes.find(
-          deliveryMode &#x3D;&gt; deliveryMode.deliveryCost.value !&#x3D;&#x3D; 0
+          (deliveryMode) &#x3D;&gt; deliveryMode.deliveryCost.value !&#x3D;&#x3D; 0
         );
         if (leastExpensiveFound) {
           return leastExpensiveFound.code;
@@ -1416,7 +1416,8 @@ export class CheckoutConfigService {
         return deliveryModes[deliveryModes.length - 1].code;
       default:
         const codeFound &#x3D; deliveryModes.find(
-          deliveryMode &#x3D;&gt; deliveryMode.code &#x3D;&#x3D;&#x3D; this.defaultDeliveryMode[index]
+          (deliveryMode) &#x3D;&gt;
+            deliveryMode.code &#x3D;&#x3D;&#x3D; this.defaultDeliveryMode[index]
         );
         if (codeFound) {
           return codeFound.code;

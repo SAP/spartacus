@@ -272,8 +272,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">projects/core/src/site-context/facade/base-site.service.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">projects/core/src/site-context/facade/base-site.service.ts:62</a></div>
                 </td>
             </tr>
 
@@ -313,8 +313,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/core/src/site-context/facade/base-site.service.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">projects/core/src/site-context/facade/base-site.service.ts:53</a></div>
                 </td>
             </tr>
 
@@ -434,7 +434,7 @@ export class BaseSiteService implements SiteContext&lt;string&gt; {
   getActive(): Observable&lt;string&gt; {
     return this.store.pipe(
       select(SiteContextSelectors.getActiveBaseSite),
-      filter(active &#x3D;&gt; Boolean(active))
+      filter((active) &#x3D;&gt; Boolean(active))
     );
   }
 
@@ -442,16 +442,13 @@ export class BaseSiteService implements SiteContext&lt;string&gt; {
    * We currently don&#x27;t support switching baseSite at run time
    */
   getAll(): Observable&lt;string[]&gt; {
-    return this.getActive().pipe(map(baseSite &#x3D;&gt; [baseSite]));
+    return this.getActive().pipe(map((baseSite) &#x3D;&gt; [baseSite]));
   }
 
   setActive(baseSite: string): Subscription {
     return this.store
-      .pipe(
-        select(SiteContextSelectors.getActiveBaseSite),
-        take(1)
-      )
-      .subscribe(activeBaseSite &#x3D;&gt; {
+      .pipe(select(SiteContextSelectors.getActiveBaseSite), take(1))
+      .subscribe((activeBaseSite) &#x3D;&gt; {
         if (baseSite &amp;&amp; activeBaseSite !&#x3D;&#x3D; baseSite) {
           this.store.dispatch(
             new SiteContextActions.SetActiveBaseSite(baseSite)
@@ -475,7 +472,7 @@ export class BaseSiteService implements SiteContext&lt;string&gt; {
   getBaseSiteData(): Observable&lt;BaseSite&gt; {
     return this.store.pipe(
       select(SiteContextSelectors.getBaseSiteData),
-      tap(baseSite &#x3D;&gt; {
+      tap((baseSite) &#x3D;&gt; {
         if (Object.keys(baseSite).length &#x3D;&#x3D;&#x3D; 0) {
           this.store.dispatch(new SiteContextActions.LoadBaseSite());
         }

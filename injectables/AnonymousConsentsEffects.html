@@ -236,7 +236,7 @@
       AuthActions.LOAD_USER_TOKEN_SUCCESS
     ),
     filter(
-      action &#x3D;&gt;
+      (action) &#x3D;&gt;
         isFeatureEnabled(
           this.anonymousConsentsConfig,
           ANONYMOUS_CONSENTS_FEATURE
@@ -333,7 +333,7 @@
                         <td class="col-md-4">
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
-    concatMap(_ &#x3D;&gt;
+    concatMap(() &#x3D;&gt;
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
         .pipe(
@@ -359,7 +359,7 @@
               ),
             ];
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
                 makeErrorSerializable(error)
@@ -528,7 +528,7 @@ export class AnonymousConsentsEffects {
     AnonymousConsentsActions.AnonymousConsentsActions
   &gt; &#x3D; this.actions$.pipe(
     ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
-    concatMap(_ &#x3D;&gt;
+    concatMap(() &#x3D;&gt;
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
         .pipe(
@@ -554,7 +554,7 @@ export class AnonymousConsentsEffects {
               ),
             ];
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
                 makeErrorSerializable(error)
@@ -637,7 +637,7 @@ export class AnonymousConsentsEffects {
       AuthActions.LOAD_USER_TOKEN_SUCCESS
     ),
     filter(
-      action &#x3D;&gt;
+      (action) &#x3D;&gt;
         isFeatureEnabled(
           this.anonymousConsentsConfig,
           ANONYMOUS_CONSENTS_FEATURE

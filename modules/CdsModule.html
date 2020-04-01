@@ -181,8 +181,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">projects/cds/src/cds.module.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/cds/src/cds.module.ts:20</a></div>
                 </td>
             </tr>
 
@@ -235,7 +235,12 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config, provideConfig, provideConfigValidator } from &#x27;@spartacus/core&#x27;;
+import {
+  Config,
+  provideConfig,
+  provideConfigValidator,
+  provideDefaultConfig,
+} from &#x27;@spartacus/core&#x27;;
 import {
   CdsConfig,
   cdsConfigValidator,
@@ -252,7 +257,7 @@ export class CdsModule {
     return {
       ngModule: CdsModule,
       providers: [
-        provideConfig(DEFAULT_CDS_CONFIG),
+        provideDefaultConfig(DEFAULT_CDS_CONFIG),
         provideConfig(config),
         provideConfigValidator(cdsConfigValidator),
         { provide: CdsConfig, useExisting: Config },

@@ -26,41 +26,33 @@
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_ListNavigationModule_declarations</title>
-<polygon fill="none" stroke="#000000" points="99,-78 99,-130 397,-130 397,-78 99,-78"/>
+<polygon fill="none" stroke="#000000" points="251,-78 251,-130 389,-130 389,-78 251,-78"/>
 </g>
-<g id="clust6" class="cluster">
+<g id="clust4" class="cluster">
+<title>cluster_ListNavigationModule_imports</title>
+<polygon fill="none" stroke="#000000" points="107,-78 107,-130 243,-130 243,-78 107,-78"/>
+</g>
+<g id="clust5" class="cluster">
 <title>cluster_ListNavigationModule_exports</title>
 <polygon fill="none" stroke="#000000" points="96,-208 96,-260 400,-260 400,-208 96,-208"/>
 </g>
-<!-- PaginationComponent -->
+<!-- SortingComponent -->
 <g id="node1" class="node">
-<title>PaginationComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="388.7162,-122 247.2838,-122 247.2838,-86 388.7162,-86 388.7162,-122"/>
-<text text-anchor="middle" x="318" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">PaginationComponent</text>
+<title>SortingComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="381.0576,-122 258.9424,-122 258.9424,-86 381.0576,-86 381.0576,-122"/>
+<text text-anchor="middle" x="320" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">SortingComponent</text>
 </g>
 <!-- ListNavigationModule -->
-<g id="node3" class="node">
-<title>ListNavigationModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="312.5365,-187 309.5365,-191 288.5365,-191 285.5365,-187 169.4635,-187 169.4635,-151 312.5365,-151 312.5365,-187"/>
-<text text-anchor="middle" x="241" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">ListNavigationModule</text>
-</g>
-<!-- PaginationComponent&#45;&gt;ListNavigationModule -->
-<g id="edge1" class="edge">
-<title>PaginationComponent&#45;&gt;ListNavigationModule</title>
-<path fill="none" stroke="#000000" d="M280.08,-122.1061C280.08,-122.1061 280.08,-140.991 280.08,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="276.58,-140.9909 280.08,-150.991 283.58,-140.991 276.58,-140.9909"/>
-</g>
-<!-- SortingComponent -->
 <g id="node2" class="node">
-<title>SortingComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="229.0576,-122 106.9424,-122 106.9424,-86 229.0576,-86 229.0576,-122"/>
-<text text-anchor="middle" x="168" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">SortingComponent</text>
+<title>ListNavigationModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="309.5365,-187 306.5365,-191 285.5365,-191 282.5365,-187 166.4635,-187 166.4635,-151 309.5365,-151 309.5365,-187"/>
+<text text-anchor="middle" x="238" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">ListNavigationModule</text>
 </g>
 <!-- SortingComponent&#45;&gt;ListNavigationModule -->
-<g id="edge2" class="edge">
+<g id="edge1" class="edge">
 <title>SortingComponent&#45;&gt;ListNavigationModule</title>
-<path fill="none" stroke="#000000" d="M199.2553,-122.1061C199.2553,-122.1061 199.2553,-140.991 199.2553,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="195.7553,-140.9909 199.2553,-150.991 202.7553,-140.991 195.7553,-140.9909"/>
+<path fill="none" stroke="#000000" d="M284.2448,-122.1061C284.2448,-122.1061 284.2448,-140.991 284.2448,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="280.7448,-140.9909 284.2448,-150.991 287.7448,-140.991 280.7448,-140.9909"/>
 </g>
 <!-- PaginationComponent  -->
 <g id="node4" class="node">
@@ -71,8 +63,8 @@
 <!-- ListNavigationModule&#45;&gt;PaginationComponent  -->
 <g id="edge3" class="edge">
 <title>ListNavigationModule&#45;&gt;PaginationComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M280.205,-187.1061C280.205,-187.1061 280.205,-205.991 280.205,-205.991"/>
-<polygon fill="#000000" stroke="#000000" points="276.705,-205.9909 280.205,-215.991 283.705,-205.991 276.705,-205.9909"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M278.705,-187.1061C278.705,-187.1061 278.705,-205.991 278.705,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="275.205,-205.9909 278.705,-215.991 282.205,-205.991 275.205,-205.9909"/>
 </g>
 <!-- SortingComponent  -->
 <g id="node5" class="node">
@@ -83,8 +75,20 @@
 <!-- ListNavigationModule&#45;&gt;SortingComponent  -->
 <g id="edge4" class="edge">
 <title>ListNavigationModule&#45;&gt;SortingComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M199.6303,-187.1061C199.6303,-187.1061 199.6303,-205.991 199.6303,-205.991"/>
-<polygon fill="#000000" stroke="#000000" points="196.1303,-205.9909 199.6303,-215.991 203.1303,-205.991 196.1303,-205.9909"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M198.1303,-187.1061C198.1303,-187.1061 198.1303,-205.991 198.1303,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="194.6303,-205.9909 198.1303,-215.991 201.6303,-205.991 194.6303,-205.9909"/>
+</g>
+<!-- PaginationModule -->
+<g id="node3" class="node">
+<title>PaginationModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="234.9342,-122 231.9342,-126 210.9342,-126 207.9342,-122 115.0658,-122 115.0658,-86 234.9342,-86 234.9342,-122"/>
+<text text-anchor="middle" x="175" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">PaginationModule</text>
+</g>
+<!-- PaginationModule&#45;&gt;ListNavigationModule -->
+<g id="edge2" class="edge">
+<title>PaginationModule&#45;&gt;ListNavigationModule</title>
+<path fill="none" stroke="#000000" d="M200.4744,-122.1061C200.4744,-122.1061 200.4744,-140.991 200.4744,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="196.9745,-140.9909 200.4744,-150.991 203.9745,-140.991 196.9745,-140.9909"/>
 </g>
 </g>
 </svg>

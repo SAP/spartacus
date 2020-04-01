@@ -181,10 +181,10 @@
     ofType(UserActions.LOAD_TITLES),
     switchMap(() &#x3D;&gt; {
       return this.userAccountConnector.getTitles().pipe(
-        map(titles &#x3D;&gt; {
+        map((titles) &#x3D;&gt; {
           return new UserActions.LoadTitlesSuccess(titles);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.LoadTitlesFail(makeErrorSerializable(error)))
         )
       );
@@ -231,10 +231,10 @@ export class TitlesEffects {
     ofType(UserActions.LOAD_TITLES),
     switchMap(() &#x3D;&gt; {
       return this.userAccountConnector.getTitles().pipe(
-        map(titles &#x3D;&gt; {
+        map((titles) &#x3D;&gt; {
           return new UserActions.LoadTitlesSuccess(titles);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new UserActions.LoadTitlesFail(makeErrorSerializable(error)))
         )
       );

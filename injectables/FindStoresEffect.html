@@ -183,10 +183,10 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(StoreFinderActions.FIND_STORE_BY_ID),
     map((action: StoreFinderActions.FindStoreById) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt;
+    switchMap((payload) &#x3D;&gt;
       this.storeFinderConnector.get(payload.storeId).pipe(
-        map(data &#x3D;&gt; new StoreFinderActions.FindStoreByIdSuccess(data)),
-        catchError(error &#x3D;&gt;
+        map((data) &#x3D;&gt; new StoreFinderActions.FindStoreByIdSuccess(data)),
+        catchError((error) &#x3D;&gt;
           of(
             new StoreFinderActions.FindStoreByIdFail(
               makeErrorSerializable(error)
@@ -209,7 +209,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/core/src/store-finder/store/effects/find-stores.effect.ts:52</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/core/src/store-finder/store/effects/find-stores.effect.ts:55</a></div>
                             </td>
                         </tr>
 
@@ -239,7 +239,7 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(StoreFinderActions.FIND_STORES),
     map((action: StoreFinderActions.FindStores) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt;
+    mergeMap((payload) &#x3D;&gt;
       this.storeFinderConnector
         .search(
           payload.queryText,
@@ -247,17 +247,20 @@
           payload.longitudeLatitude
         )
         .pipe(
-          map(data &#x3D;&gt; {
+          map((data) &#x3D;&gt; {
             if (payload.countryIsoCode) {
               data.stores &#x3D; data.stores.filter(
-                store &#x3D;&gt;
+                (store) &#x3D;&gt;
                   store.address.country.isocode &#x3D;&#x3D;&#x3D; payload.countryIsoCode
+              );
+              data.stores.sort((a, b) &#x3D;&gt;
+                a.name &lt; b.name ? -1 : a.name &gt; b.name ? 1 : 0
               );
             }
 
             return new StoreFinderActions.FindStoresSuccess(data);
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new StoreFinderActions.FindStoresFail(
                 makeErrorSerializable(error)
@@ -314,7 +317,7 @@ export class FindStoresEffect {
   &gt; &#x3D; this.actions$.pipe(
     ofType(StoreFinderActions.FIND_STORES),
     map((action: StoreFinderActions.FindStores) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt;
+    mergeMap((payload) &#x3D;&gt;
       this.storeFinderConnector
         .search(
           payload.queryText,
@@ -322,17 +325,20 @@ export class FindStoresEffect {
           payload.longitudeLatitude
         )
         .pipe(
-          map(data &#x3D;&gt; {
+          map((data) &#x3D;&gt; {
             if (payload.countryIsoCode) {
               data.stores &#x3D; data.stores.filter(
-                store &#x3D;&gt;
+                (store) &#x3D;&gt;
                   store.address.country.isocode &#x3D;&#x3D;&#x3D; payload.countryIsoCode
+              );
+              data.stores.sort((a, b) &#x3D;&gt;
+                a.name &lt; b.name ? -1 : a.name &gt; b.name ? 1 : 0
               );
             }
 
             return new StoreFinderActions.FindStoresSuccess(data);
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new StoreFinderActions.FindStoresFail(
                 makeErrorSerializable(error)
@@ -350,10 +356,10 @@ export class FindStoresEffect {
   &gt; &#x3D; this.actions$.pipe(
     ofType(StoreFinderActions.FIND_STORE_BY_ID),
     map((action: StoreFinderActions.FindStoreById) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt;
+    switchMap((payload) &#x3D;&gt;
       this.storeFinderConnector.get(payload.storeId).pipe(
-        map(data &#x3D;&gt; new StoreFinderActions.FindStoreByIdSuccess(data)),
-        catchError(error &#x3D;&gt;
+        map((data) &#x3D;&gt; new StoreFinderActions.FindStoreByIdSuccess(data)),
+        catchError((error) &#x3D;&gt;
           of(
             new StoreFinderActions.FindStoreByIdFail(
               makeErrorSerializable(error)

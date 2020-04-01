@@ -99,7 +99,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html">AuthRedirectService</a>, cartService: <a href="../injectables/CartService.html">CartService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>)</code>
+<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html">AuthRedirectService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -158,10 +158,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>cartService</td>
+                                                        <td>checkoutConfigService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CartService.html" target="_self" >CartService</a></code>
+                                                                        <code><a href="../injectables/CheckoutConfigService.html" target="_self" >CheckoutConfigService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -170,10 +170,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>checkoutConfigService</td>
+                                                        <td>activeCartService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CheckoutConfigService.html" target="_self" >CheckoutConfigService</a></code>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -242,9 +242,9 @@
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { CanActivate } from &#x27;@angular/router&#x27;;
 import {
+  ActiveCartService,
   AuthRedirectService,
   AuthService,
-  CartService,
   RoutingService,
   User,
   UserToken,
@@ -258,21 +258,21 @@ import { CheckoutConfigService } from &#x27;../services/checkout-config.service&
 })
 export class CheckoutAuthGuard implements CanActivate {
   constructor(
-    private routingService: RoutingService,
-    private authService: AuthService,
-    private authRedirectService: AuthRedirectService,
-    private cartService: CartService,
-    private checkoutConfigService: CheckoutConfigService
+    protected routingService: RoutingService,
+    protected authService: AuthService,
+    protected authRedirectService: AuthRedirectService,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   canActivate(): Observable&lt;boolean&gt; {
     return combineLatest([
       this.authService.getUserToken(),
-      this.cartService.getAssignedUser(),
+      this.activeCartService.getAssignedUser(),
     ]).pipe(
       map(([token, user]: [UserToken, User]) &#x3D;&gt; {
         if (!token.access_token) {
-          if (this.cartService.isGuestCart()) {
+          if (this.activeCartService.isGuestCart()) {
             return Boolean(user);
           }
           if (this.checkoutConfigService.isGuestCheckout()) {

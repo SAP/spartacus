@@ -72,17 +72,13 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
 import { RouterModule } from &#x27;@angular/router&#x27;;
+import { provideDefaultConfig, RoutingConfig } from &#x27;@spartacus/core&#x27;;
 import { CmsPageGuard, PageLayoutComponent } from &#x27;../../cms-structure/index&#x27;;
-import { suffixUrlMatcher } from &#x27;../../cms-structure/routing/suffix-routes/suffix-url-matcher&#x27;;
+import { PRODUCT_LISTING_URL_MATCHER } from &#x27;./product-listing-url-matcher&#x27;;
+
 @NgModule({
   imports: [
     RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: &#x27;category&#x27; },
-      },
       {
         path: null,
         canActivate: [CmsPageGuard],
@@ -96,17 +92,25 @@ import { suffixUrlMatcher } from &#x27;../../cms-structure/routing/suffix-routes
         data: { cxRoute: &#x27;brand&#x27; },
       },
       {
-        matcher: suffixUrlMatcher,
+        // The &#x27;category&#x27; route  may include a greedy suffix url matcher &#x27;**/c/:categoryCode&#x27;
+        // So not to shadow the specific &#x27;brand&#x27; route, the &#x27;category&#x27; is the last route in the sequence.
+        path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: {
-          cxSuffixUrlMatcher: {
-            marker: &#x27;c&#x27;,
-            paramName: &#x27;categoryCode&#x27;,
+        data: { cxRoute: &#x27;category&#x27; },
+      },
+    ]),
+  ],
+  providers: [
+    provideDefaultConfig(&lt;RoutingConfig&gt;{
+      routing: {
+        routes: {
+          category: {
+            matchers: [PRODUCT_LISTING_URL_MATCHER],
           },
         },
       },
-    ]),
+    }),
   ],
 })
 export class ProductListingPageModule {}

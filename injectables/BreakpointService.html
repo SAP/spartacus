@@ -86,6 +86,15 @@
                             <li>
                                 <a href="#getSize">getSize</a>
                             </li>
+                            <li>
+                                <a href="#isDown">isDown</a>
+                            </li>
+                            <li>
+                                <a href="#isEqual">isEqual</a>
+                            </li>
+                            <li>
+                                <a href="#isUp">isUp</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -129,7 +138,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -208,8 +217,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:99</a></div>
                 </td>
             </tr>
 
@@ -280,8 +289,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:104</a></div>
                 </td>
             </tr>
 
@@ -350,14 +359,24 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:39</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the <em>maximum</em> size for the breakpint, given by the <code>LayoutConfig.breakpoints</code>
+configuration. If no configuration is available for the given breakpoint, the
+method will return the default values:</p>
+<ul>
+<li>xs: 567</li>
+<li>sm: 768</li>
+<li>md: 992</li>
+<li>lg: 1200</li>
+</ul>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -398,6 +417,228 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isDown"></a>
+                    <span class="name">
+                        <b>
+                            isDown
+                        </b>
+                        <a href="#isDown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isDown(breakpoint: <a href="../undefineds/BREAKPOINT.html">BREAKPOINT</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:65</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indicates whether the current screen size is smaller than the maximum size of the
+given breakpoint.</p>
+<p>If the given breakpoint is <code>BREAKPOINT.md</code>, the method returns <code>true</code> when the
+window innerWidth is smaller than the configured size of <code>BREAKPOINT.md</code>.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>breakpoint</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/enumerations.html#BREAKPOINT" target="_self" >BREAKPOINT</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isEqual"></a>
+                    <span class="name">
+                        <b>
+                            isEqual
+                        </b>
+                        <a href="#isEqual"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isEqual(breakpoint: <a href="../undefineds/BREAKPOINT.html">BREAKPOINT</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:95</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indicates whether the current screen size fits to the given breakpoint</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>breakpoint</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/enumerations.html#BREAKPOINT" target="_self" >BREAKPOINT</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isUp"></a>
+                    <span class="name">
+                        <b>
+                            isUp
+                        </b>
+                        <a href="#isUp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isUp(breakpoint: <a href="../undefineds/BREAKPOINT.html">BREAKPOINT</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:82</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indicates whether the current screen size is larger than the minimum size of the
+given breakpoint.</p>
+<p>If the given breakpoint is <code>BREAKPOINT.md</code>, the method returns <code>true</code> when the
+window innerWidth is larger than the configured size of <code>BREAKPOINT.sm</code>.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>breakpoint</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/enumerations.html#BREAKPOINT" target="_self" >BREAKPOINT</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
             <section>
@@ -420,7 +661,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:31</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:20</a></div>
                                 </td>
                             </tr>
 
@@ -442,9 +683,20 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:43</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:48</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Returns all available breakpoints for the system.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#BREAKPOINT" target="_self" >BREAKPOINT[]</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -464,7 +716,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:68</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">projects/storefrontlib/src/layout/breakpoint/breakpoint.service.ts:114</a></div>
                                 </td>
                             </tr>
 
@@ -477,13 +729,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { WindowRef } from &#x27;@spartacus/core&#x27;;
-import { fromEvent, Observable, of } from &#x27;rxjs&#x27;;
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  startWith,
-} from &#x27;rxjs/operators&#x27;;
+import { Observable, of } from &#x27;rxjs&#x27;;
+import { distinctUntilChanged, map } from &#x27;rxjs/operators&#x27;;
 import { BREAKPOINT, LayoutConfig } from &#x27;../config/layout-config&#x27;;
 
 const DEFAULT_BREAKPOINTS &#x3D; {
@@ -499,24 +746,34 @@ const DEFAULT_BREAKPOINTS &#x3D; {
 export class BreakpointService {
   constructor(private winRef: WindowRef, private config: LayoutConfig) {}
 
-  getSize(breakpoint: BREAKPOINT): number {
-    return this.config.breakpoints
-      ? this.config.breakpoints[breakpoint]
-      : DEFAULT_BREAKPOINTS[breakpoint];
-  }
-
   get breakpoint$(): Observable&lt;BREAKPOINT&gt; {
     if (!this.window) {
       return of(BREAKPOINT.xs);
     }
-    return fromEvent(this.window, &#x27;resize&#x27;).pipe(
-      debounceTime(300),
-      startWith({ target: this.window }),
-      map(event &#x3D;&gt; this.getBreakpoint((&lt;Window&gt;event.target).innerWidth)),
+    return this.winRef.resize$.pipe(
+      map((event) &#x3D;&gt; this.getBreakpoint((&lt;Window&gt;event.target).innerWidth)),
       distinctUntilChanged()
     );
   }
 
+  /**
+   * Returns the _maximum_ size for the breakpint, given by the &#x60;LayoutConfig.breakpoints&#x60;
+   * configuration. If no configuration is available for the given breakpoint, the
+   * method will return the default values:
+   * - xs: 567
+   * - sm: 768
+   * - md: 992
+   * - lg: 1200
+   */
+  getSize(breakpoint: BREAKPOINT): number {
+    return this.config.breakpoints?.hasOwnProperty(breakpoint)
+      ? this.config.breakpoints[breakpoint]
+      : DEFAULT_BREAKPOINTS[breakpoint];
+  }
+
+  /**
+   * Returns all available breakpoints for the system.
+   */
   get breakpoints(): BREAKPOINT[] {
     return [
       BREAKPOINT.xs,
@@ -525,6 +782,47 @@ export class BreakpointService {
       BREAKPOINT.lg,
       BREAKPOINT.xl,
     ];
+  }
+
+  /**
+   * Indicates whether the current screen size is smaller than the maximum size of the
+   * given breakpoint.
+   *
+   * If the given breakpoint is &#x60;BREAKPOINT.md&#x60;, the method returns &#x60;true&#x60; when the
+   * window innerWidth is smaller than the configured size of &#x60;BREAKPOINT.md&#x60;.
+   */
+  isDown(breakpoint: BREAKPOINT): Observable&lt;boolean&gt; {
+    return this.breakpoint$.pipe(
+      map((br) &#x3D;&gt;
+        this.breakpoints
+          .slice(0, this.breakpoints.indexOf(breakpoint) + 1)
+          .includes(br)
+      )
+    );
+  }
+
+  /**
+   * Indicates whether the current screen size is larger than the minimum size of the
+   * given breakpoint.
+   *
+   * If the given breakpoint is &#x60;BREAKPOINT.md&#x60;, the method returns &#x60;true&#x60; when the
+   * window innerWidth is larger than the configured size of &#x60;BREAKPOINT.sm&#x60;.
+   */
+  isUp(breakpoint: BREAKPOINT): Observable&lt;boolean&gt; {
+    return this.breakpoint$.pipe(
+      map((br) &#x3D;&gt;
+        this.breakpoints
+          .slice(this.breakpoints.indexOf(breakpoint))
+          .includes(br)
+      )
+    );
+  }
+
+  /**
+   * Indicates whether the current screen size fits to the given breakpoint
+   */
+  isEqual(breakpoint: BREAKPOINT): Observable&lt;boolean&gt; {
+    return this.breakpoint$.pipe(map((br) &#x3D;&gt; br &#x3D;&#x3D;&#x3D; breakpoint));
   }
 
   protected getBreakpoint(windowWidth: number): BREAKPOINT {
@@ -537,9 +835,9 @@ export class BreakpointService {
       windowWidth &#x3D; this.window.innerWidth;
     }
 
-    return windowWidth &lt; this.getSize(BREAKPOINT.xs)
-      ? BREAKPOINT.xs
-      : this.breakpoints.reverse().find(br &#x3D;&gt; windowWidth &gt;&#x3D; this.getSize(br));
+    return windowWidth &gt; this.getSize(BREAKPOINT.lg)
+      ? BREAKPOINT.xl
+      : this.breakpoints.find((br) &#x3D;&gt; windowWidth &lt;&#x3D; this.getSize(br));
   }
 
   get window(): Window {

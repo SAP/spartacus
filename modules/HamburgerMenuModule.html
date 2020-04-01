@@ -63,15 +63,11 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_HamburgerMenuModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="82,-70 82,-268 414,-268 414,-70 82,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="141,-70 141,-268 355,-268 355,-70 141,-70"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_HamburgerMenuModule_declarations</title>
-<polygon fill="none" stroke="#000000" points="212,-78 212,-130 406,-130 406,-78 212,-78"/>
-</g>
-<g id="clust4" class="cluster">
-<title>cluster_HamburgerMenuModule_imports</title>
-<polygon fill="none" stroke="#000000" points="90,-78 90,-130 204,-130 204,-78 90,-78"/>
+<polygon fill="none" stroke="#000000" points="151,-78 151,-130 345,-130 345,-78 151,-78"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_HamburgerMenuModule_exports</title>
@@ -80,8 +76,8 @@
 <!-- HamburgerMenuComponent -->
 <g id="node1" class="node">
 <title>HamburgerMenuComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="397.7394,-122 220.2606,-122 220.2606,-86 397.7394,-86 397.7394,-122"/>
-<text text-anchor="middle" x="309" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">HamburgerMenuComponent</text>
+<polygon fill="#ffffb3" stroke="#000000" points="336.7394,-122 159.2606,-122 159.2606,-86 336.7394,-86 336.7394,-122"/>
+<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">HamburgerMenuComponent</text>
 </g>
 <!-- HamburgerMenuModule -->
 <g id="node2" class="node">
@@ -92,32 +88,20 @@
 <!-- HamburgerMenuComponent&#45;&gt;HamburgerMenuModule -->
 <g id="edge1" class="edge">
 <title>HamburgerMenuComponent&#45;&gt;HamburgerMenuModule</title>
-<path fill="none" stroke="#000000" d="M273.0544,-122.1061C273.0544,-122.1061 273.0544,-140.991 273.0544,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="269.5544,-140.9909 273.0544,-150.991 276.5544,-140.991 269.5544,-140.9909"/>
+<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
 </g>
 <!-- HamburgerMenuComponent  -->
-<g id="node4" class="node">
+<g id="node3" class="node">
 <title>HamburgerMenuComponent </title>
 <polygon fill="#fb8072" stroke="#000000" points="338.7394,-252 157.2606,-252 157.2606,-216 338.7394,-216 338.7394,-252"/>
 <text text-anchor="middle" x="248" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">HamburgerMenuComponent </text>
 </g>
 <!-- HamburgerMenuModule&#45;&gt;HamburgerMenuComponent  -->
-<g id="edge3" class="edge">
+<g id="edge2" class="edge">
 <title>HamburgerMenuModule&#45;&gt;HamburgerMenuComponent </title>
 <path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M248,-187.1061C248,-187.1061 248,-205.991 248,-205.991"/>
 <polygon fill="#000000" stroke="#000000" points="244.5001,-205.9909 248,-215.991 251.5001,-205.991 244.5001,-205.9909"/>
-</g>
-<!-- ConfigModule -->
-<g id="node3" class="node">
-<title>ConfigModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="196.4386,-122 193.4386,-126 172.4386,-126 169.4386,-122 97.5614,-122 97.5614,-86 196.4386,-86 196.4386,-122"/>
-<text text-anchor="middle" x="147" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ConfigModule</text>
-</g>
-<!-- ConfigModule&#45;&gt;HamburgerMenuModule -->
-<g id="edge2" class="edge">
-<title>ConfigModule&#45;&gt;HamburgerMenuModule</title>
-<path fill="none" stroke="#000000" d="M183.1203,-122.1061C183.1203,-122.1061 183.1203,-140.991 183.1203,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="179.6203,-140.9909 183.1203,-150.991 186.6203,-140.991 179.6203,-140.9909"/>
 </g>
 </g>
 </svg>
@@ -176,15 +160,6 @@
                     </ul>
                 </div>
                 <div class="col-sm-3">
-                    <h3>Imports<a href="https://angular.io/api/core/NgModule#imports" target="_blank" title="Official documentation about module imports"><span
-                                class="icon ion-ios-information-circle-outline"></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../modules/ConfigModule.html">ConfigModule</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
                     <h3>Exports<a href="https://angular.io/api/core/NgModule#exports" target="_blank" title="Official documentation about module exports"><span
                                 class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
@@ -203,12 +178,13 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
-import { CmsConfig, ConfigModule } from &#x27;@spartacus/core&#x27;;
+import { CmsConfig, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 import { HamburgerMenuComponent } from &#x27;./hamburger-menu.component&#x27;;
+
 @NgModule({
-  imports: [
-    CommonModule,
-    ConfigModule.withConfig(&lt;CmsConfig&gt;{
+  imports: [CommonModule],
+  providers: [
+    provideDefaultConfig(&lt;CmsConfig&gt;{
       cmsComponents: {
         HamburgerMenuComponent: {
           component: HamburgerMenuComponent,

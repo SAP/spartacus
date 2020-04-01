@@ -99,12 +99,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, cartService: <a href="../injectables/CartService.html">CartService</a>)</code>
+<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/not-checkout-auth.guard.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/not-checkout-auth.guard.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -146,10 +146,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>cartService</td>
+                                                        <td>activeCartService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CartService.html" target="_self" >CartService</a></code>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -193,8 +193,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/not-checkout-auth.guard.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/not-checkout-auth.guard.ts:21</a></div>
                 </td>
             </tr>
 
@@ -217,7 +217,11 @@
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { CanActivate } from &#x27;@angular/router&#x27;;
-import { AuthService, CartService, RoutingService } from &#x27;@spartacus/core&#x27;;
+import {
+  ActiveCartService,
+  AuthService,
+  RoutingService,
+} from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
 
@@ -226,17 +230,17 @@ import { map } from &#x27;rxjs/operators&#x27;;
 })
 export class NotCheckoutAuthGuard implements CanActivate {
   constructor(
-    private routingService: RoutingService,
-    private authService: AuthService,
-    private cartService: CartService
+    protected routingService: RoutingService,
+    protected authService: AuthService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   canActivate(): Observable&lt;boolean&gt; {
     return this.authService.getUserToken().pipe(
-      map(token &#x3D;&gt; {
+      map((token) &#x3D;&gt; {
         if (token.access_token) {
           this.routingService.go({ cxRoute: &#x27;home&#x27; });
-        } else if (this.cartService.isGuestCart()) {
+        } else if (this.activeCartService.isGuestCart()) {
           this.routingService.go({ cxRoute: &#x27;cart&#x27; });
           return false;
         }

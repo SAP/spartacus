@@ -303,8 +303,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:78</a></div>
                 </td>
             </tr>
 
@@ -474,12 +474,12 @@ export class LanguageService implements SiteContext&lt;Language&gt; {
   getAll(): Observable&lt;Language[]&gt; {
     return this.store.pipe(
       select(SiteContextSelectors.getAllLanguages),
-      tap(languages &#x3D;&gt; {
+      tap((languages) &#x3D;&gt; {
         if (!languages) {
           this.store.dispatch(new SiteContextActions.LoadLanguages());
         }
       }),
-      filter(languages &#x3D;&gt; Boolean(languages))
+      filter((languages) &#x3D;&gt; Boolean(languages))
     );
   }
 
@@ -489,7 +489,7 @@ export class LanguageService implements SiteContext&lt;Language&gt; {
   getActive(): Observable&lt;string&gt; {
     return this.store.pipe(
       select(SiteContextSelectors.getActiveLanguage),
-      filter(active &#x3D;&gt; Boolean(active))
+      filter((active) &#x3D;&gt; Boolean(active))
     );
   }
 
@@ -498,11 +498,8 @@ export class LanguageService implements SiteContext&lt;Language&gt; {
    */
   setActive(isocode: string) {
     return this.store
-      .pipe(
-        select(SiteContextSelectors.getActiveLanguage),
-        take(1)
-      )
-      .subscribe(activeLanguage &#x3D;&gt; {
+      .pipe(select(SiteContextSelectors.getActiveLanguage), take(1))
+      .subscribe((activeLanguage) &#x3D;&gt; {
         if (activeLanguage !&#x3D;&#x3D; isocode) {
           this.store.dispatch(
             new SiteContextActions.SetActiveLanguage(isocode)

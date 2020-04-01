@@ -68,7 +68,6 @@
     </p>
     <p class="comment">
                     <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
     </p>
 
 
@@ -128,25 +127,13 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#cards">cards</a>
-                            </li>
-                            <li>
                                 <a href="#cards$">cards$</a>
-                            </li>
-                            <li>
-                                <a href="#checkoutStepUrlNext">checkoutStepUrlNext</a>
-                            </li>
-                            <li>
-                                <a href="#checkoutStepUrlPrevious">checkoutStepUrlPrevious</a>
                             </li>
                             <li>
                                 <a href="#existingAddresses$">existingAddresses$</a>
                             </li>
                             <li>
                                 <a href="#forceLoader">forceLoader</a>
-                            </li>
-                            <li>
-                                <a href="#goTo">goTo</a>
                             </li>
                             <li>
                                 <a href="#isGuestCheckout">isGuestCheckout</a>
@@ -158,19 +145,7 @@
                                 <a href="#newAddressFormManuallyOpened">newAddressFormManuallyOpened</a>
                             </li>
                             <li>
-                                <a href="#selectedAddress">selectedAddress</a>
-                            </li>
-                            <li>
                                 <a href="#selectedAddress$">selectedAddress$</a>
-                            </li>
-                            <li>
-                                <a href="#selectedAddressSub">selectedAddressSub</a>
-                            </li>
-                            <li>
-                                <a href="#setAddress">setAddress</a>
-                            </li>
-                            <li>
-                                <a href="#setAddressSub">setAddressSub</a>
                             </li>
                         </ul>
                     </td>
@@ -188,18 +163,6 @@
                                 <a href="#addAddress">addAddress</a>
                             </li>
                             <li>
-                                <a href="#addAddress">addAddress</a>
-                            </li>
-                            <li>
-                                <a href="#addNewAddress">addNewAddress</a>
-                            </li>
-                            <li>
-                                <a href="#addressSelected">addressSelected</a>
-                            </li>
-                            <li>
-                                <a href="#back">back</a>
-                            </li>
-                            <li>
                                 <a href="#getCardContent">getCardContent</a>
                             </li>
                             <li>
@@ -210,12 +173,6 @@
                             </li>
                             <li>
                                 <a href="#hideNewAddressForm">hideNewAddressForm</a>
-                            </li>
-                            <li>
-                                <a href="#next">next</a>
-                            </li>
-                            <li>
-                                <a href="#ngOnDestroy">ngOnDestroy</a>
                             </li>
                             <li>
                                 <a href="#ngOnInit">ngOnInit</a>
@@ -244,12 +201,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(userAddressService: <a href="../injectables/UserAddressService.html">UserAddressService</a>, cartService: <a href="../injectables/CartService.html">CartService</a>, routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryService.html">CheckoutDeliveryService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, activatedRoute: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>)</code>
+<code>constructor(userAddressService: <a href="../injectables/UserAddressService.html">UserAddressService</a>, routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryService.html">CheckoutDeliveryService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, activatedRoute: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -271,18 +228,6 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/UserAddressService.html" target="_self" >UserAddressService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>cartService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/CartService.html" target="_self" >CartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -350,6 +295,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>activeCartService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -383,155 +340,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addAddress(address: literal type | any)</code>
+<code>addAddress(address: <a href="../interfaces/Address.html">Address</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="203"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:203</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>address</td>
-                                    <td>
-                                            <code>literal type | any</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="addAddress"></a>
-                    <span class="name">
-                        <b>
-                            addAddress
-                        </b>
-                        <a href="#addAddress"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>addAddress(address: Address | literal type)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="204"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:204</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>address</td>
-                                    <td>
-                                            <code>Address | literal type</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="addNewAddress"></a>
-                    <span class="name">
-                        <b>
-                            addNewAddress
-                        </b>
-                        <a href="#addNewAddress"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>addNewAddress(address: <a href="../interfaces/Address.html">Address</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="293"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:293</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="132"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:132</a></div>
                 </td>
             </tr>
 
@@ -573,115 +390,6 @@
                     </div>
                     <div class="io-description">
                         
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="addressSelected"></a>
-                    <span class="name">
-                        <b>
-                            addressSelected
-                        </b>
-                        <a href="#addressSelected"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>addressSelected(address: <a href="../interfaces/Address.html">Address</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="266"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:266</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>address</td>
-                                    <td>
-                                                <code><a href="../interfaces/Address.html" target="_self" >Address</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="back"></a>
-                    <span class="name">
-                        <b>
-                            back
-                        </b>
-                        <a href="#back"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>back()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="275"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:275</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
                     </div>
                 </td>
             </tr>
@@ -709,8 +417,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="165"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:165</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:100</a></div>
                 </td>
             </tr>
 
@@ -827,8 +535,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="247"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:247</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="160"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:160</a></div>
                 </td>
             </tr>
 
@@ -866,8 +574,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="253"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:253</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="166"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:166</a></div>
                 </td>
             </tr>
 
@@ -905,8 +613,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="240"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:240</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="153"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:153</a></div>
                 </td>
             </tr>
 
@@ -961,84 +669,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="next"></a>
-                    <span class="name">
-                        <b>
-                            next
-                        </b>
-                        <a href="#next"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>next()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="284"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:284</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ngOnDestroy"></a>
-                    <span class="name">
-                        <b>
-                            ngOnDestroy
-                        </b>
-                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>ngOnDestroy()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="302"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:302</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="ngOnInit"></a>
                     <span class="name">
                         <b>
@@ -1057,8 +687,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="103"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:103</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:45</a></div>
                 </td>
             </tr>
 
@@ -1096,8 +726,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="193"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:193</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:128</a></div>
                 </td>
             </tr>
 
@@ -1166,8 +796,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="236"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:236</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:149</a></div>
                 </td>
             </tr>
 
@@ -1193,38 +823,6 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="cards"></a>
-                        <span class="name">
-                            <b>
-                            cards</b>
-                            <a href="#cards"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../interfaces/Card.html" target="_self" >Card[]</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>[]</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:54</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
                         <a name="cards$"></a>
                         <span class="name">
                             <b>
@@ -1241,67 +839,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:45</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="checkoutStepUrlNext"></a>
-                        <span class="name">
-                            <b>
-                            checkoutStepUrlNext</b>
-                            <a href="#checkoutStepUrlNext"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>this.checkoutConfigService.getNextCheckoutStepUrl(
-    this.activatedRoute
-  )</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:84</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="checkoutStepUrlPrevious"></a>
-                        <span class="name">
-                            <b>
-                            checkoutStepUrlPrevious</b>
-                            <a href="#checkoutStepUrlPrevious"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>&#x27;cart&#x27;</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:92</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -1328,7 +866,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:42</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -1354,39 +892,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:47</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="goTo"></a>
-                        <span class="name">
-                            <b>
-                            goTo</b>
-                            <a href="#goTo"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../interfaces/CheckoutStep.html" target="_self" >CheckoutStepType</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>null</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:60</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -1412,7 +918,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:94</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -1439,7 +945,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -1465,34 +971,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:43</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="selectedAddress"></a>
-                        <span class="name">
-                            <b>
-                            selectedAddress</b>
-                            <a href="#selectedAddress"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../interfaces/Address.html" target="_self" >Address</a></code>
-
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:101</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -1519,88 +998,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:46</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="selectedAddressSub"></a>
-                        <span class="name">
-                            <b>
-                            selectedAddressSub</b>
-                            <a href="#selectedAddressSub"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>    <code>Subscription</code>
-
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:78</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="setAddress"></a>
-                        <span class="name">
-                            <b>
-                            setAddress</b>
-                            <a href="#setAddress"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../interfaces/Address.html" target="_self" >Address</a></code>
-
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:66</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="setAddressSub"></a>
-                        <span class="name">
-                            <b>
-                            setAddressSub</b>
-                            <a href="#setAddressSub"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>    <code>Subscription</code>
-
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:72</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -1613,26 +1011,20 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  OnDestroy,
-} from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ChangeDetectionStrategy, Component, OnInit } from &#x27;@angular/core&#x27;;
 import { ActivatedRoute } from &#x27;@angular/router&#x27;;
 import {
+  ActiveCartService,
   Address,
-  CartService,
   CheckoutDeliveryService,
   RoutingService,
   TranslationService,
   UserAddressService,
 } from &#x27;@spartacus/core&#x27;;
-import { combineLatest, Observable, Subscription } from &#x27;rxjs&#x27;;
+import { combineLatest, Observable } from &#x27;rxjs&#x27;;
 import { map, take } from &#x27;rxjs/operators&#x27;;
 import { Card } from &#x27;../../../../shared/components/card/card.component&#x27;;
 import { CheckoutConfigService } from &#x27;../../services/checkout-config.service&#x27;;
-import { CheckoutStepType } from &#x27;../..&#x27;;
 
 export interface CardWithAddress {
   card: Card;
@@ -1644,83 +1036,26 @@ export interface CardWithAddress {
   templateUrl: &#x27;./shipping-address.component.html&#x27;,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShippingAddressComponent implements OnInit, OnDestroy {
-  constructor(
-    protected userAddressService: UserAddressService,
-    protected cartService: CartService,
-    protected routingService: RoutingService,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
-    private checkoutConfigService: CheckoutConfigService,
-    private activatedRoute: ActivatedRoute,
-    private translation: TranslationService
-  ) {}
+export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable&lt;Address[]&gt;;
   newAddressFormManuallyOpened &#x3D; false;
   isLoading$: Observable&lt;boolean&gt;;
   cards$: Observable&lt;CardWithAddress[]&gt;;
   selectedAddress$: Observable&lt;Address&gt;;
   forceLoader &#x3D; false; // this helps with smoother steps transition
-
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use cards$ observable instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  cards: Card[] &#x3D; [];
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Avoid using it.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  goTo: CheckoutStepType &#x3D; null;
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use selectAddress(address: Address) instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  setAddress: Address;
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Avoid using it.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  setAddressSub: Subscription;
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use selectedAddress$ observable instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  selectedAddressSub: Subscription;
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use CheckoutConfigService.getNextCheckoutStepUrl(this.activatedRoute) instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  checkoutStepUrlNext &#x3D; this.checkoutConfigService.getNextCheckoutStepUrl(
-    this.activatedRoute
-  );
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use CheckoutConfigService.getPreviousCheckoutStepUrl(this.activatedRoute) instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  checkoutStepUrlPrevious &#x3D; &#x27;cart&#x27;;
-
   isGuestCheckout &#x3D; false;
 
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use selectedAddress$ observable instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  selectedAddress: Address;
+  constructor(
+    protected userAddressService: UserAddressService,
+    protected routingService: RoutingService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected activatedRoute: ActivatedRoute,
+    protected translation: TranslationService,
+    protected activeCartService: ActiveCartService
+  ) {}
 
   ngOnInit() {
-    this.goTo &#x3D; null;
-    this.checkoutStepUrlNext &#x3D; this.checkoutConfigService.getNextCheckoutStepUrl(
-      this.activatedRoute
-    );
-    this.checkoutStepUrlPrevious &#x3D; &#x27;cart&#x27;;
     this.isLoading$ &#x3D; this.userAddressService.getAddressesLoading();
     this.existingAddresses$ &#x3D; this.userAddressService.getAddresses();
     this.selectedAddress$ &#x3D; this.checkoutDeliveryService.getDeliveryAddress();
@@ -1743,17 +1078,15 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
           // Select default address if none selected
           if (
             addresses.length &amp;&amp;
-            (!selected ||
-              Object.keys(selected).length &#x3D;&#x3D;&#x3D; 0 ||
-              !this.selectedAddress)
+            (!selected || Object.keys(selected).length &#x3D;&#x3D;&#x3D; 0)
           ) {
             const defaultAddress &#x3D; addresses.find(
-              address &#x3D;&gt; address.defaultAddress
+              (address) &#x3D;&gt; address.defaultAddress
             );
             selected &#x3D; defaultAddress;
             this.selectAddress(defaultAddress);
           }
-          return addresses.map(address &#x3D;&gt; {
+          return addresses.map((address) &#x3D;&gt; {
             const card &#x3D; this.getCardContent(
               address,
               selected,
@@ -1770,7 +1103,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       )
     );
 
-    if (!this.cartService.isGuestCart()) {
+    if (!this.activeCartService.isGuestCart()) {
       this.userAddressService.loadAddresses();
     } else {
       this.isGuestCheckout &#x3D; true;
@@ -1806,25 +1139,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   selectAddress(address: Address): void {
-    this.selectedAddress &#x3D; address;
     this.checkoutDeliveryService.setDeliveryAddress(address);
   }
 
-  /**
-   * @deprecated since version 1.3
-   * Use addAddress(address: Address) instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  addAddress(address: { newAddress: boolean; address: Address } | any);
-  addAddress(
-    address: Address | { newAddress: boolean; address: Address }
-  ): void {
-    // TODO(issue:#3921) deprecated since 1.3 - Remove temp address
-    const tempAddress: Address &#x3D; address[&#x27;address&#x27;]
-      ? address[&#x27;address&#x27;]
-      : address;
-
-    const selectedSub &#x3D; this.selectedAddress$.subscribe(selected &#x3D;&gt; {
+  addAddress(address: Address): void {
+    const selectedSub &#x3D; this.selectedAddress$.subscribe((selected) &#x3D;&gt; {
       if (selected &amp;&amp; selected.shippingAddress) {
         this.goNext();
         selectedSub.unsubscribe();
@@ -1833,19 +1152,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
     this.forceLoader &#x3D; true;
 
-    // TODO(issue:#3921) deprecated since 1.3 - Remove this condition
-    if (address[&#x27;address&#x27;] || address[&#x27;newAddress&#x27;]) {
-      address[&#x27;newAddress&#x27;]
-        ? this.checkoutDeliveryService.createAndSetAddress(tempAddress)
-        : this.selectAddress(tempAddress);
-    } else {
-      // TODO(issue:#3921) deprecated since 1.3 - Use instead of condition
-      this.existingAddresses$.pipe(take(1)).subscribe(addresses &#x3D;&gt; {
-        addresses.includes(tempAddress)
-          ? this.selectAddress(tempAddress)
-          : this.checkoutDeliveryService.createAndSetAddress(tempAddress);
-      });
-    }
+    this.existingAddresses$.pipe(take(1)).subscribe((addresses) &#x3D;&gt; {
+      addresses.includes(address)
+        ? this.selectAddress(address)
+        : this.checkoutDeliveryService.createAndSetAddress(address);
+    });
   }
 
   showNewAddressForm(): void {
@@ -1871,56 +1182,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         this.activatedRoute
       ) || &#x27;cart&#x27;
     );
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This variable will no longer be in use. Use selectAddress(address: Address) instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  addressSelected(address: Address): void {
-    this.selectAddress(address);
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use goPrevious() instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  back(): void {
-    this.goPrevious();
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use goNext() instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  next(): void {
-    this.goNext();
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use addAddress(address: Address) instead.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  addNewAddress(address: Address): void {
-    this.addAddress(address);
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Remove.
-   * TODO(issue:#3921) deprecated since 1.3
-   */
-  ngOnDestroy(): void {
-    if (this.setAddressSub) {
-      this.setAddressSub.unsubscribe();
-    }
-    if (this.selectedAddressSub) {
-      this.selectedAddressSub.unsubscribe();
-    }
   }
 }
 </code></pre>
@@ -1959,13 +1220,13 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         &gt;
           &lt;div
             class&#x3D;&quot;cx-shipping-address-card-inner&quot;
-            (click)&#x3D;&quot;addressSelected(card.address)&quot;
+            (click)&#x3D;&quot;selectAddress(card.address)&quot;
           &gt;
             &lt;cx-card
               [border]&#x3D;&quot;true&quot;
               [fitToContainer]&#x3D;&quot;true&quot;
               [content]&#x3D;&quot;card.card&quot;
-              (sendCard)&#x3D;&quot;addressSelected(card.address)&quot;
+              (sendCard)&#x3D;&quot;selectAddress(card.address)&quot;
             &gt;&lt;/cx-card&gt;
           &lt;/div&gt;
         &lt;/div&gt;
@@ -1973,18 +1234,18 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
       &lt;div class&#x3D;&quot;cx-checkout-btns row&quot;&gt;
         &lt;div class&#x3D;&quot;col-md-12 col-lg-6&quot;&gt;
-          &lt;button class&#x3D;&quot;cx-btn btn btn-block btn-action&quot; (click)&#x3D;&quot;back()&quot;&gt;
+          &lt;button
+            class&#x3D;&quot;cx-btn btn btn-block btn-action&quot;
+            (click)&#x3D;&quot;goPrevious()&quot;
+          &gt;
             {{ &#x27;checkout.backToCart&#x27; | cxTranslate }}
           &lt;/button&gt;
         &lt;/div&gt;
         &lt;div class&#x3D;&quot;col-md-12 col-lg-6&quot;&gt;
           &lt;button
             class&#x3D;&quot;cx-btn btn btn-block btn-primary&quot;
-            [disabled]&#x3D;&quot;
-              (!selectedAddress || !selectedAddress.id) &amp;&amp;
-              !(selectedAddress$ | async)?.shippingAddress
-            &quot;
-            (click)&#x3D;&quot;next()&quot;
+            [disabled]&#x3D;&quot;!(selectedAddress$ | async)?.id&quot;
+            (click)&#x3D;&quot;goNext()&quot;
           &gt;
             {{ &#x27;common.continue&#x27; | cxTranslate }}
           &lt;/button&gt;
@@ -2004,7 +1265,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         &lt;cx-address-form
           [showTitleCode]&#x3D;&quot;true&quot;
           [setAsDefaultField]&#x3D;&quot;!isGuestCheckout&quot;
-          [addressData]&#x3D;&quot;setAddress&quot;
+          [addressData]&#x3D;&quot;selectedAddress$ | async&quot;
           cancelBtnLabel&#x3D;&quot;{{ &#x27;checkout.backToCart&#x27; | cxTranslate }}&quot;
           (backToAddress)&#x3D;&quot;hideNewAddressForm(true)&quot;
           (submitAddress)&#x3D;&quot;addAddress($event)&quot;
@@ -2048,9 +1309,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="cards$ | async as cards">  <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">    {{ \'checkoutAddress.shippingAddress\' | cxTranslate }}  </h3>  <ng-container *ngIf="!forceLoader && !(isLoading$ | async); else loading">    <ng-container      *ngIf="        cards?.length && !newAddressFormManuallyOpened;        else newAddressForm      "    >      <p class="cx-checkout-text">        {{ \'checkoutAddress.selectYourShippingAddress\' | cxTranslate }}      </p>      <div class="cx-checkout-btns row">        <div class="col-sm-12 col-md-12 col-lg-6">          <button            class="btn btn-block btn-action"            (click)="showNewAddressForm()"          >            {{ \'checkoutAddress.addNewAddress\' | cxTranslate }}          </button>        </div>      </div>      <div class="cx-checkout-body row">        <div          class="cx-shipping-address-card col-md-12 col-lg-6"          *ngFor="let card of cards; let i = index"        >          <div            class="cx-shipping-address-card-inner"            (click)="addressSelected(card.address)"          >            <cx-card              [border]="true"              [fitToContainer]="true"              [content]="card.card"              (sendCard)="addressSelected(card.address)"            ></cx-card>          </div>        </div>      </div>      <div class="cx-checkout-btns row">        <div class="col-md-12 col-lg-6">          <button class="cx-btn btn btn-block btn-action" (click)="back()">            {{ \'checkout.backToCart\' | cxTranslate }}          </button>        </div>        <div class="col-md-12 col-lg-6">          <button            class="cx-btn btn btn-block btn-primary"            [disabled]="              (!selectedAddress || !selectedAddress.id) &&              !(selectedAddress$ | async)?.shippingAddress            "            (click)="next()"          >            {{ \'common.continue\' | cxTranslate }}          </button>        </div>      </div>    </ng-container>    <ng-template #newAddressForm>      <ng-container *ngIf="cards.length; else initialAddressForm">        <cx-address-form          [showTitleCode]="true"          (backToAddress)="hideNewAddressForm(false)"          (submitAddress)="addAddress($event)"        ></cx-address-form>      </ng-container>      <ng-template #initialAddressForm>        <cx-address-form          [showTitleCode]="true"          [setAsDefaultField]="!isGuestCheckout"          [addressData]="setAddress"          cancelBtnLabel="{{ \'checkout.backToCart\' | cxTranslate }}"          (backToAddress)="hideNewAddressForm(true)"          (submitAddress)="addAddress($event)"        ></cx-address-form>      </ng-template>    </ng-template>  </ng-container>  <ng-template #loading>    <div class="cx-spinner">      <cx-spinner></cx-spinner>    </div>  </ng-template></ng-container></div>'
-    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressCardComponent', 'selector': 'cx-address-card'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
-    var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'AutoFocusDirective', 'selector': '[cxAutoFocus]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OnlyNumberDirective', 'selector': '[cxOnlyNumber]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
+        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="cards$ | async as cards">  <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">    {{ \'checkoutAddress.shippingAddress\' | cxTranslate }}  </h3>  <ng-container *ngIf="!forceLoader && !(isLoading$ | async); else loading">    <ng-container      *ngIf="        cards?.length && !newAddressFormManuallyOpened;        else newAddressForm      "    >      <p class="cx-checkout-text">        {{ \'checkoutAddress.selectYourShippingAddress\' | cxTranslate }}      </p>      <div class="cx-checkout-btns row">        <div class="col-sm-12 col-md-12 col-lg-6">          <button            class="btn btn-block btn-action"            (click)="showNewAddressForm()"          >            {{ \'checkoutAddress.addNewAddress\' | cxTranslate }}          </button>        </div>      </div>      <div class="cx-checkout-body row">        <div          class="cx-shipping-address-card col-md-12 col-lg-6"          *ngFor="let card of cards; let i = index"        >          <div            class="cx-shipping-address-card-inner"            (click)="selectAddress(card.address)"          >            <cx-card              [border]="true"              [fitToContainer]="true"              [content]="card.card"              (sendCard)="selectAddress(card.address)"            ></cx-card>          </div>        </div>      </div>      <div class="cx-checkout-btns row">        <div class="col-md-12 col-lg-6">          <button            class="cx-btn btn btn-block btn-action"            (click)="goPrevious()"          >            {{ \'checkout.backToCart\' | cxTranslate }}          </button>        </div>        <div class="col-md-12 col-lg-6">          <button            class="cx-btn btn btn-block btn-primary"            [disabled]="!(selectedAddress$ | async)?.id"            (click)="goNext()"          >            {{ \'common.continue\' | cxTranslate }}          </button>        </div>      </div>    </ng-container>    <ng-template #newAddressForm>      <ng-container *ngIf="cards.length; else initialAddressForm">        <cx-address-form          [showTitleCode]="true"          (backToAddress)="hideNewAddressForm(false)"          (submitAddress)="addAddress($event)"        ></cx-address-form>      </ng-container>      <ng-template #initialAddressForm>        <cx-address-form          [showTitleCode]="true"          [setAsDefaultField]="!isGuestCheckout"          [addressData]="selectedAddress$ | async"          cancelBtnLabel="{{ \'checkout.backToCart\' | cxTranslate }}"          (backToAddress)="hideNewAddressForm(true)"          (submitAddress)="addAddress($event)"        ></cx-address-form>      </ng-template>    </ng-template>  </ng-container>  <ng-template #loading>    <div class="cx-spinner">      <cx-spinner></cx-spinner>    </div>  </ng-template></ng-container></div>'
+    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+    var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
     var ACTUAL_COMPONENT = {'name': 'ShippingAddressComponent'};
 </script>
 <script src="../js/tree.js"></script>

@@ -119,7 +119,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(checkoutService: <a href="../injectables/CheckoutService.html">CheckoutService</a>, checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryService.html">CheckoutDeliveryService</a>, checkoutPaymentService: <a href="../injectables/CheckoutPaymentService.html">CheckoutPaymentService</a>, cartService: <a href="../injectables/CartService.html">CartService</a>)</code>
+<code>constructor(checkoutService: <a href="../injectables/CheckoutService.html">CheckoutService</a>, checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryService.html">CheckoutDeliveryService</a>, checkoutPaymentService: <a href="../injectables/CheckoutPaymentService.html">CheckoutPaymentService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -178,10 +178,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>cartService</td>
+                                                        <td>activeCartService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CartService.html" target="_self" >CartService</a></code>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -388,8 +388,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import {
+  ActiveCartService,
   Address,
-  CartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -414,29 +414,29 @@ export class CheckoutDetailsService {
   getCheckoutDetailsLoaded$: Observable&lt;boolean&gt;;
 
   constructor(
-    private checkoutService: CheckoutService,
-    private checkoutDeliveryService: CheckoutDeliveryService,
-    private checkoutPaymentService: CheckoutPaymentService,
-    private cartService: CartService
+    protected checkoutService: CheckoutService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutPaymentService: CheckoutPaymentService,
+    protected activeCartService: ActiveCartService
   ) {
-    this.cartId$ &#x3D; this.cartService.getActive().pipe(
-      map(cartData &#x3D;&gt; {
+    this.cartId$ &#x3D; this.activeCartService.getActive().pipe(
+      map((cartData) &#x3D;&gt; {
         if (
           (cartData.user &amp;&amp; cartData.user.uid &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS) ||
-          this.cartService.isGuestCart()
+          this.activeCartService.isGuestCart()
         ) {
           return cartData.guid;
         }
         return cartData.code;
       }),
-      filter(cartId &#x3D;&gt; !!cartId)
+      filter((cartId) &#x3D;&gt; !!cartId)
     );
 
     this.getCheckoutDetailsLoaded$ &#x3D; this.cartId$.pipe(
-      tap(cartId &#x3D;&gt; this.checkoutService.loadCheckoutDetails(cartId)),
+      tap((cartId) &#x3D;&gt; this.checkoutService.loadCheckoutDetails(cartId)),
       shareReplay(1),
       switchMap(() &#x3D;&gt; this.checkoutService.getCheckoutDetailsLoaded()),
-      skipWhile(loaded &#x3D;&gt; !loaded)
+      skipWhile((loaded) &#x3D;&gt; !loaded)
     );
   }
 

@@ -181,8 +181,8 @@
     ofType(SiteContextActions.LOAD_BASE_SITE),
     exhaustMap(() &#x3D;&gt; {
       return this.siteConnector.getBaseSite().pipe(
-        map(baseSite &#x3D;&gt; new SiteContextActions.LoadBaseSiteSuccess(baseSite)),
-        catchError(error &#x3D;&gt;
+        map((baseSite) &#x3D;&gt; new SiteContextActions.LoadBaseSiteSuccess(baseSite)),
+        catchError((error) &#x3D;&gt;
           of(
             new SiteContextActions.LoadBaseSiteFail(
               makeErrorSerializable(error)
@@ -235,8 +235,8 @@ export class BaseSiteEffects {
     ofType(SiteContextActions.LOAD_BASE_SITE),
     exhaustMap(() &#x3D;&gt; {
       return this.siteConnector.getBaseSite().pipe(
-        map(baseSite &#x3D;&gt; new SiteContextActions.LoadBaseSiteSuccess(baseSite)),
-        catchError(error &#x3D;&gt;
+        map((baseSite) &#x3D;&gt; new SiteContextActions.LoadBaseSiteSuccess(baseSite)),
+        catchError((error) &#x3D;&gt;
           of(
             new SiteContextActions.LoadBaseSiteFail(
               makeErrorSerializable(error)

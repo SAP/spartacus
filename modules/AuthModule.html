@@ -63,41 +63,29 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_AuthModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="115,-70 115,-195 381,-195 381,-70 115,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="173,-70 173,-195 323,-195 323,-70 173,-70"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_AuthModule_imports</title>
-<polygon fill="none" stroke="#000000" points="123,-78 123,-130 373,-130 373,-78 123,-78"/>
+<polygon fill="none" stroke="#000000" points="181,-78 181,-130 315,-130 315,-78 181,-78"/>
 </g>
 <!-- AuthStoreModule -->
 <g id="node1" class="node">
 <title>AuthStoreModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="364.5954,-122 361.5954,-126 340.5954,-126 337.5954,-122 247.4046,-122 247.4046,-86 364.5954,-86 364.5954,-122"/>
-<text text-anchor="middle" x="306" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">AuthStoreModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="306.5954,-122 303.5954,-126 282.5954,-126 279.5954,-122 189.4046,-122 189.4046,-86 306.5954,-86 306.5954,-122"/>
+<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">AuthStoreModule</text>
 </g>
 <!-- AuthModule -->
-<g id="node3" class="node">
+<g id="node2" class="node">
 <title>AuthModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="286.5482,-187 283.5482,-191 262.5482,-191 259.5482,-187 199.4518,-187 199.4518,-151 286.5482,-151 286.5482,-187"/>
-<text text-anchor="middle" x="243" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">AuthModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="291.5482,-187 288.5482,-191 267.5482,-191 264.5482,-187 204.4518,-187 204.4518,-151 291.5482,-151 291.5482,-187"/>
+<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">AuthModule</text>
 </g>
 <!-- AuthStoreModule&#45;&gt;AuthModule -->
 <g id="edge1" class="edge">
 <title>AuthStoreModule&#45;&gt;AuthModule</title>
-<path fill="none" stroke="#000000" d="M267.1129,-122.1061C267.1129,-122.1061 267.1129,-140.991 267.1129,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="263.613,-140.9909 267.1129,-150.991 270.613,-140.991 263.613,-140.9909"/>
-</g>
-<!-- ConfigModule -->
-<g id="node2" class="node">
-<title>ConfigModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="229.4386,-122 226.4386,-126 205.4386,-126 202.4386,-122 130.5614,-122 130.5614,-86 229.4386,-86 229.4386,-122"/>
-<text text-anchor="middle" x="180" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ConfigModule</text>
-</g>
-<!-- ConfigModule&#45;&gt;AuthModule -->
-<g id="edge2" class="edge">
-<title>ConfigModule&#45;&gt;AuthModule</title>
-<path fill="none" stroke="#000000" d="M214.2227,-122.1061C214.2227,-122.1061 214.2227,-140.991 214.2227,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="210.7227,-140.9909 214.2227,-150.991 217.7227,-140.991 210.7227,-140.9909"/>
+<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
 </g>
 </g>
 </svg>
@@ -144,9 +132,6 @@
                         <li class="list-group-item">
                             <a href="../modules/AuthStoreModule.html">AuthStoreModule</a>
                         </li>
-                        <li class="list-group-item">
-                            <a href="../modules/ConfigModule.html">ConfigModule</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -181,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/core/src/auth/auth.module.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">projects/core/src/auth/auth.module.ts:15</a></div>
                 </td>
             </tr>
 
@@ -206,7 +191,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
 import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config, ConfigModule } from &#x27;../config/config.module&#x27;;
+import { Config, provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { AuthConfig } from &#x27;./config/auth-config&#x27;;
 import { defaultAuthConfig } from &#x27;./config/default-auth-config&#x27;;
 import { interceptors } from &#x27;./http-interceptors/index&#x27;;
@@ -214,18 +199,14 @@ import { AuthServices } from &#x27;./services/index&#x27;;
 import { AuthStoreModule } from &#x27;./store/auth-store.module&#x27;;
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    AuthStoreModule,
-    ConfigModule.withConfig(defaultAuthConfig),
-  ],
+  imports: [CommonModule, HttpClientModule, AuthStoreModule],
 })
 export class AuthModule {
   static forRoot(): ModuleWithProviders&lt;AuthModule&gt; {
     return {
       ngModule: AuthModule,
       providers: [
+        provideDefaultConfig(defaultAuthConfig),
         ...interceptors,
         ...AuthServices,
         { provide: AuthConfig, useExisting: Config },

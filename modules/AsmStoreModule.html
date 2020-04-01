@@ -63,41 +63,29 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_AsmStoreModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="130,-70 130,-195 366,-195 366,-70 130,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="182,-70 182,-195 314,-195 314,-70 182,-70"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_AsmStoreModule_imports</title>
-<polygon fill="none" stroke="#000000" points="138,-78 138,-130 358,-130 358,-78 138,-78"/>
+<polygon fill="none" stroke="#000000" points="196,-78 196,-130 300,-130 300,-78 196,-78"/>
 </g>
-<!-- ConfigModule -->
+<!-- StateModule -->
 <g id="node1" class="node">
-<title>ConfigModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="350.4386,-122 347.4386,-126 326.4386,-126 323.4386,-122 251.5614,-122 251.5614,-86 350.4386,-86 350.4386,-122"/>
-<text text-anchor="middle" x="301" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ConfigModule</text>
+<title>StateModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="291.544,-122 288.544,-126 267.544,-126 264.544,-122 204.456,-122 204.456,-86 291.544,-86 291.544,-122"/>
+<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">StateModule</text>
 </g>
 <!-- AsmStoreModule -->
-<g id="node3" class="node">
+<g id="node2" class="node">
 <title>AsmStoreModule</title>
 <polygon fill="#8dd3c7" stroke="#000000" points="305.5409,-187 302.5409,-191 281.5409,-191 278.5409,-187 190.4591,-187 190.4591,-151 305.5409,-151 305.5409,-187"/>
 <text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">AsmStoreModule</text>
 </g>
-<!-- ConfigModule&#45;&gt;AsmStoreModule -->
-<g id="edge1" class="edge">
-<title>ConfigModule&#45;&gt;AsmStoreModule</title>
-<path fill="none" stroke="#000000" d="M278.7756,-122.1061C278.7756,-122.1061 278.7756,-140.991 278.7756,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="275.2757,-140.9909 278.7756,-150.991 282.2757,-140.991 275.2757,-140.9909"/>
-</g>
-<!-- StateModule -->
-<g id="node2" class="node">
-<title>StateModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="233.544,-122 230.544,-126 209.544,-126 206.544,-122 146.456,-122 146.456,-86 233.544,-86 233.544,-122"/>
-<text text-anchor="middle" x="190" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">StateModule</text>
-</g>
 <!-- StateModule&#45;&gt;AsmStoreModule -->
-<g id="edge2" class="edge">
+<g id="edge1" class="edge">
 <title>StateModule&#45;&gt;AsmStoreModule</title>
-<path fill="none" stroke="#000000" d="M212.0007,-122.1061C212.0007,-122.1061 212.0007,-140.991 212.0007,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="208.5008,-140.9909 212.0007,-150.991 215.5008,-140.991 208.5008,-140.9909"/>
+<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
 </g>
 </g>
 </svg>
@@ -142,9 +130,6 @@
                                 class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <a href="../modules/ConfigModule.html">ConfigModule</a>
-                        </li>
-                        <li class="list-group-item">
                             <a href="../modules/StateModule.html">StateModule</a>
                         </li>
                     </ul>
@@ -162,7 +147,7 @@ import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { EffectsModule } from &#x27;@ngrx/effects&#x27;;
 import { StoreModule } from &#x27;@ngrx/store&#x27;;
-import { ConfigModule } from &#x27;../../config/config.module&#x27;;
+import { provideDefaultConfigFactory } from &#x27;../../config/config.module&#x27;;
 import { StateConfig, StorageSyncType } from &#x27;../../state/config/state-config&#x27;;
 import { StateModule } from &#x27;../../state/state.module&#x27;;
 import { ASM_FEATURE } from &#x27;./asm-state&#x27;;
@@ -195,9 +180,11 @@ export function asmStoreConfigFactory(): StateConfig {
     StateModule,
     StoreModule.forFeature(ASM_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfigFactory(asmStoreConfigFactory),
   ],
-  providers: [reducerProvider],
+  providers: [
+    provideDefaultConfigFactory(asmStoreConfigFactory),
+    reducerProvider,
+  ],
 })
 export class AsmStoreModule {}
 </code></pre>

@@ -22,75 +22,57 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_B2cStorefrontModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="54.5,-70 54.5,-268 441.5,-268 441.5,-70 54.5,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="113,-70 113,-268 383,-268 383,-70 113,-70"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_B2cStorefrontModule_imports</title>
-<polygon fill="none" stroke="#000000" points="62.5,-78 62.5,-130 433.5,-130 433.5,-78 62.5,-78"/>
+<polygon fill="none" stroke="#000000" points="121,-78 121,-130 375,-130 375,-78 121,-78"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_B2cStorefrontModule_exports</title>
-<polygon fill="none" stroke="#000000" points="185.5,-208 185.5,-260 321.5,-260 321.5,-208 185.5,-208"/>
+<polygon fill="none" stroke="#000000" points="180,-208 180,-260 316,-260 316,-208 180,-208"/>
 </g>
 <!-- CmsLibModule -->
 <g id="node1" class="node">
 <title>CmsLibModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="425.6653,-122 422.6653,-126 401.6653,-126 398.6653,-122 321.3347,-122 321.3347,-86 425.6653,-86 425.6653,-122"/>
-<text text-anchor="middle" x="373.5" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CmsLibModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="367.1653,-122 364.1653,-126 343.1653,-126 340.1653,-122 262.8347,-122 262.8347,-86 367.1653,-86 367.1653,-122"/>
+<text text-anchor="middle" x="315" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CmsLibModule</text>
 </g>
 <!-- B2cStorefrontModule -->
-<g id="node4" class="node">
+<g id="node3" class="node">
 <title>B2cStorefrontModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="322.8613,-187 319.8613,-191 298.8613,-191 295.8613,-187 184.1387,-187 184.1387,-151 322.8613,-151 322.8613,-187"/>
-<text text-anchor="middle" x="253.5" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">B2cStorefrontModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="317.3613,-187 314.3613,-191 293.3613,-191 290.3613,-187 178.6387,-187 178.6387,-151 317.3613,-151 317.3613,-187"/>
+<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">B2cStorefrontModule</text>
 </g>
 <!-- CmsLibModule&#45;&gt;B2cStorefrontModule -->
 <g id="edge1" class="edge">
 <title>CmsLibModule&#45;&gt;B2cStorefrontModule</title>
-<path fill="none" stroke="#000000" d="M321.2924,-104C315.6712,-104 311.9432,-104 311.9432,-104 311.9432,-104 311.9432,-140.8939 311.9432,-140.8939"/>
-<polygon fill="#000000" stroke="#000000" points="308.4433,-140.8938 311.9432,-150.8939 315.4433,-140.8939 308.4433,-140.8938"/>
-</g>
-<!-- ConfigModule -->
-<g id="node2" class="node">
-<title>ConfigModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="302.9386,-122 299.9386,-126 278.9386,-126 275.9386,-122 204.0614,-122 204.0614,-86 302.9386,-86 302.9386,-122"/>
-<text text-anchor="middle" x="253.5" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ConfigModule</text>
-</g>
-<!-- ConfigModule&#45;&gt;B2cStorefrontModule -->
-<g id="edge2" class="edge">
-<title>ConfigModule&#45;&gt;B2cStorefrontModule</title>
-<path fill="none" stroke="#000000" d="M269.9063,-122.1061C269.9063,-122.1061 269.9063,-140.991 269.9063,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="266.4064,-140.9909 269.9063,-150.991 273.4064,-140.991 266.4064,-140.9909"/>
-</g>
-<!-- ConfigModule&#45;&gt;B2cStorefrontModule -->
-<g id="edge3" class="edge">
-<title>ConfigModule&#45;&gt;B2cStorefrontModule</title>
-<path fill="none" stroke="#000000" d="M237.0937,-122.1061C237.0937,-122.1061 237.0937,-140.991 237.0937,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="233.5938,-140.9909 237.0937,-150.991 240.5938,-140.991 233.5938,-140.9909"/>
+<path fill="none" stroke="#000000" d="M290.0491,-122.1061C290.0491,-122.1061 290.0491,-140.991 290.0491,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="286.5492,-140.9909 290.0491,-150.991 293.5492,-140.991 286.5492,-140.9909"/>
 </g>
 <!-- StorefrontModule -->
-<g id="node3" class="node">
+<g id="node2" class="node">
 <title>StorefrontModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="186.8104,-122 183.8104,-126 162.8104,-126 159.8104,-122 70.1896,-122 70.1896,-86 186.8104,-86 186.8104,-122"/>
-<text text-anchor="middle" x="128.5" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">StorefrontModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="245.3104,-122 242.3104,-126 221.3104,-126 218.3104,-122 128.6896,-122 128.6896,-86 245.3104,-86 245.3104,-122"/>
+<text text-anchor="middle" x="187" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">StorefrontModule</text>
 </g>
 <!-- StorefrontModule&#45;&gt;B2cStorefrontModule -->
-<g id="edge4" class="edge">
+<g id="edge2" class="edge">
 <title>StorefrontModule&#45;&gt;B2cStorefrontModule</title>
-<path fill="none" stroke="#000000" d="M186.7132,-104C192.0306,-104 195.4681,-104 195.4681,-104 195.4681,-104 195.4681,-140.8939 195.4681,-140.8939"/>
-<polygon fill="#000000" stroke="#000000" points="191.9682,-140.8938 195.4681,-150.8939 198.9682,-140.8939 191.9682,-140.8938"/>
+<path fill="none" stroke="#000000" d="M211.8622,-122.1061C211.8622,-122.1061 211.8622,-140.991 211.8622,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="208.3623,-140.9909 211.8622,-150.991 215.3623,-140.991 208.3623,-140.9909"/>
 </g>
 <!-- StorefrontModule  -->
-<g id="node5" class="node">
+<g id="node4" class="node">
 <title>StorefrontModule </title>
-<polygon fill="#fb8072" stroke="#000000" points="313.3102,-252 193.6898,-252 193.6898,-216 313.3102,-216 313.3102,-252"/>
-<text text-anchor="middle" x="253.5" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">StorefrontModule </text>
+<polygon fill="#fb8072" stroke="#000000" points="307.8102,-252 188.1898,-252 188.1898,-216 307.8102,-216 307.8102,-252"/>
+<text text-anchor="middle" x="248" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">StorefrontModule </text>
 </g>
 <!-- B2cStorefrontModule&#45;&gt;StorefrontModule  -->
-<g id="edge5" class="edge">
+<g id="edge3" class="edge">
 <title>B2cStorefrontModule&#45;&gt;StorefrontModule </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M253.5,-187.1061C253.5,-187.1061 253.5,-205.991 253.5,-205.991"/>
-<polygon fill="#000000" stroke="#000000" points="250.0001,-205.9909 253.5,-215.991 257.0001,-205.991 250.0001,-205.9909"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M248,-187.1061C248,-187.1061 248,-205.991 248,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-205.9909 248,-215.991 251.5001,-205.991 244.5001,-205.9909"/>
 </g>
 </g>
 </svg>

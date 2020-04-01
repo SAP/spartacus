@@ -180,12 +180,12 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(AsmActions.CUSTOMER_SEARCH),
     map((action: AsmActions.CustomerSearch) &#x3D;&gt; action.payload),
-    switchMap(options &#x3D;&gt;
+    switchMap((options) &#x3D;&gt;
       this.asmConnector.customerSearch(options).pipe(
         map((customerSearchResults: CustomerSearchPage) &#x3D;&gt; {
           return new AsmActions.CustomerSearchSuccess(customerSearchResults);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new AsmActions.CustomerSearchFail(makeErrorSerializable(error)))
         )
       )
@@ -232,12 +232,12 @@ export class CustomerEffects {
   customerSearch$: Observable&lt;AsmActions.CustomerAction&gt; &#x3D; this.actions$.pipe(
     ofType(AsmActions.CUSTOMER_SEARCH),
     map((action: AsmActions.CustomerSearch) &#x3D;&gt; action.payload),
-    switchMap(options &#x3D;&gt;
+    switchMap((options) &#x3D;&gt;
       this.asmConnector.customerSearch(options).pipe(
         map((customerSearchResults: CustomerSearchPage) &#x3D;&gt; {
           return new AsmActions.CustomerSearchSuccess(customerSearchResults);
         }),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(new AsmActions.CustomerSearchFail(makeErrorSerializable(error)))
         )
       )

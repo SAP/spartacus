@@ -232,8 +232,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="84"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:84</a></div>
                 </td>
             </tr>
 
@@ -318,8 +318,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:70</a></div>
                 </td>
             </tr>
 
@@ -476,8 +476,8 @@ string describing config part, e.g.:
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="122"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:122</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:123</a></div>
                 </td>
             </tr>
 
@@ -548,8 +548,8 @@ string describing config part, e.g.:
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:109</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:110</a></div>
                 </td>
             </tr>
 
@@ -755,7 +755,8 @@ export class ConfigInitializerService {
     return this.ongoingScopes$
       .pipe(
         filter(
-          ongoingScopes &#x3D;&gt; ongoingScopes &amp;&amp; this.areReady(scopes, ongoingScopes)
+          (ongoingScopes) &#x3D;&gt;
+            ongoingScopes &amp;&amp; this.areReady(scopes, ongoingScopes)
         ),
         take(1),
         mapTo(this.config)

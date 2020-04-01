@@ -204,7 +204,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config, provideConfig } from &#x27;../config/config.module&#x27;;
+import { Config, provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { CmsConfig } from &#x27;./config/cms-config&#x27;;
 import { CmsStructureConfig } from &#x27;./config/cms-structure.config&#x27;;
 import { defaultCmsModuleConfig } from &#x27;./config/default-cms-config&#x27;;
@@ -223,7 +223,7 @@ export class CmsModule {
         CmsService,
         { provide: CmsConfig, useExisting: Config },
         { provide: CmsStructureConfig, useExisting: Config },
-        provideConfig(defaultCmsModuleConfig),
+        provideDefaultConfig(defaultCmsModuleConfig),
       ],
     };
   }

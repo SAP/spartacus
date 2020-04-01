@@ -199,8 +199,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">projects/core/src/occ/adapters/product/occ-product-reviews.adapter.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/core/src/occ/adapters/product/occ-product-reviews.adapter.ts:49</a></div>
                 </td>
             </tr>
 
@@ -363,8 +363,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/core/src/occ/adapters/product/occ-product-reviews.adapter.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">projects/core/src/occ/adapters/product/occ-product-reviews.adapter.ts:31</a></div>
                 </td>
             </tr>
 
@@ -451,10 +451,12 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   ) {}
 
   load(productCode: string, maxCount?: number): Observable&lt;Review[]&gt; {
-    return this.http.get(this.getEndpoint(productCode, maxCount)).pipe(
-      pluck(&#x27;reviews&#x27;),
-      this.converter.pipeableMany(PRODUCT_REVIEW_NORMALIZER)
-    );
+    return this.http
+      .get(this.getEndpoint(productCode, maxCount))
+      .pipe(
+        pluck(&#x27;reviews&#x27;),
+        this.converter.pipeableMany(PRODUCT_REVIEW_NORMALIZER)
+      );
   }
 
   post(productCode: string, review: any): Observable&lt;Review&gt; {

@@ -182,9 +182,9 @@
     switchMap(() &#x3D;&gt; {
       return this.siteConnector.getCountries(CountryType.BILLING).pipe(
         map(
-          countries &#x3D;&gt; new UserActions.LoadBillingCountriesSuccess(countries)
+          (countries) &#x3D;&gt; new UserActions.LoadBillingCountriesSuccess(countries)
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.LoadBillingCountriesFail(
               makeErrorSerializable(error)
@@ -239,9 +239,9 @@ export class BillingCountriesEffect {
     switchMap(() &#x3D;&gt; {
       return this.siteConnector.getCountries(CountryType.BILLING).pipe(
         map(
-          countries &#x3D;&gt; new UserActions.LoadBillingCountriesSuccess(countries)
+          (countries) &#x3D;&gt; new UserActions.LoadBillingCountriesSuccess(countries)
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new UserActions.LoadBillingCountriesFail(
               makeErrorSerializable(error)

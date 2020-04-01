@@ -576,7 +576,7 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
     const headers &#x3D; this.getHeaders(userId);
 
     return this.http.post(url, toAdd, { headers, params }).pipe(
-      catchError((error: any) &#x3D;&gt; throwError(error.json())),
+      catchError((error: any) &#x3D;&gt; throwError(error)),
       this.converter.pipeable(CART_VOUCHER_NORMALIZER)
     );
   }

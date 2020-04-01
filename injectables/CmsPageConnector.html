@@ -355,10 +355,10 @@ export class CmsPageConnector {
     return this.cmsStructureConfigService
       .shouldIgnoreBackend(pageContext.id)
       .pipe(
-        switchMap(loadFromConfig &#x3D;&gt; {
+        switchMap((loadFromConfig) &#x3D;&gt; {
           if (!loadFromConfig) {
             return this.cmsPageAdapter.load(pageContext).pipe(
-              catchError(error &#x3D;&gt; {
+              catchError((error) &#x3D;&gt; {
                 if (
                   error instanceof HttpErrorResponse &amp;&amp;
                   error.status &#x3D;&#x3D;&#x3D; 400
@@ -373,7 +373,7 @@ export class CmsPageConnector {
             return of({});
           }
         }),
-        switchMap(page &#x3D;&gt; this.mergeDefaultPageStructure(pageContext, page))
+        switchMap((page) &#x3D;&gt; this.mergeDefaultPageStructure(pageContext, page))
       );
   }
 

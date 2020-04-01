@@ -223,8 +223,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-variants/guards/product-variant.guard.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-variants/guards/product-variant.guard.ts:57</a></div>
                 </td>
             </tr>
 
@@ -299,7 +299,7 @@ export class ProductVariantGuard implements CanActivate {
 
   canActivate(): Observable&lt;boolean | UrlTree&gt; {
     return this.routingService.getRouterState().pipe(
-      map(state &#x3D;&gt; state.nextState.params.productCode),
+      map((state) &#x3D;&gt; state.nextState.params.productCode),
       switchMap((productCode: string) &#x3D;&gt; {
         // if open pdp from smartedit
         if (!productCode) {
@@ -315,10 +315,7 @@ export class ProductVariantGuard implements CanActivate {
               // we&#x27;re just calling it earlier and storing
               this.productService
                 .get(variant.code, ProductScope.LIST)
-                .pipe(
-                  filter(Boolean),
-                  take(1)
-                )
+                .pipe(filter(Boolean), take(1))
                 .subscribe((_product: Product) &#x3D;&gt; {
                   this.routingService.go({
                     cxRoute: &#x27;product&#x27;,
@@ -336,7 +333,7 @@ export class ProductVariantGuard implements CanActivate {
   }
 
   findVariant(variants: VariantOption[]): VariantOption {
-    const results: VariantOption[] &#x3D; variants.filter(variant &#x3D;&gt; {
+    const results: VariantOption[] &#x3D; variants.filter((variant) &#x3D;&gt; {
       return variant.stock &amp;&amp; variant.stock.stockLevel ? variant : false;
     });
     return !results.length &amp;&amp; variants.length ? variants[0] : results[0];

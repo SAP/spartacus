@@ -315,7 +315,9 @@ export class ConverterService {
     injectionToken: InjectionToken&lt;Converter&lt;S, T&gt;&gt;
   ): T[] {
     if (this.hasConverters(injectionToken) &amp;&amp; Array.isArray(sources)) {
-      return sources.map(source &#x3D;&gt; this.convertSource(source, injectionToken));
+      return sources.map((source) &#x3D;&gt;
+        this.convertSource(source, injectionToken)
+      );
     } else {
       return sources as any[];
     }
@@ -325,12 +327,9 @@ export class ConverterService {
     source: S,
     injectionToken: InjectionToken&lt;Converter&lt;S, T&gt;&gt;
   ): T {
-    return this.getConverters(injectionToken).reduce(
-      (target, converter) &#x3D;&gt; {
-        return converter.convert(source, target);
-      },
-      undefined as T
-    );
+    return this.getConverters(injectionToken).reduce((target, converter) &#x3D;&gt; {
+      return converter.convert(source, target);
+    }, undefined as T);
   }
 }
 </code></pre>

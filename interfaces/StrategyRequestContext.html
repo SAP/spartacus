@@ -337,7 +337,7 @@ function verifyCarouselLevelMetadata(
 ): void {
   cy.wrap($merchandisingCarousel)
     .get(&#x27;.data-cx-merchandising-carousel&#x27;)
-    .should($merchandisingCarouselMetadata &#x3D;&gt; {
+    .should(($merchandisingCarouselMetadata) &#x3D;&gt; {
       expect($merchandisingCarouselMetadata)
         .to.have.attr(&#x27;data-cx-merchandising-carousel-slots&#x27;)
         .equal(STRATEGY_RESPONSE.products.length.toString());
@@ -361,7 +361,7 @@ function verifyCarouselItemRendered(
       .get(&#x27;.price&#x27;)
       .should(&#x27;not.be.empty&#x27;)
       .get(&#x27;.data-cx-merchandising-product&#x27;)
-      .should($productMetadata &#x3D;&gt; {
+      .should(($productMetadata) &#x3D;&gt; {
         expect($productMetadata)
           .to.have.attr(&#x27;data-cx-merchandising-product-slot&#x27;)
           .equal((index + 1).toString());
@@ -397,7 +397,7 @@ function verifyMerchandisingCarouselRendersProducts(): void {
      */
     .first()
     .should(&#x27;be.visible&#x27;)
-    .within($merchandisingCarousel &#x3D;&gt; {
+    .within(($merchandisingCarousel) &#x3D;&gt; {
       verifyCarouselLevelMetadata($merchandisingCarousel);
       verifyCarouselItemsRendered($merchandisingCarousel);
     });
@@ -407,7 +407,7 @@ export function verifyRequestToStrategyService(
   requestAlias: string,
   strategyRequestContext: StrategyRequestContext
 ): void {
-  cy.wait(&#x60;@${requestAlias}&#x60;).then(request &#x3D;&gt; {
+  cy.wait(&#x60;@${requestAlias}&#x60;).then((request) &#x3D;&gt; {
     expect(request.url).to.contain(&#x60;site&#x3D;${site}&#x60;);
     expect(request.url).to.contain(
       &#x60;language&#x3D;${
@@ -511,9 +511,7 @@ export function applyFacet(facetGroup: string, facetName: string): void {
     .contains(facetGroup)
     .parents(&#x27;.cx-facet-group&#x27;)
     .within(() &#x3D;&gt; {
-      cy.get(&#x27;.cx-facet-label&#x27;)
-        .contains(facetName)
-        .click();
+      cy.get(&#x27;.cx-facet-label&#x27;).contains(facetName).click();
     });
 }
 

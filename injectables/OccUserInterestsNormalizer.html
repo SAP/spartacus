@@ -255,7 +255,7 @@ export class OccUserInterestsNormalizer
       target &#x3D; { ...(source as any) };
     }
     if (source &amp;&amp; source.results) {
-      target.results &#x3D; source.results.map(result &#x3D;&gt; ({
+      target.results &#x3D; source.results.map((result) &#x3D;&gt; ({
         ...result,
         product: this.converter.convert(result.product, PRODUCT_NORMALIZER),
       }));

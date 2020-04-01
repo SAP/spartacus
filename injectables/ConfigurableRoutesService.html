@@ -75,7 +75,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#initCalled">initCalled</a>
                             </li>
                         </ul>
@@ -91,27 +91,35 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
+                                <a href="#configure">configure</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
                                 <a href="#configureRoute">configureRoute</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#configureRouter">configureRouter</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#configureRoutes">configureRoutes</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getConfiguredPaths">getConfiguredPaths</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#getRouteName">getRouteName</a>
                             </li>
                             <li>
                                 <a href="#init">init</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#resolveUrlMatcherFactory">resolveUrlMatcherFactory</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#resolveUrlMatchers">resolveUrlMatchers</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#validateRouteConfig">validateRouteConfig</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -135,12 +143,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>, routingConfigService: <a href="../injectables/RoutingConfigService.html">RoutingConfigService</a>, urlMatcherFactory: <a href="../injectables/UrlMatcherFactoryService.html">UrlMatcherFactoryService</a>)</code>
+<code>constructor(injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>, routingConfigService: <a href="../injectables/RoutingConfigService.html">RoutingConfigService</a>, urlMatcherService: <a href="../injectables/UrlMatcherService.html">UrlMatcherService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:9</a></div>
                             </td>
                         </tr>
 
@@ -182,10 +190,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>urlMatcherFactory</td>
+                                                        <td>urlMatcherService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/UrlMatcherFactoryService.html" target="_self" >UrlMatcherFactoryService</a></code>
+                                                                        <code><a href="../injectables/UrlMatcherService.html" target="_self" >UrlMatcherService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -211,10 +219,53 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="configure"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            configure
+                        </b>
+                        <a href="#configure"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>configure()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:33</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Enhances existing Angular routes using the routing config of Spartacus.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="configureRoute"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             configureRoute
                         </b>
                         <a href="#configureRoute"><span class="icon ion-ios-link"></span></a>
@@ -231,14 +282,18 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:62</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Sets the property <code>path</code> or <code>matcher</code> of the <code>Route</code>, based on the Spartacus&#39; routing configuration.
+Uses the property <code>data.cxRoute</code> to determine the name of the route.
+It&#39;s the same name used as a key in the routing configuration: <code>routing.routes[ROUTE NAME]</code>.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -248,6 +303,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -262,6 +318,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Angular <code>Route</code> object</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -283,51 +343,10 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="configureRouter"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            configureRouter
-                        </b>
-                        <a href="#configureRouter"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>configureRouter()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:27</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="configureRoutes"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             configureRoutes
                         </b>
                         <a href="#configureRoutes"><span class="icon ion-ios-link"></span></a>
@@ -344,14 +363,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:44</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Sets the property <code>path</code> or <code>matcher</code> for the given routes, based on the Spartacus&#39; routing configuration.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -361,6 +382,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -375,6 +397,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>list of Angular <code>Route</code> objects</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -396,106 +422,10 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getConfiguredPaths"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            getConfiguredPaths
-                        </b>
-                        <a href="#getConfiguredPaths"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getConfiguredPaths(routeConfig: <a href="../interfaces/RouteConfig.html">RouteConfig</a>, routeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, route: <a href="https://angular.io/api/router/Route" target="_blank">Route</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:80</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>routeConfig</td>
-                                    <td>
-                                                <code><a href="../interfaces/RouteConfig.html" target="_self" >RouteConfig</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>routeName</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>route</td>
-                                    <td>
-                                                <code><a href="https://angular.io/api/router/Route" target="_blank" >Route</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>string[]</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getRouteName"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             getRouteName
                         </b>
                         <a href="#getRouteName"><span class="icon ion-ios-link"></span></a>
@@ -512,14 +442,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="135"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:135</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the name of the Route stored in its property <code>data.cxRoute</code></p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -582,20 +514,307 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:22</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Configures all existing Routes in the Router</p>
+                    <div class="io-description"><p>Enhances existing Angular routes using the routing config of Spartacus.
+Can be called only once.</p>
 </div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveUrlMatcherFactory"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            resolveUrlMatcherFactory
+                        </b>
+                        <a href="#resolveUrlMatcherFactory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resolveUrlMatcherFactory(route: <a href="https://angular.io/api/router/Route" target="_blank">Route</a>, factoryToken: <a href="../undefineds/UrlMatcherFactory.html">InjectionToken<UrlMatcherFactory></a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:123</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Creates an <code>UrlMatcher</code> based on the given route, using the factory function coming from the given injection token.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>route</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/Route" target="_blank" >Route</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Route object</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>factoryToken</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#UrlMatcherFactory" target="_self" >InjectionToken&lt;UrlMatcherFactory&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>injection token with a factory function that will create an UrlMatcher using given route</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://angular.io/api/router/UrlMatcher" target="_blank" >UrlMatcher</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveUrlMatchers"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            resolveUrlMatchers
+                        </b>
+                        <a href="#resolveUrlMatchers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resolveUrlMatchers(route: <a href="https://angular.io/api/router/Route" target="_blank">Route</a>, matchersOrFactories)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:103</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Creates a single <code>UrlMatcher</code> based on given matchers and factories of matchers.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>route</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/Route" target="_blank" >Route</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Route object</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>matchersOrFactories</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p><code>UrlMatcher</code>s or injection tokens with a factory functions
+that create UrlMatchers based on the given route.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://angular.io/api/router/UrlMatcher" target="_blank" >UrlMatcher</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateRouteConfig"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            validateRouteConfig
+                        </b>
+                        <a href="#validateRouteConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>validateRouteConfig(routeConfig: <a href="../interfaces/RouteConfig.html">RouteConfig</a>, routeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, route: <a href="https://angular.io/api/router/Route" target="_blank">Route</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="139"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:139</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>routeConfig</td>
+                                    <td>
+                                                <code><a href="../interfaces/RouteConfig.html" target="_self" >RouteConfig</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>routeName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>route</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/Route" target="_blank" >Route</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -625,8 +844,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="106"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:106</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="167"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:167</a></div>
                 </td>
             </tr>
 
@@ -686,7 +905,7 @@
                         <a name="initCalled"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Private</span>
+                                <span class="modifier">Protected</span>
                             initCalled</b>
                             <a href="#initCalled"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -699,7 +918,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/routing/configurable-routes/configurable-routes.service.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -712,109 +931,170 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Injector, isDevMode } from &#x27;@angular/core&#x27;;
-import { Route, Router, Routes } from &#x27;@angular/router&#x27;;
-import { UrlMatcherFactoryService } from &#x27;../services/url-matcher-factory.service&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, InjectionToken, Injector, isDevMode } from &#x27;@angular/core&#x27;;
+import { Route, Router, Routes, UrlMatcher } from &#x27;@angular/router&#x27;;
+import { UrlMatcherService } from &#x27;../services/url-matcher.service&#x27;;
+import { UrlMatcherFactory } from &#x27;../url-matcher/url-matcher-factory&#x27;;
 import { RouteConfig } from &#x27;./routes-config&#x27;;
 import { RoutingConfigService } from &#x27;./routing-config.service&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class ConfigurableRoutesService {
   constructor(
-    private injector: Injector,
-    private routingConfigService: RoutingConfigService,
-    private urlMatcherFactory: UrlMatcherFactoryService
+    protected injector: Injector,
+    protected routingConfigService: RoutingConfigService,
+    protected urlMatcherService: UrlMatcherService
   ) {}
 
-  private initCalled &#x3D; false; // guard not to call init() more than once
+  protected initCalled &#x3D; false; // guard not to call init() more than once
 
   /**
-   * Configures all existing Routes in the Router
+   * Enhances existing Angular routes using the routing config of Spartacus.
+   * Can be called only once.
    */
   init(): void {
     if (!this.initCalled) {
       this.initCalled &#x3D; true;
-      this.configureRouter();
+
+      this.configure();
     }
   }
 
-  private configureRouter() {
+  /**
+   * Enhances existing Angular routes using the routing config of Spartacus.
+   */
+  protected configure(): void {
     // Router could not be injected in constructor due to cyclic dependency with APP_INITIALIZER:
     const router &#x3D; this.injector.get(Router);
-
-    const configuredRoutes &#x3D; this.configureRoutes(router.config);
-
-    router.resetConfig(configuredRoutes);
+    router.resetConfig(this.configureRoutes(router.config));
   }
 
-  private configureRoutes(routes: Routes): Routes {
-    const result &#x3D; [];
-    routes.forEach(route &#x3D;&gt; {
+  /**
+   * Sets the property &#x60;path&#x60; or &#x60;matcher&#x60; for the given routes, based on the Spartacus&#x27; routing configuration.
+   *
+   * @param routes list of Angular &#x60;Route&#x60; objects
+   */
+  protected configureRoutes(routes: Routes): Routes {
+    return routes.map((route) &#x3D;&gt; {
       const configuredRoute &#x3D; this.configureRoute(route);
 
       if (route.children &amp;&amp; route.children.length) {
         configuredRoute.children &#x3D; this.configureRoutes(route.children);
       }
-      result.push(configuredRoute);
+      return configuredRoute;
     });
-    return result;
   }
 
-  private configureRoute(route: Route): Route {
+  /**
+   * Sets the property &#x60;path&#x60; or &#x60;matcher&#x60; of the &#x60;Route&#x60;, based on the Spartacus&#x27; routing configuration.
+   * Uses the property &#x60;data.cxRoute&#x60; to determine the name of the route.
+   * It&#x27;s the same name used as a key in the routing configuration: &#x60;routing.routes[ROUTE NAME]&#x60;.
+   *
+   * @param route Angular &#x60;Route&#x60; object
+   */
+  protected configureRoute(route: Route): Route {
     const routeName &#x3D; this.getRouteName(route);
     if (routeName) {
       const routeConfig &#x3D; this.routingConfigService.getRouteConfig(routeName);
-      const paths &#x3D; this.getConfiguredPaths(routeConfig, routeName, route);
-      const isDisabled &#x3D; routeConfig &amp;&amp; routeConfig.disabled;
+      this.validateRouteConfig(routeConfig, routeName, route);
 
-      if (isDisabled || !paths.length) {
+      if (routeConfig?.disabled) {
         delete route.path;
         return {
           ...route,
-          matcher: this.urlMatcherFactory.getFalsyUrlMatcher(),
+          matcher: this.urlMatcherService.getFalsy(),
         };
-      } else if (paths.length &#x3D;&#x3D;&#x3D; 1) {
+      } else if (routeConfig?.matchers) {
+        delete route.path;
+        return {
+          ...route,
+          matcher: this.resolveUrlMatchers(route, routeConfig?.matchers),
+        };
+      } else if (routeConfig?.paths?.length &#x3D;&#x3D;&#x3D; 1) {
         delete route.matcher;
-        return { ...route, path: paths[0] };
+        return { ...route, path: routeConfig?.paths[0] };
       } else {
         delete route.path;
         return {
           ...route,
-          matcher: this.urlMatcherFactory.getMultiplePathsUrlMatcher(paths),
+          matcher: this.urlMatcherService.getFromPaths(
+            routeConfig?.paths || []
+          ),
         };
       }
     }
     return route; // if route doesn&#x27;t have a name, just pass the original route
   }
 
-  private getRouteName(route: Route): string {
+  /**
+   * Creates a single &#x60;UrlMatcher&#x60; based on given matchers and factories of matchers.
+   *
+   * @param route Route object
+   * @param matchersOrFactories &#x60;UrlMatcher&#x60;s or injection tokens with a factory functions
+   *  that create UrlMatchers based on the given route.
+   */
+  protected resolveUrlMatchers(
+    route: Route,
+    matchersOrFactories: RouteConfig[&#x27;matchers&#x27;]
+  ): UrlMatcher {
+    const matchers: UrlMatcher[] &#x3D; matchersOrFactories.map(
+      (matcherOrFactory) &#x3D;&gt; {
+        return typeof matcherOrFactory &#x3D;&#x3D;&#x3D; &#x27;function&#x27;
+          ? matcherOrFactory // matcher
+          : this.resolveUrlMatcherFactory(route, matcherOrFactory); // factory injection token
+      }
+    );
+    return this.urlMatcherService.getCombined(matchers);
+  }
+
+  /**
+   * Creates an &#x60;UrlMatcher&#x60; based on the given route, using the factory function coming from the given injection token.
+   *
+   * @param route Route object
+   * @param factoryToken injection token with a factory function that will create an UrlMatcher using given route
+   */
+  protected resolveUrlMatcherFactory(
+    route: Route,
+    factoryToken: InjectionToken&lt;UrlMatcherFactory&gt;
+  ): UrlMatcher {
+    const factory &#x3D; this.injector.get(factoryToken);
+    return factory(route);
+  }
+
+  /**
+   * Returns the name of the Route stored in its property &#x60;data.cxRoute&#x60;
+   * @param route
+   */
+  protected getRouteName(route: Route): string {
     return route.data &amp;&amp; route.data.cxRoute;
   }
 
-  private getConfiguredPaths(
+  protected validateRouteConfig(
     routeConfig: RouteConfig,
     routeName: string,
     route: Route
-  ): string[] {
-    if (routeConfig &#x3D;&#x3D;&#x3D; undefined) {
-      this.warn(
-        &#x60;Could not configure the named route &#x27;${routeName}&#x27;&#x60;,
-        route,
-        &#x60;due to undefined key &#x27;${routeName}&#x27; in the routes config&#x60;
-      );
-      return [];
-    }
-    if (routeConfig &amp;&amp; routeConfig.paths &#x3D;&#x3D;&#x3D; undefined) {
-      this.warn(
-        &#x60;Could not configure the named route &#x27;${routeName}&#x27;&#x60;,
-        route,
-        &#x60;due to undefined &#x27;paths&#x27; for the named route &#x27;${routeName}&#x27; in the routes config&#x60;
-      );
-      return [];
-    }
+  ) {
+    if (isDevMode()) {
+      // - null value of routeConfig or routeConfig.paths means explicit switching off the route - it&#x27;s valid config
+      // - routeConfig with defined &#x60;matchers&#x60; is valid, even if &#x60;paths&#x60; are undefined
+      if (
+        routeConfig &#x3D;&#x3D;&#x3D; null ||
+        routeConfig.paths &#x3D;&#x3D;&#x3D; null ||
+        routeConfig?.matchers
+      ) {
+        return;
+      }
 
-    // routeConfig or routeConfig.paths can be null - which means switching off the route
-    return (routeConfig &amp;&amp; routeConfig.paths) || [];
+      // undefined value of routeConfig or routeConfig.paths is a misconfiguration
+      if (!routeConfig?.paths) {
+        this.warn(
+          &#x60;Could not configure the named route &#x27;${routeName}&#x27;&#x60;,
+          route,
+          &#x60;due to undefined config or undefined &#x27;paths&#x27; property for this route&#x60;
+        );
+        return;
+      }
+    }
   }
 
   private warn(...args) {

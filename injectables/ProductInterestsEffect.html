@@ -186,7 +186,7 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.ADD_PRODUCT_INTEREST),
     map((action: UserActions.AddProductInterest) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt;
+    switchMap((payload) &#x3D;&gt;
       this.userInterestsConnector
         .addInterest(
           payload.userId,
@@ -202,7 +202,7 @@
             }),
             new UserActions.AddProductInterestSuccess(res),
           ]),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.AddProductInterestFail(
                 makeErrorSerializable(error)
@@ -255,7 +255,7 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.LOAD_PRODUCT_INTERESTS),
     map((action: UserActions.LoadProductInterests) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.userInterestsConnector
         .getInterests(
           payload.userId,
@@ -269,7 +269,7 @@
           map((interests: ProductInterestSearchResult) &#x3D;&gt; {
             return new UserActions.LoadProductInterestsSuccess(interests);
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.LoadProductInterestsFail(
                 makeErrorSerializable(error)
@@ -322,11 +322,11 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.REMOVE_PRODUCT_INTEREST),
     map((action: UserActions.RemoveProductInterest) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt;
+    switchMap((payload) &#x3D;&gt;
       this.userInterestsConnector
         .removeInterest(payload.userId, payload.item)
         .pipe(
-          switchMap(data &#x3D;&gt; [
+          switchMap((data) &#x3D;&gt; [
             new UserActions.LoadProductInterests(
               payload.singleDelete
                 ? {
@@ -339,7 +339,7 @@
             ),
             new UserActions.RemoveProductInterestSuccess(data),
           ]),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.RemoveProductInterestFail(
                 makeErrorSerializable(error)
@@ -399,7 +399,7 @@ export class ProductInterestsEffect {
   &gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_PRODUCT_INTERESTS),
     map((action: UserActions.LoadProductInterests) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.userInterestsConnector
         .getInterests(
           payload.userId,
@@ -413,7 +413,7 @@ export class ProductInterestsEffect {
           map((interests: ProductInterestSearchResult) &#x3D;&gt; {
             return new UserActions.LoadProductInterestsSuccess(interests);
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.LoadProductInterestsFail(
                 makeErrorSerializable(error)
@@ -428,11 +428,11 @@ export class ProductInterestsEffect {
   removeProductInterest$: Observable&lt;Action&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.REMOVE_PRODUCT_INTEREST),
     map((action: UserActions.RemoveProductInterest) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt;
+    switchMap((payload) &#x3D;&gt;
       this.userInterestsConnector
         .removeInterest(payload.userId, payload.item)
         .pipe(
-          switchMap(data &#x3D;&gt; [
+          switchMap((data) &#x3D;&gt; [
             new UserActions.LoadProductInterests(
               payload.singleDelete
                 ? {
@@ -445,7 +445,7 @@ export class ProductInterestsEffect {
             ),
             new UserActions.RemoveProductInterestSuccess(data),
           ]),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.RemoveProductInterestFail(
                 makeErrorSerializable(error)
@@ -460,7 +460,7 @@ export class ProductInterestsEffect {
   addProductInterest$: Observable&lt;Action&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.ADD_PRODUCT_INTEREST),
     map((action: UserActions.AddProductInterest) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt;
+    switchMap((payload) &#x3D;&gt;
       this.userInterestsConnector
         .addInterest(
           payload.userId,
@@ -476,7 +476,7 @@ export class ProductInterestsEffect {
             }),
             new UserActions.AddProductInterestSuccess(res),
           ]),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new UserActions.AddProductInterestFail(
                 makeErrorSerializable(error)

@@ -198,15 +198,15 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(ProductActions.LOAD_PRODUCT_REVIEWS),
     map((action: ProductActions.LoadProductReviews) &#x3D;&gt; action.payload),
-    mergeMap(productCode &#x3D;&gt; {
+    mergeMap((productCode) &#x3D;&gt; {
       return this.productReviewsConnector.get(productCode).pipe(
-        map(data &#x3D;&gt; {
+        map((data) &#x3D;&gt; {
           return new ProductActions.LoadProductReviewsSuccess({
             productCode,
             list: data,
           });
         }),
-        catchError(_error &#x3D;&gt;
+        catchError((_error) &#x3D;&gt;
           of(
             new ProductActions.LoadProductReviewsFail({
               message: productCode,
@@ -259,14 +259,14 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(ProductActions.POST_PRODUCT_REVIEW),
     map((action: ProductActions.PostProductReview) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.productReviewsConnector
         .add(payload.productCode, payload.review)
         .pipe(
-          map(reviewResponse &#x3D;&gt; {
+          map((reviewResponse) &#x3D;&gt; {
             return new ProductActions.PostProductReviewSuccess(reviewResponse);
           }),
-          catchError(_error &#x3D;&gt;
+          catchError((_error) &#x3D;&gt;
             of(new ProductActions.PostProductReviewFail(payload.productCode))
           )
         );
@@ -362,15 +362,15 @@ export class ProductReviewsEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(ProductActions.LOAD_PRODUCT_REVIEWS),
     map((action: ProductActions.LoadProductReviews) &#x3D;&gt; action.payload),
-    mergeMap(productCode &#x3D;&gt; {
+    mergeMap((productCode) &#x3D;&gt; {
       return this.productReviewsConnector.get(productCode).pipe(
-        map(data &#x3D;&gt; {
+        map((data) &#x3D;&gt; {
           return new ProductActions.LoadProductReviewsSuccess({
             productCode,
             list: data,
           });
         }),
-        catchError(_error &#x3D;&gt;
+        catchError((_error) &#x3D;&gt;
           of(
             new ProductActions.LoadProductReviewsFail({
               message: productCode,
@@ -388,14 +388,14 @@ export class ProductReviewsEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(ProductActions.POST_PRODUCT_REVIEW),
     map((action: ProductActions.PostProductReview) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.productReviewsConnector
         .add(payload.productCode, payload.review)
         .pipe(
-          map(reviewResponse &#x3D;&gt; {
+          map((reviewResponse) &#x3D;&gt; {
             return new ProductActions.PostProductReviewSuccess(reviewResponse);
           }),
-          catchError(_error &#x3D;&gt;
+          catchError((_error) &#x3D;&gt;
             of(new ProductActions.PostProductReviewFail(payload.productCode))
           )
         );

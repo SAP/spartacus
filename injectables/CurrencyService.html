@@ -303,8 +303,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">projects/core/src/site-context/facade/currency.service.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">projects/core/src/site-context/facade/currency.service.ts:78</a></div>
                 </td>
             </tr>
 
@@ -474,12 +474,12 @@ export class CurrencyService implements SiteContext&lt;Currency&gt; {
   getAll(): Observable&lt;Currency[]&gt; {
     return this.store.pipe(
       select(SiteContextSelectors.getAllCurrencies),
-      tap(currencies &#x3D;&gt; {
+      tap((currencies) &#x3D;&gt; {
         if (!currencies) {
           this.store.dispatch(new SiteContextActions.LoadCurrencies());
         }
       }),
-      filter(currenies &#x3D;&gt; Boolean(currenies))
+      filter((currenies) &#x3D;&gt; Boolean(currenies))
     );
   }
 
@@ -489,7 +489,7 @@ export class CurrencyService implements SiteContext&lt;Currency&gt; {
   getActive(): Observable&lt;string&gt; {
     return this.store.pipe(
       select(SiteContextSelectors.getActiveCurrency),
-      filter(active &#x3D;&gt; Boolean(active))
+      filter((active) &#x3D;&gt; Boolean(active))
     );
   }
 
@@ -498,11 +498,8 @@ export class CurrencyService implements SiteContext&lt;Currency&gt; {
    */
   setActive(isocode: string) {
     return this.store
-      .pipe(
-        select(SiteContextSelectors.getActiveCurrency),
-        take(1)
-      )
-      .subscribe(activeCurrency &#x3D;&gt; {
+      .pipe(select(SiteContextSelectors.getActiveCurrency), take(1))
+      .subscribe((activeCurrency) &#x3D;&gt; {
         if (activeCurrency !&#x3D;&#x3D; isocode) {
           this.store.dispatch(
             new SiteContextActions.SetActiveCurrency(isocode)

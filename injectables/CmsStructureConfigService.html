@@ -941,7 +941,7 @@ export abstract class CmsStructureConfigService {
     pageStructure: CmsStructureModel
   ): Observable&lt;CmsStructureModel&gt; {
     return this.mergePage(pageId, pageStructure).pipe(
-      switchMap(page &#x3D;&gt; this.mergeSlots(page))
+      switchMap((page) &#x3D;&gt; this.mergeSlots(page))
     );
   }
 
@@ -956,7 +956,7 @@ export abstract class CmsStructureConfigService {
    */
   shouldIgnoreBackend(pageId: string): Observable&lt;boolean&gt; {
     return this.getPageFromConfig(pageId).pipe(
-      map(page &#x3D;&gt; !!page &amp;&amp; !!page.ignoreBackend)
+      map((page) &#x3D;&gt; !!page &amp;&amp; !!page.ignoreBackend)
     );
   }
 
@@ -975,7 +975,7 @@ export abstract class CmsStructureConfigService {
   getComponentsFromConfig(
     ids: string[]
   ): Observable&lt;ContentSlotComponentData[]&gt; {
-    return of(ids.map(id &#x3D;&gt; this.getComponentById(id)));
+    return of(ids.map((id) &#x3D;&gt; this.getComponentById(id)));
   }
 
   /**
@@ -984,7 +984,7 @@ export abstract class CmsStructureConfigService {
   protected getPageFromConfig(pageId: string): Observable&lt;CmsPageConfig&gt; {
     return of(
       this.cmsDataConfig.cmsStructure &amp;&amp; this.cmsDataConfig.cmsStructure.pages
-        ? this.cmsDataConfig.cmsStructure.pages.find(p &#x3D;&gt; p.pageId &#x3D;&#x3D;&#x3D; pageId)
+        ? this.cmsDataConfig.cmsStructure.pages.find((p) &#x3D;&gt; p.pageId &#x3D;&#x3D;&#x3D; pageId)
         : null
     );
   }
@@ -999,7 +999,7 @@ export abstract class CmsStructureConfigService {
     pageStructure: CmsStructureModel
   ): Observable&lt;CmsStructureModel&gt; {
     return this.getPageFromConfig(pageId).pipe(
-      switchMap(page &#x3D;&gt; {
+      switchMap((page) &#x3D;&gt; {
         if (page) {
           // serialize page data
           if (!pageStructure.page) {

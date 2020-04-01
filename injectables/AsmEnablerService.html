@@ -104,7 +104,6 @@ of the UI and runtime performance for the ordinary production user.</p>
                                 <a href="#addUi">addUi</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
                                 <a href="#isEnabled">isEnabled</a>
                             </li>
                             <li>
@@ -270,7 +269,6 @@ of the UI and runtime performance for the ordinary production user.</p>
                     <a name="isEnabled"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
                             isEnabled
                         </b>
                         <a href="#isEnabled"><span class="icon ion-ios-link"></span></a>
@@ -279,8 +277,7 @@ of the UI and runtime performance for the ordinary production user.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>isEnabled()</code>
+<code>isEnabled()</code>
                 </td>
             </tr>
 
@@ -523,7 +520,7 @@ export class AsmEnablerService {
   /**
    * Indicates whether the ASM module is enabled.
    */
-  private isEnabled(): boolean {
+  isEnabled(): boolean {
     if (this.isLaunched() &amp;&amp; !this.isUsedBefore()) {
       if (this.winRef.localStorage) {
         this.winRef.localStorage.setItem(ASM_ENABLED_LOCAL_STORAGE_KEY, &#x27;true&#x27;);

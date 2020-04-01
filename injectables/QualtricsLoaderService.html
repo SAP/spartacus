@@ -457,7 +457,7 @@ export class QualtricsLoaderService {
   }
 
   private initialize(): void {
-    fromEvent(this.winRef.nativeWindow, &#x27;qsi_js_loaded&#x27;).subscribe(_ &#x3D;&gt;
+    fromEvent(this.winRef.nativeWindow, &#x27;qsi_js_loaded&#x27;).subscribe(() &#x3D;&gt;
       this.qualtricsLoaded$.next(true)
     );
   }
@@ -486,12 +486,12 @@ export class QualtricsLoaderService {
 
   load(): Observable&lt;boolean&gt; {
     return this.qualtricsLoaded$.pipe(
-      filter(loaded &#x3D;&gt; loaded),
-      switchMap(_ &#x3D;&gt; {
+      filter((loaded) &#x3D;&gt; loaded),
+      switchMap(() &#x3D;&gt; {
         const qsi &#x3D; this.winRef.nativeWindow[&#x27;QSI&#x27;];
         return this.isDataLoaded().pipe(
           distinctUntilChanged(),
-          tap(dataLoaded &#x3D;&gt; {
+          tap((dataLoaded) &#x3D;&gt; {
             if (dataLoaded) {
               qsi.API.unload();
               qsi.API.load().done(qsi.API.run());

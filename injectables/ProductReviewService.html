@@ -321,7 +321,7 @@ export class ProductReviewService {
   getByProductCode(productCode: string): Observable&lt;Review[]&gt; {
     return this.store.pipe(
       select(ProductSelectors.getSelectedProductReviewsFactory(productCode)),
-      tap(reviews &#x3D;&gt; {
+      tap((reviews) &#x3D;&gt; {
         if (reviews &#x3D;&#x3D;&#x3D; undefined &amp;&amp; productCode !&#x3D;&#x3D; undefined) {
           this.store.dispatch(
             new ProductActions.LoadProductReviews(productCode)

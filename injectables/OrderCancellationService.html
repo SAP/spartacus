@@ -431,7 +431,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:67</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:69</a></code>
 </div>
                 </td>
             </tr>
@@ -554,7 +554,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:96</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:98</a></code>
 </div>
                 </td>
             </tr>
@@ -682,7 +682,7 @@ The calculation and validation should be in backend facade layer.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:56</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:58</a></code>
 </div>
                 </td>
             </tr>
@@ -731,7 +731,7 @@ The calculation and validation should be in backend facade layer.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:88</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:90</a></code>
 </div>
                 </td>
             </tr>
@@ -819,7 +819,7 @@ The calculation and validation should be in backend facade layer.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:113</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:115</a></code>
 </div>
                 </td>
             </tr>
@@ -895,7 +895,7 @@ The calculation and validation should be in backend facade layer.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:49</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:51</a></code>
 </div>
                 </td>
             </tr>
@@ -940,7 +940,7 @@ The calculation and validation should be in backend facade layer.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:121</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:123</a></code>
 </div>
                 </td>
             </tr>
@@ -987,7 +987,7 @@ The calculation and validation should be in backend facade layer.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:47</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/OrderAmendService.html#source" target="_self" >OrderAmendService:49</a></code>
 </div>
                 </td>
             </tr>
@@ -1148,10 +1148,10 @@ export class OrderCancellationService extends OrderAmendService {
    */
   getEntries(): Observable&lt;OrderEntry[]&gt; {
     return this.getOrder().pipe(
-      filter(order &#x3D;&gt; Boolean(order)),
-      map(order &#x3D;&gt;
+      filter((order) &#x3D;&gt; Boolean(order)),
+      map((order) &#x3D;&gt;
         order.entries.filter(
-          entry &#x3D;&gt; entry.entryNumber !&#x3D;&#x3D; -1 &amp;&amp; entry.cancellableQuantity &gt; 0
+          (entry) &#x3D;&gt; entry.entryNumber !&#x3D;&#x3D; -1 &amp;&amp; entry.cancellableQuantity &gt; 0
         )
       )
     );
@@ -1161,9 +1161,9 @@ export class OrderCancellationService extends OrderAmendService {
     const orderCode &#x3D; this.form.value.orderCode;
     const entries &#x3D; this.form.value.entries;
     const inputs: CancelOrReturnRequestEntryInput[] &#x3D; Object.keys(entries)
-      .filter(entryNumber &#x3D;&gt; &lt;number&gt;entries[entryNumber] &gt; 0)
+      .filter((entryNumber) &#x3D;&gt; &lt;number&gt;entries[entryNumber] &gt; 0)
       .map(
-        entryNumber &#x3D;&gt;
+        (entryNumber) &#x3D;&gt;
           ({
             orderEntryNumber: Number(entryNumber),
             quantity: &lt;number&gt;entries[entryNumber],

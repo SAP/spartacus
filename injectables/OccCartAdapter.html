@@ -232,8 +232,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="191"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:191</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="193"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:193</a></div>
                 </td>
             </tr>
 
@@ -576,8 +576,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="166"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:166</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:168</a></div>
                 </td>
             </tr>
 
@@ -684,8 +684,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="150"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:150</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart.adapter.ts:152</a></div>
                 </td>
             </tr>
 
@@ -1042,9 +1042,9 @@ export class OccCartAdapter implements CartAdapter {
   public load(userId: string, cartId: string): Observable&lt;Cart&gt; {
     if (cartId &#x3D;&#x3D;&#x3D; OCC_CART_ID_CURRENT) {
       return this.loadAll(userId).pipe(
-        map(carts &#x3D;&gt; {
+        map((carts) &#x3D;&gt; {
           if (carts) {
-            const activeCart &#x3D; carts.find(cart &#x3D;&gt; {
+            const activeCart &#x3D; carts.find((cart) &#x3D;&gt; {
               return cart[&#x27;saveTime&#x27;] &#x3D;&#x3D;&#x3D; undefined;
             });
             return activeCart;
@@ -1116,10 +1116,12 @@ export class OccCartAdapter implements CartAdapter {
       fromString: &#x60;fields&#x3D;carts(${DETAILS_PARAMS},saveTime)&#x60;,
     });
 
-    return this.http.get&lt;Occ.CartList&gt;(url, { params }).pipe(
-      pluck(&#x27;carts&#x27;),
-      this.converterService.pipeableMany(CART_NORMALIZER)
-    );
+    return this.http
+      .get&lt;Occ.CartList&gt;(url, { params })
+      .pipe(
+        pluck(&#x27;carts&#x27;),
+        this.converterService.pipeableMany(CART_NORMALIZER)
+      );
   }
 
   /**

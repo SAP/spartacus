@@ -198,12 +198,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryService.html">CheckoutDeliveryService</a>, checkoutPaymentService: <a href="../injectables/CheckoutPaymentService.html">CheckoutPaymentService</a>, userAddressService: <a href="../injectables/UserAddressService.html">UserAddressService</a>, cartService: <a href="../injectables/CartService.html">CartService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, checkoutConfigService?: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, promotionService?: <a href="../injectables/PromotionService.html">PromotionService</a>)</code>
+<code>constructor(checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryService.html">CheckoutDeliveryService</a>, checkoutPaymentService: <a href="../injectables/CheckoutPaymentService.html">CheckoutPaymentService</a>, userAddressService: <a href="../injectables/UserAddressService.html">UserAddressService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, promotionService: <a href="../injectables/PromotionService.html">PromotionService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:77</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -257,10 +257,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>cartService</td>
+                                                        <td>activeCartService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CartService.html" target="_self" >CartService</a></code>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -288,7 +288,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -300,7 +300,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -344,8 +344,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="185"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:185</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="146"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:146</a></div>
                 </td>
             </tr>
 
@@ -414,8 +414,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="153"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:153</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:114</a></div>
                 </td>
             </tr>
 
@@ -484,8 +484,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="167"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:167</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:128</a></div>
                 </td>
             </tr>
 
@@ -554,8 +554,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:82</a></div>
                 </td>
             </tr>
 
@@ -636,8 +636,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts:50</a></div>
                 </td>
             </tr>
 
@@ -916,7 +916,7 @@
 import {
   Address,
   Cart,
-  CartService,
+  ActiveCartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   Country,
@@ -952,57 +952,18 @@ export class ReviewSubmitComponent implements OnInit {
   promotionLocation: PromotionLocation &#x3D; PromotionLocation.ActiveCart;
 
   constructor(
-    checkoutDeliveryService: CheckoutDeliveryService,
-    checkoutPaymentService: CheckoutPaymentService,
-    userAddressService: UserAddressService,
-    cartService: CartService,
-    translation: TranslationService,
-    checkoutConfigService: CheckoutConfigService, // tslint:disable-line
-    promotionService: PromotionService // tslint:disable-line
-  );
-
-  /**
-   * @deprecated since 1.1.0
-   * NOTE: check issue:#4121 for more info
-   *
-   * TODO(issue:#4121) Deprecated since 1.1.0
-   */
-
-  constructor(
-    checkoutDeliveryService: CheckoutDeliveryService,
-    checkoutPaymentService: CheckoutPaymentService,
-    userAddressService: UserAddressService,
-    cartService: CartService,
-    translation: TranslationService
-  );
-
-  /**
-   * @deprecated Since 1.5
-   * Use promotionService instead of the promotion inputs.
-   * Remove issue: #5670
-   */
-  constructor(
-    checkoutDeliveryService: CheckoutDeliveryService,
-    checkoutPaymentService: CheckoutPaymentService,
-    userAddressService: UserAddressService,
-    cartService: CartService,
-    translation: TranslationService,
-    checkoutConfigService: CheckoutConfigService // tslint:disable-line
-  );
-
-  constructor(
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected userAddressService: UserAddressService,
-    protected cartService: CartService,
+    protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
-    protected checkoutConfigService?: CheckoutConfigService,
-    protected promotionService?: PromotionService
+    protected checkoutConfigService: CheckoutConfigService,
+    protected promotionService: PromotionService
   ) {}
 
   ngOnInit() {
-    this.cart$ &#x3D; this.cartService.getActive();
-    this.entries$ &#x3D; this.cartService.getEntries();
+    this.cart$ &#x3D; this.activeCartService.getActive();
+    this.entries$ &#x3D; this.activeCartService.getEntries();
     this.deliveryAddress$ &#x3D; this.checkoutDeliveryService.getDeliveryAddress();
     this.paymentDetails$ &#x3D; this.checkoutPaymentService.getPaymentDetails();
     this.orderPromotions$ &#x3D; this.promotionService.getOrderPromotions(
@@ -1097,12 +1058,8 @@ export class ReviewSubmitComponent implements OnInit {
   }
 
   getCheckoutStepUrl(stepType: CheckoutStepType): string {
-    // TODO(issue:#4121) Deprecated since 1.1.0
-    if (this.checkoutConfigService) {
-      const step &#x3D; this.checkoutConfigService.getCheckoutStep(stepType);
-
-      return step &amp;&amp; step.routeName;
-    }
+    const step &#x3D; this.checkoutConfigService.getCheckoutStep(stepType);
+    return step &amp;&amp; step.routeName;
   }
 }
 </code></pre>
@@ -1199,25 +1156,15 @@ export class ReviewSubmitComponent implements OnInit {
       class&#x3D;&quot;cx-review-cart-item col-md-12&quot;
       *ngIf&#x3D;&quot;entries$ | async as entries&quot;
     &gt;
-      &lt;ng-container *cxFeatureLevel&#x3D;&quot;&#x27;!1.5&#x27;&quot;&gt;
-        &lt;cx-cart-item-list
-          [items]&#x3D;&quot;entries&quot;
-          [isReadOnly]&#x3D;&quot;true&quot;
-          [potentialProductPromotions]&#x3D;&quot;cart.potentialProductPromotions&quot;
-        &gt;&lt;/cx-cart-item-list&gt;
+      &lt;ng-container *ngIf&#x3D;&quot;orderPromotions$ | async as orderPromotions&quot;&gt;
+        &lt;cx-promotions [promotions]&#x3D;&quot;orderPromotions&quot;&gt;&lt;/cx-promotions&gt;
       &lt;/ng-container&gt;
 
-      &lt;ng-container *cxFeatureLevel&#x3D;&quot;&#x27;1.5&#x27;&quot;&gt;
-        &lt;ng-container *ngIf&#x3D;&quot;orderPromotions$ | async as orderPromotions&quot;&gt;
-          &lt;cx-promotions [promotions]&#x3D;&quot;orderPromotions&quot;&gt;&lt;/cx-promotions&gt;
-        &lt;/ng-container&gt;
-
-        &lt;cx-cart-item-list
-          [items]&#x3D;&quot;entries&quot;
-          [isReadOnly]&#x3D;&quot;true&quot;
-          [promotionLocation]&#x3D;&quot;promotionLocation&quot;
-        &gt;&lt;/cx-cart-item-list&gt;
-      &lt;/ng-container&gt;
+      &lt;cx-cart-item-list
+        [items]&#x3D;&quot;entries&quot;
+        [readonly]&#x3D;&quot;true&quot;
+        [promotionLocation]&#x3D;&quot;promotionLocation&quot;
+      &gt;&lt;/cx-cart-item-list&gt;
     &lt;/div&gt;
   &lt;/ng-container&gt;
 &lt;/div&gt;
@@ -1250,9 +1197,9 @@ export class ReviewSubmitComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div class="cx-review">  <!-- TITLE -->  <h3 class="cx-review-title d-none d-lg-block d-xl-block">    {{ \'checkoutReview.review\' | cxTranslate }}  </h3>  <div class="cx-review-summary row">    <!-- SHIPPING ADDRESS SECTION -->    <div class="col-md-12 col-lg-6 col-xl-4">      <div class="cx-review-summary-wrapper">        <div class="cx-review-summary-card cx-review-card-address">          <cx-card            [content]="              getShippingAddressCard(                deliveryAddress$ | async,                countryName$ | async              ) | async            "          ></cx-card>        </div>        <div *cxFeatureLevel="\'1.1\'" class="cx-review-summary-edit-step">          <a            [routerLink]="              {                cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)              } | cxUrl            "            >{{ \'checkoutReview.editShippingAddress\' | cxTranslate }}</a          >        </div>      </div>    </div>    <!-- DELIVERY MODE SECTION -->    <div class="col-md-12 col-lg-6 col-xl-4">      <div class="cx-review-summary-wrapper">        <div class="cx-review-summary-card cx-review-card-shipping">          <cx-card            *ngIf="deliveryMode$ | async as deliveryMode"            [content]="getDeliveryModeCard(deliveryMode) | async"          ></cx-card>        </div>        <div *cxFeatureLevel="\'1.1\'" class="cx-review-summary-edit-step">          <a            [routerLink]="              { cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) }                | cxUrl            "            >{{ \'checkoutReview.editShippingMethod\' | cxTranslate }}</a          >        </div>      </div>    </div>    <!-- PAYMENT METHOD SECTION -->    <div class="col-md-12 col-lg-6 col-xl-4">      <div class="cx-review-summary-wrapper">        <div class="cx-review-summary-card cx-review-card-payment">          <cx-card            [content]="getPaymentMethodCard(paymentDetails$ | async) | async"          ></cx-card>        </div>        <div *cxFeatureLevel="\'1.1\'" class="cx-review-summary-edit-step">          <a            [routerLink]="              { cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) }                | cxUrl            "            >{{ \'checkoutReview.editPaymentMethod\' | cxTranslate }}</a          >        </div>      </div>    </div>  </div>  <!-- CART ITEM SECTION -->  <ng-container *ngIf="cart$ | async as cart">    <div class="cx-review-cart-total d-none d-lg-block d-xl-block">      {{        \'cartItems.cartTotal\'          | cxTranslate: { count: cart.deliveryItemsQuantity }      }}:      {{ cart.totalPrice?.formattedValue }}    </div>    <h4 class="cx-review-cart-heading d-block d-lg-none d-xl-none">      {{ \'checkoutReview.placeOrder\' | cxTranslate }}    </h4>    <div      class="cx-review-cart-item col-md-12"      *ngIf="entries$ | async as entries"    >      <ng-container *cxFeatureLevel="\'!1.5\'">        <cx-cart-item-list          [items]="entries"          [isReadOnly]="true"          [potentialProductPromotions]="cart.potentialProductPromotions"        ></cx-cart-item-list>      </ng-container>      <ng-container *cxFeatureLevel="\'1.5\'">        <ng-container *ngIf="orderPromotions$ | async as orderPromotions">          <cx-promotions [promotions]="orderPromotions"></cx-promotions>        </ng-container>        <cx-cart-item-list          [items]="entries"          [isReadOnly]="true"          [promotionLocation]="promotionLocation"        ></cx-cart-item-list>      </ng-container>    </div>  </ng-container></div></div>'
-    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressCardComponent', 'selector': 'cx-address-card'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
-    var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'AutoFocusDirective', 'selector': '[cxAutoFocus]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OnlyNumberDirective', 'selector': '[cxOnlyNumber]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
+        var COMPONENT_TEMPLATE = '<div><div class="cx-review">  <!-- TITLE -->  <h3 class="cx-review-title d-none d-lg-block d-xl-block">    {{ \'checkoutReview.review\' | cxTranslate }}  </h3>  <div class="cx-review-summary row">    <!-- SHIPPING ADDRESS SECTION -->    <div class="col-md-12 col-lg-6 col-xl-4">      <div class="cx-review-summary-wrapper">        <div class="cx-review-summary-card cx-review-card-address">          <cx-card            [content]="              getShippingAddressCard(                deliveryAddress$ | async,                countryName$ | async              ) | async            "          ></cx-card>        </div>        <div *cxFeatureLevel="\'1.1\'" class="cx-review-summary-edit-step">          <a            [routerLink]="              {                cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)              } | cxUrl            "            >{{ \'checkoutReview.editShippingAddress\' | cxTranslate }}</a          >        </div>      </div>    </div>    <!-- DELIVERY MODE SECTION -->    <div class="col-md-12 col-lg-6 col-xl-4">      <div class="cx-review-summary-wrapper">        <div class="cx-review-summary-card cx-review-card-shipping">          <cx-card            *ngIf="deliveryMode$ | async as deliveryMode"            [content]="getDeliveryModeCard(deliveryMode) | async"          ></cx-card>        </div>        <div *cxFeatureLevel="\'1.1\'" class="cx-review-summary-edit-step">          <a            [routerLink]="              { cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) }                | cxUrl            "            >{{ \'checkoutReview.editShippingMethod\' | cxTranslate }}</a          >        </div>      </div>    </div>    <!-- PAYMENT METHOD SECTION -->    <div class="col-md-12 col-lg-6 col-xl-4">      <div class="cx-review-summary-wrapper">        <div class="cx-review-summary-card cx-review-card-payment">          <cx-card            [content]="getPaymentMethodCard(paymentDetails$ | async) | async"          ></cx-card>        </div>        <div *cxFeatureLevel="\'1.1\'" class="cx-review-summary-edit-step">          <a            [routerLink]="              { cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) }                | cxUrl            "            >{{ \'checkoutReview.editPaymentMethod\' | cxTranslate }}</a          >        </div>      </div>    </div>  </div>  <!-- CART ITEM SECTION -->  <ng-container *ngIf="cart$ | async as cart">    <div class="cx-review-cart-total d-none d-lg-block d-xl-block">      {{        \'cartItems.cartTotal\'          | cxTranslate: { count: cart.deliveryItemsQuantity }      }}:      {{ cart.totalPrice?.formattedValue }}    </div>    <h4 class="cx-review-cart-heading d-block d-lg-none d-xl-none">      {{ \'checkoutReview.placeOrder\' | cxTranslate }}    </h4>    <div      class="cx-review-cart-item col-md-12"      *ngIf="entries$ | async as entries"    >      <ng-container *ngIf="orderPromotions$ | async as orderPromotions">        <cx-promotions [promotions]="orderPromotions"></cx-promotions>      </ng-container>      <cx-cart-item-list        [items]="entries"        [readonly]="true"        [promotionLocation]="promotionLocation"      ></cx-cart-item-list>    </div>  </ng-container></div></div>'
+    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+    var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
     var ACTUAL_COMPONENT = {'name': 'ReviewSubmitComponent'};
 </script>
 <script src="../js/tree.js"></script>

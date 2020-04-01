@@ -147,7 +147,7 @@ export function configValidatorFactory(
     if (isDevMode()) {
       configInitializer
         .getStableConfig()
-        .then(config &#x3D;&gt; validateConfig(config, validators || []));
+        .then((config) &#x3D;&gt; validateConfig(config, validators || []));
     }
   };
   return validate;

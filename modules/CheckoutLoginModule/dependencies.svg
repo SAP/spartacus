@@ -22,73 +22,61 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_CheckoutLoginModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="35,-70 35,-268 461,-268 461,-70 35,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="93,-70 93,-268 403,-268 403,-70 93,-70"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_CheckoutLoginModule_declarations</title>
-<polygon fill="none" stroke="#000000" points="269,-78 269,-130 453,-130 453,-78 269,-78"/>
+<polygon fill="none" stroke="#000000" points="211,-78 211,-130 395,-130 395,-78 211,-78"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_CheckoutLoginModule_imports</title>
-<polygon fill="none" stroke="#000000" points="43,-78 43,-130 261,-130 261,-78 43,-78"/>
+<polygon fill="none" stroke="#000000" points="101,-78 101,-130 203,-130 203,-78 101,-78"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_CheckoutLoginModule_exports</title>
-<polygon fill="none" stroke="#000000" points="110,-208 110,-260 298,-260 298,-208 110,-208"/>
+<polygon fill="none" stroke="#000000" points="154,-208 154,-260 342,-260 342,-208 154,-208"/>
 </g>
 <!-- CheckoutLoginComponent -->
 <g id="node1" class="node">
 <title>CheckoutLoginComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="445.4326,-122 276.5674,-122 276.5674,-86 445.4326,-86 445.4326,-122"/>
-<text text-anchor="middle" x="361" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CheckoutLoginComponent</text>
+<polygon fill="#ffffb3" stroke="#000000" points="387.4326,-122 218.5674,-122 218.5674,-86 387.4326,-86 387.4326,-122"/>
+<text text-anchor="middle" x="303" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CheckoutLoginComponent</text>
 </g>
 <!-- CheckoutLoginModule -->
 <g id="node2" class="node">
 <title>CheckoutLoginModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="277.1498,-187 274.1498,-191 253.1498,-191 250.1498,-187 130.8502,-187 130.8502,-151 277.1498,-151 277.1498,-187"/>
-<text text-anchor="middle" x="204" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">CheckoutLoginModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="321.1498,-187 318.1498,-191 297.1498,-191 294.1498,-187 174.8502,-187 174.8502,-151 321.1498,-151 321.1498,-187"/>
+<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">CheckoutLoginModule</text>
 </g>
 <!-- CheckoutLoginComponent&#45;&gt;CheckoutLoginModule -->
 <g id="edge1" class="edge">
 <title>CheckoutLoginComponent&#45;&gt;CheckoutLoginModule</title>
-<path fill="none" stroke="#000000" d="M283.6454,-122.1061C283.6454,-141.3391 283.6454,-169 283.6454,-169 283.6454,-169 283.0204,-169 283.0204,-169"/>
-<polygon fill="#000000" stroke="#000000" points="287.3958,-165.5002 277.3957,-169 287.3957,-172.5002 287.3958,-165.5002"/>
+<path fill="none" stroke="#000000" d="M270.0544,-122.1061C270.0544,-122.1061 270.0544,-140.991 270.0544,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="266.5544,-140.9909 270.0544,-150.991 273.5544,-140.991 266.5544,-140.9909"/>
 </g>
 <!-- CheckoutLoginComponent  -->
-<g id="node5" class="node">
+<g id="node4" class="node">
 <title>CheckoutLoginComponent </title>
-<polygon fill="#fb8072" stroke="#000000" points="289.932,-252 118.068,-252 118.068,-216 289.932,-216 289.932,-252"/>
-<text text-anchor="middle" x="204" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">CheckoutLoginComponent </text>
+<polygon fill="#fb8072" stroke="#000000" points="333.932,-252 162.068,-252 162.068,-216 333.932,-216 333.932,-252"/>
+<text text-anchor="middle" x="248" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">CheckoutLoginComponent </text>
 </g>
 <!-- CheckoutLoginModule&#45;&gt;CheckoutLoginComponent  -->
-<g id="edge4" class="edge">
+<g id="edge3" class="edge">
 <title>CheckoutLoginModule&#45;&gt;CheckoutLoginComponent </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M204,-187.1061C204,-187.1061 204,-205.991 204,-205.991"/>
-<polygon fill="#000000" stroke="#000000" points="200.5001,-205.9909 204,-215.991 207.5001,-205.991 200.5001,-205.9909"/>
-</g>
-<!-- ConfigModule -->
-<g id="node3" class="node">
-<title>ConfigModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="253.4386,-122 250.4386,-126 229.4386,-126 226.4386,-122 154.5614,-122 154.5614,-86 253.4386,-86 253.4386,-122"/>
-<text text-anchor="middle" x="204" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ConfigModule</text>
-</g>
-<!-- ConfigModule&#45;&gt;CheckoutLoginModule -->
-<g id="edge2" class="edge">
-<title>ConfigModule&#45;&gt;CheckoutLoginModule</title>
-<path fill="none" stroke="#000000" d="M204,-122.1061C204,-122.1061 204,-140.991 204,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="200.5001,-140.9909 204,-150.991 207.5001,-140.991 200.5001,-140.9909"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M248,-187.1061C248,-187.1061 248,-205.991 248,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-205.9909 248,-215.991 251.5001,-205.991 244.5001,-205.9909"/>
 </g>
 <!-- I18nModule -->
-<g id="node4" class="node">
+<g id="node3" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="136.7107,-122 133.7107,-126 112.7107,-126 109.7107,-122 51.2893,-122 51.2893,-86 136.7107,-86 136.7107,-122"/>
-<text text-anchor="middle" x="94" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="194.7107,-122 191.7107,-126 170.7107,-126 167.7107,-122 109.2893,-122 109.2893,-86 194.7107,-86 194.7107,-122"/>
+<text text-anchor="middle" x="152" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;CheckoutLoginModule -->
-<g id="edge3" class="edge">
+<g id="edge2" class="edge">
 <title>I18nModule&#45;&gt;CheckoutLoginModule</title>
-<path fill="none" stroke="#000000" d="M124.3547,-122.1061C124.3547,-141.3391 124.3547,-169 124.3547,-169 124.3547,-169 124.9796,-169 124.9796,-169"/>
-<polygon fill="#000000" stroke="#000000" points="120.6043,-172.5002 130.6043,-169 120.6042,-165.5002 120.6043,-172.5002"/>
+<path fill="none" stroke="#000000" d="M184.6402,-122.1061C184.6402,-122.1061 184.6402,-140.991 184.6402,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="181.1403,-140.9909 184.6402,-150.991 188.1403,-140.991 181.1403,-140.9909"/>
 </g>
 </g>
 </svg>

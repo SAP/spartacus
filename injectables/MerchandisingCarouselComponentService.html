@@ -618,7 +618,7 @@ export class MerchandisingCarouselComponentService {
     return strategyProducts &amp;&amp; strategyProducts.products
       ? strategyProducts.products.map((strategyProduct, index) &#x3D;&gt;
           this.productService.get(strategyProduct.id, this.PRODUCT_SCOPE).pipe(
-            map(product &#x3D;&gt; ({
+            map((product) &#x3D;&gt; ({
               ...product,
               metadata: this.getCarouselItemMetadata(
                 strategyProduct,

@@ -179,11 +179,11 @@
                         <td class="col-md-4">
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType&lt;CheckoutActions.VerifyAddress&gt;(CheckoutActions.VERIFY_ADDRESS),
-    map(action &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt;
+    map((action) &#x3D;&gt; action.payload),
+    mergeMap((payload) &#x3D;&gt;
       this.userAddressConnector.verify(payload.userId, payload.address).pipe(
-        map(data &#x3D;&gt; new CheckoutActions.VerifyAddressSuccess(data)),
-        catchError(error &#x3D;&gt;
+        map((data) &#x3D;&gt; new CheckoutActions.VerifyAddressSuccess(data)),
+        catchError((error) &#x3D;&gt;
           of(
             new CheckoutActions.VerifyAddressFail(makeErrorSerializable(error))
           )
@@ -232,11 +232,11 @@ export class AddressVerificationEffect {
     CheckoutActions.VerifyAddressSuccess | CheckoutActions.VerifyAddressFail
   &gt; &#x3D; this.actions$.pipe(
     ofType&lt;CheckoutActions.VerifyAddress&gt;(CheckoutActions.VERIFY_ADDRESS),
-    map(action &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt;
+    map((action) &#x3D;&gt; action.payload),
+    mergeMap((payload) &#x3D;&gt;
       this.userAddressConnector.verify(payload.userId, payload.address).pipe(
-        map(data &#x3D;&gt; new CheckoutActions.VerifyAddressSuccess(data)),
-        catchError(error &#x3D;&gt;
+        map((data) &#x3D;&gt; new CheckoutActions.VerifyAddressSuccess(data)),
+        catchError((error) &#x3D;&gt;
           of(
             new CheckoutActions.VerifyAddressFail(makeErrorSerializable(error))
           )

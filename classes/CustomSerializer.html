@@ -256,9 +256,9 @@ export function reducer(
   }
 }
 
-export const reducerToken: InjectionToken&lt;
-  ActionReducerMap&lt;State&gt;
-&gt; &#x3D; new InjectionToken&lt;ActionReducerMap&lt;State&gt;&gt;(&#x27;RouterReducers&#x27;);
+export const reducerToken: InjectionToken&lt;ActionReducerMap&lt;
+  State
+&gt;&gt; &#x3D; new InjectionToken&lt;ActionReducerMap&lt;State&gt;&gt;(&#x27;RouterReducers&#x27;);
 
 export const reducerProvider: Provider &#x3D; {
   provide: reducerToken,
@@ -295,7 +295,7 @@ export class CustomSerializer
           (state.routeConfig &amp;&amp;
             state.routeConfig.canActivate &amp;&amp;
             state.routeConfig.canActivate.find(
-              x &#x3D;&gt; x &amp;&amp; x.guardName &#x3D;&#x3D;&#x3D; &#x27;CmsPageGuard&#x27;
+              (x) &#x3D;&gt; x &amp;&amp; x.guardName &#x3D;&#x3D;&#x3D; &#x27;CmsPageGuard&#x27;
             )))
       ) {
         cmsRequired &#x3D; true;
@@ -321,7 +321,7 @@ export class CustomSerializer
       } else if (!context) {
         if (state.url.length &gt; 0) {
           const pageLabel &#x3D;
-            &#x27;/&#x27; + state.url.map(urlSegment &#x3D;&gt; urlSegment.path).join(&#x27;/&#x27;);
+            &#x27;/&#x27; + state.url.map((urlSegment) &#x3D;&gt; urlSegment.path).join(&#x27;/&#x27;);
           context &#x3D; {
             id: pageLabel,
             type: PageType.CONTENT_PAGE,

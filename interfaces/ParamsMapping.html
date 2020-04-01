@@ -80,7 +80,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/routing/configurable-routes/routes-config.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/routing/configurable-routes/routes-config.ts:44</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -91,15 +91,31 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface RoutesConfig {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { InjectionToken } from &#x27;@angular/core&#x27;;
+import { UrlMatcher } from &#x27;@angular/router&#x27;;
+import { UrlMatcherFactory } from &#x27;../url-matcher&#x27;;
+
+export interface RoutesConfig {
   [routeName: string]: RouteConfig; // allows User&#x27;s custom pages
 }
 
 export interface RouteConfig {
   /**
-   * List of path aliases to match with URL. Also used to build the semantic links.
+   * List of path aliases used to build the semantic links.
+   * It&#x27;s used also to match the URLs, unless the config property &#x60;matchers&#x60; is given for the same route.
+   *
+   * See https://angular.io/api/router/Route#path
    */
   paths?: string[];
+
+  /**
+   * Array of Angular &#x60;UrlMatcher&#x60;s and injection tokens of Spartacus &#x60;UrlMatcherFactory&#x60;.
+   * All the url matchers (static and resolved from factories) will be used to match the route.
+   * When not given (undefined or null), the configured &#x60;paths&#x60; will be used to match the the route.
+   *
+   * See https://angular.io/api/router/Route#matcher
+   */
+  matchers?: (UrlMatcher | InjectionToken&lt;UrlMatcherFactory&gt;)[];
 
   /**
    * Maps names of route params with params used to build the semantic link.

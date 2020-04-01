@@ -63,41 +63,29 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_AnonymousConsentsModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="69.5,-70 69.5,-195 426.5,-195 426.5,-70 69.5,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="128,-70 128,-195 368,-195 368,-70 128,-70"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_AnonymousConsentsModule_imports</title>
-<polygon fill="none" stroke="#000000" points="77.5,-78 77.5,-130 418.5,-130 418.5,-78 77.5,-78"/>
+<polygon fill="none" stroke="#000000" points="136,-78 136,-130 360,-130 360,-78 136,-78"/>
 </g>
 <!-- AnonymousConsentsStoreModule -->
 <g id="node1" class="node">
 <title>AnonymousConsentsStoreModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="410.871,-122 407.871,-126 386.871,-126 383.871,-122 202.129,-122 202.129,-86 410.871,-86 410.871,-122"/>
-<text text-anchor="middle" x="306.5" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">AnonymousConsentsStoreModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="352.371,-122 349.371,-126 328.371,-126 325.371,-122 143.629,-122 143.629,-86 352.371,-86 352.371,-122"/>
+<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">AnonymousConsentsStoreModule</text>
 </g>
 <!-- AnonymousConsentsModule -->
-<g id="node3" class="node">
+<g id="node2" class="node">
 <title>AnonymousConsentsModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="326.3229,-187 323.3229,-191 302.3229,-191 299.3229,-187 146.6771,-187 146.6771,-151 326.3229,-151 326.3229,-187"/>
-<text text-anchor="middle" x="236.5" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">AnonymousConsentsModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="337.8229,-187 334.8229,-191 313.8229,-191 310.8229,-187 158.1771,-187 158.1771,-151 337.8229,-151 337.8229,-187"/>
+<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">AnonymousConsentsModule</text>
 </g>
 <!-- AnonymousConsentsStoreModule&#45;&gt;AnonymousConsentsModule -->
 <g id="edge1" class="edge">
 <title>AnonymousConsentsStoreModule&#45;&gt;AnonymousConsentsModule</title>
-<path fill="none" stroke="#000000" d="M264.1129,-122.1061C264.1129,-122.1061 264.1129,-140.991 264.1129,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="260.613,-140.9909 264.1129,-150.991 267.613,-140.991 260.613,-140.9909"/>
-</g>
-<!-- ConfigModule -->
-<g id="node2" class="node">
-<title>ConfigModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="183.9386,-122 180.9386,-126 159.9386,-126 156.9386,-122 85.0614,-122 85.0614,-86 183.9386,-86 183.9386,-122"/>
-<text text-anchor="middle" x="134.5" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ConfigModule</text>
-</g>
-<!-- ConfigModule&#45;&gt;AnonymousConsentsModule -->
-<g id="edge2" class="edge">
-<title>ConfigModule&#45;&gt;AnonymousConsentsModule</title>
-<path fill="none" stroke="#000000" d="M165.2788,-122.1061C165.2788,-122.1061 165.2788,-140.991 165.2788,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="161.7788,-140.9909 165.2788,-150.991 168.7788,-140.991 161.7788,-140.9909"/>
+<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
 </g>
 </g>
 </svg>
@@ -144,9 +132,6 @@
                         <li class="list-group-item">
                             <a href="../modules/AnonymousConsentsStoreModule.html">AnonymousConsentsStoreModule</a>
                         </li>
-                        <li class="list-group-item">
-                            <a href="../modules/ConfigModule.html">ConfigModule</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -181,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/core/src/anonymous-consents/anonymous-consents.module.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">projects/core/src/anonymous-consents/anonymous-consents.module.ts:13</a></div>
                 </td>
             </tr>
 
@@ -204,7 +189,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config, ConfigModule } from &#x27;../config/index&#x27;;
+import { Config, provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { AnonymousConsentsConfig } from &#x27;./config/anonymous-consents-config&#x27;;
 import { defaultAnonymousConsentsConfig } from &#x27;./config/default-anonymous-consents-config&#x27;;
 import { AnonymousConsentsService } from &#x27;./facade/anonymous-consents.service&#x27;;
@@ -212,10 +197,7 @@ import { interceptors } from &#x27;./http-interceptors/index&#x27;;
 import { AnonymousConsentsStoreModule } from &#x27;./store/anonymous-consents-store.module&#x27;;
 
 @NgModule({
-  imports: [
-    AnonymousConsentsStoreModule,
-    ConfigModule.withConfig(defaultAnonymousConsentsConfig),
-  ],
+  imports: [AnonymousConsentsStoreModule],
 })
 export class AnonymousConsentsModule {
   static forRoot(): ModuleWithProviders&lt;AnonymousConsentsModule&gt; {
@@ -225,6 +207,7 @@ export class AnonymousConsentsModule {
         ...interceptors,
         AnonymousConsentsService,
         { provide: AnonymousConsentsConfig, useExisting: Config },
+        provideDefaultConfig(defaultAnonymousConsentsConfig),
       ],
     };
   }

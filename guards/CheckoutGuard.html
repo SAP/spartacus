@@ -115,12 +115,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, config: <a href="../classes/CheckoutConfig.html">CheckoutConfig</a>, routingConfigService: <a href="../injectables/RoutingConfigService.html">RoutingConfigService</a>, checkoutConfigService?: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, expressCheckoutService?: <a href="../injectables/ExpressCheckoutService.html">ExpressCheckoutService</a>, cartService?: <a href="../injectables/CartService.html">CartService</a>)</code>
+<code>constructor(router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, routingConfigService: <a href="../injectables/RoutingConfigService.html">RoutingConfigService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html">CheckoutConfigService</a>, expressCheckoutService: <a href="../injectables/ExpressCheckoutService.html">ExpressCheckoutService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -150,18 +150,6 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>config</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../classes/CheckoutConfig.html" target="_self" >CheckoutConfig</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
                                                         <td>routingConfigService</td>
                                                   
                                                         <td>
@@ -181,7 +169,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -193,19 +181,19 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>cartService</td>
+                                                        <td>activeCartService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CartService.html" target="_self" >CartService</a></code>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -245,8 +233,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts:32</a></div>
                 </td>
             </tr>
 
@@ -269,10 +257,9 @@
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { CanActivate, Router, UrlTree } from &#x27;@angular/router&#x27;;
-import { CartService, RoutingConfigService } from &#x27;@spartacus/core&#x27;;
+import { ActiveCartService, RoutingConfigService } from &#x27;@spartacus/core&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { switchMap } from &#x27;rxjs/operators&#x27;;
-import { CheckoutConfig } from &#x27;../config/checkout-config&#x27;;
 import { CheckoutStepType } from &#x27;../model/checkout-step.model&#x27;;
 import { CheckoutConfigService } from &#x27;../services/checkout-config.service&#x27;;
 import { ExpressCheckoutService } from &#x27;../services/express-checkout.service&#x27;;
@@ -284,88 +271,41 @@ export class CheckoutGuard implements CanActivate {
   private readonly firstStep$: Observable&lt;UrlTree&gt;;
 
   constructor(
-    router: Router,
-    config: CheckoutConfig,
-    routingConfigService: RoutingConfigService,
-    checkoutConfigService: CheckoutConfigService,
-    expressCheckoutService: ExpressCheckoutService,
-    cartService: CartService
-  );
-  /**
-   * @deprecated since version 1.2
-   *  Use constructor(router: Router,
-   *  config: CheckoutConfig - @deprecated since 2.x,
-   *  routingConfigService: RoutingConfigService,
-   *  checkoutConfigService: CheckoutConfigService,
-   *  expressCheckoutService: ExpressCheckoutService
-   *  cartService: CartService) instead
-   *
-   *  TODO(issue:#4309) Deprecated since 1.2.0
-   */
-  constructor(
-    router: Router,
-    config: CheckoutConfig,
-    routingConfigService: RoutingConfigService
-  );
-  constructor(
-    private router: Router,
-    private config: CheckoutConfig,
-    private routingConfigService: RoutingConfigService,
-    protected checkoutConfigService?: CheckoutConfigService,
-    protected expressCheckoutService?: ExpressCheckoutService,
-    protected cartService?: CartService
+    protected router: Router,
+    protected routingConfigService: RoutingConfigService,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected expressCheckoutService: ExpressCheckoutService,
+    protected activeCartService: ActiveCartService
   ) {
-    /**
-     * TODO(issue:#4309) Deprecated since 1.2.0
-     */
-    if (this.checkoutConfigService) {
-      this.firstStep$ &#x3D; of(
-        this.router.parseUrl(
-          this.routingConfigService.getRouteConfig(
-            this.checkoutConfigService.getFirstCheckoutStepRoute()
-          ).paths[0]
-        )
-      );
-    } else {
-      this.firstStep$ &#x3D; of(
-        this.router.parseUrl(
-          this.routingConfigService.getRouteConfig(
-            this.config.checkout.steps[0].routeName
-          ).paths[0]
-        )
-      );
-    }
+    this.firstStep$ &#x3D; of(
+      this.router.parseUrl(
+        this.routingConfigService.getRouteConfig(
+          this.checkoutConfigService.getFirstCheckoutStepRoute()
+        ).paths[0]
+      )
+    );
   }
 
   canActivate(): Observable&lt;boolean | UrlTree&gt; {
-    /**
-     * TODO(issue:#4309) Deprecated since 1.2.0
-     */
     if (
-      this.checkoutConfigService &amp;&amp;
-      this.expressCheckoutService &amp;&amp;
-      this.cartService
+      this.checkoutConfigService.isExpressCheckout() &amp;&amp;
+      !this.activeCartService.isGuestCart()
     ) {
-      if (
-        this.checkoutConfigService.isExpressCheckout() &amp;&amp;
-        !this.cartService.isGuestCart()
-      ) {
-        return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
-          switchMap((expressCheckoutPossible: boolean) &#x3D;&gt; {
-            return expressCheckoutPossible
-              ? of(
-                  this.router.parseUrl(
-                    this.routingConfigService.getRouteConfig(
-                      this.checkoutConfigService.getCheckoutStepRoute(
-                        CheckoutStepType.REVIEW_ORDER
-                      )
-                    ).paths[0]
-                  )
+      return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
+        switchMap((expressCheckoutPossible: boolean) &#x3D;&gt; {
+          return expressCheckoutPossible
+            ? of(
+                this.router.parseUrl(
+                  this.routingConfigService.getRouteConfig(
+                    this.checkoutConfigService.getCheckoutStepRoute(
+                      CheckoutStepType.REVIEW_ORDER
+                    )
+                  ).paths[0]
                 )
-              : this.firstStep$;
-          })
-        );
-      }
+              )
+            : this.firstStep$;
+        })
+      );
     }
     return this.firstStep$;
   }

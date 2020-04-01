@@ -273,7 +273,9 @@ export class StructuredDataFactory {
     if (!this.scriptBuilder.isJsonLdRequired() || !this.builders) {
       return of();
     }
-    return combineLatest(this.builders.map(builder &#x3D;&gt; builder.build())).pipe();
+    return combineLatest(
+      this.builders.map((builder) &#x3D;&gt; builder.build())
+    ).pipe();
   }
 }
 </code></pre>

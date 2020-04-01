@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/core/src/site-context/store/effects/currencies.effect.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/site-context/store/effects/currencies.effect.ts:46</a></div>
                             </td>
                         </tr>
 
@@ -214,7 +214,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/site-context/store/effects/currencies.effect.ts:35</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/site-context/store/effects/currencies.effect.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -246,9 +246,10 @@
     exhaustMap(() &#x3D;&gt; {
       return this.siteConnector.getCurrencies().pipe(
         map(
-          currencies &#x3D;&gt; new SiteContextActions.LoadCurrenciesSuccess(currencies)
+          (currencies) &#x3D;&gt;
+            new SiteContextActions.LoadCurrenciesSuccess(currencies)
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new SiteContextActions.LoadCurrenciesFail(
               makeErrorSerializable(error)
@@ -304,9 +305,10 @@ export class CurrenciesEffects {
     exhaustMap(() &#x3D;&gt; {
       return this.siteConnector.getCurrencies().pipe(
         map(
-          currencies &#x3D;&gt; new SiteContextActions.LoadCurrenciesSuccess(currencies)
+          (currencies) &#x3D;&gt;
+            new SiteContextActions.LoadCurrenciesSuccess(currencies)
         ),
-        catchError(error &#x3D;&gt;
+        catchError((error) &#x3D;&gt;
           of(
             new SiteContextActions.LoadCurrenciesFail(
               makeErrorSerializable(error)

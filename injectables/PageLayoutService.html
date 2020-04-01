@@ -1072,7 +1072,7 @@ export class PageLayoutService {
    */
   getPageFoldSlot(pageTemplate: string): Observable&lt;string&gt; {
     return this.breakpointService.breakpoint$.pipe(
-      map(breakpoint &#x3D;&gt; {
+      map((breakpoint) &#x3D;&gt; {
         if (!this.config.layoutSlots) {
           // no layout config available
           return null;
@@ -1097,7 +1097,7 @@ export class PageLayoutService {
     );
     if (config &amp;&amp; config.slots) {
       const pageSlots &#x3D; Object.keys(page.slots);
-      return config.slots.filter(slot &#x3D;&gt; pageSlots.includes(slot));
+      return config.slots.filter((slot) &#x3D;&gt; pageSlots.includes(slot));
     } else if (!section) {
       this.logMissingLayoutConfig(page);
       return Object.keys(page.slots);
@@ -1108,12 +1108,12 @@ export class PageLayoutService {
   }
 
   get page$(): Observable&lt;Page&gt; {
-    return this.cms.getCurrentPage().pipe(filter(page &#x3D;&gt; !!page));
+    return this.cms.getCurrentPage().pipe(filter((page) &#x3D;&gt; !!page));
   }
 
   get templateName$(): Observable&lt;string&gt; {
     return this.page$.pipe(
-      filter(page &#x3D;&gt; !!page.template),
+      filter((page) &#x3D;&gt; !!page.template),
       map((page: Page) &#x3D;&gt; page.template)
     );
   }

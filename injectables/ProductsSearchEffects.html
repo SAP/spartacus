@@ -183,17 +183,17 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(ProductActions.GET_PRODUCT_SUGGESTIONS),
     map((action: ProductActions.GetProductSuggestions) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.productSearchConnector
         .getSuggestions(payload.term, payload.searchConfig.pageSize)
         .pipe(
-          map(suggestions &#x3D;&gt; {
+          map((suggestions) &#x3D;&gt; {
             if (suggestions &#x3D;&#x3D;&#x3D; undefined) {
               return new ProductActions.GetProductSuggestionsSuccess([]);
             }
             return new ProductActions.GetProductSuggestionsSuccess(suggestions);
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new ProductActions.GetProductSuggestionsFail(
                 makeErrorSerializable(error)
@@ -246,19 +246,19 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(ProductActions.SEARCH_PRODUCTS),
     groupBy((action: ProductActions.SearchProducts) &#x3D;&gt; action.auxiliary),
-    mergeMap(group &#x3D;&gt;
+    mergeMap((group) &#x3D;&gt;
       group.pipe(
         switchMap((action: ProductActions.SearchProducts) &#x3D;&gt; {
           return this.productSearchConnector
             .search(action.payload.queryText, action.payload.searchConfig)
             .pipe(
-              map(data &#x3D;&gt; {
+              map((data) &#x3D;&gt; {
                 return new ProductActions.SearchProductsSuccess(
                   data,
                   action.auxiliary
                 );
               }),
-              catchError(error &#x3D;&gt;
+              catchError((error) &#x3D;&gt;
                 of(
                   new ProductActions.SearchProductsFail(
                     makeErrorSerializable(error),
@@ -313,19 +313,19 @@ export class ProductsSearchEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(ProductActions.SEARCH_PRODUCTS),
     groupBy((action: ProductActions.SearchProducts) &#x3D;&gt; action.auxiliary),
-    mergeMap(group &#x3D;&gt;
+    mergeMap((group) &#x3D;&gt;
       group.pipe(
         switchMap((action: ProductActions.SearchProducts) &#x3D;&gt; {
           return this.productSearchConnector
             .search(action.payload.queryText, action.payload.searchConfig)
             .pipe(
-              map(data &#x3D;&gt; {
+              map((data) &#x3D;&gt; {
                 return new ProductActions.SearchProductsSuccess(
                   data,
                   action.auxiliary
                 );
               }),
-              catchError(error &#x3D;&gt;
+              catchError((error) &#x3D;&gt;
                 of(
                   new ProductActions.SearchProductsFail(
                     makeErrorSerializable(error),
@@ -346,17 +346,17 @@ export class ProductsSearchEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(ProductActions.GET_PRODUCT_SUGGESTIONS),
     map((action: ProductActions.GetProductSuggestions) &#x3D;&gt; action.payload),
-    switchMap(payload &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.productSearchConnector
         .getSuggestions(payload.term, payload.searchConfig.pageSize)
         .pipe(
-          map(suggestions &#x3D;&gt; {
+          map((suggestions) &#x3D;&gt; {
             if (suggestions &#x3D;&#x3D;&#x3D; undefined) {
               return new ProductActions.GetProductSuggestionsSuccess([]);
             }
             return new ProductActions.GetProductSuggestionsSuccess(suggestions);
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             of(
               new ProductActions.GetProductSuggestionsFail(
                 makeErrorSerializable(error)

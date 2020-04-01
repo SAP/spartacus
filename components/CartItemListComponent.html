@@ -63,12 +63,6 @@
 
 
 
-    <p class="comment">
-        <h3>Implements</h3>
-    </p>
-    <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-    </p>
 
 
 <section>
@@ -76,6 +70,10 @@
     <table class="table table-sm table-hover">
         <tbody>
 
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
 
 
 
@@ -143,26 +141,20 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#createEntryFormGroup">createEntryFormGroup</a>
+                                <a href="#createForm">createForm</a>
                             </li>
                             <li>
-                                <a href="#getPotentialProductPromotionsForItem">getPotentialProductPromotionsForItem</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#isConsumedByEntry">isConsumedByEntry</a>
+                                <a href="#getControl">getControl</a>
                             </li>
                             <li>
                                 <a href="#isSaveForLaterEnabled">isSaveForLaterEnabled</a>
                             </li>
                             <li>
-                                <a href="#ngOnInit">ngOnInit</a>
-                            </li>
-                            <li>
                                 <a href="#removeEntry">removeEntry</a>
                             </li>
                             <li>
-                                <a href="#updateEntry">updateEntry</a>
+                                    <span class="modifier">Private</span>
+                                <a href="#resolveItems">resolveItems</a>
                             </li>
                         </ul>
                     </td>
@@ -183,19 +175,16 @@
                                 <a href="#hasHeader">hasHeader</a>
                             </li>
                             <li>
-                                <a href="#isReadOnly">isReadOnly</a>
-                            </li>
-                            <li>
                                 <a href="#items">items</a>
                             </li>
                             <li>
                                 <a href="#options">options</a>
                             </li>
                             <li>
-                                <a href="#potentialProductPromotions">potentialProductPromotions</a>
+                                <a href="#promotionLocation">promotionLocation</a>
                             </li>
                             <li>
-                                <a href="#promotionLocation">promotionLocation</a>
+                                <a href="#readonly">readonly</a>
                             </li>
                         </ul>
                     </td>
@@ -215,6 +204,9 @@
                                 <li>
                                     <a href="#items">items</a>
                                 </li>
+                                <li>
+                                    <a href="#setLoading">setLoading</a>
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -228,12 +220,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cartService: <a href="../injectables/CartService.html">CartService</a>, fb: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, selectiveCartService?: <a href="../injectables/SelectiveCartService.html">SelectiveCartService</a>, featureConfig?: <a href="../injectables/FeatureConfigService.html">FeatureConfigService</a>)</code>
+<code>constructor(activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>, selectiveCartService: <a href="../injectables/SelectiveCartService.html">SelectiveCartService</a>, featureConfig: <a href="../injectables/FeatureConfigService.html">FeatureConfigService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:86</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:57</a></div>
                             </td>
                         </tr>
 
@@ -251,22 +243,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>cartService</td>
+                                                        <td>activeCartService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CartService.html" target="_self" >CartService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>fb</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -282,7 +262,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -294,7 +274,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -319,12 +299,13 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>false</code>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:64</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:49</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -353,28 +334,14 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="isReadOnly"></a>
-                        <b>isReadOnly</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>false</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:22</a></div>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
                         <a name="items"></a>
                         <b>items</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
                     </td>
                 </tr>
                         <tr>
@@ -408,33 +375,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:28</a></div>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="potentialProductPromotions"></a>
-                        <b>potentialProductPromotions</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>PromotionResult[]</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>[]</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:27</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -460,7 +401,27 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:36</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:47</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="readonly"></a>
+                        <b>readonly</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:23</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -478,28 +439,28 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="createEntryFormGroup"></a>
+                    <a name="createForm"></a>
                     <span class="name">
                         <b>
                             <span class="modifier">Private</span>
-                            createEntryFormGroup
+                            createForm
                         </b>
-                        <a href="#createEntryFormGroup"><span class="icon ion-ios-link"></span></a>
+                        <a href="#createForm"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createEntryFormGroup(entry)</code>
+                    <code>createForm()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:93</a></div>
                 </td>
             </tr>
 
@@ -508,35 +469,8 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>entry</td>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -546,26 +480,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getPotentialProductPromotionsForItem"></a>
+                    <a name="getControl"></a>
                     <span class="name">
                         <b>
-                            getPotentialProductPromotionsForItem
+                            getControl
                         </b>
-                        <a href="#getPotentialProductPromotionsForItem"><span class="icon ion-ios-link"></span></a>
+                        <a href="#getControl"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getPotentialProductPromotionsForItem(item: <a href="../interfaces/Item.html">Item</a>)</code>
+<code>getControl(item: <a href="../interfaces/Item.html">Item</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:117</a></div>
                 </td>
             </tr>
 
@@ -602,91 +536,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>PromotionResult[]</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="isConsumedByEntry"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            isConsumedByEntry
-                        </b>
-                        <a href="#isConsumedByEntry"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>isConsumedByEntry(consumedEntry: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, entry: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="160"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:160</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>consumedEntry</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>entry</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;FormGroup&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -718,8 +568,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:66</a></div>
                 </td>
             </tr>
 
@@ -729,45 +579,6 @@
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ngOnInit"></a>
-                    <span class="name">
-                        <b>
-                            ngOnInit
-                        </b>
-                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>ngOnInit()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="96"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:96</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                 </td>
@@ -796,8 +607,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:108</a></div>
                 </td>
             </tr>
 
@@ -848,32 +659,37 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="updateEntry"></a>
+                    <a name="resolveItems"></a>
                     <span class="name">
                         <b>
-                            updateEntry
+                            <span class="modifier">Private</span>
+                            resolveItems
                         </b>
-                        <a href="#updateEntry"><span class="icon ion-ios-link"></span></a>
+                        <a href="#resolveItems"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateEntry(undefined: literal type)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resolveItems(items: <a href="../interfaces/Item.html">Item[]</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:78</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>The items we&#39;re getting form the input do not have a consistent model.
+In case of a <code>consignmentEntry</code>, we need to normalize the data from the orderEntry.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -887,8 +703,9 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>items</td>
                                     <td>
-                                            <code>literal type</code>
+                                                <code><a href="../interfaces/Item.html" target="_self" >Item[]</a></code>
                                     </td>
 
                                     <td>
@@ -945,7 +762,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:68</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -970,14 +787,9 @@
 
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>this.fb.group({})</code>
-                        </td>
-                    </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:66</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -1006,13 +818,13 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:70</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:43</a></div>
                                 </td>
                             </tr>
 
                 <tr>
                     <td class="col-md-4">
-                        <span class="accessor"><b>set</b><code>items(_items)</code></span>
+                        <span class="accessor"><b>set</b><code>items(items: [])</code></span>
                     </td>
                 </tr>
                             <tr>
@@ -1029,13 +841,76 @@
                                             <thead>
                                                 <tr>
                                                     <td>Name</td>
+                                                        <td>Type</td>
                                                     <td>Optional</td>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                     <tr>
-                                                            <td>_items</td>
+                                                            <td>items</td>
                                                     
+                                                            <td>
+                                                                        <code>[]</code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setLoading"></a>
+                        <span class="name"><b>setLoading</b><a href="#setLoading"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>setLoading(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts:49</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>value</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                                            </td>
                                                     
                                                         <td>
                                                                 No
@@ -1060,102 +935,69 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnInit } from &#x27;@angular/core&#x27;;
-import { FormBuilder, FormGroup } from &#x27;@angular/forms&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ChangeDetectionStrategy, Component, Input } from &#x27;@angular/core&#x27;;
+import { FormControl, FormGroup } from &#x27;@angular/forms&#x27;;
 import {
-  CartService,
-  PromotionResult,
+  ActiveCartService,
+  ConsignmentEntry,
+  FeatureConfigService,
   PromotionLocation,
   SelectiveCartService,
-  FeatureConfigService,
-  ConsignmentEntry,
 } from &#x27;@spartacus/core&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+import { map, startWith } from &#x27;rxjs/operators&#x27;;
 import {
-  Item,
   CartItemComponentOptions,
+  Item,
 } from &#x27;../cart-item/cart-item.component&#x27;;
 
 @Component({
   selector: &#x27;cx-cart-item-list&#x27;,
   templateUrl: &#x27;./cart-item-list.component.html&#x27;,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartItemListComponent implements OnInit {
-  @Input()
-  isReadOnly &#x3D; false;
+export class CartItemListComponent {
+  @Input() readonly &#x3D; false;
 
-  @Input()
-  hasHeader &#x3D; true;
+  @Input() hasHeader &#x3D; true;
 
-  @Input()
-  options: CartItemComponentOptions &#x3D; {
+  @Input() options: CartItemComponentOptions &#x3D; {
     isSaveForLater: false,
     optionalBtn: null,
   };
-  @Input()
-  potentialProductPromotions: PromotionResult[] &#x3D; [];
-
-  @Input()
-  promotionLocation: PromotionLocation &#x3D; PromotionLocation.ActiveCart;
-
-  @Input()
-  set items(_items) {
-    if (_items.every(item &#x3D;&gt; item.hasOwnProperty(&#x27;orderEntry&#x27;))) {
-      this._items &#x3D; _items.map(consignmentEntry &#x3D;&gt; {
-        const entry &#x3D; Object.assign(
-          {},
-          (consignmentEntry as ConsignmentEntry).orderEntry
-        );
-        entry.quantity &#x3D; consignmentEntry.quantity;
-        return entry;
-      });
-    } else {
-      this._items &#x3D; _items;
-      this.items.forEach(item &#x3D;&gt; {
-        const { code } &#x3D; item.product;
-        if (!this.form.controls[code]) {
-          this.form.setControl(code, this.createEntryFormGroup(item));
-        } else {
-          const entryForm &#x3D; this.form.controls[code] as FormGroup;
-          entryForm.controls.quantity.setValue(item.quantity);
-        }
-      });
-    }
-  }
-
-  @Input()
-  cartIsLoading &#x3D; false;
-
-  form: FormGroup &#x3D; this.fb.group({});
 
   private _items: Item[] &#x3D; [];
+  form: FormGroup;
 
+  @Input(&#x27;items&#x27;)
+  // TODO: currently we&#x27;re getting a new array of items if the cart changes.
+  // pretty annoying as it forces a repaint on the screen,
+  // which is noticable in the UI.
+  set items(items: Item[]) {
+    this.resolveItems(items);
+    this.createForm();
+  }
   get items(): Item[] {
     return this._items;
   }
 
-  constructor(
-    cartService: CartService,
-    fb: FormBuilder,
-    selectiveCartService: SelectiveCartService,
-    featureConfig: FeatureConfigService
-  );
+  @Input() promotionLocation: PromotionLocation &#x3D; PromotionLocation.ActiveCart;
 
-  /**
-   * @deprecated Since 1.5
-   * Add selectiveCartService authService routingService and featureConfig for save for later.
-   * Remove issue: #5958
-   */
-  constructor(cartService: CartService, fb: FormBuilder);
+  @Input(&#x27;cartIsLoading&#x27;) set setLoading(value: boolean) {
+    if (!this.readonly) {
+      // Whenver the cart is loading, we disable the complete form
+      // to avoid any user interaction with the cart.
+      value
+        ? this.form.disable({ emitEvent: false })
+        : this.form.enable({ emitEvent: false });
+    }
+  }
 
   constructor(
-    protected cartService: CartService,
-    protected fb: FormBuilder,
-    protected selectiveCartService?: SelectiveCartService,
-    private featureConfig?: FeatureConfigService
+    protected activeCartService: ActiveCartService,
+    protected selectiveCartService: SelectiveCartService,
+    protected featureConfig: FeatureConfigService
   ) {}
-
-  // TODO remove for 2.0 - left to keep backward compatibility
-  ngOnInit(): void {}
 
   //TODO remove feature flag for #5958
   isSaveForLaterEnabled(): boolean {
@@ -1166,71 +1008,65 @@ export class CartItemListComponent implements OnInit {
   }
   //TODO remove feature flag for #5958
 
+  /**
+   * The items we&#x27;re getting form the input do not have a consistent model.
+   * In case of a &#x60;consignmentEntry&#x60;, we need to normalize the data from the orderEntry.
+   */
+  private resolveItems(items: Item[]): void {
+    if (items.every((item) &#x3D;&gt; item.hasOwnProperty(&#x27;orderEntry&#x27;))) {
+      this._items &#x3D; items.map((consignmentEntry) &#x3D;&gt; {
+        const entry &#x3D; Object.assign(
+          {},
+          (consignmentEntry as ConsignmentEntry).orderEntry
+        );
+        entry.quantity &#x3D; consignmentEntry.quantity;
+        return entry;
+      });
+    } else {
+      this._items &#x3D; items;
+    }
+  }
+
+  private createForm(): void {
+    this.form &#x3D; new FormGroup({});
+    this._items.forEach((item) &#x3D;&gt; {
+      const { code } &#x3D; item.product;
+      const group &#x3D; new FormGroup({
+        entryNumber: new FormControl((&lt;any&gt;item).entryNumber),
+        quantity: new FormControl(item.quantity, { updateOn: &#x27;blur&#x27; }),
+      });
+      if (!item.updateable || this.readonly) {
+        group.disable();
+      }
+      this.form.addControl(code, group);
+    });
+  }
+
   removeEntry(item: Item): void {
     if (this.selectiveCartService &amp;&amp; this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
     } else {
-      this.cartService.removeEntry(item);
+      this.activeCartService.removeEntry(item);
     }
     delete this.form.controls[item.product.code];
   }
 
-  updateEntry({
-    item,
-    updatedQuantity,
-  }: {
-    item: any;
-    updatedQuantity: number;
-  }): void {
-    this.cartService.updateEntry(item.entryNumber, updatedQuantity);
-  }
-
-  private createEntryFormGroup(entry): FormGroup {
-    return this.fb.group({
-      entryNumber: entry.entryNumber,
-      quantity: entry.quantity,
-    });
-  }
-
-  getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
-    const entryPromotions: PromotionResult[] &#x3D; [];
-    //don&#x27;t show promotions in saveforlater
-    if (this.options.isSaveForLater) {
-      return entryPromotions;
-    }
-    if (
-      this.potentialProductPromotions &amp;&amp;
-      this.potentialProductPromotions.length &gt; 0
-    ) {
-      for (const promotion of this.potentialProductPromotions) {
-        if (
-          promotion.description &amp;&amp;
-          promotion.consumedEntries &amp;&amp;
-          promotion.consumedEntries.length &gt; 0
-        ) {
-          for (const consumedEntry of promotion.consumedEntries) {
-            if (this.isConsumedByEntry(consumedEntry, item)) {
-              entryPromotions.push(promotion);
-            }
-          }
+  getControl(item: Item): Observable&lt;FormGroup&gt; {
+    return this.form.get(item.product.code).valueChanges.pipe(
+      // tslint:disable-next-line:deprecation
+      startWith(null),
+      map((value) &#x3D;&gt; {
+        if (value &amp;&amp; this.selectiveCartService &amp;&amp; this.options.isSaveForLater) {
+          this.selectiveCartService.updateEntry(
+            value.entryNumber,
+            value.quantity
+          );
+        } else if (value) {
+          this.activeCartService.updateEntry(value.entryNumber, value.quantity);
         }
-      }
-    }
-    return entryPromotions;
-  }
-
-  private isConsumedByEntry(consumedEntry: any, entry: any): boolean {
-    const consumedEntryNumber &#x3D; consumedEntry.orderEntryNumber;
-    if (entry.entries &amp;&amp; entry.entries.length &gt; 0) {
-      for (const subEntry of entry.entries) {
-        if (subEntry.entryNumber &#x3D;&#x3D;&#x3D; consumedEntryNumber) {
-          return true;
-        }
-      }
-      return false;
-    } else {
-      return consumedEntryNumber &#x3D;&#x3D;&#x3D; entry.entryNumber;
-    }
+      }),
+      map(() &#x3D;&gt; &lt;FormGroup&gt;this.form.get(item.product.code))
+    );
   }
 }
 </code></pre>
@@ -1262,38 +1098,20 @@ export class CartItemListComponent implements OnInit {
   &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div [formGroup]&#x3D;&quot;form&quot;&gt;
-  &lt;div class&#x3D;&quot;cx-item-list-row&quot; *ngFor&#x3D;&quot;let item of items&quot;&gt;
-    &lt;div class&#x3D;&quot;cx-item-list-items&quot;&gt;
-      &lt;ng-container *cxFeatureLevel&#x3D;&quot;&#x27;!1.5&#x27;&quot;&gt;
-        &lt;cx-cart-item
-          [parent]&#x3D;&quot;form.controls[item.product.code]&quot;
-          [item]&#x3D;&quot;item&quot;
-          [isReadOnly]&#x3D;&quot;isReadOnly&quot;
-          [potentialProductPromotions]&#x3D;&quot;
-            getPotentialProductPromotionsForItem(item)
-          &quot;
-          [cartIsLoading]&#x3D;&quot;cartIsLoading&quot;
-          (remove)&#x3D;&quot;removeEntry($event)&quot;
-          (update)&#x3D;&quot;updateEntry($event)&quot;
-        &gt;
-        &lt;/cx-cart-item&gt;
-      &lt;/ng-container&gt;
-
-      &lt;ng-container *cxFeatureLevel&#x3D;&quot;&#x27;1.5&#x27;&quot;&gt;
-        &lt;cx-cart-item
-          [parent]&#x3D;&quot;form.controls[item.product.code]&quot;
-          [item]&#x3D;&quot;item&quot;
-          [isReadOnly]&#x3D;&quot;isReadOnly&quot;
-          [promotionLocation]&#x3D;&quot;promotionLocation&quot;
-          [cartIsLoading]&#x3D;&quot;cartIsLoading&quot;
-          (remove)&#x3D;&quot;removeEntry($event)&quot;
-          (update)&#x3D;&quot;updateEntry($event)&quot;
-          [options]&#x3D;&quot;options&quot;
-        &gt;
-        &lt;/cx-cart-item&gt;
-      &lt;/ng-container&gt;
-    &lt;/div&gt;
+&lt;div class&#x3D;&quot;cx-item-list-row&quot; *ngFor&#x3D;&quot;let item of items; let i &#x3D; index&quot;&gt;
+  &lt;div
+    class&#x3D;&quot;cx-item-list-items&quot;
+    *ngIf&#x3D;&quot;getControl(item) | async as control&quot;
+    [class.is-changed]&#x3D;&quot;control.get(&#x27;quantity&#x27;).dirty&quot;
+  &gt;
+    &lt;cx-cart-item
+      [item]&#x3D;&quot;item&quot;
+      [quantityControl]&#x3D;&quot;control.get(&#x27;quantity&#x27;)&quot;
+      [readonly]&#x3D;&quot;readonly&quot;
+      [promotionLocation]&#x3D;&quot;promotionLocation&quot;
+      [options]&#x3D;&quot;options&quot;
+    &gt;
+    &lt;/cx-cart-item&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 
@@ -1331,9 +1149,9 @@ export class CartItemListComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div *ngIf="hasHeader" class="d-none d-md-block d-lg-block d-xl-block">  <div class="cx-item-list-header row">    <div class="cx-item-list-desc col-md-5 col-lg-5 col-xl-6">      {{ \'cartItems.description\' | cxTranslate }}    </div>    <div class="cx-item-list-price col-md-3 col-lg-2 col-xl-2">      {{ \'cartItems.itemPrice\' | cxTranslate }}    </div>    <div class="cx-item-list-qty col-md-2 col-lg-3 col-xl-2">      {{ \'cartItems.quantity\' | cxTranslate }}    </div>    <ng-container      *ngIf="        isSaveForLaterEnabled() && options.isSaveForLater;        else totalHeader      "    >      <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">        {{ \'saveForLaterItems.stock\' | cxTranslate }}      </div>    </ng-container>  </div></div><div [formGroup]="form">  <div class="cx-item-list-row" *ngFor="let item of items">    <div class="cx-item-list-items">      <ng-container *cxFeatureLevel="\'!1.5\'">        <cx-cart-item          [parent]="form.controls[item.product.code]"          [item]="item"          [isReadOnly]="isReadOnly"          [potentialProductPromotions]="            getPotentialProductPromotionsForItem(item)          "          [cartIsLoading]="cartIsLoading"          (remove)="removeEntry($event)"          (update)="updateEntry($event)"        >        </cx-cart-item>      </ng-container>      <ng-container *cxFeatureLevel="\'1.5\'">        <cx-cart-item          [parent]="form.controls[item.product.code]"          [item]="item"          [isReadOnly]="isReadOnly"          [promotionLocation]="promotionLocation"          [cartIsLoading]="cartIsLoading"          (remove)="removeEntry($event)"          (update)="updateEntry($event)"          [options]="options"        >        </cx-cart-item>      </ng-container>    </div>  </div></div><ng-template #totalHeader>  <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">    {{ \'cartItems.total\' | cxTranslate }}  </div></ng-template></div>'
-    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressCardComponent', 'selector': 'cx-address-card'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
-    var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'AutoFocusDirective', 'selector': '[cxAutoFocus]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OnlyNumberDirective', 'selector': '[cxOnlyNumber]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
+        var COMPONENT_TEMPLATE = '<div><div *ngIf="hasHeader" class="d-none d-md-block d-lg-block d-xl-block">  <div class="cx-item-list-header row">    <div class="cx-item-list-desc col-md-5 col-lg-5 col-xl-6">      {{ \'cartItems.description\' | cxTranslate }}    </div>    <div class="cx-item-list-price col-md-3 col-lg-2 col-xl-2">      {{ \'cartItems.itemPrice\' | cxTranslate }}    </div>    <div class="cx-item-list-qty col-md-2 col-lg-3 col-xl-2">      {{ \'cartItems.quantity\' | cxTranslate }}    </div>    <ng-container      *ngIf="        isSaveForLaterEnabled() && options.isSaveForLater;        else totalHeader      "    >      <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">        {{ \'saveForLaterItems.stock\' | cxTranslate }}      </div>    </ng-container>  </div></div><div class="cx-item-list-row" *ngFor="let item of items; let i = index">  <div    class="cx-item-list-items"    *ngIf="getControl(item) | async as control"    [class.is-changed]="control.get(\'quantity\').dirty"  >    <cx-cart-item      [item]="item"      [quantityControl]="control.get(\'quantity\')"      [readonly]="readonly"      [promotionLocation]="promotionLocation"      [options]="options"    >    </cx-cart-item>  </div></div><ng-template #totalHeader>  <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">    {{ \'cartItems.total\' | cxTranslate }}  </div></ng-template></div>'
+    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+    var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
     var ACTUAL_COMPONENT = {'name': 'CartItemListComponent'};
 </script>
 <script src="../js/tree.js"></script>

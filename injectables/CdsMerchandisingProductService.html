@@ -304,7 +304,7 @@ export class CdsMerchandisingProductService {
           };
         }
       ),
-      mergeMap(context &#x3D;&gt;
+      mergeMap((context) &#x3D;&gt;
         this.strategyConnector.loadProductsForStrategy(strategyId, context)
       )
     );

@@ -98,17 +98,21 @@
                                 <a href="#findResource">findResource</a>
                             </li>
                             <li>
+                                <a href="#getHtml">getHtml</a>
+                            </li>
+                            <li>
                                 <a href="#getStyleClasses">getStyleClasses</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#getSvgPath">getSvgPath</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
                                 <a href="#getSymbol">getSymbol</a>
                             </li>
                             <li>
-                                <a href="#useSvg">useSvg</a>
+                                    <span class="modifier">Private</span>
+                                <a href="#isResourceType">isResourceType</a>
                             </li>
                         </ul>
                     </td>
@@ -118,6 +122,20 @@
 
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#config">config</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
         </tbody>
     </table>
 </section>
@@ -128,12 +146,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, config: <a href="../classes/IconConfig.html">IconConfig</a>)</code>
+<code>constructor(winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, iconConfig: <a href="../classes/IconConfig.html">IconConfig</a>, sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -163,10 +181,22 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>config</td>
+                                                        <td>iconConfig</td>
                                                   
                                                         <td>
                                                                         <code><a href="../classes/IconConfig.html" target="_self" >IconConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>sanitizer</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank" >DomSanitizer</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -203,15 +233,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addLinkResource(iconType: <a href="../undefineds/ICON_TYPE.html">ICON_TYPE</a>)</code>
+<code>addLinkResource(iconType: <a href="../undefineds/ICON_TYPE.html">ICON_TYPE | string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:90</a></div>
                 </td>
             </tr>
 
@@ -239,7 +269,7 @@ web component.</p>
                                 <tr>
                                     <td>iconType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/enumerations.html#ICON_TYPE" target="_self" >ICON_TYPE</a></code>
+                                                <code><a href="../miscellaneous/enumerations.html#ICON_TYPE" target="_self" >ICON_TYPE | string</a></code>
                                     </td>
 
                                     <td>
@@ -281,15 +311,15 @@ web component.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findResource(iconType: <a href="../undefineds/ICON_TYPE.html">ICON_TYPE</a>, resourceType: <a href="../undefineds/IconResourceType.html">IconResourceType</a>)</code>
+                    <code>findResource(iconType: <a href="../undefineds/ICON_TYPE.html">ICON_TYPE | string</a>, resourceType: <a href="../undefineds/IconResourceType.html">IconResourceType</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:110</a></div>
                 </td>
             </tr>
 
@@ -311,7 +341,7 @@ web component.</p>
                                 <tr>
                                     <td>iconType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/enumerations.html#ICON_TYPE" target="_self" >ICON_TYPE</a></code>
+                                                <code><a href="../miscellaneous/enumerations.html#ICON_TYPE" target="_self" >ICON_TYPE | string</a></code>
                                     </td>
 
                                     <td>
@@ -352,6 +382,78 @@ web component.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getHtml"></a>
+                    <span class="name">
+                        <b>
+                            getHtml
+                        </b>
+                        <a href="#getHtml"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getHtml(type: <a href="../undefineds/ICON_TYPE.html">ICON_TYPE | string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:26</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns an html fragment which can be added to the DOM in a safe way.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>type</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/enumerations.html#ICON_TYPE" target="_self" >ICON_TYPE | string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://angular.io/api/platform-browser/SafeHtml" target="_blank" >SafeHtml</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getStyleClasses"></a>
                     <span class="name">
                         <b>
@@ -370,8 +472,8 @@ web component.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -427,6 +529,7 @@ web component.</p>
                     <a name="getSvgPath"></a>
                     <span class="name">
                         <b>
+                            <span class="modifier">Private</span>
                             getSvgPath
                         </b>
                         <a href="#getSvgPath"><span class="icon ion-ios-link"></span></a>
@@ -435,15 +538,16 @@ web component.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getSvgPath(iconType: <a href="../undefineds/ICON_TYPE.html">ICON_TYPE</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSvgPath(iconType: <a href="../undefineds/ICON_TYPE.html">ICON_TYPE | string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:68</a></div>
                 </td>
             </tr>
 
@@ -451,7 +555,7 @@ web component.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Returns the path to the svg link. The link supports path names
-as well, if the config has been setup to support a svg file path.
+as well, if the config a[[s been setup to support a svg file path.
 Additionally, the icon prefix will be taken into account to prefix the
 icon IDs in the SVG.</p>
 </div>
@@ -470,7 +574,7 @@ icon IDs in the SVG.</p>
                                 <tr>
                                     <td>iconType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/enumerations.html#ICON_TYPE" target="_self" >ICON_TYPE</a></code>
+                                                <code><a href="../miscellaneous/enumerations.html#ICON_TYPE" target="_self" >ICON_TYPE | string</a></code>
                                     </td>
 
                                     <td>
@@ -502,7 +606,6 @@ icon IDs in the SVG.</p>
                     <a name="getSymbol"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
                             getSymbol
                         </b>
                         <a href="#getSymbol"><span class="icon ion-ios-link"></span></a>
@@ -511,16 +614,15 @@ icon IDs in the SVG.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getSymbol(iconType: <a href="../undefineds/ICON_TYPE.html">ICON_TYPE | string</a>)</code>
+<code>getSymbol(iconType: <a href="../undefineds/ICON_TYPE.html">ICON_TYPE | string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:131</a></div>
                 </td>
             </tr>
 
@@ -571,33 +673,36 @@ icon IDs in the SVG.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="useSvg"></a>
+                    <a name="isResourceType"></a>
                     <span class="name">
                         <b>
-                            useSvg
+                            <span class="modifier">Private</span>
+                            isResourceType
                         </b>
-                        <a href="#useSvg"><span class="icon ion-ios-link"></span></a>
+                        <a href="#isResourceType"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>useSvg(iconType: <a href="../undefineds/ICON_TYPE.html">ICON_TYPE</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isResourceType(iconType: <a href="../undefineds/ICON_TYPE.html">ICON_TYPE | string</a>, resourceType: <a href="../undefineds/IconResourceType.html">IconResourceType</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:49</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Indicates whether the given icon type is configured to use SVG.</p>
+                    <div class="io-description"><p>Indicates whether the given <code>ICON_TYPE</code> is configured for
+the given <code>IconResourceType</code>.</p>
 </div>
 
                     <div class="io-description">
@@ -614,7 +719,19 @@ icon IDs in the SVG.</p>
                                 <tr>
                                     <td>iconType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/enumerations.html#ICON_TYPE" target="_self" >ICON_TYPE</a></code>
+                                                <code><a href="../miscellaneous/enumerations.html#ICON_TYPE" target="_self" >ICON_TYPE | string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>resourceType</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/enumerations.html#IconResourceType" target="_self" >IconResourceType</a></code>
                                     </td>
 
                                     <td>
@@ -671,7 +788,7 @@ icon IDs in the SVG.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -680,15 +797,44 @@ icon IDs in the SVG.</p>
         </table>
 </section>
 
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="config"></a>
+                        <span class="name"><b>config</b><a href="#config"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>config()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="137" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/icon/icon-loader.service.ts:137</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { DomSanitizer, SafeHtml } from &#x27;@angular/platform-browser&#x27;;
 import { WindowRef } from &#x27;@spartacus/core&#x27;;
 import {
   IconConfig,
   IconConfigResource,
+  IconOptions,
   IconResourceType,
   ICON_TYPE,
 } from &#x27;./icon.model&#x27;;
@@ -698,40 +844,23 @@ import {
 })
 export class IconLoaderService {
   private loadedResources &#x3D; [];
-  constructor(protected winRef: WindowRef, protected config: IconConfig) {}
+  constructor(
+    protected winRef: WindowRef,
+    protected iconConfig: IconConfig,
+    protected sanitizer: DomSanitizer
+  ) {}
 
   /**
-   * Indicates whether the given icon type is configured to use SVG.
+   * Returns an html fragment which can be added to the DOM in a safe way.
    */
-  useSvg(iconType: ICON_TYPE): boolean {
-    return (
-      this.config.icon.resources &amp;&amp;
-      !!this.config.icon.resources.find(
-        res &#x3D;&gt;
-          res.types &amp;&amp;
-          res.type &#x3D;&#x3D;&#x3D; IconResourceType.SVG &amp;&amp;
-          res.types.includes(iconType)
-      )
-    );
-  }
-
-  /**
-   * Returns the path to the svg link. The link supports path names
-   * as well, if the config has been setup to support a svg file path.
-   * Additionally, the icon prefix will be taken into account to prefix the
-   * icon IDs in the SVG.
-   */
-  getSvgPath(iconType: ICON_TYPE): string {
-    const svgResource &#x3D; this.config.icon.resources.find(
-      res &#x3D;&gt;
-        res.type &#x3D;&#x3D;&#x3D; IconResourceType.SVG &amp;&amp;
-        res.types &amp;&amp;
-        res.types.includes(iconType)
-    );
-    if (svgResource) {
-      return svgResource.url
-        ? &#x60;${svgResource.url}#${this.getSymbol(iconType)}&#x60;
-        : &#x60;#${this.getSymbol(iconType)}&#x60;;
+  getHtml(type: ICON_TYPE | string): SafeHtml {
+    if (this.isResourceType(type, IconResourceType.SVG)) {
+      return this.sanitizer.bypassSecurityTrustHtml(
+        &#x60;&lt;svg&gt;&lt;use xlink:href&#x3D;&quot;${this.getSvgPath(type)}&quot;&gt;&lt;/use&gt;&lt;/svg&gt;&#x60;
+      );
+    }
+    if (this.isResourceType(type, IconResourceType.TEXT)) {
+      return this.sanitizer.bypassSecurityTrustHtml(this.getSymbol(type));
     }
   }
 
@@ -744,6 +873,43 @@ export class IconLoaderService {
   }
 
   /**
+   * Indicates whether the given &#x60;ICON_TYPE&#x60; is configured for
+   * the given &#x60;IconResourceType&#x60;.
+   */
+  private isResourceType(
+    iconType: ICON_TYPE | string,
+    resourceType: IconResourceType
+  ): boolean {
+    return (
+      this.config.resources &amp;&amp;
+      !!this.config.resources.find(
+        (res) &#x3D;&gt;
+          res.types &amp;&amp; res.type &#x3D;&#x3D;&#x3D; resourceType &amp;&amp; res.types.includes(iconType)
+      )
+    );
+  }
+
+  /**
+   * Returns the path to the svg link. The link supports path names
+   * as well, if the config a[[s been setup to support a svg file path.
+   * Additionally, the icon prefix will be taken into account to prefix the
+   * icon IDs in the SVG.
+   */
+  private getSvgPath(iconType: ICON_TYPE | string): string {
+    const svgResource &#x3D; this.config.resources.find(
+      (res) &#x3D;&gt;
+        res.type &#x3D;&#x3D;&#x3D; IconResourceType.SVG &amp;&amp;
+        res.types &amp;&amp;
+        res.types.includes(iconType)
+    );
+    if (svgResource) {
+      return svgResource.url
+        ? &#x60;${svgResource.url}#${this.getSymbol(iconType)}&#x60;
+        : &#x60;#${this.getSymbol(iconType)}&#x60;;
+    }
+  }
+
+  /**
    * Loads the resource url (if any) for the given icon.
    * The icon will only be loaded once.
    *
@@ -751,53 +917,55 @@ export class IconLoaderService {
    * no head element available and the link must be loaded for every
    * web component.
    */
-  addLinkResource(iconType: ICON_TYPE): void {
+  addLinkResource(iconType: ICON_TYPE | string): void {
     const resource: IconConfigResource &#x3D; this.findResource(
       iconType,
       IconResourceType.LINK
     );
-    if (resource &amp;&amp; resource.url) {
-      if (!this.loadedResources.includes(resource.url)) {
-        this.loadedResources.push(resource.url);
-        const head &#x3D; this.winRef.document.getElementsByTagName(&#x27;head&#x27;)[0];
-        const link &#x3D; this.winRef.document.createElement(&#x27;link&#x27;);
-        link.rel &#x3D; &#x27;stylesheet&#x27;;
-        link.type &#x3D; &#x27;text/css&#x27;;
-        link.href &#x3D; resource.url;
-        head.appendChild(link);
-      }
+    if (
+      resource &amp;&amp;
+      resource.url &amp;&amp;
+      !this.loadedResources.includes(resource.url)
+    ) {
+      this.loadedResources.push(resource.url);
+      const head &#x3D; this.winRef.document.getElementsByTagName(&#x27;head&#x27;)[0];
+      const link &#x3D; this.winRef.document.createElement(&#x27;link&#x27;);
+      link.rel &#x3D; &#x27;stylesheet&#x27;;
+      link.type &#x3D; &#x27;text/css&#x27;;
+      link.href &#x3D; resource.url;
+      head.appendChild(link);
     }
   }
 
   private findResource(
-    iconType: ICON_TYPE,
+    iconType: ICON_TYPE | string,
     resourceType: IconResourceType
   ): IconConfigResource {
-    if (!this.config.icon.resources) {
+    if (!this.config.resources) {
       return;
     }
 
-    let resource &#x3D; this.config.icon.resources.find(
-      res &#x3D;&gt;
+    let resource &#x3D; this.config.resources.find(
+      (res) &#x3D;&gt;
         res.type &#x3D;&#x3D;&#x3D; resourceType &amp;&amp; res.types &amp;&amp; res.types.includes(iconType)
     );
     // no specific resource found, let&#x27;s try to find a one-size-fits-all resource
     if (!resource) {
-      resource &#x3D; this.config.icon.resources.find(
-        res &#x3D;&gt; (res.type &#x3D;&#x3D;&#x3D; resourceType &amp;&amp; !res.types) || res.types &#x3D;&#x3D;&#x3D; []
+      resource &#x3D; this.config.resources.find(
+        (res) &#x3D;&gt; (res.type &#x3D;&#x3D;&#x3D; resourceType &amp;&amp; !res.types) || res.types &#x3D;&#x3D;&#x3D; []
       );
     }
     return resource;
   }
 
-  private getSymbol(iconType: ICON_TYPE | string) {
-    if (
-      this.config.icon &amp;&amp;
-      this.config.icon.symbols &amp;&amp;
-      this.config.icon.symbols[iconType]
-    ) {
-      return this.config.icon.symbols[iconType];
+  getSymbol(iconType: ICON_TYPE | string) {
+    if (this.config &amp;&amp; this.config.symbols &amp;&amp; this.config.symbols[iconType]) {
+      return this.config.symbols[iconType];
     }
+  }
+
+  private get config(): IconOptions {
+    return this.iconConfig.icon;
   }
 }
 </code></pre>

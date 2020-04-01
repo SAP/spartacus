@@ -821,9 +821,9 @@ export class SiteContextComponentService {
   getItems(context?: SiteContextType): Observable&lt;any&gt; {
     return this.getService(context).pipe(
       switchMap((service: SiteContext&lt;any&gt;) &#x3D;&gt; service.getAll()),
-      switchMap(items &#x3D;&gt;
+      switchMap((items) &#x3D;&gt;
         this.getContext(context).pipe(
-          switchMap(ctx &#x3D;&gt; {
+          switchMap((ctx) &#x3D;&gt; {
             const itemsCopy &#x3D; [];
             for (const item of items) {
               itemsCopy.push({
@@ -846,7 +846,7 @@ export class SiteContextComponentService {
 
   getLabel(context?: SiteContextType): Observable&lt;any&gt; {
     return this.getContext(context).pipe(
-      map(ctx &#x3D;&gt; {
+      map((ctx) &#x3D;&gt; {
         return LABELS[ctx];
       })
     );
@@ -855,7 +855,7 @@ export class SiteContextComponentService {
   setActive(value: string, context?: SiteContextType): void {
     this.getService(context)
       .pipe(take(1))
-      .subscribe(service &#x3D;&gt; {
+      .subscribe((service) &#x3D;&gt; {
         service.setActive(value);
       });
   }
@@ -865,7 +865,7 @@ export class SiteContextComponentService {
   ): Observable&lt;SiteContext&lt;any&gt;&gt; {
     return this.getContext(context).pipe(
       map((ctx: string) &#x3D;&gt; this.getInjectedService(ctx)),
-      filter(s &#x3D;&gt; !!s)
+      filter((s) &#x3D;&gt; !!s)
     );
   }
 
@@ -874,8 +874,8 @@ export class SiteContextComponentService {
       return of(context);
     } else if (this.componentData) {
       return this.componentData.data$.pipe(
-        map(data &#x3D;&gt; data.context),
-        map(ctx &#x3D;&gt; {
+        map((data) &#x3D;&gt; data.context),
+        map((ctx) &#x3D;&gt; {
           switch (ctx) {
             case &#x27;LANGUAGE&#x27;:
               return LANGUAGE_CONTEXT_ID;

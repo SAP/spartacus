@@ -383,7 +383,7 @@ export class LogoutGuard implements CanActivate {
         type: PageType.CONTENT_PAGE,
       })
       .pipe(
-        tap(hasPage &#x3D;&gt; {
+        tap((hasPage) &#x3D;&gt; {
           if (!hasPage) {
             this.redirect();
           }

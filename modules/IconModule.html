@@ -63,15 +63,11 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_IconModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="118,-70 118,-268 378,-268 378,-70 118,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="177,-70 177,-268 319,-268 319,-70 177,-70"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_IconModule_declarations</title>
-<polygon fill="none" stroke="#000000" points="248,-78 248,-130 370,-130 370,-78 248,-78"/>
-</g>
-<g id="clust4" class="cluster">
-<title>cluster_IconModule_imports</title>
-<polygon fill="none" stroke="#000000" points="126,-78 126,-130 240,-130 240,-78 126,-78"/>
+<polygon fill="none" stroke="#000000" points="187,-78 187,-130 309,-130 309,-78 187,-78"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_IconModule_exports</title>
@@ -80,8 +76,8 @@
 <!-- IconComponent -->
 <g id="node1" class="node">
 <title>IconComponent</title>
-<polygon fill="#ffffb3" stroke="#000000" points="362.2078,-122 255.7922,-122 255.7922,-86 362.2078,-86 362.2078,-122"/>
-<text text-anchor="middle" x="309" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">IconComponent</text>
+<polygon fill="#ffffb3" stroke="#000000" points="301.2078,-122 194.7922,-122 194.7922,-86 301.2078,-86 301.2078,-122"/>
+<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">IconComponent</text>
 </g>
 <!-- IconModule -->
 <g id="node2" class="node">
@@ -92,32 +88,20 @@
 <!-- IconComponent&#45;&gt;IconModule -->
 <g id="edge1" class="edge">
 <title>IconComponent&#45;&gt;IconModule</title>
-<path fill="none" stroke="#000000" d="M273.0544,-122.1061C273.0544,-122.1061 273.0544,-140.991 273.0544,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="269.5544,-140.9909 273.0544,-150.991 276.5544,-140.991 269.5544,-140.9909"/>
+<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
 </g>
 <!-- IconComponent  -->
-<g id="node4" class="node">
+<g id="node3" class="node">
 <title>IconComponent </title>
 <polygon fill="#fb8072" stroke="#000000" points="302.708,-252 193.292,-252 193.292,-216 302.708,-216 302.708,-252"/>
 <text text-anchor="middle" x="248" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">IconComponent </text>
 </g>
 <!-- IconModule&#45;&gt;IconComponent  -->
-<g id="edge3" class="edge">
+<g id="edge2" class="edge">
 <title>IconModule&#45;&gt;IconComponent </title>
 <path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M248,-187.1061C248,-187.1061 248,-205.991 248,-205.991"/>
 <polygon fill="#000000" stroke="#000000" points="244.5001,-205.9909 248,-215.991 251.5001,-205.991 244.5001,-205.9909"/>
-</g>
-<!-- ConfigModule -->
-<g id="node3" class="node">
-<title>ConfigModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="232.4386,-122 229.4386,-126 208.4386,-126 205.4386,-122 133.5614,-122 133.5614,-86 232.4386,-86 232.4386,-122"/>
-<text text-anchor="middle" x="183" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">ConfigModule</text>
-</g>
-<!-- ConfigModule&#45;&gt;IconModule -->
-<g id="edge2" class="edge">
-<title>ConfigModule&#45;&gt;IconModule</title>
-<path fill="none" stroke="#000000" d="M219.0032,-122.1061C219.0032,-122.1061 219.0032,-140.991 219.0032,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="215.5032,-140.9909 219.0032,-150.991 222.5032,-140.991 215.5032,-140.9909"/>
 </g>
 </g>
 </svg>
@@ -167,15 +151,6 @@
                     </ul>
                 </div>
                 <div class="col-sm-3">
-                    <h3>Imports<a href="https://angular.io/api/core/NgModule#imports" target="_blank" title="Official documentation about module imports"><span
-                                class="icon ion-ios-information-circle-outline"></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../modules/ConfigModule.html">ConfigModule</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
                     <h3>Exports<a href="https://angular.io/api/core/NgModule#exports" target="_blank" title="Official documentation about module exports"><span
                                 class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
@@ -194,15 +169,18 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
-import { Config, ConfigModule } from &#x27;@spartacus/core&#x27;;
+import { Config, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 import { fontawesomeIconConfig } from &#x27;./fontawesome-icon.config&#x27;;
 import { IconComponent } from &#x27;./icon.component&#x27;;
 import { IconConfig } from &#x27;./icon.model&#x27;;
 
 @NgModule({
   declarations: [IconComponent],
-  imports: [CommonModule, ConfigModule.withConfig(fontawesomeIconConfig)],
-  providers: [{ provide: IconConfig, useExisting: Config }],
+  imports: [CommonModule],
+  providers: [
+    provideDefaultConfig(fontawesomeIconConfig),
+    { provide: IconConfig, useExisting: Config },
+  ],
   exports: [IconComponent],
 })
 export class IconModule {}

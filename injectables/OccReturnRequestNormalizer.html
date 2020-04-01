@@ -328,7 +328,7 @@ export class OccReturnRequestNormalizer
     }
 
     if (source.returnEntries) {
-      target.returnEntries &#x3D; source.returnEntries.map(entry &#x3D;&gt; ({
+      target.returnEntries &#x3D; source.returnEntries.map((entry) &#x3D;&gt; ({
         ...entry,
         orderEntry: this.convertOrderEntry(entry.orderEntry),
       }));

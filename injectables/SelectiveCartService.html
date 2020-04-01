@@ -1033,7 +1033,7 @@
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>this.cartId$.pipe(
-    switchMap(cartId &#x3D;&gt; {
+    switchMap((cartId) &#x3D;&gt; {
       this.cartId &#x3D; cartId;
       return this.multiCartService.getCartEntity(cartId);
     })
@@ -1229,7 +1229,7 @@ export class SelectiveCartService {
   private previousUserId &#x3D; this.PREVIOUS_USER_ID_INITIAL_VALUE;
 
   private cartSelector$ &#x3D; this.cartId$.pipe(
-    switchMap(cartId &#x3D;&gt; {
+    switchMap((cartId) &#x3D;&gt; {
       this.cartId &#x3D; cartId;
       return this.multiCartService.getCartEntity(cartId);
     })
@@ -1254,7 +1254,7 @@ export class SelectiveCartService {
       }
     });
 
-    this.authService.getOccUserId().subscribe(userId &#x3D;&gt; {
+    this.authService.getOccUserId().subscribe((userId) &#x3D;&gt; {
       this.userId &#x3D; userId;
 
       if (this.isJustLoggedIn(userId)) {
@@ -1298,7 +1298,7 @@ export class SelectiveCartService {
 
   getLoaded(): Observable&lt;boolean&gt; {
     return this.cartSelector$.pipe(
-      map(cart &#x3D;&gt; (cart.success || cart.error) &amp;&amp; !cart.loading)
+      map((cart) &#x3D;&gt; (cart.success || cart.error) &amp;&amp; !cart.loading)
     );
   }
 
@@ -1316,17 +1316,17 @@ export class SelectiveCartService {
     this.cartSelector$
       .pipe(
         filter(() &#x3D;&gt; !loadAttempted),
-        switchMap(cartState &#x3D;&gt; {
+        switchMap((cartState) &#x3D;&gt; {
           if (this.isEmpty(cartState.value) &amp;&amp; !cartState.loading) {
             loadAttempted &#x3D; true;
             this.load();
           }
           return of(cartState);
         }),
-        filter(cartState &#x3D;&gt; !this.isEmpty(cartState.value)),
+        filter((cartState) &#x3D;&gt; !this.isEmpty(cartState.value)),
         take(1)
       )
-      .subscribe(_ &#x3D;&gt; {
+      .subscribe(() &#x3D;&gt; {
         this.multiCartService.addEntry(
           this.userId,
           this.cartId,

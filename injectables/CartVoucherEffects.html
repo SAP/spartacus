@@ -61,11 +61,6 @@
 
 
 
-            <p class="comment">
-                <h3>Example</h3>
-            </p>
-            <div class="io-description">
-            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -124,7 +119,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -215,8 +210,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:106</a></div>
                 </td>
             </tr>
 
@@ -316,7 +311,7 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(CartActions.CART_ADD_VOUCHER),
     map((action: CartActions.CartAddVoucher) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.cartVoucherConnector
         .add(payload.userId, payload.cartId, payload.voucherId)
         .pipe(
@@ -331,16 +326,26 @@
               cartId: payload.cartId,
             });
           }),
-          catchError(error &#x3D;&gt;
-            from([
+          catchError((error) &#x3D;&gt; {
+            if (error?.error?.errors) {
+              error.error.errors.forEach((err) &#x3D;&gt; {
+                if (err.message) {
+                  this.messageService.add(
+                    err.message,
+                    GlobalMessageType.MSG_TYPE_ERROR
+                  );
+                }
+              });
+            }
+            return from([
               new CartActions.CartAddVoucherFail(makeErrorSerializable(error)),
               new CartActions.CartProcessesDecrement(payload.cartId),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
-            ])
-          )
+            ]);
+          })
         );
     })
   )</code>
@@ -357,7 +362,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -378,7 +383,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>Observable&lt;CartActions.CartVoucherAction | CartActions.CartProcessesDecrement | CartActions.LoadCart&gt;</code>
+                            <i>Type : </i>        <code><a href="../classes/LoadCart.html" target="_self" >Observable&lt;CartActions.CartVoucherAction | CartActions.LoadCart&gt;</a></code>
 
                         </td>
                     </tr>
@@ -387,7 +392,7 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_VOUCHER),
     map((action: CartActions.CartRemoveVoucher) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.cartVoucherConnector
         .remove(payload.userId, payload.cartId, payload.voucherId)
         .pipe(
@@ -400,14 +405,17 @@
             return new CartActions.CartRemoveVoucherSuccess({
               userId: payload.userId,
               cartId: payload.cartId,
+              voucherId: payload.voucherId,
             });
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             from([
-              new CartActions.CartRemoveVoucherFail(
-                makeErrorSerializable(error)
-              ),
-              new CartActions.CartProcessesDecrement(payload.cartId),
+              new CartActions.CartRemoveVoucherFail({
+                error: makeErrorSerializable(error),
+                cartId: payload.cartId,
+                userId: payload.userId,
+                voucherId: payload.voucherId,
+              }),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
@@ -430,7 +438,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:64</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:67</a></div>
                             </td>
                         </tr>
 
@@ -453,13 +461,6 @@ import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x
 import { CartVoucherConnector } from &#x27;../../connectors/voucher/cart-voucher.connector&#x27;;
 import { CartActions } from &#x27;../actions/index&#x27;;
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx effects will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 @Injectable()
 export class CartVoucherEffects {
   constructor(
@@ -476,7 +477,7 @@ export class CartVoucherEffects {
   &gt; &#x3D; this.actions$.pipe(
     ofType(CartActions.CART_ADD_VOUCHER),
     map((action: CartActions.CartAddVoucher) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.cartVoucherConnector
         .add(payload.userId, payload.cartId, payload.voucherId)
         .pipe(
@@ -491,29 +492,37 @@ export class CartVoucherEffects {
               cartId: payload.cartId,
             });
           }),
-          catchError(error &#x3D;&gt;
-            from([
+          catchError((error) &#x3D;&gt; {
+            if (error?.error?.errors) {
+              error.error.errors.forEach((err) &#x3D;&gt; {
+                if (err.message) {
+                  this.messageService.add(
+                    err.message,
+                    GlobalMessageType.MSG_TYPE_ERROR
+                  );
+                }
+              });
+            }
+            return from([
               new CartActions.CartAddVoucherFail(makeErrorSerializable(error)),
               new CartActions.CartProcessesDecrement(payload.cartId),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
-            ])
-          )
+            ]);
+          })
         );
     })
   );
 
   @Effect()
   removeCartVoucher$: Observable&lt;
-    | CartActions.CartVoucherAction
-    | CartActions.CartProcessesDecrement
-    | CartActions.LoadCart
+    CartActions.CartVoucherAction | CartActions.LoadCart
   &gt; &#x3D; this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_VOUCHER),
     map((action: CartActions.CartRemoveVoucher) &#x3D;&gt; action.payload),
-    mergeMap(payload &#x3D;&gt; {
+    mergeMap((payload) &#x3D;&gt; {
       return this.cartVoucherConnector
         .remove(payload.userId, payload.cartId, payload.voucherId)
         .pipe(
@@ -526,14 +535,17 @@ export class CartVoucherEffects {
             return new CartActions.CartRemoveVoucherSuccess({
               userId: payload.userId,
               cartId: payload.cartId,
+              voucherId: payload.voucherId,
             });
           }),
-          catchError(error &#x3D;&gt;
+          catchError((error) &#x3D;&gt;
             from([
-              new CartActions.CartRemoveVoucherFail(
-                makeErrorSerializable(error)
-              ),
-              new CartActions.CartProcessesDecrement(payload.cartId),
+              new CartActions.CartRemoveVoucherFail({
+                error: makeErrorSerializable(error),
+                cartId: payload.cartId,
+                userId: payload.userId,
+                voucherId: payload.voucherId,
+              }),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,

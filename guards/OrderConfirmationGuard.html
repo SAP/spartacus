@@ -235,7 +235,7 @@ export class OrderConfirmationGuard implements CanActivate {
 
   canActivate(): Observable&lt;boolean | UrlTree&gt; {
     return this.checkoutService.getOrderDetails().pipe(
-      map(orderDetails &#x3D;&gt; {
+      map((orderDetails) &#x3D;&gt; {
         if (orderDetails &amp;&amp; Object.keys(orderDetails).length !&#x3D;&#x3D; 0) {
           return true;
         } else {

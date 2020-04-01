@@ -115,12 +115,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithCart | fromProcessStore.StateWithProcess>, authService: <a href="../injectables/AuthService.html">AuthService</a>)</code>
+<code>constructor(store: Store<fromProcessStore.StateWithProcess<void>>, authService: <a href="../injectables/AuthService.html">AuthService</a>, activeCartService: <a href="../injectables/ActiveCartService.html">ActiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -141,7 +141,7 @@
                                                         <td>store</td>
                                                   
                                                         <td>
-                                                                    <code>Store&lt;StateWithCart | fromProcessStore.StateWithProcess&gt;</code>
+                                                                    <code>Store&lt;fromProcessStore.StateWithProcess&lt;void&gt;&gt;</code>
                                                         </td>
                                                   
                                                     <td>
@@ -154,6 +154,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>activeCartService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -197,8 +209,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:24</a></div>
                 </td>
             </tr>
 
@@ -281,8 +293,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:70</a></div>
                 </td>
             </tr>
 
@@ -351,8 +363,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:48</a></div>
                 </td>
             </tr>
 
@@ -390,8 +402,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:60</a></div>
                 </td>
             </tr>
 
@@ -429,8 +441,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:54</a></div>
                 </td>
             </tr>
 
@@ -468,8 +480,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:36</a></div>
                 </td>
             </tr>
 
@@ -550,8 +562,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:66</a></div>
                 </td>
             </tr>
 
@@ -575,8 +587,8 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { Observable, combineLatest } from &#x27;rxjs&#x27;;
-import { take, map } from &#x27;rxjs/operators&#x27;;
+import { combineLatest, Observable } from &#x27;rxjs&#x27;;
+import { map, take } from &#x27;rxjs/operators&#x27;;
 import { AuthService } from &#x27;../../auth/index&#x27;;
 import * as fromProcessStore from &#x27;../../process/store/process-state&#x27;;
 import {
@@ -585,18 +597,15 @@ import {
   getProcessSuccessFactory,
 } from &#x27;../../process/store/selectors/process.selectors&#x27;;
 import { CartActions } from &#x27;../store/actions/index&#x27;;
-import { ADD_VOUCHER_PROCESS_ID, StateWithCart } from &#x27;../store/cart-state&#x27;;
-import { CartSelectors } from &#x27;../store/selectors/index&#x27;;
-import { Cart } from &#x27;../../model/cart.model&#x27;;
-import { OCC_USER_ID_ANONYMOUS } from &#x27;../../occ/utils/occ-constants&#x27;;
+import { ADD_VOUCHER_PROCESS_ID } from &#x27;../store/multi-cart-state&#x27;;
+import { ActiveCartService } from &#x27;./active-cart.service&#x27;;
 
 @Injectable()
 export class CartVoucherService {
   constructor(
-    protected store: Store&lt;
-      StateWithCart | fromProcessStore.StateWithProcess&lt;void&gt;
-    &gt;,
-    protected authService: AuthService
+    protected store: Store&lt;fromProcessStore.StateWithProcess&lt;void&gt;&gt;,
+    protected authService: AuthService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   addVoucher(voucherId: string, cartId?: string): void {
@@ -649,22 +658,13 @@ export class CartVoucherService {
     if (cartId) {
       return this.authService.getOccUserId().pipe(
         take(1),
-        map(userId &#x3D;&gt; [userId, cartId])
+        map((userId) &#x3D;&gt; [userId, cartId])
       );
     } else {
       return combineLatest([
         this.authService.getOccUserId(),
-        this.store.pipe(
-          select(CartSelectors.getCartContent),
-          map(cart &#x3D;&gt; cart)
-        ),
-      ]).pipe(
-        take(1),
-        map(([userId, cart]: [string, Cart]) &#x3D;&gt; [
-          userId,
-          userId &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code,
-        ])
-      );
+        this.activeCartService.getActiveCartId(),
+      ]).pipe(take(1));
     }
   }
 }

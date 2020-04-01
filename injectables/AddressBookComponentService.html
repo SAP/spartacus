@@ -108,12 +108,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(userAddressService: <a href="../injectables/UserAddressService.html">UserAddressService</a>, checkoutDeliveryService?: <a href="../injectables/CheckoutDeliveryService.html">CheckoutDeliveryService</a>, featureConfigService?: <a href="../injectables/FeatureConfigService.html">FeatureConfigService</a>)</code>
+<code>constructor(userAddressService: <a href="../injectables/UserAddressService.html">UserAddressService</a>, checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryService.html">CheckoutDeliveryService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -150,19 +150,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>featureConfigService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/FeatureConfigService.html" target="_self" >FeatureConfigService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -202,8 +190,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:28</a></div>
                 </td>
             </tr>
 
@@ -272,8 +260,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:16</a></div>
                 </td>
             </tr>
 
@@ -311,8 +299,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:20</a></div>
                 </td>
             </tr>
 
@@ -350,8 +338,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:24</a></div>
                 </td>
             </tr>
 
@@ -389,8 +377,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:32</a></div>
                 </td>
             </tr>
 
@@ -459,7 +447,6 @@
 import {
   Address,
   CheckoutDeliveryService,
-  FeatureConfigService,
   UserAddressService,
 } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
@@ -467,23 +454,8 @@ import { Observable } from &#x27;rxjs&#x27;;
 @Injectable()
 export class AddressBookComponentService {
   constructor(
-    userAddressService: UserAddressService,
-    checkoutDeliveryService: CheckoutDeliveryService,
-    featureConfigService: FeatureConfigService
-  );
-  /**
-   * @deprecated since version 1.2
-   *  Use constructor(userAddressService: UserAddressService,
-   *  checkoutDeliveryService: CheckoutDeliveryService
-   *  featureConfigService: FeatureConfigService) instead
-   *
-   *  TODO(issue:#4309) Deprecated since 1.2.0
-   */
-  constructor(userAddressService: UserAddressService);
-  constructor(
-    private userAddressService: UserAddressService,
-    protected checkoutDeliveryService?: CheckoutDeliveryService,
-    private featureConfigService?: FeatureConfigService
+    protected userAddressService: UserAddressService,
+    protected checkoutDeliveryService: CheckoutDeliveryService
   ) {}
 
   getAddresses(): Observable&lt;Address[]&gt; {
@@ -504,16 +476,7 @@ export class AddressBookComponentService {
 
   updateUserAddress(addressId: string, address: Address) {
     this.userAddressService.updateUserAddress(addressId, address);
-    /**
-     * TODO(issue:#4309) Deprecated since 1.2.0
-     */
-    if (
-      this.featureConfigService &amp;&amp;
-      this.featureConfigService.isLevel(&#x27;1.2&#x27;) &amp;&amp;
-      this.checkoutDeliveryService
-    ) {
-      this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
-    }
+    this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
   }
 }
 </code></pre>

@@ -655,7 +655,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
 
           const clonedRequest &#x3D; this.handleRequest(consents, request);
           return next.handle(clonedRequest).pipe(
-            tap(event &#x3D;&gt; {
+            tap((event) &#x3D;&gt; {
               if (event instanceof HttpResponse) {
                 this.handleResponse(
                   isUserLoggedIn,
