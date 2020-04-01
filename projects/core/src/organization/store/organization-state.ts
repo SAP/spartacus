@@ -81,6 +81,12 @@ export interface CostCenterManagement extends Management<CostCenter> {
   budgets: EntityLoaderState<ListModel>;
 }
 
+export interface B2BUserManagement extends Management<B2BUser> {
+  approvers: EntityLoaderState<ListModel>;
+  permissions: EntityLoaderState<ListModel>;
+  userGroups: EntityLoaderState<ListModel>;
+}
+
 export interface StateWithOrganization {
   [ORGANIZATION_FEATURE]: OrganizationState;
 }
@@ -92,10 +98,4 @@ export interface OrganizationState {
   [PERMISSION_FEATURE]: PermissionManagement;
   [COST_CENTER_FEATURE]: CostCenterManagement;
   [B2B_USER_FEATURE]: B2BUserManagement;
-}
-
-export interface B2BUserManagement extends Management<B2BUser> {
-  approvers: EntityLoaderState<ListModel>;
-  permissions: EntityLoaderState<ListModel>;
-  userGroups: EntityLoaderState<ListModel>;
 }
