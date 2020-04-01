@@ -65,6 +65,12 @@ export function asmTests(isMobile: boolean) {
 
     describe('Customer Emulation - My Account', () => {
       it('agent should be able to check order in order history', () => {
+        // hack: visit other page to trigger store -> local storage sync
+        cy.selectUserMenuOption({
+          option: 'Personal Details',
+          isMobile,
+        });
+        cy.waitForOrderToBePlacedRequest();
         checkout.viewOrderHistoryWithCheapProduct();
       });
 
