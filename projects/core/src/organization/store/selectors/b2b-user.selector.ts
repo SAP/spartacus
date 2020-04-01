@@ -16,7 +16,8 @@ import {
 import { EntitiesModel } from '../../../model/misc.model';
 import { B2BUser } from '../../../model/org-unit.model';
 import { B2BSearchConfig } from '../../model/search-config';
-import { Permission, OrgUnitUserGroup } from 'projects/core/src/model';
+import { Permission } from '../../../model/permission.model';
+import { OrgUnitUserGroup } from '../../../model/user-group.model';
 
 export const getB2BUserManagementState: MemoizedSelector<
   StateWithOrganization,
