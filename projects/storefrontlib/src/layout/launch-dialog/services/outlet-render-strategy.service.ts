@@ -45,10 +45,8 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
       );
       this.outletRendererService.render(config.outlet);
 
-      const renderedCaller = vcr?.element
-        ? { caller, element: vcr.element }
-        : { caller };
-      this.renderedCallers.push(renderedCaller);
+      const element = vcr?.element;
+      this.renderedCallers.push({ caller, element });
     }
   }
 

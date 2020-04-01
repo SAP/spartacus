@@ -20,7 +20,7 @@ export class LaunchDialogService {
   }
 
   /**
-   * Render the element based on the strategy from the trigger configuration
+   * Render the element based on the strategy from the launch configuration
    *
    * @param caller LAUNCH_CALLER
    * @param vcr View Container Ref of the container for inline rendering
@@ -62,7 +62,7 @@ export class LaunchDialogService {
   /**
    * Returns the render strategy based on the configuration
    *
-   * @param config Configuration for trigger
+   * @param config Configuration for launch
    */
   protected getStrategy(config: LaunchOptions): LaunchRenderStrategy {
     return this.renderStrategies.find((strategy) => strategy.match(config));

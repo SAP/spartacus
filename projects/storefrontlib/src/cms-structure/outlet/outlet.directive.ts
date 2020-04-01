@@ -67,7 +67,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
     this.renderedTemplate = [];
     this.subscription.unsubscribe();
     this.subscription = new Subscription();
-    this.outletRendererService.registerOutlet(this.cxOutlet, this);
+    this.outletRendererService.register(this.cxOutlet, this);
 
     if (this.cxOutletDefer) {
       this.deferLoading();

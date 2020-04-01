@@ -11,7 +11,7 @@ export abstract class LaunchRenderStrategy {
   /**
    * Render method to implement based on the strategy
    *
-   * @param config Trigger configuration
+   * @param config Launch configuration
    */
   abstract render(
     config: LaunchOptions,

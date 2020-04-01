@@ -13,7 +13,7 @@ export class OutletRendererService {
     }
   }
 
-  registerOutlet(cxOutlet: string, context: OutletDirective): void {
+  register(cxOutlet: string, context: OutletDirective): void {
     this.outletRefs.set(cxOutlet, context);
   }
 }

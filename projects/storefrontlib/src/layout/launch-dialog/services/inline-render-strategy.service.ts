@@ -32,8 +32,14 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
       );
       vcr.createComponent(template);
       this.renderedCallers.push({ caller, element: vcr.element });
-    } else if (!vcr && isDevMode()) {
-      console.warn(`No view container ref provided for ${caller}`);
+    } else if (isDevMode()) {
+      if (!vcr) {
+        console.warn(`No view container ref provided for ${caller}`);
+      } else {
+        console.warn(
+          `Element for ${caller} already rendered. To allow multi rendering add property multi: true.`
+        );
+      }
     }
   }
 

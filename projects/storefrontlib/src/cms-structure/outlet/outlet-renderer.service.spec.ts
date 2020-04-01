@@ -29,8 +29,8 @@ describe('OutletRendererService', () => {
     spyOn(mockDirective, 'render');
     spyOn(mockDirective2, 'render');
 
-    outletRendererService.registerOutlet(outlet, mockDirective);
-    outletRendererService.registerOutlet('not-outlet', mockDirective2);
+    outletRendererService.register(outlet, mockDirective);
+    outletRendererService.register('not-outlet', mockDirective2);
 
     outletRendererService.render(outlet);
     expect(mockDirective.render).toHaveBeenCalled();
@@ -39,7 +39,7 @@ describe('OutletRendererService', () => {
 
   it('should register outlet', () => {
     const mockDirective = new MockOutletDirective() as OutletDirective;
-    outletRendererService.registerOutlet(outlet, mockDirective);
+    outletRendererService.register(outlet, mockDirective);
 
     expect(outletRendererService['outletRefs'].get(outlet)).toEqual(
       mockDirective

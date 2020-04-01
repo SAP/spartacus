@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config, provideConfig } from '@spartacus/core';
-import { DEFAULT_LAUNCH_CONFIG } from './config/default-trigger-config';
+import { DEFAULT_LAUNCH_CONFIG } from './config/default-launch-config';
 import { LaunchConfig } from './config/launch-config';
 import {
   InlineRenderStrategy,

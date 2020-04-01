@@ -3,7 +3,6 @@ export * from './breakpoint/breakpoint.service';
 export * from './config/layout-config';
 export * from './header/index';
 export * from './launch-dialog/index';
-export * from './launch-dialog/launch-dialog.module';
 export * from './layout.module';
 export * from './loading/index';
 export * from './main/main.module';

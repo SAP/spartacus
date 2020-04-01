@@ -10,9 +10,6 @@ export class RoutingRenderStrategy extends LaunchRenderStrategy {
   }
   /**
    * Navigates to the route configured for the caller
-   *
-   * @param config
-   * @param _caller
    */
   render(config: LaunchRoute, _caller: LAUNCH_CALLER) {
     this.routingService.go(config);
