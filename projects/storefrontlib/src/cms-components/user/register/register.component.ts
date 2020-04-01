@@ -3,36 +3,32 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
+  Validators
 } from '@angular/forms';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
-  ANONYMOUS_CONSENTS_FEATURE,
-  AuthRedirectService,
-  AuthService,
   ConsentTemplate,
-  FeatureConfigService,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
   Title,
   UserService,
-  UserSignUp,
+  UserSignUp
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import {
   sortTitles,
   CustomFormValidators,
-  FormErrorsService,
+  FormErrorsService
 } from '../../../shared/index';
 
 @Component({
   selector: 'cx-register',
-  templateUrl: './register.component.html',
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
@@ -44,14 +40,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     template: string;
   }>;
 
-  // TODO(issue:4237) Register flow
-  isNewRegisterFlowEnabled: boolean =
-    this.featureConfig && this.featureConfig.isLevel('1.1');
-
-  isAnonymousConsentEnabled =
-    this.featureConfig &&
-    this.featureConfig.isEnabled(ANONYMOUS_CONSENTS_FEATURE);
-
   registerForm: FormGroup = this.fb.group(
     {
       titleCode: [''],
@@ -60,74 +48,31 @@ export class RegisterComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       password: [
         '',
-        [Validators.required, CustomFormValidators.passwordValidator],
+        [Validators.required, CustomFormValidators.passwordValidator]
       ],
       passwordconf: ['', Validators.required],
       newsletter: new FormControl({
         value: false,
-        disabled: this.isAnonymousConsentEnabled
-          ? this.isConsentRequired()
-          : false,
+        disabled: this.isConsentRequired()
       }),
-      termsandconditions: [false, Validators.requiredTrue],
+      termsandconditions: [false, Validators.requiredTrue]
     },
     {
       validators: CustomFormValidators.passwordsMustMatch(
         'password',
         'passwordconf'
-      ),
+      )
     }
   );
 
   constructor(
-    auth: AuthService,
-    authRedirectService: AuthRedirectService,
-    userService: UserService,
-    globalMessageService: GlobalMessageService,
-    fb: FormBuilder,
-    // tslint:disable-next-line:unified-signatures
-    router: RoutingService,
-    featureConfig: FeatureConfigService,
-    anonymousConsentsService: AnonymousConsentsService,
-    anonymousConsentsConfig: AnonymousConsentsConfig,
-    formErrorsService: FormErrorsService
-  );
-
-  /**
-   * @deprecated since 1.1.0
-   *
-   * Use constructor(
-   * protected auth: AuthService,
-   * protected authRedirectService: AuthRedirectService,
-   * protected userService: UserService,
-   * protected globalMessageService: GlobalMessageService,
-   * protected fb: FormBuilder,
-   * protected router?: RoutingService,
-   * protected featureConfig?: FeatureConfigService,
-   * protected anonymousConsentsService?: AnonymousConsentsService,
-   * protected anonymousConsentsConfig?: AnonymousConsentsConfig) instead
-   *
-   * TODO(issue:4237) Register flow
-   * TODO(issue:4989) Anonymous consents
-   */
-  constructor(
-    auth: AuthService,
-    authRedirectService: AuthRedirectService,
-    userService: UserService,
-    globalMessageService: GlobalMessageService,
-    fb: FormBuilder
-  );
-  constructor(
-    protected auth: AuthService,
-    protected authRedirectService: AuthRedirectService,
     protected userService: UserService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
-    protected router?: RoutingService,
-    protected featureConfig?: FeatureConfigService,
-    protected anonymousConsentsService?: AnonymousConsentsService,
-    protected anonymousConsentsConfig?: AnonymousConsentsConfig,
-    protected formErrorsService?: FormErrorsService
+    protected router: RoutingService,
+    protected anonymousConsentsService: AnonymousConsentsService,
+    protected anonymousConsentsConfig: AnonymousConsentsConfig,
+    protected formErrorsService: FormErrorsService
   ) {}
 
   ngOnInit() {
@@ -142,36 +87,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
       })
     );
 
-    // TODO(issue:4237) Register flow
-    if (this.isNewRegisterFlowEnabled) {
-      this.loading$ = this.userService.getRegisterUserResultLoading();
-      this.registerUserProcessInit();
-    } else {
-      if (this.auth && this.authRedirectService) {
-        this.subscription.add(
-          this.userService
-            .getRegisterUserResultSuccess()
-            .subscribe((success: boolean) => {
-              if (success) {
-                const { uid, password } = this.collectDataFromRegisterForm(
-                  this.registerForm.value
-                );
-                this.auth.authorize(uid, password);
-              }
-            })
-        );
-        this.subscription.add(
-          this.auth.getUserToken().subscribe(data => {
-            if (data && data.access_token) {
-              this.globalMessageService.remove(
-                GlobalMessageType.MSG_TYPE_ERROR
-              );
-              this.authRedirectService.redirect();
-            }
-          })
-        );
-      }
-    }
+    this.loading$ = this.userService.getRegisterUserResultLoading();
+    this.registerUserProcessInit();
 
     // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
     this.subscription.add(
@@ -196,34 +113,25 @@ export class RegisterComponent implements OnInit, OnDestroy {
         })
     );
 
-    if (
-      this.isAnonymousConsentEnabled &&
-      Boolean(this.anonymousConsentsConfig) &&
-      Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
-      Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent)
-    ) {
-      this.anonymousConsent$ = combineLatest([
-        this.anonymousConsentsService.getConsent(
-          this.anonymousConsentsConfig.anonymousConsents.registerConsent
-        ),
-        this.anonymousConsentsService.getTemplate(
-          this.anonymousConsentsConfig.anonymousConsents.registerConsent
-        ),
-      ]).pipe(
-        map(([consent, template]: [AnonymousConsent, ConsentTemplate]) => {
-          return {
-            consent,
-            template: template ? template.description : '',
-          };
-        })
-      );
+    const { registerConsent } = this.anonymousConsentsConfig?.anonymousConsents;
 
-      this.subscription.add(
-        this.registerForm.get('newsletter').valueChanges.subscribe(_ => {
-          this.toggleAnonymousConsent();
-        })
-      );
-    }
+    this.anonymousConsent$ = combineLatest([
+      this.anonymousConsentsService.getConsent(registerConsent),
+      this.anonymousConsentsService.getTemplate(registerConsent)
+    ]).pipe(
+      map(([consent, template]: [AnonymousConsent, ConsentTemplate]) => {
+        return {
+          consent,
+          template: template ? template.description : ''
+        };
+      })
+    );
+
+    this.subscription.add(
+      this.registerForm.get('newsletter').valueChanges.subscribe(() => {
+        this.toggleAnonymousConsent();
+      })
+    );
   }
 
   submitForm(): void {
@@ -253,7 +161,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       lastName,
       uid: email.toLowerCase(),
       password,
-      titleCode,
+      titleCode
     };
   }
 
@@ -262,21 +170,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   private isConsentRequired(): boolean {
-    if (
-      Boolean(this.anonymousConsentsService) &&
-      Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
-      Boolean(this.anonymousConsentsConfig.anonymousConsents.registerConsent) &&
-      Boolean(this.anonymousConsentsConfig.anonymousConsents.requiredConsents)
-    ) {
-      return this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
-        this.anonymousConsentsConfig.anonymousConsents.registerConsent
-      );
+    const {
+      requiredConsents,
+      registerConsent
+    } = this.anonymousConsentsConfig?.anonymousConsents;
+
+    if (requiredConsents && registerConsent) {
+      return requiredConsents.includes(registerConsent);
     }
+
     return false;
   }
 
   private onRegisterUserSuccess(success: boolean): void {
-    if (this.router && success) {
+    if (success) {
       this.router.go('login');
       this.globalMessageService.add(
         { key: 'register.postRegisterMessage' },
@@ -286,14 +193,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   toggleAnonymousConsent(): void {
+    const { registerConsent } = this.anonymousConsentsConfig.anonymousConsents;
+
     if (Boolean(this.registerForm.get('newsletter').value)) {
-      this.anonymousConsentsService.giveConsent(
-        this.anonymousConsentsConfig.anonymousConsents.registerConsent
-      );
+      this.anonymousConsentsService.giveConsent(registerConsent);
     } else {
-      this.anonymousConsentsService.withdrawConsent(
-        this.anonymousConsentsConfig.anonymousConsents.registerConsent
-      );
+      this.anonymousConsentsService.withdrawConsent(registerConsent);
     }
   }
 

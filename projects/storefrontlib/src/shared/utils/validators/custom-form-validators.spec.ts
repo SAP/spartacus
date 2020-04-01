@@ -97,14 +97,14 @@ describe('FormValidationService', () => {
     ];
 
     validEmails.forEach((validEmail: string) => {
-      it(`should allow email '${validEmail}'`, function() {
+      it(`should allow email '${validEmail}'`, function () {
         email.setValue(validEmail);
         expect(CustomFormValidators.emailValidator(email)).toBeNull();
       });
     });
 
     invalidEmails.forEach((invalidEmail: string) => {
-      it(`should reject email '${invalidEmail}'`, function() {
+      it(`should reject email '${invalidEmail}'`, function () {
         email.setValue(invalidEmail);
         expect(CustomFormValidators.emailValidator(email)).toEqual(emailError);
       });
@@ -125,7 +125,7 @@ describe('FormValidationService', () => {
     });
 
     invalidPasswords.forEach((invalidPassword: string) => {
-      it(`should reject password '${invalidPassword}'`, function() {
+      it(`should reject password '${invalidPassword}'`, function () {
         form.get('password').setValue(invalidPassword);
         expect(
           CustomFormValidators.passwordValidator(form.get('password'))

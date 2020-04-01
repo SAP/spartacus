@@ -32,8 +32,8 @@ export const getActiveCurrency: MemoizedSelector<
 export const getAllCurrencies: MemoizedSelector<
   StateWithSiteContext,
   Currency[]
-> = createSelector(getCurrenciesEntities, entities => {
+> = createSelector(getCurrenciesEntities, (entities) => {
   return entities
-    ? Object.keys(entities).map(isocode => entities[isocode])
+    ? Object.keys(entities).map((isocode) => entities[isocode])
     : null;
 });

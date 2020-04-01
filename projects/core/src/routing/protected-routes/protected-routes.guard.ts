@@ -15,7 +15,7 @@ export class ProtectedRoutesGuard implements CanActivate {
    * When the anticipated url is protected, it switches to the AuthGuard. Otherwise emits true.
    */
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    let urlSegments: string[] = route.url.map(seg => seg.path);
+    let urlSegments: string[] = route.url.map((seg) => seg.path);
 
     // For the root path `/` ActivatedRoute contains an empty array of segments:
     urlSegments = urlSegments.length ? urlSegments : [''];

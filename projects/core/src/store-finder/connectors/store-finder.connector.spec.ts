@@ -46,7 +46,7 @@ describe('StoreFinderConnector', () => {
     let result;
     service
       .search('query', searchConfig, geoPoint)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toBe('adapter.search result');
     expect(adapter.search).toHaveBeenCalledWith(
       'query',
@@ -57,14 +57,14 @@ describe('StoreFinderConnector', () => {
 
   it('get should call adapter', () => {
     let result;
-    service.get('storeId').subscribe(res => (result = res));
+    service.get('storeId').subscribe((res) => (result = res));
     expect(result).toBe('adapter.load result');
     expect(adapter.load).toHaveBeenCalledWith('storeId');
   });
 
   it('getCounts should call adapter', () => {
     let result;
-    service.getCounts().subscribe(res => (result = res));
+    service.getCounts().subscribe((res) => (result = res));
     expect(result).toBe('adapter.loadCounts result');
     expect(adapter.loadCounts).toHaveBeenCalled();
   });

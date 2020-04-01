@@ -14,7 +14,7 @@ import {
   I18nTestingModule,
   UserPaymentService,
   Region,
-  UserAddressService,
+  UserAddressService
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
@@ -24,15 +24,15 @@ import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-spinner',
-  template: '',
+  template: ''
 })
 class MockSpinnerComponent {}
 
 const mockBillingCountries: Country[] = [
   {
     isocode: 'CA',
-    name: 'Canada',
-  },
+    name: 'Canada'
+  }
 ];
 
 const mockBillingCountriesEmpty: Country[] = [];
@@ -45,7 +45,7 @@ const mockBillingAddress: Address = {
   town: 'Montreal',
   postalCode: 'H3A',
   country: { isocode: 'CA' },
-  region: { isocodeShort: 'QC' },
+  region: { isocodeShort: 'QC' }
 };
 
 const mockAddress: Address = {
@@ -57,35 +57,35 @@ const mockAddress: Address = {
   town: 'town',
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
-  country: { isocode: 'JP' },
+  country: { isocode: 'JP' }
 };
 
 const mockCardTypes: CardType[] = [
   {
     code: 'amex',
-    name: 'American Express',
+    name: 'American Express'
   },
   {
     code: 'maestro',
-    name: 'Maestro',
-  },
+    name: 'Maestro'
+  }
 ];
 
 const mockPayment: any = {
   cardType: {
-    code: mockCardTypes[0].code,
+    code: mockCardTypes[0].code
   },
   accountHolderName: 'Test Name',
   cardNumber: '1234123412341234',
   expiryMonth: '02',
   expiryYear: 2022,
   cvn: '123',
-  defaultPayment: false,
+  defaultPayment: false
 };
 
 @Component({
   selector: 'cx-billing-address-form',
-  template: '',
+  template: ''
 })
 class MockBillingAddressFormComponent {
   @Input()
@@ -96,7 +96,7 @@ class MockBillingAddressFormComponent {
 
 @Component({
   selector: 'cx-card',
-  template: '',
+  template: ''
 })
 class MockCardComponent {
   @Input()
@@ -105,7 +105,7 @@ class MockCardComponent {
 
 @Component({
   selector: 'cx-icon',
-  template: '',
+  template: ''
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -149,11 +149,11 @@ class MockGlobalMessageService {
 const mockSuggestedAddressModalRef: any = {
   componentInstance: {
     enteredAddress: '',
-    suggestedAddresses: '',
+    suggestedAddresses: ''
   },
   result: new Promise(resolve => {
     return resolve(true);
-  }),
+  })
 };
 
 class MockModalService {
@@ -170,7 +170,7 @@ class MockUserAddressService {
 
 const mockAddressValidation: AddressValidation = {
   decision: 'test address validation',
-  suggestedAddresses: [{ id: 'address1' }],
+  suggestedAddresses: [{ id: 'address1' }]
 };
 
 describe('PaymentFormComponent', () => {
@@ -204,25 +204,25 @@ describe('PaymentFormComponent', () => {
         MockCardComponent,
         MockBillingAddressFormComponent,
         MockCxIconComponent,
-        MockSpinnerComponent,
+        MockSpinnerComponent
       ],
       providers: [
         { provide: ModalService, useClass: MockModalService },
         {
           provide: CheckoutPaymentService,
-          useValue: mockCheckoutPaymentService,
+          useValue: mockCheckoutPaymentService
         },
         {
           provide: CheckoutDeliveryService,
-          useValue: mockCheckoutDeliveryService,
+          useValue: mockCheckoutDeliveryService
         },
         { provide: UserPaymentService, useValue: mockUserPaymentService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-        { provide: UserAddressService, useValue: mockUserAddressService },
-      ],
+        { provide: UserAddressService, useValue: mockUserAddressService }
+      ]
     })
       .overrideComponent(PaymentFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        set: { changeDetection: ChangeDetectionStrategy.Default }
       })
       .compileComponents();
   }));
@@ -232,7 +232,7 @@ describe('PaymentFormComponent', () => {
     component = fixture.componentInstance;
     controls = {
       payment: component.paymentForm.controls,
-      billingAddress: component.billingAddressForm.controls,
+      billingAddress: component.billingAddressForm.controls
     };
 
     spyOn(component.setPaymentDetails, 'emit').and.callThrough();
@@ -308,7 +308,7 @@ describe('PaymentFormComponent', () => {
 
   it('should clear address verification result with address verification result "fail"', () => {
     const mockAddressVerificationResult: AddressValidation = {
-      decision: 'FAIL',
+      decision: 'FAIL'
     };
     spyOn(
       mockCheckoutDeliveryService,
@@ -334,7 +334,7 @@ describe('PaymentFormComponent', () => {
 
   it('should clear address verification result with address verification result "reject"', () => {
     const mockAddressVerificationResult: AddressValidation = {
-      decision: 'REJECT',
+      decision: 'REJECT'
     };
     spyOn(
       mockCheckoutDeliveryService,
@@ -346,7 +346,7 @@ describe('PaymentFormComponent', () => {
 
   it('should clear address verification result with address verification result "review"', () => {
     const mockAddressVerificationResult: AddressValidation = {
-      decision: 'REVIEW',
+      decision: 'REVIEW'
     };
     spyOn(
       mockCheckoutDeliveryService,
@@ -362,8 +362,8 @@ describe('PaymentFormComponent', () => {
     const testIsocode = 'ABC';
     component.shippingAddress$ = of({
       country: {
-        isocode: testIsocode,
-      },
+        isocode: testIsocode
+      }
     });
     component.countries$ = of([]);
 
@@ -373,8 +373,8 @@ describe('PaymentFormComponent', () => {
 
     component.countries$ = of([
       {
-        isocode: testIsocode,
-      },
+        isocode: testIsocode
+      }
     ]);
 
     component.showSameAsShippingAddressCheckbox().subscribe(data => {
@@ -399,7 +399,7 @@ describe('PaymentFormComponent', () => {
     component.next();
     expect(component.setPaymentDetails.emit).toHaveBeenCalledWith({
       paymentDetails: component.paymentForm.value,
-      billingAddress: null,
+      billingAddress: null
     });
   });
 
@@ -433,7 +433,7 @@ describe('PaymentFormComponent', () => {
       'line2',
       'town, JP-27, JP',
       'zip',
-      undefined,
+      undefined
     ]);
   });
 

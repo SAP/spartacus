@@ -43,7 +43,7 @@ class OccEndpointsServiceMock {
 }
 
 class MockComverterService {
-  pipeable = createSpy().and.returnValue(x => x);
+  pipeable = createSpy().and.returnValue((x) => x);
 }
 
 const context: PageContext = {
@@ -90,11 +90,11 @@ describe('OccCmsPageAdapter', () => {
           `/pages?fields=DEFAULT&pageType=${context.type}&pageLabelOrId=${context.id}`
       );
 
-      service.load(context).subscribe(result => {
+      service.load(context).subscribe((result) => {
         expect(result).toEqual(cmsPageData);
       });
 
-      const testRequest = httpMock.expectOne(req => {
+      const testRequest = httpMock.expectOne((req) => {
         return (
           req.method === 'GET' &&
           req.url ===
@@ -119,11 +119,11 @@ describe('OccCmsPageAdapter', () => {
           `/pages?fields=BASIC&pageType=${context.type}&pageLabelOrId=${context.id}`
       );
 
-      service.load(context, 'BASIC').subscribe(result => {
+      service.load(context, 'BASIC').subscribe((result) => {
         expect(result).toEqual(cmsPageData);
       });
 
-      const testRequest = httpMock.expectOne(req => {
+      const testRequest = httpMock.expectOne((req) => {
         return (
           req.method === 'GET' &&
           req.url ===
@@ -147,11 +147,11 @@ describe('OccCmsPageAdapter', () => {
         endpoint +
           `/pages?fields=DEFAULT&pageType=${context1.type}&code=${context1.id}`
       );
-      service.load(context1).subscribe(result => {
+      service.load(context1).subscribe((result) => {
         expect(result).toEqual(cmsPageData);
       });
 
-      const testRequest = httpMock.expectOne(req => {
+      const testRequest = httpMock.expectOne((req) => {
         return (
           req.method === 'GET' &&
           req.url ===
@@ -177,11 +177,11 @@ describe('OccCmsPageAdapter', () => {
       spyOn(endpointsService, 'getUrl').and.returnValue(
         endpoint + `/pages/${contextWithoutType.id}?fields=DEFAULT`
       );
-      service.load(contextWithoutType).subscribe(result => {
+      service.load(contextWithoutType).subscribe((result) => {
         expect(result).toEqual(cmsPageData);
       });
 
-      const testRequest = httpMock.expectOne(req => {
+      const testRequest = httpMock.expectOne((req) => {
         return (
           req.method === 'GET' &&
           req.url === endpoint + '/pages/123?fields=DEFAULT'
@@ -200,7 +200,7 @@ describe('OccCmsPageAdapter', () => {
       service.load(context).subscribe();
 
       httpMock
-        .expectOne(req => req.url === endpoint + '/pages')
+        .expectOne((req) => req.url === endpoint + '/pages')
         .flush(cmsPageData);
 
       expect(converter.pipeable).toHaveBeenCalledWith(CMS_PAGE_NORMALIZER);

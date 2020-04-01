@@ -6,7 +6,7 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
-  WindowRef,
+  WindowRef
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CheckoutConfigService } from '../../checkout/services/checkout-config.service';
@@ -14,7 +14,7 @@ import { CustomFormValidators, FormErrorsService } from '../../../shared/index';
 
 @Component({
   selector: 'cx-login-form',
-  templateUrl: './login-form.component.html',
+  templateUrl: './login-form.component.html'
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
   sub: Subscription;
@@ -22,13 +22,13 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   loginAsGuest = false;
 
   constructor(
-    private auth: AuthService,
-    private globalMessageService: GlobalMessageService,
-    private fb: FormBuilder,
-    private authRedirectService: AuthRedirectService,
-    private winRef: WindowRef,
-    private activatedRoute: ActivatedRoute,
-    private checkoutConfigService: CheckoutConfigService,
+    protected auth: AuthService,
+    protected globalMessageService: GlobalMessageService,
+    protected fb: FormBuilder,
+    protected authRedirectService: AuthRedirectService,
+    protected winRef: WindowRef,
+    protected activatedRoute: ActivatedRoute,
+    protected checkoutConfigService: CheckoutConfigService,
     protected formErrorsService: FormErrorsService
   ) {}
 
@@ -39,16 +39,15 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     this.loginForm = this.fb.group({
       userId: [
         prefilledEmail?.length ? prefilledEmail : '',
-        [Validators.required, CustomFormValidators.emailValidator],
+        [Validators.required, CustomFormValidators.emailValidator]
       ],
-      password: ['', Validators.required],
+      password: ['', Validators.required]
     });
 
-    if (
-      this.checkoutConfigService &&
-      this.checkoutConfigService.isGuestCheckout()
-    ) {
-      this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
+    if (this.checkoutConfigService.isGuestCheckout()) {
+      this.loginAsGuest = this.activatedRoute?.snapshot?.queryParams?.[
+        'forced'
+      ];
     }
   }
 

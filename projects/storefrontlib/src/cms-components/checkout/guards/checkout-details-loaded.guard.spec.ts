@@ -28,13 +28,13 @@ describe(`CheckoutDetailsLoadedGuard`, () => {
   });
 
   describe('when checkout details not loaded', () => {
-    it('should return false', done => {
+    it('should return false', (done) => {
       spyOnProperty(
         mockCheckoutDetailsService,
         'getCheckoutDetailsLoaded$'
       ).and.returnValue(of(false));
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result).toBeFalsy();
         done();
       });
@@ -42,13 +42,13 @@ describe(`CheckoutDetailsLoadedGuard`, () => {
   });
 
   describe(`when checkout details not loaded`, () => {
-    it(`should return true`, done => {
+    it(`should return true`, (done) => {
       spyOnProperty(
         mockCheckoutDetailsService,
         'getCheckoutDetailsLoaded$'
       ).and.returnValue(of(true));
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result).toBeTruthy();
         done();
       });

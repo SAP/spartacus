@@ -23,7 +23,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return this.authService.getUserToken().pipe(
       take(1),
-      switchMap(token => {
+      switchMap((token) => {
         if (
           token &&
           this.isOccUrl(request.url) &&

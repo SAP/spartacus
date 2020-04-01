@@ -86,8 +86,8 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     //TODO(issue:#5971) Deprecated since 1.5
 
     this.cartIsLoading$ = this.activeCartService
-      .getLoaded()
-      .pipe(map(loaded => !loaded));
+      .isStable()
+      .pipe(map((loaded) => !loaded));
 
     this.cartVoucherService.resetAddVoucherProcessingState();
 
@@ -98,13 +98,13 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.cartVoucherService
         .getAddVoucherResultSuccess()
-        .subscribe(success => {
+        .subscribe((success) => {
           this.onSuccess(success);
         })
     );
 
     this.subscription.add(
-      this.cartVoucherService.getAddVoucherResultError().subscribe(error => {
+      this.cartVoucherService.getAddVoucherResultError().subscribe((error) => {
         this.onError(error);
       })
     );
@@ -132,9 +132,9 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   ): void {
     this.applicableCoupons = coupons || [];
     if (cart.appliedVouchers) {
-      cart.appliedVouchers.forEach(appliedVoucher => {
+      cart.appliedVouchers.forEach((appliedVoucher) => {
         this.applicableCoupons = this.applicableCoupons.filter(
-          coupon => coupon.couponId !== appliedVoucher.code
+          (coupon) => coupon.couponId !== appliedVoucher.code
         );
       });
     }

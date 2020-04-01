@@ -43,7 +43,7 @@
         {{ 'voucher.availableCouponsLabel' | cxTranslate }}
       </div>
       <div class="scroll">
-        <div class="coupons card " *ngFor="let coupon of applicableCoupons">
+        <div class="coupons card" *ngFor="let coupon of applicableCoupons">
           <button
             (click)="applyCustomerCoupon(coupon.couponId)"
             class="coupon-id link"

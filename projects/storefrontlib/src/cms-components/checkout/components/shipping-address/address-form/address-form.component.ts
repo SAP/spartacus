@@ -5,7 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output,
+  Output
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -18,13 +18,13 @@ import {
   Region,
   Title,
   UserAddressService,
-  UserService,
+  UserService
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import {
   ModalRef,
-  ModalService,
+  ModalService
 } from '../../../../../shared/components/modal/index';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { sortTitles } from '../../../../../shared/utils/forms/title-utils';
@@ -32,7 +32,7 @@ import { sortTitles } from '../../../../../shared/utils/forms/title-utils';
 @Component({
   selector: 'cx-address-form',
   templateUrl: './address-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<Country[]>;
@@ -70,7 +70,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   addressForm: FormGroup = this.fb.group({
     country: this.fb.group({
-      isocode: [null, Validators.required],
+      isocode: [null, Validators.required]
     }),
     titleCode: [''],
     firstName: ['', Validators.required],
@@ -79,11 +79,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     line2: [''],
     town: ['', Validators.required],
     region: this.fb.group({
-      isocode: [null, Validators.required],
+      isocode: [null, Validators.required]
     }),
     postalCode: ['', Validators.required],
     phone: '',
-    defaultAddress: [false],
+    defaultAddress: [false]
   });
 
   constructor(
@@ -208,7 +208,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
               this.addressForm.controls['region'].value.isocode
           );
           Object.assign(this.addressForm.value.region, {
-            isocodeShort: obj.isocodeShort,
+            isocodeShort: obj.isocodeShort
           });
         });
       }
@@ -242,7 +242,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
               {
                 titleCode: this.addressForm.value.titleCode,
                 phone: this.addressForm.value.phone,
-                selected: true,
+                selected: true
               },
               address
             );
@@ -255,7 +255,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           this.checkoutDeliveryService.clearAddressVerificationResults();
           const address = Object.assign(
             {
-              selected: true,
+              selected: true
             },
             this.addressForm.value
           );

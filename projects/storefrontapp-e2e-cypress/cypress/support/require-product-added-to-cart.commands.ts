@@ -18,7 +18,7 @@ declare global {
   }
 }
 
-Cypress.Commands.add('requireProductAddedToCart', auth => {
+Cypress.Commands.add('requireProductAddedToCart', (auth) => {
   const apiUrl = Cypress.env('API_URL');
   function createCart() {
     return cy.request({
@@ -51,8 +51,8 @@ Cypress.Commands.add('requireProductAddedToCart', auth => {
 
   cy.server();
 
-  createCart().then(cart => {
-    addToCart(cart.body.code, product).then(resp => {
+  createCart().then((cart) => {
+    addToCart(cart.body.code, product).then((resp) => {
       resp.body.cartId = cart.body.code; // need this in the response for later use
       cy.wrap(resp.body);
     });

@@ -11,11 +11,11 @@ sass.render(
     outFile,
     importer,
   },
-  function(error, result) {
+  function (error, result) {
     if (error) {
       throw error;
     } else {
-      fs.writeFile(outFile, result.css, function() {});
+      fs.writeFile(outFile, result.css, function () {});
     }
   }
 );

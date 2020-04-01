@@ -44,7 +44,7 @@ export class AuthService {
    */
   getOccUserId(): Observable<string> {
     return this.getUserToken().pipe(
-      map(userToken => {
+      map((userToken) => {
         if (!!userToken && !!userToken.userId) {
           return userToken.userId;
         } else {
@@ -86,7 +86,7 @@ export class AuthService {
   logout(): void {
     this.getUserToken()
       .pipe(take(1))
-      .subscribe(userToken => {
+      .subscribe((userToken) => {
         this.store.dispatch(new AuthActions.Logout());
         if (Boolean(userToken) && userToken.userId === OCC_USER_ID_CURRENT) {
           this.store.dispatch(new AuthActions.RevokeUserToken(userToken));
@@ -140,7 +140,7 @@ export class AuthService {
    */
   isUserLoggedIn(): Observable<boolean> {
     return this.getUserToken().pipe(
-      map(userToken => Boolean(userToken) && Boolean(userToken.access_token))
+      map((userToken) => Boolean(userToken) && Boolean(userToken.access_token))
     );
   }
 }

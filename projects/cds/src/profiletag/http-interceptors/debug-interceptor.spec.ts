@@ -47,10 +47,10 @@ describe('Debug interceptor', () => {
             testHeader: 'test',
           },
         })
-        .subscribe(res => (response = res));
+        .subscribe((res) => (response = res));
       mock
         .expectOne(
-          req =>
+          (req) =>
             req.headers.has('testHeader') &&
             req.headers.has('X-Profile-Tag-Debug') &&
             req.headers.get('X-Profile-Tag-Debug') === 'false'
@@ -73,10 +73,10 @@ describe('Debug interceptor', () => {
             testHeader: 'test',
           },
         })
-        .subscribe(res => (response = res));
+        .subscribe((res) => (response = res));
       mock
         .expectOne(
-          req =>
+          (req) =>
             req.headers.has('testHeader') &&
             req.headers.has('X-Profile-Tag-Debug') &&
             req.headers.get('X-Profile-Tag-Debug') === 'true'
@@ -99,10 +99,10 @@ describe('Debug interceptor', () => {
             testHeader: 'test',
           },
         })
-        .subscribe(res => (response = res));
+        .subscribe((res) => (response = res));
       mock
         .expectOne(
-          req =>
+          (req) =>
             req.headers.has('testHeader') &&
             !req.headers.has('X-Profile-Tag-Debug')
         )

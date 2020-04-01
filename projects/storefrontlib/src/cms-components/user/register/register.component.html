@@ -126,35 +126,18 @@
 
           <div class="form-group">
             <div class="form-check">
-              <ng-container
-                *ngIf="isAnonymousConsentEnabled; else hardcodedNewsletter"
-              >
-                <label *ngIf="anonymousConsent$ | async as anonymousConsent">
-                  <input
-                    type="checkbox"
-                    name="newsletter"
-                    class="form-check-input"
-                    formControlName="newsletter"
-                    [checked]="isConsentGiven(anonymousConsent.consent)"
-                  />
-                  <span class="form-check-label">
-                    {{ anonymousConsent.template }}
-                  </span>
-                </label>
-              </ng-container>
-              <ng-template #hardcodedNewsletter
-                ><label>
-                  <input
-                    type="checkbox"
-                    name="newsletter"
-                    class="form-check-input"
-                    formControlName="newsletter"
-                  />
-                  <span class="form-check-label">
-                    {{ 'register.emailMarketing' | cxTranslate }}
-                  </span>
-                </label>
-              </ng-template>
+              <label *ngIf="anonymousConsent$ | async as anonymousConsent">
+                <input
+                  type="checkbox"
+                  name="newsletter"
+                  class="form-check-input"
+                  formControlName="newsletter"
+                  [checked]="isConsentGiven(anonymousConsent.consent)"
+                />
+                <span class="form-check-label">
+                  {{ anonymousConsent.template }}
+                </span>
+              </label>
             </div>
           </div>
 

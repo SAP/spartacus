@@ -9,7 +9,19 @@
   }
 
   cx-media.is-missing {
-    min-width: 96px;
+    min-width: 100%;
+
+    &[format='thumbnail'] {
+      @include media-breakpoint-up(xl) {
+        background-size: 90%;
+      }
+      @include media-breakpoint-down(md) {
+        background-size: 120px;
+      }
+      @include media-breakpoint-down(xs) {
+        background-size: 96px;
+      }
+    }
   }
 
   .cx-name {
@@ -17,6 +29,10 @@
     overflow-wrap: break-word;
     padding: 0;
     min-width: 17rem;
+
+    @include media-breakpoint-up(xl) {
+      min-width: 15rem;
+    }
 
     .cx-link {
       color: var(--cx-color-text);
@@ -59,6 +75,10 @@
     @include media-breakpoint-down(sm) {
       @include type('7');
     }
+
+    @include media-breakpoint-only(lg) {
+      padding-left: 1em;
+    }
   }
 
   .cx-price {
@@ -72,6 +92,10 @@
       justify-content: flex-start;
     }
 
+    @include media-breakpoint-only(xl) {
+      padding-left: 0px;
+    }
+
     .cx-old {
       text-decoration: line-through;
       color: var(--cx-color-secondary);
@@ -81,6 +105,10 @@
     .cx-new {
       color: var(--cx-color-primary);
     }
+  }
+
+  .cx-image-container {
+    padding: 0;
   }
 
   .cx-quantity {
@@ -97,6 +125,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-bottom: 0;
 
     @include media-breakpoint-down(sm) {
       justify-content: flex-start;
@@ -133,6 +162,7 @@
       color: var(--cx-color-text);
       border-width: 0;
       text-decoration: none;
+      background-color: transparent;
 
       &:hover {
         text-decoration: underline;
@@ -154,6 +184,13 @@
       display: flex;
       flex-direction: column;
       margin: 0;
+    }
+
+    .cx-price,
+    .cx-quantity {
+      @include media-breakpoint-down(sm) {
+        padding-bottom: 10px;
+      }
     }
 
     .cx-price,
