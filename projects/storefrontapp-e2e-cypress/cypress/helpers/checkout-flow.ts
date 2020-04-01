@@ -355,7 +355,6 @@ export function verifyOrderConfirmationPageWithCheapProduct() {
 }
 
 export function viewOrderHistoryWithCheapProduct() {
-  cy.wait(Cypress.env('ORDER_HISTORY_WAIT_TIME'));
   const orderHistoryPage = waitForPage(
     '/my-account/orders',
     'getOrderHistoryPage'
