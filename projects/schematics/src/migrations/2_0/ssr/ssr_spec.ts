@@ -3,6 +3,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import { runMigration } from '../../../shared/utils/test-utils';
+import { UTF_8 } from '../../../shared/constants';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-ssr-07';
 
@@ -148,7 +149,7 @@ describe('ssr', () => {
       }
 
       const { scripts, dependencies, devDependencies } = JSON.parse(
-        buffer.toString()
+        buffer.toString(UTF_8)
       );
       expect(scripts['build:client-and-server-bundles']).toBeUndefined();
       expect(scripts['compile:server']).toBeUndefined();
@@ -201,7 +202,7 @@ describe('ssr', () => {
       if (!buffer) {
         return false;
       }
-      const { projects } = JSON.parse(buffer.toString());
+      const { projects } = JSON.parse(buffer.toString(UTF_8));
       expect(
         projects[appOptions.name].architect.build.options.outputPath
       ).toEqual(`dist/${appOptions.name}/browser`);
