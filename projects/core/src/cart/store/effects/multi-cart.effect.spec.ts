@@ -8,7 +8,6 @@ import { Cart } from '../../../model/cart.model';
 import * as fromCartReducers from '../../store/reducers/index';
 import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
-import { CART_FEATURE } from '../cart-state';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './multi-cart.effect';
 
@@ -37,7 +36,6 @@ describe('Multi Cart effect', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CART_FEATURE, fromCartReducers.getReducers()),
         StoreModule.forFeature(
           MULTI_CART_FEATURE,
           fromCartReducers.getMultiCartReducers()
@@ -68,24 +66,6 @@ describe('Multi Cart effect', () => {
         b: loadMultiCartCompletion,
       });
       expect(cartEffects.loadCart2$).toBeObservable(expected);
-    });
-  });
-
-  describe('createCart2$', () => {
-    it('should dispatch create multi cart action', () => {
-      const action = new DeprecatedCartActions.CreateCart({
-        userId,
-        cartId,
-      });
-      const createMultiCartCompletion = new CartActions.CreateMultiCart({
-        userId,
-        cartId,
-      });
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: createMultiCartCompletion,
-      });
-      expect(cartEffects.createCart2$).toBeObservable(expected);
     });
   });
 
@@ -155,9 +135,6 @@ describe('Multi Cart effect', () => {
         userId: 'userId',
         cartId: 'cartId',
       };
-      const action1 = new CartActions.CartAddEntry(payload);
-      const action2 = new CartActions.CartUpdateEntry(payload);
-      const action3 = new CartActions.CartRemoveEntry(payload);
       const action4 = new DeprecatedCartActions.AddEmailToCart({
         ...payload,
         email: 'email',
@@ -167,31 +144,19 @@ describe('Multi Cart effect', () => {
         ...payload,
         voucherId: 'voucherId',
       });
-      const action7 = new CartActions.CartRemoveVoucher({
-        ...payload,
-        voucherId: 'voucherId',
-      });
 
       const processesIncrementCompletion = new CartActions.CartProcessesIncrement(
         payload.cartId
       );
-      actions$ = hot('-a-b-c-d-e-f-g', {
-        a: action1,
-        b: action2,
-        c: action3,
+      actions$ = hot('-d-e-f', {
         d: action4,
         e: action5,
         f: action6,
-        g: action7,
       });
-      const expected = cold('-1-2-3-4-5-6-7', {
-        1: processesIncrementCompletion,
-        2: processesIncrementCompletion,
-        3: processesIncrementCompletion,
+      const expected = cold('-4-5-6', {
         4: processesIncrementCompletion,
         5: processesIncrementCompletion,
         6: processesIncrementCompletion,
-        7: processesIncrementCompletion,
       });
       expect(cartEffects.processesIncrement$).toBeObservable(expected);
     });

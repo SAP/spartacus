@@ -7,11 +7,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { CartService, OrderEntry, Product } from '@spartacus/core';
+import { ActiveCartService, OrderEntry, Product } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { ModalService } from '../../../shared/components/modal/modal.service';
 import { ModalRef } from '../../../shared/components/modal/modal-ref';
+import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
@@ -45,27 +45,20 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    cartService: CartService,
-    modalService: ModalService,
-    currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef
-  );
-
-  constructor(
-    protected cartService: CartService,
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    protected activeCartService: ActiveCartService
   ) {}
 
   ngOnInit() {
     if (this.product) {
       this.productCode = this.product.code;
-      this.cartEntry$ = this.cartService.getEntry(this.productCode);
+      this.cartEntry$ = this.activeCartService.getEntry(this.productCode);
       this.setStockInfo(this.product);
       this.cd.markForCheck();
     } else if (this.productCode) {
-      this.cartEntry$ = this.cartService.getEntry(this.productCode);
+      this.cartEntry$ = this.activeCartService.getEntry(this.productCode);
       // force hasStock and quantity for the time being, as we do not have more info:
       this.quantity = 1;
       this.hasStock = true;
@@ -77,7 +70,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
         .subscribe((product: Product) => {
           this.productCode = product.code;
           this.setStockInfo(product);
-          this.cartEntry$ = this.cartService.getEntry(this.productCode);
+          this.cartEntry$ = this.activeCartService.getEntry(this.productCode);
           this.cd.markForCheck();
         });
     }
@@ -103,14 +96,14 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     }
     // check item is already present in the cart
     // so modal will have proper header text displayed
-    this.cartService
+    this.activeCartService
       .getEntry(this.productCode)
       .subscribe(entry => {
         if (entry) {
           this.increment = true;
         }
         this.openModal();
-        this.cartService.addEntry(this.productCode, quantity);
+        this.activeCartService.addEntry(this.productCode, quantity);
         this.increment = false;
       })
       .unsubscribe();
@@ -125,8 +118,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
     modalInstance = this.modalRef.componentInstance;
     modalInstance.entry$ = this.cartEntry$;
-    modalInstance.cart$ = this.cartService.getActive();
-    modalInstance.loaded$ = this.cartService.getLoaded();
+    modalInstance.cart$ = this.activeCartService.getActive();
+    modalInstance.loaded$ = this.activeCartService.isStable();
     modalInstance.quantity = this.quantity;
     modalInstance.increment = this.increment;
   }

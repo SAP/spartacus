@@ -8,13 +8,6 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.connector';
 import { CartActions } from '../actions/index';
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx effects will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 @Injectable()
 export class CartVoucherEffects {
   constructor(
@@ -46,25 +39,33 @@ export class CartVoucherEffects {
               cartId: payload.cartId,
             });
           }),
-          catchError(error =>
-            from([
+          catchError(error => {
+            if (error?.error?.errors) {
+              error.error.errors.forEach(err => {
+                if (err.message) {
+                  this.messageService.add(
+                    err.message,
+                    GlobalMessageType.MSG_TYPE_ERROR
+                  );
+                }
+              });
+            }
+            return from([
               new CartActions.CartAddVoucherFail(makeErrorSerializable(error)),
               new CartActions.CartProcessesDecrement(payload.cartId),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
-            ])
-          )
+            ]);
+          })
         );
     })
   );
 
   @Effect()
   removeCartVoucher$: Observable<
-    | CartActions.CartVoucherAction
-    | CartActions.CartProcessesDecrement
-    | CartActions.LoadCart
+    CartActions.CartVoucherAction | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_VOUCHER),
     map((action: CartActions.CartRemoveVoucher) => action.payload),
@@ -81,14 +82,17 @@ export class CartVoucherEffects {
             return new CartActions.CartRemoveVoucherSuccess({
               userId: payload.userId,
               cartId: payload.cartId,
+              voucherId: payload.voucherId,
             });
           }),
           catchError(error =>
             from([
-              new CartActions.CartRemoveVoucherFail(
-                makeErrorSerializable(error)
-              ),
-              new CartActions.CartProcessesDecrement(payload.cartId),
+              new CartActions.CartRemoveVoucherFail({
+                error: makeErrorSerializable(error),
+                cartId: payload.cartId,
+                userId: payload.userId,
+                voucherId: payload.voucherId,
+              }),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
