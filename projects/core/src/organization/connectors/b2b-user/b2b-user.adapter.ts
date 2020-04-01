@@ -47,7 +47,7 @@ export abstract class B2BUserAdapter {
     approverId: string
   ): Observable<any>;
 
-  abstract loadPermission(
+  abstract loadPermissions(
     userId: string,
     orgCustomerId: string,
     params?: B2BSearchConfig
