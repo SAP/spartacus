@@ -346,11 +346,8 @@ export class OrgUnitEffects {
     map((action: OrgUnitActions.LoadAddresses) => action.payload),
     switchMap(({ userId, orgUnitId }) => {
       return this.orgUnitConnector.getAddresses(userId, orgUnitId).pipe(
-        switchMap((addresses: B2BAddress[]) => {
-          const { values, page } = normalizeListPage(
-            { values: addresses },
-            'id'
-          );
+        switchMap((addresses: EntitiesModel<B2BAddress>) => {
+          const { values, page } = normalizeListPage(addresses, 'id');
           return [
             new OrgUnitActions.LoadAddressSuccess(values),
             new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),

@@ -6,7 +6,7 @@ import { B2BAddress } from '../../../../model/org-unit.model';
 @Injectable()
 export class OccOrgUnitAddressNormalizer
   implements Converter<Occ.B2BAddress, B2BAddress> {
-  convert(source: Occ.B2BUnitNode, target?: B2BAddress): B2BAddress {
+  convert(source: Occ.B2BAddress, target?: B2BAddress): B2BAddress {
     if (target === undefined) {
       target = { ...(source as any) };
     }

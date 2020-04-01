@@ -6,6 +6,7 @@ import {
   B2BUnitNode,
   B2BAddress,
 } from '../../../model/org-unit.model';
+import { EntitiesModel } from '../../../model/misc.model';
 
 export const B2BUNIT_NODE_NORMALIZER = new InjectionToken<
   Converter<any, B2BUnitNode>
@@ -19,6 +20,10 @@ export const B2BUNIT_NORMALIZER = new InjectionToken<Converter<any, B2BUnit>>(
 export const B2BUNIT_APPROVAL_PROCESSES_NORMALIZER = new InjectionToken<
   Converter<any, B2BApprovalProcess[]>
 >('B2BUnitApprovalProcessNormalizer');
+
+export const B2B_ADDRESSES_NORMALIZER = new InjectionToken<
+  Converter<any, EntitiesModel<B2BAddress>>
+>('B2BAddressesNormalizer');
 
 export const B2B_ADDRESS_NORMALIZER = new InjectionToken<
   Converter<any, B2BAddress>

@@ -10,6 +10,7 @@ import {
   B2BUNIT_NORMALIZER,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2B_ADDRESS_NORMALIZER,
+  B2B_ADDRESSES_NORMALIZER,
 } from '../../../organization/connectors/org-unit/converters';
 import { B2B_USERS_NORMALIZER } from '../../../organization/connectors/b2b-user/converters';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
@@ -116,10 +117,13 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     );
   }
 
-  loadAddresses(userId: string, orgUnitId: string): Observable<B2BAddress[]> {
+  loadAddresses(
+    userId: string,
+    orgUnitId: string
+  ): Observable<EntitiesModel<B2BAddress>> {
     return this.http
-      .get<Occ.B2BAddress[]>(this.getAddressesEndpoint(userId, orgUnitId))
-      .pipe(this.converter.pipeableMany(B2B_ADDRESS_NORMALIZER));
+      .get<Occ.B2BAddressList>(this.getAddressesEndpoint(userId, orgUnitId))
+      .pipe(this.converter.pipeable(B2B_ADDRESSES_NORMALIZER));
   }
 
   createAddress(

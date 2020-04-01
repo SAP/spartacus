@@ -60,7 +60,7 @@ export abstract class OrgUnitAdapter {
   abstract loadAddresses(
     userId: string,
     orgUnitId: string
-  ): Observable<B2BAddress[]>;
+  ): Observable<EntitiesModel<B2BAddress>>;
 
   abstract createAddress(
     userId: string,

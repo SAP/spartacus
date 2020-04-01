@@ -4181,6 +4181,10 @@ export namespace Occ {
     selected?: boolean;
   }
 
+  export interface B2BAddressList {
+    addresses?: B2BAddress[];
+  }
+
   export interface B2BAddress {
     cellphone?: string;
     companyName?: string;
