@@ -63,7 +63,7 @@ export class WishListEffects {
     | CartActions.LoadWishListSuccess
     | CartActions.RemoveTempCart
     | CartActions.CreateWishList
-    | CartActions.LoadCartFail
+    | CartActions.LoadWishListFail
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_WISH_LIST),
     map((action: CartActions.LoadWishList) => action.payload),
@@ -100,9 +100,10 @@ export class WishListEffects {
         }),
         catchError((error) =>
           from([
-            new CartActions.LoadCartFail({
+            new CartActions.LoadWishListFail({
               userId,
               cartId: tempCartId,
+              customerId,
               error: makeErrorSerializable(error),
             }),
           ])
@@ -113,7 +114,7 @@ export class WishListEffects {
 
   @Effect()
   resetWishList$: Observable<
-    CartActions.LoadWishListSuccess | CartActions.LoadCartFail
+    CartActions.LoadWishListSuccess | CartActions.LoadWishListFail
   > = this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
@@ -135,7 +136,7 @@ export class WishListEffects {
           ]),
           catchError((error) =>
             from([
-              new CartActions.LoadCartFail({
+              new CartActions.LoadWishListFail({
                 userId,
                 cartId: wishListId,
                 error: makeErrorSerializable(error),

@@ -14,6 +14,7 @@ export const CREATE_WISH_LIST_SUCCESS = '[Wish List] Create Wish List Success';
 
 export const LOAD_WISH_LIST = '[Wish List] Load Wish List';
 export const LOAD_WISH_LIST_SUCCESS = '[Wish List] Load Wish List Success';
+export const LOAD_WISH_LIST_FAIL = '[Wish List] Load Wish List Fail';
 
 export const RESET_WISH_LIST_DETAILS = '[Wish List] Reset Wish List';
 
@@ -57,7 +58,6 @@ export class LoadWishListSuccess extends EntitySuccessAction {
     public payload: {
       cart: Cart;
       userId: string;
-      extraData?: any;
       tempCartId?: string;
       customerId?: string;
       cartId: string;
@@ -67,9 +67,24 @@ export class LoadWishListSuccess extends EntitySuccessAction {
   }
 }
 
+export class LoadWishListFail extends EntityFailAction {
+  readonly type = LOAD_WISH_LIST_FAIL;
+  constructor(
+    public payload: {
+      userId: string;
+      customerId?: string;
+      cartId: string;
+      error: any;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId, payload.error);
+  }
+}
+
 export type WishListActions =
   | CreateWishList
   | CreateWishListSuccess
   | CreateWishListFail
   | LoadWishList
-  | LoadWishListSuccess;
+  | LoadWishListSuccess
+  | LoadWishListFail;

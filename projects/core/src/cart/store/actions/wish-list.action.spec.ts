@@ -54,6 +54,26 @@ describe('WishList Actions', () => {
         });
       });
     });
+
+    describe('LoadWishListFail', () => {
+      it('should create the action', () => {
+        const payload = {
+          userId,
+          cartId: getCartIdByUserId(testCart, userId),
+          error: 'anyError',
+        };
+        const action = new CartActions.LoadWishListFail(payload);
+        expect({ ...action }).toEqual({
+          type: CartActions.LOAD_WISH_LIST_FAIL,
+          payload,
+          meta: StateEntityLoaderActions.entityFailMeta(
+            MULTI_CART_DATA,
+            testCart.code,
+            'anyError'
+          ),
+        });
+      });
+    });
   });
 
   describe('Create Wish List Actions', () => {
