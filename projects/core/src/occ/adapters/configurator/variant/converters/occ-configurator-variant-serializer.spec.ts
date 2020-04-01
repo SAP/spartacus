@@ -84,24 +84,24 @@ describe('OccConfiguratorVariantNormalizer', () => {
         groupType: OccConfigurator.GroupType.CSTIC_GROUP,
         id: '1-CPQ_LAPTOP.1',
         name: '1',
-        cstics: [
+        attributes: [
           {
             name: 'EXP_NUMBER',
-            langdepname: 'Expected Number',
+            langDepName: 'Expected Number',
             required: true,
             type: OccConfigurator.UiType.NOT_IMPLEMENTED,
           },
 
           {
             name: 'CPQ_CPU',
-            langdepname: 'Processor',
+            langDepName: 'Processor',
             required: true,
             type: OccConfigurator.UiType.RADIO_BUTTON,
             value: 'INTELI5_35',
           },
           {
             name: 'CPQ_RAM',
-            langdepname: 'RAM',
+            langDepName: 'RAM',
             required: false,
             type: OccConfigurator.UiType.SINGLE_SELECTION_IMAGE,
             value: '32GB',
@@ -114,7 +114,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
         groupType: OccConfigurator.GroupType.CSTIC_GROUP,
         id: '1-CPQ_LAPTOP.2',
         name: '2',
-        cstics: [],
+        attributes: [],
       },
       {
         configurable: true,
@@ -122,7 +122,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
         groupType: OccConfigurator.GroupType.CSTIC_GROUP,
         id: '1-CPQ_LAPTOP.3',
         name: '3',
-        cstics: [],
+        attributes: [],
       },
     ],
   };

@@ -8,7 +8,7 @@ import { OccConfig } from '../../../../config/occ-config';
 import { OccConfigurator } from '../occ-configurator.models';
 import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-normalizer';
 
-const csticName = 'name';
+const attributeName = 'name';
 const valueKey = 'BK';
 const valueName = 'Black';
 const valueKey2 = 'BE';
@@ -26,29 +26,29 @@ const occImage: OccConfigurator.Image = {
   url: 'media?This%20%is%20%a%20%URL',
 };
 
-const occCstic: OccConfigurator.Characteristic = {
-  name: csticName,
+const occAttribute: OccConfigurator.Attribute = {
+  name: attributeName,
   images: [occImage],
 };
-const occCsticWithValues: OccConfigurator.Characteristic = {
-  name: csticName,
+const occAttributeWithValues: OccConfigurator.Attribute = {
+  name: attributeName,
   required: requiredFlag,
   type: OccConfigurator.UiType.RADIO_BUTTON,
-  domainvalues: [
+  domainValues: [
     { key: valueKey, images: [occImage] },
     { key: valueKey2, selected: selectedFlag },
   ],
 };
 const configuration: OccConfigurator.Configuration = {
   complete: true,
-  kbKey: { productCode: 'CONF_PRODUCT' },
+  rootProduct: 'CONF_PRODUCT',
   groups: [
     {
-      cstics: [occCsticWithValues],
-      subGroups: [{ cstics: [occCsticWithValues] }],
+      attributes: [occAttributeWithValues],
+      subGroups: [{ attributes: [occAttributeWithValues] }],
     },
     {
-      cstics: [occCsticWithValues],
+      attributes: [occAttributeWithValues],
     },
   ],
 };
@@ -56,12 +56,12 @@ const configuration: OccConfigurator.Configuration = {
 const group: OccConfigurator.Group = {
   name: groupName,
   description: groupDescription,
-  cstics: [occCsticWithValues],
+  attributes: [occAttributeWithValues],
 };
 
 const occValue: OccConfigurator.Value = {
   key: valueKey,
-  langdepname: valueName,
+  langDepName: valueName,
 };
 
 class MockConverterService {
@@ -138,7 +138,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(attributes).toBeDefined();
     expect(attributes.length).toBe(1);
     const attribute = attributes[0];
-    expect(attribute.name).toBe(csticName);
+    expect(attribute.name).toBe(attributeName);
     expect(attribute.required).toBe(requiredFlag);
     expect(attribute.selectedSingleValue).toBe(valueKey2);
     expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON);
@@ -155,12 +155,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should convert attributes and do not complain if no domain values are present', () => {
     const attributes: Configurator.Attribute[] = [];
-    occConfiguratorVariantNormalizer.convertCharacteristic(
-      occCstic,
-      attributes
-    );
+    occConfiguratorVariantNormalizer.convertAttribute(occAttribute, attributes);
     expect(attributes.length).toBe(1);
-    expect(attributes[0].name).toBe(csticName);
+    expect(attributes[0].name).toBe(attributeName);
   });
 
   it('should convert a standard group', () => {
@@ -192,7 +189,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should set selectedSingleValue', () => {
     const configAttribute: Configurator.Attribute = {
-      name: csticName,
+      name: attributeName,
       values: [
         { valueCode: valueKey },
         { valueCode: valueKey2, selected: selectedFlag },
@@ -204,7 +201,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should not set selectedSingleValue for multi-valued attributes', () => {
     const configAttribute: Configurator.Attribute = {
-      name: csticName,
+      name: attributeName,
       values: [
         { valueCode: valueKey, selected: selectedFlag },
         { valueCode: valueKey2, selected: selectedFlag },
@@ -216,7 +213,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should return UIType Radio Button for Radio Button occ configurator type', () => {
     expect(
-      occConfiguratorVariantNormalizer.convertCharacteristicType(
+      occConfiguratorVariantNormalizer.convertAttributeType(
         OccConfigurator.UiType.RADIO_BUTTON
       )
     ).toBe(Configurator.UiType.RADIOBUTTON);
@@ -224,7 +221,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should return UIType Drop Down for Drop Down occ configurator type', () => {
     expect(
-      occConfiguratorVariantNormalizer.convertCharacteristicType(
+      occConfiguratorVariantNormalizer.convertAttributeType(
         OccConfigurator.UiType.DROPDOWN
       )
     ).toBe(Configurator.UiType.DROPDOWN);
@@ -232,7 +229,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should return UIType Checkbox for Checkbox occ configurator type', () => {
     expect(
-      occConfiguratorVariantNormalizer.convertCharacteristicType(
+      occConfiguratorVariantNormalizer.convertAttributeType(
         OccConfigurator.UiType.CHECK_BOX_LIST
       )
     ).toBe(Configurator.UiType.CHECKBOX);
@@ -240,7 +237,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should return UIType Checkbox for Checkbox occ configurator type', () => {
     expect(
-      occConfiguratorVariantNormalizer.convertCharacteristicType(
+      occConfiguratorVariantNormalizer.convertAttributeType(
         OccConfigurator.UiType.SINGLE_SELECTION_IMAGE
       )
     ).toBe(Configurator.UiType.SINGLE_SELECTION_IMAGE);
@@ -248,7 +245,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should return UIType Not Implemented for unkonwn occ configurator type', () => {
     expect(
-      occConfiguratorVariantNormalizer.convertCharacteristicType(
+      occConfiguratorVariantNormalizer.convertAttributeType(
         OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT
       )
     ).toBe(Configurator.UiType.NOT_IMPLEMENTED);
