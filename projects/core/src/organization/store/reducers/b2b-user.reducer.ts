@@ -38,3 +38,36 @@ export function userListReducer(
   }
   return state;
 }
+
+export function b2bUserApproverListReducer(
+  state = b2bUsersInitialState,
+  action: LoaderAction
+): any {
+  switch (action.type) {
+    case B2BUserActions.LOAD_B2B_USER_APPROVERS_SUCCESS:
+      return action.payload.page;
+  }
+  return state;
+}
+
+export function b2bUserPermissionListReducer(
+  state = b2bUsersInitialState,
+  action: LoaderAction
+): any {
+  switch (action.type) {
+    case B2BUserActions.LOAD_B2B_USER_PERMISSIONS_SUCCESS:
+      return action.payload.page;
+  }
+  return state;
+}
+
+export function b2bUserUserGroupListReducer(
+  state = b2bUsersInitialState,
+  action: LoaderAction
+): any {
+  switch (action.type) {
+    case B2BUserActions.LOAD_B2B_USER_USER_GROUPS_SUCCESS:
+      return action.payload.page;
+  }
+  return state;
+}
