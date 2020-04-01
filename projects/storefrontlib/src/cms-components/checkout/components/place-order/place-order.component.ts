@@ -9,6 +9,7 @@ import { CheckoutService, RoutingService } from '@spartacus/core';
 
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'cx-place-order',
@@ -16,20 +17,24 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlaceOrderComponent implements OnInit, OnDestroy {
-  tAndCToggler = false;
   placeOrderSubscription: Subscription;
 
+  checkoutSubmitForm = this.fb.group({
+    termsAndConditions: [false, Validators.requiredTrue],
+  });
+
   constructor(
-    private checkoutService: CheckoutService,
-    private routingService: RoutingService
+    protected checkoutService: CheckoutService,
+    protected routingService: RoutingService,
+    protected fb: FormBuilder
   ) {}
 
-  toggleTAndC(): void {
-    this.tAndCToggler = !this.tAndCToggler;
-  }
-
-  placeOrder(): void {
-    this.checkoutService.placeOrder();
+  submitForm(): void {
+    if (this.checkoutSubmitForm.valid) {
+      this.checkoutService.placeOrder();
+    } else {
+      this.checkoutSubmitForm.markAllAsTouched();
+    }
   }
 
   ngOnInit(): void {
