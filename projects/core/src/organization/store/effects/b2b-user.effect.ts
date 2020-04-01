@@ -36,6 +36,68 @@ export class B2BUserEffects {
   );
 
   @Effect()
+  createB2BUser$: Observable<
+    | B2BUserActions.CreateB2BUserSuccess
+    | B2BUserActions.CreateB2BUserFail
+  > = this.actions$.pipe(
+    ofType(B2BUserActions.CREATE_B2B_USER),
+    map(
+      (action: B2BUserActions.CreateB2BUser) => action.payload
+    ),
+    switchMap(payload =>
+      this.b2bUserConnector
+        .create(payload.userId, payload.orgCustomer)
+        .pipe(
+          map(
+            data =>
+              new B2BUserActions.CreateB2BUserSuccess(data)
+          ),
+          catchError(error =>
+            of(
+              new B2BUserActions.CreateB2BUserFail({
+                orgCustomerId: payload.orgCustomer.uid,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  updateB2BUser$: Observable<
+    | B2BUserActions.UpdateB2BUserSuccess
+    | B2BUserActions.UpdateB2BUserFail
+  > = this.actions$.pipe(
+    ofType(B2BUserActions.UPDATE_B2B_USER),
+    map(
+      (action: B2BUserActions.UpdateB2BUser) => action.payload
+    ),
+    switchMap(payload =>
+      this.b2bUserConnector
+        .update(
+          payload.userId,
+          payload.orgCustomerId,
+          payload.orgCustomer
+        )
+        .pipe(
+          map(
+            data =>
+              new B2BUserActions.UpdateB2BUserSuccess(data)
+          ),
+          catchError(error =>
+            of(
+              new B2BUserActions.UpdateB2BUserFail({
+                orgCustomerId: payload.orgCustomer.uid,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
   loadB2BUsers$: Observable<
     | B2BUserActions.LoadB2BUsersSuccess
     | B2BUserActions.LoadB2BUserSuccess

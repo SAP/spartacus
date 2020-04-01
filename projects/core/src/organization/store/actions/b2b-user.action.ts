@@ -13,6 +13,14 @@ export const LOAD_B2B_USER = '[B2BUser] Load B2BUser Data';
 export const LOAD_B2B_USER_FAIL = '[B2BUser] Load B2BUser Data Fail';
 export const LOAD_B2B_USER_SUCCESS = '[B2BUser] Load B2BUser Data Success';
 
+export const CREATE_B2B_USER = '[B2BUser] Create B2BUser Data';
+export const CREATE_B2B_USER_FAIL = '[B2BUser] Create B2BUser Data Fail';
+export const CREATE_B2B_USER_SUCCESS = '[B2BUser] Create B2BUser Data Success';
+
+export const UPDATE_B2B_USER = '[B2BUser] Update B2BUser Data';
+export const UPDATE_B2B_USER_FAIL = '[B2BUser] Update B2BUser Data Fail';
+export const UPDATE_B2B_USER_SUCCESS = '[B2BUser] Update B2BUser Data Success';
+
 export const LOAD_B2B_USERS = '[B2BUser] Load B2BUsers';
 export const LOAD_B2B_USERS_FAIL = '[B2BUser] Load B2BUsers Fail';
 export const LOAD_B2B_USERS_SUCCESS = '[B2BUser] Load B2BUsers Success';
@@ -74,6 +82,60 @@ export class LoadB2BUserSuccess extends EntitySuccessAction {
       B2B_USER_ENTITIES,
       payload.map(orgUnitCustomer => orgUnitCustomer.uid)
     );
+  }
+}
+
+export class CreateB2BUser extends EntityLoadAction {
+  readonly type = CREATE_B2B_USER;
+  constructor(
+    public payload: { userId: string; orgCustomer: B2BUser }
+  ) {
+    super(B2B_USER_ENTITIES, payload.orgCustomer.uid);
+  }
+}
+
+export class CreateB2BUserFail extends EntityFailAction {
+  readonly type = CREATE_B2B_USER_FAIL;
+  constructor(public payload: { orgCustomerId: string; error: any }) {
+    super(
+      B2B_USER_ENTITIES,
+      payload.orgCustomerId,
+      payload.error
+    );
+  }
+}
+
+export class CreateB2BUserSuccess extends EntitySuccessAction {
+  readonly type = CREATE_B2B_USER_SUCCESS;
+  constructor(public payload: B2BUser) {
+    super(B2B_USER_ENTITIES, payload.uid, payload);
+  }
+}
+
+export class UpdateB2BUser extends EntityLoadAction {
+  readonly type = UPDATE_B2B_USER;
+  constructor(
+    public payload: {
+      userId: string;
+      orgCustomerId: string;
+      orgCustomer: B2BUser;
+    }
+  ) {
+    super(B2B_USER_ENTITIES, payload.orgCustomer.uid);
+  }
+}
+
+export class UpdateB2BUserFail extends EntityFailAction {
+  readonly type = UPDATE_B2B_USER_FAIL;
+  constructor(public payload: { orgCustomerId: string; error: any }) {
+    super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
+  }
+}
+
+export class UpdateB2BUserSuccess extends EntitySuccessAction {
+  readonly type = UPDATE_B2B_USER_SUCCESS;
+  constructor(public payload: B2BUser) {
+    super(B2B_USER_ENTITIES, payload.uid, payload);
   }
 }
 
@@ -551,6 +613,12 @@ export type B2BUserAction =
   | LoadB2BUser
   | LoadB2BUserFail
   | LoadB2BUserSuccess
+  | CreateB2BUser
+  | CreateB2BUserFail
+  | CreateB2BUserSuccess
+  | UpdateB2BUser
+  | UpdateB2BUserFail
+  | UpdateB2BUserSuccess
   | LoadB2BUsers
   | LoadB2BUsersFail
   | LoadB2BUsersSuccess

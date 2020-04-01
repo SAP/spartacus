@@ -72,16 +72,28 @@ export class B2BUserService {
     );
   }
 
-  // create(orgCustomer: B2BUser) {
-  //   this.withUserId(userId =>
-  //     this.store.dispatch(
-  //       new B2BUserActions.create .CreateOrgUnitUserGroup({
-  //         userId,
-  //         orgUnitUserGroup,
-  //       })
-  //     )
-  //   );
-  // }
+  create(orgCustomer: B2BUser) {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new B2BUserActions.CreateB2BUser({
+          userId,
+          orgCustomer,
+        })
+      )
+    );
+  }
+
+  update(orgCustomerId: string, orgCustomer: B2BUser) {
+    this.withUserId(userId =>
+      this.store.dispatch(
+        new B2BUserActions.UpdateB2BUser({
+          userId,
+          orgCustomerId,
+          orgCustomer,
+        })
+      )
+    );
+  }
 
   loadB2BUserApprovers(
     orgCustomerId: string,
