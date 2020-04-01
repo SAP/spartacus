@@ -21,7 +21,7 @@ export const B2BUNIT_APPROVAL_PROCESSES_NORMALIZER = new InjectionToken<
   Converter<any, B2BApprovalProcess[]>
 >('B2BUnitApprovalProcessNormalizer');
 
-export const B2B_ADDRESSES_NORMALIZER = new InjectionToken<
+export const B2B_ADDRESS_LIST_NORMALIZER = new InjectionToken<
   Converter<any, EntitiesModel<B2BAddress>>
 >('B2BAddressesNormalizer');
 
