@@ -116,6 +116,12 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     );
   }
 
+  loadAddresses(userId: string, orgUnitId: string): Observable<B2BAddress[]> {
+    return this.http
+      .get<Occ.B2BAddress[]>(this.getAddressesEndpoint(userId, orgUnitId))
+      .pipe(this.converter.pipeableMany(B2B_ADDRESS_NORMALIZER));
+  }
+
   createAddress(
     userId: string,
     orgUnitId: string,
