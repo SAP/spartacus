@@ -301,13 +301,21 @@ export function updateAngularJsonFile(): Rule {
 
 async function checkIfSSRIsUsed(tree: Tree): Promise<boolean> {
   const projectName = getDefaultProjectNameFromWorkspace(tree);
-  const angularFileBuffer = tree.read('angular.json')!.toString(UTF_8);
+  const buffer = tree.read('angular.json');
+  if (!buffer) {
+    throw new SchematicsException('Could not find angular.json');
+  }
+  const angularFileBuffer = buffer.toString(UTF_8);
   const angularJson = JSON.parse(angularFileBuffer);
   const isServerConfiguration = !!angularJson.projects[projectName].architect[
     'server'
   ];
   const serverFilePath = getPathResultsForFile(tree, 'server.ts', '/')[0];
-  const serverFileBuffer = tree.read(serverFilePath)!.toString(UTF_8);
+  const serverBuffer = tree.read(serverFilePath);
+  if (!serverBuffer) {
+    return false;
+  }
+  const serverFileBuffer = serverBuffer.toString(UTF_8);
   const isServerSideAvailable = serverFileBuffer && !!serverFileBuffer.length;
 
   return !!(isServerConfiguration && isServerSideAvailable);
@@ -317,15 +325,16 @@ function createSourceFileWithStrippedBOM(
   tree: Tree,
   path: string
 ): ts.SourceFile {
+  const buffer = tree.read(path);
+  if (!buffer) {
+    throw new SchematicsException(`No tree found for ${path}.`);
+  }
   // Strip BOM as otherwise TSC methods (Ex: getWidth) will return an offset which
   // which breaks the CLI UpdateRecorder.
   // See: https://github.com/angular/angular/pull/30719
   return ts.createSourceFile(
     path,
-    tree
-      .read(path)!
-      .toString(UTF_8)
-      .replace(/^\uFEFF/, ''),
+    buffer.toString(UTF_8).replace(/^\uFEFF/, ''),
     ts.ScriptTarget.Latest,
     true
   );

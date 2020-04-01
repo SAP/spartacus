@@ -4,6 +4,37 @@ import {
 } from '@angular-devkit/schematics/testing';
 import { runMigration } from '../../../shared/utils/test-utils';
 
+const MIGRATION_SCRIPT_NAME = 'migration-v2-ssr-07';
+
+const MAIN_SERVER_FILE_TEST = `
+import { enableProdMode } from '@angular/core';
+import { environment } from './environments/environment';
+if (environment.production) {
+  enableProdMode();
+}
+export { AppServerModule } from './app/app.server.module';
+export { renderModule, renderModuleFactory } from '@angular/platform-server';
+export { ngExpressEngine } from '@nguniversal/express-engine';
+export { provideModuleMap } from "@nguniversal/module-map-ngfactory-loader";
+`;
+
+const APP_MODULE_FILE_TEST = `
+import { NgModule } from '@angular/core';
+import { ServerModule } from '@angular/platform-server';
+import { AppModule } from './app.module';
+import { AppComponent } from './app.component';
+import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader';
+@NgModule({
+  imports: [
+    AppModule,
+    ServerModule,
+    ModuleMapLoaderModule,
+  ],
+  bootstrap: [AppComponent],
+})
+export class AppServerModule {}
+`;
+
 describe('ssr', () => {
   let appTree: UnitTestTree;
   let appSchematicRunner: SchematicTestRunner;
@@ -46,41 +77,8 @@ describe('ssr', () => {
 
     appTree.create('/server.ts', 'server content');
     appTree.create('/webpack.server.config.js', 'webpack config content');
-
-    appTree.create(
-      '/src/main.server.ts',
-      `
-    import { enableProdMode } from '@angular/core';
-    import { environment } from './environments/environment';
-    if (environment.production) {
-      enableProdMode();
-    }
-    export { AppServerModule } from './app/app.server.module';
-    export { renderModule, renderModuleFactory } from '@angular/platform-server';
-    export { ngExpressEngine } from '@nguniversal/express-engine';
-    export { provideModuleMap } from "@nguniversal/module-map-ngfactory-loader";
-    `
-    );
-
-    appTree.create(
-      '/src/app/app.server.module.ts',
-      `
-    import { NgModule } from '@angular/core';
-    import { ServerModule } from '@angular/platform-server';
-    import { AppModule } from './app.module';
-    import { AppComponent } from './app.component';
-    import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader';
-    @NgModule({
-      imports: [
-        AppModule,
-        ServerModule,
-        ModuleMapLoaderModule,
-      ],
-      bootstrap: [AppComponent],
-    })
-    export class AppServerModule {}
-    `
-    );
+    appTree.create('/src/main.server.ts', MAIN_SERVER_FILE_TEST);
+    appTree.create('/src/app/app.server.module.ts', APP_MODULE_FILE_TEST);
 
     const pkg = JSON.parse(appTree.readContent('/package.json'));
     const scripts = pkg.scripts;
@@ -103,22 +101,19 @@ describe('ssr', () => {
 
   describe('Schematics SSR migration', () => {
     it(`shouldn't perform migration if server-side is not available`, async () => {
-      await appTree.delete('/server.ts');
+      appTree.delete('/server.ts');
       const angularJson = JSON.parse(appTree.readContent('/angular.json'));
       delete angularJson.projects[appOptions.name].architect['server'];
-      await appTree.overwrite(
-        'angular.json',
-        JSON.stringify(angularJson, null, 2)
-      );
+      appTree.overwrite('angular.json', JSON.stringify(angularJson, null, 2));
 
-      await runMigration(appTree, appSchematicRunner, 'migration-v2-ssr-07');
+      await runMigration(appTree, appSchematicRunner, MIGRATION_SCRIPT_NAME);
 
       expect(appTree.exists('/server.ts')).toBeFalse();
       expect(appTree.exists('/server.ts.bak')).toBeFalse();
       expect(appTree.exists('/webpack.server.config.js.bak')).toBeFalse();
     });
     it(`should backup old 'server.ts' and 'webpack.server.config.js'`, async () => {
-      await runMigration(appTree, appSchematicRunner, 'migration-v2-ssr-07');
+      await runMigration(appTree, appSchematicRunner, MIGRATION_SCRIPT_NAME);
 
       expect(appTree.exists('/server.ts')).toBeTruthy();
       expect(appTree.exists('/server.ts.bak')).toBeTruthy();
@@ -126,7 +121,7 @@ describe('ssr', () => {
     });
 
     it(`should create new server.ts file with new configuration'`, async () => {
-      await runMigration(appTree, appSchematicRunner, 'migration-v2-ssr-07');
+      await runMigration(appTree, appSchematicRunner, MIGRATION_SCRIPT_NAME);
 
       expect(appTree.exists('/server.ts')).toBeTruthy();
       expect(appTree.exists('/server.ts.bak')).toBeTruthy();
@@ -145,10 +140,15 @@ describe('ssr', () => {
     });
 
     it(`should backup old 'package.json' scripts`, async () => {
-      await runMigration(appTree, appSchematicRunner, 'migration-v2-ssr-07');
+      await runMigration(appTree, appSchematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const buffer = appTree.read('/package.json');
+      if (!buffer) {
+        return false;
+      }
 
       const { scripts, dependencies, devDependencies } = JSON.parse(
-        appTree.read('/package.json')!.toString()
+        buffer.toString()
       );
       expect(scripts['build:client-and-server-bundles']).toBeUndefined();
       expect(scripts['compile:server']).toBeUndefined();
@@ -161,7 +161,7 @@ describe('ssr', () => {
     });
 
     it(`should remove ngExpressEngine references and expressions from main.server.ts`, async () => {
-      await runMigration(appTree, appSchematicRunner, 'migration-v2-ssr-07');
+      await runMigration(appTree, appSchematicRunner, MIGRATION_SCRIPT_NAME);
 
       const appServerModule = appTree
         .readContent('/src/main.server.ts')
@@ -178,7 +178,7 @@ describe('ssr', () => {
     });
 
     it(`should remove '@nguniversal/module-map-ngfactory-loader' references`, async () => {
-      await runMigration(appTree, appSchematicRunner, 'migration-v2-ssr-07');
+      await runMigration(appTree, appSchematicRunner, MIGRATION_SCRIPT_NAME);
 
       const appServerModule = appTree
         .readContent('/src/app/app.server.module.ts')
@@ -195,11 +195,13 @@ describe('ssr', () => {
     });
 
     it(`should change output paths for builds in angular.json`, async () => {
-      await runMigration(appTree, appSchematicRunner, 'migration-v2-ssr-07');
+      await runMigration(appTree, appSchematicRunner, MIGRATION_SCRIPT_NAME);
 
-      const { projects } = JSON.parse(
-        appTree.read('/angular.json')!.toString()
-      );
+      const buffer = appTree.read('/angular.json');
+      if (!buffer) {
+        return false;
+      }
+      const { projects } = JSON.parse(buffer.toString());
       expect(
         projects[appOptions.name].architect.build.options.outputPath
       ).toEqual(`dist/${appOptions.name}/browser`);
