@@ -4,6 +4,7 @@ import {
   B2BUnitNode,
   B2BUnit,
   B2BUser,
+  B2BAddress,
 } from '../../../model/org-unit.model';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
@@ -53,6 +54,14 @@ export const getOrgUnitsTree: MemoizedSelector<
 > = createSelector(
   getB2BOrgUnitState,
   (state: OrgUnits) => state && state.tree
+);
+
+export const getAddressesState: MemoizedSelector<
+  StateWithOrganization,
+  EntityLoaderState<B2BAddress>
+> = createSelector(
+  getB2BOrgUnitState,
+  (state: OrgUnits) => state && state.addressEntities
 );
 
 export const getOrgUnitsApprovalProcesses: MemoizedSelector<
@@ -116,4 +125,27 @@ export const getAssignedUsers = (
         params,
         `${orgUnitId},${roleId}`
       )
+  );
+
+export const getB2BAddresses = (
+  orgUnitId: string,
+  params: B2BSearchConfig
+): MemoizedSelector<
+  StateWithOrganization,
+  LoaderState<EntitiesModel<B2BAddress>>
+> =>
+  createSelector(getB2BOrgUnitState, (state: OrgUnits) =>
+    denormalizeCustomB2BSearch(
+      state.addressList,
+      state.addressEntities,
+      params,
+      orgUnitId
+    )
+  );
+
+export const getB2BAddress = (
+  addressId: string
+): MemoizedSelector<StateWithOrganization, LoaderState<B2BAddress>> =>
+  createSelector(getAddressesState, (state: EntityLoaderState<B2BAddress>) =>
+    entityStateSelector(state, addressId)
   );

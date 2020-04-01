@@ -13,6 +13,8 @@ import {
   getApprovalProcessesState,
   getOrgUnitTreeState,
   getAssignedUsers,
+  getB2BAddresses,
+  getB2BAddress,
 } from '../store/selectors/org-unit.selector';
 import {
   B2BUnit,
@@ -68,6 +70,17 @@ export class OrgUnitService {
     );
   }
 
+  loadAddresses(orgUnitId: string): void {
+    this.withUserId(
+      userId =>
+        this.store.dispatch(
+          new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
+        )
+      // TODO: use it for api supports GET addresses
+      // this.store.dispatch(new OrgUnitActions.LoadAddresses({ userId, orgUnitId }))
+    );
+  }
+
   private getOrgUnitState(orgUnitId: string): Observable<LoaderState<B2BUnit>> {
     return this.store.select(getOrgUnitState(orgUnitId));
   }
@@ -78,6 +91,18 @@ export class OrgUnitService {
 
   private getOrgUnitsList(): Observable<LoaderState<B2BUnitNode[]>> {
     return this.store.select(getOrgUnitList());
+  }
+
+  private getAddressesState(
+    orgUnitId: string
+  ): Observable<LoaderState<EntitiesModel<B2BAddress>>> {
+    return this.store.select(getB2BAddresses(orgUnitId, null));
+  }
+
+  private getAddressState(
+    addressId: string
+  ): Observable<LoaderState<B2BAddress>> {
+    return this.store.select(getB2BAddress(addressId));
   }
 
   private getAssignedUsers(
@@ -225,6 +250,8 @@ export class OrgUnitService {
       )
     );
   }
+
+  getAddresses() {}
 
   updateAddress(
     orgUnitId: string,
