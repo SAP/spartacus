@@ -6,7 +6,6 @@ import {
   Input,
   OnInit,
   Renderer2,
-  ViewEncapsulation,
 } from '@angular/core';
 import {
   CmsConfig,
@@ -31,7 +30,6 @@ import { IntersectionOptions } from '../../../layout/loading/intersection.model'
   selector: 'cx-page-slot,[cx-page-slot]',
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 export class PageSlotComponent implements OnInit {
   /**
