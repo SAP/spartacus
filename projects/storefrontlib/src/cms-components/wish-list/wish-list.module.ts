@@ -4,8 +4,8 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import {
@@ -21,7 +21,15 @@ import { WishListComponent } from './components/wish-list/wish-list.component';
   imports: [
     AddToCartModule,
     CommonModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    I18nModule,
+    MediaModule,
+    RouterModule,
+    StarRatingModule,
+    UrlModule,
+    ItemCounterModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         WishListComponent: {
           component: WishListComponent,
@@ -29,12 +37,6 @@ import { WishListComponent } from './components/wish-list/wish-list.component';
         },
       },
     }),
-    I18nModule,
-    MediaModule,
-    RouterModule,
-    StarRatingModule,
-    UrlModule,
-    ItemCounterModule,
   ],
   declarations: [WishListComponent, WishListItemComponent],
   entryComponents: [WishListComponent],

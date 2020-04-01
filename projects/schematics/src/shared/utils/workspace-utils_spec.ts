@@ -71,8 +71,7 @@ describe('Workspace utils', () => {
     it('should return workspace project object', async () => {
       const workspaceProjectObject = getProjectFromWorkspace(
         appTree,
-        defaultOptions,
-        ['/angular.json', '/.angular.json']
+        defaultOptions
       );
       expect(workspaceProjectObject.projectType).toEqual('application');
       expect(workspaceProjectObject.sourceRoot).toEqual('src');

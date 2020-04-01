@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
+  ActiveCartService,
   AuthService,
   Cart,
-  CartService,
   CartVoucherService,
   CustomerCoupon,
   CustomerCouponSearchResult,
@@ -12,7 +12,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cart-coupon',
@@ -22,11 +22,9 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;
   form: FormGroup;
   cartIsLoading$: Observable<boolean>;
-  submitDisabled$: Observable<boolean>;
   cart$: Observable<Cart>;
   cartId: string;
   applicableCoupons: CustomerCoupon[];
-  filteredCoupons: CustomerCoupon[];
 
   private ignoreCloseEvent = false;
 
@@ -35,32 +33,12 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   couponBoxIsActive = false;
 
   constructor(
-    cartService: CartService,
-    authService: AuthService,
-    cartVoucherService: CartVoucherService,
-    formBuilder: FormBuilder,
-    customerCouponService: CustomerCouponService,
-    featureConfig: FeatureConfigService
-  );
-  /**
-   * @deprecated Since 1.5
-   * Add customerCouponService,featureConfig for customer coupon feature.
-   * Remove issue: #5971
-   */
-  constructor(
-    cartService: CartService,
-    authService: AuthService,
-    cartVoucherService: CartVoucherService,
-    formBuilder: FormBuilder
-  );
-
-  constructor(
-    private cartService: CartService,
-    private authService: AuthService,
-    private cartVoucherService: CartVoucherService,
-    private formBuilder: FormBuilder,
-    protected customerCouponService?: CustomerCouponService,
-    protected featureConfig?: FeatureConfigService
+    protected authService: AuthService,
+    protected cartVoucherService: CartVoucherService,
+    protected formBuilder: FormBuilder,
+    protected customerCouponService: CustomerCouponService,
+    protected featureConfig: FeatureConfigService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   ngOnInit() {
@@ -71,7 +49,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     }
     if (this.featureConfig && this.featureConfig.isLevel('1.5')) {
       this.cart$ = combineLatest([
-        this.cartService.getActive(),
+        this.activeCartService.getActive(),
         this.authService.getOccUserId(),
         this.customerCouponService.getCustomerCoupons(
           this.MAX_CUSTOMER_COUPON_PAGE
@@ -94,7 +72,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     //TODO(issue:#5971) Deprecated since 1.5
     else {
       this.cart$ = combineLatest([
-        this.cartService.getActive(),
+        this.activeCartService.getActive(),
         this.authService.getOccUserId(),
       ]).pipe(
         tap(
@@ -107,8 +85,8 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     }
     //TODO(issue:#5971) Deprecated since 1.5
 
-    this.cartIsLoading$ = this.cartService
-      .getLoaded()
+    this.cartIsLoading$ = this.activeCartService
+      .isStable()
       .pipe(map(loaded => !loaded));
 
     this.cartVoucherService.resetAddVoucherProcessingState();
@@ -116,20 +94,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       couponCode: ['', [Validators.required]],
     });
-
-    this.submitDisabled$ = combineLatest([
-      this.cartIsLoading$,
-      this.form.valueChanges.pipe(
-        startWith(true),
-        map(() => this.form.valid)
-      ),
-      this.cartVoucherService.getAddVoucherResultLoading(),
-    ]).pipe(
-      map(
-        ([cartIsLoading, btnEnabled, addVoucherIsLoading]) =>
-          cartIsLoading || !btnEnabled || addVoucherIsLoading
-      )
-    );
 
     this.subscription.add(
       this.cartVoucherService
@@ -174,30 +138,18 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         );
       });
     }
-    this.filteredCoupons = this.applicableCoupons;
   }
 
   applyVoucher(): void {
+    if (!this.form.valid) {
+      this.form.markAsTouched();
+      return;
+    }
     this.cartVoucherService.addVoucher(this.form.value.couponCode, this.cartId);
   }
   applyCustomerCoupon(couponId: string): void {
     this.cartVoucherService.addVoucher(couponId, this.cartId);
     this.couponBoxIsActive = false;
-  }
-
-  filter(query: string): void {
-    const filterValue = query.toLowerCase();
-
-    this.filteredCoupons = this.applicableCoupons.filter(
-      coupon => coupon.couponId.toLowerCase().indexOf(filterValue) > -1
-    );
-  }
-
-  open(): void {
-    this.filteredCoupons = this.applicableCoupons;
-    if (this.applicableCoupons.length > 0) {
-      this.couponBoxIsActive = true;
-    }
   }
 
   close(event: UIEvent): void {

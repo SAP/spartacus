@@ -204,6 +204,7 @@ export class OrgUnitEffects {
             () =>
               new OrgUnitActions.AssignRoleSuccess({
                 uid: orgCustomerId,
+                roleId,
                 selected: true,
               })
           ),
@@ -233,6 +234,7 @@ export class OrgUnitEffects {
             () =>
               new OrgUnitActions.UnassignRoleSuccess({
                 uid: orgCustomerId,
+                roleId,
                 selected: false,
               })
           ),

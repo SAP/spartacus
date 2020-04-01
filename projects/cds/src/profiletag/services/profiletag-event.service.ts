@@ -7,8 +7,6 @@ import {
   filter,
   map,
   shareReplay,
-  switchMap,
-  take,
   tap,
 } from 'rxjs/operators';
 import { CdsConfig } from '../../config/index';
@@ -57,15 +55,14 @@ export class ProfileTagEventService {
     return this.consentReference$;
   }
 
-  addTracker(): Observable<Event> {
+  addTracker(): Observable<string> {
     return this.baseSiteService.getActive().pipe(
       filter(_ => isPlatformBrowser(this.platform)),
       filter((siteId: string) => Boolean(siteId)),
       distinctUntilChanged(),
       tap(_ => this.addScript()),
       tap(_ => this.initWindow()),
-      tap((siteId: string) => this.createConfig(siteId)),
-      switchMap(_ => this.profileTagLoaded())
+      tap((siteId: string) => this.createConfig(siteId))
     );
   }
 
@@ -73,13 +70,6 @@ export class ProfileTagEventService {
     return this.getConsentReference().pipe(
       tap(consentReference => (this.latestConsentReference = consentReference))
     );
-  }
-
-  private profileTagLoaded(): Observable<Event> {
-    return fromEvent(
-      this.winRef.nativeWindow,
-      ProfileTagEventNames.LOADED
-    ).pipe(take(1));
   }
 
   private debugModeChanged(): Observable<DebugEvent> {

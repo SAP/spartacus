@@ -58,14 +58,14 @@
     <div class="row cx-search-links mb-3">
       <div class="col-12 cx-textalign">
         <!--          back-->
-        <button
+        <a
           [routerLink]="
             { cxRoute: 'orgUnitDetails', params: { uid: code } } | cxUrl
           "
           class="btn btn-primary btn-block"
         >
           {{ 'unitAssignRoles.back' | cxTranslate }}
-        </button>
+        </a>
       </div>
     </div>
   </div>

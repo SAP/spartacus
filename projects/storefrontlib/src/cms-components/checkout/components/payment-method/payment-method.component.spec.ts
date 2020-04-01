@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
+  ActiveCartService,
   Address,
-  CartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -110,7 +110,7 @@ class MockRoutingConfigService {
   }
 }
 
-class MockCartService {
+class MockActiveCartService {
   isGuestCart(): boolean {
     return false;
   }
@@ -177,7 +177,7 @@ describe('PaymentMethodComponent', () => {
   let mockCheckoutPaymentService: CheckoutPaymentService;
   let mockRoutingService: RoutingService;
   let mockRoutingConfigService: RoutingConfigService;
-  let mockCartService: CartService;
+  let mockActiveCartService: ActiveCartService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -197,8 +197,8 @@ describe('PaymentMethodComponent', () => {
           useClass: MockCheckoutDeliveryService,
         },
         {
-          provide: CartService,
-          useClass: MockCartService,
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
         {
           provide: CheckoutPaymentService,
@@ -216,7 +216,7 @@ describe('PaymentMethodComponent', () => {
     mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentService);
     mockRoutingService = TestBed.inject(RoutingService);
     mockRoutingConfigService = TestBed.inject(RoutingConfigService);
-    mockCartService = TestBed.inject(CartService);
+    mockActiveCartService = TestBed.inject(ActiveCartService);
   }));
 
   beforeEach(() => {
@@ -257,7 +257,7 @@ describe('PaymentMethodComponent', () => {
   it('should not get existing payment methods for guest user', done => {
     spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
     spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(of([]));
-    spyOn(mockCartService, 'isGuestCart').and.returnValue(true);
+    spyOn(mockActiveCartService, 'isGuestCart').and.returnValue(true);
     component.ngOnInit();
 
     component.existingPaymentMethods$.subscribe(() => {

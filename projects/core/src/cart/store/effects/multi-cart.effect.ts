@@ -18,15 +18,6 @@ export class MultiCartEffects {
   );
 
   @Effect()
-  createCart2$: Observable<CartActions.CreateMultiCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.CREATE_CART),
-    map(
-      (action: CartActions.CreateCart) =>
-        new CartActions.CreateMultiCart(action.payload)
-    )
-  );
-
-  @Effect()
   setTempCart$ = this.actions$.pipe(
     ofType(CartActions.SET_TEMP_CART),
     map((action: CartActions.SetTempCart) => {
@@ -66,24 +57,16 @@ export class MultiCartEffects {
     CartActions.CartProcessesIncrement
   > = this.actions$.pipe(
     ofType(
-      CartActions.CART_ADD_ENTRY,
-      CartActions.CART_UPDATE_ENTRY,
-      CartActions.CART_REMOVE_ENTRY,
       DeprecatedCartActions.ADD_EMAIL_TO_CART,
       CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE,
-      CartActions.CART_ADD_VOUCHER,
-      CartActions.CART_REMOVE_VOUCHER
+      CartActions.CART_ADD_VOUCHER
     ),
     map(
       (
         action:
-          | CartActions.CartAddEntry
-          | CartActions.CartUpdateEntry
-          | CartActions.CartRemoveEntry
           | DeprecatedCartActions.AddEmailToCart
           | CheckoutActions.ClearCheckoutDeliveryMode
           | CartActions.CartAddVoucher
-          | CartActions.CartRemoveVoucher
       ) => action.payload
     ),
     map(payload => new CartActions.CartProcessesIncrement(payload.cartId))

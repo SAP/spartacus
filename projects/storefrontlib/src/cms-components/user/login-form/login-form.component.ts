@@ -22,13 +22,13 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   loginAsGuest = false;
 
   constructor(
-    private auth: AuthService,
-    private globalMessageService: GlobalMessageService,
-    private fb: FormBuilder,
-    private authRedirectService: AuthRedirectService,
-    private winRef: WindowRef,
-    private activatedRoute: ActivatedRoute,
-    private checkoutConfigService: CheckoutConfigService
+    protected auth: AuthService,
+    protected globalMessageService: GlobalMessageService,
+    protected fb: FormBuilder,
+    protected authRedirectService: AuthRedirectService,
+    protected winRef: WindowRef,
+    protected activatedRoute: ActivatedRoute,
+    protected checkoutConfigService: CheckoutConfigService
   ) {}
 
   ngOnInit(): void {
@@ -37,22 +37,18 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       password: ['', Validators.required],
     });
 
-    if (
-      this.checkoutConfigService &&
-      this.checkoutConfigService.isGuestCheckout()
-    ) {
-      this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
+    if (this.checkoutConfigService.isGuestCheckout()) {
+      this.loginAsGuest = this.activatedRoute?.snapshot?.queryParams?.[
+        'forced'
+      ];
     }
 
-    // TODO(issue:#4055) Deprecated since 1.1.0
-    if (this.winRef && this.winRef.nativeWindow) {
-      const routeState =
-        this.winRef.nativeWindow.history &&
-        this.winRef.nativeWindow.history.state;
+    const prefilledEmail = this.winRef?.nativeWindow?.history?.state?.[
+      'newUid'
+    ];
 
-      if (routeState && routeState['newUid'] && routeState['newUid'].length) {
-        this.prefillForm('userId', routeState['newUid']);
-      }
+    if (prefilledEmail?.length) {
+      this.prefillForm('userId', prefilledEmail);
     }
   }
 

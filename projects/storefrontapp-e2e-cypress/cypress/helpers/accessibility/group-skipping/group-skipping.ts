@@ -18,10 +18,15 @@ export function verifyGroupSkippingOnPageFromConfig(
 ) {
   cy.visit(config.pageUrl);
 
-  // Wait for group skippers to load
+  // Wait for group skippers and page content to load
+  cy.server();
+  cy.route(
+    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
+  ).as('getComponents');
   checkGroupSkipperAnchorsHaveLoaded(config.expectedSkipperCount);
+  cy.wait('@getComponents');
 
-  cy.get('body').focus();
+  cy.get('cx-storefront').focus();
 
   // Should tab through anchor tags
   for (let i = 0; i < config.expectedSkipperCount; i++) {
@@ -42,6 +47,7 @@ function checkGroupSkipperAnchorsHaveLoaded(noOfAnchors: number) {
 
 function checkFocusIsWithinGroupSkipper() {
   cy.focused()
+    .parentsUntil('cx-skip-link')
     .parent()
     .should('have.prop', 'tagName')
     .should('eq', 'CX-SKIP-LINK');
@@ -52,6 +58,7 @@ function checkFocusIsWithinGroupSkipper() {
 
 function checkFocusIsNotWithinGroupSkipper() {
   cy.focused()
+    .parent()
     .parent()
     .should('have.prop', 'tagName')
     .should('not.eq', 'CX-SKIP-LINK');

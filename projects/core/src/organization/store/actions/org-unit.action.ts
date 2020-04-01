@@ -300,7 +300,9 @@ export class AssignRoleFail extends EntityFailAction {
 
 export class AssignRoleSuccess extends EntitySuccessAction {
   readonly type = ASSIGN_ROLE_SUCCESS;
-  constructor(public payload: { uid: string; selected: boolean }) {
+  constructor(
+    public payload: { uid: string; roleId: string; selected: boolean }
+  ) {
     super(B2B_USER_ENTITIES, payload.uid, payload);
   }
 }
@@ -333,7 +335,9 @@ export class UnassignRoleFail extends EntityFailAction {
 
 export class UnassignRoleSuccess extends EntitySuccessAction {
   readonly type = UNASSIGN_ROLE_SUCCESS;
-  constructor(public payload: { uid: string; selected: boolean }) {
+  constructor(
+    public payload: { uid: string; roleId: string; selected: boolean }
+  ) {
     super(B2B_USER_ENTITIES, payload.uid, payload);
   }
 }
