@@ -18,7 +18,7 @@ class TestContainerComponent {
 }
 
 const mockLaunchConfig: LaunchConfig = {
-  trigger: {
+  launch: {
     TEST_INLINE: {
       inline: true,
       component: TestContainerComponent,
@@ -65,7 +65,7 @@ describe('InlineRenderStrategy', () => {
 
   describe('render', () => {
     it('should create component in the container ref', () => {
-      const config = mockLaunchConfig.trigger[
+      const config = mockLaunchConfig.launch[
         'TEST_INLINE'
       ] as LaunchInlineDialog;
       service.render(config, 'TEST_INLINE' as LAUNCH_CALLER, component.vcr);
@@ -76,14 +76,14 @@ describe('InlineRenderStrategy', () => {
 
   describe('match', () => {
     it('should return TRUE for an inline config', () => {
-      const config = mockLaunchConfig.trigger[
+      const config = mockLaunchConfig.launch[
         'TEST_INLINE'
       ] as LaunchInlineDialog;
       expect(service.match(config)).toBeTruthy();
     });
 
     it('should return FALSE for a different config', () => {
-      const config = mockLaunchConfig.trigger[
+      const config = mockLaunchConfig.launch[
         'TEST_OUTLET'
       ] as LaunchInlineDialog;
       expect(service.match(config)).toBeFalsy();

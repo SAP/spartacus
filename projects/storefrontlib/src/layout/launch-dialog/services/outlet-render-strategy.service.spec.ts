@@ -11,7 +11,7 @@ import { OutletRenderStrategy } from './outlet-render-strategy.service';
 class TestContainerComponent {}
 
 const mockLaunchConfig: LaunchConfig = {
-  trigger: {
+  launch: {
     TEST_OUTLET: {
       outlet: 'cx-outlet-test',
       position: OutletPosition.AFTER,
@@ -77,7 +77,7 @@ describe('OutletRenderStrategy', () => {
       });
 
       it('should add template to outlet', () => {
-        const config = mockLaunchConfig.trigger[
+        const config = mockLaunchConfig.launch[
           'TEST_OUTLET'
         ] as LaunchOutletDialog;
         service.render(config, 'TEST_OUTLET' as LAUNCH_CALLER);
@@ -94,7 +94,7 @@ describe('OutletRenderStrategy', () => {
       });
 
       it('should default to position BEFORE if one is not provided', () => {
-        const config = mockLaunchConfig.trigger[
+        const config = mockLaunchConfig.launch[
           'TEST_OUTLET_NP'
         ] as LaunchOutletDialog;
         service.render(config, 'TEST_OUTLET_NP' as LAUNCH_CALLER);

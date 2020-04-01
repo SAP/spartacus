@@ -6,7 +6,7 @@ import { OutletService } from '../../../cms-structure/outlet/index';
 import {
   LaunchConfig,
   LaunchDialogService,
-} from '../../../layout/launch-component/index';
+} from '../../../layout/launch-dialog/index';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmEnablerService } from './asm-enabler.service';
 
@@ -46,7 +46,7 @@ class MockLaunchDialogService {
 }
 
 const mockLaunchConfig: LaunchConfig = {
-  trigger: {
+  launch: {
     ASM: {
       outlet: 'cx-outlet-test',
       component: {},

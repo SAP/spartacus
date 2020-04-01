@@ -56,7 +56,7 @@ export class LaunchDialogService {
    * @param caller LAUNCH_CALLER
    */
   protected findConfiguration(caller: LAUNCH_CALLER): LaunchOptions {
-    return this.launchConfig?.trigger[caller];
+    return this.launchConfig?.launch[caller];
   }
 
   /**

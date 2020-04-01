@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { Config, provideConfig } from '@spartacus/core';
-import { DEFAULT_TRIGGER_CONFIG } from './config/default-trigger-config';
+import { DEFAULT_LAUNCH_CONFIG } from './config/default-trigger-config';
 import { LaunchConfig } from './config/launch-config';
 import {
   InlineRenderStrategy,
@@ -28,12 +28,12 @@ import {
     },
   ],
 })
-export class LaunchComponentModule {
-  static forRoot(): ModuleWithProviders<LaunchComponentModule> {
+export class LaunchDialogModule {
+  static forRoot(): ModuleWithProviders<LaunchDialogModule> {
     return {
-      ngModule: LaunchComponentModule,
+      ngModule: LaunchDialogModule,
       providers: [
-        provideConfig(DEFAULT_TRIGGER_CONFIG),
+        provideConfig(DEFAULT_LAUNCH_CONFIG),
         { provide: LaunchConfig, useExisting: Config },
       ],
     };

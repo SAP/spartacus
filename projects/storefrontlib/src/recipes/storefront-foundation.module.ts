@@ -18,7 +18,6 @@ import {
   UserModule,
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
-import { LaunchComponentModule } from '../layout/launch-component/launch-component.module';
 import { LayoutModule } from '../layout/layout.module';
 import { ViewConfigModule } from '../shared/config/view-config.module';
 
@@ -40,7 +39,6 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
     UserModule.forRoot(),
     ProductModule.forRoot(),
     ViewConfigModule.forRoot(),
-    LaunchComponentModule.forRoot(),
     FeaturesConfigModule.forRoot('2.0'),
     LayoutModule,
   ],

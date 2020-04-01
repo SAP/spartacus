@@ -4,7 +4,7 @@ import { LaunchConfig, LaunchRoute, LAUNCH_CALLER } from '../config/index';
 import { RoutingRenderStrategy } from './routing-render-strategy.service';
 
 const mockLaunchConfig: LaunchConfig = {
-  trigger: {
+  launch: {
     TEST_URL: {
       cxRoute: 'url',
     },
@@ -47,7 +47,7 @@ describe('RoutingRenderStrategy', () => {
 
   describe('render', () => {
     it('should call RoutingService go', () => {
-      const config = mockLaunchConfig.trigger['TEST_URL'] as LaunchRoute;
+      const config = mockLaunchConfig.launch['TEST_URL'] as LaunchRoute;
 
       service.render(config, 'TEST_URL' as LAUNCH_CALLER);
 
@@ -57,7 +57,7 @@ describe('RoutingRenderStrategy', () => {
     });
 
     it('should include params', () => {
-      const config = mockLaunchConfig.trigger['TEST_URL_PARAMS'] as LaunchRoute;
+      const config = mockLaunchConfig.launch['TEST_URL_PARAMS'] as LaunchRoute;
 
       service.render(config, 'TEST_URL_PARAMS' as LAUNCH_CALLER);
 
@@ -70,12 +70,12 @@ describe('RoutingRenderStrategy', () => {
 
   describe('match', () => {
     it('should return TRUE for an inline config', () => {
-      const config = mockLaunchConfig.trigger['TEST_URL'] as LaunchRoute;
+      const config = mockLaunchConfig.launch['TEST_URL'] as LaunchRoute;
       expect(service.match(config)).toBeTruthy();
     });
 
     it('should return FALSE for a different config', () => {
-      const config = mockLaunchConfig.trigger['TEST_OUTLET'] as LaunchRoute;
+      const config = mockLaunchConfig.launch['TEST_OUTLET'] as LaunchRoute;
       expect(service.match(config)).toBeFalsy();
     });
   });

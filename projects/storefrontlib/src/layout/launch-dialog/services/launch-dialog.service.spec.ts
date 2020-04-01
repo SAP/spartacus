@@ -6,11 +6,11 @@ import {
   LaunchRoute,
   LAUNCH_CALLER,
 } from '../config/launch-config';
-import { LaunchDialogService } from './launch-component.service';
+import { LaunchDialogService } from './launch-dialog.service';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 const mockLaunchConfig: LaunchConfig = {
-  trigger: {
+  launch: {
     TEST_INLINE: {
       inline: true,
       component: {},
@@ -101,7 +101,7 @@ describe('LaunchDialogService', () => {
 
   describe('launch', () => {
     it('should call the proper renderer', () => {
-      const urlConfig = mockLaunchConfig.trigger['TEST_URL' as LAUNCH_CALLER];
+      const urlConfig = mockLaunchConfig.launch['TEST_URL' as LAUNCH_CALLER];
       service.launch('TEST_URL' as LAUNCH_CALLER);
       expect(routingRenderStrategy.render).toHaveBeenCalledWith(
         urlConfig as LaunchRoute,
@@ -110,7 +110,7 @@ describe('LaunchDialogService', () => {
       );
 
       const inlineConfig =
-        mockLaunchConfig.trigger['TEST_INLINE' as LAUNCH_CALLER];
+        mockLaunchConfig.launch['TEST_INLINE' as LAUNCH_CALLER];
       service.launch('TEST_INLINE' as LAUNCH_CALLER, component.vcr);
       expect(inlineRenderStrategy.render).toHaveBeenCalledWith(
         inlineConfig as LaunchInlineDialog,
@@ -122,9 +122,9 @@ describe('LaunchDialogService', () => {
 
   describe('clear', () => {
     it('should call the proper remove', () => {
-      const urlConfig = mockLaunchConfig.trigger['TEST_URL' as LAUNCH_CALLER];
+      const urlConfig = mockLaunchConfig.launch['TEST_URL' as LAUNCH_CALLER];
       const inlineConfig =
-        mockLaunchConfig.trigger['TEST_INLINE' as LAUNCH_CALLER];
+        mockLaunchConfig.launch['TEST_INLINE' as LAUNCH_CALLER];
 
       service.clear('TEST_URL' as LAUNCH_CALLER);
       expect(routingRenderStrategy.remove).toHaveBeenCalledWith(
@@ -143,12 +143,12 @@ describe('LaunchDialogService', () => {
   describe('findConfiguration', () => {
     it('should return configuration for caller', () => {
       const inlineConfig =
-        mockLaunchConfig.trigger['TEST_INLINE' as LAUNCH_CALLER];
+        mockLaunchConfig.launch['TEST_INLINE' as LAUNCH_CALLER];
       expect(
         service['findConfiguration']('TEST_INLINE' as LAUNCH_CALLER)
       ).toEqual(inlineConfig);
 
-      const urlConfig = mockLaunchConfig.trigger['TEST_URL' as LAUNCH_CALLER];
+      const urlConfig = mockLaunchConfig.launch['TEST_URL' as LAUNCH_CALLER];
       expect(service['findConfiguration']('TEST_URL' as LAUNCH_CALLER)).toEqual(
         urlConfig
       );
