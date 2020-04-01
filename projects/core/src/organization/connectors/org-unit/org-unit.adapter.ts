@@ -57,6 +57,11 @@ export abstract class OrgUnitAdapter {
     roleId: string
   ): Observable<any>;
 
+  abstract loadAddresses(
+    userId: string,
+    orgUnitId: string
+  ): Observable<B2BAddress[]>;
+
   abstract createAddress(
     userId: string,
     orgUnitId: string,

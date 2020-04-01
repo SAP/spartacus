@@ -7,6 +7,7 @@ import {
   B2BUnitNode,
   B2BUser,
   B2BUnit,
+  B2BAddress,
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -333,6 +334,38 @@ export class OrgUnitEffects {
           )
         )
     )
+  );
+
+  @Effect()
+  loadAddress$: Observable<
+    | OrgUnitActions.LoadAddressSuccess
+    | OrgUnitActions.LoadAddressesSuccess
+    | OrgUnitActions.LoadAddressesFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.LOAD_ADDRESSES),
+    map((action: OrgUnitActions.LoadAddresses) => action.payload),
+    switchMap(({ userId, orgUnitId }) => {
+      return this.orgUnitConnector.getAddresses(userId, orgUnitId).pipe(
+        switchMap((addresses: B2BAddress[]) => {
+          const { values, page } = normalizeListPage(
+            { values: addresses },
+            'id'
+          );
+          return [
+            new OrgUnitActions.LoadAddressSuccess(values),
+            new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
+          ];
+        }),
+        catchError(error =>
+          of(
+            new OrgUnitActions.LoadAddressesFail({
+              orgUnitId,
+              error: makeErrorSerializable(error),
+            })
+          )
+        )
+      );
+    })
   );
 
   constructor(

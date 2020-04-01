@@ -72,6 +72,10 @@ export class OrgUnitConnector {
     return this.adapter.unassignRole(userId, orgUnitId, orgCustomerId, roleId);
   }
 
+  getAddresses(userId: string, orgUnitId: string): Observable<B2BAddress[]> {
+    return this.adapter.loadAddresses(userId, orgUnitId);
+  }
+
   createAddress(
     userId: string,
     orgUnitId: string,

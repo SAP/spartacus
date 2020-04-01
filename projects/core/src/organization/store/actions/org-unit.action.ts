@@ -85,7 +85,10 @@ export const DELETE_ADDRESS_SUCCESS = '[B2BUnit] Delete address success';
 export const DELETE_ADDRESS_FAIL = '[B2BUnit] Delete address fail';
 
 export const LOAD_ADDRESS_SUCCESS = '[B2BUnit] Load address success';
+
+export const LOAD_ADDRESSES = '[B2BUnit] Load addresses';
 export const LOAD_ADDRESSES_SUCCESS = '[B2BUnit] Load addresses success';
+export const LOAD_ADDRESSES_FAIL = '[B2BUnit] Load addresses fail';
 
 export class LoadOrgUnit extends EntityLoadAction {
   readonly type = LOAD_ORG_UNIT;
@@ -448,6 +451,20 @@ export class LoadAddressSuccess extends EntitySuccessAction {
   }
 }
 
+export class LoadAddresses extends EntityLoadAction {
+  readonly type = LOAD_ADDRESSES;
+  constructor(public payload: { userId: string; orgUnitId: string }) {
+    super(ADDRESS_LIST, payload.orgUnitId);
+  }
+}
+
+export class LoadAddressesFail extends EntityFailAction {
+  readonly type = LOAD_ADDRESSES_FAIL;
+  constructor(public payload: { orgUnitId: string; error: any }) {
+    super(ADDRESS_LIST, payload.orgUnitId, payload.error);
+  }
+}
+
 export class LoadAddressesSuccess extends EntitySuccessAction {
   readonly type = LOAD_ADDRESSES_SUCCESS;
   constructor(
@@ -493,4 +510,8 @@ export type OrgUnitAction =
   | UpdateAddressFail
   | DeleteAddress
   | DeleteAddressSuccess
-  | DeleteAddressFail;
+  | DeleteAddressFail
+  | LoadAddresses
+  | LoadAddressesFail
+  | LoadAddressesSuccess
+  | LoadAddressSuccess;
