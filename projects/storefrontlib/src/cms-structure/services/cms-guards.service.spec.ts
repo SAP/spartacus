@@ -8,11 +8,7 @@ import {
 import { of } from 'rxjs';
 import { CmsGuardsService } from './cms-guards.service';
 import { CmsMappingService } from './cms-mapping.service';
-import {
-  ConfigModule,
-  FeatureConfigService,
-  provideConfig,
-} from '@spartacus/core';
+import { ConfigModule, provideConfig } from '@spartacus/core';
 
 describe('CmsGuardsService', () => {
   let service: CmsGuardsService;
@@ -61,7 +57,6 @@ describe('CmsGuardsService', () => {
           provide: CmsMappingService,
           useClass: MockCmsMappingService,
         },
-        FeatureConfigService,
         PositiveGuard,
         PositiveGuardObservable,
         NegativeGuard,
