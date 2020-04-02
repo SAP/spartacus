@@ -123,7 +123,9 @@ export class PageSlotComponent implements OnInit, OnDestroy {
       this.pendingComponentCount--;
     }
     this.isPending = this.pendingComponentCount > 0;
-    this.cdRef.markForCheck();
+    if (this.cdRef) {
+      this.cdRef.markForCheck();
+    }
   }
 
   getComponentDeferOptions(componentType: string): IntersectionOptions {
