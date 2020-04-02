@@ -10,7 +10,7 @@ export * from './with-credentials.interceptor';
  * In version 2.0 this provider will be removed, as you no longer need to
  * manually provide this interceptor as it will be provided in the `OccModule`.
  */
-export const WithCredentialsInterceptorProvider: Provider = {
+export const withCredentialsInterceptorProvider: Provider = {
   provide: HTTP_INTERCEPTORS,
   useExisting: WithCredentialsInterceptor,
   multi: true,
