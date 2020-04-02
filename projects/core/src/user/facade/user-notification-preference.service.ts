@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { AuthService } from '../../auth/facade/auth.service';
+import { NotificationPreference } from '../../model/notification-preference.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { getProcessLoadingFactory } from '../../process/store/selectors/process.selectors';
 import { UserActions } from '../store/actions/index';
@@ -10,13 +11,15 @@ import {
   StateWithUser,
   UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
 } from '../store/user-state';
-import { NotificationPreference } from '../../model/notification-preference.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserNotificationPreferenceService {
-  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
+  constructor(
+    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected authService: AuthService
+  ) {}
 
   /**
    * Returns all notification preferences.
@@ -36,9 +39,9 @@ export class UserNotificationPreferenceService {
    * Loads all notification preferences.
    */
   loadPreferences(): void {
-    this.store.dispatch(
-      new UserActions.LoadNotificationPreferences(OCC_USER_ID_CURRENT)
-    );
+    this.authService.callWithUserId((userId) => {
+      this.store.dispatch(new UserActions.LoadNotificationPreferences(userId));
+    });
   }
 
   /**
@@ -60,12 +63,14 @@ export class UserNotificationPreferenceService {
    * @param preferences a preference list
    */
   updatePreferences(preferences: NotificationPreference[]): void {
-    this.store.dispatch(
-      new UserActions.UpdateNotificationPreferences({
-        userId: OCC_USER_ID_CURRENT,
-        preferences: preferences,
-      })
-    );
+    this.authService.callWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.UpdateNotificationPreferences({
+          userId,
+          preferences: preferences,
+        })
+      );
+    });
   }
 
   /**
