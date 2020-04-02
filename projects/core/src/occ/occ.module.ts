@@ -14,7 +14,7 @@ import { OccConfigLoaderModule } from './config-loader/occ-config-loader.module'
 import { defaultOccConfig } from './config/default-occ-config';
 import { OccConfig } from './config/occ-config';
 import { occConfigValidator } from './config/occ-config-validator';
-import { WithCredentialsInterceptor } from './interceptors/with-credentials-interceptor';
+import { WithCredentialsInterceptor } from './interceptors/with-credentials.interceptor';
 
 @NgModule({
   imports: [
