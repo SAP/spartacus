@@ -14,7 +14,7 @@ import { OccConfigLoaderModule } from './config-loader/occ-config-loader.module'
 import { defaultOccConfig } from './config/default-occ-config';
 import { OccConfig } from './config/occ-config';
 import { occConfigValidator } from './config/occ-config-validator';
-import { WithCredentialsInterceptor } from './interceptors/with-credentials-interceptor';
+import { WithCredentialsInterceptor } from './interceptors/with-credentials.interceptor';
 
 @NgModule({
   imports: [
@@ -26,8 +26,8 @@ import { WithCredentialsInterceptor } from './interceptors/with-credentials-inte
     SiteContextOccModule,
     StoreFinderOccModule,
     UserOccModule,
-    OccConfigLoaderModule.forRoot(),
-  ],
+    OccConfigLoaderModule.forRoot()
+  ]
 })
 export class OccModule {
   static forRoot(): ModuleWithProviders<OccModule> {
@@ -37,12 +37,12 @@ export class OccModule {
         {
           provide: HTTP_INTERCEPTORS,
           useExisting: WithCredentialsInterceptor,
-          multi: true,
+          multi: true
         },
         { provide: OccConfig, useExisting: Config },
         provideDefaultConfig(defaultOccConfig),
-        provideConfigValidator(occConfigValidator),
-      ],
+        provideConfigValidator(occConfigValidator)
+      ]
     };
   }
 }
