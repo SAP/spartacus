@@ -15,8 +15,6 @@ export interface FacetValue {
   name?: string;
   query?: SearchState;
   selected?: boolean;
-
-  focussed?: boolean;
 }
 
 export interface Breadcrumb {
