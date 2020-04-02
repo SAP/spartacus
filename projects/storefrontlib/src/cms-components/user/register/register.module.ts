@@ -9,10 +9,9 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { SpinnerModule } from '../../../shared/index';
+import { SpinnerModule, FormErrorsModule } from '../../../shared/index';
 import { LoginModule } from '../login/login.module';
 import { RegisterComponent } from './register.component';
-import { FormErrorsModule } from 'projects/storefrontlib/src/shared/components/form/form-errors';
 
 @NgModule({
   imports: [
