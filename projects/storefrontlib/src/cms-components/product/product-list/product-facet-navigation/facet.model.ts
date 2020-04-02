@@ -26,7 +26,7 @@ export interface FacetCollapseState {
    * The default expand state will be used when the facet is used
    * for the first time.
    */
-  expandBydefault?: boolean;
+  expandByDefault?: boolean;
 
   /**
    * The top number of facet values that will be visible.

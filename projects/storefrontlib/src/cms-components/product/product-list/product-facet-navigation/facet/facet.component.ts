@@ -38,9 +38,9 @@ export class FacetComponent {
 
     const state$ = this.facetService.getState(value);
     // the initial observed state doesn't work without this...
-    this.isExpanded = state$.value.expanded ?? state$.value.expandBydefault;
+    this.isExpanded = state$.value.expanded ?? state$.value.expandByDefault;
     this.state$ = state$.pipe(
-      tap(state => (this.isExpanded = state.expanded ?? state.expandBydefault))
+      tap(state => (this.isExpanded = state.expanded ?? state.expandByDefault))
     );
   }
   get facet(): Facet {

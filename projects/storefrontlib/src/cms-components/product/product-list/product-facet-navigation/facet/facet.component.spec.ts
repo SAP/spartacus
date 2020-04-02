@@ -30,7 +30,7 @@ class MockKeyboadFocusDirective {
 
 const s = new BehaviorSubject<FacetCollapseState>({
   expanded: true,
-  expandBydefault: true,
+  expandByDefault: true,
 });
 
 class MockFacetService {
@@ -96,7 +96,7 @@ describe('FacetComponent', () => {
 
     it('should set isExpanded to true when expandBydefault = true', () => {
       s.next({
-        expandBydefault: true,
+        expandByDefault: true,
       });
       component.facet = {} as Facet;
       fixture.detectChanges();
@@ -106,7 +106,7 @@ describe('FacetComponent', () => {
     it('should set isExpanded to false when expandBydefault = true but expanded = false', () => {
       s.next({
         expanded: false,
-        expandBydefault: true,
+        expandByDefault: true,
       });
       component.facet = {} as Facet;
       fixture.detectChanges();

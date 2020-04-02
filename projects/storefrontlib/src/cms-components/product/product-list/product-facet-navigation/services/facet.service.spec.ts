@@ -75,7 +75,7 @@ describe('FacetService', () => {
 
       let facetState1: FacetCollapseState;
       service.getState(facet1).subscribe(state => (facetState1 = state));
-      expect(facetState1.expandBydefault).toBeFalsy();
+      expect(facetState1.expandByDefault).toBeFalsy();
     });
 
     it('should collapse all facets by default when dialogMode change to mobile', () => {
@@ -90,7 +90,7 @@ describe('FacetService', () => {
 
       let facetState1: FacetCollapseState;
       service.getState(facet1).subscribe(state => (facetState1 = state));
-      expect(facetState1.expandBydefault).toBeFalsy();
+      expect(facetState1.expandByDefault).toBeFalsy();
     });
 
     it('should expand first 3 facets by default in inline mode (desktop)', () => {
@@ -103,8 +103,8 @@ describe('FacetService', () => {
       let facetState4: FacetCollapseState;
       service.getState(facet3).subscribe(s => (facetState3 = s));
       service.getState(facet4).subscribe(s => (facetState4 = s));
-      expect(facetState3.expandBydefault).toBeTruthy();
-      expect(facetState4.expandBydefault).toBeFalsy();
+      expect(facetState3.expandByDefault).toBeTruthy();
+      expect(facetState4.expandByDefault).toBeFalsy();
     });
 
     it('should expand first 3 facets when dialogMode changes to desktop', () => {
@@ -121,8 +121,8 @@ describe('FacetService', () => {
       let facetState4: FacetCollapseState;
       service.getState(facet3).subscribe(s => (facetState3 = s));
       service.getState(facet4).subscribe(s => (facetState4 = s));
-      expect(facetState3.expandBydefault).toBeTruthy();
-      expect(facetState4.expandBydefault).toBeFalsy();
+      expect(facetState3.expandByDefault).toBeTruthy();
+      expect(facetState4.expandByDefault).toBeFalsy();
     });
   });
 
