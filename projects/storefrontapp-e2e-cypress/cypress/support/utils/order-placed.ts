@@ -6,20 +6,25 @@ const timerTimeout = 60000;
 // start time
 let startTime = 0;
 
+/**
+ * Waits until order is available in orders API response.
+ * @param orderNumber Order number to wait for. Without this parameter it will check if at least one order exists
+ * @param contentCatalog Content catalog you are testing
+ */
 export function waitForOrderToBePlacedRequest(
-  orderNumber: string,
+  orderNumber?: string,
   contentCatalog: string = 'electronics-spa'
 ) {
+  const { userId, access_token } = JSON.parse(
+    localStorage.getItem('spartacus-local-data')
+  ).auth.userToken.token;
   cy.request({
     method: 'GET',
     url: `${Cypress.env(
       'API_URL'
-    )}/rest/v2/${contentCatalog}/users/current/orders?pageSize=5&lang=en&curr=USD`,
+    )}/rest/v2/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=USD`,
     headers: {
-      Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
-          .token.access_token
-      }`,
+      Authorization: `bearer ${access_token}`,
     },
   })
     .then(
@@ -31,7 +36,8 @@ export function waitForOrderToBePlacedRequest(
         (res.status === 200 &&
           res.body.orders &&
           res.body.orders.length &&
-          res.body.orders.filter((order) => order.code === orderNumber))
+          (!orderNumber ||
+            res.body.orders.filter((order) => order.code === orderNumber)))
       ) {
         startTime = 0;
         return;
