@@ -59,9 +59,6 @@ export class ProductFacetNavigationComponent {
    * user can continue from the original location.
    */
   toggleDialog() {
-    // if (this.isInline(dialogMode)) {
-    //   return;
-    // }
     this.activeDialog = !this.activeDialog;
     if (!this.activeDialog) {
       this.dialogTrigger.nativeElement.focus();
