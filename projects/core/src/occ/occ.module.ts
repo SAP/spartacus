@@ -26,8 +26,8 @@ import { WithCredentialsInterceptor } from './interceptors/with-credentials.inte
     SiteContextOccModule,
     StoreFinderOccModule,
     UserOccModule,
-    OccConfigLoaderModule.forRoot()
-  ]
+    OccConfigLoaderModule.forRoot(),
+  ],
 })
 export class OccModule {
   static forRoot(): ModuleWithProviders<OccModule> {
@@ -37,12 +37,12 @@ export class OccModule {
         {
           provide: HTTP_INTERCEPTORS,
           useExisting: WithCredentialsInterceptor,
-          multi: true
+          multi: true,
         },
         { provide: OccConfig, useExisting: Config },
         provideDefaultConfig(defaultOccConfig),
-        provideConfigValidator(occConfigValidator)
-      ]
+        provideConfigValidator(occConfigValidator),
+      ],
     };
   }
 }
