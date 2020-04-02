@@ -10,7 +10,18 @@
       </div>
       <div class="row">
         <div class="col-6">{{ 'userGroup.parentUnit' | cxTranslate }}</div>
-        <div class="col-6">{{ userGroup.orgUnit?.name }}</div>
+        <div class="col-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitDetails',
+                params: userGroup.orgUnit
+              } | cxUrl
+            "
+          >
+            {{ userGroup.orgUnit?.name }}
+          </a>
+        </div>
       </div>
       <div class="row">
         <div class="col-6">{{ 'userGroup.name' | cxTranslate }}</div>

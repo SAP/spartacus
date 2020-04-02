@@ -15,7 +15,18 @@
       </div>
       <div class="row">
         <div class="col-6">{{ 'costCenter.parentUnit' | cxTranslate }}</div>
-        <div class="col-6">{{ costCenter.unit?.name }}</div>
+        <div class="col-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitDetails',
+                params: costCenter.unit
+              } | cxUrl
+            "
+          >
+            {{ costCenter.unit?.name }}
+          </a>
+        </div>
       </div>
       <div class="row">
         <div class="col-6">{{ 'costCenter.currency' | cxTranslate }}</div>
