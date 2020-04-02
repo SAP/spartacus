@@ -4,6 +4,7 @@ import {
   B2BUnit,
   B2BApprovalProcess,
   B2BUser,
+  B2BAddress,
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { B2BSearchConfig } from '../../model/search-config';
@@ -54,5 +55,29 @@ export abstract class OrgUnitAdapter {
     orgUnitId: string,
     orgCustomerId: string,
     roleId: string
+  ): Observable<any>;
+
+  abstract loadAddresses(
+    userId: string,
+    orgUnitId: string
+  ): Observable<EntitiesModel<B2BAddress>>;
+
+  abstract createAddress(
+    userId: string,
+    orgUnitId: string,
+    address: B2BAddress
+  ): Observable<B2BAddress>;
+
+  abstract updateAddress(
+    userId: string,
+    orgUnitId: string,
+    addressId: string,
+    address: B2BAddress
+  ): Observable<B2BAddress>;
+
+  abstract deleteAddress(
+    userId: string,
+    orgUnitId: string,
+    addressId: string
   ): Observable<any>;
 }

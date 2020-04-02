@@ -22,6 +22,9 @@ export const defaultOccOrganizationConfig: OccConfig = {
           '/users/${userId}/orgCustomers/${orgCustomerId}/roles',
         orgUnitUserRole:
           '/users/${userId}/orgCustomers/${orgCustomerId}/roles/${roleId}',
+        orgUnitsAddresses: '/users/${userId}/orgUnits/${orgUnitId}/addresses',
+        orgUnitsAddress:
+          '/users/${userId}/orgUnits/${orgUnitId}/addresses/${addressId}',
         orgUnitUserGroups: '/users/${userId}/orgUnitUserGroups',
         orgUnitUserGroup:
           '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}',

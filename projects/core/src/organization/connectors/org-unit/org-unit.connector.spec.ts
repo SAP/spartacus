@@ -36,6 +36,10 @@ class MockOrgUnitAdapter implements OrgUnitAdapter {
   loadUsers = createSpy('loadUsers').and.returnValue(of());
   assignRole = createSpy('assignRole').and.returnValue(of());
   unassignRole = createSpy('unassignRole').and.returnValue(of());
+  loadAddresses = createSpy('loadAddresses').and.returnValue(of());
+  createAddress = createSpy('createAddress').and.returnValue(of());
+  updateAddress = createSpy('updateAddress').and.returnValue(of());
+  deleteAddress = createSpy('deleteAddress').and.returnValue(of());
 }
 
 describe('OrgUnitConnector', () => {

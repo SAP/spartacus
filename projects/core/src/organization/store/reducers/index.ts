@@ -10,6 +10,7 @@ import {
   B2BApprovalProcess,
   OrgUnitUserGroup,
   B2BUser,
+  B2BAddress,
 } from '../../../model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import {
@@ -41,6 +42,8 @@ import {
   B2B_USER_APPROVERS,
   B2B_USER_PERMISSIONS,
   B2B_USER_USER_GROUPS,
+  ADDRESS_LIST,
+  ADDRESS_ENTITIES,
 } from '../organization-state';
 import { budgetsListReducer, budgetsEntitiesReducer } from './budget.reducer';
 import { permissionsListReducer } from './permission.reducer';
@@ -60,7 +63,10 @@ import {
   orgUnitUserGroupAvailablOrgCustomersListReducer,
   orgUnitUserGroupsListReducer,
 } from './user-group.reducer';
-import { orgUnitUserListReducer } from './org-unit.reducer';
+import {
+  orgUnitUserListReducer,
+  orgUnitAddressListReducer,
+} from './org-unit.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -91,6 +97,11 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         ORG_UNIT_ASSIGNED_USERS,
         orgUnitUserListReducer
       ),
+      addressList: entityLoaderReducer<ListModel>(
+        ADDRESS_LIST,
+        orgUnitAddressListReducer
+      ),
+      addressEntities: entityLoaderReducer<B2BAddress>(ADDRESS_ENTITIES),
     }),
     [ORG_UNIT_USER_GROUP_FEATURE]: combineReducers({
       entities: entityLoaderReducer<OrgUnitUserGroup>(

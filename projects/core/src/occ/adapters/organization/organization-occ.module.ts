@@ -18,6 +18,8 @@ import {
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NORMALIZER,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
+  B2B_ADDRESS_NORMALIZER,
+  B2B_ADDRESS_LIST_NORMALIZER,
 } from '../../../organization/connectors/org-unit/converters';
 import {
   PERMISSION_NORMALIZER,
@@ -52,6 +54,8 @@ import {
   OccOrgUnitApprovalProcessNormalizer,
   OccB2BUserNormalizer,
   OccUserListNormalizer,
+  OccOrgUnitAddressNormalizer,
+  OccOrgUnitAddressListNormalizer,
 } from './converters/index';
 import {
   B2BUserAdapter,
@@ -155,6 +159,16 @@ import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
     {
       provide: B2B_USERS_NORMALIZER,
       useClass: OccUserListNormalizer,
+      multi: true,
+    },
+    {
+      provide: B2B_ADDRESS_NORMALIZER,
+      useClass: OccOrgUnitAddressNormalizer,
+      multi: true,
+    },
+    {
+      provide: B2B_ADDRESS_LIST_NORMALIZER,
+      useClass: OccOrgUnitAddressListNormalizer,
       multi: true,
     },
   ],
