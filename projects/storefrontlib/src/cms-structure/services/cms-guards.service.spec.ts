@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ActivatedRouteSnapshot,
@@ -69,17 +68,16 @@ describe('CmsGuardsService', () => {
         UrlTreeGuard,
       ],
     });
-    service = TestBed.get(CmsGuardsService as Type<CmsGuardsService>);
   });
 
   it('should be created', () => {
-    service = TestBed.inject(CmsGuardsService);
+    service = TestBed.get(CmsGuardsService);
     expect(service).toBeTruthy();
   });
 
   describe('cmsPageCanActivate', () => {
     beforeEach(() => {
-      service = TestBed.inject(CmsGuardsService);
+      service = TestBed.get(CmsGuardsService);
     });
     it('should resolve to true if not guards are defined', () => {
       let result;
@@ -151,22 +149,21 @@ describe('CmsGuardsService', () => {
           }),
         ],
       });
-      service = TestBed.inject(CmsGuardsService);
-      expect(service.shouldForceRefreshPage()).toBeTrue();
+      service = TestBed.get(CmsGuardsService);
+      expect(service.shouldForceRefreshPage()).toBeTruthy();
     });
-
-    it('should return false if cmsPageLoadOnce flag is enabled', () => {
-      TestBed.configureTestingModule({
-        providers: [
-          provideConfig({
-            features: {
-              cmsPageLoadOnce: true,
-            },
-          }),
-        ],
-      });
-      service = TestBed.inject(CmsGuardsService);
-      expect(service.shouldForceRefreshPage()).toBeFalse();
+  });
+  it('should return false if cmsPageLoadOnce flag is enabled', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        provideConfig({
+          features: {
+            cmsPageLoadOnce: true,
+          },
+        }),
+      ],
     });
+    service = TestBed.get(CmsGuardsService);
+    expect(service.shouldForceRefreshPage()).toBeFalsy();
   });
 });
