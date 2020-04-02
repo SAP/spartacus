@@ -77,4 +77,8 @@ export class UserGroupAssignUsersComponent extends AbstractListingComponent
   unassign({ row }) {
     this.userGroupService.unassignMember(this.code, row.code);
   }
+
+  unassignAll() {
+    this.userGroupService.unassignAllMembers(this.code);
+  }
 }

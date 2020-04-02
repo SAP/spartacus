@@ -426,7 +426,7 @@ export class OrgUnitUserGroupEffects {
               new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess(
                 {
                   permissionUid: permissionUid,
-                  selected: false,
+                  selected: true,
                 }
               )
           ),

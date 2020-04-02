@@ -297,5 +297,6 @@ export const organization = {
   userGroupAssignUsers: {
     header: 'Manage users in {{code}}',
     back: 'Close',
+    unassignAll: 'Unassign All',
   },
 };

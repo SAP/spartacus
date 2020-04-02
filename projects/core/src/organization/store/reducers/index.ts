@@ -43,7 +43,10 @@ import {
   B2B_USER_USER_GROUPS,
 } from '../organization-state';
 import { budgetsListReducer, budgetsEntitiesReducer } from './budget.reducer';
-import { permissionsListReducer } from './permission.reducer';
+import {
+  permissionsListReducer,
+  permissionsEntitiesReducer,
+} from './permission.reducer';
 import {
   costCentersListReducer,
   costCenterAssignedBudgetsListReducer,
@@ -72,7 +75,10 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       list: entityLoaderReducer<ListModel>(BUDGET_LIST, budgetsListReducer),
     }),
     [PERMISSION_FEATURE]: combineReducers({
-      entities: entityLoaderReducer<Permission>(PERMISSION_ENTITIES),
+      entities: entityLoaderReducer<Permission>(
+        PERMISSION_ENTITIES,
+        permissionsEntitiesReducer
+      ),
       list: entityLoaderReducer<ListModel>(
         PERMISSION_LIST,
         permissionsListReducer
