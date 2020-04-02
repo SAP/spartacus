@@ -61,7 +61,7 @@ describe('UserService', () => {
       let userDetails: User;
       service
         .get()
-        .subscribe(data => {
+        .subscribe((data) => {
           userDetails = data;
         })
         .unsubscribe();
@@ -72,7 +72,7 @@ describe('UserService', () => {
       let userDetails: User;
       service
         .get()
-        .subscribe(data => {
+        .subscribe((data) => {
           userDetails = data;
         })
         .unsubscribe();
@@ -136,7 +136,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getRemoveUserResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -148,7 +148,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getRemoveUserResultError()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -160,7 +160,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getRemoveUserResultSuccess()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -184,7 +184,7 @@ describe('UserService', () => {
     let titles: Title[];
     service
       .getTitles()
-      .subscribe(data => {
+      .subscribe((data) => {
         titles = data;
       })
       .unsubscribe();
@@ -221,7 +221,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdatePersonalDetailsResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(false);
@@ -233,7 +233,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdatePersonalDetailsResultError()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -245,7 +245,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdatePersonalDetailsResultSuccess()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -282,7 +282,7 @@ describe('UserService', () => {
     let isResst: boolean;
     service
       .isPasswordReset()
-      .subscribe(data => {
+      .subscribe((data) => {
         isResst = data;
       })
       .unsubscribe();
@@ -310,7 +310,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdateEmailResultSuccess()
-        .subscribe(success => (result = success))
+        .subscribe((success) => (result = success))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -322,7 +322,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdateEmailResultError()
-        .subscribe(error => (result = error))
+        .subscribe((error) => (result = error))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -334,7 +334,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdateEmailResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(false);
@@ -373,7 +373,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getUpdatePasswordResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -385,7 +385,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getUpdatePasswordResultError()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -397,7 +397,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getUpdatePasswordResultSuccess()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);

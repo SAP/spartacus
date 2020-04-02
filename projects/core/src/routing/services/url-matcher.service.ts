@@ -25,7 +25,7 @@ export class UrlMatcherService {
    * Returns a matcher for given list of paths
    */
   getFromPaths(paths: string[]): UrlMatcher {
-    const matchers = paths.map(path => this.getFromPath(path));
+    const matchers = paths.map((path) => this.getFromPath(path));
     const matcher = this.getCombined(matchers);
     if (isDevMode()) {
       matcher['_paths'] = paths; // property added for easier debugging of routes
@@ -153,7 +153,7 @@ export class UrlMatcherService {
     const matcher = function globUrlMatcher(
       segments: UrlSegment[]
     ): UrlMatchResult | null {
-      const fullPath = `/${segments.map(s => s.path).join('/')}`;
+      const fullPath = `/${segments.map((s) => s.path).join('/')}`;
 
       return globValidator(fullPath)
         ? { consumed: segments, posParams: {} }

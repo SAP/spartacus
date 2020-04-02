@@ -107,7 +107,7 @@ describe('CdsMerchandisingProductService', () => {
     let actualStartegyProducts: StrategyProducts;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
-      .subscribe(productsForStrategy => {
+      .subscribe((productsForStrategy) => {
         actualStartegyProducts = productsForStrategy;
       })
       .unsubscribe();
@@ -146,7 +146,7 @@ describe('CdsMerchandisingProductService', () => {
     let actualStartegyProducts: StrategyProducts;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
-      .subscribe(productsForStrategy => {
+      .subscribe((productsForStrategy) => {
         actualStartegyProducts = productsForStrategy;
       })
       .unsubscribe();
@@ -182,7 +182,7 @@ describe('CdsMerchandisingProductService', () => {
     let actualStrategyProducts: StrategyProducts;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
-      .subscribe(productsForStrategy => {
+      .subscribe((productsForStrategy) => {
         actualStrategyProducts = productsForStrategy;
       })
       .unsubscribe();

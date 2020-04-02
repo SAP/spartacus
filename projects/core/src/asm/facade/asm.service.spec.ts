@@ -62,7 +62,7 @@ describe('AsmService', () => {
     let result: CustomerSearchPage;
     service
       .getCustomerSearchResults()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(mockCustomerSearchPage);
   });
@@ -71,7 +71,7 @@ describe('AsmService', () => {
     let result: boolean;
     service
       .getCustomerSearchResultsLoading()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
   });
@@ -100,7 +100,7 @@ describe('AsmService', () => {
     let result: AsmUi;
     service
       .getAsmUiState()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(asmUi);
   });

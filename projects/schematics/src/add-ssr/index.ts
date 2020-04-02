@@ -55,7 +55,7 @@ function addPackageJsonDependencies(): Rule {
       },
     ];
 
-    dependencies.forEach(dependency => {
+    dependencies.forEach((dependency) => {
       addPackageJsonDependency(tree, dependency);
       context.logger.log(
         'info',
@@ -120,7 +120,7 @@ function modifyIndexHtmlFile(
           `<meta name="occ-backend-base-url" content="${baseUrl}" />`,
         ];
 
-        metaTags.forEach(metaTag => {
+        metaTags.forEach((metaTag) => {
           appendHtmlElementToHead(tree, projectIndexHtmlPath, metaTag);
         });
       }

@@ -69,7 +69,7 @@ describe('OrderDetailActionsComponent', () => {
     fixture.detectChanges();
     let order: Order;
     component.order$
-      .subscribe(value => {
+      .subscribe((value) => {
         order = value;
       })
       .unsubscribe();

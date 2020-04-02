@@ -6,7 +6,7 @@ import {
 
 describe('My Account - Update Email', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   describe('update email test for anonymous user', () => {

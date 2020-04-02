@@ -7,9 +7,7 @@ export const loginLinkSelector = 'cx-login [role="link"]';
 
 export function registerUser() {
   cy.get(loginLinkSelector).click();
-  cy.get('cx-page-layout')
-    .getByText('Register')
-    .click();
+  cy.get('cx-page-layout').getByText('Register').click();
   register(user);
   return user;
 }

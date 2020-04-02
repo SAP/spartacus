@@ -68,7 +68,7 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
       .getCustomerCoupons(this.PAGE_SIZE)
       .pipe(
         tap(
-          coupons =>
+          (coupons) =>
             (this.pagination = {
               currentPage: coupons.pagination.page,
               pageSize: coupons.pagination.count,
@@ -91,14 +91,14 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
       .add(
         this.couponService
           .getSubscribeCustomerCouponResultError()
-          .subscribe(error => {
+          .subscribe((error) => {
             this.subscriptionFail(error);
           })
       )
       .add(
         this.couponService
           .getUnsubscribeCustomerCouponResultError()
-          .subscribe(error => {
+          .subscribe((error) => {
             this.subscriptionFail(error);
           })
       );

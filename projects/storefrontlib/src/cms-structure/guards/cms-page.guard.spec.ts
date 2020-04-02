@@ -90,7 +90,7 @@ describe('CmsPageGuard', () => {
         let result: boolean | UrlTree;
         cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
 
         expect(result).toBe(false);
@@ -104,7 +104,7 @@ describe('CmsPageGuard', () => {
         let result: boolean | UrlTree;
         cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
 
         expect(result).toBe(true);
@@ -119,7 +119,7 @@ describe('CmsPageGuard', () => {
         let result: boolean | UrlTree;
         cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
 
         expect(result).toBe(false);
@@ -204,7 +204,7 @@ describe('CmsPageGuard', () => {
         let result;
         cmsPageGuard
           .canActivate(mockRouteSnapshot, { url: '/test' } as any)
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
 
         expect(result).toEqual(false);
         expect(cmsRoutes.cmsRouteExist).toHaveBeenCalledWith('/testPageLabel');

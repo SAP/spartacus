@@ -7,7 +7,7 @@ import {
 
 describe('My Account - Close Account', () => {
   before(() =>
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
     })
   );

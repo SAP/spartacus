@@ -32,11 +32,11 @@ export class SaveForLaterComponent implements OnInit {
   ngOnInit() {
     this.isCartEmpty$ = this.cartService
       .getActive()
-      .pipe(map(cart => !(cart && cart.totalItems && cart.totalItems > 0)));
+      .pipe(map((cart) => !(cart && cart.totalItems && cart.totalItems > 0)));
     this.saveForLater$ = this.selectiveCartService.getCart();
     this.entries$ = this.selectiveCartService
       .getEntries()
-      .pipe(filter(entries => entries.length > 0));
+      .pipe(filter((entries) => entries.length > 0));
     this.cartLoaded$ = combineLatest([
       this.cartService.isStable(),
       this.selectiveCartService.getLoaded(),

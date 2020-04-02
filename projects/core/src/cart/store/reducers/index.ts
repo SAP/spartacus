@@ -13,7 +13,7 @@ import {
 export function clearMultiCartState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
-  return function(state, action) {
+  return function (state, action) {
     if (action.type === AuthActions.LOGOUT) {
       state = undefined;
     }

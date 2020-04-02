@@ -33,7 +33,7 @@ describe('Process selectors', () => {
       let result: LoaderState<void>;
       store
         .pipe(select(ProcessSelectors.getProcessStateFactory(MOCK_PROCESS_ID)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -59,7 +59,7 @@ describe('Process selectors', () => {
         .pipe(
           select(ProcessSelectors.getProcessLoadingFactory(MOCK_PROCESS_ID))
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -80,7 +80,7 @@ describe('Process selectors', () => {
         .pipe(
           select(ProcessSelectors.getProcessSuccessFactory(MOCK_PROCESS_ID))
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -99,7 +99,7 @@ describe('Process selectors', () => {
       let result = false;
       store
         .pipe(select(ProcessSelectors.getProcessErrorFactory(MOCK_PROCESS_ID)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);

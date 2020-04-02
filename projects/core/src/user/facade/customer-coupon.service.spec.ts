@@ -79,7 +79,7 @@ describe('CustomerCouponService', () => {
     let customerCouponSearchResult: CustomerCouponSearchResult;
     service
       .getCustomerCoupons(1)
-      .subscribe(data => {
+      .subscribe((data) => {
         customerCouponSearchResult = data;
       })
       .unsubscribe();
@@ -96,7 +96,7 @@ describe('CustomerCouponService', () => {
     let customerCouponLoaded: boolean;
     service
       .getCustomerCouponsLoaded()
-      .subscribe(data => {
+      .subscribe((data) => {
         customerCouponLoaded = data;
       })
       .unsubscribe();
@@ -116,7 +116,7 @@ describe('CustomerCouponService', () => {
     let customerCouponLoaded: boolean;
     service
       .getCustomerCouponsLoading()
-      .subscribe(data => {
+      .subscribe((data) => {
         customerCouponLoaded = data;
       })
       .unsubscribe();
@@ -144,7 +144,7 @@ describe('CustomerCouponService', () => {
     let result = false;
     service
       .getSubscribeCustomerCouponResultLoading()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);
@@ -156,7 +156,7 @@ describe('CustomerCouponService', () => {
     let result = false;
     service
       .getSubscribeCustomerCouponResultSuccess()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);
@@ -168,7 +168,7 @@ describe('CustomerCouponService', () => {
     let result = false;
     service
       .getSubscribeCustomerCouponResultError()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);
@@ -195,7 +195,7 @@ describe('CustomerCouponService', () => {
     let result = false;
     service
       .getUnsubscribeCustomerCouponResultLoading()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);
@@ -207,7 +207,7 @@ describe('CustomerCouponService', () => {
     let result = false;
     service
       .getUnsubscribeCustomerCouponResultSuccess()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);
@@ -219,7 +219,7 @@ describe('CustomerCouponService', () => {
     let result = false;
     service
       .getUnsubscribeCustomerCouponResultError()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);

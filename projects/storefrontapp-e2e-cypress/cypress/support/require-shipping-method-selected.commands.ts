@@ -17,7 +17,7 @@ declare global {
     }
   }
 }
-Cypress.Commands.add('requireShippingMethodSelected', auth => {
+Cypress.Commands.add('requireShippingMethodSelected', (auth) => {
   const apiUrl = Cypress.env('API_URL');
   function setShippingMethod() {
     return cy.request({
@@ -31,5 +31,5 @@ Cypress.Commands.add('requireShippingMethodSelected', auth => {
   }
 
   cy.server();
-  setShippingMethod().then(resp => cy.wrap(resp));
+  setShippingMethod().then((resp) => cy.wrap(resp));
 });
