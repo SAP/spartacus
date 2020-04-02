@@ -1,0 +1,71 @@
+<cx-interactive-table
+  [data$]="data$"
+  [header]="'unitAssignRoles.header' | cxTranslate: { code: code }"
+  [sortLabels]="{
+    byName: 'userList.sorting.byName' | cxTranslate
+  }"
+  [columns]="[
+    {
+      key: 'selected',
+      value: 'userList.assign' | cxTranslate,
+      checkBox: true
+    },
+    {
+      key: 'email',
+      value: 'userList.uid' | cxTranslate,
+      cxRoute: 'userDetails'
+    },
+    { key: 'name', value: 'userList.name' | cxTranslate },
+    { key: 'roles', value: 'userList.roles' | cxTranslate },
+    {
+      key: 'parentUnit',
+      value: 'userList.parentUnit' | cxTranslate,
+      cxRoute: 'orgUnitDetails'
+    }
+  ]"
+  (pageChange)="pageChange($event)"
+  (changeSortCode)="changeSortCode($event)"
+  (check)="assign($event)"
+  (uncheck)="unassign($event)"
+>
+  <div class="col-md-12 col-lg-3">
+    <div class="row cx-search-links mb-3">
+      <div class="col-12 cx-textalign">
+        <ng-select
+          bindLabel="name"
+          bindValue="roleId"
+          [clearable]="false"
+          [ngModel]="roleId"
+          [items]="[
+            { name: 'userList.admin' | cxTranslate, roleId: 'b2badmingroup' },
+            {
+              name: 'userList.manager' | cxTranslate,
+              roleId: 'b2bmanagergroup'
+            },
+            {
+              name: 'userList.approver' | cxTranslate,
+              roleId: 'b2bapprovergroup'
+            },
+            {
+              name: 'userList.customer' | cxTranslate,
+              roleId: 'b2bcustomergroup'
+            }
+          ]"
+        ></ng-select>
+      </div>
+    </div>
+    <div class="row cx-search-links mb-3">
+      <div class="col-12 cx-textalign">
+        <!--          back-->
+        <a
+          [routerLink]="
+            { cxRoute: 'orgUnitDetails', params: { uid: code } } | cxUrl
+          "
+          class="btn btn-primary btn-block"
+        >
+          {{ 'unitAssignRoles.back' | cxTranslate }}
+        </a>
+      </div>
+    </div>
+  </div>
+</cx-interactive-table>

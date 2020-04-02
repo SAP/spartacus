@@ -1,0 +1,109 @@
+<ng-container class="container" *ngIf="orgUnit$ | async as orgUnit">
+  <div class="row">
+    <div class="col-md-12 col-lg-6">
+      <div class="cx-header">
+        <h3>{{ 'orgUnit.details' | cxTranslate }}</h3>
+      </div>
+      <div class="row ">
+        <div class="col-6">{{ 'orgUnit.uid' | cxTranslate }}</div>
+        <div class="col-6">{{ orgUnit.uid }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'orgUnit.name' | cxTranslate }}</div>
+        <div class="col-6 cx-label">{{ orgUnit.name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'orgUnit.approvalProcess' | cxTranslate }}</div>
+        <div class="col-6">{{ orgUnit.approvalProcess?.name }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'orgUnit.parentUnit' | cxTranslate }}</div>
+        <div class="col-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitDetails',
+                params: orgUnit.parentOrgUnit
+              } | cxUrl
+            "
+          >
+            {{ orgUnit.parentOrgUnit?.name }}
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'orgUnit.status' | cxTranslate }}</div>
+        <div class="col-6">
+          {{
+            orgUnit.active
+              ? ('orgUnit.active' | cxTranslate)
+              : ('orgUnit.deactivated' | cxTranslate)
+          }}
+        </div>
+      </div>
+      <div class="row">
+        <div *ngIf="orgUnit.active; else enable" class="col-md-12 col-lg-6">
+          <button
+            class="btn btn-secondary btn-block"
+            (click)="update({ active: false })"
+          >
+            {{ 'orgUnit.disable' | cxTranslate }}
+          </button>
+        </div>
+        <ng-template #enable>
+          <div class="col-md-12 col-lg-6">
+            <button
+              class="btn btn-primary btn-block"
+              (click)="update({ active: true })"
+            >
+              {{ 'orgUnit.enable' | cxTranslate }}
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <div class="row">
+        <div class="col-md-12 col-lg-6">
+          <a
+            [class.disabled]="!orgUnit.active"
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitEdit',
+                params: orgUnit
+              } | cxUrl
+            "
+            class="btn btn-primary btn-block"
+          >
+            {{ 'orgUnit.edit' | cxTranslate }}
+          </a>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'orgUnits'
+              } | cxUrl
+            "
+            class="btn btn-secondary btn-block"
+          >
+            {{ 'orgUnit.back' | cxTranslate }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 col-lg-6">
+    <a
+      [routerLink]="
+        {
+          cxRoute: 'orgUnitAssignRoles',
+          params: { code: orgUnit.uid, roleId: 'b2bcustomergroup' }
+        } | cxUrl
+      "
+      class="btn btn-primary btn-block"
+    >
+      {{ 'orgUnit.assignRoles' | cxTranslate }}
+    </a>
+  </div>
+</ng-container>
