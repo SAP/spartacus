@@ -44,9 +44,9 @@ export const cart = {
 };
 
 export const cartWithCheapProduct = {
-  estimatedShipping: '$11.99',
+  estimatedShipping: '$9.99',
   total: '$8.20',
-  totalAndShipping: '$20.19',
+  totalAndShipping: '$18.19',
 };
 
 export const delivery = {
