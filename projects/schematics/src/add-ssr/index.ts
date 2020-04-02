@@ -141,6 +141,34 @@ function provideServerFile(options: SpartacusOptions): Source {
   ]);
 }
 
+function modifyAppModuleFile(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const appModulePath = getPathResultsForFile(
+      tree,
+      'app.module.ts',
+      '/src'
+    )[0];
+
+    if (!appModulePath) {
+      throw new SchematicsException(`Project file "app.module.ts" not found.`);
+    }
+
+    addImport(
+      tree,
+      appModulePath,
+      'BrowserTransferStateModule',
+      '@angular/platform-browser'
+    );
+    addToModuleImportsAndCommitChanges(
+      tree,
+      appModulePath,
+      `BrowserTransferStateModule`
+    );
+    context.logger.log('info', `✅️ Modified app.module.ts file.`);
+    return tree;
+  };
+}
+
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProjectFromWorkspace(tree, options);
@@ -157,6 +185,7 @@ export function addSSR(options: SpartacusOptions): Rule {
         chain([mergeWith(template, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
       ),
+      modifyAppModuleFile(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };
