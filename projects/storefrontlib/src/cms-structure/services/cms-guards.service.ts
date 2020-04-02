@@ -3,7 +3,8 @@ import { concat, from, isObservable, Observable, of } from 'rxjs';
 import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
-  FeatureConfigService,
+  Config,
+  isFeatureEnabled,
 } from '@spartacus/core';
 import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsMappingService } from './cms-mapping.service';
@@ -50,8 +51,8 @@ export class CmsGuardsService {
   }
 
   shouldForceRefreshPage(): boolean {
-    const featureConfig = this.injector.get(FeatureConfigService);
-    return !featureConfig.isEnabled('cmsPageLoadOnce');
+    const config = this.injector.get(Config);
+    return !isFeatureEnabled(config, 'cmsPageLoadOnce');
   }
 }
 

@@ -44,6 +44,9 @@ class MockCmsGuardsService {
   cmsPageCanActivate = jasmine
     .createSpy('cmsPageCanActivate')
     .and.returnValue(of(true));
+  shouldForceRefreshPage = jasmine
+    .createSpy('cmsPageCanActivate')
+    .and.returnValue(of(true));
 }
 
 class MockProtectedRoutesGuard {
