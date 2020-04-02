@@ -43,7 +43,10 @@ describe('WithCredentialsInterceptor', () => {
     it('should add the `withCredentials` flag to an OCC request', inject(
       [HttpClient],
       (http: HttpClient) => {
-        http.get(OccUrl).subscribe().unsubscribe();
+        http
+          .get(OccUrl)
+          .subscribe()
+          .unsubscribe();
 
         const mockReq: TestRequest = httpMock.expectOne(OccUrl);
 
@@ -54,7 +57,10 @@ describe('WithCredentialsInterceptor', () => {
     it('should not add the `withCredentials` flag to other request', inject(
       [HttpClient],
       (http: HttpClient) => {
-        http.get(NonOccUrl).subscribe().unsubscribe();
+        http
+          .get(NonOccUrl)
+          .subscribe()
+          .unsubscribe();
 
         const mockReq: TestRequest = httpMock.expectOne(NonOccUrl);
 
@@ -93,7 +99,10 @@ describe('WithCredentialsInterceptor', () => {
     it('should not add the `withCredentials` flag to request with wrong prefix', inject(
       [HttpClient],
       (http: HttpClient) => {
-        http.get(OccUrl).subscribe().unsubscribe();
+        http
+          .get(OccUrl)
+          .subscribe()
+          .unsubscribe();
         const mockReq: TestRequest = httpMock.expectOne(OccUrl);
         expect(mockReq.request.withCredentials).toBe(false);
       }
@@ -102,7 +111,10 @@ describe('WithCredentialsInterceptor', () => {
     it('should add the `withCredentials` flag to request with configured prefix', inject(
       [HttpClient],
       (http: HttpClient) => {
-        http.get('thirdparty.com/my/prefix/xyz').subscribe().unsubscribe();
+        http
+          .get('thirdparty.com/my/prefix/xyz')
+          .subscribe()
+          .unsubscribe();
         const mockReq: TestRequest = httpMock.expectOne(
           'thirdparty.com/my/prefix/xyz'
         );
