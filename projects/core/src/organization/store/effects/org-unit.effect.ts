@@ -29,15 +29,18 @@ export class OrgUnitEffects {
     switchMap(({ userId, orgUnitId }) => {
       return this.orgUnitConnector.get(userId, orgUnitId).pipe(
         switchMap((orgUnit: B2BUnit) => {
-          const { values, page } = normalizeListPage(
-            { values: orgUnit.addresses },
-            'id'
-          );
-          return [
-            new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]),
-            new OrgUnitActions.LoadAddressSuccess(values),
-            new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
-          ];
+          if (orgUnit.addresses) {
+            const { values, page } = normalizeListPage(
+              { values: orgUnit.addresses },
+              'id'
+            );
+            return [
+              new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]),
+              new OrgUnitActions.LoadAddressSuccess(values),
+              new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
+            ];
+          }
+          return [new OrgUnitActions.LoadOrgUnitSuccess([orgUnit])];
         }),
         catchError(error =>
           of(
