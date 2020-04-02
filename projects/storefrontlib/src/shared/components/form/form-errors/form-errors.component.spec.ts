@@ -36,7 +36,7 @@ describe('FormErrors', () => {
     let returnedErrors: string[];
 
     control.setErrors({});
-    component.errors$.subscribe(errors => {
+    component.errors$.subscribe((errors) => {
       returnedErrors = errors;
     });
 
@@ -47,14 +47,14 @@ describe('FormErrors', () => {
     let returnedErrors: string[];
 
     control.setErrors(mockError);
-    component.errors$.subscribe(errors => {
+    component.errors$.subscribe((errors) => {
       returnedErrors = errors;
     });
 
     expect(returnedErrors).toEqual([mockErrorName]);
 
     control.setErrors({});
-    component.errors$.subscribe(errors => {
+    component.errors$.subscribe((errors) => {
       returnedErrors = errors;
     });
 
@@ -65,7 +65,7 @@ describe('FormErrors', () => {
     let returnedErrors: string[];
 
     control.setErrors(mockError);
-    component.errors$.subscribe(errors => {
+    component.errors$.subscribe((errors) => {
       returnedErrors = errors;
     });
 
@@ -76,14 +76,14 @@ describe('FormErrors', () => {
     let returnedErrors: string[];
 
     control.setErrors({});
-    component.errors$.subscribe(errors => {
+    component.errors$.subscribe((errors) => {
       returnedErrors = errors;
     });
 
     expect(returnedErrors).toEqual([]);
 
     control.setErrors(mockError);
-    component.errors$.subscribe(errors => {
+    component.errors$.subscribe((errors) => {
       returnedErrors = errors;
     });
 

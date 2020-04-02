@@ -155,8 +155,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
       });
 
     this.regions$ = this.selectedCountry$.pipe(
-      switchMap(country => this.userAddressService.getRegions(country)),
-      tap(regions => {
+      switchMap((country) => this.userAddressService.getRegions(country)),
+      tap((regions) => {
         const regionControl = this.billingAddressForm.get(
           'region.isocodeShort'
         );

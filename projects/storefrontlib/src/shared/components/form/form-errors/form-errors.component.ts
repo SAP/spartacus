@@ -19,10 +19,10 @@ export class FormErrorsComponent {
     this.errors$ = control?.statusChanges.pipe(
       startWith({}),
       map(() => control.errors || {}),
-      map(errors =>
+      map((errors) =>
         Object.entries(errors)
-          .filter(error => error[1])
-          .map(error => error[0])
+          .filter((error) => error[1])
+          .map((error) => error[0])
       )
     );
   }

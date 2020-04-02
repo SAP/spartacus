@@ -6,19 +6,19 @@ import { CustomFormValidators } from '../../../shared/utils/validators/custom-fo
 
 @Component({
   selector: 'cx-checkout-login',
-  templateUrl: './checkout-login.component.html'
+  templateUrl: './checkout-login.component.html',
 })
 export class CheckoutLoginComponent implements OnDestroy {
   checkoutLoginForm: FormGroup = this.formBuilder.group(
     {
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
-      emailConfirmation: ['', [Validators.required]]
+      emailConfirmation: ['', [Validators.required]],
     },
     {
       validators: CustomFormValidators.emailsMustMatch(
         'email',
         'emailConfirmation'
-      )
+      ),
     }
   );
   sub: Subscription;
