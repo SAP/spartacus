@@ -4,9 +4,10 @@
 @import './product-grid';
 @import './product-grid-item';
 @import './product-view';
-@import './active_facets';
+@import './active-facets';
 @import './facet-dialog';
+@import './product-facet-navigation';
 
 $product-list-whitelist: cx-product-list, cx-product-list-item, cx-product-grid,
-  cx-product-grid-item, cx-product-view, cx-active-facets, cx-facet,
-  cx-facet-dialog !default;
+  cx-product-grid-item, cx-product-view, cx-product-facet-navigation,
+  cx-active-facets, cx-facet, cx-facet-dialog !default;
