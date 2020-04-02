@@ -64,7 +64,7 @@ export class CmsPageGuard implements CanActivate {
     protected semanticPathService: SemanticPathService,
     protected protectedRoutesGuard?: ProtectedRoutesGuard
   ) {}
-s
+
   canActivate(
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
