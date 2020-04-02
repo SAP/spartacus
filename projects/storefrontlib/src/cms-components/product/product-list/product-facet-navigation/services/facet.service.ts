@@ -56,12 +56,15 @@ export class FacetService {
   /**
    * Toggles the facet expanded state. If the expanded state becomes false,
    * the visible values will decrease to the top values only.
+   *
+   * If the optional value argument is provided the expanded state will be set
+   * to true, regardless of the current `expanded` state.
    */
-  toggleExpand(facet: Facet, force?: boolean) {
+  toggleExpand(facet: Facet, value?: boolean) {
     const state = this.getState(facet).value;
 
     const toggledState = {
-      expanded: force ?? !state.expanded,
+      expanded: value ?? !state.expanded,
     } as FacetCollapseState;
 
     if (!state.maxVisible) {
