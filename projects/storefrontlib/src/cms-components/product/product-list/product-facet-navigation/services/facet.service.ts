@@ -77,7 +77,7 @@ export class FacetService {
   /**
    * Increases the visible values to the maximum values of the facet.
    */
-  increaseVisible(facet: Facet): void {
+  increaseVisibleValues(facet: Facet): void {
     this.updateState(facet, { maxVisible: facet.values.length });
   }
 
@@ -87,7 +87,7 @@ export class FacetService {
    * The topValueCount defaults to 6, but can be controlled in
    * the backend as well.
    */
-  decreaseVisible(facet: Facet): void {
+  decreaseVisibleValues(facet: Facet): void {
     this.updateState(facet, { maxVisible: facet.topValueCount });
   }
 
@@ -105,6 +105,9 @@ export class FacetService {
     // we do update the default expand state each time the facet is configured
     this.updateState(facet, {
       expandByDefault: this.isInitialExpanded(facet, position),
+      expanded:
+        this.getState(facet).value.expanded ??
+        this.isInitialExpanded(facet, position),
     } as FacetCollapseState);
   }
 
@@ -144,8 +147,8 @@ export class FacetService {
    *
    * Updates the state of the facet in the local facet map.
    */
-  protected updateState(facet: Facet, ...property: any) {
-    const state = Object.assign(this.getState(facet).value, ...property);
+  protected updateState(facet: Facet, property: FacetCollapseState) {
+    const state = Object.assign(this.getState(facet).value, { ...property });
     this.getState(facet).next(state);
   }
 

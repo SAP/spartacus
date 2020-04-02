@@ -36,7 +36,7 @@
 
     <button
       *ngIf="state.maxVisible > state.topVisible"
-      (click)="decreaseCount()"
+      (click)="decreaseVisibleValues()"
       cxFocus="moreorless"
     >
       {{ 'productList.showLess' | cxTranslate }}
@@ -44,7 +44,7 @@
 
     <button
       *ngIf="state.maxVisible > 0 && state.maxVisible < facet.values.length"
-      (click)="increaseCount()"
+      (click)="increaseVisibleValues()"
     >
       {{ 'productList.showMore' | cxTranslate }}
     </button>

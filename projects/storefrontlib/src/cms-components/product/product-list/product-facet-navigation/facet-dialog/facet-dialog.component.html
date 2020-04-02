@@ -28,6 +28,6 @@
     *ngFor="let facet of facets"
     [facet]="facet"
     [cxFocus]="{ lock: true, trap: true, autofocus: 'a' }"
-    (unlock)="collapseFacetGroup($event, facet)"
+    (unlock)="expandFacetGroup(facet)"
   ></cx-facet>
 </div>

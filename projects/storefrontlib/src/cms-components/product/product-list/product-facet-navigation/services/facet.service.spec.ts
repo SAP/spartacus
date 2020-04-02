@@ -66,7 +66,7 @@ describe('FacetService', () => {
     });
   });
 
-  describe('configure expandBydefault', () => {
+  describe('configure expandByDefault', () => {
     it('should collapse all facets by default for dialogMode (mobile)', () => {
       service
         .getFacetList(DialogMode.POP)
@@ -128,12 +128,12 @@ describe('FacetService', () => {
 
   describe('visible values', () => {
     it('should increase visible', () => {
-      service.increaseVisible(facet1);
+      service.increaseVisibleValues(facet1);
       expect(service.getState(facet1).value.maxVisible).toEqual(7);
     });
 
     it('should decrease visible', () => {
-      service.decreaseVisible(facet1);
+      service.decreaseVisibleValues(facet1);
       expect(service.getState(facet1).value.maxVisible).toEqual(5);
     });
   });

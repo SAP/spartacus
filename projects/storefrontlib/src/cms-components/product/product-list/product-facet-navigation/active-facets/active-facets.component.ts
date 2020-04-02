@@ -20,7 +20,7 @@ export class ActiveFacetsComponent {
   /** Configurable icon which is used for the active facet close button */
   @Input() closeIcon = ICON_TYPE.CLOSE;
 
-  constructor(private facetService: FacetService) {}
+  constructor(protected facetService: FacetService) {}
 
   getLinkParams(facet: Breadcrumb) {
     return this.facetService.getLinkParams(facet.removeQuery?.query?.value);

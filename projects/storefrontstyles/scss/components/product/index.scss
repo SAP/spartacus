@@ -23,4 +23,4 @@ $product-components-whitelist: mergeAll(
     cx-product-variants,
     cx-product-facet-navigation
   )
-);
+) !default;

@@ -22,8 +22,6 @@ export class FacetComponent {
 
   state$: Observable<FacetCollapseState>;
 
-  expandedIcon = ICON_TYPE.EXPAND;
-
   /** configurable icon that is used to collapse the facet group  */
   @Input() expandIcon: ICON_TYPE = ICON_TYPE.EXPAND;
   @Input() collapseIcon: ICON_TYPE = ICON_TYPE.COLLAPSE;
@@ -38,16 +36,15 @@ export class FacetComponent {
 
     const state$ = this.facetService.getState(value);
     // the initial observed state doesn't work without this...
-    this.isExpanded = state$.value.expanded ?? state$.value.expandByDefault;
+    this.isExpanded = state$.value.expanded; // ?? state$.value.expandByDefault;
     this.state$ = state$.pipe(
-      tap(state => (this.isExpanded = state.expanded ?? state.expandByDefault))
+      tap(state => (this.isExpanded = state.expanded)) // ?? state.expandByDefault))
     );
   }
+
   get facet(): Facet {
     return this._facet;
   }
-
-  @Input() @HostBinding('attr.class') class: string;
 
   constructor(
     protected facetService: FacetService,
@@ -65,18 +62,20 @@ export class FacetComponent {
     if (!isLocked || this.isExpanded) {
       this.facetService.toggleExpand(this.facet);
       host.focus();
+      // we stop propagating the event as otherwise the focus on the host will trigger
+      // an unlock event from the LockFocus directive.
       event.stopPropagation();
     } else {
       this.facetService.toggleExpand(this.facet, true);
     }
   }
 
-  increaseCount(): void {
-    this.facetService.increaseVisible(this.facet);
+  increaseVisibleValues(): void {
+    this.facetService.increaseVisibleValues(this.facet);
   }
 
-  decreaseCount(): void {
-    this.facetService.decreaseVisible(this.facet);
+  decreaseVisibleValues(): void {
+    this.facetService.decreaseVisibleValues(this.facet);
   }
 
   getLinkParams(value: FacetValue) {

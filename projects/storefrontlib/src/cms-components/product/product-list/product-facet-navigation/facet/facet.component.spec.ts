@@ -38,8 +38,8 @@ class MockFacetService {
     return s;
   }
   toggleExpand() {}
-  increaseVisible() {}
-  decreaseVisible() {}
+  increaseVisibleValues() {}
+  decreaseVisibleValues() {}
 }
 
 describe('FacetComponent', () => {
@@ -94,7 +94,7 @@ describe('FacetComponent', () => {
       expect(component.isExpanded).toBeTruthy();
     });
 
-    it('should set isExpanded to true when expandBydefault = true', () => {
+    it('should set isExpanded to true when expandByDefault = true', () => {
       s.next({
         expandByDefault: true,
       });
@@ -103,7 +103,7 @@ describe('FacetComponent', () => {
       expect(component.isExpanded).toBeTruthy();
     });
 
-    it('should set isExpanded to false when expandBydefault = true but expanded = false', () => {
+    it('should set isExpanded to false when expandByDefault = true but expanded = false', () => {
       s.next({
         expanded: false,
         expandByDefault: true,
@@ -163,17 +163,17 @@ describe('FacetComponent', () => {
 
   describe('count', () => {
     it('should call increaseVisible()', () => {
-      spyOn(facetService, 'increaseVisible').and.stub();
-      component.increaseCount();
-      expect(facetService.increaseVisible).toHaveBeenCalledWith(
+      spyOn(facetService, 'increaseVisibleValues').and.stub();
+      component.increaseVisibleValues();
+      expect(facetService.increaseVisibleValues).toHaveBeenCalledWith(
         component.facet
       );
     });
 
     it('should call decreaseVisible()', () => {
-      spyOn(facetService, 'decreaseVisible').and.stub();
-      component.decreaseCount();
-      expect(facetService.decreaseVisible).toHaveBeenCalledWith(
+      spyOn(facetService, 'decreaseVisibleValues').and.stub();
+      component.decreaseVisibleValues();
+      expect(facetService.decreaseVisibleValues).toHaveBeenCalledWith(
         component.facet
       );
     });

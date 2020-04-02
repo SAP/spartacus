@@ -30,6 +30,7 @@ export class FacetDialogComponent {
       .getFacetList(dialogMode)
       .pipe(tap(facetList => this.load.emit(facetList)));
   }
+
   get dialogMode() {
     return this._dialogMode;
   }
@@ -52,10 +53,10 @@ export class FacetDialogComponent {
   }
 
   /**
-   * Collapse the facet group in case of an _unlock_ event.
+   * Expands the facet group in case it is not expanded.
    */
-  collapseFacetGroup(unlockEvent: boolean, facet: Facet) {
-    if (unlockEvent && !this.facetService.getState(facet).value.expanded) {
+  expandFacetGroup(facet: Facet) {
+    if (!this.facetService.getState(facet).value.expanded) {
       this.facetService.toggleExpand(facet, true);
     }
   }
