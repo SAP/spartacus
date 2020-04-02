@@ -20,11 +20,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import {
-  sortTitles,
-  CustomFormValidators,
-  FormErrorsService,
-} from '../../../shared/index';
+import { sortTitles, CustomFormValidators } from '../../../shared/index';
 
 @Component({
   selector: 'cx-register',
@@ -71,8 +67,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected fb: FormBuilder,
     protected router: RoutingService,
     protected anonymousConsentsService: AnonymousConsentsService,
-    protected anonymousConsentsConfig: AnonymousConsentsConfig,
-    protected formErrorsService: FormErrorsService
+    protected anonymousConsentsConfig: AnonymousConsentsConfig
   ) {}
 
   ngOnInit() {
@@ -139,7 +134,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.register();
     } else {
       this.registerForm.markAllAsTouched();
-      this.formErrorsService.notify();
     }
   }
 

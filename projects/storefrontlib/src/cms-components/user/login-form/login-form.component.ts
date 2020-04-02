@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CheckoutConfigService } from '../../checkout/services/checkout-config.service';
-import { CustomFormValidators, FormErrorsService } from '../../../shared/index';
+import { CustomFormValidators } from '../../../shared/index';
 
 @Component({
   selector: 'cx-login-form',
@@ -28,8 +28,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     protected authRedirectService: AuthRedirectService,
     protected winRef: WindowRef,
     protected activatedRoute: ActivatedRoute,
-    protected checkoutConfigService: CheckoutConfigService,
-    protected formErrorsService: FormErrorsService
+    protected checkoutConfigService: CheckoutConfigService
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +55,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       this.login();
     } else {
       this.loginForm.markAllAsTouched();
-      this.formErrorsService.notify();
     }
   }
 
