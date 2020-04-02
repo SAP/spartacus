@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Country } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
@@ -23,9 +22,9 @@ export class UserPaymentService {
    * Loads all user's payment methods.
    */
   loadPaymentMethods(): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(new UserActions.LoadUserPaymentMethods(userId))
-    );
+    this.authService.callWithUserId((userId) => {
+      this.store.dispatch(new UserActions.LoadUserPaymentMethods(userId));
+    });
   }
 
   /**
@@ -52,14 +51,14 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   setPaymentMethodAsDefault(paymentMethodId: string): void {
-    this.withUserId((userId) =>
+    this.authService.callWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.SetDefaultUserPaymentMethod({
           userId,
           paymentMethodId,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -68,14 +67,14 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   deletePaymentMethod(paymentMethodId: string): void {
-    this.withUserId((userId) =>
+    this.authService.callWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.DeleteUserPaymentMethod({
           userId,
           paymentMethodId,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -90,15 +89,5 @@ export class UserPaymentService {
    */
   loadBillingCountries(): void {
     this.store.dispatch(new UserActions.LoadBillingCountries());
-  }
-
-  /*
-   * Utility method to distinquish user id in a convenient way
-   */
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }

@@ -1,6 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import {
@@ -15,8 +14,8 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
 
 class MockAuthService {
-  getOccUserId(): Observable<string> {
-    return of('current');
+  callWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
   }
 }
 
@@ -91,8 +90,8 @@ describe('UserService', () => {
 
     it('should not load anonymous user details', () => {
       const authService = TestBed.inject(AuthService);
-      spyOn(authService, 'getOccUserId').and.returnValue(
-        of(OCC_USER_ID_ANONYMOUS)
+      spyOn(authService, 'callWithUserId').and.callFake((cb) =>
+        cb(OCC_USER_ID_ANONYMOUS)
       );
       service.load();
       expect(store.dispatch).not.toHaveBeenCalled();
