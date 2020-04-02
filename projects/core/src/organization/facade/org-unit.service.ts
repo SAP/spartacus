@@ -251,7 +251,31 @@ export class OrgUnitService {
     );
   }
 
-  getAddresses() {}
+  getAddresses(orgUnitId: string): Observable<EntitiesModel<B2BAddress>> {
+    return this.getAddressesState(orgUnitId).pipe(
+      observeOn(queueScheduler),
+      tap(state => {
+        if (!(state.loading || state.success || state.error)) {
+          this.loadAddresses(orgUnitId);
+        }
+      }),
+      filter(state => state.success || state.error),
+      map(state => state.value)
+    );
+  }
+
+  getAddress(orgUnitId: string, addressId: string): Observable<B2BAddress> {
+    return this.getAddressState(addressId).pipe(
+      observeOn(queueScheduler),
+      tap(state => {
+        if (!(state.loading || state.success || state.error)) {
+          this.loadAddresses(orgUnitId);
+        }
+      }),
+      filter(state => state.success || state.error),
+      map(state => state.value)
+    );
+  }
 
   updateAddress(
     orgUnitId: string,
