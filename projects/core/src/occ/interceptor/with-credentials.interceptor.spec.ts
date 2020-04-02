@@ -12,7 +12,7 @@ import { WithCredentialsInterceptor } from './with-credentials.interceptor';
 const OccUrl = `https://localhost:9002${defaultOccConfig.backend.occ.prefix}/electronics/test`;
 const NonOccUrl = 'https://other.com/endpoint';
 
-fdescribe('WithCredentialsInterceptor', () => {
+describe('WithCredentialsInterceptor', () => {
   describe('useWithCredentials: true', () => {
     const MockAuthModuleConfig: OccConfig = {
       backend: {
