@@ -413,19 +413,19 @@ export class OrgUnitUserGroupEffects {
         action: OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermission
       ) => action.payload
     ),
-    switchMap(payload =>
+    switchMap(({ userId, orgUnitUserGroupUid, permissionUid }) =>
       this.orgUnitUserGroupConnector
         .unassignOrderApprovalPermission(
-          payload.userId,
-          payload.orgUnitUserGroupUid,
-          payload.permissionUid
+          userId,
+          orgUnitUserGroupUid,
+          permissionUid
         )
         .pipe(
           map(
             () =>
               new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess(
                 {
-                  permissionUid: payload.permissionUid,
+                  permissionUid: permissionUid,
                   selected: false,
                 }
               )
@@ -434,8 +434,7 @@ export class OrgUnitUserGroupEffects {
             of(
               new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionFail(
                 {
-                  orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
-                  permissionUid: payload.permissionUid,
+                  permissionUid,
                   error: makeErrorSerializable(error),
                 }
               )

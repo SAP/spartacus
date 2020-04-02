@@ -1,0 +1,47 @@
+<cx-interactive-table
+  [data$]="data$"
+  [header]="'userGroupAssignUsers.header' | cxTranslate: { code: code }"
+  [sortLabels]="{
+    byUnitName: 'usersList.sorting.byUnitName' | cxTranslate,
+    byName: 'usersList.sorting.byName' | cxTranslate,
+    byCode: 'usersList.sorting.byCode' | cxTranslate,
+    byValue: 'usersList.sorting.byValue' | cxTranslate
+  }"
+  [columns]="[
+    {
+      key: 'selected',
+      value: 'usersList.assign' | cxTranslate,
+      checkBox: true
+    },
+    {
+      key: 'code',
+      value: 'usersList.uid' | cxTranslate,
+      cxRoute: 'userDetails'
+    },
+    { key: 'name', value: 'usersList.name' | cxTranslate },
+    {
+      key: 'parentUnit',
+      value: 'usersList.parentUnit' | cxTranslate,
+      cxRoute: 'orgUnitDetails'
+    }
+  ]"
+  (pageChange)="pageChange($event)"
+  (changeSortCode)="changeSortCode($event)"
+  (check)="assign($event)"
+  (uncheck)="unassign($event)"
+>
+  <div class="col-md-12 col-lg-3">
+    <div class="row cx-search-links mb-3">
+      <div class="col-12 cx-textalign">
+        <a
+          [routerLink]="
+            { cxRoute: 'userGroupDetails', params: { code: code } } | cxUrl
+          "
+          class="btn btn-primary btn-block"
+        >
+          {{ 'userGroupAssignUsers.back' | cxTranslate }}
+        </a>
+      </div>
+    </div>
+  </div>
+</cx-interactive-table>

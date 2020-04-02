@@ -491,7 +491,6 @@ export class DeleteOrgUnitUserGroupOrderApprovalPermissionFail extends EntityFai
   readonly type = DELETE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_FAIL;
   constructor(
     public payload: {
-      orgUnitUserGroupUid: string;
       permissionUid: string;
       error: any;
     }

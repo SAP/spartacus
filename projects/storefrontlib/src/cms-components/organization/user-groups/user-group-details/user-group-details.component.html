@@ -46,5 +46,31 @@
         </div>
       </div>
     </div>
+    <div class="col-md-12 col-lg-6">
+      <a
+        [routerLink]="
+          {
+            cxRoute: 'userGroupAssignPermissions',
+            params: userGroup
+          } | cxUrl
+        "
+        class="btn btn-primary btn-block"
+      >
+        {{ 'userGroup.assignPermissions' | cxTranslate }}
+      </a>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <a
+        [routerLink]="
+          {
+            cxRoute: 'userGroupAssignUsers',
+            params: userGroup
+          } | cxUrl
+        "
+        class="btn btn-primary btn-block"
+      >
+        {{ 'userGroup.assignUsers' | cxTranslate }}
+      </a>
+    </div>
   </div>
 </ng-container>
