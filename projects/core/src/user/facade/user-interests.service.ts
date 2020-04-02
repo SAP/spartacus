@@ -1,32 +1,35 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
+import {
+  NotificationType,
+  ProductInterestEntryRelation,
+  ProductInterestSearchResult,
+} from '../../model/product-interest.model';
 import { StateWithProcess } from '../../process/store/process-state';
+import {
+  getProcessErrorFactory,
+  getProcessLoadingFactory,
+  getProcessSuccessFactory,
+} from '../../process/store/selectors/process.selectors';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import {
-  StateWithUser,
-  REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
   ADD_PRODUCT_INTEREST_PROCESS_ID,
+  REMOVE_PRODUCT_INTERESTS_PROCESS_ID,
+  StateWithUser,
 } from '../store/user-state';
-import {
-  ProductInterestSearchResult,
-  ProductInterestEntryRelation,
-  NotificationType,
-} from '../../model/product-interest.model';
-import { tap, map } from 'rxjs/operators';
-import {
-  getProcessLoadingFactory,
-  getProcessSuccessFactory,
-  getProcessErrorFactory,
-} from '../../process/store/selectors/process.selectors';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserInterestsService {
-  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
+  constructor(
+    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected authService: AuthService
+  ) {}
 
   /**
    * Retrieves an product interest list
@@ -41,16 +44,18 @@ export class UserInterestsService {
     productCode?: string,
     notificationType?: NotificationType
   ): void {
-    this.store.dispatch(
-      new UserActions.LoadProductInterests({
-        userId: OCC_USER_ID_CURRENT,
-        pageSize: pageSize,
-        currentPage: currentPage,
-        sort: sort,
-        productCode: productCode,
-        notificationType: notificationType,
-      })
-    );
+    this.authService.callWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.LoadProductInterests({
+          userId,
+          pageSize: pageSize,
+          currentPage: currentPage,
+          sort: sort,
+          productCode: productCode,
+          notificationType: notificationType,
+        })
+      );
+    });
   }
 
   /**
@@ -98,13 +103,15 @@ export class UserInterestsService {
     item: ProductInterestEntryRelation,
     singleDelete?: boolean
   ): void {
-    this.store.dispatch(
-      new UserActions.RemoveProductInterest({
-        userId: OCC_USER_ID_CURRENT,
-        item: item,
-        singleDelete: singleDelete,
-      })
-    );
+    this.authService.callWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.RemoveProductInterest({
+          userId,
+          item: item,
+          singleDelete: singleDelete,
+        })
+      );
+    });
   }
 
   /**
@@ -135,13 +142,15 @@ export class UserInterestsService {
     productCode: string,
     notificationType: NotificationType
   ): void {
-    this.store.dispatch(
-      new UserActions.AddProductInterest({
-        userId: OCC_USER_ID_CURRENT,
-        productCode: productCode,
-        notificationType: notificationType,
-      })
-    );
+    this.authService.callWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.AddProductInterest({
+          userId,
+          productCode: productCode,
+          notificationType: notificationType,
+        })
+      );
+    });
   }
 
   /**
