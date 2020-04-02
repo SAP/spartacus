@@ -89,10 +89,12 @@ export class CmsPageGuard implements CanActivate {
   ): Observable<boolean | UrlTree> {
     return this.routingService.getNextPageContext().pipe(
       switchMap(pageContext =>
-        this.cmsService.getPage(pageContext, true).pipe(
-          first(),
-          withLatestFrom(of(pageContext))
-        )
+        this.cmsService
+          .getPage(pageContext, this.cmsGuards.shouldForceRefreshPage())
+          .pipe(
+            first(),
+            withLatestFrom(of(pageContext))
+          )
       ),
       switchMap(([pageData, pageContext]) =>
         pageData
