@@ -33,7 +33,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   couponBoxIsActive = false;
 
   constructor(
-    protected authService: AuthService,
     protected cartVoucherService: CartVoucherService,
     protected formBuilder: FormBuilder,
     protected customerCouponService: CustomerCouponService,
@@ -47,43 +46,26 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         this.MAX_CUSTOMER_COUPON_PAGE
       );
     }
-    if (this.featureConfig && this.featureConfig.isLevel('1.5')) {
-      this.cart$ = combineLatest([
-        this.activeCartService.getActive(),
-        this.authService.getOccUserId(),
-        this.customerCouponService.getCustomerCoupons(
-          this.MAX_CUSTOMER_COUPON_PAGE
-        ),
-      ]).pipe(
-        tap(
-          ([cart, userId, customerCoupons]: [
-            Cart,
-            string,
-            CustomerCouponSearchResult
-          ]) => {
-            this.cartId =
-              userId === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
-            this.getApplicableCustomerCoupons(cart, customerCoupons.coupons);
-          }
-        ),
-        map(([cart]: [Cart, string, CustomerCouponSearchResult]) => cart)
-      );
-    }
-    //TODO(issue:#5971) Deprecated since 1.5
-    else {
-      this.cart$ = combineLatest([
-        this.activeCartService.getActive(),
-        this.authService.getOccUserId(),
-      ]).pipe(
-        tap(
-          ([cart, userId]: [Cart, string]) =>
-            (this.cartId =
-              userId === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code)
-        ),
-        map(([cart]: [Cart, string]) => cart)
-      );
-    }
-    //TODO(issue:#5971) Deprecated since 1.5
+
+    this.cart$ = combineLatest([
+      this.activeCartService.getActive(),
+      this.activeCartService.getActiveCartId(),
+      this.customerCouponService.getCustomerCoupons(
+        this.MAX_CUSTOMER_COUPON_PAGE
+      ),
+    ]).pipe(
+      tap(
+        ([cart, activeCardId, customerCoupons]: [
+          Cart,
+          string,
+          CustomerCouponSearchResult
+        ]) => {
+          this.cartId = activeCardId;
+          this.getApplicableCustomerCoupons(cart, customerCoupons.coupons);
+        }
+      ),
+      map(([cart]: [Cart, string, CustomerCouponSearchResult]) => cart)
+    );
 
     this.cartIsLoading$ = this.activeCartService
       .isStable()

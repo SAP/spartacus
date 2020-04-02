@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
@@ -16,7 +15,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
   declarations: [CartCouponComponent, AppliedCouponsComponent],
   exports: [CartCouponComponent, AppliedCouponsComponent],
   imports: [
-    FeaturesConfigModule,
     CommonModule,
     NgSelectModule,
     FormsModule,
