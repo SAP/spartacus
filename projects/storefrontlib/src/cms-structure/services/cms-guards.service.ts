@@ -51,7 +51,7 @@ export class CmsGuardsService {
 
   shouldForceRefreshPage(): boolean {
     const featureConfig = this.injector.get(FeatureConfigService);
-    return !featureConfig.isEnabled('disablePageReload');
+    return !featureConfig.isEnabled('cmsPageLoadOnce');
   }
 }
 
