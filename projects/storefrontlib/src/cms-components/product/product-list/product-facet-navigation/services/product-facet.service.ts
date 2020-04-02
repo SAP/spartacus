@@ -75,12 +75,10 @@ export class ProductFacetService {
   private mapResults(
     state: ActivatedRouterStateSnapshot,
     page: ProductSearchPage
-  ) {
+  ): ProductSearchPage {
     return {
       ...page,
-      ...{
-        breadcrumbs: this.filterBreadcrumbs(page.breadcrumbs, state.params),
-      },
+      breadcrumbs: this.filterBreadcrumbs(page.breadcrumbs, state.params),
     };
   }
 
