@@ -14,6 +14,13 @@
 cx-form-errors {
   display: none;
 
+  &.control-invalid {
+    &.control-dirty,
+    &.control-touched {
+      display: initial;
+    }
+  }
+
   p {
     font-size: 14px;
     margin: 6px 0;
@@ -61,10 +68,6 @@ textarea {
     &.ng-dirty,
     &.ng-touched {
       border-color: var(--cx-color-danger);
-
-      & ~ cx-form-errors {
-        display: initial;
-      }
     }
   }
 }
@@ -75,10 +78,6 @@ ng-select {
     &.ng-touched {
       .ng-select-container {
         border-color: var(--cx-color-danger);
-      }
-
-      & ~ cx-form-errors {
-        display: initial;
       }
     }
   }
