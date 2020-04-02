@@ -7,7 +7,7 @@ import {
 import { inject, TestBed } from '@angular/core/testing';
 import { defaultOccConfig } from '../config/default-occ-config';
 import { OccConfig } from '../config/occ-config';
-import { WithCredentialsInterceptor } from './with-credentials-interceptor';
+import { WithCredentialsInterceptor } from './with-credentials.interceptor';
 
 const OccUrl = `https://localhost:9002${defaultOccConfig.backend.occ.prefix}/electronics/test`;
 const NonOccUrl = 'https://other.com/endpoint';
