@@ -26,16 +26,17 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
       ]).pipe(
         map(([slots, cart, selectiveCart]) => {
           if (cart.totalItems) {
-            return slots.filter(slot => slot !== 'EmptyCartMiddleContent');
+            return slots.filter((slot) => slot !== 'EmptyCartMiddleContent');
           } else if (selectiveCart.totalItems) {
             return slots.filter(
-              slot =>
+              (slot) =>
                 slot !== 'EmptyCartMiddleContent' &&
                 slot !== 'CenterRightContentSlot'
             );
           } else {
             return slots.filter(
-              slot => slot !== 'TopContent' && slot !== 'CenterRightContentSlot'
+              (slot) =>
+                slot !== 'TopContent' && slot !== 'CenterRightContentSlot'
             );
           }
         })

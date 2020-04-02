@@ -61,7 +61,7 @@ export function subCategoryTabbingOrder(
       .trigger('keydown', {
         key: ' ',
         code: 'Space',
-        force: true,
+        force: true
       });
   });
 

@@ -62,8 +62,10 @@ describe('Multi Cart reducer', () => {
             code: 'cartCode',
           },
           userId: 'userId',
+          cartId: 'cartCode',
+          tempCartId: 'tempCartId',
         };
-        const action = new CartActions.CreateMultiCartSuccess(payload);
+        const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.activeCartReducer(
           activeCartInitialState,
           action
@@ -74,13 +76,14 @@ describe('Multi Cart reducer', () => {
       it('should not change active cart id when it is not active cart create', () => {
         const { activeCartInitialState } = fromMultiCart;
         const payload = {
-          extraData: {},
           cart: {
             code: 'cartCode',
           },
           userId: 'userId',
+          cartId: 'cartCode',
+          tempCartId: 'tempCartId',
         };
-        const action = new CartActions.CreateMultiCartSuccess(payload);
+        const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.activeCartReducer(
           activeCartInitialState,
           action
@@ -99,7 +102,7 @@ describe('Multi Cart reducer', () => {
           userId: 'userId',
           tempCartId: 'temp-uuid',
         };
-        const action = new CartActions.CreateMultiCart(payload);
+        const action = new CartActions.CreateCart(payload);
         const state = fromMultiCart.activeCartReducer(
           activeCartInitialState,
           action
@@ -110,10 +113,10 @@ describe('Multi Cart reducer', () => {
       it('should not change active cart id when it is not active cart create', () => {
         const { activeCartInitialState } = fromMultiCart;
         const payload = {
-          extraData: {},
           userId: 'userId',
+          tempCartId: 'temp-uuid',
         };
-        const action = new CartActions.CreateMultiCart(payload);
+        const action = new CartActions.CreateCart(payload);
         const state = fromMultiCart.activeCartReducer(
           activeCartInitialState,
           action
@@ -193,9 +196,10 @@ describe('Multi Cart reducer', () => {
         const payload = {
           cart,
           userId: 'userId',
-          extraData: {},
+          cartId: 'cartCode',
+          tempCartId: 'tempCartId',
         };
-        const action = new CartActions.CreateMultiCartSuccess(payload);
+        const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.cartEntitiesReducer(initialState, action);
         expect(state).toEqual(payload.cart);
       });

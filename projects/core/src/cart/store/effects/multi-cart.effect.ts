@@ -18,15 +18,6 @@ export class MultiCartEffects {
   );
 
   @Effect()
-  createCart2$: Observable<CartActions.CreateMultiCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.CREATE_CART),
-    map(
-      (action: CartActions.CreateCart) =>
-        new CartActions.CreateMultiCart(action.payload)
-    )
-  );
-
-  @Effect()
   setTempCart$ = this.actions$.pipe(
     ofType(CartActions.SET_TEMP_CART),
     map((action: CartActions.SetTempCart) => {
@@ -56,7 +47,7 @@ export class MultiCartEffects {
   removeCart$: Observable<CartActions.RemoveCart> = this.actions$.pipe(
     ofType(DeprecatedCartActions.DELETE_CART),
     map((action: DeprecatedCartActions.DeleteCart) => action.payload),
-    map(payload => new CartActions.RemoveCart(payload.cartId))
+    map((payload) => new CartActions.RemoveCart(payload.cartId))
   );
 
   // TODO: Change actions to extend Increment action instead of doing extra dispatch in this effect
@@ -78,7 +69,7 @@ export class MultiCartEffects {
           | CartActions.CartAddVoucher
       ) => action.payload
     ),
-    map(payload => new CartActions.CartProcessesIncrement(payload.cartId))
+    map((payload) => new CartActions.CartProcessesIncrement(payload.cartId))
   );
 
   constructor(private actions$: Actions) {}

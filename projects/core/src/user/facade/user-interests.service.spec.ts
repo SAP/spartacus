@@ -67,12 +67,12 @@ describe('UserInterestsService', () => {
 
     service
       .getAndLoadProductInterests()
-      .subscribe(data => expect(data).toEqual(emptyInterestList))
+      .subscribe((data) => expect(data).toEqual(emptyInterestList))
       .unsubscribe();
 
     service
       .getProductInterests()
-      .subscribe(data => expect(data).toEqual(emptyInterestList))
+      .subscribe((data) => expect(data).toEqual(emptyInterestList))
       .unsubscribe();
   });
 
@@ -80,7 +80,7 @@ describe('UserInterestsService', () => {
     store.dispatch(new UserActions.LoadProductInterests({ userId: 'userId' }));
     service
       .getProdutInterestsLoading()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
@@ -110,7 +110,7 @@ describe('UserInterestsService', () => {
     );
     service
       .getRemoveProdutInterestLoading()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
@@ -118,7 +118,7 @@ describe('UserInterestsService', () => {
     store.dispatch(new UserActions.RemoveProductInterestSuccess('success'));
     service
       .getRemoveProdutInterestSuccess()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
@@ -137,7 +137,7 @@ describe('UserInterestsService', () => {
     store.dispatch(new UserActions.AddProductInterestSuccess('success'));
     service
       .getAddProductInterestSuccess()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
@@ -145,7 +145,7 @@ describe('UserInterestsService', () => {
     store.dispatch(new UserActions.AddProductInterestFail('error'));
     service
       .getAddProductInterestError()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 

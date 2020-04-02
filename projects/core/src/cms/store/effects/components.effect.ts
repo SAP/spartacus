@@ -36,13 +36,13 @@ export class ComponentsEffects {
     > =>
       this.actions$.pipe(
         ofType<CmsActions.LoadCmsComponent>(CmsActions.LOAD_CMS_COMPONENT),
-        groupBy(actions => serializePageContext(actions.payload.pageContext)),
-        mergeMap(actionGroup =>
+        groupBy((actions) => serializePageContext(actions.payload.pageContext)),
+        mergeMap((actionGroup) =>
           actionGroup.pipe(
             bufferDebounceTime(debounce, scheduler),
-            mergeMap(actions =>
+            mergeMap((actions) =>
               this.loadComponentsEffect(
-                actions.map(action => action.payload.uid),
+                actions.map((action) => action.payload.uid),
                 actions[0].payload.pageContext
               )
             )
@@ -60,10 +60,10 @@ export class ComponentsEffects {
     | CmsActions.LoadCmsComponentFail
   > {
     return this.cmsComponentLoader.getList(componentUids, pageContext).pipe(
-      switchMap(components =>
+      switchMap((components) =>
         from(
           components.map(
-            component =>
+            (component) =>
               new CmsActions.LoadCmsComponentSuccess({
                 component,
                 uid: component.uid,
@@ -72,10 +72,10 @@ export class ComponentsEffects {
           )
         )
       ),
-      catchError(error =>
+      catchError((error) =>
         from(
           componentUids.map(
-            uid =>
+            (uid) =>
               new CmsActions.LoadCmsComponentFail({
                 uid,
                 error: makeErrorSerializable(error),

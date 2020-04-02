@@ -47,7 +47,7 @@ export class VariantSizeSelectorComponent {
     return null;
   }
   getVariantOptionValue(qualifiers: VariantOptionQualifier[]) {
-    const obj = qualifiers.find(q => q.qualifier === VariantQualifier.SIZE);
+    const obj = qualifiers.find((q) => q.qualifier === VariantQualifier.SIZE);
     return obj ? obj.value : '';
   }
 }

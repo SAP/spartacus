@@ -2,7 +2,7 @@ import * as saveForLater from '../../../helpers/save-for-later';
 
 describe('Save for later - guest', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
 
@@ -13,7 +13,7 @@ describe('Save for later - guest', () => {
 
 describe('Save for later - re-login customer', () => {
   beforeEach(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
   it('Should save items in saved for later list when logout', () => {
@@ -23,7 +23,7 @@ describe('Save for later - re-login customer', () => {
 
 describe('Save for later - customer', () => {
   beforeEach(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
     cy.visit('/');
   });

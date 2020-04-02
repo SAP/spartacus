@@ -80,12 +80,12 @@ export function getGlobMatcher(patterns: string[]): (url: string) => boolean {
     regex: new RegExp(regex),
   }));
 
-  const includePatterns = processedPatterns.filter(spec => spec.positive);
-  const excludePatterns = processedPatterns.filter(spec => !spec.positive);
+  const includePatterns = processedPatterns.filter((spec) => spec.positive);
+  const excludePatterns = processedPatterns.filter((spec) => !spec.positive);
 
   return (url: string) =>
-    includePatterns.some(pattern => pattern.regex.test(url)) &&
-    !excludePatterns.some(pattern => pattern.regex.test(url));
+    includePatterns.some((pattern) => pattern.regex.test(url)) &&
+    !excludePatterns.some((pattern) => pattern.regex.test(url));
 }
 
 /**
@@ -94,7 +94,7 @@ export function getGlobMatcher(patterns: string[]): (url: string) => boolean {
 export function processGlobPatterns(
   urls: string[]
 ): { positive: boolean; regex: string }[] {
-  return urls.map(url => {
+  return urls.map((url) => {
     const positive = !url.startsWith('!');
     url = positive ? url : url.substr(1);
     return { positive, regex: `^${globToRegex(url)}$` };

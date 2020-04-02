@@ -3,7 +3,7 @@ import * as wishList from '../../helpers/wish-list';
 
 describe('Wish list', () => {
   before(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.localStorage.clear();
     });
   });

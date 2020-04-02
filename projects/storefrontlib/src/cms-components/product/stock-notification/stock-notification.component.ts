@@ -77,19 +77,21 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     this.hasProductInterests$ = this.interestsService
       .getProductInterests()
       .pipe(
-        map(interests => !!interests.results && interests.results.length === 1)
+        map(
+          (interests) => !!interests.results && interests.results.length === 1
+        )
       );
     this.subscribeSuccess$ = this.interestsService.getAddProductInterestSuccess();
     this.isRemoveInterestLoading$ = this.interestsService.getRemoveProdutInterestLoading();
     this.prefsEnabled$ = this.notificationPrefService
       .getEnabledPreferences()
       .pipe(
-        tap(prefs => (this.enabledPrefs = prefs)),
-        map(prefs => prefs.length > 0)
+        tap((prefs) => (this.enabledPrefs = prefs)),
+        map((prefs) => prefs.length > 0)
       );
 
     this.subscriptions.add(
-      this.interestsService.getAddProductInterestError().subscribe(error => {
+      this.interestsService.getAddProductInterestError().subscribe((error) => {
         if (error) {
           this.onInterestAddingError();
         }
@@ -98,7 +100,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.interestsService
         .getRemoveProdutInterestSuccess()
-        .subscribe(success => {
+        .subscribe((success) => {
           if (success) {
             this.onInterestRemovingSuccess();
           }
@@ -135,7 +137,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
       this.translationService
         .translate('stockNotification.unsubscribeSuccess')
         .pipe(first())
-        .subscribe(text =>
+        .subscribe((text) =>
           this.globalMessageService.add(text, GlobalMessageType.MSG_TYPE_INFO)
         )
     );

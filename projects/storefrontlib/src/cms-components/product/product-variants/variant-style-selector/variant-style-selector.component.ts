@@ -29,14 +29,14 @@ export class VariantStyleSelectorComponent {
   variants: BaseOption;
 
   getVariantOptionValue(qualifiers: VariantOptionQualifier[]) {
-    const obj = qualifiers.find(q => q.qualifier === VariantQualifier.STYLE);
+    const obj = qualifiers.find((q) => q.qualifier === VariantQualifier.STYLE);
     return obj ? obj.value : '';
   }
 
   getVariantThumbnailUrl(
     variantOptionQualifiers: VariantOptionQualifier[]
   ): string {
-    const qualifier = variantOptionQualifiers.find(item => item.image);
+    const qualifier = variantOptionQualifiers.find((item) => item.image);
     return qualifier
       ? `${this.config.backend.occ.baseUrl}${qualifier.image.url}`
       : '';

@@ -6,6 +6,7 @@ export const ANGULAR_CORE = '@angular/core';
 export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
 export const RXJS = 'rxjs';
+export const ANGULAR_COMMON = '@angular/common';
 
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
@@ -29,6 +30,9 @@ export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 export const ROUTER = 'Router';
+export const WINDOW_REF = 'WindowRef';
+export const LOCATION = 'Location';
+export const COMPONENT_FACTORY_RESOLVER = 'ComponentFactoryResolver';
 
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
@@ -108,6 +112,7 @@ export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
 export const REGISTER_COMPONENT = 'RegisterComponent';
 export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
 export const ANONYMOUS_CONSENTS_CONFIG = 'AnonymousConsentsConfig';
@@ -119,6 +124,9 @@ export const URL_MATCHER_SERVICE = 'UrlMatcherService';
 export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
 export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
 export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
+export const ASM_ENABLER_SERVICE = 'AsmEnablerService';
+export const OUTLET_SERVICE = 'OutletService';
+export const LAUNCH_DIALOG_SERVICE = 'LaunchComponentService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

@@ -17,11 +17,11 @@ export class GlobService {
       regex: new RegExp(regex),
     }));
 
-    const includePatterns = processedPatterns.filter(spec => spec.positive);
-    const excludePatterns = processedPatterns.filter(spec => !spec.positive);
+    const includePatterns = processedPatterns.filter((spec) => spec.positive);
+    const excludePatterns = processedPatterns.filter((spec) => !spec.positive);
 
     return (url: string) =>
-      includePatterns.some(pattern => pattern.regex.test(url)) &&
-      !excludePatterns.some(pattern => pattern.regex.test(url));
+      includePatterns.some((pattern) => pattern.regex.test(url)) &&
+      !excludePatterns.some((pattern) => pattern.regex.test(url));
   }
 }

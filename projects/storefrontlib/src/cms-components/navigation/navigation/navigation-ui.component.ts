@@ -63,7 +63,7 @@ export class NavigationUIComponent implements OnDestroy {
   ) {
     this.subscriptions.add(
       this.router.events
-        .pipe(filter(event => event instanceof NavigationEnd))
+        .pipe(filter((event) => event instanceof NavigationEnd))
         .subscribe(() => this.clear())
     );
     this.subscriptions.add(
@@ -80,7 +80,7 @@ export class NavigationUIComponent implements OnDestroy {
       if (event.type === 'keydown') {
         this.back();
       } else {
-        this.openNodes = this.openNodes.filter(n => n !== node);
+        this.openNodes = this.openNodes.filter((n) => n !== node);
         this.renderer.removeClass(node, 'is-open');
       }
     } else {
@@ -116,7 +116,7 @@ export class NavigationUIComponent implements OnDestroy {
 
   getDepth(node: NavigationNode, depth = 0): number {
     if (node.children && node.children.length > 0) {
-      return Math.max(...node.children.map(n => this.getDepth(n, depth + 1)));
+      return Math.max(...node.children.map((n) => this.getDepth(n, depth + 1)));
     } else {
       return depth;
     }
@@ -168,8 +168,8 @@ export class NavigationUIComponent implements OnDestroy {
   private alignWrappersToRightIfStickOut() {
     const navs = <HTMLCollection>this.elemRef.nativeElement.childNodes;
     Array.from(navs)
-      .filter(node => node.tagName === 'NAV')
-      .forEach(nav => this.alignWrapperToRightIfStickOut(<HTMLElement>nav));
+      .filter((node) => node.tagName === 'NAV')
+      .forEach((nav) => this.alignWrapperToRightIfStickOut(<HTMLElement>nav));
   }
 
   private updateClasses(): void {

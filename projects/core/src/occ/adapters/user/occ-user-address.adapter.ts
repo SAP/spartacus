@@ -36,7 +36,7 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
       .get<Occ.AddressList>(url, { headers })
       .pipe(
         catchError((error: any) => throwError(error)),
-        map(addressList => addressList.addresses),
+        map((addressList) => addressList.addresses),
         this.converter.pipeableMany(ADDRESS_NORMALIZER)
       );
   }

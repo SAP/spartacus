@@ -1,16 +1,15 @@
 import { manipulateCartQuantity } from '../../../../helpers/cart';
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
-describe('Language switch - checkout page', () => {
+describe('Currency switch - checkout page', () => {
   const checkoutShippingPath =
     siteContextSelector.CHECKOUT_SHIPPING_ADDRESS_PATH;
   const checkoutDeliveryPath = siteContextSelector.CHECKOUT_DELIVERY_MODE_PATH;
   const checkoutPaymentPath = siteContextSelector.CHECKOUT_PAYMENT_DETAILS_PATH;
   const checkoutReviewPath = siteContextSelector.CHECKOUT_REVIEW_ORDER_PATH;
-  const deutschName = siteContextSelector.PRODUCT_NAME_CART_DE;
 
   before(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
       win.localStorage.clear();
     });
@@ -18,8 +17,8 @@ describe('Language switch - checkout page', () => {
   });
 
   siteContextSelector.stub(
-    siteContextSelector.LANGUAGE_REQUEST,
-    siteContextSelector.LANGUAGES
+    siteContextSelector.CURRENCY_REQUEST,
+    siteContextSelector.CURRENCIES
   );
 
   describe('populate cart, history, quantity', () => {
@@ -30,52 +29,54 @@ describe('Language switch - checkout page', () => {
   });
 
   describe('checkout page', () => {
-    it('should change language in the shipping address url', () => {
-      // page being already tested in language-address-book
+    it('should change currency in the shipping address url', () => {
+      // page being already tested in currency-address-book
       siteContextSelector.verifySiteContextChangeUrl(
         checkoutShippingPath,
-        siteContextSelector.LANGUAGES,
-        siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutShippingPath
+        siteContextSelector.CURRENCIES,
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL,
+        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutShippingPath
       );
 
       siteContextSelector.addressBookNextStep();
     });
 
-    it('should change language in the checkoutDeliveryPath url', () => {
+    it('should change currency in the checkoutDeliveryPath url', () => {
       siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutDeliveryPath
+        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutDeliveryPath
       );
     });
 
-    it('should change language in the checkoutDeliveryPath page', () => {
-      cy.get('cx-delivery-mode .cx-delivery-mode:first').should(
+    it('should change currency in the checkoutDeliveryPath page', () => {
+      cy.get('cx-delivery-mode .cx-delivery-price:first').should(
         'have.text',
-        'Standard-Lieferung'
+        ' ¥60 '
       );
 
       siteContextSelector.deliveryModeNextStep();
     });
 
-    it('should change language in the checkoutPaymentPath url', () => {
-      // page being already tested in language-payment-details
-
+    it('should change currency in the checkoutPaymentPath url', () => {
+      // page being already tested in currency-payment-details
       siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutPaymentPath
+        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutPaymentPath
       );
 
       siteContextSelector.paymentDetailsNextStep();
     });
 
-    it('should change language in the checkoutReviewPath url', () => {
+    it('should change currency in the checkoutReviewPath url', () => {
       siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutReviewPath
+        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutReviewPath
       );
     });
 
-    it('should change language in the checkoutReviewPath page', () => {
-      cy.get('cx-review-submit .cx-link').should('contain', deutschName);
+    it('should change currency in the checkoutReviewPath page', () => {
+      cy.get('cx-review-submit .cx-price .cx-value').should(
+        'have.text',
+        ' ¥9,720 '
+      );
     });
   });
 });
