@@ -104,8 +104,8 @@ export class FacetService {
 
     // we do update the default expand state each time the facet is configured
     this.updateState(facet, {
-      expandBydefault: this.isInitialExpanded(facet, position),
-    });
+      expandByDefault: this.isInitialExpanded(facet, position),
+    } as FacetCollapseState);
   }
 
   protected initialize(facet: Facet, forceInitialize: boolean = false) {
