@@ -9,5 +9,6 @@ export interface FeatureToggles {
     consignmentTracking?: boolean;
     anonymousConsents?: boolean;
     saveForLater?: boolean;
+    disablePageReload?: boolean;
   };
 }

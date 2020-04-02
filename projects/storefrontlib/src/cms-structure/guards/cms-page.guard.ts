@@ -64,7 +64,7 @@ export class CmsPageGuard implements CanActivate {
     protected semanticPathService: SemanticPathService,
     protected protectedRoutesGuard?: ProtectedRoutesGuard
   ) {}
-
+s
   canActivate(
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -90,7 +90,7 @@ export class CmsPageGuard implements CanActivate {
     return this.routingService.getNextPageContext().pipe(
       switchMap((pageContext) =>
         this.cmsService
-          .getPage(pageContext, true)
+          .getPage(pageContext, this.cmsGuards.shouldForceRefreshPage())
           .pipe(first(), withLatestFrom(of(pageContext)))
       ),
       switchMap(([pageData, pageContext]) =>
