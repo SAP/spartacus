@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import {
   OCC_USER_ID_ANONYMOUS,
@@ -52,6 +52,17 @@ export class AuthService {
         }
       })
     );
+  }
+
+  /**
+   * Calls provided callback with current user id.
+   *
+   * @param cb callback function to call
+   */
+  callWithUserId(cb: (userId: string) => any): Subscription {
+    return this.getOccUserId()
+      .pipe(take(1))
+      .subscribe((id) => cb(id));
   }
 
   /**
