@@ -28,7 +28,7 @@ import { FormsModule } from '@angular/forms';
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        UnitAssignRolesComponent: {
+        UnitManageAddressesComponent: {
           component: UnitManageAddressesComponent,
           guards: [AuthGuard],
         },

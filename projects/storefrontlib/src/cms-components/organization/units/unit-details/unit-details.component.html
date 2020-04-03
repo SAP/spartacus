@@ -106,4 +106,17 @@
       {{ 'orgUnit.assignRoles' | cxTranslate }}
     </a>
   </div>
+  <div class="col-md-12 col-lg-6">
+    <a
+      [routerLink]="
+        {
+          cxRoute: 'orgUnitManageAddresses',
+          params: { code: orgUnit.uid }
+        } | cxUrl
+      "
+      class="btn btn-primary btn-block"
+    >
+      {{ 'orgUnit.manageAddresses' | cxTranslate }}
+    </a>
+  </div>
 </ng-container>

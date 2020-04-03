@@ -25,7 +25,7 @@ import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        UnitDetailsComponent: {
+        UnitAddressDetailsComponent: {
           component: UnitAddressDetailsComponent,
           guards: [AuthGuard],
         },

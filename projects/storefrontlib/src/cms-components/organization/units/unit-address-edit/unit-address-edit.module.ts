@@ -25,7 +25,7 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        UnitEditComponent: {
+        UnitAddressEditComponent: {
           component: UnitAddressEditComponent,
           guards: [AuthGuard],
         },

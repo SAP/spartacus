@@ -14,7 +14,7 @@ import { UnitFormModule } from '../unit-form/unit-form.module';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        UnitCreateComponent: {
+        UnitAddressCreateComponent: {
           component: UnitAddressCreateComponent,
           guards: [AuthGuard],
         },
