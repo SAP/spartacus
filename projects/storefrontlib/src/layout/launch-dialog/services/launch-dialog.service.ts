@@ -1,4 +1,4 @@
-import { Inject, Injectable, ViewContainerRef } from '@angular/core';
+import { Inject, Injectable, isDevMode, ViewContainerRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { BreakpointService } from '../../breakpoint/breakpoint.service';
@@ -31,11 +31,13 @@ export class LaunchDialogService {
    */
   launch(caller: LAUNCH_CALLER, vcr?: ViewContainerRef): void {
     this.findConfiguration(caller).subscribe((config) => {
-      const renderer = this.getStrategy(config);
+      if (config) {
+        const renderer = this.getStrategy(config);
 
-      // Render if the strategy exists
-      if (renderer) {
-        renderer.render(config, caller, vcr);
+        // Render if the strategy exists
+        if (renderer) {
+          renderer.render(config, caller, vcr);
+        }
       }
     });
   }
@@ -47,11 +49,13 @@ export class LaunchDialogService {
    */
   clear(caller: LAUNCH_CALLER): void {
     this.findConfiguration(caller).subscribe((config) => {
-      const renderer = this.getStrategy(config);
+      if (config) {
+        const renderer = this.getStrategy(config);
 
-      // Render if the strategy exists
-      if (renderer) {
-        renderer.remove(caller, config);
+        // Render if the strategy exists
+        if (renderer) {
+          renderer.remove(caller, config);
+        }
       }
     });
   }
@@ -66,11 +70,18 @@ export class LaunchDialogService {
   ): Observable<LaunchOptions> {
     return this.breakpointService.breakpoint$.pipe(
       distinctUntilChanged(),
-      map((breakpoint) =>
-        this.launchConfig?.launch[caller][breakpoint]
-          ? this.launchConfig?.launch[caller][breakpoint]
-          : this.launchConfig?.launch[caller].default
-      )
+      map((breakpoint) => {
+        if (this.launchConfig?.launch[caller]) {
+          return this.launchConfig?.launch[caller][breakpoint]
+            ? this.launchConfig?.launch[caller][breakpoint]
+            : this.launchConfig?.launch[caller].default;
+        } else {
+          if (isDevMode) {
+            console.warn(`No configuration for ${caller}`);
+          }
+          return null;
+        }
+      })
     );
   }
 

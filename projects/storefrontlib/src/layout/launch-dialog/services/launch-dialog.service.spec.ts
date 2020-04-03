@@ -174,5 +174,11 @@ describe('LaunchDialogService', () => {
         })
         .unsubscribe();
     });
+
+    it('should return "null" is there is no config for caller', () => {
+      service['findConfiguration']('TEST_NULL' as LAUNCH_CALLER)
+        .subscribe((config) => expect(config).toBeNull())
+        .unsubscribe();
+    });
   });
 });

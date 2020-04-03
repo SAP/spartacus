@@ -1,6 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { Config, provideConfig } from '@spartacus/core';
-import { DEFAULT_LAUNCH_CONFIG } from './config/default-launch-config';
+import { Config } from '@spartacus/core';
 import { LaunchConfig } from './config/launch-config';
 import {
   InlineRenderStrategy,
@@ -32,10 +31,7 @@ export class LaunchDialogModule {
   static forRoot(): ModuleWithProviders<LaunchDialogModule> {
     return {
       ngModule: LaunchDialogModule,
-      providers: [
-        provideConfig(DEFAULT_LAUNCH_CONFIG),
-        { provide: LaunchConfig, useExisting: Config },
-      ],
+      providers: [{ provide: LaunchConfig, useExisting: Config }],
     };
   }
 }
