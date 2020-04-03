@@ -28,9 +28,9 @@ export function b2bUserEntitiesReducer(
         selected: action.payload.selected,
         roles: [...state.roles].filter(role => role !== action.payload.roleId),
       };
-    case UserGroupActions.CREATE_ORG_UNIT_USER_GROUP_MEMBER_SUCCESS:
-    case UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_MEMBER_SUCCESS:
-    case UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_MEMBERS_SUCCESS:
+    case UserGroupActions.USER_GROUP_ASSIGN_MEMBER_SUCCESS:
+    case UserGroupActions.USER_GROUP_UNASSIGN_MEMBER_SUCCESS:
+    case UserGroupActions.USER_GROUP_UNASSIGN_ALL_MEMBERS_SUCCESS:
       return {
         ...state,
         ...action.payload,

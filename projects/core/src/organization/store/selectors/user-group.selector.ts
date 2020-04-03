@@ -6,7 +6,7 @@ import {
   OrganizationState,
   StateWithOrganization,
   OrgUnitUserGroupManagement,
-  ORG_UNIT_USER_GROUP_FEATURE,
+  USER_GROUP_FEATURE,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
 import {
@@ -28,7 +28,7 @@ export const getOrgUnitUserGroupManagementState: MemoizedSelector<
   OrgUnitUserGroupManagement
 > = createSelector(
   getOrganizationState,
-  (state: OrganizationState) => state[ORG_UNIT_USER_GROUP_FEATURE]
+  (state: OrganizationState) => state[USER_GROUP_FEATURE]
 );
 
 export const getOrgUnitUserGroupsState: MemoizedSelector<
@@ -39,7 +39,7 @@ export const getOrgUnitUserGroupsState: MemoizedSelector<
   (state: OrgUnitUserGroupManagement) => state && state.entities
 );
 
-export const getOrgUnitUserGroupState = (
+export const getUserGroupState = (
   orgUnitUserGroupUid: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<OrgUnitUserGroup>> =>
   createSelector(
@@ -48,7 +48,7 @@ export const getOrgUnitUserGroupState = (
       entityStateSelector(state, orgUnitUserGroupUid)
   );
 
-export const getOrgUnitUserGroupList = (
+export const getUserGroupList = (
   params: B2BSearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
@@ -60,7 +60,7 @@ export const getOrgUnitUserGroupList = (
       denormalizeB2BSearch<OrgUnitUserGroup>(state, params)
   );
 
-export const getOrgUnitUserGroupAvailableOrgCustomers = (
+export const getAvailableOrgCustomers = (
   code: string,
   params: B2BSearchConfig
 ): MemoizedSelector<
@@ -76,7 +76,7 @@ export const getOrgUnitUserGroupAvailableOrgCustomers = (
     ) => denormalizeCustomB2BSearch(state.customers, customers, params, code)
   );
 
-export const getOrgUnitUserGroupAvailableOrderApprovalPermissions = (
+export const getAvailableOrderApprovalPermissions = (
   code: string,
   params: B2BSearchConfig
 ): MemoizedSelector<

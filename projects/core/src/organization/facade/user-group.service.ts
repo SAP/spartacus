@@ -12,10 +12,10 @@ import { B2BSearchConfig } from '../model/search-config';
 import { OrgUnitUserGroup } from '../../model/user-group.model';
 import { Permission } from '../../model/permission.model';
 import {
-  getOrgUnitUserGroupState,
-  getOrgUnitUserGroupList,
-  getOrgUnitUserGroupAvailableOrgCustomers,
-  getOrgUnitUserGroupAvailableOrderApprovalPermissions,
+  getUserGroupState,
+  getUserGroupList,
+  getAvailableOrgCustomers,
+  getAvailableOrderApprovalPermissions,
 } from '../store/selectors/user-group.selector';
 import { B2BUser } from '../../model';
 
@@ -29,7 +29,7 @@ export class UserGroupService {
   loadUserGroup(orgUnitUserGroupUid: string) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new UserGroupActions.LoadOrgUnitUserGroup({
+        new UserGroupActions.LoadUserGroup({
           userId,
           orgUnitUserGroupUid,
         })
@@ -40,7 +40,7 @@ export class UserGroupService {
   loadUserGroups(params?: B2BSearchConfig) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new UserGroupActions.LoadOrgUnitUserGroups({ userId, params })
+        new UserGroupActions.LoadUserGroups({ userId, params })
       )
     );
   }
@@ -48,13 +48,13 @@ export class UserGroupService {
   private getUserGroupState(
     orgUnitUserGroupUid: string
   ): Observable<LoaderState<OrgUnitUserGroup>> {
-    return this.store.select(getOrgUnitUserGroupState(orgUnitUserGroupUid));
+    return this.store.select(getUserGroupState(orgUnitUserGroupUid));
   }
 
   private getUserGroupList(
     params
   ): Observable<LoaderState<EntitiesModel<OrgUnitUserGroup>>> {
-    return this.store.select(getOrgUnitUserGroupList(params));
+    return this.store.select(getUserGroupList(params));
   }
 
   private getAvailableOrgCustomersList(
@@ -62,7 +62,7 @@ export class UserGroupService {
     params
   ): Observable<LoaderState<EntitiesModel<B2BUser>>> {
     return this.store.select(
-      getOrgUnitUserGroupAvailableOrgCustomers(orgUnitUserGroupUid, params)
+      getAvailableOrgCustomers(orgUnitUserGroupUid, params)
     );
   }
 
@@ -71,10 +71,7 @@ export class UserGroupService {
     params
   ): Observable<LoaderState<EntitiesModel<Permission>>> {
     return this.store.select(
-      getOrgUnitUserGroupAvailableOrderApprovalPermissions(
-        orgUnitUserGroupUid,
-        params
-      )
+      getAvailableOrderApprovalPermissions(orgUnitUserGroupUid, params)
     );
   }
 
@@ -112,7 +109,7 @@ export class UserGroupService {
   create(orgUnitUserGroup: OrgUnitUserGroup) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new UserGroupActions.CreateOrgUnitUserGroup({
+        new UserGroupActions.CreateUserGroup({
           userId,
           orgUnitUserGroup,
         })
@@ -123,7 +120,7 @@ export class UserGroupService {
   update(orgUnitUserGroupUid: string, orgUnitUserGroup: OrgUnitUserGroup) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new UserGroupActions.UpdateOrgUnitUserGroup({
+        new UserGroupActions.UpdateUserGroup({
           userId,
           orgUnitUserGroupUid,
           orgUnitUserGroup,
@@ -135,7 +132,7 @@ export class UserGroupService {
   delete(orgUnitUserGroupUid: string) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new UserGroupActions.DeleteOrgUnitUserGroup({
+        new UserGroupActions.DeleteUserGroup({
           userId,
           orgUnitUserGroupUid,
         })
@@ -149,7 +146,7 @@ export class UserGroupService {
   ) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new UserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomers({
+        new UserGroupActions.LoadAvailableOrgCustomers({
           userId,
           orgUnitUserGroupUid,
           params,
@@ -164,13 +161,11 @@ export class UserGroupService {
   ) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new UserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissions(
-          {
-            userId,
-            orgUnitUserGroupUid,
-            params,
-          }
-        )
+        new UserGroupActions.LoadPermissions({
+          userId,
+          orgUnitUserGroupUid,
+          params,
+        })
       )
     );
   }

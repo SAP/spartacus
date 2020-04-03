@@ -6,7 +6,7 @@ import {
 } from '../../../../util/converter.service';
 import { OrgUnitUserGroup } from '../../../../model/user-group.model';
 import { EntitiesModel } from '../../../../model/misc.model';
-import { ORG_UNIT_USER_GROUP_NORMALIZER } from '../../../../organization';
+import { USER_GROUP_NORMALIZER } from '../../../../organization';
 
 @Injectable()
 export class OccOrgUnitUserGroupListNormalizer
@@ -22,10 +22,7 @@ export class OccOrgUnitUserGroupListNormalizer
       target = {
         ...(source as any),
         values: source.orgUnitUserGroups.map(orgUnitUserGroup => ({
-          ...this.converter.convert(
-            orgUnitUserGroup,
-            ORG_UNIT_USER_GROUP_NORMALIZER
-          ),
+          ...this.converter.convert(orgUnitUserGroup, USER_GROUP_NORMALIZER),
         })),
       };
     }

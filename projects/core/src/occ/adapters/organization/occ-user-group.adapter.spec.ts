@@ -6,8 +6,8 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
-  ORG_UNIT_USER_GROUP_NORMALIZER,
-  ORG_UNIT_USER_GROUPS_NORMALIZER,
+  USER_GROUP_NORMALIZER,
+  USER_GROUPS_NORMALIZER,
   B2B_USERS_NORMALIZER,
   PERMISSIONS_NORMALIZER,
 } from '@spartacus/core';
@@ -87,7 +87,7 @@ describe('OccOrgUnitUserGroupAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnitUserGroup);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ORG_UNIT_USER_GROUP_NORMALIZER
+        USER_GROUP_NORMALIZER
       );
     });
   });
@@ -102,7 +102,7 @@ describe('OccOrgUnitUserGroupAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush([orgUnitUserGroup]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ORG_UNIT_USER_GROUPS_NORMALIZER
+        USER_GROUPS_NORMALIZER
       );
     });
   });
@@ -120,7 +120,7 @@ describe('OccOrgUnitUserGroupAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnitUserGroup);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ORG_UNIT_USER_GROUP_NORMALIZER
+        USER_GROUP_NORMALIZER
       );
     });
   });
@@ -138,7 +138,7 @@ describe('OccOrgUnitUserGroupAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnitUserGroup);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ORG_UNIT_USER_GROUP_NORMALIZER
+        USER_GROUP_NORMALIZER
       );
     });
   });

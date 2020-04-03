@@ -68,7 +68,7 @@ describe('OrgUnitUserGroup Selectors', () => {
         .subscribe(value => (result = value));
 
       store.dispatch(
-        new UserGroupActions.LoadOrgUnitUserGroupSuccess([
+        new UserGroupActions.LoadUserGroupSuccess([
           orgUnitUserGroup,
           orgUnitUserGroup2,
         ])
@@ -90,7 +90,7 @@ describe('OrgUnitUserGroup Selectors', () => {
         .subscribe(value => (result = value));
 
       store.dispatch(
-        new UserGroupActions.LoadOrgUnitUserGroupSuccess([
+        new UserGroupActions.LoadUserGroupSuccess([
           orgUnitUserGroup,
           orgUnitUserGroup2,
         ])
@@ -103,11 +103,11 @@ describe('OrgUnitUserGroup Selectors', () => {
     it('should return orgUnitUserGroup by id', () => {
       let result: LoaderState<OrgUnitUserGroup>;
       store
-        .pipe(select(OrgUnitUserGroupSelectors.getOrgUnitUserGroupState(uid)))
+        .pipe(select(OrgUnitUserGroupSelectors.getUserGroupState(uid)))
         .subscribe(value => (result = value));
 
       store.dispatch(
-        new UserGroupActions.LoadOrgUnitUserGroupSuccess([
+        new UserGroupActions.LoadUserGroupSuccess([
           orgUnitUserGroup,
           orgUnitUserGroup2,
         ])

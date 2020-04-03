@@ -3,12 +3,12 @@ import { OrgUnitEffects } from './org-unit.effect';
 import { PermissionEffects } from './permission.effect';
 import { CostCenterEffects } from './cost-center.effect';
 import { B2BUserEffects } from './b2b-user.effect';
-import { OrgUnitUserGroupEffects } from './user-group.effect';
+import { UserGroupEffects } from './user-group.effect';
 
 export const effects: any[] = [
   BudgetEffects,
   OrgUnitEffects,
-  OrgUnitUserGroupEffects,
+  UserGroupEffects,
   PermissionEffects,
   CostCenterEffects,
   B2BUserEffects,

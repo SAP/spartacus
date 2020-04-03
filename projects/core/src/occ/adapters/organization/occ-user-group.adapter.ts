@@ -8,8 +8,8 @@ import { B2BSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
 import {
   OrgUnitUserGroupAdapter,
-  ORG_UNIT_USER_GROUP_NORMALIZER,
-  ORG_UNIT_USER_GROUPS_NORMALIZER,
+  USER_GROUP_NORMALIZER,
+  USER_GROUPS_NORMALIZER,
   PERMISSIONS_NORMALIZER,
   B2B_USERS_NORMALIZER,
 } from '../../../organization/connectors/index';
@@ -33,7 +33,7 @@ export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
       .get<Occ.OrgUnitUserGroup>(
         this.getOrgUnitUserGroupEndpoint(userId, orgUnitUserGroupUid)
       )
-      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUP_NORMALIZER));
+      .pipe(this.converter.pipeable(USER_GROUP_NORMALIZER));
   }
 
   loadList(
@@ -44,7 +44,7 @@ export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
       .get<Occ.OrgUnitUserGroupList>(
         this.getOrgUnitUserGroupsEndpoint(userId, params)
       )
-      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUPS_NORMALIZER));
+      .pipe(this.converter.pipeable(USER_GROUPS_NORMALIZER));
   }
 
   loadAvailableOrderApprovalPermissions(
@@ -88,7 +88,7 @@ export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
         this.getOrgUnitUserGroupsEndpoint(userId),
         orgUnitUserGroup
       )
-      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUP_NORMALIZER));
+      .pipe(this.converter.pipeable(USER_GROUP_NORMALIZER));
   }
 
   delete(
@@ -99,7 +99,7 @@ export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
       .delete<Occ.OrgUnitUserGroup>(
         this.getOrgUnitUserGroupEndpoint(userId, orgUnitUserGroupUid)
       )
-      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUP_NORMALIZER));
+      .pipe(this.converter.pipeable(USER_GROUP_NORMALIZER));
   }
 
   update(
@@ -112,7 +112,7 @@ export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
         this.getOrgUnitUserGroupEndpoint(userId, orgUnitUserGroupUid),
         orgUnitUserGroup
       )
-      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUP_NORMALIZER));
+      .pipe(this.converter.pipeable(USER_GROUP_NORMALIZER));
   }
 
   assignMember(

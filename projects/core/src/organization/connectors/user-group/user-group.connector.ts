@@ -12,7 +12,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class OrgUnitUserGroupConnector {
+export class UserGroupConnector {
   constructor(protected adapter: OrgUnitUserGroupAdapter) {}
 
   get(

@@ -14,8 +14,8 @@ export function permissionsEntitiesReducer(
     case PermissionActions.CREATE_PERMISSION_SUCCESS:
     case PermissionActions.UPDATE_PERMISSION_SUCCESS:
       return action.payload;
-    case UserGroupActions.CREATE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_SUCCESS:
-    case UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_SUCCESS:
+    case UserGroupActions.USER_GROUP_ASSIGN_PERMISSION_SUCCESS:
+    case UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION_SUCCESS:
       return {
         ...state,
         ...action.payload,

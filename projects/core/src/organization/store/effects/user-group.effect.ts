@@ -15,91 +15,75 @@ import {
   B2BUserActions,
 } from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
-import { OrgUnitUserGroupConnector } from '../../connectors/user-group/user-group.connector';
+import { UserGroupConnector } from '../../connectors/user-group/user-group.connector';
 
 @Injectable()
-export class OrgUnitUserGroupEffects {
+export class UserGroupEffects {
   @Effect()
-  loadOrgUnitUserGroup$: Observable<
-    | UserGroupActions.LoadOrgUnitUserGroupSuccess
-    | UserGroupActions.LoadOrgUnitUserGroupFail
+  loadUserGroup$: Observable<
+    UserGroupActions.LoadUserGroupSuccess | UserGroupActions.LoadUserGroupFail
   > = this.actions$.pipe(
-    ofType(UserGroupActions.LOAD_ORG_UNIT_USER_GROUP),
-    map((action: UserGroupActions.LoadOrgUnitUserGroup) => action.payload),
+    ofType(UserGroupActions.LOAD_USER_GROUP),
+    map((action: UserGroupActions.LoadUserGroup) => action.payload),
     switchMap(({ userId, orgUnitUserGroupUid }) => {
-      return this.orgUnitUserGroupConnector
-        .get(userId, orgUnitUserGroupUid)
-        .pipe(
-          map((orgUnitUserGroup: OrgUnitUserGroup) => {
-            return new UserGroupActions.LoadOrgUnitUserGroupSuccess([
-              orgUnitUserGroup,
-            ]);
-          }),
-          catchError(error =>
-            of(
-              new UserGroupActions.LoadOrgUnitUserGroupFail({
-                orgUnitUserGroupUid,
-                error: makeErrorSerializable(error),
-              })
-            )
+      return this.userGroupConnector.get(userId, orgUnitUserGroupUid).pipe(
+        map((orgUnitUserGroup: OrgUnitUserGroup) => {
+          return new UserGroupActions.LoadUserGroupSuccess([orgUnitUserGroup]);
+        }),
+        catchError(error =>
+          of(
+            new UserGroupActions.LoadUserGroupFail({
+              orgUnitUserGroupUid,
+              error: makeErrorSerializable(error),
+            })
           )
-        );
+        )
+      );
     })
   );
 
   @Effect()
-  loadOrgUnitUserGroups$: Observable<
-    | UserGroupActions.LoadOrgUnitUserGroupsSuccess
-    | UserGroupActions.LoadOrgUnitUserGroupSuccess
-    | UserGroupActions.LoadOrgUnitUserGroupsFail
+  loadUserGroups$: Observable<
+    | UserGroupActions.LoadUserGroupsSuccess
+    | UserGroupActions.LoadUserGroupSuccess
+    | UserGroupActions.LoadUserGroupsFail
   > = this.actions$.pipe(
-    ofType(UserGroupActions.LOAD_ORG_UNIT_USER_GROUPS),
-    map((action: UserGroupActions.LoadOrgUnitUserGroups) => action.payload),
+    ofType(UserGroupActions.LOAD_USER_GROUPS),
+    map((action: UserGroupActions.LoadUserGroups) => action.payload),
     switchMap(payload =>
-      this.orgUnitUserGroupConnector
-        .getList(payload.userId, payload.params)
-        .pipe(
-          switchMap((orgUnitUserGroups: EntitiesModel<OrgUnitUserGroup>) => {
-            const { values, page } = normalizeListPage(
-              orgUnitUserGroups,
-              'uid'
-            );
-            return [
-              new UserGroupActions.LoadOrgUnitUserGroupSuccess(values),
-              new UserGroupActions.LoadOrgUnitUserGroupsSuccess({
-                page,
-                params: payload.params,
-              }),
-            ];
-          }),
-          catchError(error =>
-            of(
-              new UserGroupActions.LoadOrgUnitUserGroupsFail({
-                params: payload.params,
-                error: makeErrorSerializable(error),
-              })
-            )
+      this.userGroupConnector.getList(payload.userId, payload.params).pipe(
+        switchMap((orgUnitUserGroups: EntitiesModel<OrgUnitUserGroup>) => {
+          const { values, page } = normalizeListPage(orgUnitUserGroups, 'uid');
+          return [
+            new UserGroupActions.LoadUserGroupSuccess(values),
+            new UserGroupActions.LoadUserGroupsSuccess({
+              page,
+              params: payload.params,
+            }),
+          ];
+        }),
+        catchError(error =>
+          of(
+            new UserGroupActions.LoadUserGroupsFail({
+              params: payload.params,
+              error: makeErrorSerializable(error),
+            })
           )
         )
+      )
     )
   );
 
   @Effect()
-  loadOrgUnitUserGroupAvailableOrderApprovalPermissions$: Observable<
-    | UserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsSuccess
+  loadAvailableOrderApprovalPermissions$: Observable<
+    | UserGroupActions.LoadPermissionsSuccess
     | PermissionActions.LoadPermissionSuccess
-    | UserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsFail
+    | UserGroupActions.LoadPermissionsFail
   > = this.actions$.pipe(
-    ofType(
-      UserGroupActions.LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS
-    ),
-    map(
-      (
-        action: UserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissions
-      ) => action.payload
-    ),
+    ofType(UserGroupActions.LOAD_USER_GROUP_PERMISSIONS),
+    map((action: UserGroupActions.LoadPermissions) => action.payload),
     switchMap(payload =>
-      this.orgUnitUserGroupConnector
+      this.userGroupConnector
         .getAvailableOrderApprovalPermissions(
           payload.userId,
           payload.orgUnitUserGroupUid,
@@ -110,24 +94,20 @@ export class OrgUnitUserGroupEffects {
             const { values, page } = normalizeListPage(permissions, 'code');
             return [
               new PermissionActions.LoadPermissionSuccess(values),
-              new UserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsSuccess(
-                {
-                  orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
-                  page,
-                  params: payload.params,
-                }
-              ),
+              new UserGroupActions.LoadPermissionsSuccess({
+                orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
+                page,
+                params: payload.params,
+              }),
             ];
           }),
           catchError(error =>
             of(
-              new UserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsFail(
-                {
-                  orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
-                  params: payload.params,
-                  error: makeErrorSerializable(error),
-                }
-              )
+              new UserGroupActions.LoadPermissionsFail({
+                orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
+                params: payload.params,
+                error: makeErrorSerializable(error),
+              })
             )
           )
         )
@@ -135,18 +115,15 @@ export class OrgUnitUserGroupEffects {
   );
 
   @Effect()
-  loadOrgUnitUserGroupAvailableOrgCustomers$: Observable<
-    | UserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersSuccess
+  loadAvailableOrgCustomers$: Observable<
+    | UserGroupActions.LoadAvailableOrgCustomersSuccess
     | B2BUserActions.LoadB2BUserSuccess
-    | UserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersFail
+    | UserGroupActions.LoadAvailableOrgCustomersFail
   > = this.actions$.pipe(
-    ofType(UserGroupActions.LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS),
-    map(
-      (action: UserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomers) =>
-        action.payload
-    ),
+    ofType(UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS),
+    map((action: UserGroupActions.LoadAvailableOrgCustomers) => action.payload),
     switchMap(payload =>
-      this.orgUnitUserGroupConnector
+      this.userGroupConnector
         .getAvailableOrgCustomers(
           payload.userId,
           payload.orgUnitUserGroupUid,
@@ -157,24 +134,20 @@ export class OrgUnitUserGroupEffects {
             const { values, page } = normalizeListPage(customers, 'uid');
             return [
               new B2BUserActions.LoadB2BUserSuccess(values),
-              new UserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersSuccess(
-                {
-                  orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
-                  page,
-                  params: payload.params,
-                }
-              ),
+              new UserGroupActions.LoadAvailableOrgCustomersSuccess({
+                orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
+                page,
+                params: payload.params,
+              }),
             ];
           }),
           catchError(error =>
             of(
-              new UserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersFail(
-                {
-                  orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
-                  params: payload.params,
-                  error: makeErrorSerializable(error),
-                }
-              )
+              new UserGroupActions.LoadAvailableOrgCustomersFail({
+                orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
+                params: payload.params,
+                error: makeErrorSerializable(error),
+              })
             )
           )
         )
@@ -182,20 +155,20 @@ export class OrgUnitUserGroupEffects {
   );
 
   @Effect()
-  createOrgUnitUserGroup$: Observable<
-    | UserGroupActions.CreateOrgUnitUserGroupSuccess
-    | UserGroupActions.CreateOrgUnitUserGroupFail
+  createUserGroup$: Observable<
+    | UserGroupActions.CreateUserGroupSuccess
+    | UserGroupActions.CreateUserGroupFail
   > = this.actions$.pipe(
-    ofType(UserGroupActions.CREATE_ORG_UNIT_USER_GROUP),
-    map((action: UserGroupActions.CreateOrgUnitUserGroup) => action.payload),
+    ofType(UserGroupActions.CREATE_USER_GROUP),
+    map((action: UserGroupActions.CreateUserGroup) => action.payload),
     switchMap(payload =>
-      this.orgUnitUserGroupConnector
+      this.userGroupConnector
         .create(payload.userId, payload.orgUnitUserGroup)
         .pipe(
-          map(data => new UserGroupActions.CreateOrgUnitUserGroupSuccess(data)),
+          map(data => new UserGroupActions.CreateUserGroupSuccess(data)),
           catchError(error =>
             of(
-              new UserGroupActions.CreateOrgUnitUserGroupFail({
+              new UserGroupActions.CreateUserGroupFail({
                 orgUnitUserGroupUid: payload.orgUnitUserGroup.uid,
                 error: makeErrorSerializable(error),
               })
@@ -206,24 +179,24 @@ export class OrgUnitUserGroupEffects {
   );
 
   @Effect()
-  updateOrgUnitUserGroup$: Observable<
-    | UserGroupActions.UpdateOrgUnitUserGroupSuccess
-    | UserGroupActions.UpdateOrgUnitUserGroupFail
+  updateUserGroup$: Observable<
+    | UserGroupActions.UpdateUserGroupSuccess
+    | UserGroupActions.UpdateUserGroupFail
   > = this.actions$.pipe(
-    ofType(UserGroupActions.UPDATE_ORG_UNIT_USER_GROUP),
-    map((action: UserGroupActions.UpdateOrgUnitUserGroup) => action.payload),
+    ofType(UserGroupActions.UPDATE_USER_GROUP),
+    map((action: UserGroupActions.UpdateUserGroup) => action.payload),
     switchMap(payload =>
-      this.orgUnitUserGroupConnector
+      this.userGroupConnector
         .update(
           payload.userId,
           payload.orgUnitUserGroupUid,
           payload.orgUnitUserGroup
         )
         .pipe(
-          map(data => new UserGroupActions.UpdateOrgUnitUserGroupSuccess(data)),
+          map(data => new UserGroupActions.UpdateUserGroupSuccess(data)),
           catchError(error =>
             of(
-              new UserGroupActions.UpdateOrgUnitUserGroupFail({
+              new UserGroupActions.UpdateUserGroupFail({
                 orgUnitUserGroupUid: payload.orgUnitUserGroup.uid,
                 error: makeErrorSerializable(error),
               })
@@ -234,20 +207,20 @@ export class OrgUnitUserGroupEffects {
   );
 
   @Effect()
-  deleteOrgUnitUserGroup$: Observable<
-    | UserGroupActions.DeleteOrgUnitUserGroupSuccess
-    | UserGroupActions.DeleteOrgUnitUserGroupFail
+  deleteUserGroup$: Observable<
+    | UserGroupActions.DeleteUserGroupSuccess
+    | UserGroupActions.DeleteUserGroupFail
   > = this.actions$.pipe(
-    ofType(UserGroupActions.DELETE_ORG_UNIT_USER_GROUP),
-    map((action: UserGroupActions.DeleteOrgUnitUserGroup) => action.payload),
+    ofType(UserGroupActions.DELETE_USER_GROUP),
+    map((action: UserGroupActions.DeleteUserGroup) => action.payload),
     switchMap(payload =>
-      this.orgUnitUserGroupConnector
+      this.userGroupConnector
         .delete(payload.userId, payload.orgUnitUserGroupUid)
         .pipe(
-          map(data => new UserGroupActions.DeleteOrgUnitUserGroupSuccess(data)),
+          map(data => new UserGroupActions.DeleteUserGroupSuccess(data)),
           catchError(error =>
             of(
-              new UserGroupActions.DeleteOrgUnitUserGroupFail({
+              new UserGroupActions.DeleteUserGroupFail({
                 orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
                 error: makeErrorSerializable(error),
               })
@@ -258,16 +231,14 @@ export class OrgUnitUserGroupEffects {
   );
 
   @Effect()
-  assignPermissionToOrgUnitUserGroup$: Observable<
-    | UserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionSuccess
-    | UserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionFail
+  assignPermissionToUserGroup$: Observable<
+    | UserGroupActions.AssignPermissionSuccess
+    | UserGroupActions.AssignPermissionFail
   > = this.actions$.pipe(
-    ofType(
-      UserGroupActions.CREATE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION
-    ),
+    ofType(UserGroupActions.USER_GROUP_ASSIGN_PERMISSION),
     map((action: UserGroupActions.AssignPermission) => action.payload),
     switchMap(payload =>
-      this.orgUnitUserGroupConnector
+      this.userGroupConnector
         .assignOrderApprovalPermission(
           payload.userId,
           payload.orgUnitUserGroupUid,
@@ -276,22 +247,18 @@ export class OrgUnitUserGroupEffects {
         .pipe(
           map(
             () =>
-              new UserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionSuccess(
-                {
-                  permissionUid: payload.permissionUid,
-                  selected: true,
-                }
-              )
+              new UserGroupActions.AssignPermissionSuccess({
+                permissionUid: payload.permissionUid,
+                selected: true,
+              })
           ),
           catchError(error =>
             of(
-              new UserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionFail(
-                {
-                  orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
-                  permissionUid: payload.permissionUid,
-                  error: makeErrorSerializable(error),
-                }
-              )
+              new UserGroupActions.AssignPermissionFail({
+                orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
+                permissionUid: payload.permissionUid,
+                error: makeErrorSerializable(error),
+              })
             )
           )
         )
@@ -299,14 +266,13 @@ export class OrgUnitUserGroupEffects {
   );
 
   @Effect()
-  assignMemberToOrgUnitUserGroup$: Observable<
-    | UserGroupActions.CreateOrgUnitUserGroupMemberSuccess
-    | UserGroupActions.CreateOrgUnitUserGroupMemberFail
+  assignMemberUnitUserGroup$: Observable<
+    UserGroupActions.AssignMemberSuccess | UserGroupActions.AssignMemberFail
   > = this.actions$.pipe(
-    ofType(UserGroupActions.CREATE_ORG_UNIT_USER_GROUP_MEMBER),
+    ofType(UserGroupActions.USER_GROUP_ASSIGN_MEMBER),
     map((action: UserGroupActions.AssignMember) => action.payload),
     switchMap(payload =>
-      this.orgUnitUserGroupConnector
+      this.userGroupConnector
         .assignMember(
           payload.userId,
           payload.orgUnitUserGroupUid,
@@ -315,14 +281,14 @@ export class OrgUnitUserGroupEffects {
         .pipe(
           map(
             () =>
-              new UserGroupActions.CreateOrgUnitUserGroupMemberSuccess({
+              new UserGroupActions.AssignMemberSuccess({
                 customerId: payload.customerId,
                 selected: true,
               })
           ),
           catchError(error =>
             of(
-              new UserGroupActions.CreateOrgUnitUserGroupMemberFail({
+              new UserGroupActions.AssignMemberFail({
                 orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
                 customerId: payload.customerId,
                 error: makeErrorSerializable(error),
@@ -334,14 +300,13 @@ export class OrgUnitUserGroupEffects {
   );
 
   @Effect()
-  unassignMemberFromOrgUnitUserGroup$: Observable<
-    | UserGroupActions.DeleteOrgUnitUserGroupMemberSuccess
-    | UserGroupActions.DeleteOrgUnitUserGroupMemberFail
+  unassignMemberFromUserGroup$: Observable<
+    UserGroupActions.UnassignMemberSuccess | UserGroupActions.UnassignMemberFail
   > = this.actions$.pipe(
-    ofType(UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_MEMBER),
+    ofType(UserGroupActions.USER_GROUP_UNASSIGN_MEMBER),
     map((action: UserGroupActions.UnassignMember) => action.payload),
     switchMap(payload =>
-      this.orgUnitUserGroupConnector
+      this.userGroupConnector
         .unassignMember(
           payload.userId,
           payload.orgUnitUserGroupUid,
@@ -350,14 +315,14 @@ export class OrgUnitUserGroupEffects {
         .pipe(
           map(
             () =>
-              new UserGroupActions.DeleteOrgUnitUserGroupMemberSuccess({
+              new UserGroupActions.UnassignMemberSuccess({
                 customerId: payload.customerId,
                 selected: false,
               })
           ),
           catchError(error =>
             of(
-              new UserGroupActions.DeleteOrgUnitUserGroupMemberFail({
+              new UserGroupActions.UnassignMemberFail({
                 orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
                 customerId: payload.customerId,
                 error: makeErrorSerializable(error),
@@ -369,16 +334,14 @@ export class OrgUnitUserGroupEffects {
   );
 
   @Effect()
-  unassignPermissionFromOrgUnitUserGroup$: Observable<
-    | UserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess
-    | UserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionFail
+  unassignPermissionFromUserGroup$: Observable<
+    | UserGroupActions.UnassignPermissionSuccess
+    | UserGroupActions.UnassignPermissionFail
   > = this.actions$.pipe(
-    ofType(
-      UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION
-    ),
+    ofType(UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION),
     map((action: UserGroupActions.UnassignPermission) => action.payload),
     switchMap(payload =>
-      this.orgUnitUserGroupConnector
+      this.userGroupConnector
         .unassignOrderApprovalPermission(
           payload.userId,
           payload.orgUnitUserGroupUid,
@@ -387,22 +350,18 @@ export class OrgUnitUserGroupEffects {
         .pipe(
           map(
             () =>
-              new UserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess(
-                {
-                  permissionUid: payload.permissionUid,
-                  selected: false,
-                }
-              )
+              new UserGroupActions.UnassignPermissionSuccess({
+                permissionUid: payload.permissionUid,
+                selected: false,
+              })
           ),
           catchError(error =>
             of(
-              new UserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionFail(
-                {
-                  orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
-                  permissionUid: payload.permissionUid,
-                  error: makeErrorSerializable(error),
-                }
-              )
+              new UserGroupActions.UnassignPermissionFail({
+                orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
+                permissionUid: payload.permissionUid,
+                error: makeErrorSerializable(error),
+              })
             )
           )
         )
@@ -410,25 +369,25 @@ export class OrgUnitUserGroupEffects {
   );
 
   @Effect()
-  unassignAllMembersFromOrgUnitUserGroup$: Observable<
-    | UserGroupActions.DeleteOrgUnitUserGroupMembersSuccess
-    | UserGroupActions.DeleteOrgUnitUserGroupMembersFail
+  unassignAllMembersFromUserGroup$: Observable<
+    | UserGroupActions.UnassignAllMembersSuccess
+    | UserGroupActions.UnassignAllMembersFail
   > = this.actions$.pipe(
-    ofType(UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_MEMBERS),
+    ofType(UserGroupActions.USER_GROUP_UNASSIGN_ALL_MEMBERS),
     map((action: UserGroupActions.UnassignAllMembers) => action.payload),
     switchMap(payload =>
-      this.orgUnitUserGroupConnector
+      this.userGroupConnector
         .unassignAllMembers(payload.userId, payload.orgUnitUserGroupUid)
         .pipe(
           map(
             () =>
-              new UserGroupActions.DeleteOrgUnitUserGroupMembersSuccess({
+              new UserGroupActions.UnassignAllMembersSuccess({
                 selected: false,
               })
           ),
           catchError(error =>
             of(
-              new UserGroupActions.DeleteOrgUnitUserGroupMembersFail({
+              new UserGroupActions.UnassignAllMembersFail({
                 orgUnitUserGroupUid: payload.orgUnitUserGroupUid,
                 error: makeErrorSerializable(error),
               })
@@ -440,6 +399,6 @@ export class OrgUnitUserGroupEffects {
 
   constructor(
     private actions$: Actions,
-    private orgUnitUserGroupConnector: OrgUnitUserGroupConnector
+    private userGroupConnector: UserGroupConnector
   ) {}
 }

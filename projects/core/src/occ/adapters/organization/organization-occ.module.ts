@@ -30,8 +30,8 @@ import {
   COST_CENTERS_NORMALIZER,
 } from '../../../organization/connectors/cost-center/converters';
 import {
-  ORG_UNIT_USER_GROUP_NORMALIZER,
-  ORG_UNIT_USER_GROUPS_NORMALIZER,
+  USER_GROUP_NORMALIZER,
+  USER_GROUPS_NORMALIZER,
 } from '../../../organization/connectors/user-group/converters';
 import { defaultOccOrganizationConfig } from './default-occ-organization-config';
 import { OccBudgetAdapter } from './occ-budget.adapter';
@@ -110,12 +110,12 @@ import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
       useClass: OccOrgUnitUserGroupAdapter,
     },
     {
-      provide: ORG_UNIT_USER_GROUP_NORMALIZER,
+      provide: USER_GROUP_NORMALIZER,
       useClass: OccOrgUnitUserGroupNormalizer,
       multi: true,
     },
     {
-      provide: ORG_UNIT_USER_GROUPS_NORMALIZER,
+      provide: USER_GROUPS_NORMALIZER,
       useClass: OccOrgUnitUserGroupListNormalizer,
       multi: true,
     },

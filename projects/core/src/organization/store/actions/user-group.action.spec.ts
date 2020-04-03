@@ -1,16 +1,16 @@
 import {
-  ORG_UNIT_USER_GROUP_ENTITIES,
-  ORG_UNIT_USER_GROUP_LIST,
-  ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+  USER_GROUP_ENTITIES,
+  USER_GROUP_LIST,
+  USER_GROUP_PERMISSIONS,
   PERMISSION_ENTITIES,
-  ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+  USER_GROUP_AVAILABLE_CUSTOMERS,
   B2B_USER_ENTITIES,
 } from '../organization-state';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { UserGroupActions } from './index';
 import { OrgUnitUserGroup } from '@spartacus/core';
 
-const orgUnitUserGroupUid = 'testOrgUnitUserGroupId';
+const orgUnitUserGroupUid = 'testUserGroupId';
 const permissionUid = 'permissionUid';
 const customerId = 'customerId';
 const orgUnitUserGroup: OrgUnitUserGroup = {
@@ -25,38 +25,38 @@ const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'uid' }];
 const page = { ids: [orgUnitUserGroupUid], pagination, sorts };
 
-describe('OrgUnitUserGroup Actions', () => {
-  describe('LoadOrgUnitUserGroup Actions', () => {
-    describe('LoadOrgUnitUserGroup', () => {
+describe('UserGroup Actions', () => {
+  describe('LoadUserGroup Actions', () => {
+    describe('LoadUserGroup', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.LoadOrgUnitUserGroup({
+        const action = new UserGroupActions.LoadUserGroup({
           userId,
           orgUnitUserGroupUid,
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.LOAD_ORG_UNIT_USER_GROUP,
+          type: UserGroupActions.LOAD_USER_GROUP,
           payload: { userId, orgUnitUserGroupUid },
           meta: StateEntityLoaderActions.entityLoadMeta(
-            ORG_UNIT_USER_GROUP_ENTITIES,
+            USER_GROUP_ENTITIES,
             orgUnitUserGroupUid
           ),
         });
       });
     });
 
-    describe('LoadOrgUnitUserGroupFail', () => {
+    describe('LoadUserGroupFail', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.LoadOrgUnitUserGroupFail({
+        const action = new UserGroupActions.LoadUserGroupFail({
           orgUnitUserGroupUid,
           error,
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.LOAD_ORG_UNIT_USER_GROUP_FAIL,
+          type: UserGroupActions.LOAD_USER_GROUP_FAIL,
           payload: { orgUnitUserGroupUid, error },
           meta: StateEntityLoaderActions.entityFailMeta(
-            ORG_UNIT_USER_GROUP_ENTITIES,
+            USER_GROUP_ENTITIES,
             orgUnitUserGroupUid,
             error
           ),
@@ -64,17 +64,17 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('LoadOrgUnitUserGroupSuccess', () => {
+    describe('LoadUserGroupSuccess', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.LoadOrgUnitUserGroupSuccess([
+        const action = new UserGroupActions.LoadUserGroupSuccess([
           orgUnitUserGroup,
         ]);
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.LOAD_ORG_UNIT_USER_GROUP_SUCCESS,
+          type: UserGroupActions.LOAD_USER_GROUP_SUCCESS,
           payload: [orgUnitUserGroup],
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            ORG_UNIT_USER_GROUP_ENTITIES,
+            USER_GROUP_ENTITIES,
             [orgUnitUserGroupUid]
           ),
         });
@@ -82,37 +82,34 @@ describe('OrgUnitUserGroup Actions', () => {
     });
   });
 
-  describe('LoadOrgUnitUserGroups Actions', () => {
-    describe('LoadOrgUnitUserGroups', () => {
+  describe('LoadUserGroups Actions', () => {
+    describe('LoadUserGroups', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.LoadOrgUnitUserGroups({
+        const action = new UserGroupActions.LoadUserGroups({
           userId,
           params,
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.LOAD_ORG_UNIT_USER_GROUPS,
+          type: UserGroupActions.LOAD_USER_GROUPS,
           payload: { userId, params },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            ORG_UNIT_USER_GROUP_LIST,
-            query
-          ),
+          meta: StateEntityLoaderActions.entityLoadMeta(USER_GROUP_LIST, query),
         });
       });
     });
 
-    describe('LoadOrgUnitUserGroupsFail', () => {
+    describe('LoadUserGroupsFail', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.LoadOrgUnitUserGroupsFail({
+        const action = new UserGroupActions.LoadUserGroupsFail({
           params,
           error: { error },
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.LOAD_ORG_UNIT_USER_GROUPS_FAIL,
+          type: UserGroupActions.LOAD_USER_GROUPS_FAIL,
           payload: { params, error: { error } },
           meta: StateEntityLoaderActions.entityFailMeta(
-            ORG_UNIT_USER_GROUP_LIST,
+            USER_GROUP_LIST,
             query,
             {
               error,
@@ -122,18 +119,18 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('LoadOrgUnitUserGroupsSuccess', () => {
+    describe('LoadUserGroupsSuccess', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.LoadOrgUnitUserGroupsSuccess({
+        const action = new UserGroupActions.LoadUserGroupsSuccess({
           page,
           params,
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.LOAD_ORG_UNIT_USER_GROUPS_SUCCESS,
+          type: UserGroupActions.LOAD_USER_GROUPS_SUCCESS,
           payload: { page, params },
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            ORG_UNIT_USER_GROUP_LIST,
+            USER_GROUP_LIST,
             query
           ),
         });
@@ -141,40 +138,40 @@ describe('OrgUnitUserGroup Actions', () => {
     });
   });
 
-  describe('CreateOrgUnitUserGroup Actions', () => {
-    describe('CreateOrgUnitUserGroup', () => {
+  describe('CreateUserGroup Actions', () => {
+    describe('CreateUserGroup', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.CreateOrgUnitUserGroup({
+        const action = new UserGroupActions.CreateUserGroup({
           userId,
           orgUnitUserGroup,
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.CREATE_ORG_UNIT_USER_GROUP,
+          type: UserGroupActions.CREATE_USER_GROUP,
           payload: { userId, orgUnitUserGroup },
           meta: StateEntityLoaderActions.entityLoadMeta(
-            ORG_UNIT_USER_GROUP_ENTITIES,
+            USER_GROUP_ENTITIES,
             orgUnitUserGroupUid
           ),
         });
       });
     });
 
-    describe('CreateOrgUnitUserGroupFail', () => {
+    describe('CreateUserGroupFail', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.CreateOrgUnitUserGroupFail({
+        const action = new UserGroupActions.CreateUserGroupFail({
           orgUnitUserGroupUid,
           error,
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.CREATE_ORG_UNIT_USER_GROUP_FAIL,
+          type: UserGroupActions.CREATE_USER_GROUP_FAIL,
           payload: {
             orgUnitUserGroupUid,
             error,
           },
           meta: StateEntityLoaderActions.entityFailMeta(
-            ORG_UNIT_USER_GROUP_ENTITIES,
+            USER_GROUP_ENTITIES,
             orgUnitUserGroupUid,
             error
           ),
@@ -182,17 +179,17 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('CreateOrgUnitUserGroupSuccess', () => {
+    describe('CreateUserGroupSuccess', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.CreateOrgUnitUserGroupSuccess(
+        const action = new UserGroupActions.CreateUserGroupSuccess(
           orgUnitUserGroup
         );
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.CREATE_ORG_UNIT_USER_GROUP_SUCCESS,
+          type: UserGroupActions.CREATE_USER_GROUP_SUCCESS,
           payload: orgUnitUserGroup,
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            ORG_UNIT_USER_GROUP_ENTITIES,
+            USER_GROUP_ENTITIES,
             orgUnitUserGroupUid
           ),
         });
@@ -200,41 +197,41 @@ describe('OrgUnitUserGroup Actions', () => {
     });
   });
 
-  describe('UpdateOrgUnitUserGroup Actions', () => {
-    describe('UpdateOrgUnitUserGroup', () => {
+  describe('UpdateUserGroup Actions', () => {
+    describe('UpdateUserGroup', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.UpdateOrgUnitUserGroup({
+        const action = new UserGroupActions.UpdateUserGroup({
           userId,
           orgUnitUserGroupUid,
           orgUnitUserGroup,
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.UPDATE_ORG_UNIT_USER_GROUP,
+          type: UserGroupActions.UPDATE_USER_GROUP,
           payload: { userId, orgUnitUserGroupUid, orgUnitUserGroup },
           meta: StateEntityLoaderActions.entityLoadMeta(
-            ORG_UNIT_USER_GROUP_ENTITIES,
+            USER_GROUP_ENTITIES,
             orgUnitUserGroupUid
           ),
         });
       });
     });
 
-    describe('UpdateOrgUnitUserGroupFail', () => {
+    describe('UpdateUserGroupFail', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.UpdateOrgUnitUserGroupFail({
+        const action = new UserGroupActions.UpdateUserGroupFail({
           orgUnitUserGroupUid,
           error,
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.UPDATE_ORG_UNIT_USER_GROUP_FAIL,
+          type: UserGroupActions.UPDATE_USER_GROUP_FAIL,
           payload: {
             orgUnitUserGroupUid,
             error,
           },
           meta: StateEntityLoaderActions.entityFailMeta(
-            ORG_UNIT_USER_GROUP_ENTITIES,
+            USER_GROUP_ENTITIES,
             orgUnitUserGroupUid,
             error
           ),
@@ -242,17 +239,17 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('UpdateOrgUnitUserGroupSuccess', () => {
+    describe('UpdateUserGroupSuccess', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.UpdateOrgUnitUserGroupSuccess(
+        const action = new UserGroupActions.UpdateUserGroupSuccess(
           orgUnitUserGroup
         );
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.UPDATE_ORG_UNIT_USER_GROUP_SUCCESS,
+          type: UserGroupActions.UPDATE_USER_GROUP_SUCCESS,
           payload: orgUnitUserGroup,
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            ORG_UNIT_USER_GROUP_ENTITIES,
+            USER_GROUP_ENTITIES,
             orgUnitUserGroupUid
           ),
         });
@@ -260,40 +257,40 @@ describe('OrgUnitUserGroup Actions', () => {
     });
   });
 
-  describe('DeleteOrgUnitUserGroup Actions', () => {
-    describe('DeleteOrgUnitUserGroup', () => {
+  describe('DeleteUserGroup Actions', () => {
+    describe('DeleteUserGroup', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.DeleteOrgUnitUserGroup({
+        const action = new UserGroupActions.DeleteUserGroup({
           userId,
           orgUnitUserGroupUid,
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.DELETE_ORG_UNIT_USER_GROUP,
+          type: UserGroupActions.DELETE_USER_GROUP,
           payload: { userId, orgUnitUserGroupUid },
           meta: StateEntityLoaderActions.entityLoadMeta(
-            ORG_UNIT_USER_GROUP_ENTITIES,
+            USER_GROUP_ENTITIES,
             orgUnitUserGroupUid
           ),
         });
       });
     });
 
-    describe('DeleteOrgUnitUserGroupFail', () => {
+    describe('DeleteUserGroupFail', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.DeleteOrgUnitUserGroupFail({
+        const action = new UserGroupActions.DeleteUserGroupFail({
           orgUnitUserGroupUid,
           error,
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_FAIL,
+          type: UserGroupActions.DELETE_USER_GROUP_FAIL,
           payload: {
             orgUnitUserGroupUid,
             error,
           },
           meta: StateEntityLoaderActions.entityFailMeta(
-            ORG_UNIT_USER_GROUP_ENTITIES,
+            USER_GROUP_ENTITIES,
             orgUnitUserGroupUid,
             error
           ),
@@ -301,17 +298,17 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('DeleteOrgUnitUserGroupSuccess', () => {
+    describe('DeleteUserGroupSuccess', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.DeleteOrgUnitUserGroupSuccess(
+        const action = new UserGroupActions.DeleteUserGroupSuccess(
           orgUnitUserGroup
         );
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_SUCCESS,
+          type: UserGroupActions.DELETE_USER_GROUP_SUCCESS,
           payload: orgUnitUserGroup,
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            ORG_UNIT_USER_GROUP_ENTITIES,
+            USER_GROUP_ENTITIES,
             orgUnitUserGroupUid
           ),
         });
@@ -319,49 +316,43 @@ describe('OrgUnitUserGroup Actions', () => {
     });
   });
 
-  describe('LoadOrgUnitUserGroupAvailableOrderApprovalPermissions Actions', () => {
-    describe('LoadOrgUnitUserGroupAvailableOrderApprovalPermissions', () => {
+  describe('LoadPermissions Actions', () => {
+    describe('LoadPermissions', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissions(
-          {
-            userId,
-            orgUnitUserGroupUid,
-            params,
-          }
-        );
+        const action = new UserGroupActions.LoadPermissions({
+          userId,
+          orgUnitUserGroupUid,
+          params,
+        });
 
         expect({ ...action }).toEqual({
-          type:
-            UserGroupActions.LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+          type: UserGroupActions.LOAD_USER_GROUP_PERMISSIONS,
           payload: { userId, orgUnitUserGroupUid, params },
           meta: StateEntityLoaderActions.entityLoadMeta(
-            ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+            USER_GROUP_PERMISSIONS,
             orgUnitUserGroupUid + query
           ),
         });
       });
     });
 
-    describe('LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsFail', () => {
+    describe('LoadPermissionsFail', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsFail(
-          {
-            orgUnitUserGroupUid,
-            params,
-            error,
-          }
-        );
+        const action = new UserGroupActions.LoadPermissionsFail({
+          orgUnitUserGroupUid,
+          params,
+          error,
+        });
 
         expect({ ...action }).toEqual({
-          type:
-            UserGroupActions.LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS_FAIL,
+          type: UserGroupActions.LOAD_USER_GROUP_PERMISSIONS_FAIL,
           payload: {
             orgUnitUserGroupUid,
             params,
             error,
           },
           meta: StateEntityLoaderActions.entityFailMeta(
-            ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+            USER_GROUP_PERMISSIONS,
             orgUnitUserGroupUid + query,
             error
           ),
@@ -369,26 +360,23 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsSuccess', () => {
+    describe('LoadPermissionsSuccess', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsSuccess(
-          {
-            orgUnitUserGroupUid,
-            page,
-            params,
-          }
-        );
+        const action = new UserGroupActions.LoadPermissionsSuccess({
+          orgUnitUserGroupUid,
+          page,
+          params,
+        });
 
         expect({ ...action }).toEqual({
-          type:
-            UserGroupActions.LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS_SUCCESS,
+          type: UserGroupActions.LOAD_USER_GROUP_PERMISSIONS_SUCCESS,
           payload: {
             orgUnitUserGroupUid,
             page,
             params,
           },
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+            USER_GROUP_PERMISSIONS,
             orgUnitUserGroupUid + query
           ),
         });
@@ -396,8 +384,8 @@ describe('OrgUnitUserGroup Actions', () => {
     });
   });
 
-  describe('CreateOrgUnitUserGroupOrderApprovalPermission Actions', () => {
-    describe('CreateOrgUnitUserGroupOrderApprovalPermission', () => {
+  describe('AssignPermission Actions', () => {
+    describe('AssignPermission', () => {
       it('should create the action', () => {
         const action = new UserGroupActions.AssignPermission({
           userId,
@@ -406,8 +394,7 @@ describe('OrgUnitUserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
-          type:
-            UserGroupActions.CREATE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION,
+          type: UserGroupActions.USER_GROUP_ASSIGN_PERMISSION,
           payload: { userId, orgUnitUserGroupUid, permissionUid },
           meta: StateEntityLoaderActions.entityLoadMeta(
             PERMISSION_ENTITIES,
@@ -417,19 +404,16 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('CreateOrgUnitUserGroupOrderApprovalPermissionFail', () => {
+    describe('AssignPermissionFail', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionFail(
-          {
-            orgUnitUserGroupUid,
-            permissionUid,
-            error,
-          }
-        );
+        const action = new UserGroupActions.AssignPermissionFail({
+          orgUnitUserGroupUid,
+          permissionUid,
+          error,
+        });
 
         expect({ ...action }).toEqual({
-          type:
-            UserGroupActions.CREATE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_FAIL,
+          type: UserGroupActions.USER_GROUP_ASSIGN_PERMISSION_FAIL,
           payload: {
             orgUnitUserGroupUid,
             permissionUid,
@@ -444,18 +428,15 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('CreateOrgUnitUserGroupOrderApprovalPermissionSuccess', () => {
+    describe('AssignPermissionSuccess', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionSuccess(
-          {
-            permissionUid: permissionUid,
-            selected: true,
-          }
-        );
+        const action = new UserGroupActions.AssignPermissionSuccess({
+          permissionUid: permissionUid,
+          selected: true,
+        });
 
         expect({ ...action }).toEqual({
-          type:
-            UserGroupActions.CREATE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_SUCCESS,
+          type: UserGroupActions.USER_GROUP_ASSIGN_PERMISSION_SUCCESS,
           payload: { permissionUid: permissionUid, selected: true },
           meta: StateEntityLoaderActions.entitySuccessMeta(
             PERMISSION_ENTITIES,
@@ -466,8 +447,8 @@ describe('OrgUnitUserGroup Actions', () => {
     });
   });
 
-  describe('DeleteOrgUnitUserGroupOrderApprovalPermission Actions', () => {
-    describe('DeleteOrgUnitUserGroupOrderApprovalPermission', () => {
+  describe('UnassignPermission Actions', () => {
+    describe('UnassignPermission', () => {
       it('should create the action', () => {
         const action = new UserGroupActions.UnassignPermission({
           userId,
@@ -476,8 +457,7 @@ describe('OrgUnitUserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
-          type:
-            UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION,
+          type: UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION,
           payload: { userId, orgUnitUserGroupUid, permissionUid },
           meta: StateEntityLoaderActions.entityLoadMeta(
             PERMISSION_ENTITIES,
@@ -487,19 +467,16 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('DeleteOrgUnitUserGroupOrderApprovalPermissionFail', () => {
+    describe('UnassignPermissionFail', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionFail(
-          {
-            orgUnitUserGroupUid,
-            permissionUid,
-            error,
-          }
-        );
+        const action = new UserGroupActions.UnassignPermissionFail({
+          orgUnitUserGroupUid,
+          permissionUid,
+          error,
+        });
 
         expect({ ...action }).toEqual({
-          type:
-            UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_FAIL,
+          type: UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION_FAIL,
           payload: {
             orgUnitUserGroupUid,
             permissionUid,
@@ -514,18 +491,15 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess', () => {
+    describe('UnassignPermissionSuccess', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess(
-          {
-            permissionUid: permissionUid,
-            selected: false,
-          }
-        );
+        const action = new UserGroupActions.UnassignPermissionSuccess({
+          permissionUid: permissionUid,
+          selected: false,
+        });
 
         expect({ ...action }).toEqual({
-          type:
-            UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_SUCCESS,
+          type: UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION_SUCCESS,
           payload: { permissionUid: permissionUid, selected: false },
           meta: StateEntityLoaderActions.entitySuccessMeta(
             PERMISSION_ENTITIES,
@@ -536,49 +510,43 @@ describe('OrgUnitUserGroup Actions', () => {
     });
   });
 
-  describe('LoadOrgUnitUserGroupAvailableOrgCustomers Actions', () => {
-    describe('LoadOrgUnitUserGroupAvailableOrgCustomers', () => {
+  describe('LoadAvailableOrgCustomers Actions', () => {
+    describe('LoadAvailableOrgCustomers', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomers(
-          {
-            userId,
-            orgUnitUserGroupUid,
-            params,
-          }
-        );
+        const action = new UserGroupActions.LoadAvailableOrgCustomers({
+          userId,
+          orgUnitUserGroupUid,
+          params,
+        });
 
         expect({ ...action }).toEqual({
-          type:
-            UserGroupActions.LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+          type: UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS,
           payload: { userId, orgUnitUserGroupUid, params },
           meta: StateEntityLoaderActions.entityLoadMeta(
-            ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+            USER_GROUP_AVAILABLE_CUSTOMERS,
             orgUnitUserGroupUid + query
           ),
         });
       });
     });
 
-    describe('LoadOrgUnitUserGroupAvailableOrgCustomersFail', () => {
+    describe('LoadAvailableOrgCustomersFail', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersFail(
-          {
-            orgUnitUserGroupUid,
-            params,
-            error,
-          }
-        );
+        const action = new UserGroupActions.LoadAvailableOrgCustomersFail({
+          orgUnitUserGroupUid,
+          params,
+          error,
+        });
 
         expect({ ...action }).toEqual({
-          type:
-            UserGroupActions.LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS_FAIL,
+          type: UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_FAIL,
           payload: {
             orgUnitUserGroupUid,
             params,
             error,
           },
           meta: StateEntityLoaderActions.entityFailMeta(
-            ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+            USER_GROUP_AVAILABLE_CUSTOMERS,
             orgUnitUserGroupUid + query,
             error
           ),
@@ -586,26 +554,23 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('LoadOrgUnitUserGroupAvailableOrgCustomersSuccess', () => {
+    describe('LoadAvailableOrgCustomersSuccess', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersSuccess(
-          {
-            orgUnitUserGroupUid,
-            page,
-            params,
-          }
-        );
+        const action = new UserGroupActions.LoadAvailableOrgCustomersSuccess({
+          orgUnitUserGroupUid,
+          page,
+          params,
+        });
 
         expect({ ...action }).toEqual({
-          type:
-            UserGroupActions.LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS_SUCCESS,
+          type: UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_SUCCESS,
           payload: {
             orgUnitUserGroupUid,
             page,
             params,
           },
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+            USER_GROUP_AVAILABLE_CUSTOMERS,
             orgUnitUserGroupUid + query
           ),
         });
@@ -613,8 +578,8 @@ describe('OrgUnitUserGroup Actions', () => {
     });
   });
 
-  describe('CreateOrgUnitUserGroupMember Actions', () => {
-    describe('CreateOrgUnitUserGroupMember', () => {
+  describe('AssignMember Actions', () => {
+    describe('AssignMember', () => {
       it('should create the action', () => {
         const action = new UserGroupActions.AssignMember({
           userId,
@@ -623,7 +588,7 @@ describe('OrgUnitUserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.CREATE_ORG_UNIT_USER_GROUP_MEMBER,
+          type: UserGroupActions.USER_GROUP_ASSIGN_MEMBER,
           payload: { userId, orgUnitUserGroupUid, customerId },
           meta: StateEntityLoaderActions.entityLoadMeta(
             B2B_USER_ENTITIES,
@@ -633,16 +598,16 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('CreateOrgUnitUserGroupMemberFail', () => {
+    describe('AssignMemberFail', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.CreateOrgUnitUserGroupMemberFail({
+        const action = new UserGroupActions.AssignMemberFail({
           orgUnitUserGroupUid,
           customerId,
           error,
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.CREATE_ORG_UNIT_USER_GROUP_MEMBER_FAIL,
+          type: UserGroupActions.USER_GROUP_ASSIGN_MEMBER_FAIL,
           payload: {
             orgUnitUserGroupUid,
             customerId,
@@ -657,17 +622,15 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('CreateOrgUnitUserGroupMemberSuccess', () => {
+    describe('AssignMemberrSuccess', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.CreateOrgUnitUserGroupMemberSuccess(
-          {
-            customerId: customerId,
-            selected: true,
-          }
-        );
+        const action = new UserGroupActions.AssignMemberSuccess({
+          customerId: customerId,
+          selected: true,
+        });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.CREATE_ORG_UNIT_USER_GROUP_MEMBER_SUCCESS,
+          type: UserGroupActions.USER_GROUP_ASSIGN_MEMBER_SUCCESS,
           payload: { customerId: customerId, selected: true },
           meta: StateEntityLoaderActions.entitySuccessMeta(
             B2B_USER_ENTITIES,
@@ -678,8 +641,8 @@ describe('OrgUnitUserGroup Actions', () => {
     });
   });
 
-  describe('DeleteOrgUnitUserGroupMember Actions', () => {
-    describe('DeleteOrgUnitUserGroupMember', () => {
+  describe('UnassignMember Actions', () => {
+    describe('UnassignMember', () => {
       it('should create the action', () => {
         const action = new UserGroupActions.UnassignMember({
           userId,
@@ -688,7 +651,7 @@ describe('OrgUnitUserGroup Actions', () => {
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_MEMBER,
+          type: UserGroupActions.USER_GROUP_UNASSIGN_MEMBER,
           payload: { userId, orgUnitUserGroupUid, customerId },
           meta: StateEntityLoaderActions.entityLoadMeta(
             B2B_USER_ENTITIES,
@@ -698,16 +661,16 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('DeleteOrgUnitUserGroupMemberFail', () => {
+    describe('UnassignMemberFail', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.DeleteOrgUnitUserGroupMemberFail({
+        const action = new UserGroupActions.UnassignMemberFail({
           orgUnitUserGroupUid,
           customerId,
           error,
         });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_MEMBER_FAIL,
+          type: UserGroupActions.USER_GROUP_UNASSIGN_MEMBER_FAIL,
           payload: {
             orgUnitUserGroupUid,
             customerId,
@@ -722,17 +685,15 @@ describe('OrgUnitUserGroup Actions', () => {
       });
     });
 
-    describe('DeleteOrgUnitUserGroupMemberSuccess', () => {
+    describe('UnassignMemberSuccess', () => {
       it('should create the action', () => {
-        const action = new UserGroupActions.DeleteOrgUnitUserGroupMemberSuccess(
-          {
-            customerId: customerId,
-            selected: false,
-          }
-        );
+        const action = new UserGroupActions.UnassignMemberSuccess({
+          customerId: customerId,
+          selected: false,
+        });
 
         expect({ ...action }).toEqual({
-          type: UserGroupActions.DELETE_ORG_UNIT_USER_GROUP_MEMBER_SUCCESS,
+          type: UserGroupActions.USER_GROUP_UNASSIGN_MEMBER_SUCCESS,
           payload: { customerId: customerId, selected: false },
           meta: StateEntityLoaderActions.entitySuccessMeta(
             B2B_USER_ENTITIES,

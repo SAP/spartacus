@@ -5,7 +5,7 @@ import createSpy = jasmine.createSpy;
 
 import { B2BSearchConfig } from '../../model/search-config';
 import { OrgUnitUserGroupAdapter } from './user-group.adapter';
-import { OrgUnitUserGroupConnector } from './user-group.connector';
+import { UserGroupConnector } from './user-group.connector';
 
 const userId = 'userId';
 const orgUnitUserGroupUid = 'orgUnitUserGroupUid';
@@ -55,14 +55,14 @@ class MockOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
   );
 }
 
-describe('OrgUnitUserGroupConnector', () => {
-  let service: OrgUnitUserGroupConnector;
+describe('UserGroupConnector', () => {
+  let service: UserGroupConnector;
   let adapter: OrgUnitUserGroupAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        OrgUnitUserGroupConnector,
+        UserGroupConnector,
         {
           provide: OrgUnitUserGroupAdapter,
           useClass: MockOrgUnitUserGroupAdapter,
@@ -70,9 +70,7 @@ describe('OrgUnitUserGroupConnector', () => {
       ],
     });
 
-    service = TestBed.inject(
-      OrgUnitUserGroupConnector as Type<OrgUnitUserGroupConnector>
-    );
+    service = TestBed.inject(UserGroupConnector as Type<UserGroupConnector>);
     adapter = TestBed.inject(
       OrgUnitUserGroupAdapter as Type<OrgUnitUserGroupAdapter>
     );

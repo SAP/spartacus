@@ -19,7 +19,7 @@ export function orgUnitUserGroupsListReducer(
   action: LoaderAction
 ): any {
   switch (action.type) {
-    case OrgUnitUserGroupActions.LOAD_ORG_UNIT_USER_GROUPS_SUCCESS:
+    case OrgUnitUserGroupActions.LOAD_USER_GROUPS_SUCCESS:
       return action.payload.page;
   }
   return state;
@@ -30,7 +30,7 @@ export function orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer(
   action: LoaderAction
 ): any {
   switch (action.type) {
-    case OrgUnitUserGroupActions.LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS_SUCCESS:
+    case OrgUnitUserGroupActions.LOAD_USER_GROUP_PERMISSIONS_SUCCESS:
       return action.payload.page;
   }
   return state;
@@ -41,7 +41,7 @@ export function orgUnitUserGroupAvailablOrgCustomersListReducer(
   action: LoaderAction
 ): any {
   switch (action.type) {
-    case OrgUnitUserGroupActions.LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS_SUCCESS:
+    case OrgUnitUserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_SUCCESS:
       return action.payload.page;
   }
   return state;

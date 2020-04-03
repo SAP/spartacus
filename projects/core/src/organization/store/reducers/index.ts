@@ -27,11 +27,11 @@ import {
   COST_CENTER_ENTITIES,
   COST_CENTER_LIST,
   COST_CENTER_ASSIGNED_BUDGETS,
-  ORG_UNIT_USER_GROUP_ENTITIES,
-  ORG_UNIT_USER_GROUP_FEATURE,
-  ORG_UNIT_USER_GROUP_LIST,
-  ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
-  ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+  USER_GROUP_ENTITIES,
+  USER_GROUP_FEATURE,
+  USER_GROUP_LIST,
+  USER_GROUP_PERMISSIONS,
+  USER_GROUP_AVAILABLE_CUSTOMERS,
   ORG_UNIT_ENTITIES,
   ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
   ORG_UNIT_TREE_ENTITY,
@@ -109,20 +109,18 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       ),
       addressEntities: entityLoaderReducer<B2BAddress>(ADDRESS_ENTITIES),
     }),
-    [ORG_UNIT_USER_GROUP_FEATURE]: combineReducers({
-      entities: entityLoaderReducer<OrgUnitUserGroup>(
-        ORG_UNIT_USER_GROUP_ENTITIES
-      ),
+    [USER_GROUP_FEATURE]: combineReducers({
+      entities: entityLoaderReducer<OrgUnitUserGroup>(USER_GROUP_ENTITIES),
       list: entityLoaderReducer<ListModel>(
-        ORG_UNIT_USER_GROUP_LIST,
+        USER_GROUP_LIST,
         orgUnitUserGroupsListReducer
       ),
       permissions: entityLoaderReducer<ListModel>(
-        ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+        USER_GROUP_PERMISSIONS,
         orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer
       ),
       customers: entityLoaderReducer<ListModel>(
-        ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+        USER_GROUP_AVAILABLE_CUSTOMERS,
         orgUnitUserGroupAvailablOrgCustomersListReducer
       ),
     }),

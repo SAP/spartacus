@@ -47,12 +47,12 @@ export const B2B_USER_APPROVERS = 'b2bUser-approvers';
 export const B2B_USER_PERMISSIONS = 'b2bUser-permissions';
 export const B2B_USER_USER_GROUPS = 'b2bUser-user-groups';
 
-export const ORG_UNIT_USER_GROUP_FEATURE = 'orgUnitUserGroup';
-export const ORG_UNIT_USER_GROUP_ENTITIES = 'orgUnitUserGroup-entities';
-export const ORG_UNIT_USER_GROUP_LIST = 'orgUnitUserGroup-list';
-export const ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS =
+export const USER_GROUP_FEATURE = 'orgUnitUserGroup';
+export const USER_GROUP_ENTITIES = 'orgUnitUserGroup-entities';
+export const USER_GROUP_LIST = 'orgUnitUserGroup-list';
+export const USER_GROUP_PERMISSIONS =
   'orgUnitUserGroup-available-order-approval-permissions';
-export const ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS =
+export const USER_GROUP_AVAILABLE_CUSTOMERS =
   'orgUnitUserGroup-available-org-customers';
 export const ADDRESS_ENTITIES = 'addresses-entities';
 export const ADDRESS_LIST = 'addresses-list';
@@ -99,7 +99,7 @@ export interface StateWithOrganization {
 export interface OrganizationState {
   [BUDGET_FEATURE]: BudgetManagement;
   [ORG_UNIT_FEATURE]: OrgUnits;
-  [ORG_UNIT_USER_GROUP_FEATURE]: OrgUnitUserGroupManagement;
+  [USER_GROUP_FEATURE]: OrgUnitUserGroupManagement;
   [PERMISSION_FEATURE]: PermissionManagement;
   [COST_CENTER_FEATURE]: CostCenterManagement;
   [B2B_USER_FEATURE]: B2BUserManagement;
