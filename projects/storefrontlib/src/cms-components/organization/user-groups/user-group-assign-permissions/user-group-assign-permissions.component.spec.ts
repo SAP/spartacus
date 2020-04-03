@@ -20,7 +20,7 @@ import {
   RoutesConfig,
   RoutingConfig,
   Permission,
-  OrgUnitUserGroupService,
+  UserGroupService,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -110,7 +110,7 @@ class MockUrlPipe implements PipeTransform {
 
 const permissionList = new BehaviorSubject(mockPermissionList);
 
-class MockOrgUnitUserGroupService implements Partial<OrgUnitUserGroupService> {
+class MockUserGroupService implements Partial<UserGroupService> {
   loadOrgUnitUserGroupAvailableOrderApprovalPermissions = createSpy(
     'loadOrgUnitUserGroupAvailableOrderApprovalPermissions'
   );
@@ -157,7 +157,7 @@ class MockCxDatePipe {
 describe('UserGroupAssignPermissionsComponent', () => {
   let component: UserGroupAssignPermissionsComponent;
   let fixture: ComponentFixture<UserGroupAssignPermissionsComponent>;
-  let service: MockOrgUnitUserGroupService;
+  let service: MockUserGroupService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -172,8 +172,8 @@ describe('UserGroupAssignPermissionsComponent', () => {
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: OrgUnitUserGroupService,
-          useClass: MockOrgUnitUserGroupService,
+          provide: UserGroupService,
+          useClass: MockUserGroupService,
         },
         {
           provide: PaginationConfig,
@@ -184,9 +184,7 @@ describe('UserGroupAssignPermissionsComponent', () => {
       ],
     }).compileComponents();
 
-    service = TestBed.get(
-      OrgUnitUserGroupService as Type<OrgUnitUserGroupService>
-    );
+    service = TestBed.get(UserGroupService as Type<UserGroupService>);
   }));
 
   beforeEach(() => {

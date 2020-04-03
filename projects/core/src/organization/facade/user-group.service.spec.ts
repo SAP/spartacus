@@ -19,7 +19,7 @@ import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
   OrgUnitUserGroup,
-  OrgUnitUserGroupService,
+  UserGroupService,
   Permission,
 } from '@spartacus/core';
 import { B2BUser } from '../../model';
@@ -74,8 +74,8 @@ class MockAuthService {
   getOccUserId = createSpy().and.returnValue(of(userId));
 }
 
-describe('OrgUnitUserGroupService', () => {
-  let service: OrgUnitUserGroupService;
+describe('UserGroupService', () => {
+  let service: UserGroupService;
   let authService: AuthService;
   let store: Store<StateWithOrganization>;
 
@@ -93,22 +93,20 @@ describe('OrgUnitUserGroupService', () => {
         ),
       ],
       providers: [
-        OrgUnitUserGroupService,
+        UserGroupService,
         { provide: AuthService, useClass: MockAuthService },
       ],
     });
 
     store = TestBed.inject(Store as Type<Store<StateWithOrganization>>);
-    service = TestBed.inject(
-      OrgUnitUserGroupService as Type<OrgUnitUserGroupService>
-    );
+    service = TestBed.inject(UserGroupService as Type<UserGroupService>);
     authService = TestBed.inject(AuthService as Type<AuthService>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  it('should OrgUnitUserGroupService is injected', inject(
-    [OrgUnitUserGroupService],
-    (orgUnitUserGroupService: OrgUnitUserGroupService) => {
+  it('should UserGroupService is injected', inject(
+    [UserGroupService],
+    (orgUnitUserGroupService: UserGroupService) => {
       expect(orgUnitUserGroupService).toBeTruthy();
     }
   ));

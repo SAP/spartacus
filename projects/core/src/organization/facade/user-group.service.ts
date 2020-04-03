@@ -20,7 +20,7 @@ import {
 import { B2BUser } from '../../model';
 
 @Injectable()
-export class OrgUnitUserGroupService {
+export class UserGroupService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
     protected authService: AuthService

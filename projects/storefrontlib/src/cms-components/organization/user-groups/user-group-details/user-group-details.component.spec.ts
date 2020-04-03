@@ -8,7 +8,7 @@ import {
   RoutingService,
   RoutesConfig,
   RoutingConfig,
-  OrgUnitUserGroupService,
+  UserGroupService,
   OrgUnitUserGroup,
 } from '@spartacus/core';
 
@@ -39,7 +39,7 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockUserGroupService implements Partial<OrgUnitUserGroupService> {
+class MockUserGroupService implements Partial<UserGroupService> {
   loadOrgUnitUserGroup = createSpy('loadOrgUnitUserGroup');
   get = createSpy('get').and.returnValue(of(mockUserGroup));
   update = createSpy('update');
@@ -81,14 +81,14 @@ describe('UserGroupDetailsComponent', () => {
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: OrgUnitUserGroupService,
+          provide: UserGroupService,
           useClass: MockUserGroupService,
         },
       ],
     }).compileComponents();
 
     orgUnitUserGroupService = TestBed.get(
-      OrgUnitUserGroupService as Type<OrgUnitUserGroupService>
+      UserGroupService as Type<UserGroupService>
     );
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));

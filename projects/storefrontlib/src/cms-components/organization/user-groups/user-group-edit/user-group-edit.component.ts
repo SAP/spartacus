@@ -3,7 +3,7 @@ import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import {
   OrgUnitUserGroup,
-  OrgUnitUserGroupService,
+  UserGroupService,
   RoutingService,
 } from '@spartacus/core';
 
@@ -21,7 +21,7 @@ export class UserGroupEditComponent implements OnInit {
 
   constructor(
     protected routingService: RoutingService,
-    protected userGroupsService: OrgUnitUserGroupService
+    protected userGroupsService: UserGroupService
   ) {}
 
   ngOnInit(): void {

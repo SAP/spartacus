@@ -13,7 +13,7 @@ import {
   RoutingService,
   CxDatePipe,
   EntitiesModel,
-  OrgUnitUserGroupService,
+  UserGroupService,
   B2BUser,
 } from '@spartacus/core';
 import {
@@ -32,7 +32,7 @@ export class UserGroupAssignUsersComponent extends AbstractListingComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected userGroupService: OrgUnitUserGroupService,
+    protected userGroupService: UserGroupService,
     protected cxDate: CxDatePipe
   ) {
     super(routingService);

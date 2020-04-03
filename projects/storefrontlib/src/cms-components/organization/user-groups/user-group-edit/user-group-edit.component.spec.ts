@@ -12,7 +12,7 @@ import {
   B2BUnitNode,
   LanguageService,
   OrgUnitUserGroup,
-  OrgUnitUserGroupService,
+  UserGroupService,
 } from '@spartacus/core';
 
 import { UserGroupEditComponent } from './user-group-edit.component';
@@ -44,7 +44,7 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
 }
 
-class MockUserGroupService implements Partial<OrgUnitUserGroupService> {
+class MockUserGroupService implements Partial<UserGroupService> {
   loadOrgUnitUserGroup = createSpy('loadOrgUnitUserGroup');
   get = createSpy('get').and.returnValue(of(mockUserGroup));
   update = createSpy('update');
@@ -96,13 +96,11 @@ describe('UserGroupEditComponent', () => {
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: OrgUnitUserGroupService, useClass: MockUserGroupService },
+        { provide: UserGroupService, useClass: MockUserGroupService },
       ],
     }).compileComponents();
 
-    userGroupsService = TestBed.get(
-      OrgUnitUserGroupService as Type<OrgUnitUserGroupService>
-    );
+    userGroupsService = TestBed.get(UserGroupService as Type<UserGroupService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 

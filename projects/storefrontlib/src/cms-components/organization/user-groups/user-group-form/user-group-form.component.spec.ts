@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 
 import {
   I18nTestingModule,
-  OrgUnitUserGroupService,
+  UserGroupService,
   OrgUnitService,
   B2BUnitNode,
   OrgUnitUserGroup,
@@ -48,7 +48,7 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
 }
 
-class MockUserGroupService implements Partial<OrgUnitUserGroupService> {
+class MockUserGroupService implements Partial<UserGroupService> {
   loadUserGroup = createSpy('loadUserGroup');
   get = createSpy('get').and.returnValue(of(mockUserGroup));
   update = createSpy('update');
@@ -78,7 +78,7 @@ describe('UserGroupFormComponent', () => {
       declarations: [UserGroupFormComponent, MockUrlPipe],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: OrgUnitUserGroupService, useClass: MockUserGroupService },
+        { provide: UserGroupService, useClass: MockUserGroupService },
       ],
     }).compileComponents();
 

@@ -4,7 +4,7 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 import {
   RoutingService,
   OrgUnitUserGroup,
-  OrgUnitUserGroupService,
+  UserGroupService,
 } from '@spartacus/core';
 
 @Component({
@@ -22,7 +22,7 @@ export class UserGroupDetailsComponent implements OnInit {
 
   constructor(
     protected routingService: RoutingService,
-    protected userGroupsService: OrgUnitUserGroupService
+    protected userGroupsService: UserGroupService
   ) {}
 
   ngOnInit(): void {

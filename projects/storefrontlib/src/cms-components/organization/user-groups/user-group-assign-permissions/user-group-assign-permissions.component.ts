@@ -13,7 +13,7 @@ import {
   RoutingService,
   CxDatePipe,
   EntitiesModel,
-  OrgUnitUserGroupService,
+  UserGroupService,
   Permission,
 } from '@spartacus/core';
 import {
@@ -33,7 +33,7 @@ export class UserGroupAssignPermissionsComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected userGroupService: OrgUnitUserGroupService,
+    protected userGroupService: UserGroupService,
     protected cxDate: CxDatePipe
   ) {
     super(routingService);

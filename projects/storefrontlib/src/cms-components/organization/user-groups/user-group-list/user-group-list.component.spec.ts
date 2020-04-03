@@ -14,7 +14,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   RoutingService,
-  OrgUnitUserGroupService,
+  UserGroupService,
   EntitiesModel,
   B2BSearchConfig,
   CxDatePipe,
@@ -88,7 +88,7 @@ class MockUrlPipe implements PipeTransform {
 
 const userGroupList = new BehaviorSubject(mockUserGroupList);
 
-class MockUserGroupService implements Partial<OrgUnitUserGroupService> {
+class MockUserGroupService implements Partial<UserGroupService> {
   loadOrgUnitUserGroups = createSpy('loadOrgUnitUserGroups');
   getList = createSpy('getList').and.returnValue(userGroupList);
 }
@@ -138,7 +138,7 @@ describe('UserGroupListComponent', () => {
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OrgUnitUserGroupService, useClass: MockUserGroupService },
+        { provide: UserGroupService, useClass: MockUserGroupService },
         {
           provide: PaginationConfig,
           useValue: {
@@ -148,9 +148,7 @@ describe('UserGroupListComponent', () => {
       ],
     }).compileComponents();
 
-    userGroupsService = TestBed.get(
-      OrgUnitUserGroupService as Type<OrgUnitUserGroupService>
-    );
+    userGroupsService = TestBed.get(UserGroupService as Type<UserGroupService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 

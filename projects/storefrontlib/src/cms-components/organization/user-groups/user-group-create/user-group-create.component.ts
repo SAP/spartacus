@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {
   RoutingService,
-  OrgUnitUserGroupService,
+  UserGroupService,
   OrgUnitUserGroup,
 } from '@spartacus/core';
 
@@ -11,7 +11,7 @@ import {
 })
 export class UserGroupCreateComponent {
   constructor(
-    protected userGroupService: OrgUnitUserGroupService,
+    protected userGroupService: UserGroupService,
     protected routingService: RoutingService
   ) {}
 
