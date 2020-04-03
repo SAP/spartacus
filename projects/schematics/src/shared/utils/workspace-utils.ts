@@ -11,10 +11,7 @@ export function getSourceRoot(
   const workspace = getWorkspace(host).workspace;
 
   if (!options.project) {
-    options.project =
-      workspace.defaultProject !== undefined
-        ? workspace.defaultProject
-        : Object.keys(workspace.projects)[0];
+    options.project = getDefaultProjectNameFromWorkspace(host);
   }
 
   const sourceRoot = workspace.projects[options.project].sourceRoot;
@@ -84,4 +81,12 @@ export function getProjectFromWorkspace(
   }
 
   return project;
+}
+
+export function getDefaultProjectNameFromWorkspace(tree: Tree): string {
+  const workspace = getWorkspace(tree).workspace;
+
+  return workspace.defaultProject !== undefined
+    ? workspace.defaultProject
+    : Object.keys(workspace.projects)[0];
 }

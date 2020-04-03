@@ -75,37 +75,50 @@ describe('Cart Actions', () => {
   describe('LoadCart Actions', () => {
     describe('LoadCart', () => {
       it('should create the action', () => {
-        const userId = 'xxx@xxx.xxx';
-        const cartId = 'testCartId';
-        const action = new CartActions.LoadCart({
-          userId: userId,
-          cartId: cartId,
-        });
+        const payload = { cartId: 'testCartId', userId: 'xxx@xxx.xxx' };
+        const action = new CartActions.LoadCart(payload);
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_CART,
-          payload: { userId: userId, cartId: cartId },
+          payload,
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            MULTI_CART_DATA,
+            payload.cartId
+          ),
         });
       });
     });
 
     describe('LoadCartFail', () => {
       it('should create the action', () => {
-        const error = 'anError';
-        const action = new CartActions.LoadCartFail(error);
-
+        const payload = { cartId: 'cartId', error: 'error', userId: 'userId' };
+        const action = new CartActions.LoadCartFail(payload);
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_CART_FAIL,
-          payload: error,
+          payload,
+          meta: StateEntityLoaderActions.entityFailMeta(
+            MULTI_CART_DATA,
+            payload.cartId,
+            payload.error
+          ),
         });
       });
     });
 
     describe('LoadCartSuccess', () => {
       it('should create the action', () => {
-        const action = new CartActions.LoadCartSuccess(cart);
+        const payload = {
+          cartId: cart.code,
+          cart,
+          userId: 'userId',
+        };
+        const action = new CartActions.LoadCartSuccess(payload);
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_CART_SUCCESS,
-          payload: cart,
+          payload,
+          meta: StateEntityLoaderActions.entitySuccessMeta(
+            MULTI_CART_DATA,
+            payload.cart.code
+          ),
         });
       });
     });
