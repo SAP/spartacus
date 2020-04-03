@@ -2,10 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Host,
   HostBinding,
   Input,
-  Optional,
+  ViewChild,
 } from '@angular/core';
 import { Facet, FacetValue } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -30,6 +29,8 @@ export class FacetComponent {
 
   @HostBinding('class.multi-select') isMultiSelect: boolean;
 
+  @ViewChild(FocusDirective) keyboardFocus: FocusDirective;
+
   @Input()
   set facet(value: Facet) {
     this._facet = value;
@@ -43,8 +44,7 @@ export class FacetComponent {
 
   constructor(
     protected facetService: FacetService,
-    protected elementRef: ElementRef<HTMLElement>,
-    @Optional() @Host() protected focusDirective: FocusDirective
+    protected elementRef: ElementRef<HTMLElement>
   ) {}
 
   /**
@@ -53,7 +53,7 @@ export class FacetComponent {
    */
   toggleGroup(event: UIEvent) {
     const host: HTMLElement = this.elementRef.nativeElement;
-    const isLocked = this.focusDirective?.isLocked;
+    const isLocked = this.keyboardFocus?.isLocked;
 
     const isExpanded = host.classList.contains('expanded');
 
