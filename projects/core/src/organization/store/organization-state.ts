@@ -74,8 +74,7 @@ export interface OrgUnits {
   addressEntities: EntityLoaderState<B2BAddress>;
 }
 
-export interface OrgUnitUserGroupManagement
-  extends Management<OrgUnitUserGroup> {
+export interface UserGroupManagement extends Management<OrgUnitUserGroup> {
   permissions: EntityLoaderState<ListModel>;
   customers: EntityLoaderState<ListModel>;
 }
@@ -99,7 +98,7 @@ export interface StateWithOrganization {
 export interface OrganizationState {
   [BUDGET_FEATURE]: BudgetManagement;
   [ORG_UNIT_FEATURE]: OrgUnits;
-  [USER_GROUP_FEATURE]: OrgUnitUserGroupManagement;
+  [USER_GROUP_FEATURE]: UserGroupManagement;
   [PERMISSION_FEATURE]: PermissionManagement;
   [COST_CENTER_FEATURE]: CostCenterManagement;
   [B2B_USER_FEATURE]: B2BUserManagement;

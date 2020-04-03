@@ -5,7 +5,7 @@ import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   OrganizationState,
   StateWithOrganization,
-  OrgUnitUserGroupManagement,
+  UserGroupManagement,
   USER_GROUP_FEATURE,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
@@ -23,27 +23,27 @@ import { B2BSearchConfig } from '../../model/search-config';
 import { getPermissionsState } from './permission.selector';
 import { getB2BUsersState } from './b2b-user.selector';
 
-export const getOrgUnitUserGroupManagementState: MemoizedSelector<
+export const getUserGroupManagementState: MemoizedSelector<
   StateWithOrganization,
-  OrgUnitUserGroupManagement
+  UserGroupManagement
 > = createSelector(
   getOrganizationState,
   (state: OrganizationState) => state[USER_GROUP_FEATURE]
 );
 
-export const getOrgUnitUserGroupsState: MemoizedSelector<
+export const getUserGroupsState: MemoizedSelector<
   StateWithOrganization,
   EntityLoaderState<OrgUnitUserGroup>
 > = createSelector(
-  getOrgUnitUserGroupManagementState,
-  (state: OrgUnitUserGroupManagement) => state && state.entities
+  getUserGroupManagementState,
+  (state: UserGroupManagement) => state && state.entities
 );
 
 export const getUserGroupState = (
   orgUnitUserGroupUid: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<OrgUnitUserGroup>> =>
   createSelector(
-    getOrgUnitUserGroupsState,
+    getUserGroupsState,
     (state: EntityLoaderState<OrgUnitUserGroup>) =>
       entityStateSelector(state, orgUnitUserGroupUid)
   );
@@ -54,10 +54,8 @@ export const getUserGroupList = (
   StateWithOrganization,
   LoaderState<EntitiesModel<OrgUnitUserGroup>>
 > =>
-  createSelector(
-    getOrgUnitUserGroupManagementState,
-    (state: OrgUnitUserGroupManagement) =>
-      denormalizeB2BSearch<OrgUnitUserGroup>(state, params)
+  createSelector(getUserGroupManagementState, (state: UserGroupManagement) =>
+    denormalizeB2BSearch<OrgUnitUserGroup>(state, params)
   );
 
 export const getAvailableOrgCustomers = (
@@ -68,12 +66,10 @@ export const getAvailableOrgCustomers = (
   LoaderState<EntitiesModel<B2BUser>>
 > =>
   createSelector(
-    getOrgUnitUserGroupManagementState,
+    getUserGroupManagementState,
     getB2BUsersState,
-    (
-      state: OrgUnitUserGroupManagement,
-      customers: EntityLoaderState<B2BUser>
-    ) => denormalizeCustomB2BSearch(state.customers, customers, params, code)
+    (state: UserGroupManagement, customers: EntityLoaderState<B2BUser>) =>
+      denormalizeCustomB2BSearch(state.customers, customers, params, code)
   );
 
 export const getAvailableOrderApprovalPermissions = (
@@ -84,11 +80,8 @@ export const getAvailableOrderApprovalPermissions = (
   LoaderState<EntitiesModel<Permission>>
 > =>
   createSelector(
-    getOrgUnitUserGroupManagementState,
+    getUserGroupManagementState,
     getPermissionsState,
-    (
-      state: OrgUnitUserGroupManagement,
-      permissions: EntityLoaderState<Permission>
-    ) =>
+    (state: UserGroupManagement, permissions: EntityLoaderState<Permission>) =>
       denormalizeCustomB2BSearch(state.permissions, permissions, params, code)
   );

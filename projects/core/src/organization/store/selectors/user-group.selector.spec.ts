@@ -6,13 +6,13 @@ import { UserGroupActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
-  OrgUnitUserGroupManagement,
+  UserGroupManagement,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import {
   EntityLoaderState,
   LoaderState,
-  OrgUnitUserGroupSelectors,
+  UserGroupSelectors,
 } from '@spartacus/core';
 
 describe('OrgUnitUserGroup Selectors', () => {
@@ -58,13 +58,11 @@ describe('OrgUnitUserGroup Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getOrgUnitUserGroupManagementState ', () => {
-    it('should return orgUnitUserGroups state', () => {
-      let result: OrgUnitUserGroupManagement;
+  describe('getUserGroupManagementState ', () => {
+    it('should return UserGroups state', () => {
+      let result: UserGroupManagement;
       store
-        .pipe(
-          select(OrgUnitUserGroupSelectors.getOrgUnitUserGroupManagementState)
-        )
+        .pipe(select(UserGroupSelectors.getUserGroupManagementState))
         .subscribe(value => (result = value));
 
       store.dispatch(
@@ -82,11 +80,11 @@ describe('OrgUnitUserGroup Selectors', () => {
     });
   });
 
-  describe('getOrgUnitUserGroups', () => {
-    it('should return orgUnitUserGroups', () => {
+  describe('getUserGroups', () => {
+    it('should return UserGroups', () => {
       let result: EntityLoaderState<OrgUnitUserGroup>;
       store
-        .pipe(select(OrgUnitUserGroupSelectors.getOrgUnitUserGroupsState))
+        .pipe(select(UserGroupSelectors.getUserGroupsState))
         .subscribe(value => (result = value));
 
       store.dispatch(
@@ -99,11 +97,11 @@ describe('OrgUnitUserGroup Selectors', () => {
     });
   });
 
-  describe('getOrgUnitUserGroup', () => {
+  describe('getUserGroup', () => {
     it('should return orgUnitUserGroup by id', () => {
       let result: LoaderState<OrgUnitUserGroup>;
       store
-        .pipe(select(OrgUnitUserGroupSelectors.getUserGroupState(uid)))
+        .pipe(select(UserGroupSelectors.getUserGroupState(uid)))
         .subscribe(value => (result = value));
 
       store.dispatch(
