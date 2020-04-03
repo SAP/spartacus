@@ -19,7 +19,7 @@ import {
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
-  OrgUnitUserGroupService,
+  UserGroupService,
   B2BUser,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
@@ -100,13 +100,11 @@ class MockUrlPipe implements PipeTransform {
 
 const userList = new BehaviorSubject(mockUserList);
 
-class MockOrgUnitUserGroupService implements Partial<OrgUnitUserGroupService> {
-  loadOrgUnitUserGroupAvailableOrgCustomers = createSpy(
-    'loadOrgUnitUserGroupAvailableOrgCustomers'
-  );
+class MockUserGroupService implements Partial<UserGroupService> {
+  loadAvailableOrgCustomers = createSpy('loadAvailableOrgCustomers');
 
-  getOrgUnitUserGroupAvailableOrgCustomers = createSpy(
-    'getOrgUnitUserGroupAvailableOrgCustomers'
+  getAvailableOrgCustomers = createSpy(
+    'getAvailableOrgCustomers'
   ).and.returnValue(userList);
 
   assignMember = createSpy('assign');
@@ -147,7 +145,7 @@ class MockCxDatePipe {
 describe('UserGroupAssignUsersComponent', () => {
   let component: UserGroupAssignUsersComponent;
   let fixture: ComponentFixture<UserGroupAssignUsersComponent>;
-  let service: MockOrgUnitUserGroupService;
+  let service: MockUserGroupService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -162,8 +160,8 @@ describe('UserGroupAssignUsersComponent', () => {
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: OrgUnitUserGroupService,
-          useClass: MockOrgUnitUserGroupService,
+          provide: UserGroupService,
+          useClass: MockUserGroupService,
         },
         {
           provide: PaginationConfig,
@@ -174,9 +172,7 @@ describe('UserGroupAssignUsersComponent', () => {
       ],
     }).compileComponents();
 
-    service = TestBed.get(
-      OrgUnitUserGroupService as Type<OrgUnitUserGroupService>
-    );
+    service = TestBed.get(UserGroupService as Type<UserGroupService>);
   }));
 
   beforeEach(() => {
@@ -212,12 +208,14 @@ describe('UserGroupAssignUsersComponent', () => {
         usersList = value;
       });
 
-      expect(
-        service.loadOrgUnitUserGroupAvailableOrgCustomers
-      ).toHaveBeenCalledWith(code, defaultParams);
-      expect(
-        service.getOrgUnitUserGroupAvailableOrgCustomers
-      ).toHaveBeenCalledWith(code, defaultParams);
+      expect(service.loadAvailableOrgCustomers).toHaveBeenCalledWith(
+        code,
+        defaultParams
+      );
+      expect(service.getAvailableOrgCustomers).toHaveBeenCalledWith(
+        code,
+        defaultParams
+      );
       expect(usersList).toEqual(mockUserUIList);
     });
   });

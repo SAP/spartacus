@@ -5,13 +5,13 @@ import { Observable, of } from 'rxjs';
 import {
   I18nTestingModule,
   RoutingService,
-  OrgUnitUserGroupService,
+  UserGroupService,
   RoutesConfig,
   RoutingConfig,
   OrgUnitService,
   B2BUnitNode,
   LanguageService,
-  OrgUnitUserGroup,
+  UserGroup,
 } from '@spartacus/core';
 
 import { UserGroupCreateComponent } from './user-group-create.component';
@@ -22,7 +22,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 const uid = 'b1';
 
-const mockUserGroup: OrgUnitUserGroup = {
+const mockUserGroup: UserGroup = {
   uid,
   name: 'group1',
   orgUnit: { name: 'orgName' },
@@ -43,7 +43,7 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
 }
 
-class MockUserGroupService implements Partial<OrgUnitUserGroupService> {
+class MockUserGroupService implements Partial<UserGroupService> {
   create = createSpy('create');
 }
 
@@ -93,13 +93,11 @@ describe('UserGroupCreateComponent', () => {
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: OrgUnitUserGroupService, useClass: MockUserGroupService },
+        { provide: UserGroupService, useClass: MockUserGroupService },
       ],
     }).compileComponents();
 
-    userGroupsService = TestBed.get(
-      OrgUnitUserGroupService as Type<OrgUnitUserGroupService>
-    );
+    userGroupsService = TestBed.get(UserGroupService as Type<UserGroupService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 

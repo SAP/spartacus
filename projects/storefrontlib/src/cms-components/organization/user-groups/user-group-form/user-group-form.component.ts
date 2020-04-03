@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { OrgUnitUserGroup, B2BUnitNode, OrgUnitService } from '@spartacus/core';
+import { UserGroup, B2BUnitNode, OrgUnitService } from '@spartacus/core';
 import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
 
 @Component({
@@ -19,7 +19,7 @@ export class UserGroupFormComponent extends AbstractFormComponent
   businessUnits$: Observable<B2BUnitNode[]>;
 
   @Input()
-  userGroupData: OrgUnitUserGroup;
+  userGroupData: UserGroup;
 
   form: FormGroup = this.fb.group({
     uid: ['', Validators.required],

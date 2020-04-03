@@ -11,19 +11,19 @@ import createSpy = jasmine.createSpy;
 import { defaultOccOrganizationConfig } from '../../../occ/adapters/organization/default-occ-organization-config';
 import { OccConfig } from '../../../occ/config/occ-config';
 import {
-  OrgUnitUserGroupActions,
+  UserGroupActions,
   PermissionActions,
   B2BUserActions,
 } from '../actions/index';
 import * as fromEffects from './user-group.effect';
 import { B2BSearchConfig } from '../../model/search-config';
-import { OrgUnitUserGroup, OrgUnitUserGroupConnector } from '@spartacus/core';
+import { UserGroup, UserGroupConnector } from '@spartacus/core';
 
 const error = 'error';
-const orgUnitUserGroupUid = 'testUid';
+const userGroupId = 'testUid';
 const userId = 'testUser';
-const orgUnitUserGroup: OrgUnitUserGroup = {
-  uid: orgUnitUserGroupUid,
+const userGroup: UserGroup = {
+  uid: userGroupId,
   name: 'The Test Group',
   orgUnit: { uid: 'Rustic' },
 };
@@ -39,15 +39,14 @@ const customer = {
   uid: customerId,
 };
 
-class MockOrgUnitUserGroupConnector
-  implements Partial<OrgUnitUserGroupConnector> {
-  get = createSpy().and.returnValue(of(orgUnitUserGroup));
+class MockUserGroupConnector implements Partial<UserGroupConnector> {
+  get = createSpy().and.returnValue(of(userGroup));
   getList = createSpy().and.returnValue(
-    of({ values: [orgUnitUserGroup], pagination, sorts })
+    of({ values: [userGroup], pagination, sorts })
   );
-  create = createSpy().and.returnValue(of(orgUnitUserGroup));
-  update = createSpy().and.returnValue(of(orgUnitUserGroup));
-  delete = createSpy().and.returnValue(of(orgUnitUserGroup));
+  create = createSpy().and.returnValue(of(userGroup));
+  update = createSpy().and.returnValue(of(userGroup));
+  delete = createSpy().and.returnValue(of(userGroup));
   getAvailableOrderApprovalPermissions = createSpy().and.returnValue(
     of({ values: [permission], pagination, sorts })
   );
@@ -61,16 +60,16 @@ class MockOrgUnitUserGroupConnector
   unassignAllMembers = createSpy().and.returnValue(of(null));
 }
 
-describe('OrgUnitUserGroup Effects', () => {
-  let actions$: Observable<OrgUnitUserGroupActions.OrgUnitUserGroupAction>;
-  let orgUnitUserGroupConnector: OrgUnitUserGroupConnector;
-  let effects: fromEffects.OrgUnitUserGroupEffects;
+describe('UserGroup Effects', () => {
+  let actions$: Observable<UserGroupActions.UserGroupAction>;
+  let userGroupConnector: UserGroupConnector;
+  let effects: fromEffects.UserGroupEffects;
   let expected: TestColdObservable;
 
-  const mockOrgUnitUserGroupState = {
+  const mockUserGroupState = {
     details: {
       entities: {
-        testLoadedUid: { loading: false, value: orgUnitUserGroup },
+        testLoadedUid: { loading: false, value: userGroup },
         testLoadingUid: { loading: true, value: null },
       },
     },
@@ -81,447 +80,373 @@ describe('OrgUnitUserGroup Effects', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({
-          orgUnitUserGroup: () => mockOrgUnitUserGroupState,
+          userGroup: () => mockUserGroupState,
         }),
       ],
       providers: [
         {
-          provide: OrgUnitUserGroupConnector,
-          useClass: MockOrgUnitUserGroupConnector,
+          provide: UserGroupConnector,
+          useClass: MockUserGroupConnector,
         },
         { provide: OccConfig, useValue: defaultOccOrganizationConfig },
-        fromEffects.OrgUnitUserGroupEffects,
+        fromEffects.UserGroupEffects,
         provideMockActions(() => actions$),
       ],
     });
 
     effects = TestBed.inject(
-      fromEffects.OrgUnitUserGroupEffects as Type<
-        fromEffects.OrgUnitUserGroupEffects
-      >
+      fromEffects.UserGroupEffects as Type<fromEffects.UserGroupEffects>
     );
-    orgUnitUserGroupConnector = TestBed.inject(
-      OrgUnitUserGroupConnector as Type<OrgUnitUserGroupConnector>
+    userGroupConnector = TestBed.inject(
+      UserGroupConnector as Type<UserGroupConnector>
     );
     expected = null;
   });
 
-  describe('loadOrgUnitUserGroup$', () => {
-    it('should return LoadOrgUnitUserGroupSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroup({
+  describe('loadUserGroup$', () => {
+    it('should return LoadUserGroupSuccess action', () => {
+      const action = new UserGroupActions.LoadUserGroup({
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
       });
-      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupSuccess(
-        [orgUnitUserGroup]
-      );
+      const completion = new UserGroupActions.LoadUserGroupSuccess([userGroup]);
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.loadOrgUnitUserGroup$).toBeObservable(expected);
-      expect(orgUnitUserGroupConnector.get).toHaveBeenCalledWith(
-        userId,
-        orgUnitUserGroupUid
-      );
+      expect(effects.loadUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.get).toHaveBeenCalledWith(userId, userGroupId);
     });
 
-    it('should return LoadOrgUnitUserGroupFail action if orgUnitUserGroup not updated', () => {
-      orgUnitUserGroupConnector.get = createSpy().and.returnValue(
-        throwError(error)
-      );
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroup({
+    it('should return LoadUserGroupFail action if userGroup not updated', () => {
+      userGroupConnector.get = createSpy().and.returnValue(throwError(error));
+      const action = new UserGroupActions.LoadUserGroup({
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
       });
-      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupFail({
-        orgUnitUserGroupUid,
+      const completion = new UserGroupActions.LoadUserGroupFail({
+        userGroupId,
         error,
       });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.loadOrgUnitUserGroup$).toBeObservable(expected);
-      expect(orgUnitUserGroupConnector.get).toHaveBeenCalledWith(
-        userId,
-        orgUnitUserGroupUid
-      );
+      expect(effects.loadUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.get).toHaveBeenCalledWith(userId, userGroupId);
     });
   });
 
-  describe('loadOrgUnitUserGroups$', () => {
+  describe('loadUserGroups$', () => {
     const params: B2BSearchConfig = { sort: 'uid' };
 
-    it('should return LoadOrgUnitUserGroupSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroups({
+    it('should return LoadUserGroupSuccess action', () => {
+      const action = new UserGroupActions.LoadUserGroups({
         userId,
         params,
       });
-      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupSuccess(
-        [orgUnitUserGroup]
-      );
-      const completion2 = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupsSuccess(
-        {
-          page: { ids: [orgUnitUserGroupUid], pagination, sorts },
-          params,
-        }
-      );
+      const completion = new UserGroupActions.LoadUserGroupSuccess([userGroup]);
+      const completion2 = new UserGroupActions.LoadUserGroupsSuccess({
+        page: { ids: [userGroupId], pagination, sorts },
+        params,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion, c: completion2 });
 
-      expect(effects.loadOrgUnitUserGroups$).toBeObservable(expected);
-      expect(orgUnitUserGroupConnector.getList).toHaveBeenCalledWith(
-        userId,
-        params
-      );
+      expect(effects.loadUserGroups$).toBeObservable(expected);
+      expect(userGroupConnector.getList).toHaveBeenCalledWith(userId, params);
     });
 
-    it('should return LoadOrgUnitUserGroupsFail action if orgUnitUserGroups not loaded', () => {
-      orgUnitUserGroupConnector.getList = createSpy().and.returnValue(
+    it('should return LoadUserGroupsFail action if userGroups not loaded', () => {
+      userGroupConnector.getList = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroups({
+      const action = new UserGroupActions.LoadUserGroups({
         userId,
         params,
       });
-      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupsFail({
+      const completion = new UserGroupActions.LoadUserGroupsFail({
         error,
         params,
       });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.loadOrgUnitUserGroups$).toBeObservable(expected);
-      expect(orgUnitUserGroupConnector.getList).toHaveBeenCalledWith(
-        userId,
-        params
-      );
+      expect(effects.loadUserGroups$).toBeObservable(expected);
+      expect(userGroupConnector.getList).toHaveBeenCalledWith(userId, params);
     });
   });
 
-  describe('createOrgUnitUserGroup$', () => {
-    it('should return CreateOrgUnitUserGroupSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroup({
+  describe('createUserGroup$', () => {
+    it('should return CreateUserGroupSuccess action', () => {
+      const action = new UserGroupActions.CreateUserGroup({
         userId,
-        orgUnitUserGroup,
+        userGroup,
       });
-      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupSuccess(
-        orgUnitUserGroup
-      );
+      const completion = new UserGroupActions.CreateUserGroupSuccess(userGroup);
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.createOrgUnitUserGroup$).toBeObservable(expected);
-      expect(orgUnitUserGroupConnector.create).toHaveBeenCalledWith(
-        userId,
-        orgUnitUserGroup
-      );
+      expect(effects.createUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.create).toHaveBeenCalledWith(userId, userGroup);
     });
 
-    it('should return CreateOrgUnitUserGroupFail action if orgUnitUserGroup not created', () => {
-      orgUnitUserGroupConnector.create = createSpy().and.returnValue(
+    it('should return CreateUserGroupFail action if userGroup not created', () => {
+      userGroupConnector.create = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroup({
+      const action = new UserGroupActions.CreateUserGroup({
         userId,
-        orgUnitUserGroup,
+        userGroup,
       });
-      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupFail(
-        {
-          orgUnitUserGroupUid,
-          error,
-        }
-      );
+      const completion = new UserGroupActions.CreateUserGroupFail({
+        userGroupId,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.createOrgUnitUserGroup$).toBeObservable(expected);
-      expect(orgUnitUserGroupConnector.create).toHaveBeenCalledWith(
-        userId,
-        orgUnitUserGroup
-      );
+      expect(effects.createUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.create).toHaveBeenCalledWith(userId, userGroup);
     });
   });
 
-  describe('updateOrgUnitUserGroup$', () => {
-    it('should return UpdateOrgUnitUserGroupSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.UpdateOrgUnitUserGroup({
+  describe('updateUserGroup$', () => {
+    it('should return UpdateUserGroupSuccess action', () => {
+      const action = new UserGroupActions.UpdateUserGroup({
         userId,
-        orgUnitUserGroupUid,
-        orgUnitUserGroup,
+        userGroupId,
+        userGroup,
       });
-      const completion = new OrgUnitUserGroupActions.UpdateOrgUnitUserGroupSuccess(
-        orgUnitUserGroup
-      );
+      const completion = new UserGroupActions.UpdateUserGroupSuccess(userGroup);
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.updateOrgUnitUserGroup$).toBeObservable(expected);
-      expect(orgUnitUserGroupConnector.update).toHaveBeenCalledWith(
+      expect(effects.updateUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.update).toHaveBeenCalledWith(
         userId,
-        orgUnitUserGroupUid,
-        orgUnitUserGroup
+        userGroupId,
+        userGroup
       );
     });
 
-    it('should return UpdateOrgUnitUserGroupFail action if orgUnitUserGroup not created', () => {
-      orgUnitUserGroupConnector.update = createSpy().and.returnValue(
+    it('should return UpdateUserGroupFail action if userGroup not created', () => {
+      userGroupConnector.update = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.UpdateOrgUnitUserGroup({
+      const action = new UserGroupActions.UpdateUserGroup({
         userId,
-        orgUnitUserGroupUid,
-        orgUnitUserGroup,
+        userGroupId,
+        userGroup,
       });
-      const completion = new OrgUnitUserGroupActions.UpdateOrgUnitUserGroupFail(
-        {
-          orgUnitUserGroupUid,
-          error,
-        }
-      );
+      const completion = new UserGroupActions.UpdateUserGroupFail({
+        userGroupId,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.updateOrgUnitUserGroup$).toBeObservable(expected);
-      expect(orgUnitUserGroupConnector.update).toHaveBeenCalledWith(
+      expect(effects.updateUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.update).toHaveBeenCalledWith(
         userId,
-        orgUnitUserGroupUid,
-        orgUnitUserGroup
+        userGroupId,
+        userGroup
       );
     });
   });
 
-  describe('deleteOrgUnitUserGroup$', () => {
-    it('should return DeleteOrgUnitUserGroupSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroup({
+  describe('deleteUserGroup$', () => {
+    it('should return DeleteUserGroupSuccess action', () => {
+      const action = new UserGroupActions.DeleteUserGroup({
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
       });
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupSuccess(
-        orgUnitUserGroup
-      );
+      const completion = new UserGroupActions.DeleteUserGroupSuccess(userGroup);
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.deleteOrgUnitUserGroup$).toBeObservable(expected);
-      expect(orgUnitUserGroupConnector.delete).toHaveBeenCalledWith(
+      expect(effects.deleteUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.delete).toHaveBeenCalledWith(
         userId,
-        orgUnitUserGroupUid
+        userGroupId
       );
     });
 
-    it('should return DeleteOrgUnitUserGroupFail action if orgUnitUserGroup not created', () => {
-      orgUnitUserGroupConnector.delete = createSpy().and.returnValue(
+    it('should return DeleteUserGroupFail action if userGroup not created', () => {
+      userGroupConnector.delete = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroup({
+      const action = new UserGroupActions.DeleteUserGroup({
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
       });
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupFail(
-        {
-          orgUnitUserGroupUid,
-          error,
-        }
-      );
+      const completion = new UserGroupActions.DeleteUserGroupFail({
+        userGroupId,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.deleteOrgUnitUserGroup$).toBeObservable(expected);
-      expect(orgUnitUserGroupConnector.delete).toHaveBeenCalledWith(
+      expect(effects.deleteUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.delete).toHaveBeenCalledWith(
         userId,
-        orgUnitUserGroupUid
+        userGroupId
       );
     });
   });
 
-  describe('loadOrgUnitUserGroupAvailableOrderApprovalPermissions$', () => {
+  describe('loadAvailableOrderApprovalPermissions$', () => {
     const params: B2BSearchConfig = { sort: 'uid' };
 
     it('should return LoadPermissionSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissions(
-        {
-          userId,
-          orgUnitUserGroupUid,
-          params,
-        }
-      );
+      const action = new UserGroupActions.LoadPermissions({
+        userId,
+        userGroupId,
+        params,
+      });
       const completion = new PermissionActions.LoadPermissionSuccess([
         permission,
       ]);
-      const completion2 = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsSuccess(
-        {
-          orgUnitUserGroupUid,
-          page: { ids: [permissionUid], pagination, sorts },
-          params,
-        }
-      );
+      const completion2 = new UserGroupActions.LoadPermissionsSuccess({
+        userGroupId,
+        page: { ids: [permissionUid], pagination, sorts },
+        params,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion, c: completion2 });
 
+      expect(effects.loadAvailableOrderApprovalPermissions$).toBeObservable(
+        expected
+      );
       expect(
-        effects.loadOrgUnitUserGroupAvailableOrderApprovalPermissions$
-      ).toBeObservable(expected);
-      expect(
-        orgUnitUserGroupConnector.getAvailableOrderApprovalPermissions
-      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, params);
+        userGroupConnector.getAvailableOrderApprovalPermissions
+      ).toHaveBeenCalledWith(userId, userGroupId, params);
     });
 
     it('should return LoadPermissionFail action if permissions not loaded', () => {
-      orgUnitUserGroupConnector.getAvailableOrderApprovalPermissions = createSpy().and.returnValue(
+      userGroupConnector.getAvailableOrderApprovalPermissions = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissions(
-        {
-          userId,
-          orgUnitUserGroupUid,
-          params,
-        }
-      );
-      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsFail(
-        {
-          error,
-          orgUnitUserGroupUid,
-          params,
-        }
-      );
+      const action = new UserGroupActions.LoadPermissions({
+        userId,
+        userGroupId,
+        params,
+      });
+      const completion = new UserGroupActions.LoadPermissionsFail({
+        error,
+        userGroupId,
+        params,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
+      expect(effects.loadAvailableOrderApprovalPermissions$).toBeObservable(
+        expected
+      );
       expect(
-        effects.loadOrgUnitUserGroupAvailableOrderApprovalPermissions$
-      ).toBeObservable(expected);
-      expect(
-        orgUnitUserGroupConnector.getAvailableOrderApprovalPermissions
-      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, params);
+        userGroupConnector.getAvailableOrderApprovalPermissions
+      ).toHaveBeenCalledWith(userId, userGroupId, params);
     });
   });
 
-  describe('assignPermissionToOrgUnitUserGroup$', () => {
-    it('should return CreateOrgUnitUserGroupOrderApprovalPermissionSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermission(
-        {
-          userId,
-          orgUnitUserGroupUid,
-          permissionUid,
-        }
-      );
-      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionSuccess(
-        {
-          permissionUid: permissionUid,
-          selected: true,
-        }
-      );
+  describe('assignPermissionToUserGroup$', () => {
+    it('should return CreateUserGroupOrderApprovalPermissionSuccess action', () => {
+      const action = new UserGroupActions.AssignPermission({
+        userId,
+        userGroupId,
+        permissionUid,
+      });
+      const completion = new UserGroupActions.AssignPermissionSuccess({
+        permissionUid: permissionUid,
+        selected: true,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.assignPermissionToOrgUnitUserGroup$).toBeObservable(
-        expected
-      );
+      expect(effects.assignPermissionToUserGroup$).toBeObservable(expected);
       expect(
-        orgUnitUserGroupConnector.assignOrderApprovalPermission
-      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, permissionUid);
+        userGroupConnector.assignOrderApprovalPermission
+      ).toHaveBeenCalledWith(userId, userGroupId, permissionUid);
     });
 
-    it('should return CreateOrgUnitUserGroupOrderApprovalPermissionFail action if permission not assigned', () => {
-      orgUnitUserGroupConnector.assignOrderApprovalPermission = createSpy().and.returnValue(
+    it('should return CreateUserGroupOrderApprovalPermissionFail action if permission not assigned', () => {
+      userGroupConnector.assignOrderApprovalPermission = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermission(
-        {
-          userId,
-          orgUnitUserGroupUid,
-          permissionUid,
-        }
-      );
-      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionFail(
-        {
-          orgUnitUserGroupUid,
-          permissionUid,
-          error,
-        }
-      );
+      const action = new UserGroupActions.AssignPermission({
+        userId,
+        userGroupId,
+        permissionUid,
+      });
+      const completion = new UserGroupActions.AssignPermissionFail({
+        userGroupId,
+        permissionUid,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.assignPermissionToOrgUnitUserGroup$).toBeObservable(
-        expected
-      );
+      expect(effects.assignPermissionToUserGroup$).toBeObservable(expected);
       expect(
-        orgUnitUserGroupConnector.assignOrderApprovalPermission
-      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, permissionUid);
+        userGroupConnector.assignOrderApprovalPermission
+      ).toHaveBeenCalledWith(userId, userGroupId, permissionUid);
     });
   });
-  describe('unassignPermissionFromOrgUnitUserGroup$', () => {
-    it('should return DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermission(
-        {
-          userId,
-          orgUnitUserGroupUid,
-          permissionUid,
-        }
-      );
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess(
-        {
-          permissionUid: permissionUid,
-          selected: false,
-        }
-      );
+  describe('unassignPermissionFromUserGroup$', () => {
+    it('should return DeleteUserGroupOrderApprovalPermissionSuccess action', () => {
+      const action = new UserGroupActions.UnassignPermission({
+        userId,
+        userGroupId,
+        permissionUid,
+      });
+      const completion = new UserGroupActions.UnassignPermissionSuccess({
+        permissionUid: permissionUid,
+        selected: false,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.unassignPermissionFromOrgUnitUserGroup$).toBeObservable(
-        expected
-      );
+      expect(effects.unassignPermissionFromUserGroup$).toBeObservable(expected);
       expect(
-        orgUnitUserGroupConnector.unassignOrderApprovalPermission
-      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, permissionUid);
+        userGroupConnector.unassignOrderApprovalPermission
+      ).toHaveBeenCalledWith(userId, userGroupId, permissionUid);
     });
 
-    it('should return DeleteOrgUnitUserGroupOrderApprovalPermissionFail action if permission not unassigned', () => {
-      orgUnitUserGroupConnector.unassignOrderApprovalPermission = createSpy().and.returnValue(
+    it('should return DeleteUserGroupOrderApprovalPermissionFail action if permission not unassigned', () => {
+      userGroupConnector.unassignOrderApprovalPermission = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermission(
-        {
-          userId,
-          orgUnitUserGroupUid,
-          permissionUid,
-        }
-      );
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionFail(
-        {
-          orgUnitUserGroupUid,
-          permissionUid,
-          error,
-        }
-      );
+      const action = new UserGroupActions.UnassignPermission({
+        userId,
+        userGroupId,
+        permissionUid,
+      });
+      const completion = new UserGroupActions.UnassignPermissionFail({
+        userGroupId,
+        permissionUid,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.unassignPermissionFromOrgUnitUserGroup$).toBeObservable(
-        expected
-      );
+      expect(effects.unassignPermissionFromUserGroup$).toBeObservable(expected);
       expect(
-        orgUnitUserGroupConnector.unassignOrderApprovalPermission
-      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, permissionUid);
+        userGroupConnector.unassignOrderApprovalPermission
+      ).toHaveBeenCalledWith(userId, userGroupId, permissionUid);
     });
   });
 
-  describe('loadOrgUnitUserGroupAvailableOrgCustomers$', () => {
+  describe('loadAvailableOrgCustomers$', () => {
     const params: B2BSearchConfig = { sort: 'uid' };
 
-    it('should return LoadOrgUnitUserGroupAvailableOrgCustomersSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomers(
-        {
-          userId,
-          orgUnitUserGroupUid,
-          params,
-        }
-      );
+    it('should return LoadUserGroupAvailableOrgCustomersSuccess action', () => {
+      const action = new UserGroupActions.LoadAvailableOrgCustomers({
+        userId,
+        userGroupId,
+        params,
+      });
       const completion = new B2BUserActions.LoadB2BUserSuccess([customer]);
-      const completion2 = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersSuccess(
+      const completion2 = new UserGroupActions.LoadAvailableOrgCustomersSuccess(
         {
-          orgUnitUserGroupUid,
+          userGroupId,
           page: { ids: [customerId], pagination, sorts },
           params,
         }
@@ -529,197 +454,173 @@ describe('OrgUnitUserGroup Effects', () => {
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion, c: completion2 });
 
-      expect(effects.loadOrgUnitUserGroupAvailableOrgCustomers$).toBeObservable(
-        expected
+      expect(effects.loadAvailableOrgCustomers$).toBeObservable(expected);
+      expect(userGroupConnector.getAvailableOrgCustomers).toHaveBeenCalledWith(
+        userId,
+        userGroupId,
+        params
       );
-      expect(
-        orgUnitUserGroupConnector.getAvailableOrgCustomers
-      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, params);
     });
 
-    it('should return LoadOrgUnitUserGroupAvailableOrgCustomersFail action if users not loaded', () => {
-      orgUnitUserGroupConnector.getAvailableOrgCustomers = createSpy().and.returnValue(
+    it('should return LoadUserGroupAvailableOrgCustomersFail action if users not loaded', () => {
+      userGroupConnector.getAvailableOrgCustomers = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomers(
-        {
-          userId,
-          orgUnitUserGroupUid,
-          params,
-        }
-      );
-      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersFail(
-        {
-          error,
-          orgUnitUserGroupUid,
-          params,
-        }
-      );
+      const action = new UserGroupActions.LoadAvailableOrgCustomers({
+        userId,
+        userGroupId,
+        params,
+      });
+      const completion = new UserGroupActions.LoadAvailableOrgCustomersFail({
+        error,
+        userGroupId,
+        params,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.loadOrgUnitUserGroupAvailableOrgCustomers$).toBeObservable(
-        expected
+      expect(effects.loadAvailableOrgCustomers$).toBeObservable(expected);
+      expect(userGroupConnector.getAvailableOrgCustomers).toHaveBeenCalledWith(
+        userId,
+        userGroupId,
+        params
       );
-      expect(
-        orgUnitUserGroupConnector.getAvailableOrgCustomers
-      ).toHaveBeenCalledWith(userId, orgUnitUserGroupUid, params);
     });
   });
 
-  describe('assignMemberToOrgUnitUserGroup$', () => {
-    it('should return CreateOrgUnitUserGroupOrderApprovalPermissionSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMember({
+  describe('assignMemberUnitUserGroup$', () => {
+    it('should return CreateUserGroupOrderApprovalPermissionSuccess action', () => {
+      const action = new UserGroupActions.AssignMember({
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
         customerId,
       });
-      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMemberSuccess(
-        {
-          customerId: customerId,
-          selected: true,
-        }
-      );
+      const completion = new UserGroupActions.AssignMemberSuccess({
+        customerId: customerId,
+        selected: true,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.assignMemberToOrgUnitUserGroup$).toBeObservable(expected);
-      expect(orgUnitUserGroupConnector.assignMember).toHaveBeenCalledWith(
+      expect(effects.assignMemberUnitUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.assignMember).toHaveBeenCalledWith(
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
         customerId
       );
     });
 
-    it('should return CreateOrgUnitUserGroupOrderApprovalPermissionFail action if user not assigned', () => {
-      orgUnitUserGroupConnector.assignMember = createSpy().and.returnValue(
+    it('should return CreateUserGroupOrderApprovalPermissionFail action if user not assigned', () => {
+      userGroupConnector.assignMember = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMember({
+      const action = new UserGroupActions.AssignMember({
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
         customerId,
       });
-      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMemberFail(
-        {
-          orgUnitUserGroupUid,
-          customerId,
-          error,
-        }
-      );
+      const completion = new UserGroupActions.AssignMemberFail({
+        userGroupId,
+        customerId,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.assignMemberToOrgUnitUserGroup$).toBeObservable(expected);
-      expect(orgUnitUserGroupConnector.assignMember).toHaveBeenCalledWith(
+      expect(effects.assignMemberUnitUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.assignMember).toHaveBeenCalledWith(
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
         customerId
       );
     });
   });
-  describe('unassignMemberFromOrgUnitUserGroup$', () => {
-    it('should return DeleteOrgUnitUserGroupMemberSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMember({
+  describe('unassignMemberFromUserGroup$', () => {
+    it('should return DeleteUserGroupMemberSuccess action', () => {
+      const action = new UserGroupActions.UnassignMember({
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
         customerId,
       });
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMemberSuccess(
-        {
-          customerId: customerId,
-          selected: false,
-        }
-      );
+      const completion = new UserGroupActions.UnassignMemberSuccess({
+        customerId: customerId,
+        selected: false,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.unassignMemberFromOrgUnitUserGroup$).toBeObservable(
-        expected
-      );
-      expect(orgUnitUserGroupConnector.unassignMember).toHaveBeenCalledWith(
+      expect(effects.unassignMemberFromUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.unassignMember).toHaveBeenCalledWith(
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
         customerId
       );
     });
 
-    it('should return DeleteOrgUnitUserGroupMemberSuccessFail action if users not unassigned', () => {
-      orgUnitUserGroupConnector.unassignMember = createSpy().and.returnValue(
+    it('should return DeleteUserGroupMemberSuccessFail action if users not unassigned', () => {
+      userGroupConnector.unassignMember = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMember({
+      const action = new UserGroupActions.UnassignMember({
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
         customerId,
       });
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMemberFail(
-        {
-          orgUnitUserGroupUid,
-          customerId,
-          error,
-        }
-      );
+      const completion = new UserGroupActions.UnassignMemberFail({
+        userGroupId,
+        customerId,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.unassignMemberFromOrgUnitUserGroup$).toBeObservable(
-        expected
-      );
-      expect(orgUnitUserGroupConnector.unassignMember).toHaveBeenCalledWith(
+      expect(effects.unassignMemberFromUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.unassignMember).toHaveBeenCalledWith(
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
         customerId
       );
     });
   });
 
-  describe('unassignAllMembersFromOrgUnitUserGroup$', () => {
-    it('should return DeleteOrgUnitUserGroupMemberSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMembers({
+  describe('unassignAllMembersFromUserGroup$', () => {
+    it('should return DeleteUserGroupMemberSuccess action', () => {
+      const action = new UserGroupActions.UnassignAllMembers({
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
       });
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMembersSuccess(
-        {
-          selected: false,
-        }
-      );
+      const completion = new UserGroupActions.UnassignAllMembersSuccess({
+        selected: false,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.unassignAllMembersFromOrgUnitUserGroup$).toBeObservable(
-        expected
-      );
-      expect(orgUnitUserGroupConnector.unassignAllMembers).toHaveBeenCalledWith(
+      expect(effects.unassignAllMembersFromUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.unassignAllMembers).toHaveBeenCalledWith(
         userId,
-        orgUnitUserGroupUid
+        userGroupId
       );
     });
 
-    it('should return DeleteOrgUnitUserGroupMemberSuccessFail action if users not unassigned', () => {
-      orgUnitUserGroupConnector.unassignAllMembers = createSpy().and.returnValue(
+    it('should return DeleteUserGroupMemberSuccessFail action if users not unassigned', () => {
+      userGroupConnector.unassignAllMembers = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMembers({
+      const action = new UserGroupActions.UnassignAllMembers({
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
       });
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMembersFail(
-        {
-          orgUnitUserGroupUid,
-          error,
-        }
-      );
+      const completion = new UserGroupActions.UnassignAllMembersFail({
+        userGroupId,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.unassignAllMembersFromOrgUnitUserGroup$).toBeObservable(
-        expected
-      );
-      expect(orgUnitUserGroupConnector.unassignAllMembers).toHaveBeenCalledWith(
+      expect(effects.unassignAllMembersFromUserGroup$).toBeObservable(expected);
+      expect(userGroupConnector.unassignAllMembers).toHaveBeenCalledWith(
         userId,
-        orgUnitUserGroupUid
+        userGroupId
       );
     });
   });

@@ -25,21 +25,20 @@ export const defaultOccOrganizationConfig: OccConfig = {
         orgUnitsAddresses: '/users/${userId}/orgUnits/${orgUnitId}/addresses',
         orgUnitsAddress:
           '/users/${userId}/orgUnits/${orgUnitId}/addresses/${addressId}',
-        orgUnitUserGroups: '/users/${userId}/orgUnitUserGroups',
-        orgUnitUserGroup:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}',
-        orgUnitUserGroupAvailableOrderApprovalPermissions:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}/availableOrderApprovalPermissions',
-        orgUnitUserGroupAvailableOrgCustomers:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}/availableOrgCustomers',
-        orgUnitUserGroupMembers:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}/members',
-        orgUnitUserGroupMember:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}/members/${orgCustomerId}',
-        orgUnitUserGroupOrderApprovalPermissions:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}/orderApprovalPermissions',
-        orgUnitUserGroupOrderApprovalPermission:
-          '/users/${userId}/orgUnitUserGroups/${orgUnitUserGroupUid}/orderApprovalPermissions/${orderApprovalPermissionCode}',
+        userGroups: '/users/${userId}/orgUnitUserGroups',
+        userGroup: '/users/${userId}/orgUnitUserGroups/${userGroupId}',
+        userGroupAvailableOrderApprovalPermissions:
+          '/users/${userId}/orgUnitUserGroups/${userGroupId}/availableOrderApprovalPermissions',
+        userGroupAvailableOrgCustomers:
+          '/users/${userId}/orgUnitUserGroups/${userGroupId}/availableOrgCustomers',
+        userGroupMembers:
+          '/users/${userId}/orgUnitUserGroups/${userGroupId}/members',
+        userGroupMember:
+          '/users/${userId}/orgUnitUserGroups/${userGroupId}/members/${orgCustomerId}',
+        userGroupOrderApprovalPermissions:
+          '/users/${userId}/orgUnitUserGroups/${userGroupId}/orderApprovalPermissions',
+        userGroupOrderApprovalPermission:
+          '/users/${userId}/orgUnitUserGroups/${userGroupId}/orderApprovalPermissions/${orderApprovalPermissionCode}',
         costCenters: '/costcenters',
         costCenter: '/costcenters/${costCenterCode}',
         costCentersAll: '/costcentersall',

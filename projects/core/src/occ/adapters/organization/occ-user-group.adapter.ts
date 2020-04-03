@@ -7,121 +7,97 @@ import { ConverterService } from '../../../util/converter.service';
 import { B2BSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
 import {
-  OrgUnitUserGroupAdapter,
-  ORG_UNIT_USER_GROUP_NORMALIZER,
-  ORG_UNIT_USER_GROUPS_NORMALIZER,
+  UserGroupAdapter,
+  USER_GROUP_NORMALIZER,
+  USER_GROUPS_NORMALIZER,
   PERMISSIONS_NORMALIZER,
   B2B_USERS_NORMALIZER,
 } from '../../../organization/connectors/index';
-import { OrgUnitUserGroup } from '../../../model/user-group.model';
+import { UserGroup } from '../../../model/user-group.model';
 import { B2BUser } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 
 @Injectable()
-export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
+export class OccUserGroupAdapter implements UserGroupAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 
-  load(
-    userId: string,
-    orgUnitUserGroupUid: string
-  ): Observable<OrgUnitUserGroup> {
+  load(userId: string, userGroupId: string): Observable<UserGroup> {
     return this.http
-      .get<Occ.OrgUnitUserGroup>(
-        this.getOrgUnitUserGroupEndpoint(userId, orgUnitUserGroupUid)
-      )
-      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUP_NORMALIZER));
+      .get<Occ.OrgUnitUserGroup>(this.getUserGroupEndpoint(userId, userGroupId))
+      .pipe(this.converter.pipeable(USER_GROUP_NORMALIZER));
   }
 
   loadList(
     userId: string,
     params?: B2BSearchConfig
-  ): Observable<EntitiesModel<OrgUnitUserGroup>> {
+  ): Observable<EntitiesModel<UserGroup>> {
     return this.http
-      .get<Occ.OrgUnitUserGroupList>(
-        this.getOrgUnitUserGroupsEndpoint(userId, params)
-      )
-      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUPS_NORMALIZER));
+      .get<Occ.OrgUnitUserGroupList>(this.getUserGroupsEndpoint(userId, params))
+      .pipe(this.converter.pipeable(USER_GROUPS_NORMALIZER));
   }
 
   loadAvailableOrderApprovalPermissions(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     params?: B2BSearchConfig
-  ): Observable<EntitiesModel<OrgUnitUserGroup>> {
+  ): Observable<EntitiesModel<UserGroup>> {
     return this.http
       .get<Occ.OrgUnitUserGroupList>(
-        this.getOrgUnitUserGroupAvailableOrderApprovalPermissionsEndpoint(
-          userId,
-          orgUnitUserGroupUid,
-          params
-        )
+        this.getPermissionsEndpoint(userId, userGroupId, params)
       )
       .pipe(this.converter.pipeable(PERMISSIONS_NORMALIZER));
   }
 
   loadAvailableOrgCustomers(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     params?: B2BSearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
     return this.http
       .get<Occ.OrgUnitUserGroupList>(
-        this.getOrgUnitUserGroupAvailableOrgCustomersEndpoint(
-          userId,
-          orgUnitUserGroupUid,
-          params
-        )
+        this.getAvailableCustomersEndpoint(userId, userGroupId, params)
       )
       .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
   }
 
-  create(
-    userId: string,
-    orgUnitUserGroup: OrgUnitUserGroup
-  ): Observable<OrgUnitUserGroup> {
+  create(userId: string, userGroup: UserGroup): Observable<UserGroup> {
     return this.http
-      .post<Occ.OrgUnitUserGroup>(
-        this.getOrgUnitUserGroupsEndpoint(userId),
-        orgUnitUserGroup
-      )
-      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUP_NORMALIZER));
+      .post<Occ.OrgUnitUserGroup>(this.getUserGroupsEndpoint(userId), userGroup)
+      .pipe(this.converter.pipeable(USER_GROUP_NORMALIZER));
   }
 
-  delete(
-    userId: string,
-    orgUnitUserGroupUid: string
-  ): Observable<OrgUnitUserGroup> {
+  delete(userId: string, userGroupId: string): Observable<UserGroup> {
     return this.http
       .delete<Occ.OrgUnitUserGroup>(
-        this.getOrgUnitUserGroupEndpoint(userId, orgUnitUserGroupUid)
+        this.getUserGroupEndpoint(userId, userGroupId)
       )
-      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUP_NORMALIZER));
+      .pipe(this.converter.pipeable(USER_GROUP_NORMALIZER));
   }
 
   update(
     userId: string,
-    orgUnitUserGroupUid: string,
-    orgUnitUserGroup: OrgUnitUserGroup
-  ): Observable<OrgUnitUserGroup> {
+    userGroupId: string,
+    userGroup: UserGroup
+  ): Observable<UserGroup> {
     return this.http
       .patch<Occ.OrgUnitUserGroup>(
-        this.getOrgUnitUserGroupEndpoint(userId, orgUnitUserGroupUid),
-        orgUnitUserGroup
+        this.getUserGroupEndpoint(userId, userGroupId),
+        userGroup
       )
-      .pipe(this.converter.pipeable(ORG_UNIT_USER_GROUP_NORMALIZER));
+      .pipe(this.converter.pipeable(USER_GROUP_NORMALIZER));
   }
 
   assignMember(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     orgCustomerId: string
   ): Observable<any> {
     return this.http.post<any>(
-      this.getOrgUnitUserGroupMembersEndpoint(userId, orgUnitUserGroupUid, {
+      this.getMembersEndpoint(userId, userGroupId, {
         orgCustomerId,
       }),
       null
@@ -130,146 +106,130 @@ export class OccOrgUnitUserGroupAdapter implements OrgUnitUserGroupAdapter {
 
   assignOrderApprovalPermission(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     orderApprovalPermissionCode: string
   ): Observable<any> {
     return this.http.post<any>(
-      this.getOrgUnitUserGroupOrderApprovalPermissionsEndpoint(
-        userId,
-        orgUnitUserGroupUid,
-        {
-          orderApprovalPermissionCode,
-        }
-      ),
+      this.getOrderApprovalPermissionsEndpoint(userId, userGroupId, {
+        orderApprovalPermissionCode,
+      }),
       null
     );
   }
 
   unassignMember(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     orgCustomerId: string
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getOrgUnitUserGroupsMemberEndpoint(
-        userId,
-        orgUnitUserGroupUid,
-        orgCustomerId
-      )
+      this.getMemberEndpoint(userId, userGroupId, orgCustomerId)
     );
   }
 
-  unassignAllMembers(
-    userId: string,
-    orgUnitUserGroupUid: string
-  ): Observable<any> {
-    return this.http.delete<any>(
-      this.getOrgUnitUserGroupMembersEndpoint(userId, orgUnitUserGroupUid)
-    );
+  unassignAllMembers(userId: string, userGroupId: string): Observable<any> {
+    return this.http.delete<any>(this.getMembersEndpoint(userId, userGroupId));
   }
 
   unassignOrderApprovalPermission(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     orderApprovalPermissionCode: string
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getOrgUnitUserGroupsOrderApprovalPermissionEndpoint(
+      this.getOrderApprovalPermissionEndpoint(
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
         orderApprovalPermissionCode
       )
     );
   }
 
-  protected getOrgUnitUserGroupEndpoint(
-    userId: string,
-    orgUnitUserGroupUid: string
-  ): string {
-    return this.occEndpoints.getUrl('orgUnitUserGroup', {
+  protected getUserGroupEndpoint(userId: string, userGroupId: string): string {
+    return this.occEndpoints.getUrl('userGroup', {
       userId,
-      orgUnitUserGroupUid,
+      userGroupId,
     });
   }
 
-  protected getOrgUnitUserGroupsEndpoint(
+  protected getUserGroupsEndpoint(
     userId: string,
     params?: B2BSearchConfig
   ): string {
-    return this.occEndpoints.getUrl('orgUnitUserGroups', { userId }, params);
+    return this.occEndpoints.getUrl('userGroups', { userId }, params);
   }
 
-  protected getOrgUnitUserGroupAvailableOrgCustomersEndpoint(
+  protected getAvailableCustomersEndpoint(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     params?: B2BSearchConfig | { orgCustomerId: string }
   ): string {
     return this.occEndpoints.getUrl(
-      'orgUnitUserGroupAvailableOrgCustomers',
-      { userId, orgUnitUserGroupUid },
+      'userGroupAvailableOrgCustomers',
+      { userId, userGroupId },
       params
     );
   }
 
-  protected getOrgUnitUserGroupAvailableOrderApprovalPermissionsEndpoint(
+  protected getPermissionsEndpoint(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     params?: B2BSearchConfig | { orgCustomerId: string }
   ): string {
     return this.occEndpoints.getUrl(
-      'orgUnitUserGroupAvailableOrderApprovalPermissions',
-      { userId, orgUnitUserGroupUid },
+      'userGroupAvailableOrderApprovalPermissions',
+      { userId, userGroupId },
       params
     );
   }
 
-  protected getOrgUnitUserGroupsMemberEndpoint(
+  protected getMemberEndpoint(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     orgCustomerId: string
   ): string {
-    return this.occEndpoints.getUrl('orgUnitUserGroupMember', {
+    return this.occEndpoints.getUrl('userGroupMember', {
       userId,
-      orgUnitUserGroupUid,
+      userGroupId,
       orgCustomerId,
     });
   }
 
-  protected getOrgUnitUserGroupMembersEndpoint(
+  protected getMembersEndpoint(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     params?: B2BSearchConfig | { orgCustomerId: string }
   ): string {
     return this.occEndpoints.getUrl(
-      'orgUnitUserGroupMembers',
-      { userId, orgUnitUserGroupUid },
+      'userGroupMembers',
+      { userId, userGroupId },
       params
     );
   }
 
-  protected getOrgUnitUserGroupOrderApprovalPermissionsEndpoint(
+  protected getOrderApprovalPermissionsEndpoint(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     params?: B2BSearchConfig | { orderApprovalPermissionCode: string }
   ): string {
     return this.occEndpoints.getUrl(
-      'orgUnitUserGroupOrderApprovalPermissions',
+      'userGroupOrderApprovalPermissions',
       {
         userId,
-        orgUnitUserGroupUid,
+        userGroupId,
       },
       params
     );
   }
 
-  protected getOrgUnitUserGroupsOrderApprovalPermissionEndpoint(
+  protected getOrderApprovalPermissionEndpoint(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     orderApprovalPermissionCode: string
   ): string {
-    return this.occEndpoints.getUrl('orgUnitUserGroupOrderApprovalPermission', {
+    return this.occEndpoints.getUrl('userGroupOrderApprovalPermission', {
       userId,
-      orgUnitUserGroupUid,
+      userGroupId,
       orderApprovalPermissionCode,
     });
   }

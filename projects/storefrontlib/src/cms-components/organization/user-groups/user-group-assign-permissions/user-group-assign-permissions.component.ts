@@ -13,7 +13,7 @@ import {
   RoutingService,
   CxDatePipe,
   EntitiesModel,
-  OrgUnitUserGroupService,
+  UserGroupService,
   Permission,
 } from '@spartacus/core';
 import {
@@ -33,7 +33,7 @@ export class UserGroupAssignPermissionsComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected userGroupService: OrgUnitUserGroupService,
+    protected userGroupService: UserGroupService,
     protected cxDate: CxDatePipe
   ) {
     super(routingService);
@@ -45,17 +45,14 @@ export class UserGroupAssignPermissionsComponent
     this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
       withLatestFrom(this.code$),
       tap(([queryParams, code]) =>
-        this.userGroupService.loadOrgUnitUserGroupAvailableOrderApprovalPermissions(
+        this.userGroupService.loadAvailableOrderApprovalPermissions(
           code,
           queryParams
         )
       ),
       switchMap(([queryParams, code]) =>
         this.userGroupService
-          .getOrgUnitUserGroupAvailableOrderApprovalPermissions(
-            code,
-            queryParams
-          )
+          .getAvailableOrderApprovalPermissions(code, queryParams)
           .pipe(
             filter(Boolean),
             map((permissionsList: EntitiesModel<Permission>) => ({

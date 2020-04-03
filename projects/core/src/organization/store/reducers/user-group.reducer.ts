@@ -1,47 +1,47 @@
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
-import * as OrgUnitUserGroupActions from '../actions/user-group.action';
-import { OrgUnitUserGroup } from '../../../model/user-group.model';
+import * as UserGroupActions from '../actions/user-group.action';
+import { UserGroup } from '../../../model/user-group.model';
 
-export const orgUnitUserGroupInitialState = {};
-export const orgUnitUserGroupsInitialState = undefined;
+export const userGroupInitialState = {};
+export const userGroupsInitialState = undefined;
 
-export function orgUnitUserGroupEntitiesReducer(
-  state: OrgUnitUserGroup = orgUnitUserGroupInitialState,
+export function userGroupEntitiesReducer(
+  state: UserGroup = userGroupInitialState,
   action: LoaderAction
-): OrgUnitUserGroup {
+): UserGroup {
   switch (action.type) {
   }
   return state;
 }
 
-export function orgUnitUserGroupsListReducer(
-  state = orgUnitUserGroupsInitialState,
+export function userGroupsListReducer(
+  state = userGroupsInitialState,
   action: LoaderAction
 ): any {
   switch (action.type) {
-    case OrgUnitUserGroupActions.LOAD_ORG_UNIT_USER_GROUPS_SUCCESS:
+    case UserGroupActions.LOAD_USER_GROUPS_SUCCESS:
       return action.payload.page;
   }
   return state;
 }
 
-export function orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer(
-  state = orgUnitUserGroupsInitialState,
+export function userGroupAvailableOrderApprovalPermissionsListReducer(
+  state = userGroupsInitialState,
   action: LoaderAction
 ): any {
   switch (action.type) {
-    case OrgUnitUserGroupActions.LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS_SUCCESS:
+    case UserGroupActions.LOAD_USER_GROUP_PERMISSIONS_SUCCESS:
       return action.payload.page;
   }
   return state;
 }
 
-export function orgUnitUserGroupAvailablOrgCustomersListReducer(
-  state = orgUnitUserGroupsInitialState,
+export function userGroupAvailablOrgCustomersListReducer(
+  state = userGroupsInitialState,
   action: LoaderAction
 ): any {
   switch (action.type) {
-    case OrgUnitUserGroupActions.LOAD_ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS_SUCCESS:
+    case UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_SUCCESS:
       return action.payload.page;
   }
   return state;

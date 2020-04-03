@@ -7,83 +7,78 @@ import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
 import { EntitiesModel } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
-import { OrgUnitUserGroupActions } from '../store/actions/index';
+import { UserGroupActions } from '../store/actions/index';
 import { B2BSearchConfig } from '../model/search-config';
-import { OrgUnitUserGroup } from '../../model/user-group.model';
+import { UserGroup } from '../../model/user-group.model';
 import { Permission } from '../../model/permission.model';
 import {
-  getOrgUnitUserGroupState,
-  getOrgUnitUserGroupList,
-  getOrgUnitUserGroupAvailableOrgCustomers,
-  getOrgUnitUserGroupAvailableOrderApprovalPermissions,
+  getUserGroupState,
+  getUserGroupList,
+  getAvailableOrgCustomers,
+  getAvailableOrderApprovalPermissions,
 } from '../store/selectors/user-group.selector';
 import { B2BUser } from '../../model';
 
 @Injectable()
-export class OrgUnitUserGroupService {
+export class UserGroupService {
   constructor(
     protected store: Store<StateWithOrganization | StateWithProcess<void>>,
     protected authService: AuthService
   ) {}
 
-  loadOrgUnitUserGroup(orgUnitUserGroupUid: string) {
+  loadUserGroup(userGroupId: string) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new OrgUnitUserGroupActions.LoadOrgUnitUserGroup({
+        new UserGroupActions.LoadUserGroup({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
         })
       )
     );
   }
 
-  loadOrgUnitUserGroups(params?: B2BSearchConfig) {
+  loadUserGroups(params?: B2BSearchConfig) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new OrgUnitUserGroupActions.LoadOrgUnitUserGroups({ userId, params })
+        new UserGroupActions.LoadUserGroups({ userId, params })
       )
     );
   }
 
-  private getOrgUnitUserGroupState(
-    orgUnitUserGroupUid: string
-  ): Observable<LoaderState<OrgUnitUserGroup>> {
-    return this.store.select(getOrgUnitUserGroupState(orgUnitUserGroupUid));
+  private getUserGroupState(
+    userGroupId: string
+  ): Observable<LoaderState<UserGroup>> {
+    return this.store.select(getUserGroupState(userGroupId));
   }
 
-  private getOrgUnitUserGroupList(
+  private getUserGroupList(
     params
-  ): Observable<LoaderState<EntitiesModel<OrgUnitUserGroup>>> {
-    return this.store.select(getOrgUnitUserGroupList(params));
+  ): Observable<LoaderState<EntitiesModel<UserGroup>>> {
+    return this.store.select(getUserGroupList(params));
   }
 
-  private getOrgUnitUserGroupAvailableOrgCustomersList(
-    orgUnitUserGroupUid: string,
+  private getAvailableOrgCustomersList(
+    userGroupId: string,
     params
   ): Observable<LoaderState<EntitiesModel<B2BUser>>> {
-    return this.store.select(
-      getOrgUnitUserGroupAvailableOrgCustomers(orgUnitUserGroupUid, params)
-    );
+    return this.store.select(getAvailableOrgCustomers(userGroupId, params));
   }
 
-  private getOrgUnitUserGroupAvailableOrderApprovalPermissionsList(
-    orgUnitUserGroupUid: string,
+  private getAvailableOrderApprovalPermissionsList(
+    userGroupId: string,
     params
   ): Observable<LoaderState<EntitiesModel<Permission>>> {
     return this.store.select(
-      getOrgUnitUserGroupAvailableOrderApprovalPermissions(
-        orgUnitUserGroupUid,
-        params
-      )
+      getAvailableOrderApprovalPermissions(userGroupId, params)
     );
   }
 
-  get(orgUnitUserGroupUid: string): Observable<OrgUnitUserGroup> {
-    return this.getOrgUnitUserGroupState(orgUnitUserGroupUid).pipe(
+  get(userGroupUid: string): Observable<UserGroup> {
+    return this.getUserGroupState(userGroupUid).pipe(
       observeOn(queueScheduler),
       tap(state => {
         if (!(state.loading || state.success || state.error)) {
-          this.loadOrgUnitUserGroup(orgUnitUserGroupUid);
+          this.loadUserGroup(userGroupUid);
         }
       }),
       filter(state => state.success || state.error),
@@ -91,105 +86,92 @@ export class OrgUnitUserGroupService {
     );
   }
 
-  getList(
-    params: B2BSearchConfig
-  ): Observable<EntitiesModel<OrgUnitUserGroup>> {
-    return this.getOrgUnitUserGroupList(params).pipe(
+  getList(params: B2BSearchConfig): Observable<EntitiesModel<UserGroup>> {
+    return this.getUserGroupList(params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<OrgUnitUserGroup>>) => {
+      tap((process: LoaderState<EntitiesModel<UserGroup>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadOrgUnitUserGroups(params);
+          this.loadUserGroups(params);
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<OrgUnitUserGroup>>) =>
+        (process: LoaderState<EntitiesModel<UserGroup>>) =>
           process.success || process.error
       ),
       map(result => result.value)
     );
   }
 
-  create(orgUnitUserGroup: OrgUnitUserGroup) {
+  create(userGroup: UserGroup) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new OrgUnitUserGroupActions.CreateOrgUnitUserGroup({
+        new UserGroupActions.CreateUserGroup({
           userId,
-          orgUnitUserGroup,
+          userGroup,
         })
       )
     );
   }
 
-  update(orgUnitUserGroupUid: string, orgUnitUserGroup: OrgUnitUserGroup) {
+  update(userGroupId: string, userGroup: UserGroup) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new OrgUnitUserGroupActions.UpdateOrgUnitUserGroup({
+        new UserGroupActions.UpdateUserGroup({
           userId,
-          orgUnitUserGroupUid,
-          orgUnitUserGroup,
+          userGroupId,
+          userGroup,
         })
       )
     );
   }
 
-  delete(orgUnitUserGroupUid: string) {
+  delete(userGroupId: string) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new OrgUnitUserGroupActions.DeleteOrgUnitUserGroup({
+        new UserGroupActions.DeleteUserGroup({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
         })
       )
     );
   }
 
-  loadOrgUnitUserGroupAvailableOrgCustomers(
-    orgUnitUserGroupUid: string,
-    params: B2BSearchConfig
-  ) {
+  loadAvailableOrgCustomers(userGroupId: string, params: B2BSearchConfig) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomers({
+        new UserGroupActions.LoadAvailableOrgCustomers({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
           params,
         })
       )
     );
   }
 
-  loadOrgUnitUserGroupAvailableOrderApprovalPermissions(
-    orgUnitUserGroupUid: string,
+  loadAvailableOrderApprovalPermissions(
+    userGroupId: string,
     params: B2BSearchConfig
   ) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissions(
-          {
-            userId,
-            orgUnitUserGroupUid,
-            params,
-          }
-        )
+        new UserGroupActions.LoadPermissions({
+          userId,
+          userGroupId,
+          params,
+        })
       )
     );
   }
 
-  getOrgUnitUserGroupAvailableOrgCustomers(
-    orgUnitUserGroupUid: string,
+  getAvailableOrgCustomers(
+    userGroupId: string,
     params: B2BSearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
-    return this.getOrgUnitUserGroupAvailableOrgCustomersList(
-      orgUnitUserGroupUid,
-      params
-    ).pipe(
+    return this.getAvailableOrgCustomersList(userGroupId, params).pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<B2BUser>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadOrgUnitUserGroupAvailableOrgCustomers(
-            orgUnitUserGroupUid,
-            params
-          );
+          this.loadAvailableOrgCustomers(userGroupId, params);
         }
       }),
       filter(
@@ -200,21 +182,18 @@ export class OrgUnitUserGroupService {
     );
   }
 
-  getOrgUnitUserGroupAvailableOrderApprovalPermissions(
-    orgUnitUserGroupUid: string,
+  getAvailableOrderApprovalPermissions(
+    userGroupId: string,
     params: B2BSearchConfig
   ): Observable<EntitiesModel<Permission>> {
-    return this.getOrgUnitUserGroupAvailableOrderApprovalPermissionsList(
-      orgUnitUserGroupUid,
+    return this.getAvailableOrderApprovalPermissionsList(
+      userGroupId,
       params
     ).pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<Permission>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadOrgUnitUserGroupAvailableOrderApprovalPermissions(
-            orgUnitUserGroupUid,
-            params
-          );
+          this.loadAvailableOrderApprovalPermissions(userGroupId, params);
         }
       }),
       filter(
@@ -225,65 +204,61 @@ export class OrgUnitUserGroupService {
     );
   }
 
-  assignMember(orgUnitUserGroupUid: string, customerId: string) {
+  assignMember(userGroupId: string, customerId: string) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMember({
+        new UserGroupActions.AssignMember({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
           customerId,
         })
       )
     );
   }
 
-  unassignMember(orgUnitUserGroupUid: string, customerId: string) {
+  unassignMember(userGroupId: string, customerId: string) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMember({
+        new UserGroupActions.UnassignMember({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
           customerId,
         })
       )
     );
   }
 
-  unassignAllMembers(orgUnitUserGroupUid: string) {
+  unassignAllMembers(userGroupId: string) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMembers({
+        new UserGroupActions.UnassignAllMembers({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
         })
       )
     );
   }
 
-  assignPermission(orgUnitUserGroupUid: string, permissionUid: string) {
+  assignPermission(userGroupId: string, permissionUid: string) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermission(
-          {
-            userId,
-            orgUnitUserGroupUid,
-            permissionUid,
-          }
-        )
+        new UserGroupActions.AssignPermission({
+          userId,
+          userGroupId,
+          permissionUid,
+        })
       )
     );
   }
 
-  unassignPermission(orgUnitUserGroupUid: string, permissionUid: string) {
+  unassignPermission(userGroupId: string, permissionUid: string) {
     this.withUserId(userId =>
       this.store.dispatch(
-        new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermission(
-          {
-            userId,
-            orgUnitUserGroupUid,
-            permissionUid,
-          }
-        )
+        new UserGroupActions.UnassignPermission({
+          userId,
+          userGroupId,
+          permissionUid,
+        })
       )
     );
   }

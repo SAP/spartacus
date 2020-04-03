@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { B2BSearchConfig } from '../../model/search-config';
 import { EntitiesModel } from '../../../model/misc.model';
 import { B2BUser } from '../../../model/org-unit.model';
-import { OrgUnitUserGroup } from '../../../model/user-group.model';
+import { UserGroup } from '../../../model/user-group.model';
 import { Permission } from '../../../model/permission.model';
 
 export abstract class B2BUserAdapter {
@@ -69,7 +69,7 @@ export abstract class B2BUserAdapter {
     userId: string,
     orgCustomerId: string,
     params?: B2BSearchConfig
-  ): Observable<EntitiesModel<OrgUnitUserGroup>>;
+  ): Observable<EntitiesModel<UserGroup>>;
 
   abstract assignUserGroup(
     userId: string,

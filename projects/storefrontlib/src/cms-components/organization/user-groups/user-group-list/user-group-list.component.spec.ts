@@ -14,13 +14,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   RoutingService,
-  OrgUnitUserGroupService,
+  UserGroupService,
   EntitiesModel,
   B2BSearchConfig,
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
-  OrgUnitUserGroup,
+  UserGroup,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -36,7 +36,7 @@ const defaultParams: B2BSearchConfig = {
   pageSize: 5,
 };
 
-const mockUserGroupList: EntitiesModel<OrgUnitUserGroup> = {
+const mockUserGroupList: EntitiesModel<UserGroup> = {
   values: [
     {
       uid: '1',
@@ -88,8 +88,8 @@ class MockUrlPipe implements PipeTransform {
 
 const userGroupList = new BehaviorSubject(mockUserGroupList);
 
-class MockUserGroupService implements Partial<OrgUnitUserGroupService> {
-  loadOrgUnitUserGroups = createSpy('loadOrgUnitUserGroups');
+class MockUserGroupService implements Partial<UserGroupService> {
+  loadUserGroups = createSpy('loadUserGroups');
   getList = createSpy('getList').and.returnValue(userGroupList);
 }
 
@@ -138,7 +138,7 @@ describe('UserGroupListComponent', () => {
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OrgUnitUserGroupService, useClass: MockUserGroupService },
+        { provide: UserGroupService, useClass: MockUserGroupService },
         {
           provide: PaginationConfig,
           useValue: {
@@ -148,9 +148,7 @@ describe('UserGroupListComponent', () => {
       ],
     }).compileComponents();
 
-    userGroupsService = TestBed.get(
-      OrgUnitUserGroupService as Type<OrgUnitUserGroupService>
-    );
+    userGroupsService = TestBed.get(UserGroupService as Type<UserGroupService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
@@ -166,7 +164,7 @@ describe('UserGroupListComponent', () => {
   });
 
   it('should display No userGroups found page if no userGroups are found', () => {
-    const emptyUserGroupList: EntitiesModel<OrgUnitUserGroup> = {
+    const emptyUserGroupList: EntitiesModel<UserGroup> = {
       values: [],
       pagination: {
         currentPage: 0,
@@ -190,7 +188,7 @@ describe('UserGroupListComponent', () => {
           userGroupsList = value;
         })
         .unsubscribe();
-      expect(userGroupsService.loadOrgUnitUserGroups).toHaveBeenCalledWith(
+      expect(userGroupsService.loadUserGroups).toHaveBeenCalledWith(
         defaultParams
       );
       expect(userGroupsService.getList).toHaveBeenCalledWith(defaultParams);

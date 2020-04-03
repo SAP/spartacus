@@ -1,18 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import {
-  OrgUnitUserGroup,
-  OrgUnitUserGroupService,
-  RoutingService,
-} from '@spartacus/core';
+import { UserGroup, UserGroupService, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-user-group-edit',
   templateUrl: './user-group-edit.component.html',
 })
 export class UserGroupEditComponent implements OnInit {
-  userGroup$: Observable<OrgUnitUserGroup>;
+  userGroup$: Observable<UserGroup>;
   userGroupCode$: Observable<
     string
   > = this.routingService
@@ -21,17 +17,17 @@ export class UserGroupEditComponent implements OnInit {
 
   constructor(
     protected routingService: RoutingService,
-    protected userGroupsService: OrgUnitUserGroupService
+    protected userGroupsService: UserGroupService
   ) {}
 
   ngOnInit(): void {
     this.userGroup$ = this.userGroupCode$.pipe(
-      tap(code => this.userGroupsService.loadOrgUnitUserGroup(code)),
+      tap(code => this.userGroupsService.loadUserGroup(code)),
       switchMap(code => this.userGroupsService.get(code))
     );
   }
 
-  updateUserGroup(userGroup: OrgUnitUserGroup) {
+  updateUserGroup(userGroup: UserGroup) {
     this.userGroupCode$
       .pipe(take(1))
       .subscribe(userGroupCode =>
