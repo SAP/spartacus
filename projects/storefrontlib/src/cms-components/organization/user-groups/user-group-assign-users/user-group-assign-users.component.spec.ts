@@ -31,10 +31,10 @@ import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/l
 import { UserGroupAssignUsersComponent } from './user-group-assign-users.component';
 
 const code = 'userGroupCode';
-const userCode = '1';
+const email = '1';
 const userRow = {
   row: {
-    code: userCode,
+    email,
   },
 };
 
@@ -225,7 +225,10 @@ describe('UserGroupAssignUsersComponent', () => {
   describe('assign', () => {
     it('should assign user', () => {
       component.assign(userRow);
-      expect(service.assignMember).toHaveBeenCalledWith(code, userRow.row.code);
+      expect(service.assignMember).toHaveBeenCalledWith(
+        code,
+        userRow.row.email
+      );
     });
   });
 
@@ -234,7 +237,7 @@ describe('UserGroupAssignUsersComponent', () => {
       component.unassign(userRow);
       expect(service.unassignMember).toHaveBeenCalledWith(
         code,
-        userRow.row.code
+        userRow.row.email
       );
     });
   });
