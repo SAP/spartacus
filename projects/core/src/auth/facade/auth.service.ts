@@ -57,9 +57,9 @@ export class AuthService {
   /**
    * Calls provided callback with current user id.
    *
-   * @param cb callback function to call
+   * @param cb callback function to invoke
    */
-  callWithUserId(cb: (userId: string) => any): Subscription {
+  invokeWithUserId(cb: (userId: string) => any): Subscription {
     return this.getOccUserId()
       .pipe(take(1))
       .subscribe((id) => cb(id));

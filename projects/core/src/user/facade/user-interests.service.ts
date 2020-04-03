@@ -44,7 +44,7 @@ export class UserInterestsService {
     productCode?: string,
     notificationType?: NotificationType
   ): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadProductInterests({
           userId,
@@ -103,7 +103,7 @@ export class UserInterestsService {
     item: ProductInterestEntryRelation,
     singleDelete?: boolean
   ): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.RemoveProductInterest({
           userId,
@@ -142,7 +142,7 @@ export class UserInterestsService {
     productCode: string,
     notificationType: NotificationType
   ): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.AddProductInterest({
           userId,

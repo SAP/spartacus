@@ -35,7 +35,7 @@ export class OrderReturnRequestService {
   createOrderReturnRequest(
     returnRequestInput: ReturnRequestEntryInputList
   ): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.CreateOrderReturnRequest({
           userId,
@@ -76,7 +76,7 @@ export class OrderReturnRequestService {
    * @param returnRequestCode
    */
   loadOrderReturnRequestDetail(returnRequestCode: string): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderReturnRequest({
           userId,
@@ -97,7 +97,7 @@ export class OrderReturnRequestService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderReturnRequestList({
           userId,
@@ -144,7 +144,7 @@ export class OrderReturnRequestService {
     returnRequestCode: string,
     returnRequestModification: ReturnRequestModification
   ): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.CancelOrderReturnRequest({
           userId,

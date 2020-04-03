@@ -47,7 +47,7 @@ export class UserService {
    * Loads the user's details
    */
   load(): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       if (userId !== OCC_USER_ID_ANONYMOUS) {
         this.store.dispatch(new UserActions.LoadUserDetails(userId));
       }
@@ -111,7 +111,7 @@ export class UserService {
    * Remove user account, that's also called close user's account
    */
   remove(): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(new UserActions.RemoveUser(userId));
     });
   }
@@ -177,7 +177,7 @@ export class UserService {
    * @param userDetails to be updated
    */
   updatePersonalDetails(userDetails: User): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdateUserDetails({
           username: userId,
@@ -243,7 +243,7 @@ export class UserService {
    * Updates the user's email
    */
   updateEmail(password: string, newUid: string): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdateEmailAction({
           uid: userId,
@@ -294,7 +294,7 @@ export class UserService {
    * @param newPassword the new password
    */
   updatePassword(oldPassword: string, newPassword: string): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdatePassword({
           userId,

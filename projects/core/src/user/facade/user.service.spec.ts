@@ -14,7 +14,7 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
 
 class MockAuthService {
-  callWithUserId(cb) {
+  invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
   }
 }
@@ -90,7 +90,7 @@ describe('UserService', () => {
 
     it('should not load anonymous user details', () => {
       const authService = TestBed.inject(AuthService);
-      spyOn(authService, 'callWithUserId').and.callFake((cb) =>
+      spyOn(authService, 'invokeWithUserId').and.callFake((cb) =>
         cb(OCC_USER_ID_ANONYMOUS)
       );
       service.load();

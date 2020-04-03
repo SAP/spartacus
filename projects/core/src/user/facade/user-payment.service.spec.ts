@@ -13,7 +13,7 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserPaymentService } from './user-payment.service';
 
 class MockAuthService {
-  callWithUserId(cb) {
+  invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
   }
 }

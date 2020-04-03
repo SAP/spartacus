@@ -20,7 +20,7 @@ const emptyInterestList: ProductInterestSearchResult = {
 };
 
 class MockAuthService {
-  callWithUserId(cb) {
+  invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
   }
 }

@@ -40,7 +40,7 @@ export class UserOrderService {
    * @param orderCode an order code
    */
   loadOrderDetails(orderCode: string): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderDetails({
           userId,
@@ -90,7 +90,7 @@ export class UserOrderService {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadUserOrders({
           userId,
@@ -122,7 +122,7 @@ export class UserOrderService {
    * @param consignmentCode a consignment code
    */
   loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadConsignmentTracking({
           userId,
@@ -147,7 +147,7 @@ export class UserOrderService {
     orderCode: string,
     cancelRequestInput: CancellationRequestEntryInputList
   ): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.CancelOrder({
           userId,

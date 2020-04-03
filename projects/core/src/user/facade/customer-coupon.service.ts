@@ -39,7 +39,7 @@ export class CustomerCouponService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadCustomerCoupons({
           userId,
@@ -93,7 +93,7 @@ export class CustomerCouponService {
    * @param couponCode a customer coupon code
    */
   subscribeCustomerCoupon(couponCode: string): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.SubscribeCustomerCoupon({
           userId,
@@ -135,7 +135,7 @@ export class CustomerCouponService {
    * @param couponCode a customer coupon code
    */
   unsubscribeCustomerCoupon(couponCode: string): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UnsubscribeCustomerCoupon({
           userId,
@@ -177,7 +177,7 @@ export class CustomerCouponService {
    * @param couponCode a customer coupon code
    */
   claimCustomerCoupon(couponCode: string): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.ClaimCustomerCoupon({
           userId,

@@ -12,7 +12,7 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserConsentService } from './user-consent.service';
 
 class MockAuthService {
-  callWithUserId(cb) {
+  invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
   }
   isUserLoggedIn(): Observable<boolean> {

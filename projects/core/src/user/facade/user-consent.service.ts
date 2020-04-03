@@ -31,7 +31,7 @@ export class UserConsentService {
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(new UserActions.LoadUserConsents(userId));
     });
   }
@@ -147,7 +147,7 @@ export class UserConsentService {
    * @param consentTemplateVersion a template version for which to give a consent
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.GiveUserConsent({
           userId,
@@ -197,7 +197,7 @@ export class UserConsentService {
    * @param consentCode for which to withdraw the consent
    */
   withdrawConsent(consentCode: string): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.WithdrawUserConsent({
           userId,

@@ -39,7 +39,7 @@ export class UserNotificationPreferenceService {
    * Loads all notification preferences.
    */
   loadPreferences(): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(new UserActions.LoadNotificationPreferences(userId));
     });
   }
@@ -63,7 +63,7 @@ export class UserNotificationPreferenceService {
    * @param preferences a preference list
    */
   updatePreferences(preferences: NotificationPreference[]): void {
-    this.authService.callWithUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdateNotificationPreferences({
           userId,
