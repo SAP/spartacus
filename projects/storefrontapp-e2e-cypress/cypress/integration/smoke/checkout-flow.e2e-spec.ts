@@ -39,6 +39,7 @@ context('Checkout flow', () => {
   });
 
   it('should be able to check order in order history', () => {
+    cy.wait(60000);
     checkout.viewOrderHistoryWithCheapProduct();
     checkout.signOut();
   });
