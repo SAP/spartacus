@@ -62,7 +62,7 @@ export class UserGroupAssignUsersComponent extends AbstractListingComponent
                 email: user.uid,
                 name: user.name,
                 parentUnit: user.orgUnit && user.orgUnit.name,
-                parentUid: user.orgUnit && user.orgUnit.uid,
+                uid: user.orgUnit && user.orgUnit.uid,
               })),
             }))
           )
