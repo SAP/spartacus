@@ -22,8 +22,8 @@ describe('UserGroupNormalizer', () => {
     uid: 'testUid',
   };
 
-  const convertedOrgUnitUserGroup: UserGroup = {
-    name: 'OrgUnitUserGroup1',
+  const convertedUserGroup: UserGroup = {
+    name: 'UserGroup1',
     uid: 'testUid',
   };
 
@@ -40,7 +40,7 @@ describe('UserGroupNormalizer', () => {
     );
   });
 
-  it('should inject OccOrgUnitUserGroupNormalizer', inject(
+  it('should inject OccUserGroupNormalizer', inject(
     [OccUserGroupNormalizer],
     (userGroupNormalizer: OccUserGroupNormalizer) => {
       expect(userGroupNormalizer).toBeTruthy();
@@ -49,7 +49,7 @@ describe('UserGroupNormalizer', () => {
 
   it('should convert userGroup', () => {
     const result = service.convert(userGroup);
-    expect(result).toEqual(convertedOrgUnitUserGroup);
+    expect(result).toEqual(convertedUserGroup);
   });
 
   it('should convert userGroup with applied target', () => {
