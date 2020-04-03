@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Host,
   HostBinding,
   Input,
   Optional,
-  Self,
 } from '@angular/core';
 import { Facet, FacetValue } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -44,7 +44,7 @@ export class FacetComponent {
   constructor(
     protected facetService: FacetService,
     protected elementRef: ElementRef<HTMLElement>,
-    @Optional() @Self() protected focusDirective: FocusDirective
+    @Optional() @Host() protected focusDirective: FocusDirective
   ) {}
 
   /**
