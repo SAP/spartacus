@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -131,6 +131,16 @@ describe('LoginFormComponent', () => {
       expect(authRedirectService.redirect).toHaveBeenCalled();
     });
 
+    it('should not login when form not valid', () => {
+      const email = 'test@email.com';
+
+      component.loginForm.controls['userId'].setValue(email);
+      component.submitForm();
+
+      expect(authService.authorize).not.toHaveBeenCalled();
+      expect(authRedirectService.redirect).not.toHaveBeenCalled();
+    });
+
     it('should handle changing email to lowercase', () => {
       const email_uppercase = 'TEST@email.com';
       const email_lowercase = 'test@email.com';
@@ -144,78 +154,6 @@ describe('LoginFormComponent', () => {
         email_lowercase,
         password
       );
-    });
-  });
-
-  describe('userId form field', () => {
-    let control: AbstractControl;
-
-    beforeEach(() => {
-      control = component.loginForm.controls['userId'];
-    });
-
-    it('should NOT be valid when empty', () => {
-      control.setValue('');
-      expect(control.valid).toBeFalsy();
-    });
-
-    it('should NOT be valid when is an invalid email', () => {
-      control.setValue('with space@email.com');
-      expect(control.valid).toBeFalsy();
-
-      control.setValue('without.domain@');
-      expect(control.valid).toBeFalsy();
-
-      control.setValue('without.at.com');
-      expect(control.valid).toBeFalsy();
-
-      control.setValue('@without.username.com');
-      expect(control.valid).toBeFalsy();
-    });
-
-    it('should be valid when is a valid email', () => {
-      control.setValue('valid@email.com');
-      expect(control.valid).toBeTruthy();
-
-      control.setValue('valid123@example.email.com');
-      expect(control.valid).toBeTruthy();
-    });
-  });
-
-  describe('password form field', () => {
-    let control: AbstractControl;
-
-    beforeEach(() => {
-      control = component.loginForm.controls['password'];
-    });
-
-    it('should be valid when not empty', () => {
-      control.setValue('not-empty');
-      expect(control.valid).toBeTruthy();
-
-      control.setValue('not empty');
-      expect(control.valid).toBeTruthy();
-
-      control.setValue(' ');
-      expect(control.valid).toBeTruthy();
-    });
-
-    it('should NOT be valid when empty', () => {
-      control.setValue('');
-      expect(control.valid).toBeFalsy();
-
-      control.setValue(null);
-      expect(control.valid).toBeFalsy();
-    });
-  });
-
-  describe('submit button', () => {
-    it('should NOT be disabled', () => {
-      fixture.detectChanges();
-      const submitButton: HTMLElement = windowRef.document.querySelector(
-        'button[type="submit"]'
-      );
-      expect(submitButton.hasAttribute('disabled')).toBeFalsy();
     });
   });
 

@@ -82,6 +82,8 @@ const mockAddress: Address = {
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
   country: { isocode: 'JP' },
+  phone: '123123123',
+  defaultAddress: false,
 };
 
 const mockSuggestedAddressModalRef: any = {
@@ -100,6 +102,11 @@ class MockModalService {
   }
 }
 
+const mockAddressValidation: AddressValidation = {
+  decision: 'test address validation',
+  suggestedAddresses: [{ id: 'address1' }],
+};
+
 class MockCheckoutDeliveryService {
   clearAddressVerificationResults = createSpy();
   verifyAddress = createSpy();
@@ -117,11 +124,13 @@ describe('AddressFormComponent', () => {
   let userAddressService: UserAddressService;
   let userService: UserService;
   let mockGlobalMessageService: any;
+  let mockModalService: MockModalService;
 
   beforeEach(async(() => {
     mockGlobalMessageService = {
       add: createSpy(),
     };
+    mockModalService = new MockModalService();
 
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
@@ -311,7 +320,17 @@ describe('AddressFormComponent', () => {
     );
   });
 
+  it('should call verifyAddress() when address has some changes', () => {
+    component.ngOnInit();
+    component.addressForm.setValue(mockAddress);
+    component.addressForm.markAsDirty();
+    component.verifyAddress();
+    expect(mockCheckoutDeliveryService.verifyAddress).toHaveBeenCalled();
+  });
+
   it('should not call verifyAddress() when address does not have change', () => {
+    component.ngOnInit();
+    component.addressForm.setValue(mockAddress);
     component.verifyAddress();
     expect(mockCheckoutDeliveryService.verifyAddress).not.toHaveBeenCalled();
   });
@@ -362,6 +381,19 @@ describe('AddressFormComponent', () => {
     expect(
       component.addressForm['controls'].region['controls'].isocode.value
     ).toEqual(mockRegionIsocode);
+  });
+
+  it('should call openSuggestedAddress', (done) => {
+    spyOn(component, 'openSuggestedAddress').and.callThrough();
+    spyOn(mockModalService, 'open').and.callThrough();
+
+    component.openSuggestedAddress(mockAddressValidation);
+    component.suggestedAddressModalRef.result.then(() => {
+      expect(
+        mockCheckoutDeliveryService.clearAddressVerificationResults
+      ).toHaveBeenCalled();
+      done();
+    });
   });
 
   it('should call verifyAddress', () => {

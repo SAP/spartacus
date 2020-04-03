@@ -87,12 +87,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    private fb: FormBuilder,
+    protected fb: FormBuilder,
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
-    private modalService: ModalService
+    protected modalService: ModalService
   ) {}
 
   ngOnInit() {

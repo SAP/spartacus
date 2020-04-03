@@ -70,18 +70,31 @@ describe('CheckoutLoginComponent', () => {
     expect(emailConfirmation.value).toBe('');
   });
 
-  it('should submit', () => {
-    spyOn(activeCartService, 'getAssignedUser').and.returnValue(
-      of({ name: 'guest', uid: 'john@acme.com' } as User)
-    );
-    spyOn(activeCartService, 'isGuestCart').and.returnValue(true);
+  describe('submitting form', () => {
+    beforeEach(() => {
+      spyOn(activeCartService, 'getAssignedUser').and.returnValue(
+        of({ name: 'guest', uid: 'john@acme.com' } as User)
+      );
+      spyOn(activeCartService, 'isGuestCart').and.returnValue(true);
+    });
 
-    email.setValue(testEmail);
-    emailConfirmation.setValue(testEmail);
-    fixture.detectChanges();
+    it('should work, when form is valid', () => {
+      email.setValue(testEmail);
+      emailConfirmation.setValue(testEmail);
+      fixture.detectChanges();
 
-    component.onSubmit();
-    expect(activeCartService.addEmail).toHaveBeenCalledWith(testEmail);
-    expect(authRedirectService.redirect).toHaveBeenCalled();
+      component.onSubmit();
+      expect(activeCartService.addEmail).toHaveBeenCalledWith(testEmail);
+      expect(authRedirectService.redirect).toHaveBeenCalled();
+    });
+
+    it('should not work, when form is not valid', () => {
+      email.setValue(testEmail);
+      fixture.detectChanges();
+
+      component.onSubmit();
+      expect(activeCartService.addEmail).not.toHaveBeenCalled();
+      expect(authRedirectService.redirect).not.toHaveBeenCalled();
+    });
   });
 });

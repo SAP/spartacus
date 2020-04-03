@@ -102,8 +102,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     protected userAddressService: UserAddressService,
-    private fb: FormBuilder,
-    private modalService: ModalService
+    protected fb: FormBuilder,
+    protected modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -178,7 +178,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
     for (let j = 1; j <= 12; j++) {
       if (j < 10) {
-        this.months.push('0' + j);
+        this.months.push(`0${j}`);
       } else {
         this.months.push(j.toString());
       }

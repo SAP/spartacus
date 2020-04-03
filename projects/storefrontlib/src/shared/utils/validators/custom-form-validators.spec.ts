@@ -6,7 +6,6 @@ describe('FormValidationService', () => {
   let emailError: ValidationErrors;
   let passwordError: ValidationErrors;
   let starRatingEmpty: ValidationErrors;
-  let matchPasswordError: any;
   let passwordsMustMatchErrorName: string;
   let emailsMustMatchErrorName: string;
   let form: FormGroup;
@@ -30,30 +29,12 @@ describe('FormValidationService', () => {
       cxInvalidPassword: true,
     };
 
-    matchPasswordError = {
-      cxPasswordsNotEqual: true,
-    };
-
     starRatingEmpty = {
       cxStarRatingEmpty: true,
     };
 
     passwordsMustMatchErrorName = 'cxPasswordsMustMatch';
     emailsMustMatchErrorName = 'cxEmailsMustMatch';
-  });
-
-  describe('Email domain validator', () => {
-    it('should allow email with domain', () => {
-      email.setValue('test@test.com');
-      expect(CustomFormValidators.emailDomainValidator(email)).toBeNull();
-    });
-
-    it('should reject email without domain', () => {
-      email.setValue('test@test');
-      expect(CustomFormValidators.emailDomainValidator(email)).toEqual(
-        emailError
-      );
-    });
   });
 
   describe('Email validator', () => {
@@ -134,24 +115,7 @@ describe('FormValidationService', () => {
     });
   });
 
-  describe('Match password validator', () => {
-    it('should not return error, when passwords match', () => {
-      form.get('password').setValue('Test123!');
-      form.get('passwordconf').setValue('Test123!');
-      expect(CustomFormValidators.matchPassword(form)).toBeNull();
-    });
-
-    it("should return error, when passwords don't match", () => {
-      form.get('password').setValue('Test123!');
-      form.get('passwordconf').setValue('Test123@');
-
-      expect(CustomFormValidators.matchPassword(form)).toEqual(
-        matchPasswordError
-      );
-    });
-  });
-
-  describe('Passwords must match validator', () => {
+  describe('Emails must match validator', () => {
     it('should not return error, when emails match', () => {
       form.get('email').setValue('test@test.com');
       form.get('emailconf').setValue('test@test.com');
@@ -175,7 +139,7 @@ describe('FormValidationService', () => {
     });
   });
 
-  describe('Emails must match validator', () => {
+  describe('Passwords must match validator', () => {
     it('should not return error, when passwords match', () => {
       form.get('password').setValue('Test123!');
       form.get('passwordconf').setValue('Test123!');

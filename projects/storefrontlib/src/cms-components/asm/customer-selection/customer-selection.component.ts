@@ -92,10 +92,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.customerSelectionForm.valid) {
-      if (Boolean(this.selectedCustomer)) {
-        this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
-      }
+    if (this.customerSelectionForm.valid && Boolean(this.selectedCustomer)) {
+      this.submitEvent.emit({ customerId: this.selectedCustomer.customerId });
     } else {
       this.customerSelectionForm.markAllAsTouched();
     }
