@@ -18,7 +18,7 @@ describe('UserGroupNormalizer', () => {
   let service: OccUserGroupNormalizer;
 
   const userGroup: Occ.OrgUnitUserGroup = {
-    name: 'OrgUnitUserGroup1',
+    name: 'UserGroup1',
     uid: 'testUid',
   };
 
