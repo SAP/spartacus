@@ -1,5 +1,12 @@
 export const UTF_8 = 'utf-8';
 
+/***** Libraries versions start *****/
+
+export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '9.1.0';
+export const ANGULAR_UNIVERSAL_BUILDERS = '9.1.0';
+
+/***** Libraries versions end *****/
+
 /***** Imports start *****/
 export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
@@ -7,6 +14,7 @@ export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
+export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
 
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';

@@ -91,21 +91,41 @@ export class AddEmailToCartSuccess {
   constructor(public payload: { userId: string; cartId: string }) {}
 }
 
-export class LoadCart {
+interface LoadCartPayload {
+  userId: string;
+  cartId: string;
+  extraData?: {
+    active?: boolean;
+  };
+}
+
+export class LoadCart extends EntityLoadAction {
   readonly type = LOAD_CART;
-  constructor(
-    public payload: { userId: string; cartId: string; extraData?: any }
-  ) {}
+  constructor(public payload: LoadCartPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
-export class LoadCartFail {
+interface LoadCartFailPayload extends LoadCartPayload {
+  error: any;
+}
+
+export class LoadCartFail extends EntityFailAction {
   readonly type = LOAD_CART_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: LoadCartFailPayload) {
+    super(MULTI_CART_DATA, payload.cartId, payload.error);
+  }
 }
 
-export class LoadCartSuccess {
+interface LoadCartSuccessPayload extends LoadCartPayload {
+  cart: Cart;
+}
+
+export class LoadCartSuccess extends EntitySuccessAction {
   readonly type = LOAD_CART_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: LoadCartSuccessPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
 export class MergeCart implements Action {

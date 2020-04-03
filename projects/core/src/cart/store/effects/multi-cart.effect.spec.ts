@@ -29,9 +29,6 @@ describe('Multi Cart effect', () => {
   let cartEffects: fromEffects.MultiCartEffects;
   let actions$: Observable<any>;
 
-  const userId = 'testUserId';
-  const cartId = 'testCartId';
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -49,24 +46,6 @@ describe('Multi Cart effect', () => {
     });
 
     cartEffects = TestBed.inject(fromEffects.MultiCartEffects);
-  });
-
-  describe('loadCart2$', () => {
-    it('should dispatch load multi cart action', () => {
-      const action = new DeprecatedCartActions.LoadCart({
-        userId,
-        cartId,
-      });
-      const loadMultiCartCompletion = new CartActions.LoadMultiCart({
-        userId,
-        cartId,
-      });
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: loadMultiCartCompletion,
-      });
-      expect(cartEffects.loadCart2$).toBeObservable(expected);
-    });
   });
 
   describe('setTempCart$', () => {
