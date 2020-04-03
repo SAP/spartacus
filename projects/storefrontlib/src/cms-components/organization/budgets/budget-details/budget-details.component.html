@@ -10,7 +10,18 @@
       </div>
       <div class="row">
         <div class="col-6">{{ 'budget.parentUnit' | cxTranslate }}</div>
-        <div class="col-6">{{ budget.orgUnit?.name }}</div>
+        <div class="col-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitDetails',
+                params: budget.orgUnit
+              } | cxUrl
+            "
+          >
+            {{ budget.orgUnit?.name }}
+          </a>
+        </div>
       </div>
       <div class="row">
         <div class="col-6">{{ 'budget.name' | cxTranslate }}</div>
