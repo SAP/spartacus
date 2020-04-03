@@ -19,7 +19,7 @@ import {
   GET_MULTI_CART_REDUCERS,
   GET_REDUCERS,
   GET_STRUCTURED_DATA_FACTORY,
-  INITITIALIZE_CONTEXT,
+  INITIALIZE_CONTEXT,
   INIT_SITE_CONTEXT_ROUTES_HANDLER,
   META_REDUCERS,
   MULTI_CART_META_REDUCERS,
@@ -128,7 +128,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   },
   // projects/core/src/site-context/providers/index.ts
   {
-    node: INITITIALIZE_CONTEXT,
+    node: INITIALIZE_CONTEXT,
     importPath: SPARTACUS_CORE,
   },
   // projects/core/src/site-context/providers/context-service-providers.ts
