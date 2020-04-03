@@ -47,6 +47,10 @@ class MockFacetService {
   getFacetList() {
     return of(mockFacetList);
   }
+  getState$() {
+    return of();
+  }
+  toggleExpand() {}
 }
 
 describe('FacetDialogComponent', () => {
@@ -103,8 +107,8 @@ describe('FacetDialogComponent', () => {
       expect(element.queryAll(By.css('cx-facet')).length).toEqual(1);
     });
 
-    it('should emit collapseFacetGroup when handling unlock', () => {
-      spyOn(component, 'collapseFacetGroup').and.stub();
+    it('should emit expandFacetGroup when handling unlock', () => {
+      spyOn(component, 'expandFacetGroup').and.stub();
       component.dialogMode = DialogMode.POP;
       fixture.detectChanges();
 
@@ -112,7 +116,7 @@ describe('FacetDialogComponent', () => {
       (container[0].nativeElement as HTMLElement).dispatchEvent(
         new Event('unlock')
       );
-      expect(component.collapseFacetGroup).toHaveBeenCalled();
+      expect(component.expandFacetGroup).toHaveBeenCalled();
     });
 
     it('should emit load when facetList is loaded', () => {
@@ -142,6 +146,24 @@ describe('FacetDialogComponent', () => {
           new Event('esc')
         );
         expect(component.close.emit).toHaveBeenCalled();
+      });
+    });
+
+    describe('expanded class on cx-facet', () => {
+      it('should not set expanded class when expanded state = false', () => {
+        const el = element.queryAll(By.css('cx-facet'));
+        const e = el[0];
+        expect(e.nativeElement.classList).not.toContain('expanded');
+      });
+
+      it('should set expanded class when expanded state = true ', () => {
+        spyOn(service, 'getState$').and.returnValue(of({ expanded: true }));
+        fixture.detectChanges();
+
+        const el = element.queryAll(By.css('cx-facet'));
+        const e = el[0];
+
+        expect(e.nativeElement.classList).toContain('expanded');
       });
     });
   });

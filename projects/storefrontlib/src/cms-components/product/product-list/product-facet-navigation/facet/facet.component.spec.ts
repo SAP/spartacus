@@ -8,9 +8,8 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Facet, I18nTestingModule } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
-import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { FacetComponent } from './facet.component';
 
@@ -28,14 +27,9 @@ class MockKeyboadFocusDirective {
   @Input() cxFocus;
 }
 
-const s = new BehaviorSubject<FacetCollapseState>({
-  expanded: true,
-  expandByDefault: true,
-});
-
 class MockFacetService {
-  getState() {
-    return s;
+  getState$() {
+    return of();
   }
   toggleExpand() {}
   increaseVisibleValues() {}
@@ -75,60 +69,7 @@ describe('FacetComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('isExpanded', () => {
-    it('should set isExpanded to false when expanded = false', () => {
-      s.next({
-        expanded: false,
-      });
-      component.facet = {} as Facet;
-      fixture.detectChanges();
-      expect(component.isExpanded).toBeFalsy();
-    });
-
-    it('should set isExpanded to true when expanded = true', () => {
-      s.next({
-        expanded: true,
-      });
-      component.facet = {} as Facet;
-      fixture.detectChanges();
-      expect(component.isExpanded).toBeTruthy();
-    });
-
-    it('should set isExpanded to true when expandByDefault = true', () => {
-      s.next({
-        expandByDefault: true,
-      });
-      component.facet = {} as Facet;
-      fixture.detectChanges();
-      expect(component.isExpanded).toBeTruthy();
-    });
-
-    it('should set isExpanded to false when expandByDefault = true but expanded = false', () => {
-      s.next({
-        expanded: false,
-        expandByDefault: true,
-      });
-      component.facet = {} as Facet;
-      fixture.detectChanges();
-      expect(component.isExpanded).toBeFalsy();
-    });
-
-    it('should have expanded class', () => {
-      component.isExpanded = true;
-      fixture.detectChanges();
-      const classlist = (element.nativeElement as HTMLElement).classList;
-      expect(classlist).toContain('expanded');
-    });
-
-    it('should not have expanded class', () => {
-      component.isExpanded = false;
-      fixture.detectChanges();
-      const classlist = (element.nativeElement as HTMLElement).classList;
-      expect(classlist).not.toContain('expanded');
-    });
-  });
-
-  describe('isMultiSelect', () => {
+  describe('isMultiSelect?', () => {
     it('should set multiselect to true', () => {
       component.facet = { multiSelect: true } as Facet;
       fixture.detectChanges();
@@ -201,8 +142,8 @@ describe('FacetComponent', () => {
     });
 
     it('should not force expand on a locked facet when it is expanded already', () => {
-      component.isExpanded = true;
       (element.nativeElement as HTMLElement).classList.add('is-locked');
+      (element.nativeElement as HTMLElement).classList.add('expanded');
       component.toggleGroup(new UIEvent('close'));
       fixture.detectChanges();
       expect(facetService.toggleExpand).not.toHaveBeenCalledWith(

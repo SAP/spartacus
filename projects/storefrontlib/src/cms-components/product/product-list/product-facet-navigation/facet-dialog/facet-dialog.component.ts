@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Facet } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { DialogMode, FacetList } from '../facet.model';
 import { FacetService } from '../services/facet.service';
@@ -56,8 +56,12 @@ export class FacetDialogComponent {
    * Expands the facet group in case it is not expanded.
    */
   expandFacetGroup(facet: Facet) {
-    if (!this.facetService.getState(facet).value.expanded) {
-      this.facetService.toggleExpand(facet, true);
-    }
+    this.facetService.toggleExpand(facet, true);
+  }
+
+  isExpanded(facet: Facet): Observable<boolean> {
+    return this.facetService
+      .getState$(facet)
+      .pipe(map(value => value.expanded));
   }
 }

@@ -27,6 +27,7 @@
   <cx-facet
     *ngFor="let facet of facets"
     [facet]="facet"
+    [class.expanded]="isExpanded(facet) | async"
     [cxFocus]="{ lock: true, trap: true, autofocus: 'a' }"
     (unlock)="expandFacetGroup(facet)"
   ></cx-facet>

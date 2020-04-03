@@ -52,14 +52,26 @@ describe('FacetService', () => {
 
   describe('initial UI state', () => {
     it('should return initial UI state with 5 visible facet values', () => {
-      expect(service.getState(facet1).value).toEqual({
+      let result: FacetCollapseState;
+      service
+        .getState$(facet1)
+        .subscribe(f => (result = f))
+        .unsubscribe();
+
+      expect(result).toEqual({
         topVisible: 5,
         maxVisible: 5,
       });
     });
 
     it('should return initial UI state with 3 visible facet values', () => {
-      expect(service.getState(facet2).value).toEqual({
+      let result: FacetCollapseState;
+      service
+        .getState$(facet2)
+        .subscribe(f => (result = f))
+        .unsubscribe();
+
+      expect(result).toEqual({
         topVisible: 3,
         maxVisible: 3,
       });
@@ -74,7 +86,7 @@ describe('FacetService', () => {
         .unsubscribe();
 
       let facetState1: FacetCollapseState;
-      service.getState(facet1).subscribe(state => (facetState1 = state));
+      service.getState$(facet1).subscribe(state => (facetState1 = state));
       expect(facetState1.expandByDefault).toBeFalsy();
     });
 
@@ -89,7 +101,7 @@ describe('FacetService', () => {
         .unsubscribe();
 
       let facetState1: FacetCollapseState;
-      service.getState(facet1).subscribe(state => (facetState1 = state));
+      service.getState$(facet1).subscribe(state => (facetState1 = state));
       expect(facetState1.expandByDefault).toBeFalsy();
     });
 
@@ -101,8 +113,8 @@ describe('FacetService', () => {
 
       let facetState3: FacetCollapseState;
       let facetState4: FacetCollapseState;
-      service.getState(facet3).subscribe(s => (facetState3 = s));
-      service.getState(facet4).subscribe(s => (facetState4 = s));
+      service.getState$(facet3).subscribe(s => (facetState3 = s));
+      service.getState$(facet4).subscribe(s => (facetState4 = s));
       expect(facetState3.expandByDefault).toBeTruthy();
       expect(facetState4.expandByDefault).toBeFalsy();
     });
@@ -119,8 +131,8 @@ describe('FacetService', () => {
 
       let facetState3: FacetCollapseState;
       let facetState4: FacetCollapseState;
-      service.getState(facet3).subscribe(s => (facetState3 = s));
-      service.getState(facet4).subscribe(s => (facetState4 = s));
+      service.getState$(facet3).subscribe(s => (facetState3 = s));
+      service.getState$(facet4).subscribe(s => (facetState4 = s));
       expect(facetState3.expandByDefault).toBeTruthy();
       expect(facetState4.expandByDefault).toBeFalsy();
     });
@@ -129,34 +141,79 @@ describe('FacetService', () => {
   describe('visible values', () => {
     it('should increase visible', () => {
       service.increaseVisibleValues(facet1);
-      expect(service.getState(facet1).value.maxVisible).toEqual(7);
+
+      let result: FacetCollapseState;
+      service
+        .getState$(facet1)
+        .subscribe(f => (result = f))
+        .unsubscribe();
+      expect(result.maxVisible).toEqual(7);
     });
 
     it('should decrease visible', () => {
       service.decreaseVisibleValues(facet1);
-      expect(service.getState(facet1).value.maxVisible).toEqual(5);
+
+      let result: FacetCollapseState;
+      service
+        .getState$(facet1)
+        .subscribe(f => (result = f))
+        .unsubscribe();
+      expect(result.maxVisible).toEqual(5);
     });
   });
 
   describe('toggle expand state', () => {
     it('should expand the facet visibility', () => {
-      expect(service.getState(facet1).value.expanded).toBeFalsy();
+      let result: FacetCollapseState;
+      service
+        .getState$(facet1)
+        .subscribe(f => (result = f))
+        .unsubscribe();
+      expect(result.expanded).toBeFalsy();
+
       service.toggleExpand(facet1);
-      expect(service.getState(facet1).value.expanded).toBeTruthy();
+
+      service
+        .getState$(facet1)
+        .subscribe(f => (result = f))
+        .unsubscribe();
+      expect(result.expanded).toBeTruthy();
     });
 
     it('should collapse the facet visibility', () => {
-      expect(service.getState(facet1).value.expanded).toBeFalsy();
+      let result: FacetCollapseState;
+      service
+        .getState$(facet1)
+        .subscribe(f => (result = f))
+        .unsubscribe();
+      expect(result.expanded).toBeFalsy();
+
       service.toggleExpand(facet1);
       service.toggleExpand(facet1);
-      expect(service.getState(facet1).value.expanded).toBeFalsy();
+
+      service
+        .getState$(facet1)
+        .subscribe(f => (result = f))
+        .unsubscribe();
+      expect(result.expanded).toBeFalsy();
     });
 
     it('should force collapse visibility', () => {
       service.toggleExpand(facet1);
-      expect(service.getState(facet1).value.expanded).toBeTruthy();
-      service.toggleExpand(facet1, true);
-      expect(service.getState(facet1).value.expanded).toBeTruthy();
+
+      let result: FacetCollapseState;
+
+      service
+        .getState$(facet1)
+        .subscribe(f => (result = f))
+        .unsubscribe();
+      expect(result.expanded).toBeTruthy();
+
+      service
+        .getState$(facet1)
+        .subscribe(f => (result = f))
+        .unsubscribe();
+      expect(result.expanded).toBeTruthy();
     });
   });
 });

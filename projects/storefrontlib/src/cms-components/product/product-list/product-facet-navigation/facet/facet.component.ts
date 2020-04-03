@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { Facet, FacetValue } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
@@ -26,20 +25,13 @@ export class FacetComponent {
   @Input() expandIcon: ICON_TYPE = ICON_TYPE.EXPAND;
   @Input() collapseIcon: ICON_TYPE = ICON_TYPE.COLLAPSE;
 
-  @HostBinding('class.expanded') isExpanded: boolean;
   @HostBinding('class.multi-select') isMultiSelect: boolean;
 
   @Input()
   set facet(value: Facet) {
     this._facet = value;
     this.isMultiSelect = !!value.multiSelect;
-
-    const state$ = this.facetService.getState(value);
-    // the initial observed state doesn't work without this...
-    this.isExpanded = state$.value.expanded; // ?? state$.value.expandByDefault;
-    this.state$ = state$.pipe(
-      tap(state => (this.isExpanded = state.expanded)) // ?? state.expandByDefault))
-    );
+    this.state$ = this.facetService.getState$(value);
   }
 
   get facet(): Facet {
@@ -59,7 +51,9 @@ export class FacetComponent {
     const host: HTMLElement = this.elementRef.nativeElement;
     const isLocked = host.classList.contains('is-locked');
 
-    if (!isLocked || this.isExpanded) {
+    const isExpanded = host.classList.contains('expanded');
+
+    if (!isLocked || isExpanded) {
       this.facetService.toggleExpand(this.facet);
       host.focus();
       // we stop propagating the event as otherwise the focus on the host will trigger
@@ -70,10 +64,18 @@ export class FacetComponent {
     }
   }
 
+  /**
+   * Increases the number of visible values for the facet. This is delegated
+   * to `facetService.increaseVisibleValues`.
+   */
   increaseVisibleValues(): void {
     this.facetService.increaseVisibleValues(this.facet);
   }
 
+  /**
+   * Decreases the number of visible values for the facet. This is delegated
+   * to `facetService.decreaseVisibleValues`.
+   */
   decreaseVisibleValues(): void {
     this.facetService.decreaseVisibleValues(this.facet);
   }

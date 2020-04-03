@@ -45,10 +45,21 @@ export class FacetService {
   }
 
   /**
-   * Returns the UI state for the facet. The state is initialized
-   * using the `initialize` method.
+   * Returns the UI state for the facet.
+   *
+   * The state is initialized using the `initialize` method.
    */
-  getState(facet: Facet): BehaviorSubject<FacetCollapseState> {
+  protected getState(facet: Facet): FacetCollapseState {
+    this.initialize(facet);
+    return this.facetState.get(facet.name).value;
+  }
+
+  /**
+   * Returns the observed UI state for the facet.
+   *
+   * The state is initialized using the `initialize` method.
+   */
+  getState$(facet: Facet): Observable<FacetCollapseState> {
     this.initialize(facet);
     return this.facetState.get(facet.name);
   }
@@ -61,7 +72,7 @@ export class FacetService {
    * to true, regardless of the current `expanded` state.
    */
   toggleExpand(facet: Facet, value?: boolean) {
-    const state = this.getState(facet).value;
+    const state = this.getState(facet);
 
     const toggledState = {
       expanded: value ?? !state.expanded,
@@ -106,7 +117,7 @@ export class FacetService {
     this.updateState(facet, {
       expandByDefault: this.isInitialExpanded(facet, position),
       expanded:
-        this.getState(facet).value.expanded ??
+        this.getState(facet).expanded ??
         this.isInitialExpanded(facet, position),
     } as FacetCollapseState);
   }
@@ -148,8 +159,8 @@ export class FacetService {
    * Updates the state of the facet in the local facet map.
    */
   protected updateState(facet: Facet, property: FacetCollapseState) {
-    const state = Object.assign(this.getState(facet).value, { ...property });
-    this.getState(facet).next(state);
+    const state = Object.assign(this.getState(facet), { ...property });
+    this.facetState.get(facet.name).next(state);
   }
 
   protected hasState(facet: Facet): boolean {

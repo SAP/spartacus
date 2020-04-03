@@ -6,6 +6,14 @@
     display: none;
   }
 
+  // Hide facet values and more/less buttons when the facet is collapsed.
+  cx-facet:not(.expanded) {
+    a,
+    button:not(.heading) {
+      display: none;
+    }
+  }
+
   @include media-breakpoint-down(md) {
     display: flex;
     flex-direction: column;
