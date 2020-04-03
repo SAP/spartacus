@@ -59,7 +59,7 @@ export class UserGroupAssignUsersComponent extends AbstractListingComponent
               pagination: usersList.pagination,
               values: usersList.values.map(user => ({
                 selected: user.selected,
-                code: user.uid,
+                email: user.uid,
                 name: user.name,
                 parentUnit: user.orgUnit && user.orgUnit.name,
                 parentUid: user.orgUnit && user.orgUnit.uid,
