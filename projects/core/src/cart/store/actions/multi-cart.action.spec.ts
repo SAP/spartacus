@@ -58,52 +58,6 @@ describe('MultiCart Actions', () => {
     });
   });
 
-  describe('LoadMultiCart', () => {
-    it('should create the action', () => {
-      const payload = { cartId: 'cartId', userId: 'userId' };
-      const action = new CartActions.LoadMultiCart(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.LOAD_MULTI_CART,
-        payload,
-        meta: StateEntityLoaderActions.entityLoadMeta(
-          MULTI_CART_DATA,
-          payload.cartId
-        ),
-      });
-    });
-  });
-
-  describe('LoadMultiCartFail', () => {
-    it('should create the action', () => {
-      const payload = { cartId: 'cartId', error: 'error' };
-      const action = new CartActions.LoadMultiCartFail(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.LOAD_MULTI_CART_FAIL,
-        payload,
-        meta: StateEntityLoaderActions.entityFailMeta(
-          MULTI_CART_DATA,
-          payload.cartId,
-          payload.error
-        ),
-      });
-    });
-  });
-
-  describe('LoadMultiCartSuccess', () => {
-    it('should create the action', () => {
-      const payload = { cart, userId: 'userId', extraData: undefined };
-      const action = new CartActions.LoadMultiCartSuccess(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.LOAD_MULTI_CART_SUCCESS,
-        payload,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
-          MULTI_CART_DATA,
-          payload.cart.code
-        ),
-      });
-    });
-  });
-
   describe('MergeMultiCart', () => {
     it('should create the action', () => {
       const payload = {};
