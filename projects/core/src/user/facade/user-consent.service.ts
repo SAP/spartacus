@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { iif, Observable } from 'rxjs';
-import {
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
 import { StateWithProcess } from '../../process/store/process-state';
@@ -38,9 +31,9 @@ export class UserConsentService {
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(new UserActions.LoadUserConsents(userId))
-    );
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(new UserActions.LoadUserConsents(userId));
+    });
   }
 
   /**
@@ -154,15 +147,15 @@ export class UserConsentService {
    * @param consentTemplateVersion a template version for which to give a consent
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    this.withUserId((userId) =>
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.GiveUserConsent({
           userId,
           consentTemplateId,
           consentTemplateVersion,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -204,14 +197,14 @@ export class UserConsentService {
    * @param consentCode for which to withdraw the consent
    */
   withdrawConsent(consentCode: string): void {
-    this.withUserId((userId) =>
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.WithdrawUserConsent({
           userId,
           consentCode,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -274,15 +267,5 @@ export class UserConsentService {
     }
 
     return updatedTemplateList;
-  }
-
-  /*
-   * Utility method to distinquish user id in a convenient way
-   */
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }

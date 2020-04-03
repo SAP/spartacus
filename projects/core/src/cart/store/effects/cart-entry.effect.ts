@@ -6,7 +6,6 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { withdrawOn } from '../../../util/withdraw-on';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
-import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 
 @Injectable()
@@ -22,7 +21,7 @@ export class CartEntryEffects {
   addEntry$: Observable<
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
-    | DeprecatedCartActions.LoadCart
+    | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_ENTRY),
     map((action: CartActions.CartAddEntry) => action.payload),
@@ -50,7 +49,7 @@ export class CartEntryEffects {
                 cartId: payload.cartId,
                 userId: payload.userId,
               }),
-              new DeprecatedCartActions.LoadCart({
+              new CartActions.LoadCart({
                 cartId: payload.cartId,
                 userId: payload.userId,
               }),
@@ -65,7 +64,7 @@ export class CartEntryEffects {
   removeEntry$: Observable<
     | CartActions.CartRemoveEntrySuccess
     | CartActions.CartRemoveEntryFail
-    | DeprecatedCartActions.LoadCart
+    | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_ENTRY),
     map((action: CartActions.CartRemoveEntry) => action.payload),
@@ -86,7 +85,7 @@ export class CartEntryEffects {
                 cartId: payload.cartId,
                 userId: payload.userId,
               }),
-              new DeprecatedCartActions.LoadCart({
+              new CartActions.LoadCart({
                 cartId: payload.cartId,
                 userId: payload.userId,
               }),
@@ -101,7 +100,7 @@ export class CartEntryEffects {
   updateEntry$: Observable<
     | CartActions.CartUpdateEntrySuccess
     | CartActions.CartUpdateEntryFail
-    | DeprecatedCartActions.LoadCart
+    | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_UPDATE_ENTRY),
     map((action: CartActions.CartUpdateEntry) => action.payload),
@@ -122,7 +121,7 @@ export class CartEntryEffects {
                 cartId: payload.cartId,
                 userId: payload.userId,
               }),
-              new DeprecatedCartActions.LoadCart({
+              new CartActions.LoadCart({
                 cartId: payload.cartId,
                 userId: payload.userId,
               }),

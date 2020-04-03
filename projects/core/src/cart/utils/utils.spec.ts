@@ -1,6 +1,6 @@
 import { Cart } from '../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../occ';
-import { getCartIdByUserId, isTempCartId } from './utils';
+import { getCartIdByUserId, getWishlistName, isTempCartId } from './utils';
 
 describe('Cart utils', () => {
   describe('getCartIdByUserId', () => {
@@ -15,6 +15,12 @@ describe('Cart utils', () => {
 
     it('should return cart code for non anonymous user', () => {
       expect(getCartIdByUserId(cart, OCC_USER_ID_CURRENT)).toEqual(cart.code);
+    });
+  });
+
+  describe('getWishlistName', () => {
+    it('should return wishlist name', () => {
+      expect(getWishlistName('Id123')).toEqual(`wishlistId123`);
     });
   });
 

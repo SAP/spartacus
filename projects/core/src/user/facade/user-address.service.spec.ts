@@ -1,6 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Address, Country, Region } from '../../model/address.model';
@@ -13,8 +12,8 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
 
 class MockAuthService {
-  getOccUserId(): Observable<string> {
-    return of(OCC_USER_ID_CURRENT);
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
   }
 }
 
