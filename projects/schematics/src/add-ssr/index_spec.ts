@@ -204,12 +204,8 @@ describe('add-ssr', () => {
       expect(buffer).toBeTruthy();
       if (buffer) {
         const appModule = buffer.toString('utf-8');
-        expect(
-          appModule.includes('BrowserTransferStateModule')
-        ).toBeTruthy();
-        expect(
-          appModule.includes('@angular/platform-browser')
-        ).toBeTruthy();
+        expect(appModule.includes('BrowserTransferStateModule')).toBeTruthy();
+        expect(appModule.includes('@angular/platform-browser')).toBeTruthy();
       }
     });
   });
