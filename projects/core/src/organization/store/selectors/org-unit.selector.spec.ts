@@ -1,7 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { B2BUnit, B2BUnitNode } from '../../../model/org-unit.model';
+import {
+  // B2BAddress,
+  B2BUnit,
+  B2BUnitNode,
+} from '../../../model/org-unit.model';
 import { OrgUnitActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
@@ -20,6 +24,7 @@ describe('OrgUnit Selectors', () => {
 
   const orgUnitNode: Partial<B2BUnitNode> = { id: orgUnitId };
   const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
+  // const address: Partial<B2BAddress> = { id: 'addressId' };
 
   const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
 
@@ -31,6 +36,15 @@ describe('OrgUnit Selectors', () => {
       value: orgUnit,
     },
   };
+
+  // const addressEntities = {
+  //   [orgUnitId]: {
+  //     loading: false,
+  //     error: false,
+  //     success: true,
+  //     value: address,
+  //   },
+  // };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,6 +71,8 @@ describe('OrgUnit Selectors', () => {
       store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
       expect(result).toEqual({
         availableOrgUnitNodes: { entities: {} },
+        addressEntities: { entities: {} },
+        addressList: { entities: {} },
         entities: { entities },
         tree: { entities: {} },
         approvalProcesses: { entities: {} },

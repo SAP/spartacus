@@ -33,3 +33,14 @@ export function orgUnitUserListReducer(
   }
   return state;
 }
+
+export function orgUnitAddressListReducer(
+  state = orgUnitsInitialState,
+  action: LoaderAction
+): any {
+  switch (action.type) {
+    case OrgUnitActions.LOAD_ADDRESSES_SUCCESS:
+      return action.payload.page;
+  }
+  return state;
+}

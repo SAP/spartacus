@@ -8,6 +8,7 @@ import {
   B2BUnit,
   B2BApprovalProcess,
   B2BUser,
+  B2BAddress,
 } from '../../model';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
@@ -53,6 +54,8 @@ export const ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS =
   'orgUnitUserGroup-available-order-approval-permissions';
 export const ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS =
   'orgUnitUserGroup-available-org-customers';
+export const ADDRESS_ENTITIES = 'addresses-entities';
+export const ADDRESS_LIST = 'addresses-list';
 
 export interface Management<Type> {
   list: EntityLoaderState<ListModel>;
@@ -67,6 +70,8 @@ export interface OrgUnits {
   tree: EntityLoaderState<B2BUnitNode>;
   approvalProcesses: EntityLoaderState<B2BApprovalProcess[]>;
   users: EntityLoaderState<ListModel>;
+  addressList: EntityLoaderState<ListModel>;
+  addressEntities: EntityLoaderState<B2BAddress>;
 }
 
 export interface OrgUnitUserGroupManagement
