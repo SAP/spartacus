@@ -24,6 +24,9 @@
       Here we'd like to introduce configurable facet components, 
       either by using specific configuration or generic sproutlets 
   -->
+  <!-- 
+    the FocusDirective instance could be injected into FacetComponent, and vice-versa 
+  -->
   <cx-facet
     *ngFor="let facet of facets"
     [facet]="facet"

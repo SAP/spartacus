@@ -4,17 +4,19 @@ import {
   ElementRef,
   HostBinding,
   Input,
+  ViewChild
 } from '@angular/core';
 import { Facet, FacetValue } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
+import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
 import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 
 @Component({
   selector: 'cx-facet',
   templateUrl: './facet.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FacetComponent {
   protected _facet: Facet;
@@ -27,11 +29,13 @@ export class FacetComponent {
 
   @HostBinding('class.multi-select') isMultiSelect: boolean;
 
+  @ViewChild(FocusDirective) keyboardFocus: FocusDirective;
+
   @Input()
   set facet(value: Facet) {
     this._facet = value;
     this.isMultiSelect = !!value.multiSelect;
-    this.state$ = this.facetService.getState$(value);
+    this.state$ = this.facetService.getState(value);
   }
 
   get facet(): Facet {
@@ -49,7 +53,7 @@ export class FacetComponent {
    */
   toggleGroup(event: UIEvent) {
     const host: HTMLElement = this.elementRef.nativeElement;
-    const isLocked = host.classList.contains('is-locked');
+    const isLocked = this.keyboardFocus?.isLocked;
 
     const isExpanded = host.classList.contains('expanded');
 

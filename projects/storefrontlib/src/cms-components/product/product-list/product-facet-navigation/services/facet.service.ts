@@ -10,7 +10,7 @@ import { ProductFacetService } from './product-facet.service';
  * Provides access to the facets as well as UI state for the facets.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class FacetService {
   /** The dialog mode is used to distinquish the experience for mobile vs desktop */
@@ -49,7 +49,7 @@ export class FacetService {
    *
    * The state is initialized using the `initialize` method.
    */
-  protected getState(facet: Facet): FacetCollapseState {
+  protected getStateSnapshot(facet: Facet): FacetCollapseState {
     this.initialize(facet);
     return this.facetState.get(facet.name).value;
   }
@@ -59,7 +59,7 @@ export class FacetService {
    *
    * The state is initialized using the `initialize` method.
    */
-  getState$(facet: Facet): Observable<FacetCollapseState> {
+  getState(facet: Facet): Observable<FacetCollapseState> {
     this.initialize(facet);
     return this.facetState.get(facet.name);
   }
@@ -72,10 +72,10 @@ export class FacetService {
    * to true, regardless of the current `expanded` state.
    */
   toggleExpand(facet: Facet, value?: boolean) {
-    const state = this.getState(facet);
+    const state = this.getStateSnapshot(facet);
 
     const toggledState = {
-      expanded: value ?? !state.expanded,
+      expanded: value ?? !state.expanded
     } as FacetCollapseState;
 
     if (!state.maxVisible) {
@@ -117,8 +117,8 @@ export class FacetService {
     this.updateState(facet, {
       expandByDefault: this.isInitialExpanded(facet, position),
       expanded:
-        this.getState(facet).expanded ??
-        this.isInitialExpanded(facet, position),
+        this.getStateSnapshot(facet).expanded ??
+        this.isInitialExpanded(facet, position)
     } as FacetCollapseState);
   }
 
@@ -128,13 +128,13 @@ export class FacetService {
         facet.name,
         new BehaviorSubject({
           topVisible: facet.topValueCount,
-          maxVisible: facet.topValueCount,
+          maxVisible: facet.topValueCount
         })
       );
     } else if (forceInitialize) {
       this.updateState(facet, {
         topVisible: facet.topValueCount,
-        maxVisible: facet.topValueCount,
+        maxVisible: facet.topValueCount
       } as FacetCollapseState);
     }
   }
@@ -159,7 +159,7 @@ export class FacetService {
    * Updates the state of the facet in the local facet map.
    */
   protected updateState(facet: Facet, property: FacetCollapseState) {
-    const state = Object.assign(this.getState(facet), { ...property });
+    const state = Object.assign(this.getStateSnapshot(facet), { ...property });
     this.facetState.get(facet.name).next(state);
   }
 
