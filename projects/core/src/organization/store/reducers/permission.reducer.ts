@@ -1,6 +1,6 @@
 import { Permission } from '../../../model/permission.model';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
-import { PermissionActions } from '../actions/index';
+import { PermissionActions, OrgUnitUserGroupActions } from '../actions/index';
 
 export const permissionInitialState = {};
 export const permissionsInitialState = undefined;
@@ -10,6 +10,16 @@ export function permissionsEntitiesReducer(
   action: LoaderAction
 ): Permission {
   switch (action.type) {
+    case PermissionActions.LOAD_PERMISSION_SUCCESS:
+    case PermissionActions.CREATE_PERMISSION_SUCCESS:
+    case PermissionActions.UPDATE_PERMISSION_SUCCESS:
+      return action.payload;
+    case OrgUnitUserGroupActions.CREATE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_SUCCESS:
+    case OrgUnitUserGroupActions.DELETE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+      };
   }
   return state;
 }

@@ -1,5 +1,9 @@
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
-import { B2BUserActions, OrgUnitActions } from '../actions/index';
+import {
+  B2BUserActions,
+  OrgUnitActions,
+  OrgUnitUserGroupActions,
+} from '../actions/index';
 import { B2BUser } from '../../../model/org-unit.model';
 
 export const b2bUserInitialState = {};
@@ -23,6 +27,13 @@ export function b2bUserEntitiesReducer(
         ...state,
         selected: action.payload.selected,
         roles: [...state.roles].filter(role => role !== action.payload.roleId),
+      };
+    case OrgUnitUserGroupActions.CREATE_ORG_UNIT_USER_GROUP_MEMBER_SUCCESS:
+    case OrgUnitUserGroupActions.DELETE_ORG_UNIT_USER_GROUP_MEMBER_SUCCESS:
+    case OrgUnitUserGroupActions.DELETE_ORG_UNIT_USER_GROUP_MEMBERS_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
       };
   }
   return state;

@@ -1,0 +1,58 @@
+<cx-interactive-table
+  [data$]="data$"
+  [header]="'userGroupAssignPermissions.header' | cxTranslate: { code: code }"
+  [sortLabels]="{
+    byUnitName: 'permissionsList.sorting.byUnitName' | cxTranslate,
+    byName: 'permissionsList.sorting.byName' | cxTranslate,
+    byCode: 'permissionsList.sorting.byCode' | cxTranslate,
+    byValue: 'permissionsList.sorting.byValue' | cxTranslate
+  }"
+  [columns]="[
+    {
+      key: 'selected',
+      value: 'permissionsList.assign' | cxTranslate,
+      checkBox: true
+    },
+    {
+      key: 'code',
+      value: 'permissionsList.code' | cxTranslate,
+      cxRoute: 'permissionDetails'
+    },
+    {
+      key: 'orderType',
+      value: 'permissionsList.type' | cxTranslate
+    },
+    {
+      key: 'threshold',
+      value: 'permissionsList.threshold' | cxTranslate
+    },
+    {
+      key: 'parentUnit',
+      value: 'permissionsList.parentUnit' | cxTranslate,
+      cxRoute: 'orgUnitDetails'
+    },
+    {
+      key: 'timePeriod',
+      value: 'permissionsList.timePeriod' | cxTranslate
+    }
+  ]"
+  (pageChange)="pageChange($event)"
+  (changeSortCode)="changeSortCode($event)"
+  (check)="assign($event)"
+  (uncheck)="unassign($event)"
+>
+  <div class="col-md-12 col-lg-3">
+    <div class="row cx-search-links mb-3">
+      <div class="col-12 cx-textalign">
+        <a
+          [routerLink]="
+            { cxRoute: 'userGroupDetails', params: { code: code } } | cxUrl
+          "
+          class="btn btn-primary btn-block"
+        >
+          {{ 'userGroupAssignPermissions.back' | cxTranslate }}
+        </a>
+      </div>
+    </div>
+  </div>
+</cx-interactive-table>

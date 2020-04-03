@@ -178,13 +178,13 @@ export class OrgUnitUserGroupService {
   getOrgUnitUserGroupAvailableOrgCustomers(
     orgUnitUserGroupUid: string,
     params: B2BSearchConfig
-  ): Observable<EntitiesModel<any>> {
+  ): Observable<EntitiesModel<B2BUser>> {
     return this.getOrgUnitUserGroupAvailableOrgCustomersList(
       orgUnitUserGroupUid,
       params
     ).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<any>>) => {
+      tap((process: LoaderState<EntitiesModel<B2BUser>>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadOrgUnitUserGroupAvailableOrgCustomers(
             orgUnitUserGroupUid,
@@ -193,7 +193,7 @@ export class OrgUnitUserGroupService {
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<any>>) =>
+        (process: LoaderState<EntitiesModel<B2BUser>>) =>
           process.success || process.error
       ),
       map(result => result.value)
@@ -203,13 +203,13 @@ export class OrgUnitUserGroupService {
   getOrgUnitUserGroupAvailableOrderApprovalPermissions(
     orgUnitUserGroupUid: string,
     params: B2BSearchConfig
-  ): Observable<EntitiesModel<any>> {
+  ): Observable<EntitiesModel<Permission>> {
     return this.getOrgUnitUserGroupAvailableOrderApprovalPermissionsList(
       orgUnitUserGroupUid,
       params
     ).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<any>>) => {
+      tap((process: LoaderState<EntitiesModel<Permission>>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadOrgUnitUserGroupAvailableOrderApprovalPermissions(
             orgUnitUserGroupUid,
@@ -218,7 +218,7 @@ export class OrgUnitUserGroupService {
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<any>>) =>
+        (process: LoaderState<EntitiesModel<Permission>>) =>
           process.success || process.error
       ),
       map(result => result.value)
