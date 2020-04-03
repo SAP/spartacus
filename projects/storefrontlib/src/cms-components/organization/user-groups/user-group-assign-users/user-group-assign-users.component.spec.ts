@@ -66,18 +66,18 @@ const mockUserList: EntitiesModel<B2BUser> = {
 const mockUserUIList = {
   values: [
     {
-      code: '1',
+      email: '1',
       selected: true,
       name: 'User 1',
       parentUnit: 'orgName',
-      parentUid: 'orgUid',
+      uid: 'orgUid',
     },
     {
-      code: '2',
+      email: '2',
       selected: true,
       name: 'User 2',
       parentUnit: 'orgName2',
-      parentUid: 'orgUid2',
+      uid: 'orgUid2',
     },
   ],
   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
