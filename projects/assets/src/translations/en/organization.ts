@@ -87,6 +87,7 @@ export const organization = {
       byValue: 'Value',
     },
     create: 'Create new Permission',
+    assign: 'Assign',
   },
   permission: {
     details: 'Permission details',
@@ -228,9 +229,10 @@ export const organization = {
     header: 'Manage roles in {{code}}',
     back: 'Close',
   },
-  userList: {
+  usersList: {
     sorting: {
       byName: 'Name',
+      byUnitName: 'Unit Name',
     },
     uid: 'Email',
     name: 'Name',
@@ -265,6 +267,8 @@ export const organization = {
     parentUnit: 'Parent Unit',
     edit: 'Edit',
     back: 'Back to list',
+    assignPermissions: 'Manage Permissions',
+    assignUsers: 'Manage Users',
   },
   userGroupForm: {
     create: 'Create User Group',
@@ -285,5 +289,14 @@ export const organization = {
     message: {
       required: 'Value is required',
     },
+  },
+  userGroupAssignPermissions: {
+    header: 'Manage permissions in {{code}}',
+    back: 'Close',
+  },
+  userGroupAssignUsers: {
+    header: 'Manage users in {{code}}',
+    back: 'Close',
+    unassignAll: 'Unassign All',
   },
 };
