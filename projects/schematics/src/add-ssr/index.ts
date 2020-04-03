@@ -25,7 +25,8 @@ import {
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import {
   getIndexHtmlPath,
-  getPathResultsForFile, getTsSourceFile,
+  getPathResultsForFile,
+  getTsSourceFile,
 } from '../shared/utils/file-utils';
 import {
   addImport,
@@ -33,8 +34,8 @@ import {
 } from '../shared/utils/module-file-utils';
 import { getAngularVersion } from '../shared/utils/package-utils';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
-import { isImported } from "@schematics/angular/utility/ast-utils";
-import { ANGULAR_PLATFORM_BROWSER } from "../shared/constants";
+import { isImported } from '@schematics/angular/utility/ast-utils';
+import { ANGULAR_PLATFORM_BROWSER } from '../shared/constants';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -157,7 +158,11 @@ function modifyAppModuleFile(): Rule {
 
     const moduleSource = getTsSourceFile(tree, appModulePath);
     if (
-      !isImported(moduleSource, 'BrowserTransferStateModule', ANGULAR_PLATFORM_BROWSER)
+      !isImported(
+        moduleSource,
+        'BrowserTransferStateModule',
+        ANGULAR_PLATFORM_BROWSER
+      )
     ) {
       addImport(
         tree,
@@ -170,7 +175,6 @@ function modifyAppModuleFile(): Rule {
         appModulePath,
         `BrowserTransferStateModule`
       );
-
     }
     context.logger.log('info', `✅️ Modified app.module.ts file.`);
     return tree;
