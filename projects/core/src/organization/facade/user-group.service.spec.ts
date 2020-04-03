@@ -25,14 +25,14 @@ import {
 import { B2BUser } from '../../model';
 
 const userId = 'current';
-const testUserGroupId = 'testOrgUnitUserGroup';
+const testUserGroupId = 'testUserGroup';
 const userGroup = {
   uid: testUserGroupId,
   name: 'The Test Group',
   orgUnit: { uid: 'Rustic' },
 };
 const userGroup2 = {
-  uid: 'testOrgUnitUserGroup2',
+  uid: 'testUserGroup2',
   name: 'The Test Group',
   orgUnit: { uid: 'Rustic' },
 };
@@ -204,7 +204,7 @@ describe('UserGroupService', () => {
   });
 
   describe('create userGroup', () => {
-    it('create() should should dispatch CreateOrgUnitUserGroup action', () => {
+    it('create() should should dispatch CreateUserGroup action', () => {
       service.create(userGroup);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
@@ -218,7 +218,7 @@ describe('UserGroupService', () => {
   });
 
   describe('update userGroup', () => {
-    it('update() should should dispatch UpdateOrgUnitUserGroup action', () => {
+    it('update() should should dispatch UpdateUserGroup action', () => {
       service.update(testUserGroupId, userGroup);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
@@ -233,7 +233,7 @@ describe('UserGroupService', () => {
   });
 
   describe('delete userGroup', () => {
-    it('delete() should should dispatch UpdateOrgUnitUserGroup action', () => {
+    it('delete() should should dispatch UpdateUserGroup action', () => {
       service.delete(testUserGroupId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
@@ -249,7 +249,7 @@ describe('UserGroupService', () => {
   describe('get permissions', () => {
     const params: B2BSearchConfig = { sort: 'uid' };
 
-    it('getOrgUnitUserGroupAvailableOrderApprovalPermissions() should trigger load permissions when they are not present in the store', () => {
+    it('getUserGroupAvailableOrderApprovalPermissions() should trigger load permissions when they are not present in the store', () => {
       let permissions: EntitiesModel<Permission>;
       service
         .getAvailableOrderApprovalPermissions(testUserGroupId, params)
@@ -269,7 +269,7 @@ describe('UserGroupService', () => {
       );
     });
 
-    it('getOrgUnitUserGroupAvailableOrderApprovalPermissions() should be able to get permissions when they are present in the store', () => {
+    it('getUserGroupAvailableOrderApprovalPermissions() should be able to get permissions when they are present in the store', () => {
       store.dispatch(
         new PermissionActions.LoadPermissionSuccess([permission, permission2])
       );
@@ -301,7 +301,7 @@ describe('UserGroupService', () => {
   });
 
   describe('assign permission to userGroup', () => {
-    it('assignPermission() should should dispatch CreateOrgUnitUserGroupOrderApprovalPermission action', () => {
+    it('assignPermission() should should dispatch CreateUserGroupOrderApprovalPermission action', () => {
       service.assignPermission(testUserGroupId, permissionUid);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
@@ -316,7 +316,7 @@ describe('UserGroupService', () => {
   });
 
   describe('unassign permission from userGroup', () => {
-    it('unassignPermission() should should dispatch DeleteOrgUnitUserGroupOrderApprovalPermission action', () => {
+    it('unassignPermission() should should dispatch DeleteUserGroupOrderApprovalPermission action', () => {
       service.unassignPermission(testUserGroupId, permissionUid);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
@@ -333,7 +333,7 @@ describe('UserGroupService', () => {
   describe('get members', () => {
     const params: B2BSearchConfig = { sort: 'uid' };
 
-    it('getOrgUnitUserGroupAvailableOrgCustomers() should trigger load members when they are not present in the store', () => {
+    it('getUserGroupAvailableOrgCustomers() should trigger load members when they are not present in the store', () => {
       let members: EntitiesModel<B2BUser>;
       service
         .getAvailableOrgCustomers(testUserGroupId, params)
@@ -353,7 +353,7 @@ describe('UserGroupService', () => {
       );
     });
 
-    it('getOrgUnitUserGroupAvailableOrgCustomers() should be able to get members when they are present in the store', () => {
+    it('getUserGroupAvailableOrgCustomers() should be able to get members when they are present in the store', () => {
       store.dispatch(new B2BUserActions.LoadB2BUserSuccess([member, member2]));
       store.dispatch(
         new UserGroupActions.LoadAvailableOrgCustomersSuccess({
@@ -383,7 +383,7 @@ describe('UserGroupService', () => {
   });
 
   describe('assign members to userGroup', () => {
-    it('assignMember() should should dispatch CreateOrgUnitUserGroupMember action', () => {
+    it('assignMember() should should dispatch CreateUserGroupMember action', () => {
       service.assignMember(testUserGroupId, customerId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
@@ -398,7 +398,7 @@ describe('UserGroupService', () => {
   });
 
   describe('unassign members from userGroup', () => {
-    it('unassignMember() should should dispatch DeleteOrgUnitUserGroupMember action', () => {
+    it('unassignMember() should should dispatch DeleteUserGroupMember action', () => {
       service.unassignMember(testUserGroupId, customerId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
@@ -413,7 +413,7 @@ describe('UserGroupService', () => {
   });
 
   describe('unassign all members from userGroup', () => {
-    it('unassignMember() should should dispatch DeleteOrgUnitUserGroupMember action', () => {
+    it('unassignMember() should should dispatch DeleteUserGroupMember action', () => {
       service.unassignAllMembers(testUserGroupId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();

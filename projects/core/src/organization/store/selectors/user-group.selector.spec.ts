@@ -15,17 +15,17 @@ import {
   UserGroupSelectors,
 } from '@spartacus/core';
 
-describe('OrgUnitUserGroup Selectors', () => {
+describe('UserGroup Selectors', () => {
   let store: Store<StateWithOrganization>;
 
   const uid = 'testUid';
   const userGroup: UserGroup = {
     uid,
-    name: 'testOrgUnitUserGroup',
+    name: 'testUserGroup',
   };
   const userGroup2: UserGroup = {
     uid: 'testUid2',
-    name: 'testOrgUnitUserGroup2',
+    name: 'testUserGroup2',
   };
 
   const entities = {

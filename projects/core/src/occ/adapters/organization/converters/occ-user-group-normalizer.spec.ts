@@ -14,7 +14,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OrgUnitUserGroupNormalizer', () => {
+describe('UserGroupNormalizer', () => {
   let service: OccUserGroupNormalizer;
 
   const userGroup: Occ.OrgUnitUserGroup = {

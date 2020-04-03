@@ -1,5 +1,5 @@
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
-import * as OrgUnitUserGroupActions from '../actions/user-group.action';
+import * as UserGroupActions from '../actions/user-group.action';
 import { UserGroup } from '../../../model/user-group.model';
 
 export const userGroupInitialState = {};
@@ -19,7 +19,7 @@ export function userGroupsListReducer(
   action: LoaderAction
 ): any {
   switch (action.type) {
-    case OrgUnitUserGroupActions.LOAD_USER_GROUPS_SUCCESS:
+    case UserGroupActions.LOAD_USER_GROUPS_SUCCESS:
       return action.payload.page;
   }
   return state;
@@ -30,7 +30,7 @@ export function userGroupAvailableOrderApprovalPermissionsListReducer(
   action: LoaderAction
 ): any {
   switch (action.type) {
-    case OrgUnitUserGroupActions.LOAD_USER_GROUP_PERMISSIONS_SUCCESS:
+    case UserGroupActions.LOAD_USER_GROUP_PERMISSIONS_SUCCESS:
       return action.payload.page;
   }
   return state;
@@ -41,7 +41,7 @@ export function userGroupAvailablOrgCustomersListReducer(
   action: LoaderAction
 ): any {
   switch (action.type) {
-    case OrgUnitUserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_SUCCESS:
+    case UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_SUCCESS:
       return action.payload.page;
   }
   return state;

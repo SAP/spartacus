@@ -22,36 +22,24 @@ const member = {
   uid: memberUid,
 };
 
-class MockOrgUnitUserGroupAdapter implements UserGroupAdapter {
-  load = createSpy('OrgUnitUserGroupAdapter.load').and.returnValue(
-    of(userGroup)
-  );
-  loadList = createSpy('OrgUnitUserGroupAdapter.loadList').and.returnValue(
-    of([userGroup])
-  );
-  create = createSpy('OrgUnitUserGroupAdapter.create').and.returnValue(
-    of(userGroup)
-  );
-  update = createSpy('OrgUnitUserGroupAdapter.update').and.returnValue(
-    of(userGroup)
-  );
-  delete = createSpy('OrgUnitUserGroupAdapter.delete').and.returnValue(
-    of(userGroup)
-  );
+class MockUserGroupAdapter implements UserGroupAdapter {
+  load = createSpy('load').and.returnValue(of(userGroup));
+  loadList = createSpy('loadList').and.returnValue(of([userGroup]));
+  create = createSpy('create').and.returnValue(of(userGroup));
+  update = createSpy('update').and.returnValue(of(userGroup));
+  delete = createSpy('delete').and.returnValue(of(userGroup));
   loadAvailableOrderApprovalPermissions = createSpy(
-    'OrgUnitUserGroupAdapter.loadAvailableOrderApprovalPermissions'
+    'loadAvailableOrderApprovalPermissions'
   ).and.returnValue(of([permission]));
   loadAvailableOrgCustomers = createSpy(
-    'OrgUnitUserGroupAdapter.loadAvailableOrgCustomers'
+    'loadAvailableOrgCustomers'
   ).and.returnValue(of([member]));
-  assignMember = createSpy('OrgUnitUserGroupAdapter.assignMember');
-  assignOrderApprovalPermission = createSpy(
-    'OrgUnitUserGroupAdapter.assignOrderApprovalPermission'
-  );
-  unassignMember = createSpy('OrgUnitUserGroupAdapter.unassignMember');
-  unassignAllMembers = createSpy('OrgUnitUserGroupAdapter.unassignAllMembers');
+  assignMember = createSpy('assignMember');
+  assignOrderApprovalPermission = createSpy('assignOrderApprovalPermission');
+  unassignMember = createSpy('unassignMember');
+  unassignAllMembers = createSpy('unassignAllMembers');
   unassignOrderApprovalPermission = createSpy(
-    'OrgUnitUserGroupAdapter.unassignOrderApprovalPermission'
+    'unassignOrderApprovalPermission'
   );
 }
 
@@ -65,7 +53,7 @@ describe('UserGroupConnector', () => {
         UserGroupConnector,
         {
           provide: UserGroupAdapter,
-          useClass: MockOrgUnitUserGroupAdapter,
+          useClass: MockUserGroupAdapter,
         },
       ],
     });
