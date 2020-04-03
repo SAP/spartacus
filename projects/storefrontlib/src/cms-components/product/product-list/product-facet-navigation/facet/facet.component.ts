@@ -4,10 +4,13 @@ import {
   ElementRef,
   HostBinding,
   Input,
+  Optional,
+  Self,
 } from '@angular/core';
 import { Facet, FacetValue } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
+import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
 import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 
@@ -40,7 +43,8 @@ export class FacetComponent {
 
   constructor(
     protected facetService: FacetService,
-    protected elementRef: ElementRef<HTMLElement>
+    protected elementRef: ElementRef<HTMLElement>,
+    @Optional() @Self() protected focusDirective: FocusDirective
   ) {}
 
   /**
@@ -49,7 +53,7 @@ export class FacetComponent {
    */
   toggleGroup(event: UIEvent) {
     const host: HTMLElement = this.elementRef.nativeElement;
-    const isLocked = host.classList.contains('is-locked');
+    const isLocked = this.focusDirective?.isLocked;
 
     const isExpanded = host.classList.contains('expanded');
 
