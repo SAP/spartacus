@@ -27,7 +27,7 @@ export class UserGroupDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userGroup$ = this.userGroupCode$.pipe(
-      tap(code => this.userGroupsService.loadOrgUnitUserGroup(code)),
+      tap(code => this.userGroupsService.loadUserGroup(code)),
       switchMap(code => this.userGroupsService.get(code)),
       filter(Boolean),
       map((userGroup: OrgUnitUserGroup) => ({

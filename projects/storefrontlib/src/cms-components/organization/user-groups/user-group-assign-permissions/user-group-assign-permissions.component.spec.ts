@@ -111,12 +111,12 @@ class MockUrlPipe implements PipeTransform {
 const permissionList = new BehaviorSubject(mockPermissionList);
 
 class MockUserGroupService implements Partial<UserGroupService> {
-  loadOrgUnitUserGroupAvailableOrderApprovalPermissions = createSpy(
-    'loadOrgUnitUserGroupAvailableOrderApprovalPermissions'
+  loadUserGroupAvailableOrderApprovalPermissions = createSpy(
+    'loadUserGroupAvailableOrderApprovalPermissions'
   );
 
-  getOrgUnitUserGroupAvailableOrderApprovalPermissions = createSpy(
-    'getOrgUnitUserGroupAvailableOrderApprovalPermissions'
+  getUserGroupAvailableOrderApprovalPermissions = createSpy(
+    'getUserGroupAvailableOrderApprovalPermissions'
   ).and.returnValue(permissionList);
 
   assignPermission = createSpy('assign');
@@ -221,10 +221,10 @@ describe('UserGroupAssignPermissionsComponent', () => {
       });
 
       expect(
-        service.loadOrgUnitUserGroupAvailableOrderApprovalPermissions
+        service.loadUserGroupAvailableOrderApprovalPermissions
       ).toHaveBeenCalledWith(code, defaultParams);
       expect(
-        service.getOrgUnitUserGroupAvailableOrderApprovalPermissions
+        service.getUserGroupAvailableOrderApprovalPermissions
       ).toHaveBeenCalledWith(code, defaultParams);
       expect(permissionsList).toEqual(mockPermissionUIList);
     });

@@ -101,12 +101,12 @@ class MockUrlPipe implements PipeTransform {
 const userList = new BehaviorSubject(mockUserList);
 
 class MockUserGroupService implements Partial<UserGroupService> {
-  loadOrgUnitUserGroupAvailableOrgCustomers = createSpy(
-    'loadOrgUnitUserGroupAvailableOrgCustomers'
+  loadUserGroupAvailableOrgCustomers = createSpy(
+    'loadUserGroupAvailableOrgCustomers'
   );
 
-  getOrgUnitUserGroupAvailableOrgCustomers = createSpy(
-    'getOrgUnitUserGroupAvailableOrgCustomers'
+  getUserGroupAvailableOrgCustomers = createSpy(
+    'getUserGroupAvailableOrgCustomers'
   ).and.returnValue(userList);
 
   assignMember = createSpy('assign');
@@ -210,12 +210,14 @@ describe('UserGroupAssignUsersComponent', () => {
         usersList = value;
       });
 
-      expect(
-        service.loadOrgUnitUserGroupAvailableOrgCustomers
-      ).toHaveBeenCalledWith(code, defaultParams);
-      expect(
-        service.getOrgUnitUserGroupAvailableOrgCustomers
-      ).toHaveBeenCalledWith(code, defaultParams);
+      expect(service.loadUserGroupAvailableOrgCustomers).toHaveBeenCalledWith(
+        code,
+        defaultParams
+      );
+      expect(service.getUserGroupAvailableOrgCustomers).toHaveBeenCalledWith(
+        code,
+        defaultParams
+      );
       expect(usersList).toEqual(mockUserUIList);
     });
   });

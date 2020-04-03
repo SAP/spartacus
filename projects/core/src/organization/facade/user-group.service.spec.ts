@@ -258,7 +258,7 @@ describe('UserGroupService', () => {
     it('getOrgUnitUserGroupAvailableOrderApprovalPermissions() should trigger load permissions when they are not present in the store', () => {
       let permissions: EntitiesModel<Permission>;
       service
-        .getOrgUnitUserGroupAvailableOrderApprovalPermissions(
+        .getUserGroupAvailableOrderApprovalPermissions(
           orgUnitUserGroupUid,
           params
         )
@@ -299,7 +299,7 @@ describe('UserGroupService', () => {
       );
       let permissions: EntitiesModel<Permission>;
       service
-        .getOrgUnitUserGroupAvailableOrderApprovalPermissions(
+        .getUserGroupAvailableOrderApprovalPermissions(
           orgUnitUserGroupUid,
           params
         )
@@ -356,7 +356,7 @@ describe('UserGroupService', () => {
     it('getOrgUnitUserGroupAvailableOrgCustomers() should trigger load members when they are not present in the store', () => {
       let members: EntitiesModel<B2BUser>;
       service
-        .getOrgUnitUserGroupAvailableOrgCustomers(orgUnitUserGroupUid, params)
+        .getUserGroupAvailableOrgCustomers(orgUnitUserGroupUid, params)
         .subscribe(data => {
           members = data;
         })
@@ -390,7 +390,7 @@ describe('UserGroupService', () => {
       );
       let members: EntitiesModel<B2BUser>;
       service
-        .getOrgUnitUserGroupAvailableOrgCustomers(orgUnitUserGroupUid, params)
+        .getUserGroupAvailableOrgCustomers(orgUnitUserGroupUid, params)
         .subscribe(data => {
           members = data;
         })

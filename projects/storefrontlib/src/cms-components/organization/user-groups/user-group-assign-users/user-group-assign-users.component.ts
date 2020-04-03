@@ -44,14 +44,14 @@ export class UserGroupAssignUsersComponent extends AbstractListingComponent
     this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
       withLatestFrom(this.code$),
       tap(([queryParams, code]) =>
-        this.userGroupService.loadOrgUnitUserGroupAvailableOrgCustomers(
+        this.userGroupService.loadUserGroupAvailableOrgCustomers(
           code,
           queryParams
         )
       ),
       switchMap(([queryParams, code]) =>
         this.userGroupService
-          .getOrgUnitUserGroupAvailableOrgCustomers(code, queryParams)
+          .getUserGroupAvailableOrgCustomers(code, queryParams)
           .pipe(
             filter(Boolean),
             map((usersList: EntitiesModel<B2BUser>) => ({

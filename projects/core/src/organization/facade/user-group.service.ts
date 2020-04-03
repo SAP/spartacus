@@ -26,7 +26,7 @@ export class UserGroupService {
     protected authService: AuthService
   ) {}
 
-  loadOrgUnitUserGroup(orgUnitUserGroupUid: string) {
+  loadUserGroup(orgUnitUserGroupUid: string) {
     this.withUserId(userId =>
       this.store.dispatch(
         new OrgUnitUserGroupActions.LoadOrgUnitUserGroup({
@@ -37,7 +37,7 @@ export class UserGroupService {
     );
   }
 
-  loadOrgUnitUserGroups(params?: B2BSearchConfig) {
+  loadUserGroups(params?: B2BSearchConfig) {
     this.withUserId(userId =>
       this.store.dispatch(
         new OrgUnitUserGroupActions.LoadOrgUnitUserGroups({ userId, params })
@@ -45,19 +45,19 @@ export class UserGroupService {
     );
   }
 
-  private getOrgUnitUserGroupState(
+  private getUserGroupState(
     orgUnitUserGroupUid: string
   ): Observable<LoaderState<OrgUnitUserGroup>> {
     return this.store.select(getOrgUnitUserGroupState(orgUnitUserGroupUid));
   }
 
-  private getOrgUnitUserGroupList(
+  private getUserGroupList(
     params
   ): Observable<LoaderState<EntitiesModel<OrgUnitUserGroup>>> {
     return this.store.select(getOrgUnitUserGroupList(params));
   }
 
-  private getOrgUnitUserGroupAvailableOrgCustomersList(
+  private getUserGroupAvailableOrgCustomersList(
     orgUnitUserGroupUid: string,
     params
   ): Observable<LoaderState<EntitiesModel<B2BUser>>> {
@@ -66,7 +66,7 @@ export class UserGroupService {
     );
   }
 
-  private getOrgUnitUserGroupAvailableOrderApprovalPermissionsList(
+  private getGroupAvailableOrderApprovalPermissionsList(
     orgUnitUserGroupUid: string,
     params
   ): Observable<LoaderState<EntitiesModel<Permission>>> {
@@ -78,12 +78,12 @@ export class UserGroupService {
     );
   }
 
-  get(orgUnitUserGroupUid: string): Observable<OrgUnitUserGroup> {
-    return this.getOrgUnitUserGroupState(orgUnitUserGroupUid).pipe(
+  get(userGroupUid: string): Observable<OrgUnitUserGroup> {
+    return this.getUserGroupState(userGroupUid).pipe(
       observeOn(queueScheduler),
       tap(state => {
         if (!(state.loading || state.success || state.error)) {
-          this.loadOrgUnitUserGroup(orgUnitUserGroupUid);
+          this.loadUserGroup(userGroupUid);
         }
       }),
       filter(state => state.success || state.error),
@@ -94,11 +94,11 @@ export class UserGroupService {
   getList(
     params: B2BSearchConfig
   ): Observable<EntitiesModel<OrgUnitUserGroup>> {
-    return this.getOrgUnitUserGroupList(params).pipe(
+    return this.getUserGroupList(params).pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<OrgUnitUserGroup>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadOrgUnitUserGroups(params);
+          this.loadUserGroups(params);
         }
       }),
       filter(
@@ -143,7 +143,7 @@ export class UserGroupService {
     );
   }
 
-  loadOrgUnitUserGroupAvailableOrgCustomers(
+  loadUserGroupAvailableOrgCustomers(
     orgUnitUserGroupUid: string,
     params: B2BSearchConfig
   ) {
@@ -158,7 +158,7 @@ export class UserGroupService {
     );
   }
 
-  loadOrgUnitUserGroupAvailableOrderApprovalPermissions(
+  loadUserGroupAvailableOrderApprovalPermissions(
     orgUnitUserGroupUid: string,
     params: B2BSearchConfig
   ) {
@@ -175,21 +175,18 @@ export class UserGroupService {
     );
   }
 
-  getOrgUnitUserGroupAvailableOrgCustomers(
+  getUserGroupAvailableOrgCustomers(
     orgUnitUserGroupUid: string,
     params: B2BSearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
-    return this.getOrgUnitUserGroupAvailableOrgCustomersList(
+    return this.getUserGroupAvailableOrgCustomersList(
       orgUnitUserGroupUid,
       params
     ).pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<B2BUser>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadOrgUnitUserGroupAvailableOrgCustomers(
-            orgUnitUserGroupUid,
-            params
-          );
+          this.loadUserGroupAvailableOrgCustomers(orgUnitUserGroupUid, params);
         }
       }),
       filter(
@@ -200,18 +197,18 @@ export class UserGroupService {
     );
   }
 
-  getOrgUnitUserGroupAvailableOrderApprovalPermissions(
+  getUserGroupAvailableOrderApprovalPermissions(
     orgUnitUserGroupUid: string,
     params: B2BSearchConfig
   ): Observable<EntitiesModel<Permission>> {
-    return this.getOrgUnitUserGroupAvailableOrderApprovalPermissionsList(
+    return this.getGroupAvailableOrderApprovalPermissionsList(
       orgUnitUserGroupUid,
       params
     ).pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<Permission>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadOrgUnitUserGroupAvailableOrderApprovalPermissions(
+          this.loadUserGroupAvailableOrderApprovalPermissions(
             orgUnitUserGroupUid,
             params
           );

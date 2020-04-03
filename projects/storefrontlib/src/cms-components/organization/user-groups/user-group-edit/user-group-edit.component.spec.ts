@@ -45,7 +45,7 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
 }
 
 class MockUserGroupService implements Partial<UserGroupService> {
-  loadOrgUnitUserGroup = createSpy('loadOrgUnitUserGroup');
+  loadUserGroup = createSpy('loadUserGroup');
   get = createSpy('get').and.returnValue(of(mockUserGroup));
   update = createSpy('update');
 }
@@ -124,7 +124,7 @@ describe('UserGroupEditComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(userGroupsService.loadOrgUnitUserGroup).toHaveBeenCalledWith(uid);
+      expect(userGroupsService.loadUserGroup).toHaveBeenCalledWith(uid);
       expect(userGroupsService.get).toHaveBeenCalledWith(uid);
       expect(userGroup).toEqual(mockUserGroup);
     });

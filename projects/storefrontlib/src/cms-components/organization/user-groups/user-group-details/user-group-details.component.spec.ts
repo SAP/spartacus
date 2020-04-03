@@ -40,7 +40,7 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockUserGroupService implements Partial<UserGroupService> {
-  loadOrgUnitUserGroup = createSpy('loadOrgUnitUserGroup');
+  loadUserGroup = createSpy('loadUserGroup');
   get = createSpy('get').and.returnValue(of(mockUserGroup));
   update = createSpy('update');
 }
@@ -113,9 +113,7 @@ describe('UserGroupDetailsComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(orgUnitUserGroupService.loadOrgUnitUserGroup).toHaveBeenCalledWith(
-        uid
-      );
+      expect(orgUnitUserGroupService.loadUserGroup).toHaveBeenCalledWith(uid);
       expect(orgUnitUserGroupService.get).toHaveBeenCalledWith(uid);
       expect(budget).toEqual(mockUserGroupUI);
     });
