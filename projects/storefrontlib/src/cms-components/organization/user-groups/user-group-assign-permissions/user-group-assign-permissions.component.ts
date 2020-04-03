@@ -45,14 +45,14 @@ export class UserGroupAssignPermissionsComponent
     this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
       withLatestFrom(this.code$),
       tap(([queryParams, code]) =>
-        this.userGroupService.loadUserGroupAvailableOrderApprovalPermissions(
+        this.userGroupService.loadAvailableOrderApprovalPermissions(
           code,
           queryParams
         )
       ),
       switchMap(([queryParams, code]) =>
         this.userGroupService
-          .getUserGroupAvailableOrderApprovalPermissions(code, queryParams)
+          .getAvailableOrderApprovalPermissions(code, queryParams)
           .pipe(
             filter(Boolean),
             map((permissionsList: EntitiesModel<Permission>) => ({

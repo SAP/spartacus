@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { OrgUnitUserGroup } from '../../../model/index';
-import { OrgUnitUserGroupActions } from '../actions/index';
+import { UserGroupActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
@@ -68,7 +68,7 @@ describe('OrgUnitUserGroup Selectors', () => {
         .subscribe(value => (result = value));
 
       store.dispatch(
-        new OrgUnitUserGroupActions.LoadOrgUnitUserGroupSuccess([
+        new UserGroupActions.LoadOrgUnitUserGroupSuccess([
           orgUnitUserGroup,
           orgUnitUserGroup2,
         ])
@@ -90,7 +90,7 @@ describe('OrgUnitUserGroup Selectors', () => {
         .subscribe(value => (result = value));
 
       store.dispatch(
-        new OrgUnitUserGroupActions.LoadOrgUnitUserGroupSuccess([
+        new UserGroupActions.LoadOrgUnitUserGroupSuccess([
           orgUnitUserGroup,
           orgUnitUserGroup2,
         ])
@@ -107,7 +107,7 @@ describe('OrgUnitUserGroup Selectors', () => {
         .subscribe(value => (result = value));
 
       store.dispatch(
-        new OrgUnitUserGroupActions.LoadOrgUnitUserGroupSuccess([
+        new UserGroupActions.LoadOrgUnitUserGroupSuccess([
           orgUnitUserGroup,
           orgUnitUserGroup2,
         ])

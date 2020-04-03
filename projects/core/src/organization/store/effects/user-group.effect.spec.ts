@@ -11,7 +11,7 @@ import createSpy = jasmine.createSpy;
 import { defaultOccOrganizationConfig } from '../../../occ/adapters/organization/default-occ-organization-config';
 import { OccConfig } from '../../../occ/config/occ-config';
 import {
-  OrgUnitUserGroupActions,
+  UserGroupActions,
   PermissionActions,
   B2BUserActions,
 } from '../actions/index';
@@ -62,7 +62,7 @@ class MockOrgUnitUserGroupConnector
 }
 
 describe('OrgUnitUserGroup Effects', () => {
-  let actions$: Observable<OrgUnitUserGroupActions.OrgUnitUserGroupAction>;
+  let actions$: Observable<UserGroupActions.OrgUnitUserGroupAction>;
   let orgUnitUserGroupConnector: OrgUnitUserGroupConnector;
   let effects: fromEffects.OrgUnitUserGroupEffects;
   let expected: TestColdObservable;
@@ -108,13 +108,13 @@ describe('OrgUnitUserGroup Effects', () => {
 
   describe('loadOrgUnitUserGroup$', () => {
     it('should return LoadOrgUnitUserGroupSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroup({
+      const action = new UserGroupActions.LoadOrgUnitUserGroup({
         userId,
         orgUnitUserGroupUid,
       });
-      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupSuccess(
-        [orgUnitUserGroup]
-      );
+      const completion = new UserGroupActions.LoadOrgUnitUserGroupSuccess([
+        orgUnitUserGroup,
+      ]);
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -129,11 +129,11 @@ describe('OrgUnitUserGroup Effects', () => {
       orgUnitUserGroupConnector.get = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroup({
+      const action = new UserGroupActions.LoadOrgUnitUserGroup({
         userId,
         orgUnitUserGroupUid,
       });
-      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupFail({
+      const completion = new UserGroupActions.LoadOrgUnitUserGroupFail({
         orgUnitUserGroupUid,
         error,
       });
@@ -152,19 +152,17 @@ describe('OrgUnitUserGroup Effects', () => {
     const params: B2BSearchConfig = { sort: 'uid' };
 
     it('should return LoadOrgUnitUserGroupSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroups({
+      const action = new UserGroupActions.LoadOrgUnitUserGroups({
         userId,
         params,
       });
-      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupSuccess(
-        [orgUnitUserGroup]
-      );
-      const completion2 = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupsSuccess(
-        {
-          page: { ids: [orgUnitUserGroupUid], pagination, sorts },
-          params,
-        }
-      );
+      const completion = new UserGroupActions.LoadOrgUnitUserGroupSuccess([
+        orgUnitUserGroup,
+      ]);
+      const completion2 = new UserGroupActions.LoadOrgUnitUserGroupsSuccess({
+        page: { ids: [orgUnitUserGroupUid], pagination, sorts },
+        params,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-(bc)', { b: completion, c: completion2 });
 
@@ -179,11 +177,11 @@ describe('OrgUnitUserGroup Effects', () => {
       orgUnitUserGroupConnector.getList = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroups({
+      const action = new UserGroupActions.LoadOrgUnitUserGroups({
         userId,
         params,
       });
-      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupsFail({
+      const completion = new UserGroupActions.LoadOrgUnitUserGroupsFail({
         error,
         params,
       });
@@ -200,11 +198,11 @@ describe('OrgUnitUserGroup Effects', () => {
 
   describe('createOrgUnitUserGroup$', () => {
     it('should return CreateOrgUnitUserGroupSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroup({
+      const action = new UserGroupActions.CreateOrgUnitUserGroup({
         userId,
         orgUnitUserGroup,
       });
-      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupSuccess(
+      const completion = new UserGroupActions.CreateOrgUnitUserGroupSuccess(
         orgUnitUserGroup
       );
       actions$ = hot('-a', { a: action });
@@ -221,16 +219,14 @@ describe('OrgUnitUserGroup Effects', () => {
       orgUnitUserGroupConnector.create = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroup({
+      const action = new UserGroupActions.CreateOrgUnitUserGroup({
         userId,
         orgUnitUserGroup,
       });
-      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupFail(
-        {
-          orgUnitUserGroupUid,
-          error,
-        }
-      );
+      const completion = new UserGroupActions.CreateOrgUnitUserGroupFail({
+        orgUnitUserGroupUid,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -244,12 +240,12 @@ describe('OrgUnitUserGroup Effects', () => {
 
   describe('updateOrgUnitUserGroup$', () => {
     it('should return UpdateOrgUnitUserGroupSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.UpdateOrgUnitUserGroup({
+      const action = new UserGroupActions.UpdateOrgUnitUserGroup({
         userId,
         orgUnitUserGroupUid,
         orgUnitUserGroup,
       });
-      const completion = new OrgUnitUserGroupActions.UpdateOrgUnitUserGroupSuccess(
+      const completion = new UserGroupActions.UpdateOrgUnitUserGroupSuccess(
         orgUnitUserGroup
       );
       actions$ = hot('-a', { a: action });
@@ -267,17 +263,15 @@ describe('OrgUnitUserGroup Effects', () => {
       orgUnitUserGroupConnector.update = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.UpdateOrgUnitUserGroup({
+      const action = new UserGroupActions.UpdateOrgUnitUserGroup({
         userId,
         orgUnitUserGroupUid,
         orgUnitUserGroup,
       });
-      const completion = new OrgUnitUserGroupActions.UpdateOrgUnitUserGroupFail(
-        {
-          orgUnitUserGroupUid,
-          error,
-        }
-      );
+      const completion = new UserGroupActions.UpdateOrgUnitUserGroupFail({
+        orgUnitUserGroupUid,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -292,11 +286,11 @@ describe('OrgUnitUserGroup Effects', () => {
 
   describe('deleteOrgUnitUserGroup$', () => {
     it('should return DeleteOrgUnitUserGroupSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroup({
+      const action = new UserGroupActions.DeleteOrgUnitUserGroup({
         userId,
         orgUnitUserGroupUid,
       });
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupSuccess(
+      const completion = new UserGroupActions.DeleteOrgUnitUserGroupSuccess(
         orgUnitUserGroup
       );
       actions$ = hot('-a', { a: action });
@@ -313,16 +307,14 @@ describe('OrgUnitUserGroup Effects', () => {
       orgUnitUserGroupConnector.delete = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroup({
+      const action = new UserGroupActions.DeleteOrgUnitUserGroup({
         userId,
         orgUnitUserGroupUid,
       });
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupFail(
-        {
-          orgUnitUserGroupUid,
-          error,
-        }
-      );
+      const completion = new UserGroupActions.DeleteOrgUnitUserGroupFail({
+        orgUnitUserGroupUid,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -338,7 +330,7 @@ describe('OrgUnitUserGroup Effects', () => {
     const params: B2BSearchConfig = { sort: 'uid' };
 
     it('should return LoadPermissionSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissions(
+      const action = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissions(
         {
           userId,
           orgUnitUserGroupUid,
@@ -348,7 +340,7 @@ describe('OrgUnitUserGroup Effects', () => {
       const completion = new PermissionActions.LoadPermissionSuccess([
         permission,
       ]);
-      const completion2 = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsSuccess(
+      const completion2 = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsSuccess(
         {
           orgUnitUserGroupUid,
           page: { ids: [permissionUid], pagination, sorts },
@@ -370,14 +362,14 @@ describe('OrgUnitUserGroup Effects', () => {
       orgUnitUserGroupConnector.getAvailableOrderApprovalPermissions = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissions(
+      const action = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissions(
         {
           userId,
           orgUnitUserGroupUid,
           params,
         }
       );
-      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsFail(
+      const completion = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrderApprovalPermissionsFail(
         {
           error,
           orgUnitUserGroupUid,
@@ -398,14 +390,12 @@ describe('OrgUnitUserGroup Effects', () => {
 
   describe('assignPermissionToOrgUnitUserGroup$', () => {
     it('should return CreateOrgUnitUserGroupOrderApprovalPermissionSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermission(
-        {
-          userId,
-          orgUnitUserGroupUid,
-          permissionUid,
-        }
-      );
-      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionSuccess(
+      const action = new UserGroupActions.AssignPermission({
+        userId,
+        orgUnitUserGroupUid,
+        permissionUid,
+      });
+      const completion = new UserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionSuccess(
         {
           permissionUid: permissionUid,
           selected: true,
@@ -426,14 +416,12 @@ describe('OrgUnitUserGroup Effects', () => {
       orgUnitUserGroupConnector.assignOrderApprovalPermission = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermission(
-        {
-          userId,
-          orgUnitUserGroupUid,
-          permissionUid,
-        }
-      );
-      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionFail(
+      const action = new UserGroupActions.AssignPermission({
+        userId,
+        orgUnitUserGroupUid,
+        permissionUid,
+      });
+      const completion = new UserGroupActions.CreateOrgUnitUserGroupOrderApprovalPermissionFail(
         {
           orgUnitUserGroupUid,
           permissionUid,
@@ -453,14 +441,12 @@ describe('OrgUnitUserGroup Effects', () => {
   });
   describe('unassignPermissionFromOrgUnitUserGroup$', () => {
     it('should return DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermission(
-        {
-          userId,
-          orgUnitUserGroupUid,
-          permissionUid,
-        }
-      );
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess(
+      const action = new UserGroupActions.UnassignPermission({
+        userId,
+        orgUnitUserGroupUid,
+        permissionUid,
+      });
+      const completion = new UserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess(
         {
           permissionUid: permissionUid,
           selected: false,
@@ -481,14 +467,12 @@ describe('OrgUnitUserGroup Effects', () => {
       orgUnitUserGroupConnector.unassignOrderApprovalPermission = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermission(
-        {
-          userId,
-          orgUnitUserGroupUid,
-          permissionUid,
-        }
-      );
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionFail(
+      const action = new UserGroupActions.UnassignPermission({
+        userId,
+        orgUnitUserGroupUid,
+        permissionUid,
+      });
+      const completion = new UserGroupActions.DeleteOrgUnitUserGroupOrderApprovalPermissionFail(
         {
           orgUnitUserGroupUid,
           permissionUid,
@@ -511,7 +495,7 @@ describe('OrgUnitUserGroup Effects', () => {
     const params: B2BSearchConfig = { sort: 'uid' };
 
     it('should return LoadOrgUnitUserGroupAvailableOrgCustomersSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomers(
+      const action = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomers(
         {
           userId,
           orgUnitUserGroupUid,
@@ -519,7 +503,7 @@ describe('OrgUnitUserGroup Effects', () => {
         }
       );
       const completion = new B2BUserActions.LoadB2BUserSuccess([customer]);
-      const completion2 = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersSuccess(
+      const completion2 = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersSuccess(
         {
           orgUnitUserGroupUid,
           page: { ids: [customerId], pagination, sorts },
@@ -541,14 +525,14 @@ describe('OrgUnitUserGroup Effects', () => {
       orgUnitUserGroupConnector.getAvailableOrgCustomers = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomers(
+      const action = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomers(
         {
           userId,
           orgUnitUserGroupUid,
           params,
         }
       );
-      const completion = new OrgUnitUserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersFail(
+      const completion = new UserGroupActions.LoadOrgUnitUserGroupAvailableOrgCustomersFail(
         {
           error,
           orgUnitUserGroupUid,
@@ -569,12 +553,12 @@ describe('OrgUnitUserGroup Effects', () => {
 
   describe('assignMemberToOrgUnitUserGroup$', () => {
     it('should return CreateOrgUnitUserGroupOrderApprovalPermissionSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMember({
+      const action = new UserGroupActions.AssignMember({
         userId,
         orgUnitUserGroupUid,
         customerId,
       });
-      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMemberSuccess(
+      const completion = new UserGroupActions.CreateOrgUnitUserGroupMemberSuccess(
         {
           customerId: customerId,
           selected: true,
@@ -595,18 +579,16 @@ describe('OrgUnitUserGroup Effects', () => {
       orgUnitUserGroupConnector.assignMember = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMember({
+      const action = new UserGroupActions.AssignMember({
         userId,
         orgUnitUserGroupUid,
         customerId,
       });
-      const completion = new OrgUnitUserGroupActions.CreateOrgUnitUserGroupMemberFail(
-        {
-          orgUnitUserGroupUid,
-          customerId,
-          error,
-        }
-      );
+      const completion = new UserGroupActions.CreateOrgUnitUserGroupMemberFail({
+        orgUnitUserGroupUid,
+        customerId,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -620,12 +602,12 @@ describe('OrgUnitUserGroup Effects', () => {
   });
   describe('unassignMemberFromOrgUnitUserGroup$', () => {
     it('should return DeleteOrgUnitUserGroupMemberSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMember({
+      const action = new UserGroupActions.UnassignMember({
         userId,
         orgUnitUserGroupUid,
         customerId,
       });
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMemberSuccess(
+      const completion = new UserGroupActions.DeleteOrgUnitUserGroupMemberSuccess(
         {
           customerId: customerId,
           selected: false,
@@ -648,18 +630,16 @@ describe('OrgUnitUserGroup Effects', () => {
       orgUnitUserGroupConnector.unassignMember = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMember({
+      const action = new UserGroupActions.UnassignMember({
         userId,
         orgUnitUserGroupUid,
         customerId,
       });
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMemberFail(
-        {
-          orgUnitUserGroupUid,
-          customerId,
-          error,
-        }
-      );
+      const completion = new UserGroupActions.DeleteOrgUnitUserGroupMemberFail({
+        orgUnitUserGroupUid,
+        customerId,
+        error,
+      });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -676,11 +656,11 @@ describe('OrgUnitUserGroup Effects', () => {
 
   describe('unassignAllMembersFromOrgUnitUserGroup$', () => {
     it('should return DeleteOrgUnitUserGroupMemberSuccess action', () => {
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMembers({
+      const action = new UserGroupActions.UnassignAllMembers({
         userId,
         orgUnitUserGroupUid,
       });
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMembersSuccess(
+      const completion = new UserGroupActions.DeleteOrgUnitUserGroupMembersSuccess(
         {
           selected: false,
         }
@@ -701,11 +681,11 @@ describe('OrgUnitUserGroup Effects', () => {
       orgUnitUserGroupConnector.unassignAllMembers = createSpy().and.returnValue(
         throwError(error)
       );
-      const action = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMembers({
+      const action = new UserGroupActions.UnassignAllMembers({
         userId,
         orgUnitUserGroupUid,
       });
-      const completion = new OrgUnitUserGroupActions.DeleteOrgUnitUserGroupMembersFail(
+      const completion = new UserGroupActions.DeleteOrgUnitUserGroupMembersFail(
         {
           orgUnitUserGroupUid,
           error,

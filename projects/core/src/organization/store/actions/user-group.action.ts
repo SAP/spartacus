@@ -288,7 +288,7 @@ export class CreateOrgUnitUserGroupSuccess extends EntitySuccessAction {
   }
 }
 
-export class CreateOrgUnitUserGroupMember extends EntityLoadAction {
+export class AssignMember extends EntityLoadAction {
   readonly type = CREATE_ORG_UNIT_USER_GROUP_MEMBER;
   constructor(
     public payload: {
@@ -321,7 +321,7 @@ export class CreateOrgUnitUserGroupMemberSuccess extends EntitySuccessAction {
   }
 }
 
-export class CreateOrgUnitUserGroupOrderApprovalPermission extends EntityLoadAction {
+export class AssignPermission extends EntityLoadAction {
   readonly type = CREATE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION;
   constructor(
     public payload: {
@@ -415,7 +415,7 @@ export class DeleteOrgUnitUserGroupSuccess extends EntitySuccessAction {
   }
 }
 
-export class DeleteOrgUnitUserGroupMember extends EntityLoadAction {
+export class UnassignMember extends EntityLoadAction {
   readonly type = DELETE_ORG_UNIT_USER_GROUP_MEMBER;
   constructor(
     public payload: {
@@ -448,7 +448,7 @@ export class DeleteOrgUnitUserGroupMemberSuccess extends EntitySuccessAction {
   }
 }
 
-export class DeleteOrgUnitUserGroupMembers extends EntityLoadAction {
+export class UnassignAllMembers extends EntityLoadAction {
   readonly type = DELETE_ORG_UNIT_USER_GROUP_MEMBERS;
   constructor(
     public payload: {
@@ -474,7 +474,7 @@ export class DeleteOrgUnitUserGroupMembersSuccess extends EntitySuccessAction {
   }
 }
 
-export class DeleteOrgUnitUserGroupOrderApprovalPermission extends EntityLoadAction {
+export class UnassignPermission extends EntityLoadAction {
   readonly type = DELETE_ORG_UNIT_USER_GROUP_ORDER_APPROVAL_PERMISSION;
   constructor(
     public payload: {
@@ -523,10 +523,10 @@ export type OrgUnitUserGroupAction =
   | CreateOrgUnitUserGroup
   | CreateOrgUnitUserGroupFail
   | CreateOrgUnitUserGroupSuccess
-  | CreateOrgUnitUserGroupMember
+  | AssignMember
   | CreateOrgUnitUserGroupMemberFail
   | CreateOrgUnitUserGroupMemberSuccess
-  | CreateOrgUnitUserGroupOrderApprovalPermission
+  | AssignPermission
   | CreateOrgUnitUserGroupOrderApprovalPermissionFail
   | CreateOrgUnitUserGroupOrderApprovalPermissionSuccess
   | UpdateOrgUnitUserGroup
@@ -535,12 +535,12 @@ export type OrgUnitUserGroupAction =
   | DeleteOrgUnitUserGroup
   | DeleteOrgUnitUserGroupFail
   | DeleteOrgUnitUserGroupSuccess
-  | DeleteOrgUnitUserGroupMember
+  | UnassignMember
   | DeleteOrgUnitUserGroupMemberFail
   | DeleteOrgUnitUserGroupMemberSuccess
-  | DeleteOrgUnitUserGroupMembers
+  | UnassignAllMembers
   | DeleteOrgUnitUserGroupMembersFail
   | DeleteOrgUnitUserGroupMembersSuccess
-  | DeleteOrgUnitUserGroupOrderApprovalPermission
+  | UnassignPermission
   | DeleteOrgUnitUserGroupOrderApprovalPermissionFail
   | DeleteOrgUnitUserGroupOrderApprovalPermissionSuccess;
