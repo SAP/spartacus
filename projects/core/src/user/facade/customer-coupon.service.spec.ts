@@ -1,18 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
-import { PROCESS_FEATURE } from '../../process/store/process-state';
-import * as fromProcessReducers from '../../process/store/reducers';
-import * as fromStoreReducers from '../store/reducers/index';
-import { UserActions } from '../store/actions/index';
-import { StateWithUser, USER_FEATURE } from '../store/user-state';
-import { CustomerCouponService } from './customer-coupon.service';
+import { AuthService } from '../../auth/facade/auth.service';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
 } from '../../model/customer-coupon.model';
-import { Observable, of } from 'rxjs';
-import { AuthService } from '../../auth/facade/auth.service';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
+import { UserActions } from '../store/actions/index';
+import * as fromStoreReducers from '../store/reducers/index';
+import { StateWithUser, USER_FEATURE } from '../store/user-state';
+import { CustomerCouponService } from './customer-coupon.service';
 
 describe('CustomerCouponService', () => {
   const coupon: CustomerCoupon = {
@@ -26,8 +25,8 @@ describe('CustomerCouponService', () => {
   };
 
   class MockAuthService {
-    getOccUserId(): Observable<string> {
-      return of(OCC_USER_ID_CURRENT);
+    invokeWithUserId(cb) {
+      cb(OCC_USER_ID_CURRENT);
     }
   }
 
