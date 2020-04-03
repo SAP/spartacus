@@ -1,6 +1,14 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CustomerCoupon, CustomerCoupon2Customer, CustomerCouponNotification, CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
+import {
+  CustomerCoupon,
+  CustomerCoupon2Customer,
+  CustomerCouponNotification,
+  CustomerCouponSearchResult,
+} from '../../../model/customer-coupon.model';
 import { CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER } from '../../../user/connectors/customer-coupon/converters';
 import { ConverterService } from '../../../util/converter.service';
 import { OccConfig } from '../../config/occ-config';
@@ -115,13 +123,17 @@ describe('OccCustomerCouponAdapter', () => {
 
     it('should return empty result for anonymous user id', () => {
       occCustomerCouponAdapter
-        .getCustomerCoupons(OCC_USER_ID_ANONYMOUS, pageSize, currentPage, sort).
-        subscribe((result) => {
-          expect(result).toEqual({})
-        })
+        .getCustomerCoupons(OCC_USER_ID_ANONYMOUS, pageSize, currentPage, sort)
+        .subscribe((result) => {
+          expect(result).toEqual({});
+        });
 
-      httpMock.expectNone(occEnpointsService.getUrl('customerCoupons', { userId: OCC_USER_ID_ANONYMOUS }))
-    })
+      httpMock.expectNone(
+        occEnpointsService.getUrl('customerCoupons', {
+          userId: OCC_USER_ID_ANONYMOUS,
+        })
+      );
+    });
   });
 
   describe('turn on notification', () => {
