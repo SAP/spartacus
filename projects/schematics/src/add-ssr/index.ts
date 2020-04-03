@@ -26,6 +26,7 @@ import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import {
   getIndexHtmlPath,
   getPathResultsForFile,
+  getTsSourceFile,
 } from '../shared/utils/file-utils';
 import {
   addImport,
@@ -33,6 +34,7 @@ import {
 } from '../shared/utils/module-file-utils';
 import { getAngularVersion } from '../shared/utils/package-utils';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
+import { isImported } from '@schematics/angular/utility/ast-utils';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -264,6 +266,44 @@ function modifyMainServerTSFile() {
   };
 }
 
+function modifyAppModuleFile(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const appModulePath = getPathResultsForFile(
+      tree,
+      'app.module.ts',
+      '/src'
+    )[0];
+
+    if (!appModulePath) {
+      throw new SchematicsException(`Project file "app.module.ts" not found.`);
+    }
+
+    const moduleSource = getTsSourceFile(tree, appModulePath);
+    if (
+      !isImported(
+        moduleSource,
+        'BrowserTransferStateModule',
+        '@angular/platform-browser'
+      )
+    ) {
+      addImport(
+        tree,
+        appModulePath,
+        'BrowserTransferStateModule',
+        '@angular/platform-browser'
+      );
+      addToModuleImportsAndCommitChanges(
+        tree,
+        appModulePath,
+        `BrowserTransferStateModule`
+      );
+      context.logger.log('info', `✅️ Modified app.module.ts file.`);
+    }
+
+    return tree;
+  };
+}
+
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const possibleProjectFiles = ['/angular.json', '/.angular.json'];
@@ -289,6 +329,7 @@ export function addSSR(options: SpartacusOptions): Rule {
         MergeStrategy.Overwrite
       ),
       modifyMainServerTSFile(),
+      modifyAppModuleFile(),
       installPackageJsonDependencies(),
     ])(tree, context);
   };
