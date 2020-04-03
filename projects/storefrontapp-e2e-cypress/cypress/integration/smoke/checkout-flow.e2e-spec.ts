@@ -39,6 +39,7 @@ context('Checkout flow', () => {
   });
 
   it('should be able to check order in order history', () => {
+    cy.wait(60000); // because of lag in orders processing on the backend
     checkout.viewOrderHistoryWithCheapProduct();
     checkout.signOut();
   });
