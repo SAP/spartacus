@@ -52,5 +52,5 @@ Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
   }
 
   cy.server();
-  addAddress().then(resp => cy.wrap(resp));
+  addAddress().then((resp) => cy.wrap(resp));
 });

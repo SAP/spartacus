@@ -123,7 +123,7 @@ export class LockFocusDirective extends TrapFocusDirective
        * into account when they persist their focus state.
        */
       if (!!this.group) {
-        this.service.findFocusable(this.host).forEach(el =>
+        this.service.findFocusable(this.host).forEach((el) =>
           // we must do this in after view init as
           this.renderer.setAttribute(el, FOCUS_GROUP_ATTR, this.group)
         );
@@ -175,7 +175,7 @@ export class LockFocusDirective extends TrapFocusDirective
     if (this.shouldLock) {
       this.isLocked = i === -1;
       if (!(this.hasFocusableChildren && i === 0) || i === 0) {
-        this.focusable.forEach(el =>
+        this.focusable.forEach((el) =>
           this.renderer.setAttribute(el, 'tabindex', i.toString())
         );
       }

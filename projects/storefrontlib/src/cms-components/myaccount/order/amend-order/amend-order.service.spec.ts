@@ -51,7 +51,7 @@ describe('OrderAmendService', () => {
     let result;
     service
       .getOrder()
-      .subscribe(f => (result = f))
+      .subscribe((f) => (result = f))
       .unsubscribe();
     expect(result).toEqual(mockOrder);
   });
@@ -60,7 +60,7 @@ describe('OrderAmendService', () => {
     let form;
     service
       .getForm()
-      .subscribe(f => (form = f))
+      .subscribe((f) => (form = f))
       .unsubscribe();
 
     expect(form.get('orderCode').value).toEqual('123');
@@ -70,7 +70,7 @@ describe('OrderAmendService', () => {
     let form;
     service
       .getForm()
-      .subscribe(f => (form = f))
+      .subscribe((f) => (form = f))
       .unsubscribe();
 
     expect(Object.keys(<FormGroup>form.get('entries').controls).length).toEqual(
@@ -106,7 +106,7 @@ describe('OrderAmendService', () => {
     let form: FormGroup;
     service
       .getForm()
-      .subscribe(f => (form = f))
+      .subscribe((f) => (form = f))
       .unsubscribe();
 
     const control = form.get('entries').get('3');

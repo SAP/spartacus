@@ -32,7 +32,7 @@ export class OccProductSearchPageNormalizer
 
     this.normalizeFacets(target);
     if (source.products) {
-      target.products = source.products.map(product =>
+      target.products = source.products.map((product) =>
         this.converterService.convert(product, PRODUCT_NORMALIZER)
       );
     }
@@ -54,13 +54,13 @@ export class OccProductSearchPageNormalizer
    * the facets.
    */
   private normalizeUselessFacets(target: ProductSearchPage): void {
-    target.facets = target.facets.filter(facet => {
+    target.facets = target.facets.filter((facet) => {
       return (
         !target.pagination ||
         !target.pagination.totalResults ||
         ((!facet.hasOwnProperty('visible') || facet.visible) &&
           facet.values &&
-          facet.values.find(value => {
+          facet.values.find((value) => {
             return (
               value.selected || value.count < target.pagination.totalResults
             );

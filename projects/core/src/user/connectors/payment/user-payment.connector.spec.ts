@@ -6,7 +6,7 @@ import createSpy = jasmine.createSpy;
 
 class MockUserPaymentAdapter implements UserPaymentAdapter {
   delete = createSpy('load').and.returnValue(of({}));
-  loadAll = createSpy('loadAll').and.callFake(userId =>
+  loadAll = createSpy('loadAll').and.callFake((userId) =>
     of(`loadList-${userId}`)
   );
   setDefault = createSpy('setDefault').and.returnValue(of({}));
@@ -33,14 +33,14 @@ describe('UserPaymentConnector', () => {
 
   it('delete should call adapter', () => {
     let result;
-    service.delete('user-id', 'payment-id').subscribe(res => (result = res));
+    service.delete('user-id', 'payment-id').subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.delete).toHaveBeenCalledWith('user-id', 'payment-id');
   });
 
   it('getAll should call adapter', () => {
     let result;
-    service.getAll('user-id').subscribe(res => (result = res));
+    service.getAll('user-id').subscribe((res) => (result = res));
     expect(result).toEqual('loadList-user-id');
     expect(adapter.loadAll).toHaveBeenCalledWith('user-id');
   });
@@ -49,7 +49,7 @@ describe('UserPaymentConnector', () => {
     let result;
     service
       .setDefault('user-id', 'payment-id')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.setDefault).toHaveBeenCalledWith('user-id', 'payment-id');
   });

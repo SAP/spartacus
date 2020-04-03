@@ -44,11 +44,11 @@ export class CheckoutEffects {
   > = this.actions$.pipe(
     ofType(CheckoutActions.ADD_DELIVERY_ADDRESS),
     map((action: CheckoutActions.AddDeliveryAddress) => action.payload),
-    mergeMap(payload =>
+    mergeMap((payload) =>
       this.checkoutDeliveryConnector
         .createAddress(payload.userId, payload.cartId, payload.address)
         .pipe(
-          mergeMap(address => {
+          mergeMap((address) => {
             address['titleCode'] = payload.address.titleCode;
             if (payload.address.region && payload.address.region.isocodeShort) {
               Object.assign(address.region, {
@@ -74,7 +74,7 @@ export class CheckoutEffects {
               ];
             }
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new CheckoutActions.AddDeliveryAddressFail(
                 makeErrorSerializable(error)
@@ -97,7 +97,7 @@ export class CheckoutEffects {
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_ADDRESS),
     map((action: any) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.checkoutDeliveryConnector
         .setAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
@@ -114,7 +114,7 @@ export class CheckoutEffects {
               cartId: payload.cartId,
             }),
           ]),
-          catchError(error =>
+          catchError((error) =>
             of(
               new CheckoutActions.SetDeliveryAddressFail(
                 makeErrorSerializable(error)
@@ -133,14 +133,14 @@ export class CheckoutEffects {
   > = this.actions$.pipe(
     ofType(CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES),
     map((action: any) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.checkoutDeliveryConnector
         .getSupportedModes(payload.userId, payload.cartId)
         .pipe(
-          map(data => {
+          map((data) => {
             return new CheckoutActions.LoadSupportedDeliveryModesSuccess(data);
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new CheckoutActions.LoadSupportedDeliveryModesFail(
                 makeErrorSerializable(error)
@@ -196,7 +196,7 @@ export class CheckoutEffects {
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.checkoutDeliveryConnector
         .setMode(payload.userId, payload.cartId, payload.selectedModeId)
         .pipe(
@@ -211,7 +211,7 @@ export class CheckoutEffects {
               }),
             ];
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new CheckoutActions.SetDeliveryModeFail(
                 makeErrorSerializable(error)
@@ -231,12 +231,12 @@ export class CheckoutEffects {
   > = this.actions$.pipe(
     ofType(CheckoutActions.CREATE_PAYMENT_DETAILS),
     map((action: any) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       // get information for creating a subscription directly with payment provider
       return this.checkoutPaymentConnector
         .create(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
-          mergeMap(details => {
+          mergeMap((details) => {
             if (payload.userId === OCC_USER_ID_ANONYMOUS) {
               return [new CheckoutActions.CreatePaymentDetailsSuccess(details)];
             } else {
@@ -246,7 +246,7 @@ export class CheckoutEffects {
               ];
             }
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new CheckoutActions.CreatePaymentDetailsFail(
                 makeErrorSerializable(error)
@@ -265,7 +265,7 @@ export class CheckoutEffects {
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_PAYMENT_DETAILS),
     map((action: any) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.checkoutPaymentConnector
         .set(payload.userId, payload.cartId, payload.paymentDetails.id)
         .pipe(
@@ -275,7 +275,7 @@ export class CheckoutEffects {
                 payload.paymentDetails
               )
           ),
-          catchError(error =>
+          catchError((error) =>
             of(
               new CheckoutActions.SetPaymentDetailsFail(
                 makeErrorSerializable(error)
@@ -296,15 +296,15 @@ export class CheckoutEffects {
   > = this.actions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
     map((action: any) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.checkoutConnector
         .placeOrder(payload.userId, payload.cartId)
         .pipe(
-          switchMap(data => [
+          switchMap((data) => [
             new CartActions.RemoveCart(payload.cartId),
             new CheckoutActions.PlaceOrderSuccess(data),
           ]),
-          catchError(error =>
+          catchError((error) =>
             of(new CheckoutActions.PlaceOrderFail(makeErrorSerializable(error)))
           )
         );
@@ -319,7 +319,7 @@ export class CheckoutEffects {
   > = this.actions$.pipe(
     ofType(CheckoutActions.LOAD_CHECKOUT_DETAILS),
     map((action: CheckoutActions.LoadCheckoutDetails) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.checkoutConnector
         .loadCheckoutDetails(payload.userId, payload.cartId)
         .pipe(
@@ -327,7 +327,7 @@ export class CheckoutEffects {
             (data: CheckoutDetails) =>
               new CheckoutActions.LoadCheckoutDetailsSuccess(data)
           ),
-          catchError(error =>
+          catchError((error) =>
             of(
               new CheckoutActions.LoadCheckoutDetailsFail(
                 makeErrorSerializable(error)
@@ -345,7 +345,7 @@ export class CheckoutEffects {
   > = this.actions$.pipe(
     ofType(DeprecatedCartActions.MERGE_CART_SUCCESS),
     map((action: DeprecatedCartActions.MergeCartSuccess) => action.payload),
-    map(payload => {
+    map((payload) => {
       return new CheckoutActions.LoadCheckoutDetails({
         userId: payload.userId,
         cartId: payload.cartId ? payload.cartId : OCC_CART_ID_CURRENT,
@@ -362,13 +362,13 @@ export class CheckoutEffects {
     map(
       (action: CheckoutActions.ClearCheckoutDeliveryAddress) => action.payload
     ),
-    filter(payload => Boolean(payload.cartId)),
-    switchMap(payload => {
+    filter((payload) => Boolean(payload.cartId)),
+    switchMap((payload) => {
       return this.checkoutConnector
         .clearCheckoutDeliveryAddress(payload.userId, payload.cartId)
         .pipe(
           map(() => new CheckoutActions.ClearCheckoutDeliveryAddressSuccess()),
-          catchError(error =>
+          catchError((error) =>
             of(
               new CheckoutActions.ClearCheckoutDeliveryAddressFail(
                 makeErrorSerializable(error)
@@ -389,8 +389,8 @@ export class CheckoutEffects {
   > = this.actions$.pipe(
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
     map((action: CheckoutActions.ClearCheckoutDeliveryMode) => action.payload),
-    filter(payload => Boolean(payload.cartId)),
-    concatMap(payload => {
+    filter((payload) => Boolean(payload.cartId)),
+    concatMap((payload) => {
       return this.checkoutConnector
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(
@@ -401,7 +401,7 @@ export class CheckoutEffects {
                 cartId: payload.cartId,
               })
           ),
-          catchError(error =>
+          catchError((error) =>
             from([
               new CheckoutActions.ClearCheckoutDeliveryModeFail(
                 makeErrorSerializable(error)

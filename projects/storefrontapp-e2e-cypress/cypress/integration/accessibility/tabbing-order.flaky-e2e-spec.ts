@@ -82,7 +82,7 @@ import {
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   context('Header - Desktop (not logged in)', () => {
@@ -375,7 +375,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
 
     it('should allow to navigate with tab key (with orders)', () => {
-      cy.window().then(win => win.sessionStorage.clear());
+      cy.window().then((win) => win.sessionStorage.clear());
       cy.requireLoggedIn();
       orderHistoryWithOrdersTabbingOrder();
     });

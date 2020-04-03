@@ -13,7 +13,7 @@ import {
 context('Anonymous consents - config flow', () => {
   describe('when config legalDescription is false and showAnonymousConsents is false', () => {
     before(() => {
-      cy.window().then(win => {
+      cy.window().then((win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
@@ -38,7 +38,7 @@ context('Anonymous consents - config flow', () => {
 
   describe('when config registerConsig is changed, requiredConsents and hideConsents exist, ', () => {
     before(() => {
-      cy.window().then(win => {
+      cy.window().then((win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });

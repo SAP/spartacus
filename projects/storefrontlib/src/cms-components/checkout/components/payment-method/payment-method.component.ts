@@ -86,16 +86,18 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.getPaymentDetailsSub = this.checkoutPaymentService
       .getPaymentDetails()
       .pipe(
-        filter(paymentInfo => paymentInfo && !!Object.keys(paymentInfo).length)
+        filter(
+          (paymentInfo) => paymentInfo && !!Object.keys(paymentInfo).length
+        )
       )
-      .subscribe(paymentInfo => {
+      .subscribe((paymentInfo) => {
         if (this.allowRouting) {
           this.routingService.go(this.checkoutStepUrlNext);
         }
         if (!paymentInfo['hasError']) {
           this.selectedPayment = paymentInfo;
         } else {
-          Object.keys(paymentInfo).forEach(key => {
+          Object.keys(paymentInfo).forEach((key) => {
             if (key.startsWith('InvalidField')) {
               this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
             }

@@ -33,7 +33,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
 
     this.user$ = this.userService.get();
     this.titles$ = this.userService.getTitles().pipe(
-      tap(titles => {
+      tap((titles) => {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
@@ -44,7 +44,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.userService
         .getUpdatePersonalDetailsResultSuccess()
-        .subscribe(success => this.onSuccess(success))
+        .subscribe((success) => this.onSuccess(success))
     );
   }
 

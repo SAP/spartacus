@@ -46,7 +46,7 @@ describe('CheckoutPageMetaResolver', () => {
 
     service
       .resolveTitle()
-      .subscribe(meta => {
+      .subscribe((meta) => {
         result = meta;
       })
       .unsubscribe();
@@ -59,7 +59,7 @@ describe('CheckoutPageMetaResolver', () => {
 
     service
       .resolveRobots()
-      .subscribe(meta => {
+      .subscribe((meta) => {
         result = meta;
       })
       .unsubscribe();

@@ -102,7 +102,7 @@ describe('CheckoutDeliveryService', () => {
     let deliveryModes: DeliveryMode[];
     service
       .getSupportedDeliveryModes()
-      .subscribe(data => {
+      .subscribe((data) => {
         deliveryModes = data;
       })
       .unsubscribe();
@@ -115,7 +115,7 @@ describe('CheckoutDeliveryService', () => {
     let deliveryModes: DeliveryMode[];
     service
       .getSupportedDeliveryModes()
-      .subscribe(data => {
+      .subscribe((data) => {
         deliveryModes = data;
       })
       .unsubscribe();
@@ -134,7 +134,7 @@ describe('CheckoutDeliveryService', () => {
     store.dispatch(new CheckoutActions.SetDeliveryModeSuccess('mode1'));
 
     let selectedMode: DeliveryMode;
-    service.getSelectedDeliveryMode().subscribe(data => {
+    service.getSelectedDeliveryMode().subscribe((data) => {
       selectedMode = data;
     });
     expect(selectedMode).toEqual({ code: 'mode1' });
@@ -150,7 +150,7 @@ describe('CheckoutDeliveryService', () => {
     store.dispatch(new CheckoutActions.SetDeliveryModeSuccess('mode1'));
 
     let selectedModeCode: string;
-    service.getSelectedDeliveryModeCode().subscribe(data => {
+    service.getSelectedDeliveryModeCode().subscribe((data) => {
       selectedModeCode = data;
     });
     expect(selectedModeCode).toEqual('mode1');
@@ -162,7 +162,7 @@ describe('CheckoutDeliveryService', () => {
     let deliveryAddress: Address;
     service
       .getDeliveryAddress()
-      .subscribe(data => {
+      .subscribe((data) => {
         deliveryAddress = data;
       })
       .unsubscribe();
@@ -173,7 +173,7 @@ describe('CheckoutDeliveryService', () => {
     let loaderState: LoaderState<any>;
     service
       .getSetDeliveryAddressProcess()
-      .subscribe(data => {
+      .subscribe((data) => {
         loaderState = data;
       })
       .unsubscribe();
@@ -191,7 +191,7 @@ describe('CheckoutDeliveryService', () => {
     let loaderState: LoaderState<any>;
     service
       .getSetDeliveryAddressProcess()
-      .subscribe(data => {
+      .subscribe((data) => {
         loaderState = data;
       })
       .unsubscribe();
@@ -215,7 +215,7 @@ describe('CheckoutDeliveryService', () => {
     let loaderState: LoaderState<any>;
     service
       .getSetDeliveryModeProcess()
-      .subscribe(data => {
+      .subscribe((data) => {
         loaderState = data;
       })
       .unsubscribe();
@@ -234,7 +234,7 @@ describe('CheckoutDeliveryService', () => {
     let loaderState: LoaderState<any>;
     service
       .getSetDeliveryModeProcess()
-      .subscribe(data => {
+      .subscribe((data) => {
         loaderState = data;
       })
       .unsubscribe();
@@ -266,7 +266,7 @@ describe('CheckoutDeliveryService', () => {
     let loaderState: LoaderState<any>;
     service
       .getLoadSupportedDeliveryModeProcess()
-      .subscribe(data => {
+      .subscribe((data) => {
         loaderState = data;
       })
       .unsubscribe();
@@ -284,7 +284,7 @@ describe('CheckoutDeliveryService', () => {
     let loaderState: LoaderState<any>;
     service
       .getLoadSupportedDeliveryModeProcess()
-      .subscribe(data => {
+      .subscribe((data) => {
         loaderState = data;
       })
       .unsubscribe();
@@ -312,7 +312,7 @@ describe('CheckoutDeliveryService', () => {
     let result: AddressValidation | string;
     service
       .getAddressVerificationResults()
-      .subscribe(data => {
+      .subscribe((data) => {
         result = data;
       })
       .unsubscribe();

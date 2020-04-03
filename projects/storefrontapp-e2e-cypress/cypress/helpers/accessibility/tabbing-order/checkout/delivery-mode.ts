@@ -5,7 +5,7 @@ import { TabElement } from '../../tabbing-order.model';
 const containerSelector = '.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
-  cy.window().then(win => {
+  cy.window().then((win) => {
     const { auth } = JSON.parse(
       win.localStorage.getItem('spartacus-local-data')
     );

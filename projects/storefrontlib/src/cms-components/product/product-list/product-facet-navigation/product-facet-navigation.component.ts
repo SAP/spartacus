@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { DialogMode, FacetList } from './facet.model';
 @Component({
   selector: 'cx-product-facet-navigation',
   templateUrl: './product-facet-navigation.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductFacetNavigationComponent {
   facetList: FacetList;
@@ -46,7 +46,9 @@ export class ProductFacetNavigationComponent {
     this.facetList = facetList;
   }
 
-  /** Indicates whether the dialog is used inline.   */
+  /**
+   * Indicates whether the dialog is used inline.
+   */
   isInline(dialogMode): boolean {
     return dialogMode === DialogMode.INLINE;
   }

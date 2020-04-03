@@ -60,7 +60,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
       });
@@ -81,7 +81,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
       });
@@ -102,7 +102,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
       });
@@ -113,7 +113,7 @@ describe('DeferLoaderService', () => {
           .load(el, {
             deferLoading: DeferLoadingStrategy.DEFER,
           })
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -135,7 +135,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
       });
@@ -144,7 +144,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el, { deferLoading: DeferLoadingStrategy.DEFER })
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(false);
       });
@@ -165,7 +165,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
       });
@@ -174,7 +174,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el, { deferLoading: DeferLoadingStrategy.DEFER })
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(false);
       });
@@ -194,7 +194,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toBeFalsy();
       });
@@ -203,7 +203,7 @@ describe('DeferLoaderService', () => {
         let result: boolean;
         service
           .load(el, { deferLoading: DeferLoadingStrategy.INSTANT })
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
       });
