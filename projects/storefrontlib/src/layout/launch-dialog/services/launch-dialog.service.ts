@@ -1,4 +1,7 @@
 import { Inject, Injectable, ViewContainerRef } from '@angular/core';
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+import { BreakpointService } from '../../breakpoint/breakpoint.service';
 import {
   LaunchConfig,
   LaunchOptions,
@@ -14,7 +17,8 @@ export class LaunchDialogService {
   constructor(
     @Inject(LaunchRenderStrategy)
     protected renderStrategies: LaunchRenderStrategy[],
-    protected launchConfig: LaunchConfig
+    protected launchConfig: LaunchConfig,
+    protected breakpointService: BreakpointService
   ) {
     this.renderStrategies = this.renderStrategies || [];
   }
@@ -26,13 +30,14 @@ export class LaunchDialogService {
    * @param vcr View Container Ref of the container for inline rendering
    */
   launch(caller: LAUNCH_CALLER, vcr?: ViewContainerRef): void {
-    const config = this.findConfiguration(caller);
-    const renderer = this.getStrategy(config);
+    this.findConfiguration(caller).subscribe((config) => {
+      const renderer = this.getStrategy(config);
 
-    // Render if the strategy exists
-    if (renderer) {
-      renderer.render(config, caller, vcr);
-    }
+      // Render if the strategy exists
+      if (renderer) {
+        renderer.render(config, caller, vcr);
+      }
+    });
   }
 
   /**
@@ -41,13 +46,14 @@ export class LaunchDialogService {
    * @param caller LAUNCH_CALLER
    */
   clear(caller: LAUNCH_CALLER): void {
-    const config = this.findConfiguration(caller);
-    const renderer = this.getStrategy(config);
+    this.findConfiguration(caller).subscribe((config) => {
+      const renderer = this.getStrategy(config);
 
-    // Render if the strategy exists
-    if (renderer) {
-      renderer.remove(caller, config);
-    }
+      // Render if the strategy exists
+      if (renderer) {
+        renderer.remove(caller, config);
+      }
+    });
   }
 
   /**
@@ -55,8 +61,17 @@ export class LaunchDialogService {
    *
    * @param caller LAUNCH_CALLER
    */
-  protected findConfiguration(caller: LAUNCH_CALLER): LaunchOptions {
-    return this.launchConfig?.launch[caller];
+  protected findConfiguration(
+    caller: LAUNCH_CALLER
+  ): Observable<LaunchOptions> {
+    return this.breakpointService.breakpoint$.pipe(
+      distinctUntilChanged(),
+      map((breakpoint) =>
+        this.launchConfig?.launch[caller][breakpoint]
+          ? this.launchConfig?.launch[caller][breakpoint]
+          : this.launchConfig?.launch[caller].default
+      )
+    );
   }
 
   /**

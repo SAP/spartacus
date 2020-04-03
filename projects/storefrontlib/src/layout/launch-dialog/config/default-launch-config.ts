@@ -5,12 +5,16 @@ import { LaunchConfig } from './launch-config';
 export const DEFAULT_LAUNCH_CONFIG: LaunchConfig = {
   launch: {
     ASM: {
-      outlet: 'cx-storefront',
-      component: AsmMainUiComponent,
+      default: {
+        outlet: 'cx-storefront',
+        component: AsmMainUiComponent,
+      },
     },
     SKIP_LINKS: {
-      outlet: 'cx-storefront',
-      component: SkipLinkComponent,
+      default: {
+        outlet: 'cx-storefront',
+        component: SkipLinkComponent,
+      },
     },
   },
 };

@@ -1,8 +1,15 @@
 import { OutletPosition } from '../../../cms-structure/outlet/outlet.model';
+import { BREAKPOINT } from '../../config/layout-config';
 
 export abstract class LaunchConfig {
   launch?: {
-    [key: string]: LaunchOptions;
+    [key: string]: {
+      default: LaunchOptions;
+      [BREAKPOINT.lg]?: LaunchOptions;
+      [BREAKPOINT.xs]?: LaunchOptions;
+      [BREAKPOINT.sm]?: LaunchOptions;
+      [BREAKPOINT.md]?: LaunchOptions;
+    };
   };
 }
 

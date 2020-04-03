@@ -13,13 +13,17 @@ class TestContainerComponent {}
 const mockLaunchConfig: LaunchConfig = {
   launch: {
     TEST_OUTLET: {
-      outlet: 'cx-outlet-test',
-      position: OutletPosition.AFTER,
-      component: TestContainerComponent,
+      default: {
+        outlet: 'cx-outlet-test',
+        position: OutletPosition.AFTER,
+        component: TestContainerComponent,
+      },
     },
     TEST_OUTLET_NP: {
-      outlet: 'cx-outlet-test',
-      component: TestContainerComponent,
+      default: {
+        outlet: 'cx-outlet-test',
+        component: TestContainerComponent,
+      },
     },
   },
 };
@@ -77,9 +81,8 @@ describe('OutletRenderStrategy', () => {
       });
 
       it('should add template to outlet', () => {
-        const config = mockLaunchConfig.launch[
-          'TEST_OUTLET'
-        ] as LaunchOutletDialog;
+        const config = mockLaunchConfig.launch['TEST_OUTLET']
+          .default as LaunchOutletDialog;
         service.render(config, 'TEST_OUTLET' as LAUNCH_CALLER);
 
         expect(outletService.add).toHaveBeenCalledWith(
@@ -94,9 +97,8 @@ describe('OutletRenderStrategy', () => {
       });
 
       it('should default to position BEFORE if one is not provided', () => {
-        const config = mockLaunchConfig.launch[
-          'TEST_OUTLET_NP'
-        ] as LaunchOutletDialog;
+        const config = mockLaunchConfig.launch['TEST_OUTLET_NP']
+          .default as LaunchOutletDialog;
         service.render(config, 'TEST_OUTLET_NP' as LAUNCH_CALLER);
 
         expect(outletService.add).toHaveBeenCalledWith(

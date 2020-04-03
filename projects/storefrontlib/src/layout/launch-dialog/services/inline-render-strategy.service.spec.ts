@@ -20,12 +20,16 @@ class TestContainerComponent {
 const mockLaunchConfig: LaunchConfig = {
   launch: {
     TEST_INLINE: {
-      inline: true,
-      component: TestContainerComponent,
+      default: {
+        inline: true,
+        component: TestContainerComponent,
+      },
     },
     TEST_OUTLET: {
-      outlet: 'cx-outlet-test',
-      component: TestContainerComponent,
+      default: {
+        outlet: 'cx-outlet-test',
+        component: TestContainerComponent,
+      },
     },
   },
 };
@@ -65,9 +69,8 @@ describe('InlineRenderStrategy', () => {
 
   describe('render', () => {
     it('should create component in the container ref', () => {
-      const config = mockLaunchConfig.launch[
-        'TEST_INLINE'
-      ] as LaunchInlineDialog;
+      const config = mockLaunchConfig.launch['TEST_INLINE']
+        .default as LaunchInlineDialog;
       service.render(config, 'TEST_INLINE' as LAUNCH_CALLER, component.vcr);
 
       expect(component.vcr.createComponent).toHaveBeenCalledWith(testTemplate);
@@ -76,16 +79,14 @@ describe('InlineRenderStrategy', () => {
 
   describe('match', () => {
     it('should return TRUE for an inline config', () => {
-      const config = mockLaunchConfig.launch[
-        'TEST_INLINE'
-      ] as LaunchInlineDialog;
+      const config = mockLaunchConfig.launch['TEST_INLINE']
+        .default as LaunchInlineDialog;
       expect(service.match(config)).toBeTruthy();
     });
 
     it('should return FALSE for a different config', () => {
-      const config = mockLaunchConfig.launch[
-        'TEST_OUTLET'
-      ] as LaunchInlineDialog;
+      const config = mockLaunchConfig.launch['TEST_OUTLET']
+        .default as LaunchInlineDialog;
       expect(service.match(config)).toBeFalsy();
     });
   });

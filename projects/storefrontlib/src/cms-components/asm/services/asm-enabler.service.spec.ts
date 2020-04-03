@@ -48,8 +48,10 @@ class MockLaunchDialogService {
 const mockLaunchConfig: LaunchConfig = {
   launch: {
     ASM: {
-      outlet: 'cx-outlet-test',
-      component: {},
+      default: {
+        outlet: 'cx-outlet-test',
+        component: {},
+      },
     },
   },
 };
