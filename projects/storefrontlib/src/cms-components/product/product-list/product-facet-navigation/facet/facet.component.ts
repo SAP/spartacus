@@ -4,7 +4,7 @@ import {
   ElementRef,
   HostBinding,
   Input,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { Facet, FacetValue } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -16,7 +16,7 @@ import { FacetService } from '../services/facet.service';
 @Component({
   selector: 'cx-facet',
   templateUrl: './facet.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FacetComponent {
   protected _facet: Facet;
@@ -35,7 +35,7 @@ export class FacetComponent {
   set facet(value: Facet) {
     this._facet = value;
     this.isMultiSelect = !!value.multiSelect;
-    this.state$ = this.facetService.getState$(value);
+    this.state$ = this.facetService.getState(value);
   }
 
   get facet(): Facet {

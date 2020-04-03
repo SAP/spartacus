@@ -3,7 +3,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output,
+  Output
 } from '@angular/core';
 import { Facet } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -15,7 +15,7 @@ import { FacetService } from '../services/facet.service';
 @Component({
   selector: 'cx-facet-dialog',
   templateUrl: './facet-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FacetDialogComponent {
   /**
@@ -60,8 +60,6 @@ export class FacetDialogComponent {
   }
 
   isExpanded(facet: Facet): Observable<boolean> {
-    return this.facetService
-      .getState$(facet)
-      .pipe(map(value => value.expanded));
+    return this.facetService.getState(facet).pipe(map(value => value.expanded));
   }
 }
