@@ -1,4 +1,5 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
+import { waitForOrderToBePlacedRequest } from '../../../../support/utils/order-placed';
 
 describe('Language switch - my-account pages', () => {
   before(() => {
@@ -20,6 +21,7 @@ describe('Language switch - my-account pages', () => {
 
     before(() => {
       siteContextSelector.doPlaceOrder();
+      waitForOrderToBePlacedRequest();
     });
 
     it('should change language in the url', () => {
