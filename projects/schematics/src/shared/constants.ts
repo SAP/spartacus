@@ -14,6 +14,7 @@ export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
+export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
 
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
