@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { B2BSearchConfig } from '../../model/search-config';
-import { OrgUnitUserGroupAdapter } from './user-group.adapter';
+import { UserGroupAdapter } from './user-group.adapter';
 import {
   Permission,
   B2BUser,
-  OrgUnitUserGroup,
+  UserGroup,
   EntitiesModel,
 } from '../../../model/index';
 
@@ -13,119 +13,95 @@ import {
   providedIn: 'root',
 })
 export class UserGroupConnector {
-  constructor(protected adapter: OrgUnitUserGroupAdapter) {}
+  constructor(protected adapter: UserGroupAdapter) {}
 
-  get(
-    userId: string,
-    orgUnitUserGroupUid: string
-  ): Observable<OrgUnitUserGroup> {
-    return this.adapter.load(userId, orgUnitUserGroupUid);
+  get(userId: string, userGroupId: string): Observable<UserGroup> {
+    return this.adapter.load(userId, userGroupId);
   }
 
   getList(
     userId: string,
     params?: B2BSearchConfig
-  ): Observable<EntitiesModel<OrgUnitUserGroup>> {
+  ): Observable<EntitiesModel<UserGroup>> {
     return this.adapter.loadList(userId, params);
   }
 
   getAvailableOrderApprovalPermissions(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     params?: B2BSearchConfig
   ): Observable<EntitiesModel<Permission>> {
     return this.adapter.loadAvailableOrderApprovalPermissions(
       userId,
-      orgUnitUserGroupUid,
+      userGroupId,
       params
     );
   }
 
   getAvailableOrgCustomers(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     params?: B2BSearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
-    return this.adapter.loadAvailableOrgCustomers(
-      userId,
-      orgUnitUserGroupUid,
-      params
-    );
+    return this.adapter.loadAvailableOrgCustomers(userId, userGroupId, params);
   }
 
-  create(
-    userId: string,
-    orgUnitUserGroup: OrgUnitUserGroup
-  ): Observable<OrgUnitUserGroup> {
-    return this.adapter.create(userId, orgUnitUserGroup);
+  create(userId: string, userGroup: UserGroup): Observable<UserGroup> {
+    return this.adapter.create(userId, userGroup);
   }
 
-  delete(
-    userId: string,
-    orgUnitUserGroupUid: string
-  ): Observable<OrgUnitUserGroup> {
-    return this.adapter.delete(userId, orgUnitUserGroupUid);
+  delete(userId: string, userGroupId: string): Observable<UserGroup> {
+    return this.adapter.delete(userId, userGroupId);
   }
 
   update(
     userId: string,
-    orgUnitUserGroupUid: string,
-    orgUnitUserGroup: OrgUnitUserGroup
-  ): Observable<OrgUnitUserGroup> {
-    return this.adapter.update(userId, orgUnitUserGroupUid, orgUnitUserGroup);
+    userGroupId: string,
+    userGroup: UserGroup
+  ): Observable<UserGroup> {
+    return this.adapter.update(userId, userGroupId, userGroup);
   }
 
   assignMember(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     orgCustomerId: string
   ): Observable<any> {
-    return this.adapter.assignMember(
-      userId,
-      orgUnitUserGroupUid,
-      orgCustomerId
-    );
+    return this.adapter.assignMember(userId, userGroupId, orgCustomerId);
   }
 
   assignOrderApprovalPermission(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     orderApprovalPermissionCode: string
   ): Observable<any> {
     return this.adapter.assignOrderApprovalPermission(
       userId,
-      orgUnitUserGroupUid,
+      userGroupId,
       orderApprovalPermissionCode
     );
   }
 
   unassignMember(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     orgCustomerId: string
   ): Observable<any> {
-    return this.adapter.unassignMember(
-      userId,
-      orgUnitUserGroupUid,
-      orgCustomerId
-    );
+    return this.adapter.unassignMember(userId, userGroupId, orgCustomerId);
   }
 
-  unassignAllMembers(
-    userId: string,
-    orgUnitUserGroupUid: string
-  ): Observable<any> {
-    return this.adapter.unassignAllMembers(userId, orgUnitUserGroupUid);
+  unassignAllMembers(userId: string, userGroupId: string): Observable<any> {
+    return this.adapter.unassignAllMembers(userId, userGroupId);
   }
 
   unassignOrderApprovalPermission(
     userId: string,
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     orderApprovalPermissionCode: string
   ): Observable<any> {
     return this.adapter.unassignOrderApprovalPermission(
       userId,
-      orgUnitUserGroupUid,
+      userGroupId,
       orderApprovalPermissionCode
     );
   }

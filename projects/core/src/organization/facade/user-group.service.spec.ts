@@ -18,28 +18,28 @@ import {
   AuthService,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
-  OrgUnitUserGroup,
+  UserGroup,
   UserGroupService,
   Permission,
 } from '@spartacus/core';
 import { B2BUser } from '../../model';
 
 const userId = 'current';
-const orgUnitUserGroupUid = 'testOrgUnitUserGroup';
-const orgUnitUserGroup = {
-  uid: orgUnitUserGroupUid,
+const testUserGroupId = 'testOrgUnitUserGroup';
+const userGroup = {
+  uid: testUserGroupId,
   name: 'The Test Group',
   orgUnit: { uid: 'Rustic' },
 };
-const orgUnitUserGroup2 = {
+const userGroup2 = {
   uid: 'testOrgUnitUserGroup2',
   name: 'The Test Group',
   orgUnit: { uid: 'Rustic' },
 };
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'byName' }];
-const orgUnitUserGroupList: EntitiesModel<OrgUnitUserGroup> = {
-  values: [orgUnitUserGroup, orgUnitUserGroup2],
+const userGroupList: EntitiesModel<UserGroup> = {
+  values: [userGroup, userGroup2],
   pagination,
   sorts,
 };
@@ -106,147 +106,141 @@ describe('UserGroupService', () => {
 
   it('should UserGroupService is injected', inject(
     [UserGroupService],
-    (orgUnitUserGroupService: UserGroupService) => {
-      expect(orgUnitUserGroupService).toBeTruthy();
+    (userGroupService: UserGroupService) => {
+      expect(userGroupService).toBeTruthy();
     }
   ));
 
-  describe('get orgUnitUserGroup', () => {
-    it('get() should trigger load orgUnitUserGroup details when they are not present in the store', () => {
-      let orgUnitUserGroupDetails: OrgUnitUserGroup;
+  describe('get userGroup', () => {
+    it('get() should trigger load userGroup details when they are not present in the store', () => {
+      let userGroupDetails: UserGroup;
       service
-        .get(orgUnitUserGroupUid)
+        .get(testUserGroupId)
         .subscribe(data => {
-          orgUnitUserGroupDetails = data;
+          userGroupDetails = data;
         })
         .unsubscribe();
 
       expect(authService.getOccUserId).toHaveBeenCalled();
-      expect(orgUnitUserGroupDetails).toEqual(undefined);
+      expect(userGroupDetails).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroup({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId: testUserGroupId,
         })
       );
     });
 
-    it('get() should be able to get orgUnitUserGroup details when they are present in the store', () => {
+    it('get() should be able to get userGroup details when they are present in the store', () => {
       store.dispatch(
-        new UserGroupActions.LoadUserGroupSuccess([
-          orgUnitUserGroup,
-          orgUnitUserGroup2,
-        ])
+        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
       );
-      let orgUnitUserGroupDetails: OrgUnitUserGroup;
+      let userGroupDetails: UserGroup;
       service
-        .get(orgUnitUserGroupUid)
+        .get(testUserGroupId)
         .subscribe(data => {
-          orgUnitUserGroupDetails = data;
+          userGroupDetails = data;
         })
         .unsubscribe();
 
       expect(authService.getOccUserId).not.toHaveBeenCalled();
-      expect(orgUnitUserGroupDetails).toEqual(orgUnitUserGroup);
+      expect(userGroupDetails).toEqual(userGroup);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroup({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId: testUserGroupId,
         })
       );
     });
   });
 
-  describe('get orgUnitUserGroups', () => {
+  describe('get userGroups', () => {
     const params: B2BSearchConfig = { sort: 'byName' };
 
-    it('getList() should trigger load orgUnitUserGroups when they are not present in the store', () => {
-      let orgUnitUserGroups: EntitiesModel<OrgUnitUserGroup>;
+    it('getList() should trigger load userGroups when they are not present in the store', () => {
+      let userGroups: EntitiesModel<UserGroup>;
       service
         .getList(params)
         .subscribe(data => {
-          orgUnitUserGroups = data;
+          userGroups = data;
         })
         .unsubscribe();
 
       expect(authService.getOccUserId).toHaveBeenCalled();
-      expect(orgUnitUserGroups).toEqual(undefined);
+      expect(userGroups).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroups({ userId, params })
       );
     });
 
-    it('getList() should be able to get orgUnitUserGroups when they are present in the store', () => {
+    it('getList() should be able to get userGroups when they are present in the store', () => {
       store.dispatch(
-        new UserGroupActions.LoadUserGroupSuccess([
-          orgUnitUserGroup,
-          orgUnitUserGroup2,
-        ])
+        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
       );
       store.dispatch(
         new UserGroupActions.LoadUserGroupsSuccess({
           params,
           page: {
-            ids: [orgUnitUserGroup.uid, orgUnitUserGroup2.uid],
+            ids: [userGroup.uid, userGroup2.uid],
             pagination,
             sorts,
           },
         })
       );
-      let orgUnitUserGroups: EntitiesModel<OrgUnitUserGroup>;
+      let userGroups: EntitiesModel<UserGroup>;
       service
         .getList(params)
         .subscribe(data => {
-          orgUnitUserGroups = data;
+          userGroups = data;
         })
         .unsubscribe();
 
       expect(authService.getOccUserId).not.toHaveBeenCalled();
-      expect(orgUnitUserGroups).toEqual(orgUnitUserGroupList);
+      expect(userGroups).toEqual(userGroupList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new UserGroupActions.LoadUserGroups({ userId, params })
       );
     });
   });
 
-  describe('create orgUnitUserGroup', () => {
+  describe('create userGroup', () => {
     it('create() should should dispatch CreateOrgUnitUserGroup action', () => {
-      service.create(orgUnitUserGroup);
+      service.create(userGroup);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.CreateUserGroup({
           userId,
-          orgUnitUserGroup,
+          userGroup,
         })
       );
     });
   });
 
-  describe('update orgUnitUserGroup', () => {
+  describe('update userGroup', () => {
     it('update() should should dispatch UpdateOrgUnitUserGroup action', () => {
-      service.update(orgUnitUserGroupUid, orgUnitUserGroup);
+      service.update(testUserGroupId, userGroup);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UpdateUserGroup({
           userId,
-          orgUnitUserGroupUid,
-          orgUnitUserGroup,
+          userGroupId: testUserGroupId,
+          userGroup,
         })
       );
     });
   });
 
-  describe('delete orgUnitUserGroup', () => {
+  describe('delete userGroup', () => {
     it('delete() should should dispatch UpdateOrgUnitUserGroup action', () => {
-      service.delete(orgUnitUserGroupUid);
+      service.delete(testUserGroupId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.DeleteUserGroup({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId: testUserGroupId,
         })
       );
     });
@@ -258,7 +252,7 @@ describe('UserGroupService', () => {
     it('getOrgUnitUserGroupAvailableOrderApprovalPermissions() should trigger load permissions when they are not present in the store', () => {
       let permissions: EntitiesModel<Permission>;
       service
-        .getAvailableOrderApprovalPermissions(orgUnitUserGroupUid, params)
+        .getAvailableOrderApprovalPermissions(testUserGroupId, params)
         .subscribe(data => {
           permissions = data;
         })
@@ -269,7 +263,7 @@ describe('UserGroupService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadPermissions({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId: testUserGroupId,
           params,
         })
       );
@@ -281,7 +275,7 @@ describe('UserGroupService', () => {
       );
       store.dispatch(
         new UserGroupActions.LoadPermissionsSuccess({
-          orgUnitUserGroupUid,
+          userGroupId: testUserGroupId,
           params,
           page: {
             ids: [permission.code, permission2.code],
@@ -292,7 +286,7 @@ describe('UserGroupService', () => {
       );
       let permissions: EntitiesModel<Permission>;
       service
-        .getAvailableOrderApprovalPermissions(orgUnitUserGroupUid, params)
+        .getAvailableOrderApprovalPermissions(testUserGroupId, params)
         .subscribe(data => {
           permissions = data;
         })
@@ -306,30 +300,30 @@ describe('UserGroupService', () => {
     });
   });
 
-  describe('assign permission to orgUnitUserGroup', () => {
+  describe('assign permission to userGroup', () => {
     it('assignPermission() should should dispatch CreateOrgUnitUserGroupOrderApprovalPermission action', () => {
-      service.assignPermission(orgUnitUserGroupUid, permissionUid);
+      service.assignPermission(testUserGroupId, permissionUid);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.AssignPermission({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId: testUserGroupId,
           permissionUid,
         })
       );
     });
   });
 
-  describe('unassign permission from orgUnitUserGroup', () => {
+  describe('unassign permission from userGroup', () => {
     it('unassignPermission() should should dispatch DeleteOrgUnitUserGroupOrderApprovalPermission action', () => {
-      service.unassignPermission(orgUnitUserGroupUid, permissionUid);
+      service.unassignPermission(testUserGroupId, permissionUid);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UnassignPermission({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId: testUserGroupId,
           permissionUid,
         })
       );
@@ -342,7 +336,7 @@ describe('UserGroupService', () => {
     it('getOrgUnitUserGroupAvailableOrgCustomers() should trigger load members when they are not present in the store', () => {
       let members: EntitiesModel<B2BUser>;
       service
-        .getAvailableOrgCustomers(orgUnitUserGroupUid, params)
+        .getAvailableOrgCustomers(testUserGroupId, params)
         .subscribe(data => {
           members = data;
         })
@@ -353,7 +347,7 @@ describe('UserGroupService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.LoadAvailableOrgCustomers({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId: testUserGroupId,
           params,
         })
       );
@@ -363,7 +357,7 @@ describe('UserGroupService', () => {
       store.dispatch(new B2BUserActions.LoadB2BUserSuccess([member, member2]));
       store.dispatch(
         new UserGroupActions.LoadAvailableOrgCustomersSuccess({
-          orgUnitUserGroupUid,
+          userGroupId: testUserGroupId,
           params,
           page: {
             ids: [member.uid, member2.uid],
@@ -374,7 +368,7 @@ describe('UserGroupService', () => {
       );
       let members: EntitiesModel<B2BUser>;
       service
-        .getAvailableOrgCustomers(orgUnitUserGroupUid, params)
+        .getAvailableOrgCustomers(testUserGroupId, params)
         .subscribe(data => {
           members = data;
         })
@@ -388,45 +382,45 @@ describe('UserGroupService', () => {
     });
   });
 
-  describe('assign members to orgUnitUserGroup', () => {
+  describe('assign members to userGroup', () => {
     it('assignMember() should should dispatch CreateOrgUnitUserGroupMember action', () => {
-      service.assignMember(orgUnitUserGroupUid, customerId);
+      service.assignMember(testUserGroupId, customerId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.AssignMember({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId: testUserGroupId,
           customerId,
         })
       );
     });
   });
 
-  describe('unassign members from orgUnitUserGroup', () => {
+  describe('unassign members from userGroup', () => {
     it('unassignMember() should should dispatch DeleteOrgUnitUserGroupMember action', () => {
-      service.unassignMember(orgUnitUserGroupUid, customerId);
+      service.unassignMember(testUserGroupId, customerId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UnassignMember({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId: testUserGroupId,
           customerId,
         })
       );
     });
   });
 
-  describe('unassign all members from orgUnitUserGroup', () => {
+  describe('unassign all members from userGroup', () => {
     it('unassignMember() should should dispatch DeleteOrgUnitUserGroupMember action', () => {
-      service.unassignAllMembers(orgUnitUserGroupUid);
+      service.unassignAllMembers(testUserGroupId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserGroupActions.UnassignAllMembers({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId: testUserGroupId,
         })
       );
     });

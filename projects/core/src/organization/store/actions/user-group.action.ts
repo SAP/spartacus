@@ -14,7 +14,7 @@ import {
   PERMISSION_ENTITIES,
 } from '../organization-state';
 import { ListModel } from '../../../model/misc.model';
-import { OrgUnitUserGroup } from '../../../model/user-group.model';
+import { UserGroup } from '../../../model/user-group.model';
 
 export const LOAD_USER_GROUP = '[UserGroup] Load UserGroup Data';
 export const LOAD_USER_GROUP_FAIL = '[UserGroup] Load UserGroup Data Fail';
@@ -81,24 +81,24 @@ export const USER_GROUP_UNASSIGN_PERMISSION_SUCCESS =
 
 export class LoadUserGroup extends EntityLoadAction {
   readonly type = LOAD_USER_GROUP;
-  constructor(public payload: { userId: string; orgUnitUserGroupUid: string }) {
-    super(USER_GROUP_ENTITIES, payload.orgUnitUserGroupUid);
+  constructor(public payload: { userId: string; userGroupId: string }) {
+    super(USER_GROUP_ENTITIES, payload.userGroupId);
   }
 }
 
 export class LoadUserGroupFail extends EntityFailAction {
   readonly type = LOAD_USER_GROUP_FAIL;
-  constructor(public payload: { orgUnitUserGroupUid: string; error: any }) {
-    super(USER_GROUP_ENTITIES, payload.orgUnitUserGroupUid, payload.error);
+  constructor(public payload: { userGroupId: string; error: any }) {
+    super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
 }
 
 export class LoadUserGroupSuccess extends EntitySuccessAction {
   readonly type = LOAD_USER_GROUP_SUCCESS;
-  constructor(public payload: OrgUnitUserGroup[]) {
+  constructor(public payload: UserGroup[]) {
     super(
       USER_GROUP_ENTITIES,
-      payload.map(orgUnitUserGroup => orgUnitUserGroup.uid)
+      payload.map(userGroup => userGroup.uid)
     );
   }
 }
@@ -143,13 +143,13 @@ export class LoadPermissions extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       params: B2BSearchConfig;
     }
   ) {
     super(
       USER_GROUP_PERMISSIONS,
-      serializeB2BSearchConfig(payload.params, payload.orgUnitUserGroupUid)
+      serializeB2BSearchConfig(payload.params, payload.userGroupId)
     );
   }
 }
@@ -158,14 +158,14 @@ export class LoadPermissionsFail extends EntityFailAction {
   readonly type = LOAD_USER_GROUP_PERMISSIONS_FAIL;
   constructor(
     public payload: {
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       params: B2BSearchConfig;
       error: any;
     }
   ) {
     super(
       USER_GROUP_PERMISSIONS,
-      serializeB2BSearchConfig(payload.params, payload.orgUnitUserGroupUid),
+      serializeB2BSearchConfig(payload.params, payload.userGroupId),
       payload.error
     );
   }
@@ -175,14 +175,14 @@ export class LoadPermissionsSuccess extends EntitySuccessAction {
   readonly type = LOAD_USER_GROUP_PERMISSIONS_SUCCESS;
   constructor(
     public payload: {
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       page: ListModel;
       params: B2BSearchConfig;
     }
   ) {
     super(
       USER_GROUP_PERMISSIONS,
-      serializeB2BSearchConfig(payload.params, payload.orgUnitUserGroupUid)
+      serializeB2BSearchConfig(payload.params, payload.userGroupId)
     );
   }
 }
@@ -192,13 +192,13 @@ export class LoadAvailableOrgCustomers extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       params: B2BSearchConfig;
     }
   ) {
     super(
       USER_GROUP_AVAILABLE_CUSTOMERS,
-      serializeB2BSearchConfig(payload.params, payload.orgUnitUserGroupUid)
+      serializeB2BSearchConfig(payload.params, payload.userGroupId)
     );
   }
 }
@@ -207,14 +207,14 @@ export class LoadAvailableOrgCustomersFail extends EntityFailAction {
   readonly type = LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_FAIL;
   constructor(
     public payload: {
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       params: B2BSearchConfig;
       error: any;
     }
   ) {
     super(
       USER_GROUP_AVAILABLE_CUSTOMERS,
-      serializeB2BSearchConfig(payload.params, payload.orgUnitUserGroupUid),
+      serializeB2BSearchConfig(payload.params, payload.userGroupId),
       payload.error
     );
   }
@@ -224,37 +224,35 @@ export class LoadAvailableOrgCustomersSuccess extends EntitySuccessAction {
   readonly type = LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_SUCCESS;
   constructor(
     public payload: {
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       page: ListModel;
       params: B2BSearchConfig;
     }
   ) {
     super(
       USER_GROUP_AVAILABLE_CUSTOMERS,
-      serializeB2BSearchConfig(payload.params, payload.orgUnitUserGroupUid)
+      serializeB2BSearchConfig(payload.params, payload.userGroupId)
     );
   }
 }
 
 export class CreateUserGroup extends EntityLoadAction {
   readonly type = CREATE_USER_GROUP;
-  constructor(
-    public payload: { userId: string; orgUnitUserGroup: OrgUnitUserGroup }
-  ) {
-    super(USER_GROUP_ENTITIES, payload.orgUnitUserGroup.uid);
+  constructor(public payload: { userId: string; userGroup: UserGroup }) {
+    super(USER_GROUP_ENTITIES, payload.userGroup.uid);
   }
 }
 
 export class CreateUserGroupFail extends EntityFailAction {
   readonly type = CREATE_USER_GROUP_FAIL;
-  constructor(public payload: { orgUnitUserGroupUid: string; error: any }) {
-    super(USER_GROUP_ENTITIES, payload.orgUnitUserGroupUid, payload.error);
+  constructor(public payload: { userGroupId: string; error: any }) {
+    super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
 }
 
 export class CreateUserGroupSuccess extends EntitySuccessAction {
   readonly type = CREATE_USER_GROUP_SUCCESS;
-  constructor(public payload: OrgUnitUserGroup) {
+  constructor(public payload: UserGroup) {
     super(USER_GROUP_ENTITIES, payload.uid, payload);
   }
 }
@@ -264,7 +262,7 @@ export class AssignMember extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       customerId: string;
     }
   ) {
@@ -276,7 +274,7 @@ export class AssignMemberFail extends EntityFailAction {
   readonly type = USER_GROUP_ASSIGN_MEMBER_FAIL;
   constructor(
     public payload: {
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       customerId: string;
       error: any;
     }
@@ -297,7 +295,7 @@ export class AssignPermission extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       permissionUid: string;
     }
   ) {
@@ -309,7 +307,7 @@ export class AssignPermissionFail extends EntityFailAction {
   readonly type = USER_GROUP_ASSIGN_PERMISSION_FAIL;
   constructor(
     public payload: {
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       permissionUid: string;
       error: any;
     }
@@ -330,24 +328,24 @@ export class UpdateUserGroup extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      orgUnitUserGroupUid: string;
-      orgUnitUserGroup: OrgUnitUserGroup;
+      userGroupId: string;
+      userGroup: UserGroup;
     }
   ) {
-    super(USER_GROUP_ENTITIES, payload.orgUnitUserGroup.uid);
+    super(USER_GROUP_ENTITIES, payload.userGroup.uid);
   }
 }
 
 export class UpdateUserGroupFail extends EntityFailAction {
   readonly type = UPDATE_USER_GROUP_FAIL;
-  constructor(public payload: { orgUnitUserGroupUid: string; error: any }) {
-    super(USER_GROUP_ENTITIES, payload.orgUnitUserGroupUid, payload.error);
+  constructor(public payload: { userGroupId: string; error: any }) {
+    super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
 }
 
 export class UpdateUserGroupSuccess extends EntitySuccessAction {
   readonly type = UPDATE_USER_GROUP_SUCCESS;
-  constructor(public payload: OrgUnitUserGroup) {
+  constructor(public payload: UserGroup) {
     super(USER_GROUP_ENTITIES, payload.uid, payload);
   }
 }
@@ -357,23 +355,23 @@ export class DeleteUserGroup extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
     }
   ) {
-    super(USER_GROUP_ENTITIES, payload.orgUnitUserGroupUid);
+    super(USER_GROUP_ENTITIES, payload.userGroupId);
   }
 }
 
 export class DeleteUserGroupFail extends EntityFailAction {
   readonly type = DELETE_USER_GROUP_FAIL;
-  constructor(public payload: { orgUnitUserGroupUid: string; error: any }) {
-    super(USER_GROUP_ENTITIES, payload.orgUnitUserGroupUid, payload.error);
+  constructor(public payload: { userGroupId: string; error: any }) {
+    super(USER_GROUP_ENTITIES, payload.userGroupId, payload.error);
   }
 }
 
 export class DeleteUserGroupSuccess extends EntitySuccessAction {
   readonly type = DELETE_USER_GROUP_SUCCESS;
-  constructor(public payload: OrgUnitUserGroup) {
+  constructor(public payload: UserGroup) {
     super(USER_GROUP_ENTITIES, payload.uid, payload);
   }
 }
@@ -383,7 +381,7 @@ export class UnassignMember extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       customerId: string;
     }
   ) {
@@ -395,7 +393,7 @@ export class UnassignMemberFail extends EntityFailAction {
   readonly type = USER_GROUP_UNASSIGN_MEMBER_FAIL;
   constructor(
     public payload: {
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       customerId: string;
       error: any;
     }
@@ -416,23 +414,23 @@ export class UnassignAllMembers extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
     }
   ) {
-    super(B2B_USER_ENTITIES, payload.orgUnitUserGroupUid);
+    super(B2B_USER_ENTITIES, payload.userGroupId);
   }
 }
 
 export class UnassignAllMembersFail extends EntityFailAction {
   readonly type = USER_GROUP_UNASSIGN_ALL_MEMBERS_FAIL;
-  constructor(public payload: { orgUnitUserGroupUid: string; error: any }) {
-    super(B2B_USER_ENTITIES, payload.orgUnitUserGroupUid, payload.error);
+  constructor(public payload: { userGroupId: string; error: any }) {
+    super(B2B_USER_ENTITIES, payload.userGroupId, payload.error);
   }
 }
 
 export class UnassignAllMembersSuccess extends EntitySuccessAction {
   readonly type = USER_GROUP_UNASSIGN_ALL_MEMBERS_SUCCESS;
-  constructor(public payload: OrgUnitUserGroup) {
+  constructor(public payload: UserGroup) {
     super(B2B_USER_ENTITIES, payload.uid, payload);
   }
 }
@@ -442,7 +440,7 @@ export class UnassignPermission extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       permissionUid: string;
     }
   ) {
@@ -454,7 +452,7 @@ export class UnassignPermissionFail extends EntityFailAction {
   readonly type = USER_GROUP_UNASSIGN_PERMISSION_FAIL;
   constructor(
     public payload: {
-      orgUnitUserGroupUid: string;
+      userGroupId: string;
       permissionUid: string;
       error: any;
     }

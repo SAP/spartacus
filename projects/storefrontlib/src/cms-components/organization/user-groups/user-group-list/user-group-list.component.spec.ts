@@ -20,7 +20,7 @@ import {
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
-  OrgUnitUserGroup,
+  UserGroup,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -36,7 +36,7 @@ const defaultParams: B2BSearchConfig = {
   pageSize: 5,
 };
 
-const mockUserGroupList: EntitiesModel<OrgUnitUserGroup> = {
+const mockUserGroupList: EntitiesModel<UserGroup> = {
   values: [
     {
       uid: '1',
@@ -164,7 +164,7 @@ describe('UserGroupListComponent', () => {
   });
 
   it('should display No userGroups found page if no userGroups are found', () => {
-    const emptyUserGroupList: EntitiesModel<OrgUnitUserGroup> = {
+    const emptyUserGroupList: EntitiesModel<UserGroup> = {
       values: [],
       pagination: {
         currentPage: 0,

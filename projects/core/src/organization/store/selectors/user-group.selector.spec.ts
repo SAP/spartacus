@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { OrgUnitUserGroup } from '../../../model/index';
+import { UserGroup } from '../../../model/index';
 import { UserGroupActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
@@ -19,11 +19,11 @@ describe('OrgUnitUserGroup Selectors', () => {
   let store: Store<StateWithOrganization>;
 
   const uid = 'testUid';
-  const orgUnitUserGroup: OrgUnitUserGroup = {
+  const userGroup: UserGroup = {
     uid,
     name: 'testOrgUnitUserGroup',
   };
-  const orgUnitUserGroup2: OrgUnitUserGroup = {
+  const userGroup2: UserGroup = {
     uid: 'testUid2',
     name: 'testOrgUnitUserGroup2',
   };
@@ -33,13 +33,13 @@ describe('OrgUnitUserGroup Selectors', () => {
       loading: false,
       error: false,
       success: true,
-      value: orgUnitUserGroup,
+      value: userGroup,
     },
     testUid2: {
       loading: false,
       error: false,
       success: true,
-      value: orgUnitUserGroup2,
+      value: userGroup2,
     },
   };
 
@@ -66,10 +66,7 @@ describe('OrgUnitUserGroup Selectors', () => {
         .subscribe(value => (result = value));
 
       store.dispatch(
-        new UserGroupActions.LoadUserGroupSuccess([
-          orgUnitUserGroup,
-          orgUnitUserGroup2,
-        ])
+        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
       );
       expect(result).toEqual({
         entities: { entities },
@@ -82,33 +79,27 @@ describe('OrgUnitUserGroup Selectors', () => {
 
   describe('getUserGroups', () => {
     it('should return UserGroups', () => {
-      let result: EntityLoaderState<OrgUnitUserGroup>;
+      let result: EntityLoaderState<UserGroup>;
       store
         .pipe(select(UserGroupSelectors.getUserGroupsState))
         .subscribe(value => (result = value));
 
       store.dispatch(
-        new UserGroupActions.LoadUserGroupSuccess([
-          orgUnitUserGroup,
-          orgUnitUserGroup2,
-        ])
+        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
       );
       expect(result).toEqual({ entities });
     });
   });
 
   describe('getUserGroup', () => {
-    it('should return orgUnitUserGroup by id', () => {
-      let result: LoaderState<OrgUnitUserGroup>;
+    it('should return userGroup by id', () => {
+      let result: LoaderState<UserGroup>;
       store
         .pipe(select(UserGroupSelectors.getUserGroupState(uid)))
         .subscribe(value => (result = value));
 
       store.dispatch(
-        new UserGroupActions.LoadUserGroupSuccess([
-          orgUnitUserGroup,
-          orgUnitUserGroup2,
-        ])
+        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
       );
       expect(result).toEqual(entities.testUid);
     });

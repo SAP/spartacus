@@ -7,7 +7,7 @@ import { BudgetAdapter } from '../../../organization/connectors/budget/budget.ad
 import { PermissionAdapter } from '../../../organization/connectors/permission/permission.adapter';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
 import { CostCenterAdapter } from '../../../organization/connectors/cost-center/cost-center.adapter';
-import { OrgUnitUserGroupAdapter } from '../../../organization/connectors/user-group/user-group.adapter';
+import { UserGroupAdapter } from '../../../organization/connectors/user-group/user-group.adapter';
 
 import {
   BUDGET_NORMALIZER,
@@ -38,7 +38,7 @@ import { OccBudgetAdapter } from './occ-budget.adapter';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 import { OccPermissionAdapter } from './occ-permission.adapter';
 import { OccCostCenterAdapter } from './occ-cost-center.adapter';
-import { OccOrgUnitUserGroupAdapter } from './occ-user-group.adapter';
+import { OccUserGroupAdapter } from './occ-user-group.adapter';
 import {
   OccBudgetNormalizer,
   OccBudgetListNormalizer,
@@ -48,8 +48,8 @@ import {
   OccPermissionListNormalizer,
   OccCostCenterListNormalizer,
   OccCostCenterNormalizer,
-  OccOrgUnitUserGroupNormalizer,
-  OccOrgUnitUserGroupListNormalizer,
+  OccUserGroupNormalizer,
+  OccUserGroupListNormalizer,
   OccOrgUnitNormalizer,
   OccOrgUnitApprovalProcessNormalizer,
   OccB2BUserNormalizer,
@@ -106,17 +106,17 @@ import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
       multi: true,
     },
     {
-      provide: OrgUnitUserGroupAdapter,
-      useClass: OccOrgUnitUserGroupAdapter,
+      provide: UserGroupAdapter,
+      useClass: OccUserGroupAdapter,
     },
     {
       provide: USER_GROUP_NORMALIZER,
-      useClass: OccOrgUnitUserGroupNormalizer,
+      useClass: OccUserGroupNormalizer,
       multi: true,
     },
     {
       provide: USER_GROUPS_NORMALIZER,
-      useClass: OccOrgUnitUserGroupListNormalizer,
+      useClass: OccUserGroupListNormalizer,
       multi: true,
     },
     {

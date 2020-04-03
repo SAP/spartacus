@@ -11,7 +11,7 @@ import {
   OrgUnitService,
   B2BUnitNode,
   LanguageService,
-  OrgUnitUserGroup,
+  UserGroup,
 } from '@spartacus/core';
 
 import { UserGroupCreateComponent } from './user-group-create.component';
@@ -22,7 +22,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 const uid = 'b1';
 
-const mockUserGroup: OrgUnitUserGroup = {
+const mockUserGroup: UserGroup = {
   uid,
   name: 'group1',
   orgUnit: { name: 'orgName' },

@@ -4,7 +4,7 @@ import {
   ListModel,
   B2BUnitNode,
   Permission,
-  OrgUnitUserGroup,
+  UserGroup,
   B2BUnit,
   B2BApprovalProcess,
   B2BUser,
@@ -47,13 +47,13 @@ export const B2B_USER_APPROVERS = 'b2bUser-approvers';
 export const B2B_USER_PERMISSIONS = 'b2bUser-permissions';
 export const B2B_USER_USER_GROUPS = 'b2bUser-user-groups';
 
-export const USER_GROUP_FEATURE = 'orgUnitUserGroup';
-export const USER_GROUP_ENTITIES = 'orgUnitUserGroup-entities';
-export const USER_GROUP_LIST = 'orgUnitUserGroup-list';
+export const USER_GROUP_FEATURE = 'userGroup';
+export const USER_GROUP_ENTITIES = 'userGroup-entities';
+export const USER_GROUP_LIST = 'userGroup-list';
 export const USER_GROUP_PERMISSIONS =
-  'orgUnitUserGroup-available-order-approval-permissions';
+  'userGroup-available-order-approval-permissions';
 export const USER_GROUP_AVAILABLE_CUSTOMERS =
-  'orgUnitUserGroup-available-org-customers';
+  'userGroup-available-org-customers';
 export const ADDRESS_ENTITIES = 'addresses-entities';
 export const ADDRESS_LIST = 'addresses-list';
 
@@ -74,7 +74,7 @@ export interface OrgUnits {
   addressEntities: EntityLoaderState<B2BAddress>;
 }
 
-export interface UserGroupManagement extends Management<OrgUnitUserGroup> {
+export interface UserGroupManagement extends Management<UserGroup> {
   permissions: EntityLoaderState<ListModel>;
   customers: EntityLoaderState<ListModel>;
 }

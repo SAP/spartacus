@@ -5,7 +5,7 @@ import { EntitiesModel } from '../../../model/misc.model';
 import { B2BUser } from '../../../model/org-unit.model';
 import { B2BUserAdapter } from './b2b-user.adapter';
 import { Permission } from '../../../model/permission.model';
-import { OrgUnitUserGroup } from '../../../model/user-group.model';
+import { UserGroup } from '../../../model/user-group.model';
 
 @Injectable({
   providedIn: 'root',
@@ -88,7 +88,7 @@ export class B2BUserConnector {
     userId: string,
     orgUnitCustomerId: string,
     params?: B2BSearchConfig
-  ): Observable<EntitiesModel<OrgUnitUserGroup>> {
+  ): Observable<EntitiesModel<UserGroup>> {
     return this.adapter.loadUserGroups(userId, orgUnitCustomerId, params);
   }
 

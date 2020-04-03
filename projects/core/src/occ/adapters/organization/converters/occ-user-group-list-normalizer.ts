@@ -4,25 +4,24 @@ import {
   Converter,
   ConverterService,
 } from '../../../../util/converter.service';
-import { OrgUnitUserGroup } from '../../../../model/user-group.model';
+import { UserGroup } from '../../../../model/user-group.model';
 import { EntitiesModel } from '../../../../model/misc.model';
 import { USER_GROUP_NORMALIZER } from '../../../../organization';
 
 @Injectable()
-export class OccOrgUnitUserGroupListNormalizer
-  implements
-    Converter<Occ.OrgUnitUserGroupList, EntitiesModel<OrgUnitUserGroup>> {
+export class OccUserGroupListNormalizer
+  implements Converter<Occ.OrgUnitUserGroupList, EntitiesModel<UserGroup>> {
   constructor(private converter: ConverterService) {}
 
   convert(
     source: Occ.OrgUnitUserGroupList,
-    target?: EntitiesModel<OrgUnitUserGroup>
-  ): EntitiesModel<OrgUnitUserGroup> {
+    target?: EntitiesModel<UserGroup>
+  ): EntitiesModel<UserGroup> {
     if (target === undefined) {
       target = {
         ...(source as any),
-        values: source.orgUnitUserGroups.map(orgUnitUserGroup => ({
-          ...this.converter.convert(orgUnitUserGroup, USER_GROUP_NORMALIZER),
+        values: source.orgUnitUserGroups.map(userGroup => ({
+          ...this.converter.convert(userGroup, USER_GROUP_NORMALIZER),
         })),
       };
     }

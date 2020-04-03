@@ -10,7 +10,7 @@ import {
   UserGroupService,
   OrgUnitService,
   B2BUnitNode,
-  OrgUnitUserGroup,
+  UserGroup,
 } from '@spartacus/core';
 
 import { UserGroupFormComponent } from './user-group-form.component';
@@ -20,7 +20,7 @@ import { By } from '@angular/platform-browser';
 
 const uid = 'b1';
 
-const mockUserGroup: OrgUnitUserGroup = {
+const mockUserGroup: UserGroup = {
   uid,
   name: 'group1',
   orgUnit: { name: 'orgName', uid: 'unitNode1' },

@@ -9,7 +9,7 @@ import {
   RoutesConfig,
   RoutingConfig,
   UserGroupService,
-  OrgUnitUserGroup,
+  UserGroup,
 } from '@spartacus/core';
 
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
@@ -19,7 +19,7 @@ import createSpy = jasmine.createSpy;
 
 const uid = 'b1';
 
-const mockUserGroup: OrgUnitUserGroup = {
+const mockUserGroup: UserGroup = {
   uid,
   name: 'group1',
   orgUnit: { name: 'orgName' },
@@ -70,7 +70,7 @@ class MockRoutingConfig {
 describe('UserGroupDetailsComponent', () => {
   let component: UserGroupDetailsComponent;
   let fixture: ComponentFixture<UserGroupDetailsComponent>;
-  let orgUnitUserGroupService: MockUserGroupService;
+  let userGroupService: MockUserGroupService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -87,9 +87,7 @@ describe('UserGroupDetailsComponent', () => {
       ],
     }).compileComponents();
 
-    orgUnitUserGroupService = TestBed.get(
-      UserGroupService as Type<UserGroupService>
-    );
+    userGroupService = TestBed.get(UserGroupService as Type<UserGroupService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
@@ -113,8 +111,8 @@ describe('UserGroupDetailsComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(orgUnitUserGroupService.loadUserGroup).toHaveBeenCalledWith(uid);
-      expect(orgUnitUserGroupService.get).toHaveBeenCalledWith(uid);
+      expect(userGroupService.loadUserGroup).toHaveBeenCalledWith(uid);
+      expect(userGroupService.get).toHaveBeenCalledWith(uid);
       expect(budget).toEqual(mockUserGroupUI);
     });
   });

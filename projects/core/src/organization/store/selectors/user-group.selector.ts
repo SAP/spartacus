@@ -13,12 +13,7 @@ import {
   denormalizeB2BSearch,
   denormalizeCustomB2BSearch,
 } from '../../utils/serializer';
-import {
-  OrgUnitUserGroup,
-  EntitiesModel,
-  Permission,
-  B2BUser,
-} from '../../../model';
+import { UserGroup, EntitiesModel, Permission, B2BUser } from '../../../model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { getPermissionsState } from './permission.selector';
 import { getB2BUsersState } from './b2b-user.selector';
@@ -33,29 +28,27 @@ export const getUserGroupManagementState: MemoizedSelector<
 
 export const getUserGroupsState: MemoizedSelector<
   StateWithOrganization,
-  EntityLoaderState<OrgUnitUserGroup>
+  EntityLoaderState<UserGroup>
 > = createSelector(
   getUserGroupManagementState,
   (state: UserGroupManagement) => state && state.entities
 );
 
 export const getUserGroupState = (
-  orgUnitUserGroupUid: string
-): MemoizedSelector<StateWithOrganization, LoaderState<OrgUnitUserGroup>> =>
-  createSelector(
-    getUserGroupsState,
-    (state: EntityLoaderState<OrgUnitUserGroup>) =>
-      entityStateSelector(state, orgUnitUserGroupUid)
+  userGroupId: string
+): MemoizedSelector<StateWithOrganization, LoaderState<UserGroup>> =>
+  createSelector(getUserGroupsState, (state: EntityLoaderState<UserGroup>) =>
+    entityStateSelector(state, userGroupId)
   );
 
 export const getUserGroupList = (
   params: B2BSearchConfig
 ): MemoizedSelector<
   StateWithOrganization,
-  LoaderState<EntitiesModel<OrgUnitUserGroup>>
+  LoaderState<EntitiesModel<UserGroup>>
 > =>
   createSelector(getUserGroupManagementState, (state: UserGroupManagement) =>
-    denormalizeB2BSearch<OrgUnitUserGroup>(state, params)
+    denormalizeB2BSearch<UserGroup>(state, params)
   );
 
 export const getAvailableOrgCustomers = (

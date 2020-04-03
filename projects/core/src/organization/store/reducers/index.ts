@@ -8,7 +8,7 @@ import {
   CostCenter,
   B2BUnit,
   B2BApprovalProcess,
-  OrgUnitUserGroup,
+  UserGroup,
   B2BUser,
   B2BAddress,
 } from '../../../model';
@@ -62,9 +62,9 @@ import {
   b2bUserUserGroupListReducer,
 } from './b2b-user.reducer';
 import {
-  orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer,
-  orgUnitUserGroupAvailablOrgCustomersListReducer,
-  orgUnitUserGroupsListReducer,
+  userGroupAvailableOrderApprovalPermissionsListReducer,
+  userGroupAvailablOrgCustomersListReducer,
+  userGroupsListReducer,
 } from './user-group.reducer';
 import {
   orgUnitUserListReducer,
@@ -110,18 +110,18 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       addressEntities: entityLoaderReducer<B2BAddress>(ADDRESS_ENTITIES),
     }),
     [USER_GROUP_FEATURE]: combineReducers({
-      entities: entityLoaderReducer<OrgUnitUserGroup>(USER_GROUP_ENTITIES),
+      entities: entityLoaderReducer<UserGroup>(USER_GROUP_ENTITIES),
       list: entityLoaderReducer<ListModel>(
         USER_GROUP_LIST,
-        orgUnitUserGroupsListReducer
+        userGroupsListReducer
       ),
       permissions: entityLoaderReducer<ListModel>(
         USER_GROUP_PERMISSIONS,
-        orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer
+        userGroupAvailableOrderApprovalPermissionsListReducer
       ),
       customers: entityLoaderReducer<ListModel>(
         USER_GROUP_AVAILABLE_CUSTOMERS,
-        orgUnitUserGroupAvailablOrgCustomersListReducer
+        userGroupAvailablOrgCustomersListReducer
       ),
     }),
     [COST_CENTER_FEATURE]: combineReducers({

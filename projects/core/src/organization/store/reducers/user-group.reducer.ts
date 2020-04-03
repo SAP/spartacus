@@ -1,21 +1,21 @@
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
 import * as OrgUnitUserGroupActions from '../actions/user-group.action';
-import { OrgUnitUserGroup } from '../../../model/user-group.model';
+import { UserGroup } from '../../../model/user-group.model';
 
-export const orgUnitUserGroupInitialState = {};
-export const orgUnitUserGroupsInitialState = undefined;
+export const userGroupInitialState = {};
+export const userGroupsInitialState = undefined;
 
-export function orgUnitUserGroupEntitiesReducer(
-  state: OrgUnitUserGroup = orgUnitUserGroupInitialState,
+export function userGroupEntitiesReducer(
+  state: UserGroup = userGroupInitialState,
   action: LoaderAction
-): OrgUnitUserGroup {
+): UserGroup {
   switch (action.type) {
   }
   return state;
 }
 
-export function orgUnitUserGroupsListReducer(
-  state = orgUnitUserGroupsInitialState,
+export function userGroupsListReducer(
+  state = userGroupsInitialState,
   action: LoaderAction
 ): any {
   switch (action.type) {
@@ -25,8 +25,8 @@ export function orgUnitUserGroupsListReducer(
   return state;
 }
 
-export function orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer(
-  state = orgUnitUserGroupsInitialState,
+export function userGroupAvailableOrderApprovalPermissionsListReducer(
+  state = userGroupsInitialState,
   action: LoaderAction
 ): any {
   switch (action.type) {
@@ -36,8 +36,8 @@ export function orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer(
   return state;
 }
 
-export function orgUnitUserGroupAvailablOrgCustomersListReducer(
-  state = orgUnitUserGroupsInitialState,
+export function userGroupAvailablOrgCustomersListReducer(
+  state = userGroupsInitialState,
   action: LoaderAction
 ): any {
   switch (action.type) {

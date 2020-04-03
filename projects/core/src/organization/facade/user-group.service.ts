@@ -9,7 +9,7 @@ import { EntitiesModel } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
 import { UserGroupActions } from '../store/actions/index';
 import { B2BSearchConfig } from '../model/search-config';
-import { OrgUnitUserGroup } from '../../model/user-group.model';
+import { UserGroup } from '../../model/user-group.model';
 import { Permission } from '../../model/permission.model';
 import {
   getUserGroupState,
@@ -26,12 +26,12 @@ export class UserGroupService {
     protected authService: AuthService
   ) {}
 
-  loadUserGroup(orgUnitUserGroupUid: string) {
+  loadUserGroup(userGroupId: string) {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserGroupActions.LoadUserGroup({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
         })
       )
     );
@@ -46,36 +46,34 @@ export class UserGroupService {
   }
 
   private getUserGroupState(
-    orgUnitUserGroupUid: string
-  ): Observable<LoaderState<OrgUnitUserGroup>> {
-    return this.store.select(getUserGroupState(orgUnitUserGroupUid));
+    userGroupId: string
+  ): Observable<LoaderState<UserGroup>> {
+    return this.store.select(getUserGroupState(userGroupId));
   }
 
   private getUserGroupList(
     params
-  ): Observable<LoaderState<EntitiesModel<OrgUnitUserGroup>>> {
+  ): Observable<LoaderState<EntitiesModel<UserGroup>>> {
     return this.store.select(getUserGroupList(params));
   }
 
   private getAvailableOrgCustomersList(
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     params
   ): Observable<LoaderState<EntitiesModel<B2BUser>>> {
-    return this.store.select(
-      getAvailableOrgCustomers(orgUnitUserGroupUid, params)
-    );
+    return this.store.select(getAvailableOrgCustomers(userGroupId, params));
   }
 
   private getAvailableOrderApprovalPermissionsList(
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     params
   ): Observable<LoaderState<EntitiesModel<Permission>>> {
     return this.store.select(
-      getAvailableOrderApprovalPermissions(orgUnitUserGroupUid, params)
+      getAvailableOrderApprovalPermissions(userGroupId, params)
     );
   }
 
-  get(userGroupUid: string): Observable<OrgUnitUserGroup> {
+  get(userGroupUid: string): Observable<UserGroup> {
     return this.getUserGroupState(userGroupUid).pipe(
       observeOn(queueScheduler),
       tap(state => {
@@ -88,67 +86,62 @@ export class UserGroupService {
     );
   }
 
-  getList(
-    params: B2BSearchConfig
-  ): Observable<EntitiesModel<OrgUnitUserGroup>> {
+  getList(params: B2BSearchConfig): Observable<EntitiesModel<UserGroup>> {
     return this.getUserGroupList(params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<OrgUnitUserGroup>>) => {
+      tap((process: LoaderState<EntitiesModel<UserGroup>>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadUserGroups(params);
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<OrgUnitUserGroup>>) =>
+        (process: LoaderState<EntitiesModel<UserGroup>>) =>
           process.success || process.error
       ),
       map(result => result.value)
     );
   }
 
-  create(orgUnitUserGroup: OrgUnitUserGroup) {
+  create(userGroup: UserGroup) {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserGroupActions.CreateUserGroup({
           userId,
-          orgUnitUserGroup,
+          userGroup,
         })
       )
     );
   }
 
-  update(orgUnitUserGroupUid: string, orgUnitUserGroup: OrgUnitUserGroup) {
+  update(userGroupId: string, userGroup: UserGroup) {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserGroupActions.UpdateUserGroup({
           userId,
-          orgUnitUserGroupUid,
-          orgUnitUserGroup,
+          userGroupId,
+          userGroup,
         })
       )
     );
   }
 
-  delete(orgUnitUserGroupUid: string) {
+  delete(userGroupId: string) {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserGroupActions.DeleteUserGroup({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
         })
       )
     );
   }
 
-  loadAvailableOrgCustomers(
-    orgUnitUserGroupUid: string,
-    params: B2BSearchConfig
-  ) {
+  loadAvailableOrgCustomers(userGroupId: string, params: B2BSearchConfig) {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserGroupActions.LoadAvailableOrgCustomers({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
           params,
         })
       )
@@ -156,14 +149,14 @@ export class UserGroupService {
   }
 
   loadAvailableOrderApprovalPermissions(
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     params: B2BSearchConfig
   ) {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserGroupActions.LoadPermissions({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
           params,
         })
       )
@@ -171,14 +164,14 @@ export class UserGroupService {
   }
 
   getAvailableOrgCustomers(
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     params: B2BSearchConfig
   ): Observable<EntitiesModel<B2BUser>> {
-    return this.getAvailableOrgCustomersList(orgUnitUserGroupUid, params).pipe(
+    return this.getAvailableOrgCustomersList(userGroupId, params).pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<B2BUser>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadAvailableOrgCustomers(orgUnitUserGroupUid, params);
+          this.loadAvailableOrgCustomers(userGroupId, params);
         }
       }),
       filter(
@@ -190,20 +183,17 @@ export class UserGroupService {
   }
 
   getAvailableOrderApprovalPermissions(
-    orgUnitUserGroupUid: string,
+    userGroupId: string,
     params: B2BSearchConfig
   ): Observable<EntitiesModel<Permission>> {
     return this.getAvailableOrderApprovalPermissionsList(
-      orgUnitUserGroupUid,
+      userGroupId,
       params
     ).pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<Permission>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadAvailableOrderApprovalPermissions(
-            orgUnitUserGroupUid,
-            params
-          );
+          this.loadAvailableOrderApprovalPermissions(userGroupId, params);
         }
       }),
       filter(
@@ -214,59 +204,59 @@ export class UserGroupService {
     );
   }
 
-  assignMember(orgUnitUserGroupUid: string, customerId: string) {
+  assignMember(userGroupId: string, customerId: string) {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserGroupActions.AssignMember({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
           customerId,
         })
       )
     );
   }
 
-  unassignMember(orgUnitUserGroupUid: string, customerId: string) {
+  unassignMember(userGroupId: string, customerId: string) {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserGroupActions.UnassignMember({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
           customerId,
         })
       )
     );
   }
 
-  unassignAllMembers(orgUnitUserGroupUid: string) {
+  unassignAllMembers(userGroupId: string) {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserGroupActions.UnassignAllMembers({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
         })
       )
     );
   }
 
-  assignPermission(orgUnitUserGroupUid: string, permissionUid: string) {
+  assignPermission(userGroupId: string, permissionUid: string) {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserGroupActions.AssignPermission({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
           permissionUid,
         })
       )
     );
   }
 
-  unassignPermission(orgUnitUserGroupUid: string, permissionUid: string) {
+  unassignPermission(userGroupId: string, permissionUid: string) {
     this.withUserId(userId =>
       this.store.dispatch(
         new UserGroupActions.UnassignPermission({
           userId,
-          orgUnitUserGroupUid,
+          userGroupId,
           permissionUid,
         })
       )

@@ -7,7 +7,7 @@ import {
   CxDatePipe,
   EntitiesModel,
   UserGroupService,
-  OrgUnitUserGroup,
+  UserGroup,
 } from '@spartacus/core';
 
 import {
@@ -37,7 +37,7 @@ export class UserGroupListComponent extends AbstractListingComponent
       switchMap(queryParams =>
         this.userGroupsService.getList(queryParams).pipe(
           filter(Boolean),
-          map((userGroupsList: EntitiesModel<OrgUnitUserGroup>) => ({
+          map((userGroupsList: EntitiesModel<UserGroup>) => ({
             sorts: userGroupsList.sorts,
             pagination: userGroupsList.pagination,
             values: userGroupsList.values.map(userGroup => ({
