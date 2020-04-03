@@ -71,11 +71,11 @@ export class UserGroupAssignUsersComponent extends AbstractListingComponent
   }
 
   assign({ row }) {
-    this.userGroupService.assignMember(this.code, row.code);
+    this.userGroupService.assignMember(this.code, row.email);
   }
 
   unassign({ row }) {
-    this.userGroupService.unassignMember(this.code, row.code);
+    this.userGroupService.unassignMember(this.code, row.email);
   }
 
   unassignAll() {
