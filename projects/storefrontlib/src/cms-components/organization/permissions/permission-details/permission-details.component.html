@@ -10,7 +10,18 @@
       </div>
       <div class="row">
         <div class="col-6">{{ 'permission.parentUnit' | cxTranslate }}</div>
-        <div class="col-6">{{ permission.orgUnit?.name }}</div>
+        <div class="col-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitDetails',
+                params: permission.orgUnit
+              } | cxUrl
+            "
+          >
+            {{ permission.orgUnit?.name }}
+          </a>
+        </div>
       </div>
       <div class="row">
         <div class="col-6">{{ 'permission.threshold' | cxTranslate }}</div>
