@@ -13,13 +13,13 @@ export const getCustomerSupportAgentTokenState: MemoizedSelector<
 export const getCustomerSupportAgentToken: MemoizedSelector<
   StateWithAsm,
   UserToken
-> = createSelector(getCustomerSupportAgentTokenState, state =>
+> = createSelector(getCustomerSupportAgentTokenState, (state) =>
   StateLoaderSelectors.loaderValueSelector(state)
 );
 
 export const getCustomerSupportAgentTokenLoading: MemoizedSelector<
   StateWithAsm,
   boolean
-> = createSelector(getCustomerSupportAgentTokenState, state =>
+> = createSelector(getCustomerSupportAgentTokenState, (state) =>
   StateLoaderSelectors.loaderLoadingSelector(state)
 );

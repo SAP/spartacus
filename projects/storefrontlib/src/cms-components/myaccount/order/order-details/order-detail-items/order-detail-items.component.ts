@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {
   Consignment,
   Order,
-  OrderEntry,
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
@@ -21,21 +20,8 @@ import {
 })
 export class OrderDetailItemsComponent implements OnInit {
   constructor(
-    orderDetailsService: OrderDetailsService,
-    // tslint:disable-next-line:unified-signatures
-    promotionService: PromotionService
-  );
-
-  /**
-   * @deprecated Since 1.5
-   * Use promotionService instead of the promotion inputs.
-   * Remove issue: #5670
-   */
-  constructor(orderDetailsService: OrderDetailsService);
-
-  constructor(
-    private orderDetailsService: OrderDetailsService,
-    protected promotionService?: PromotionService
+    protected orderDetailsService: OrderDetailsService,
+    protected promotionService: PromotionService
   ) {}
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
@@ -58,9 +44,9 @@ export class OrderDetailItemsComponent implements OnInit {
     consignmentStatus: string[]
   ): Observable<Consignment[]> {
     return this.order$.pipe(
-      map(order => {
+      map((order) => {
         if (Boolean(order.consignments)) {
-          return order.consignments.filter(consignment =>
+          return order.consignments.filter((consignment) =>
             consignmentStatus.includes(consignment.status)
           );
         }
@@ -72,26 +58,13 @@ export class OrderDetailItemsComponent implements OnInit {
     ...consignmentStatus: string[]
   ): Observable<Consignment[]> {
     return this.order$.pipe(
-      map(order => {
+      map((order) => {
         if (Boolean(order.consignments)) {
           return order.consignments.filter(
-            consignment => !consignmentStatus.includes(consignment.status)
+            (consignment) => !consignmentStatus.includes(consignment.status)
           );
         }
       })
     );
-  }
-
-  /**
-   * @deprecated
-   * NOTE: This function will be removed in version 2.0
-   */
-  getConsignmentProducts(consignment: Consignment): OrderEntry[] {
-    const products: OrderEntry[] = [];
-    consignment.entries.forEach(element => {
-      products.push(element.orderEntry);
-    });
-
-    return products;
   }
 }

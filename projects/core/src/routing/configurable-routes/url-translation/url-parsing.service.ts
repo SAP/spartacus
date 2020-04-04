@@ -12,7 +12,7 @@ export class UrlParsingService {
   }
 
   private _getPrimarySegmentsFromUrlTree(tree: UrlSegmentGroup): string[] {
-    const segments = tree.segments.map(s => s.path);
+    const segments = tree.segments.map((s) => s.path);
     const childrenSegments = tree.children[PRIMARY_OUTLET]
       ? this._getPrimarySegmentsFromUrlTree(tree.children[PRIMARY_OUTLET])
       : [];

@@ -21,11 +21,11 @@ export const ADD_TO_CART_COMPONENT_MIGRATION: ConstructorDeprecation = {
       importPath: SPARTACUS_CORE,
     },
     {
-      className: CURRENT_PRODUCT_SERVICE,
+      className: MODAL_SERVICE,
       importPath: SPARTACUS_STOREFRONTLIB,
     },
     {
-      className: MODAL_SERVICE,
+      className: CURRENT_PRODUCT_SERVICE,
       importPath: SPARTACUS_STOREFRONTLIB,
     },
     {

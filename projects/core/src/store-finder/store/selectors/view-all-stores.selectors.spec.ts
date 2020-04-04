@@ -35,7 +35,7 @@ describe('ViewAllStores Selectors', () => {
       let result;
       store
         .pipe(select(StoreFinderSelectors.getViewAllStoresEntities))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(searchResult);
@@ -47,7 +47,7 @@ describe('ViewAllStores Selectors', () => {
       let result: boolean;
       store
         .pipe(select(StoreFinderSelectors.getViewAllStoresLoading))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 

@@ -85,7 +85,7 @@ describe('CategoryNavigationComponent', () => {
 
   it('should create CategoryNavigationComponent', () => {
     let result: NavigationNode;
-    component.node$.subscribe(node => (result = node));
+    component.node$.subscribe((node) => (result = node));
     expect(result).toEqual(componentData);
   });
 
@@ -96,7 +96,7 @@ describe('CategoryNavigationComponent', () => {
 
   it('should have wrapAfter property', () => {
     let result: CmsNavigationComponent;
-    component.data$.subscribe(node => (result = node));
+    component.data$.subscribe((node) => (result = node));
     expect(result.wrapAfter).toEqual('10');
   });
 });

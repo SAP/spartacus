@@ -1,6 +1,11 @@
 import { Action } from '@ngrx/store';
-import { StateLoaderActions } from '../../../state/utils/index';
-import { CART_DATA } from '../cart-state';
+import { Cart } from '../../../model/cart.model';
+import {
+  EntityFailAction,
+  EntityLoadAction,
+  EntitySuccessAction,
+} from '../../../state/utils/entity-loader/entity-loader.action';
+import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
 export const CREATE_CART_FAIL = '[Cart] Create Cart Fail';
@@ -26,70 +31,100 @@ export const CLEAR_CART = '[Cart] Clear Cart';
 export const DELETE_CART = '[Cart] Delete Cart';
 export const DELETE_CART_FAIL = '[Cart] Delete Cart Fail';
 
-export class CreateCart extends StateLoaderActions.LoaderLoadAction {
+interface CreateCartPayload {
+  userId: string;
+  /** Used as a unique key in ngrx carts store (we don't know cartId at that time) */
+  tempCartId: string;
+  extraData?: {
+    active?: boolean;
+  };
+  /** Anonymous cart which should be merged to new cart */
+  oldCartId?: string;
+  /** Cart to which should we merge (not passing this will create new cart) */
+  toMergeCartGuid?: string;
+}
+
+export class CreateCart extends EntityLoadAction {
   readonly type = CREATE_CART;
-  constructor(public payload: any) {
-    super(CART_DATA);
+  constructor(public payload: CreateCartPayload) {
+    super(MULTI_CART_DATA, payload.tempCartId);
   }
 }
 
-export class CreateCartFail extends StateLoaderActions.LoaderFailAction {
+interface CreateCartFailPayload extends CreateCartPayload {
+  error: any;
+}
+
+export class CreateCartFail extends EntityFailAction {
   readonly type = CREATE_CART_FAIL;
-  constructor(public payload: any) {
-    super(CART_DATA, payload);
+  constructor(public payload: CreateCartFailPayload) {
+    super(MULTI_CART_DATA, payload.tempCartId);
   }
 }
 
-export class CreateCartSuccess extends StateLoaderActions.LoaderSuccessAction {
+interface CreateCartSuccessPayload extends CreateCartPayload {
+  cart: Cart;
+  cartId: string;
+}
+
+export class CreateCartSuccess extends EntitySuccessAction {
   readonly type = CREATE_CART_SUCCESS;
-  constructor(public payload: any) {
-    super(CART_DATA);
+  constructor(public payload: CreateCartSuccessPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
-export class AddEmailToCart extends StateLoaderActions.LoaderLoadAction {
+export class AddEmailToCart {
   readonly type = ADD_EMAIL_TO_CART;
   constructor(
     public payload: { userId: string; cartId: string; email: string }
-  ) {
-    super(CART_DATA);
-  }
+  ) {}
 }
 
-export class AddEmailToCartFail extends StateLoaderActions.LoaderFailAction {
+export class AddEmailToCartFail {
   readonly type = ADD_EMAIL_TO_CART_FAIL;
-  constructor(public payload: any) {
-    super(CART_DATA, payload);
-  }
+  constructor(public payload: any) {}
 }
 
-export class AddEmailToCartSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class AddEmailToCartSuccess {
   readonly type = ADD_EMAIL_TO_CART_SUCCESS;
-  constructor(public payload: any) {
-    super(CART_DATA);
-  }
+  constructor(public payload: { userId: string; cartId: string }) {}
 }
 
-export class LoadCart extends StateLoaderActions.LoaderLoadAction {
+interface LoadCartPayload {
+  userId: string;
+  cartId: string;
+  extraData?: {
+    active?: boolean;
+  };
+}
+
+export class LoadCart extends EntityLoadAction {
   readonly type = LOAD_CART;
-  constructor(
-    public payload: { userId: string; cartId: string; extraData?: any }
-  ) {
-    super(CART_DATA);
+  constructor(public payload: LoadCartPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
-export class LoadCartFail extends StateLoaderActions.LoaderFailAction {
+interface LoadCartFailPayload extends LoadCartPayload {
+  error: any;
+}
+
+export class LoadCartFail extends EntityFailAction {
   readonly type = LOAD_CART_FAIL;
-  constructor(public payload: any) {
-    super(CART_DATA, payload);
+  constructor(public payload: LoadCartFailPayload) {
+    super(MULTI_CART_DATA, payload.cartId, payload.error);
   }
 }
 
-export class LoadCartSuccess extends StateLoaderActions.LoaderSuccessAction {
+interface LoadCartSuccessPayload extends LoadCartPayload {
+  cart: Cart;
+}
+
+export class LoadCartSuccess extends EntitySuccessAction {
   readonly type = LOAD_CART_SUCCESS;
-  constructor(public payload: any) {
-    super(CART_DATA);
+  constructor(public payload: LoadCartSuccessPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
@@ -100,7 +135,7 @@ export class MergeCart implements Action {
 
 export class MergeCartSuccess implements Action {
   readonly type = MERGE_CART_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: { cartId: string; userId: string }) {}
 }
 
 export class ResetCartDetails implements Action {
@@ -113,25 +148,19 @@ export class ClearExpiredCoupons implements Action {
   constructor(public payload: any) {}
 }
 
-export class ClearCart extends StateLoaderActions.LoaderResetAction {
+export class ClearCart {
   readonly type = CLEAR_CART;
-  constructor() {
-    super(CART_DATA);
-  }
+  constructor() {}
 }
 
-export class DeleteCart extends StateLoaderActions.LoaderLoadAction {
+export class DeleteCart {
   readonly type = DELETE_CART;
-  constructor(public payload: { userId: string; cartId: string }) {
-    super(CART_DATA);
-  }
+  constructor(public payload: { userId: string; cartId: string }) {}
 }
 
-export class DeleteCartFail extends StateLoaderActions.LoaderFailAction {
+export class DeleteCartFail {
   readonly type = DELETE_CART_FAIL;
-  constructor(public payload: any) {
-    super(CART_DATA, payload);
-  }
+  constructor(public payload: any) {}
 }
 
 export type CartAction =

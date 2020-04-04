@@ -19,7 +19,7 @@ export class UpdatePasswordEffects {
   > = this.actions$.pipe(
     ofType(UserActions.UPDATE_PASSWORD),
     map((action: UserActions.UpdatePassword) => action.payload),
-    concatMap(payload =>
+    concatMap((payload) =>
       this.userAccountConnector
         .updatePassword(
           payload.userId,
@@ -27,8 +27,8 @@ export class UpdatePasswordEffects {
           payload.newPassword
         )
         .pipe(
-          map(_ => new UserActions.UpdatePasswordSuccess()),
-          catchError(error =>
+          map(() => new UserActions.UpdatePasswordSuccess()),
+          catchError((error) =>
             of(new UserActions.UpdatePasswordFail(makeErrorSerializable(error)))
           )
         )

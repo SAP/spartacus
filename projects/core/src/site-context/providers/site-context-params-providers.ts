@@ -29,29 +29,3 @@ export const siteContextParamsProviders: Provider[] = [
     multi: true,
   },
 ];
-
-/**
- * @deprecated since 1.3.1; TODO: remove
- */
-export function deprecatedInitSiteContextRoutesHandler(
-  siteContextRoutesHandler: SiteContextRoutesHandler
-) {
-  return () => {
-    siteContextRoutesHandler.init();
-  };
-}
-
-/**
- * @deprecated since 1.3.1; TODO: remove
- */
-export const deprecatedSiteContextParamsProviders: Provider[] = [
-  SiteContextParamsService,
-  SiteContextUrlSerializer,
-  { provide: UrlSerializer, useExisting: SiteContextUrlSerializer },
-  {
-    provide: APP_INITIALIZER,
-    useFactory: deprecatedInitSiteContextRoutesHandler,
-    deps: [SiteContextRoutesHandler],
-    multi: true,
-  },
-];

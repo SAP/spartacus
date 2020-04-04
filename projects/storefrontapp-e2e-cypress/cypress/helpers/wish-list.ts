@@ -227,9 +227,7 @@ function proceedToCheckout() {
     'getShippingAddressPage'
   );
   cy.getByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingAddressPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${shippingAddressPage}`).its('status').should('eq', 200);
 }
 
 function fillAddressForm(shippingAddressData: AddressData = user) {
@@ -239,9 +237,7 @@ function fillAddressForm(shippingAddressData: AddressData = user) {
     'getDeliveryPage'
   );
   fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
 
 function fillPaymentForm(
@@ -251,9 +247,7 @@ function fillPaymentForm(
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.wait(`@${reviewPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
 }
 
 function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
@@ -276,9 +270,7 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
     'getOrderConfirmationPage'
   );
   cy.get('cx-place-order button.btn-primary').click();
-  cy.wait(`@${orderConfirmationPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
 }
 
 function verifyOrderConfirmationPage(checkoutProducts: TestProduct[]) {

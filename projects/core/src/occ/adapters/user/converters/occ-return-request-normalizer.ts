@@ -18,7 +18,7 @@ export class OccReturnRequestNormalizer
     }
 
     if (source.returnEntries) {
-      target.returnEntries = source.returnEntries.map(entry => ({
+      target.returnEntries = source.returnEntries.map((entry) => ({
         ...entry,
         orderEntry: this.convertOrderEntry(entry.orderEntry),
       }));

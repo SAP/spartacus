@@ -27,7 +27,7 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.userService
         .getUpdatePasswordResultSuccess()
-        .subscribe(success => this.onSuccess(success))
+        .subscribe((success) => this.onSuccess(success))
     );
   }
 

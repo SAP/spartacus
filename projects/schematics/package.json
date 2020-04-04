@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "2.0.0-next.0",
+  "version": "2.0.0-next.3",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -8,25 +8,26 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "tsc -p tsconfig.json && jasmine src/**/**/**/*_spec.js"
+    "test": "tsc -p tsconfig.json && jasmine \"src/**/*_spec.js\""
   },
   "author": "",
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^9.0.0",
-    "@angular-devkit/schematics": "^9.0.0",
-    "@angular/cdk": "^9.1.0",
-    "@angular/pwa": "^0.900.3",
-    "@angular/localize": "^9.0.3",
-    "@nguniversal/express-engine": "^9.0.1",
-    "@schematics/angular": "^9.0.0",
+    "@angular-devkit/core": "^9.1.0",
+    "@angular-devkit/schematics": "^9.1.0",
+    "@angular/cdk": "^9.2.0",
+    "@angular/pwa": "^0.901.0",
+    "@angular/localize": "^9.1.0",
+    "@nguniversal/express-engine": "^9.1.0",
+    "@schematics/angular": "^9.1.0",
+    "@schematics/update": "^0.901.0",
     "@types/jasmine": "^3.5.0",
     "@types/node": "^12.11.1",
-    "@types/shelljs": "^0.8.6",
+    "@types/shelljs": "^0.8.7",
     "jasmine": "^3.5.0",
     "shelljs": "^0.8.3",
-    "typescript": "~3.7.5"
+    "typescript": "~3.8.3"
   },
   "ng-update": {
     "migrations": "./src/migrations/migrations.json",

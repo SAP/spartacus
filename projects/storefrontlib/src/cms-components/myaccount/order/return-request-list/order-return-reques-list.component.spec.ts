@@ -81,7 +81,7 @@ describe('OrderReturnRequestListComponent', () => {
   it('should read order return request list', () => {
     let returns: ReturnRequestList;
     component.returnRequests$
-      .subscribe(value => {
+      .subscribe((value) => {
         returns = value;
       })
       .unsubscribe();

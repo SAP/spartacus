@@ -51,7 +51,7 @@ describe('KymaService', () => {
       let result: OpenIdToken;
       service
         .getOpenIdToken()
-        .subscribe(token => (result = token))
+        .subscribe((token) => (result = token))
         .unsubscribe();
       expect(result).toEqual(mockOpenIdToken);
     });

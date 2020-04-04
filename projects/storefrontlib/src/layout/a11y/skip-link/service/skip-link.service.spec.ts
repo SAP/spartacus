@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkipLinkService } from './skip-link.service';
+import { By } from '@angular/platform-browser';
+import { I18nTestingModule } from '@spartacus/core';
+import { BehaviorSubject } from 'rxjs';
+import { KeyboardFocusService } from '../../keyboard-focus';
 import {
   SkipLink,
   SkipLinkConfig,
   SkipLinkScrollPosition,
 } from '../config/index';
-import { I18nTestingModule } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { SkipLinkService } from './skip-link.service';
 
 const SKIP_KEY_1 = 'Key1';
 const SKIP_KEY_2 = 'Key2';
@@ -26,14 +28,24 @@ const MockSkipLinkConfig: SkipLinkConfig = {
   ],
 };
 
+class MockKeyboadFocusService {
+  findFirstFocusable() {}
+}
+
 @Component({
-  template: '<ng-container></ng-container><div></div>',
+  template: `
+    <ng-container></ng-container>
+    <div></div>
+    <button class="target" id="skip1" tabindex="0">skip 1</button>
+    <div class="target" id="skip2"></div>
+  `,
 })
 class TestContainerComponent {}
 
 describe('SkipLinkService', () => {
   let fixture: ComponentFixture<TestContainerComponent>;
   let service: SkipLinkService;
+  let keyboardFocusService: KeyboardFocusService;
   let skipLinks: SkipLink[];
 
   beforeEach(async(() => {
@@ -46,6 +58,10 @@ describe('SkipLinkService', () => {
           provide: SkipLinkConfig,
           useValue: MockSkipLinkConfig,
         },
+        {
+          provide: KeyboardFocusService,
+          useClass: MockKeyboadFocusService,
+        },
       ],
     }).compileComponents();
   }));
@@ -53,6 +69,8 @@ describe('SkipLinkService', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestContainerComponent);
     service = TestBed.inject(SkipLinkService);
+    keyboardFocusService = TestBed.inject(KeyboardFocusService);
+
     (<BehaviorSubject<SkipLink[]>>service.getSkipLinks()).next([]);
     skipLinks = (<BehaviorSubject<SkipLink[]>>service.getSkipLinks()).value;
     fixture.detectChanges();
@@ -88,39 +106,81 @@ describe('SkipLinkService', () => {
     expect(skipLinks[0].key).toEqual(SKIP_KEY_1);
   });
 
-  it('should scroll to skip link target', () => {
-    const nodes = fixture.debugElement.nativeElement.childNodes;
-    const mouseEvent: any = { target: fixture.debugElement.nativeElement };
-    service.add(SKIP_KEY_1, nodes[0]);
-    service.add(SKIP_KEY_2, nodes[1]);
-    fixture.detectChanges();
+  describe('focus target', () => {
+    let firstSkipLink: SkipLink;
+    let secondSkipLink: SkipLink;
 
-    const skipLink = skipLinks[0];
-    const spy = spyOn(
-      <HTMLElement>skipLink.target.parentNode,
-      'scrollIntoView'
-    );
-    expect(spy).not.toHaveBeenCalled();
-    service.scrollToTarget(skipLink.target, skipLink.position, mouseEvent);
-    expect(spy).toHaveBeenCalledWith({});
-    spy.calls.reset();
-  });
+    beforeEach(() => {
+      const first = fixture.debugElement.query(By.css('#skip1')).nativeElement;
+      const second = fixture.debugElement.query(By.css('#skip2')).nativeElement;
+      service.add(SKIP_KEY_1, first);
+      service.add(SKIP_KEY_2, second);
 
-  it('should scroll to skip link target with AFTER position', () => {
-    const nodes = fixture.debugElement.nativeElement.childNodes;
-    const mouseEvent: any = { target: fixture.debugElement.nativeElement };
-    service.add(SKIP_KEY_1, nodes[0]);
-    service.add(SKIP_KEY_2, nodes[1]);
-    fixture.detectChanges();
+      service
+        .getSkipLinks()
+        .subscribe((links) => {
+          // note that they're upside down in the link register...
+          secondSkipLink = links[0];
+          firstSkipLink = links[1];
+        })
+        .unsubscribe();
+    });
 
-    const skipLink = skipLinks[1];
-    const spy = spyOn(
-      <HTMLElement>skipLink.target.parentNode,
-      'scrollIntoView'
-    );
-    expect(spy).not.toHaveBeenCalled();
-    service.scrollToTarget(skipLink.target, skipLink.position, mouseEvent);
-    expect(spy).toHaveBeenCalledWith({ inline: 'end' });
-    spy.calls.reset();
+    it('should focus skip link target if autoFocusService will respond undefined', () => {
+      spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(
+        undefined
+      );
+      const spy = spyOn(firstSkipLink.target, 'focus');
+      expect(spy).not.toHaveBeenCalled();
+      service.scrollToTarget(firstSkipLink);
+      expect(spy).toHaveBeenCalled();
+      spy.calls.reset();
+    });
+
+    it('should use autoFocusService to find first focusable element for the skiplink target', () => {
+      spyOn(keyboardFocusService, 'findFirstFocusable');
+      service.scrollToTarget(firstSkipLink);
+      expect(keyboardFocusService.findFirstFocusable).toHaveBeenCalledWith(
+        firstSkipLink.target
+      );
+    });
+
+    it('should autofocus first focusable element of the skiplink target', () => {
+      spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(
+        firstSkipLink.target
+      );
+      spyOn(firstSkipLink.target, 'focus').and.callThrough();
+      service.scrollToTarget(firstSkipLink);
+      expect(firstSkipLink.target.focus).toHaveBeenCalled();
+    });
+
+    it('should not temporarily store tabindex when target has a tabindex', () => {
+      spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(
+        firstSkipLink.target
+      );
+      spyOn(firstSkipLink.target, 'setAttribute');
+      spyOn(firstSkipLink.target, 'removeAttribute');
+
+      service.scrollToTarget(firstSkipLink);
+
+      expect(firstSkipLink.target.setAttribute).not.toHaveBeenCalled();
+      expect(firstSkipLink.target.removeAttribute).not.toHaveBeenCalled();
+    });
+
+    it('should temporarily store tabindex when target does not have a tabindex', () => {
+      spyOn(keyboardFocusService, 'findFirstFocusable').and.returnValue(
+        secondSkipLink.target
+      );
+      spyOn(secondSkipLink.target, 'setAttribute');
+      spyOn(secondSkipLink.target, 'removeAttribute');
+
+      service.scrollToTarget(secondSkipLink);
+
+      expect(secondSkipLink.target.setAttribute).toHaveBeenCalledWith(
+        'tabindex',
+        '-1'
+      );
+      expect(secondSkipLink.target.removeAttribute).toHaveBeenCalled();
+    });
   });
 });

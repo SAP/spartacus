@@ -32,12 +32,14 @@ export class CmsPageGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
     return this.protectedRoutesGuard
-      .canActivate(route)
-      .pipe(
-        switchMap(result =>
-          result ? this.getCmsPage(route, state) : of(result)
-        )
-      );
+      ? this.protectedRoutesGuard
+          .canActivate(route)
+          .pipe(
+            switchMap((result) =>
+              result ? this.getCmsPage(route, state) : of(result)
+            )
+          )
+      : this.getCmsPage(route, state);
   }
 
   protected getCmsPage(
@@ -45,9 +47,9 @@ export class CmsPageGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
     return this.routingService.getNextPageContext().pipe(
-      switchMap(pageContext =>
+      switchMap((pageContext) =>
         this.cmsService
-          .getPage(pageContext, true)
+          .getPage(pageContext, this.cmsGuards.shouldForceRefreshPage())
           .pipe(first(), withLatestFrom(of(pageContext)))
       ),
       switchMap(([pageData, pageContext]) =>
@@ -58,7 +60,44 @@ export class CmsPageGuard implements CanActivate {
     );
   }
 
-  protected handleNotFoundPage(
+  private resolveCmsPageLogic(
+    pageContext: PageContext,
+    pageData: Page,
+    route: CmsActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> {
+    return this.cmsService.getPageComponentTypes(pageContext).pipe(
+      take(1),
+      switchMap((componentTypes) =>
+        this.cmsGuards
+          .cmsPageCanActivate(componentTypes, route, state)
+          .pipe(withLatestFrom(of(componentTypes)))
+      ),
+      tap(([canActivate, componentTypes]) => {
+        if (canActivate === true) {
+          this.cmsI18n.loadChunksForComponents(componentTypes);
+        }
+      }),
+      map(([canActivate, componentTypes]) => {
+        const pageLabel = pageData.label || pageContext.id; // for content pages the page label returned from backend can be different than ID initially assumed from route
+        if (
+          canActivate === true &&
+          !route.data.cxCmsRouteContext &&
+          !this.cmsRoutes.cmsRouteExist(pageLabel)
+        ) {
+          return this.cmsRoutes.handleCmsRoutesInGuard(
+            pageContext,
+            componentTypes,
+            state.url,
+            pageLabel
+          );
+        }
+        return canActivate;
+      })
+    );
+  }
+
+  private handleNotFoundPage(
     pageContext: PageContext,
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -68,16 +107,16 @@ export class CmsPageGuard implements CanActivate {
       id: this.semanticPathService.get('notFound'),
     };
     return this.cmsService.getPage(notFoundCmsPageContext).pipe(
-      switchMap(notFoundPage => {
+      switchMap((notFoundPage) => {
         if (notFoundPage) {
           return this.cmsService.getPageIndex(notFoundCmsPageContext).pipe(
-            tap(notFoundIndex => {
+            tap((notFoundIndex) => {
               this.cmsService.setPageFailIndex(pageContext, notFoundIndex);
             }),
-            switchMap(notFoundIndex =>
+            switchMap((notFoundIndex) =>
               this.cmsService.getPageIndex(pageContext).pipe(
                 // we have to wait for page index update
-                filter(index => index === notFoundIndex)
+                filter((index) => index === notFoundIndex)
               )
             ),
             switchMap(() =>

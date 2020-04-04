@@ -31,7 +31,7 @@ describe('Address Verification Selectors', () => {
       let result: string | AddressValidation;
       store
         .pipe(select(CheckoutSelectors.getAddressVerificationResults))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({});
 

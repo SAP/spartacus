@@ -48,7 +48,7 @@ export class MultiCartService {
       // This flickering should only be avoided when switching from false to true
       // Start of loading should be showed instantly (no debounce)
       // Extra actions are only dispatched after some loading
-      debounce(isStable => (isStable ? timer(0) : EMPTY)),
+      debounce((isStable) => (isStable ? timer(0) : EMPTY)),
       distinctUntilChanged()
     );
   }
@@ -57,9 +57,7 @@ export class MultiCartService {
    * Simple random temp cart id generator
    */
   private generateTempCartId(): string {
-    const pseudoUuid = Math.random()
-      .toString(36)
-      .substr(2, 9);
+    const pseudoUuid = Math.random().toString(36).substr(2, 9);
     return `temp-${pseudoUuid}`;
   }
 
@@ -83,7 +81,7 @@ export class MultiCartService {
     // simple random uuid generator is used here for entity names
     const tempCartId = this.generateTempCartId();
     this.store.dispatch(
-      new DeprecatedCartActions.CreateCart({
+      new CartActions.CreateCart({
         extraData,
         userId,
         oldCartId,
@@ -126,7 +124,7 @@ export class MultiCartService {
     extraData?: any;
   }): void {
     this.store.dispatch(
-      new DeprecatedCartActions.LoadCart({
+      new CartActions.LoadCart({
         userId,
         cartId,
         extraData,
@@ -180,7 +178,7 @@ export class MultiCartService {
     cartId: string,
     products: Array<{ productCode: string; quantity: number }>
   ): void {
-    products.forEach(product => {
+    products.forEach((product) => {
       this.store.dispatch(
         new CartActions.CartAddEntry({
           userId,
@@ -204,7 +202,7 @@ export class MultiCartService {
       new CartActions.CartRemoveEntry({
         userId,
         cartId,
-        entry: entryNumber,
+        entry: `${entryNumber}`,
       })
     );
   }
@@ -228,7 +226,7 @@ export class MultiCartService {
         new CartActions.CartUpdateEntry({
           userId,
           cartId,
-          entry: entryNumber,
+          entry: `${entryNumber}`,
           qty: quantity,
         })
       );
