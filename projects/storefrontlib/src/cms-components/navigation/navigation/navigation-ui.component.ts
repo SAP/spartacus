@@ -73,6 +73,14 @@ export class NavigationUIComponent implements OnDestroy {
     );
   }
 
+  handleFocus(event: UIEvent): void {
+    const node = <HTMLElement>this.renderer.parentNode(event.target);
+    if (node.tagName === 'NAV') {
+      this.renderer.removeClass(node, 'is-open');
+      this.clear();
+    }
+  }
+
   toggleOpen(event: UIEvent): void {
     event.preventDefault();
     const node = <HTMLElement>event.currentTarget;
