@@ -5,8 +5,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-
 import {
   B2BUnitNode,
   Currency,
@@ -16,11 +14,9 @@ import {
   Period,
   Permission,
   PermissionService,
-  EntitiesModel,
 } from '@spartacus/core';
-
+import { Observable } from 'rxjs';
 import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
-import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-permission-form',
@@ -68,10 +64,11 @@ export class PermissionFormComponent extends AbstractFormComponent
 
   ngOnInit() {
     this.currencies$ = this.currencyService.getAll();
-    this.permissionTypes$ = this.permissionService.getTypes().pipe(
+    this.permissionTypes$ = this.permissionService.getTypes();
+    /*this.permissionTypes$ = this.permissionService.getTypes().pipe(
       filter(Boolean),
       map((list: EntitiesModel<OrderApprovalPermissionType>) => list.values)
-    );
+    );*/
     this.businessUnits$ = this.orgUnitService.getList();
     if (this.permissionData && Object.keys(this.permissionData).length !== 0) {
       this.form.patchValue(this.permissionData);

@@ -1,18 +1,17 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { EntitiesModel } from '../../../model/misc.model';
+import { entityStateSelector } from 'projects/core/src/state/utils/entity-loader/entity-loader.selectors';
 import { OrderApprovalPermissionType } from '../../../model/permission.model';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { denormalizeB2BSearch } from '../../utils/serializer';
 import {
-  OrganizationState,
+  PermissionManagement,
   PermissionTypesManagement,
   PERMISSION_TYPES_FEATURE,
   StateWithOrganization,
 } from '../organization-state';
-import { getOrganizationState } from './feature.selector';
+import { getPermissionManagementState } from './permission.selector';
 
-export const getPermissionTypeManagementState: MemoizedSelector<
+/*export const getPermissionTypeManagementState: MemoizedSelector<
   StateWithOrganization,
   PermissionTypesManagement
 > = createSelector(
@@ -22,7 +21,7 @@ export const getPermissionTypeManagementState: MemoizedSelector<
 
 export const getPermissionTypesState: MemoizedSelector<
   StateWithOrganization,
-  EntityLoaderState<OrderApprovalPermissionType>
+  EntityLoaderState<OrderApprovalPermissionType[]>
 > = createSelector(
   getPermissionTypeManagementState,
   (state: PermissionTypesManagement) => state && state.entities
@@ -30,10 +29,35 @@ export const getPermissionTypesState: MemoizedSelector<
 
 export const getPermissionTypeList = (): MemoizedSelector<
   StateWithOrganization,
-  LoaderState<EntitiesModel<OrderApprovalPermissionType>>
+  LoaderState<EntitiesModel<OrderApprovalPermissionType[]>>
 > =>
   createSelector(
     getPermissionTypeManagementState,
     (state: PermissionTypesManagement) =>
-      denormalizeB2BSearch<OrderApprovalPermissionType>(state)
+      denormalizeB2BSearch<OrderApprovalPermissionType[]>(state)
+  );*/
+
+export const getPermissionTypeManagementState2: MemoizedSelector<
+  StateWithOrganization,
+  PermissionTypesManagement
+> = createSelector(
+  getPermissionManagementState, //getOrganizationState,
+  (state: PermissionManagement) => state[PERMISSION_TYPES_FEATURE]
+);
+export const getPermissionTypesStateNew2: MemoizedSelector<
+  StateWithOrganization,
+  EntityLoaderState<OrderApprovalPermissionType[]>
+> = createSelector(
+  getPermissionTypeManagementState2,
+  (state: PermissionTypesManagement) => state && state.entities
+);
+
+export const getPermissionTypesState2 = (): MemoizedSelector<
+  StateWithOrganization,
+  LoaderState<OrderApprovalPermissionType[]>
+> =>
+  createSelector(
+    getPermissionTypesStateNew2,
+    (state: EntityLoaderState<OrderApprovalPermissionType[]>) =>
+      entityStateSelector(state, PERMISSION_TYPES_FEATURE)
   );

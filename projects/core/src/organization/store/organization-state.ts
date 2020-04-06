@@ -1,14 +1,14 @@
 import {
+  B2BApprovalProcess,
+  B2BUnit,
+  B2BUnitNode,
+  B2BUser,
   Budget,
   CostCenter,
   ListModel,
-  B2BUnitNode,
-  Permission,
   OrderApprovalPermissionType,
   OrgUnitUserGroup,
-  B2BUnit,
-  B2BApprovalProcess,
-  B2BUser,
+  Permission,
 } from '../../model';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
@@ -78,9 +78,11 @@ export interface OrgUnitUserGroupManagement
 }
 
 export interface PermissionTypesManagement
-  extends Management<OrderApprovalPermissionType> {}
+  extends Management<OrderApprovalPermissionType[]> {}
 
-export interface PermissionManagement extends Management<Permission> {}
+export interface PermissionManagement extends Management<Permission> {
+  permissionTypes: EntityLoaderState<OrderApprovalPermissionType[]>;
+}
 
 export interface CostCenterManagement extends Management<CostCenter> {
   budgets: EntityLoaderState<ListModel>;

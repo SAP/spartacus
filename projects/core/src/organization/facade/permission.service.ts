@@ -16,7 +16,10 @@ import {
   PermissionTypeActions,
 } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
-import { getPermissionTypeList } from '../store/selectors/permission-type.selector';
+import {
+  //getPermissionTypeList,
+  getPermissionTypesState2,
+} from '../store/selectors/permission-type.selector';
 import {
   getPermissionList,
   getPermissionState,
@@ -64,10 +67,16 @@ export class PermissionService {
     return this.store.select(getPermissionList(params));
   }
 
-  private getPermissionTypeList(): Observable<
-    LoaderState<EntitiesModel<OrderApprovalPermissionType>>
+  /*private getPermissionTypeList(): Observable<
+    LoaderState<EntitiesModel<OrderApprovalPermissionType[]>>
   > {
     return this.store.select(getPermissionTypeList());
+  }*/
+
+  private getPermissionTypeList2(): Observable<
+    LoaderState<OrderApprovalPermissionType[]>
+  > {
+    return this.store.select(getPermissionTypesState2());
   }
 
   get(permissionCode: string): Observable<Permission> {
@@ -83,19 +92,36 @@ export class PermissionService {
     );
   }
 
-  //getTypes
-  getTypes(): Observable<EntitiesModel<OrderApprovalPermissionType>> {
+  /*getTypes(): Observable<EntitiesModel<OrderApprovalPermissionType[]>> {
     return this.getPermissionTypeList().pipe(
       observeOn(queueScheduler),
       tap(
-        (process: LoaderState<EntitiesModel<OrderApprovalPermissionType>>) => {
+        (
+          process: LoaderState<EntitiesModel<OrderApprovalPermissionType[]>>
+        ) => {
           if (!(process.loading || process.success || process.error)) {
             this.loadPermissionTypes();
           }
         }
       ),
       filter(
-        (process: LoaderState<EntitiesModel<OrderApprovalPermissionType>>) =>
+        (process: LoaderState<EntitiesModel<OrderApprovalPermissionType[]>>) =>
+          process.success || process.error
+      ),
+      map(result => result.value)
+    );
+  }*/
+
+  getTypes(): Observable<OrderApprovalPermissionType[]> {
+    return this.getPermissionTypeList2().pipe(
+      observeOn(queueScheduler),
+      tap((process: LoaderState<OrderApprovalPermissionType[]>) => {
+        if (!(process.loading || process.success || process.error)) {
+          this.loadPermissionTypes();
+        }
+      }),
+      filter(
+        (process: LoaderState<OrderApprovalPermissionType[]>) =>
           process.success || process.error
       ),
       map(result => result.value)

@@ -1,62 +1,62 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap, combineReducers } from '@ngrx/store';
 import {
-  Budget,
-  B2BUnitNode,
-  ListModel,
-  Permission,
-  CostCenter,
-  OrderApprovalPermissionType,
-  B2BUnit,
   B2BApprovalProcess,
-  OrgUnitUserGroup,
+  B2BUnit,
+  B2BUnitNode,
   B2BUser,
+  Budget,
+  CostCenter,
+  ListModel,
+  OrderApprovalPermissionType,
+  OrgUnitUserGroup,
+  Permission,
 } from '../../../model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import {
-  OrganizationState,
+  B2B_USER_ENTITIES,
+  B2B_USER_FEATURE,
   BUDGET_ENTITIES,
   BUDGET_FEATURE,
   BUDGET_LIST,
+  COST_CENTER_ASSIGNED_BUDGETS,
+  COST_CENTER_ENTITIES,
+  COST_CENTER_FEATURE,
+  COST_CENTER_LIST,
+  OrganizationState,
+  ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
+  ORG_UNIT_ASSIGNED_USERS,
+  ORG_UNIT_ENTITIES,
   ORG_UNIT_FEATURE,
   ORG_UNIT_NODE_LIST,
+  ORG_UNIT_TREE_ENTITY,
+  ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
+  ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
+  ORG_UNIT_USER_GROUP_ENTITIES,
+  ORG_UNIT_USER_GROUP_FEATURE,
+  ORG_UNIT_USER_GROUP_LIST,
   PERMISSION_ENTITIES,
   PERMISSION_FEATURE,
   PERMISSION_LIST,
   PERMISSION_TYPES_ENTITIES,
   PERMISSION_TYPES_FEATURE,
   PERMISSION_TYPES_LIST,
-  COST_CENTER_FEATURE,
-  COST_CENTER_ENTITIES,
-  COST_CENTER_LIST,
-  COST_CENTER_ASSIGNED_BUDGETS,
-  ORG_UNIT_USER_GROUP_ENTITIES,
-  ORG_UNIT_USER_GROUP_FEATURE,
-  ORG_UNIT_USER_GROUP_LIST,
-  ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS,
-  ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS,
-  ORG_UNIT_ENTITIES,
-  ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
-  ORG_UNIT_TREE_ENTITY,
-  B2B_USER_FEATURE,
-  B2B_USER_ENTITIES,
   USER_LIST,
-  ORG_UNIT_ASSIGNED_USERS,
 } from '../organization-state';
-import { budgetsListReducer, budgetsEntitiesReducer } from './budget.reducer';
-import { permissionsListReducer } from './permission.reducer';
-import { permissionTypeListReducer } from './permission-type.reducer';
+import { b2bUserEntitiesReducer, userListReducer } from './b2b-user.reducer';
+import { budgetsEntitiesReducer, budgetsListReducer } from './budget.reducer';
 import {
-  costCentersListReducer,
   costCenterAssignedBudgetsListReducer,
+  costCentersListReducer,
 } from './cost-center.reducer';
-import { userListReducer, b2bUserEntitiesReducer } from './b2b-user.reducer';
+import { orgUnitUserListReducer } from './org-unit.reducer';
+import { permissionTypeListReducer } from './permission-type.reducer';
+import { permissionsListReducer } from './permission.reducer';
 import {
   orgUnitUserGroupAvailableOrderApprovalPermissionsListReducer,
   orgUnitUserGroupAvailablOrgCustomersListReducer,
   orgUnitUserGroupsListReducer,
 } from './user-group.reducer';
-import { orgUnitUserListReducer } from './org-unit.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -72,6 +72,9 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       list: entityLoaderReducer<ListModel>(
         PERMISSION_LIST,
         permissionsListReducer
+      ),
+      permissionTypes: entityLoaderReducer<OrderApprovalPermissionType[]>(
+        PERMISSION_TYPES_FEATURE
       ),
     }),
     [ORG_UNIT_FEATURE]: combineReducers({
@@ -117,7 +120,7 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       ),
     }),
     [PERMISSION_TYPES_FEATURE]: combineReducers({
-      entities: entityLoaderReducer<OrderApprovalPermissionType>(
+      entities: entityLoaderReducer<OrderApprovalPermissionType[]>(
         PERMISSION_TYPES_ENTITIES
       ),
       list: entityLoaderReducer<ListModel>(
@@ -135,9 +138,9 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<OrganizationState>
-> = new InjectionToken<ActionReducerMap<OrganizationState>>(
+export const reducerToken: InjectionToken<ActionReducerMap<
+  OrganizationState
+>> = new InjectionToken<ActionReducerMap<OrganizationState>>(
   'OrganizationReducers'
 );
 
