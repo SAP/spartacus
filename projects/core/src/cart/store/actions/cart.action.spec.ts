@@ -1,5 +1,8 @@
 import { Cart } from '../../../model/cart.model';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import {
+  StateEntityLoaderActions,
+  StateEntityProcessesLoaderActions,
+} from '../../../state/utils/index';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 import * as CartActions from './cart.action';
 
@@ -127,42 +130,59 @@ describe('Cart Actions', () => {
   describe('AddEmailToCart Actions', () => {
     describe('AddEmailToCart', () => {
       it('should create the action', () => {
-        const userId = 'anonymous';
-        const cartId = 'testCartId';
-        const email = 'test@test.com';
-        const action = new CartActions.AddEmailToCart({
-          userId: userId,
-          cartId: cartId,
-          email: email,
-        });
+        const payload = {
+          userId: 'anonymous',
+          cartId: 'testCartId',
+          email: 'test@test.com',
+        };
+        const action = new CartActions.AddEmailToCart(payload);
         expect({ ...action }).toEqual({
           type: CartActions.ADD_EMAIL_TO_CART,
-          payload: { userId: userId, cartId: cartId, email: email },
+          payload,
+          meta: StateEntityProcessesLoaderActions.entityProcessesIncrementMeta(
+            MULTI_CART_DATA,
+            payload.cartId
+          ),
         });
       });
     });
 
     describe('AddEmailToCartFail', () => {
       it('should create the action', () => {
-        const error = 'anError';
-        const action = new CartActions.AddEmailToCartFail(error);
+        const payload = {
+          error: 'anError',
+          cartId: 'cartId',
+          userId: 'userId',
+          email: 'email@email.com',
+        };
+        const action = new CartActions.AddEmailToCartFail(payload);
 
         expect({ ...action }).toEqual({
           type: CartActions.ADD_EMAIL_TO_CART_FAIL,
-          payload: error,
+          payload,
+          meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
+            MULTI_CART_DATA,
+            payload.cartId
+          ),
         });
       });
     });
 
     describe('AddEmailToCartSuccess', () => {
       it('should create the action', () => {
-        const action = new CartActions.AddEmailToCartSuccess({
+        const payload = {
           userId: 'userId',
           cartId: 'cartId',
-        });
+          email: 'email@email.com',
+        };
+        const action = new CartActions.AddEmailToCartSuccess(payload);
         expect({ ...action }).toEqual({
           type: CartActions.ADD_EMAIL_TO_CART_SUCCESS,
-          payload: { userId: 'userId', cartId: 'cartId' },
+          payload,
+          meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
+            MULTI_CART_DATA,
+            payload.cartId
+          ),
         });
       });
     });
