@@ -61,18 +61,6 @@ describe('Multi Cart effect', () => {
     });
   });
 
-  describe('mergeCart2$', () => {
-    it('should dispatch MergeMultiCart action', () => {
-      const action = new DeprecatedCartActions.MergeCart({});
-      const mergeMultiCartCompletion = new CartActions.MergeMultiCart({});
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: mergeMultiCartCompletion,
-      });
-      expect(cartEffects.mergeCart2$).toBeObservable(expected);
-    });
-  });
-
   describe('removeCart$', () => {
     it('should dispatch RemoveCart action', () => {
       const payload = {
