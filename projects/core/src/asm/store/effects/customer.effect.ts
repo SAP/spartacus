@@ -13,12 +13,12 @@ export class CustomerEffects {
   customerSearch$: Observable<AsmActions.CustomerAction> = this.actions$.pipe(
     ofType(AsmActions.CUSTOMER_SEARCH),
     map((action: AsmActions.CustomerSearch) => action.payload),
-    switchMap(options =>
+    switchMap((options) =>
       this.asmConnector.customerSearch(options).pipe(
         map((customerSearchResults: CustomerSearchPage) => {
           return new AsmActions.CustomerSearchSuccess(customerSearchResults);
         }),
-        catchError(error =>
+        catchError((error) =>
           of(new AsmActions.CustomerSearchFail(makeErrorSerializable(error)))
         )
       )

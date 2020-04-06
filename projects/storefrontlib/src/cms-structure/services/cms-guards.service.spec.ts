@@ -8,6 +8,7 @@ import {
 import { of } from 'rxjs';
 import { CmsGuardsService } from './cms-guards.service';
 import { CmsMappingService } from './cms-mapping.service';
+import { ConfigModule, provideConfig } from '@spartacus/core';
 
 describe('CmsGuardsService', () => {
   let service: CmsGuardsService;
@@ -50,6 +51,7 @@ describe('CmsGuardsService', () => {
   beforeEach(() => {
     guards = [];
     TestBed.configureTestingModule({
+      imports: [ConfigModule.forRoot()],
       providers: [
         {
           provide: CmsMappingService,
@@ -61,14 +63,17 @@ describe('CmsGuardsService', () => {
         UrlTreeGuard,
       ],
     });
-    service = TestBed.inject(CmsGuardsService);
   });
 
   it('should be created', () => {
+    service = TestBed.inject(CmsGuardsService);
     expect(service).toBeTruthy();
   });
 
   describe('cmsPageCanActivate', () => {
+    beforeEach(() => {
+      service = TestBed.inject(CmsGuardsService);
+    });
     it('should resolve to true if not guards are defined', () => {
       let result;
       service
@@ -77,7 +82,7 @@ describe('CmsGuardsService', () => {
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
       expect(result).toEqual(true);
     });
 
@@ -91,7 +96,7 @@ describe('CmsGuardsService', () => {
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
       expect(result).toEqual(true);
       expect(TestBed.inject(PositiveGuard).canActivate).toHaveBeenCalledWith(
         mockActivatedRouteSnapshot,
@@ -109,7 +114,7 @@ describe('CmsGuardsService', () => {
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
       expect(result).toEqual(false);
     });
 
@@ -123,8 +128,38 @@ describe('CmsGuardsService', () => {
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
       expect(result).toEqual(mockUrlTree);
+    });
+  });
+
+  describe('shouldForceRefreshPage', () => {
+    it('should return true if cmsPageLoadOnce flag is not enabled', () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideConfig({
+            features: {
+              cmsPageLoadOnce: false,
+            },
+          }),
+        ],
+      });
+      service = TestBed.inject(CmsGuardsService);
+      expect(service.shouldForceRefreshPage()).toBeTrue();
+    });
+
+    it('should return false if cmsPageLoadOnce flag is enabled', () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideConfig({
+            features: {
+              cmsPageLoadOnce: true,
+            },
+          }),
+        ],
+      });
+      service = TestBed.inject(CmsGuardsService);
+      expect(service.shouldForceRefreshPage()).toBeFalse();
     });
   });
 });

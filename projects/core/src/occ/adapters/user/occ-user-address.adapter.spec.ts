@@ -62,11 +62,11 @@ describe('OccUserAddressAdapter', () => {
 
   describe('load address verification results', () => {
     it('should load address verification results for given user id and address', () => {
-      occUserAddressAdapter.verify(username, address).subscribe(result => {
+      occUserAddressAdapter.verify(username, address).subscribe((result) => {
         expect(result).toEqual(suggestedAddresses);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
       });
 
@@ -82,11 +82,11 @@ describe('OccUserAddressAdapter', () => {
     });
 
     it('should load address verification results for anonymous user', () => {
-      occUserAddressAdapter.verify('anonymous', address).subscribe(result => {
+      occUserAddressAdapter.verify('anonymous', address).subscribe((result) => {
         expect(result).toEqual(suggestedAddresses);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
       });
 
@@ -104,7 +104,7 @@ describe('OccUserAddressAdapter', () => {
     it('should use converter', () => {
       occUserAddressAdapter.verify(username, address).subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'POST';
         })
         .flush({});
@@ -131,11 +131,11 @@ describe('OccUserAddressAdapter', () => {
         addresses: [mockAddress1, mockAddress2],
       };
 
-      occUserAddressAdapter.loadAll(username).subscribe(result => {
+      occUserAddressAdapter.loadAll(username).subscribe((result) => {
         expect(result).toEqual(mockUserAddresses.addresses);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -150,7 +150,7 @@ describe('OccUserAddressAdapter', () => {
     it('should use converter', () => {
       occUserAddressAdapter.loadAll(username).subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'GET';
         })
         .flush({});

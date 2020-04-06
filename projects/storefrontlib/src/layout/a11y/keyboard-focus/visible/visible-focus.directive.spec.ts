@@ -1,4 +1,10 @@
-import { Component, DebugElement, Directive, Input } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  Directive,
+  ElementRef,
+  Input,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BaseFocusService } from '../base/base-focus.service';
@@ -10,6 +16,13 @@ import { VisibleFocusDirective } from './visible-focus.directive';
 })
 class CustomFocusDirective extends VisibleFocusDirective {
   @Input('cxVisibleFocus') protected config: VisibleFocusConfig;
+
+  constructor(
+    protected elementRef: ElementRef<HTMLElement>,
+    protected service: BaseFocusService
+  ) {
+    super(elementRef, service);
+  }
 }
 
 @Directive({
@@ -17,6 +30,13 @@ class CustomFocusDirective extends VisibleFocusDirective {
 })
 class CustomFakeFocusDirective extends VisibleFocusDirective {
   protected defaultConfig = {};
+
+  constructor(
+    protected elementRef: ElementRef<HTMLElement>,
+    protected service: BaseFocusService
+  ) {
+    super(elementRef, service);
+  }
 }
 
 @Component({

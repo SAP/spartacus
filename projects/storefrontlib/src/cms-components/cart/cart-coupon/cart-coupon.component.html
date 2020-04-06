@@ -2,7 +2,7 @@
   <div class="cx-cart-coupon-title">
     {{ 'voucher.coupon' | cxTranslate }}
   </div>
-  <div class="form-group ">
+  <div class="form-group">
     <form (submit)="applyVoucher()" [formGroup]="form">
       <div class="row">
         <div class="col-md-8">
@@ -44,7 +44,7 @@
         {{ 'voucher.availableCouponsLabel' | cxTranslate }}
       </div>
       <div class="scroll">
-        <div class="coupons card " *ngFor="let coupon of applicableCoupons">
+        <div class="coupons card" *ngFor="let coupon of applicableCoupons">
           <button
             (click)="applyCustomerCoupon(coupon.couponId)"
             class="coupon-id link"

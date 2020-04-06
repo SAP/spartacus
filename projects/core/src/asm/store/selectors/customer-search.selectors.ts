@@ -16,13 +16,13 @@ export const getCustomerSearchResultsLoaderState: MemoizedSelector<
 export const getCustomerSearchResults: MemoizedSelector<
   StateWithAsm,
   CustomerSearchPage
-> = createSelector(getCustomerSearchResultsLoaderState, state =>
+> = createSelector(getCustomerSearchResultsLoaderState, (state) =>
   StateLoaderSelectors.loaderValueSelector(state)
 );
 
 export const getCustomerSearchResultsLoading: MemoizedSelector<
   StateWithAsm,
   boolean
-> = createSelector(getCustomerSearchResultsLoaderState, state =>
+> = createSelector(getCustomerSearchResultsLoaderState, (state) =>
   StateLoaderSelectors.loaderLoadingSelector(state)
 );

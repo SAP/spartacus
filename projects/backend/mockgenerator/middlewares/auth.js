@@ -21,7 +21,7 @@ function authorizeUser(req, res) {
     body: { username, password },
   } = req;
   const user = users.find(
-    u => u.username === username && u.password === password
+    (u) => u.username === username && u.password === password
   );
   if (user) {
     res.send(

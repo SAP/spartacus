@@ -22,7 +22,7 @@ export class BreakpointService {
       return of(BREAKPOINT.xs);
     }
     return this.winRef.resize$.pipe(
-      map(event => this.getBreakpoint((<Window>event.target).innerWidth)),
+      map((event) => this.getBreakpoint((<Window>event.target).innerWidth)),
       distinctUntilChanged()
     );
   }
@@ -64,7 +64,7 @@ export class BreakpointService {
    */
   isDown(breakpoint: BREAKPOINT): Observable<boolean> {
     return this.breakpoint$.pipe(
-      map(br =>
+      map((br) =>
         this.breakpoints
           .slice(0, this.breakpoints.indexOf(breakpoint) + 1)
           .includes(br)
@@ -81,7 +81,7 @@ export class BreakpointService {
    */
   isUp(breakpoint: BREAKPOINT): Observable<boolean> {
     return this.breakpoint$.pipe(
-      map(br =>
+      map((br) =>
         this.breakpoints
           .slice(this.breakpoints.indexOf(breakpoint))
           .includes(br)
@@ -93,7 +93,7 @@ export class BreakpointService {
    * Indicates whether the current screen size fits to the given breakpoint
    */
   isEqual(breakpoint: BREAKPOINT): Observable<boolean> {
-    return this.breakpoint$.pipe(map(br => br === breakpoint));
+    return this.breakpoint$.pipe(map((br) => br === breakpoint));
   }
 
   protected getBreakpoint(windowWidth: number): BREAKPOINT {
@@ -108,7 +108,7 @@ export class BreakpointService {
 
     return windowWidth > this.getSize(BREAKPOINT.lg)
       ? BREAKPOINT.xl
-      : this.breakpoints.find(br => windowWidth <= this.getSize(br));
+      : this.breakpoints.find((br) => windowWidth <= this.getSize(br));
   }
 
   get window(): Window {

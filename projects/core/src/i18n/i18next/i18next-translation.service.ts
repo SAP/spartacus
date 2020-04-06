@@ -30,7 +30,7 @@ export class I18nextTranslationService implements TranslationService {
     const chunkName = this.translationChunk.getChunkNameForKey(key);
     const namespacedKey = this.getNamespacedKey(key, chunkName);
 
-    return new Observable<string>(subscriber => {
+    return new Observable<string>((subscriber) => {
       const translate = () => {
         if (i18next.exists(namespacedKey, options)) {
           subscriber.next(i18next.t(namespacedKey, options));

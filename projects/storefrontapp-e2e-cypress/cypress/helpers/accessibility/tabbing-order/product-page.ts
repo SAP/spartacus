@@ -16,9 +16,7 @@ export function productPageTabbingOrder(config: TabElement[]) {
   cy.get('cx-breadcrumb').should('contain', 'Kodak');
 
   // add product and force "minus" button to be active
-  cy.get('cx-item-counter button')
-    .contains('+')
-    .click();
+  cy.get('cx-item-counter button').contains('+').click();
 
   cy.wait('@reviews');
 

@@ -136,7 +136,7 @@ const mockSuggestedAddressModalRef: any = {
     enteredAddress: '',
     suggestedAddresses: '',
   },
-  result: new Promise(resolve => {
+  result: new Promise((resolve) => {
     return resolve(true);
   }),
 };
@@ -234,7 +234,7 @@ describe('PaymentFormComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get supported card types if they do not exist', done => {
+  it('should call ngOnInit to get supported card types if they do not exist', (done) => {
     spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(of([]));
     component.ngOnInit();
     component.cardTypes$.subscribe(() => {
@@ -335,7 +335,7 @@ describe('PaymentFormComponent', () => {
 
   it('should call showSameAsShippingAddressCheckbox', () => {
     showSameAsShippingAddressCheckboxSpy.and.callThrough();
-    component.showSameAsShippingAddressCheckbox().subscribe(data => {
+    component.showSameAsShippingAddressCheckbox().subscribe((data) => {
       console.log(data);
       expect(data).toBeTruthy();
     });
