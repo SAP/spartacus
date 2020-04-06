@@ -1,9 +1,11 @@
 import {
+  addMutipleProductWithoutVariantToCart,
   addVariantOfSameProductToCart,
   APPAREL_BASESITE,
   APPAREL_CURRENCY,
   APPAREL_DEFAULT_DELIVERY_MODE,
-  configureApparelProduct
+  configureApparelProduct,
+  visitProductWithoutVariantPage
 } from '../../../helpers/apparel/apparel-checkout-flow';
 import {
   selectPaymentMethod,
@@ -11,6 +13,7 @@ import {
 } from '../../../helpers/checkout-as-persistent-user';
 import * as checkout from '../../../helpers/checkout-flow';
 import {
+  cartWithSkuProduct,
   cartWithVariantProduct,
   variantProduct,
   variantUser
@@ -83,21 +86,8 @@ context('Apparel - checkout flow', () => {
       );
     });
 
-    // will move this to the last part where I chekc for all 3 cases, single, variant style, sku
-    it.skip('should be able to check order in order history', () => {
-      // hack: visit other page to trigger store -> local storage sync
-      cy.selectUserMenuOption({
-        option: 'Personal Details'
-      });
-      cy.waitForOrderToBePlacedRequest(APPAREL_BASESITE, APPAREL_CURRENCY);
-      checkout.viewOrderHistoryWithCheapProduct(
-        APPAREL_BASESITE,
-        cartWithVariantProduct
-      );
-      checkout.signOut();
-    });
-
     after(() => {
+      checkout.signOut();
       cy.saveLocalStorage();
     });
   });
@@ -137,6 +127,64 @@ context('Apparel - checkout flow', () => {
         cartWithVariantProduct,
         APPAREL_BASESITE,
         APPAREL_CURRENCY
+      );
+    });
+
+    after(() => {
+      checkout.signOut();
+      cy.saveLocalStorage();
+    });
+  });
+
+  describe('when adding a different variant of the same product to cart and completing checkout', () => {
+    before(() => {
+      cy.restoreLocalStorage();
+    });
+
+    it('should go to product page from category page', () => {
+      visitProductWithoutVariantPage();
+      checkout.signInUser(APPAREL_BASESITE, variantUser);
+    });
+
+    it('should visit the product without variants page', () => {});
+
+    it('should add N number of SKUs to cart', () => {
+      addMutipleProductWithoutVariantToCart();
+    });
+
+    it('should select address card', () => {
+      selectShippingAddress(APPAREL_BASESITE);
+    });
+
+    it('should choose delivery', () => {
+      checkout.verifyDeliveryMethod(
+        APPAREL_BASESITE,
+        APPAREL_DEFAULT_DELIVERY_MODE
+      );
+    });
+
+    it('should select payment card', () => {
+      selectPaymentMethod();
+    });
+
+    it('should review and place order', () => {
+      checkout.placeOrderWithCheapProduct(
+        variantUser,
+        cartWithSkuProduct,
+        APPAREL_BASESITE,
+        APPAREL_CURRENCY
+      );
+    });
+
+    it('should be able to check order in order history', () => {
+      // hack: visit other page to trigger store -> local storage sync
+      cy.selectUserMenuOption({
+        option: 'Personal Details'
+      });
+      cy.waitForOrderToBePlacedRequest(APPAREL_BASESITE, APPAREL_CURRENCY);
+      checkout.viewOrderHistoryWithCheapProduct(
+        APPAREL_BASESITE,
+        cartWithVariantProduct
       );
     });
   });

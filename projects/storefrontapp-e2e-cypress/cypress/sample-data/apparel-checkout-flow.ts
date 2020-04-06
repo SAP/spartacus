@@ -53,3 +53,9 @@ export const cartWithVariantProduct: SampleCartProduct = {
   total: '£24.26',
   totalAndShipping: '£30.25'
 };
+
+export const cartWithSkuProduct: SampleCartProduct = {
+  estimatedShipping: '£5.99',
+  total: '£89.02',
+  totalAndShipping: '£95.01'
+};
