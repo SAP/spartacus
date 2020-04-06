@@ -179,7 +179,7 @@ export class EventService {
   ): Observable<T> {
     return source$.pipe(
       tap(event => {
-        if (event?.constructor !== eventType) {
+        if (!(event instanceof eventType)) {
           console.warn(
             `EventService: The stream`,
             source$,

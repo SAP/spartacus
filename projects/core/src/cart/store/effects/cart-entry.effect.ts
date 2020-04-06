@@ -38,11 +38,9 @@ export class CartEntryEffects {
         .pipe(
           map(
             (cartModification: CartModification) =>
-              new CartActions.CartAddEntrySuccess(<
-                CartActions.CartAddEntrySuccess['payload']
-              >{
+              new CartActions.CartAddEntrySuccess({
                 ...payload,
-                ...cartModification,
+                ...(cartModification as Required<CartModification>),
               })
           ),
           catchError(error =>

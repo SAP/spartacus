@@ -1,28 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveCartEventBuilder } from './active-cart/active-cart-event.builder';
+import { CartEventBuilder } from './cart-event.builder';
 import { CartEventModule } from './cart-event.module';
-import { MultiCartEventBuilder } from './multi-cart/multi-cart-event.builder';
 
 describe('CartEventModule', () => {
-  let activeCartEventBuilderFactory;
-  let multiCartEventBuilderFactory;
+  let cartEventBuilderFactory;
 
   beforeEach(() => {
-    activeCartEventBuilderFactory = jasmine.createSpy(
-      'activeCartEventBuilderFactory'
-    );
-    multiCartEventBuilderFactory = jasmine.createSpy(
-      'multiCartEventBuilderFactory'
-    );
+    cartEventBuilderFactory = jasmine.createSpy('cartEventBuilderFactory');
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: ActiveCartEventBuilder,
-          useFactory: activeCartEventBuilderFactory,
-        },
-        {
-          provide: MultiCartEventBuilder,
-          useFactory: multiCartEventBuilderFactory,
+          provide: CartEventBuilder,
+          useFactory: cartEventBuilderFactory,
         },
       ],
       imports: [CartEventModule],
@@ -31,11 +20,7 @@ describe('CartEventModule', () => {
     TestBed.inject(CartEventModule);
   });
 
-  it('should initialize ActiveCartEventBuilder', () => {
-    expect(activeCartEventBuilderFactory).toHaveBeenCalled();
-  });
-
-  it('should initialize MultiCartEventBuilder', () => {
-    expect(multiCartEventBuilderFactory).toHaveBeenCalled();
+  it('should initialize CartEventBuilder', () => {
+    expect(cartEventBuilderFactory).toHaveBeenCalled();
   });
 });
