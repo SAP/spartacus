@@ -129,8 +129,8 @@ describe('add-ssr', () => {
     });
   });
 
-  describe('app.server.module.ts', () => {
-    it('should contain ServerTransferStateModule import', async () => {
+  describe('index.html', () => {
+    it('should contain occ-backend-base-url attribute in meta tags', async () => {
       const indexHtmlPath = getPathResultsForFile(
         appTree,
         'index.html',
@@ -189,6 +189,23 @@ describe('add-ssr', () => {
             'export const ngExpressEngine = NgExpressEngineDecorator.get(engine);'
           )
         ).toBeTruthy();
+      }
+    });
+  });
+
+  describe('app.module.ts', () => {
+    it('should contain BrowserTransferStateModule import', async () => {
+      const appModulePath = getPathResultsForFile(
+        appTree,
+        'app.module.ts',
+        '/src'
+      )[0];
+      const buffer = appTree.read(appModulePath);
+      expect(buffer).toBeTruthy();
+      if (buffer) {
+        const appModule = buffer.toString('utf-8');
+        expect(appModule.includes('BrowserTransferStateModule')).toBeTruthy();
+        expect(appModule.includes('@angular/platform-browser')).toBeTruthy();
       }
     });
   });
