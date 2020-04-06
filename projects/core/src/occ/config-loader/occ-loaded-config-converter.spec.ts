@@ -18,7 +18,7 @@ describe(`OccLoadedConfigConverter`, () => {
         {
           provide: JavaRegExpConverter,
           useValue: {
-            toJsRegExp: jasmine.createSpy().and.callFake(x => new RegExp(x)),
+            toJsRegExp: jasmine.createSpy().and.callFake((x) => new RegExp(x)),
           },
         },
       ],

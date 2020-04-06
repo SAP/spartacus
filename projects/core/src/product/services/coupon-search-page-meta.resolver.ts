@@ -29,8 +29,8 @@ export class CouponSearchPageResolver extends PageMetaResolver
   protected total$: Observable<
     number
   > = this.productSearchService.getResults().pipe(
-    filter(data => !!data?.pagination),
-    map(results => results.pagination.totalResults)
+    filter((data) => !!data?.pagination),
+    map((results) => results.pagination.totalResults)
   );
 
   constructor(

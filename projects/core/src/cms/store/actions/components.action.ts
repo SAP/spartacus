@@ -55,7 +55,7 @@ export class CmsGetComponentFromPage<
   ) {
     super(
       COMPONENT_ENTITY,
-      [].concat(payload).map(cmp => cmp.component.uid)
+      [].concat(payload).map((cmp) => cmp.component.uid)
     );
   }
 }

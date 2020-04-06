@@ -28,8 +28,8 @@ export class BillingAddressFormComponent implements OnInit {
 
   ngOnInit() {
     this.regions$ = this.selectedCountry$.pipe(
-      switchMap(country => this.userAddressService.getRegions(country)),
-      tap(regions => {
+      switchMap((country) => this.userAddressService.getRegions(country)),
+      tap((regions) => {
         const regionControl = this.billingAddress.get('region.isocodeShort');
         if (regions.length > 0) {
           regionControl.enable();

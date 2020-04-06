@@ -4,7 +4,7 @@ import * as myCoupons from '../../../helpers/my-coupons';
 
 describe('My coupons test for anonymous user', () => {
   before(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
       win.localStorage.clear();
     });
@@ -45,7 +45,7 @@ describe('My coupons test for anonymous user', () => {
 
 describe('My coupons test for login user', () => {
   beforeEach(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
       win.localStorage.clear();
     });
@@ -72,7 +72,7 @@ describe('My coupons test for login user', () => {
 
 describe('My coupons test for pagination and sort', () => {
   before(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
       win.localStorage.clear();
     });

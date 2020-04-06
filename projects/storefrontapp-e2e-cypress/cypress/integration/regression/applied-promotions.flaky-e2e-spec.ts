@@ -5,7 +5,7 @@ context('Applied promotions', () => {
   const eosCameraProductCode = '1382080';
 
   before(() =>
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
     })
   );

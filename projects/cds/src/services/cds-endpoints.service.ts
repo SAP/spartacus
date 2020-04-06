@@ -26,7 +26,7 @@ export class CdsEndpointsService {
       urlParams['tenant'] = this.cdsConfig.cds.tenant;
     }
 
-    Object.keys(urlParams).forEach(key => {
+    Object.keys(urlParams).forEach((key) => {
       urlParams[key] = encodeURIComponent(urlParams[key]);
     });
     endpoint = DynamicTemplate.resolve(endpoint, urlParams);
@@ -42,7 +42,7 @@ export class CdsEndpointsService {
       }
 
       let httpParams = new HttpParams(httpParamsOptions);
-      Object.keys(queryParams).forEach(key => {
+      Object.keys(queryParams).forEach((key) => {
         const value = queryParams[key];
         if (value !== undefined) {
           if (value === null) {
