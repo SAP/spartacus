@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cds",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Context Driven Service library for Spartacus",
   "homepage": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
   "keywords": [
