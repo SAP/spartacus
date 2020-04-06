@@ -59,12 +59,13 @@ describe('MultiCartService', () => {
       expect(result).toEqual(undefined);
 
       store.dispatch(
-        new CartActions.LoadMultiCartSuccess({
+        new CartActions.LoadCartSuccess({
           userId: 'userId',
           extraData: {
             active: true,
           },
           cart: testCart,
+          cartId: testCart.code,
         })
       );
 
@@ -88,12 +89,13 @@ describe('MultiCartService', () => {
       });
 
       store.dispatch(
-        new CartActions.LoadMultiCartSuccess({
+        new CartActions.LoadCartSuccess({
           userId: 'userId',
           extraData: {
             active: true,
           },
           cart: testCart,
+          cartId: testCart.code,
         })
       );
 
@@ -110,12 +112,13 @@ describe('MultiCartService', () => {
   describe('isStable', () => {
     it('should return true when cart is stable', (done) => {
       store.dispatch(
-        new CartActions.LoadMultiCartSuccess({
+        new CartActions.LoadCartSuccess({
           userId: 'userId',
           extraData: {
             active: true,
           },
           cart: testCart,
+          cartId: testCart.code,
         })
       );
       service
@@ -129,7 +132,7 @@ describe('MultiCartService', () => {
 
     it('should return false when there are pending processes', (done) => {
       store.dispatch(
-        new CartActions.LoadMultiCart({
+        new CartActions.LoadCart({
           userId: 'userId',
           cartId: 'xxx',
         })
@@ -221,7 +224,7 @@ describe('MultiCartService', () => {
       });
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.LoadCart({
+        new CartActions.LoadCart({
           cartId: 'cartId',
           userId: 'userId',
           extraData: {
@@ -242,12 +245,13 @@ describe('MultiCartService', () => {
       expect(result).toEqual([]);
 
       store.dispatch(
-        new CartActions.LoadMultiCartSuccess({
+        new CartActions.LoadCartSuccess({
           userId: 'userId',
           extraData: {
             active: true,
           },
           cart: testCart,
+          cartId: testCart.code,
         })
       );
 
@@ -345,12 +349,13 @@ describe('MultiCartService', () => {
       expect(result).toEqual(undefined);
 
       store.dispatch(
-        new CartActions.LoadMultiCartSuccess({
+        new CartActions.LoadCartSuccess({
           userId: 'userId',
           extraData: {
             active: true,
           },
           cart: testCart,
+          cartId: testCart.code,
         })
       );
 
@@ -363,7 +368,7 @@ describe('MultiCartService', () => {
       service.assignEmail('cartId', 'userId', 'test@email.com');
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.AddEmailToCart({
+        new CartActions.AddEmailToCart({
           userId: 'userId',
           cartId: 'cartId',
           email: 'test@email.com',

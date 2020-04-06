@@ -58,52 +58,6 @@ describe('MultiCart Actions', () => {
     });
   });
 
-  describe('LoadMultiCart', () => {
-    it('should create the action', () => {
-      const payload = { cartId: 'cartId', userId: 'userId' };
-      const action = new CartActions.LoadMultiCart(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.LOAD_MULTI_CART,
-        payload,
-        meta: StateEntityLoaderActions.entityLoadMeta(
-          MULTI_CART_DATA,
-          payload.cartId
-        ),
-      });
-    });
-  });
-
-  describe('LoadMultiCartFail', () => {
-    it('should create the action', () => {
-      const payload = { cartId: 'cartId', error: 'error' };
-      const action = new CartActions.LoadMultiCartFail(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.LOAD_MULTI_CART_FAIL,
-        payload,
-        meta: StateEntityLoaderActions.entityFailMeta(
-          MULTI_CART_DATA,
-          payload.cartId,
-          payload.error
-        ),
-      });
-    });
-  });
-
-  describe('LoadMultiCartSuccess', () => {
-    it('should create the action', () => {
-      const payload = { cart, userId: 'userId', extraData: undefined };
-      const action = new CartActions.LoadMultiCartSuccess(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.LOAD_MULTI_CART_SUCCESS,
-        payload,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
-          MULTI_CART_DATA,
-          payload.cart.code
-        ),
-      });
-    });
-  });
-
   describe('MergeMultiCart', () => {
     it('should create the action', () => {
       const payload = {};
@@ -152,56 +106,6 @@ describe('MultiCart Actions', () => {
         type: CartActions.REMOVE_CART,
         payload,
         meta: entityRemoveMeta(MULTI_CART_DATA, payload),
-      });
-    });
-  });
-
-  describe('AddEmailToMultiCart', () => {
-    it('should create the action', () => {
-      const payload = {
-        userId: 'userId',
-        cartId: 'cartId',
-        email: 'test@email.com',
-      };
-      const action = new CartActions.AddEmailToMultiCart(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.ADD_EMAIL_TO_MULTI_CART,
-        payload,
-        meta: StateEntityLoaderActions.entityLoadMeta(
-          MULTI_CART_DATA,
-          payload.cartId
-        ),
-      });
-    });
-  });
-
-  describe('AddEmailToMultiCartFail', () => {
-    it('should create the action', () => {
-      const payload = { userId: 'userId', cartId: 'cartId', error: 'error' };
-      const action = new CartActions.AddEmailToMultiCartFail(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.ADD_EMAIL_TO_MULTI_CART_FAIL,
-        payload,
-        meta: StateEntityLoaderActions.entityFailMeta(
-          MULTI_CART_DATA,
-          payload.cartId,
-          payload.error
-        ),
-      });
-    });
-  });
-
-  describe('AddEmailToMultiCartSuccess', () => {
-    it('should create the action', () => {
-      const payload = { userId: 'userId', cartId: 'cartId' };
-      const action = new CartActions.AddEmailToMultiCartSuccess(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.ADD_EMAIL_TO_MULTI_CART_SUCCESS,
-        payload,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
-          MULTI_CART_DATA,
-          payload.cartId
-        ),
       });
     });
   });
