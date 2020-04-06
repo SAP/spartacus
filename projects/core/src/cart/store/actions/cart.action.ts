@@ -5,6 +5,10 @@ import {
   EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
+import {
+  EntityProcessesDecrementAction,
+  EntityProcessesIncrementAction,
+} from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
@@ -74,21 +78,36 @@ export class CreateCartSuccess extends EntitySuccessAction {
   }
 }
 
-export class AddEmailToCart {
+export class AddEmailToCart extends EntityProcessesIncrementAction {
   readonly type = ADD_EMAIL_TO_CART;
   constructor(
     public payload: { userId: string; cartId: string; email: string }
-  ) {}
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
-export class AddEmailToCartFail {
+export class AddEmailToCartFail extends EntityProcessesDecrementAction {
   readonly type = ADD_EMAIL_TO_CART_FAIL;
-  constructor(public payload: any) {}
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      error: any;
+      email: string;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
-export class AddEmailToCartSuccess {
+export class AddEmailToCartSuccess extends EntityProcessesDecrementAction {
   readonly type = ADD_EMAIL_TO_CART_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {}
+  constructor(
+    public payload: { userId: string; cartId: string; email: string }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
 interface LoadCartPayload {

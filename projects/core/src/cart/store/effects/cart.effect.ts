@@ -220,14 +220,12 @@ export class CartEffects {
     CartActions.LoadCart | CartActions.CartProcessesDecrement
   > = this.actions$.pipe(
     ofType(
-      DeprecatedCartActions.ADD_EMAIL_TO_CART_SUCCESS,
       CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
       CartActions.CART_ADD_VOUCHER_SUCCESS
     ),
     map(
       (
         action:
-          | DeprecatedCartActions.AddEmailToCartSuccess
           | CheckoutActions.ClearCheckoutDeliveryModeSuccess
           | CartActions.CartAddVoucherSuccess
       ) => action.payload
@@ -291,26 +289,22 @@ export class CartEffects {
 
   @Effect()
   addEmail$: Observable<
-    | DeprecatedCartActions.AddEmailToCartSuccess
-    | DeprecatedCartActions.AddEmailToCartFail
-    | CartActions.AddEmailToMultiCartFail
-    | CartActions.AddEmailToMultiCartSuccess
-    | CartActions.CartProcessesDecrement
+    | CartActions.AddEmailToCartSuccess
+    | CartActions.AddEmailToCartFail
     | CartActions.LoadCart
   > = this.actions$.pipe(
-    ofType(DeprecatedCartActions.ADD_EMAIL_TO_CART),
-    map((action: DeprecatedCartActions.AddEmailToCart) => action.payload),
+    ofType(CartActions.ADD_EMAIL_TO_CART),
+    map((action: CartActions.AddEmailToCart) => action.payload),
     mergeMap((payload) =>
       this.cartConnector
         .addEmail(payload.userId, payload.cartId, payload.email)
         .pipe(
           mergeMap(() => {
             return [
-              new DeprecatedCartActions.AddEmailToCartSuccess({
-                userId: payload.userId,
-                cartId: payload.cartId,
+              new CartActions.AddEmailToCartSuccess({
+                ...payload,
               }),
-              new CartActions.AddEmailToMultiCartSuccess({
+              new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
@@ -318,15 +312,10 @@ export class CartEffects {
           }),
           catchError((error) =>
             from([
-              new DeprecatedCartActions.AddEmailToCartFail(
-                makeErrorSerializable(error)
-              ),
-              new CartActions.AddEmailToMultiCartFail({
+              new CartActions.AddEmailToCartFail({
+                ...payload,
                 error: makeErrorSerializable(error),
-                userId: payload.userId,
-                cartId: payload.cartId,
               }),
-              new CartActions.CartProcessesDecrement(payload.cartId),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
