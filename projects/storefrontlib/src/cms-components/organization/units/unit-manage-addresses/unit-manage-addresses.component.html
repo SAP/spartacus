@@ -2,7 +2,9 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
       <div class="cx-table-header cx-textalign">
-        <h3>{{ 'unitManageAddresses.header' | cxTranslate }}</h3>
+        <h3>
+          {{ 'unitManageAddresses.header' | cxTranslate: { code: code } }}
+        </h3>
       </div>
 
       <!--        <cx-search-->
@@ -17,7 +19,7 @@
           [routerLink]="
             { cxRoute: 'orgUnitDetails', params: { uid: code } } | cxUrl
           "
-          class="btn btn-primary btn-block"
+          class="btn btn-secondary btn-block"
         >
           {{ 'unitManageAddresses.back' | cxTranslate }}
         </a>

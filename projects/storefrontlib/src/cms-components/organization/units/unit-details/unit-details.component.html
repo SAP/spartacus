@@ -16,7 +16,7 @@
         <div class="col-6">{{ 'orgUnit.approvalProcess' | cxTranslate }}</div>
         <div class="col-6">{{ orgUnit.approvalProcess?.name }}</div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="orgUnit.parentOrgUnit">
         <div class="col-6">{{ 'orgUnit.parentUnit' | cxTranslate }}</div>
         <div class="col-6">
           <a
