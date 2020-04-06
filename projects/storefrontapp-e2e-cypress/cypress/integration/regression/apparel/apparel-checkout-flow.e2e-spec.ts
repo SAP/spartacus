@@ -83,6 +83,7 @@ context('Apparel - checkout flow', () => {
       );
     });
 
+    // will move this to the last part where I chekc for all 3 cases, single, variant style, sku
     it.skip('should be able to check order in order history', () => {
       // hack: visit other page to trigger store -> local storage sync
       cy.selectUserMenuOption({
@@ -116,11 +117,14 @@ context('Apparel - checkout flow', () => {
     });
 
     it('should select address card', () => {
-      selectShippingAddress();
+      selectShippingAddress(APPAREL_BASESITE);
     });
 
-    it('should select delivery method', () => {
-      checkout.verifyDeliveryMethod();
+    it('should choose delivery', () => {
+      checkout.verifyDeliveryMethod(
+        APPAREL_BASESITE,
+        APPAREL_DEFAULT_DELIVERY_MODE
+      );
     });
 
     it('should select payment card', () => {
