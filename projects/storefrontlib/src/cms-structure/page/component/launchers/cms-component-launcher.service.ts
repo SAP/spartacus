@@ -8,7 +8,7 @@ import {
 import { ComponentLauncherService } from './component-launcher.service';
 import { Observable } from 'rxjs';
 
-import { CmsDataComponentService } from '../services/cms-data-component.service';
+import { CmsDataService } from '../services/cms-data.service';
 import { ComponentMapperService } from '../services/component-mapper.service';
 
 @Injectable({
@@ -17,7 +17,7 @@ import { ComponentMapperService } from '../services/component-mapper.service';
 export class CmsComponentLauncherService implements ComponentLauncherService {
   constructor(
     private componentMapper: ComponentMapperService,
-    private cmsComponent: CmsDataComponentService
+    private cmsData: CmsDataService
   ) {}
 
   getLauncher(
@@ -44,7 +44,7 @@ export class CmsComponentLauncherService implements ComponentLauncherService {
           .createComponent(
             factory,
             undefined,
-            this.cmsComponent.getInjectorForComponent(
+            this.cmsData.getInjectorForComponent(
               componentType,
               uid,
               directiveInjector

@@ -6,7 +6,7 @@ import { CmsService } from '../../../../../../core/src/cms/facade';
 @Injectable({
   providedIn: 'root',
 })
-export class CmsDataComponentService {
+export class CmsDataService {
   constructor(protected config: CmsConfig, protected injector: Injector) {}
 
   public getCmsDataForComponent<T extends CmsComponent>(

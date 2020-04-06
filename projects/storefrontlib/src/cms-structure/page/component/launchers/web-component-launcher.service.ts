@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ComponentLauncherService } from './component-launcher.service';
-import { CmsDataComponentService } from '../services/cms-data-component.service';
+import { CmsDataService } from '../services/cms-data.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ComponentMapperService } from '../services/component-mapper.service';
 import { CxApiService } from '../services/cx-api.service';
@@ -20,7 +20,7 @@ import { CxApiService } from '../services/cx-api.service';
 export class WebComponentLauncherService implements ComponentLauncherService {
   constructor(
     private componentMapper: ComponentMapperService,
-    private cmsComponent: CmsDataComponentService,
+    private cmsData: CmsDataService,
     @Inject(DOCUMENT) protected document: any,
     @Inject(PLATFORM_ID) protected platform: any
   ) {}
@@ -49,7 +49,7 @@ export class WebComponentLauncherService implements ComponentLauncherService {
         if (elementName) {
           webElement = renderer.createElement(elementName);
 
-          const cmsComponentData = this.cmsComponent.getCmsDataForComponent(
+          const cmsComponentData = this.cmsData.getCmsDataForComponent(
             uid,
             directiveInjector
           );
