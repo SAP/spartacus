@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
-import { B2BUnit, OrgUnitService, RoutingService } from '@spartacus/core';
+import { B2BAddress, OrgUnitService, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-unit-address-details',
@@ -10,10 +10,14 @@ import { B2BUnit, OrgUnitService, RoutingService } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitAddressDetailsComponent implements OnInit {
-  orgUnit$: Observable<B2BUnit>;
+  address$: Observable<B2BAddress>;
   orgUnitCode$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(map(routingData => routingData.state.params['code']));
+
+  addressId$: Observable<string> = this.routingService
+    .getRouterState()
+    .pipe(map(routingData => routingData.state.params['id']));
 
   constructor(
     protected routingService: RoutingService,
@@ -21,18 +25,15 @@ export class UnitAddressDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.orgUnit$ = this.orgUnitCode$.pipe(
-      tap(code => this.orgUnitsService.loadOrgUnit(code)),
-      switchMap(code => this.orgUnitsService.get(code)),
-      filter(Boolean)
+    this.address$ = this.orgUnitCode$.pipe(
+      withLatestFrom(this.addressId$),
+      tap(([code]) => this.orgUnitsService.loadAddresses(code)),
+      switchMap(([code, id]) =>
+        this.orgUnitsService.getAddress(code, id).pipe(
+          filter(Boolean),
+          map(address => ({ ...address, code }))
+        )
+      )
     );
-  }
-
-  update(orgUnit: B2BUnit) {
-    this.orgUnitCode$
-      .pipe(take(1))
-      .subscribe(orgUnitCode =>
-        this.orgUnitsService.update(orgUnitCode, orgUnit)
-      );
   }
 }
