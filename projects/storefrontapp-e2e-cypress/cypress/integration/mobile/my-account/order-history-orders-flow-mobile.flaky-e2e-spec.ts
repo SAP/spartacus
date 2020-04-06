@@ -1,6 +1,7 @@
 import { doPlaceOrder, orderHistoryTest } from '../../../helpers/order-history';
 import { product } from '../../../sample-data/checkout-flow';
 import { formats } from '../../../sample-data/viewports';
+import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/utils/order-placed';
 
 describe(`${
   formats.mobile.width + 1
@@ -36,9 +37,14 @@ describe(`${formats.mobile.width + 1}p resolution - Order details page`, () => {
 
   it('should display order details page', () => {
     doPlaceOrder().then((orderData: any) => {
-      cy.wait(Cypress.env('ORDER_HISTORY_WAIT_TIME'));
+      cy.waitForOrderToBePlacedRequest(orderData.body.code);
       cy.visit('/my-account/orders');
       cy.get('.cx-order-history-code > .cx-order-history-value')
+        .then((el) => {
+          const orderNumber = el.text().match(/\d+/)[0];
+          waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
+          return cy.wrap(el);
+        })
         .first()
         .click();
       cy.get('.cx-item-list-row .cx-link').should('contain', product.name);

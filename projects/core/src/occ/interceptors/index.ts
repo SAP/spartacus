@@ -1,1 +1,1 @@
-export * from './with-credentials-interceptor';
+export * from './with-credentials.interceptor';
