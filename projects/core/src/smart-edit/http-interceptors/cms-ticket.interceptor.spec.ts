@@ -46,10 +46,10 @@ describe('CmsTicketInterceptor', () => {
   it('should not add parameters: cmsTicketId', inject(
     [HttpClient],
     (http: HttpClient) => {
-      http.get('/xxx').subscribe(result => {
+      http.get('/xxx').subscribe((result) => {
         expect(result).toBeTruthy();
       });
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -67,10 +67,10 @@ describe('CmsTicketInterceptor', () => {
 
       http
         .get('https://localhost:9002/rest/v2/electronics/cms/page')
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toBeTruthy();
         });
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -90,11 +90,11 @@ describe('CmsTicketInterceptor', () => {
 
       http
         .get('https://localhost:9002/rest/v2/electronics/user')
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toBeTruthy();
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 

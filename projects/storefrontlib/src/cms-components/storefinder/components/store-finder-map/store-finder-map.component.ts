@@ -43,7 +43,7 @@ export class StoreFinderMapComponent implements OnChanges {
     this.googleMapRendererService.renderMap(
       this.mapElement.nativeElement,
       this.locations,
-      markerIndex => {
+      (markerIndex) => {
         this.selectStoreItemClickHandle(markerIndex);
       }
     );

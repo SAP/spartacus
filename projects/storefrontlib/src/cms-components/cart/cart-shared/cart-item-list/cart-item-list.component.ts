@@ -76,8 +76,8 @@ export class CartItemListComponent {
    * In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
    */
   private resolveItems(items: Item[]): void {
-    if (items.every(item => item.hasOwnProperty('orderEntry'))) {
-      this._items = items.map(consignmentEntry => {
+    if (items.every((item) => item.hasOwnProperty('orderEntry'))) {
+      this._items = items.map((consignmentEntry) => {
         const entry = Object.assign(
           {},
           (consignmentEntry as ConsignmentEntry).orderEntry
@@ -92,7 +92,7 @@ export class CartItemListComponent {
 
   private createForm(): void {
     this.form = new FormGroup({});
-    this._items.forEach(item => {
+    this._items.forEach((item) => {
       const { code } = item.product;
       const group = new FormGroup({
         entryNumber: new FormControl((<any>item).entryNumber),
@@ -118,7 +118,7 @@ export class CartItemListComponent {
     return this.form.get(item.product.code).valueChanges.pipe(
       // tslint:disable-next-line:deprecation
       startWith(null),
-      map(value => {
+      map((value) => {
         if (value && this.selectiveCartService && this.options.isSaveForLater) {
           this.selectiveCartService.updateEntry(
             value.entryNumber,

@@ -61,9 +61,7 @@ export function fillShippingAddress(
     cy.get('[formcontrolname="postalCode"]')
       .clear()
       .type(shippingAddress.address.postal);
-    cy.get('[formcontrolname="phone"]')
-      .clear()
-      .type(shippingAddress.phone);
+    cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
     if (submitForm) {
       cy.get('button.btn-primary').click({ force: true });
     }
@@ -121,17 +119,13 @@ export function fillPaymentDetails(
     cy.get('[bindValue="expiryYear"]').ngSelect(
       paymentDetails.payment.expires.year
     );
-    cy.get('[formcontrolname="cvn"]')
-      .clear()
-      .type(paymentDetails.payment.cvv);
+    cy.get('[formcontrolname="cvn"]').clear().type(paymentDetails.payment.cvv);
     if (billingAddress) {
       fillBillingAddress(billingAddress);
     } else {
       cy.get('input.form-check-input').check();
     }
 
-    cy.get('button.btn.btn-block.btn-primary')
-      .contains('Continue')
-      .click();
+    cy.get('button.btn.btn-block.btn-primary').contains('Continue').click();
   });
 }

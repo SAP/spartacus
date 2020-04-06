@@ -3,18 +3,19 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../config/occ-config';
 import {
   CustomerCoupon,
   CustomerCoupon2Customer,
   CustomerCouponNotification,
   CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
+import { CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER } from '../../../user/connectors/customer-coupon/converters';
+import { ConverterService } from '../../../util/converter.service';
+import { OccConfig } from '../../config/occ-config';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 import { OccCustomerCouponAdapter } from './occ-customer-coupon.adapter';
 import { MockOccEndpointsService } from './unit-test.helper';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { ConverterService } from '../../../util/converter.service';
-import { CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER } from '../../../user/connectors/customer-coupon/converters';
 
 const userId = 'mockUseId';
 
@@ -85,7 +86,7 @@ describe('OccCustomerCouponAdapter', () => {
         .getCustomerCoupons(userId, pageSize, currentPage, sort)
         .subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'GET';
         })
         .flush({});
@@ -96,11 +97,11 @@ describe('OccCustomerCouponAdapter', () => {
     it('should load customer search results for given user id', () => {
       occCustomerCouponAdapter
         .getCustomerCoupons(userId, pageSize, currentPage, sort)
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toEqual(couponSearchResult);
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -118,6 +119,20 @@ describe('OccCustomerCouponAdapter', () => {
         currentPage.toString()
       );
       expect(mockReq.request.params.get('sort')).toEqual(sort);
+    });
+
+    it('should return empty result for anonymous user id', () => {
+      occCustomerCouponAdapter
+        .getCustomerCoupons(OCC_USER_ID_ANONYMOUS, pageSize, currentPage, sort)
+        .subscribe((result) => {
+          expect(result).toEqual({});
+        });
+
+      httpMock.expectNone(
+        occEnpointsService.getUrl('customerCoupons', {
+          userId: OCC_USER_ID_ANONYMOUS,
+        })
+      );
     });
   });
 
@@ -140,11 +155,11 @@ describe('OccCustomerCouponAdapter', () => {
 
       occCustomerCouponAdapter
         .turnOnNotification(userId, couponCode)
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toEqual(customerCouponNotification);
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
       });
 
@@ -166,9 +181,9 @@ describe('OccCustomerCouponAdapter', () => {
     it('should unsubscribes from a coupon notification for a given user id and coupon code', () => {
       occCustomerCouponAdapter
         .turnOffNotification(userId, couponCode)
-        .subscribe(result => expect(result).toEqual(''));
+        .subscribe((result) => expect(result).toEqual(''));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'DELETE';
       });
       expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
@@ -202,11 +217,11 @@ describe('OccCustomerCouponAdapter', () => {
 
       occCustomerCouponAdapter
         .claimCustomerCoupon(userId, couponCode)
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toEqual(customerCoupon2Customer);
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
       });
 

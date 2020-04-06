@@ -39,7 +39,7 @@ describe('ExternalJsFileLoader', () => {
     spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
     const params = { param1: 'value1', param2: 'value2' };
-    const callback = function() {};
+    const callback = function () {};
 
     // when
     externalJsFileLoader.load(SCRIPT_LOAD_URL, params, callback);

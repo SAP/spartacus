@@ -19,12 +19,12 @@ declare global {
 }
 
 Cypress.Commands.add('pressTab', () => {
-  cy.document().then(document => {
+  cy.document().then((document) => {
     const elements = Array.from(
       <NodeListOf<HTMLElement>>(
         document.querySelectorAll(focusableSelectors.join(','))
       )
-    ).filter(element => element.offsetParent !== null);
+    ).filter((element) => element.offsetParent !== null);
 
     const activeElementIndex = elements.indexOf(
       document.activeElement as HTMLElement

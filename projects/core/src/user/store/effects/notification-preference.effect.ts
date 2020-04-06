@@ -14,13 +14,13 @@ export class NotificationPreferenceEffects {
   > = this.actions$.pipe(
     ofType(UserActions.LOAD_NOTIFICATION_PREFERENCES),
     map((action: UserActions.LoadNotificationPreferences) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.connector.loadAll(payload).pipe(
         map(
-          preferences =>
+          (preferences) =>
             new UserActions.LoadNotificationPreferencesSuccess(preferences)
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             new UserActions.LoadNotificationPreferencesFail(
               makeErrorSerializable(error)
@@ -37,7 +37,7 @@ export class NotificationPreferenceEffects {
   > = this.actions$.pipe(
     ofType(UserActions.UPDATE_NOTIFICATION_PREFERENCES),
     map((action: UserActions.UpdateNotificationPreferences) => action.payload),
-    mergeMap(payload =>
+    mergeMap((payload) =>
       this.connector.update(payload.userId, payload.preferences).pipe(
         map(
           () =>
@@ -45,7 +45,7 @@ export class NotificationPreferenceEffects {
               payload.preferences
             )
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             new UserActions.UpdateNotificationPreferencesFail(
               makeErrorSerializable(error)

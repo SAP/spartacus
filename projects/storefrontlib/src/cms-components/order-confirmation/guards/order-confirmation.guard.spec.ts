@@ -46,10 +46,10 @@ describe(`OrderConfirmationGuard`, () => {
   });
 
   describe(`when there is NO order details present`, () => {
-    it(`should return UrlTree to order history page`, done => {
+    it(`should return UrlTree to order history page`, (done) => {
       spyOn(mockCheckoutService, 'getOrderDetails').and.returnValue(of({}));
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result.toString()).toEqual('/my-account/orders');
         done();
       });
@@ -57,12 +57,12 @@ describe(`OrderConfirmationGuard`, () => {
   });
 
   describe(`when there is order details present`, () => {
-    it(`should return true`, done => {
+    it(`should return true`, (done) => {
       spyOn(mockCheckoutService, 'getOrderDetails').and.returnValue(
         of({ code: 'test order' })
       );
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result).toEqual(true);
         done();
       });

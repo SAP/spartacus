@@ -4,7 +4,6 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
-  Input,
   OnInit,
 } from '@angular/core';
 import { BlockFocusDirective } from '../block/block-focus.directive';
@@ -37,9 +36,7 @@ import { PersistFocusService } from './persist-focus.service';
  * should retrieve focus.
  *
  */
-@Directive({
-  selector: '[cxPersistFocus]',
-})
+@Directive() // selector: '[cxPersistFocus]',
 export class PersistFocusDirective extends BlockFocusDirective
   implements OnInit, AfterViewInit {
   protected defaultConfig: PersistFocusConfig = {};
@@ -49,7 +46,8 @@ export class PersistFocusDirective extends BlockFocusDirective
    * While this could be considered a global key, the likeliness of conflicts
    * is very small since the key is cleared when the focus is changed.
    */
-  @Input('cxPersistFocus') protected config: PersistFocusConfig = {};
+  // @Input('cxPersistFocus')
+  protected config: PersistFocusConfig = {};
 
   /**
    * The persistance key is maintained in an element attribute for other
@@ -57,11 +55,6 @@ export class PersistFocusDirective extends BlockFocusDirective
    * state in case of a repaint.
    */
   @HostBinding(`attr.${FOCUS_ATTR}`) attr: string;
-
-  /**
-   * The persistence key is maintained in a singleton cross the app to ensure we
-   * can reset the focus if the DOM gets rebuild.
-   */
 
   @HostListener('focus', ['$event'])
   handleFocus(event?: KeyboardEvent) {

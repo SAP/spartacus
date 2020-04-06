@@ -14,7 +14,7 @@ export class ReturnOrderComponent {
 
   form$ = this.orderAmendService
     .getForm()
-    .pipe(tap(form => (this.orderCode = form.value.orderCode)));
+    .pipe(tap((form) => (this.orderCode = form.value.orderCode)));
 
   entries$: Observable<OrderEntry[]> = this.orderAmendService.getEntries();
 

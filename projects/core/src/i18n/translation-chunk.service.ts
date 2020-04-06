@@ -7,8 +7,8 @@ export class TranslationChunkService {
   protected chunks: { [key: string]: string } = {};
   constructor(protected config: I18nConfig) {
     const chunks = (config.i18n && config.i18n.chunks) || {};
-    Object.keys(chunks).forEach(chunk => {
-      chunks[chunk].forEach(key => {
+    Object.keys(chunks).forEach((chunk) => {
+      chunks[chunk].forEach((key) => {
         if (this.chunks.hasOwnProperty(key)) {
           if (!this.duplicates[key]) {
             this.duplicates[key] = [this.chunks[key]];
@@ -38,7 +38,7 @@ export class TranslationChunkService {
 
   private warnDuplicates(items: { [key: string]: string[] }): void {
     const dupes: string[] = [];
-    Object.keys(items).forEach(key => {
+    Object.keys(items).forEach((key) => {
       dupes.push(
         `* '${key}' found in chunks: ${items[key].join(', ')}. Used '${
           this.chunks[key]

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { KeyboardFocusService } from '../../keyboard-focus';
 import { SkipLink, SkipLinkConfig } from '../config/skip-link.config';
 
 @Injectable({
@@ -8,7 +9,10 @@ import { SkipLink, SkipLinkConfig } from '../config/skip-link.config';
 export class SkipLinkService {
   private skipLinks$ = new BehaviorSubject<SkipLink[]>([]);
 
-  constructor(protected config: SkipLinkConfig) {}
+  constructor(
+    protected config: SkipLinkConfig,
+    protected keyboardFocusService: KeyboardFocusService
+  ) {}
 
   getSkipLinks(): Observable<SkipLink[]> {
     return this.skipLinks$;
@@ -16,7 +20,7 @@ export class SkipLinkService {
 
   add(key: string, target: HTMLElement): void {
     const found: SkipLink = this.config.skipLinks.find(
-      skipLink => skipLink.key === key
+      (skipLink) => skipLink.key === key
     );
 
     if (found) {
@@ -33,12 +37,12 @@ export class SkipLinkService {
 
   remove(key: string): void {
     const found: SkipLink = this.config.skipLinks.find(
-      skipLink => skipLink.key === key
+      (skipLink) => skipLink.key === key
     );
 
     if (found) {
       let existing: SkipLink[] = this.skipLinks$.value;
-      existing = existing.filter(skipLink => skipLink.key !== key);
+      existing = existing.filter((skipLink) => skipLink.key !== key);
       this.skipLinks$.next(existing);
     }
   }
@@ -49,23 +53,27 @@ export class SkipLinkService {
         ? skipLink.target
         : (skipLink.target as Element).parentElement;
 
+    // focus first focusable element in the
+    const firstFocusable =
+      this.keyboardFocusService.findFirstFocusable(target) || target;
+
     // we force a tabindex if not available, to ensure we can focus into the element
-    const currentTabIndex = target.getAttribute('tabindex');
-    if (!currentTabIndex) {
-      target.setAttribute('tabindex', '-1');
+    const hasTabindex = firstFocusable.hasAttribute('tabindex');
+    if (!hasTabindex) {
+      firstFocusable.setAttribute('tabindex', '-1');
     }
 
-    (target as HTMLElement).focus();
+    firstFocusable.focus();
 
     // drop the tmp tabindex
-    if (!currentTabIndex) {
-      target.removeAttribute('tabindex');
+    if (!hasTabindex) {
+      firstFocusable.removeAttribute('tabindex');
     }
   }
 
   protected getSkipLinkIndexInArray(key: string): number {
     let index: number = this.config.skipLinks.findIndex(
-      skipLink => skipLink.key === key
+      (skipLink) => skipLink.key === key
     );
 
     while (index > 0) {
@@ -74,7 +82,7 @@ export class SkipLinkService {
       if (previous) {
         const existing: SkipLink[] = this.skipLinks$.value;
         const found: number = existing.findIndex(
-          skipLink => skipLink.key === previous.key
+          (skipLink) => skipLink.key === previous.key
         );
         if (found > -1) {
           return found + 1;
