@@ -200,6 +200,7 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     assignRoles: 'Manage Roles',
+    manageAddresses: 'Manage Addresses',
   },
   orgUnitForm: {
     create: 'Create Unit',
@@ -228,6 +229,14 @@ export const organization = {
   unitAssignRoles: {
     header: 'Manage roles in {{code}}',
     back: 'Close',
+  },
+  unitManageAddresses: {
+    header: 'Manage addresses in {{code}}',
+    create: 'Create new Address',
+    back: 'Back to unit',
+    id: 'ID',
+    name: 'Name',
+    formattedAddress: 'Details',
   },
   usersList: {
     sorting: {
