@@ -70,7 +70,7 @@ describe('CartEventBuilder', () => {
     eventService
       .get(event.constructor as Type<any>)
       .pipe(take(1))
-      .subscribe(e => result.push(e));
+      .subscribe((e) => result.push(e));
 
     actions$.next(actionActive as any);
     actions$.next(actionNotActive as any);

@@ -18,7 +18,7 @@ export function testActionToEventMapping<A, E>({
   eventService
     .get(event.constructor as Type<any>)
     .pipe(take(1))
-    .subscribe(e => (result = e));
+    .subscribe((e) => (result = e));
   actions$.next(action as any);
 
   expect(result).toEqual(event);
