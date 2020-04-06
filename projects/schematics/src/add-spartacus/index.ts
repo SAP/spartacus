@@ -2,6 +2,7 @@ import { experimental } from '@angular-devkit/core';
 import { italic, red } from '@angular-devkit/core/src/terminal';
 import {
   chain,
+  externalSchematic,
   noop,
   Rule,
   SchematicContext,
@@ -22,9 +23,12 @@ import {
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import {
+  ANGULAR_LOCALIZE,
   B2C_STOREFRONT_MODULE,
   SPARTACUS_ASSETS,
+  SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_STYLES,
 } from '../shared/constants';
 import { getIndexHtmlPath, getTsSourceFile } from '../shared/utils/file-utils';
 import {
@@ -49,22 +53,22 @@ function addPackageJsonDependencies(): Rule {
       {
         type: NodeDependencyType.Default,
         version: spartacusVersion,
-        name: '@spartacus/core',
+        name: SPARTACUS_CORE,
       },
       {
         type: NodeDependencyType.Default,
         version: spartacusVersion,
-        name: '@spartacus/storefront',
+        name: SPARTACUS_STOREFRONTLIB,
       },
       {
         type: NodeDependencyType.Default,
         version: spartacusVersion,
-        name: '@spartacus/assets',
+        name: SPARTACUS_ASSETS,
       },
       {
         type: NodeDependencyType.Default,
         version: spartacusVersion,
-        name: '@spartacus/styles',
+        name: SPARTACUS_STYLES,
       },
 
       {
@@ -107,7 +111,12 @@ function addPackageJsonDependencies(): Rule {
       },
       {
         type: NodeDependencyType.Default,
-        version: angularVersion || '~8.2.5',
+        version: angularVersion || '~9.1.0',
+        name: ANGULAR_LOCALIZE,
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: angularVersion || '~9.1.0',
         name: '@angular/service-worker',
       },
       {
@@ -318,6 +327,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(project, options) : noop(),
       installPackageJsonDependencies(),
+      externalSchematic(ANGULAR_LOCALIZE, 'ng-add', {}),
     ])(tree, context);
   };
 }
