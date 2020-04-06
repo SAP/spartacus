@@ -346,28 +346,24 @@ describe('Cart effect', () => {
 
   describe('addEmail$', () => {
     it('should add email to cart', () => {
-      const action = new DeprecatedCartActions.AddEmailToCart({
-        userId: userId,
-        cartId: cartId,
+      const action = new CartActions.AddEmailToCart({
+        userId,
+        cartId,
         email: 'test@test.com',
       });
-      const addEmailToCartCompletion = new DeprecatedCartActions.AddEmailToCartSuccess(
-        {
-          userId,
-          cartId,
-        }
-      );
-      const addEmailToMultiCartCompletion = new CartActions.AddEmailToMultiCartSuccess(
-        {
-          userId,
-          cartId,
-        }
-      );
-
+      const addEmailToCartCompletion = new CartActions.AddEmailToCartSuccess({
+        userId,
+        cartId,
+        email: 'test@test.com',
+      });
+      const loadCartCompletion = new CartActions.LoadCart({
+        userId,
+        cartId,
+      });
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
         b: addEmailToCartCompletion,
-        c: addEmailToMultiCartCompletion,
+        c: loadCartCompletion,
       });
 
       expect(cartEffects.addEmail$).toBeObservable(expected);

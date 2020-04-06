@@ -368,7 +368,7 @@ describe('MultiCartService', () => {
       service.assignEmail('cartId', 'userId', 'test@email.com');
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.AddEmailToCart({
+        new CartActions.AddEmailToCart({
           userId: 'userId',
           cartId: 'cartId',
           email: 'test@email.com',
