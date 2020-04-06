@@ -61,12 +61,35 @@ export function getParams(
   }
   const params = findNodes(callExpressions[0], ts.SyntaxKind.Identifier);
 
-  camelizedParamNames = camelizedParamNames.map(param =>
+  camelizedParamNames = camelizedParamNames.map((param) =>
     strings.camelize(param)
   );
 
   return params
-    .filter(n => n.kind === ts.SyntaxKind.Identifier)
-    .map(n => n.getText())
-    .filter(text => camelizedParamNames.includes(text));
+    .filter((n) => n.kind === ts.SyntaxKind.Identifier)
+    .map((n) => n.getText())
+    .filter((text) => camelizedParamNames.includes(text));
+}
+
+export function updatePackageJson(
+  appTree: UnitTestTree,
+  filePath: string,
+  type: string,
+  pkg: string,
+  version: string
+): void {
+  const packageContent = appTree.read(normalize(filePath));
+  if (!packageContent) {
+    return;
+  }
+  const packageJson = JSON.parse(packageContent.toString());
+  if (!packageJson[type]) {
+    packageJson[type] = {};
+  }
+
+  if (!packageJson[type][pkg]) {
+    packageJson[type][pkg] = version;
+  }
+
+  appTree.overwrite(filePath, JSON.stringify(packageJson));
 }

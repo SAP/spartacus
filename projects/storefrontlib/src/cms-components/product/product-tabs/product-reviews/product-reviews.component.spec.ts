@@ -75,7 +75,7 @@ describe('ProductReviewsComponent in product', () => {
 
   it('from get reviews by product code', () => {
     expect(productReviewsComponent.reviews$).toBeTruthy();
-    productReviewsComponent.reviews$.subscribe(result => {
+    productReviewsComponent.reviews$.subscribe((result) => {
       expect(result).toEqual(reviews);
     });
   });
@@ -83,7 +83,7 @@ describe('ProductReviewsComponent in product', () => {
   it('should contain a form object for the review submission form, after init()', () => {
     const props = ['comment', 'title', 'rating', 'reviewerName'];
 
-    props.forEach(prop => {
+    props.forEach((prop) => {
       expect(productReviewsComponent.reviewForm.controls[prop]).toBeDefined();
     });
   });

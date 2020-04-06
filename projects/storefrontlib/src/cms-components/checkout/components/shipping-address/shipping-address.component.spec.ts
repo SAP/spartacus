@@ -171,7 +171,7 @@ describe('ShippingAddressComponent', () => {
   });
 
   describe('should call ngOnInit to get user addresses', () => {
-    it('for login user, should load user addresses if they do not exist', done => {
+    it('for login user, should load user addresses if they do not exist', (done) => {
       spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
         of(false)
       );
@@ -185,7 +185,7 @@ describe('ShippingAddressComponent', () => {
       });
     });
 
-    it('for guest user, should not load user addresses', done => {
+    it('for guest user, should not load user addresses', (done) => {
       spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
         of(false)
       );
@@ -211,13 +211,13 @@ describe('ShippingAddressComponent', () => {
 
       component.ngOnInit();
       let address: Address[];
-      component.existingAddresses$.subscribe(data => {
+      component.existingAddresses$.subscribe((data) => {
         address = data;
       });
 
       expect(address).toBe(mockAddresses);
 
-      component.cards$.subscribe(cards => {
+      component.cards$.subscribe((cards) => {
         expect(cards.length).toEqual(2);
       });
 
@@ -233,12 +233,12 @@ describe('ShippingAddressComponent', () => {
       );
       component.ngOnInit();
       let address: Address[];
-      component.existingAddresses$.subscribe(data => {
+      component.existingAddresses$.subscribe((data) => {
         address = data;
       });
 
       expect(address).toBe(mockAddresses);
-      component.cards$.subscribe(cards => {
+      component.cards$.subscribe((cards) => {
         expect(cards.length).toEqual(2);
         expect(cards[1].card.header).toBe('addressCard.selected');
       });
@@ -277,14 +277,14 @@ describe('ShippingAddressComponent', () => {
 
     component.ngOnInit();
     let address: Address[];
-    component.existingAddresses$.subscribe(data => {
+    component.existingAddresses$.subscribe((data) => {
       address = data;
     });
 
     expect(address).toBe(mockAddresses);
 
     //mockAddresses array contains an address that is default so it will be selected
-    component.cards$.subscribe(cards => {
+    component.cards$.subscribe((cards) => {
       expect(cards.length).toEqual(2);
       expect(cards[1].card.header).toBe('addressCard.selected');
     });
@@ -301,7 +301,7 @@ describe('ShippingAddressComponent', () => {
 
     component.ngOnInit();
     let address: Address[];
-    component.existingAddresses$.subscribe(data => {
+    component.existingAddresses$.subscribe((data) => {
       address = data;
     });
 
@@ -310,7 +310,7 @@ describe('ShippingAddressComponent', () => {
     fixture.detectChanges();
 
     //mockAddresses array contains an address that is default so it will be selected
-    component.cards$.subscribe(cards => {
+    component.cards$.subscribe((cards) => {
       expect(cards.length).toEqual(2);
       expect(cards[1].card.header).toBe('addressCard.selected');
     });
@@ -333,7 +333,7 @@ describe('ShippingAddressComponent', () => {
 
     component.ngOnInit();
     let address: Address[];
-    component.existingAddresses$.subscribe(data => {
+    component.existingAddresses$.subscribe((data) => {
       address = data;
     });
     expect(address).toBe(mockAddresses);
@@ -354,7 +354,7 @@ describe('ShippingAddressComponent', () => {
     const getContinueBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-primary'))
-        .find(el => el.nativeElement.innerText === 'common.continue');
+        .find((el) => el.nativeElement.innerText === 'common.continue');
 
     it('should be disabled when no address is selected', () => {
       spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
@@ -367,7 +367,7 @@ describe('ShippingAddressComponent', () => {
       mockAddress2.defaultAddress = false;
       component.ngOnInit();
 
-      component.selectedAddress$.subscribe(selectedAddress => {
+      component.selectedAddress$.subscribe((selectedAddress) => {
         fixture.detectChanges();
         expect(selectedAddress).toBeNull();
         expect(getContinueBtn().nativeElement.disabled).toEqual(true);
@@ -387,7 +387,7 @@ describe('ShippingAddressComponent', () => {
 
       component.ngOnInit();
       let address: Address[];
-      component.existingAddresses$.subscribe(data => {
+      component.existingAddresses$.subscribe((data) => {
         address = data;
       });
 
@@ -417,7 +417,7 @@ describe('ShippingAddressComponent', () => {
 
       component.ngOnInit();
       let address: Address[];
-      component.existingAddresses$.subscribe(data => {
+      component.existingAddresses$.subscribe((data) => {
         address = data;
       });
 
@@ -440,7 +440,7 @@ describe('ShippingAddressComponent', () => {
     const getBackBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'checkout.backToCart');
+        .find((el) => el.nativeElement.innerText === 'checkout.backToCart');
 
     it('should call "goPrevious" function after being clicked', () => {
       spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
@@ -498,7 +498,7 @@ describe('ShippingAddressComponent', () => {
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
         .find(
-          el => el.nativeElement.innerText === 'checkoutAddress.addNewAddress'
+          (el) => el.nativeElement.innerText === 'checkoutAddress.addNewAddress'
         );
     const getNewAddressForm = () =>
       fixture.debugElement.query(By.css('cx-address-form'));

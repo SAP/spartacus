@@ -29,9 +29,6 @@ describe('Multi Cart effect', () => {
   let cartEffects: fromEffects.MultiCartEffects;
   let actions$: Observable<any>;
 
-  const userId = 'testUserId';
-  const cartId = 'testCartId';
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -49,24 +46,6 @@ describe('Multi Cart effect', () => {
     });
 
     cartEffects = TestBed.inject(fromEffects.MultiCartEffects);
-  });
-
-  describe('loadCart2$', () => {
-    it('should dispatch load multi cart action', () => {
-      const action = new DeprecatedCartActions.LoadCart({
-        userId,
-        cartId,
-      });
-      const loadMultiCartCompletion = new CartActions.LoadMultiCart({
-        userId,
-        cartId,
-      });
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: loadMultiCartCompletion,
-      });
-      expect(cartEffects.loadCart2$).toBeObservable(expected);
-    });
   });
 
   describe('setTempCart$', () => {
@@ -94,25 +73,6 @@ describe('Multi Cart effect', () => {
     });
   });
 
-  describe('addEmail2$', () => {
-    it('should dispatch AddEmailToMultiCart action', () => {
-      const payload = {
-        email: 'test@email.com',
-        userId: 'userId',
-        cartId: 'cartId',
-      };
-      const action = new DeprecatedCartActions.AddEmailToCart(payload);
-      const addEmailToMultiCartCompletion = new CartActions.AddEmailToMultiCart(
-        payload
-      );
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: addEmailToMultiCartCompletion,
-      });
-      expect(cartEffects.addEmail2$).toBeObservable(expected);
-    });
-  });
-
   describe('removeCart$', () => {
     it('should dispatch RemoveCart action', () => {
       const payload = {
@@ -135,10 +95,6 @@ describe('Multi Cart effect', () => {
         userId: 'userId',
         cartId: 'cartId',
       };
-      const action4 = new DeprecatedCartActions.AddEmailToCart({
-        ...payload,
-        email: 'email',
-      });
       const action5 = new CheckoutActions.ClearCheckoutDeliveryMode(payload);
       const action6 = new CartActions.CartAddVoucher({
         ...payload,
@@ -148,13 +104,11 @@ describe('Multi Cart effect', () => {
       const processesIncrementCompletion = new CartActions.CartProcessesIncrement(
         payload.cartId
       );
-      actions$ = hot('-d-e-f', {
-        d: action4,
+      actions$ = hot('-e-f', {
         e: action5,
         f: action6,
       });
-      const expected = cold('-4-5-6', {
-        4: processesIncrementCompletion,
+      const expected = cold('-5-6', {
         5: processesIncrementCompletion,
         6: processesIncrementCompletion,
       });

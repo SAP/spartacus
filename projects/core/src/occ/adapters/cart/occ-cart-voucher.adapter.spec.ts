@@ -57,9 +57,9 @@ describe('OccCartVoucherAdapter', () => {
   describe('add voucher to cart', () => {
     it('should add voucher to cart for given user id, cart id and voucher id', () => {
       let result;
-      service.add(userId, cartId, voucherId).subscribe(res => (result = res));
+      service.add(userId, cartId, voucherId).subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
       });
 
@@ -80,9 +80,9 @@ describe('OccCartVoucherAdapter', () => {
       let result;
       service
         .remove(userId, cartId, voucherId)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'DELETE';
       });
 

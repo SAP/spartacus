@@ -39,12 +39,8 @@ export function fillRegistrationForm(
 
 export function fillLoginForm({ username, password }: LoginUser) {
   cy.get('cx-login-form form').within(() => {
-    cy.get('[formcontrolname="userId"]')
-      .clear()
-      .type(username);
-    cy.get('[formcontrolname="password"]')
-      .clear()
-      .type(password);
+    cy.get('[formcontrolname="userId"]').clear().type(username);
+    cy.get('[formcontrolname="password"]').clear().type(password);
     cy.get('button[type=submit]').click();
   });
 }

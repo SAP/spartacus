@@ -37,9 +37,7 @@ export function productPricingFlow() {
       .click({ force: true });
   });
 
-  cy.wait(`@${QUERY_ALIAS.CATEGORY_PAGE}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.CATEGORY_PAGE}`).its('status').should('eq', 200);
 
   assertNumberOfProducts(`@${QUERY_ALIAS.CATEGORY_PAGE}`, category);
 

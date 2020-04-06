@@ -38,7 +38,7 @@ describe('QualtricsComponent', () => {
   it('should be loaded', () => {
     let result: boolean;
 
-    component.qualtricsEnabled$.subscribe(data => (result = data));
+    component.qualtricsEnabled$.subscribe((data) => (result = data));
 
     expect(result).toBe(true);
   });

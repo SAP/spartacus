@@ -33,7 +33,7 @@ describe('Open ID Token Selectors', () => {
       let result: LoaderState<OpenIdToken>;
       store
         .pipe(select(KymaSelectors.getOpenIdTokenState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -51,7 +51,7 @@ describe('Open ID Token Selectors', () => {
       let result: OpenIdToken;
       store
         .pipe(select(KymaSelectors.getOpenIdTokenValue))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(testToken);
@@ -69,7 +69,7 @@ describe('Open ID Token Selectors', () => {
       let result = false;
       store
         .pipe(select(KymaSelectors.getOpenIdTokenLoading))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -82,7 +82,7 @@ describe('Open ID Token Selectors', () => {
       let result = false;
       store
         .pipe(select(KymaSelectors.getOpenIdTokenSuccess))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -95,7 +95,7 @@ describe('Open ID Token Selectors', () => {
       let result = false;
       store
         .pipe(select(KymaSelectors.getOpenIdTokenError))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);

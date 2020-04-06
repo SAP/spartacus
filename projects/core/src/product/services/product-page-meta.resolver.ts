@@ -38,9 +38,9 @@ export class ProductPageMetaResolver extends PageMetaResolver
     PageRobotsResolver {
   // reusable observable for product data based on the current page
   protected product$ = this.routingService.getRouterState().pipe(
-    map(state => state.state.params['productCode']),
-    filter(code => !!code),
-    switchMap(code => this.productService.get(code, ProductScope.DETAILS)),
+    map((state) => state.state.params['productCode']),
+    filter((code) => !!code),
+    switchMap((code) => this.productService.get(code, ProductScope.DETAILS)),
     filter(Boolean)
   );
 

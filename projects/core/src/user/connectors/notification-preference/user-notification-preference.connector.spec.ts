@@ -16,7 +16,7 @@ const mockNotificationPreference: NotificationPreference[] = [
 ];
 
 class MocktAdapter implements UserNotificationPreferenceAdapter {
-  loadAll = createSpy('loadAll').and.callFake(userId =>
+  loadAll = createSpy('loadAll').and.callFake((userId) =>
     of(`loadAll-notification-preferences-${userId}`)
   );
   update = createSpy('update').and.callFake((userId, preferences) =>
@@ -45,7 +45,7 @@ describe('UserNotificationPreferenceConnector', () => {
 
   it('loadAll should call adapter', () => {
     let result;
-    service.loadAll(user).subscribe(res => (result = res));
+    service.loadAll(user).subscribe((res) => (result = res));
     expect(result).toEqual('loadAll-notification-preferences-testUser');
     expect(adapter.loadAll).toHaveBeenCalledWith(user);
   });
@@ -54,7 +54,7 @@ describe('UserNotificationPreferenceConnector', () => {
     let result;
     service
       .update(user, mockNotificationPreference)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual('update-notification-preferences-testUser-EMAIL');
     expect(adapter.update).toHaveBeenCalledWith(
       user,

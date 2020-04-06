@@ -162,7 +162,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       !this.anonymousConsentsConfig.anonymousConsents.consentManagementPage
         .showAnonymousConsents
     ) {
-      hideTemplateIds = anonymousTemplates.map(template => template.id);
+      hideTemplateIds = anonymousTemplates.map((template) => template.id);
       return this.userConsentService.filterConsentTemplates(
         templateList,
         hideTemplateIds
@@ -192,7 +192,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.userConsentService
         .getGiveConsentResultSuccess()
-        .subscribe(success => this.onConsentGivenSuccess(success))
+        .subscribe((success) => this.onConsentGivenSuccess(success))
     );
   }
 
@@ -207,13 +207,13 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
             this.userConsentService.getWithdrawConsentResultSuccess()
           ),
           map(([, withdrawalSuccess]) => withdrawalSuccess),
-          tap(withdrawalSuccess => {
+          tap((withdrawalSuccess) => {
             if (withdrawalSuccess) {
               this.userConsentService.loadConsents();
             }
           })
         )
-        .subscribe(withdrawalSuccess =>
+        .subscribe((withdrawalSuccess) =>
           this.onConsentWithdrawnSuccess(withdrawalSuccess)
         )
     );
@@ -259,7 +259,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   rejectAll(templates: ConsentTemplate[] = []): void {
     const consentsToWithdraw: ConsentTemplate[] = [];
-    templates.forEach(template => {
+    templates.forEach((template) => {
       if (this.userConsentService.isConsentGiven(template.currentConsent)) {
         if (this.isRequiredConsent(template)) {
           return;
@@ -272,7 +272,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(
       this.setupWithdrawalStream(consentsToWithdraw)
-        .pipe(tap(_timesLoaded => this.allConsentsLoading.next(false)))
+        .pipe(tap((_timesLoaded) => this.allConsentsLoading.next(false)))
         .subscribe()
     );
   }
@@ -284,11 +284,11 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       this.userConsentService.getWithdrawConsentResultLoading()
     ).pipe(
       distinctUntilChanged(),
-      filter(loading => !loading)
+      filter((loading) => !loading)
     );
     const count$ = loading$.pipe(scan((acc, _value) => acc + 1, -1));
     const withdraw$ = count$.pipe(
-      tap(i => {
+      tap((i) => {
         if (i < consentsToWithdraw.length) {
           this.userConsentService.withdrawConsent(
             consentsToWithdraw[i].currentConsent.code
@@ -297,7 +297,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       })
     );
     const checkTimesLoaded$ = withdraw$.pipe(
-      filter(timesLoaded => timesLoaded === consentsToWithdraw.length)
+      filter((timesLoaded) => timesLoaded === consentsToWithdraw.length)
     );
 
     return checkTimesLoaded$;
@@ -305,7 +305,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   allowAll(templates: ConsentTemplate[] = []): void {
     const consentsToGive: ConsentTemplate[] = [];
-    templates.forEach(template => {
+    templates.forEach((template) => {
       if (this.userConsentService.isConsentWithdrawn(template.currentConsent)) {
         if (this.isRequiredConsent(template)) {
           return;
@@ -319,7 +319,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(
       this.setupGiveStream(consentsToGive)
-        .pipe(tap(_timesLoaded => this.allConsentsLoading.next(false)))
+        .pipe(tap((_timesLoaded) => this.allConsentsLoading.next(false)))
         .subscribe()
     );
   }
@@ -331,11 +331,11 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       this.userConsentService.getGiveConsentResultLoading()
     ).pipe(
       distinctUntilChanged(),
-      filter(loading => !loading)
+      filter((loading) => !loading)
     );
     const count$ = loading$.pipe(scan((acc, _value) => acc + 1, -1));
     const giveConsent$ = count$.pipe(
-      tap(i => {
+      tap((i) => {
         if (i < consentsToGive.length) {
           this.userConsentService.giveConsent(
             consentsToGive[i].id,
@@ -345,7 +345,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       })
     );
     const checkTimesLoaded$ = giveConsent$.pipe(
-      filter(timesLoaded => timesLoaded === consentsToGive.length)
+      filter((timesLoaded) => timesLoaded === consentsToGive.length)
     );
 
     return checkTimesLoaded$;

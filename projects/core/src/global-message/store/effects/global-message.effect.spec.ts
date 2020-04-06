@@ -82,7 +82,7 @@ describe('GlobalMessage Effects', () => {
 
   describe('hideAfterDelay$', () => {
     it('should hide message after delay', () => {
-      spyOnOperator(operators, 'delay').and.returnValue(data => data);
+      spyOnOperator(operators, 'delay').and.returnValue((data) => data);
 
       const action = new GlobalMessageActions.AddMessage(message);
       const completion = new GlobalMessageActions.RemoveMessage({
@@ -100,7 +100,7 @@ describe('GlobalMessage Effects', () => {
 
     it('should hide messages after delay', () => {
       const spyDelay = spyOnOperator(operators, 'delay').and.returnValue(
-        data => data
+        (data) => data
       );
       const action = new GlobalMessageActions.AddMessage(message);
       const action2 = new GlobalMessageActions.AddMessage(errorMessage);
@@ -124,7 +124,7 @@ describe('GlobalMessage Effects', () => {
   });
 
   it('should hide message after duration defined in message model', () => {
-    spyOnOperator(operators, 'delay').and.returnValue(data => data);
+    spyOnOperator(operators, 'delay').and.returnValue((data) => data);
 
     const action = new GlobalMessageActions.AddMessage(messageWithDuration);
     const completion = new GlobalMessageActions.RemoveMessage({
