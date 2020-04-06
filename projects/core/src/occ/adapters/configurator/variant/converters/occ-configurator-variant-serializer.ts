@@ -31,12 +31,12 @@ export class OccConfiguratorVariantSerializer
       configurable: source.configurable,
       groupType: this.convertGroupType(source.groupType),
       description: source.description,
-      cstics: [],
+      attributes: [],
       subGroups: [],
     };
     if (source.attributes) {
       source.attributes.forEach(attribute =>
-        this.convertAttribute(attribute, group.cstics)
+        this.convertAttribute(attribute, group.attributes)
       );
     }
     if (source.subGroups) {
@@ -50,11 +50,11 @@ export class OccConfiguratorVariantSerializer
 
   convertAttribute(
     attribute: Configurator.Attribute,
-    occCstics: OccConfigurator.Characteristic[]
+    occAttributes: OccConfigurator.Attribute[]
   ): void {
-    const cstic: OccConfigurator.Characteristic = {
+    const targetAttribute: OccConfigurator.Attribute = {
       name: attribute.name,
-      langdepname: attribute.label,
+      langDepName: attribute.label,
       required: attribute.required,
       type: this.convertCharacteristicType(attribute.uiType),
     };
@@ -64,26 +64,26 @@ export class OccConfiguratorVariantSerializer
       attribute.uiType === Configurator.UiType.RADIOBUTTON ||
       attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
-      cstic.value = attribute.selectedSingleValue;
+      targetAttribute.value = attribute.selectedSingleValue;
     } else if (attribute.uiType === Configurator.UiType.STRING) {
-      cstic.value = attribute.userInput;
+      targetAttribute.value = attribute.userInput;
     } else if (
       attribute.uiType === Configurator.UiType.CHECKBOX ||
       attribute.uiType === Configurator.UiType.MULTI_SELECTION_IMAGE
     ) {
-      cstic.domainvalues = [];
+      targetAttribute.domainValues = [];
       attribute.values.forEach(value => {
-        this.convertValue(value, cstic.domainvalues);
+        this.convertValue(value, targetAttribute.domainValues);
       });
     }
 
-    occCstics.push(cstic);
+    occAttributes.push(targetAttribute);
   }
 
   convertValue(value: Configurator.Value, values: OccConfigurator.Value[]) {
     values.push({
       key: value.valueCode,
-      langdepname: value.valueDisplay,
+      langDepName: value.valueDisplay,
       name: value.name,
       selected: value.selected,
     });
