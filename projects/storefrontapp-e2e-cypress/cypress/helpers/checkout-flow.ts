@@ -66,18 +66,24 @@ export function registerUser(
   return sampleUser;
 }
 
-export function signInUser() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
+export function signInUser(
+  baseSite: string = ELECTRONICS_BASESITE,
+  sampleUser: SampleUser = user
+) {
+  const loginPage = waitForPage('/login', 'getLoginPage', baseSite);
   cy.getByText(/Sign in \/ Register/i).click();
   cy.wait(`@${loginPage}`);
-  login(user.email, user.password);
+  login(sampleUser.email, sampleUser.password);
 }
 
-export function signOutUser() {
-  const logoutPage = waitForPage('/logout', 'getLogoutPage');
+export function signOutUser(
+  baseSite: string = ELECTRONICS_BASESITE,
+  sampleUser: SampleUser = user
+) {
+  const logoutPage = waitForPage('/logout', 'getLogoutPage', baseSite);
   signOut();
   cy.wait(`@${logoutPage}`);
-  cy.get('.cx-login-greet').should('not.contain', user.fullName);
+  cy.get('.cx-login-greet').should('not.contain', sampleUser.fullName);
 }
 
 export function goToProductDetailsPage() {
@@ -413,7 +419,7 @@ export function placeOrderWithCheapProduct(
 export function verifyOrderConfirmationPageWithCheapProduct(
   sampleUser: SampleUser = user,
   sampleProduct: SampleProduct = cheapProduct,
-  cartData: SampleCartProduct
+  cartData: SampleCartProduct = cartWithCheapProduct
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
@@ -438,7 +444,8 @@ export function verifyOrderConfirmationPageWithCheapProduct(
 }
 
 export function viewOrderHistoryWithCheapProduct(
-  baseSite: string = ELECTRONICS_BASESITE
+  baseSite: string = ELECTRONICS_BASESITE,
+  cartData: SampleCartProduct = cartWithCheapProduct
 ) {
   const orderHistoryPage = waitForPage(
     '/my-account/orders',
@@ -455,7 +462,7 @@ export function viewOrderHistoryWithCheapProduct(
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
-    .should('contain', cartWithCheapProduct.totalAndShipping);
+    .should('contain', cartData.totalAndShipping);
 }
 
 export function waitForPage(

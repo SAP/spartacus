@@ -13,7 +13,8 @@ let startTime = 0;
  */
 export function waitForOrderToBePlacedRequest(
   orderNumber?: string,
-  contentCatalog: string = 'electronics-spa'
+  contentCatalog: string = 'electronics-spa',
+  currency: string = 'GBP'
 ) {
   const { userId, access_token } = JSON.parse(
     localStorage.getItem('spartacus-local-data')
@@ -22,14 +23,12 @@ export function waitForOrderToBePlacedRequest(
     method: 'GET',
     url: `${Cypress.env(
       'API_URL'
-    )}/rest/v2/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=USD`,
+    )}/rest/v2/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=${currency}`,
     headers: {
-      Authorization: `bearer ${access_token}`,
-    },
+      Authorization: `bearer ${access_token}`
+    }
   })
-    .then(
-      (res) => new Promise((resolve) => setTimeout(() => resolve(res), delay))
-    )
+    .then(res => new Promise(resolve => setTimeout(() => resolve(res), delay)))
     .then((res: Cypress.Response) => {
       if (
         startTime > timerTimeout ||
@@ -37,7 +36,7 @@ export function waitForOrderToBePlacedRequest(
           res.body.orders &&
           res.body.orders.length &&
           (!orderNumber ||
-            res.body.orders.filter((order) => order.code === orderNumber)))
+            res.body.orders.filter(order => order.code === orderNumber)))
       ) {
         startTime = 0;
         return;

@@ -3,7 +3,7 @@ import {
   styleVariantProduct,
   variantProduct
 } from '../../sample-data/apparel-checkout-flow';
-import { selectProductStyleVariant } from '../product-details';
+import { addCheapProductToCart } from '../checkout-flow';
 
 export const APPAREL_BASESITE = 'apparel-uk-spa';
 export const APPAREL_CURRENCY = 'GBP';
@@ -19,49 +19,24 @@ export function configureApparelProduct() {
   });
 }
 
-export function addProductVariant() {
-  selectProductStyleVariant();
-  cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
-    .click();
-  cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.get('.cx-name .cx-link').should('contain', variantProduct.name);
-    cy.getByText(/view cart/i).click();
-  });
-  cy.get('cx-breadcrumb').should('contain', 'Your Shopping Bag');
-}
-
-export function addTwoProductVariantsToCart() {
-  selectProductStyleVariant();
-  cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
-    .click();
-  cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.get('.cx-name .cx-link').should('contain', variantProduct.name);
-    cy.get('.close').click();
-  });
+export function addVariantOfSameProductToCart() {
   cy.server();
   cy.route(
     'GET',
     `/rest/v2/apparel-uk-spa/products/${styleVariantProduct.code}/reviews*`
   ).as('getProductPage');
-  cy.get(`.variant-selector ul.variant-list li img[alt="lime"]`)
+  cy.get('.variant-selector ul.variant-list li:nth-child(2)')
     .first()
     .click();
   cy.wait('@getProductPage')
     .its('status')
     .should('eq', 200);
-  cy.get(`.variant-selector ul.variant-list li.selected-variant`).should(
-    'be.visible'
-  );
-  cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
-    .click();
-  cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.get('.cx-name .cx-link').should('contain', styleVariantProduct.name);
-    cy.getByText(/view cart/i).click();
-  });
+
+  addCheapProductToCart(styleVariantProduct);
+
+  cy.getByText(/view cart/i).click();
   cy.get('cx-breadcrumb').should('contain', 'Your Shopping Bag');
+  cy.getByText(/proceed to checkout/i).click();
 }
 
 export function visitProductWithoutVariantPage() {
