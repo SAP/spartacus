@@ -36,7 +36,7 @@ describe('ConfiguratorTextfieldSelectors', () => {
     let result: ConfiguratorTextfield.Configuration;
     store
       .pipe(select(ConfiguratorTextFieldSelectors.getConfigurationContent))
-      .subscribe(value => (result = value));
+      .subscribe((value) => (result = value));
 
     expect(result).toBeNull();
   });
@@ -49,7 +49,7 @@ describe('ConfiguratorTextfieldSelectors', () => {
 
     store
       .pipe(select(ConfiguratorTextFieldSelectors.getConfigurationContent))
-      .subscribe(value => (result = value));
+      .subscribe((value) => (result = value));
 
     expect(result).toEqual(configuration);
   });

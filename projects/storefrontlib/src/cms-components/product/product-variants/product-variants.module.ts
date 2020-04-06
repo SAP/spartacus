@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { ProductVariantsComponent } from './product-variants.component';
@@ -20,7 +20,14 @@ import { VariantStyleIconsComponent } from './variant-style-icons/variant-style-
     CommonModule,
     RouterModule,
     UrlModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    I18nModule,
+    VariantStyleSelectorModule,
+    VariantSizeSelectorModule,
+    VariantColorSelectorModule,
+    VariantStyleIconsModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ProductVariantSelectorComponent: {
           component: ProductVariantsComponent,
@@ -28,11 +35,6 @@ import { VariantStyleIconsComponent } from './variant-style-icons/variant-style-
         },
       },
     }),
-    I18nModule,
-    VariantStyleSelectorModule,
-    VariantSizeSelectorModule,
-    VariantColorSelectorModule,
-    VariantStyleIconsModule,
   ],
   declarations: [ProductVariantsComponent],
   entryComponents: [ProductVariantsComponent],

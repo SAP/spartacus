@@ -36,7 +36,7 @@ export class OccConfiguratorTextfieldAdapter
       )
       .pipe(
         this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER),
-        tap(configuration => (configuration.owner = owner))
+        tap((configuration) => (configuration.owner = owner))
       );
   }
 

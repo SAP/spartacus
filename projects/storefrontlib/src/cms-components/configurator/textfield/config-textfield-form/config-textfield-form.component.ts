@@ -27,7 +27,7 @@ export class ConfigTextfieldFormComponent implements OnInit {
     this.configuration$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        switchMap(owner => {
+        switchMap((owner) => {
           switch (owner.type) {
             case GenericConfigurator.OwnerType.PRODUCT:
               return this.configuratorTextfieldService.createConfiguration(

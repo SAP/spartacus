@@ -32,7 +32,7 @@ export class ConfigGroupTitleComponent implements OnInit {
     this.configuration$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        switchMap(owner =>
+        switchMap((owner) =>
           this.configuratorCommonsService.getConfiguration(owner)
         )
       );
@@ -40,7 +40,7 @@ export class ConfigGroupTitleComponent implements OnInit {
     this.displayedGroup$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        switchMap(owner =>
+        switchMap((owner) =>
           this.configuratorGroupsService.getCurrentGroup(owner)
         )
       );

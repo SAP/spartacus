@@ -1,28 +1,38 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { CartDataService } from '../../cart/facade/cart-data.service';
+import { of } from 'rxjs';
+import { AuthService } from '../../auth/facade/auth.service';
+import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { Cart } from '../../model/cart.model';
 import { Order } from '../../model/order.model';
 import { CheckoutActions } from '../store/actions/index';
-import { CHECKOUT_FEATURE, CheckoutState } from '../store/checkout-state';
+import { CheckoutState, CHECKOUT_FEATURE } from '../store/checkout-state';
 import * as CheckoutActionsReducers from '../store/reducers/index';
 import { CheckoutService } from './checkout.service';
 
 describe('CheckoutService', () => {
   let service: CheckoutService;
-  let cartData: CartDataServiceStub;
+  let activeCartService: ActiveCartService;
+  let authService: AuthService;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
-  class CartDataServiceStub {
-    userId;
+  class ActiveCartServiceStub {
     cart;
-    get cartId() {
-      return this.cart.code;
-    }
-    get isGuestCart() {
+    isGuestCart() {
       return true;
+    }
+
+    getActiveCartId() {
+      return of(cart.code);
+    }
+  }
+
+  class AuthServiceStub {
+    userId;
+    getOccUserId() {
+      return of(userId);
     }
   }
 
@@ -37,16 +47,18 @@ describe('CheckoutService', () => {
       ],
       providers: [
         CheckoutService,
-        { provide: CartDataService, useClass: CartDataServiceStub },
+        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: AuthService, useClass: AuthServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutService);
-    cartData = TestBed.inject(CartDataService);
     store = TestBed.inject(Store);
+    activeCartService = TestBed.inject(ActiveCartService);
+    authService = TestBed.inject(AuthService);
 
-    cartData.userId = userId;
-    cartData.cart = cart;
+    authService['userId'] = userId;
+    activeCartService['cart'] = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -66,7 +78,7 @@ describe('CheckoutService', () => {
     let orderDetails: Order;
     service
       .getOrderDetails()
-      .subscribe(data => {
+      .subscribe((data) => {
         orderDetails = data;
       })
       .unsubscribe();
@@ -115,7 +127,7 @@ describe('CheckoutService', () => {
       let loaded: boolean;
       service
         .getCheckoutDetailsLoaded()
-        .subscribe(data => {
+        .subscribe((data) => {
           loaded = data;
         })
         .unsubscribe();
@@ -129,7 +141,7 @@ describe('CheckoutService', () => {
     let loaded: boolean;
     service
       .getCheckoutDetailsLoaded()
-      .subscribe(data => {
+      .subscribe((data) => {
         loaded = data;
       })
       .unsubscribe();
@@ -137,7 +149,7 @@ describe('CheckoutService', () => {
   });
 
   it('should allow actions for login user or guest user', () => {
-    cartData.userId = 'anonymous';
+    authService['userId'] = 'anonymous';
     expect(service['actionAllowed']()).toBeTruthy();
   });
 });

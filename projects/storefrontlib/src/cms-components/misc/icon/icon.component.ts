@@ -19,8 +19,9 @@ import { ICON_TYPE } from './icon.model';
  *
  * The above button would become (based on a TEXT resource type):
  * `<button>😊happy label</button>`
- * While the content is projected, the icon itself doesn't require
- * an additional DOM node which is an advantage over the component selector.
+ *
+ * While the content is projected, the icon itself doesn't require an
+ * additional DOM node which is an advantage over the component selector.
  */
 @Component({
   selector: 'cx-icon,[cxIcon]',
@@ -48,6 +49,12 @@ export class IconComponent {
    */
   icon: SafeHtml;
 
+  /**
+   * Maintains the applied style classes so we can remove them when the
+   * icon type changes at run time.
+   */
+  protected styleClasses: string[];
+
   constructor(
     protected iconLoader: IconLoaderService,
     protected elementRef: ElementRef<HTMLElement>,
@@ -64,18 +71,27 @@ export class IconComponent {
   }
 
   /**
-   * Adds the style classes and the link resource (if availabe).
+   * Adds the style classes and the link resource (if available).
    */
   protected addStyleClasses(type: ICON_TYPE): void {
-    this.renderer.addClass(this.elementRef.nativeElement, 'cx-icon');
+    this.renderer.addClass(this.host, 'cx-icon');
 
-    this.iconLoader
-      .getStyleClasses(type)
-      .split(' ')
-      .forEach(cls => {
-        if (cls !== '') {
-          this.renderer.addClass(this.elementRef.nativeElement, cls);
-        }
-      });
+    if (this.styleClasses) {
+      this.styleClasses.forEach((cls) =>
+        this.renderer.removeClass(this.host, cls)
+      );
+    }
+
+    this.styleClasses = this.iconLoader.getStyleClasses(type).split(' ');
+
+    this.styleClasses.forEach((cls) => {
+      if (cls !== '') {
+        this.renderer.addClass(this.host, cls);
+      }
+    });
+  }
+
+  protected get host() {
+    return this.elementRef.nativeElement;
   }
 }

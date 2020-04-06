@@ -29,6 +29,6 @@ export class ConfigTabBarComponent {
   isOverviewPage(): Observable<boolean> {
     return this.configRouterExtractorService
       .isOverview(this.routingService)
-      .pipe(map(isOverview => isOverview.isOverview));
+      .pipe(map((isOverview) => isOverview.isOverview));
   }
 }

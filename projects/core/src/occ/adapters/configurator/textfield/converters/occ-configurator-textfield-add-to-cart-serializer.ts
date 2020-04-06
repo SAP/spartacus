@@ -26,7 +26,7 @@ export class OccConfiguratorTextfieldAddToCartSerializer
       configurationInfos: [],
     };
 
-    source.configuration.configurationInfos.forEach(info =>
+    source.configuration.configurationInfos.forEach((info) =>
       this.convertInfo(info, target.configurationInfos)
     );
 

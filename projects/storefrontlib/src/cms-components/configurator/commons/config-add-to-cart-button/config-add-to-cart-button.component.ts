@@ -33,7 +33,7 @@ export class ConfigAddToCartButtonComponent implements OnInit {
     this.configuration$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        switchMap(owner =>
+        switchMap((owner) =>
           this.configuratorCommonsService.getConfiguration(owner)
         )
       );
@@ -82,7 +82,7 @@ export class ConfigAddToCartButtonComponent implements OnInit {
     this.configRouterExtractorService
       .isOwnerCartEntry(this.routingService)
       .pipe(take(1))
-      .subscribe(config => {
+      .subscribe((config) => {
         if (config.isOwnerCartEntry) {
           if (configuration.isCartEntryUpdateRequired) {
             this.configuratorCommonsService.updateCartEntry(configuration);
@@ -104,12 +104,12 @@ export class ConfigAddToCartButtonComponent implements OnInit {
             .getConfiguration(owner)
             .pipe(
               filter(
-                configWithNextOwner =>
+                (configWithNextOwner) =>
                   configWithNextOwner.nextOwner !== undefined
               ),
               take(1)
             )
-            .subscribe(configWithNextOwner => {
+            .subscribe((configWithNextOwner) => {
               this.performNavigation(
                 configuratorType,
                 configWithNextOwner.nextOwner,
@@ -127,7 +127,7 @@ export class ConfigAddToCartButtonComponent implements OnInit {
     owner: GenericConfigurator.Owner,
     messageKey: string
   ) {
-    this.isOverview$.pipe(take(1)).subscribe(isOverview => {
+    this.isOverview$.pipe(take(1)).subscribe((isOverview) => {
       if (isOverview.isOverview) {
         this.navigateToCart();
       } else {

@@ -19,7 +19,7 @@ export class OccConfiguratorVariantSerializer
       groups: [],
     };
 
-    source.groups.forEach(group => this.convertGroup(group, target.groups));
+    source.groups.forEach((group) => this.convertGroup(group, target.groups));
 
     return target;
   }
@@ -35,12 +35,12 @@ export class OccConfiguratorVariantSerializer
       subGroups: [],
     };
     if (source.attributes) {
-      source.attributes.forEach(attribute =>
+      source.attributes.forEach((attribute) =>
         this.convertAttribute(attribute, group.attributes)
       );
     }
     if (source.subGroups) {
-      source.subGroups.forEach(subGroup =>
+      source.subGroups.forEach((subGroup) =>
         this.convertGroup(subGroup, group.subGroups)
       );
     }
@@ -72,7 +72,7 @@ export class OccConfiguratorVariantSerializer
       attribute.uiType === Configurator.UiType.MULTI_SELECTION_IMAGE
     ) {
       targetAttribute.domainValues = [];
-      attribute.values.forEach(value => {
+      attribute.values.forEach((value) => {
         this.convertValue(value, targetAttribute.domainValues);
       });
     }

@@ -28,7 +28,7 @@ export class OccConfiguratorVariantNormalizer
       isCartEntryUpdateRequired: false,
     };
 
-    source.groups.forEach(group =>
+    source.groups.forEach((group) =>
       this.convertGroup(group, target.groups, target.flatGroups)
     );
     return target;
@@ -40,7 +40,7 @@ export class OccConfiguratorVariantNormalizer
     flatGroupList: Configurator.Group[]
   ) {
     const attributes: Configurator.Attribute[] = [];
-    source.attributes.forEach(sourceAttribute =>
+    source.attributes.forEach((sourceAttribute) =>
       this.convertAttribute(sourceAttribute, attributes)
     );
 
@@ -57,7 +57,7 @@ export class OccConfiguratorVariantNormalizer
     this.setGeneralDescription(group);
 
     if (source.subGroups) {
-      source.subGroups.forEach(sourceSubGroup =>
+      source.subGroups.forEach((sourceSubGroup) =>
         this.convertGroup(sourceSubGroup, group.subGroups, flatGroupList)
       );
     }
@@ -88,13 +88,13 @@ export class OccConfiguratorVariantNormalizer
     };
 
     if (sourceAttribute.images) {
-      sourceAttribute.images.forEach(occImage =>
+      sourceAttribute.images.forEach((occImage) =>
         this.convertImage(occImage, attribute.images)
       );
     }
 
     if (sourceAttribute.domainValues) {
-      sourceAttribute.domainValues.forEach(value =>
+      sourceAttribute.domainValues.forEach((value) =>
         this.convertValue(value, attribute.values)
       );
       this.setSelectedSingleValue(attribute);
@@ -105,8 +105,8 @@ export class OccConfiguratorVariantNormalizer
 
   setSelectedSingleValue(attribute: Configurator.Attribute) {
     const selectedValues = attribute.values
-      .map(entry => entry)
-      .filter(entry => entry.selected);
+      .map((entry) => entry)
+      .filter((entry) => entry.selected);
     if (selectedValues && selectedValues.length === 1) {
       attribute.selectedSingleValue = selectedValues[0].valueCode;
     }
@@ -125,7 +125,7 @@ export class OccConfiguratorVariantNormalizer
     };
 
     if (occValue.images) {
-      occValue.images.forEach(occImage =>
+      occValue.images.forEach((occImage) =>
         this.convertImage(occImage, value.images)
       );
     }
@@ -214,7 +214,7 @@ export class OccConfiguratorVariantNormalizer
     this.translation
       .translate('configurator.group.general')
       .pipe(take(1))
-      .subscribe(generalText => (group.description = generalText));
+      .subscribe((generalText) => (group.description = generalText));
   }
 
   convertImageType(

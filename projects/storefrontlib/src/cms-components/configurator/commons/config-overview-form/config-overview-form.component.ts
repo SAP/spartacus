@@ -26,11 +26,11 @@ export class ConfigOverviewFormComponent implements OnInit {
     this.configuration$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        switchMap(owner =>
+        switchMap((owner) =>
           this.configuratorCommonsService.getOrCreateConfiguration(owner)
         ),
         take(1),
-        switchMap(configuration =>
+        switchMap((configuration) =>
           this.configuratorCommonsService.getConfigurationWithOverview(
             configuration
           )
@@ -45,7 +45,7 @@ export class ConfigOverviewFormComponent implements OnInit {
 
     return (
       configuration.overview.groups.find(
-        group => group.attributes.length > 0
+        (group) => group.attributes.length > 0
       ) !== null
     );
   }

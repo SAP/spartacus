@@ -86,7 +86,7 @@ describe('ConfiguratorGroupsService', () => {
     );
 
     expect(currentGroup).toBeDefined();
-    currentGroup.subscribe(groupId => {
+    currentGroup.subscribe((groupId) => {
       expect(groupId).toBe(GROUP_ID_2);
     });
   });
@@ -100,7 +100,7 @@ describe('ConfiguratorGroupsService', () => {
     );
 
     expect(parentGroup).toBeDefined();
-    parentGroup.subscribe(group => {
+    parentGroup.subscribe((group) => {
       expect(group).toBe(productConfiguration.groups[2]);
     });
   });
@@ -112,7 +112,7 @@ describe('ConfiguratorGroupsService', () => {
     );
 
     expect(currentGroup).toBeDefined();
-    currentGroup.subscribe(groupId => {
+    currentGroup.subscribe((groupId) => {
       expect(groupId).toBe(GROUP_ID_1);
     });
   });
@@ -126,7 +126,7 @@ describe('ConfiguratorGroupsService', () => {
     );
 
     expect(currentGroup).toBeDefined();
-    currentGroup.subscribe(groupId => {
+    currentGroup.subscribe((groupId) => {
       expect(groupId).toBe(GROUP_ID_3);
     });
   });
@@ -140,7 +140,7 @@ describe('ConfiguratorGroupsService', () => {
     );
 
     expect(currentGroup).toBeDefined();
-    currentGroup.subscribe(groupId => {
+    currentGroup.subscribe((groupId) => {
       expect(groupId).toBe(GROUP_ID_1);
     });
   });

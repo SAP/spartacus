@@ -13,7 +13,7 @@ export class OccConfiguratorVariantOverviewNormalizer
     target?: Configurator.Overview
   ): Configurator.Overview {
     target = {
-      groups: source.groups.flatMap(group => this.convertGroup(group)),
+      groups: source.groups.flatMap((group) => this.convertGroup(group)),
     };
 
     return target;
@@ -31,7 +31,7 @@ export class OccConfiguratorVariantOverviewNormalizer
       id: source.id,
       groupDescription: source.groupDescription,
       attributes: characteristicValues
-        ? characteristicValues.map(characteristic => {
+        ? characteristicValues.map((characteristic) => {
             return {
               attribute: characteristic.characteristic,
               value: characteristic.value,
@@ -40,8 +40,8 @@ export class OccConfiguratorVariantOverviewNormalizer
         : [],
     });
     if (subGroups) {
-      subGroups.forEach(subGroup =>
-        this.convertGroup(subGroup).forEach(groupArray =>
+      subGroups.forEach((subGroup) =>
+        this.convertGroup(subGroup).forEach((groupArray) =>
           result.push(groupArray)
         )
       );

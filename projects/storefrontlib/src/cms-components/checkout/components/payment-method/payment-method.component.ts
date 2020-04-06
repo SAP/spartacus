@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
+  ActiveCartService,
   Address,
-  CartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -45,35 +45,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   private checkoutStepUrlPrevious: string;
 
   constructor(
-    userPaymentService: UserPaymentService,
-    checkoutService: CheckoutService,
-    checkoutDeliveryService: CheckoutDeliveryService,
-    checkoutPaymentService: CheckoutPaymentService,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService,
-    checkoutConfigService: CheckoutConfigService,
-    activatedRoute: ActivatedRoute,
-    translation: TranslationService,
-    cartService: CartService // tslint:disable-line
-  );
-  /**
-   * @deprecated since 1.x
-   * NOTE: check issue:#1181 for more info
-   *
-   * TODO(issue:#1181) Deprecated since 1.x
-   */
-  constructor(
-    userPaymentService: UserPaymentService,
-    checkoutService: CheckoutService,
-    checkoutDeliveryService: CheckoutDeliveryService,
-    checkoutPaymentService: CheckoutPaymentService,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService,
-    checkoutConfigService: CheckoutConfigService,
-    activatedRoute: ActivatedRoute,
-    translation: TranslationService
-  );
-  constructor(
     protected userPaymentService: UserPaymentService,
     protected checkoutService: CheckoutService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
@@ -83,14 +54,14 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
-    protected cartService?: CartService
+    protected activeCartService: ActiveCartService
   ) {}
 
   ngOnInit() {
     this.allowRouting = false;
     this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
 
-    if (!this.cartService.isGuestCart()) {
+    if (!this.activeCartService.isGuestCart()) {
       this.userPaymentService.loadPaymentMethods();
     } else {
       this.isGuestCheckout = true;
@@ -115,16 +86,18 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.getPaymentDetailsSub = this.checkoutPaymentService
       .getPaymentDetails()
       .pipe(
-        filter(paymentInfo => paymentInfo && !!Object.keys(paymentInfo).length)
+        filter(
+          (paymentInfo) => paymentInfo && !!Object.keys(paymentInfo).length
+        )
       )
-      .subscribe(paymentInfo => {
+      .subscribe((paymentInfo) => {
         if (this.allowRouting) {
           this.routingService.go(this.checkoutStepUrlNext);
         }
         if (!paymentInfo['hasError']) {
           this.selectedPayment = paymentInfo;
         } else {
-          Object.keys(paymentInfo).forEach(key => {
+          Object.keys(paymentInfo).forEach((key) => {
             if (key.startsWith('InvalidField')) {
               this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
             }
@@ -259,32 +232,5 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
   goPrevious(): void {
     this.routingService.go(this.checkoutStepUrlPrevious);
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use goNext() instead.
-   * TODO(issue:#4992) deprecated since 1.3
-   */
-  next(): void {
-    this.goNext();
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use goPrevious() instead.
-   * TODO(issue:#4992) deprecated since 1.3
-   */
-  back(): void {
-    this.goPrevious();
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use selectPaymentMethod() instead.
-   * TODO(issue:#4992) deprecated since 1.3
-   */
-  paymentMethodSelected(paymentDetails: PaymentDetails): void {
-    this.selectPaymentMethod(paymentDetails);
   }
 }

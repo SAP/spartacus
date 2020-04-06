@@ -1,9 +1,10 @@
+import { Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkipLinkComponent } from './skip-link.component';
 import { I18nTestingModule } from '@spartacus/core';
+import { BehaviorSubject } from 'rxjs';
 import { SkipLink, SkipLinkConfig } from '../config/index';
 import { SkipLinkService } from '../service/skip-link.service';
-import { BehaviorSubject } from 'rxjs';
+import { SkipLinkComponent } from './skip-link.component';
 
 const mockSkipLinks: SkipLink[] = [
   {
@@ -26,6 +27,13 @@ const mockSkipLinks: SkipLink[] = [
   },
 ];
 
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config;
+}
+
 class MockSkipLinkService {
   getSkipLinks = () => {
     return new BehaviorSubject(mockSkipLinks);
@@ -39,7 +47,7 @@ describe('SkipLinkComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [SkipLinkComponent],
+      declarations: [SkipLinkComponent, MockFocusDirective],
       providers: [
         {
           provide: SkipLinkConfig,
@@ -72,19 +80,21 @@ describe('SkipLinkComponent', () => {
     expect(buttons[2].outerText).toContain(mockSkipLinks[2].i18nKey);
   });
 
-  it('should call `scrollToTarget` on button click', () => {
+  it('should call `scrollToTarget` on each button click', () => {
     const spyComponent = spyOn(skipLinkComponent, 'scrollToTarget');
     const element = fixture.debugElement.nativeElement;
     const buttons = element.querySelectorAll('button');
+
     expect(buttons.length).toEqual(3);
     expect(spyComponent).not.toHaveBeenCalled();
 
-    const mouseEvent = new MouseEvent('mousedown');
     buttons[0].click();
-    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0], mouseEvent);
     buttons[1].click();
-    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[1], mouseEvent);
     buttons[2].click();
-    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[2], mouseEvent);
+
+    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0]);
+    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[1]);
+    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[2]);
+    expect(spyComponent).toHaveBeenCalledTimes(3);
   });
 });

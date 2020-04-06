@@ -88,7 +88,7 @@ describe('OccConfigurationVariantAdapter', () => {
       .createConfiguration(productConfiguration.owner)
       .subscribe();
 
-    const mockReq = httpMock.expectOne(req => {
+    const mockReq = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === 'createConfiguration';
     });
 
@@ -111,7 +111,7 @@ describe('OccConfigurationVariantAdapter', () => {
       .readConfiguration(configId, groupId, productConfiguration.owner)
       .subscribe();
 
-    const mockReq = httpMock.expectOne(req => {
+    const mockReq = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === 'readConfiguration';
     });
 
@@ -133,7 +133,7 @@ describe('OccConfigurationVariantAdapter', () => {
       .updateConfiguration(productConfiguration)
       .subscribe();
 
-    const mockReq = httpMock.expectOne(req => {
+    const mockReq = httpMock.expectOne((req) => {
       return req.method === 'PATCH' && req.url === 'updateConfiguration';
     });
 
@@ -160,7 +160,7 @@ describe('OccConfigurationVariantAdapter', () => {
       .readPriceSummary(productConfiguration)
       .subscribe();
 
-    const mockReq = httpMock.expectOne(req => {
+    const mockReq = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === 'readPriceSummary';
     });
 
@@ -186,7 +186,7 @@ describe('OccConfigurationVariantAdapter', () => {
       .readConfigurationForCartEntry(params)
       .subscribe();
 
-    const mockReq = httpMock.expectOne(req => {
+    const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'GET' && req.url === 'readConfigurationForCartEntry'
       );
@@ -219,7 +219,7 @@ describe('OccConfigurationVariantAdapter', () => {
       .updateConfigurationForCartEntry(params)
       .subscribe();
 
-    const mockReq = httpMock.expectOne(req => {
+    const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'PUT' && req.url === 'updateConfigurationForCartEntry'
       );
@@ -250,13 +250,13 @@ describe('OccConfigurationVariantAdapter', () => {
     };
     occConfiguratorVariantAdapter
       .readConfigurationForCartEntry(params)
-      .subscribe(result => {
+      .subscribe((result) => {
         const owner = result.owner;
         expect(owner).toBeDefined();
         expect(owner.type).toBe(GenericConfigurator.OwnerType.CART_ENTRY);
         expect(owner.key).toBeUndefined();
       });
-    httpMock.expectOne(req => {
+    httpMock.expectOne((req) => {
       return (
         req.method === 'GET' && req.url === 'readConfigurationForCartEntry'
       );
@@ -268,7 +268,7 @@ describe('OccConfigurationVariantAdapter', () => {
       .getConfigurationOverview(productConfiguration.configId)
       .subscribe();
 
-    const mockReq = httpMock.expectOne(req => {
+    const mockReq = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === 'getConfigurationOverview';
     });
 

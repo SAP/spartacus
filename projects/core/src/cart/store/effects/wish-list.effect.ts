@@ -14,17 +14,11 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { SaveCartConnector } from '../../connectors/save-cart/save-cart.connecter';
+import { getCartIdByUserId, getWishlistName } from '../../utils/utils';
 import { CartActions } from '../actions';
 import { StateWithMultiCart } from '../multi-cart-state';
 import { MultiCartSelectors } from '../selectors';
 
-/**
- * @deprecated since version 1.5
- *
- * spartacus ngrx effects will no longer be a part of public API
- *
- * TODO(issue:#4507)
- */
 @Injectable()
 export class WishListEffects {
   @Effect()
@@ -33,9 +27,9 @@ export class WishListEffects {
   > = this.actions$.pipe(
     ofType(CartActions.CREATE_WISH_LIST),
     map((action: CartActions.CreateWishList) => action.payload),
-    switchMap(payload => {
+    switchMap((payload) => {
       return this.cartConnector.create(payload.userId).pipe(
-        switchMap(cart => {
+        switchMap((cart) => {
           return this.saveCartConnector
             .saveCart(
               payload.userId,
@@ -44,13 +38,13 @@ export class WishListEffects {
               payload.description
             )
             .pipe(
-              switchMap(saveCartResult => [
+              switchMap((saveCartResult) => [
                 new CartActions.CreateWishListSuccess({
                   cart: saveCartResult.savedCartData,
                   userId: payload.userId,
                 }),
               ]),
-              catchError(error =>
+              catchError((error) =>
                 from([
                   new CartActions.CreateWishListFail({
                     cartId: cart.code,
@@ -67,38 +61,52 @@ export class WishListEffects {
   @Effect()
   loadWishList$: Observable<
     | CartActions.LoadWishListSuccess
+    | CartActions.RemoveTempCart
     | CartActions.CreateWishList
-    | CartActions.LoadCartFail
+    | CartActions.LoadWishListFail
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_WISH_LIST),
     map((action: CartActions.LoadWishList) => action.payload),
-    concatMap(payload => {
-      const { userId, customerId } = payload;
+    concatMap((payload) => {
+      const { userId, customerId, tempCartId } = payload;
       return this.cartConnector.loadAll(userId).pipe(
-        switchMap(carts => {
+        switchMap((carts) => {
           if (carts) {
             const wishList = carts.find(
-              cart => cart.name === `wishlist${customerId}`
+              (cart) => cart.name === getWishlistName(customerId)
             );
             if (Boolean(wishList)) {
               return [
                 new CartActions.LoadWishListSuccess({
                   cart: wishList,
                   userId,
+                  tempCartId,
+                  customerId,
+                  cartId: getCartIdByUserId(wishList, userId),
+                }),
+                new CartActions.RemoveTempCart({
+                  tempCartId,
                 }),
               ];
             } else {
               return [
                 new CartActions.CreateWishList({
                   userId,
-                  name: `wishlist${customerId}`,
+                  name: getWishlistName(customerId),
                 }),
               ];
             }
           }
         }),
-        catchError(error =>
-          from([new CartActions.LoadCartFail(makeErrorSerializable(error))])
+        catchError((error) =>
+          from([
+            new CartActions.LoadWishListFail({
+              userId,
+              cartId: tempCartId,
+              customerId,
+              error: makeErrorSerializable(error),
+            }),
+          ])
         )
       );
     })
@@ -106,7 +114,7 @@ export class WishListEffects {
 
   @Effect()
   resetWishList$: Observable<
-    CartActions.LoadWishListSuccess | CartActions.LoadCartFail
+    CartActions.LoadWishListSuccess | CartActions.LoadWishListFail
   > = this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
@@ -119,11 +127,21 @@ export class WishListEffects {
     switchMap(([, userId, wishListId]) => {
       if (Boolean(wishListId)) {
         return this.cartConnector.load(userId, wishListId).pipe(
-          switchMap(wishList => [
-            new CartActions.LoadWishListSuccess({ cart: wishList, userId }),
+          switchMap((wishList) => [
+            new CartActions.LoadWishListSuccess({
+              cart: wishList,
+              userId,
+              cartId: getCartIdByUserId(wishList, userId),
+            }),
           ]),
-          catchError(error =>
-            from([new CartActions.LoadCartFail(makeErrorSerializable(error))])
+          catchError((error) =>
+            from([
+              new CartActions.LoadWishListFail({
+                userId,
+                cartId: wishListId,
+                error: makeErrorSerializable(error),
+              }),
+            ])
           )
         );
       }

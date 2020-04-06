@@ -5,8 +5,6 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { AuthActions } from '../../../auth/store/actions/index';
-import { CartDataService } from '../../../cart/facade/cart-data.service';
-import * as DeprecatedCartActions from '../../../cart/store/actions/cart.action';
 import { CartActions } from '../../../cart/store/actions/index';
 import {
   CheckoutDeliveryConnector,
@@ -57,11 +55,6 @@ class MockCheckoutDeliveryConnector {
   setMode = createSpy().and.returnValue(of({}));
 }
 
-class MockCartDataService {
-  cartId = 'cartId';
-  userId = 'userId';
-}
-
 class MockCheckoutPaymentConnector {
   set = createSpy().and.returnValue(of({}));
   create = createSpy().and.returnValue(of(paymentDetails));
@@ -92,7 +85,6 @@ describe('Checkout effect', () => {
           useClass: MockCheckoutPaymentConnector,
         },
         { provide: CheckoutConnector, useClass: MockCheckoutConnector },
-        { provide: CartDataService, useClass: MockCartDataService },
         fromEffects.CheckoutEffects,
         provideMockActions(() => actions$),
       ],
@@ -257,7 +249,7 @@ describe('Checkout effect', () => {
       const setDeliveryModeSuccess = new CheckoutActions.SetDeliveryModeSuccess(
         'testSelectedModeId'
       );
-      const loadCart = new DeprecatedCartActions.LoadCart({
+      const loadCart = new CartActions.LoadCart({
         userId,
         cartId,
       });

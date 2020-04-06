@@ -171,7 +171,7 @@ describe('ConfiguratorEffect', () => {
     );
     actions$ = hot('-a', { a: action });
 
-    configEffects.createConfiguration$.subscribe(emitted => fail(emitted));
+    configEffects.createConfiguration$.subscribe((emitted) => fail(emitted));
   });
 
   it('should emit a fail action in case something goes wrong', () => {
@@ -215,7 +215,7 @@ describe('ConfiguratorEffect', () => {
     );
     actions$ = hot('-a', { a: action });
 
-    configEffects.readConfiguration$.subscribe(emitted => fail(emitted));
+    configEffects.readConfiguration$.subscribe((emitted) => fail(emitted));
     // just to get rid of the SPEC_HAS_NO_EXPECTATIONS message.
     // The actual test is done in the subscribe part
     expect(true).toBeTruthy();
@@ -247,7 +247,7 @@ describe('ConfiguratorEffect', () => {
     );
     actions$ = hot('-a', { a: action });
 
-    configEffects.getOverview$.subscribe(emitted => fail(emitted));
+    configEffects.getOverview$.subscribe((emitted) => fail(emitted));
     // just to get rid of the SPEC_HAS_NO_EXPECTATIONS message.
     // The actual test is done in the subscribe part
     expect(true).toBeTruthy();
@@ -274,7 +274,7 @@ describe('ConfiguratorEffect', () => {
       );
       actions$ = hot('-a', { a: action });
 
-      configEffects.updateConfiguration$.subscribe(emitted => fail(emitted));
+      configEffects.updateConfiguration$.subscribe((emitted) => fail(emitted));
       // just to get rid of the SPEC_HAS_NO_EXPECTATIONS message.
       // The actual test is done in the subscribe part
       expect(true).toBeTruthy();
@@ -382,7 +382,7 @@ describe('ConfiguratorEffect', () => {
       );
       actions$ = hot('-a', { a: action });
 
-      configEffects.updateConfigurationFail$.subscribe(emitted =>
+      configEffects.updateConfigurationFail$.subscribe((emitted) =>
         fail(emitted)
       );
       // just to get rid of the SPEC_HAS_NO_EXPECTATIONS message.

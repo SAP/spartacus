@@ -64,7 +64,7 @@ describe('ConfigRouterExtractorService', () => {
     let owner: GenericConfigurator.Owner;
     serviceUnderTest
       .extractConfigurationOwner(routingService)
-      .subscribe(ownerFromRouting => (owner = ownerFromRouting));
+      .subscribe((ownerFromRouting) => (owner = ownerFromRouting));
     expect(owner.id).toBe(PRODUCT_CODE);
     expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
     expect(owner.key.includes(GenericConfigurator.OwnerType.PRODUCT)).toBe(
@@ -80,7 +80,7 @@ describe('ConfigRouterExtractorService', () => {
 
     serviceUnderTest
       .extractConfigurationOwner(routingService)
-      .subscribe(ownerFromRouting => (owner = ownerFromRouting));
+      .subscribe((ownerFromRouting) => (owner = ownerFromRouting));
     expect(owner.id).toBe(PRODUCT_CODE);
     expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
     expect(owner.key.includes(GenericConfigurator.OwnerType.PRODUCT)).toBe(
@@ -96,7 +96,7 @@ describe('ConfigRouterExtractorService', () => {
 
     serviceUnderTest
       .extractConfigurationOwner(routingService)
-      .subscribe(ownerFromRouting => (owner = ownerFromRouting));
+      .subscribe((ownerFromRouting) => (owner = ownerFromRouting));
     expect(owner.id).toBe(CART_ENTRY_NUMBER);
     expect(owner.type).toBe(GenericConfigurator.OwnerType.CART_ENTRY);
     expect(owner.key.includes(GenericConfigurator.OwnerType.CART_ENTRY)).toBe(
@@ -114,7 +114,7 @@ describe('ConfigRouterExtractorService', () => {
 
     serviceUnderTest
       .getConfiguratorType(routingService)
-      .subscribe(configuratorType => (configType = configuratorType));
+      .subscribe((configuratorType) => (configType = configuratorType));
     expect(configType).toBe('CPQCONFIGURATOR');
   });
 
@@ -127,7 +127,7 @@ describe('ConfigRouterExtractorService', () => {
     serviceUnderTest
       .isOwnerCartEntry(routingService)
       .subscribe(
-        hasBeenAddedFromRouter => (hasBeenAdded = hasBeenAddedFromRouter)
+        (hasBeenAddedFromRouter) => (hasBeenAdded = hasBeenAddedFromRouter)
       );
     expect(hasBeenAdded.isOwnerCartEntry).toBe(true);
   });
@@ -141,7 +141,7 @@ describe('ConfigRouterExtractorService', () => {
     serviceUnderTest
       .isOwnerCartEntry(routingService)
       .subscribe(
-        hasBeenAddedFromRouter => (hasBeenAdded = hasBeenAddedFromRouter)
+        (hasBeenAddedFromRouter) => (hasBeenAdded = hasBeenAddedFromRouter)
       );
     expect(hasBeenAdded.isOwnerCartEntry).toBe(false);
   });
@@ -153,10 +153,10 @@ describe('ConfigRouterExtractorService', () => {
 
       serviceUnderTest
         .isOverview(routingService)
-        .subscribe(isOverview => (isOverviewResult = isOverview));
+        .subscribe((isOverview) => (isOverviewResult = isOverview));
       serviceUnderTest
         .isConfigurator(routingService)
-        .subscribe(isConfigurator => (isConfiguratorResult = isConfigurator));
+        .subscribe((isConfigurator) => (isConfiguratorResult = isConfigurator));
 
       expect(isConfiguratorResult.isConfigurator).toBe(true);
       expect(isOverviewResult.isOverview).toBe(false);
@@ -170,10 +170,10 @@ describe('ConfigRouterExtractorService', () => {
 
       serviceUnderTest
         .isOverview(routingService)
-        .subscribe(isOverview => (isOverviewResult = isOverview));
+        .subscribe((isOverview) => (isOverviewResult = isOverview));
       serviceUnderTest
         .isConfigurator(routingService)
-        .subscribe(isConfigurator => (isConfiguratorResult = isConfigurator));
+        .subscribe((isConfigurator) => (isConfiguratorResult = isConfigurator));
 
       expect(isConfiguratorResult.isConfigurator).toBe(false);
       expect(isOverviewResult.isOverview).toBe(true);

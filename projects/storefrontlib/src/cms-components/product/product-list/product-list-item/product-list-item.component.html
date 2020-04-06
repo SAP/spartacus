@@ -31,12 +31,10 @@
       {{ product.price?.formattedValue }}
     </div>
 
-    <ng-container *cxFeatureLevel="'1.5'">
-      <cx-variant-style-icons
-        *ngIf="product.variantOptions"
-        [variants]="product.variantOptions"
-      ></cx-variant-style-icons>
-    </ng-container>
+    <cx-variant-style-icons
+      *ngIf="product.variantOptions"
+      [variants]="product.variantOptions"
+    ></cx-variant-style-icons>
 
     <div class="row">
       <div class="col-12 col-md-8">

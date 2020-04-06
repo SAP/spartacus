@@ -258,7 +258,7 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the group menu in mobile resolution', () => {
-      cy.window().then(win => win.sessionStorage.clear());
+      cy.window().then((win) => win.sessionStorage.clear());
       cy.viewport(formats.mobile.width, formats.mobile.height);
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();

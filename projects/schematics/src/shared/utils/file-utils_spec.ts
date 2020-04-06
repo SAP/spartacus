@@ -10,36 +10,44 @@ import {
 } from '@schematics/angular/utility/change';
 import * as path from 'path';
 import * as ts from 'typescript';
+import { COMPONENT_DEPRECATION_DATA } from '../../migrations/2_0/component-deprecations/component-deprecations-data';
 import {
   AUTH_SERVICE,
   FEATURE_CONFIG_SERVICE,
   NGRX_STORE,
   SPARTACUS_CORE,
   STORE,
+  TODO_SPARTACUS,
   USER_ADDRESS_SERVICE,
   UTF_8,
 } from '../constants';
 import {
   addConstructorParam,
+  buildSpartacusComment,
   ClassType,
   commitChanges,
   defineProperty,
   findConstructor,
   getAllTsSourceFiles,
+  getHtmlFiles,
   getIndexHtmlPath,
+  getLineFromTSFile,
   getPathResultsForFile,
   getTsSourceFile,
   injectService,
   insertCommentAboveIdentifier,
+  insertComponentSelectorComment,
   InsertDirection,
+  insertHtmlComment,
   isCandidateForConstructorDeprecation,
+  isInheriting,
   removeConstructorParam,
   renameIdentifierNode,
 } from './file-utils';
 import { getProjectFromWorkspace, getSourceRoot } from './workspace-utils';
 
 const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
-    import { Store } from '@ngrx/store';
+    import { ActionsSubject, Store } from '@ngrx/store';
     import {
       AuthService,
       StateWithProcess,
@@ -48,10 +56,11 @@ const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
     } from '@spartacus/core';
     export class InheritingService extends UserAddressService {
       constructor(
-        authService: AuthService,
-        store: Store<StateWithUser | StateWithProcess<void>>
+        store: Store<StateWithUser | StateWithProcess<void>>,
+        private actions: ActionsSubject
       ) {
-        super(authService, store);
+        super(store);
+        console.log(this.actions);
       }
     }
 `;
@@ -60,6 +69,16 @@ const INHERITANCE_TEST_CLASS = `
     import { StateWithProcess, StateWithUser } from '@spartacus/core';
     export class InheritingService {
       constructor(_store: Store<StateWithUser | StateWithProcess<void>>) {}
+    }
+`;
+const INHERITANCE_IMPORT_TEST_CLASS = `
+    import { Store } from '@ngrx/store';
+    import { StateWithProcess, StateWithUser } from '@spartacus/core';
+    import { UserAddressService } from './customer-class';
+    export class InheritedService extends UserAddressService {
+      constructor(store: Store<StateWithUser | StateWithProcess<void>>) {
+        super(store);
+      }
     }
 `;
 const IMPORT_MISSING_TEST_CLASS = `
@@ -146,6 +165,23 @@ const VALID_ADD_CONSTRUCTOR_PARAM_CLASS = `
       }
     }
 `;
+const VALID_ADD_CONSTRUCTOR_PARAM_WITH_ADDITIONAL_INJECTED_SERVICE_CLASS = `
+    import { ActionsSubject, Store } from '@ngrx/store';
+    import {
+      StateWithProcess,
+      StateWithUser,
+      UserAddressService
+    } from '@spartacus/core';
+    export class InheritedService extends UserAddressService {
+      constructor(
+        store: Store<StateWithUser | StateWithProcess<void>>,
+        private actions: ActionsSubject
+      ) {
+        super(store);
+        console.log(this.actions);
+      }
+    }
+`;
 const VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS = `
     import { Dummy } from '@angular/core';
     import {
@@ -164,6 +200,17 @@ const VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS = `
       }
     }
 `;
+const INHERITANCE_VALID_TEST_CLASS = `
+export class Test extends UserAddressService {}
+`;
+const HTML_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+<div>test</div>
+<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+const HTML_EXAMPLE_EXPECTED = `<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+<div>test</div>
+<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+const HTML_EXAMPLE_NGIF = `<div *ngIf="isThumbsEmpty">test</div>`;
+const HTML_EXAMPLE_NGIF_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. --><div *ngIf="isThumbsEmpty">test</div>`;
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -228,10 +275,7 @@ describe('File utils', () => {
 
   describe('getIndexHtmlPath', () => {
     it('should return index.html path', async () => {
-      const project = getProjectFromWorkspace(appTree, defaultOptions, [
-        '/angular.json',
-        '/.angular.json',
-      ]);
+      const project = getProjectFromWorkspace(appTree, defaultOptions);
       const projectIndexHtmlPath = getIndexHtmlPath(project);
 
       expect(projectIndexHtmlPath).toEqual(`src/index.html`);
@@ -240,10 +284,49 @@ describe('File utils', () => {
 
   describe('getPathResultsForFile', () => {
     it('should return proper path for file', async () => {
-      const pathsToFile = getPathResultsForFile(appTree, 'test.ts', 'src');
+      const pathsToFiles = getPathResultsForFile(appTree, 'test.ts', 'src');
 
-      expect(pathsToFile.length).toBeGreaterThan(0);
-      expect(pathsToFile[0]).toEqual('/src/test.ts');
+      expect(pathsToFiles.length).toBeGreaterThan(0);
+      expect(pathsToFiles[0]).toEqual('/src/test.ts');
+    });
+  });
+
+  describe('getAllHtmlFiles', () => {
+    it('should return proper path for file', async () => {
+      let pathsToFiles = getHtmlFiles(appTree, undefined, 'src');
+      expect(pathsToFiles).toBeTruthy();
+
+      pathsToFiles = pathsToFiles || [];
+      expect(pathsToFiles.length).toEqual(2);
+      expect(pathsToFiles[0]).toEqual('/src/index.html');
+      expect(pathsToFiles[1]).toEqual('/src/app/app.component.html');
+    });
+  });
+
+  describe('insertComponentSelectorComment', () => {
+    it('should insert the comment', async () => {
+      const componentDeprecation = COMPONENT_DEPRECATION_DATA[0];
+      const result = insertComponentSelectorComment(
+        HTML_EXAMPLE,
+        componentDeprecation.selector,
+        (componentDeprecation.removedProperties || [])[0]
+      );
+
+      expect(result).toBeTruthy();
+      expect(result).toEqual(HTML_EXAMPLE_EXPECTED);
+    });
+  });
+
+  describe('insertHtmlComment', () => {
+    it('should insert the comment with *ngIf', async () => {
+      const componentDeprecation = COMPONENT_DEPRECATION_DATA[1];
+      const result = insertHtmlComment(
+        HTML_EXAMPLE_NGIF,
+        (componentDeprecation.removedProperties || [])[0]
+      );
+
+      expect(result).toBeTruthy();
+      expect(result).toEqual(HTML_EXAMPLE_NGIF_EXPECTED);
     });
   });
 
@@ -350,26 +433,49 @@ describe('File utils', () => {
       );
 
       expect(
-        isCandidateForConstructorDeprecation(source, USER_ADDRESS_SERVICE, [])
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
+          deprecatedParams: [],
+        })
       ).toEqual(false);
     });
-    it('should return false if the imports condition not satisfied', () => {
+    it('should return false if the inheriting class import condition not satisfied', () => {
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        INHERITANCE_IMPORT_TEST_CLASS,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const deprecatedParams: ClassType[] = [
+        { className: STORE, importPath: NGRX_STORE },
+      ];
+
+      expect(
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
+          deprecatedParams,
+        })
+      ).toEqual(false);
+    });
+    it('should return false if the parameter import condition not satisfied', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
         IMPORT_MISSING_TEST_CLASS,
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
     it('should return false if the constructor condition is not satisfied', () => {
@@ -379,36 +485,36 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
-    it('should return false if the parameter lengths condition is not satisfied', () => {
+    it('should return true even if the parameter lengths condition is not satisfied', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
         PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS,
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
-      ).toEqual(false);
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
+          deprecatedParams,
+        })
+      ).toEqual(true);
     });
     it('should return false if the parameter order is not satisfied', () => {
       const source = ts.createSourceFile(
@@ -417,17 +523,17 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
         { className: USER_ADDRESS_SERVICE, importPath: SPARTACUS_CORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
     it('should return false if the super() call does NOT exist', () => {
@@ -437,16 +543,16 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
     it('should return false if an expression call exists, but it is NOT the super(); call', () => {
@@ -456,16 +562,16 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
+          deprecatedParams,
+        })
       ).toEqual(false);
     });
     it('should return false if the expected number of parameters is not passed to super() call', () => {
@@ -475,17 +581,42 @@ describe('File utils', () => {
         ts.ScriptTarget.Latest,
         true
       );
-      const parameterClassTypes: ClassType[] = [
+      const deprecatedParams: ClassType[] = [
         { className: STORE, importPath: NGRX_STORE },
       ];
 
       expect(
-        isCandidateForConstructorDeprecation(
-          source,
-          USER_ADDRESS_SERVICE,
-          parameterClassTypes
-        )
+        isCandidateForConstructorDeprecation(source, {
+          class: USER_ADDRESS_SERVICE,
+          importPath: SPARTACUS_CORE,
+          deprecatedParams,
+        })
       ).toEqual(false);
+    });
+  });
+
+  describe('isInheriting', async () => {
+    it('should return true if the class is inheriting the provided service name', () => {
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        INHERITANCE_VALID_TEST_CLASS,
+        ts.ScriptTarget.Latest,
+        true
+      );
+
+      expect(
+        isInheriting(getSourceNodes(source), USER_ADDRESS_SERVICE)
+      ).toEqual(true);
+    });
+    it('should return false if the class is NOT inheriting the provided service name', () => {
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        INHERITANCE_VALID_TEST_CLASS,
+        ts.ScriptTarget.Latest,
+        true
+      );
+
+      expect(isInheriting(getSourceNodes(source), 'Xxx')).toEqual(false);
     });
   });
 
@@ -521,6 +652,40 @@ describe('File utils', () => {
       expect(changes[2].description).toEqual(
         `Inserted , authService into position 311 of ${sourcePath}`
       );
+    });
+    describe('when the class has additional services injected', () => {
+      it('should return the expected changes', () => {
+        const sourcePath = 'xxx.ts';
+        const source = ts.createSourceFile(
+          sourcePath,
+          VALID_ADD_CONSTRUCTOR_PARAM_WITH_ADDITIONAL_INJECTED_SERVICE_CLASS,
+          ts.ScriptTarget.Latest,
+          true
+        );
+        const nodes = getSourceNodes(source);
+        const constructorNode = findConstructor(nodes);
+        const paramToAdd: ClassType = {
+          className: AUTH_SERVICE,
+          importPath: SPARTACUS_CORE,
+        };
+
+        const changes = addConstructorParam(
+          source,
+          sourcePath,
+          constructorNode,
+          paramToAdd
+        );
+        expect(changes.length).toEqual(3);
+        expect(changes[0].description).toEqual(
+          `Inserted , authService: AuthService into position 354 of ${sourcePath}`
+        );
+        expect(changes[1].description).toEqual(
+          `Inserted , AuthService into position 140 of ${sourcePath}`
+        );
+        expect(changes[2].description).toEqual(
+          `Inserted , authService into position 384 of ${sourcePath}`
+        );
+      });
     });
   });
 
@@ -587,6 +752,15 @@ describe('File utils', () => {
     });
   });
 
+  describe('buildSpartacusComment', () => {
+    it('should build a proper comment', () => {
+      const comment = 'test';
+      expect(buildSpartacusComment(comment)).toEqual(
+        `// ${TODO_SPARTACUS} ${comment}\n`
+      );
+    });
+  });
+
   describe('insertCommentAboveIdentifier', () => {
     it('should return the InsertChanges', async () => {
       const filePath = '/src/app/app.component.ts';
@@ -617,6 +791,24 @@ describe('File utils', () => {
       expect(changes).toEqual([
         new ReplaceChange(filePath, 174, oldName, newName),
       ]);
+    });
+  });
+
+  describe('getLineFromTSFile', () => {
+    it('should return the ReplaceChange', async () => {
+      const lineFileTestContent =
+        "import test1 from '@test-lib';\nimport test2 from '@another-test-lib';\nconst test = new Test();";
+      const lineFilePath = '/line-test.ts';
+      const testLine = "import test2 from '@another-test-lib'";
+      await appTree.create(lineFilePath, lineFileTestContent);
+      const content = await appTree.readContent(lineFilePath);
+      const lines = getLineFromTSFile(
+        appTree,
+        lineFilePath,
+        content.indexOf(testLine)
+      );
+
+      expect(lines[0]).toEqual(content.indexOf(testLine));
     });
   });
 });

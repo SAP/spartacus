@@ -262,7 +262,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     component
       .getCondensedParentGroup(config.groups[2])
       .pipe(take(1))
-      .subscribe(group => {
+      .subscribe((group) => {
         expect(group).toBe(null);
       });
 
@@ -270,7 +270,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     component
       .getCondensedParentGroup(config.groups[0])
       .pipe(take(1))
-      .subscribe(group => {
+      .subscribe((group) => {
         expect(group).toBe(config.groups[0]);
       });
   });

@@ -291,7 +291,7 @@ describe('ConfiguratorCommonsService', () => {
     let hasPendingChanges = null;
     serviceUnderTest
       .hasPendingChanges(OWNER_PRODUCT)
-      .subscribe(pendingChanges => {
+      .subscribe((pendingChanges) => {
         hasPendingChanges = pendingChanges;
       });
     expect(hasPendingChanges).toBe(true);
@@ -305,7 +305,7 @@ describe('ConfiguratorCommonsService', () => {
     let isLoading = null;
     serviceUnderTest
       .configurationIsLoading(OWNER_PRODUCT)
-      .subscribe(loading => {
+      .subscribe((loading) => {
         isLoading = loading;
       });
     expect(isLoading).toBe(false);
@@ -318,7 +318,7 @@ describe('ConfiguratorCommonsService', () => {
     let configurationFromStore = null;
     store
       .pipe(select(ConfiguratorSelectors.getConfigurationFactory(PRODUCT_CODE)))
-      .subscribe(configuration => {
+      .subscribe((configuration) => {
         configurationFromStore = configuration;
       });
     expect(configurationFromStore).toBe(productConfiguration);
@@ -420,7 +420,7 @@ describe('ConfiguratorCommonsService', () => {
         name: ATTRIBUTE_NAME_1,
       };
 
-      expect(function() {
+      expect(function () {
         serviceUnderTest.createConfigurationExtract(
           'unknown',
           changedAttribute,

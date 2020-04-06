@@ -1,6 +1,7 @@
 import { Cart } from '../../../model/cart.model';
 import { StateEntityLoaderActions } from '../../../state/utils/index';
-import { MULTI_CART_FEATURE } from '../multi-cart-state';
+import { getCartIdByUserId, getWishlistName } from '../../utils/utils';
+import { MULTI_CART_DATA } from '../multi-cart-state';
 import { CartActions } from './index';
 
 const userId = 'userId';
@@ -18,11 +19,19 @@ describe('WishList Actions', () => {
   describe('Load Wish List Actions', () => {
     describe('LoadWishList', () => {
       it('should create the action', () => {
-        const payload = { userId, customerId };
+        const payload = {
+          userId,
+          customerId,
+          tempCartId: getWishlistName(customerId),
+        };
         const action = new CartActions.LoadWishList(payload);
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_WISH_LIST,
           payload,
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            MULTI_CART_DATA,
+            payload.tempCartId
+          ),
         });
       });
     });
@@ -32,14 +41,35 @@ describe('WishList Actions', () => {
         const payload = {
           cart: testCart,
           userId,
+          cartId: getCartIdByUserId(testCart, userId),
         };
         const action = new CartActions.LoadWishListSuccess(payload);
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_WISH_LIST_SUCCESS,
           payload,
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             testCart.code
+          ),
+        });
+      });
+    });
+
+    describe('LoadWishListFail', () => {
+      it('should create the action', () => {
+        const payload = {
+          userId,
+          cartId: getCartIdByUserId(testCart, userId),
+          error: 'anyError',
+        };
+        const action = new CartActions.LoadWishListFail(payload);
+        expect({ ...action }).toEqual({
+          type: CartActions.LOAD_WISH_LIST_FAIL,
+          payload,
+          meta: StateEntityLoaderActions.entityFailMeta(
+            MULTI_CART_DATA,
+            testCart.code,
+            'anyError'
           ),
         });
       });
@@ -69,7 +99,7 @@ describe('WishList Actions', () => {
           type: CartActions.CREATE_WISH_LIST_SUCCESS,
           payload,
           meta: StateEntityLoaderActions.entitySuccessMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             testCart.code
           ),
         });
@@ -84,7 +114,7 @@ describe('WishList Actions', () => {
           type: CartActions.CREATE_WISH_LIST_FAIL,
           payload,
           meta: StateEntityLoaderActions.entityFailMeta(
-            MULTI_CART_FEATURE,
+            MULTI_CART_DATA,
             payload.cartId,
             payload.error
           ),

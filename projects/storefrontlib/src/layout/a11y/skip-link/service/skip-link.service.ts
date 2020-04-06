@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  SkipLink,
-  SkipLinkConfig,
-  SkipLinkScrollPosition,
-} from '../config/skip-link.config';
+import { KeyboardFocusService } from '../../keyboard-focus';
+import { SkipLink, SkipLinkConfig } from '../config/skip-link.config';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +9,10 @@ import {
 export class SkipLinkService {
   private skipLinks$ = new BehaviorSubject<SkipLink[]>([]);
 
-  constructor(protected config: SkipLinkConfig) {}
+  constructor(
+    protected config: SkipLinkConfig,
+    protected keyboardFocusService: KeyboardFocusService
+  ) {}
 
   getSkipLinks(): Observable<SkipLink[]> {
     return this.skipLinks$;
@@ -20,16 +20,16 @@ export class SkipLinkService {
 
   add(key: string, target: HTMLElement): void {
     const found: SkipLink = this.config.skipLinks.find(
-      skipLink => skipLink.key === key
+      (skipLink) => skipLink.key === key
     );
 
     if (found) {
       const existing: SkipLink[] = this.skipLinks$.value;
       existing.splice(this.getSkipLinkIndexInArray(key), 0, {
-        target: target,
+        target,
         i18nKey: found.i18nKey,
         position: found.position,
-        key: key,
+        key,
       });
       this.skipLinks$.next(existing);
     }
@@ -37,32 +37,43 @@ export class SkipLinkService {
 
   remove(key: string): void {
     const found: SkipLink = this.config.skipLinks.find(
-      skipLink => skipLink.key === key
+      (skipLink) => skipLink.key === key
     );
 
     if (found) {
       let existing: SkipLink[] = this.skipLinks$.value;
-      existing = existing.filter(skipLink => skipLink.key !== key);
+      existing = existing.filter((skipLink) => skipLink.key !== key);
       this.skipLinks$.next(existing);
     }
   }
 
-  scrollToTarget(
-    target: HTMLElement,
-    position: SkipLinkScrollPosition,
-    event: MouseEvent
-  ): void {
-    target = <HTMLElement>target.parentNode;
-    (<HTMLElement>event.target).blur();
-    const options: ScrollIntoViewOptions =
-      position === SkipLinkScrollPosition.AFTER ? { inline: 'end' } : {};
+  scrollToTarget(skipLink: SkipLink): void {
+    const target =
+      skipLink.target instanceof HTMLElement
+        ? skipLink.target
+        : (skipLink.target as Element).parentElement;
 
-    target.scrollIntoView(options);
+    // focus first focusable element in the
+    const firstFocusable =
+      this.keyboardFocusService.findFirstFocusable(target) || target;
+
+    // we force a tabindex if not available, to ensure we can focus into the element
+    const hasTabindex = firstFocusable.hasAttribute('tabindex');
+    if (!hasTabindex) {
+      firstFocusable.setAttribute('tabindex', '-1');
+    }
+
+    firstFocusable.focus();
+
+    // drop the tmp tabindex
+    if (!hasTabindex) {
+      firstFocusable.removeAttribute('tabindex');
+    }
   }
 
   protected getSkipLinkIndexInArray(key: string): number {
     let index: number = this.config.skipLinks.findIndex(
-      skipLink => skipLink.key === key
+      (skipLink) => skipLink.key === key
     );
 
     while (index > 0) {
@@ -71,7 +82,7 @@ export class SkipLinkService {
       if (previous) {
         const existing: SkipLink[] = this.skipLinks$.value;
         const found: number = existing.findIndex(
-          skipLink => skipLink.key === previous.key
+          (skipLink) => skipLink.key === previous.key
         );
         if (found > -1) {
           return found + 1;

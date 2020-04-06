@@ -38,7 +38,7 @@ export class ConfiguratorCommonsService {
           owner.key
         )
       ),
-      map(configurationState => configurationState.loading)
+      map((configurationState) => configurationState.loading)
     );
   }
 
@@ -47,7 +47,7 @@ export class ConfiguratorCommonsService {
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
-      filter(configuration => this.isConfigurationCreated(configuration))
+      filter((configuration) => this.isConfigurationCreated(configuration))
     );
   }
 
@@ -61,7 +61,7 @@ export class ConfiguratorCommonsService {
           owner.key
         )
       ),
-      tap(configurationState => {
+      tap((configurationState) => {
         if (
           (!this.isConfigurationCreated(configurationState.value) ||
             localOwner.hasObsoleteState === true) &&
@@ -77,15 +77,15 @@ export class ConfiguratorCommonsService {
           }
         }
       }),
-      filter(configurationState =>
+      filter((configurationState) =>
         this.isConfigurationCreated(configurationState.value)
       ),
-      map(configurationState => configurationState.value)
+      map((configurationState) => configurationState.value)
     );
   }
 
   readConfigurationForCartEntry(owner: GenericConfigurator.Owner) {
-    this.activeCartService.requireLoadedCart().subscribe(cartState => {
+    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const readFromCartEntryParameters: Configurator.ReadConfigurationFromCartEntryParameters = {
         userId: this.getUserId(cartState.value),
         cartId: this.getCartId(cartState.value),
@@ -110,7 +110,7 @@ export class ConfiguratorCommonsService {
         select(ConfiguratorSelectors.getConfigurationFactory(ownerKey)),
         take(1)
       )
-      .subscribe(configuration => {
+      .subscribe((configuration) => {
         this.store.dispatch(
           new ConfiguratorActions.UpdateConfiguration(
             this.createConfigurationExtract(
@@ -138,19 +138,19 @@ export class ConfiguratorCommonsService {
   getOrCreateUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
     return this.store.pipe(
       select(UiSelectors.getUiStateForProduct(owner.key)),
-      tap(uiState => {
+      tap((uiState) => {
         if (!this.isUiStateCreated(uiState)) {
           this.store.dispatch(new UiActions.CreateUiState(owner.key));
         }
       }),
-      filter(uiState => this.isUiStateCreated(uiState))
+      filter((uiState) => this.isUiStateCreated(uiState))
     );
   }
 
   getUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
     return this.store.pipe(
       select(UiSelectors.getUiStateForProduct(owner.key)),
-      filter(uiState => this.isUiStateCreated(uiState))
+      filter((uiState) => this.isUiStateCreated(uiState))
     );
   }
 
@@ -167,7 +167,7 @@ export class ConfiguratorCommonsService {
   }
 
   addToCart(productCode: string, configId: string, ownerKey: string) {
-    this.activeCartService.requireLoadedCart().subscribe(cartState => {
+    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const addToCartParameters: Configurator.AddToCartParameters = {
         userId: this.getUserId(cartState.value),
         cartId: this.getCartId(cartState.value),
@@ -183,7 +183,7 @@ export class ConfiguratorCommonsService {
   }
 
   updateCartEntry(configuration: Configurator.Configuration) {
-    this.activeCartService.requireLoadedCart().subscribe(cartState => {
+    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
         userId: this.getUserId(cartState.value),
         cartId: this.getCartId(cartState.value),
@@ -239,7 +239,7 @@ export class ConfiguratorCommonsService {
         'At this point we expect that group is available in the configuration: ' +
           groupId +
           ', ' +
-          JSON.stringify(configuration.groups.map(cGroup => cGroup.id))
+          JSON.stringify(configuration.groups.map((cGroup) => cGroup.id))
       );
     }
     let currentGroupInExtract: Configurator.Group = this.buildGroupForExtract(
@@ -275,7 +275,7 @@ export class ConfiguratorCommonsService {
   ): boolean {
     let haveFoundGroup = false;
     const group: Configurator.Group = groupList.find(
-      currentGroup => currentGroup.id === groupId
+      (currentGroup) => currentGroup.id === groupId
     );
 
     if (group) {
@@ -283,8 +283,8 @@ export class ConfiguratorCommonsService {
       haveFoundGroup = true;
     } else {
       groupList
-        .filter(currentGroup => currentGroup.subGroups)
-        .forEach(currentGroup => {
+        .filter((currentGroup) => currentGroup.subGroups)
+        .forEach((currentGroup) => {
           if (this.buildGroupPath(groupId, currentGroup.subGroups, groupPath)) {
             groupPath.push(currentGroup);
             haveFoundGroup = true;

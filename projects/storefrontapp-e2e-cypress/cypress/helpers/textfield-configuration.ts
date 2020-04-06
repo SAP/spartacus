@@ -23,9 +23,7 @@ export function getAttributeId(attributeName: string) {
 export function selectAttribute(attributeName: string, value?: string) {
   const attributeId = getAttributeId(attributeName);
   const selector = '#' + attributeId + ' div div div input';
-  cy.get(selector)
-    .clear()
-    .type(value);
+  cy.get(selector).clear().type(value);
 }
 
 export function clickAddToCartButton() {
@@ -37,7 +35,5 @@ export function clickAddToCartButton() {
 }
 
 export function verifyTextfieldProductInCart(productName: string) {
-  cy.get('cx-cart-item-list')
-    .contains(productName)
-    .should('be.visible');
+  cy.get('cx-cart-item-list').contains(productName).should('be.visible');
 }

@@ -59,7 +59,7 @@ describe('CdsMerchandisingSiteContextService', () => {
     let merchandisingSiteContext: MerchandisingSiteContext;
     cdsMerchandisingSiteContextService
       .getSiteContext()
-      .subscribe(siteContext => {
+      .subscribe((siteContext) => {
         merchandisingSiteContext = siteContext;
       })
       .unsubscribe();

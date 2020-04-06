@@ -21,14 +21,14 @@ export class ConfiguratorGroupsService {
 
   getCurrentGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getUiState(owner).pipe(
-      switchMap(uiState => {
+      switchMap((uiState) => {
         if (uiState && uiState.currentGroup) {
           return of(uiState.currentGroup);
         } else {
           return this.configuratorCommonsService
             .getConfiguration(owner)
             .pipe(
-              map(configuration =>
+              map((configuration) =>
                 configuration &&
                 configuration.groups &&
                 configuration.groups.length > 0
@@ -45,12 +45,12 @@ export class ConfiguratorGroupsService {
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
     return this.configuratorCommonsService.getUiState(owner).pipe(
-      map(uiState => uiState.menuParentGroup),
-      switchMap(parentGroupId => {
+      map((uiState) => uiState.menuParentGroup),
+      switchMap((parentGroupId) => {
         return this.configuratorCommonsService
           .getConfiguration(owner)
           .pipe(
-            map(configuration =>
+            map((configuration) =>
               this.findCurrentGroup(configuration.groups, parentGroupId)
             )
           );
@@ -66,14 +66,14 @@ export class ConfiguratorGroupsService {
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
     return this.getCurrentGroupId(owner).pipe(
-      switchMap(currentGroupId => {
+      switchMap((currentGroupId) => {
         if (!currentGroupId) {
           return of(null);
         }
         return this.configuratorCommonsService
           .getConfiguration(owner)
           .pipe(
-            map(configuration =>
+            map((configuration) =>
               this.findCurrentGroup(configuration.groups, currentGroupId)
             )
           );
@@ -103,13 +103,13 @@ export class ConfiguratorGroupsService {
 
   getNextGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.getCurrentGroupId(owner).pipe(
-      switchMap(currentGroupId => {
+      switchMap((currentGroupId) => {
         if (!currentGroupId) {
           return of(null);
         }
 
         return this.configuratorCommonsService.getConfiguration(owner).pipe(
-          map(configuration => {
+          map((configuration) => {
             let nextGroup = null;
             configuration.flatGroups.forEach((group, index) => {
               if (
@@ -129,13 +129,13 @@ export class ConfiguratorGroupsService {
 
   getPreviousGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.getCurrentGroupId(owner).pipe(
-      switchMap(currentGroupId => {
+      switchMap((currentGroupId) => {
         if (!currentGroupId) {
           return of(null);
         }
 
         return this.configuratorCommonsService.getConfiguration(owner).pipe(
-          map(configuration => {
+          map((configuration) => {
             let nextGroup = null;
             configuration.flatGroups.forEach((group, index) => {
               if (
@@ -160,14 +160,14 @@ export class ConfiguratorGroupsService {
     groups: Configurator.Group[],
     groupId: String
   ): Configurator.Group {
-    const currentGroup = groups.find(group => group.id === groupId);
+    const currentGroup = groups.find((group) => group.id === groupId);
     if (currentGroup) {
       return currentGroup;
     }
 
     return groups
-      .map(group => this.findCurrentGroup(group.subGroups, groupId))
-      .filter(foundGroup => foundGroup)
+      .map((group) => this.findCurrentGroup(group.subGroups, groupId))
+      .filter((foundGroup) => foundGroup)
       .pop();
   }
 
@@ -181,10 +181,10 @@ export class ConfiguratorGroupsService {
     }
 
     return groups
-      .map(currentGroup =>
+      .map((currentGroup) =>
         this.findParentGroup(currentGroup.subGroups, group, currentGroup)
       )
-      .filter(foundGroup => foundGroup)
+      .filter((foundGroup) => foundGroup)
       .pop();
   }
 

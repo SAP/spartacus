@@ -107,7 +107,7 @@ describe('ConfiguratorTextfieldService', () => {
 
     expect(configurationFromStore).toBeDefined();
 
-    configurationFromStore.subscribe(configuration =>
+    configurationFromStore.subscribe((configuration) =>
       expect(configuration.configurationInfos.length).toBe(1)
     );
 

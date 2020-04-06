@@ -74,7 +74,7 @@ export class ConfiguratorEffects {
 
             return [new CreateConfigurationSuccess(configuration)];
           }),
-          catchError(error => [
+          catchError((error) => [
             new CreateConfigurationFail(
               action.ownerKey,
               makeErrorSerializable(error)
@@ -101,7 +101,7 @@ export class ConfiguratorEffects {
           switchMap((configuration: Configurator.Configuration) => {
             return [new ReadConfigurationSuccess(configuration)];
           }),
-          catchError(error => [
+          catchError((error) => [
             new ReadConfigurationFail(
               action.configuration.owner.key,
               makeErrorSerializable(error)
@@ -127,7 +127,7 @@ export class ConfiguratorEffects {
           map((configuration: Configurator.Configuration) => {
             return new UpdateConfigurationSuccess(configuration);
           }),
-          catchError(error => {
+          catchError((error) => {
             const errorPayload = makeErrorSerializable(error);
             errorPayload.configId = payload.configId;
             return [
@@ -147,12 +147,12 @@ export class ConfiguratorEffects {
       (action: { type: string; payload?: Configurator.Configuration }) =>
         action.payload
     ),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.configuratorCommonsConnector.readPriceSummary(payload).pipe(
         map((configuration: Configurator.Configuration) => {
           return new UpdatePriceSummarySuccess(configuration);
         }),
-        catchError(error => {
+        catchError((error) => {
           const errorPayload = makeErrorSerializable(error);
           errorPayload.configId = payload.configId;
           return [new UpdatePriceSummaryFail(payload.owner.key, errorPayload)];
@@ -167,7 +167,7 @@ export class ConfiguratorEffects {
   > = this.actions$.pipe(
     ofType(GET_CONFIGURATION_OVERVIEW),
     map((action: GetConfigurationOverview) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.configuratorCommonsConnector
         .getConfigurationOverview(payload.configId)
         .pipe(
@@ -177,7 +177,7 @@ export class ConfiguratorEffects {
               overview
             );
           }),
-          catchError(error => {
+          catchError((error) => {
             const errorPayload = makeErrorSerializable(error);
             errorPayload.configId = payload.owner.id;
             return [
@@ -200,7 +200,7 @@ export class ConfiguratorEffects {
       return this.store.pipe(
         select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
         take(1),
-        filter(hasPendingChanges => hasPendingChanges === false),
+        filter((hasPendingChanges) => hasPendingChanges === false),
         switchMap(() => [
           new UpdateConfigurationFinalizeSuccess(payload),
 
@@ -224,11 +224,11 @@ export class ConfiguratorEffects {
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_FAIL),
     map((action: UpdateConfigurationFail) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.store.pipe(
         select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
         take(1),
-        filter(hasPendingChanges => hasPendingChanges === false),
+        filter((hasPendingChanges) => hasPendingChanges === false),
         map(() => new UpdateConfigurationFinalizeFail(payload))
       );
     })
@@ -238,7 +238,7 @@ export class ConfiguratorEffects {
   handleErrorOnUpdate$: Observable<ReadConfiguration> = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_FINALIZE_FAIL),
     map((action: UpdateConfigurationFinalizeFail) => action.payload),
-    map(payload => new ReadConfiguration(payload, ''))
+    map((payload) => new ReadConfiguration(payload, ''))
   );
 
   @Effect()
@@ -257,7 +257,7 @@ export class ConfiguratorEffects {
           )
         ),
         take(1),
-        filter(hasPendingChanges => hasPendingChanges === false),
+        filter((hasPendingChanges) => hasPendingChanges === false),
         switchMap(() => {
           return this.configuratorCommonsConnector
             .readConfiguration(
@@ -279,7 +279,7 @@ export class ConfiguratorEffects {
                   new ReadConfigurationSuccess(configuration),
                 ];
               }),
-              catchError(error => [
+              catchError((error) => [
                 new ReadConfigurationFail(
                   action.configuration.owner.key,
                   makeErrorSerializable(error)
@@ -301,7 +301,7 @@ export class ConfiguratorEffects {
       return this.store.pipe(
         select(ConfiguratorSelectors.hasPendingChanges(payload.ownerKey)),
         take(1),
-        filter(hasPendingChanges => hasPendingChanges === false),
+        filter((hasPendingChanges) => hasPendingChanges === false),
         map(() => new CartActions.CartProcessesIncrement(payload.cartId))
       );
     })
@@ -322,7 +322,7 @@ export class ConfiguratorEffects {
             )
           ),
           take(1),
-          filter(hasPendingChanges => hasPendingChanges === false),
+          filter((hasPendingChanges) => hasPendingChanges === false),
           map(() => new CartActions.CartProcessesIncrement(payload.cartId))
         );
       }
@@ -341,7 +341,7 @@ export class ConfiguratorEffects {
       return this.store.pipe(
         select(ConfiguratorSelectors.hasPendingChanges(payload.ownerKey)),
         take(1),
-        filter(hasPendingChanges => hasPendingChanges === false),
+        filter((hasPendingChanges) => hasPendingChanges === false),
         switchMap(() => {
           return this.configuratorCommonsConnector.addToCart(payload).pipe(
             switchMap((entry: CartModification) => {
@@ -357,7 +357,7 @@ export class ConfiguratorEffects {
                 }),
               ];
             }),
-            catchError(error =>
+            catchError((error) =>
               of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
             )
           );
@@ -381,7 +381,7 @@ export class ConfiguratorEffects {
             )
           ),
           take(1),
-          filter(hasPendingChanges => hasPendingChanges === false),
+          filter((hasPendingChanges) => hasPendingChanges === false),
           switchMap(() => {
             return this.configuratorCommonsConnector
               .updateConfigurationForCartEntry(payload)
@@ -395,7 +395,7 @@ export class ConfiguratorEffects {
                     }),
                   ];
                 }),
-                catchError(error =>
+                catchError((error) =>
                   of(
                     new CartActions.CartUpdateEntryFail(
                       makeErrorSerializable(error)
@@ -426,7 +426,7 @@ export class ConfiguratorEffects {
             new ReadCartEntryConfigurationSuccess(result),
             new UpdatePriceSummary(result),
           ]),
-          catchError(error => [
+          catchError((error) => [
             new ReadCartEntryConfigurationFail(
               action.payload.owner.key,
               makeErrorSerializable(error)
@@ -447,7 +447,7 @@ export class ConfiguratorEffects {
         take(1),
 
         map(
-          configuration =>
+          (configuration) =>
             new ConfiguratorActions.SetNextOwnerCartEntry(
               configuration,
               action.cartEntryNo
@@ -459,18 +459,18 @@ export class ConfiguratorEffects {
 
   getGroupWithAttributes(groups: Configurator.Group[]): string {
     const groupWithAttributes: Configurator.Group = groups
-      .filter(currentGroup => currentGroup.attributes.length > 0)
+      .filter((currentGroup) => currentGroup.attributes.length > 0)
       .pop();
     let id: string;
     if (groupWithAttributes) {
       id = groupWithAttributes.id;
     } else {
       id = groups
-        .filter(currentGroup => currentGroup.subGroups.length > 0)
-        .flatMap(currentGroup =>
+        .filter((currentGroup) => currentGroup.subGroups.length > 0)
+        .flatMap((currentGroup) =>
           this.getGroupWithAttributes(currentGroup.subGroups)
         )
-        .filter(groupId => groupId) //Filter undefined strings
+        .filter((groupId) => groupId) //Filter undefined strings
         .pop();
     }
     return id;

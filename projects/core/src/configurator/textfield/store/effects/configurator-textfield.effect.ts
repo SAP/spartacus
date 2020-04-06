@@ -25,14 +25,14 @@ export class ConfiguratorTextfieldEffects {
   > = this.actions$.pipe(
     ofType(CREATE_CONFIGURATION),
     map((action: CreateConfiguration) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.configuratorTextfieldConnector
         .createConfiguration(payload.productCode, payload.owner)
         .pipe(
           switchMap((configuration: ConfiguratorTextfield.Configuration) => {
             return [new CreateConfigurationSuccess(configuration)];
           }),
-          catchError(error =>
+          catchError((error) =>
             of(new CreateConfigurationFail(makeErrorSerializable(error)))
           )
         );
@@ -59,7 +59,7 @@ export class ConfiguratorTextfieldEffects {
   > = this.actions$.pipe(
     ofType(ADD_TO_CART),
     map((action: AddToCart) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.configuratorTextfieldConnector.addToCart(payload).pipe(
         switchMap((entry: CartModification) => {
           return [
@@ -71,7 +71,7 @@ export class ConfiguratorTextfieldEffects {
             }),
           ];
         }),
-        catchError(error =>
+        catchError((error) =>
           of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
         )
       );

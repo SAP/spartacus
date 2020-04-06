@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartService,
   AuthRedirectService,
   AuthService,
-  CartService,
   RoutingService,
   UrlCommands,
   User,
@@ -31,11 +31,11 @@ class AuthServiceStub {
 class RoutingServiceStub {
   go(_path: any[] | UrlCommands, _query?: object, _extras?: NavigationExtras) {}
 }
-class CartServiceStub {
+class ActiveCartServiceStub {
   getAssignedUser(): Observable<User> {
     return of();
   }
-  isGuestCart(): Boolean {
+  isGuestCart(): boolean {
     return true;
   }
 }
@@ -55,7 +55,7 @@ describe('CheckoutAuthGuard', () => {
   let service: RoutingService;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
-  let cartService: CartService;
+  let activeCartService: ActiveCartService;
   let checkoutConfigService: CheckoutConfigService;
 
   beforeEach(() => {
@@ -75,8 +75,8 @@ describe('CheckoutAuthGuard', () => {
           useClass: AuthServiceStub,
         },
         {
-          provide: CartService,
-          useClass: CartServiceStub,
+          provide: ActiveCartService,
+          useClass: ActiveCartServiceStub,
         },
         {
           provide: CheckoutConfigService,
@@ -89,7 +89,7 @@ describe('CheckoutAuthGuard', () => {
     service = TestBed.inject(RoutingService);
     authService = TestBed.inject(AuthService);
     authRedirectService = TestBed.inject(AuthRedirectService);
-    cartService = TestBed.inject(CartService);
+    activeCartService = TestBed.inject(ActiveCartService);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
 
     spyOn(service, 'go').and.stub();
@@ -104,25 +104,22 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart does NOT have a user, ', () => {
       beforeEach(() => {
-        spyOn(cartService, 'getAssignedUser').and.returnValue(of({}));
-        spyOn(cartService, 'isGuestCart').and.returnValue(false);
+        spyOn(activeCartService, 'getAssignedUser').and.returnValue(of({}));
+        spyOn(activeCartService, 'isGuestCart').and.returnValue(false);
       });
 
       it('should return false', () => {
         let result: boolean;
         checkoutGuard
           .canActivate()
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toBe(false);
       });
 
       it('should redirect to login with forced flag when guestCheckout feature enabled', () => {
         spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
-        checkoutGuard
-          .canActivate()
-          .subscribe()
-          .unsubscribe();
+        checkoutGuard.canActivate().subscribe().unsubscribe();
         expect(service.go).toHaveBeenCalledWith(
           { cxRoute: 'login' },
           { forced: true }
@@ -130,25 +127,19 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should redirect to login without forced flag when guestCheckout feature disabled', () => {
-        checkoutGuard
-          .canActivate()
-          .subscribe()
-          .unsubscribe();
+        checkoutGuard.canActivate().subscribe().unsubscribe();
         expect(service.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       });
 
       it('should notify AuthRedirectService with the current navigation', () => {
-        checkoutGuard
-          .canActivate()
-          .subscribe()
-          .unsubscribe();
+        checkoutGuard.canActivate().subscribe().unsubscribe();
         expect(authRedirectService.reportAuthGuard).toHaveBeenCalled();
       });
     });
 
     describe('and cart has a user, ', () => {
       beforeEach(() => {
-        spyOn(cartService, 'getAssignedUser').and.returnValue(
+        spyOn(activeCartService, 'getAssignedUser').and.returnValue(
           of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)
         );
       });
@@ -157,7 +148,7 @@ describe('CheckoutAuthGuard', () => {
         let result: boolean;
         checkoutGuard
           .canActivate()
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toBe(true);
       });
@@ -171,14 +162,14 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart does NOT have a user, ', () => {
       beforeEach(() => {
-        spyOn(cartService, 'getAssignedUser').and.returnValue(of({}));
+        spyOn(activeCartService, 'getAssignedUser').and.returnValue(of({}));
       });
 
       it('should return true', () => {
         let result: boolean;
         checkoutGuard
           .canActivate()
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toBe(true);
       });
@@ -186,7 +177,7 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart has a user, ', () => {
       beforeEach(() => {
-        spyOn(cartService, 'getAssignedUser').and.returnValue(
+        spyOn(activeCartService, 'getAssignedUser').and.returnValue(
           of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)
         );
       });
@@ -195,7 +186,7 @@ describe('CheckoutAuthGuard', () => {
         let result: boolean;
         checkoutGuard
           .canActivate()
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toBe(true);
       });

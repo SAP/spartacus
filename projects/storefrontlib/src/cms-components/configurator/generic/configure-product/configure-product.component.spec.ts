@@ -57,7 +57,7 @@ describe('ConfigureProductComponent', () => {
   });
 
   it('should be aware of configurability and configurator type in case they are not provided as input', () => {
-    component.product$.subscribe(product => {
+    component.product$.subscribe((product) => {
       expect(product.code).toBe(productCode);
       expect(product.configurable).toBe(true);
       expect(product.configuratorType).toBe(configuratorType);

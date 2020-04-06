@@ -37,10 +37,12 @@ export class ProductReviewsComponent {
   product$: Observable<Product> = this.currentProductService.getProduct();
 
   reviews$: Observable<Review[]> = this.product$.pipe(
-    filter(p => !!p),
-    map(p => p.code),
+    filter((p) => !!p),
+    map((p) => p.code),
     distinctUntilChanged(),
-    switchMap(productCode => this.reviewService.getByProductCode(productCode)),
+    switchMap((productCode) =>
+      this.reviewService.getByProductCode(productCode)
+    ),
     tap(() => {
       this.resetReviewForm();
       this.maxListItems = this.initialMaxListItems;
@@ -80,7 +82,7 @@ export class ProductReviewsComponent {
   }
 
   private markFormAsTouched(): void {
-    Object.keys(this.reviewForm.controls).forEach(key => {
+    Object.keys(this.reviewForm.controls).forEach((key) => {
       this.reviewForm.controls[key].markAsTouched();
     });
   }

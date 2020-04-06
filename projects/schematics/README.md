@@ -100,7 +100,12 @@ The `projects/schematics/src/migrations/migrations.json` file contains all migra
   - _migration-feature-name_ is a short name that describes what the migration is doing.
   - _sequence-number_ is the sequence number in which the migrations should be executed
   - An example is _migration-v2-update-cms-component-state-02_.
-- _version_ is important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project.
+- _version_ is _really_ important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project's version.
+It's also important to note that after we release a Spartacus _next.x_, or an _rc.x_ version, all the migration scripts that are written after the release _have_ to specify the future release version.
+E.g. if Spartacus _2.0.0-next.1_ has been released, then the future migration scripts should specify the next version - _2.0.0-next.2_.
+This is required for clients that upgrade frequently and it will make angular to run only the new migration scripts for them.
+At the same time, all the scripts are going to be ran for the clients that do the upgrade for the first time.
+However, there are exceptions from this rule - as we have data-driven generic mechanisms for e.g. constructor deprecation, we have to bump the version in `migrations.json` for those scripts.
 - _factory_ - points to the specific migration script.
 - _description_ - a short free-form description field for developers.
 
@@ -128,6 +133,9 @@ Now create a new angular project:
 - create `.npmrc` in the root of the project and paste the following content to it: `@spartacus:registry=http://localhost:4873` to point to the local npm server only for the `@spartacus` scope. From this moment on, `@spartacus` scoped packages will use the local npm registry.
 - commit the changes, if any.
 - run the following update command `ng update @spartacus/schematics`. If there's an error about the unresolved peer dependencies, you can append `--force` flag just to quickly test something out, but this error should _not_ appear when executing the update schematics without the flag. You should see your update commands executed now.
+
+> NOTE: if _verdaccio_ refuses to publish libraries, and displays an error that says that the lib is already published with the same version, the quickest way around this seems to be [this](https://github.com/verdaccio/verdaccio/issues/1203#issuecomment-457361429) - 
+> open `nano ~/.config/verdaccio/config.yaml` and under `packages: '@*/*':` sections, comment out the `proxy: npmjs` line. After doing this, you should be able to publish the packages.
 
 ### Iterative development
 
@@ -161,8 +169,10 @@ Some examples:
 - adding a comment above the removed API method, guiding customers which method they can use instead.
 - adding a comment above the Ngrx action in which we changed parameters
 
-#### HTML and CSS
+#### Component deprecation
 
-To handle HTML changes (such as the DOM structure changes), you can use `projects/schematics/src/shared/utils/file-utils.ts#insertHtmlComment` method, where you will provide a Spartacus component selector, above which the schematic will insert a comment.
+Similar to [constructor deprecation](#Constructor-deprecation), `projects/schematics/src/migrations/2_0/component-deprecations.ts` performs the component migration tasks, for both component _*.ts_ and _HTML_ templates. Usually, a developer does not need to touch this file, and they should rather describe the component deprecation in `projects/schematics/src/migrations/2_0/component-deprecations-data.ts`. The constant `COMPONENT_DEPRECATION_DATA` describes the deprecated components.
+
+#### CSS
 
 To handle CSS changes, we are printing a link to the CSS docs, where customers can look up which CSS selectors have changed between Spartacus versions. For this reason, if making a change to a CSS selector, please update this docs. (link to follow).

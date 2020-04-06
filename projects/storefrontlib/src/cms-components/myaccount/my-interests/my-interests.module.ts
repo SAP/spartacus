@@ -6,11 +6,11 @@ import { MyInterestsComponent } from './my-interests.component';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import {
-  ConfigModule,
+  AuthGuard,
   CmsConfig,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
-  AuthGuard,
 } from '@spartacus/core';
 
 @NgModule({
@@ -18,7 +18,15 @@ import {
   imports: [
     CommonModule,
     I18nModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    RouterModule,
+    ListNavigationModule,
+    I18nModule,
+    UrlModule,
+    MediaModule,
+    SpinnerModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         MyInterestsComponent: {
           component: MyInterestsComponent,
@@ -26,12 +34,6 @@ import {
         },
       },
     }),
-    RouterModule,
-    ListNavigationModule,
-    I18nModule,
-    UrlModule,
-    MediaModule,
-    SpinnerModule,
   ],
   exports: [MyInterestsComponent],
   entryComponents: [MyInterestsComponent],

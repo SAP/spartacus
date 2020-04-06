@@ -1,3 +1,4 @@
+import { visitHomePage } from '../../../helpers/checkout-flow';
 import * as login from '../../../helpers/login';
 import {
   checkAnonymous,
@@ -7,8 +8,8 @@ import { formats } from '../../../sample-data/viewports';
 
 describe(`${formats.mobile.width + 1}p resolution - Payment Methods`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
-    cy.viewport(formats.mobile.width, formats.mobile.height);
+    cy.window().then((win) => win.sessionStorage.clear());
+    visitHomePage();
   });
 
   beforeEach(() => {
@@ -21,21 +22,15 @@ describe(`${formats.mobile.width + 1}p resolution - Payment Methods`, () => {
 
   describe('Authenticated user', () => {
     before(() => {
-      cy.viewport(formats.mobile.width, formats.mobile.height);
-      cy.requireLoggedIn();
-      cy.reload();
-      cy.visit('/');
-      cy.selectUserMenuOption({
-        option: 'Payment Details',
-        isMobile: true,
-      });
+      cy.server();
+      visitHomePage();
     });
 
     beforeEach(() => {
       cy.restoreLocalStorage();
     });
 
-    paymentMethodsTest();
+    paymentMethodsTest(true);
 
     afterEach(() => {
       cy.saveLocalStorage();

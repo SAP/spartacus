@@ -38,7 +38,7 @@ export class OccConfiguratorVariantAdapter
       )
       .pipe(
         this.converterService.pipeable(CONFIGURATION_NORMALIZER),
-        tap(configuration => {
+        tap((configuration) => {
           configuration.owner = {
             ...owner,
             hasObsoleteState: false,
@@ -62,7 +62,7 @@ export class OccConfiguratorVariantAdapter
       )
       .pipe(
         this.converterService.pipeable(CONFIGURATION_NORMALIZER),
-        tap(configuration => {
+        tap((configuration) => {
           configuration.owner = {
             ...configurationOwner,
             hasObsoleteState: false,
@@ -86,7 +86,8 @@ export class OccConfiguratorVariantAdapter
     return this.http.patch(url, occConfiguration).pipe(
       this.converterService.pipeable(CONFIGURATION_NORMALIZER),
       tap(
-        resultConfiguration => (resultConfiguration.owner = configuration.owner)
+        (resultConfiguration) =>
+          (resultConfiguration.owner = configuration.owner)
       )
     );
   }
@@ -127,7 +128,7 @@ export class OccConfiguratorVariantAdapter
 
     return this.http.get<Configurator.Configuration>(url).pipe(
       this.converterService.pipeable(CONFIGURATION_NORMALIZER),
-      tap(resultConfiguration => {
+      tap((resultConfiguration) => {
         resultConfiguration.owner = {
           ...parameters.owner,
           hasObsoleteState: false,
@@ -172,7 +173,8 @@ export class OccConfiguratorVariantAdapter
     return this.http.get(url).pipe(
       this.converterService.pipeable(CONFIGURATION_PRICE_SUMMARY_NORMALIZER),
       tap(
-        resultConfiguration => (resultConfiguration.owner = configuration.owner)
+        (resultConfiguration) =>
+          (resultConfiguration.owner = configuration.owner)
       )
     );
   }

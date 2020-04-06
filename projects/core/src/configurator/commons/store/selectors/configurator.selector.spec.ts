@@ -54,7 +54,7 @@ describe('Configurator selectors', () => {
           ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
         )
       )
-      .subscribe(value => (result = value));
+      .subscribe((value) => (result = value));
 
     expect(result).toEqual(undefined);
   });
@@ -67,7 +67,7 @@ describe('Configurator selectors', () => {
           ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
         )
       )
-      .subscribe(value => (result = value));
+      .subscribe((value) => (result = value));
 
     store.dispatch(
       new ConfiguratorActions.CreateConfigurationSuccess(configuration)
@@ -81,7 +81,7 @@ describe('Configurator selectors', () => {
       .pipe(
         select(ConfiguratorSelectors.hasPendingChanges(configuration.owner.key))
       )
-      .subscribe(hasPendingChanges => expect(hasPendingChanges).toBe(false));
+      .subscribe((hasPendingChanges) => expect(hasPendingChanges).toBe(false));
   });
 
   it('should return pending changes as true if an update has happenend', () => {
@@ -90,6 +90,6 @@ describe('Configurator selectors', () => {
       .pipe(
         select(ConfiguratorSelectors.hasPendingChanges(configuration.owner.key))
       )
-      .subscribe(hasPendingChanges => expect(hasPendingChanges).toBe(true));
+      .subscribe((hasPendingChanges) => expect(hasPendingChanges).toBe(true));
   });
 });

@@ -27,20 +27,20 @@ export class ConfigMessageComponent implements OnInit {
     this.hasPendingChanges$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        switchMap(owner => {
+        switchMap((owner) => {
           return this.configuratorCommonsService
             .hasPendingChanges(owner)
             .pipe(
-              switchMap(hasPendingChanges =>
+              switchMap((hasPendingChanges) =>
                 this.configuratorCommonsService
                   .configurationIsLoading(owner)
-                  .pipe(map(isLoading => hasPendingChanges || isLoading))
+                  .pipe(map((isLoading) => hasPendingChanges || isLoading))
               )
             );
         })
       );
 
-    this.hasPendingChanges$.subscribe(hasPendingChangesOrIsLoading =>
+    this.hasPendingChanges$.subscribe((hasPendingChangesOrIsLoading) =>
       this.showUpdateMessage(hasPendingChangesOrIsLoading.valueOf())
     );
   }

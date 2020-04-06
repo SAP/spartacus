@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import {
   OCC_USER_ID_ANONYMOUS,
@@ -44,7 +44,7 @@ export class AuthService {
    */
   getOccUserId(): Observable<string> {
     return this.getUserToken().pipe(
-      map(userToken => {
+      map((userToken) => {
         if (!!userToken && !!userToken.userId) {
           return userToken.userId;
         } else {
@@ -52,6 +52,17 @@ export class AuthService {
         }
       })
     );
+  }
+
+  /**
+   * Calls provided callback with current user id.
+   *
+   * @param cb callback function to invoke
+   */
+  invokeWithUserId(cb: (userId: string) => any): Subscription {
+    return this.getOccUserId()
+      .pipe(take(1))
+      .subscribe((id) => cb(id));
   }
 
   /**
@@ -86,7 +97,7 @@ export class AuthService {
   logout(): void {
     this.getUserToken()
       .pipe(take(1))
-      .subscribe(userToken => {
+      .subscribe((userToken) => {
         this.store.dispatch(new AuthActions.Logout());
         if (Boolean(userToken) && userToken.userId === OCC_USER_ID_CURRENT) {
           this.store.dispatch(new AuthActions.RevokeUserToken(userToken));
@@ -140,7 +151,7 @@ export class AuthService {
    */
   isUserLoggedIn(): Observable<boolean> {
     return this.getUserToken().pipe(
-      map(userToken => Boolean(userToken) && Boolean(userToken.access_token))
+      map((userToken) => Boolean(userToken) && Boolean(userToken.access_token))
     );
   }
 }

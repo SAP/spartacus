@@ -32,7 +32,7 @@ export class ConfigFormComponent implements OnInit {
     this.configuration$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        switchMap(owner =>
+        switchMap((owner) =>
           this.configuratorCommonsService.getOrCreateConfiguration(owner)
         )
       );
@@ -40,7 +40,7 @@ export class ConfigFormComponent implements OnInit {
     this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        switchMap(owner =>
+        switchMap((owner) =>
           this.configuratorCommonsService.getOrCreateUiState(owner)
         ),
         take(1)
@@ -50,7 +50,7 @@ export class ConfigFormComponent implements OnInit {
     this.currentGroup$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        switchMap(owner =>
+        switchMap((owner) =>
           this.configuratorGroupsService.getCurrentGroup(owner)
         )
       );

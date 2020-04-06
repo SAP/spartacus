@@ -42,7 +42,7 @@ export const configuratorReducerProvider: Provider = {
 export function clearConfigurationState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
-  return function(state, action) {
+  return function (state, action) {
     return reducer(state, action);
   };
 }

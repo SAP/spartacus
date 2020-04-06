@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
   FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -33,23 +33,6 @@ import { ProductVariantsModule } from '../product-variants/product-variants.modu
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(<ViewConfig>defaultScrollConfig),
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        CMSProductListComponent: {
-          component: ProductListComponent,
-        },
-        ProductGridComponent: {
-          component: ProductListComponent,
-        },
-        SearchResultsListComponent: {
-          component: ProductListComponent,
-        },
-        ProductRefinementComponent: {
-          component: ProductFacetNavigationComponent,
-        },
-      },
-    }),
     RouterModule,
     MediaModule,
     AddToCartModule,
@@ -65,6 +48,25 @@ import { ProductVariantsModule } from '../product-variants/product-variants.modu
     GenericConfiguratorModule,
     ProductVariantsModule,
     FeaturesConfigModule,
+  ],
+  providers: [
+    provideDefaultConfig(<ViewConfig>defaultScrollConfig),
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CMSProductListComponent: {
+          component: ProductListComponent,
+        },
+        ProductGridComponent: {
+          component: ProductListComponent,
+        },
+        SearchResultsListComponent: {
+          component: ProductListComponent,
+        },
+        ProductRefinementComponent: {
+          component: ProductFacetNavigationComponent,
+        },
+      },
+    }),
   ],
   declarations: [
     ProductListComponent,

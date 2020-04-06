@@ -18,8 +18,8 @@ export class ConfigRouterExtractorService {
     routingService: RoutingService
   ): Observable<GenericConfigurator.Owner> {
     return routingService.getRouterState().pipe(
-      filter(routingData => routingData.state.params.entityKey),
-      map(routingData => {
+      filter((routingData) => routingData.state.params.entityKey),
+      map((routingData) => {
         const params = routingData.state.params;
         const owner: GenericConfigurator.Owner = {};
 
@@ -41,8 +41,8 @@ export class ConfigRouterExtractorService {
 
   isOwnerCartEntry(routingService: RoutingService): Observable<any> {
     return routingService.getRouterState().pipe(
-      filter(routingData => routingData.state.params.entityKey),
-      map(routingData => {
+      filter((routingData) => routingData.state.params.entityKey),
+      map((routingData) => {
         const params = routingData.state.params;
         return {
           isOwnerCartEntry:
@@ -64,7 +64,7 @@ export class ConfigRouterExtractorService {
 
   isOverview(routingService: RoutingService): Observable<any> {
     return routingService.getRouterState().pipe(
-      map(routingData => ({
+      map((routingData) => ({
         isOverview: routingData.state.url.includes('configureOverview'),
       }))
     );
@@ -72,7 +72,7 @@ export class ConfigRouterExtractorService {
 
   isConfigurator(routingService: RoutingService): Observable<any> {
     return routingService.getRouterState().pipe(
-      map(routingData => ({
+      map((routingData) => ({
         isConfigurator:
           routingData.state.url.includes('configure') &&
           !routingData.state.url.includes('configureOverview'),
@@ -84,7 +84,7 @@ export class ConfigRouterExtractorService {
     return routingService
       .getRouterState()
       .pipe(
-        map(routerState =>
+        map((routerState) =>
           this.getConfiguratorTypeFromUrl(routerState.state.url)
         )
       );

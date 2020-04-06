@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   Cart,
-  CartService,
+  ActiveCartService,
   OrderEntry,
   PromotionLocation,
   PromotionResult,
@@ -38,23 +38,9 @@ export class AddedToCartDialogComponent implements OnInit {
   private quantityControl$: Observable<FormControl>;
 
   constructor(
-    modalService: ModalService,
-    cartService: CartService,
-    // tslint:disable-next-line:unified-signatures
-    promotionService: PromotionService
-  );
-
-  /**
-   * @deprecated Since 1.5
-   * Use promotionService instead of the promotion inputs.
-   * Remove issue: #5670
-   */
-  constructor(modalService: ModalService, cartService: CartService);
-
-  constructor(
     protected modalService: ModalService,
-    protected cartService: CartService,
-    protected promotionService?: PromotionService
+    protected cartService: ActiveCartService,
+    protected promotionService: PromotionService
   ) {}
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
@@ -64,13 +50,13 @@ export class AddedToCartDialogComponent implements OnInit {
   getQuantityControl(): Observable<FormControl> {
     if (!this.quantityControl$) {
       this.quantityControl$ = this.entry$.pipe(
-        filter(e => !!e),
-        map(entry => this.getFormControl(entry)),
+        filter((e) => !!e),
+        map((entry) => this.getFormControl(entry)),
         switchMap(() =>
           this.form.valueChanges.pipe(
             // tslint:disable-next-line:deprecation
             startWith(null),
-            tap(valueChange => {
+            tap((valueChange) => {
               if (valueChange) {
                 this.cartService.updateEntry(
                   valueChange.entryNumber,

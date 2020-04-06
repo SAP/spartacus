@@ -59,7 +59,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
           take(1),
           distinctUntilChanged(),
           tap(([templates, consents]) =>
-            templates.forEach(template => {
+            templates.forEach((template) => {
               const consent = this.getCorrespondingConsent(template, consents);
               if (this.anonymousConsentsService.isConsentGiven(consent)) {
                 if (this.isRequiredConsent(template)) {
@@ -83,7 +83,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
           take(1),
           distinctUntilChanged(),
           tap(([templates, consents]) =>
-            templates.forEach(template => {
+            templates.forEach((template) => {
               const consent = this.getCorrespondingConsent(template, consents);
               if (
                 (consent && consent.consentState == null) ||

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
-  OrderEntry,
-  PromotionResult,
-  CartService,
+  ActiveCartService,
   Cart,
-  Order,
   CheckoutService,
+  Order,
+  OrderEntry,
   PromotionLocation,
+  PromotionResult,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,9 +17,9 @@ import { OrderDetailsService } from '../../../cms-components/myaccount/order/ord
 })
 export class PromotionService {
   constructor(
-    protected cartService: CartService,
     protected orderDetailsService: OrderDetailsService,
-    protected checkoutService: CheckoutService
+    protected checkoutService: CheckoutService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   getOrderPromotions(
@@ -38,9 +38,9 @@ export class PromotionService {
   }
 
   getOrderPromotionsFromCart(): Observable<PromotionResult[]> {
-    return this.cartService
+    return this.activeCartService
       .getActive()
-      .pipe(map(cart => this.getOrderPromotionsFromCartHelper(cart)));
+      .pipe(map((cart) => this.getOrderPromotionsFromCartHelper(cart)));
   }
 
   private getOrderPromotionsFromCartHelper(cart: Cart): PromotionResult[] {
@@ -56,13 +56,13 @@ export class PromotionService {
   getOrderPromotionsFromCheckout(): Observable<PromotionResult[]> {
     return this.checkoutService
       .getOrderDetails()
-      .pipe(map(order => this.getOrderPromotionsFromOrderHelper(order)));
+      .pipe(map((order) => this.getOrderPromotionsFromOrderHelper(order)));
   }
 
   getOrderPromotionsFromOrder(): Observable<PromotionResult[]> {
     return this.orderDetailsService
       .getOrderDetails()
-      .pipe(map(order => this.getOrderPromotionsFromOrderHelper(order)));
+      .pipe(map((order) => this.getOrderPromotionsFromOrderHelper(order)));
   }
 
   private getOrderPromotionsFromOrderHelper(order: Order): PromotionResult[] {
@@ -78,10 +78,10 @@ export class PromotionService {
   ): Observable<PromotionResult[]> {
     switch (promotionLocation) {
       case PromotionLocation.ActiveCart:
-        return this.cartService
+        return this.activeCartService
           .getActive()
           .pipe(
-            map(cart =>
+            map((cart) =>
               this.getProductPromotion(
                 item,
                 cart.appliedProductPromotions || []
@@ -92,7 +92,7 @@ export class PromotionService {
         return this.checkoutService
           .getOrderDetails()
           .pipe(
-            map(order =>
+            map((order) =>
               this.getProductPromotion(
                 item,
                 order.appliedProductPromotions || []
@@ -103,7 +103,7 @@ export class PromotionService {
         return this.orderDetailsService
           .getOrderDetails()
           .pipe(
-            map(order =>
+            map((order) =>
               this.getProductPromotion(
                 item,
                 order.appliedProductPromotions || []

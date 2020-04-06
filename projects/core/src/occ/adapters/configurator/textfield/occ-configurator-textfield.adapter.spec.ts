@@ -86,7 +86,7 @@ describe('OccConfigurationTextfieldAdapter', () => {
       .createConfiguration(productCode, null)
       .subscribe();
 
-    const mockReq = httpMock.expectOne(req => {
+    const mockReq = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === 'createConfigurationTextfield';
     });
 
@@ -107,7 +107,7 @@ describe('OccConfigurationTextfieldAdapter', () => {
   it('should call addConfigurationTextfieldToCart endpoint', () => {
     occConfiguratorVariantAdapter.addToCart(addToCartParameters).subscribe();
 
-    const mockReq = httpMock.expectOne(req => {
+    const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'POST' && req.url === 'addConfigurationTextfieldToCart'
       );

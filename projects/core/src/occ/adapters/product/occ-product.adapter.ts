@@ -27,7 +27,7 @@ export class OccProductAdapter implements ProductAdapter {
   }
 
   loadMany(products: ScopedProductData[]): ScopedProductData[] {
-    const scopedDataWithUrls: ScopedDataWithUrl[] = products.map(model => ({
+    const scopedDataWithUrls: ScopedDataWithUrl[] = products.map((model) => ({
       scopedData: model,
       url: this.getEndpoint(model.code, model.scope),
     }));
@@ -35,7 +35,7 @@ export class OccProductAdapter implements ProductAdapter {
     return this.requestsOptimizer
       .scopedDataLoad<Occ.Product>(scopedDataWithUrls)
       .map(
-        scopedProduct =>
+        (scopedProduct) =>
           ({
             ...scopedProduct,
             data$: scopedProduct.data$.pipe(

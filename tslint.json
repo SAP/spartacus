@@ -56,6 +56,13 @@
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true,
+    "no-conflicting-lifecycle": true,
+    "no-host-metadata-property": true,
+    "no-inputs-metadata-property": true,
+    "no-output-native": true,
+    "no-outputs-metadata-property": true,
+    "template-banana-in-box": true,
+    "use-lifecycle-interface": true,
     "linebreak-style": [true, "LF"]
   }
 }

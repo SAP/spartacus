@@ -38,7 +38,7 @@ describe('Configurator selectors', () => {
     let result: UiState;
     store
       .pipe(select(ConfiguratorUiSelectors.getUiStateForProduct(PRODUCT_CODE)))
-      .subscribe(value => (result = value));
+      .subscribe((value) => (result = value));
 
     expect(result).toEqual(undefined);
   });
@@ -47,7 +47,7 @@ describe('Configurator selectors', () => {
     store.dispatch(new ConfiguratorUiActions.SetUiState(PRODUCT_CODE, uiState));
     store
       .pipe(select(ConfiguratorUiSelectors.getUiStateForProduct(PRODUCT_CODE)))
-      .subscribe(value => expect(value).toEqual(uiState));
+      .subscribe((value) => expect(value).toEqual(uiState));
   });
 
   it('should return current group content selector when action was successful', () => {
@@ -56,6 +56,6 @@ describe('Configurator selectors', () => {
       .pipe(
         select(ConfiguratorUiSelectors.getCurrentGroupForProduct(PRODUCT_CODE))
       )
-      .subscribe(value => expect(value).toEqual(GROUP_ID));
+      .subscribe((value) => expect(value).toEqual(GROUP_ID));
   });
 });

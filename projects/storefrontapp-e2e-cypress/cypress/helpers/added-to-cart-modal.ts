@@ -57,12 +57,12 @@ export function addSameProductTwice() {
   // action buttons links correctly
   cy.get('cx-added-to-cart-dialog .btn-primary')
     .should('have.attr', 'href')
-    .then($href => {
+    .then(($href) => {
       expect($href).contain('/cart');
     });
   cy.get('cx-added-to-cart-dialog .btn-secondary')
     .should('have.attr', 'href')
-    .then($href => {
+    .then(($href) => {
       expect($href).contain('/checkout');
     });
 
@@ -87,10 +87,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
     // we don't show product in search suggestions on mobile
     // instead search and click first result
     cy.get('cx-searchbox input[aria-label="search"]').type('{enter}');
-    cy.get('cx-product-list-item')
-      .first()
-      .get('.cx-product-name')
-      .click();
+    cy.get('cx-product-list-item').first().get('.cx-product-name').click();
   }
   cy.get('cx-breadcrumb h1').contains(productName2);
   cy.get('cx-add-to-cart button[type=submit]').click();
@@ -107,7 +104,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
 
   // check if the total is correct
   cy.get('cx-added-to-cart-dialog .cx-total .cx-value').then(
-    $cartTotalItemPrice => {
+    ($cartTotalItemPrice) => {
       const totalPrice = $cartTotalItemPrice.text().trim();
       expect(totalPrice).equal('$927.89');
     }
@@ -144,7 +141,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', productName2)
     .find('.cx-price .cx-value')
-    .then($cartItemPrice => {
+    .then(($cartItemPrice) => {
       const price = $cartItemPrice.text().trim();
       expect(price).equal('$927.89');
     });
@@ -153,14 +150,12 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', productName2)
     .find('.cx-total .cx-value')
-    .then($cartTotalItemPrice => {
+    .then(($cartTotalItemPrice) => {
       const totalPrice = $cartTotalItemPrice.text().trim();
       expect(totalPrice).equal('$927.89');
     });
 
-  cy.wait('@getRefreshedCart')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@getRefreshedCart').its('status').should('eq', 200);
   // delete the last product in cart
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', productName2)
@@ -200,26 +195,19 @@ export function refreshPage() {
 export function increaseProductQtyOnPDP() {
   // helper function to prettify the text
   function extractPriceFromText(text) {
-    return parseFloat(
-      text
-        .trim()
-        .substring(1)
-        .replace(',', '')
-    );
+    return parseFloat(text.trim().substring(1).replace(',', ''));
   }
 
   cy.visit(`/product/${productId}`);
 
   // increase the quantity to 2 and add it to cart
-  cy.get('cx-add-to-cart cx-item-counter button')
-    .contains('+')
-    .click();
+  cy.get('cx-add-to-cart cx-item-counter button').contains('+').click();
   cy.get('cx-add-to-cart button[type=submit]').click();
   // check if the item price * quantity matches the total
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.get('.cx-price .cx-value').then($itemPrice => {
-      cy.get('.cx-quantity cx-item-counter input').then($itemQuantity => {
-        cy.get('.cx-total .cx-value').then($itemTotalPrice => {
+    cy.get('.cx-price .cx-value').then(($itemPrice) => {
+      cy.get('.cx-quantity cx-item-counter input').then(($itemQuantity) => {
+        cy.get('.cx-total .cx-value').then(($itemTotalPrice) => {
           expect(extractPriceFromText($itemTotalPrice.text())).equal(
             extractPriceFromText($itemPrice.text()) *
               parseInt($itemQuantity.val().toString(), 10)

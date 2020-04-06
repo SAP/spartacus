@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   CmsConfig,
-  ConfigModule,
   FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
@@ -23,7 +23,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ReactiveFormsModule,
     I18nModule,
     IconModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CartApplyCouponComponent: {
           component: CartCouponComponent,
@@ -31,6 +33,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
       },
     }),
   ],
+
   entryComponents: [CartCouponComponent],
 })
 export class CartCouponModule {}

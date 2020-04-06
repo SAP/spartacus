@@ -26,7 +26,7 @@ export class ConfigPriceSummaryComponent implements OnInit {
     this.configuration$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        switchMap(owner => {
+        switchMap((owner) => {
           return this.configuratorCommonsService.getConfiguration(owner);
         })
       );

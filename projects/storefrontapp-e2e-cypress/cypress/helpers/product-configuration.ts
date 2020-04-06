@@ -121,9 +121,7 @@ export function selectAttribute(
       cy.get(`#${attributeId} ng-select`).ngSelect(valueName);
       break;
     case 'input':
-      cy.get(`#${valueId}`)
-        .clear()
-        .type(value);
+      cy.get(`#${valueId}`).clear().type(value);
   }
 }
 
@@ -173,7 +171,7 @@ export function verifyCategoryNavigationIsNotDisplayed() {
 }
 
 export function verifyTotalPrice(formattedPrice) {
-  cy.get('.cx-price-summary-total-price .cx-summary-amount').should($div => {
+  cy.get('.cx-price-summary-total-price .cx-summary-amount').should(($div) => {
     expect($div).to.contain(formattedPrice);
   });
 }
@@ -206,7 +204,5 @@ export function clickAddToCartButton() {
 }
 
 export function verifyConfigurableProductInCart(productName: string) {
-  cy.get('cx-cart-item-list')
-    .contains(productName)
-    .should('be.visible');
+  cy.get('cx-cart-item-list').contains(productName).should('be.visible');
 }

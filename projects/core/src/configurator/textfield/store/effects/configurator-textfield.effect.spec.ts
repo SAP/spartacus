@@ -115,7 +115,7 @@ describe('ConfiguratorTextfieldEffect', () => {
     );
     actions$ = hot('-a', { a: action });
 
-    configEffects.createConfiguration$.subscribe(emitted => fail(emitted));
+    configEffects.createConfiguration$.subscribe((emitted) => fail(emitted));
   });
 
   describe('Textfield Effect addToCart', () => {

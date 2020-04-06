@@ -25,7 +25,7 @@
       <div class="shipment-heading">
         <div class="row">
           <div class="col-sm-12 col-md-6">
-            <div class="shipment-title ">
+            <div class="shipment-title">
               {{
                 'orderDetails.consignmentTracking.dialog.shipped' | cxTranslate
               }}
@@ -65,9 +65,16 @@
               }}
             </div>
             <div class="shipment-content">
-              <label>
-                {{ consignmentTracking?.trackingID }}
-              </label>
+              <ng-container *ngIf="consignmentTracking?.trackingUrl">
+                <a target="_blank" [href]="consignmentTracking.trackingUrl">{{
+                  consignmentTracking?.trackingID
+                }}</a>
+              </ng-container>
+              <ng-container *ngIf="!consignmentTracking?.trackingUrl">
+                <label>
+                  {{ consignmentTracking?.trackingID }}
+                </label>
+              </ng-container>
             </div>
           </div>
         </div>

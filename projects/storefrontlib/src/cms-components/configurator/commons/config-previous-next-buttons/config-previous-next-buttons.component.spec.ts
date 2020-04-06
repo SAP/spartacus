@@ -244,7 +244,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     const testScheduler = new TestScheduler((actual, expected) => {
       expect(actual).toEqual(expected);
     });
-    testScheduler.run(helpers => {
+    testScheduler.run((helpers) => {
       const { expectObservable } = helpers;
       const previousGroup = cold('-a-b', {
         a: GROUP_ID,

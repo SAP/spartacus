@@ -79,7 +79,7 @@ describe('ConfigTextfieldFormComponent', () => {
 
   it('should know product configuration after init has been done', () => {
     component.ngOnInit();
-    component.configuration$.subscribe(configuration => {
+    component.configuration$.subscribe((configuration) => {
       const attributes: ConfiguratorTextfield.ConfigurationInfo[] =
         configuration.configurationInfos;
       expect(attributes.length).toBe(1);

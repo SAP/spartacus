@@ -48,23 +48,25 @@ class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
     of('getConfigurationOverview' + configId)
   );
 
-  readPriceSummary = createSpy().and.callFake(configId =>
+  readPriceSummary = createSpy().and.callFake((configId) =>
     of('readPriceSummary' + configId)
   );
 
-  readConfiguration = createSpy().and.callFake(configId =>
+  readConfiguration = createSpy().and.callFake((configId) =>
     of('readConfiguration' + configId)
   );
 
-  updateConfiguration = createSpy().and.callFake(configuration =>
+  updateConfiguration = createSpy().and.callFake((configuration) =>
     of('updateConfiguration' + configuration.configId)
   );
 
-  createConfiguration = createSpy().and.callFake(owner =>
+  createConfiguration = createSpy().and.callFake((owner) =>
     of('createConfiguration' + owner)
   );
 
-  addToCart = createSpy().and.callFake(configId => of('addToCart' + configId));
+  addToCart = createSpy().and.callFake((configId) =>
+    of('addToCart' + configId)
+  );
 }
 
 describe('ConfiguratorCommonsConnector', () => {
@@ -104,7 +106,9 @@ describe('ConfiguratorCommonsConnector', () => {
     );
 
     let result;
-    service.createConfiguration(PRODUCT_CODE).subscribe(res => (result = res));
+    service
+      .createConfiguration(PRODUCT_CODE)
+      .subscribe((res) => (result = res));
     expect(result).toBe('createConfiguration' + productConfiguration.owner);
     expect(adapter.createConfiguration).toHaveBeenCalledWith(
       productConfiguration.owner
@@ -118,7 +122,7 @@ describe('ConfiguratorCommonsConnector', () => {
 
     service
       .readConfigurationForCartEntry(readFromCartEntryParameters)
-      .subscribe(configuration =>
+      .subscribe((configuration) =>
         expect(configuration).toBe(productConfiguration)
       );
     expect(adapter.readConfigurationForCartEntry).toHaveBeenCalledWith(
@@ -133,7 +137,7 @@ describe('ConfiguratorCommonsConnector', () => {
 
     service
       .updateConfigurationForCartEntry(updateFromCartEntryParameters)
-      .subscribe(result => expect(result).toBe(cartModification));
+      .subscribe((result) => expect(result).toBe(cartModification));
     expect(adapter.updateConfigurationForCartEntry).toHaveBeenCalledWith(
       updateFromCartEntryParameters
     );
@@ -147,7 +151,7 @@ describe('ConfiguratorCommonsConnector', () => {
     let result;
     service
       .readConfiguration(CONFIG_ID, GROUP_ID, productConfiguration.owner)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toBe('readConfiguration' + CONFIG_ID);
     expect(adapter.readConfiguration).toHaveBeenCalledWith(
       CONFIG_ID,
@@ -164,7 +168,7 @@ describe('ConfiguratorCommonsConnector', () => {
     let result;
     service
       .updateConfiguration(productConfiguration)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toBe('updateConfiguration' + CONFIG_ID);
     expect(adapter.updateConfiguration).toHaveBeenCalledWith(
       productConfiguration
@@ -179,7 +183,7 @@ describe('ConfiguratorCommonsConnector', () => {
     let result;
     service
       .readPriceSummary(productConfiguration)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toBe('readPriceSummary' + productConfiguration);
     expect(adapter.readPriceSummary).toHaveBeenCalledWith(productConfiguration);
   });
@@ -192,7 +196,7 @@ describe('ConfiguratorCommonsConnector', () => {
     let result;
     service
       .getConfigurationOverview(productConfiguration.configId)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toBe(
       'getConfigurationOverview' + productConfiguration.configId
     );
@@ -215,7 +219,7 @@ describe('ConfiguratorCommonsConnector', () => {
       ownerKey: 'theKey',
     };
     let result;
-    service.addToCart(parameters).subscribe(res => (result = res));
+    service.addToCart(parameters).subscribe((res) => (result = res));
     expect(adapter.addToCart).toHaveBeenCalledWith(parameters);
     expect(result).toBe('addToCart' + parameters);
   });

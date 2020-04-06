@@ -37,7 +37,7 @@ export class ConfigGroupMenuComponent implements OnInit {
     this.configuration$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        switchMap(owner =>
+        switchMap((owner) =>
           this.configuratorCommonsService.getConfiguration(owner)
         )
       );
@@ -45,22 +45,22 @@ export class ConfigGroupMenuComponent implements OnInit {
     this.currentGroup$ = this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)
       .pipe(
-        switchMap(owner =>
+        switchMap((owner) =>
           this.configuratorGroupsService.getCurrentGroup(owner)
         )
       );
 
     this.displayedParentGroup$ = this.configuration$.pipe(
-      switchMap(configuration =>
+      switchMap((configuration) =>
         this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
       ),
-      switchMap(parentGroup => this.getCondensedParentGroup(parentGroup))
+      switchMap((parentGroup) => this.getCondensedParentGroup(parentGroup))
     );
 
     this.displayedGroups$ = this.displayedParentGroup$.pipe(
-      switchMap(parentGroup => {
+      switchMap((parentGroup) => {
         return this.configuration$.pipe(
-          map(configuration => {
+          map((configuration) => {
             if (parentGroup) {
               return this.condenseGroups(parentGroup.subGroups);
             } else {
@@ -79,7 +79,7 @@ export class ConfigGroupMenuComponent implements OnInit {
   }
 
   click(group: Configurator.Group) {
-    this.configuration$.pipe(take(1)).subscribe(configuration => {
+    this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
@@ -99,24 +99,26 @@ export class ConfigGroupMenuComponent implements OnInit {
   }
 
   navigateUp() {
-    this.displayedParentGroup$.pipe(take(1)).subscribe(displayedParentGroup => {
-      const parentGroup$ = this.getParentGroup(displayedParentGroup);
-      this.configuration$.pipe(take(1)).subscribe(configuration => {
-        parentGroup$
-          .pipe(take(1))
-          .subscribe(parentGroup =>
-            this.configuratorGroupsService.setMenuParentGroup(
-              configuration.owner,
-              parentGroup ? parentGroup.id : null
-            )
-          );
+    this.displayedParentGroup$
+      .pipe(take(1))
+      .subscribe((displayedParentGroup) => {
+        const parentGroup$ = this.getParentGroup(displayedParentGroup);
+        this.configuration$.pipe(take(1)).subscribe((configuration) => {
+          parentGroup$
+            .pipe(take(1))
+            .subscribe((parentGroup) =>
+              this.configuratorGroupsService.setMenuParentGroup(
+                configuration.owner,
+                parentGroup ? parentGroup.id : null
+              )
+            );
+        });
       });
-    });
   }
 
   getParentGroup(group: Configurator.Group): Observable<Configurator.Group> {
     return this.configuration$.pipe(
-      map(configuration =>
+      map((configuration) =>
         this.configuratorGroupsService.findParentGroup(
           configuration.groups,
           group,
@@ -135,7 +137,7 @@ export class ConfigGroupMenuComponent implements OnInit {
       parentGroup.subGroups.length === 1
     ) {
       return this.getParentGroup(parentGroup).pipe(
-        switchMap(group => this.getCondensedParentGroup(group))
+        switchMap((group) => this.getCondensedParentGroup(group))
       );
     } else {
       return of(parentGroup);
@@ -143,7 +145,7 @@ export class ConfigGroupMenuComponent implements OnInit {
   }
 
   condenseGroups(groups: Configurator.Group[]): Configurator.Group[] {
-    return groups.flatMap(group => {
+    return groups.flatMap((group) => {
       if (group.subGroups.length === 1) {
         return this.condenseGroups(group.subGroups);
       } else {

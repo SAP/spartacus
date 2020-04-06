@@ -41,7 +41,7 @@ export class ConfiguratorTextfieldService {
   ): void {
     this.store
       .pipe(select(ConfiguratorSelectors.getConfigurationContent), take(1))
-      .subscribe(oldConfiguration => {
+      .subscribe((oldConfiguration) => {
         this.store.dispatch(
           new ConfiguratorActions.UpdateConfiguration(
             this.createNewConfigurationWithChange(
@@ -54,7 +54,7 @@ export class ConfiguratorTextfieldService {
   }
 
   addToCart(productCode: string) {
-    this.activeCartService.requireLoadedCart().subscribe(cartState => {
+    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
         userId: this.getUserId(cartState.value),
         cartId: this.getCartId(cartState.value),
@@ -83,7 +83,7 @@ export class ConfiguratorTextfieldService {
   ): void {
     this.store
       .pipe(select(ConfiguratorSelectors.getConfigurationContent), take(1))
-      .subscribe(configuration => {
+      .subscribe((configuration) => {
         addToCartParameters.configuration = configuration;
         this.store.dispatch(
           new ConfiguratorActions.AddToCart(addToCartParameters)
@@ -99,7 +99,7 @@ export class ConfiguratorTextfieldService {
       configurationInfos: [],
       owner: oldConfiguration.owner,
     };
-    oldConfiguration.configurationInfos.forEach(info => {
+    oldConfiguration.configurationInfos.forEach((info) => {
       if (info.configurationLabel === changedAttribute.configurationLabel) {
         changedAttribute.status = SUCCESS_STATUS;
         newConfiguration.configurationInfos.push(changedAttribute);

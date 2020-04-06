@@ -44,21 +44,21 @@ describe('GenericConfigUtilsService', () => {
   });
 
   it('should throw an error if no owner type is present', () => {
-    expect(function() {
+    expect(function () {
       serviceUnderTest.setOwnerKey(owner);
     }).toThrow();
   });
 
   it('should throw an error if for owner type PRODUCT if no product code is present', () => {
     owner.type = GenericConfigurator.OwnerType.PRODUCT;
-    expect(function() {
+    expect(function () {
       serviceUnderTest.setOwnerKey(owner);
     }).toThrow();
   });
 
   it('should throw an error if for owner type CART_ENTRY if no cart entry link is present', () => {
     owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
-    expect(function() {
+    expect(function () {
       serviceUnderTest.setOwnerKey(owner);
     }).toThrow();
   });

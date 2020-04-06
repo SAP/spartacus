@@ -102,14 +102,14 @@ export class GoogleMapRendererService {
       });
       this.markers.push(marker);
       marker.setMap(this.googleMap);
-      marker.addListener('mouseover', function() {
+      marker.addListener('mouseover', function () {
         marker.setAnimation(google.maps.Animation.BOUNCE);
       });
-      marker.addListener('mouseout', function() {
+      marker.addListener('mouseout', function () {
         marker.setAnimation(null);
       });
       if (selectMarkerHandler) {
-        marker.addListener('click', function() {
+        marker.addListener('click', function () {
           selectMarkerHandler(index);
         });
       }

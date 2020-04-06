@@ -10,19 +10,19 @@ const USER_ID = 'theUser';
 const CART_ID = '98876';
 
 class MockConfiguratorTextfieldAdapter implements ConfiguratorTextfieldAdapter {
-  readConfiguration = createSpy().and.callFake(configId =>
+  readConfiguration = createSpy().and.callFake((configId) =>
     of('readConfiguration' + configId)
   );
 
-  updateConfiguration = createSpy().and.callFake(configuration =>
+  updateConfiguration = createSpy().and.callFake((configuration) =>
     of('updateConfiguration' + configuration.configId)
   );
 
-  createConfiguration = createSpy().and.callFake(productCode =>
+  createConfiguration = createSpy().and.callFake((productCode) =>
     of('createConfiguration' + productCode)
   );
 
-  addToCart = createSpy().and.callFake(productCode =>
+  addToCart = createSpy().and.callFake((productCode) =>
     of('addToCart' + productCode)
   );
 }
@@ -58,7 +58,7 @@ describe('ConfiguratorTextfieldConnector', () => {
     let result;
     service
       .createConfiguration(PRODUCT_CODE, null)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toBe('createConfiguration' + PRODUCT_CODE);
     expect(adapter.createConfiguration).toHaveBeenCalledWith(
       PRODUCT_CODE,
@@ -78,7 +78,7 @@ describe('ConfiguratorTextfieldConnector', () => {
       quantity: 1,
     };
     let result;
-    service.addToCart(parameters).subscribe(res => (result = res));
+    service.addToCart(parameters).subscribe((res) => (result = res));
     expect(adapter.addToCart).toHaveBeenCalledWith(parameters);
     expect(result).toBe('addToCart' + parameters);
   });
