@@ -22,7 +22,7 @@ import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
 
 /**
- * Helper service for CmsPageGuard
+ * Helper service for `CmsPageGuard`
  */
 @Injectable({
   providedIn: 'root',

@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { CmsRoute, PageType } from '@spartacus/core';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsMappingService } from './cms-mapping.service';
-import { CmsRoutesService } from './cms-routes.service';
+import { CmsRoutesImplService } from './cms-routes-impl.service';
 import createSpy = jasmine.createSpy;
 
-describe('CmsRoutesService', () => {
-  let service: CmsRoutesService;
+describe('CmsRoutesImplService', () => {
+  let service: CmsRoutesImplService;
   let cmsMappingService: CmsMappingService;
   let mockRouter;
 
@@ -47,7 +47,7 @@ describe('CmsRoutesService', () => {
       ],
     });
 
-    service = TestBed.inject(CmsRoutesService);
+    service = TestBed.inject(CmsRoutesImplService);
     cmsMappingService = TestBed.inject(CmsMappingService);
   });
 

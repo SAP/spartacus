@@ -75,7 +75,7 @@ export class CmsPageGuard implements CanActivate {
   /**
    * Returns whether we should reload the CMS page data, even when it was loaded before.
    */
-  protected shouldReloadCmsData(): boolean {
+  private shouldReloadCmsData(): boolean {
     return !isFeatureEnabled(this.config, 'cmsPageLoadOnce');
   }
 }
