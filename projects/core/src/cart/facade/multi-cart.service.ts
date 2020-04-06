@@ -258,7 +258,7 @@ export class MultiCartService {
    */
   assignEmail(cartId: string, userId: string, email: string): void {
     this.store.dispatch(
-      new DeprecatedCartActions.AddEmailToCart({
+      new CartActions.AddEmailToCart({
         userId,
         cartId,
         email,
