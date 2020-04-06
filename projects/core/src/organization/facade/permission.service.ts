@@ -2,25 +2,25 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
+import { EntitiesModel } from '../../model/misc.model';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../model/permission.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
-import { AuthService } from '../../auth/facade/auth.service';
-import {
-  Permission,
-  OrderApprovalPermissionType,
-} from '../../model/permission.model';
-import { EntitiesModel } from '../../model/misc.model';
-import { StateWithOrganization } from '../store/organization-state';
+import { B2BSearchConfig } from '../model/search-config';
 import {
   PermissionActions,
   PermissionTypeActions,
 } from '../store/actions/index';
-import {
-  getPermissionState,
-  getPermissionList,
-} from '../store/selectors/permission.selector';
+import { StateWithOrganization } from '../store/organization-state';
 import { getPermissionTypeList } from '../store/selectors/permission-type.selector';
-import { B2BSearchConfig } from '../model/search-config';
+import {
+  getPermissionList,
+  getPermissionState,
+} from '../store/selectors/permission.selector';
 
 @Injectable()
 export class PermissionService {
@@ -83,6 +83,7 @@ export class PermissionService {
     );
   }
 
+  //getTypes
   getTypes(): Observable<EntitiesModel<OrderApprovalPermissionType>> {
     return this.getPermissionTypeList().pipe(
       observeOn(queueScheduler),
