@@ -71,14 +71,15 @@ export class OrgUnitService {
   }
 
   loadAddresses(orgUnitId: string): void {
-    this.withUserId(
-      userId =>
-        this.store.dispatch(
-          new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
-        )
-      // TODO: use it for api supports GET addresses
-      // this.store.dispatch(new OrgUnitActions.LoadAddresses({ userId, orgUnitId }))
-    );
+    this.withUserId(userId => {
+      // this.store.dispatch(
+      //   new OrgUnitActions.LoadAddresses({ userId, orgUnitId })
+      // );
+      // TODO: replace it after turn on loadAddresses$
+      this.store.dispatch(
+        new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
+      );
+    });
   }
 
   private getOrgUnitState(orgUnitId: string): Observable<LoaderState<B2BUnit>> {
