@@ -13,12 +13,7 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  FeatureConfigService,
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
@@ -118,16 +113,9 @@ describe('CartItemComponent', () => {
         {
           provide: ControlContainer,
         },
-        { provide: FeatureConfigService, useValue: featureConfig },
         {
           provide: PromotionService,
           useClass: MockPromotionService,
-        },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.3' },
-          },
         },
       ],
     }).compileComponents();
