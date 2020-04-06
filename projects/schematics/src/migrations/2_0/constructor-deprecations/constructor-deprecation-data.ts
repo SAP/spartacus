@@ -47,6 +47,7 @@ import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-noti
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
+import { CART_ITEM_COMPONENT_MIGRATIONS } from './data/cart-item.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -88,6 +89,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CART_VOUCHER_SERVICE_MIGRATION,
   ...CART_COUPON_COMPONENT_MIGRATIONS,
   ...CART_ITEM_LIST_COMPONENT_MIGRATIONS,
+  ...CART_ITEM_COMPONENT_MIGRATIONS,
   LOGIN_FORM_COMPONENT_MIGRATION,
   ...REGISTER_COMPONENT_MIGRATIONS,
   STAR_RATING_COMPONENT_MIGRATION,
