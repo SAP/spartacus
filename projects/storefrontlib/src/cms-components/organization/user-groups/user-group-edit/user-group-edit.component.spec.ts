@@ -11,8 +11,8 @@ import {
   OrgUnitService,
   B2BUnitNode,
   LanguageService,
-  OrgUnitUserGroup,
-  OrgUnitUserGroupService,
+  UserGroup,
+  UserGroupService,
 } from '@spartacus/core';
 
 import { UserGroupEditComponent } from './user-group-edit.component';
@@ -23,7 +23,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 const uid = 'b1';
 
-const mockUserGroup: OrgUnitUserGroup = {
+const mockUserGroup: UserGroup = {
   uid,
   name: 'group1',
   orgUnit: { name: 'orgName' },
@@ -44,8 +44,8 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
 }
 
-class MockUserGroupService implements Partial<OrgUnitUserGroupService> {
-  loadOrgUnitUserGroup = createSpy('loadOrgUnitUserGroup');
+class MockUserGroupService implements Partial<UserGroupService> {
+  loadUserGroup = createSpy('loadUserGroup');
   get = createSpy('get').and.returnValue(of(mockUserGroup));
   update = createSpy('update');
 }
@@ -96,13 +96,11 @@ describe('UserGroupEditComponent', () => {
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: OrgUnitUserGroupService, useClass: MockUserGroupService },
+        { provide: UserGroupService, useClass: MockUserGroupService },
       ],
     }).compileComponents();
 
-    userGroupsService = TestBed.get(
-      OrgUnitUserGroupService as Type<OrgUnitUserGroupService>
-    );
+    userGroupsService = TestBed.get(UserGroupService as Type<UserGroupService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
@@ -126,7 +124,7 @@ describe('UserGroupEditComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(userGroupsService.loadOrgUnitUserGroup).toHaveBeenCalledWith(uid);
+      expect(userGroupsService.loadUserGroup).toHaveBeenCalledWith(uid);
       expect(userGroupsService.get).toHaveBeenCalledWith(uid);
       expect(userGroup).toEqual(mockUserGroup);
     });

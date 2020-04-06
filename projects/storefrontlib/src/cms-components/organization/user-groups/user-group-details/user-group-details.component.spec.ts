@@ -8,8 +8,8 @@ import {
   RoutingService,
   RoutesConfig,
   RoutingConfig,
-  OrgUnitUserGroupService,
-  OrgUnitUserGroup,
+  UserGroupService,
+  UserGroup,
 } from '@spartacus/core';
 
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
@@ -19,7 +19,7 @@ import createSpy = jasmine.createSpy;
 
 const uid = 'b1';
 
-const mockUserGroup: OrgUnitUserGroup = {
+const mockUserGroup: UserGroup = {
   uid,
   name: 'group1',
   orgUnit: { name: 'orgName' },
@@ -39,8 +39,8 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockUserGroupService implements Partial<OrgUnitUserGroupService> {
-  loadOrgUnitUserGroup = createSpy('loadOrgUnitUserGroup');
+class MockUserGroupService implements Partial<UserGroupService> {
+  loadUserGroup = createSpy('loadUserGroup');
   get = createSpy('get').and.returnValue(of(mockUserGroup));
   update = createSpy('update');
 }
@@ -70,7 +70,7 @@ class MockRoutingConfig {
 describe('UserGroupDetailsComponent', () => {
   let component: UserGroupDetailsComponent;
   let fixture: ComponentFixture<UserGroupDetailsComponent>;
-  let orgUnitUserGroupService: MockUserGroupService;
+  let userGroupService: MockUserGroupService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -81,15 +81,13 @@ describe('UserGroupDetailsComponent', () => {
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: OrgUnitUserGroupService,
+          provide: UserGroupService,
           useClass: MockUserGroupService,
         },
       ],
     }).compileComponents();
 
-    orgUnitUserGroupService = TestBed.get(
-      OrgUnitUserGroupService as Type<OrgUnitUserGroupService>
-    );
+    userGroupService = TestBed.get(UserGroupService as Type<UserGroupService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
@@ -113,10 +111,8 @@ describe('UserGroupDetailsComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(orgUnitUserGroupService.loadOrgUnitUserGroup).toHaveBeenCalledWith(
-        uid
-      );
-      expect(orgUnitUserGroupService.get).toHaveBeenCalledWith(uid);
+      expect(userGroupService.loadUserGroup).toHaveBeenCalledWith(uid);
+      expect(userGroupService.get).toHaveBeenCalledWith(uid);
       expect(budget).toEqual(mockUserGroupUI);
     });
   });

@@ -1,31 +1,31 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { OrgUnitUserGroup } from '../../../model/index';
-import { OrgUnitUserGroupActions } from '../actions/index';
+import { UserGroup } from '../../../model/index';
+import { UserGroupActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
   StateWithOrganization,
-  OrgUnitUserGroupManagement,
+  UserGroupManagement,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import {
   EntityLoaderState,
   LoaderState,
-  OrgUnitUserGroupSelectors,
+  UserGroupSelectors,
 } from '@spartacus/core';
 
-describe('OrgUnitUserGroup Selectors', () => {
+describe('UserGroup Selectors', () => {
   let store: Store<StateWithOrganization>;
 
   const uid = 'testUid';
-  const orgUnitUserGroup: OrgUnitUserGroup = {
+  const userGroup: UserGroup = {
     uid,
-    name: 'testOrgUnitUserGroup',
+    name: 'testUserGroup',
   };
-  const orgUnitUserGroup2: OrgUnitUserGroup = {
+  const userGroup2: UserGroup = {
     uid: 'testUid2',
-    name: 'testOrgUnitUserGroup2',
+    name: 'testUserGroup2',
   };
 
   const entities = {
@@ -33,13 +33,13 @@ describe('OrgUnitUserGroup Selectors', () => {
       loading: false,
       error: false,
       success: true,
-      value: orgUnitUserGroup,
+      value: userGroup,
     },
     testUid2: {
       loading: false,
       error: false,
       success: true,
-      value: orgUnitUserGroup2,
+      value: userGroup2,
     },
   };
 
@@ -58,20 +58,15 @@ describe('OrgUnitUserGroup Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getOrgUnitUserGroupManagementState ', () => {
-    it('should return orgUnitUserGroups state', () => {
-      let result: OrgUnitUserGroupManagement;
+  describe('getUserGroupManagementState ', () => {
+    it('should return UserGroups state', () => {
+      let result: UserGroupManagement;
       store
-        .pipe(
-          select(OrgUnitUserGroupSelectors.getOrgUnitUserGroupManagementState)
-        )
+        .pipe(select(UserGroupSelectors.getUserGroupManagementState))
         .subscribe(value => (result = value));
 
       store.dispatch(
-        new OrgUnitUserGroupActions.LoadOrgUnitUserGroupSuccess([
-          orgUnitUserGroup,
-          orgUnitUserGroup2,
-        ])
+        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
       );
       expect(result).toEqual({
         entities: { entities },
@@ -82,35 +77,29 @@ describe('OrgUnitUserGroup Selectors', () => {
     });
   });
 
-  describe('getOrgUnitUserGroups', () => {
-    it('should return orgUnitUserGroups', () => {
-      let result: EntityLoaderState<OrgUnitUserGroup>;
+  describe('getUserGroups', () => {
+    it('should return UserGroups', () => {
+      let result: EntityLoaderState<UserGroup>;
       store
-        .pipe(select(OrgUnitUserGroupSelectors.getOrgUnitUserGroupsState))
+        .pipe(select(UserGroupSelectors.getUserGroupsState))
         .subscribe(value => (result = value));
 
       store.dispatch(
-        new OrgUnitUserGroupActions.LoadOrgUnitUserGroupSuccess([
-          orgUnitUserGroup,
-          orgUnitUserGroup2,
-        ])
+        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
       );
       expect(result).toEqual({ entities });
     });
   });
 
-  describe('getOrgUnitUserGroup', () => {
-    it('should return orgUnitUserGroup by id', () => {
-      let result: LoaderState<OrgUnitUserGroup>;
+  describe('getUserGroup', () => {
+    it('should return userGroup by id', () => {
+      let result: LoaderState<UserGroup>;
       store
-        .pipe(select(OrgUnitUserGroupSelectors.getOrgUnitUserGroupState(uid)))
+        .pipe(select(UserGroupSelectors.getUserGroupState(uid)))
         .subscribe(value => (result = value));
 
       store.dispatch(
-        new OrgUnitUserGroupActions.LoadOrgUnitUserGroupSuccess([
-          orgUnitUserGroup,
-          orgUnitUserGroup2,
-        ])
+        new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
       );
       expect(result).toEqual(entities.testUid);
     });
