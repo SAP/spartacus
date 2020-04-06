@@ -1,5 +1,8 @@
 import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
-import { CustomFormValidators } from './custom-form-validators';
+import {
+  CustomFormValidators,
+  controlsMustMatch,
+} from './custom-form-validators';
 
 describe('FormValidationService', () => {
   let email: FormControl;
@@ -185,6 +188,39 @@ describe('FormValidationService', () => {
           CustomFormValidators.starRatingEmpty(form.get('rating'))
         ).toBeNull();
       });
+    });
+  });
+
+  describe('matching function', () => {
+    it('should set error if values do not match', () => {
+      const testErrorName = 'testErrorName';
+
+      form.get('password').setValue('firstPassword');
+      form.get('passwordconf').setValue('anotherPassword');
+      controlsMustMatch(form, 'password', 'passwordconf', testErrorName);
+
+      expect(form.get('passwordconf').hasError(testErrorName)).toEqual(true);
+    });
+
+    it('should not set error if values match', () => {
+      const testErrorName = 'testErrorName';
+
+      form.get('password').setValue('firstPassword');
+      form.get('passwordconf').setValue('firstPassword');
+      controlsMustMatch(form, 'password', 'passwordconf', testErrorName);
+
+      expect(form.get('passwordconf').hasError(testErrorName)).toEqual(false);
+    });
+
+    it('should not set error if another error exists', () => {
+      const testErrorName = 'testErrorName';
+
+      form.get('password').setValue('firstPassword');
+      form.get('passwordconf').setValue('firstPassword');
+      form.get('passwordconf').setErrors({ anotherError: true });
+      controlsMustMatch(form, 'password', 'passwordconf', testErrorName);
+
+      expect(form.get('passwordconf').hasError(testErrorName)).toEqual(false);
     });
   });
 });

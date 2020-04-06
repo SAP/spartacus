@@ -21,10 +21,6 @@ export const PLACE_ORDER_COMPONENT_MIGRATION: ConstructorDeprecation = {
       className: ROUTING_SERVICE,
       importPath: SPARTACUS_CORE,
     },
-    {
-      className: FORM_BUILDER,
-      importPath: ANGULAR_FORMS,
-    },
   ],
   addParams: [
     {

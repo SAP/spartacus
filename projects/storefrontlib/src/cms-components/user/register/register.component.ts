@@ -131,13 +131,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   submitForm(): void {
     if (this.registerForm.valid) {
-      this.register();
+      this.registerUser();
     } else {
       this.registerForm.markAllAsTouched();
     }
   }
 
-  register(): void {
+  registerUser(): void {
     this.userService.register(
       this.collectDataFromRegisterForm(this.registerForm.value)
     );

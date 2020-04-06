@@ -52,7 +52,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
   submitForm(): void {
     if (this.loginForm.valid) {
-      this.login();
+      this.loginUser();
     } else {
       this.loginForm.markAllAsTouched();
     }
@@ -64,7 +64,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private login(): void {
+  protected loginUser(): void {
     const { userId, password } = this.loginForm.controls;
     this.auth.authorize(
       userId.value.toLowerCase(), // backend accepts lowercase emails only

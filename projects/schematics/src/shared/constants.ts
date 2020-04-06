@@ -139,6 +139,7 @@ export const PLACE_ORDER_COMPONENT = 'PlaceOrderComponent';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';
 export const USER_NOTIFICATION_PREFERENCE_SERVICE =
   'UserNotificationPreferenceService';
+export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -167,7 +168,7 @@ export const MULTI_CART_REDUCER_PROVIDER = 'multiCartReducerProvider';
 
 export const SITE_CONTEXT_PARAMS_PROVIDERS = 'siteContextParamsProviders';
 export const INIT_SITE_CONTEXT_ROUTES_HANDLER = 'initSiteContextRoutesHandler';
-export const INITIALIZE_CONTEXT = 'initializeContext';
+export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
 
 export const URL_MATCHER_FACTORY_SERVICE = 'UrlMatcherFactoryService';
@@ -178,6 +179,9 @@ export const PWA_CONFIGURATION_FACTORY = 'pwaConfigurationFactory';
 export const PWA_FACTORY = 'pwaFactory';
 export const GET_STRUCTURED_DATA_FACTORY = 'getStructuredDataFactory';
 export const SKIP_LINK_FACTORY = 'skipLinkFactory';
+export const FORM_UTILS = 'FormUtils';
+export const BILLING_ADDRESS_FORM_COMPONENT = 'BillingAddressFormComponent';
+export const BILLING_ADDRESS_FORM_MODULE = 'BillingAddressFormModule';
 /***** Removed public api end *****/
 
 /***** Properties start *****/

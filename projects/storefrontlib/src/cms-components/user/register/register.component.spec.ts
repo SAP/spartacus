@@ -249,7 +249,7 @@ describe('RegisterComponent', () => {
       spyOn(userService, 'register').and.stub();
 
       component.ngOnInit();
-      component.register();
+      component.registerUser();
     });
 
     it('should submit form', () => {
