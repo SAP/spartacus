@@ -16,111 +16,188 @@
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'orgUnitForm.uid.label' | cxTranslate
+            'addressForm.id.label' | cxTranslate
           }}</span>
           <input
             class="form-control"
             type="text"
             required
-            placeholder="{{ 'orgUnitForm.uid.placeholder' | cxTranslate }}"
-            formControlName="uid"
-            [class.is-invalid]="isNotValid('uid')"
+            placeholder="{{ 'addressForm.id.placeholder' | cxTranslate }}"
+            formControlName="id"
           />
-          <ng-container
-            *ngIf="isNotValid('uid')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.uid
-            }"
-          ></ng-container>
         </label>
       </div>
-
+      <div class="form-group" formGroupName="country">
+        <ng-container *ngIf="countries$ | async as countries">
+          <div *ngIf="countries.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'addressForm.country' | cxTranslate
+              }}</span>
+              <ng-select
+                class="country-select"
+                formControlName="isocode"
+                [searchable]="true"
+                [clearable]="false"
+                [items]="countries"
+                bindLabel="name"
+                bindValue="isocode"
+                placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+                (change)="countrySelected($event)"
+              >
+              </ng-select>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+      <div class="form-group" *ngIf="showTitleCode">
+        <ng-container *ngIf="titles$ | async as titles">
+          <div *ngIf="titles.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'addressForm.title' | cxTranslate
+              }}</span>
+              <ng-select
+                formControlName="titleCode"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="titles"
+                bindLabel="name"
+                bindValue="code"
+              >
+              </ng-select>
+            </label>
+          </div>
+        </ng-container>
+      </div>
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'orgUnitForm.name.label' | cxTranslate
+            'addressForm.firstName.label' | cxTranslate
+          }}</span>
+          <input
+            class="form-control"
+            type="text"
+            required
+            placeholder="{{
+              'addressForm.firstName.placeholder' | cxTranslate
+            }}"
+            formControlName="firstName"
+          />
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          <span class="label-content required">{{
+            'addressForm.lastName.label' | cxTranslate
           }}</span>
           <input
             type="text"
             class="form-control"
             required
-            placeholder="{{ 'orgUnitForm.name.placeholder' | cxTranslate }}"
-            formControlName="name"
-            [class.is-invalid]="isNotValid('name')"
+            placeholder="{{ 'addressForm.lastName.placeholder' | cxTranslate }}"
+            formControlName="lastName"
           />
-          <ng-container
-            *ngIf="isNotValid('name')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.name
-            }"
-          ></ng-container>
         </label>
       </div>
-
       <div class="form-group">
-        <ng-container
-          *ngIf="businessUnits$ | async as businessUnits"
-          formGroupName="parentOrgUnit"
-        >
-          <div *ngIf="businessUnits.length !== 0">
-            <label aria-required="true">
-              <span class="label-content required">{{
-                'orgUnitForm.parentOrgUnit.label' | cxTranslate
-              }}</span>
-              <ng-select
-                formControlName="uid"
-                [searchable]="false"
-                [clearable]="false"
-                [items]="businessUnits"
-                bindLabel="name"
-                bindValue="id"
-                [class.invalid]="isNotValid('parentOrgUnit')"
-              >
-              </ng-select>
-              <ng-container
-                *ngIf="isNotValid('parentOrgUnit')"
-                [ngTemplateOutlet]="validation"
-                [ngTemplateOutletContext]="{
-                  control: form.controls.parentOrgUnit['controls']['uid']
-                }"
-              ></ng-container>
-            </label>
-          </div>
-        </ng-container>
+        <label>
+          <span class="label-content required">{{
+            'addressForm.address1' | cxTranslate
+          }}</span>
+          <input
+            type="text"
+            class="form-control"
+            required
+            placeholder="{{ 'addressForm.streetAddress' | cxTranslate }}"
+            formControlName="line1"
+          />
+        </label>
       </div>
-
       <div class="form-group">
-        <ng-container
-          *ngIf="approvalProcesses$ | async as approvalProcesses"
-          formGroupName="approvalProcess"
-        >
-          <div *ngIf="approvalProcesses.length !== 0">
-            <label aria-required="true">
-              <span class="label-content required">{{
-                'orgUnitForm.approvalProcess.label' | cxTranslate
-              }}</span>
-              <ng-select
-                formControlName="code"
-                [searchable]="false"
-                [clearable]="false"
-                [items]="approvalProcesses"
-                bindLabel="name"
-                bindValue="code"
-                [class.invalid]="isNotValid('approvalProcess')"
-              >
-              </ng-select>
-              <ng-container
-                *ngIf="isNotValid('approvalProcess')"
-                [ngTemplateOutlet]="validation"
-                [ngTemplateOutletContext]="{
-                  control: form.controls.approvalProcess['controls']['code']
-                }"
-              ></ng-container>
-            </label>
-          </div>
-        </ng-container>
+        <label>
+          <span class="label-content">{{
+            'addressForm.address2' | cxTranslate
+          }}</span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
+            formControlName="line2"
+          />
+        </label>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <label>
+            <span class="label-content required">{{
+              'addressForm.city.label' | cxTranslate
+            }}</span>
+            <input
+              type="text"
+              class="form-control"
+              required
+              placeholder="{{ 'addressForm.city.placeholder' | cxTranslate }}"
+              formControlName="town"
+            />
+          </label>
+        </div>
+        <div class="form-group col-md-6">
+          <ng-container
+            *ngIf="regions$ | async as regions"
+            formGroupName="region"
+          >
+            <div *ngIf="regions.length !== 0">
+              <label aria-required="true">
+                <span class="label-content required">{{
+                  'addressForm.state' | cxTranslate
+                }}</span>
+                <ng-select
+                  class="region-select"
+                  formControlName="isocode"
+                  [searchable]="true"
+                  [clearable]="false"
+                  [items]="regions"
+                  bindLabel="{{ regions[0].name ? 'name' : 'isocode' }}"
+                  bindValue="{{ regions[0].name ? 'isocode' : 'region' }}"
+                  placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
+                >
+                </ng-select>
+              </label>
+            </div>
+          </ng-container>
+        </div>
+        <div class="form-group col-md-6">
+          <label>
+            <span class="label-content required">{{
+              'addressForm.zipCode.label' | cxTranslate
+            }}</span>
+            <input
+              type="text"
+              class="form-control"
+              required
+              placeholder="{{
+                'addressForm.zipCode.placeholder' | cxTranslate
+              }}"
+              formControlName="postalCode"
+            />
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>
+          <span class="label-content">{{
+            'addressForm.phoneNumber.label' | cxTranslate
+          }}</span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="{{
+              'addressForm.phoneNumber.placeholder' | cxTranslate
+            }}"
+            formControlName="phone"
+          />
+        </label>
       </div>
     </div>
   </div>

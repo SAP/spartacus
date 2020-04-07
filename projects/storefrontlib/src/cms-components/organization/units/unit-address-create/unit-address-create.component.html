@@ -3,7 +3,10 @@
 </div>
 <cx-unit-address-form
   [actionBtnLabel]="'unitAddressForm.create' | cxTranslate"
-  [routerBackLink]="{ cxRoute: 'orgUnitManageAddresses' }"
-  (submit)="createOrgUnit($event)"
+  [routerBackLink]="{
+    cxRoute: 'orgUnitManageAddresses',
+    params: { code: orgUnitCode$ | async }
+  }"
+  (submit)="createAddress($event)"
 >
 </cx-unit-address-form>

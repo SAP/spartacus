@@ -5,15 +5,19 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 
 import {
-  B2BUnitNode,
-  CurrencyService,
-  OrgUnitService,
-  B2BApprovalProcess,
+  B2BAddress,
+  Country,
+  Region,
+  Title,
+  UserAddressService,
+  UserService,
 } from '@spartacus/core';
 import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { sortTitles } from '../../../../shared/utils/forms/title-utils';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-unit-address-form',
@@ -22,36 +26,84 @@ import { AbstractFormComponent } from '../../abstract-component/abstract-form.co
 })
 export class UnitAddressFormComponent extends AbstractFormComponent
   implements OnInit {
-  businessUnits$: Observable<B2BUnitNode[]>;
-  approvalProcesses$: Observable<B2BApprovalProcess[]>;
+  countries$: Observable<Country[]>;
+  titles$: Observable<Title[]>;
+  regions$: Observable<Region[]>;
+  selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   @Input()
-  orgUnitData: B2BUnitNode;
+  addressData: B2BAddress;
 
   form: FormGroup = this.fb.group({
-    uid: ['', Validators.required],
-    name: ['', Validators.required],
-    parentOrgUnit: this.fb.group({
-      uid: [null, Validators.required],
+    id: ['', Validators.required],
+    titleCode: [''],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    line1: ['', Validators.required],
+    line2: [''],
+    town: ['', Validators.required],
+    region: this.fb.group({
+      isocode: [null, Validators.required],
     }),
-    approvalProcess: this.fb.group({
-      code: [null, Validators.required],
+    country: this.fb.group({
+      isocode: [null, Validators.required],
     }),
+    postalCode: ['', Validators.required],
+    phone: '',
   });
 
   constructor(
     protected fb: FormBuilder,
-    protected currencyService: CurrencyService,
-    protected orgUnitService: OrgUnitService
+    // protected orgUnitService: OrgUnitService,
+    protected userService: UserService,
+    protected userAddressService: UserAddressService
   ) {
     super();
   }
 
   ngOnInit() {
-    this.approvalProcesses$ = this.orgUnitService.getApprovalProcesses();
-    this.businessUnits$ = this.orgUnitService.getList();
-    if (this.orgUnitData && Object.keys(this.orgUnitData).length !== 0) {
-      this.form.patchValue(this.orgUnitData);
+    this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
+      tap(countries => {
+        if (Object.keys(countries).length === 0) {
+          this.userAddressService.loadDeliveryCountries();
+        }
+      })
+    );
+
+    // Fetching titles
+    this.titles$ = this.userService.getTitles().pipe(
+      tap(titles => {
+        if (Object.keys(titles).length === 0) {
+          this.userService.loadTitles();
+        }
+      }),
+      map(titles => {
+        titles.sort(sortTitles);
+        const noneTitle = { code: '', name: 'Title' };
+        return [noneTitle, ...titles];
+      })
+    );
+
+    // Fetching regions
+    this.regions$ = this.selectedCountry$.pipe(
+      switchMap(country => this.userAddressService.getRegions(country)),
+      tap(regions => {
+        const regionControl = this.form.get('region.isocode');
+        if (regions && regions.length > 0) {
+          regionControl.enable();
+        } else {
+          regionControl.disable();
+        }
+      })
+    );
+
+    if (this.addressData && Object.keys(this.addressData).length !== 0) {
+      this.form.patchValue(this.addressData);
     }
+  }
+
+  countrySelected(country: Country): void {
+    this.form['controls'].country['controls'].isocode.setValue(country.isocode);
+    this.selectedCountry$.next(country.isocode);
   }
 }
