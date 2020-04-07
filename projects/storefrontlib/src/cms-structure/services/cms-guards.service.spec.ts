@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ActivatedRouteSnapshot,
@@ -9,6 +8,7 @@ import {
 import { of } from 'rxjs';
 import { CmsGuardsService } from './cms-guards.service';
 import { CmsMappingService } from './cms-mapping.service';
+import { ConfigModule, provideConfig } from '@spartacus/core';
 
 describe('CmsGuardsService', () => {
   let service: CmsGuardsService;
@@ -51,6 +51,7 @@ describe('CmsGuardsService', () => {
   beforeEach(() => {
     guards = [];
     TestBed.configureTestingModule({
+      imports: [ConfigModule.forRoot()],
       providers: [
         {
           provide: CmsMappingService,
@@ -62,14 +63,17 @@ describe('CmsGuardsService', () => {
         UrlTreeGuard,
       ],
     });
-    service = TestBed.get(CmsGuardsService as Type<CmsGuardsService>);
   });
 
   it('should be created', () => {
+    service = TestBed.get(CmsGuardsService);
     expect(service).toBeTruthy();
   });
 
   describe('cmsPageCanActivate', () => {
+    beforeEach(() => {
+      service = TestBed.get(CmsGuardsService);
+    });
     it('should resolve to true if not guards are defined', () => {
       let result;
       service
@@ -127,5 +131,34 @@ describe('CmsGuardsService', () => {
         .subscribe(res => (result = res));
       expect(result).toEqual(mockUrlTree);
     });
+  });
+
+  describe('shouldForceRefreshPage', () => {
+    it('should return true if cmsPageLoadOnce flag is not enabled', () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideConfig({
+            features: {
+              cmsPageLoadOnce: false,
+            },
+          }),
+        ],
+      });
+      service = TestBed.get(CmsGuardsService);
+      expect(service.shouldForceRefreshPage()).toBeTruthy();
+    });
+  });
+  it('should return false if cmsPageLoadOnce flag is enabled', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        provideConfig({
+          features: {
+            cmsPageLoadOnce: true,
+          },
+        }),
+      ],
+    });
+    service = TestBed.get(CmsGuardsService);
+    expect(service.shouldForceRefreshPage()).toBeFalsy();
   });
 });
