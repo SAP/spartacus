@@ -107,46 +107,19 @@ describe('CustomerSelectionComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('Start session button', () => {
-    it('should be disabled by default', () => {
-      spyOn(component, 'onSubmit').and.stub();
+  it('should emit selection event when submitted', () => {
+    spyOn(component, 'onSubmit').and.callThrough();
+    spyOn(component.submitEvent, 'emit').and.stub();
 
-      expect(
-        el.query(By.css('button[type="submit"]')).nativeElement.disabled
-      ).toBeTruthy();
+    component.customerSelectionForm.controls.searchTerm.setValue('testTerm');
+    component.selectedCustomer = mockCustomer;
+    fixture.detectChanges();
 
-      testUtils.clickSubmit(fixture);
+    testUtils.clickSubmit(fixture);
 
-      expect(component.onSubmit).not.toHaveBeenCalled();
-    });
-
-    it('should be enabled when a customer is selected', () => {
-      spyOn(component, 'onSubmit').and.stub();
-
-      component.selectedCustomer = mockCustomer;
-      fixture.detectChanges();
-      expect(
-        el.query(By.css('button[type="submit"]')).nativeElement.disabled
-      ).toBeFalsy();
-
-      testUtils.clickSubmit(fixture);
-
-      expect(component.onSubmit).toHaveBeenCalled();
-    });
-
-    it('should emit selection event when clicked', () => {
-      spyOn(component, 'onSubmit').and.callThrough();
-      spyOn(component.submitEvent, 'emit').and.stub();
-
-      component.selectedCustomer = mockCustomer;
-      fixture.detectChanges();
-
-      testUtils.clickSubmit(fixture);
-
-      expect(component.onSubmit).toHaveBeenCalled();
-      expect(component.submitEvent.emit).toHaveBeenCalledWith({
-        customerId: mockCustomer.customerId,
-      });
+    expect(component.onSubmit).toHaveBeenCalled();
+    expect(component.submitEvent.emit).toHaveBeenCalledWith({
+      customerId: mockCustomer.customerId,
     });
   });
 
@@ -156,23 +129,24 @@ describe('CustomerSelectionComponent', () => {
     );
     component.ngOnInit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(el.query(By.css('div.spinner'))).toBeTruthy();
-      expect(el.query(By.css('form'))).toBeTruthy();
-    });
+
+    expect(el.query(By.css('div.spinner'))).toBeTruthy();
+    expect(el.query(By.css('form'))).toBeTruthy();
   });
+
   it('should not display spinner when customer search is not running', () => {
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(el.query(By.css('div.sap-spinner'))).toBeFalsy();
-      expect(el.query(By.css('form'))).toBeTruthy();
-    });
+
+    expect(el.query(By.css('div.sap-spinner'))).toBeFalsy();
+    expect(el.query(By.css('form'))).toBeTruthy();
   });
 
   it('should trigger search for valid search term', fakeAsync(() => {
     spyOn(asmService, 'customerSearch').and.callThrough();
     component.ngOnInit();
-    component.form.controls.searchTerm.setValue(validSearchTerm);
+    component.customerSelectionForm.controls.searchTerm.setValue(
+      validSearchTerm
+    );
     fixture.detectChanges();
     tick(1000);
     expect(asmService.customerSearch).toHaveBeenCalledWith({
@@ -186,7 +160,9 @@ describe('CustomerSelectionComponent', () => {
       of(mockCustomerSearchPage)
     );
     component.ngOnInit();
-    component.form.controls.searchTerm.setValue(validSearchTerm);
+    component.customerSelectionForm.controls.searchTerm.setValue(
+      validSearchTerm
+    );
     fixture.detectChanges();
     expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(
       mockCustomerSearchPage.entries.length
@@ -199,7 +175,9 @@ describe('CustomerSelectionComponent', () => {
     );
     spyOn(asmService, 'customerSearchReset').and.stub();
     component.ngOnInit();
-    component.form.controls.searchTerm.setValue(validSearchTerm);
+    component.customerSelectionForm.controls.searchTerm.setValue(
+      validSearchTerm
+    );
     fixture.detectChanges();
     expect(el.query(By.css('div.asm-results'))).toBeTruthy();
     el.nativeElement.dispatchEvent(new MouseEvent('click'));
@@ -213,7 +191,9 @@ describe('CustomerSelectionComponent', () => {
     );
     spyOn(asmService, 'customerSearchReset').and.stub();
     component.ngOnInit();
-    component.form.controls.searchTerm.setValue(validSearchTerm);
+    component.customerSelectionForm.controls.searchTerm.setValue(
+      validSearchTerm
+    );
     fixture.detectChanges();
     expect(el.queryAll(By.css('div.asm-results button')).length).toEqual(1);
     expect(
@@ -232,7 +212,9 @@ describe('CustomerSelectionComponent', () => {
     spyOn(asmService, 'customerSearchReset').and.stub();
     spyOn(component, 'selectCustomerFromList').and.callThrough();
     component.ngOnInit();
-    component.form.controls.searchTerm.setValue(validSearchTerm);
+    component.customerSelectionForm.controls.searchTerm.setValue(
+      validSearchTerm
+    );
     fixture.detectChanges();
     el.query(By.css('div.asm-results button')).nativeElement.dispatchEvent(
       new MouseEvent('click')
@@ -240,7 +222,9 @@ describe('CustomerSelectionComponent', () => {
     fixture.detectChanges();
     expect(component.selectCustomerFromList).toHaveBeenCalled();
     expect(component.selectedCustomer).toEqual(mockCustomer);
-    expect(component.form.controls.searchTerm.value).toEqual(mockCustomer.name);
+    expect(component.customerSelectionForm.controls.searchTerm.value).toEqual(
+      mockCustomer.name
+    );
     expect(
       el.query(By.css('button[type="submit"]')).nativeElement.disabled
     ).toBeFalsy();
