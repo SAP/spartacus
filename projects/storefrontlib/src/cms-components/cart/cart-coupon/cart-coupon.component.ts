@@ -2,14 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   ActiveCartService,
-  AuthService,
   Cart,
   CartVoucherService,
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,
   FeatureConfigService,
-  OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
