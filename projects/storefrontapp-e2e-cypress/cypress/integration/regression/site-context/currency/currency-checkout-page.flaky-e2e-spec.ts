@@ -14,6 +14,7 @@ describe('Currency switch - checkout page', () => {
       win.localStorage.clear();
     });
     cy.requireLoggedIn();
+    siteContextSelector.doPlaceOrder();
   });
 
   siteContextSelector.stub(
@@ -23,7 +24,6 @@ describe('Currency switch - checkout page', () => {
 
   describe('populate cart, history, quantity', () => {
     it('should have basic data', () => {
-      siteContextSelector.doPlaceOrder();
       manipulateCartQuantity();
     });
   });
