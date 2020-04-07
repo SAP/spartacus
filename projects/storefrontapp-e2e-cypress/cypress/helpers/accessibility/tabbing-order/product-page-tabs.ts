@@ -5,11 +5,6 @@ export function productPageTabsTabbingOrder() {
   cy.visit(testProductUrl);
 
   cy.route(
-    `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/products/779841/references*`
-  ).as('references');
-  cy.route(
     `${Cypress.env('API_URL')}/rest/v2/electronics-spa/products/779841/reviews*`
   ).as('reviews');
 
@@ -22,9 +17,8 @@ export function productPageTabsTabbingOrder() {
   cy.get('cx-product-reviews'); // wait for reviews to render
   cy.get('p .tab-delivery'); // wait for shipping to render
 
-  cy.get('h3').contains('Product Details').first().focus();
+  cy.get('button.active').contains('Product Details').first().focus();
 
-  cy.wait('@references');
   cy.wait('@reviews');
 
   // we don't use checkAllElements(), because we have to click tabs between checks

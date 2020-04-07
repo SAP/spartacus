@@ -88,15 +88,15 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
+      value: '/electronics-spa/en/USD/product/2278102/miniDV%20Head%20Cleaner',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
       value: '/electronics-spa/en/USD/product/1981415/PL60%20Silver',
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
       value: '/electronics-spa/en/USD/product/1992693/DSC-T90',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
-      value: '/electronics-spa/en/USD/product/2278102/miniDV%20Head%20Cleaner',
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
@@ -171,9 +171,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
     },
-    { value: '-', type: TabbingOrderTypes.BUTTON },
     { type: TabbingOrderTypes.GENERIC_INPUT },
-    { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'Save For Later', type: TabbingOrderTypes.LINK },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
     {
       value: 'Proceed to Checkout',
@@ -376,9 +375,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
     },
-    { value: '-', type: TabbingOrderTypes.BUTTON },
     { type: TabbingOrderTypes.GENERIC_INPUT },
-    { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
     { value: 'view cart', type: TabbingOrderTypes.BUTTON },
     { value: 'proceed to checkout', type: TabbingOrderTypes.BUTTON },
@@ -620,9 +617,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CX_MEDIA,
     },
     { value: 'Show reviews', type: TabbingOrderTypes.LINK },
-    { value: '-', type: TabbingOrderTypes.BUTTON },
     { type: TabbingOrderTypes.GENERIC_INPUT },
-    { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     { value: 'add to wish list', type: TabbingOrderTypes.LINK },
   ],
@@ -1253,15 +1248,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: '2',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: '3',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '18',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -1333,15 +1320,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: '2',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: '3',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '18',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -1372,15 +1351,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: '2',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: '3',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '18',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -1452,15 +1423,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: '2',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: '3',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '18',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -2203,6 +2166,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Get Directions',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       type: TabbingOrderTypes.LINK,
     },
     {

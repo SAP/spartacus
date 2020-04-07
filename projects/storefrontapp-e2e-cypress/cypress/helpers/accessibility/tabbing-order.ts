@@ -31,7 +31,7 @@ export function verifyTabElement(tabElement: TabElement) {
       cy.focused()
         .should('have.class', 'cx-product-layout')
         .should('have.prop', 'tagName')
-        .should('eq', 'DIV');
+        .should('eq', 'BUTTON');
       break;
     }
   }
