@@ -11,9 +11,6 @@ import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const REMOVE_TEMP_CART = '[Multi Cart] Remove Temp Cart';
 
-export const MERGE_MULTI_CART = '[Multi Cart] Merge Cart';
-export const MERGE_MULTI_CART_SUCCESS = '[Multi Cart] Merge Cart Success';
-
 export const RESET_MULTI_CART_DETAILS = '[Multi Cart] Reset Cart Details';
 
 export const SET_TEMP_CART = '[Multi Cart] Set Temp Cart';
@@ -43,20 +40,6 @@ export class SetTempCart extends EntitySuccessAction {
   readonly type = SET_TEMP_CART;
   constructor(public payload: { cart: Cart; tempCartId: string }) {
     super(MULTI_CART_DATA, payload.tempCartId, payload.cart);
-  }
-}
-
-export class MergeMultiCart implements Action {
-  readonly type = MERGE_MULTI_CART;
-  constructor(public payload: any) {}
-}
-
-export class MergeMultiCartSuccess extends EntityRemoveAction {
-  readonly type = MERGE_MULTI_CART_SUCCESS;
-  constructor(
-    public payload: { oldCartId: string; cartId: string; userId: string }
-  ) {
-    super(MULTI_CART_DATA, payload.oldCartId);
   }
 }
 
@@ -103,8 +86,6 @@ export class ClearMultiCartState extends EntityRemoveAction {
 export type MultiCartActions =
   | RemoveTempCart
   | SetTempCart
-  | MergeMultiCart
-  | MergeMultiCartSuccess
   | ResetMultiCartDetails
   | RemoveCart
   | CartProcessesIncrement
