@@ -48,7 +48,7 @@ export const getOrgUnitsState: MemoizedSelector<
   (state: OrgUnits) => state && state.entities
 );
 
-export const getOrgUnitsTree: MemoizedSelector<
+export const getOrgUnitsTreeState: MemoizedSelector<
   StateWithOrganization,
   EntityLoaderState<B2BUnitNode>
 > = createSelector(
@@ -64,7 +64,7 @@ export const getAddressesState: MemoizedSelector<
   (state: OrgUnits) => state && state.addressEntities
 );
 
-export const getOrgUnitsApprovalProcesses: MemoizedSelector<
+export const getApprovalProcessesState: MemoizedSelector<
   StateWithOrganization,
   EntityLoaderState<B2BApprovalProcess[]>
 > = createSelector(
@@ -72,7 +72,7 @@ export const getOrgUnitsApprovalProcesses: MemoizedSelector<
   (state: OrgUnits) => state && state.approvalProcesses
 );
 
-export const getOrgUnitState = (
+export const getOrgUnit = (
   orgUnitId: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<B2BUnit>> =>
   createSelector(getOrgUnitsState, (state: EntityLoaderState<B2BUnit>) =>
@@ -89,20 +89,22 @@ export const getOrgUnitList = (): MemoizedSelector<
       entityStateSelector(state, ORG_UNIT_NODES)
   );
 
-export const getOrgUnitTreeState = (): MemoizedSelector<
+export const getOrgUnitTree = (): MemoizedSelector<
   StateWithOrganization,
   LoaderState<B2BUnitNode>
 > =>
-  createSelector(getOrgUnitsTree, (state: EntityLoaderState<B2BUnitNode>) =>
-    entityStateSelector(state, ORG_UNIT_TREE)
+  createSelector(
+    getOrgUnitsTreeState,
+    (state: EntityLoaderState<B2BUnitNode>) =>
+      entityStateSelector(state, ORG_UNIT_TREE)
   );
 
-export const getApprovalProcessesState = (): MemoizedSelector<
+export const getApprovalProcesses = (): MemoizedSelector<
   StateWithOrganization,
   LoaderState<B2BApprovalProcess[]>
 > =>
   createSelector(
-    getOrgUnitsApprovalProcesses,
+    getApprovalProcessesState,
     (state: EntityLoaderState<B2BApprovalProcess[]>) =>
       entityStateSelector(state, ORG_UNIT_APPROVAL_PROCESSES)
   );

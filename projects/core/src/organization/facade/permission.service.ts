@@ -11,18 +11,13 @@ import {
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { B2BSearchConfig } from '../model/search-config';
-import {
-  PermissionActions,
-  PermissionTypeActions,
-} from '../store/actions/index';
+import { PermissionActions } from '../store/actions/index';
 import { StateWithOrganization } from '../store/organization-state';
-import {
-  //getPermissionTypeList,
-  getPermissionTypesState2,
-} from '../store/selectors/permission-type.selector';
+
 import {
   getPermissionList,
-  getPermissionState,
+  getPermission,
+  getPermissionTypes,
 } from '../store/selectors/permission.selector';
 
 @Injectable()
@@ -52,13 +47,13 @@ export class PermissionService {
   }
 
   loadPermissionTypes() {
-    this.store.dispatch(new PermissionTypeActions.LoadPermissionTypes());
+    this.store.dispatch(new PermissionActions.LoadPermissionTypes());
   }
 
-  private getPermissionState(
+  private getPermission(
     permissionCode: string
   ): Observable<LoaderState<Permission>> {
-    return this.store.select(getPermissionState(permissionCode));
+    return this.store.select(getPermission(permissionCode));
   }
 
   private getPermissionList(
@@ -67,20 +62,14 @@ export class PermissionService {
     return this.store.select(getPermissionList(params));
   }
 
-  /*private getPermissionTypeList(): Observable<
-    LoaderState<EntitiesModel<OrderApprovalPermissionType[]>>
-  > {
-    return this.store.select(getPermissionTypeList());
-  }*/
-
-  private getPermissionTypeList2(): Observable<
+  private getPermissionTypeList(): Observable<
     LoaderState<OrderApprovalPermissionType[]>
   > {
-    return this.store.select(getPermissionTypesState2());
+    return this.store.select(getPermissionTypes());
   }
 
   get(permissionCode: string): Observable<Permission> {
-    return this.getPermissionState(permissionCode).pipe(
+    return this.getPermission(permissionCode).pipe(
       observeOn(queueScheduler),
       tap(state => {
         if (!(state.loading || state.success || state.error)) {
@@ -92,28 +81,8 @@ export class PermissionService {
     );
   }
 
-  /*getTypes(): Observable<EntitiesModel<OrderApprovalPermissionType[]>> {
-    return this.getPermissionTypeList().pipe(
-      observeOn(queueScheduler),
-      tap(
-        (
-          process: LoaderState<EntitiesModel<OrderApprovalPermissionType[]>>
-        ) => {
-          if (!(process.loading || process.success || process.error)) {
-            this.loadPermissionTypes();
-          }
-        }
-      ),
-      filter(
-        (process: LoaderState<EntitiesModel<OrderApprovalPermissionType[]>>) =>
-          process.success || process.error
-      ),
-      map(result => result.value)
-    );
-  }*/
-
   getTypes(): Observable<OrderApprovalPermissionType[]> {
-    return this.getPermissionTypeList2().pipe(
+    return this.getPermissionTypeList().pipe(
       observeOn(queueScheduler),
       tap((process: LoaderState<OrderApprovalPermissionType[]>) => {
         if (!(process.loading || process.success || process.error)) {

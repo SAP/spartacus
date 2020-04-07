@@ -28,8 +28,7 @@ export const PERMISSION_FEATURE = 'permission';
 export const PERMISSION_ENTITIES = 'permission-entities';
 export const PERMISSION_LIST = 'permission-list';
 
-export const PERMISSION_TYPES_FEATURE = 'permission-types';
-export const PERMISSION_TYPES_ENTITIES = 'permission-types-entities';
+export const PERMISSION_TYPES = 'permission-types';
 export const PERMISSION_TYPES_LIST = 'permission-types-list';
 
 export const ORG_UNIT_FEATURE = 'orgUnit';
@@ -84,9 +83,6 @@ export interface UserGroupManagement extends Management<UserGroup> {
   customers: EntityLoaderState<ListModel>;
 }
 
-export interface PermissionTypesManagement
-  extends Management<OrderApprovalPermissionType[]> {}
-
 export interface PermissionManagement extends Management<Permission> {
   permissionTypes: EntityLoaderState<OrderApprovalPermissionType[]>;
 }
@@ -110,7 +106,6 @@ export interface OrganizationState {
   [ORG_UNIT_FEATURE]: OrgUnits;
   [USER_GROUP_FEATURE]: UserGroupManagement;
   [PERMISSION_FEATURE]: PermissionManagement;
-  [PERMISSION_TYPES_FEATURE]: PermissionTypesManagement;
   [COST_CENTER_FEATURE]: CostCenterManagement;
   [B2B_USER_FEATURE]: B2BUserManagement;
 }

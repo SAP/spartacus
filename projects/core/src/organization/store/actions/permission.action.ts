@@ -1,12 +1,20 @@
-import { Permission } from '../../../model/permission.model';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../../model/permission.model';
 import {
   EntityFailAction,
   EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { B2BSearchConfig } from '../../model/search-config';
-import { serializeB2BSearchConfig } from '../../utils/serializer';
-import { PERMISSION_ENTITIES, PERMISSION_LIST } from '../organization-state';
+import { ALL, serializeB2BSearchConfig } from '../../utils/serializer';
+import {
+  PERMISSION_ENTITIES,
+  PERMISSION_LIST,
+  PERMISSION_TYPES,
+  PERMISSION_TYPES_LIST,
+} from '../organization-state';
 import { ListModel } from '../../../model/misc.model';
 
 export const LOAD_PERMISSION = '[Permission] Load Permission Data';
@@ -27,6 +35,12 @@ export const UPDATE_PERMISSION = '[Permission] Update Permission';
 export const UPDATE_PERMISSION_FAIL = '[Permission] Update Permission Fail';
 export const UPDATE_PERMISSION_SUCCESS =
   '[Permission] Update Permission Success';
+
+export const LOAD_PERMISSION_TYPES = '[Permission Types] Load Permission Types';
+export const LOAD_PERMISSION_TYPES_FAIL =
+  '[Permission Types] Load Permission Types Fail';
+export const LOAD_PERMISSION_TYPES_SUCCESS =
+  '[Permission Types] Load Permission Types Success';
 
 export class LoadPermission extends EntityLoadAction {
   readonly type = LOAD_PERMISSION;
@@ -135,6 +149,27 @@ export class UpdatePermissionSuccess extends EntitySuccessAction {
   }
 }
 
+export class LoadPermissionTypes extends EntityLoadAction {
+  readonly type = LOAD_PERMISSION_TYPES;
+  constructor() {
+    super(PERMISSION_TYPES_LIST, PERMISSION_TYPES);
+  }
+}
+
+export class LoadPermissionTypesFail extends EntityFailAction {
+  readonly type = LOAD_PERMISSION_TYPES_FAIL;
+  constructor(public payload: any) {
+    super(PERMISSION_TYPES_LIST, ALL, payload.error);
+  }
+}
+
+export class LoadPermissionTypesSuccess extends EntitySuccessAction {
+  readonly type = LOAD_PERMISSION_TYPES_SUCCESS;
+  constructor(public payload: OrderApprovalPermissionType[]) {
+    super(PERMISSION_TYPES_LIST, PERMISSION_TYPES);
+  }
+}
+
 export type PermissionAction =
   | LoadPermission
   | LoadPermissionFail
@@ -147,4 +182,7 @@ export type PermissionAction =
   | CreatePermissionSuccess
   | UpdatePermission
   | UpdatePermissionFail
-  | UpdatePermissionSuccess;
+  | UpdatePermissionSuccess
+  | LoadPermissionTypes
+  | LoadPermissionTypesFail
+  | LoadPermissionTypesSuccess;

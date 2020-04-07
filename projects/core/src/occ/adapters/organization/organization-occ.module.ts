@@ -29,8 +29,7 @@ import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-un
 import {
   PERMISSION_TYPES_NORMALIZER,
   PERMISSION_TYPE_NORMALIZER,
-} from '../../../organization/connectors/permission-type/converters';
-import { PermissionTypeAdapter } from '../../../organization/connectors/permission-type/permission-type.adapter';
+} from '../../../organization/connectors/permission/converters';
 import {
   PERMISSIONS_NORMALIZER,
   PERMISSION_NORMALIZER,
@@ -66,7 +65,6 @@ import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
 import { OccBudgetAdapter } from './occ-budget.adapter';
 import { OccCostCenterAdapter } from './occ-cost-center.adapter';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
-import { OccPermissionTypeAdapter } from './occ-permission-type.adapter';
 import { OccPermissionAdapter } from './occ-permission.adapter';
 import { OccUserGroupAdapter } from './occ-user-group.adapter';
 
@@ -138,10 +136,6 @@ import { OccUserGroupAdapter } from './occ-user-group.adapter';
       provide: PERMISSIONS_NORMALIZER,
       useClass: OccPermissionListNormalizer,
       multi: true,
-    },
-    {
-      provide: PermissionTypeAdapter,
-      useClass: OccPermissionTypeAdapter,
     },
     {
       provide: PERMISSION_TYPE_NORMALIZER,

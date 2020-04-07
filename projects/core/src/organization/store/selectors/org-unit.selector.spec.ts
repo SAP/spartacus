@@ -106,7 +106,7 @@ describe('OrgUnit Selectors', () => {
     it('should return orgUnit by id', () => {
       let result: LoaderState<B2BUnit>;
       store
-        .pipe(select(OrgUnitSelectors.getOrgUnitState(orgUnitId)))
+        .pipe(select(OrgUnitSelectors.getOrgUnit(orgUnitId)))
         .subscribe(value => (result = value));
 
       store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));

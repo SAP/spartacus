@@ -8,10 +8,10 @@ import { AuthService } from '../../auth/facade/auth.service';
 import { StateWithOrganization } from '../store/organization-state';
 import { OrgUnitActions } from '../store/actions/index';
 import {
-  getOrgUnitState,
+  getOrgUnit,
   getOrgUnitList,
-  getApprovalProcessesState,
-  getOrgUnitTreeState,
+  getApprovalProcesses,
+  getOrgUnitTree,
   getAssignedUsers,
   getB2BAddresses,
   getB2BAddress,
@@ -81,12 +81,12 @@ export class OrgUnitService {
     );
   }
 
-  private getOrgUnitState(orgUnitId: string): Observable<LoaderState<B2BUnit>> {
-    return this.store.select(getOrgUnitState(orgUnitId));
+  private getOrgUnit(orgUnitId: string): Observable<LoaderState<B2BUnit>> {
+    return this.store.select(getOrgUnit(orgUnitId));
   }
 
   private getTreeState(): Observable<LoaderState<B2BUnitNode>> {
-    return this.store.select(getOrgUnitTreeState());
+    return this.store.select(getOrgUnitTree());
   }
 
   private getOrgUnitsList(): Observable<LoaderState<B2BUnitNode[]>> {
@@ -116,11 +116,11 @@ export class OrgUnitService {
   private getApprovalProcessesList(): Observable<
     LoaderState<B2BApprovalProcess[]>
   > {
-    return this.store.select(getApprovalProcessesState());
+    return this.store.select(getApprovalProcesses());
   }
 
   get(orgUnitId: string): Observable<B2BUnit> {
-    return this.getOrgUnitState(orgUnitId).pipe(
+    return this.getOrgUnit(orgUnitId).pipe(
       observeOn(queueScheduler),
       tap(state => {
         if (!(state.loading || state.success || state.error)) {

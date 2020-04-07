@@ -39,8 +39,6 @@ import {
   PERMISSION_ENTITIES,
   PERMISSION_FEATURE,
   PERMISSION_LIST,
-  PERMISSION_TYPES_ENTITIES,
-  PERMISSION_TYPES_FEATURE,
   PERMISSION_TYPES_LIST,
   USER_GROUP_AVAILABLE_CUSTOMERS,
   USER_GROUP_ENTITIES,
@@ -65,7 +63,6 @@ import {
   orgUnitAddressListReducer,
   orgUnitUserListReducer,
 } from './org-unit.reducer';
-import { permissionTypeListReducer } from './permission-type.reducer';
 import {
   permissionsEntitiesReducer,
   permissionsListReducer,
@@ -95,7 +92,7 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
         permissionsListReducer
       ),
       permissionTypes: entityLoaderReducer<OrderApprovalPermissionType[]>(
-        PERMISSION_TYPES_FEATURE
+        PERMISSION_TYPES_LIST
       ),
     }),
     [ORG_UNIT_FEATURE]: combineReducers({
@@ -141,15 +138,6 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       budgets: entityLoaderReducer<ListModel>(
         COST_CENTER_ASSIGNED_BUDGETS,
         costCenterAssignedBudgetsListReducer
-      ),
-    }),
-    [PERMISSION_TYPES_FEATURE]: combineReducers({
-      entities: entityLoaderReducer<OrderApprovalPermissionType[]>(
-        PERMISSION_TYPES_ENTITIES
-      ),
-      list: entityLoaderReducer<ListModel>(
-        PERMISSION_TYPES_LIST,
-        permissionTypeListReducer
       ),
     }),
     [B2B_USER_FEATURE]: combineReducers({

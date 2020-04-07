@@ -1,5 +1,8 @@
 import { Observable } from 'rxjs';
-import { Permission } from '../../../model/permission.model';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../../model/permission.model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { EntitiesModel } from '../../../model/misc.model';
 
@@ -29,4 +32,6 @@ export abstract class PermissionAdapter {
     permissionCode: string,
     permission: Permission
   ): Observable<Permission>;
+
+  abstract loadTypes(): Observable<OrderApprovalPermissionType[]>;
 }
