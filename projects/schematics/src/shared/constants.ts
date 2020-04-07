@@ -109,6 +109,9 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
+export const CONSENT_MANAGEMENT_COMPONENT = 'ConsentManagementComponent';
+export const ANONYMOUS_CONSENT_DIALOG_COMPONENT =
+  'AnonymousConsentDialogComponent';
 export const PRODUCT_IMAGES_COMPONENT = 'ProductImagesComponent';
 export const USER_CONSENT_SERVICE = 'UserConsentService';
 export const USER_ORDER_SERVICE = 'UserOrderService';
@@ -130,6 +133,8 @@ export const STAR_RATING_COMPONENT = 'StarRatingComponent';
 export const PRODUCT_SERVICE = 'ProductService';
 export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
 export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
+export const FOOTER_NAVIGATION_COMPONENT = 'FooterNavigationComponent';
+export const NAVIGATION_SERVICE = 'NavigationService';
 export const URL_MATCHER_SERVICE = 'UrlMatcherService';
 export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
 export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
