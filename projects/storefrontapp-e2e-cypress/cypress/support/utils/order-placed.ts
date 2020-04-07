@@ -26,10 +26,12 @@ export function waitForOrderToBePlacedRequest(
       'API_URL'
     )}/rest/v2/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=${currency}`,
     headers: {
-      Authorization: `bearer ${access_token}`
-    }
+      Authorization: `bearer ${access_token}`,
+    },
   })
-    .then(res => new Promise(resolve => setTimeout(() => resolve(res), delay)))
+    .then(
+      (res) => new Promise((resolve) => setTimeout(() => resolve(res), delay))
+    )
     .then((res: Cypress.Response) => {
       if (
         startTime > timerTimeout ||
@@ -37,7 +39,7 @@ export function waitForOrderToBePlacedRequest(
           res.body.orders &&
           res.body.orders.length &&
           (!orderNumber ||
-            res.body.orders.filter(order => order.code === orderNumber)))
+            res.body.orders.filter((order) => order.code === orderNumber)))
       ) {
         startTime = 0;
         return;

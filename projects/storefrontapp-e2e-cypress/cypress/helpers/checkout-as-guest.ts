@@ -30,8 +30,11 @@ export function loginAsGuest(
   cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
 }
 
-export function createAccountFromGuest(password: string) {
-  const homePage = checkout.waitForPage('homepage', 'getHomePage');
+export function createAccountFromGuest(
+  password: string,
+  baseSite: string = ELECTRONICS_BASESITE
+) {
+  const homePage = checkout.waitForPage('homepage', 'getHomePage', baseSite);
 
   cy.get('cx-guest-register-form').within(() => {
     cy.get('[formcontrolname="password"]').clear().type(password);

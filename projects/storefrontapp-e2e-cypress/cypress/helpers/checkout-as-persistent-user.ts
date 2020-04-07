@@ -15,19 +15,19 @@ export function retrieveTokenAndLogin() {
       url: config.tokenUrl,
       body: {
         ...config.client,
-        grant_type: 'client_credentials'
+        grant_type: 'client_credentials',
       },
-      form: true
+      form: true,
     });
   }
 
-  login(username, password, false).then(res => {
+  login(username, password, false).then((res) => {
     if (res.status === 200) {
       // User is already registered - only set session in localStorage
       setSessionData({ ...res.body, userId: username });
     } else {
       // User needs to be registered
-      retrieveAuthToken().then(response =>
+      retrieveAuthToken().then((response) =>
         cy.request({
           method: 'POST',
           url: config.newUserUrl,
@@ -36,11 +36,11 @@ export function retrieveTokenAndLogin() {
             lastName: lastName,
             password: password,
             titleCode: titleCode,
-            uid: username
+            uid: username,
           },
           headers: {
-            Authorization: `bearer ` + response.body.access_token
-          }
+            Authorization: `bearer ` + response.body.access_token,
+          },
         })
       );
     }
@@ -63,7 +63,7 @@ export function addShippingAddress() {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
           .token.access_token
-      }`
+      }`,
     },
     body: {
       defaultAddress: false,
@@ -76,9 +76,9 @@ export function addShippingAddress() {
       region: { isocode: 'US-AK' },
       country: { isocode: 'US' },
       postalCode: 'H4B3L4',
-      phone: ''
-    }
-  }).then(response => {
+      phone: '',
+    },
+  }).then((response) => {
     expect(response.status).to.eq(201);
   });
 }
@@ -100,9 +100,7 @@ export function goToProductPageFromCategory() {
 }
 
 export function addProductToCart() {
-  cy.get('cx-item-counter')
-    .getByText('+')
-    .click();
+  cy.get('cx-item-counter').getByText('+').click();
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
@@ -116,7 +114,7 @@ export function addProductToCart() {
 export function addPaymentMethod() {
   cy.get('.cx-total')
     .first()
-    .then($cart => {
+    .then(($cart) => {
       const cartid = $cart.text().match(/[0-9]+/)[0];
       cy.request({
         method: 'POST',
@@ -127,7 +125,7 @@ export function addPaymentMethod() {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth
               .userToken.token.access_token
-          }`
+          }`,
         },
         body: {
           accountHolderName: 'test user',
@@ -145,10 +143,10 @@ export function addPaymentMethod() {
             line2: '',
             town: 'Montreal',
             postalCode: 'H4B3L4',
-            country: { isocode: 'US' }
-          }
-        }
-      }).then(response => {
+            country: { isocode: 'US' },
+          },
+        },
+      }).then((response) => {
         expect(response.status).to.eq(201);
       });
     });
@@ -177,9 +175,7 @@ export function selectShippingAddress(baseSite: string = ELECTRONICS_BASESITE) {
     `/rest/v2/${baseSite}/cms/pages?*/checkout/delivery-mode*`
   ).as('getDeliveryPage');
   cy.get('button.btn-primary').click();
-  cy.wait('@getDeliveryPage')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@getDeliveryPage').its('status').should('eq', 200);
 }
 
 export function selectDeliveryMethod() {
@@ -191,9 +187,7 @@ export function selectDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-net').should('be.checked');
   cy.get('button.btn-primary').click();
-  cy.wait('@getPaymentPage')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@getPaymentPage').its('status').should('eq', 200);
 }
 
 export function selectPaymentMethod() {
@@ -204,9 +198,7 @@ export function selectPaymentMethod() {
   cy.get('.cx-card-title').should('contain', 'Default Payment Method');
   cy.get('.card-header').should('contain', 'Selected');
   //TODO: remove once GH-6839 is merged,
-  cy.get('.cx-card-actions a')
-    .should('contain', 'Use this payment')
-    .click();
+  cy.get('.cx-card-actions a').should('contain', 'Use this payment').click();
   cy.get('button.btn-primary').click();
 }
 
@@ -253,15 +245,15 @@ export function deleteShippingAddress() {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
           .token.access_token
-      }`
-    }
+      }`,
+    },
   })
-    .then(response => {
+    .then((response) => {
       const addressResp = response.body.addresses;
       expect(addressResp[0]).to.have.property('id');
       return addressResp[0].id;
     })
-    .then(id => {
+    .then((id) => {
       // Delete the address
       cy.request({
         method: 'DELETE',
@@ -272,9 +264,9 @@ export function deleteShippingAddress() {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth
               .userToken.token.access_token
-          }`
-        }
-      }).then(response => {
+          }`,
+        },
+      }).then((response) => {
         expect(response.status).to.eq(200);
       });
     });
@@ -290,15 +282,15 @@ export function deletePaymentCard() {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
           .token.access_token
-      }`
-    }
+      }`,
+    },
   })
-    .then(response => {
+    .then((response) => {
       const paymentResp = response.body.payments;
       expect(paymentResp[0]).to.have.property('id');
       return paymentResp[0].id;
     })
-    .then(id => {
+    .then((id) => {
       // Delete the payment
       cy.request({
         method: 'DELETE',
@@ -309,9 +301,9 @@ export function deletePaymentCard() {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth
               .userToken.token.access_token
-          }`
-        }
-      }).then(response => {
+          }`,
+        },
+      }).then((response) => {
         expect(response.status).to.eq(200);
       });
     });

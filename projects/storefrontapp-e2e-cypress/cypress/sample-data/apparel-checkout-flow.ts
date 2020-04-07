@@ -60,6 +60,12 @@ export const products: SampleProduct[] = [
   },
 ];
 
+export const cartWithSingleVariantProduct: SampleCartProduct = {
+  estimatedShipping: '£5.99',
+  total: '£24.26',
+  totalAndShipping: '£30.25',
+};
+
 export const cartWithTotalVariantProduct: SampleCartProduct = {
   estimatedShipping: '£5.99',
   total: '£137.54',
