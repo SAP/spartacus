@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { take } from 'rxjs/operators';
+import { TranslationService } from '../../../../../i18n/translation.service';
 import { Configurator } from '../../../../../model/configurator.model';
 import { Converter } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
@@ -6,7 +8,7 @@ import { OccConfigurator } from '../occ-configurator.models';
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantOverviewNormalizer
   implements Converter<OccConfigurator.Overview, Configurator.Overview> {
-  constructor() {}
+  constructor(protected translation: TranslationService) {}
 
   convert(
     source: OccConfigurator.Overview,
@@ -39,6 +41,7 @@ export class OccConfiguratorVariantOverviewNormalizer
           })
         : [],
     });
+    this.setGeneralDescription(result[0]);
     if (subGroups) {
       subGroups.forEach((subGroup) =>
         this.convertGroup(subGroup).forEach((groupArray) =>
@@ -47,5 +50,15 @@ export class OccConfiguratorVariantOverviewNormalizer
       );
     }
     return result;
+  }
+
+  setGeneralDescription(group: Configurator.GroupOverview): void {
+    if (group.id !== '_GEN') {
+      return;
+    }
+    this.translation
+      .translate('configurator.group.general')
+      .pipe(take(1))
+      .subscribe(generalText => (group.groupDescription = generalText));
   }
 }

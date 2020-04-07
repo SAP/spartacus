@@ -1,15 +1,27 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
+import { TranslationService } from '../../../../../i18n/translation.service';
 import { Configurator } from '../../../../../model/configurator.model';
 import { ConverterService } from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
 import { OccConfiguratorVariantOverviewNormalizer } from './occ-configurator-variant-overview-normalizer';
 
+const generalGroupName = '_GEN';
+const generalGroupDescription = 'General';
+const groupDescription = 'The Group Name';
+
+class MockTranslationService {
+  translate(): Observable<string> {
+    return of(generalGroupDescription);
+  }
+}
+
 const convertedOverview: Configurator.Overview = {
   groups: [
     {
       id: '1',
-      groupDescription: 'Group 1',
+      groupDescription: groupDescription,
       attributes: [
         {
           attribute: 'C1',
@@ -51,7 +63,18 @@ const subGroups: OccConfigurator.GroupOverview[] = [
 
 const group1: OccConfigurator.GroupOverview = {
   id: '1',
-  groupDescription: 'Group 1',
+  groupDescription: groupDescription,
+  characteristicValues: [
+    {
+      characteristic: 'C1',
+      value: 'V1',
+    },
+  ],
+};
+
+const generalGroup: OccConfigurator.GroupOverview = {
+  id: generalGroupName,
+  groupDescription: '',
   characteristicValues: [
     {
       characteristic: 'C1',
@@ -93,6 +116,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       providers: [
         OccConfiguratorVariantOverviewNormalizer,
         { provide: ConverterService, useClass: MockConverterService },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
     });
 
@@ -135,5 +159,30 @@ describe('OccConfiguratorVariantNormalizer', () => {
       group1
     );
     expect(result.length).toBe(3);
+  });
+  it('should set description for a general group', () => {
+    const generalTargetGroup: Configurator.GroupOverview = {
+      id: generalGroupName,
+      groupDescription: '',
+      attributes: [],
+    };
+
+    occConfiguratorVariantOverviewNormalizer.setGeneralDescription(
+      generalTargetGroup
+    );
+    expect(generalTargetGroup.groupDescription).toBe(generalGroupDescription);
+  });
+
+  it('should convert a standard group', () => {
+    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
+      group1
+    );
+    expect(result[0].groupDescription).toBe(groupDescription);
+  });
+  it('should convert a general group', () => {
+    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
+      generalGroup
+    );
+    expect(result[0].groupDescription).toBe(generalGroupDescription);
   });
 });
