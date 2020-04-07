@@ -122,4 +122,13 @@ export const common = {
       productList: 'Product List',
     },
   },
+  formErrors: {
+    globalMessage: 'The form you are trying to submit contains errors.',
+    required: 'This field is required',
+    cxInvalidEmail: 'This is not a valid email format',
+    cxInvalidPassword: 'This is not a valid password format',
+    cxPasswordsMustMatch: 'Password fields must match',
+    cxEmailsMustMatch: 'Email fields must match',
+    cxStarRatingEmpty: 'Rating field is required',
+  },
 };

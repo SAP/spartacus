@@ -22,7 +22,15 @@
   .cx-payment-form-exp-date {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+
+    &-wrapper {
+      flex: 1;
+
+      &:first-of-type {
+        padding-right: 1rem;
+      }
+    }
   }
 
   .form-check {
