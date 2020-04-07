@@ -107,7 +107,7 @@
     "@angular/router": "~9.1.0",
     "@angular/service-worker": "~9.1.0",
     "@compodoc/compodoc": "^1.1.10",
-    "@ng-bootstrap/ng-bootstrap": "^5.1.0",
+    "@ng-bootstrap/ng-bootstrap": "^6.0.0",
     "@ng-select/ng-select": "^3.0.7",
     "@ngrx/effects": "~9.0.0",
     "@ngrx/router-store": "~9.0.0",
