@@ -15,8 +15,12 @@ import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
 import { CmsPageGuardService } from './cms-page-guard.service';
 
+const NOT_FOUND_ROUTE_NAME = 'notFound';
+const NOT_FOUND_URL = '/not-found';
+
 class MockSemanticPathService implements Partial<SemanticPathService> {
-  get = () => '';
+  // in this file we ask for nothing more than get('notFound')
+  get = () => NOT_FOUND_URL;
 }
 
 class MockCmsService implements Partial<CmsService> {
@@ -37,12 +41,12 @@ class MockCmsGuardsService implements Partial<CmsGuardsService> {
   cmsPageCanActivate = () => of(true);
 }
 
-fdescribe('CmsPageGuardService', () => {
-  // let semanticPath: SemanticPathService;
+describe('CmsPageGuardService', () => {
   let cms: CmsService;
   let cmsRoutes: CmsRoutesService;
   let cmsI18n: CmsI18nService;
   let cmsGuards: CmsGuardsService;
+  let semanticPath: SemanticPathService;
   let service: CmsPageGuardService;
 
   beforeEach(() => {
@@ -57,11 +61,11 @@ fdescribe('CmsPageGuardService', () => {
       imports: [RouterTestingModule],
     });
 
-    // semanticPath = TestBed.inject(SemanticPathService);
     cms = TestBed.inject(CmsService);
     cmsRoutes = TestBed.inject(CmsRoutesService);
     cmsI18n = TestBed.inject(CmsI18nService);
     cmsGuards = TestBed.inject(CmsGuardsService);
+    semanticPath = TestBed.inject(SemanticPathService);
 
     service = TestBed.inject(CmsPageGuardService);
   });
@@ -243,6 +247,77 @@ fdescribe('CmsPageGuardService', () => {
           );
         });
       });
+    });
+  });
+
+  describe('canActivateNotFoundPage', () => {
+    let pageContext: PageContext;
+    let route: CmsActivatedRouteSnapshot;
+    let state: RouterStateSnapshot;
+
+    let notFoundPageData: Page;
+
+    beforeEach(() => {
+      pageContext = { type: PageType.PRODUCT_PAGE, id: '1234' };
+      route = {} as any;
+      state = {} as any;
+      notFoundPageData = {} as any;
+    });
+
+    it('should return false when cannot get the content of the NOT FOUND page', () => {
+      spyOn(cms, 'getPage').and.returnValue(of(null));
+      let result;
+      service
+        .canActivateNotFoundPage(pageContext, route, state)
+        .subscribe((res) => (result = res))
+        .unsubscribe();
+      expect(result).toBe(false);
+    });
+
+    it('should use page id of the NOT FOUND page', () => {
+      spyOn(cms, 'getPage').and.returnValue(of(null));
+      spyOn(semanticPath, 'get').and.callThrough();
+      service
+        .canActivateNotFoundPage(pageContext, route, state)
+        .subscribe()
+        .unsubscribe();
+      expect(semanticPath.get).toHaveBeenCalledWith(NOT_FOUND_ROUTE_NAME);
+      expect(cms.getPage).toHaveBeenCalledWith({
+        type: PageType.CONTENT_PAGE,
+        id: NOT_FOUND_URL,
+      });
+    });
+
+    it('should assign the content of the `not found page` for the requested page id', () => {
+      const notFoundPageIndex = 'notFoundPageIndex';
+      const expected = {};
+      spyOn(service, 'canActivatePage').and.returnValue(of(expected as any));
+      spyOn(cms, 'getPage').and.returnValue(of(notFoundPageData));
+      spyOn(cms, 'getPageIndex').and.callFake((ctx: PageContext) =>
+        ctx.id === NOT_FOUND_URL
+          ? of(notFoundPageIndex)
+          : of(undefined, notFoundPageIndex)
+      );
+      spyOn(cms, 'setPageFailIndex');
+
+      let result;
+      service
+        .canActivateNotFoundPage(pageContext, route, state)
+        .subscribe((res) => (result = res))
+        .unsubscribe();
+
+      expect(cms.setPageFailIndex).toHaveBeenCalledWith(
+        pageContext,
+        notFoundPageIndex
+      );
+      expect(cms.getPageIndex).toHaveBeenCalledWith(pageContext);
+      expect(service.canActivatePage).toHaveBeenCalledWith(
+        pageContext,
+        notFoundPageData,
+        route,
+        state
+      );
+      expect(result).toBe(expected);
     });
   });
 });
