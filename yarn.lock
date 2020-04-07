@@ -1320,12 +1320,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@ng-bootstrap/ng-bootstrap@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-5.1.0.tgz#c0bdb74702d46f58b3cfd526dd77921e6107e7f7"
-  integrity sha512-IYoKE1NMrIPbRV0077/uHOjdwPb3qyhHpbBXiMGjclkSm2GvKXNPIzgd3Vjon/lbKelHdAW4A/upUHN2VYUi3w==
-  dependencies:
-    tslib "^1.9.0"
+"@ng-bootstrap/ng-bootstrap@^6.0.0":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-6.0.2.tgz#ed8d4e04f21885fb18dc2523c4f2111f50ee99b2"
+  integrity sha512-8+Dz8GN15zneIA4+mQ7b1j5O+oHsFdhTYQVDGk6eAazHeqrFD0+o8N+pLZL2PZlf98WcHFmXIOqKXrBD8iLl1g==
 
 "@ng-select/ng-select@^3.0.7":
   version "3.0.7"
