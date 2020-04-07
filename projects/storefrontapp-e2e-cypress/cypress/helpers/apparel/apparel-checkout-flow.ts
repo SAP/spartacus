@@ -1,7 +1,4 @@
-import {
-  productWithoutVariants,
-  styleVariantProduct
-} from '../../sample-data/apparel-checkout-flow';
+import { products } from '../../sample-data/apparel-checkout-flow';
 import { addCheapProductToCart } from '../checkout-flow';
 
 export const APPAREL_BASESITE = 'apparel-uk-spa';
@@ -12,9 +9,9 @@ export function configureApparelProduct() {
   cy.cxConfig({
     context: {
       baseSite: ['apparel-uk-spa'],
-      currency: ['GBP']
+      currency: ['GBP'],
     },
-    checkout: { guest: true }
+    checkout: { guest: true },
   });
 }
 
@@ -22,43 +19,31 @@ export function addVariantOfSameProductToCart() {
   cy.server();
   cy.route(
     'GET',
-    `/rest/v2/apparel-uk-spa/products/${styleVariantProduct.code}/reviews*`
+    `/rest/v2/apparel-uk-spa/products/${products[1].code}/reviews*`
   ).as('getProductPage');
-  cy.get('.variant-selector ul.variant-list li:nth-child(2)')
-    .first()
-    .click();
-  cy.wait('@getProductPage')
-    .its('status')
-    .should('eq', 200);
+  cy.get('.variant-selector ul.variant-list li:nth-child(2)').first().click();
+  cy.wait('@getProductPage').its('status').should('eq', 200);
 
-  addCheapProductToCart(styleVariantProduct);
-
-  cy.getByText(/view cart/i).click();
-  cy.get('cx-breadcrumb').should('contain', 'Your Shopping Bag');
-  cy.getByText(/proceed to checkout/i).click();
+  addCheapProductToCart(products[1]);
 }
 
 export function visitProductWithoutVariantPage() {
   configureApparelProduct();
   cy.visit('apparel-uk-spa/en/GBP/product/300611156');
   cy.get('cx-product-intro').within(() => {
-    cy.get('.code').should('contain', productWithoutVariants.code);
+    cy.get('.code').should('contain', products[2].code);
   });
   cy.get('cx-breadcrumb').within(() => {
-    cy.get('h1').should('contain', productWithoutVariants.name);
+    cy.get('h1').should('contain', products[2].name);
   });
 }
 
 export function addMutipleProductWithoutVariantToCart() {
-  cy.get('cx-item-counter')
-    .getByText('+')
-    .click();
+  cy.get('cx-item-counter').getByText('+').click();
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.get('.cx-name .cx-link').should('contain', productWithoutVariants.name);
-    cy.getByText(/view cart/i).click();
+    cy.get('.cx-name .cx-link').should('contain', products[2].name);
   });
-  cy.get('cx-breadcrumb').should('contain', 'Your Shopping Bag');
 }

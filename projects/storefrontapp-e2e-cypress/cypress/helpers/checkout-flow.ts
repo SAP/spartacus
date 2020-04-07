@@ -1,3 +1,4 @@
+import { products } from '../sample-data/apparel-checkout-flow';
 import {
   cart,
   cartWithCheapProduct,
@@ -6,7 +7,7 @@ import {
   SampleCartProduct,
   SampleProduct,
   SampleUser,
-  user
+  user,
 } from '../sample-data/checkout-flow';
 import { APPAREL_BASESITE } from './apparel/apparel-checkout-flow';
 import { login, register } from './auth-forms';
@@ -14,7 +15,7 @@ import {
   AddressData,
   fillPaymentDetails,
   fillShippingAddress,
-  PaymentDetails
+  PaymentDetails,
 } from './checkout-forms';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
@@ -33,14 +34,12 @@ export function visitHomePage(
   } else {
     cy.visit('/');
   }
-  cy.wait(`@${homePage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${homePage}`).its('status').should('eq', 200);
 }
 
 export function signOut() {
   cy.selectUserMenuOption({
-    option: 'Sign Out'
+    option: 'Sign Out',
   });
 }
 
@@ -89,10 +88,7 @@ export function signOutUser(
 export function goToProductDetailsPage() {
   cy.visit('/');
   // click big banner
-  cy.get('.Section1 cx-banner')
-    .first()
-    .find('img')
-    .click({ force: true });
+  cy.get('.Section1 cx-banner').first().find('img').click({ force: true });
   // click small banner number 6 (would be good if label or alt text would be available)
   cy.get('.Section2 cx-banner:nth-of-type(6) img').click({ force: true });
   cy.get('cx-product-intro').within(() => {
@@ -104,9 +100,7 @@ export function goToProductDetailsPage() {
 }
 
 export function addProductToCart() {
-  cy.get('cx-item-counter')
-    .getByText('+')
-    .click();
+  cy.get('cx-item-counter').getByText('+').click();
   cy.get('cx-add-to-cart')
     .getByText(/Add To Cart/i)
     .click();
@@ -142,9 +136,7 @@ export function verifyDeliveryMethod(
     baseSite
   );
   cy.get('.cx-checkout-btns button.btn-primary').click();
-  cy.wait(`@${paymentPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
 }
 
 export function fillPaymentForm(
@@ -224,7 +216,7 @@ export function verifyOrderConfirmationPage() {
 
 export function viewOrderHistory() {
   cy.selectUserMenuOption({
-    option: 'Order History'
+    option: 'Order History',
   });
   cy.get('cx-order-history h3').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
@@ -255,13 +247,8 @@ export function clickCheapProductDetailsFromHomePage(
 ) {
   const productCode = `ProductPage&code=${sampleProduct.code}`;
   const productPage = waitForPage(productCode, 'getProductPage', baseSite);
-  cy.get('.Section4 cx-banner')
-    .first()
-    .find('img')
-    .click({ force: true });
-  cy.wait(`@${productPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
+  cy.wait(`@${productPage}`).its('status').should('eq', 200);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', sampleProduct.code);
   });
@@ -285,9 +272,7 @@ export function addCheapProductToCartAndLogin(
     APPAREL_BASESITE
   );
   loginUser(sampleUser);
-  cy.wait(`@${shippingPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
 }
 
 export function addCheapProductToCartAndProceedToCheckout(
@@ -309,9 +294,7 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
     'getShippingPage'
   );
   cy.getByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
 }
 
 export function addCheapProductToCart(
@@ -341,9 +324,7 @@ export function fillAddressFormWithCheapProduct(
     baseSite
   );
   fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
 
 export function fillPaymentFormWithCheapProduct(
@@ -362,9 +343,7 @@ export function fillPaymentFormWithCheapProduct(
     baseSite
   );
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.wait(`@${reivewPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${reivewPage}`).its('status').should('eq', 200);
 }
 
 export function placeOrderWithCheapProduct(
@@ -412,15 +391,14 @@ export function placeOrderWithCheapProduct(
     baseSite
   );
   cy.get('cx-place-order button.btn-primary').click();
-  cy.wait(`@${orderConfirmationPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
 }
 
 export function verifyOrderConfirmationPageWithCheapProduct(
   sampleUser: SampleUser = user,
   sampleProduct: SampleProduct = cheapProduct,
-  cartData: SampleCartProduct = cartWithCheapProduct
+  cartData: SampleCartProduct = cartWithCheapProduct,
+  isApparel: boolean = false
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
@@ -437,7 +415,16 @@ export function verifyOrderConfirmationPageWithCheapProduct(
       cy.contains('Standard Delivery');
     });
   });
-  cy.get('cx-cart-item .cx-code').should('contain', sampleProduct.code);
+  if (!isApparel) {
+    cy.get('cx-cart-item .cx-code').should('contain', sampleProduct.code);
+  } else {
+    cy.get('cx-cart-item .cx-code')
+      .should('have.length', products.length)
+      .each((_, index) => {
+        console.log('products', products[index]);
+        cy.get('cx-cart-item .cx-code').should('contain', products[index].code);
+      });
+  }
   cy.get('cx-order-summary .cx-summary-amount').should(
     'contain',
     cartData.totalAndShipping
@@ -454,11 +441,9 @@ export function viewOrderHistoryWithCheapProduct(
     baseSite
   );
   cy.selectUserMenuOption({
-    option: 'Order History'
+    option: 'Order History',
   });
-  cy.wait(`@${orderHistoryPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${orderHistoryPage}`).its('status').should('eq', 200);
   cy.get('cx-order-history h3').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()
