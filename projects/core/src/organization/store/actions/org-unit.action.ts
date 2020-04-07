@@ -2,6 +2,7 @@ import {
   B2BUnit,
   B2BUnitNode,
   B2BApprovalProcess,
+  B2BAddress,
 } from '../../../model/org-unit.model';
 import { ListModel } from '../../../model/misc.model';
 import { B2BSearchConfig } from '../../model/search-config';
@@ -21,6 +22,8 @@ import {
   ORG_UNIT_NODES,
   ORG_UNIT_ASSIGNED_USERS,
   B2B_USER_ENTITIES,
+  ADDRESS_ENTITIES,
+  ADDRESS_LIST,
 } from '../organization-state';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
 
@@ -68,6 +71,24 @@ export const ASSIGN_ROLE_FAIL = '[B2BUnit] Assign Role fail';
 export const UNASSIGN_ROLE = '[B2BUnit] Unassign Role';
 export const UNASSIGN_ROLE_SUCCESS = '[B2BUnit] Unassign Role success';
 export const UNASSIGN_ROLE_FAIL = '[B2BUnit] Unassign Role fail';
+
+export const CREATE_ADDRESS = '[B2BUnit] Create address';
+export const CREATE_ADDRESS_SUCCESS = '[B2BUnit] Create address success';
+export const CREATE_ADDRESS_FAIL = '[B2BUnit] Create address fail';
+
+export const UPDATE_ADDRESS = '[B2BUnit] Update address';
+export const UPDATE_ADDRESS_SUCCESS = '[B2BUnit] Update address success';
+export const UPDATE_ADDRESS_FAIL = '[B2BUnit] Update address fail';
+
+export const DELETE_ADDRESS = '[B2BUnit] Delete address';
+export const DELETE_ADDRESS_SUCCESS = '[B2BUnit] Delete address success';
+export const DELETE_ADDRESS_FAIL = '[B2BUnit] Delete address fail';
+
+export const LOAD_ADDRESS_SUCCESS = '[B2BUnit] Load address success';
+
+export const LOAD_ADDRESSES = '[B2BUnit] Load addresses';
+export const LOAD_ADDRESSES_SUCCESS = '[B2BUnit] Load addresses success';
+export const LOAD_ADDRESSES_FAIL = '[B2BUnit] Load addresses fail';
 
 export class LoadOrgUnit extends EntityLoadAction {
   readonly type = LOAD_ORG_UNIT;
@@ -342,6 +363,120 @@ export class UnassignRoleSuccess extends EntitySuccessAction {
   }
 }
 
+export class CreateAddress extends EntityLoadAction {
+  readonly type = CREATE_ADDRESS;
+  constructor(
+    public payload: { userId: string; orgUnitId: string; address: B2BAddress }
+  ) {
+    super(ADDRESS_ENTITIES, payload.address.id);
+  }
+}
+
+export class CreateAddressFail extends EntityFailAction {
+  readonly type = CREATE_ADDRESS_FAIL;
+  constructor(public payload: { addressId: string; error: any }) {
+    super(ADDRESS_ENTITIES, payload.addressId, payload.error);
+  }
+}
+
+export class CreateAddressSuccess extends EntitySuccessAction {
+  readonly type = CREATE_ADDRESS_SUCCESS;
+  constructor(public payload: B2BAddress) {
+    super(ADDRESS_ENTITIES, payload.id, payload);
+  }
+}
+
+export class UpdateAddress extends EntityLoadAction {
+  readonly type = UPDATE_ADDRESS;
+  constructor(
+    public payload: {
+      userId: string;
+      orgUnitId: string;
+      addressId: string;
+      address: B2BAddress;
+    }
+  ) {
+    super(ADDRESS_ENTITIES, payload.address.id);
+  }
+}
+
+export class UpdateAddressFail extends EntityFailAction {
+  readonly type = UPDATE_ADDRESS_FAIL;
+  constructor(public payload: { addressId: string; error: any }) {
+    super(ADDRESS_ENTITIES, payload.addressId, payload.error);
+  }
+}
+
+export class UpdateAddressSuccess extends EntitySuccessAction {
+  readonly type = UPDATE_ADDRESS_SUCCESS;
+  constructor(public payload: B2BAddress) {
+    super(ADDRESS_ENTITIES, payload.id, payload);
+  }
+}
+
+export class DeleteAddress extends EntityLoadAction {
+  readonly type = DELETE_ADDRESS;
+  constructor(
+    public payload: {
+      userId: string;
+      orgUnitId: string;
+      addressId: string;
+    }
+  ) {
+    super(ADDRESS_ENTITIES, payload.addressId);
+  }
+}
+
+export class DeleteAddressFail extends EntityFailAction {
+  readonly type = DELETE_ADDRESS_FAIL;
+  constructor(public payload: { addressId: string; error: any }) {
+    super(ADDRESS_ENTITIES, payload.addressId, payload.error);
+  }
+}
+
+export class DeleteAddressSuccess extends EntitySuccessAction {
+  readonly type = DELETE_ADDRESS_SUCCESS;
+  constructor(public payload: B2BAddress) {
+    super(ADDRESS_ENTITIES, payload.id, payload);
+  }
+}
+
+export class LoadAddressSuccess extends EntitySuccessAction {
+  readonly type = LOAD_ADDRESS_SUCCESS;
+  constructor(public payload: B2BAddress[]) {
+    super(
+      ADDRESS_ENTITIES,
+      payload.map(address => address.id)
+    );
+  }
+}
+
+export class LoadAddresses extends EntityLoadAction {
+  readonly type = LOAD_ADDRESSES;
+  constructor(public payload: { userId: string; orgUnitId: string }) {
+    super(ADDRESS_LIST, payload.orgUnitId);
+  }
+}
+
+export class LoadAddressesFail extends EntityFailAction {
+  readonly type = LOAD_ADDRESSES_FAIL;
+  constructor(public payload: { orgUnitId: string; error: any }) {
+    super(ADDRESS_LIST, payload.orgUnitId, payload.error);
+  }
+}
+
+export class LoadAddressesSuccess extends EntitySuccessAction {
+  readonly type = LOAD_ADDRESSES_SUCCESS;
+  constructor(
+    public payload: {
+      page: ListModel;
+      orgUnitId: string;
+    }
+  ) {
+    super(ADDRESS_LIST, payload.orgUnitId);
+  }
+}
+
 export type OrgUnitAction =
   | LoadOrgUnitNodes
   | LoadOrgUnitNodesFail
@@ -366,4 +501,17 @@ export type OrgUnitAction =
   | AssignRoleFail
   | UnassignRole
   | UnassignRoleSuccess
-  | UnassignRoleSuccess;
+  | UnassignRoleSuccess
+  | CreateAddress
+  | CreateAddressSuccess
+  | CreateAddressFail
+  | UpdateAddress
+  | UpdateAddressSuccess
+  | UpdateAddressFail
+  | DeleteAddress
+  | DeleteAddressSuccess
+  | DeleteAddressFail
+  | LoadAddresses
+  | LoadAddressesFail
+  | LoadAddressesSuccess
+  | LoadAddressSuccess;

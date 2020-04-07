@@ -87,6 +87,7 @@ export const organization = {
       byValue: 'Value',
     },
     create: 'Create new Permission',
+    assign: 'Assign',
   },
   permission: {
     details: 'Permission details',
@@ -228,9 +229,10 @@ export const organization = {
     header: 'Manage roles in {{code}}',
     back: 'Close',
   },
-  userList: {
+  usersList: {
     sorting: {
       byName: 'Name',
+      byUnitName: 'Unit Name',
     },
     uid: 'Email',
     name: 'Name',
@@ -241,5 +243,60 @@ export const organization = {
     manager: 'Manager',
     approver: 'Approver',
     customer: 'Customer',
+  },
+  userGroupsList: {
+    assign: 'Assign',
+    id: 'ID',
+    name: 'Name',
+    noOfUsers: 'No. of Users',
+    parentUnit: 'Parent Unit',
+    noUserGroups: 'No user groups',
+    userGroupManagement: 'User Group Management',
+    searchBox: 'Find user group',
+    create: 'Create new user group',
+    sorting: {
+      byUnitName: 'Unit Name',
+      byName: 'Name',
+      byGroupID: 'Group ID',
+    },
+  },
+  userGroup: {
+    details: 'User Group details',
+    id: 'ID',
+    name: 'User Group Name',
+    parentUnit: 'Parent Unit',
+    edit: 'Edit',
+    back: 'Back to list',
+    assignPermissions: 'Manage Permissions',
+    assignUsers: 'Manage Users',
+  },
+  userGroupForm: {
+    create: 'Create User Group',
+    edit: 'Edit User Group',
+    update: 'Update User Group',
+    code: {
+      label: 'User Group ID',
+      placeholder: 'Code',
+    },
+    name: {
+      label: 'User Group name',
+      placeholder: 'Name',
+    },
+    businessUnits: {
+      label: 'Parent business unit',
+      placeholder: 'Select business unit',
+    },
+    message: {
+      required: 'Value is required',
+    },
+  },
+  userGroupAssignPermissions: {
+    header: 'Manage permissions in {{code}}',
+    back: 'Close',
+  },
+  userGroupAssignUsers: {
+    header: 'Manage users in {{code}}',
+    back: 'Close',
+    unassignAll: 'Unassign All',
   },
 };

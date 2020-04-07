@@ -206,17 +206,19 @@ describe('Cart effect', () => {
 
   describe('createCart$', () => {
     it('should create a cart', () => {
-      const action = new DeprecatedCartActions.CreateCart({
+      const action = new CartActions.CreateCart({
         userId,
         tempCartId,
       });
-      const createMultiCartSuccessCompletion = new CartActions.CreateMultiCartSuccess(
-        {
-          cart: testCart,
-          userId,
-          extraData: undefined,
-        }
-      );
+      const createCartSuccessCompletion = new CartActions.CreateCartSuccess({
+        cart: testCart,
+        userId,
+        extraData: undefined,
+        tempCartId,
+        cartId: testCart.code,
+        toMergeCartGuid: undefined,
+        oldCartId: undefined,
+      });
       const setTempCartCompletion = new CartActions.SetTempCart({
         cart: testCart,
         tempCartId: tempCartId,
@@ -224,59 +226,28 @@ describe('Cart effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
-        b: createMultiCartSuccessCompletion,
+        b: createCartSuccessCompletion,
         c: setTempCartCompletion,
-      });
-
-      expect(cartEffects.createCart$).toBeObservable(expected);
-    });
-
-    it('should dispatch CreateCartSuccess action for active cart', () => {
-      const action = new DeprecatedCartActions.CreateCart({
-        userId,
-        extraData: {
-          active: true,
-        },
-        tempCartId,
-      });
-      const createCartSuccessCompletion = new DeprecatedCartActions.CreateCartSuccess(
-        testCart
-      );
-      const createMultiCartSuccessCompletion = new CartActions.CreateMultiCartSuccess(
-        {
-          cart: testCart,
-          userId,
-          extraData: {
-            active: true,
-          },
-        }
-      );
-      const setTempCartCompletion = new CartActions.SetTempCart({
-        cart: testCart,
-        tempCartId,
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
-        b: createMultiCartSuccessCompletion,
-        c: setTempCartCompletion,
-        d: createCartSuccessCompletion,
       });
 
       expect(cartEffects.createCart$).toBeObservable(expected);
     });
 
     it('should create and merge cart when oldCartId is provided', () => {
-      const action = new DeprecatedCartActions.CreateCart({
+      const action = new CartActions.CreateCart({
         userId,
         oldCartId: 'testOldCartId',
         tempCartId,
       });
 
-      const createMultiCartCompletion = new CartActions.CreateMultiCartSuccess({
+      const createCartCompletion = new CartActions.CreateCartSuccess({
         cart: testCart,
         userId,
         extraData: undefined,
+        tempCartId,
+        cartId: testCart.code,
+        toMergeCartGuid: undefined,
+        oldCartId: 'testOldCartId',
       });
       const setTempCartCompletion = new CartActions.SetTempCart({
         cart: testCart,
@@ -294,7 +265,7 @@ describe('Cart effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcde)', {
-        b: createMultiCartCompletion,
+        b: createCartCompletion,
         c: setTempCartCompletion,
         d: mergeCartCompletion,
         e: mergeMultiCartCompletion,
@@ -311,7 +282,7 @@ describe('Cart effect', () => {
         cartId: cartId,
         tempCartId: 'temp-uuid',
       });
-      const completion = new DeprecatedCartActions.CreateCart({
+      const completion = new CartActions.CreateCart({
         userId: userId,
         oldCartId: cartId,
         toMergeCartGuid: 'testGuid',

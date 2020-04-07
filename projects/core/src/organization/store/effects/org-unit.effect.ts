@@ -6,6 +6,8 @@ import {
   B2BApprovalProcess,
   B2BUnitNode,
   B2BUser,
+  B2BUnit,
+  B2BAddress,
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -17,16 +19,29 @@ import { normalizeListPage } from '../../utils/serializer';
 export class OrgUnitEffects {
   @Effect()
   loadOrgUnit$: Observable<
-    OrgUnitActions.LoadOrgUnitSuccess | OrgUnitActions.LoadOrgUnitFail
+    | OrgUnitActions.LoadOrgUnitSuccess
+    | OrgUnitActions.LoadAddressSuccess
+    | OrgUnitActions.LoadAddressesSuccess
+    | OrgUnitActions.LoadOrgUnitFail
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_ORG_UNIT),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
     switchMap(({ userId, orgUnitId }) => {
       return this.orgUnitConnector.get(userId, orgUnitId).pipe(
-        map(
-          (orgUnit: B2BUnitNode) =>
-            new OrgUnitActions.LoadOrgUnitSuccess([orgUnit])
-        ),
+        switchMap((orgUnit: B2BUnit) => {
+          if (orgUnit.addresses) {
+            const { values, page } = normalizeListPage(
+              { values: orgUnit.addresses },
+              'id'
+            );
+            return [
+              new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]),
+              new OrgUnitActions.LoadAddressSuccess(values),
+              new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
+            ];
+          }
+          return [new OrgUnitActions.LoadOrgUnitSuccess([orgUnit])];
+        }),
         catchError(error =>
           of(
             new OrgUnitActions.LoadOrgUnitFail({
@@ -248,6 +263,109 @@ export class OrgUnitEffects {
           )
         )
     )
+  );
+
+  @Effect()
+  createAddress$: Observable<
+    OrgUnitActions.CreateAddressSuccess | OrgUnitActions.CreateAddressFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.CREATE_ADDRESS),
+    map((action: OrgUnitActions.CreateAddress) => action.payload),
+    switchMap(payload =>
+      this.orgUnitConnector
+        .createAddress(payload.userId, payload.orgUnitId, payload.address)
+        .pipe(
+          map(data => new OrgUnitActions.CreateAddressSuccess(data)),
+          catchError(error =>
+            of(
+              new OrgUnitActions.CreateAddressFail({
+                addressId: payload.address.id,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  updateAddress$: Observable<
+    OrgUnitActions.UpdateAddressSuccess | OrgUnitActions.UpdateAddressFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.UPDATE_ADDRESS),
+    map((action: OrgUnitActions.UpdateAddress) => action.payload),
+    switchMap(payload =>
+      this.orgUnitConnector
+        .updateAddress(
+          payload.userId,
+          payload.orgUnitId,
+          payload.addressId,
+          payload.address
+        )
+        .pipe(
+          map(data => new OrgUnitActions.UpdateAddressSuccess(data)),
+          catchError(error =>
+            of(
+              new OrgUnitActions.UpdateAddressFail({
+                addressId: payload.address.id,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  deleteAddress$: Observable<
+    OrgUnitActions.DeleteAddressSuccess | OrgUnitActions.DeleteAddressFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.UPDATE_ADDRESS),
+    map((action: OrgUnitActions.DeleteAddress) => action.payload),
+    switchMap(payload =>
+      this.orgUnitConnector
+        .deleteAddress(payload.userId, payload.orgUnitId, payload.addressId)
+        .pipe(
+          map(data => new OrgUnitActions.DeleteAddressSuccess(data)),
+          catchError(error =>
+            of(
+              new OrgUnitActions.DeleteAddressFail({
+                addressId: payload.addressId,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  loadAddress$: Observable<
+    | OrgUnitActions.LoadAddressSuccess
+    | OrgUnitActions.LoadAddressesSuccess
+    | OrgUnitActions.LoadAddressesFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.LOAD_ADDRESSES),
+    map((action: OrgUnitActions.LoadAddresses) => action.payload),
+    switchMap(({ userId, orgUnitId }) => {
+      return this.orgUnitConnector.getAddresses(userId, orgUnitId).pipe(
+        switchMap((addresses: EntitiesModel<B2BAddress>) => {
+          const { values, page } = normalizeListPage(addresses, 'id');
+          return [
+            new OrgUnitActions.LoadAddressSuccess(values),
+            new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
+          ];
+        }),
+        catchError(error =>
+          of(
+            new OrgUnitActions.LoadAddressesFail({
+              orgUnitId,
+              error: makeErrorSerializable(error),
+            })
+          )
+        )
+      );
+    })
   );
 
   constructor(

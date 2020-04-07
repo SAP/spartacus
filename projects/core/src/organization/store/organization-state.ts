@@ -1,4 +1,5 @@
 import {
+  B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
   B2BUnitNode,
@@ -7,8 +8,8 @@ import {
   CostCenter,
   ListModel,
   OrderApprovalPermissionType,
-  OrgUnitUserGroup,
   Permission,
+  UserGroup,
 } from '../../model';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
@@ -47,14 +48,19 @@ export const ORG_UNIT_NODES = 'availableOrgUnitNodes';
 export const B2B_USER_FEATURE = 'b2bUser';
 export const B2B_USER_ENTITIES = 'b2bUser-entities';
 export const USER_LIST = 'b2bUser-list';
+export const B2B_USER_APPROVERS = 'b2bUser-approvers';
+export const B2B_USER_PERMISSIONS = 'b2bUser-permissions';
+export const B2B_USER_USER_GROUPS = 'b2bUser-user-groups';
 
-export const ORG_UNIT_USER_GROUP_FEATURE = 'orgUnitUserGroup';
-export const ORG_UNIT_USER_GROUP_ENTITIES = 'orgUnitUserGroup-entities';
-export const ORG_UNIT_USER_GROUP_LIST = 'orgUnitUserGroup-list';
-export const ORG_UNIT_USER_GROUP_AVAILABLE_ORDER_APPROVAL_PERMISSIONS =
-  'orgUnitUserGroup-available-order-approval-permissions';
-export const ORG_UNIT_USER_GROUP_AVAILABLE_ORG_CUSTOMERS =
-  'orgUnitUserGroup-available-org-customers';
+export const USER_GROUP_FEATURE = 'userGroup';
+export const USER_GROUP_ENTITIES = 'userGroup-entities';
+export const USER_GROUP_LIST = 'userGroup-list';
+export const USER_GROUP_PERMISSIONS =
+  'userGroup-available-order-approval-permissions';
+export const USER_GROUP_AVAILABLE_CUSTOMERS =
+  'userGroup-available-org-customers';
+export const ADDRESS_ENTITIES = 'addresses-entities';
+export const ADDRESS_LIST = 'addresses-list';
 
 export interface Management<Type> {
   list: EntityLoaderState<ListModel>;
@@ -69,10 +75,11 @@ export interface OrgUnits {
   tree: EntityLoaderState<B2BUnitNode>;
   approvalProcesses: EntityLoaderState<B2BApprovalProcess[]>;
   users: EntityLoaderState<ListModel>;
+  addressList: EntityLoaderState<ListModel>;
+  addressEntities: EntityLoaderState<B2BAddress>;
 }
 
-export interface OrgUnitUserGroupManagement
-  extends Management<OrgUnitUserGroup> {
+export interface UserGroupManagement extends Management<UserGroup> {
   permissions: EntityLoaderState<ListModel>;
   customers: EntityLoaderState<ListModel>;
 }
@@ -88,6 +95,12 @@ export interface CostCenterManagement extends Management<CostCenter> {
   budgets: EntityLoaderState<ListModel>;
 }
 
+export interface B2BUserManagement extends Management<B2BUser> {
+  approvers: EntityLoaderState<ListModel>;
+  permissions: EntityLoaderState<ListModel>;
+  userGroups: EntityLoaderState<ListModel>;
+}
+
 export interface StateWithOrganization {
   [ORGANIZATION_FEATURE]: OrganizationState;
 }
@@ -95,11 +108,9 @@ export interface StateWithOrganization {
 export interface OrganizationState {
   [BUDGET_FEATURE]: BudgetManagement;
   [ORG_UNIT_FEATURE]: OrgUnits;
-  [ORG_UNIT_USER_GROUP_FEATURE]: OrgUnitUserGroupManagement;
+  [USER_GROUP_FEATURE]: UserGroupManagement;
   [PERMISSION_FEATURE]: PermissionManagement;
   [PERMISSION_TYPES_FEATURE]: PermissionTypesManagement;
   [COST_CENTER_FEATURE]: CostCenterManagement;
   [B2B_USER_FEATURE]: B2BUserManagement;
 }
-
-export interface B2BUserManagement extends Management<B2BUser> {}

@@ -10,7 +10,18 @@
       </div>
       <div class="row">
         <div class="col-6">{{ 'budget.parentUnit' | cxTranslate }}</div>
-        <div class="col-6">{{ budget.orgUnit?.name }}</div>
+        <div class="col-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitDetails',
+                params: budget.orgUnit
+              } | cxUrl
+            "
+          >
+            {{ budget.orgUnit?.name }}
+          </a>
+        </div>
       </div>
       <div class="row">
         <div class="col-6">{{ 'budget.name' | cxTranslate }}</div>
@@ -66,8 +77,8 @@
     <div class="col-md-12 col-lg-6">
       <div class="row">
         <div class="col-md-12 col-lg-6">
-          <button
-            [disabled]="!budget.active"
+          <a
+            [class.disabled]="!budget.active"
             [routerLink]="
               {
                 cxRoute: 'budgetEdit',
@@ -77,7 +88,7 @@
             class="btn btn-primary btn-block"
           >
             {{ 'budget.edit' | cxTranslate }}
-          </button>
+          </a>
         </div>
         <div class="col-md-12 col-lg-6">
           <a

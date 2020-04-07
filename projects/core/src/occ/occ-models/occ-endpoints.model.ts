@@ -434,55 +434,67 @@ export interface OccEndpoints {
    */
   orgUnitApprover?: string;
   /**
+   * Endpoint for organizational unit addresses
+   *
+   * @member {string}
+   */
+  orgUnitsAddresses?: string;
+  /**
+   * Endpoint for organizational unit address
+   *
+   * @member {string}
+   */
+  orgUnitsAddress?: string;
+  /**
    * Endpoint for organizational unit user groups list
    *
    * @member {string}
    */
-  orgUnitUserGroups?: string;
+  userGroups?: string;
   /**
    * Endpoint for organizational unit user group
    *
    * @member {string}
    */
-  orgUnitUserGroup?: string;
+  userGroup?: string;
   /**
    * Endpoint for costCenter list
    *
    * @member {string}
    */
-  orgUnitUserGroupAvailableOrderApprovalPermissions?: string;
+  userGroupAvailableOrderApprovalPermissions?: string;
   /**
-   * Endpoint for orgUnitUserGroupAvailableOrderApprovalPermissions list
+   * Endpoint for userGroupAvailableOrderApprovalPermissions list
    *
    * @member {string}
    */
-  orgUnitUserGroupAvailableOrgCustomers?: string;
+  userGroupAvailableOrgCustomers?: string;
   /**
-   * Endpoint for orgUnitUserGroupAvailableOrgCustomers list
+   * Endpoint for userGroupAvailableOrgCustomers list
    *
    * @member {string}
    */
-  orgUnitUserGroupMembers?: string;
+  userGroupMembers?: string;
   /**
-   * Endpoint for orgUnitUserGroupMembers list
+   * Endpoint for userGroupMembers list
    *
    * @member {string}
    */
-  orgUnitUserGroupMember?: string;
+  userGroupMember?: string;
   /**
-   * Endpoint for orgUnitUserGroupMember
+   * Endpoint for userGroupMember
    *
    * @member {string}
    */
-  orgUnitUserGroupOrderApprovalPermissions?: string;
+  userGroupOrderApprovalPermissions?: string;
   /**
-   * Endpoint for orgUnitUserGroupOrderApprovalPermissions list
+   * Endpoint for userGroupOrderApprovalPermissions list
    *
    * @member {string}
    */
-  orgUnitUserGroupOrderApprovalPermission?: string;
+  userGroupOrderApprovalPermission?: string;
   /**
-   * Endpoint for orgUnitUserGroupOrderApprovalPermission
+   * Endpoint for userGroupOrderApprovalPermission
    *
    * @member {string}
    */

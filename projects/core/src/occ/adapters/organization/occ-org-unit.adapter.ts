@@ -9,6 +9,8 @@ import {
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NORMALIZER,
   B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
+  B2B_ADDRESS_NORMALIZER,
+  B2B_ADDRESS_LIST_NORMALIZER,
 } from '../../../organization/connectors/org-unit/converters';
 import { B2B_USERS_NORMALIZER } from '../../../organization/connectors/b2b-user/converters';
 import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
@@ -18,6 +20,7 @@ import {
   B2BUnit,
   B2BApprovalProcess,
   B2BUser,
+  B2BAddress,
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { B2BSearchConfig } from '../../../organization/model/search-config';
@@ -114,6 +117,54 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     );
   }
 
+  loadAddresses(
+    userId: string,
+    orgUnitId: string
+  ): Observable<EntitiesModel<B2BAddress>> {
+    return this.http
+      .get<Occ.B2BAddressList>(this.getAddressesEndpoint(userId, orgUnitId))
+      .pipe(this.converter.pipeable(B2B_ADDRESS_LIST_NORMALIZER));
+  }
+
+  createAddress(
+    userId: string,
+    orgUnitId: string,
+    address: B2BAddress
+  ): Observable<B2BAddress> {
+    return this.http
+      .post<Occ.B2BAddress>(
+        this.getAddressesEndpoint(userId, orgUnitId),
+        address
+      )
+      .pipe(this.converter.pipeable(B2B_ADDRESS_NORMALIZER));
+  }
+
+  updateAddress(
+    userId: string,
+    orgUnitId: string,
+    addressId: string,
+    address: B2BAddress
+  ): Observable<B2BAddress> {
+    return this.http
+      .patch<Occ.B2BAddress>(
+        this.getAddressEndpoint(userId, orgUnitId, addressId),
+        address
+      )
+      .pipe(this.converter.pipeable(B2B_ADDRESS_NORMALIZER));
+  }
+
+  deleteAddress(
+    userId: string,
+    orgUnitId: string,
+    addressId: string
+  ): Observable<any> {
+    return this.http
+      .delete<Occ.B2BAddress>(
+        this.getAddressEndpoint(userId, orgUnitId, addressId)
+      )
+      .pipe(this.converter.pipeable(B2B_ADDRESS_NORMALIZER));
+  }
+
   protected getOrgUnitEndpoint(userId: string, orgUnitId: string): string {
     return this.occEndpoints.getUrl('orgUnit', { userId, orgUnitId });
   }
@@ -199,6 +250,22 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
       userId,
       orgCustomerId,
       roleId,
+    });
+  }
+
+  protected getAddressesEndpoint(userId: string, orgUnitId: string): string {
+    return this.occEndpoints.getUrl('orgUnitsAddresses', { userId, orgUnitId });
+  }
+
+  protected getAddressEndpoint(
+    userId: string,
+    orgUnitId: string,
+    addressId: string
+  ): string {
+    return this.occEndpoints.getUrl('orgUnitsAddress', {
+      userId,
+      orgUnitId,
+      addressId,
     });
   }
 }

@@ -2,24 +2,24 @@
   [data$]="data$"
   [header]="'unitAssignRoles.header' | cxTranslate: { code: code }"
   [sortLabels]="{
-    byName: 'userList.sorting.byName' | cxTranslate
+    byName: 'usersList.sorting.byName' | cxTranslate
   }"
   [columns]="[
     {
       key: 'selected',
-      value: 'userList.assign' | cxTranslate,
+      value: 'usersList.assign' | cxTranslate,
       checkBox: true
     },
     {
       key: 'email',
-      value: 'userList.uid' | cxTranslate,
+      value: 'usersList.uid' | cxTranslate,
       cxRoute: 'userDetails'
     },
-    { key: 'name', value: 'userList.name' | cxTranslate },
-    { key: 'roles', value: 'userList.roles' | cxTranslate },
+    { key: 'name', value: 'usersList.name' | cxTranslate },
+    { key: 'roles', value: 'usersList.roles' | cxTranslate },
     {
       key: 'parentUnit',
-      value: 'userList.parentUnit' | cxTranslate,
+      value: 'usersList.parentUnit' | cxTranslate,
       cxRoute: 'orgUnitDetails'
     }
   ]"
@@ -38,17 +38,17 @@
           [ngModel]="roleId"
           (change)="changeRole($event)"
           [items]="[
-            { name: 'userList.admin' | cxTranslate, roleId: 'b2badmingroup' },
+            { name: 'usersList.admin' | cxTranslate, roleId: 'b2badmingroup' },
             {
-              name: 'userList.manager' | cxTranslate,
+              name: 'usersList.manager' | cxTranslate,
               roleId: 'b2bmanagergroup'
             },
             {
-              name: 'userList.approver' | cxTranslate,
+              name: 'usersList.approver' | cxTranslate,
               roleId: 'b2bapprovergroup'
             },
             {
-              name: 'userList.customer' | cxTranslate,
+              name: 'usersList.customer' | cxTranslate,
               roleId: 'b2bcustomergroup'
             }
           ]"
@@ -58,14 +58,14 @@
     <div class="row cx-search-links mb-3">
       <div class="col-12 cx-textalign">
         <!--          back-->
-        <button
+        <a
           [routerLink]="
             { cxRoute: 'orgUnitDetails', params: { uid: code } } | cxUrl
           "
           class="btn btn-primary btn-block"
         >
           {{ 'unitAssignRoles.back' | cxTranslate }}
-        </button>
+        </a>
       </div>
     </div>
   </div>

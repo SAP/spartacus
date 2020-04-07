@@ -1,73 +1,74 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
+import { NgModule } from '@angular/core';
 import { ConfigModule } from '../../../config/config.module';
-import { BudgetAdapter } from '../../../organization/connectors/budget/budget.adapter';
-import { PermissionAdapter } from '../../../organization/connectors/permission/permission.adapter';
-import { PermissionTypeAdapter } from '../../../organization/connectors/permission-type/permission-type.adapter';
-import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
-import { CostCenterAdapter } from '../../../organization/connectors/cost-center/cost-center.adapter';
-import { OrgUnitUserGroupAdapter } from '../../../organization/connectors/user-group/user-group.adapter';
-
 import {
-  BUDGET_NORMALIZER,
+  B2BUserAdapter,
+  B2B_USERS_NORMALIZER,
+  B2B_USER_NORMALIZER,
+} from '../../../organization';
+import { BudgetAdapter } from '../../../organization/connectors/budget/budget.adapter';
+import {
   BUDGETS_NORMALIZER,
+  BUDGET_NORMALIZER,
 } from '../../../organization/connectors/budget/converters';
 import {
-  B2BUNIT_NODE_NORMALIZER,
-  B2BUNIT_NODE_LIST_NORMALIZER,
-  B2BUNIT_NORMALIZER,
-  B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
-} from '../../../organization/connectors/org-unit/converters';
-import {
-  PERMISSION_NORMALIZER,
-  PERMISSIONS_NORMALIZER,
-} from '../../../organization/connectors/permission/converters';
-import {
-  PERMISSION_TYPE_NORMALIZER,
-  PERMISSION_TYPES_NORMALIZER,
-} from '../../../organization/connectors/permission-type/converters';
-import {
-  COST_CENTER_NORMALIZER,
   COST_CENTERS_NORMALIZER,
+  COST_CENTER_NORMALIZER,
 } from '../../../organization/connectors/cost-center/converters';
+import { CostCenterAdapter } from '../../../organization/connectors/cost-center/cost-center.adapter';
 import {
-  ORG_UNIT_USER_GROUP_NORMALIZER,
-  ORG_UNIT_USER_GROUPS_NORMALIZER,
+  B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
+  B2BUNIT_NODE_LIST_NORMALIZER,
+  B2BUNIT_NODE_NORMALIZER,
+  B2BUNIT_NORMALIZER,
+  B2B_ADDRESS_LIST_NORMALIZER,
+  B2B_ADDRESS_NORMALIZER,
+} from '../../../organization/connectors/org-unit/converters';
+import { OrgUnitAdapter } from '../../../organization/connectors/org-unit/org-unit.adapter';
+import {
+  PERMISSION_TYPES_NORMALIZER,
+  PERMISSION_TYPE_NORMALIZER,
+} from '../../../organization/connectors/permission-type/converters';
+import { PermissionTypeAdapter } from '../../../organization/connectors/permission-type/permission-type.adapter';
+import {
+  PERMISSIONS_NORMALIZER,
+  PERMISSION_NORMALIZER,
+} from '../../../organization/connectors/permission/converters';
+import { PermissionAdapter } from '../../../organization/connectors/permission/permission.adapter';
+import {
+  USER_GROUPS_NORMALIZER,
+  USER_GROUP_NORMALIZER,
 } from '../../../organization/connectors/user-group/converters';
-import { defaultOccOrganizationConfig } from './default-occ-organization-config';
-import { OccBudgetAdapter } from './occ-budget.adapter';
-import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
-import { OccPermissionTypeAdapter } from './occ-permission-type.adapter';
-import { OccPermissionAdapter } from './occ-permission.adapter';
-import { OccCostCenterAdapter } from './occ-cost-center.adapter';
-import { OccOrgUnitUserGroupAdapter } from './occ-user-group.adapter';
+import { UserGroupAdapter } from '../../../organization/connectors/user-group/user-group.adapter';
 import {
-  OccBudgetNormalizer,
+  OccB2BUserNormalizer,
   OccBudgetListNormalizer,
-  OccOrgUnitNodeNormalizer,
-  OccOrgUnitNodeListNormalizer,
-  OccPermissionNormalizer,
-  OccPermissionListNormalizer,
+  OccBudgetNormalizer,
   OccCostCenterListNormalizer,
   OccCostCenterNormalizer,
-  OccPermissionTypeListNormalizer,
-  OccOrgUnitUserGroupNormalizer,
-  OccOrgUnitUserGroupListNormalizer,
-  OccOrgUnitNormalizer,
+  OccOrgUnitAddressListNormalizer,
+  OccOrgUnitAddressNormalizer,
   OccOrgUnitApprovalProcessNormalizer,
-  OccB2BUserNormalizer,
+  OccOrgUnitNodeListNormalizer,
+  OccOrgUnitNodeNormalizer,
+  OccOrgUnitNormalizer,
+  OccPermissionListNormalizer,
+  OccPermissionNormalizer,
+  OccPermissionTypeListNormalizer,
+  OccUserGroupListNormalizer,
+  OccUserGroupNormalizer,
   OccUserListNormalizer,
 } from './converters/index';
 import { OccPermissionTypeNormalizer } from './converters/occ-permission-type-normalizer';
-
-import {
-  B2BUserAdapter,
-  B2B_USER_NORMALIZER,
-  B2B_USERS_NORMALIZER,
-} from '../../../organization';
+import { defaultOccOrganizationConfig } from './default-occ-organization-config';
 import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
+import { OccBudgetAdapter } from './occ-budget.adapter';
+import { OccCostCenterAdapter } from './occ-cost-center.adapter';
+import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
+import { OccPermissionTypeAdapter } from './occ-permission-type.adapter';
+import { OccPermissionAdapter } from './occ-permission.adapter';
+import { OccUserGroupAdapter } from './occ-user-group.adapter';
 
 @NgModule({
   imports: [
@@ -111,17 +112,17 @@ import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
       multi: true,
     },
     {
-      provide: OrgUnitUserGroupAdapter,
-      useClass: OccOrgUnitUserGroupAdapter,
+      provide: UserGroupAdapter,
+      useClass: OccUserGroupAdapter,
     },
     {
-      provide: ORG_UNIT_USER_GROUP_NORMALIZER,
-      useClass: OccOrgUnitUserGroupNormalizer,
+      provide: USER_GROUP_NORMALIZER,
+      useClass: OccUserGroupNormalizer,
       multi: true,
     },
     {
-      provide: ORG_UNIT_USER_GROUPS_NORMALIZER,
-      useClass: OccOrgUnitUserGroupListNormalizer,
+      provide: USER_GROUPS_NORMALIZER,
+      useClass: OccUserGroupListNormalizer,
       multi: true,
     },
     {
@@ -178,6 +179,16 @@ import { OccB2BUserAdapter } from './occ-b2b-users.adapter';
     {
       provide: B2B_USERS_NORMALIZER,
       useClass: OccUserListNormalizer,
+      multi: true,
+    },
+    {
+      provide: B2B_ADDRESS_NORMALIZER,
+      useClass: OccOrgUnitAddressNormalizer,
+      multi: true,
+    },
+    {
+      provide: B2B_ADDRESS_LIST_NORMALIZER,
+      useClass: OccOrgUnitAddressListNormalizer,
       multi: true,
     },
   ],
