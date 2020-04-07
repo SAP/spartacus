@@ -7,7 +7,7 @@ import {
   I18nModule,
 } from '@spartacus/core';
 import { UnitAddressCreateComponent } from './unit-address-create.component';
-import { UnitFormModule } from '../unit-form/unit-form.module';
+import { UnitAddressFormModule } from '../unit-address-form/unit-address-form.module';
 
 @NgModule({
   imports: [
@@ -20,7 +20,7 @@ import { UnitFormModule } from '../unit-form/unit-form.module';
         },
       },
     }),
-    UnitFormModule,
+    UnitAddressFormModule,
     I18nModule,
   ],
   declarations: [UnitAddressCreateComponent],

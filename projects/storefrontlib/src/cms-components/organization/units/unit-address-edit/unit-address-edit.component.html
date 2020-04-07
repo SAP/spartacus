@@ -1,11 +1,11 @@
 <div class="cx-header">
-  <h3>{{ 'orgUnitForm.edit' | cxTranslate }}</h3>
+  <h3>{{ 'unitAddressForm.edit' | cxTranslate }}</h3>
 </div>
-<cx-unit-form
+<cx-unit-address-form
   *ngIf="orgUnit$ | async as orgUnit"
-  [actionBtnLabel]="'orgUnitForm.update' | cxTranslate"
+  [actionBtnLabel]="'unitAddressForm.update' | cxTranslate"
   [orgUnitData]="orgUnit"
-  [routerBackLink]="{ cxRoute: 'orgUnits' }"
+  [routerBackLink]="{ cxRoute: 'orgUnitAddress' }"
   (submit)="updateOrgUnit($event)"
 >
-</cx-unit-form>
+</cx-unit-address-form>

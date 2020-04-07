@@ -11,6 +11,7 @@ import {
   RouterState,
 } from '@spartacus/core';
 import { Params } from '@angular/router';
+import { ListingModel } from '../../abstract-component/abstract-listing.component';
 
 @Component({
   selector: 'cx-unit-manage-addresses',
@@ -18,6 +19,7 @@ import { Params } from '@angular/router';
 })
 export class UnitManageAddressesComponent implements OnInit {
   code: string;
+  data$: Observable<Partial<ListingModel>>;
   cxRoute = 'orgUnitManageAddresses';
 
   constructor(

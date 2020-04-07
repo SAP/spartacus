@@ -31,7 +31,7 @@ export class UnitAddressDetailsComponent implements OnInit {
       switchMap(([code, id]) =>
         this.orgUnitsService.getAddress(code, id).pipe(
           filter(Boolean),
-          map(address => ({ ...address, code }))
+          map((address: B2BAddress) => ({ ...address, code }))
         )
       )
     );
