@@ -536,6 +536,12 @@ export interface OccEndpoints {
    */
   permission?: string;
   /**
+   * Endpoint for order approval permission types
+   *
+   * @member {string}
+   */
+  orderApprovalPermissionTypes?: string;
+  /**
    * Endpoint for organization customers
    *
    * @member {string}

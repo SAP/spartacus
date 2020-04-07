@@ -30,7 +30,7 @@ export const getBudgetsState: MemoizedSelector<
   (state: BudgetManagement) => state && state.entities
 );
 
-export const getBudgetState = (
+export const getBudget = (
   budgetCode: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<Budget>> =>
   createSelector(getBudgetsState, (state: EntityLoaderState<Budget>) =>

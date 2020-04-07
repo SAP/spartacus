@@ -86,7 +86,7 @@ describe('Budget Selectors', () => {
     it('should return budget by id', () => {
       let result: LoaderState<Budget>;
       store
-        .pipe(select(BudgetSelectors.getBudgetState(code)))
+        .pipe(select(BudgetSelectors.getBudget(code)))
         .subscribe(value => (result = value));
 
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));

@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Permission } from '../../../model/permission.model';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../../model/permission.model';
 import { PermissionAdapter } from './permission.adapter';
 import { B2BSearchConfig } from '../../model/search-config';
 import { EntitiesModel } from '../../../model/misc.model';
@@ -32,5 +35,9 @@ export class PermissionConnector {
     permission: Permission
   ): Observable<Permission> {
     return this.adapter.update(userId, permissionCode, permission);
+  }
+
+  getTypes(): Observable<OrderApprovalPermissionType[]> {
+    return this.adapter.loadTypes();
   }
 }

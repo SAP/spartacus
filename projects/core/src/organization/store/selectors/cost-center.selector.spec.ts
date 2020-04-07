@@ -91,7 +91,7 @@ describe('CostCenter Selectors', () => {
     it('should return costCenter by id', () => {
       let result: LoaderState<CostCenter>;
       store
-        .pipe(select(CostCenterSelectors.getCostCenterState(code)))
+        .pipe(select(CostCenterSelectors.getCostCenter(code)))
         .subscribe(value => (result = value));
 
       store.dispatch(

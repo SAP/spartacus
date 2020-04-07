@@ -95,7 +95,7 @@ describe('UserGroup Selectors', () => {
     it('should return userGroup by id', () => {
       let result: LoaderState<UserGroup>;
       store
-        .pipe(select(UserGroupSelectors.getUserGroupState(uid)))
+        .pipe(select(UserGroupSelectors.getUserGroup(uid)))
         .subscribe(value => (result = value));
 
       store.dispatch(
