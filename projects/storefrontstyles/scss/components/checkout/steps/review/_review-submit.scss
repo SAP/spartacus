@@ -119,5 +119,18 @@ cx-place-order {
 
   .cx-place-order-form {
     @include type('7');
+    padding: 0;
+
+    .form-check {
+      &-input {
+        margin: 0;
+        top: 1rem;
+      }
+
+      &-label {
+        padding: 0;
+        margin: 0 0 0.5rem 3rem;
+      }
+    }
   }
 }
