@@ -10,14 +10,10 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
-import * as DeprecatedCartActions from '../../../cart/store/actions/cart.action';
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
-import {
-  OCC_CART_ID_CURRENT,
-  OCC_USER_ID_ANONYMOUS,
-} from '../../../occ/utils/occ-constants';
+import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -343,12 +339,12 @@ export class CheckoutEffects {
   reloadDetailsOnMergeCart$: Observable<
     CheckoutActions.LoadCheckoutDetails
   > = this.actions$.pipe(
-    ofType(DeprecatedCartActions.MERGE_CART_SUCCESS),
-    map((action: DeprecatedCartActions.MergeCartSuccess) => action.payload),
+    ofType(CartActions.MERGE_CART_SUCCESS),
+    map((action: CartActions.MergeCartSuccess) => action.payload),
     map((payload) => {
       return new CheckoutActions.LoadCheckoutDetails({
         userId: payload.userId,
-        cartId: payload.cartId ? payload.cartId : OCC_CART_ID_CURRENT,
+        cartId: payload.cartId,
       });
     })
   );
