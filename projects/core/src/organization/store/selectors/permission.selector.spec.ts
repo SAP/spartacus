@@ -66,6 +66,7 @@ describe('Permission Selectors', () => {
       expect(result).toEqual({
         entities: { entities },
         list: { entities: {} },
+        permissionTypes: { entities: {} },
       });
     });
   });
