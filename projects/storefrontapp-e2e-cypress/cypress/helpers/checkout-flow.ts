@@ -291,10 +291,11 @@ export function addCheapProductToCartAndLogin(
 }
 
 export function addCheapProductToCartAndProceedToCheckout(
+  baseSite: string = ELECTRONICS_BASESITE,
   sampleProduct: SampleProduct = cheapProduct
 ) {
   addCheapProductToCart(sampleProduct);
-  const loginPage = waitForPage('/login', 'getLoginPage');
+  const loginPage = waitForPage('/login', 'getLoginPage', baseSite);
   cy.getByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
 }
