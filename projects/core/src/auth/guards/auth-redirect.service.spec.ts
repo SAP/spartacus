@@ -18,7 +18,7 @@ describe('AuthRedirectService', () => {
     const mockRouter = {
       url: '',
       getCurrentNavigation: () => {},
-      serializeUrl: x => x,
+      serializeUrl: (x) => x,
     };
 
     TestBed.configureTestingModule({

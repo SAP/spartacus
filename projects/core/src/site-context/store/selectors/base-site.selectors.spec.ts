@@ -29,7 +29,7 @@ describe('BaseSite Selectors', () => {
 
       store
         .pipe(select(SiteContextSelectors.getActiveBaseSite))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual('');
 
@@ -49,7 +49,7 @@ describe('BaseSite Selectors', () => {
       let result: BaseSite;
       store
         .pipe(select(SiteContextSelectors.getBaseSiteData))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({});
 

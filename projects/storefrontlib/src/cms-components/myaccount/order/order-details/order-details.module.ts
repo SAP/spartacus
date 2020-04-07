@@ -4,10 +4,10 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { ConsignmentTrackingComponent } from '../../../../cms-components/myaccount/order/order-details/order-detail-items/consignment-tracking/consignment-tracking.component';
@@ -60,7 +60,10 @@ const moduleComponents = [
         data: { cxRoute: 'orderDetails' },
       },
     ]),
-    ConfigModule.withConfig(<CmsConfig | FeaturesConfig>{
+    SpinnerModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig | FeaturesConfig>{
       cmsComponents: {
         AccountOrderDetailsActionsComponent: {
           component: OrderDetailActionsComponent,
@@ -82,9 +85,8 @@ const moduleComponents = [
         consignmentTracking: '1.2',
       },
     }),
-    SpinnerModule,
+    OrderDetailsService,
   ],
-  providers: [OrderDetailsService],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],
   entryComponents: [...moduleComponents],

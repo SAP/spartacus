@@ -29,7 +29,7 @@ export class OccAsmAdapter implements AsmAdapter {
   ) {
     this.baseSiteService
       .getActive()
-      .subscribe(value => (this.activeBaseSite = value));
+      .subscribe((value) => (this.activeBaseSite = value));
   }
 
   customerSearch(

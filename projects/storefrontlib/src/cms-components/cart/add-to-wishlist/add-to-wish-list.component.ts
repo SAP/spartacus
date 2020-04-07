@@ -17,15 +17,15 @@ import { CurrentProductService } from '../../product/current-product.service';
 })
 export class AddToWishListComponent {
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
-    filter(product => Boolean(product)),
-    tap(product => this.setStockInfo(product))
+    filter((product) => Boolean(product)),
+    tap((product) => this.setStockInfo(product))
   );
 
   wishListEntries$: Observable<
     OrderEntry[]
   > = this.wishListService.getWishList().pipe(
-    filter(wishlist => Boolean(wishlist)),
-    map(wishList => wishList.entries)
+    filter((wishlist) => Boolean(wishlist)),
+    map((wishList) => wishList.entries)
   );
 
   userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
@@ -49,7 +49,7 @@ export class AddToWishListComponent {
   }
 
   getProductInWishList(product: Product, entries: OrderEntry[]): OrderEntry {
-    const item = entries.find(entry => entry.product.code === product.code);
+    const item = entries.find((entry) => entry.product.code === product.code);
     return item;
   }
 

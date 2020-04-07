@@ -7,6 +7,12 @@ export abstract class OccConfig extends SiteContextConfig {
     occ?: {
       baseUrl?: string;
       prefix?: string;
+      /**
+       * Indicates whether or not cross-site Access-Control requests should be made
+       * using credentials such as cookies, authorization headers or TLS client certificates
+       */
+      useWithCredentials?: boolean;
+
       endpoints?: OccEndpoints;
       legacy?: boolean;
     };

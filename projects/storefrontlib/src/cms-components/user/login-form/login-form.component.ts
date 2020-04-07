@@ -9,8 +9,8 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 import { CheckoutConfigService } from '../../checkout/services/checkout-config.service';
+import { CustomFormValidators } from '../../../shared/index';
 
 @Component({
   selector: 'cx-login-form',
@@ -18,73 +18,44 @@ import { CheckoutConfigService } from '../../checkout/services/checkout-config.s
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
   sub: Subscription;
-  form: FormGroup;
+  loginForm: FormGroup;
   loginAsGuest = false;
 
   constructor(
-    private auth: AuthService,
-    private globalMessageService: GlobalMessageService,
-    private fb: FormBuilder,
-    private authRedirectService: AuthRedirectService,
-    private winRef: WindowRef,
-    private activatedRoute: ActivatedRoute,
-    private checkoutConfigService: CheckoutConfigService
+    protected auth: AuthService,
+    protected globalMessageService: GlobalMessageService,
+    protected fb: FormBuilder,
+    protected authRedirectService: AuthRedirectService,
+    protected winRef: WindowRef,
+    protected activatedRoute: ActivatedRoute,
+    protected checkoutConfigService: CheckoutConfigService
   ) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
+    const routeState = this.winRef.nativeWindow?.history?.state;
+    const prefilledEmail = routeState?.['newUid'];
+
+    this.loginForm = this.fb.group({
+      userId: [
+        prefilledEmail?.length ? prefilledEmail : '',
+        [Validators.required, CustomFormValidators.emailValidator],
+      ],
       password: ['', Validators.required],
     });
 
-    if (
-      this.checkoutConfigService &&
-      this.checkoutConfigService.isGuestCheckout()
-    ) {
-      this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
-    }
-
-    // TODO(issue:#4055) Deprecated since 1.1.0
-    if (this.winRef && this.winRef.nativeWindow) {
-      const routeState =
-        this.winRef.nativeWindow.history &&
-        this.winRef.nativeWindow.history.state;
-
-      if (routeState && routeState['newUid'] && routeState['newUid'].length) {
-        this.prefillForm('userId', routeState['newUid']);
-      }
+    if (this.checkoutConfigService.isGuestCheckout()) {
+      this.loginAsGuest = this.activatedRoute?.snapshot?.queryParams?.[
+        'forced'
+      ];
     }
   }
 
-  login(): void {
-    if (this.form.valid) {
-      this.submitLogin();
+  submitForm(): void {
+    if (this.loginForm.valid) {
+      this.loginUser();
     } else {
-      this.markFormAsTouched();
+      this.loginForm.markAllAsTouched();
     }
-  }
-
-  private submitLogin(): void {
-    const { userId, password } = this.form.controls;
-    this.auth.authorize(
-      userId.value.toLowerCase(), // backend accepts lowercase emails only
-      password.value
-    );
-
-    if (!this.sub) {
-      this.sub = this.auth.getUserToken().subscribe(data => {
-        if (data && data.access_token) {
-          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-          this.authRedirectService.redirect();
-        }
-      });
-    }
-  }
-
-  private markFormAsTouched(): void {
-    Object.keys(this.form.controls).forEach(key => {
-      this.form.controls[key].markAsTouched();
-    });
   }
 
   ngOnDestroy(): void {
@@ -93,11 +64,20 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private prefillForm(field: string, value: string): void {
-    this.form.patchValue({
-      [field]: value,
-    });
+  protected loginUser(): void {
+    const { userId, password } = this.loginForm.controls;
+    this.auth.authorize(
+      userId.value.toLowerCase(), // backend accepts lowercase emails only
+      password.value
+    );
 
-    this.form.get(field).markAsTouched(); // this action will check field validity on load
+    if (!this.sub) {
+      this.sub = this.auth.getUserToken().subscribe((data) => {
+        if (data && data.access_token) {
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.authRedirectService.redirect();
+        }
+      });
+    }
   }
 }

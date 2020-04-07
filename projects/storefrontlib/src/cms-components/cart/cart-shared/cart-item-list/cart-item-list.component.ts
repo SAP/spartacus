@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-  CartService,
+  ActiveCartService,
   ConsignmentEntry,
   FeatureConfigService,
   PromotionLocation,
-  PromotionResult,
   SelectiveCartService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -45,7 +44,6 @@ export class CartItemListComponent {
     return this._items;
   }
 
-  @Input() potentialProductPromotions: PromotionResult[] = [];
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   @Input('cartIsLoading') set setLoading(value: boolean) {
@@ -59,22 +57,9 @@ export class CartItemListComponent {
   }
 
   constructor(
-    cartService: CartService,
-    selectiveCartService: SelectiveCartService,
-    featureConfig: FeatureConfigService
-  );
-
-  /**
-   * @deprecated Since 1.5
-   * Add selectiveCartService authService routingService and featureConfig for save for later.
-   * Remove issue: #5958
-   */
-  constructor(cartService: CartService);
-
-  constructor(
-    protected cartService: CartService,
-    protected selectiveCartService?: SelectiveCartService,
-    private featureConfig?: FeatureConfigService
+    protected activeCartService: ActiveCartService,
+    protected selectiveCartService: SelectiveCartService,
+    protected featureConfig: FeatureConfigService
   ) {}
 
   //TODO remove feature flag for #5958
@@ -91,8 +76,8 @@ export class CartItemListComponent {
    * In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
    */
   private resolveItems(items: Item[]): void {
-    if (items.every(item => item.hasOwnProperty('orderEntry'))) {
-      this._items = items.map(consignmentEntry => {
+    if (items.every((item) => item.hasOwnProperty('orderEntry'))) {
+      this._items = items.map((consignmentEntry) => {
         const entry = Object.assign(
           {},
           (consignmentEntry as ConsignmentEntry).orderEntry
@@ -107,7 +92,7 @@ export class CartItemListComponent {
 
   private createForm(): void {
     this.form = new FormGroup({});
-    this._items.forEach(item => {
+    this._items.forEach((item) => {
       const { code } = item.product;
       const group = new FormGroup({
         entryNumber: new FormControl((<any>item).entryNumber),
@@ -124,7 +109,7 @@ export class CartItemListComponent {
     if (this.selectiveCartService && this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
     } else {
-      this.cartService.removeEntry(item);
+      this.activeCartService.removeEntry(item);
     }
     delete this.form.controls[item.product.code];
   }
@@ -133,58 +118,17 @@ export class CartItemListComponent {
     return this.form.get(item.product.code).valueChanges.pipe(
       // tslint:disable-next-line:deprecation
       startWith(null),
-      map(value => {
+      map((value) => {
         if (value && this.selectiveCartService && this.options.isSaveForLater) {
           this.selectiveCartService.updateEntry(
             value.entryNumber,
             value.quantity
           );
         } else if (value) {
-          this.cartService.updateEntry(value.entryNumber, value.quantity);
+          this.activeCartService.updateEntry(value.entryNumber, value.quantity);
         }
       }),
       map(() => <FormGroup>this.form.get(item.product.code))
     );
-  }
-
-  getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
-    const entryPromotions: PromotionResult[] = [];
-    //don't show promotions in saveforlater
-    if (this.options.isSaveForLater) {
-      return entryPromotions;
-    }
-    if (
-      this.potentialProductPromotions &&
-      this.potentialProductPromotions.length > 0
-    ) {
-      for (const promotion of this.potentialProductPromotions) {
-        if (
-          promotion.description &&
-          promotion.consumedEntries &&
-          promotion.consumedEntries.length > 0
-        ) {
-          for (const consumedEntry of promotion.consumedEntries) {
-            if (this.isConsumedByEntry(consumedEntry, item)) {
-              entryPromotions.push(promotion);
-            }
-          }
-        }
-      }
-    }
-    return entryPromotions;
-  }
-
-  private isConsumedByEntry(consumedEntry: any, entry: any): boolean {
-    const consumedEntryNumber = consumedEntry.orderEntryNumber;
-    if (entry.entries && entry.entries.length > 0) {
-      for (const subEntry of entry.entries) {
-        if (subEntry.entryNumber === consumedEntryNumber) {
-          return true;
-        }
-      }
-      return false;
-    } else {
-      return consumedEntryNumber === entry.entryNumber;
-    }
   }
 }

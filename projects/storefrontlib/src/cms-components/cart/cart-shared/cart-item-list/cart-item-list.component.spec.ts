@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CartService,
+  ActiveCartService,
   ConsignmentEntry,
   FeatureConfigService,
   FeaturesConfig,
@@ -17,7 +17,7 @@ import { PromotionsModule } from '../../../checkout';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
 
-class MockCartService {
+class MockActiveCartService {
   updateEntry() {}
 }
 
@@ -52,17 +52,6 @@ const mockConsignmentItems: ConsignmentEntry[] = [
   },
 ];
 
-const mockPotentialProductPromotions = [
-  {
-    description: 'Buy two more and win a trip to the Moon',
-    consumedEntries: [
-      {
-        orderEntryNumber: 1,
-      },
-    ],
-  },
-];
-
 @Component({
   template: '',
   selector: 'cx-cart-item',
@@ -71,7 +60,6 @@ class MockCartItemComponent {
   @Input() item;
   @Input() readonly;
   @Input() quantityControl;
-  @Input() potentialProductPromotions;
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
@@ -82,7 +70,7 @@ class MockCartItemComponent {
 describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
-  let cartService: CartService;
+  let activeCartService: ActiveCartService;
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
@@ -105,7 +93,7 @@ describe('CartItemListComponent', () => {
       ],
       declarations: [CartItemListComponent, MockCartItemComponent],
       providers: [
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: SelectiveCartService, useValue: mockSelectiveCartService },
         { provide: FeatureConfigService, useValue: mockFeatureConfig },
         {
@@ -120,14 +108,13 @@ describe('CartItemListComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemListComponent);
-    cartService = TestBed.inject(CartService);
+    activeCartService = TestBed.inject(ActiveCartService);
 
     component = fixture.componentInstance;
     component.items = mockItems;
-    component.potentialProductPromotions = mockPotentialProductPromotions;
     component.options = { isSaveForLater: false };
 
-    spyOn(cartService, 'updateEntry').and.callThrough();
+    spyOn(activeCartService, 'updateEntry').and.callThrough();
     mockFeatureConfig.isEnabled.and.returnValue(false);
 
     fixture.detectChanges();
@@ -145,7 +132,7 @@ describe('CartItemListComponent', () => {
 
   it('should return form control with quantity ', () => {
     const item = mockItems[0];
-    component.getControl(item).subscribe(control => {
+    component.getControl(item).subscribe((control) => {
       expect(control.get('quantity').value).toEqual(1);
     });
   });
@@ -155,7 +142,7 @@ describe('CartItemListComponent', () => {
     let result: FormGroup;
     component
       .getControl(item)
-      .subscribe(control => {
+      .subscribe((control) => {
         result = control;
       })
       .unsubscribe();
@@ -172,7 +159,7 @@ describe('CartItemListComponent', () => {
     let result: FormGroup;
     component
       .getControl(item)
-      .subscribe(control => {
+      .subscribe((control) => {
         result = control;
       })
       .unsubscribe();
@@ -187,7 +174,7 @@ describe('CartItemListComponent', () => {
     let result: FormGroup;
     component
       .getControl(item)
-      .subscribe(control => {
+      .subscribe((control) => {
         result = control;
       })
       .unsubscribe();
@@ -199,9 +186,9 @@ describe('CartItemListComponent', () => {
     const item = mockItems[0];
     component
       .getControl(item)
-      .subscribe(control => {
+      .subscribe((control) => {
         control.get('quantity').setValue(2);
-        expect(cartService.updateEntry).toHaveBeenCalledWith(
+        expect(activeCartService.updateEntry).toHaveBeenCalledWith(
           item.entryNumber as any,
           2
         );
@@ -213,20 +200,14 @@ describe('CartItemListComponent', () => {
     const item = mockItems[0];
     component
       .getControl(item)
-      .subscribe(control => {
+      .subscribe((control) => {
         control.get('quantity').setValue(0);
-        expect(cartService.updateEntry).toHaveBeenCalledWith(
+        expect(activeCartService.updateEntry).toHaveBeenCalledWith(
           item.entryNumber as any,
           0
         );
       })
       .unsubscribe();
-  });
-
-  it('should get potential promotions for product', () => {
-    const item = mockItems[1];
-    const promotions = component.getPotentialProductPromotionsForItem(item);
-    expect(promotions).toEqual(mockPotentialProductPromotions);
   });
 
   it('should have controls updated on items change', () => {
@@ -259,15 +240,6 @@ describe('CartItemListComponent', () => {
     expect(
       component.form.controls[multipleMockItems[1].product.code]
     ).toBeDefined();
-  });
-
-  it('should get no potential promotions for product for save for later', () => {
-    mockFeatureConfig.isEnabled.and.returnValue(true);
-    component.options = { isSaveForLater: true };
-    fixture.detectChanges();
-    const item = mockItems[0];
-    const promotions = component.getPotentialProductPromotionsForItem(item);
-    expect(promotions.length).toEqual(0);
   });
 
   it('remove entry for save for later', () => {

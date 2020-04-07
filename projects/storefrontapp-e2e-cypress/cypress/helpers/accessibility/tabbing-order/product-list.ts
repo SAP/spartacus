@@ -14,9 +14,7 @@ export function productListTabbingOrderDesktop(config: TabElement[]) {
 }
 
 export function toggleProductView() {
-  cy.get('cx-product-list cx-product-view')
-    .first()
-    .click();
+  cy.get('cx-product-list cx-product-view').first().click();
 }
 
 export function productListTabbingOrderMobile(config: TabElement[]) {

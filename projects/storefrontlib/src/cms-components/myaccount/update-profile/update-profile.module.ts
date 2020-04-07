@@ -4,17 +4,25 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { UpdateProfileFormComponent } from './components/update-profile-form.component';
 import { UpdateProfileComponent } from './update-profile.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    FormsModule,
+    ReactiveFormsModule,
+    SpinnerModule,
+    I18nModule,
+    FormErrorsModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         UpdateProfileComponent: {
           component: UpdateProfileComponent,
@@ -22,10 +30,6 @@ import { UpdateProfileComponent } from './update-profile.component';
         },
       },
     }),
-    FormsModule,
-    ReactiveFormsModule,
-    SpinnerModule,
-    I18nModule,
   ],
   declarations: [UpdateProfileComponent, UpdateProfileFormComponent],
   exports: [UpdateProfileComponent, UpdateProfileFormComponent],

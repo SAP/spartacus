@@ -32,7 +32,7 @@ context('Store finder', () => {
     cy.get(resultListItem)
       .first()
       .within(() => {
-        cy.get('.cx-store-name a').click();
+        cy.get('.cx-store-name button').click();
       });
 
     cy.get('.cx-store-details').should('exist');
@@ -40,9 +40,7 @@ context('Store finder', () => {
 
   it('should allow to view all stores', () => {
     cy.getByText('View all stores').click();
-    cy.get('.country-header-link')
-      .eq(0)
-      .click();
+    cy.get('.country-header-link').eq(0).click();
     cy.get(resultListItem).should('have.length.greaterThan', 0);
   });
 

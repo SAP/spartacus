@@ -37,9 +37,7 @@ export function productRatingFlow(mobile?: string) {
 
   cy.get('cx-searchbox input').type(`${productName}{enter}`);
 
-  cy.wait(`@${QUERY_ALIAS.DSC_N1}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.DSC_N1}`).its('status').should('eq', 200);
 
   assertNumberOfProducts(`@${QUERY_ALIAS.DSC_N1}`, `"${productName}"`);
 
@@ -51,9 +49,7 @@ export function productRatingFlow(mobile?: string) {
 
   // Navigate to previous page
   previousPage();
-  cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`).its('status').should('eq', 200);
 
   // active paginated number
   cy.get(pageLinkSelector).should('contain', `1`);
@@ -63,9 +59,7 @@ export function productRatingFlow(mobile?: string) {
   // Filter by category
   clickFacet('Category');
 
-  cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`).its('status').should('eq', 200);
 
   assertNumberOfProducts(
     `@${QUERY_ALIAS.TOP_RATED_FILTER}`,
@@ -76,9 +70,7 @@ export function productRatingFlow(mobile?: string) {
 
   clearSelectedFacet(mobile);
 
-  cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`).its('status').should('eq', 200);
 
   assertNumberOfProducts(
     `@${QUERY_ALIAS.TOP_RATED_FILTER}`,
@@ -87,16 +79,8 @@ export function productRatingFlow(mobile?: string) {
 
   // Select product and read all the tabs on product details page
   cy.get('cx-product-list-item:first .cx-product-name').click();
-  cy.get(tabsHeaderList)
-    .eq(0)
-    .should('contain', 'Product Details');
-  cy.get(tabsHeaderList)
-    .eq(1)
-    .should('contain', 'Specs');
-  cy.get(tabsHeaderList)
-    .eq(2)
-    .should('contain', 'Reviews');
-  cy.get(tabsHeaderList)
-    .eq(3)
-    .should('contain', 'Shipping');
+  cy.get(tabsHeaderList).eq(0).should('contain', 'Product Details');
+  cy.get(tabsHeaderList).eq(1).should('contain', 'Specs');
+  cy.get(tabsHeaderList).eq(2).should('contain', 'Reviews');
+  cy.get(tabsHeaderList).eq(3).should('contain', 'Shipping');
 }

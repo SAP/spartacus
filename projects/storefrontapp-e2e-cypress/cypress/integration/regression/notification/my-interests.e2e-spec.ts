@@ -3,7 +3,7 @@ import * as orderDetail from '../../../helpers/consignment-tracking';
 
 describe('my interests - guest', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   it('should redirect to login page for anonymous user', () => {
@@ -13,7 +13,7 @@ describe('my interests - guest', () => {
 
 describe('my interests - customer', () => {
   beforeEach(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
     cy.visit('/');
     notification.enableNotificationChannel();
@@ -30,7 +30,7 @@ describe('my interests - customer', () => {
 
 describe('my interests - customer with interests', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
     orderDetail.loginUsingUserWithOrder();
   });

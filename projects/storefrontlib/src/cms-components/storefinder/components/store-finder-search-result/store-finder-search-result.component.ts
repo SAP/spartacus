@@ -31,7 +31,7 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.route.queryParams.subscribe(params =>
+    this.subscription = this.route.queryParams.subscribe((params) =>
       this.initialize(params)
     );
   }

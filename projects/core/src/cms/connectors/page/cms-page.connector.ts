@@ -25,10 +25,10 @@ export class CmsPageConnector {
     return this.cmsStructureConfigService
       .shouldIgnoreBackend(pageContext.id)
       .pipe(
-        switchMap(loadFromConfig => {
+        switchMap((loadFromConfig) => {
           if (!loadFromConfig) {
             return this.cmsPageAdapter.load(pageContext).pipe(
-              catchError(error => {
+              catchError((error) => {
                 if (
                   error instanceof HttpErrorResponse &&
                   error.status === 400
@@ -43,7 +43,7 @@ export class CmsPageConnector {
             return of({});
           }
         }),
-        switchMap(page => this.mergeDefaultPageStructure(pageContext, page))
+        switchMap((page) => this.mergeDefaultPageStructure(pageContext, page))
       );
   }
 
