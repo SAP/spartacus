@@ -30,38 +30,12 @@ const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
   status: 404,
 });
-const owner: GenericConfigurator.Owner = {
-  type: GenericConfigurator.OwnerType.PRODUCT,
-  id: productCode,
-};
-const productConfiguration: Configurator.Configuration = {
+let owner: GenericConfigurator.Owner = {};
+let productConfiguration: Configurator.Configuration = {
   configId: 'a',
-  productCode: productCode,
-  owner: owner,
-  complete: true,
-  consistent: true,
-  overview: {
-    groups: [
-      {
-        id: 'a',
-        groupDescription: 'a',
-        attributes: [
-          {
-            attribute: 'a',
-            value: 'A',
-          },
-        ],
-      },
-    ],
-  },
-  groups: [{ id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] }],
 };
 
-const payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters = {
-  userId: userId,
-  cartId: cartId,
-  configuration: productConfiguration,
-};
+let payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters = {};
 const cartModification: CartModification = {
   quantity: 1,
   quantityAdded: 1,
@@ -143,6 +117,40 @@ describe('ConfiguratorEffect', () => {
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
+
+    owner = {
+      type: GenericConfigurator.OwnerType.PRODUCT,
+      id: productCode,
+    };
+
+    productConfiguration = {
+      configId: 'a',
+      productCode: productCode,
+      owner: owner,
+      complete: true,
+      consistent: true,
+      overview: {
+        groups: [
+          {
+            id: 'a',
+            groupDescription: 'a',
+            attributes: [
+              {
+                attribute: 'a',
+                value: 'A',
+              },
+            ],
+          },
+        ],
+      },
+      groups: [{ id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] }],
+    };
+
+    payloadInputUpdateConfiguration = {
+      userId: userId,
+      cartId: cartId,
+      configuration: productConfiguration,
+    };
     configuratorUtils.setOwnerKey(owner);
   });
 

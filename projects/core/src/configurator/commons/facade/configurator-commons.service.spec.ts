@@ -24,15 +24,8 @@ import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
-const OWNER_PRODUCT: GenericConfigurator.Owner = {
-  id: PRODUCT_CODE,
-  type: GenericConfigurator.OwnerType.PRODUCT,
-};
-
-const OWNER_CART_ENTRY: GenericConfigurator.Owner = {
-  id: '3',
-  type: GenericConfigurator.OwnerType.CART_ENTRY,
-};
+let OWNER_PRODUCT: GenericConfigurator.Owner = {};
+let OWNER_CART_ENTRY: GenericConfigurator.Owner = {};
 
 const CONFIG_ID = '1234-56-7890';
 const GROUP_ID_1 = '123ab';
@@ -108,18 +101,12 @@ const group4: Configurator.Group = {
   subGroups: [group3, group31],
 };
 
-const productConfiguration: Configurator.Configuration = {
+let productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
-  productCode: PRODUCT_CODE,
-  owner: OWNER_PRODUCT,
-  groups: [group1, group2],
 };
 
-const productConfigurationMultiLevel: Configurator.Configuration = {
+let productConfigurationMultiLevel: Configurator.Configuration = {
   configId: CONFIG_ID,
-  productCode: PRODUCT_CODE,
-  owner: OWNER_PRODUCT,
-  groups: [group4],
 };
 
 const productConfigurationChanged: Configurator.Configuration = {
@@ -252,6 +239,31 @@ describe('ConfiguratorCommonsService', () => {
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
+
+    OWNER_PRODUCT = {
+      id: PRODUCT_CODE,
+      type: GenericConfigurator.OwnerType.PRODUCT,
+    };
+
+    OWNER_CART_ENTRY = {
+      id: '3',
+      type: GenericConfigurator.OwnerType.CART_ENTRY,
+    };
+
+    productConfiguration = {
+      configId: CONFIG_ID,
+      productCode: PRODUCT_CODE,
+      owner: OWNER_PRODUCT,
+      groups: [group1, group2],
+    };
+
+    productConfigurationMultiLevel = {
+      configId: CONFIG_ID,
+      productCode: PRODUCT_CODE,
+      owner: OWNER_PRODUCT,
+      groups: [group4],
+    };
+
     configuratorUtils.setOwnerKey(OWNER_PRODUCT);
     configuratorUtils.setOwnerKey(OWNER_CART_ENTRY);
 

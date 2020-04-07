@@ -16,15 +16,9 @@ describe('Configurator selectors', () => {
   let store: Store<StateWithConfiguration>;
   let configuratorUtils: GenericConfigUtilsService;
   const productCode = 'CONF_LAPTOP';
-  const owner: GenericConfigurator.Owner = {
-    type: GenericConfigurator.OwnerType.PRODUCT,
-    id: productCode,
-  };
-
-  const configuration: Configurator.Configuration = {
+  let owner: GenericConfigurator.Owner = {};
+  let configuration: Configurator.Configuration = {
     configId: 'a',
-    productCode: productCode,
-    owner: owner,
   };
 
   beforeEach(() => {
@@ -42,6 +36,15 @@ describe('Configurator selectors', () => {
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
+    owner = {
+      type: GenericConfigurator.OwnerType.PRODUCT,
+      id: productCode,
+    };
+    configuration = {
+      configId: 'a',
+      productCode: productCode,
+      owner: owner,
+    };
     configuratorUtils.setOwnerKey(owner);
     spyOn(store, 'dispatch').and.callThrough();
   });
