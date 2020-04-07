@@ -9,7 +9,6 @@ import {
   SampleUser,
   user,
 } from '../sample-data/checkout-flow';
-import { APPAREL_BASESITE } from './apparel/apparel-checkout-flow';
 import { login, register } from './auth-forms';
 import {
   AddressData,
@@ -258,18 +257,19 @@ export function clickCheapProductDetailsFromHomePage(
 }
 
 export function addCheapProductToCartAndLogin(
+  baseSite: string = ELECTRONICS_BASESITE,
   sampleUser: SampleUser = user,
   sampleProduct: SampleProduct = cheapProduct
 ) {
   addCheapProductToCart(sampleProduct);
-  const loginPage = waitForPage('/login', 'getLoginPage', APPAREL_BASESITE);
+  const loginPage = waitForPage('/login', 'getLoginPage', baseSite);
   cy.getByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
 
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage',
-    APPAREL_BASESITE
+    baseSite
   );
   loginUser(sampleUser);
   cy.wait(`@${shippingPage}`).its('status').should('eq', 200);

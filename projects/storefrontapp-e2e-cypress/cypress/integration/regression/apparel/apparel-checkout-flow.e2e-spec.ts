@@ -46,7 +46,11 @@ context('Apparel - checkout flow', () => {
 
     it('should go to product page, and add product to cart from category page and proceed to checkout', () => {
       checkout.goToCheapProductDetailsPage(APPAREL_BASESITE, products[0]);
-      checkout.addCheapProductToCartAndLogin(variantUser, products[0]);
+      checkout.addCheapProductToCartAndLogin(
+        APPAREL_BASESITE,
+        variantUser,
+        products[0]
+      );
     });
 
     it('should fill in address form', () => {

@@ -15,7 +15,7 @@ let startTime = 0;
 export function waitForOrderToBePlacedRequest(
   orderNumber?: string,
   contentCatalog: string = 'electronics-spa',
-  currency: string = 'GBP'
+  currency: string = 'USD'
 ) {
   const { userId, access_token } = JSON.parse(
     localStorage.getItem('spartacus-local-data')
@@ -45,7 +45,7 @@ export function waitForOrderToBePlacedRequest(
         return;
       } else {
         startTime += delay;
-        waitForOrderToBePlacedRequest(orderNumber, contentCatalog);
+        waitForOrderToBePlacedRequest(orderNumber, contentCatalog, currency);
       }
     });
 }
