@@ -1,4 +1,5 @@
 import { apiUrl } from '../support/utils/login';
+import { waitForOrderWithConsignmentToBePlacedRequest } from '../support/utils/order-placed';
 import {
   addPaymentMethod,
   addShippingAddress,
@@ -72,6 +73,7 @@ export function selectPaymentMethod() {
 export function goToOrderHistoryDetailsFromSummary() {
   cy.get('.cx-page-title').then((el) => {
     const orderNumber = el.text().match(/\d+/)[0];
+    waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
     cy.visit(`/my-account/order/${orderNumber}`);
   });
 }

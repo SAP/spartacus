@@ -14,8 +14,11 @@
   },
   "repository": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
   "peerDependencies": {
-    "@angular/common": "^9.1.0",
-    "@angular/core": "^9.1.0",
+    "@angular/common": "^9.0.0",
+    "@angular/core": "^9.0.0",
+    "@angular/platform-browser": "^9.0.0",
+    "@angular/router": "^9.0.0",
+    "rxjs": "^6.5.4",
     "@ngrx/effects": "^9.0.0",
     "@ngrx/router-store": "^9.0.0",
     "@ngrx/store": "^9.0.0",
