@@ -63,7 +63,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
   loadTypes(): Observable<OrderApprovalPermissionType[]> {
     return this.http
       .get<Occ.OrderApprovalPermissionTypeList>(
-        this.getPermissionTypeEndpoint()
+        this.getPermissionTypesEndpoint()
       )
       .pipe(this.converter.pipeable(PERMISSION_TYPES_NORMALIZER));
   }
@@ -85,7 +85,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
     return this.occEndpoints.getUrl('permissions', { userId }, params);
   }
 
-  protected getPermissionTypeEndpoint(): string {
+  protected getPermissionTypesEndpoint(): string {
     return this.occEndpoints.getUrl('orderApprovalPermissionTypes');
   }
 }
