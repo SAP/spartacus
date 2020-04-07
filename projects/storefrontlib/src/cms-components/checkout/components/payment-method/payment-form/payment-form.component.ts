@@ -103,7 +103,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
     protected modalService: ModalService,
-    protected userAddressService: UserAddressService,
+    protected userAddressService: UserAddressService
   ) {}
 
   ngOnInit() {
