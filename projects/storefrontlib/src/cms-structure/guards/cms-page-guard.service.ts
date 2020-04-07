@@ -67,16 +67,12 @@ export class CmsPageGuardService {
       ),
       tap(([canActivate, componentTypes]) => {
         if (canActivate === true) {
-          this.cmsI18n.loadChunksForComponents(componentTypes);
+          this.cmsI18n.loadForComponents(componentTypes);
         }
       }),
       map(([canActivate, componentTypes]) => {
         const pageLabel = pageData.label || pageContext.id; // for content pages the page label returned from backend can be different than ID initially assumed from route
-        if (
-          canActivate === true &&
-          !route.data.cxCmsRouteContext &&
-          !this.cmsRoutes.cmsRouteExist(pageLabel)
-        ) {
+        if (canActivate === true && !route?.data?.cxCmsRouteContext) {
           return this.cmsRoutes.handleCmsRoutesInGuard(
             pageContext,
             componentTypes,

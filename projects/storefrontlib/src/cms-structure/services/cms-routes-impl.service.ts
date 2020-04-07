@@ -9,7 +9,7 @@ import { CmsMappingService } from './cms-mapping.service';
 export class CmsRoutesImplService {
   constructor(private router: Router, private cmsMapping: CmsMappingService) {}
 
-  cmsRouteExist(url: string): boolean {
+  private cmsRouteExists(url: string): boolean {
     const isCmsDrivenRoute = url.startsWith('/');
 
     if (!isCmsDrivenRoute) {
@@ -42,6 +42,10 @@ export class CmsRoutesImplService {
     currentUrl: string,
     currentPageLabel: string
   ): boolean {
+    if (this.cmsRouteExists(currentPageLabel)) {
+      return true;
+    }
+
     const componentRoutes = this.cmsMapping.getRoutesForComponents(
       componentTypes
     );

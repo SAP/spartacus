@@ -55,17 +55,18 @@ describe('CmsRoutesImplService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('cmsRouteExist', () => {
-    it('should return true if content route exists', () => {
-      expect(service.cmsRouteExist('/testRoute')).toBeTruthy();
-    });
-
-    it('should return false if content route does not exist', () => {
-      expect(service.cmsRouteExist('/badRoute')).toBeFalsy();
-    });
-  });
-
   describe('handleCmsRoutesInGuard', () => {
+    it('should return true if content route exists', () => {
+      expect(
+        service.handleCmsRoutesInGuard(
+          mockPageContext,
+          [],
+          '/testRoute',
+          '/testRoute'
+        )
+      ).toBeTruthy();
+    });
+
     it('should return false for content page with cms driven route', () => {
       expect(
         service.handleCmsRoutesInGuard(

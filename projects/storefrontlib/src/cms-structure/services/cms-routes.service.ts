@@ -9,8 +9,6 @@ import { CmsRoutesImplService } from './cms-routes-impl.service';
   useExisting: CmsRoutesImplService,
 })
 export abstract class CmsRoutesService {
-  abstract cmsRouteExist(url: string): boolean;
-
   abstract handleCmsRoutesInGuard(
     pageContext: PageContext,
     componentTypes: string[],
