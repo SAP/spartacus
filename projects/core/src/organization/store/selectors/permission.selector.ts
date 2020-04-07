@@ -14,7 +14,7 @@ import {
   PermissionManagement,
   PERMISSION_FEATURE,
   StateWithOrganization,
-  PERMISSION_LIST,
+  PERMISSION_TYPES,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
 
@@ -66,5 +66,5 @@ export const getPermissionTypes = (): MemoizedSelector<
   createSelector(
     getPermissionTypesState,
     (state: EntityLoaderState<OrderApprovalPermissionType[]>) =>
-      entityStateSelector(state, PERMISSION_LIST)
+      entityStateSelector(state, PERMISSION_TYPES)
   );

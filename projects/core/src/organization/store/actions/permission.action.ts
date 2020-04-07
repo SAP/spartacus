@@ -8,7 +8,7 @@ import {
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { B2BSearchConfig } from '../../model/search-config';
-import { ALL, serializeB2BSearchConfig } from '../../utils/serializer';
+import { serializeB2BSearchConfig } from '../../utils/serializer';
 import {
   PERMISSION_ENTITIES,
   PERMISSION_LIST,
@@ -159,7 +159,7 @@ export class LoadPermissionTypes extends EntityLoadAction {
 export class LoadPermissionTypesFail extends EntityFailAction {
   readonly type = LOAD_PERMISSION_TYPES_FAIL;
   constructor(public payload: any) {
-    super(PERMISSION_TYPES_LIST, ALL, payload.error);
+    super(PERMISSION_TYPES_LIST, PERMISSION_TYPES, payload.error);
   }
 }
 
