@@ -20,7 +20,7 @@ import { map, tap } from 'rxjs/operators';
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;
-  form: FormGroup;
+  couponForm: FormGroup;
   cartIsLoading$: Observable<boolean>;
   cart$: Observable<Cart>;
   cartId: string;
@@ -91,7 +91,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
     this.cartVoucherService.resetAddVoucherProcessingState();
 
-    this.form = this.formBuilder.group({
+    this.couponForm = this.formBuilder.group({
       couponCode: ['', [Validators.required]],
     });
 
@@ -121,7 +121,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   onSuccess(success: boolean) {
     if (success) {
-      this.form.reset();
+      this.couponForm.reset();
       this.cartVoucherService.resetAddVoucherProcessingState();
     }
   }
@@ -141,12 +141,16 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   }
 
   applyVoucher(): void {
-    if (!this.form.valid) {
-      this.form.markAsTouched();
-      return;
+    if (this.couponForm.valid) {
+      this.cartVoucherService.addVoucher(
+        this.couponForm.value.couponCode,
+        this.cartId
+      );
+    } else {
+      this.couponForm.markAllAsTouched();
     }
-    this.cartVoucherService.addVoucher(this.form.value.couponCode, this.cartId);
   }
+
   applyCustomerCoupon(couponId: string): void {
     this.cartVoucherService.addVoucher(couponId, this.cartId);
     this.couponBoxIsActive = false;
