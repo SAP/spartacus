@@ -13,7 +13,6 @@ export class GuestRegisterFormComponent implements OnDestroy {
   @Input() email: string;
 
   subscription: Subscription;
-
   guestRegisterForm: FormGroup = this.fb.group(
     {
       password: [
@@ -22,7 +21,12 @@ export class GuestRegisterFormComponent implements OnDestroy {
       ],
       passwordconf: ['', Validators.required],
     },
-    { validator: CustomFormValidators.matchPassword }
+    {
+      validators: CustomFormValidators.passwordsMustMatch(
+        'password',
+        'passwordconf'
+      ),
+    }
   );
 
   constructor(
@@ -33,16 +37,22 @@ export class GuestRegisterFormComponent implements OnDestroy {
   ) {}
 
   submit() {
-    this.userService.registerGuest(
-      this.guid,
-      this.guestRegisterForm.value.password
-    );
-    if (!this.subscription) {
-      this.subscription = this.authService.getUserToken().subscribe((token) => {
-        if (token.access_token) {
-          this.routingService.go({ cxRoute: 'home' });
-        }
-      });
+    if (this.guestRegisterForm.valid) {
+      this.userService.registerGuest(
+        this.guid,
+        this.guestRegisterForm.value.password
+      );
+      if (!this.subscription) {
+        this.subscription = this.authService
+          .getUserToken()
+          .subscribe((token) => {
+            if (token.access_token) {
+              this.routingService.go({ cxRoute: 'home' });
+            }
+          });
+      }
+    } else {
+      this.guestRegisterForm.markAllAsTouched();
     }
   }
 

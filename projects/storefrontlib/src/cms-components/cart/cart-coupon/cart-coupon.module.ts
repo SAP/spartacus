@@ -10,6 +10,7 @@ import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
 import { CartCouponComponent } from './cart-coupon.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { FormErrorsModule } from '../../../shared/index';
 
 @NgModule({
   declarations: [CartCouponComponent, AppliedCouponsComponent],
@@ -21,6 +22,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ReactiveFormsModule,
     I18nModule,
     IconModule,
+    FormErrorsModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
