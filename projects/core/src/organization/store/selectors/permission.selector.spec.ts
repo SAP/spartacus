@@ -66,6 +66,7 @@ describe('Permission Selectors', () => {
       expect(result).toEqual({
         entities: { entities },
         list: { entities: {} },
+        permissionTypes: { entities: {} },
       });
     });
   });
@@ -88,7 +89,7 @@ describe('Permission Selectors', () => {
     it('should return permission by id', () => {
       let result: LoaderState<Permission>;
       store
-        .pipe(select(PermissionSelectors.getPermissionState(code)))
+        .pipe(select(PermissionSelectors.getPermission(code)))
         .subscribe(value => (result = value));
 
       store.dispatch(

@@ -12,7 +12,7 @@ import { B2BSearchConfig } from '../model/search-config';
 import { UserGroup } from '../../model/user-group.model';
 import { Permission } from '../../model/permission.model';
 import {
-  getUserGroupState,
+  getUserGroup,
   getUserGroupList,
   getAvailableOrgCustomers,
   getAvailableOrderApprovalPermissions,
@@ -45,10 +45,10 @@ export class UserGroupService {
     );
   }
 
-  private getUserGroupState(
+  private getUserGroup(
     userGroupId: string
   ): Observable<LoaderState<UserGroup>> {
-    return this.store.select(getUserGroupState(userGroupId));
+    return this.store.select(getUserGroup(userGroupId));
   }
 
   private getUserGroupList(
@@ -74,7 +74,7 @@ export class UserGroupService {
   }
 
   get(userGroupUid: string): Observable<UserGroup> {
-    return this.getUserGroupState(userGroupUid).pipe(
+    return this.getUserGroup(userGroupUid).pipe(
       observeOn(queueScheduler),
       tap(state => {
         if (!(state.loading || state.success || state.error)) {

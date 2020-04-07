@@ -10,7 +10,7 @@ import { EntitiesModel } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
 import { CostCenterActions } from '../store/actions/index';
 import {
-  getCostCenterState,
+  getCostCenter,
   getCostCenterList,
   getAssignedBudgets,
 } from '../store/selectors/cost-center.selector';
@@ -40,10 +40,10 @@ export class CostCenterService {
     );
   }
 
-  private getCostCenterState(
+  private getCostCenter(
     costCenterCode: string
   ): Observable<LoaderState<CostCenter>> {
-    return this.store.select(getCostCenterState(costCenterCode));
+    return this.store.select(getCostCenter(costCenterCode));
   }
 
   private getCostCenterList(
@@ -59,7 +59,7 @@ export class CostCenterService {
   }
 
   get(costCenterCode: string): Observable<CostCenter> {
-    return this.getCostCenterState(costCenterCode).pipe(
+    return this.getCostCenter(costCenterCode).pipe(
       observeOn(queueScheduler),
       tap(state => {
         if (!(state.loading || state.success || state.error)) {

@@ -35,7 +35,7 @@ export const getCostCentersState: MemoizedSelector<
   (state: CostCenterManagement) => state && state.entities
 );
 
-export const getCostCenterState = (
+export const getCostCenter = (
   costCenterCode: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<CostCenter>> =>
   createSelector(getCostCentersState, (state: EntityLoaderState<CostCenter>) =>
