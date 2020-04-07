@@ -1,4 +1,4 @@
-import { OrderEntry } from 'projects/core/src/model/order.model';
+import { OrderEntry } from '../../../model/order.model';
 import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
