@@ -1,12 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, RendererFactory2 } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { LaunchRoute, LAUNCH_CALLER } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class RoutingRenderStrategy extends LaunchRenderStrategy {
-  constructor(protected routingService: RoutingService) {
-    super();
+  constructor(
+    protected rendererFactory: RendererFactory2,
+    protected routingService: RoutingService
+  ) {
+    super(rendererFactory);
   }
   /**
    * Navigates to the route configured for the caller

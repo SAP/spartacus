@@ -1,4 +1,10 @@
-import { Inject, Injectable, ViewContainerRef } from '@angular/core';
+import {
+  ComponentRef,
+  Inject,
+  Injectable,
+  ViewContainerRef,
+} from '@angular/core';
+import { Observable } from 'rxjs';
 import {
   LaunchConfig,
   LaunchOptions,
@@ -25,13 +31,17 @@ export class LaunchDialogService {
    * @param caller LAUNCH_CALLER
    * @param vcr View Container Ref of the container for inline rendering
    */
-  launch(caller: LAUNCH_CALLER, vcr?: ViewContainerRef): void {
+  launch(
+    caller: LAUNCH_CALLER,
+    vcr?: ViewContainerRef
+  ): void | Observable<ComponentRef<any>> {
     const config = this.findConfiguration(caller);
     const renderer = this.getStrategy(config);
 
     // Render if the strategy exists
     if (renderer) {
-      renderer.render(config, caller, vcr);
+      const component = renderer.render(config, caller, vcr);
+      return component;
     }
   }
 

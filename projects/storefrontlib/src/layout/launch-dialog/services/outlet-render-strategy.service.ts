@@ -1,9 +1,12 @@
 import {
   ComponentFactory,
   ComponentFactoryResolver,
+  ComponentRef,
   Injectable,
-  ViewContainerRef,
+  RendererFactory2,
 } from '@angular/core';
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import {
   OutletPosition,
   OutletService,
@@ -15,11 +18,12 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 @Injectable({ providedIn: 'root' })
 export class OutletRenderStrategy extends LaunchRenderStrategy {
   constructor(
+    protected rendererFactory: RendererFactory2,
     protected outletService: OutletService<ComponentFactory<any>>,
     protected componentFactoryResolver: ComponentFactoryResolver,
     protected outletRendererService: OutletRendererService
   ) {
-    super();
+    super(rendererFactory);
   }
 
   /**
@@ -31,9 +35,8 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
    */
   render(
     config: LaunchOutletDialog,
-    caller: LAUNCH_CALLER,
-    vcr?: ViewContainerRef
-  ) {
+    caller: LAUNCH_CALLER
+  ): Observable<ComponentRef<any>> {
     if (this.shouldRender(caller, config)) {
       const template = this.componentFactoryResolver.resolveComponentFactory(
         config.component
@@ -44,9 +47,27 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
         config.position ? config.position : OutletPosition.BEFORE
       );
       this.outletRendererService.render(config.outlet);
+      this.renderedCallers.push({ caller });
 
-      const element = vcr?.element;
-      this.renderedCallers.push({ caller, element });
+      return this.outletRendererService.getOutletRef$(config.outlet).pipe(
+        map((outletDirective) => {
+          const components = outletDirective.renderedComponents.get(
+            config.position ? config.position : OutletPosition.BEFORE
+          ) as ComponentRef<any>[];
+
+          return components
+            .reverse()
+            .find(
+              (component) => component.componentType === template.componentType
+            );
+        }),
+        tap((component) => {
+          if (config.options?.dialogType) {
+            this.applyClasses(component, config.options?.dialogType);
+          }
+        }),
+        distinctUntilChanged()
+      );
     }
   }
 

@@ -1,5 +1,16 @@
-import { ViewContainerRef } from '@angular/core';
-import { LaunchDialog, LaunchOptions, LAUNCH_CALLER } from '../config';
+import {
+  ComponentRef,
+  Renderer2,
+  RendererFactory2,
+  ViewContainerRef,
+} from '@angular/core';
+import { Observable } from 'rxjs';
+import {
+  DIALOG_TYPE,
+  LaunchDialog,
+  LaunchOptions,
+  LAUNCH_CALLER,
+} from '../config';
 
 export abstract class LaunchRenderStrategy {
   // List of called references; only used for rendered elements
@@ -7,6 +18,9 @@ export abstract class LaunchRenderStrategy {
     caller: LAUNCH_CALLER;
     element?: any;
   }> = [];
+  protected renderer: Renderer2;
+
+  constructor(protected rendererFactory: RendererFactory2) {}
 
   /**
    * Render method to implement based on the strategy
@@ -17,7 +31,7 @@ export abstract class LaunchRenderStrategy {
     config: LaunchOptions,
     caller: LAUNCH_CALLER,
     vcr?: ViewContainerRef
-  ): void;
+  ): void | Observable<ComponentRef<any>>;
 
   /**
    * Determines if the strategy is the right one for the provided configuration
@@ -36,6 +50,33 @@ export abstract class LaunchRenderStrategy {
     return this.renderedCallers.some((el) => el.caller === caller)
       ? !!config.multi
       : true;
+  }
+
+  protected applyClasses(
+    component: ComponentRef<any>,
+    dialogType: DIALOG_TYPE
+  ): void {
+    let classes = [];
+
+    // TODO: make classes configurable
+    switch (dialogType) {
+      case DIALOG_TYPE.DIALOG:
+        classes = ['d-block', 'fade', 'modal', 'show'];
+        break;
+      case DIALOG_TYPE.POPOVER:
+        classes = [];
+        break;
+      case DIALOG_TYPE.SIDEBAR_END:
+        classes = [];
+        break;
+      case DIALOG_TYPE.SIDEBAR_START:
+        classes = [];
+        break;
+    }
+
+    for (const newClass of classes) {
+      this.renderer.addClass(component.location.nativeElement, newClass);
+    }
   }
 
   /**
