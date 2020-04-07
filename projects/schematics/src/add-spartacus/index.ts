@@ -22,6 +22,7 @@ import {
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import {
+  ANGULAR_LOCALIZE,
   B2C_STOREFRONT_MODULE,
   SPARTACUS_ASSETS,
   SPARTACUS_CORE,
@@ -111,6 +112,11 @@ function addPackageJsonDependencies(): Rule {
         type: NodeDependencyType.Default,
         version: angularVersion || '~9.1.0',
         name: '@angular/service-worker',
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: angularVersion || '~9.1.0',
+        name: ANGULAR_LOCALIZE,
       },
       {
         type: NodeDependencyType.Default,
