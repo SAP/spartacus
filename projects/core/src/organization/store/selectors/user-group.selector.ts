@@ -34,7 +34,7 @@ export const getUserGroupsState: MemoizedSelector<
   (state: UserGroupManagement) => state && state.entities
 );
 
-export const getUserGroupState = (
+export const getUserGroup = (
   userGroupId: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<UserGroup>> =>
   createSelector(getUserGroupsState, (state: EntityLoaderState<UserGroup>) =>

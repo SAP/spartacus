@@ -9,10 +9,7 @@ import { Budget } from '../../model/budget.model';
 import { EntitiesModel } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
 import { BudgetActions } from '../store/actions/index';
-import {
-  getBudgetState,
-  getBudgetList,
-} from '../store/selectors/budget.selector';
+import { getBudget, getBudgetList } from '../store/selectors/budget.selector';
 import { B2BSearchConfig } from '../model/search-config';
 
 @Injectable()
@@ -34,8 +31,8 @@ export class BudgetService {
     );
   }
 
-  private getBudgetState(budgetCode: string): Observable<LoaderState<Budget>> {
-    return this.store.select(getBudgetState(budgetCode));
+  private getBudget(budgetCode: string): Observable<LoaderState<Budget>> {
+    return this.store.select(getBudget(budgetCode));
   }
 
   private getBudgetList(
@@ -45,7 +42,7 @@ export class BudgetService {
   }
 
   get(budgetCode: string): Observable<Budget> {
-    return this.getBudgetState(budgetCode).pipe(
+    return this.getBudget(budgetCode).pipe(
       observeOn(queueScheduler),
       tap(state => {
         if (!(state.loading || state.success || state.error)) {
