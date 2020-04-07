@@ -17,7 +17,6 @@ import { CardModule } from '../../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
-import { GuestOrderDetailsGuard } from '../../../checkout/guards/guest-order-details.guard';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
@@ -50,7 +49,7 @@ const moduleComponents = [
     RouterModule.forChild([
       {
         path: null,
-        canActivate: [GuestOrderDetailsGuard, CmsPageGuard],
+        canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { pageLabel: 'order', cxRoute: 'orderGuest' },
       },
