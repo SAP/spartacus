@@ -19,7 +19,7 @@ export class UnitAddressCreateComponent {
 
   createAddress(address: B2BAddress) {
     this.orgUnitCode$.pipe(take(1)).subscribe(code => {
-      this.orgUnitService.createAddress(address);
+      this.orgUnitService.createAddress(code, address);
       this.routingService.go({
         cxRoute: 'orgUnitAddressDetails',
         params: { ...address, code },
