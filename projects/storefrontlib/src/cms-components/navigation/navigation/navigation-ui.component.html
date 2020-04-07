@@ -21,6 +21,7 @@
     (mouseenter)="onMouseEnter($event)"
     (keydown.space)="toggleOpen($event)"
     (keydown.esc)="back()"
+    (focusin)="handleFocus($event)"
   >
     <cx-generic-link
       *ngIf="

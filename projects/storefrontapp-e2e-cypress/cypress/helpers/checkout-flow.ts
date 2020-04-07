@@ -405,7 +405,7 @@ export function placeOrderWithCheapProduct(
       'href',
       `/${baseSite}/en/${currency}/terms-and-conditions`
     );
-  cy.get('.form-check-input').check();
+  cy.get('input[formcontrolname="termsAndConditions"]').check();
   const orderConfirmationPage = waitForPage(
     '/order-confirmation',
     'getOrderConfirmationPage',

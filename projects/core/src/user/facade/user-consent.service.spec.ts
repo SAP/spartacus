@@ -12,8 +12,8 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserConsentService } from './user-consent.service';
 
 class MockAuthService {
-  getOccUserId(): Observable<string> {
-    return of(OCC_USER_ID_CURRENT);
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
   }
   isUserLoggedIn(): Observable<boolean> {
     return of(true);
