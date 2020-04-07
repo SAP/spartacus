@@ -203,7 +203,7 @@ describe('MultiCartService', () => {
       });
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.MergeCart({
+        new CartActions.MergeCart({
           userId: 'userId',
           extraData: {},
           cartId: 'cartId',
