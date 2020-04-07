@@ -1,7 +1,6 @@
 import {
   productWithoutVariants,
-  styleVariantProduct,
-  variantProduct
+  styleVariantProduct
 } from '../../sample-data/apparel-checkout-flow';
 import { addCheapProductToCart } from '../checkout-flow';
 
@@ -62,23 +61,4 @@ export function addMutipleProductWithoutVariantToCart() {
     cy.getByText(/view cart/i).click();
   });
   cy.get('cx-breadcrumb').should('contain', 'Your Shopping Bag');
-}
-
-export function displaySummaryPageForOrderWithMultipleProducts() {
-  cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
-  cy.get('h2').should('contain', 'Thank you for your order!');
-  cy.get('.cx-order-review-summary .row').within(() => {
-    cy.get('.col-lg-3:nth-child(1) .cx-card').should('not.be.empty');
-    cy.get('.col-lg-3:nth-child(2) .cx-card').should('not.be.empty');
-    cy.get('.col-lg-3:nth-child(3) .cx-card').within(() => {
-      cy.contains('Standard Delivery');
-    });
-  });
-  cy.get('cx-cart-item .cx-code').should('contain', variantProduct.code);
-  cy.get('cx-cart-item .cx-code').should('contain', styleVariantProduct.code);
-  cy.get('cx-cart-item .cx-code').should(
-    'contain',
-    productWithoutVariants.code
-  );
-  cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
