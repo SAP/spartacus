@@ -12,10 +12,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { AuthActions, AuthService } from '../../../auth/index';
-import {
-  ANONYMOUS_CONSENTS_FEATURE,
-  isFeatureEnabled,
-} from '../../../features-config/index';
 import { UserConsentService } from '../../../user/facade/user-consent.service';
 import { UserActions } from '../../../user/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -75,13 +71,7 @@ export class AnonymousConsentsEffects {
     ofType<AuthActions.LoadUserTokenSuccess>(
       AuthActions.LOAD_USER_TOKEN_SUCCESS
     ),
-    filter(
-      () =>
-        isFeatureEnabled(
-          this.anonymousConsentsConfig,
-          ANONYMOUS_CONSENTS_FEATURE
-        ) && Boolean(this.anonymousConsentsConfig.anonymousConsents)
-    ),
+    filter(() => Boolean(this.anonymousConsentsConfig.anonymousConsents)),
     withLatestFrom(
       this.actions$.pipe(
         ofType<UserActions.RegisterUserSuccess>(
@@ -141,10 +131,6 @@ export class AnonymousConsentsEffects {
     ),
     filter(
       (action) =>
-        isFeatureEnabled(
-          this.anonymousConsentsConfig,
-          ANONYMOUS_CONSENTS_FEATURE
-        ) &&
         Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
         Boolean(
           this.anonymousConsentsConfig.anonymousConsents.requiredConsents

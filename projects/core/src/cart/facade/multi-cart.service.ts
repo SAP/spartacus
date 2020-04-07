@@ -75,7 +75,9 @@ export class MultiCartService {
     userId: string;
     oldCartId?: string;
     toMergeCartGuid?: string;
-    extraData?: any;
+    extraData?: {
+      active?: boolean;
+    };
   }): Observable<ProcessesLoaderState<Cart>> {
     // to support creating multiple carts at the same time we need to use different entity for every process
     // simple random uuid generator is used here for entity names
@@ -97,10 +99,20 @@ export class MultiCartService {
    *
    * @param params Object with userId, cartId and extraData
    */
-  mergeToCurrentCart({ userId, cartId, extraData }) {
+  mergeToCurrentCart({
+    userId,
+    cartId,
+    extraData,
+  }: {
+    userId: string;
+    cartId: string;
+    extraData?: {
+      active?: boolean;
+    };
+  }) {
     const tempCartId = this.generateTempCartId();
     this.store.dispatch(
-      new DeprecatedCartActions.MergeCart({
+      new CartActions.MergeCart({
         userId,
         cartId,
         extraData,
@@ -124,7 +136,7 @@ export class MultiCartService {
     extraData?: any;
   }): void {
     this.store.dispatch(
-      new DeprecatedCartActions.LoadCart({
+      new CartActions.LoadCart({
         userId,
         cartId,
         extraData,
@@ -258,7 +270,7 @@ export class MultiCartService {
    */
   assignEmail(cartId: string, userId: string, email: string): void {
     this.store.dispatch(
-      new DeprecatedCartActions.AddEmailToCart({
+      new CartActions.AddEmailToCart({
         userId,
         cartId,
         email,
