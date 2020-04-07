@@ -11,6 +11,7 @@ let startTime = 0;
  * Waits until order is available in orders API response.
  * @param orderNumber Order number to wait for. Without this parameter it will check if at least one order exists
  * @param contentCatalog Content catalog you are testing
+ * @param currency Currency you are using
  */
 export function waitForOrderToBePlacedRequest(
   orderNumber?: string,
