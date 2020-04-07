@@ -33,7 +33,7 @@ describe('Notification Preference Selectors', () => {
       let result: LoaderState<NotificationPreference[]>;
       store
         .pipe(select(UsersSelectors.getPreferencesLoaderState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -50,7 +50,7 @@ describe('Notification Preference Selectors', () => {
       let result: NotificationPreference[];
       store
         .pipe(select(UsersSelectors.getPreferences))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toEqual([]);
 
       store.dispatch(
@@ -67,7 +67,7 @@ describe('Notification Preference Selectors', () => {
       let result: NotificationPreference[];
       store
         .pipe(select(UsersSelectors.getEnabledPreferences))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toEqual([]);
 
       store.dispatch(
@@ -84,7 +84,7 @@ describe('Notification Preference Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getPreferencesLoading))
-        .subscribe(value => {
+        .subscribe((value) => {
           result = value;
         });
       expect(result).toEqual(false);

@@ -39,7 +39,7 @@ describe('Checkout Selectors', () => {
       let result: Address;
       store
         .pipe(select(CheckoutSelectors.getDeliveryAddress))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({});
 
@@ -69,7 +69,7 @@ describe('Checkout Selectors', () => {
       let result;
       store
         .pipe(select(CheckoutSelectors.getDeliveryMode))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(emptyEntities);
 
@@ -88,7 +88,7 @@ describe('Checkout Selectors', () => {
       let result: DeliveryMode[];
       store
         .pipe(select(CheckoutSelectors.getSupportedDeliveryModes))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 
@@ -107,7 +107,7 @@ describe('Checkout Selectors', () => {
       let result: DeliveryMode;
       store
         .pipe(select(CheckoutSelectors.getSelectedDeliveryMode))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(undefined);
 
@@ -127,7 +127,7 @@ describe('Checkout Selectors', () => {
       let result: string;
       store
         .pipe(select(CheckoutSelectors.getSelectedDeliveryModeCode))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual('');
 
@@ -149,7 +149,7 @@ describe('Checkout Selectors', () => {
 
       store
         .pipe(select(CheckoutSelectors.getPaymentDetails))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({});
 
@@ -170,7 +170,7 @@ describe('Checkout Selectors', () => {
 
       store
         .pipe(select(CheckoutSelectors.getCheckoutOrderDetails))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({});
 

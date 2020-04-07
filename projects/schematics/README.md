@@ -173,8 +173,6 @@ Some examples:
 
 Similar to [constructor deprecation](#Constructor-deprecation), `projects/schematics/src/migrations/2_0/component-deprecations.ts` performs the component migration tasks, for both component _*.ts_ and _HTML_ templates. Usually, a developer does not need to touch this file, and they should rather describe the component deprecation in `projects/schematics/src/migrations/2_0/component-deprecations-data.ts`. The constant `COMPONENT_DEPRECATION_DATA` describes the deprecated components.
 
-If needed, there's a `projects/schematics/src/shared/utils/file-utils.ts#insertHtmlComment` method, to which you can provide a Spartacus component selector, above which the schematic will insert a comment.
-
 #### CSS
 
 To handle CSS changes, we are printing a link to the CSS docs, where customers can look up which CSS selectors have changed between Spartacus versions. For this reason, if making a change to a CSS selector, please update this docs. (link to follow).

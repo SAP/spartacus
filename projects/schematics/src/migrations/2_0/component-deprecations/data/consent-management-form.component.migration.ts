@@ -7,5 +7,9 @@ export const CONSENT_MANAGEMENT_FORM_COMPONENT_MIGRATION: ComponentData = {
   componentClassName: CONSENT_MANAGEMENT_FORM_COMPONENT,
   removedProperties: [
     { name: 'isLevel13', comment: `'isLevel13' property has been removed.` },
+    {
+      name: 'isAnonymousConsentsEnabled',
+      comment: `'isAnonymousConsentsEnabled' property has been removed.`,
+    },
   ],
 };

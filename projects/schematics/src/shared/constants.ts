@@ -1,11 +1,20 @@
 export const UTF_8 = 'utf-8';
 
+/***** Libraries versions start *****/
+
+export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '9.1.0';
+export const ANGULAR_UNIVERSAL_BUILDERS = '9.1.0';
+
+/***** Libraries versions end *****/
+
 /***** Imports start *****/
 export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
 export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
 export const RXJS = 'rxjs';
+export const ANGULAR_COMMON = '@angular/common';
+export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
 
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
@@ -19,6 +28,7 @@ export const NGRX_STORE = '@ngrx/store';
 export const OBSERVABLE_CLASS = 'Observable';
 export const RENDERER_2 = 'Renderer2';
 export const ELEMENT_REF = 'ElementRef';
+export const INJECTOR = 'Injector';
 
 export const STORE = 'Store';
 
@@ -28,6 +38,9 @@ export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 export const ROUTER = 'Router';
+export const WINDOW_REF = 'WindowRef';
+export const LOCATION = 'Location';
+export const COMPONENT_FACTORY_RESOLVER = 'ComponentFactoryResolver';
 
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
@@ -107,6 +120,7 @@ export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
 export const REGISTER_COMPONENT = 'RegisterComponent';
 export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
 export const ANONYMOUS_CONSENTS_CONFIG = 'AnonymousConsentsConfig';
@@ -114,6 +128,16 @@ export const STAR_RATING_COMPONENT = 'StarRatingComponent';
 export const PRODUCT_SERVICE = 'ProductService';
 export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
 export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
+export const URL_MATCHER_SERVICE = 'UrlMatcherService';
+export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
+export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
+export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
+export const ASM_ENABLER_SERVICE = 'AsmEnablerService';
+export const OUTLET_SERVICE = 'OutletService';
+export const LAUNCH_DIALOG_SERVICE = 'LaunchComponentService';
+export const USER_INTERESTS_SERVICE = 'UserInterestsService';
+export const USER_NOTIFICATION_PREFERENCE_SERVICE =
+  'UserNotificationPreferenceService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -144,6 +168,8 @@ export const SITE_CONTEXT_PARAMS_PROVIDERS = 'siteContextParamsProviders';
 export const INIT_SITE_CONTEXT_ROUTES_HANDLER = 'initSiteContextRoutesHandler';
 export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
+
+export const URL_MATCHER_FACTORY_SERVICE = 'UrlMatcherFactoryService';
 
 export const ANONYMOUS_USERID_CONST = 'ANONYMOUS_USERID';
 

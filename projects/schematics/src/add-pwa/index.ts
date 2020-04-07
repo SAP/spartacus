@@ -11,21 +11,7 @@ import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import { of } from 'rxjs';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
-import { getTsSourceFile } from '../shared/utils/file-utils';
-
-function getLineFromTSFile(
-  host: Tree,
-  modulePath: string,
-  position: number
-): [number, number] {
-  const tsFile = getTsSourceFile(host, modulePath);
-
-  const lac = tsFile.getLineAndCharacterOfPosition(position);
-  const lineStart = tsFile.getPositionOfLineAndCharacter(lac.line, 0);
-  const nextLineStart = tsFile.getPositionOfLineAndCharacter(lac.line + 1, 0);
-
-  return [lineStart, nextLineStart - lineStart];
-}
+import { getLineFromTSFile } from '../shared/utils/file-utils';
 
 function removeServiceWorkerSetup(host: Tree, modulePath: string) {
   const buffer = host.read(modulePath);

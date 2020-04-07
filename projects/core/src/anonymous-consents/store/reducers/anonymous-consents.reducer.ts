@@ -15,7 +15,7 @@ export function toggleConsentStatus(
     return [];
   }
 
-  return consents.map(consent => {
+  return consents.map((consent) => {
     if (consent.templateCode === templateCode) {
       consent = {
         ...consent,

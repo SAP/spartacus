@@ -23,7 +23,7 @@ export class ContentPageMetaResolver extends PageMetaResolver
   /** helper to provie access to the current CMS page */
   protected cms$: Observable<Page> = this.cms
     .getCurrentPage()
-    .pipe(filter(p => Boolean(p)));
+    .pipe(filter((p) => Boolean(p)));
 
   constructor(
     protected cms: CmsService,
@@ -38,7 +38,7 @@ export class ContentPageMetaResolver extends PageMetaResolver
    * from the backend data.
    */
   resolveTitle(): Observable<string> {
-    return this.cms$.pipe(map(p => p.title));
+    return this.cms$.pipe(map((p) => p.title));
   }
 
   /**
@@ -48,6 +48,6 @@ export class ContentPageMetaResolver extends PageMetaResolver
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
     return this.translation
       .translate('common.home')
-      .pipe(map(label => [{ label: label, link: '/' }] as BreadcrumbMeta[]));
+      .pipe(map((label) => [{ label: label, link: '/' }] as BreadcrumbMeta[]));
   }
 }

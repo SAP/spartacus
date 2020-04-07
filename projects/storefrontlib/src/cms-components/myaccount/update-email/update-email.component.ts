@@ -29,7 +29,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.userService
         .getUpdateEmailResultSuccess()
-        .subscribe(success => this.onSuccess(success))
+        .subscribe((success) => this.onSuccess(success))
     );
     this.isLoading$ = this.userService.getUpdateEmailResultLoading();
   }

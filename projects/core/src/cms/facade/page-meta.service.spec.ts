@@ -147,10 +147,7 @@ describe('PageMetaService', () => {
     const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
     spyOn(resolver, 'resolveTitle').and.callThrough();
 
-    service
-      .getMeta()
-      .subscribe()
-      .unsubscribe();
+    service.getMeta().subscribe().unsubscribe();
 
     expect(resolver.resolveTitle).toHaveBeenCalled();
   });
@@ -162,7 +159,7 @@ describe('PageMetaService', () => {
     let result: PageMeta;
     service
       .getMeta()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
@@ -175,7 +172,7 @@ describe('PageMetaService', () => {
     let result: PageMeta;
     service
       .getMeta()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
@@ -256,7 +253,7 @@ describe('Custom PageTitleService', () => {
     let result: CustomPageMeta;
     service
       .getMeta()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result.keywords).toEqual(KEYWORDS);

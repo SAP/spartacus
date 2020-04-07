@@ -39,7 +39,7 @@ describe('Customer Support Agent Token Selectors', () => {
     let result: LoaderState<UserToken>;
     store
       .pipe(select(AsmSelectors.getCustomerSupportAgentTokenState))
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual({
@@ -55,7 +55,7 @@ describe('Customer Support Agent Token Selectors', () => {
 
     store
       .pipe(select(AsmSelectors.getCustomerSupportAgentToken))
-      .subscribe(value => (result = value));
+      .subscribe((value) => (result = value));
     expect(result).toEqual(undefined);
 
     store.dispatch(
@@ -70,7 +70,7 @@ describe('Customer Support Agent Token Selectors', () => {
 
     store
       .pipe(select(AsmSelectors.getCustomerSupportAgentTokenLoading))
-      .subscribe(value => (result = value));
+      .subscribe((value) => (result = value));
     expect(result).toEqual(false);
 
     store.dispatch(

@@ -31,7 +31,7 @@ describe('User consents selectors', () => {
       let result: LoaderState<ConsentTemplate[]>;
       store
         .pipe(select(UsersSelectors.getConsentsState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -49,7 +49,7 @@ describe('User consents selectors', () => {
       let result: ConsentTemplate[];
       store
         .pipe(select(UsersSelectors.getConsentsValue))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(consents);
@@ -62,7 +62,7 @@ describe('User consents selectors', () => {
       let result: ConsentTemplate;
       store
         .pipe(select(UsersSelectors.getConsentByTemplateId(consents[0].id)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(consents[0]);
@@ -75,7 +75,7 @@ describe('User consents selectors', () => {
       let result = false;
       store
         .pipe(select(UsersSelectors.getConsentsLoading))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -88,7 +88,7 @@ describe('User consents selectors', () => {
       let result = false;
       store
         .pipe(select(UsersSelectors.getConsentsSuccess))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -101,7 +101,7 @@ describe('User consents selectors', () => {
       let result = false;
       store
         .pipe(select(UsersSelectors.getConsentsError))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);

@@ -84,7 +84,7 @@ describe('ProductService', () => {
         })
       );
       let isLoading: boolean;
-      service.isLoading('testId').subscribe(value => {
+      service.isLoading('testId').subscribe((value) => {
         isLoading = value;
       });
       expect(isLoading).toBeTruthy();
@@ -99,7 +99,7 @@ describe('ProductService', () => {
         })
       );
       let hasError: boolean;
-      service.hasError('testId').subscribe(value => {
+      service.hasError('testId').subscribe((value) => {
         hasError = value;
       });
       expect(hasError).toBeTruthy();
@@ -114,7 +114,7 @@ describe('ProductService', () => {
         })
       );
       let isSuccess: boolean;
-      service.isSuccess('testId').subscribe(value => {
+      service.isSuccess('testId').subscribe((value) => {
         isSuccess = value;
       });
       expect(isSuccess).toBeTruthy();

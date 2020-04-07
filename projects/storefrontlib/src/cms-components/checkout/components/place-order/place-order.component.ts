@@ -35,7 +35,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.placeOrderSubscription = this.checkoutService
       .getOrderDetails()
-      .pipe(filter(order => Object.keys(order).length !== 0))
+      .pipe(filter((order) => Object.keys(order).length !== 0))
       .subscribe(() => {
         this.routingService.go({ cxRoute: 'orderConfirmation' });
       });

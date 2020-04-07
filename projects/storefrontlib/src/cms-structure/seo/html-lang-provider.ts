@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, Provider } from '@angular/core';
-import { WindowRef, LanguageService } from '@spartacus/core';
+import { LanguageService, WindowRef } from '@spartacus/core';
 
 export const htmlLangProvider: Provider = {
   provide: APP_INITIALIZER,
@@ -16,7 +16,7 @@ export function setHtmlLangAttribute(
   languageService: LanguageService
 ) {
   const result = () => {
-    languageService.getActive().subscribe(lang => {
+    languageService.getActive().subscribe((lang) => {
       winRef.document.documentElement.lang = lang.replace(/_/g, '-');
     });
   };
