@@ -10,6 +10,7 @@ import {
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { UpdateEmailFormComponent } from './update-email-form/update-email-form.component';
 import { UpdateEmailComponent } from './update-email.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { UpdateEmailComponent } from './update-email.component';
     ReactiveFormsModule,
     SpinnerModule,
     I18nModule,
+    FormErrorsModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

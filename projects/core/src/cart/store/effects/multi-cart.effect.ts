@@ -9,38 +9,11 @@ import { CartActions } from '../actions/index';
 @Injectable()
 export class MultiCartEffects {
   @Effect()
-  loadCart2$: Observable<CartActions.LoadMultiCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.LOAD_CART),
-    map(
-      (action: DeprecatedCartActions.LoadCart) =>
-        new CartActions.LoadMultiCart(action.payload)
-    )
-  );
-
-  @Effect()
   setTempCart$ = this.actions$.pipe(
     ofType(CartActions.SET_TEMP_CART),
     map((action: CartActions.SetTempCart) => {
       return new CartActions.RemoveTempCart(action.payload);
     })
-  );
-
-  @Effect()
-  mergeCart2$: Observable<CartActions.MergeMultiCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.MERGE_CART),
-    map(
-      (action: DeprecatedCartActions.MergeCart) =>
-        new CartActions.MergeMultiCart(action.payload)
-    )
-  );
-
-  @Effect()
-  addEmail2$: Observable<CartActions.AddEmailToMultiCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.ADD_EMAIL_TO_CART),
-    map(
-      (action: CartActions.AddEmailToCart) =>
-        new CartActions.AddEmailToMultiCart(action.payload)
-    )
   );
 
   @Effect()
@@ -57,14 +30,12 @@ export class MultiCartEffects {
     CartActions.CartProcessesIncrement
   > = this.actions$.pipe(
     ofType(
-      DeprecatedCartActions.ADD_EMAIL_TO_CART,
       CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE,
       CartActions.CART_ADD_VOUCHER
     ),
     map(
       (
         action:
-          | DeprecatedCartActions.AddEmailToCart
           | CheckoutActions.ClearCheckoutDeliveryMode
           | CartActions.CartAddVoucher
       ) => action.payload

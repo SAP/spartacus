@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { FormUtils } from '../../../../shared/utils/forms/form-utils';
 import { UpdateEmailFormComponent } from './update-email-form.component';
 
 describe('UpdateEmailFormComponent', () => {
@@ -27,26 +26,13 @@ describe('UpdateEmailFormComponent', () => {
     el = fixture.debugElement;
     fixture.detectChanges();
 
-    newUid = component.form.controls.email;
-    confirmNewUid = component.form.controls.confirmEmail;
-    password = component.form.controls.password;
+    newUid = component.updateEmailForm.controls.email;
+    confirmNewUid = component.updateEmailForm.controls.confirmEmail;
+    password = component.updateEmailForm.controls.password;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('isNotValid', () => {
-    it('should delegate to FormUtils.isNotValidField()', () => {
-      spyOn(FormUtils, 'isNotValidField').and.stub();
-
-      component.isNotValid('email');
-      expect(FormUtils.isNotValidField).toHaveBeenCalledWith(
-        component.form,
-        'email',
-        component['submited']
-      );
-    });
   });
 
   describe('onSubmit', () => {
@@ -58,17 +44,17 @@ describe('UpdateEmailFormComponent', () => {
       expect(component.onSubmit).toHaveBeenCalled();
     });
 
-    it('should NOT emit submited event if the form is not valid', () => {
+    it('should NOT emit submitted event if the form is not valid', () => {
       spyOn(component, 'onSubmit').and.stub();
       spyOn(component.saveEmail, 'emit').and.stub();
 
       component.onSubmit();
 
-      expect(component.form.valid).toBeFalsy();
+      expect(component.updateEmailForm.valid).toBeFalsy();
       expect(component.saveEmail.emit).not.toHaveBeenCalled();
     });
 
-    it('should emit submited event for valid form', () => {
+    it('should emit submitted event for valid form', () => {
       spyOn(component.saveEmail, 'emit').and.stub();
 
       newUid.setValue('tester@sap.com');
@@ -77,7 +63,7 @@ describe('UpdateEmailFormComponent', () => {
       fixture.detectChanges();
 
       component.onSubmit();
-      expect(component.form.valid).toBeTruthy();
+      expect(component.updateEmailForm.valid).toBeTruthy();
       expect(component.saveEmail.emit).toHaveBeenCalled();
     });
   });
@@ -94,65 +80,6 @@ describe('UpdateEmailFormComponent', () => {
       spyOn(component.cancelEmail, 'emit').and.stub();
       component.onCancel();
       expect(component.cancelEmail.emit).toHaveBeenCalled();
-    });
-  });
-
-  describe('when the form is invalid', () => {
-    it('should display an error message', () => {
-      newUid.setValue('');
-      confirmNewUid.setValue('');
-      password.setValue('');
-
-      const submitBtn = el.query(By.css('button[type="submit"]'));
-      submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
-      fixture.detectChanges();
-
-      const error = el.queryAll(By.css('.form-group .invalid-feedback span'));
-
-      expect(error).toBeTruthy();
-
-      expect(error[0].nativeElement.innerText).not.toEqual('');
-      expect(error[1].nativeElement.innerText).not.toEqual('');
-    });
-  });
-
-  describe('when the email is invalid', () => {
-    it('should display an error message', () => {
-      newUid.setValue('tester@sap');
-      confirmNewUid.setValue('tester@sap');
-      password.setValue('Qwe123!');
-
-      const submitBtn = el.query(By.css('button[type="submit"]'));
-      submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
-      fixture.detectChanges();
-
-      const error = el.query(
-        By.css('.form-group:nth-of-type(1) .invalid-feedback span')
-      );
-
-      expect(error).toBeTruthy();
-
-      expect(error.nativeElement.innerText).not.toEqual('');
-    });
-  });
-
-  describe('when the email does not match', () => {
-    it('should display an error message', () => {
-      newUid.setValue('tester@sap.com');
-      confirmNewUid.setValue('fake@sap.com');
-      password.setValue('Qwe123!');
-
-      const submitBtn = el.query(By.css('button[type="submit"]'));
-      submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
-      fixture.detectChanges();
-
-      const error = el.query(
-        By.css('.form-group:nth-of-type(2) .invalid-feedback span')
-      );
-
-      expect(error).toBeTruthy();
-
-      expect(error.nativeElement.innerText).not.toEqual('');
     });
   });
 });

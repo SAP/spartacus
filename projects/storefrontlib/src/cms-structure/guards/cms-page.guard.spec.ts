@@ -9,7 +9,7 @@ import {
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { NEVER, of } from 'rxjs';
 import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
@@ -44,6 +44,8 @@ class MockCmsGuardsService {
   cmsPageCanActivate = jasmine
     .createSpy('cmsPageCanActivate')
     .and.returnValue(of(true));
+
+  shouldForceRefreshPage = () => true;
 }
 
 class MockProtectedRoutesGuard {
@@ -53,6 +55,8 @@ class MockProtectedRoutesGuard {
 class MockSemanticPathService {
   get() {}
 }
+
+const mockContext = { id: 'testPageId', type: PageType.CONTENT_PAGE };
 
 const mockRouteSnapshot: CmsActivatedRouteSnapshot = { data: {} } as any;
 
@@ -75,7 +79,7 @@ describe('CmsPageGuard', () => {
 
     routingService = TestBed.inject(RoutingService);
     spyOn(routingService, 'getNextPageContext').and.returnValue(
-      of({ id: 'testPageId', type: PageType.CONTENT_PAGE })
+      of(mockContext)
     );
   });
 
@@ -209,7 +213,7 @@ describe('CmsPageGuard', () => {
         expect(result).toEqual(false);
         expect(cmsRoutes.cmsRouteExist).toHaveBeenCalledWith('/testPageLabel');
         expect(cmsRoutes.handleCmsRoutesInGuard).toHaveBeenCalledWith(
-          { id: 'testPageId', type: 'ContentPage' } as any,
+          mockContext,
           mockPageComponentTypes,
           '/test',
           '/testPageLabel'
@@ -217,4 +221,40 @@ describe('CmsPageGuard', () => {
       }
     ));
   });
+
+  it('should take into account loading strategy', inject(
+    [CmsService, CmsPageGuard, CmsGuardsService],
+    (
+      cmsService: CmsService,
+      cmsPageGuard: CmsPageGuard,
+      cmsGuardsService: CmsGuardsService
+    ) => {
+      spyOn(cmsService, 'getPage').and.returnValue(NEVER);
+      spyOn(cmsGuardsService, 'shouldForceRefreshPage').and.returnValue(true);
+      cmsPageGuard
+        .canActivate(mockRouteSnapshot, undefined)
+        .subscribe()
+        .unsubscribe();
+
+      expect(cmsService.getPage).toHaveBeenCalledWith(mockContext, true);
+    }
+  ));
+
+  it('should take into account loading strategy when disabled', inject(
+    [CmsService, CmsPageGuard, CmsGuardsService],
+    (
+      cmsService: CmsService,
+      cmsPageGuard: CmsPageGuard,
+      cmsGuardsService: CmsGuardsService
+    ) => {
+      spyOn(cmsService, 'getPage').and.returnValue(NEVER);
+      spyOn(cmsGuardsService, 'shouldForceRefreshPage').and.returnValue(false);
+      cmsPageGuard
+        .canActivate(mockRouteSnapshot, undefined)
+        .subscribe()
+        .unsubscribe();
+
+      expect(cmsService.getPage).toHaveBeenCalledWith(mockContext, false);
+    }
+  ));
 });
