@@ -21,6 +21,6 @@ export const getCardTypesEntites: MemoizedSelector<
 export const getAllCardTypes: MemoizedSelector<
   StateWithCheckout,
   CardType[]
-> = createSelector(getCardTypesEntites, entites => {
-  return Object.keys(entites).map(code => entites[code]);
+> = createSelector(getCardTypesEntites, (entites) => {
+  return Object.keys(entites).map((code) => entites[code]);
 });

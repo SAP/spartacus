@@ -48,7 +48,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     response: HttpErrorResponse
   ) {
     this.getErrors(response)
-      .filter(error => error.type === 'PasswordMismatchError')
+      .filter((error) => error.type === 'PasswordMismatchError')
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'httpHandlers.badRequestOldPasswordIncorrect' },
@@ -62,8 +62,8 @@ export class BadRequestHandler extends HttpErrorHandler {
     response: HttpErrorResponse
   ): void {
     this.getErrors(response)
-      .filter(e => e.type === 'ValidationError')
-      .forEach(error => {
+      .filter((e) => e.type === 'ValidationError')
+      .forEach((error) => {
         this.globalMessageService.add(
           {
             key: `httpHandlers.validationErrors.${error.reason}.${error.subject}`,
@@ -78,7 +78,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     response: HttpErrorResponse
   ): void {
     this.getErrors(response)
-      .filter(e => e.subjectType === 'cart' && e.reason === 'notFound')
+      .filter((e) => e.subjectType === 'cart' && e.reason === 'notFound')
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'httpHandlers.cartNotFound' },
@@ -89,7 +89,7 @@ export class BadRequestHandler extends HttpErrorHandler {
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      error => error.type !== 'JaloObjectNoLongerValidError'
+      (error) => error.type !== 'JaloObjectNoLongerValidError'
     );
   }
 }

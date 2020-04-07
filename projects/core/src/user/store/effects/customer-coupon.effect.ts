@@ -17,7 +17,7 @@ export class CustomerCouponEffects {
     map(
       (action: fromCustomerCouponsAction.LoadCustomerCoupons) => action.payload
     ),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.customerCouponConnector
         .getCustomerCoupons(
           payload.userId,
@@ -31,7 +31,7 @@ export class CustomerCouponEffects {
               coupons
             );
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new fromCustomerCouponsAction.LoadCustomerCouponsFail(
                 makeErrorSerializable(error)
@@ -51,7 +51,7 @@ export class CustomerCouponEffects {
       (action: fromCustomerCouponsAction.SubscribeCustomerCoupon) =>
         action.payload
     ),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.customerCouponConnector
         .turnOnNotification(payload.userId, payload.couponCode)
         .pipe(
@@ -60,7 +60,7 @@ export class CustomerCouponEffects {
               data
             );
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
                 makeErrorSerializable(error)
@@ -80,7 +80,7 @@ export class CustomerCouponEffects {
       (action: fromCustomerCouponsAction.UnsubscribeCustomerCoupon) =>
         action.payload
     ),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.customerCouponConnector
         .turnOffNotification(payload.userId, payload.couponCode)
         .pipe(
@@ -89,7 +89,7 @@ export class CustomerCouponEffects {
               payload.couponCode
             );
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
                 makeErrorSerializable(error)
@@ -108,16 +108,16 @@ export class CustomerCouponEffects {
     map(
       (action: fromCustomerCouponsAction.ClaimCustomerCoupon) => action.payload
     ),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.customerCouponConnector
         .claimCustomerCoupon(payload.userId, payload.couponCode)
         .pipe(
-          map(data => {
+          map((data) => {
             return new fromCustomerCouponsAction.ClaimCustomerCouponSuccess(
               data
             );
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new fromCustomerCouponsAction.ClaimCustomerCouponFail(
                 makeErrorSerializable(error)

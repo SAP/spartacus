@@ -113,7 +113,7 @@ describe('TabParagraphContainerComponent', () => {
     );
     let childComponents: any[];
     component.components$
-      .subscribe(components => (childComponents = components))
+      .subscribe((components) => (childComponents = components))
       .unsubscribe();
 
     for (let i = 0; i < childComponents.length; i++) {
@@ -153,9 +153,9 @@ describe('TabParagraphContainerComponent', () => {
     component.ngAfterViewInit();
 
     let param = '';
-    component.tabTitleParams.forEach(param$ => {
+    component.tabTitleParams.forEach((param$) => {
       if (param$ != null) {
-        param$.subscribe(value => (param = value)).unsubscribe();
+        param$.subscribe((value) => (param = value)).unsubscribe();
       }
     });
 

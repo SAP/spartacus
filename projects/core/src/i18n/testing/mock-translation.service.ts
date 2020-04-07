@@ -10,7 +10,7 @@ export class MockTranslationService implements TranslationService {
     options: any = {},
     _whitespaceUntilLoaded: boolean = false
   ): Observable<string> {
-    return new Observable<string>(subscriber => {
+    return new Observable<string>((subscriber) => {
       const value = mockTranslate(key, options);
       subscriber.next(value);
       subscriber.complete();

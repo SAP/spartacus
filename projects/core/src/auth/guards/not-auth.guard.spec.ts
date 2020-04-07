@@ -65,7 +65,7 @@ describe('NotAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(false);
@@ -73,10 +73,7 @@ describe('NotAuthGuard', () => {
 
     it('should redirect to homepage', () => {
       spyOn(routing, 'go');
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(routing.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     });
   });
@@ -92,7 +89,7 @@ describe('NotAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(true);
@@ -100,18 +97,12 @@ describe('NotAuthGuard', () => {
 
     it('should not redirect to home', () => {
       spyOn(routing, 'go');
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(routing.go).not.toHaveBeenCalled();
     });
 
     it('should notify AuthRedirectService with the current navigation', () => {
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(authRedirectService.reportNotAuthGuard).toHaveBeenCalled();
     });
   });

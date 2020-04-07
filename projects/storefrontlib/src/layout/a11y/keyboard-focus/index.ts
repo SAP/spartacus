@@ -1,13 +1,17 @@
-export * from './autofocus/index';
-export * from './base/index';
-export * from './block/index';
-export * from './escape/index';
+// given that we're likely going to refactor the directives, we're
+// NOT exposing all it to the public API.
 export * from './focus.directive';
-export * from './keyboard-focus.model';
+export { FocusConfig } from './keyboard-focus.model';
 export * from './keyboard-focus.module';
-export * from './lock/index';
-export * from './persist/index';
 export * from './services/index';
-export * from './tab/index';
-export * from './trap/index';
-export * from './visible/index';
+
+// export * from './autofocus/index';
+// export * from './base/index';
+// export * from './block/index';
+// export * from './escape/index';
+// export * from './lock/index';
+// export * from './persist/index';
+// export * from './tab/index';
+// export * from './trap/index';
+// export * from './visible/index';
+// export * from './keyboard-focus.model';

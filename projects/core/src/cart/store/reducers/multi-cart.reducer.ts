@@ -10,15 +10,11 @@ export function activeCartReducer(
   action: CartActions.CartAction | CartActions.MultiCartActions
 ): string {
   switch (action.type) {
-    case CartActions.LOAD_MULTI_CART_SUCCESS:
-    case CartActions.CREATE_MULTI_CART_SUCCESS:
+    case CartActions.LOAD_CART_SUCCESS:
+    case CartActions.CREATE_CART_SUCCESS:
     // point to `temp-${uuid}` cart when we are creating/merging cart
-    case CartActions.CREATE_MULTI_CART:
-      if (
-        action.payload &&
-        action.payload.extraData &&
-        action.payload.extraData.active
-      ) {
+    case CartActions.CREATE_CART:
+      if (action?.payload?.extraData?.active) {
         return action.meta.entityId as string;
       } else {
         return state;
@@ -44,8 +40,8 @@ export function cartEntitiesReducer(
   action: LoaderAction
 ): Cart {
   switch (action.type) {
-    case CartActions.LOAD_MULTI_CART_SUCCESS:
-    case CartActions.CREATE_MULTI_CART_SUCCESS:
+    case CartActions.LOAD_CART_SUCCESS:
+    case CartActions.CREATE_CART_SUCCESS:
     case CartActions.CREATE_WISH_LIST_SUCCESS:
     case CartActions.LOAD_WISH_LIST_SUCCESS:
     case CartActions.SET_TEMP_CART:

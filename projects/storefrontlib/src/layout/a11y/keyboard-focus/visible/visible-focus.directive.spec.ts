@@ -1,14 +1,42 @@
-import { Component, DebugElement, Directive } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  Directive,
+  ElementRef,
+  Input,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BaseFocusService } from '../base/base-focus.service';
+import { VisibleFocusConfig } from '../keyboard-focus.model';
 import { VisibleFocusDirective } from './visible-focus.directive';
+
+@Directive({
+  selector: '[cxVisibleFocus]',
+})
+class CustomFocusDirective extends VisibleFocusDirective {
+  @Input('cxVisibleFocus') protected config: VisibleFocusConfig;
+
+  constructor(
+    protected elementRef: ElementRef<HTMLElement>,
+    protected service: BaseFocusService
+  ) {
+    super(elementRef, service);
+  }
+}
 
 @Directive({
   selector: '[cxCustomFocus]',
 })
-class CustomFocusDirective extends VisibleFocusDirective {
+class CustomFakeFocusDirective extends VisibleFocusDirective {
   protected defaultConfig = {};
+
+  constructor(
+    protected elementRef: ElementRef<HTMLElement>,
+    protected service: BaseFocusService
+  ) {
+    super(elementRef, service);
+  }
 }
 
 @Component({
@@ -34,8 +62,8 @@ describe('VisibleFocusDirective', () => {
     TestBed.configureTestingModule({
       declarations: [
         MockComponent,
-        VisibleFocusDirective,
         CustomFocusDirective,
+        CustomFakeFocusDirective,
       ],
       providers: [
         {
@@ -57,6 +85,7 @@ describe('VisibleFocusDirective', () => {
       host = fixture.debugElement.query(By.css('#a'));
       fixture.detectChanges();
     });
+
     it('should not have "mouse-focus" class on the host by default', () => {
       expect((host.nativeElement as HTMLElement).classList).not.toContain(
         'mouse-focus'

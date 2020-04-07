@@ -50,7 +50,7 @@ describe('anonymous consent templates selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesState)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -74,7 +74,7 @@ describe('anonymous consent templates selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesValue)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(mockConsentTemplates);
@@ -91,7 +91,7 @@ describe('anonymous consent templates selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesLoading)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -110,7 +110,7 @@ describe('anonymous consent templates selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesSuccess)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -129,7 +129,7 @@ describe('anonymous consent templates selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesError)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -152,7 +152,7 @@ describe('anonymous consent templates selectors', () => {
             )
           )
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(mockConsentTemplates[0]);

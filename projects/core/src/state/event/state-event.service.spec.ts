@@ -50,7 +50,7 @@ describe('StateEventService', () => {
         });
         const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
         const results = [];
-        registeredSource$.subscribe(e => results.push(e));
+        registeredSource$.subscribe((e) => results.push(e));
 
         mockActionsSubject$.next({ type: 'A', payload: 1 });
         mockActionsSubject$.next({ type: 'B', payload: 2 });
@@ -72,7 +72,7 @@ describe('StateEventService', () => {
         });
         const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
         const results = [];
-        registeredSource$.subscribe(e => results.push(e));
+        registeredSource$.subscribe((e) => results.push(e));
 
         mockActionsSubject$.next({ type: 'A', payload: 1 });
         mockActionsSubject$.next({ type: 'B', payload: 2 });
@@ -92,7 +92,7 @@ describe('StateEventService', () => {
         });
         const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
         const results = [];
-        registeredSource$.subscribe(e => results.push(e));
+        registeredSource$.subscribe((e) => results.push(e));
 
         mockActionsSubject$.next({ type: 'A', payload: 1 });
         mockActionsSubject$.next({ type: 'B', payload: 2 });
