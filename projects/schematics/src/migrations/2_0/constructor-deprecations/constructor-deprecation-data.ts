@@ -47,6 +47,9 @@ import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-noti
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
+import { PRODUCT_REVIEWS_COMPONENT_MIGRATION } from './data/product-reviews.component.migration';
+import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
+import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -99,4 +102,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CUSTOMER_COUPON_SERVICE_MIGRATION,
   USER_INTERESTS_SERVICE_MIGRATION,
   USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION,
+  PRODUCT_REVIEWS_COMPONENT_MIGRATION,
+  SEARCH_BOX_COMPONENT_MIGRATION,
+  ADDRESS_BOOK_COMPONENT_MIGRATION
 ];

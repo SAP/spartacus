@@ -138,6 +138,10 @@ export const LAUNCH_DIALOG_SERVICE = 'LaunchComponentService';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';
 export const USER_NOTIFICATION_PREFERENCE_SERVICE =
   'UserNotificationPreferenceService';
+export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
+export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
+export const CMS_SEARCH_BOX_COMPONENT = `CmsSearchBoxComponent`;
+export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
 /***** Classes end *****/
 
 /***** Removed public api start *****/
