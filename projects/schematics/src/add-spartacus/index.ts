@@ -2,7 +2,6 @@ import { experimental } from '@angular-devkit/core';
 import { italic, red } from '@angular-devkit/core/src/terminal';
 import {
   chain,
-  externalSchematic,
   noop,
   Rule,
   SchematicContext,
@@ -327,7 +326,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(project, options) : noop(),
       installPackageJsonDependencies(),
-      externalSchematic(ANGULAR_LOCALIZE, 'ng-add', {}),
     ])(tree, context);
   };
 }
