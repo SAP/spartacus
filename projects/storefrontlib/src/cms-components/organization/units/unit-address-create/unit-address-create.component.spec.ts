@@ -11,9 +11,8 @@ import {
   OrgUnitService,
   Currency,
   CurrencyService,
-  B2BUnitNode,
   LanguageService,
-  B2BUnit,
+  B2BAddress,
 } from '@spartacus/core';
 
 import { UnitAddressCreateComponent } from './unit-address-create.component';
@@ -22,34 +21,30 @@ import { UnitFormModule } from '../unit-form/unit-form.module';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
 
-const orgUnitCode = 'b1';
+const orgUnitId = 'b1';
+const addressId = 'a1';
 
-const mockOrgUnit: B2BUnit = {
-  uid: orgUnitCode,
-  name: 'orgUnit1',
+const mockAddress: Partial<B2BAddress> = {
+  id: addressId,
+  firstName: 'orgUnit1',
 };
 
-const mockOrgUnits: B2BUnitNode[] = [
-  {
-    active: true,
-    children: [],
-    id: 'unitNode1',
-    name: 'Org Unit 1',
-    parent: 'parentUnit',
-  },
-];
+const mockAddresses = [mockAddress];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
-  getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
   create = createSpy('create');
   getApprovalProcesses = createSpy('getApprovalProcesses');
+  createAddress = createSpy('createAddress');
+  loadAddresses = createSpy('loadAddresses');
+  getAddress = createSpy('getAddress').and.returnValue(of(mockAddress));
+  getAddresses = createSpy('getAddresses').and.returnValue(of(mockAddresses));
 }
 
 const mockRouterState = {
   state: {
     params: {
-      orgUnitCode,
+      code: orgUnitId,
     },
   },
 };
@@ -92,7 +87,7 @@ class LanguageServiceStub {
   }
 }
 
-describe('OrgUnitCreateComponent', () => {
+describe('UnitAddressCreateComponent', () => {
   let component: UnitAddressCreateComponent;
   let fixture: ComponentFixture<UnitAddressCreateComponent>;
   let orgUnitsService: MockOrgUnitService;
@@ -129,13 +124,13 @@ describe('OrgUnitCreateComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('createOrgUnit', () => {
-    it('should create orgUnit', () => {
-      component.createOrgUnit(mockOrgUnit);
-      expect(orgUnitsService.create).toHaveBeenCalledWith(mockOrgUnit);
+  describe('createAddress', () => {
+    it('should create orgUnit Address', () => {
+      component.createAddress(mockAddress);
+      expect(orgUnitsService.create).toHaveBeenCalledWith(mockAddress);
       expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'orgUnitDetails',
-        params: mockOrgUnit,
+        cxRoute: 'orgUnitManageAddresses',
+        params: { code: orgUnitId },
       });
     });
   });

@@ -1,12 +1,4 @@
-import {
-  Pipe,
-  PipeTransform,
-  Type,
-  Input,
-  Output,
-  EventEmitter,
-  Component,
-} from '@angular/core';
+import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -14,14 +6,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   RoutingService,
-  EntitiesModel,
-  B2BSearchConfig,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
-  Budget,
   OrgUnitService,
-  B2BUser,
+  B2BAddress,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -29,43 +17,8 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
 import { UnitManageAddressesComponent } from './unit-manage-addresses.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
 
-const code = 'unitCode';
-const email = 'aaa@bbb';
 const roleId = 'b2bcustomergroup';
-const userRow = {
-  row: {
-    email,
-  },
-};
-
-const defaultParams: B2BSearchConfig = {
-  sort: 'byName',
-  currentPage: 0,
-  pageSize: 5,
-};
-
-const mockUserList: EntitiesModel<B2BUser> = {
-  values: [
-    {
-      name: 'b1',
-      uid: 'aaa@bbb',
-      selected: true,
-      orgUnit: { uid: 'orgUid', name: 'orgName' },
-      roles: [],
-    },
-    {
-      name: 'b2',
-      uid: 'aaa2@bbb',
-      selected: false,
-      orgUnit: { uid: 'orgUid2', name: 'orgName2' },
-      roles: [],
-    },
-  ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
-  sorts: [{ code: 'byName', selected: true }],
-};
 
 const mockUserUIList = {
   values: [
@@ -89,14 +42,7 @@ const mockUserUIList = {
   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
-@Component({
-  template: '',
-  selector: 'cx-pagination',
-})
-class MockPaginationComponent {
-  @Input() pagination;
-  @Output() viewPageEvent = new EventEmitter<string>();
-}
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -104,16 +50,21 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-const userList = new BehaviorSubject(mockUserList);
+const code = 'b1';
+const addressId = 'a1';
+
+const mockAddress: Partial<B2BAddress> = {
+  id: addressId,
+  firstName: 'orgUnit1',
+};
+
+const mockAddresses = [mockAddress];
+const addressList = new BehaviorSubject(mockAddresses);
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadUsers = createSpy('loadUsers');
-
-  getUsers = createSpy('getUsers').and.returnValue(userList);
-
-  assignRole = createSpy('assign');
-
-  unassignRole = createSpy('unassign');
+  loadAddresses = createSpy('loadAddresses');
+  getAddress = createSpy('getAddress').and.returnValue(of(mockAddress));
+  getAddresses = createSpy('getAddresses').and.returnValue(of(mockAddresses));
 }
 
 class MockRoutingService {
@@ -141,12 +92,6 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
 describe('UnitAssignRolesComponent', () => {
   let component: UnitManageAddressesComponent;
   let fixture: ComponentFixture<UnitManageAddressesComponent>;
@@ -155,22 +100,11 @@ describe('UnitAssignRolesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
-      declarations: [
-        UnitManageAddressesComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-      ],
+      declarations: [UnitManageAddressesComponent, MockUrlPipe],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        {
-          provide: PaginationConfig,
-          useValue: {
-            pagination: {},
-          },
-        },
       ],
     }).compileComponents();
 
@@ -180,7 +114,7 @@ describe('UnitAssignRolesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UnitManageAddressesComponent);
     component = fixture.componentInstance;
-    userList.next(mockUserList);
+    addressList.next(mockAddresses);
     fixture.detectChanges();
   });
 
@@ -189,38 +123,26 @@ describe('UnitAssignRolesComponent', () => {
   });
 
   it('should display No budgets found page if no budgets are found', () => {
-    const emptyBudgetList: EntitiesModel<Budget> = {
-      values: [],
-      pagination: { totalResults: 0, sort: 'byName' },
-      sorts: [{ code: 'byName', selected: true }],
-    };
+    const emptyAddressList = [];
 
-    userList.next(emptyBudgetList);
+    addressList.next(emptyAddressList);
     fixture.detectChanges();
 
     expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
   });
 
   describe('ngOnInit', () => {
-    it('should read budget list', () => {
+    it('should read addresses list', () => {
       component.ngOnInit();
 
-      let usersList: any;
+      let addressesList: any;
       component.data$.subscribe(value => {
-        usersList = value;
+        addressesList = value;
       });
 
-      expect(orgUnitService.loadUsers).toHaveBeenCalledWith(
-        code,
-        roleId,
-        defaultParams
-      );
-      expect(orgUnitService.getUsers).toHaveBeenCalledWith(
-        code,
-        roleId,
-        defaultParams
-      );
-      expect(usersList).toEqual(mockUserUIList);
+      expect(orgUnitService.loadAddresses).toHaveBeenCalledWith(code);
+      expect(orgUnitService.getAddresses).toHaveBeenCalledWith(code);
+      expect(addressesList).toEqual(mockUserUIList);
     });
   });
 });

@@ -17,7 +17,7 @@ import { B2BAddress, OrgUnitService, RoutingService } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitAddressDetailsComponent implements OnInit {
-  address$: Observable<B2BAddress | { orgUnitId: string }>;
+  address$: Observable<any>;
   orgUnitCode$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(map(routingData => routingData.state.params['code']));

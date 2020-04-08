@@ -1,18 +1,19 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of, BehaviorSubject, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import {
   I18nTestingModule,
   OrgUnitService,
-  B2BUnitNode,
-  B2BApprovalProcess,
-  Currency,
-  CurrencyService,
-  B2BUnit,
+  B2BAddress,
+  Country,
+  Title,
+  Region,
+  UserAddressService,
+  UserService,
 } from '@spartacus/core';
 
 import { UnitAddressFormComponent } from './unit-address-form.component';
@@ -20,64 +21,82 @@ import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
 
-const mockApprovalProcesses: B2BApprovalProcess[] = [
-  { code: 'testCode', name: 'testName' },
+class MockUserService {
+  getTitles(): Observable<Title[]> {
+    return of();
+  }
+
+  loadTitles(): void {}
+}
+
+class MockUserAddressService {
+  getDeliveryCountries(): Observable<Country[]> {
+    return of();
+  }
+
+  loadDeliveryCountries(): void {}
+
+  getRegions(): Observable<Region[]> {
+    return of();
+  }
+}
+
+const mockTitles: Title[] = [
+  {
+    code: 'mr',
+    name: 'Mr.',
+  },
+  {
+    code: 'mrs',
+    name: 'Mrs.',
+  },
 ];
 
-const mockOrgUnit: B2BUnit = {
-  uid: 'b1',
-  name: 'orgUnit1',
-  active: true,
-  parentOrgUnit: { uid: 'code' },
-  approvalProcess: mockApprovalProcesses[0],
+const mockCountries: Country[] = [
+  {
+    isocode: 'AD',
+    name: 'Andorra',
+  },
+  {
+    isocode: 'RS',
+    name: 'Serbia',
+  },
+];
+const mockRegions: Region[] = [
+  {
+    isocode: 'CA-ON',
+    name: 'Ontario',
+  },
+  {
+    isocode: 'CA-QC',
+    name: 'Quebec',
+  },
+];
+
+const addressId = 'a1';
+
+const mockAddress: Partial<B2BAddress> = {
+  id: addressId,
+  firstName: 'John',
+  lastName: 'Doe',
+  titleCode: 'mr',
+  line1: 'Toyosaki 2 create on cart',
+  line2: 'line2',
+  town: 'town',
+  region: { isocode: 'JP-27' },
+  postalCode: 'zip',
+  country: { isocode: 'JP' },
 };
 
-const mockOrgUnits: B2BUnitNode[] = [
-  {
-    active: true,
-    children: [],
-    id: 'unitNode1',
-    name: 'Org Unit 1',
-    parent: 'parentUnit',
-  },
-  {
-    active: true,
-    children: [],
-    id: 'unitNode2',
-    name: 'Org Unit 2',
-    parent: 'parentUnit',
-  },
-];
+const mockAddresses = [mockAddress];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
-  getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
   loadOrgUnit = createSpy('loadOrgUnit');
-  get = createSpy('get').and.returnValue(of(mockOrgUnit));
   update = createSpy('update');
-  loadApprovalProcesses = createSpy('loadApprovalProcesses');
-  getApprovalProcesses = createSpy('getApprovalProcesses').and.returnValue(
-    of(mockApprovalProcesses)
-  );
-}
-
-const mockCurrencies: Currency[] = [
-  { active: true, isocode: 'USD', name: 'Dolar', symbol: '$' },
-  { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
-];
-const mockActiveCurr = new BehaviorSubject('USD');
-
-class MockCurrencyService implements Partial<CurrencyService> {
-  getAll = jasmine
-    .createSpy('getAll')
-    .and.returnValue(of(mockCurrencies.values));
-  getActive(): Observable<string> {
-    return mockActiveCurr;
-  }
-  setActive(isocode: string) {
-    mockActiveCurr.next(isocode);
-    return mockActiveCurr.subscribe();
-  }
+  loadAddresses = createSpy('loadAddresses');
+  getAddress = createSpy('getAddress').and.returnValue(of(mockAddress));
+  getAddresses = createSpy('getAddresses').and.returnValue(of(mockAddresses));
 }
 
 @Pipe({
@@ -90,7 +109,8 @@ class MockUrlPipe implements PipeTransform {
 describe('OrgUnitFormComponent', () => {
   let component: UnitAddressFormComponent;
   let fixture: ComponentFixture<UnitAddressFormComponent>;
-  let orgUnitService: OrgUnitService;
+  let userService: UserService;
+  let userAddressService: UserAddressService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -103,12 +123,14 @@ describe('OrgUnitFormComponent', () => {
       ],
       declarations: [UnitAddressFormComponent, MockUrlPipe],
       providers: [
-        { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: UserService, useClass: MockUserService },
+        { provide: UserAddressService, useClass: MockUserAddressService },
       ],
     }).compileComponents();
 
-    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    userService = TestBed.inject(UserService);
+    userAddressService = TestBed.inject(UserAddressService);
   }));
 
   beforeEach(() => {
@@ -122,34 +144,46 @@ describe('OrgUnitFormComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should load currencies', () => {
+    it('should load titles', () => {
       component.ngOnInit();
-      let approvalProcesses: any;
-      component.approvalProcesses$
+      let titles: any;
+      component.titles$
         .subscribe(value => {
-          approvalProcesses = value;
+          titles = value;
         })
         .unsubscribe();
 
-      expect(orgUnitService.getApprovalProcesses).toHaveBeenCalled();
-      expect(approvalProcesses).toEqual(mockApprovalProcesses);
+      expect(userService.getTitles).toHaveBeenCalled();
+      expect(titles).toEqual(mockTitles);
     });
 
-    it('should load businessUnits', () => {
+    it('should load countries', () => {
       component.ngOnInit();
-      let businessUnits: any;
-      component.businessUnits$
+      let countries: any;
+      component.countries$
         .subscribe(value => {
-          businessUnits = value;
+          countries = value;
         })
         .unsubscribe();
-      expect(orgUnitService.getList).toHaveBeenCalled();
-      expect(businessUnits).toEqual(mockOrgUnits);
+      expect(userAddressService.getDeliveryCountries).toHaveBeenCalled();
+      expect(countries).toEqual(mockCountries);
+    });
+
+    it('should load regions', () => {
+      component.ngOnInit();
+      let regions: any;
+      component.regions$
+        .subscribe(value => {
+          regions = value;
+        })
+        .unsubscribe();
+      expect(this.userAddressService.getRegions).toHaveBeenCalled();
+      expect(regions).toEqual(mockRegions);
     });
 
     it('should setup clean form', () => {
       spyOn(component.form, 'patchValue');
-      component.orgUnitData = null;
+      component.addressData = null;
       component.ngOnInit();
       expect(component.form.patchValue).not.toHaveBeenCalled();
       expect(component.form.valid).toBeFalsy();
@@ -157,14 +191,14 @@ describe('OrgUnitFormComponent', () => {
 
     it('should setup form for update', () => {
       spyOn(component.form, 'patchValue').and.callThrough();
-      component.orgUnitData = mockOrgUnit;
+      component.addressData = mockAddress;
       component.ngOnInit();
-      expect(component.form.patchValue).toHaveBeenCalledWith(mockOrgUnit);
+      expect(component.form.patchValue).toHaveBeenCalledWith(mockAddress);
       expect(component.form.valid).toBeTruthy();
     });
   });
 
-  describe('verifyOrgUnit', () => {
+  describe('verifyAddress', () => {
     it('should not emit value if form is invalid', () => {
       spyOn(component.submit, 'emit');
       const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
@@ -174,7 +208,7 @@ describe('OrgUnitFormComponent', () => {
 
     it('should emit value if form is valid', () => {
       spyOn(component.submit, 'emit');
-      component.orgUnitData = mockOrgUnit;
+      component.addressData = mockAddress;
       component.ngOnInit();
       const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
       submitButton.triggerEventHandler('click', null);

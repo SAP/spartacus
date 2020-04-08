@@ -10,7 +10,8 @@ import {
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
-  B2BUnit,
+  // B2BUnit,
+  B2BAddress,
 } from '@spartacus/core';
 
 import { UnitAddressDetailsComponent } from './unit-address-details.component';
@@ -19,23 +20,31 @@ import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing
 import { TableModule } from '../../../../shared/components/table/table.module';
 
 const code = 'b1';
+const addressId = 'a1';
 
-const mockOrgUnit: B2BUnit = {
-  uid: code,
-  name: 'orgUnit1',
+const mockAddress: Partial<B2BAddress> = {
+  id: addressId,
+  firstName: 'orgUnit1',
 };
+
+const mockAddresses = [mockAddress];
+
+class MockOrgUnitService implements Partial<OrgUnitService> {
+  loadOrgUnits = createSpy('loadOrgUnits');
+  create = createSpy('create');
+  getApprovalProcesses = createSpy('getApprovalProcesses');
+  createAddress = createSpy('createAddress');
+  loadAddresses = createSpy('loadAddresses');
+  deleteAddress = createSpy('deleteAddress');
+  getAddress = createSpy('getAddress').and.returnValue(of(mockAddress));
+  getAddresses = createSpy('getAddresses').and.returnValue(of(mockAddresses));
+}
 
 @Pipe({
   name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
-}
-
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnit = createSpy('loadOrgUnit');
-  get = createSpy('get').and.returnValue(of(mockOrgUnit));
-  update = createSpy('update');
 }
 
 const mockRouterState = {
@@ -66,7 +75,7 @@ class MockCxDatePipe {
   }
 }
 
-describe('OrgUnitDetailsComponent', () => {
+describe('UnitAddressDetailsComponent', () => {
   let component: UnitAddressDetailsComponent;
   let fixture: ComponentFixture<UnitAddressDetailsComponent>;
   let orgUnitsService: MockOrgUnitService;
@@ -101,32 +110,28 @@ describe('OrgUnitDetailsComponent', () => {
   describe('ngOnInit', () => {
     it('should load orgUnit', () => {
       component.ngOnInit();
-      let orgUnit: any;
-      component.orgUnit$
+      let address: any;
+      component.address$
         .subscribe(value => {
-          orgUnit = value;
+          address = value;
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(orgUnitsService.loadOrgUnit).toHaveBeenCalledWith(code);
-      expect(orgUnitsService.get).toHaveBeenCalledWith(code);
-      expect(orgUnit).toEqual(mockOrgUnit);
+      expect(orgUnitsService.loadAddresses).toHaveBeenCalledWith(code);
+      expect(orgUnitsService.getAddress).toHaveBeenCalledWith(code);
+      expect(address).toEqual(mockAddress);
     });
   });
 
-  describe('update', () => {
-    it('should update orgUnit', () => {
+  describe('deleteAddress', () => {
+    it('should deleteAddress', () => {
       component.ngOnInit();
 
-      component.update({ active: false });
-      expect(orgUnitsService.update).toHaveBeenCalledWith(code, {
-        active: false,
-      });
-
-      component.update({ active: true });
-      expect(orgUnitsService.update).toHaveBeenCalledWith(code, {
-        active: true,
-      });
+      component.deleteAddress();
+      expect(orgUnitsService.deleteAddress).toHaveBeenCalledWith(
+        code,
+        mockAddress.id
+      );
     });
   });
 });
