@@ -53,7 +53,7 @@ context('Product Configuration', () => {
       cy.wait(1500);
       goToCart();
       cy.wait(1500);
-      //We assume only one product is in the cartå
+      //We assume only one product is in the cart
       configuration.clickOnConfigureCartEntryButton();
       configuration.verifyConfigurationPageIsDisplayed();
     });
@@ -335,7 +335,7 @@ context('Product Configuration', () => {
       configuration.selectAttribute('WEC_DC_ENGINE', 'radioGroup', 'D');
 
       configuration.verifyTotalPrice('22,900.00');
-      configuration.clickAddToCartButton(); //In this case it is the updatecart button, the CSS Selector is the same, therefor we can use this method
+      configuration.clickAddToCartButton(); //In this case it is the update cart button, the CSS Selector is the same, therefor we can use this method
 
       cy.wait(1500);
       cart.checkProductInCart({ name: testProductPricing, price: 22900 }, 1);
