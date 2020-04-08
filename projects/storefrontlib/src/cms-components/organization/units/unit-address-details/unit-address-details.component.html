@@ -5,17 +5,17 @@
         <h3>{{ 'unitAddressDetails.header' | cxTranslate }}</h3>
       </div>
       <div class="row ">
-        <div class="col-6">{{ 'orgUnit.uid' | cxTranslate }}</div>
+        <div class="col-6">{{ 'unitAddressDetails.id' | cxTranslate }}</div>
         <div class="col-6">{{ address.id }}</div>
       </div>
       <div class="row">
-        <div class="col-6">{{ 'orgUnit.name' | cxTranslate }}</div>
+        <div class="col-6">{{ 'unitAddressDetails.name' | cxTranslate }}</div>
         <div class="col-6 cx-label">
           {{ address.firstName }} {{ address.lastName }}
         </div>
       </div>
       <div class="row">
-        <div class="col-6">{{ 'orgUnit.parentUnit' | cxTranslate }}</div>
+        <div class="col-6">{{ 'unitAddressDetails.unit' | cxTranslate }}</div>
         <div class="col-6">
           <a
             [routerLink]="
@@ -30,7 +30,9 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-6">{{ 'orgUnit.details' | cxTranslate }}</div>
+        <div class="col-6">
+          {{ 'unitAddressDetails.details' | cxTranslate }}
+        </div>
         <div class="col-6 cx-label">
           {{ address.formattedAddress }}
         </div>
@@ -48,12 +50,12 @@
             "
             class="btn btn-primary btn-block"
           >
-            {{ 'orgUnit.edit' | cxTranslate }}
+            {{ 'unitAddressDetails.edit' | cxTranslate }}
           </a>
         </div>
         <div class="col-md-12 col-lg-6">
           <button (click)="deleteAddress()" class="btn btn-secondary btn-block">
-            {{ 'orgUnit.delete' | cxTranslate }}
+            {{ 'unitAddressDetails.delete' | cxTranslate }}
           </button>
         </div>
         <div class="col-md-12 col-lg-6">
@@ -66,7 +68,7 @@
             "
             class="btn btn-secondary btn-block"
           >
-            {{ 'orgUnit.back' | cxTranslate }}
+            {{ 'unitAddressDetails.back' | cxTranslate }}
           </a>
         </div>
       </div>
