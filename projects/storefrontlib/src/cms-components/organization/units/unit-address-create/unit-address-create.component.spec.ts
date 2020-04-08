@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import {
   I18nTestingModule,
@@ -9,9 +9,6 @@ import {
   RoutesConfig,
   RoutingConfig,
   OrgUnitService,
-  Currency,
-  CurrencyService,
-  LanguageService,
   B2BAddress,
 } from '@spartacus/core';
 
@@ -97,7 +94,10 @@ describe('UnitAddressCreateComponent', () => {
   describe('createAddress', () => {
     it('should create orgUnit Address', () => {
       component.createAddress(mockAddress);
-      expect(orgUnitService.createAddress).toHaveBeenCalledWith(mockAddress);
+      expect(orgUnitService.createAddress).toHaveBeenCalledWith(
+        orgUnitId,
+        mockAddress
+      );
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'orgUnitManageAddresses',
         params: { code: orgUnitId },
