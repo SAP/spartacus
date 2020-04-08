@@ -143,7 +143,9 @@ describe('ConfiguratorEffect', () => {
           },
         ],
       },
-      groups: [{ id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] }],
+      groups: [
+        { id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] },
+      ],
     };
 
     payloadInputUpdateConfiguration = {

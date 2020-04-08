@@ -59,6 +59,6 @@ export class OccConfiguratorVariantOverviewNormalizer
     this.translation
       .translate('configurator.group.general')
       .pipe(take(1))
-      .subscribe(generalText => (group.groupDescription = generalText));
+      .subscribe((generalText) => (group.groupDescription = generalText));
   }
 }

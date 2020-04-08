@@ -247,9 +247,9 @@ export class MultiCartService {
         // MultiCartSelectors.getCartEntrySelectorFactory(cartId, productCode)
         MultiCartSelectors.getCartEntriesSelectorFactory(cartId)
       ),
-      map(entries => {
+      map((entries) => {
         const filteredEntries = entries.filter(
-          entry => entry.product.code === productCode
+          (entry) => entry.product.code === productCode
         );
         return filteredEntries.length > 0 ? filteredEntries[0] : undefined;
       })
