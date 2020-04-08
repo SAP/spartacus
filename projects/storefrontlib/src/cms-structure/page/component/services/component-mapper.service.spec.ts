@@ -1,9 +1,14 @@
-import { Component, NgModule, PLATFORM_ID, Renderer2 } from '@angular/core';
+import {
+  Component,
+  ComponentFactory,
+  NgModule,
+  PLATFORM_ID,
+  Renderer2,
+} from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { CmsConfig } from '@spartacus/core';
 import { ComponentMapperService } from './component-mapper.service';
-
-// const createSpy = jasmine.createSpy;
+import { ComponentType } from '../model/component-type.model';
 
 @Component({
   selector: 'cx-test',
@@ -21,13 +26,14 @@ class TestModule {}
 const MockCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     CMSTestComponent: { component: TestComponent },
+    CMSTestNoSSRComponent: { component: TestComponent, disableSSR: true },
     CMSWebComponent: { component: 'path/to/file.js#cms-component' },
     CMSEagerWebComponent: { component: '#cms-eager-component' },
   },
 };
 
 describe('ComponentMapperService', () => {
-  // let mapperService: ComponentMapperService;
+  let service: ComponentMapperService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,79 +42,105 @@ describe('ComponentMapperService', () => {
         ComponentMapperService,
         { provide: CmsConfig, useValue: MockCmsModuleConfig },
         Renderer2,
-        { provide: PLATFORM_ID, useValue: 'no-browser' },
       ],
     });
-
-    // mapperService = TestBed.inject(ComponentMapperService);
   });
 
-  it('should ComponentMapperService is injected', inject(
+  it('should inject ComponentMapperService', inject(
     [ComponentMapperService],
-    (service: ComponentMapperService) => {
-      expect(service).toBeTruthy();
+    (srv: ComponentMapperService) => {
+      expect(srv).toBeTruthy();
     }
   ));
 
-  // describe('isWebComponent', () => {
-  //   it('should return false to angular component', inject(
-  //     [ComponentMapperService],
-  //     (service: ComponentMapperService) => {
-  //       expect(service.isWebComponent('CMSTestComponent')).toBeFalsy();
-  //     }
-  //   ));
-  //
-  //   it('should return true to web component', inject(
-  //     [ComponentMapperService],
-  //     (service: ComponentMapperService) => {
-  //       expect(service.isWebComponent('CMSWebComponent')).toBeTruthy();
-  //     }
-  //   ));
-  // });
+  describe('getComponent', () => {
+    beforeEach(() => {
+      service = TestBed.inject(ComponentMapperService);
+    });
 
-  // describe('initWebComponent', () => {
-  //   let mockRenderer: Renderer2;
-  //   let mockScriptElement;
-  //
-  //   beforeEach(() => {
-  //     mockScriptElement = { setAttribute: createSpy(), onload: undefined };
-  //
-  //     mockRenderer = {
-  //       createElement: createSpy().and.returnValue(mockScriptElement),
-  //       appendChild: createSpy(),
-  //     } as any;
-  //   });
-  //
-  //   it('should return selector and initialize scripts', async () => {
-  //     const selector = await mapperService.initWebComponent(
-  //       'CMSWebComponent',
-  //       mockRenderer
-  //     );
-  //     expect(selector).toEqual('cms-component');
-  //     expect(mockRenderer.createElement).toHaveBeenCalledWith('script');
-  //     expect(mockRenderer.appendChild).toHaveBeenCalled();
-  //     expect(mockScriptElement.setAttribute).toHaveBeenCalledWith(
-  //       'src',
-  //       'path/to/file.js'
-  //     );
-  //   });
-  //
-  //   it('should return selector for eagerly loaded web components', async () => {
-  //     const selector = await mapperService.initWebComponent(
-  //       'CMSEagerWebComponent',
-  //       mockRenderer
-  //     );
-  //     expect(selector).toEqual('cms-eager-component');
-  //     expect(mockRenderer.createElement).not.toHaveBeenCalled();
-  //     expect(mockRenderer.appendChild).not.toHaveBeenCalled();
-  //     expect(mockScriptElement.setAttribute).not.toHaveBeenCalled();
-  //   });
-  //
-  //   it('should return true to web component', inject(
-  //     [ComponentMapperService],
-  //     (service: ComponentMapperService) => {
-  //       expect(service.isWebComponent('CMSWebComponent')).toBeTruthy();
-  //     }
-  //   ));
-  // });
+    it('should return component data if present', () => {
+      const component = service.getComponent('CMSTestComponent');
+      expect(component).toBe(
+        MockCmsModuleConfig.cmsComponents.CMSTestComponent.component
+      );
+    });
+    it('should return null if component is not configured', () => {
+      const component = service.getComponent('Unknown');
+      expect(component).toBeNull();
+    });
+  });
+
+  describe('getComponentFactoryByCode', () => {
+    beforeEach(() => {
+      service = TestBed.inject(ComponentMapperService);
+    });
+
+    it('should return component factory', () => {
+      const factory = service.getComponentFactoryByCode('CMSTestComponent');
+      console.log(factory);
+      expect(factory instanceof ComponentFactory).toBeTruthy();
+    });
+
+    it('should return null when mapping is not configured', () => {
+      const factory = service.getComponentFactoryByCode('Unknown');
+      expect(factory).toBeNull();
+    });
+  });
+
+  describe('shouldRenderComponent', () => {
+    describe('for server', () => {
+      beforeEach(() => {
+        TestBed.configureTestingModule({
+          providers: [{ provide: PLATFORM_ID, useValue: 'server' }],
+        });
+        service = TestBed.inject(ComponentMapperService);
+      });
+
+      it('should return false for disableSSR ', () => {
+        expect(
+          service.shouldRenderComponent('CMSTestNoSSRComponent')
+        ).toBeFalsy();
+      });
+      it('should return true without disableSSR', () => {
+        expect(service.shouldRenderComponent('CMSTestComponent')).toBeTruthy();
+      });
+    });
+    describe('for browser', () => {
+      beforeEach(() => {
+        service = TestBed.inject(ComponentMapperService);
+      });
+
+      it('should return true for disableSSR ', () => {
+        expect(
+          service.shouldRenderComponent('CMSTestNoSSRComponent')
+        ).toBeTruthy();
+      });
+      it('should return true without disableSSR ', () => {
+        expect(service.shouldRenderComponent('CMSTestComponent')).toBeTruthy();
+      });
+    });
+  });
+
+  describe('getComponentType', () => {
+    beforeEach(() => {
+      service = TestBed.inject(ComponentMapperService);
+    });
+
+    it('should detect component', () => {
+      expect(service.getComponentType('CMSTestComponent')).toBe(
+        ComponentType.CmsComponent
+      );
+    });
+    it('should detect web component', () => {
+      expect(service.getComponentType('CMSWebComponent')).toBe(
+        ComponentType.WebComponent
+      );
+    });
+
+    it('should detect eager web component', () => {
+      expect(service.getComponentType('CMSEagerWebComponent')).toBe(
+        ComponentType.WebComponent
+      );
+    });
+  });
 });
