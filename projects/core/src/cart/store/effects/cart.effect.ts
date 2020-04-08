@@ -266,17 +266,14 @@ export class CartEffects {
 
   @Effect()
   resetCartDetailsOnSiteContextChange$: Observable<
-    DeprecatedCartActions.ResetCartDetails | CartActions.ResetMultiCartDetails
+    CartActions.ResetCartDetails
   > = this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
       SiteContextActions.CURRENCY_CHANGE
     ),
     mergeMap(() => {
-      return [
-        new DeprecatedCartActions.ResetCartDetails(),
-        new CartActions.ResetMultiCartDetails(),
-      ];
+      return [new CartActions.ResetCartDetails()];
     })
   );
 

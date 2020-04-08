@@ -4,14 +4,11 @@ import { EntitySuccessAction } from '../../../state/utils/entity-loader/entity-l
 import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
-  EntityProcessesLoaderResetAction,
 } from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
 import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const REMOVE_TEMP_CART = '[Multi Cart] Remove Temp Cart';
-
-export const RESET_MULTI_CART_DETAILS = '[Multi Cart] Reset Cart Details';
 
 export const SET_TEMP_CART = '[Multi Cart] Set Temp Cart';
 
@@ -40,13 +37,6 @@ export class SetTempCart extends EntitySuccessAction {
   readonly type = SET_TEMP_CART;
   constructor(public payload: { cart: Cart; tempCartId: string }) {
     super(MULTI_CART_DATA, payload.tempCartId, payload.cart);
-  }
-}
-
-export class ResetMultiCartDetails extends EntityProcessesLoaderResetAction {
-  readonly type = RESET_MULTI_CART_DETAILS;
-  constructor() {
-    super(MULTI_CART_DATA, undefined);
   }
 }
 
@@ -86,7 +76,6 @@ export class ClearMultiCartState extends EntityRemoveAction {
 export type MultiCartActions =
   | RemoveTempCart
   | SetTempCart
-  | ResetMultiCartDetails
   | RemoveCart
   | CartProcessesIncrement
   | CartProcessesDecrement

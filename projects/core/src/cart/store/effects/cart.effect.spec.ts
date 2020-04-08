@@ -324,13 +324,11 @@ describe('Cart effect', () => {
     siteContextChangeActions.forEach((actionName) => {
       it(`should reset cart details on ${actionName}`, () => {
         const action = new SiteContextActions[actionName]();
-        const resetCartDetailsCompletion = new DeprecatedCartActions.ResetCartDetails();
-        const resetMultiCartDetailsCompletion = new CartActions.ResetMultiCartDetails();
+        const resetCartDetailsCompletion = new CartActions.ResetCartDetails();
 
         actions$ = hot('-a', { a: action });
-        const expected = cold('-(bc)', {
+        const expected = cold('-b', {
           b: resetCartDetailsCompletion,
-          c: resetMultiCartDetailsCompletion,
         });
 
         expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(

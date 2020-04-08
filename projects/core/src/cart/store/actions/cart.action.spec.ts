@@ -255,6 +255,10 @@ describe('Cart Actions', () => {
       const action = new CartActions.ResetCartDetails();
       expect({ ...action }).toEqual({
         type: CartActions.RESET_CART_DETAILS,
+        meta: StateEntityProcessesLoaderActions.entityProcessesLoaderResetMeta(
+          MULTI_CART_DATA,
+          undefined
+        ),
       });
     });
   });

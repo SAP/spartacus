@@ -58,19 +58,6 @@ describe('MultiCart Actions', () => {
     });
   });
 
-  describe('ResetMultiCartDetails', () => {
-    it('should create the action', () => {
-      const action = new CartActions.ResetMultiCartDetails();
-      expect({ ...action }).toEqual({
-        type: CartActions.RESET_MULTI_CART_DETAILS,
-        meta: StateEntityProcessesLoaderActions.entityProcessesLoaderResetMeta(
-          MULTI_CART_DATA,
-          undefined
-        ),
-      });
-    });
-  });
-
   describe('RemoveCart', () => {
     it('should create the action', () => {
       const payload = 'cartId';

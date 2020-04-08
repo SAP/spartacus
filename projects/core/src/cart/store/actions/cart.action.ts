@@ -8,6 +8,7 @@ import {
 import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
+  EntityProcessesLoaderResetAction,
 } from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
 import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import { MULTI_CART_DATA } from '../multi-cart-state';
@@ -178,9 +179,11 @@ export class MergeCartSuccess extends EntityRemoveAction {
   }
 }
 
-export class ResetCartDetails implements Action {
+export class ResetCartDetails extends EntityProcessesLoaderResetAction {
   readonly type = RESET_CART_DETAILS;
-  constructor() {}
+  constructor() {
+    super(MULTI_CART_DATA, undefined);
+  }
 }
 
 export class ClearExpiredCoupons implements Action {
