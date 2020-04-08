@@ -7,7 +7,6 @@ import {
   B2BUnitNode,
   B2BUser,
   B2BUnit,
-  // B2BAddress,
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
