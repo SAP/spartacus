@@ -18,29 +18,6 @@ import { UnitManageAddressesComponent } from './unit-manage-addresses.component'
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 
-const roleId = 'b2bcustomergroup';
-
-const mockUserUIList = {
-  values: [
-    {
-      name: 'b1',
-      email: 'aaa@bbb',
-      selected: true,
-      parentUnit: 'orgName',
-      uid: 'orgUid',
-      roles: [],
-    },
-    {
-      name: 'b2',
-      email: 'aaa2@bbb',
-      selected: false,
-      uid: 'orgUid2',
-      parentUnit: 'orgName2',
-      roles: [],
-    },
-  ],
-};
-
 @Pipe({
   name: 'cxUrl',
 })
@@ -140,7 +117,7 @@ describe('UnitManageAddressesComponent', () => {
 
       expect(orgUnitService.loadAddresses).toHaveBeenCalledWith(code);
       expect(orgUnitService.getAddresses).toHaveBeenCalledWith(code);
-      expect(addressesList).toEqual(mockUserUIList);
+      expect(addressesList).toEqual(mockAddresses);
     });
   });
 });

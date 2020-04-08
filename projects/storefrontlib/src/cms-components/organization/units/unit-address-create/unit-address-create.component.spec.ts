@@ -56,24 +56,6 @@ class MockRoutingService {
   );
 }
 
-const mockCurrencies: Currency[] = [
-  { active: true, isocode: 'USD', name: 'Dolar', symbol: '$' },
-  { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
-];
-const mockActiveCurr = 'USD';
-const MockCurrencyService = {
-  active: mockActiveCurr,
-  getAll(): Observable<Currency[]> {
-    return of(mockCurrencies);
-  },
-  getActive(): Observable<string> {
-    return of(this.active);
-  },
-  setActive(isocode: string): void {
-    this.active = isocode;
-  },
-};
-
 const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 class MockRoutingConfig {
   getRouteConfig(routeName: string) {
@@ -81,16 +63,10 @@ class MockRoutingConfig {
   }
 }
 
-class LanguageServiceStub {
-  getActive(): Observable<string> {
-    return of();
-  }
-}
-
 describe('UnitAddressCreateComponent', () => {
   let component: UnitAddressCreateComponent;
   let fixture: ComponentFixture<UnitAddressCreateComponent>;
-  let orgUnitsService: MockOrgUnitService;
+  let orgUnitService: MockOrgUnitService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -98,19 +74,13 @@ describe('UnitAddressCreateComponent', () => {
       imports: [I18nTestingModule, UnitFormModule, RouterTestingModule],
       declarations: [UnitAddressCreateComponent],
       providers: [
-        {
-          provide: LanguageService,
-          useClass: LanguageServiceStub,
-        },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CurrencyService, useValue: MockCurrencyService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
       ],
     }).compileComponents();
 
-    orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
@@ -127,7 +97,7 @@ describe('UnitAddressCreateComponent', () => {
   describe('createAddress', () => {
     it('should create orgUnit Address', () => {
       component.createAddress(mockAddress);
-      expect(orgUnitsService.create).toHaveBeenCalledWith(mockAddress);
+      expect(orgUnitService.createAddress).toHaveBeenCalledWith(mockAddress);
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'orgUnitManageAddresses',
         params: { code: orgUnitId },
