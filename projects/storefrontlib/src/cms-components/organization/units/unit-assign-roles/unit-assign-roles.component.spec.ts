@@ -202,7 +202,7 @@ describe('UnitAssignRolesComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should read budget list', () => {
+    it('should read user list', () => {
       component.ngOnInit();
 
       let usersList: any;
@@ -225,7 +225,7 @@ describe('UnitAssignRolesComponent', () => {
   });
 
   describe('assign', () => {
-    it('should assign budget', () => {
+    it('should assign user', () => {
       component.assign(userRow);
       expect(orgUnitService.assignRole).toHaveBeenCalledWith(
         code,
@@ -236,7 +236,7 @@ describe('UnitAssignRolesComponent', () => {
   });
 
   describe('unassign', () => {
-    it('should unassign budget', () => {
+    it('should unassign user', () => {
       component.unassign(userRow);
       expect(orgUnitService.unassignRole).toHaveBeenCalledWith(
         code,

@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import {
   RoutingService,
-  CxDatePipe,
   EntitiesModel,
   OrgUnitService,
   B2BAddress,
@@ -24,8 +23,7 @@ export class UnitManageAddressesComponent implements OnInit {
 
   constructor(
     protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService,
-    protected cxDate: CxDatePipe
+    protected orgUnitsService: OrgUnitService
   ) {}
 
   private params$: Observable<
@@ -46,7 +44,7 @@ export class UnitManageAddressesComponent implements OnInit {
         this.orgUnitsService.getAddresses(code).pipe(
           filter(Boolean),
           map((addresses: EntitiesModel<B2BAddress>) => ({
-            values: addresses.values.map(address => ({
+            values: addresses?.values.map(address => ({
               id: address.id,
               code,
               name: `${address.firstName} ${address.lastName}`,

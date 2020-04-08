@@ -42,6 +42,7 @@ const mockRouterState = {
   state: {
     params: {
       code,
+      id: addressId,
     },
   },
 };
@@ -103,8 +104,11 @@ describe('UnitAddressEditComponent', () => {
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
       expect(orgUnitsService.loadAddresses).toHaveBeenCalledWith(code);
-      expect(orgUnitsService.getAddress).toHaveBeenCalledWith(code);
-      expect(orgUnit).toEqual(mockAddress);
+      expect(orgUnitsService.getAddress).toHaveBeenCalledWith(
+        code,
+        mockAddress.id
+      );
+      expect(orgUnit).toEqual({ ...mockAddress, orgUnitId: code });
     });
   });
 

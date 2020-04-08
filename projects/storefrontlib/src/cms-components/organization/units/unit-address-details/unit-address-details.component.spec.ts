@@ -27,8 +27,6 @@ const mockAddress: Partial<B2BAddress> = {
   firstName: 'orgUnit1',
 };
 
-const mockAddresses = [mockAddress];
-
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
   create = createSpy('create');
@@ -37,7 +35,6 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   loadAddresses = createSpy('loadAddresses');
   deleteAddress = createSpy('deleteAddress');
   getAddress = createSpy('getAddress').and.returnValue(of(mockAddress));
-  getAddresses = createSpy('getAddresses').and.returnValue(of(mockAddresses));
 }
 
 @Pipe({
@@ -51,6 +48,7 @@ const mockRouterState = {
   state: {
     params: {
       code,
+      id: addressId,
     },
   },
 };
@@ -108,7 +106,7 @@ describe('UnitAddressDetailsComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should load orgUnit', () => {
+    it('should load address', () => {
       component.ngOnInit();
       let address: any;
       component.address$
@@ -118,8 +116,11 @@ describe('UnitAddressDetailsComponent', () => {
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
       expect(orgUnitsService.loadAddresses).toHaveBeenCalledWith(code);
-      expect(orgUnitsService.getAddress).toHaveBeenCalledWith(code);
-      expect(address).toEqual(mockAddress);
+      expect(orgUnitsService.getAddress).toHaveBeenCalledWith(
+        code,
+        mockAddress.id
+      );
+      expect(address).toEqual({ ...mockAddress, orgUnitId: code });
     });
   });
 

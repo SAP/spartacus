@@ -39,8 +39,6 @@ const mockUserUIList = {
       roles: [],
     },
   ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
-  sorts: [{ code: 'byName', selected: true }],
 };
 
 @Pipe({
@@ -58,7 +56,7 @@ const mockAddress: Partial<B2BAddress> = {
   firstName: 'orgUnit1',
 };
 
-const mockAddresses = [mockAddress];
+const mockAddresses = { values: [mockAddress] };
 const addressList = new BehaviorSubject(mockAddresses);
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
@@ -92,7 +90,7 @@ class MockRoutingConfig {
   }
 }
 
-describe('UnitAssignRolesComponent', () => {
+describe('UnitManageAddressesComponent', () => {
   let component: UnitManageAddressesComponent;
   let fixture: ComponentFixture<UnitManageAddressesComponent>;
   let orgUnitService: MockOrgUnitService;
@@ -123,7 +121,7 @@ describe('UnitAssignRolesComponent', () => {
   });
 
   it('should display No budgets found page if no budgets are found', () => {
-    const emptyAddressList = [];
+    const emptyAddressList = { values: [] };
 
     addressList.next(emptyAddressList);
     fixture.detectChanges();
