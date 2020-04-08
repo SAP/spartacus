@@ -4,6 +4,7 @@ import {
   loginRegisteredUser,
 } from './cart';
 import { visitHomePage, waitForPage } from './checkout-flow';
+import { baseEndPoint } from './constants/backend';
 
 interface PaymentDetail {
   accountHolderName: string;
@@ -196,9 +197,7 @@ function addPaymentMethod(paymentDetail: PaymentDetail) {
       const cartid = $cart.text().match(/[0-9]+/)[0];
       cy.request({
         method: 'POST',
-        url: `${Cypress.env(
-          'API_URL'
-        )}/rest/v2/electronics-spa/users/current/carts/${cartid}/paymentdetails`,
+        url: `${baseEndPoint}/users/current/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth

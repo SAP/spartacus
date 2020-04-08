@@ -1,5 +1,6 @@
 import { standardUser } from '../sample-data/shared-users';
 import { waitForPage } from './checkout-flow';
+import { prefixAndBaseSite } from './constants/backend';
 import * as alerts from './global-message';
 import { generateMail, randomString } from './user';
 
@@ -16,7 +17,7 @@ export const CouponWithProducts = 'midautumn';
 export const PageSize = 10;
 export const NumberInPage2 = 1;
 
-export const pageUrl = '/rest/v2/electronics-spa';
+export const pageUrl = prefixAndBaseSite;
 
 export function verifyPagingAndSorting() {
   const firstCouponStartDateAscending = 'customerCoupon1';

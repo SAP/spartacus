@@ -1,5 +1,6 @@
 import { user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
+import { prefixAndBaseSite } from './constants/backend';
 import { checkBanner } from './homepage';
 import { switchLanguage } from './language';
 
@@ -88,10 +89,9 @@ export const orderHistoryTest = {
   checkCorrectDateFormat(isMobile?: boolean) {
     it('should show correct date format', () => {
       cy.server();
-      cy.route(
-        'GET',
-        `/rest/v2/electronics-spa/cms/pages?*/my-account/orders*`
-      ).as('getOrderHistoryPage');
+      cy.route('GET', `${prefixAndBaseSite}/cms/pages?*/my-account/orders*`).as(
+        'getOrderHistoryPage'
+      );
 
       // to compare two dates (EN and DE) we have to compare day numbers
       // EN: "June 15, 2019"

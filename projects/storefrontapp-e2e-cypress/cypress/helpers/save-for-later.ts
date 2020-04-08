@@ -1,6 +1,6 @@
-import { apiUrl } from '../support/utils/login';
 import * as cart from './cart';
 import * as cartCoupon from './cart-coupon';
+import { baseEndPoint } from './constants/backend';
 
 interface TestProduct {
   code: string;
@@ -59,14 +59,14 @@ export function stubForCartsRefresh() {
   stubForCartRefresh();
   cy.route(
     'GET',
-    `${apiUrl}/rest/v2/electronics-spa/users/*/carts/selectivecart*?fields=*&lang=en&curr=USD`
+    `${baseEndPoint}/users/*/carts/selectivecart*?fields=*&lang=en&curr=USD`
   ).as('refresh_selectivecart');
 }
 export function stubForCartRefresh() {
   cy.server();
   cy.route(
     'GET',
-    `${apiUrl}/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
+    `${baseEndPoint}/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
 }
 

@@ -1,3 +1,5 @@
+import { apiUrlAndPrefix, baseSite } from '../../helpers/constants/backend';
+
 const delay = 3000;
 
 // 1 min in milliseconds
@@ -14,16 +16,14 @@ let startTime = 0;
  */
 export function waitForOrderToBePlacedRequest(
   orderNumber?: string,
-  contentCatalog: string = 'electronics-spa'
+  contentCatalog: string = baseSite
 ) {
   const { userId, access_token } = JSON.parse(
     localStorage.getItem('spartacus-local-data')
   ).auth.userToken.token;
   cy.request({
     method: 'GET',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=USD`,
+    url: `${apiUrlAndPrefix}/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${access_token}`,
     },
@@ -51,7 +51,7 @@ export function waitForOrderToBePlacedRequest(
 
 export function waitForOrderWithConsignmentToBePlacedRequest(
   orderNumber?: string,
-  contentCatalog: string = 'electronics-spa',
+  contentCatalog: string = baseSite,
   elapsedTime = 0
 ) {
   const { userId, access_token } = JSON.parse(
@@ -59,9 +59,7 @@ export function waitForOrderWithConsignmentToBePlacedRequest(
   ).auth.userToken.token;
   cy.request({
     method: 'GET',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/${contentCatalog}/users/${userId}/orders/${orderNumber}?pageSize=5&lang=en&curr=USD`,
+    url: `${apiUrlAndPrefix}/${contentCatalog}/users/${userId}/orders/${orderNumber}?pageSize=5&lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${access_token}`,
     },

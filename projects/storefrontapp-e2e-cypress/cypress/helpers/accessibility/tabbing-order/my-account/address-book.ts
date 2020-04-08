@@ -1,3 +1,4 @@
+import { baseEndPoint } from '../../../constants/backend';
 import { verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
@@ -53,9 +54,7 @@ function addAddress() {
 function getAddressRequest(auth, address, verify: boolean) {
   return cy.request({
     method: 'POST',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/current/addresses${
+    url: `${baseEndPoint}/users/current/addresses${
       verify ? '/verification' : ''
     }?lang=en&curr=USD`,
     body: address,
@@ -68,9 +67,7 @@ function getAddressRequest(auth, address, verify: boolean) {
 
 function selectCountryCanada() {
   cy.server();
-  cy.route(
-    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/countries/CA/regions*`
-  ).as('regions');
+  cy.route(`${baseEndPoint}/countries/CA/regions*`).as('regions');
 
   cy.get('cx-address-book .country-select').ngSelect('Canada');
 

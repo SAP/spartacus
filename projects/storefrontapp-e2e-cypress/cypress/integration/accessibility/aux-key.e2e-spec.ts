@@ -1,3 +1,5 @@
+import { baseEndPoint } from '../../helpers/constants/backend';
+
 context('Auxiliary Keys', () => {
   describe('Category Navigation', () => {
     before(() => {
@@ -97,10 +99,7 @@ context('Auxiliary Keys', () => {
 
     it('should make search suggestions', () => {
       cy.server();
-      cy.route(
-        'GET',
-        `${Cypress.env('API_URL')}/rest/v2/electronics-spa/products/search?**`
-      ).as('query');
+      cy.route('GET', `${baseEndPoint}/products/search?**`).as('query');
       cy.get('cx-searchbox input').type('dsa');
       cy.wait('@query');
       cy.get('cx-searchbox a').should('have.length', 6);
@@ -184,9 +183,7 @@ context('Auxiliary Keys', () => {
 
 function loadPageWithComponenents(pageUrl: string) {
   cy.server();
-  cy.route(
-    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
-  ).as('getComponents');
+  cy.route(`${baseEndPoint}/cms/components*`).as('getComponents');
   cy.visit(pageUrl);
   cy.wait('@getComponents');
 }

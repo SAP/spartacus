@@ -1,3 +1,5 @@
+import { baseEndPoint } from '../helpers/constants/backend';
+
 declare namespace Cypress {
   interface Chainable {
     /**
@@ -15,12 +17,10 @@ declare namespace Cypress {
 }
 
 Cypress.Commands.add('requirePlacedOrder', (auth, cartId) => {
-  const apiUrl = Cypress.env('API_URL');
-
   function placeOrder() {
     return cy.request({
       method: 'POST',
-      url: `${apiUrl}/rest/v2/electronics-spa/users/current/orders?cartId=${cartId}`,
+      url: `${baseEndPoint}/users/current/orders?cartId=${cartId}`,
       form: false,
       headers: {
         Authorization: `bearer ${auth.userToken.token.access_token}`,

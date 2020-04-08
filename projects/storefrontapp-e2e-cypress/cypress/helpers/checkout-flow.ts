@@ -12,6 +12,7 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { prefixAndBaseSite } from './constants/backend';
 
 export function visitHomePage(queryStringParams?: string) {
   const homePage = waitForPage('homepage', 'getHomePage');
@@ -372,6 +373,6 @@ export function viewOrderHistoryWithCheapProduct() {
 
 export function waitForPage(page: string, alias: string): string {
   cy.server();
-  cy.route('GET', `/rest/v2/electronics-spa/cms/pages?*${page}*`).as(alias);
+  cy.route('GET', `${prefixAndBaseSite}/cms/pages?*${page}*`).as(alias);
   return alias;
 }

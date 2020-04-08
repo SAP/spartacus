@@ -1,3 +1,5 @@
+import { prefixAndBaseSite } from './constants/backend';
+
 export const productId = '3595723';
 export const productId2 = '4812254';
 export const productName2 = '500D + 18-55mm IS + EF-S 55-250 IS';
@@ -115,7 +117,7 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
   cy.server();
-  cy.route('GET', '/rest/v2/electronics-spa/users/anonymous/carts/*').as(
+  cy.route('GET', `${prefixAndBaseSite}/users/anonymous/carts/*`).as(
     'getRefreshedCart'
   );
 

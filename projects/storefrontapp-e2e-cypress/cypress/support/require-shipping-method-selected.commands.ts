@@ -1,3 +1,4 @@
+import { baseEndPoint } from '../helpers/constants/backend';
 import { delivery } from '../sample-data/checkout-flow';
 
 declare global {
@@ -18,11 +19,10 @@ declare global {
   }
 }
 Cypress.Commands.add('requireShippingMethodSelected', (auth) => {
-  const apiUrl = Cypress.env('API_URL');
   function setShippingMethod() {
     return cy.request({
       method: 'PUT',
-      url: `${apiUrl}/rest/v2/electronics-spa/users/current/carts/current/deliverymode?deliveryModeId=${delivery.mode}`,
+      url: `${baseEndPoint}/users/current/carts/current/deliverymode?deliveryModeId=${delivery.mode}`,
       form: false,
       headers: {
         Authorization: `bearer ${auth.userToken.token.access_token}`,

@@ -1,5 +1,6 @@
 import { product } from '../sample-data/checkout-flow';
 import { config, login, setSessionData } from '../support/utils/login';
+import { baseEndPoint, prefixAndBaseSite } from './constants/backend';
 
 export const username = 'test-user-cypress@ydev.hybris.com';
 export const password = 'Password123.';
@@ -55,9 +56,7 @@ export function loginSuccessfully() {
 export function addShippingAddress() {
   cy.request({
     method: 'POST',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
+    url: `${baseEndPoint}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
@@ -117,9 +116,7 @@ export function addPaymentMethod() {
       const cartid = $cart.text().match(/[0-9]+/)[0];
       cy.request({
         method: 'POST',
-        url: `${Cypress.env(
-          'API_URL'
-        )}/rest/v2/electronics-spa/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
+        url: `${baseEndPoint}/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth
@@ -156,7 +153,7 @@ export function selectShippingAddress() {
 
   cy.route(
     'GET',
-    '/rest/v2/electronics-spa/cms/pages?*/checkout/shipping-address*'
+    `${prefixAndBaseSite}/cms/pages?*/checkout/shipping-address*`
   ).as('getShippingPage');
   cy.getByText(/proceed to checkout/i).click();
   cy.wait('@getShippingPage');
@@ -171,7 +168,7 @@ export function selectShippingAddress() {
 
   cy.route(
     'GET',
-    '/rest/v2/electronics-spa/cms/pages?*/checkout/delivery-mode*'
+    `${prefixAndBaseSite}/cms/pages?*/checkout/delivery-mode*`
   ).as('getDeliveryPage');
   cy.get('button.btn-primary').click();
   cy.wait('@getDeliveryPage').its('status').should('eq', 200);
@@ -181,7 +178,7 @@ export function selectDeliveryMethod() {
   cy.server();
   cy.route(
     'GET',
-    '/rest/v2/electronics-spa/cms/pages?*/checkout/payment-details*'
+    `${prefixAndBaseSite}/cms/pages?*/checkout/payment-details*`
   ).as('getPaymentPage');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-net').should('be.checked');
@@ -235,9 +232,7 @@ export function deleteShippingAddress() {
   // Retrieve the address ID
   cy.request({
     method: 'GET',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
+    url: `${baseEndPoint}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
@@ -254,9 +249,7 @@ export function deleteShippingAddress() {
       // Delete the address
       cy.request({
         method: 'DELETE',
-        url: `${Cypress.env(
-          'API_URL'
-        )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/addresses/${id}?lang=en&curr=USD`,
+        url: `${baseEndPoint}/users/test-user-cypress@ydev.hybris.com/addresses/${id}?lang=en&curr=USD`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth
@@ -272,9 +265,7 @@ export function deletePaymentCard() {
   // Retrieve the payment ID
   cy.request({
     method: 'GET',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/paymentdetails?saved=true&lang=en&curr=USD`,
+    url: `${baseEndPoint}/users/test-user-cypress@ydev.hybris.com/paymentdetails?saved=true&lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
@@ -291,9 +282,7 @@ export function deletePaymentCard() {
       // Delete the payment
       cy.request({
         method: 'DELETE',
-        url: `${Cypress.env(
-          'API_URL'
-        )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/paymentdetails/${id}?lang=en&curr=USD`,
+        url: `${baseEndPoint}/users/test-user-cypress@ydev.hybris.com/paymentdetails/${id}?lang=en&curr=USD`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth

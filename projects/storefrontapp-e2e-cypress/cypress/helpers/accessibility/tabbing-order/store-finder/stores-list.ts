@@ -1,3 +1,4 @@
+import { prefixAndBaseSite } from '../../../constants/backend';
 import { verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
@@ -8,7 +9,7 @@ export function storesListTabbingOrder(config: TabElement[]) {
 
   cy.server();
 
-  cy.route('GET', '/rest/v2/electronics-spa/stores?fields=*').as('storesList');
+  cy.route('GET', `${prefixAndBaseSite}/stores?fields=*`).as('storesList');
 
   cy.wait('@storesList');
 

@@ -1,4 +1,3 @@
-import { apiUrl } from '../support/utils/login';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../support/utils/order-placed';
 import {
   addPaymentMethod,
@@ -7,6 +6,7 @@ import {
   deleteShippingAddress,
   verifyAndPlaceOrder,
 } from './checkout-as-persistent-user';
+import { prefixAndBaseSite } from './constants/backend';
 
 export const eosCameraProductName = 'EOS450D';
 
@@ -27,9 +27,7 @@ export function addProductToCart() {
     .getByText(/Add To Cart/i)
     .click();
   cy.server();
-  cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts/*`).as(
-    'cart'
-  );
+  cy.route(`${prefixAndBaseSite}/users/current/carts/*`).as('cart');
   cy.wait(`@cart`).its('status').should('eq', 200);
 }
 

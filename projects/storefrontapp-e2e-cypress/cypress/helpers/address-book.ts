@@ -1,4 +1,5 @@
 import { AddressData, fillShippingAddress } from './checkout-forms';
+import { prefixAndBaseSite } from './constants/backend';
 import * as alerts from './global-message';
 
 export const newAddress: AddressData = {
@@ -139,9 +140,9 @@ export function deleteFirstAddress() {
   cy.server();
   cy.route(
     'DELETE',
-    '/rest/v2/electronics-spa/users/*/addresses/*?lang=en&curr=USD'
+    `${prefixAndBaseSite}/users/*/addresses/*?lang=en&curr=USD`
   ).as('deleteAddress');
-  cy.route('/rest/v2/electronics-spa/users/*/addresses?lang=en&curr=USD').as(
+  cy.route(`${prefixAndBaseSite}/users/*/addresses?lang=en&curr=USD`).as(
     'fetchAddresses'
   );
 
