@@ -18,11 +18,11 @@ export class UnitAddressCreateComponent {
   ) {}
 
   createAddress(address: B2BAddress) {
-    this.orgUnitCode$.pipe(take(1)).subscribe(code => {
-      this.orgUnitService.createAddress(code, address);
+    this.orgUnitCode$.pipe(take(1)).subscribe(orgUnitId => {
+      this.orgUnitService.createAddress(orgUnitId, address);
       this.routingService.go({
         cxRoute: 'orgUnitManageAddresses',
-        params: { code },
+        params: { code: orgUnitId },
       });
     });
   }

@@ -296,7 +296,8 @@ export class OrgUnitEffects {
 
   @Effect()
   updateAddress$: Observable<
-    OrgUnitActions.UpdateAddressSuccess | OrgUnitActions.UpdateAddressFail
+    // OrgUnitActions.UpdateAddressSuccess |
+    OrgUnitActions.LoadAddresses | OrgUnitActions.UpdateAddressFail
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ADDRESS),
     map((action: OrgUnitActions.UpdateAddress) => action.payload),
@@ -311,7 +312,7 @@ export class OrgUnitEffects {
         .pipe(
           // map(data => new OrgUnitActions.UpdateAddressSuccess(data)),
           // Workaround for empty PATCH response:
-          map(() => new OrgUnitActions.UpdateAddressSuccess(payload.address)),
+          map(() => new OrgUnitActions.LoadAddresses(payload)),
           catchError(error =>
             of(
               new OrgUnitActions.UpdateAddressFail({

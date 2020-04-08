@@ -241,7 +241,7 @@ export const organization = {
   unitAddressDetails: {
     header: 'Addresses details',
     edit: 'Edit',
-    delete: 'Edit',
+    delete: 'Delete',
     back: 'Back',
     id: 'ID',
     name: 'Name',

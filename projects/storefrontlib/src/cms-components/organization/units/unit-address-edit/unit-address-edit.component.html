@@ -7,7 +7,7 @@
   [addressData]="address"
   [routerBackLink]="{
     cxRoute: 'orgUnitAddressDetails',
-    params: address$ | async
+    params: { id: address.id, code: address.orgUnitId }
   }"
   (submit)="updateAddress($event)"
 >

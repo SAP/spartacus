@@ -2,10 +2,11 @@
   <h3>{{ 'unitAddressCreate.header' | cxTranslate }}</h3>
 </div>
 <cx-unit-address-form
+  *ngIf="orgUnitCode$ | async as orgUnitCode"
   [actionBtnLabel]="'unitAddressCreate.create' | cxTranslate"
   [routerBackLink]="{
     cxRoute: 'orgUnitManageAddresses',
-    params: { code: orgUnitCode$ | async }
+    params: { code: orgUnitCode }
   }"
   (submit)="createAddress($event)"
 >

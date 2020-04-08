@@ -21,7 +21,7 @@
             [routerLink]="
               {
                 cxRoute: 'orgUnitDetails',
-                params: { uid: address.code }
+                params: { uid: address.orgUnitId }
               } | cxUrl
             "
           >
@@ -45,7 +45,7 @@
             [routerLink]="
               {
                 cxRoute: 'orgUnitAddressEdit',
-                params: address
+                params: { id: address.id, code: address.orgUnitId }
               } | cxUrl
             "
             class="btn btn-primary btn-block"
@@ -63,7 +63,7 @@
             [routerLink]="
               {
                 cxRoute: 'orgUnitManageAddresses',
-                params: address
+                params: { code: address.orgUnitId }
               } | cxUrl
             "
             class="btn btn-secondary btn-block"

@@ -24,7 +24,7 @@ export class UnitAddressEditComponent implements OnInit {
     .getRouterState()
     .pipe(map(routingData => routingData.state.params['id']));
 
-  address$: Observable<B2BAddress>;
+  address$: Observable<B2BAddress | { orgUnitId: string }>;
 
   constructor(
     protected routingService: RoutingService,
@@ -34,11 +34,11 @@ export class UnitAddressEditComponent implements OnInit {
   ngOnInit(): void {
     this.address$ = this.orgUnitCode$.pipe(
       withLatestFrom(this.addressId$),
-      tap(([code]) => this.orgUnitsService.loadAddresses(code)),
-      switchMap(([code, id]) =>
-        this.orgUnitsService.getAddress(code, id).pipe(
+      tap(([orgUnitId]) => this.orgUnitsService.loadAddresses(orgUnitId)),
+      switchMap(([orgUnitId, id]) =>
+        this.orgUnitsService.getAddress(orgUnitId, id).pipe(
           filter(Boolean),
-          map((address: B2BAddress) => ({ ...address, code }))
+          map((address: B2BAddress) => ({ ...address, orgUnitId }))
         )
       )
     );
@@ -47,11 +47,11 @@ export class UnitAddressEditComponent implements OnInit {
   updateAddress(address: B2BAddress) {
     this.orgUnitCode$
       .pipe(withLatestFrom(this.addressId$), take(1))
-      .subscribe(([code, addressId]) => {
-        this.orgUnitsService.updateAddress(code, addressId, address);
+      .subscribe(([code, id]) => {
+        this.orgUnitsService.updateAddress(code, id, address);
         this.routingService.go({
           cxRoute: 'orgUnitAddressDetails',
-          params: { ...address, code },
+          params: { id, code },
         });
       });
   }
