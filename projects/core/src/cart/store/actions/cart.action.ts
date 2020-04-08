@@ -8,9 +8,9 @@ import {
 import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
-  EntityProcessesLoaderResetAction,
 } from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
 import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
+import { ProcessesLoaderResetAction } from '../../../state/utils/processes-loader/processes-loader.action';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
@@ -180,10 +180,14 @@ export class MergeCartSuccess extends EntityRemoveAction {
   }
 }
 
-export class ResetCartDetails extends EntityProcessesLoaderResetAction {
+/**
+ * On site context change we want to keep current list of entities, but we want to clear the value and flags.
+ * With ProcessesLoaderResetAction we run it on every entity of this type.
+ */
+export class ResetCartDetails extends ProcessesLoaderResetAction {
   readonly type = RESET_CART_DETAILS;
   constructor() {
-    super(MULTI_CART_DATA, undefined);
+    super(MULTI_CART_DATA);
   }
 }
 
@@ -193,7 +197,7 @@ export class ClearExpiredCoupons implements Action {
 }
 
 /**
- * Used for cleaning cart from local state, when we get information that it no longer exists in the backend.
+ * Used for cleaning cart in local state, when we get information that it no longer exists in the backend.
  * For removing particular cart in both places use DeleteCart actions.
  */
 export class RemoveCart extends EntityRemoveAction {

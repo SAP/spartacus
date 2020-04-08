@@ -5,7 +5,7 @@ import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
 } from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
-import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
+import { EntityRemoveAllAction } from '../../../state/utils/entity/entity.action';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const SET_TEMP_CART = '[Multi Cart] Set Temp Cart';
@@ -15,7 +15,7 @@ export const CART_PROCESSES_DECREMENT = '[Multi Cart] Cart Processes Decrement';
 
 export const SET_ACTIVE_CART_ID = '[Multi Cart] Set Active Cart Id';
 
-export const CLEAR_MULTI_CART_STATE = '[Multi Cart] Clear Cart State';
+export const CLEAR_CART_STATE = '[Cart] Clear Cart State';
 
 /**
  * To keep track of cart creation process we use cart with `temp-${uuid}` id.
@@ -48,10 +48,13 @@ export class SetActiveCartId implements Action {
   constructor(public payload: string) {}
 }
 
-export class ClearMultiCartState extends EntityRemoveAction {
-  readonly type = CLEAR_MULTI_CART_STATE;
+/**
+ * Clear whole cart store state: all entities + reset rest of the cart state.
+ */
+export class ClearCartState extends EntityRemoveAllAction {
+  readonly type = CLEAR_CART_STATE;
   constructor() {
-    super(MULTI_CART_DATA, null);
+    super(MULTI_CART_DATA);
   }
 }
 
@@ -60,4 +63,4 @@ export type MultiCartActions =
   | CartProcessesIncrement
   | CartProcessesDecrement
   | SetActiveCartId
-  | ClearMultiCartState;
+  | ClearCartState;

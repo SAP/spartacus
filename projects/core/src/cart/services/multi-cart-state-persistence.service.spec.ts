@@ -56,7 +56,7 @@ describe('MultiCartStatePersistenceService', () => {
     service['onRead'](null);
     expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CartActions.ClearMultiCartState()
+      new CartActions.ClearCartState()
     );
   });
 
@@ -64,7 +64,7 @@ describe('MultiCartStatePersistenceService', () => {
     service['onRead']({ active: 'cartId' });
     expect(store.dispatch).toHaveBeenCalledTimes(2);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CartActions.ClearMultiCartState()
+      new CartActions.ClearCartState()
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       new CartActions.SetActiveCartId('cartId')

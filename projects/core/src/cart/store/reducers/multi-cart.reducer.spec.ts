@@ -178,7 +178,7 @@ describe('Multi Cart reducer', () => {
     describe('CLEAR_MULTI_CART_STATE action', () => {
       it('should clear active cart id', () => {
         const initialState = 'cartCode';
-        const action = new CartActions.ClearMultiCartState();
+        const action = new CartActions.ClearCartState();
         const state = fromMultiCart.activeCartReducer(initialState, action);
         expect(state).toEqual(fromMultiCart.activeCartInitialState);
       });
@@ -291,7 +291,7 @@ describe('Multi Cart reducer', () => {
     describe('CLEAR_MULTI_CART_STATE action', () => {
       it('should clear wishlist id', () => {
         const initialState = 'wishlistId';
-        const action = new CartActions.ClearMultiCartState();
+        const action = new CartActions.ClearCartState();
         const state = fromMultiCart.wishListReducer(initialState, action);
         expect(state).toEqual(fromMultiCart.wishListInitialState);
       });
