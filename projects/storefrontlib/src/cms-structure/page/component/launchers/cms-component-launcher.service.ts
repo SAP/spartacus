@@ -27,7 +27,7 @@ export class CmsComponentLauncherService implements ComponentLauncherService {
     uid: string,
     directiveInjector: Injector
   ): Observable<[ElementRef, ComponentRef<any>]> {
-    return new Observable<any>(observer => {
+    return new Observable<any>((observer) => {
       let cmpRef: ComponentRef<any>;
 
       const dispose = () => {

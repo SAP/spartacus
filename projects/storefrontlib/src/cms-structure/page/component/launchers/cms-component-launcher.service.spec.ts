@@ -30,5 +30,4 @@ describe('CmsComponentLauncherService', () => {
   //     expect(factory).toBeNull();
   //   });
   // });
-
 });

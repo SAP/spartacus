@@ -32,7 +32,7 @@ export class WebComponentLauncherService implements ComponentLauncherService {
     uid: string,
     directiveInjector: Injector
   ): Observable<[ElementRef]> {
-    return new Observable<any>(observer => {
+    return new Observable<any>((observer) => {
       let webElement;
       let active = true;
 
@@ -45,7 +45,7 @@ export class WebComponentLauncherService implements ComponentLauncherService {
         }
       };
 
-      this.initWebComponent(componentType, renderer).then(elementName => {
+      this.initWebComponent(componentType, renderer).then((elementName) => {
         if (elementName) {
           webElement = renderer.createElement(elementName);
 
@@ -81,7 +81,7 @@ export class WebComponentLauncherService implements ComponentLauncherService {
     componentType: string,
     renderer: Renderer2
   ): Promise<string> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const [path, selector] = this.componentMapper
         .getComponent(componentType)
         .split('#');
