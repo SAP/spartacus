@@ -1,10 +1,4 @@
-import {
-  Component,
-  ComponentFactory,
-  NgModule,
-  PLATFORM_ID,
-  Renderer2,
-} from '@angular/core';
+import { Component, NgModule, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { CmsConfig } from '@spartacus/core';
 import { ComponentMapperService } from './component-mapper.service';
@@ -67,23 +61,6 @@ describe('ComponentMapperService', () => {
     it('should return null if component is not configured', () => {
       const component = service.getComponent('Unknown');
       expect(component).toBeNull();
-    });
-  });
-
-  describe('getComponentFactoryByCode', () => {
-    beforeEach(() => {
-      service = TestBed.inject(ComponentMapperService);
-    });
-
-    it('should return component factory', () => {
-      const factory = service.getComponentFactoryByCode('CMSTestComponent');
-      console.log(factory);
-      expect(factory instanceof ComponentFactory).toBeTruthy();
-    });
-
-    it('should return null when mapping is not configured', () => {
-      const factory = service.getComponentFactoryByCode('Unknown');
-      expect(factory).toBeNull();
     });
   });
 
