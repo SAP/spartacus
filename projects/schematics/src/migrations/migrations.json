@@ -34,6 +34,11 @@
       "version": "2-next.2",
       "factory": "./2_0/ssr/ssr#migrate",
       "description": "Handle Server-Side Rendering changes"
+    },
+    "migration-v2-ng-add-localize-08": {
+      "version": "2-next.3",
+      "factory": "./2_0/ng-add-localize/ng-add-localize#migrate",
+      "description": "Run ng add @angular/localize"
     }
   }
 }
