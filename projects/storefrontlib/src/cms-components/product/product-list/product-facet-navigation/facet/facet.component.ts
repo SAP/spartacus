@@ -1,10 +1,13 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
   Input,
-  ViewChild
+  QueryList,
+  ViewChild,
+  ViewChildren
 } from '@angular/core';
 import { Facet, FacetValue } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -29,6 +32,8 @@ export class FacetComponent {
 
   @HostBinding('class.multi-select') isMultiSelect: boolean;
 
+  @ViewChildren('facetValue') values: QueryList<ElementRef<HTMLElement>>;
+
   @ViewChild(FocusDirective) keyboardFocus: FocusDirective;
 
   @Input()
@@ -44,20 +49,20 @@ export class FacetComponent {
 
   constructor(
     protected facetService: FacetService,
-    protected elementRef: ElementRef<HTMLElement>
+    protected elementRef: ElementRef<HTMLElement>,
+    protected cd: ChangeDetectorRef
   ) {}
 
   /**
-   * Handles clicking the heading of the facet group, which means toggling the visibility
-   * of the group (collapse / expand) and optionally focusing the group.
+   * Handles clicking the heading of the facet group, which means toggling
+   * the visibility of the group (collapse / expand) and optionally focusing
+   * the group.
    */
   toggleGroup(event: UIEvent) {
     const host: HTMLElement = this.elementRef.nativeElement;
     const isLocked = this.keyboardFocus?.isLocked;
 
-    const isExpanded = host.classList.contains('expanded');
-
-    if (!isLocked || isExpanded) {
+    if (!isLocked || this.isExpanded) {
       this.facetService.toggleExpand(this.facet);
       host.focus();
       // we stop propagating the event as otherwise the focus on the host will trigger
@@ -66,6 +71,10 @@ export class FacetComponent {
     } else {
       this.facetService.toggleExpand(this.facet, true);
     }
+  }
+
+  get isExpanded(): boolean {
+    return this.values.first.nativeElement.offsetParent !== null;
   }
 
   /**

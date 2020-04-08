@@ -5,7 +5,7 @@ import {
   Breadcrumb,
   PageType,
   ProductSearchPage,
-  RoutingService,
+  RoutingService
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, pluck, switchMap } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { ProductListComponentService } from '../../container/product-list-compon
 import { FacetList } from '../facet.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProductFacetService {
   readonly routeState$ = this.routing.getRouterState().pipe(pluck('state'));
@@ -34,17 +34,15 @@ export class ProductFacetService {
     protected productListComponentService: ProductListComponentService
   ) {}
 
-  getFacetList(): Observable<FacetList> {
-    return this.searchResult$.pipe(
-      map(
-        (result: ProductSearchPage) =>
-          ({
-            facets: result.facets,
-            activeFacets: result.breadcrumbs,
-          } as FacetList)
-      )
-    );
-  }
+  facetList$: Observable<FacetList> = this.searchResult$.pipe(
+    map(
+      (result: ProductSearchPage) =>
+        ({
+          facets: result.facets,
+          activeFacets: result.breadcrumbs
+        } as FacetList)
+    )
+  );
 
   /**
    * Filters the current result by verifying if the result is related to the page.
@@ -77,7 +75,7 @@ export class ProductFacetService {
   ): ProductSearchPage {
     return {
       ...page,
-      breadcrumbs: this.filterBreadcrumbs(page.breadcrumbs, state.params),
+      breadcrumbs: this.filterBreadcrumbs(page.breadcrumbs, state.params)
     };
   }
 

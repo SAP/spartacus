@@ -1,3 +1,6 @@
+$intialExpandedFacets: 0 !default;
+$intialExpandedFacetsLarge: 3 !default;
+
 %facet-heading {
   display: flex;
   align-items: center;
@@ -35,6 +38,61 @@
   }
 
   display: block;
+
+  @include media-breakpoint-down(md) {
+    &:nth-of-type(-n + #{$intialExpandedFacets}) {
+      &.toggled {
+        .collapse-icon,
+        a,
+        button:not(.heading) {
+          display: none;
+        }
+      }
+      &:not(.toggled) .expand-icon {
+        display: none;
+      }
+    }
+    &:nth-of-type(n + #{$intialExpandedFacets + 1}) {
+      &:not(.toggled) {
+        .collapse-icon,
+        a,
+        button:not(.heading) {
+          display: none;
+        }
+      }
+      &.toggled .expand-icon {
+        display: none;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &:nth-of-type(-n + #{$intialExpandedFacetsLarge}) {
+      &.toggled {
+        .collapse-icon,
+        a,
+        button:not(.heading) {
+          display: none;
+        }
+      }
+      &:not(.toggled) .expand-icon {
+        display: none;
+      }
+    }
+
+    &:nth-of-type(n + #{$intialExpandedFacetsLarge + 1}) {
+      &:not(.toggled) {
+        .collapse-icon,
+        a,
+        button:not(.heading) {
+          display: none;
+        }
+      }
+      &.toggled .expand-icon {
+        display: none;
+      }
+    }
+  }
 
   a,
   button {

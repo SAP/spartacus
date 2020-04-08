@@ -12,9 +12,9 @@ import { FacetDialogComponent } from './facet-dialog.component';
     I18nModule,
     IconModule,
     FacetModule,
-    KeyboardFocusModule,
+    KeyboardFocusModule
   ],
   declarations: [FacetDialogComponent],
-  exports: [FacetDialogComponent],
+  exports: [FacetDialogComponent]
 })
 export class FacetDialogModule {}

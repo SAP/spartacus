@@ -1,22 +1,18 @@
+<button
+  #dialogTrigger
+  class="btn btn-action btn-block dialog-trigger"
+  (click)="launch()"
+>
+  <cx-icon [type]="iconTypes.FILTER"></cx-icon>
+  {{ 'productList.filterBy.label' | cxTranslate }}
+</button>
+
+<cx-active-facets></cx-active-facets>
+
 <ng-container *ngIf="dialogMode$ | async as dialogMode">
-  <button
-    *ngIf="!isInline(dialogMode)"
-    #dialogTrigger
-    class="btn btn-action btn-block filter"
-    [class.active]="facetList?.activeFacets?.length > 0"
-    (click)="toggleDialog()"
-  >
-    <cx-icon [type]="iconTypes.FILTER"></cx-icon>
-    {{ 'productList.filterBy.label' | cxTranslate }}
-  </button>
-
-  <cx-active-facets [facetList]="facetList"></cx-active-facets>
-
   <cx-facet-dialog
-    *ngIf="isInline(dialogMode) || activeDialog || facetList?.activeFacets"
-    [class.active]="activeDialog"
+    *ngIf="dialogMode === 'INLINE' || isOpen"
     [dialogMode]="dialogMode"
-    (load)="updateFacetList($event)"
-    (close)="toggleDialog()"
+    (closed)="close()"
   ></cx-facet-dialog>
 </ng-container>

@@ -1,7 +1,8 @@
 <ng-container *ngIf="state$ | async as state">
   <button class="heading" (click)="toggleGroup($event)">
     {{ facet.name }}
-    <cx-icon [type]="state.expanded ? collapseIcon : expandIcon"></cx-icon>
+    <cx-icon class="collapse-icon" [type]="collapseIcon"></cx-icon>
+    <cx-icon class="expand-icon" [type]="expandIcon"></cx-icon>
   </button>
 
   <a
@@ -11,6 +12,7 @@
     class="value"
     [class.selected]="value.selected"
     [cxFocus]="value.name"
+    #facetValue
   >
     <span>
       <span class="label">{{ value.name }}</span>
@@ -28,6 +30,7 @@
       class="value"
       [class.selected]="value.selected"
       [cxFocus]="value.name"
+      #facetValue
     >
       <span
         >{{ value.name }}<span class="count">{{ value.count }}</span></span

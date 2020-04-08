@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Facet } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { DialogMode, FacetCollapseState, FacetList } from '../facet.model';
+import { FacetCollapseState, FacetList } from '../facet.model';
 import { ProductFacetService } from './product-facet.service';
 
 /**
@@ -13,15 +13,6 @@ import { ProductFacetService } from './product-facet.service';
   providedIn: 'root'
 })
 export class FacetService {
-  /** The dialog mode is used to distinquish the experience for mobile vs desktop */
-  protected dialogMode: DialogMode;
-
-  /**
-   * Indicates the last used dialogMode, to differentiate the (default) facet
-   * configuration.
-   */
-  protected lastUsedDialogMode: DialogMode;
-
   /**
    * An internal map where we keep the UI state of the facets.
    */
@@ -32,17 +23,13 @@ export class FacetService {
 
   constructor(protected productFacetService: ProductFacetService) {}
 
-  getFacetList(dialogMode: DialogMode): Observable<FacetList> {
-    this.dialogMode = dialogMode;
-    return this.productFacetService.getFacetList().pipe(
-      tap(facetList => {
-        facetList.facets.forEach((facet, position) => {
-          this.configureFacet(facet, position);
-        });
-        this.lastUsedDialogMode = this.dialogMode;
-      })
-    );
-  }
+  facetList$: Observable<FacetList> = this.productFacetService.facetList$.pipe(
+    tap(facetList => {
+      facetList.facets.forEach(facet => {
+        this.configureFacet(facet);
+      });
+    })
+  );
 
   /**
    * Returns the UI state for the facet.
@@ -75,7 +62,7 @@ export class FacetService {
     const state = this.getStateSnapshot(facet);
 
     const toggledState = {
-      expanded: value ?? !state.expanded
+      toggled: value ?? !state.toggled
     } as FacetCollapseState;
 
     if (!state.maxVisible) {
@@ -108,17 +95,14 @@ export class FacetService {
    * We only initialize the facet configuration once, and let the user
    * behaviour drive the future state of the facet.
    */
-  protected configureFacet(facet: Facet, position: number) {
-    if (!this.hasState(facet) || this.dialogMode !== this.lastUsedDialogMode) {
+  protected configureFacet(facet: Facet) {
+    if (!this.hasState(facet)) {
       this.initialize(facet, true);
     }
 
     // we do update the default expand state each time the facet is configured
     this.updateState(facet, {
-      expandByDefault: this.isInitialExpanded(facet, position),
-      expanded:
-        this.getStateSnapshot(facet).expanded ??
-        this.isInitialExpanded(facet, position)
+      toggled: this.getStateSnapshot(facet).toggled
     } as FacetCollapseState);
   }
 
@@ -137,21 +121,6 @@ export class FacetService {
         maxVisible: facet.topValueCount
       } as FacetCollapseState);
     }
-  }
-
-  /**
-   * Returns a boolean value to indicate whether the facet should be expanded
-   *  _initially_. After the intial expanded state, the user driven state
-   * rules cross different product lists.
-   *
-   * The default expanded state is either driven by the data (`facet.expanded`)
-   * or defaults to `true` or `false`, depending on the position and whether it's
-   * shown in a (popped) dialog or not.
-   */
-  protected isInitialExpanded(facet: Facet, position: number): boolean {
-    return facet.expanded ?? this.dialogMode === DialogMode.POP
-      ? false
-      : position < 3;
   }
 
   /**

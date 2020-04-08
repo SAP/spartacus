@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Breadcrumb } from '@spartacus/core';
+import { Observable } from 'rxjs/internal/Observable';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { FacetList } from '../facet.model';
 import { FacetService } from '../services/facet.service';
@@ -11,11 +12,11 @@ import { FacetService } from '../services/facet.service';
 @Component({
   selector: 'cx-active-facets',
   templateUrl: './active-facets.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class ActiveFacetsComponent {
   /** Active facets which are applied to the product results. */
-  @Input() facetList: FacetList;
+  facetList$: Observable<FacetList> = this.facetService.facetList$;
 
   /** Configurable icon which is used for the active facet close button */
   @Input() closeIcon = ICON_TYPE.CLOSE;
@@ -32,7 +33,7 @@ export class ActiveFacetsComponent {
    * facets available. This is a great experience for the keyboard user, who keep the
    * focus on the activated facet all the time.
    */
-  getFocusKey(facet: Breadcrumb) {
-    return !this.facetList.facets?.length ? facet.facetValueName : '';
+  getFocusKey(facetList: FacetList, facet: Breadcrumb) {
+    return !facetList.facets?.length ? facet.facetValueName : '';
   }
 }

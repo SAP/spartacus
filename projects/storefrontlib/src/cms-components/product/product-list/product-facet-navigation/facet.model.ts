@@ -5,7 +5,7 @@ import { Breadcrumb, Facet } from '@spartacus/core';
  */
 export enum DialogMode {
   INLINE = 'INLINE',
-  POP = 'POP',
+  POP = 'POP'
 }
 /**
  * UI model that holds the full list of facet and active facets for
@@ -18,15 +18,11 @@ export interface FacetList {
 
 export interface FacetCollapseState {
   /**
-   * Indicates whether the facet is expanded.
+   * Indicates whether the facet is toggled to expand or collapse the facet values.
+   * Whether the toggle results in an expanded or collapsed state, depends on the
+   * experience, which is controlled in CSS.
    */
-  expanded?: boolean;
-
-  /**
-   * The default expand state will be used when the facet is used
-   * for the first time.
-   */
-  expandByDefault?: boolean;
+  toggled?: boolean;
 
   /**
    * The top number of facet values that will be visible.
