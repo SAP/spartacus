@@ -158,14 +158,14 @@ describe('Wish List Effect', () => {
         customerId,
       });
 
-      const removeTempCartAction = new CartActions.RemoveTempCart({
-        tempCartId: getWishlistName(customerId),
-      });
+      const removeCartAction = new CartActions.RemoveCart(
+        getWishlistName(customerId)
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
         b: loadWishListSuccessAction,
-        c: removeTempCartAction,
+        c: removeCartAction,
       });
 
       expect(wishListEffect.loadWishList$).toBeObservable(expected);

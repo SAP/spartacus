@@ -8,11 +8,7 @@ import {
 import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
-export const REMOVE_TEMP_CART = '[Multi Cart] Remove Temp Cart';
-
 export const SET_TEMP_CART = '[Multi Cart] Set Temp Cart';
-
-export const REMOVE_CART = '[Multi Cart] Remove Cart';
 
 export const CART_PROCESSES_INCREMENT = '[Multi Cart] Cart Processes Increment';
 export const CART_PROCESSES_DECREMENT = '[Multi Cart] Cart Processes Decrement';
@@ -26,24 +22,10 @@ export const CLEAR_MULTI_CART_STATE = '[Multi Cart] Clear Cart State';
  * After creating cart we switch to entity with `code` or `guid`.
  * We need `temp-${uuid}` cart entities for loading/error state.
  */
-export class RemoveTempCart extends EntityRemoveAction {
-  readonly type = REMOVE_TEMP_CART;
-  constructor(public payload: { tempCartId: string }) {
-    super(MULTI_CART_DATA, payload.tempCartId);
-  }
-}
-
 export class SetTempCart extends EntitySuccessAction {
   readonly type = SET_TEMP_CART;
   constructor(public payload: { cart: Cart; tempCartId: string }) {
     super(MULTI_CART_DATA, payload.tempCartId, payload.cart);
-  }
-}
-
-export class RemoveCart extends EntityRemoveAction {
-  readonly type = REMOVE_CART;
-  constructor(public payload: string) {
-    super(MULTI_CART_DATA, payload);
   }
 }
 
@@ -74,9 +56,7 @@ export class ClearMultiCartState extends EntityRemoveAction {
 }
 
 export type MultiCartActions =
-  | RemoveTempCart
   | SetTempCart
-  | RemoveCart
   | CartProcessesIncrement
   | CartProcessesDecrement
   | SetActiveCartId

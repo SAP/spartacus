@@ -41,7 +41,6 @@ export class MultiCartStatePersistenceService {
   }
 
   protected onRead(state: { active: string }) {
-    this.store.dispatch(new CartActions.ClearCart());
     this.store.dispatch(new CartActions.ClearMultiCartState());
     if (state) {
       this.store.dispatch(new CartActions.SetActiveCartId(state.active));

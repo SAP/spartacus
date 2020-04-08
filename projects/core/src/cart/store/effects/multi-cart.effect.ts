@@ -3,7 +3,6 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CheckoutActions } from '../../../checkout/store/actions';
-import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 
 @Injectable()
@@ -12,15 +11,8 @@ export class MultiCartEffects {
   setTempCart$ = this.actions$.pipe(
     ofType(CartActions.SET_TEMP_CART),
     map((action: CartActions.SetTempCart) => {
-      return new CartActions.RemoveTempCart(action.payload);
+      return new CartActions.RemoveCart(action.payload.tempCartId);
     })
-  );
-
-  @Effect()
-  removeCart$: Observable<CartActions.RemoveCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.DELETE_CART),
-    map((action: DeprecatedCartActions.DeleteCart) => action.payload),
-    map((payload) => new CartActions.RemoveCart(payload.cartId))
   );
 
   // TODO: Change actions to extend Increment action instead of doing extra dispatch in this effect

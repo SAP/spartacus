@@ -32,9 +32,10 @@ export const RESET_CART_DETAILS = '[Cart] Reset Cart Details';
 
 export const CLEAR_EXPIRED_COUPONS = '[Cart] Clear Expired Coupon';
 
-export const CLEAR_CART = '[Cart] Clear Cart';
+export const REMOVE_CART = '[Cart] Remove Cart';
 
 export const DELETE_CART = '[Cart] Delete Cart';
+export const DELETE_CART_SUCCESS = '[Cart] Delete Cart Success';
 export const DELETE_CART_FAIL = '[Cart] Delete Cart Fail';
 
 interface CreateCartPayload {
@@ -191,19 +192,37 @@ export class ClearExpiredCoupons implements Action {
   constructor(public payload: any) {}
 }
 
-export class ClearCart {
-  readonly type = CLEAR_CART;
-  constructor() {}
+/**
+ * Used for cleaning cart from local state, when we get information that it no longer exists in the backend.
+ * For removing particular cart in both places use DeleteCart actions.
+ */
+export class RemoveCart extends EntityRemoveAction {
+  readonly type = REMOVE_CART;
+  constructor(
+    /**
+     * Cart id to remove
+     */
+    public payload: string
+  ) {
+    super(MULTI_CART_DATA, payload);
+  }
 }
 
-export class DeleteCart {
+export class DeleteCart implements Action {
   readonly type = DELETE_CART;
   constructor(public payload: { userId: string; cartId: string }) {}
 }
 
-export class DeleteCartFail {
+export class DeleteCartSuccess extends EntityRemoveAction {
+  readonly type = DELETE_CART_SUCCESS;
+  constructor(public payload: { userId: string; cartId: string }) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class DeleteCartFail implements Action {
   readonly type = DELETE_CART_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: { userId: string; cartId: string; error: any }) {}
 }
 
 export type CartAction =
@@ -220,6 +239,7 @@ export type CartAction =
   | AddEmailToCartFail
   | AddEmailToCartSuccess
   | DeleteCart
+  | DeleteCartSuccess
   | DeleteCartFail
   | ClearExpiredCoupons
-  | ClearCart;
+  | RemoveCart;

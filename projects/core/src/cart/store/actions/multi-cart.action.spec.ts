@@ -1,5 +1,4 @@
 import { Cart } from '../../../model/cart.model';
-import { entityRemoveMeta } from '../../../state/utils/entity/entity.action';
 import {
   StateEntityActions,
   StateEntityLoaderActions,
@@ -26,22 +25,6 @@ const tempCartId = 'tempCartId';
 
 describe('MultiCart Actions', () => {
   describe('TempCart Actions', () => {
-    describe('RemoveTempCart', () => {
-      it('should create the action', () => {
-        const action = new CartActions.RemoveTempCart({
-          tempCartId: tempCartId,
-        });
-        expect({ ...action }).toEqual({
-          type: CartActions.REMOVE_TEMP_CART,
-          payload: { tempCartId },
-          meta: StateEntityActions.entityRemoveMeta(
-            MULTI_CART_DATA,
-            tempCartId
-          ),
-        });
-      });
-    });
-
     describe('SetTempCart', () => {
       it('should create the action', () => {
         const payload = { cart, tempCartId };
@@ -54,18 +37,6 @@ describe('MultiCart Actions', () => {
             tempCartId
           ),
         });
-      });
-    });
-  });
-
-  describe('RemoveCart', () => {
-    it('should create the action', () => {
-      const payload = 'cartId';
-      const action = new CartActions.RemoveCart(payload);
-      expect({ ...action }).toEqual({
-        type: CartActions.REMOVE_CART,
-        payload,
-        meta: entityRemoveMeta(MULTI_CART_DATA, payload),
       });
     });
   });

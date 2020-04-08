@@ -14,7 +14,6 @@ import * as fromUserReducers from '../../../user/store/reducers/index';
 import { USER_FEATURE } from '../../../user/store/user-state';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromCartReducers from '../../store/reducers/index';
-import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
@@ -165,12 +164,10 @@ describe('Cart effect', () => {
           },
         })
       );
-      const clearCartCompletion = new DeprecatedCartActions.ClearCart();
       const removeCartCompletion = new CartActions.RemoveCart(cartId);
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: clearCartCompletion,
-        c: removeCartCompletion,
+      const expected = cold('-b', {
+        b: removeCartCompletion,
       });
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
@@ -366,8 +363,11 @@ describe('Cart effect', () => {
 
   describe('deleteCart$', () => {
     it('should delete cart', () => {
-      const action = new DeprecatedCartActions.DeleteCart({ userId, cartId });
-      const completion = new DeprecatedCartActions.ClearCart();
+      const action = new CartActions.DeleteCart({ userId, cartId });
+      const completion = new CartActions.DeleteCartSuccess({
+        userId,
+        cartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

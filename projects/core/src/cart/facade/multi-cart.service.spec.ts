@@ -4,7 +4,6 @@ import { take } from 'rxjs/operators';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { CartActions } from '../store/actions';
-import * as DeprecatedCartActions from '../store/actions/cart.action';
 import {
   MULTI_CART_FEATURE,
   StateWithMultiCart,
@@ -382,7 +381,7 @@ describe('MultiCartService', () => {
       service.deleteCart('cartId', 'userId');
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.DeleteCart({
+        new CartActions.DeleteCart({
           userId: 'userId',
           cartId: 'cartId',
         })

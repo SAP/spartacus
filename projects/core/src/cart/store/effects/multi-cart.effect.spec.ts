@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { CheckoutActions } from '../../../checkout/store/actions';
 import { Cart } from '../../../model/cart.model';
 import * as fromCartReducers from '../../store/reducers/index';
-import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './multi-cart.effect';
@@ -49,31 +48,17 @@ describe('Multi Cart effect', () => {
   });
 
   describe('setTempCart$', () => {
-    it('should dispatch reset just after setting', () => {
+    it('should dispatch RemoveCart just after setting', () => {
       const payload = { cart: testCart, tempCartId: 'tempCartId' };
       const action = new CartActions.SetTempCart(payload);
-      const removeTempCartCompletion = new CartActions.RemoveTempCart(payload);
+      const removeTempCartCompletion = new CartActions.RemoveCart(
+        payload.tempCartId
+      );
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {
         b: removeTempCartCompletion,
       });
       expect(cartEffects.setTempCart$).toBeObservable(expected);
-    });
-  });
-
-  describe('removeCart$', () => {
-    it('should dispatch RemoveCart action', () => {
-      const payload = {
-        userId: 'userId',
-        cartId: 'cartId',
-      };
-      const action = new DeprecatedCartActions.DeleteCart(payload);
-      const removeCartCompletion = new CartActions.RemoveCart(payload.cartId);
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: removeCartCompletion,
-      });
-      expect(cartEffects.removeCart$).toBeObservable(expected);
     });
   });
 

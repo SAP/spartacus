@@ -144,6 +144,28 @@ describe('Multi Cart reducer', () => {
       });
     });
 
+    describe('DELETE_CART_SUCCESS action', () => {
+      it('should clear active cart id, when active cart is removed', () => {
+        const initialState = 'cartCode';
+        const action = new CartActions.DeleteCartSuccess({
+          cartId: 'cartCode',
+          userId: 'userId',
+        });
+        const state = fromMultiCart.activeCartReducer(initialState, action);
+        expect(state).toEqual(fromMultiCart.activeCartInitialState);
+      });
+
+      it('should not change active cart id when non active cart is removed', () => {
+        const initialState = 'otherCode';
+        const action = new CartActions.DeleteCartSuccess({
+          cartId: 'cartCode',
+          userId: 'userId',
+        });
+        const state = fromMultiCart.activeCartReducer(initialState, action);
+        expect(state).toEqual('otherCode');
+      });
+    });
+
     describe('SET_ACTIVE_CART_ID action', () => {
       it('should set active cart id', () => {
         const initialState = 'cartCode';
