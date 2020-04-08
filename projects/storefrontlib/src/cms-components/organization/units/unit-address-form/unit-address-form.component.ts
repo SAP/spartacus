@@ -35,7 +35,7 @@ export class UnitAddressFormComponent extends AbstractFormComponent
   addressData: B2BAddress;
 
   form: FormGroup = this.fb.group({
-    id: ['', Validators.required],
+    id: [''],
     titleCode: [''],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],

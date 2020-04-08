@@ -1,6 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import { B2BAddress, OrgUnitService, RoutingService } from '@spartacus/core';
 
@@ -35,5 +42,15 @@ export class UnitAddressDetailsComponent implements OnInit {
         )
       )
     );
+  }
+
+  deleteAddress() {
+    this.address$.pipe(take(1)).subscribe(address => {
+      this.orgUnitsService.deleteAddress(address.code, address.id);
+      this.routingService.go({
+        cxRoute: 'orgUnitManageAddresses',
+        params: address,
+      });
+    });
   }
 }

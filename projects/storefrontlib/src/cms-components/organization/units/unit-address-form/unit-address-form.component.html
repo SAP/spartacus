@@ -13,20 +13,6 @@
 <div [formGroup]="form">
   <div class="row">
     <div class="col-md-12 col-lg-12">
-      <div class="form-group">
-        <label>
-          <span class="label-content required">{{
-            'addressForm.id.label' | cxTranslate
-          }}</span>
-          <input
-            class="form-control"
-            type="text"
-            required
-            placeholder="{{ 'addressForm.id.placeholder' | cxTranslate }}"
-            formControlName="id"
-          />
-        </label>
-      </div>
       <div class="form-group" formGroupName="country">
         <ng-container *ngIf="countries$ | async as countries">
           <div *ngIf="countries.length !== 0">

@@ -21,8 +21,8 @@ export class UnitAddressCreateComponent {
     this.orgUnitCode$.pipe(take(1)).subscribe(code => {
       this.orgUnitService.createAddress(code, address);
       this.routingService.go({
-        cxRoute: 'orgUnitAddressDetails',
-        params: { ...address, code },
+        cxRoute: 'orgUnitManageAddresses',
+        params: { code },
       });
     });
   }

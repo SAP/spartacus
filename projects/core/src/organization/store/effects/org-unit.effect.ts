@@ -317,13 +317,16 @@ export class OrgUnitEffects {
   deleteAddress$: Observable<
     OrgUnitActions.DeleteAddressSuccess | OrgUnitActions.DeleteAddressFail
   > = this.actions$.pipe(
-    ofType(OrgUnitActions.UPDATE_ADDRESS),
+    ofType(OrgUnitActions.DELETE_ADDRESS),
     map((action: OrgUnitActions.DeleteAddress) => action.payload),
     switchMap(payload =>
       this.orgUnitConnector
         .deleteAddress(payload.userId, payload.orgUnitId, payload.addressId)
         .pipe(
-          map(data => new OrgUnitActions.DeleteAddressSuccess(data)),
+          map(
+            () =>
+              new OrgUnitActions.DeleteAddressSuccess({ id: payload.addressId })
+          ),
           catchError(error =>
             of(
               new OrgUnitActions.DeleteAddressFail({
