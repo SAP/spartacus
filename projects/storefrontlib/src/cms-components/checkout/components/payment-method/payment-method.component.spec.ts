@@ -228,6 +228,22 @@ describe('PaymentMethodComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('component behavior', () => {
+    it('should show loader during existing payment methods loading', () => {});
+    it('should select default payment method when nothing is selected', () => {});
+    it('should show form to add new payment method, when there are no existing methods', () => {});
+    it('should create and select new payment method and redirect', () => {});
+    it('should show form for creating new method after clicking new payment method button', () => {});
+    it('should have enabled button when there is selected method', () => {});
+    it('should display credit card info correctly', () => {});
+    it('should after each payment method selection change that in backend', () => {});
+    it('should not try to load methods for guest checkout', () => {});
+    it('should close form on change payment button click and not do anything', () => {});
+    it('should go to previous step after clicking goPreview', () => {});
+    it('should show selected card, when there was previously selected method', () => {});
+    it('should show errors on wrong card information', () => {});
+  });
+
   it('should call addPaymentInfo() with new created payment info', () => {
     component['deliveryAddress'] = mockAddress;
     component.setPaymentDetails({
