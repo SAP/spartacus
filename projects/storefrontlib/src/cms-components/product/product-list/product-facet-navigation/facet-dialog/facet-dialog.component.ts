@@ -28,7 +28,7 @@ export class FacetDialogComponent {
   @Input() dialogMode: DialogMode;
 
   /** Emits when the dialog must close */
-  @Output() closed = new EventEmitter();
+  @Output() closeDialog = new EventEmitter();
 
   /** The list of all facet and values related to the products in the list */
   facetList$: Observable<FacetList> = this.facetService.facetList$;

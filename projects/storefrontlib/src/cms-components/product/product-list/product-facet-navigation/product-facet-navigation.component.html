@@ -13,6 +13,6 @@
   <cx-facet-dialog
     *ngIf="dialogMode === 'INLINE' || isOpen"
     [dialogMode]="dialogMode"
-    (closed)="close()"
+    (closeDialog)="close()"
   ></cx-facet-dialog>
 </ng-container>
