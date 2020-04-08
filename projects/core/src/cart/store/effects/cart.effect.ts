@@ -138,8 +138,7 @@ export class CartEffects {
 
   @Effect()
   createCart$: Observable<
-    | DeprecatedCartActions.MergeCartSuccess
-    | CartActions.MergeMultiCartSuccess
+    | CartActions.MergeCartSuccess
     | CartActions.CreateCartSuccess
     | CartActions.CreateCartFail
     | CartActions.SetTempCart
@@ -154,15 +153,11 @@ export class CartEffects {
             const conditionalActions = [];
             if (payload.oldCartId) {
               conditionalActions.push(
-                new DeprecatedCartActions.MergeCartSuccess({
+                new CartActions.MergeCartSuccess({
+                  extraData: payload.extraData,
                   userId: payload.userId,
-                  cartId: cart.code,
-                })
-              );
-              conditionalActions.push(
-                new CartActions.MergeMultiCartSuccess({
-                  userId: payload.userId,
-                  cartId: cart.code,
+                  tempCartId: payload.tempCartId,
+                  cartId: getCartIdByUserId(cart, payload.userId),
                   oldCartId: payload.oldCartId,
                 })
               );
@@ -195,8 +190,8 @@ export class CartEffects {
 
   @Effect()
   mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.MERGE_CART),
-    map((action: DeprecatedCartActions.MergeCart) => action.payload),
+    ofType(CartActions.MERGE_CART),
+    map((action: CartActions.MergeCart) => action.payload),
     mergeMap((payload) => {
       return this.cartConnector.load(payload.userId, OCC_CART_ID_CURRENT).pipe(
         mergeMap((currentCart) => {
@@ -246,7 +241,6 @@ export class CartEffects {
     CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(
-      DeprecatedCartActions.MERGE_CART_SUCCESS,
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
@@ -257,7 +251,6 @@ export class CartEffects {
         action:
           | CartActions.CartAddEntrySuccess
           | CartActions.CartUpdateEntrySuccess
-          | DeprecatedCartActions.MergeCartSuccess
           | CartActions.CartRemoveEntrySuccess
           | CartActions.CartRemoveVoucherSuccess
       ) => action.payload
