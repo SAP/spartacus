@@ -12,6 +12,7 @@ export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
 export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
+export const ANGULAR_LOCALIZE = '@angular/localize';
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
 export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
@@ -20,6 +21,7 @@ export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
+export const SPARTACUS_STYLES = '@spartacus/styles';
 
 export const NGRX_STORE = '@ngrx/store';
 /***** Imports end *****/
