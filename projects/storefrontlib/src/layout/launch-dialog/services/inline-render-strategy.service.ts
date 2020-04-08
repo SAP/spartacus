@@ -41,7 +41,7 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
       if (config.options?.dialogType) {
         this.applyClasses(component, config.options?.dialogType);
       }
-      this.renderedCallers.push({ caller, element: vcr.element });
+      this.renderedCallers.push({ caller, element: vcr.element, component });
 
       return of(component);
     } else if (isDevMode()) {

@@ -17,10 +17,13 @@ export abstract class LaunchRenderStrategy {
   protected renderedCallers: Array<{
     caller: LAUNCH_CALLER;
     element?: any;
+    component?: ComponentRef<any>;
   }> = [];
   protected renderer: Renderer2;
 
-  constructor(protected rendererFactory: RendererFactory2) {}
+  constructor(protected rendererFactory: RendererFactory2) {
+    this.renderer = rendererFactory.createRenderer(null, null);
+  }
 
   /**
    * Render method to implement based on the strategy
@@ -88,7 +91,7 @@ export abstract class LaunchRenderStrategy {
    */
   public remove(caller: LAUNCH_CALLER, _config?: LaunchOptions): void {
     this.renderedCallers = this.renderedCallers.filter(
-      (el) => el.caller === caller
+      (el) => el.caller !== caller
     );
   }
 }

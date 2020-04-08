@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -9,7 +15,7 @@ import {
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
-import { ModalService } from '../../modal/index';
+import { FocusConfig } from '../../../../layout/a11y/keyboard-focus/index';
 
 @Component({
   selector: 'cx-anonymous-consent-dialog',
@@ -26,12 +32,20 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   templates$: Observable<ConsentTemplate[]>;
   consents$: Observable<AnonymousConsent[]>;
 
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: true,
+  };
+
   // TODO(issue:4989) Anonymous consents - remove
   isLevel13 = isFeatureLevel(this.config, '1.3');
 
+  @Output()
+  closeDialog: EventEmitter<boolean> = new EventEmitter();
+
   constructor(
     private config: AnonymousConsentsConfig,
-    private modalService: ModalService,
     private anonymousConsentsService: AnonymousConsentsService
   ) {
     if (Boolean(this.config.anonymousConsents)) {
@@ -48,8 +62,8 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     this.loading$ = this.anonymousConsentsService.getLoadTemplatesLoading();
   }
 
-  closeModal(reason?: any): void {
-    this.modalService.closeActiveModal(reason);
+  closeModal(_reason?: any): void {
+    this.closeDialog.emit(true);
   }
 
   rejectAll(): void {

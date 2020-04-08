@@ -79,14 +79,13 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
     const template = this.componentFactoryResolver.resolveComponentFactory(
       config.component
     );
-    this.renderedCallers = this.renderedCallers.filter(
-      (el) => el.caller === caller
-    );
 
     this.outletService.remove(
       config.outlet,
       config.position ? config.position : OutletPosition.BEFORE,
       template
     );
+
+    super.remove(caller);
   }
 }

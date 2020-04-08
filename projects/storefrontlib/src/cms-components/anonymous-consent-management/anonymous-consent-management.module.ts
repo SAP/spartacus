@@ -7,11 +7,17 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
+import { KeyboardFocusModule } from '../../layout/a11y/keyboard-focus/index';
 import { AnonymousConsentManagementBannerComponent } from './banner/anonymous-consent-management-banner.component';
 import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-consent-open-dialog.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, FeaturesConfigModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    FeaturesConfigModule,
+    KeyboardFocusModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
