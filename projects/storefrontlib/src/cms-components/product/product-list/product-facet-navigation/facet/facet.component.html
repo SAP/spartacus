@@ -7,12 +7,13 @@
 
   <a
     *ngFor="let value of facet.values | slice: 0:state.topVisible"
+    #facetValue
     routerLink="./"
     [queryParams]="getLinkParams(value)"
     class="value"
     [class.selected]="value.selected"
     [cxFocus]="value.name"
-    #facetValue
+    (keydown.space)="openLink($event)"
   >
     <span>
       <span class="label">{{ value.name }}</span>
@@ -25,12 +26,13 @@
       *ngFor="
         let value of facet.values | slice: state.topVisible:state.maxVisible
       "
+      #facetValue
       routerLink="./"
       [queryParams]="getLinkParams(value)"
       class="value"
       [class.selected]="value.selected"
       [cxFocus]="value.name"
-      #facetValue
+      (keydown.space)="openLink($event)"
     >
       <span
         >{{ value.name }}<span class="count">{{ value.count }}</span></span

@@ -77,6 +77,11 @@ export class FacetComponent {
     return this.values.first.nativeElement.offsetParent !== null;
   }
 
+  openLink(event: KeyboardEvent) {
+    (event.target as HTMLElement).click();
+    event.preventDefault();
+  }
+
   /**
    * Increases the number of visible values for the facet. This is delegated
    * to `facetService.increaseVisibleValues`.
