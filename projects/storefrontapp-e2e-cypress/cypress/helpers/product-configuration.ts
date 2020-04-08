@@ -8,6 +8,10 @@ export function clickOnConfigureButton() {
   cy.get('cx-configure-product a').click({ force: true });
 }
 
+export function clickOnConfigureCartEntryButton() {
+  cy.get('cx-configure-cart-entry a').click({ force: true });
+}
+
 /**
  * Click on the next group Button and verifies that an element of the next group is displayed
  *

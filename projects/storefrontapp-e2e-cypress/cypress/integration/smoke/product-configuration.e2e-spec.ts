@@ -23,6 +23,10 @@ function goToProductDetailsPage(testProduct) {
   cy.visit(`electronics-spa/en/USD/product/${testProduct}/${testProduct}`);
 }
 
+function goToCart() {
+  cy.visit('/electronics-spa/en/USD/cart');
+}
+
 context('Product Configuration', () => {
   before(() => {
     cy.visit('/');
@@ -43,7 +47,15 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the cart', () => {
-      //TODO: currently not possible
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.clickAddToCartButton();
+      cy.wait(1500);
+      goToCart();
+      cy.wait(1500);
+      //We assume only one product is in the cart
+      configuration.clickOnConfigureCartEntryButton();
+      configuration.verifyConfigurationPageIsDisplayed();
     });
   });
 
@@ -193,17 +205,17 @@ context('Product Configuration', () => {
     it('Price should be displayed', () => {
       goToConfigurationPage(configurator, testProductPricing);
       configuration.verifyConfigurationPageIsDisplayed();
-      configuration.verifyTotalPrice('€22,000.00');
+      configuration.verifyTotalPrice('22,000.00');
     });
 
     it('Price should change on configuration change', () => {
       goToConfigurationPage(configurator, testProductPricing);
       configuration.verifyConfigurationPageIsDisplayed();
-      configuration.verifyTotalPrice('€22,000.00');
+      configuration.verifyTotalPrice('22,000.00');
 
       configuration.selectAttribute('WEC_DC_ENGINE', 'radioGroup', 'D');
 
-      configuration.verifyTotalPrice('€22,900.00');
+      configuration.verifyTotalPrice('22,900.00');
     });
   });
 
@@ -302,20 +314,31 @@ context('Product Configuration', () => {
 
   describe('Cart handling', () => {
     it('should add configurable product to cart', () => {
-      goToConfigurationPage(configurator, testProduct);
+      goToConfigurationPage(configurator, testProductPricing);
       configuration.verifyConfigurationPageIsDisplayed();
-      configuration.selectAttribute(
-        'WCEM_DP_MONITOR_MNF',
-        'radioGroup',
-        'SAMSUNG'
-      );
-      cy.wait(1500);
       configuration.clickAddToCartButton();
       cy.wait(1500);
       cart.verifyCartNotEmpty();
       configuration.verifyOverviewPageIsDisplayed();
       configuration.clickAddToCartButton();
-      configuration.verifyConfigurableProductInCart(testProduct);
+      configuration.verifyConfigurableProductInCart(testProductPricing);
+    });
+
+    it('Should be able to change configration from the cart', () => {
+      //Product already in cart
+      goToCart();
+      cy.wait(1500);
+      cart.checkProductInCart({ name: testProductPricing, price: 22000 }, 1);
+      configuration.clickOnConfigureCartEntryButton();
+
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.selectAttribute('WEC_DC_ENGINE', 'radioGroup', 'D');
+
+      configuration.verifyTotalPrice('22,900.00');
+      configuration.clickAddToCartButton(); //In this case it is the update cart button, the CSS Selector is the same, therefor we can use this method
+
+      cy.wait(1500);
+      cart.checkProductInCart({ name: testProductPricing, price: 22900 }, 1);
     });
   });
 });
