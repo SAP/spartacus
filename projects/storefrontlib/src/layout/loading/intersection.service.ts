@@ -19,7 +19,7 @@ export class IntersectionService {
    * Returns an Observable that emits only once a boolean value whenever
    * the given element has shown in the view port.
    *
-   * The returned obervable will only emit the first value. The
+   * The returned observable will only emit the first value. The
    * observable must be cleaned up either way, since the value might never emit; it
    *  depends on whether the element appears in the view port.
    */
@@ -61,7 +61,7 @@ export class IntersectionService {
     return elementVisible$;
   }
 
-  private getRootMargin(options?: IntersectionOptions) {
+  private getRootMargin(options: IntersectionOptions = {}): string {
     if (options.rootMargin) {
       return options.rootMargin;
     }
