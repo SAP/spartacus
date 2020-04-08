@@ -1,8 +1,8 @@
 <div class="cx-header">
-  <h3>{{ 'unitAddressForm.create' | cxTranslate }}</h3>
+  <h3>{{ 'unitAddressCreate.header' | cxTranslate }}</h3>
 </div>
 <cx-unit-address-form
-  [actionBtnLabel]="'unitAddressForm.create' | cxTranslate"
+  [actionBtnLabel]="'unitAddressCreate.create' | cxTranslate"
   [routerBackLink]="{
     cxRoute: 'orgUnitManageAddresses',
     params: { code: orgUnitCode$ | async }
