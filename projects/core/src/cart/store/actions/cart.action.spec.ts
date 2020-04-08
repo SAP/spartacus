@@ -3,6 +3,7 @@ import { entityRemoveMeta } from '../../../state/utils/entity/entity.action';
 import {
   StateEntityLoaderActions,
   StateEntityProcessesLoaderActions,
+  StateProcessesLoaderActions,
 } from '../../../state/utils/index';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 import * as CartActions from './cart.action';
@@ -281,9 +282,8 @@ describe('Cart Actions', () => {
       const action = new CartActions.ResetCartDetails();
       expect({ ...action }).toEqual({
         type: CartActions.RESET_CART_DETAILS,
-        meta: StateEntityProcessesLoaderActions.entityProcessesLoaderResetMeta(
-          MULTI_CART_DATA,
-          undefined
+        meta: StateProcessesLoaderActions.processesLoaderResetMeta(
+          MULTI_CART_DATA
         ),
       });
     });
