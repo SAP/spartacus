@@ -1,4 +1,5 @@
 import {
+  ComponentFactoryResolver,
   ComponentRef,
   ElementRef,
   Injectable,
@@ -16,6 +17,7 @@ import { ComponentMapperService } from '../services/component-mapper.service';
 })
 export class CmsComponentLauncherService implements ComponentLauncherService {
   constructor(
+    protected componentFactoryResolver: ComponentFactoryResolver,
     private componentMapper: ComponentMapperService,
     private cmsData: CmsDataService
   ) {}
@@ -34,9 +36,7 @@ export class CmsComponentLauncherService implements ComponentLauncherService {
         }
       };
 
-      const factory = this.componentMapper.getComponentFactoryByCode(
-        componentType
-      );
+      const factory = this.getComponentFactoryByCode(componentType);
 
       if (factory) {
         cmpRef = directiveInjector
@@ -56,5 +56,24 @@ export class CmsComponentLauncherService implements ComponentLauncherService {
 
       return dispose;
     });
+  }
+
+  private getComponentFactoryByCode(typeCode: string): any {
+    const component = this.componentMapper.getComponent(typeCode);
+    if (!component) {
+      return null;
+    }
+    const factory = this.componentFactoryResolver.resolveComponentFactory(
+      component
+    );
+
+    if (!factory) {
+      console.warn(
+        `No component factory found for the CMS component type '${typeCode}'.\n`,
+        `Make sure you add a component to the 'entryComponents' array in the NgModule.`
+      );
+      return null;
+    }
+    return factory;
   }
 }
