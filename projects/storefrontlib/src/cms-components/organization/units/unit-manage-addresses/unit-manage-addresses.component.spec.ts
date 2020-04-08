@@ -26,7 +26,7 @@ import {
 import { BehaviorSubject, of } from 'rxjs';
 
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
-import { UnitManageAddressesComponent } from './unit-assign-roles.component';
+import { UnitManageAddressesComponent } from './unit-manage-addresses.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
@@ -221,28 +221,6 @@ describe('UnitAssignRolesComponent', () => {
         defaultParams
       );
       expect(usersList).toEqual(mockUserUIList);
-    });
-  });
-
-  describe('assign', () => {
-    it('should assign budget', () => {
-      component.assign(userRow);
-      expect(orgUnitService.assignRole).toHaveBeenCalledWith(
-        code,
-        userRow.row.email,
-        roleId
-      );
-    });
-  });
-
-  describe('unassign', () => {
-    it('should unassign budget', () => {
-      component.unassign(userRow);
-      expect(orgUnitService.unassignRole).toHaveBeenCalledWith(
-        code,
-        userRow.row.email,
-        roleId
-      );
     });
   });
 });

@@ -13,7 +13,7 @@ import {
   B2BUnit,
 } from '@spartacus/core';
 
-import { UnitAddressDetailsComponent } from './unit-details.component';
+import { UnitAddressDetailsComponent } from './unit-address-details.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { TableModule } from '../../../../shared/components/table/table.module';

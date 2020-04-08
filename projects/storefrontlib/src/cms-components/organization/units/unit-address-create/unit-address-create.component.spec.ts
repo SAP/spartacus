@@ -16,7 +16,7 @@ import {
   B2BUnit,
 } from '@spartacus/core';
 
-import { UnitAddressCreateComponent } from './unit-create.component';
+import { UnitAddressCreateComponent } from './unit-address-create.component';
 import createSpy = jasmine.createSpy;
 import { UnitFormModule } from '../unit-form/unit-form.module';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';

@@ -15,7 +15,7 @@ import {
   B2BUnit,
 } from '@spartacus/core';
 
-import { UnitAddressFormComponent } from './unit-form.component';
+import { UnitAddressFormComponent } from './unit-address-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
