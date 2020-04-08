@@ -97,7 +97,8 @@ export class OrgUnitEffects {
 
   @Effect()
   updateUnit$: Observable<
-    OrgUnitActions.UpdateUnitSuccess | OrgUnitActions.UpdateUnitFail
+    // | OrgUnitActions.UpdateUnitSuccess
+    OrgUnitActions.LoadOrgUnit | OrgUnitActions.UpdateUnitFail
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ORG_UNIT),
     map((action: OrgUnitActions.UpdateUnit) => action.payload),
@@ -105,7 +106,15 @@ export class OrgUnitEffects {
       this.orgUnitConnector
         .update(payload.userId, payload.unitCode, payload.unit)
         .pipe(
-          map(data => new OrgUnitActions.UpdateUnitSuccess(data)),
+          // map(() => new OrgUnitActions.UpdateUnitSuccess(payload.unit)),
+          // Workaround for empty PATCH response:
+          map(
+            () =>
+              new OrgUnitActions.LoadOrgUnit({
+                userId: payload.userId,
+                orgUnitId: payload.unitCode,
+              })
+          ),
           catchError(error =>
             of(
               new OrgUnitActions.UpdateUnitFail({
@@ -300,7 +309,9 @@ export class OrgUnitEffects {
           payload.address
         )
         .pipe(
-          map(data => new OrgUnitActions.UpdateAddressSuccess(data)),
+          // map(data => new OrgUnitActions.UpdateAddressSuccess(data)),
+          // Workaround for empty PATCH response:
+          map(() => new OrgUnitActions.UpdateAddressSuccess(payload.address)),
           catchError(error =>
             of(
               new OrgUnitActions.UpdateAddressFail({
