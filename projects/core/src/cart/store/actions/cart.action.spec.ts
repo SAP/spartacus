@@ -1,4 +1,5 @@
 import { Cart } from '../../../model/cart.model';
+import { entityRemoveMeta } from '../../../state/utils/entity/entity.action';
 import {
   StateEntityLoaderActions,
   StateEntityProcessesLoaderActions,
@@ -191,29 +192,31 @@ describe('Cart Actions', () => {
   describe('MergeCart Actions', () => {
     describe('MergeCart', () => {
       it('should create the action', () => {
-        const userId = 'xxx@xxx.xxx';
-        const cartId = 'testCartId';
-        const action = new CartActions.MergeCart({
-          userId: userId,
-          cartId: cartId,
-        });
+        const payload = {
+          userId: 'xxx@xxx.xxx',
+          cartId: 'testCartId',
+          tempCartId: 'tempCartId',
+        };
+        const action = new CartActions.MergeCart(payload);
         expect({ ...action }).toEqual({
           type: CartActions.MERGE_CART,
-          payload: { userId: userId, cartId: cartId },
+          payload,
         });
       });
     });
     describe('MergeCartSuccess', () => {
       it('should create the action', () => {
-        const userId = 'xxx@xxx.xxx';
-        const cartId = 'testCartId';
-        const action = new CartActions.MergeCartSuccess({
-          userId: userId,
-          cartId: cartId,
-        });
+        const payload = {
+          userId: 'xxx@xxx.xxx',
+          cartId: 'testCartId',
+          oldCartId: 'oldCartId',
+          tempCartId: 'tempCartId',
+        };
+        const action = new CartActions.MergeCartSuccess(payload);
         expect({ ...action }).toEqual({
           type: CartActions.MERGE_CART_SUCCESS,
-          payload: { userId, cartId },
+          payload,
+          meta: entityRemoveMeta(MULTI_CART_DATA, payload.oldCartId),
         });
       });
     });
