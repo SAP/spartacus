@@ -67,7 +67,6 @@ if (!environment.production) {
       },
       features: {
         level: '1.5',
-        anonymousConsents: true,
       },
     }),
     JsonLdBuilderModule,
