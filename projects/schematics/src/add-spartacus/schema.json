@@ -30,7 +30,7 @@
     },
     "overwriteAppComponent": {
       "type": "boolean",
-      "description": "Overwrite the whole contents of app.component.html file with the <cx-storefront> tags.",
+      "description": "Overwrite the contents of app.component.html file with the <cx-storefront> tag.",
       "default": true
     },
     "pwa": {
