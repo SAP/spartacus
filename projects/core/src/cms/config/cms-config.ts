@@ -63,7 +63,7 @@ export enum DeferLoadingStrategy {
 export interface CMSComponentConfig
   extends StandardCmsComponentConfig,
     JspIncludeCmsComponentConfig {
-  [_: string]: CmsComponentMapping;
+  [typeCode: string]: CmsComponentMapping;
 }
 
 export abstract class CmsConfig extends OccConfig
