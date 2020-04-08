@@ -19,7 +19,6 @@ import {
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
-  Budget,
   OrgUnitService,
   B2BUser,
 } from '@spartacus/core';
@@ -188,8 +187,8 @@ describe('UnitAssignRolesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display No budgets found page if no budgets are found', () => {
-    const emptyBudgetList: EntitiesModel<Budget> = {
+  it('should display No users found page if no users are found', () => {
+    const emptyBudgetList: EntitiesModel<B2BUser> = {
       values: [],
       pagination: { totalResults: 0, sort: 'byName' },
       sorts: [{ code: 'byName', selected: true }],

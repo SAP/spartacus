@@ -104,7 +104,7 @@ describe('UnitManageAddressesComponent', () => {
     expect(component).toBeTruthy();
   });
   // TODO:
-  xit('should display No budgets found page if no budgets are found', () => {
+  xit('should display No addresses found page if no addresses are found', () => {
     const emptyAddressList = { values: [] };
 
     addressList.next(emptyAddressList);
