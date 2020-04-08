@@ -10,20 +10,19 @@ import { Facet } from '@spartacus/core';
 import { FocusConfig } from 'projects/storefrontlib/src/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
+import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { DialogMode, FacetList } from '../facet.model';
 import { FacetComponent } from '../facet/facet.component';
 import { FacetService } from '../services/facet.service';
 
 @Component({
-  selector: 'cx-facet-dialog',
-  templateUrl: './facet-dialog.component.html',
+  selector: 'cx-facet-list',
+  templateUrl: './facet-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FacetDialogComponent {
+export class FacetListComponent {
   /**
-   * Indicates that the facet navigation is rendered in dialog
-   * often a modal or sidenav.
+   * Indicates that the facet navigation is rendered in dialog.
    */
   @Input() dialogMode: DialogMode;
 

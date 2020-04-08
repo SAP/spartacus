@@ -10,9 +10,9 @@
 <cx-active-facets></cx-active-facets>
 
 <ng-container *ngIf="dialogMode$ | async as dialogMode">
-  <cx-facet-dialog
+  <cx-facet-list
     *ngIf="dialogMode === 'INLINE' || isOpen"
     [dialogMode]="dialogMode"
     (closeDialog)="close()"
-  ></cx-facet-dialog>
+  ></cx-facet-list>
 </ng-container>

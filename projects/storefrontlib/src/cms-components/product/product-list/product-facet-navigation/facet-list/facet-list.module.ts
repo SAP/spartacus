@@ -4,7 +4,7 @@ import { I18nModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { IconModule } from '../../../../misc/icon/icon.module';
 import { FacetModule } from '../facet/facet.module';
-import { FacetDialogComponent } from './facet-dialog.component';
+import { FacetListComponent } from './facet-list.component';
 
 @NgModule({
   imports: [
@@ -14,7 +14,7 @@ import { FacetDialogComponent } from './facet-dialog.component';
     FacetModule,
     KeyboardFocusModule
   ],
-  declarations: [FacetDialogComponent],
-  exports: [FacetDialogComponent]
+  declarations: [FacetListComponent],
+  exports: [FacetListComponent]
 })
-export class FacetDialogModule {}
+export class FacetListModule {}

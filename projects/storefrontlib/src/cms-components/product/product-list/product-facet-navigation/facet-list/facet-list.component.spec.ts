@@ -13,7 +13,7 @@ import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { DialogMode, FacetList } from '../facet.model';
 import { FacetService } from '../services/facet.service';
-import { FacetDialogComponent } from './facet-dialog.component';
+import { FacetDialogComponent } from './facet-list.component';
 
 @Component({
   selector: 'cx-icon',

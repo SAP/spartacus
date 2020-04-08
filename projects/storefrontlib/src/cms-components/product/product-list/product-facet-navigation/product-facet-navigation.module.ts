@@ -3,24 +3,24 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { IconModule } from '../../../misc/icon/icon.module';
 import { ActiveFacetsModule } from './active-facets/active-facets.module';
-import { FacetDialogModule } from './facet-dialog/facet-dialog.module';
+import { FacetListModule } from './facet-list/facet-list.module';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 @NgModule({
   imports: [
     CommonModule,
-    FacetDialogModule,
+    FacetListModule,
     ActiveFacetsModule,
     IconModule,
     I18nModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductRefinementComponent: {
-          component: ProductFacetNavigationComponent,
-        },
-      },
-    }),
+          component: ProductFacetNavigationComponent
+        }
+      }
+    })
   ],
   declarations: [ProductFacetNavigationComponent],
-  exports: [ProductFacetNavigationComponent],
+  exports: [ProductFacetNavigationComponent]
 })
 export class ProductFacetNavigationModule {}

@@ -11,7 +11,7 @@ import { map } from 'rxjs/internal/operators/map';
 import { distinctUntilChanged, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
-import { FacetDialogComponent } from './facet-dialog';
+import { FacetListComponent } from './facet-list';
 import { DialogMode } from './facet.model';
 
 const DELAY = 200;
@@ -38,7 +38,7 @@ export class ProductFacetNavigationComponent implements AfterViewInit {
    * The dialog element reference is used to focus the dialog once it's launched
    * and add an `active` class to it.
    */
-  @ViewChild(FacetDialogComponent, { read: ElementRef }) dialog: ElementRef<
+  @ViewChild(FacetListComponent, { read: ElementRef }) dialog: ElementRef<
     HTMLElement
   >;
 
