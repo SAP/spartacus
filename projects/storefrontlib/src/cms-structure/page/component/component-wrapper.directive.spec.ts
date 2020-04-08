@@ -29,9 +29,7 @@ const testText = 'test text';
 
 @Component({
   selector: 'cx-test',
-  template: `
-    <div id="debugEl1">${testText}</div>
-  `,
+  template: ` <div id="debugEl1">${testText}</div> `,
 })
 class TestComponent {
   constructor(
@@ -255,7 +253,7 @@ describe('ComponentWrapperDirective', () => {
         expect(scriptEl.src).toContain('path/to/file.js');
       });
 
-      it('should instantiate web component', done => {
+      it('should instantiate web component', (done) => {
         scriptEl.onload(); // invoke load callbacks
 
         // run in next runloop (to process async tasks)
@@ -270,7 +268,7 @@ describe('ComponentWrapperDirective', () => {
         });
       });
 
-      it('should pass cxApi to web component', done => {
+      it('should pass cxApi to web component', (done) => {
         scriptEl.onload(); // invoke load callbacks
 
         // run in next runloop (to process async tasks)

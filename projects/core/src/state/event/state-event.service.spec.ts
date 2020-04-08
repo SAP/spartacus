@@ -2,13 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { EventService } from '../../event/event.service';
+import { createFrom } from '../../util/create-from';
 import { StateEventService } from './state-event.service';
 
 class TestEvent {
-  test: number;
-  constructor(test: number) {
-    this.test = test;
-  }
+  value: number;
 }
 
 interface ActionWithPayload extends Action {
@@ -50,13 +48,16 @@ describe('StateEventService', () => {
         });
         const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
         const results = [];
-        registeredSource$.subscribe(e => results.push(e));
+        registeredSource$.subscribe((e) => results.push(e));
 
-        mockActionsSubject$.next({ type: 'A', payload: 1 });
-        mockActionsSubject$.next({ type: 'B', payload: 2 });
-        mockActionsSubject$.next({ type: 'A', payload: 3 });
+        mockActionsSubject$.next({ type: 'A', payload: { value: 1 } });
+        mockActionsSubject$.next({ type: 'B', payload: { value: 2 } });
+        mockActionsSubject$.next({ type: 'A', payload: { value: 3 } });
 
-        expect(results).toEqual([new TestEvent(1), new TestEvent(3)]);
+        expect(results).toEqual([
+          createFrom(TestEvent, { value: 1 }),
+          createFrom(TestEvent, { value: 3 }),
+        ]);
         expect(eventService.register).toHaveBeenCalledWith(
           TestEvent,
           jasmine.any(Object)
@@ -68,17 +69,20 @@ describe('StateEventService', () => {
           action: 'A',
           event: TestEvent,
           factory: (action: ActionWithPayload) =>
-            new TestEvent(100 + action.payload),
+            createFrom(TestEvent, { value: 100 + action.payload.value }),
         });
         const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
         const results = [];
-        registeredSource$.subscribe(e => results.push(e));
+        registeredSource$.subscribe((e) => results.push(e));
 
-        mockActionsSubject$.next({ type: 'A', payload: 1 });
-        mockActionsSubject$.next({ type: 'B', payload: 2 });
-        mockActionsSubject$.next({ type: 'A', payload: 3 });
+        mockActionsSubject$.next({ type: 'A', payload: { value: 1 } });
+        mockActionsSubject$.next({ type: 'B', payload: { value: 2 } });
+        mockActionsSubject$.next({ type: 'A', payload: { value: 3 } });
 
-        expect(results).toEqual([new TestEvent(101), new TestEvent(103)]);
+        expect(results).toEqual([
+          createFrom(TestEvent, { value: 101 }),
+          createFrom(TestEvent, { value: 103 }),
+        ]);
         expect(eventService.register).toHaveBeenCalledWith(
           TestEvent,
           jasmine.any(Object)
@@ -92,16 +96,16 @@ describe('StateEventService', () => {
         });
         const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
         const results = [];
-        registeredSource$.subscribe(e => results.push(e));
+        registeredSource$.subscribe((e) => results.push(e));
 
-        mockActionsSubject$.next({ type: 'A', payload: 1 });
-        mockActionsSubject$.next({ type: 'B', payload: 2 });
-        mockActionsSubject$.next({ type: 'A', payload: 3 });
+        mockActionsSubject$.next({ type: 'A', payload: { value: 1 } });
+        mockActionsSubject$.next({ type: 'B', payload: { value: 2 } });
+        mockActionsSubject$.next({ type: 'A', payload: { value: 3 } });
 
         expect(results).toEqual([
-          new TestEvent(1),
-          new TestEvent(2),
-          new TestEvent(3),
+          createFrom(TestEvent, { value: 1 }),
+          createFrom(TestEvent, { value: 2 }),
+          createFrom(TestEvent, { value: 3 }),
         ]);
         expect(eventService.register).toHaveBeenCalledWith(
           TestEvent,

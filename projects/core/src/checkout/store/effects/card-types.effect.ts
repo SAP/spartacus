@@ -15,8 +15,8 @@ export class CardTypesEffects {
     ofType(CheckoutActions.LOAD_CARD_TYPES),
     switchMap(() => {
       return this.checkoutPaymentConnector.getCardTypes().pipe(
-        map(cardTypes => new CheckoutActions.LoadCardTypesSuccess(cardTypes)),
-        catchError(error =>
+        map((cardTypes) => new CheckoutActions.LoadCardTypesSuccess(cardTypes)),
+        catchError((error) =>
           of(
             new CheckoutActions.LoadCardTypesFail(makeErrorSerializable(error))
           )

@@ -1,5 +1,11 @@
 import { Cart } from '../../../model/cart.model';
-import * as DeprecatedCartActions from './cart.action';
+import { entityRemoveMeta } from '../../../state/utils/entity/entity.action';
+import {
+  StateEntityLoaderActions,
+  StateEntityProcessesLoaderActions,
+} from '../../../state/utils/index';
+import { MULTI_CART_DATA } from '../multi-cart-state';
+import * as CartActions from './cart.action';
 
 const cart: Cart = {
   code: 'xxx',
@@ -15,37 +21,56 @@ const cart: Cart = {
   },
 };
 
+const tempCartId = 'tempCartId';
+
 describe('Cart Actions', () => {
   describe('CreateCart Actions', () => {
     describe('CreateCart', () => {
       it('should create the action', () => {
-        const userId = 'xxx@xxx.xxx';
-        const action = new DeprecatedCartActions.CreateCart(userId);
+        const payload = { tempCartId, userId: 'userId' };
+        const action = new CartActions.CreateCart(payload);
         expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.CREATE_CART,
-          payload: userId,
+          type: CartActions.CREATE_CART,
+          payload,
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            MULTI_CART_DATA,
+            tempCartId
+          ),
         });
       });
     });
 
     describe('CreateCartFail', () => {
       it('should create the action', () => {
-        const error = 'anError';
-        const action = new DeprecatedCartActions.CreateCartFail(error);
-
+        const payload = { tempCartId, userId: 'userId', error: 'error' };
+        const action = new CartActions.CreateCartFail(payload);
         expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.CREATE_CART_FAIL,
-          payload: error,
+          type: CartActions.CREATE_CART_FAIL,
+          payload,
+          meta: StateEntityLoaderActions.entityFailMeta(
+            MULTI_CART_DATA,
+            tempCartId
+          ),
         });
       });
     });
 
     describe('CreateCartSuccess', () => {
       it('should create the action', () => {
-        const action = new DeprecatedCartActions.CreateCartSuccess(cart);
+        const payload = {
+          cart,
+          userId: 'userId',
+          tempCartId: 'tempCartId',
+          cartId: cart.code,
+        };
+        const action = new CartActions.CreateCartSuccess(payload);
         expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.CREATE_CART_SUCCESS,
-          payload: cart,
+          type: CartActions.CREATE_CART_SUCCESS,
+          payload,
+          meta: StateEntityLoaderActions.entitySuccessMeta(
+            MULTI_CART_DATA,
+            cart.code
+          ),
         });
       });
     });
@@ -54,37 +79,50 @@ describe('Cart Actions', () => {
   describe('LoadCart Actions', () => {
     describe('LoadCart', () => {
       it('should create the action', () => {
-        const userId = 'xxx@xxx.xxx';
-        const cartId = 'testCartId';
-        const action = new DeprecatedCartActions.LoadCart({
-          userId: userId,
-          cartId: cartId,
-        });
+        const payload = { cartId: 'testCartId', userId: 'xxx@xxx.xxx' };
+        const action = new CartActions.LoadCart(payload);
         expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.LOAD_CART,
-          payload: { userId: userId, cartId: cartId },
+          type: CartActions.LOAD_CART,
+          payload,
+          meta: StateEntityLoaderActions.entityLoadMeta(
+            MULTI_CART_DATA,
+            payload.cartId
+          ),
         });
       });
     });
 
     describe('LoadCartFail', () => {
       it('should create the action', () => {
-        const error = 'anError';
-        const action = new DeprecatedCartActions.LoadCartFail(error);
-
+        const payload = { cartId: 'cartId', error: 'error', userId: 'userId' };
+        const action = new CartActions.LoadCartFail(payload);
         expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.LOAD_CART_FAIL,
-          payload: error,
+          type: CartActions.LOAD_CART_FAIL,
+          payload,
+          meta: StateEntityLoaderActions.entityFailMeta(
+            MULTI_CART_DATA,
+            payload.cartId,
+            payload.error
+          ),
         });
       });
     });
 
     describe('LoadCartSuccess', () => {
       it('should create the action', () => {
-        const action = new DeprecatedCartActions.LoadCartSuccess(cart);
+        const payload = {
+          cartId: cart.code,
+          cart,
+          userId: 'userId',
+        };
+        const action = new CartActions.LoadCartSuccess(payload);
         expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.LOAD_CART_SUCCESS,
-          payload: cart,
+          type: CartActions.LOAD_CART_SUCCESS,
+          payload,
+          meta: StateEntityLoaderActions.entitySuccessMeta(
+            MULTI_CART_DATA,
+            payload.cart.code
+          ),
         });
       });
     });
@@ -93,42 +131,59 @@ describe('Cart Actions', () => {
   describe('AddEmailToCart Actions', () => {
     describe('AddEmailToCart', () => {
       it('should create the action', () => {
-        const userId = 'anonymous';
-        const cartId = 'testCartId';
-        const email = 'test@test.com';
-        const action = new DeprecatedCartActions.AddEmailToCart({
-          userId: userId,
-          cartId: cartId,
-          email: email,
-        });
+        const payload = {
+          userId: 'anonymous',
+          cartId: 'testCartId',
+          email: 'test@test.com',
+        };
+        const action = new CartActions.AddEmailToCart(payload);
         expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.ADD_EMAIL_TO_CART,
-          payload: { userId: userId, cartId: cartId, email: email },
+          type: CartActions.ADD_EMAIL_TO_CART,
+          payload,
+          meta: StateEntityProcessesLoaderActions.entityProcessesIncrementMeta(
+            MULTI_CART_DATA,
+            payload.cartId
+          ),
         });
       });
     });
 
     describe('AddEmailToCartFail', () => {
       it('should create the action', () => {
-        const error = 'anError';
-        const action = new DeprecatedCartActions.AddEmailToCartFail(error);
+        const payload = {
+          error: 'anError',
+          cartId: 'cartId',
+          userId: 'userId',
+          email: 'email@email.com',
+        };
+        const action = new CartActions.AddEmailToCartFail(payload);
 
         expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.ADD_EMAIL_TO_CART_FAIL,
-          payload: error,
+          type: CartActions.ADD_EMAIL_TO_CART_FAIL,
+          payload,
+          meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
+            MULTI_CART_DATA,
+            payload.cartId
+          ),
         });
       });
     });
 
     describe('AddEmailToCartSuccess', () => {
       it('should create the action', () => {
-        const action = new DeprecatedCartActions.AddEmailToCartSuccess({
+        const payload = {
           userId: 'userId',
           cartId: 'cartId',
-        });
+          email: 'email@email.com',
+        };
+        const action = new CartActions.AddEmailToCartSuccess(payload);
         expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.ADD_EMAIL_TO_CART_SUCCESS,
-          payload: { userId: 'userId', cartId: 'cartId' },
+          type: CartActions.ADD_EMAIL_TO_CART_SUCCESS,
+          payload,
+          meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
+            MULTI_CART_DATA,
+            payload.cartId
+          ),
         });
       });
     });
@@ -137,29 +192,31 @@ describe('Cart Actions', () => {
   describe('MergeCart Actions', () => {
     describe('MergeCart', () => {
       it('should create the action', () => {
-        const userId = 'xxx@xxx.xxx';
-        const cartId = 'testCartId';
-        const action = new DeprecatedCartActions.MergeCart({
-          userId: userId,
-          cartId: cartId,
-        });
+        const payload = {
+          userId: 'xxx@xxx.xxx',
+          cartId: 'testCartId',
+          tempCartId: 'tempCartId',
+        };
+        const action = new CartActions.MergeCart(payload);
         expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.MERGE_CART,
-          payload: { userId: userId, cartId: cartId },
+          type: CartActions.MERGE_CART,
+          payload,
         });
       });
     });
     describe('MergeCartSuccess', () => {
       it('should create the action', () => {
-        const userId = 'xxx@xxx.xxx';
-        const cartId = 'testCartId';
-        const action = new DeprecatedCartActions.MergeCartSuccess({
-          userId: userId,
-          cartId: cartId,
-        });
+        const payload = {
+          userId: 'xxx@xxx.xxx',
+          cartId: 'testCartId',
+          oldCartId: 'oldCartId',
+          tempCartId: 'tempCartId',
+        };
+        const action = new CartActions.MergeCartSuccess(payload);
         expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.MERGE_CART_SUCCESS,
-          payload: { userId, cartId },
+          type: CartActions.MERGE_CART_SUCCESS,
+          payload,
+          meta: entityRemoveMeta(MULTI_CART_DATA, payload.oldCartId),
         });
       });
     });
@@ -170,12 +227,12 @@ describe('Cart Actions', () => {
       it('should create the action', () => {
         const userId = 'xxx@xxx.xxx';
         const cartId = 'testCartId';
-        const action = new DeprecatedCartActions.DeleteCart({
+        const action = new CartActions.DeleteCart({
           userId: userId,
           cartId: cartId,
         });
         expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.DELETE_CART,
+          type: CartActions.DELETE_CART,
           payload: { userId: userId, cartId: cartId },
         });
       });
@@ -183,10 +240,10 @@ describe('Cart Actions', () => {
     describe('DeleteCartFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new DeprecatedCartActions.DeleteCartFail(error);
+        const action = new CartActions.DeleteCartFail(error);
 
         expect({ ...action }).toEqual({
-          type: DeprecatedCartActions.DELETE_CART_FAIL,
+          type: CartActions.DELETE_CART_FAIL,
           payload: error,
         });
       });
@@ -195,18 +252,18 @@ describe('Cart Actions', () => {
 
   describe('ResetCartDetails', () => {
     it('should create the action', () => {
-      const action = new DeprecatedCartActions.ResetCartDetails();
+      const action = new CartActions.ResetCartDetails();
       expect({ ...action }).toEqual({
-        type: DeprecatedCartActions.RESET_CART_DETAILS,
+        type: CartActions.RESET_CART_DETAILS,
       });
     });
   });
 
   describe('ClearCart', () => {
     it('should create the action', () => {
-      const action = new DeprecatedCartActions.ClearCart();
+      const action = new CartActions.ClearCart();
       expect({ ...action }).toEqual({
-        type: DeprecatedCartActions.CLEAR_CART,
+        type: CartActions.CLEAR_CART,
       });
     });
   });

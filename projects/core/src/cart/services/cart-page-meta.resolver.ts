@@ -24,7 +24,7 @@ export class CartPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
   protected cms$: Observable<Page> = this.cms
     .getCurrentPage()
-    .pipe(filter(page => !!page));
+    .pipe(filter((page) => !!page));
 
   constructor(protected cms: CmsService) {
     super();
@@ -36,7 +36,7 @@ export class CartPageMetaResolver extends PageMetaResolver
    * Resolves the page title, which is driven by the backend.
    */
   resolveTitle(): Observable<string> {
-    return this.cms$.pipe(map(p => p.title));
+    return this.cms$.pipe(map((p) => p.title));
   }
 
   /**

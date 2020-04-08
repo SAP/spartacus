@@ -14,19 +14,19 @@ export class ProductsSearchEffects {
   > = this.actions$.pipe(
     ofType(ProductActions.SEARCH_PRODUCTS),
     groupBy((action: ProductActions.SearchProducts) => action.auxiliary),
-    mergeMap(group =>
+    mergeMap((group) =>
       group.pipe(
         switchMap((action: ProductActions.SearchProducts) => {
           return this.productSearchConnector
             .search(action.payload.queryText, action.payload.searchConfig)
             .pipe(
-              map(data => {
+              map((data) => {
                 return new ProductActions.SearchProductsSuccess(
                   data,
                   action.auxiliary
                 );
               }),
-              catchError(error =>
+              catchError((error) =>
                 of(
                   new ProductActions.SearchProductsFail(
                     makeErrorSerializable(error),
@@ -47,17 +47,17 @@ export class ProductsSearchEffects {
   > = this.actions$.pipe(
     ofType(ProductActions.GET_PRODUCT_SUGGESTIONS),
     map((action: ProductActions.GetProductSuggestions) => action.payload),
-    switchMap(payload => {
+    switchMap((payload) => {
       return this.productSearchConnector
         .getSuggestions(payload.term, payload.searchConfig.pageSize)
         .pipe(
-          map(suggestions => {
+          map((suggestions) => {
             if (suggestions === undefined) {
               return new ProductActions.GetProductSuggestionsSuccess([]);
             }
             return new ProductActions.GetProductSuggestionsSuccess(suggestions);
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new ProductActions.GetProductSuggestionsFail(
                 makeErrorSerializable(error)

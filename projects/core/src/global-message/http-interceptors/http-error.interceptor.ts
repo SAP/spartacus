@@ -51,10 +51,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
    */
   protected getResponseHandler(response: HttpErrorResponse): HttpErrorHandler {
     const status = response.status;
-    let handler = this.handlers.find(h => h.responseStatus === status);
+    let handler = this.handlers.find((h) => h.responseStatus === status);
     if (!handler) {
       handler = this.handlers.find(
-        h => h.responseStatus === HttpResponseStatus.UNKNOWN
+        (h) => h.responseStatus === HttpResponseStatus.UNKNOWN
       );
     }
     return handler;

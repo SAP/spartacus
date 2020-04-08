@@ -9,7 +9,7 @@ export class MerchandisingFacetToQueryparamNormalizer
     const target = source
       .filter(Boolean)
       .filter((facet: MerchandisingFacet) => facet.code && facet.value)
-      .map(facet => `${facet.code}:${facet.value}`)
+      .map((facet) => `${facet.code}:${facet.value}`)
       .join(':');
     return target.length > 0 ? target : undefined;
   }

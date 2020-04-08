@@ -5,7 +5,7 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="cx-section">
-        <form [formGroup]="userRegistrationForm">
+        <form (ngSubmit)="submitForm()" [formGroup]="registerForm">
           <div class="form-group">
             <label>
               <span class="label-content">{{
@@ -38,6 +38,9 @@
                 }}"
                 formControlName="firstName"
               />
+              <cx-form-errors
+                [control]="registerForm.get('firstName')"
+              ></cx-form-errors>
             </label>
           </div>
 
@@ -55,6 +58,9 @@
                 }}"
                 formControlName="lastName"
               />
+              <cx-form-errors
+                [control]="registerForm.get('lastName')"
+              ></cx-form-errors>
             </label>
           </div>
 
@@ -65,12 +71,6 @@
               }}</span>
               <input
                 class="form-control"
-                [class.is-invalid]="
-                  userRegistrationForm.get('email').errors &&
-                  (userRegistrationForm.get('email').errors['email'] ||
-                    userRegistrationForm.get('email').errors['InvalidEmail']) &&
-                  userRegistrationForm.get('email').dirty
-                "
                 type="email"
                 name="email"
                 placeholder="{{
@@ -78,6 +78,9 @@
                 }}"
                 formControlName="email"
               />
+              <cx-form-errors
+                [control]="registerForm.get('email')"
+              ></cx-form-errors>
             </label>
           </div>
 
@@ -88,10 +91,6 @@
               }}</span>
               <input
                 class="form-control"
-                [class.is-invalid]="
-                  userRegistrationForm.get('password').invalid &&
-                  userRegistrationForm.get('password').dirty
-                "
                 type="password"
                 name="password"
                 placeholder="{{
@@ -99,17 +98,9 @@
                 }}"
                 formControlName="password"
               />
-              <div
-                class="invalid-feedback"
-                *ngIf="
-                  userRegistrationForm.get('password').invalid &&
-                  userRegistrationForm.get('password').dirty
-                "
-              >
-                <span>{{
-                  'register.passwordMinRequirements' | cxTranslate
-                }}</span>
-              </div>
+              <cx-form-errors
+                [control]="registerForm.get('password')"
+              ></cx-form-errors>
             </label>
           </div>
 
@@ -120,10 +111,6 @@
               }}</span>
               <input
                 class="form-control"
-                [class.is-invalid]="
-                  userRegistrationForm.get('password').value !==
-                  userRegistrationForm.get('passwordconf').value
-                "
                 type="password"
                 name="confirmpassword"
                 placeholder="{{
@@ -131,52 +118,26 @@
                 }}"
                 formControlName="passwordconf"
               />
-              <div
-                class="invalid-feedback"
-                *ngIf="
-                  userRegistrationForm.get('password').value !==
-                    userRegistrationForm.get('passwordconf').value &&
-                  userRegistrationForm.get('passwordconf').value
-                "
-              >
-                <span>{{
-                  'register.bothPasswordMustMatch' | cxTranslate
-                }}</span>
-              </div>
+              <cx-form-errors
+                [control]="registerForm.get('passwordconf')"
+              ></cx-form-errors>
             </label>
           </div>
 
           <div class="form-group">
             <div class="form-check">
-              <ng-container
-                *ngIf="isAnonymousConsentEnabled; else hardcodedNewsletter"
-              >
-                <label *ngIf="anonymousConsent$ | async as anonymousConsent">
-                  <input
-                    type="checkbox"
-                    name="newsletter"
-                    class="form-check-input"
-                    formControlName="newsletter"
-                    [checked]="isConsentGiven(anonymousConsent.consent)"
-                  />
-                  <span class="form-check-label">
-                    {{ anonymousConsent.template }}
-                  </span>
-                </label>
-              </ng-container>
-              <ng-template #hardcodedNewsletter
-                ><label>
-                  <input
-                    type="checkbox"
-                    name="newsletter"
-                    class="form-check-input"
-                    formControlName="newsletter"
-                  />
-                  <span class="form-check-label">
-                    {{ 'register.emailMarketing' | cxTranslate }}
-                  </span>
-                </label>
-              </ng-template>
+              <label *ngIf="anonymousConsent$ | async as anonymousConsent">
+                <input
+                  type="checkbox"
+                  name="newsletter"
+                  class="form-check-input"
+                  formControlName="newsletter"
+                  [checked]="isConsentGiven(anonymousConsent.consent)"
+                />
+                <span class="form-check-label">
+                  {{ anonymousConsent.template }}
+                </span>
+              </label>
             </div>
           </div>
 
@@ -197,14 +158,13 @@
                     {{ 'register.termsAndConditions' | cxTranslate }}
                   </a>
                 </span>
+                <cx-form-errors
+                  [control]="registerForm.get('termsandconditions')"
+                ></cx-form-errors>
               </label>
             </div>
           </div>
-          <button
-            type="submit"
-            (click)="submit()"
-            class="btn btn-block btn-primary"
-          >
+          <button type="submit" class="btn btn-block btn-primary">
             {{ 'register.register' | cxTranslate }}
           </button>
           <a

@@ -65,11 +65,11 @@ describe('UserTokenInterceptor', () => {
     (http: HttpClient) => {
       spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
 
-      const sub: Subscription = http.get('/xxx').subscribe(result => {
+      const sub: Subscription = http.get('/xxx').subscribe((result) => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -88,11 +88,11 @@ describe('UserTokenInterceptor', () => {
       spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
       const sub: Subscription = http
         .get('https://localhost:9002/rest/v2/test-site')
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toBeTruthy();
         });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -115,11 +115,11 @@ describe('UserTokenInterceptor', () => {
       const headers = { Authorization: 'bearer 123' };
       const sub: Subscription = http
         .get('https://localhost:9002/rest/v2/test-site', { headers })
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toBeTruthy();
         });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 

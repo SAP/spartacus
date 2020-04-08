@@ -10,6 +10,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { ForgotPasswordComponent } from './forgot-password.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { ForgotPasswordComponent } from './forgot-password.component';
     RouterModule,
     UrlModule,
     I18nModule,
+    FormErrorsModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

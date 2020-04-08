@@ -65,7 +65,7 @@ describe('QualtricsLoaderService', () => {
         let result = false;
         service
           .load()
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -79,10 +79,7 @@ describe('QualtricsLoaderService', () => {
         spyOn<any>(service, 'isDataLoaded').and.returnValue(of(false));
         service['qualtricsLoaded$'].next(false);
 
-        service
-          .load()
-          .subscribe()
-          .unsubscribe();
+        service.load().subscribe().unsubscribe();
 
         expect(winRef.nativeWindow['QSI'].API.unload).not.toHaveBeenCalled();
         expect(winRef.nativeWindow['QSI'].API.load).not.toHaveBeenCalled();
@@ -94,7 +91,7 @@ describe('QualtricsLoaderService', () => {
   describe('isDataLoadedMethod', () => {
     it('return true by default', () => {
       let result = false;
-      service[isDataLoadedMethod]().subscribe(value => (result = value));
+      service[isDataLoadedMethod]().subscribe((value) => (result = value));
       expect(result).toEqual(true);
     });
   });

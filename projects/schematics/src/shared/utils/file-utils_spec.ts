@@ -28,13 +28,15 @@ import {
   commitChanges,
   defineProperty,
   findConstructor,
-  getAllHtmlFiles,
   getAllTsSourceFiles,
+  getHtmlFiles,
   getIndexHtmlPath,
+  getLineFromTSFile,
   getPathResultsForFile,
   getTsSourceFile,
   injectService,
   insertCommentAboveIdentifier,
+  insertComponentSelectorComment,
   InsertDirection,
   insertHtmlComment,
   isCandidateForConstructorDeprecation,
@@ -282,41 +284,45 @@ describe('File utils', () => {
 
   describe('getPathResultsForFile', () => {
     it('should return proper path for file', async () => {
-      const pathsToFile = getPathResultsForFile(appTree, 'test.ts', 'src');
+      const pathsToFiles = getPathResultsForFile(appTree, 'test.ts', 'src');
 
-      expect(pathsToFile.length).toBeGreaterThan(0);
-      expect(pathsToFile[0]).toEqual('/src/test.ts');
+      expect(pathsToFiles.length).toBeGreaterThan(0);
+      expect(pathsToFiles[0]).toEqual('/src/test.ts');
     });
   });
 
   describe('getAllHtmlFiles', () => {
     it('should return proper path for file', async () => {
-      const pathsToFile = getAllHtmlFiles(appTree, 'src');
+      let pathsToFiles = getHtmlFiles(appTree, undefined, 'src');
+      expect(pathsToFiles).toBeTruthy();
 
-      expect(pathsToFile.length).toEqual(2);
-      expect(pathsToFile[0]).toEqual('/src/index.html');
-      expect(pathsToFile[1]).toEqual('/src/app/app.component.html');
+      pathsToFiles = pathsToFiles || [];
+      expect(pathsToFiles.length).toEqual(2);
+      expect(pathsToFiles[0]).toEqual('/src/index.html');
+      expect(pathsToFiles[1]).toEqual('/src/app/app.component.html');
     });
   });
 
-  describe('insertHtmlComment', () => {
+  describe('insertComponentSelectorComment', () => {
     it('should insert the comment', async () => {
       const componentDeprecation = COMPONENT_DEPRECATION_DATA[0];
-      const result = insertHtmlComment(
+      const result = insertComponentSelectorComment(
         HTML_EXAMPLE,
         componentDeprecation.selector,
-        componentDeprecation.removedProperties[0]
+        (componentDeprecation.removedProperties || [])[0]
       );
 
       expect(result).toBeTruthy();
       expect(result).toEqual(HTML_EXAMPLE_EXPECTED);
     });
-    xit('should insert the comment (with *ngIf)', async () => {
-      const componentDeprecation = COMPONENT_DEPRECATION_DATA[1];
+  });
+
+  describe('insertHtmlComment', () => {
+    it('should insert the comment with *ngIf', async () => {
+      const componentDeprecation = COMPONENT_DEPRECATION_DATA[2];
       const result = insertHtmlComment(
         HTML_EXAMPLE_NGIF,
-        componentDeprecation.selector,
-        componentDeprecation.removedProperties[0]
+        (componentDeprecation.removedProperties || [])[0]
       );
 
       expect(result).toBeTruthy();
@@ -785,6 +791,24 @@ describe('File utils', () => {
       expect(changes).toEqual([
         new ReplaceChange(filePath, 174, oldName, newName),
       ]);
+    });
+  });
+
+  describe('getLineFromTSFile', () => {
+    it('should return the ReplaceChange', async () => {
+      const lineFileTestContent =
+        "import test1 from '@test-lib';\nimport test2 from '@another-test-lib';\nconst test = new Test();";
+      const lineFilePath = '/line-test.ts';
+      const testLine = "import test2 from '@another-test-lib'";
+      await appTree.create(lineFilePath, lineFileTestContent);
+      const content = await appTree.readContent(lineFilePath);
+      const lines = getLineFromTSFile(
+        appTree,
+        lineFilePath,
+        content.indexOf(testLine)
+      );
+
+      expect(lines[0]).toEqual(content.indexOf(testLine));
     });
   });
 });

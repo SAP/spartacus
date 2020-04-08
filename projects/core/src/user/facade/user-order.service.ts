@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
 import {
@@ -40,14 +40,14 @@ export class UserOrderService {
    * @param orderCode an order code
    */
   loadOrderDetails(orderCode: string): void {
-    this.withUserId(userId =>
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderDetails({
           userId,
           orderCode,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -63,7 +63,7 @@ export class UserOrderService {
   getOrderHistoryList(pageSize: number): Observable<OrderHistoryList> {
     return this.store.pipe(
       select(UsersSelectors.getOrdersState),
-      tap(orderListState => {
+      tap((orderListState) => {
         const attemptedLoad =
           orderListState.loading ||
           orderListState.success ||
@@ -72,7 +72,7 @@ export class UserOrderService {
           this.loadOrderList(pageSize);
         }
       }),
-      map(orderListState => orderListState.value)
+      map((orderListState) => orderListState.value)
     );
   }
 
@@ -90,7 +90,7 @@ export class UserOrderService {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.withUserId(userId =>
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadUserOrders({
           userId,
@@ -98,8 +98,8 @@ export class UserOrderService {
           currentPage,
           sort,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -122,15 +122,15 @@ export class UserOrderService {
    * @param consignmentCode a consignment code
    */
   loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
-    this.withUserId(userId =>
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadConsignmentTracking({
           userId,
           orderCode,
           consignmentCode,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -147,7 +147,7 @@ export class UserOrderService {
     orderCode: string,
     cancelRequestInput: CancellationRequestEntryInputList
   ): void {
-    this.withUserId(userId => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.CancelOrder({
           userId,
@@ -181,15 +181,5 @@ export class UserOrderService {
    */
   resetCancelOrderProcessState(): void {
     return this.store.dispatch(new UserActions.ResetCancelOrderProcess());
-  }
-
-  /*
-   * Utility method to distinquish user id in a convenient way
-   */
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(userId => callback(userId));
   }
 }

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { provideDefaultConfigFactory } from '../../config/config.module';
@@ -26,7 +25,6 @@ export function anonymousConsentsStoreConfigFactory(): StateConfig {
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     StateModule,
     StoreModule.forFeature(ANONYMOUS_CONSENTS_STORE_FEATURE, reducerToken, {
       metaReducers,

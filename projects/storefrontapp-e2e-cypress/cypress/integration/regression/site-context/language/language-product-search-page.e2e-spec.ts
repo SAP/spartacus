@@ -5,7 +5,7 @@ describe('Language switch - product-search page', () => {
   const deutschName = siteContextSelector.PRODUCT_NAME_SEARCH_DE;
 
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   siteContextSelector.stub(

@@ -96,7 +96,7 @@ describe('MultiCartStatePersistenceService', () => {
   it('should return active from cart state', () => {
     service['getCartState']()
       .pipe(take(1))
-      .subscribe(state => {
+      .subscribe((state) => {
         expect(state).toEqual({ active: '' });
       });
   });

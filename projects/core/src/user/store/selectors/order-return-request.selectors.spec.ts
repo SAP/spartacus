@@ -35,7 +35,7 @@ describe('Order Return Request Selectors', () => {
       let result: ReturnRequest;
       store
         .pipe(select(UsersSelectors.getOrderReturnRequest))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).not.toBeNull();
     });
   });
@@ -45,7 +45,7 @@ describe('Order Return Request Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getOrderReturnRequestLoading))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).not.toBeNull();
     });
   });
@@ -55,7 +55,7 @@ describe('Order Return Request Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getOrderReturnRequestSuccess))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).not.toBeNull();
     });
   });
@@ -65,7 +65,7 @@ describe('Order Return Request Selectors', () => {
       let result: LoaderState<ReturnRequestList>;
       store
         .pipe(select(UsersSelectors.getOrderReturnRequestListState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -86,7 +86,7 @@ describe('Order Return Request Selectors', () => {
       let result: ReturnRequestList;
       store
         .pipe(select(UsersSelectors.getOrderReturnRequestList))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({
         returnRequests: [],
