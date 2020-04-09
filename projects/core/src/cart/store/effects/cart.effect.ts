@@ -138,8 +138,7 @@ export class CartEffects {
 
   @Effect()
   createCart$: Observable<
-    | DeprecatedCartActions.MergeCartSuccess
-    | CartActions.MergeMultiCartSuccess
+    | CartActions.MergeCartSuccess
     | CartActions.CreateCartSuccess
     | CartActions.CreateCartFail
     | CartActions.SetTempCart
@@ -154,15 +153,11 @@ export class CartEffects {
             const conditionalActions = [];
             if (payload.oldCartId) {
               conditionalActions.push(
-                new DeprecatedCartActions.MergeCartSuccess({
+                new CartActions.MergeCartSuccess({
+                  extraData: payload.extraData,
                   userId: payload.userId,
-                  cartId: cart.code,
-                })
-              );
-              conditionalActions.push(
-                new CartActions.MergeMultiCartSuccess({
-                  userId: payload.userId,
-                  cartId: cart.code,
+                  tempCartId: payload.tempCartId,
+                  cartId: getCartIdByUserId(cart, payload.userId),
                   oldCartId: payload.oldCartId,
                 })
               );
@@ -195,8 +190,8 @@ export class CartEffects {
 
   @Effect()
   mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.MERGE_CART),
-    map((action: DeprecatedCartActions.MergeCart) => action.payload),
+    ofType(CartActions.MERGE_CART),
+    map((action: CartActions.MergeCart) => action.payload),
     mergeMap((payload) => {
       return this.cartConnector.load(payload.userId, OCC_CART_ID_CURRENT).pipe(
         mergeMap((currentCart) => {
@@ -220,14 +215,12 @@ export class CartEffects {
     CartActions.LoadCart | CartActions.CartProcessesDecrement
   > = this.actions$.pipe(
     ofType(
-      DeprecatedCartActions.ADD_EMAIL_TO_CART_SUCCESS,
       CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
       CartActions.CART_ADD_VOUCHER_SUCCESS
     ),
     map(
       (
         action:
-          | DeprecatedCartActions.AddEmailToCartSuccess
           | CheckoutActions.ClearCheckoutDeliveryModeSuccess
           | CartActions.CartAddVoucherSuccess
       ) => action.payload
@@ -248,7 +241,6 @@ export class CartEffects {
     CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(
-      DeprecatedCartActions.MERGE_CART_SUCCESS,
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
@@ -259,7 +251,6 @@ export class CartEffects {
         action:
           | CartActions.CartAddEntrySuccess
           | CartActions.CartUpdateEntrySuccess
-          | DeprecatedCartActions.MergeCartSuccess
           | CartActions.CartRemoveEntrySuccess
           | CartActions.CartRemoveVoucherSuccess
       ) => action.payload
@@ -291,26 +282,22 @@ export class CartEffects {
 
   @Effect()
   addEmail$: Observable<
-    | DeprecatedCartActions.AddEmailToCartSuccess
-    | DeprecatedCartActions.AddEmailToCartFail
-    | CartActions.AddEmailToMultiCartFail
-    | CartActions.AddEmailToMultiCartSuccess
-    | CartActions.CartProcessesDecrement
+    | CartActions.AddEmailToCartSuccess
+    | CartActions.AddEmailToCartFail
     | CartActions.LoadCart
   > = this.actions$.pipe(
-    ofType(DeprecatedCartActions.ADD_EMAIL_TO_CART),
-    map((action: DeprecatedCartActions.AddEmailToCart) => action.payload),
+    ofType(CartActions.ADD_EMAIL_TO_CART),
+    map((action: CartActions.AddEmailToCart) => action.payload),
     mergeMap((payload) =>
       this.cartConnector
         .addEmail(payload.userId, payload.cartId, payload.email)
         .pipe(
           mergeMap(() => {
             return [
-              new DeprecatedCartActions.AddEmailToCartSuccess({
-                userId: payload.userId,
-                cartId: payload.cartId,
+              new CartActions.AddEmailToCartSuccess({
+                ...payload,
               }),
-              new CartActions.AddEmailToMultiCartSuccess({
+              new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
@@ -318,15 +305,10 @@ export class CartEffects {
           }),
           catchError((error) =>
             from([
-              new DeprecatedCartActions.AddEmailToCartFail(
-                makeErrorSerializable(error)
-              ),
-              new CartActions.AddEmailToMultiCartFail({
+              new CartActions.AddEmailToCartFail({
+                ...payload,
                 error: makeErrorSerializable(error),
-                userId: payload.userId,
-                cartId: payload.cartId,
               }),
-              new CartActions.CartProcessesDecrement(payload.cartId),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,

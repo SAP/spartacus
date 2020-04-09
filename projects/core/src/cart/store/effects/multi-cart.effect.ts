@@ -17,24 +17,6 @@ export class MultiCartEffects {
   );
 
   @Effect()
-  mergeCart2$: Observable<CartActions.MergeMultiCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.MERGE_CART),
-    map(
-      (action: DeprecatedCartActions.MergeCart) =>
-        new CartActions.MergeMultiCart(action.payload)
-    )
-  );
-
-  @Effect()
-  addEmail2$: Observable<CartActions.AddEmailToMultiCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.ADD_EMAIL_TO_CART),
-    map(
-      (action: CartActions.AddEmailToCart) =>
-        new CartActions.AddEmailToMultiCart(action.payload)
-    )
-  );
-
-  @Effect()
   removeCart$: Observable<CartActions.RemoveCart> = this.actions$.pipe(
     ofType(DeprecatedCartActions.DELETE_CART),
     map((action: DeprecatedCartActions.DeleteCart) => action.payload),
@@ -48,14 +30,12 @@ export class MultiCartEffects {
     CartActions.CartProcessesIncrement
   > = this.actions$.pipe(
     ofType(
-      DeprecatedCartActions.ADD_EMAIL_TO_CART,
       CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE,
       CartActions.CART_ADD_VOUCHER
     ),
     map(
       (
         action:
-          | DeprecatedCartActions.AddEmailToCart
           | CheckoutActions.ClearCheckoutDeliveryMode
           | CartActions.CartAddVoucher
       ) => action.payload

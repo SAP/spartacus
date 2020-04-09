@@ -22,9 +22,12 @@ import {
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import {
+  ANGULAR_LOCALIZE,
   B2C_STOREFRONT_MODULE,
   SPARTACUS_ASSETS,
+  SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_STYLES,
 } from '../shared/constants';
 import { getIndexHtmlPath, getTsSourceFile } from '../shared/utils/file-utils';
 import {
@@ -49,22 +52,22 @@ function addPackageJsonDependencies(): Rule {
       {
         type: NodeDependencyType.Default,
         version: spartacusVersion,
-        name: '@spartacus/core',
+        name: SPARTACUS_CORE,
       },
       {
         type: NodeDependencyType.Default,
         version: spartacusVersion,
-        name: '@spartacus/storefront',
+        name: SPARTACUS_STOREFRONTLIB,
       },
       {
         type: NodeDependencyType.Default,
         version: spartacusVersion,
-        name: '@spartacus/assets',
+        name: SPARTACUS_ASSETS,
       },
       {
         type: NodeDependencyType.Default,
         version: spartacusVersion,
-        name: '@spartacus/styles',
+        name: SPARTACUS_STYLES,
       },
 
       {
@@ -99,16 +102,21 @@ function addPackageJsonDependencies(): Rule {
         version: '^4.2.1',
         name: 'bootstrap',
       },
-      { type: NodeDependencyType.Default, version: '^15.0.6', name: 'i18next' },
+      { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },
       {
         type: NodeDependencyType.Default,
-        version: '^2.0.1',
+        version: '^3.2.2',
         name: 'i18next-xhr-backend',
       },
       {
         type: NodeDependencyType.Default,
-        version: angularVersion || '~8.2.5',
+        version: angularVersion || '~9.1.0',
         name: '@angular/service-worker',
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: angularVersion || '~9.1.0',
+        name: ANGULAR_LOCALIZE,
       },
       {
         type: NodeDependencyType.Default,

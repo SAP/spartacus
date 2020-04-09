@@ -203,7 +203,7 @@ describe('MultiCartService', () => {
       });
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.MergeCart({
+        new CartActions.MergeCart({
           userId: 'userId',
           extraData: {},
           cartId: 'cartId',
@@ -368,7 +368,7 @@ describe('MultiCartService', () => {
       service.assignEmail('cartId', 'userId', 'test@email.com');
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.AddEmailToCart({
+        new CartActions.AddEmailToCart({
           userId: 'userId',
           cartId: 'cartId',
           email: 'test@email.com',

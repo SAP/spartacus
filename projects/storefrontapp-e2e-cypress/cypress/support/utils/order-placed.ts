@@ -1,7 +1,8 @@
 const delay = 3000;
 
 // 1 min in milliseconds
-const timerTimeout = 60000;
+const timerTimeout = 180000;
+const consignmentTimerTimeout = 180000;
 
 // start time
 let startTime = 0;
@@ -44,6 +45,46 @@ export function waitForOrderToBePlacedRequest(
       } else {
         startTime += delay;
         waitForOrderToBePlacedRequest(orderNumber, contentCatalog);
+      }
+    });
+}
+
+export function waitForOrderWithConsignmentToBePlacedRequest(
+  orderNumber?: string,
+  contentCatalog: string = 'electronics-spa',
+  elapsedTime = 0
+) {
+  const { userId, access_token } = JSON.parse(
+    localStorage.getItem('spartacus-local-data')
+  ).auth.userToken.token;
+  cy.request({
+    method: 'GET',
+    url: `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/${contentCatalog}/users/${userId}/orders/${orderNumber}?pageSize=5&lang=en&curr=USD`,
+    headers: {
+      Authorization: `bearer ${access_token}`,
+    },
+  })
+    .then(
+      (res) => new Promise((resolve) => setTimeout(() => resolve(res), delay))
+    )
+    .then((res: Cypress.Response) => {
+      if (
+        elapsedTime > consignmentTimerTimeout ||
+        (res.status === 200 &&
+          res.body &&
+          res.body.consignments &&
+          res.body.consignments.length)
+      ) {
+        return;
+      } else {
+        elapsedTime += delay;
+        waitForOrderWithConsignmentToBePlacedRequest(
+          orderNumber,
+          contentCatalog,
+          elapsedTime
+        );
       }
     });
 }
