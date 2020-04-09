@@ -17,6 +17,7 @@ export class AbstractFormComponent {
   @Input()
   routerBackLink: UrlCommandRoute;
 
+  // tslint:disable-next-line:no-output-native
   @Output()
   submit = new EventEmitter<any>();
 
