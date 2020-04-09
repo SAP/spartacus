@@ -42,8 +42,8 @@ export class SelectFocusUtility {
       typeof config?.autofocus === 'string' ? config.autofocus : '[autofocus]';
     // fallback to first focusable
     return (
-      this.query(host, selector).find(el => !this.isHidden(el)) ||
-      this.findFocusable(host).find(el => Boolean(el))
+      this.query(host, selector).find((el) => !this.isHidden(el)) ||
+      this.findFocusable(host).find((el) => Boolean(el))
     );
   }
 
@@ -64,8 +64,10 @@ export class SelectFocusUtility {
     if (!locked) {
       suffix += `:not([tabindex='-1'])`;
     }
-    const selector = this.focusableSelectors.map(s => (s += suffix)).join(',');
-    return this.query(host, selector).filter(el =>
+    const selector = this.focusableSelectors
+      .map((s) => (s += suffix))
+      .join(',');
+    return this.query(host, selector).filter((el) =>
       !invisible ? !this.isHidden(el) : Boolean(el)
     );
   }

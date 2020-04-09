@@ -13,7 +13,7 @@ export class UserGroupEditComponent implements OnInit {
     string
   > = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['code']));
+    .pipe(map((routingData) => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,
@@ -22,15 +22,15 @@ export class UserGroupEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.userGroup$ = this.userGroupCode$.pipe(
-      tap(code => this.userGroupsService.loadUserGroup(code)),
-      switchMap(code => this.userGroupsService.get(code))
+      tap((code) => this.userGroupsService.loadUserGroup(code)),
+      switchMap((code) => this.userGroupsService.get(code))
     );
   }
 
   updateUserGroup(userGroup: UserGroup) {
     this.userGroupCode$
       .pipe(take(1))
-      .subscribe(userGroupCode =>
+      .subscribe((userGroupCode) =>
         this.userGroupsService.update(userGroupCode, userGroup)
       );
     this.routingService.go({

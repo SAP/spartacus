@@ -21,7 +21,7 @@ function returnSingular(req, res) {
 }
 
 function modifySingularResponse(_send) {
-  return function(body) {
+  return function (body) {
     try {
       const json = JSON.parse(body);
       if (!Array.isArray(json)) {

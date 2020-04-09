@@ -70,7 +70,7 @@ export abstract class AbstractListingComponent {
   ): void {
     this.queryParams$
       .pipe(
-        map(queryParams =>
+        map((queryParams) =>
           diff(this.defaultQueryParams, { ...queryParams, ...newQueryParams })
         ),
         withLatestFrom(this.params$),

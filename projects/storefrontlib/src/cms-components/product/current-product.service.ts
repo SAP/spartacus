@@ -28,7 +28,7 @@ export class CurrentProductService {
     scopes?: (ProductScope | string)[] | ProductScope | string
   ): Observable<Product | null> {
     return this.routingService.getRouterState().pipe(
-      map(state => state.state.params['productCode']),
+      map((state) => state.state.params['productCode']),
       switchMap((productCode: string) => {
         return productCode
           ? this.productService.get(
@@ -37,7 +37,7 @@ export class CurrentProductService {
             )
           : of(null);
       }),
-      filter(x => x !== undefined),
+      filter((x) => x !== undefined),
       distinctUntilChanged()
     );
   }

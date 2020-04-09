@@ -103,7 +103,7 @@ describe('OrgUnitDetailsComponent', () => {
       component.ngOnInit();
       let orgUnit: any;
       component.orgUnit$
-        .subscribe(value => {
+        .subscribe((value) => {
           orgUnit = value;
         })
         .unsubscribe();

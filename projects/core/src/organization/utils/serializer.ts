@@ -47,7 +47,7 @@ export function denormalizeCustomB2BSearch<T>(
   const res: LoaderState<EntitiesModel<T>> = Object.assign({}, serializedList, {
     value: {
       values: serializedList.value.ids.map(
-        code => entityStateSelector(entities, code).value
+        (code) => entityStateSelector(entities, code).value
       ),
     },
   });
@@ -64,7 +64,7 @@ export function normalizeListPage<T>(
 ): { values: T[]; page: ListModel } {
   const values = list?.values || [];
   const page: ListModel = {
-    ids: values.map(data => data[id]),
+    ids: values.map((data) => data[id]),
   };
   if (list.pagination) {
     page.pagination = list.pagination;

@@ -149,7 +149,7 @@ describe('UnitAddressFormComponent', () => {
       component.ngOnInit();
       let titles: any;
       component.titles$
-        .subscribe(value => {
+        .subscribe((value) => {
           titles = value;
         })
         .unsubscribe();
@@ -162,7 +162,7 @@ describe('UnitAddressFormComponent', () => {
       component.ngOnInit();
       let countries: any;
       component.countries$
-        .subscribe(value => {
+        .subscribe((value) => {
           countries = value;
         })
         .unsubscribe();
@@ -174,7 +174,7 @@ describe('UnitAddressFormComponent', () => {
       component.ngOnInit();
       let regions: any;
       component.regions$
-        .subscribe(value => {
+        .subscribe((value) => {
           regions = value;
         })
         .unsubscribe();

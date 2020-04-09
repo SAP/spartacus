@@ -58,7 +58,7 @@ describe('Permission Selectors', () => {
       let result: PermissionManagement;
       store
         .pipe(select(PermissionSelectors.getPermissionManagementState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new PermissionActions.LoadPermissionSuccess([permission, permission2])
@@ -76,7 +76,7 @@ describe('Permission Selectors', () => {
       let result: EntityLoaderState<Permission>;
       store
         .pipe(select(PermissionSelectors.getPermissionsState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new PermissionActions.LoadPermissionSuccess([permission, permission2])
@@ -90,7 +90,7 @@ describe('Permission Selectors', () => {
       let result: LoaderState<Permission>;
       store
         .pipe(select(PermissionSelectors.getPermission(code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new PermissionActions.LoadPermissionSuccess([permission, permission2])

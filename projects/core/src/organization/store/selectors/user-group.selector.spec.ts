@@ -63,7 +63,7 @@ describe('UserGroup Selectors', () => {
       let result: UserGroupManagement;
       store
         .pipe(select(UserGroupSelectors.getUserGroupManagementState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
@@ -82,7 +82,7 @@ describe('UserGroup Selectors', () => {
       let result: EntityLoaderState<UserGroup>;
       store
         .pipe(select(UserGroupSelectors.getUserGroupsState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
@@ -96,7 +96,7 @@ describe('UserGroup Selectors', () => {
       let result: LoaderState<UserGroup>;
       store
         .pipe(select(UserGroupSelectors.getUserGroup(uid)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])

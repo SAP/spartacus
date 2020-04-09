@@ -110,7 +110,7 @@ describe('UnitAddressDetailsComponent', () => {
       component.ngOnInit();
       let address: any;
       component.address$
-        .subscribe(value => {
+        .subscribe((value) => {
           address = value;
         })
         .unsubscribe();

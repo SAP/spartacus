@@ -201,7 +201,7 @@ describe('CostCenterListComponent', () => {
       component.ngOnInit();
       let costCentersList: any;
       component.data$
-        .subscribe(value => {
+        .subscribe((value) => {
           costCentersList = value;
         })
         .unsubscribe();

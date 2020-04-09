@@ -205,7 +205,7 @@ describe('UnitAssignRolesComponent', () => {
       component.ngOnInit();
 
       let usersList: any;
-      component.data$.subscribe(value => {
+      component.data$.subscribe((value) => {
         usersList = value;
       });
 

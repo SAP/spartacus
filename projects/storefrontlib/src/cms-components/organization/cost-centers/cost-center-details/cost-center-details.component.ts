@@ -15,7 +15,7 @@ export class CostCenterDetailsComponent implements OnInit {
     string
   > = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['code']));
+    .pipe(map((routingData) => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,
@@ -24,8 +24,8 @@ export class CostCenterDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.costCenter$ = this.costCenterCode$.pipe(
-      tap(code => this.costCentersService.loadCostCenter(code)),
-      switchMap(code => this.costCentersService.get(code)),
+      tap((code) => this.costCentersService.loadCostCenter(code)),
+      switchMap((code) => this.costCentersService.get(code)),
       filter(Boolean)
     );
   }
@@ -33,7 +33,7 @@ export class CostCenterDetailsComponent implements OnInit {
   update(costCenter: CostCenter) {
     this.costCenterCode$
       .pipe(take(1))
-      .subscribe(costCenterCode =>
+      .subscribe((costCenterCode) =>
         this.costCentersService.update(costCenterCode, costCenter)
       );
   }

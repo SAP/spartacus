@@ -59,7 +59,7 @@ describe('GlobalMessageComponent', () => {
 
   it('Should not have duplicate messages per message type', () => {
     globalMessageComponent.ngOnInit();
-    globalMessageComponent.messages$.subscribe(messages => {
+    globalMessageComponent.messages$.subscribe((messages) => {
       expect(messages[GlobalMessageType.MSG_TYPE_CONFIRMATION].length).toBe(1);
     });
   });

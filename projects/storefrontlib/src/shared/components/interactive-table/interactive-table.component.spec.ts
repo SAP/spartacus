@@ -103,7 +103,7 @@ describe('InteractiveTableComponent', () => {
   it('should read list', () => {
     let testList: any;
     component.data$
-      .subscribe(value => {
+      .subscribe((value) => {
         testList = value;
       })
       .unsubscribe();

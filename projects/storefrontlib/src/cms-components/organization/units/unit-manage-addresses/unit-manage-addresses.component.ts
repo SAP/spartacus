@@ -37,14 +37,14 @@ export class UnitManageAddressesComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    this.code$.pipe(take(1)).subscribe(code => (this.code = code));
+    this.code$.pipe(take(1)).subscribe((code) => (this.code = code));
     this.data$ = this.code$.pipe(
-      tap(code => this.orgUnitsService.loadAddresses(code)),
-      switchMap(code =>
+      tap((code) => this.orgUnitsService.loadAddresses(code)),
+      switchMap((code) =>
         this.orgUnitsService.getAddresses(code).pipe(
           filter(Boolean),
           map((addresses: EntitiesModel<B2BAddress>) => ({
-            values: addresses?.values.map(address => ({
+            values: addresses?.values.map((address) => ({
               id: address.id,
               code,
               name: `${address.firstName} ${address.lastName}`,

@@ -63,7 +63,7 @@ export class UnitAddressFormComponent extends AbstractFormComponent
 
   ngOnInit() {
     this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
-      tap(countries => {
+      tap((countries) => {
         if (Object.keys(countries).length === 0) {
           this.userAddressService.loadDeliveryCountries();
         }
@@ -72,12 +72,12 @@ export class UnitAddressFormComponent extends AbstractFormComponent
 
     // Fetching titles
     this.titles$ = this.userService.getTitles().pipe(
-      tap(titles => {
+      tap((titles) => {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
       }),
-      map(titles => {
+      map((titles) => {
         titles.sort(sortTitles);
         const noneTitle = { code: '', name: 'Title' };
         return [noneTitle, ...titles];
@@ -86,8 +86,8 @@ export class UnitAddressFormComponent extends AbstractFormComponent
 
     // Fetching regions
     this.regions$ = this.selectedCountry$.pipe(
-      switchMap(country => this.userAddressService.getRegions(country)),
-      tap(regions => {
+      switchMap((country) => this.userAddressService.getRegions(country)),
+      tap((regions) => {
         const regionControl = this.form.get('region.isocode');
         if (regions && regions.length > 0) {
           regionControl.enable();

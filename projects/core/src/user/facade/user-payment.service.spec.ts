@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
+import { Country } from '../../model';
 import { PaymentDetails } from '../../model/cart.model';
 import { Occ } from '../../occ/occ-models/occ.models';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
@@ -11,11 +11,10 @@ import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserPaymentService } from './user-payment.service';
-import { Country } from '../../model';
 
 class MockAuthService {
-  getOccUserId(): Observable<string> {
-    return of(OCC_USER_ID_CURRENT);
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
   }
 }
 
@@ -69,7 +68,7 @@ describe('UserPaymentService', () => {
     let paymentMethods: PaymentDetails[];
     service
       .getPaymentMethods()
-      .subscribe(data => {
+      .subscribe((data) => {
         paymentMethods = data;
       })
       .unsubscribe();
@@ -82,7 +81,7 @@ describe('UserPaymentService', () => {
     let flag: boolean;
     service
       .getPaymentMethodsLoading()
-      .subscribe(data => {
+      .subscribe((data) => {
         flag = data;
       })
       .unsubscribe();
@@ -95,7 +94,7 @@ describe('UserPaymentService', () => {
     let flag: boolean;
     service
       .getPaymentMethodsLoadedSuccess()
-      .subscribe(data => {
+      .subscribe((data) => {
         flag = data;
       })
       .unsubscribe();
@@ -126,7 +125,7 @@ describe('UserPaymentService', () => {
     let results: Country[];
     service
       .getAllBillingCountries()
-      .subscribe(data => {
+      .subscribe((data) => {
         results = data;
       })
       .unsubscribe();

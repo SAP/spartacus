@@ -100,7 +100,7 @@ describe('UserGroupFormComponent', () => {
       component.ngOnInit();
       let businessUnits: any;
       component.businessUnits$
-        .subscribe(value => {
+        .subscribe((value) => {
           businessUnits = value;
         })
         .unsubscribe();

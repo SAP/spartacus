@@ -10,7 +10,7 @@ import { map, take } from 'rxjs/operators';
 export class UnitAddressCreateComponent {
   orgUnitCode$: Observable<string> = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['code']));
+    .pipe(map((routingData) => routingData.state.params['code']));
 
   constructor(
     protected orgUnitService: OrgUnitService,
@@ -18,7 +18,7 @@ export class UnitAddressCreateComponent {
   ) {}
 
   createAddress(address: B2BAddress) {
-    this.orgUnitCode$.pipe(take(1)).subscribe(orgUnitId => {
+    this.orgUnitCode$.pipe(take(1)).subscribe((orgUnitId) => {
       this.orgUnitService.createAddress(orgUnitId, address);
       this.routingService.go({
         cxRoute: 'orgUnitManageAddresses',

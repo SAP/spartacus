@@ -119,7 +119,7 @@ describe('UserGroupEditComponent', () => {
       component.ngOnInit();
       let userGroup: any;
       component.userGroup$
-        .subscribe(value => {
+        .subscribe((value) => {
           userGroup = value;
         })
         .unsubscribe();

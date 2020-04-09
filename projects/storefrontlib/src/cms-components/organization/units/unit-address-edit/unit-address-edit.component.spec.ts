@@ -98,7 +98,7 @@ describe('UnitAddressEditComponent', () => {
       component.ngOnInit();
       let orgUnit: any;
       component.address$
-        .subscribe(value => {
+        .subscribe((value) => {
           orgUnit = value;
         })
         .unsubscribe();

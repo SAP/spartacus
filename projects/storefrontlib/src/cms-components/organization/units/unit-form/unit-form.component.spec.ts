@@ -126,7 +126,7 @@ describe('OrgUnitFormComponent', () => {
       component.ngOnInit();
       let approvalProcesses: any;
       component.approvalProcesses$
-        .subscribe(value => {
+        .subscribe((value) => {
           approvalProcesses = value;
         })
         .unsubscribe();
@@ -139,7 +139,7 @@ describe('OrgUnitFormComponent', () => {
       component.ngOnInit();
       let businessUnits: any;
       component.businessUnits$
-        .subscribe(value => {
+        .subscribe((value) => {
           businessUnits = value;
         })
         .unsubscribe();

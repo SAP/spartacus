@@ -150,7 +150,7 @@ describe('PermissionEditComponent', () => {
       component.ngOnInit();
       let permission: any;
       component.permission$
-        .subscribe(value => {
+        .subscribe((value) => {
           permission = value;
         })
         .unsubscribe();

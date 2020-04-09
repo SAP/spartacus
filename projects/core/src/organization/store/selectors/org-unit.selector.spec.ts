@@ -66,7 +66,7 @@ describe('OrgUnit Selectors', () => {
       let result: OrgUnits;
       store
         .pipe(select(OrgUnitSelectors.getB2BOrgUnitState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
       expect(result).toEqual({
@@ -86,7 +86,7 @@ describe('OrgUnit Selectors', () => {
       let result: EntityLoaderState<B2BUnitNode[]>;
       store
         .pipe(select(OrgUnitSelectors.getOrgUnitsNodeListState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new OrgUnitActions.LoadOrgUnitNodesSuccess(orgUnitList));
       expect(result).toEqual({
@@ -107,7 +107,7 @@ describe('OrgUnit Selectors', () => {
       let result: LoaderState<B2BUnit>;
       store
         .pipe(select(OrgUnitSelectors.getOrgUnit(orgUnitId)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
       expect(result).toEqual(entities[orgUnitId]);

@@ -40,7 +40,7 @@ export class UserGroupAssignPermissionsComponent
   }
 
   ngOnInit(): void {
-    this.code$.pipe(take(1)).subscribe(code => (this.code = code));
+    this.code$.pipe(take(1)).subscribe((code) => (this.code = code));
 
     this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
       withLatestFrom(this.code$),
@@ -58,12 +58,12 @@ export class UserGroupAssignPermissionsComponent
             map((permissionsList: EntitiesModel<Permission>) => ({
               sorts: permissionsList.sorts,
               pagination: permissionsList.pagination,
-              values: permissionsList.values.map(permission => ({
+              values: permissionsList.values.map((permission) => ({
                 selected: permission.selected,
                 code: permission.code,
-                threshold: `${permission.threshold ||
-                  ''} ${(permission.currency && permission.currency.symbol) ||
-                  ''}`,
+                threshold: `${permission.threshold || ''} ${
+                  (permission.currency && permission.currency.symbol) || ''
+                }`,
                 orderType:
                   permission.orderApprovalPermissionType &&
                   permission.orderApprovalPermissionType.name,

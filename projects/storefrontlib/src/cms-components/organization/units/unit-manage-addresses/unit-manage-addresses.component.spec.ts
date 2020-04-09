@@ -118,7 +118,7 @@ describe('UnitManageAddressesComponent', () => {
       component.ngOnInit();
 
       let addressesList: any;
-      component.data$.subscribe(value => {
+      component.data$.subscribe((value) => {
         addressesList = value;
       });
 

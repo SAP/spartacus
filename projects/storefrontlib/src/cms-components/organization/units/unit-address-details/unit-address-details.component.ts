@@ -20,11 +20,11 @@ export class UnitAddressDetailsComponent implements OnInit {
   address$: Observable<any>;
   orgUnitCode$: Observable<string> = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['code']));
+    .pipe(map((routingData) => routingData.state.params['code']));
 
   addressId$: Observable<string> = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['id']));
+    .pipe(map((routingData) => routingData.state.params['id']));
 
   constructor(
     protected routingService: RoutingService,
@@ -45,7 +45,7 @@ export class UnitAddressDetailsComponent implements OnInit {
   }
 
   deleteAddress() {
-    this.address$.pipe(take(1)).subscribe(address => {
+    this.address$.pipe(take(1)).subscribe((address) => {
       this.orgUnitsService.deleteAddress(address.orgUnitId, address.id);
       this.routingService.go({
         cxRoute: 'orgUnitManageAddresses',

@@ -64,7 +64,7 @@ export class MediaService {
     if (media) {
       let mediaFormat: MediaFormats;
 
-      this.mediaFormats.forEach(format => {
+      this.mediaFormats.forEach((format) => {
         if (
           !mediaFormat ||
           (mediaFormat.threshold < format.threshold && media[format.code])

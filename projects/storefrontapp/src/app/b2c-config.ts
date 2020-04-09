@@ -36,6 +36,5 @@ export const b2cConfig: StorefrontConfig = {
   },
   features: {
     level: '1.5',
-    anonymousConsents: true,
   },
 };

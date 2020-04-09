@@ -20,7 +20,7 @@ export class OccUserListNormalizer
     if (target === undefined) {
       target = {
         ...(source as any),
-        values: source.users.map(b2bUser => ({
+        values: source.users.map((b2bUser) => ({
           ...this.converter.convert(b2bUser, B2B_USER_NORMALIZER),
         })),
       };

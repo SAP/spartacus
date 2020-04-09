@@ -18,11 +18,11 @@ import { B2BAddress, OrgUnitService, RoutingService } from '@spartacus/core';
 export class UnitAddressEditComponent implements OnInit {
   orgUnitCode$: Observable<string> = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['code']));
+    .pipe(map((routingData) => routingData.state.params['code']));
 
   addressId$: Observable<string> = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['id']));
+    .pipe(map((routingData) => routingData.state.params['id']));
 
   address$: Observable<B2BAddress | { orgUnitId: string }>;
 

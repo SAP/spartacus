@@ -61,7 +61,7 @@ export class LoadPermissionSuccess extends EntitySuccessAction {
   constructor(public payload: Permission[]) {
     super(
       PERMISSION_ENTITIES,
-      payload.map(permission => permission.code)
+      payload.map((permission) => permission.code)
     );
   }
 }

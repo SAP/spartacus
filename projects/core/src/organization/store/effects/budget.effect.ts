@@ -22,7 +22,7 @@ export class BudgetEffects {
         map((budget: Budget) => {
           return new BudgetActions.LoadBudgetSuccess([budget]);
         }),
-        catchError(error =>
+        catchError((error) =>
           of(
             new BudgetActions.LoadBudgetFail({
               budgetCode,
@@ -42,7 +42,7 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGETS),
     map((action: BudgetActions.LoadBudgets) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.budgetConnector.getList(payload.userId, payload.params).pipe(
         switchMap((budgets: EntitiesModel<Budget>) => {
           const { values, page } = normalizeListPage(budgets, 'code');
@@ -54,7 +54,7 @@ export class BudgetEffects {
             }),
           ];
         }),
-        catchError(error =>
+        catchError((error) =>
           of(
             new BudgetActions.LoadBudgetsFail({
               params: payload.params,
@@ -72,10 +72,10 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.CREATE_BUDGET),
     map((action: BudgetActions.CreateBudget) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.budgetConnector.create(payload.userId, payload.budget).pipe(
-        map(data => new BudgetActions.CreateBudgetSuccess(data)),
-        catchError(error =>
+        map((data) => new BudgetActions.CreateBudgetSuccess(data)),
+        catchError((error) =>
           of(
             new BudgetActions.CreateBudgetFail({
               budgetCode: payload.budget.code,
@@ -93,12 +93,12 @@ export class BudgetEffects {
   > = this.actions$.pipe(
     ofType(BudgetActions.UPDATE_BUDGET),
     map((action: BudgetActions.UpdateBudget) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.budgetConnector
         .update(payload.userId, payload.budgetCode, payload.budget)
         .pipe(
-          map(data => new BudgetActions.UpdateBudgetSuccess(data)),
-          catchError(error =>
+          map((data) => new BudgetActions.UpdateBudgetSuccess(data)),
+          catchError((error) =>
             of(
               new BudgetActions.UpdateBudgetFail({
                 budgetCode: payload.budget.code,

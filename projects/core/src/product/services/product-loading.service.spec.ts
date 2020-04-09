@@ -128,7 +128,7 @@ describe('ProductLoadingService', () => {
         });
       });
 
-      it('should take into account order of scopes for subsequent emissions', done => {
+      it('should take into account order of scopes for subsequent emissions', (done) => {
         const action1scope1 = new ProductActions.LoadProductSuccess(
           { code, name: 'first', summary: 'a' },
           'scope1'
@@ -151,7 +151,7 @@ describe('ProductLoadingService', () => {
           .get(code, ['scope1', 'scope2'])
           .pipe(take(3))
           .subscribe({
-            next: res => {
+            next: (res) => {
               results.push(res);
             },
             complete: () => {
@@ -193,10 +193,7 @@ describe('ProductLoadingService', () => {
 
     it('should expand loading scopes', () => {
       const loadingScopesService = TestBed.inject(LoadingScopesService);
-      service
-        .get(code, ['scope1', 'scope2'])
-        .subscribe()
-        .unsubscribe();
+      service.get(code, ['scope1', 'scope2']).subscribe().unsubscribe();
       expect(loadingScopesService.expand).toHaveBeenCalledWith('product', [
         'scope1',
         'scope2',
@@ -224,10 +221,7 @@ describe('ProductLoadingService', () => {
     it('should be not trigger multiple product load actions for multiple product subscription.', async () => {
       spyOn(store, 'dispatch').and.stub();
 
-      service
-        .get('productCode', [''])
-        .pipe(take(1))
-        .subscribe();
+      service.get('productCode', ['']).pipe(take(1)).subscribe();
       await service
         .get('productCode', [''])
         .pipe(delay(0), take(1))
@@ -305,7 +299,7 @@ describe('ProductLoadingService', () => {
          */
         const subscriber$ = timer(0, 20, getTestScheduler()).pipe(
           take(3),
-          switchMap(intervalId => (intervalId % 2 ? NEVER : trigger$))
+          switchMap((intervalId) => (intervalId % 2 ? NEVER : trigger$))
         );
         const expected$ = cold('50ms a', { a: true });
 
@@ -336,7 +330,7 @@ describe('ProductLoadingService', () => {
          */
         const subscriber$ = timer(0, 40, getTestScheduler()).pipe(
           take(3),
-          switchMap(intervalId => (intervalId % 2 ? NEVER : trigger$))
+          switchMap((intervalId) => (intervalId % 2 ? NEVER : trigger$))
         );
         const expected$ = cold('80ms a', { a: true });
 

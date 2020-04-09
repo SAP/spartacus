@@ -34,31 +34,31 @@ export class OrgUnitService {
   ) {}
 
   loadOrgUnit(orgUnitId: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }))
     );
   }
 
   loadOrgUnitNodes(): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId }))
     );
   }
 
   loadTree(): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.LoadTree({ userId }))
     );
   }
 
   loadApprovalProcesses(): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.LoadApprovalProcesses({ userId }))
     );
   }
 
   loadUsers(orgUnitId: string, roleId: string, params: B2BSearchConfig): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.LoadAssignedUsers({
           userId,
@@ -71,7 +71,7 @@ export class OrgUnitService {
   }
 
   loadAddresses(orgUnitId: string): void {
-    this.withUserId(userId => {
+    this.withUserId((userId) => {
       // TODO: replace it after turn on loadAddresses$
       // this.store.dispatch(
       //   new OrgUnitActions.LoadAddresses({ userId, orgUnitId })
@@ -123,13 +123,13 @@ export class OrgUnitService {
   get(orgUnitId: string): Observable<B2BUnit> {
     return this.getOrgUnit(orgUnitId).pipe(
       observeOn(queueScheduler),
-      tap(state => {
+      tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.loadOrgUnit(orgUnitId);
         }
       }),
-      filter(state => state.success || state.error),
-      map(state => state.value)
+      filter((state) => state.success || state.error),
+      map((state) => state.value)
     );
   }
 
@@ -144,7 +144,7 @@ export class OrgUnitService {
       filter(
         (process: LoaderState<B2BUnitNode>) => process.success || process.error
       ),
-      map(result => result.value)
+      map((result) => result.value)
     );
   }
 
@@ -160,7 +160,7 @@ export class OrgUnitService {
         (process: LoaderState<B2BApprovalProcess[]>) =>
           process.success || process.error
       ),
-      map(result => result.value)
+      map((result) => result.value)
     );
   }
 
@@ -176,7 +176,7 @@ export class OrgUnitService {
         (process: LoaderState<B2BUnitNode[]>) =>
           process.success || process.error
       ),
-      map(result => result.value)
+      map((result) => result.value)
     );
   }
 
@@ -196,18 +196,18 @@ export class OrgUnitService {
         (process: LoaderState<EntitiesModel<B2BUser>>) =>
           process.success || process.error
       ),
-      map(result => result.value)
+      map((result) => result.value)
     );
   }
 
   create(unit: B2BUnit): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.CreateUnit({ userId, unit }))
     );
   }
 
   update(unitCode: string, unit: B2BUnit): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.UpdateUnit({ userId, unitCode, unit })
       )
@@ -215,7 +215,7 @@ export class OrgUnitService {
   }
 
   assignRole(orgUnitId: string, orgCustomerId: string, roleId: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.AssignRole({
           userId,
@@ -228,7 +228,7 @@ export class OrgUnitService {
   }
 
   unassignRole(orgUnitId: string, orgCustomerId: string, roleId: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.UnassignRole({
           userId,
@@ -241,7 +241,7 @@ export class OrgUnitService {
   }
 
   createAddress(orgUnitId: string, address: B2BAddress): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.CreateAddress({
           userId,
@@ -255,26 +255,26 @@ export class OrgUnitService {
   getAddresses(orgUnitId: string): Observable<EntitiesModel<B2BAddress>> {
     return this.getAddressesState(orgUnitId).pipe(
       observeOn(queueScheduler),
-      tap(state => {
+      tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.loadAddresses(orgUnitId);
         }
       }),
-      filter(state => state.success || state.error),
-      map(state => state.value)
+      filter((state) => state.success || state.error),
+      map((state) => state.value)
     );
   }
 
   getAddress(orgUnitId: string, addressId: string): Observable<B2BAddress> {
     return this.getAddressState(addressId).pipe(
       observeOn(queueScheduler),
-      tap(state => {
+      tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.loadAddresses(orgUnitId);
         }
       }),
-      filter(state => state.success || state.error),
-      map(state => state.value)
+      filter((state) => state.success || state.error),
+      map((state) => state.value)
     );
   }
 
@@ -283,7 +283,7 @@ export class OrgUnitService {
     addressId: string,
     address: B2BAddress
   ): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.UpdateAddress({
           userId,
@@ -296,7 +296,7 @@ export class OrgUnitService {
   }
 
   deleteAddress(orgUnitId: string, addressId: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.DeleteAddress({
           userId,
@@ -311,6 +311,6 @@ export class OrgUnitService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(userId => callback(userId));
+      .subscribe((userId) => callback(userId));
   }
 }

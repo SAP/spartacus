@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, combineLatest, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  CustomerCouponService,
   CustomerCouponSearchResult,
+  CustomerCouponService,
   PaginationModel,
 } from '@spartacus/core';
-import { tap, map } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { MyCouponsComponentService } from './my-coupons.component.service';
 
@@ -64,12 +64,11 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.couponService.loadCustomerCoupons(this.PAGE_SIZE);
     this.couponResult$ = this.couponService
       .getCustomerCoupons(this.PAGE_SIZE)
       .pipe(
         tap(
-          coupons =>
+          (coupons) =>
             (this.pagination = {
               currentPage: coupons.pagination.page,
               pageSize: coupons.pagination.count,
@@ -92,14 +91,14 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
       .add(
         this.couponService
           .getSubscribeCustomerCouponResultError()
-          .subscribe(error => {
+          .subscribe((error) => {
             this.subscriptionFail(error);
           })
       )
       .add(
         this.couponService
           .getUnsubscribeCustomerCouponResultError()
-          .subscribe(error => {
+          .subscribe((error) => {
             this.subscriptionFail(error);
           })
       );

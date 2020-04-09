@@ -133,7 +133,7 @@ describe('BudgetFormComponent', () => {
       component.ngOnInit();
       let currencies: any;
       component.currencies$
-        .subscribe(value => {
+        .subscribe((value) => {
           currencies = value;
         })
         .unsubscribe();
@@ -145,7 +145,7 @@ describe('BudgetFormComponent', () => {
       component.ngOnInit();
       let businessUnits: any;
       component.businessUnits$
-        .subscribe(value => {
+        .subscribe((value) => {
           businessUnits = value;
         })
         .unsubscribe();

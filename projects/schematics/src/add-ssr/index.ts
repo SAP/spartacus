@@ -17,6 +17,7 @@ import {
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { appendHtmlElementToHead } from '@angular/cdk/schematics';
+import { isImported } from '@schematics/angular/utility/ast-utils';
 import {
   addPackageJsonDependency,
   NodeDependency,
@@ -24,8 +25,14 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import {
+  ANGULAR_LOCALIZE,
+  ANGULAR_PLATFORM_BROWSER,
+  ANGULAR_UNIVERSAL_EXPRESS_VERSION,
+} from '../shared/constants';
+import {
   getIndexHtmlPath,
   getPathResultsForFile,
+  getTsSourceFile,
 } from '../shared/utils/file-utils';
 import {
   addImport,
@@ -45,7 +52,7 @@ function addPackageJsonDependencies(): Rule {
       },
       {
         type: NodeDependencyType.Default,
-        version: '^9.0.1',
+        version: `^${ANGULAR_UNIVERSAL_EXPRESS_VERSION}`,
         name: '@nguniversal/express-engine',
       },
       {
@@ -55,7 +62,7 @@ function addPackageJsonDependencies(): Rule {
       },
     ];
 
-    dependencies.forEach(dependency => {
+    dependencies.forEach((dependency) => {
       addPackageJsonDependency(tree, dependency);
       context.logger.log(
         'info',
@@ -120,7 +127,7 @@ function modifyIndexHtmlFile(
           `<meta name="occ-backend-base-url" content="${baseUrl}" />`,
         ];
 
-        metaTags.forEach(metaTag => {
+        metaTags.forEach((metaTag) => {
           appendHtmlElementToHead(tree, projectIndexHtmlPath, metaTag);
         });
       }
@@ -141,10 +148,47 @@ function provideServerFile(options: SpartacusOptions): Source {
   ]);
 }
 
+function modifyAppModuleFile(): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const appModulePath = getPathResultsForFile(
+      tree,
+      'app.module.ts',
+      '/src'
+    )[0];
+
+    if (!appModulePath) {
+      throw new SchematicsException(`Project file "app.module.ts" not found.`);
+    }
+
+    const moduleSource = getTsSourceFile(tree, appModulePath);
+    if (
+      !isImported(
+        moduleSource,
+        'BrowserTransferStateModule',
+        ANGULAR_PLATFORM_BROWSER
+      )
+    ) {
+      addImport(
+        tree,
+        appModulePath,
+        'BrowserTransferStateModule',
+        ANGULAR_PLATFORM_BROWSER
+      );
+      addToModuleImportsAndCommitChanges(
+        tree,
+        appModulePath,
+        `BrowserTransferStateModule`
+      );
+    }
+    context.logger.log('info', `✅️ Modified app.module.ts file.`);
+    return tree;
+  };
+}
+
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProjectFromWorkspace(tree, options);
-    const template = provideServerFile(options);
+    const serverTemplate = provideServerFile(options);
 
     return chain([
       addPackageJsonDependencies(),
@@ -154,10 +198,12 @@ export function addSSR(options: SpartacusOptions): Rule {
       modifyAppServerModuleFile(),
       modifyIndexHtmlFile(project, options),
       branchAndMerge(
-        chain([mergeWith(template, MergeStrategy.Overwrite)]),
+        chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
       ),
+      modifyAppModuleFile(),
       installPackageJsonDependencies(),
+      externalSchematic(ANGULAR_LOCALIZE, 'ng-add', {}),
     ])(tree, context);
   };
 }
