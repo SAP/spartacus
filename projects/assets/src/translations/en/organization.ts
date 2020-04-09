@@ -200,6 +200,7 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     assignRoles: 'Manage Roles',
+    manageAddresses: 'Manage Addresses',
   },
   orgUnitForm: {
     create: 'Create Unit',
@@ -228,6 +229,67 @@ export const organization = {
   unitAssignRoles: {
     header: 'Manage roles in {{code}}',
     back: 'Close',
+  },
+  unitManageAddresses: {
+    header: 'Manage addresses in {{code}}',
+    create: 'Create new Address',
+    back: 'Back to unit',
+    id: 'ID',
+    name: 'Name',
+    formattedAddress: 'Details',
+  },
+  unitAddressDetails: {
+    header: 'Addresses details',
+    edit: 'Edit',
+    delete: 'Delete',
+    back: 'Back',
+    id: 'ID',
+    name: 'Name',
+    unit: 'Unit',
+    details: 'Details',
+  },
+  unitAddressCreate: {
+    header: 'Address create',
+    create: 'Create',
+  },
+  unitAddressEdit: {
+    header: 'Address edit',
+    update: 'Update',
+  },
+  unitAddressForm: {
+    title: 'Title',
+    firstName: {
+      label: 'First name',
+      placeholder: 'First Name',
+    },
+    lastName: {
+      label: 'Last name',
+      placeholder: 'Last Name',
+    },
+    address1: 'Address 1',
+    address2: 'Address 2 (optional)',
+    country: 'Country',
+    city: {
+      label: 'City',
+      placeholder: 'City',
+    },
+    state: 'State',
+    zipCode: {
+      label: 'Zip code',
+      placeholder: 'Postal Code/Zip',
+    },
+    phoneNumber: {
+      label: 'Phone number (optional)',
+      placeholder: '(555) 555 - 0123',
+    },
+    saveAsDefault: 'Save as default',
+    chooseAddress: 'Choose address',
+    streetAddress: 'Street Address',
+    aptSuite: 'Apt, Suite',
+    selectOne: 'Select One...',
+    setAsDefault: 'Set as default',
+    titleRequired: 'Title is required.',
+    invalidAddress: 'Invalid Address',
   },
   usersList: {
     sorting: {

@@ -127,19 +127,21 @@ describe('UserGroupFormComponent', () => {
 
   describe('verifyUserGroup', () => {
     it('should not emit value if form is invalid', () => {
-      spyOn(component.submit, 'emit');
+      spyOn(component.submitForm, 'emit');
       const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
       submitButton.triggerEventHandler('click', null);
-      expect(component.submit.emit).not.toHaveBeenCalled();
+      expect(component.submitForm.emit).not.toHaveBeenCalled();
     });
 
     it('should emit value if form is valid', () => {
-      spyOn(component.submit, 'emit');
+      spyOn(component.submitForm, 'emit');
       component.userGroupData = mockUserGroup;
       component.ngOnInit();
       const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
       submitButton.triggerEventHandler('click', null);
-      expect(component.submit.emit).toHaveBeenCalledWith(component.form.value);
+      expect(component.submitForm.emit).toHaveBeenCalledWith(
+        component.form.value
+      );
     });
   });
 

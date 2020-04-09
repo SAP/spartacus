@@ -29,7 +29,6 @@ import { Params } from '@angular/router';
 export class UnitAssignRolesComponent extends AbstractListingComponent
   implements OnInit {
   code: string;
-  roleId: string;
   cxRoute = 'orgUnitAssignRoles';
 
   constructor(
@@ -46,7 +45,6 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
 
   ngOnInit(): void {
     this.code$.pipe(take(1)).subscribe((code) => (this.code = code));
-    this.role$.pipe(take(1)).subscribe((role) => (this.roleId = role));
 
     this.data$ = <Observable<ListingModel>>combineLatest([
       this.queryParams$,
@@ -77,11 +75,19 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
   }
 
   assign({ row }) {
-    this.orgUnitsService.assignRole(this.code, row.email, this.roleId);
+    this.role$
+      .pipe(take(1))
+      .subscribe((role) =>
+        this.orgUnitsService.assignRole(this.code, row.email, role)
+      );
   }
 
   unassign({ row }) {
-    this.orgUnitsService.unassignRole(this.code, row.email, this.roleId);
+    this.role$
+      .pipe(take(1))
+      .subscribe((role) =>
+        this.orgUnitsService.unassignRole(this.code, row.email, role)
+      );
   }
 
   changeRole({ roleId }: { roleId: string }) {

@@ -178,8 +178,8 @@ export class UserGroupEffects {
 
   @Effect()
   updateUserGroup$: Observable<
-    | UserGroupActions.UpdateUserGroupSuccess
-    | UserGroupActions.UpdateUserGroupFail
+    // | UserGroupActions.UpdateUserGroupSuccess
+    UserGroupActions.LoadUserGroup | UserGroupActions.UpdateUserGroupFail
   > = this.actions$.pipe(
     ofType(UserGroupActions.UPDATE_USER_GROUP),
     map((action: UserGroupActions.UpdateUserGroup) => action.payload),
@@ -187,7 +187,9 @@ export class UserGroupEffects {
       this.userGroupConnector
         .update(payload.userId, payload.userGroupId, payload.userGroup)
         .pipe(
-          map((data) => new UserGroupActions.UpdateUserGroupSuccess(data)),
+          // TODO: Workaround for empty PATCH response:
+          // map(data => new UserGroupActions.UpdateUserGroupSuccess(data)),
+          map(() => new UserGroupActions.LoadUserGroup(payload)),
           catchError((error) =>
             of(
               new UserGroupActions.UpdateUserGroupFail({

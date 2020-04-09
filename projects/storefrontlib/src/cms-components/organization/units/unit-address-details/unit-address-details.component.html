@@ -1,0 +1,77 @@
+<ng-container class="container" *ngIf="address$ | async as address">
+  <div class="row">
+    <div class="col-md-12 col-lg-6">
+      <div class="cx-header">
+        <h3>{{ 'unitAddressDetails.header' | cxTranslate }}</h3>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'unitAddressDetails.id' | cxTranslate }}</div>
+        <div class="col-6">{{ address.id }}</div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'unitAddressDetails.name' | cxTranslate }}</div>
+        <div class="col-6 cx-label">
+          {{ address.firstName }} {{ address.lastName }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">{{ 'unitAddressDetails.unit' | cxTranslate }}</div>
+        <div class="col-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitDetails',
+                params: { uid: address.orgUnitId }
+              } | cxUrl
+            "
+          >
+            {{ orgUnitCode$ | async }}
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          {{ 'unitAddressDetails.details' | cxTranslate }}
+        </div>
+        <div class="col-6 cx-label">
+          {{ address.formattedAddress }}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <div class="row">
+        <div class="col-md-12 col-lg-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitAddressEdit',
+                params: { id: address.id, code: address.orgUnitId }
+              } | cxUrl
+            "
+            class="btn btn-primary btn-block"
+          >
+            {{ 'unitAddressDetails.edit' | cxTranslate }}
+          </a>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <button (click)="deleteAddress()" class="btn btn-secondary btn-block">
+            {{ 'unitAddressDetails.delete' | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitManageAddresses',
+                params: { code: address.orgUnitId }
+              } | cxUrl
+            "
+            class="btn btn-secondary btn-block"
+          >
+            {{ 'unitAddressDetails.back' | cxTranslate }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

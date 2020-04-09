@@ -18,7 +18,7 @@ export class AbstractFormComponent {
   routerBackLink: UrlCommandRoute;
 
   @Output()
-  submit = new EventEmitter<any>();
+  submitForm = new EventEmitter<any>();
 
   @Output()
   clickBack = new EventEmitter<any>();
@@ -31,17 +31,15 @@ export class AbstractFormComponent {
 
   verifyAndSubmit(): void {
     this.submitClicked = true;
-    if (!this.form.invalid) {
-      this.submit.emit(this.form.value);
+    if (this.form.valid) {
+      this.submitForm.emit(this.form.value);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 
   isNotValid(formControlName: string): boolean {
-    return this.isNotValidField(
-      this.form,
-      formControlName,
-      this.submitClicked
-    );
+    return this.isNotValidField(this.form, formControlName, this.submitClicked);
   }
 
   isNotValidField(

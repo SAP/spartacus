@@ -34,7 +34,7 @@ export class UnitFormComponent extends AbstractFormComponent implements OnInit {
       uid: [null, Validators.required],
     }),
     approvalProcess: this.fb.group({
-      code: [null, Validators.required],
+      code: [null],
     }),
   });
 

@@ -7,7 +7,6 @@ import {
   B2BUnitNode,
   B2BUser,
   B2BUnit,
-  B2BAddress,
 } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
@@ -29,18 +28,15 @@ export class OrgUnitEffects {
     switchMap(({ userId, orgUnitId }) => {
       return this.orgUnitConnector.get(userId, orgUnitId).pipe(
         switchMap((orgUnit: B2BUnit) => {
-          if (orgUnit.addresses) {
-            const { values, page } = normalizeListPage(
-              { values: orgUnit.addresses },
-              'id'
-            );
-            return [
-              new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]),
-              new OrgUnitActions.LoadAddressSuccess(values),
-              new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
-            ];
-          }
-          return [new OrgUnitActions.LoadOrgUnitSuccess([orgUnit])];
+          const { values, page } = normalizeListPage(
+            { values: orgUnit.addresses },
+            'id'
+          );
+          return [
+            new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]),
+            new OrgUnitActions.LoadAddressSuccess(values),
+            new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
+          ];
         }),
         catchError((error) =>
           of(
@@ -100,7 +96,8 @@ export class OrgUnitEffects {
 
   @Effect()
   updateUnit$: Observable<
-    OrgUnitActions.UpdateUnitSuccess | OrgUnitActions.UpdateUnitFail
+    // | OrgUnitActions.UpdateUnitSuccess
+    OrgUnitActions.LoadOrgUnit | OrgUnitActions.UpdateUnitFail
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ORG_UNIT),
     map((action: OrgUnitActions.UpdateUnit) => action.payload),
@@ -108,7 +105,15 @@ export class OrgUnitEffects {
       this.orgUnitConnector
         .update(payload.userId, payload.unitCode, payload.unit)
         .pipe(
-          map((data) => new OrgUnitActions.UpdateUnitSuccess(data)),
+          // TODO: Workaround for empty PATCH response:
+          // map(() => new OrgUnitActions.UpdateUnitSuccess(payload.unit)),
+          map(
+            () =>
+              new OrgUnitActions.LoadOrgUnit({
+                userId: payload.userId,
+                orgUnitId: payload.unitCode,
+              })
+          ),
           catchError((error) =>
             of(
               new OrgUnitActions.UpdateUnitFail({
@@ -290,7 +295,8 @@ export class OrgUnitEffects {
 
   @Effect()
   updateAddress$: Observable<
-    OrgUnitActions.UpdateAddressSuccess | OrgUnitActions.UpdateAddressFail
+    // OrgUnitActions.UpdateAddressSuccess |
+    OrgUnitActions.LoadAddresses | OrgUnitActions.UpdateAddressFail
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ADDRESS),
     map((action: OrgUnitActions.UpdateAddress) => action.payload),
@@ -303,7 +309,9 @@ export class OrgUnitEffects {
           payload.address
         )
         .pipe(
-          map((data) => new OrgUnitActions.UpdateAddressSuccess(data)),
+          // TODO: Workaround for empty PATCH response:
+          // map(data => new OrgUnitActions.UpdateAddressSuccess(data)),
+          map(() => new OrgUnitActions.LoadAddresses(payload)),
           catchError((error) =>
             of(
               new OrgUnitActions.UpdateAddressFail({
@@ -320,13 +328,16 @@ export class OrgUnitEffects {
   deleteAddress$: Observable<
     OrgUnitActions.DeleteAddressSuccess | OrgUnitActions.DeleteAddressFail
   > = this.actions$.pipe(
-    ofType(OrgUnitActions.UPDATE_ADDRESS),
+    ofType(OrgUnitActions.DELETE_ADDRESS),
     map((action: OrgUnitActions.DeleteAddress) => action.payload),
     switchMap((payload) =>
       this.orgUnitConnector
         .deleteAddress(payload.userId, payload.orgUnitId, payload.addressId)
         .pipe(
-          map((data) => new OrgUnitActions.DeleteAddressSuccess(data)),
+          map(
+            () =>
+              new OrgUnitActions.DeleteAddressSuccess({ id: payload.addressId })
+          ),
           catchError((error) =>
             of(
               new OrgUnitActions.DeleteAddressFail({
@@ -339,34 +350,34 @@ export class OrgUnitEffects {
     )
   );
 
-  @Effect()
-  loadAddress$: Observable<
-    | OrgUnitActions.LoadAddressSuccess
-    | OrgUnitActions.LoadAddressesSuccess
-    | OrgUnitActions.LoadAddressesFail
-  > = this.actions$.pipe(
-    ofType(OrgUnitActions.LOAD_ADDRESSES),
-    map((action: OrgUnitActions.LoadAddresses) => action.payload),
-    switchMap(({ userId, orgUnitId }) => {
-      return this.orgUnitConnector.getAddresses(userId, orgUnitId).pipe(
-        switchMap((addresses: EntitiesModel<B2BAddress>) => {
-          const { values, page } = normalizeListPage(addresses, 'id');
-          return [
-            new OrgUnitActions.LoadAddressSuccess(values),
-            new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
-          ];
-        }),
-        catchError((error) =>
-          of(
-            new OrgUnitActions.LoadAddressesFail({
-              orgUnitId,
-              error: makeErrorSerializable(error),
-            })
-          )
-        )
-      );
-    })
-  );
+  // @Effect()
+  // loadAddress$: Observable<
+  //   | OrgUnitActions.LoadAddressSuccess
+  //   | OrgUnitActions.LoadAddressesSuccess
+  //   | OrgUnitActions.LoadAddressesFail
+  // > = this.actions$.pipe(
+  //   ofType(OrgUnitActions.LOAD_ADDRESSES),
+  //   map((action: OrgUnitActions.LoadAddresses) => action.payload),
+  //   switchMap(({ userId, orgUnitId }) => {
+  //     return this.orgUnitConnector.getAddresses(userId, orgUnitId).pipe(
+  //       switchMap((addresses: EntitiesModel<B2BAddress>) => {
+  //         const { values, page } = normalizeListPage(addresses, 'id');
+  //         return [
+  //           new OrgUnitActions.LoadAddressSuccess(values),
+  //           new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
+  //         ];
+  //       }),
+  //       catchError(error =>
+  //         of(
+  //           new OrgUnitActions.LoadAddressesFail({
+  //             orgUnitId,
+  //             error: makeErrorSerializable(error),
+  //           })
+  //         )
+  //       )
+  //     );
+  //   })
+  // );
 
   constructor(
     private actions$: Actions,

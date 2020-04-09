@@ -8,10 +8,21 @@ import {
 } from '@spartacus/core';
 import { UserGroupCreateComponent } from './user-group-create.component';
 import { UserGroupFormModule } from '../user-group-form/user-group-form.module';
+import { RouterModule } from '@angular/router';
+import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
+import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule.forChild([
+      {
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'userGroupCreate' },
+      },
+    ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         UserGroupCreateComponent: {
