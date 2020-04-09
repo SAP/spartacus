@@ -17,9 +17,8 @@ export class AbstractFormComponent {
   @Input()
   routerBackLink: UrlCommandRoute;
 
-  // tslint:disable-next-line:no-output-native
   @Output()
-  submit = new EventEmitter<any>();
+  submitForm = new EventEmitter<any>();
 
   @Output()
   clickBack = new EventEmitter<any>();
@@ -33,7 +32,7 @@ export class AbstractFormComponent {
   verifyAndSubmit(): void {
     this.submitClicked = true;
     if (this.form.valid) {
-      this.submit.emit(this.form.value);
+      this.submitForm.emit(this.form.value);
     } else {
       this.form.markAllAsTouched();
     }
