@@ -4,11 +4,12 @@ import { DEFAULT_ANGULAR_VERSION } from '../constants';
 
 export function getAngularVersion(tree: Tree, useFallback = true): string {
   const buffer = tree.read('package.json');
+  let packageJsonVersion = '';
   if (buffer) {
     const packageJson = JSON.parse(buffer.toString('utf-8'));
-    return packageJson.dependencies['@angular/core'];
+    packageJsonVersion = packageJson.dependencies['@angular/core'];
   }
-  return useFallback ? DEFAULT_ANGULAR_VERSION : '';
+  return packageJsonVersion || (useFallback ? DEFAULT_ANGULAR_VERSION : '');
 }
 
 export function getMajorVersionNumber(versionString: string): number {
