@@ -22,12 +22,12 @@ export function activeCartReducer(
     case CartActions.SET_ACTIVE_CART_ID:
       return action.payload;
     case CartActions.REMOVE_CART:
-      if (action.payload === state) {
+    case CartActions.DELETE_CART_SUCCESS:
+      if (action.payload?.cartId === state) {
         return activeCartInitialState;
-      } else {
-        return state;
       }
-    case CartActions.CLEAR_MULTI_CART_STATE:
+      return state;
+    case CartActions.CLEAR_CART_STATE:
       return activeCartInitialState;
   }
   return state;
@@ -52,13 +52,13 @@ export function cartEntitiesReducer(
 
 export function wishListReducer(
   state = wishListInitialState,
-  action: CartActions.WishListActions | CartActions.ClearMultiCartState
+  action: CartActions.WishListActions | CartActions.ClearCartState
 ): string {
   switch (action.type) {
     case CartActions.CREATE_WISH_LIST_SUCCESS:
     case CartActions.LOAD_WISH_LIST_SUCCESS:
       return action.meta.entityId as string;
-    case CartActions.CLEAR_MULTI_CART_STATE:
+    case CartActions.CLEAR_CART_STATE:
       return wishListInitialState;
   }
   return state;
