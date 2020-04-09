@@ -25,9 +25,10 @@ export class FacetService {
 
   facetList$: Observable<FacetList> = this.productFacetService.facetList$.pipe(
     tap((facetList) => {
-      facetList.facets.forEach((facet) => {
-        this.configureFacet(facet);
-      });
+      // facets are configured on each emission so that we keep the facet UI state
+      // this is mainly done to keep the state during usage of the facet, but also
+      // benefitial to keep the state when the facets are rebuild while using them.
+      facetList.facets.forEach((facet) => this.configureFacet(facet));
     })
   );
 

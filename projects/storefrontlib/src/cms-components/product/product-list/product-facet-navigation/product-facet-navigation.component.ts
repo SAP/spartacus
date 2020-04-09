@@ -14,8 +14,6 @@ import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.serv
 import { FacetListComponent } from './facet-list';
 import { DialogMode } from './facet.model';
 
-const DELAY = 200;
-
 @Component({
   selector: 'cx-product-facet-navigation',
   templateUrl: './product-facet-navigation.component.html',
@@ -23,6 +21,18 @@ const DELAY = 200;
 })
 export class ProductFacetNavigationComponent implements AfterViewInit {
   iconTypes = ICON_TYPE;
+  inlineMode = DialogMode.INLINE;
+
+  /**
+   * We delay the assignment CSS class so that they fire only once the DOM is created.
+   */
+  protected TOGGLE_LAUNCH_DELAY = 0;
+
+  /**
+   * We delay the removal of DOM so that animations can finish playing until the
+   * DOM is created.
+   */
+  protected TOGGLE_CLOSE_DELAY = 300;
 
   /**
    * The trigger element is used to open the facet navigation in a dialog.
@@ -38,7 +48,7 @@ export class ProductFacetNavigationComponent implements AfterViewInit {
    * The dialog element reference is used to focus the dialog once it's launched
    * and add an `active` class to it.
    */
-  @ViewChild(FacetListComponent, { read: ElementRef }) dialog: ElementRef<
+  @ViewChild(FacetListComponent, { read: ElementRef }) facetListRef: ElementRef<
     HTMLElement
   >;
 
@@ -96,9 +106,9 @@ export class ProductFacetNavigationComponent implements AfterViewInit {
     this.isOpen = true;
 
     setTimeout(() => {
-      this.dialog.nativeElement.classList.add('active');
-      this.dialog.nativeElement.focus();
-    }, DELAY);
+      this.facetListRef.nativeElement.classList.add('active');
+      this.facetListRef.nativeElement.focus();
+    }, this.TOGGLE_LAUNCH_DELAY);
   }
 
   /**
@@ -109,12 +119,12 @@ export class ProductFacetNavigationComponent implements AfterViewInit {
    * The trigger element will be focussed as well.
    */
   close() {
-    this.dialog.nativeElement.classList.remove('active');
+    this.facetListRef.nativeElement.classList.remove('active');
     this.dialogTrigger.nativeElement.focus();
 
     setTimeout(() => {
       this.isOpen = false;
       this.cd.markForCheck();
-    }, DELAY);
+    }, this.TOGGLE_CLOSE_DELAY);
   }
 }
