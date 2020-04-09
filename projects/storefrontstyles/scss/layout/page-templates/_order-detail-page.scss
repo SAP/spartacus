@@ -63,7 +63,11 @@
   }
 
   cx-order-details-items {
+    margin-bottom: 15px;
     order: 2;
+  }
+
+  cx-order-consigned-entries {
     margin-bottom: 15px;
     .cx-list-header {
       @include media-breakpoint-down(sm) {
