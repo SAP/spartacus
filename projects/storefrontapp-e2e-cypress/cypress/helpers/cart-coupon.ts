@@ -1,6 +1,6 @@
 import { user } from '../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
-import { baseEndPoint } from './constants/backend';
+import { baseEndpoint } from './constants/backend';
 
 export const productCode1 = '300938';
 export const couponCode1 = 'CouponForCart';
@@ -53,7 +53,7 @@ export function ApplyMyCoupons(couponCode: string) {
 export function claimCoupon(couponCode: string) {
   cy.request({
     method: 'POST',
-    url: `${baseEndPoint}/users/current/customercoupons/${couponCode}/claim`,
+    url: `${baseEndpoint}/users/current/customercoupons/${couponCode}/claim`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken

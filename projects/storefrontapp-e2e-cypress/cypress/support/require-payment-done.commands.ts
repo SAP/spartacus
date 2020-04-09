@@ -1,4 +1,4 @@
-import { baseEndPoint, occ } from '../helpers/constants/backend';
+import { baseEndpoint, occ } from '../helpers/constants/backend';
 import { user } from '../sample-data/checkout-flow';
 
 declare global {
@@ -22,7 +22,7 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
   function getResponseUrl() {
     return cy.request({
       method: 'GET',
-      url: `${baseEndPoint}/users/current/carts/current/payment/sop/request?responseUrl=sampleUrl`,
+      url: `${baseEndpoint}/users/current/carts/current/payment/sop/request?responseUrl=sampleUrl`,
       form: false,
       headers: {
         Authorization: `bearer ${auth.userToken.token.access_token}`,
@@ -55,7 +55,7 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
 
     return cy.request({
       method: 'POST',
-      url: `${baseEndPoint}/users/current/carts/current/payment/sop/response`,
+      url: `${baseEndpoint}/users/current/carts/current/payment/sop/response`,
       body: data,
       form: true,
       headers: {

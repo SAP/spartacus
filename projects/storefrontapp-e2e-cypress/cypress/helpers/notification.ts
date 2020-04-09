@@ -1,6 +1,6 @@
 import { standardUser } from '../sample-data/shared-users';
 import { login } from './auth-forms';
-import { baseEndPoint } from './constants/backend';
+import { baseEndpoint } from './constants/backend';
 import { generateMail, randomString } from './user';
 
 export const normalProductCode = '872912';
@@ -205,11 +205,11 @@ export function stubForPaginableMyInterests(jsonfile: string, url: string) {
 export function verifyPagingAndSorting() {
   stubForPaginableMyInterests(
     'myinterestpage1.json',
-    `${baseEndPoint}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&lang=en&curr=USD`
+    `${baseEndpoint}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&lang=en&curr=USD`
   );
   stubForPaginableMyInterests(
     'myinterestpage2.json',
-    `${baseEndPoint}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&currentPage=1&lang=en&curr=USD`
+    `${baseEndpoint}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&currentPage=1&lang=en&curr=USD`
   );
   navigateToMyInterestsPage();
   cy.get(firstProductCodeSelector).should('contain', firstProductAscending);

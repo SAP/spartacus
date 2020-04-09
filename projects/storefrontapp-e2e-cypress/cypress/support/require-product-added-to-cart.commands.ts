@@ -1,4 +1,4 @@
-import { baseEndPoint } from '../helpers/constants/backend';
+import { baseEndpoint } from '../helpers/constants/backend';
 import { product } from '../sample-data/checkout-flow';
 
 declare global {
@@ -23,7 +23,7 @@ Cypress.Commands.add('requireProductAddedToCart', (auth) => {
   function createCart() {
     return cy.request({
       method: 'POST',
-      url: `${baseEndPoint}/users/current/carts`,
+      url: `${baseEndpoint}/users/current/carts`,
       body: {
         fields: 'DEFAULT',
       },
@@ -37,7 +37,7 @@ Cypress.Commands.add('requireProductAddedToCart', (auth) => {
   function addToCart(cartCode: any, productData: any) {
     return cy.request({
       method: 'POST',
-      url: `${baseEndPoint}/users/current/carts/${cartCode}/entries`,
+      url: `${baseEndpoint}/users/current/carts/${cartCode}/entries`,
       body: {
         code: productData.code,
         qty: 1,

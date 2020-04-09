@@ -1,7 +1,7 @@
 import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
 import { waitForPage } from './checkout-flow';
-import { baseEndPoint } from './constants/backend';
+import { baseEndpoint } from './constants/backend';
 import { PRODUCT_LISTING } from './data-configuration';
 import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
@@ -126,7 +126,7 @@ export function registerCartRefreshRoute() {
 
   cy.route(
     'GET',
-    `${baseEndPoint}/users/*/carts/*?fields=*&lang=en&curr=USD`
+    `${baseEndpoint}/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
 }
 
@@ -135,14 +135,14 @@ export function registerCreateCartRoute() {
 
   cy.route(
     'POST',
-    `${baseEndPoint}/users/*/carts?fields=*&lang=en&curr=USD`
+    `${baseEndpoint}/users/*/carts?fields=*&lang=en&curr=USD`
   ).as('create_cart');
 }
 
 export function registerSaveCartRoute() {
   cy.server();
 
-  cy.route('PATCH', `${baseEndPoint}/users/*/carts/*/save?lang=en&curr=USD`).as(
+  cy.route('PATCH', `${baseEndpoint}/users/*/carts/*/save?lang=en&curr=USD`).as(
     'save_cart'
   );
 }

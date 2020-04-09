@@ -129,6 +129,8 @@ To configure the storefront, use the `withConfig` method on the StorefrontModule
   ],
 ```
 
+Note: *SAP Commerce cloud 2005 and above* needs to use the occ prefix `/occ/v2/`. Anything below will be be using the default value of `/rest/v2/`.
+
 This example uses the default values for the configs. You do not have to specify a config if you do not need to override its value. For example, if you only need to override the back end base URL, you can use this config:
 
 ```
@@ -166,6 +168,8 @@ This section describes how to validate your back end installation, and then star
    The default is available at: `{server-base-url}/rest/v2/electronics/cms/pages`.
 
    For example, with a back end instance running from `https://localhost:9002`, you would access: https://localhost:9002/rest/v2/electronics/cms/pages.
+
+   Note: *SAP Commerce cloud 2005 and above* needs to use the occ prefix `/occ/v2/`. Anything below will be be using the default value of `/rest/v2/`.
 
 2. Accept the security exception in your browser if you are running a development instance with a self-signed HTTPS certificate.
 

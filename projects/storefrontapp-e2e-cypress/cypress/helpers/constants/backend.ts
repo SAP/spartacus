@@ -5,5 +5,5 @@ export const occ = {
 };
 export const baseSite = '/electronics-spa';
 export const prefixAndBaseSite = occ.prefix + baseSite;
-export const baseEndPoint = occ.apiUrl + prefixAndBaseSite;
+export const baseEndpoint = occ.apiUrl + prefixAndBaseSite;
 export const apiUrlAndPrefix = occ.apiUrl + occ.prefix;

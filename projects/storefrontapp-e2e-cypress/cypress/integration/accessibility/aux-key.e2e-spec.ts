@@ -1,4 +1,4 @@
-import { baseEndPoint } from '../../helpers/constants/backend';
+import { baseEndpoint } from '../../helpers/constants/backend';
 
 context('Auxiliary Keys', () => {
   describe('Category Navigation', () => {
@@ -99,7 +99,7 @@ context('Auxiliary Keys', () => {
 
     it('should make search suggestions', () => {
       cy.server();
-      cy.route('GET', `${baseEndPoint}/products/search?**`).as('query');
+      cy.route('GET', `${baseEndpoint}/products/search?**`).as('query');
       cy.get('cx-searchbox input').type('dsa');
       cy.wait('@query');
       cy.get('cx-searchbox a').should('have.length', 6);
@@ -183,7 +183,7 @@ context('Auxiliary Keys', () => {
 
 function loadPageWithComponenents(pageUrl: string) {
   cy.server();
-  cy.route(`${baseEndPoint}/cms/components*`).as('getComponents');
+  cy.route(`${baseEndpoint}/cms/components*`).as('getComponents');
   cy.visit(pageUrl);
   cy.wait('@getComponents');
 }

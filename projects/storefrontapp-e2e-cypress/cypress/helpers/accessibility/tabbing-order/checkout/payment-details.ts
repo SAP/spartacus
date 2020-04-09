@@ -3,7 +3,7 @@ import {
   fillBillingAddress,
   fillPaymentDetails,
 } from '../../../checkout-forms';
-import { baseEndPoint } from '../../../constants/backend';
+import { baseEndpoint } from '../../../constants/backend';
 import { checkoutNextStep, verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
@@ -13,8 +13,8 @@ export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
   cy.server();
   cy.visit('/checkout/payment-details');
 
-  cy.route(`${baseEndPoint}/cardtypes*`).as('cardTypes');
-  cy.route(`${baseEndPoint}/countries?type=BILLING*`).as('countries');
+  cy.route(`${baseEndpoint}/cardtypes*`).as('cardTypes');
+  cy.route(`${baseEndpoint}/countries?type=BILLING*`).as('countries');
 
   cy.wait('@cardTypes');
   cy.wait('@countries');

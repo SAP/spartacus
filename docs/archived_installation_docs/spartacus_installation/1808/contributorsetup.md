@@ -125,6 +125,8 @@ To configure the storfront, use the `withConfig` method on the StorefrontModule.
 export class AppModule {}
 ```
 
+Note: *SAP Commerce cloud 2005 and above* needs to use the occ prefix `/occ/v2/`. Anything below will be be using the default value of `/rest/v2/`.
+
 The server `baseUrl` is pulled from the `environment.*.ts` file, but the rest of the properties in this example use the default values for the configs. You do not have to specify a config if you do not need to override the default value.
 
 For example, if you only need to override the `baseUrl` and the `client_secret`, and want to use the default values for other properties, you can use the following config:

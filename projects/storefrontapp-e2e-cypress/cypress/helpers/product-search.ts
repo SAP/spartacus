@@ -1,4 +1,4 @@
-import { baseEndPoint } from './constants/backend';
+import { baseEndpoint } from './constants/backend';
 import { PRODUCT_LISTING } from './data-configuration';
 
 export const resultsTitleSelector = 'cx-breadcrumb h1';
@@ -9,7 +9,7 @@ export const pageLinkSelector = 'cx-pagination a.current';
 export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
 export const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
-export const searchUrlPrefix = `${baseEndPoint}/products/search`;
+export const searchUrlPrefix = `${baseEndpoint}/products/search`;
 
 export const QUERY_ALIAS = {
   FIRST_PAGE: 'first_page_query',

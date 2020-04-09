@@ -1,6 +1,6 @@
 import * as cart from '../../helpers/cart';
 import { visitHomePage } from '../../helpers/checkout-flow';
-import { baseEndPoint } from '../../helpers/constants/backend';
+import { baseEndpoint } from '../../helpers/constants/backend';
 import * as alerts from '../../helpers/global-message';
 import { login } from '../../support/utils/login';
 
@@ -87,7 +87,7 @@ describe('Cart', () => {
       option: 'Sign Out',
     });
     cy.clearLocalStorage();
-    cy.route(`${baseEndPoint}/users/current/carts?fields=*`).as('carts');
+    cy.route(`${baseEndpoint}/users/current/carts?fields=*`).as('carts');
     cart.loginCartUser();
     cy.wait('@carts').its('status').should('eq', 200);
     cy.visit('/cart');
@@ -106,7 +106,7 @@ describe('Cart', () => {
     cart.checkAddedToCartDialog();
     cart.closeAddedToCartDialog();
     cy.reload();
-    cy.route(`${baseEndPoint}/users/current/carts/*`).as('cart');
+    cy.route(`${baseEndpoint}/users/current/carts/*`).as('cart');
     cy.wait('@cart').its('status').should('eq', 200);
     cy.visit('/cart');
     cart.checkProductInCart(cart.products[0]);
@@ -129,7 +129,7 @@ describe('Cart', () => {
       // remove cart
       cy.request({
         method: 'DELETE',
-        url: `${baseEndPoint}/users/current/carts/current`,
+        url: `${baseEndpoint}/users/current/carts/current`,
         headers: {
           Authorization: `bearer ${res.body.access_token}`,
         },
@@ -147,7 +147,7 @@ describe('Cart', () => {
       cy.request({
         // create cart
         method: 'POST',
-        url: `${baseEndPoint}/users/current/carts`,
+        url: `${baseEndpoint}/users/current/carts`,
         headers: {
           Authorization: `bearer ${res.body.access_token}`,
         },
@@ -155,7 +155,7 @@ describe('Cart', () => {
         // add entry to cart
         return cy.request({
           method: 'POST',
-          url: `${baseEndPoint}/users/current/carts/${response.body.code}/entries`,
+          url: `${baseEndpoint}/users/current/carts/${response.body.code}/entries`,
           headers: {
             Authorization: `bearer ${res.body.access_token}`,
           },
@@ -175,7 +175,7 @@ describe('Cart', () => {
     // cleanup
     cy.route(
       'GET',
-      `${baseEndPoint}/users/current/carts/*?fields=*&lang=en&curr=USD`
+      `${baseEndpoint}/users/current/carts/*?fields=*&lang=en&curr=USD`
     ).as('refresh_cart');
     cart.removeCartItem(cart.products[0]);
     cy.wait('@refresh_cart').its('status').should('eq', 200);
@@ -194,7 +194,7 @@ describe('Cart', () => {
       // remove cart
       cy.request({
         method: 'DELETE',
-        url: `${baseEndPoint}/users/current/carts/current`,
+        url: `${baseEndpoint}/users/current/carts/current`,
         headers: {
           Authorization: `bearer ${res.body.access_token}`,
         },
@@ -204,7 +204,7 @@ describe('Cart', () => {
     });
     cy.visit(`/product/${cart.products[0].code}`);
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
-    cy.route(`${baseEndPoint}/users/current/carts?*`).as('cart');
+    cy.route(`${baseEndpoint}/users/current/carts?*`).as('cart');
     cart.addToCart();
     cart.checkAddedToCartDialog();
     cy.visit('/cart');
@@ -213,7 +213,7 @@ describe('Cart', () => {
     // cleanup
     cy.route(
       'GET',
-      `${baseEndPoint}/users/current/carts/*?fields=*&lang=en&curr=USD`
+      `${baseEndpoint}/users/current/carts/*?fields=*&lang=en&curr=USD`
     ).as('refresh_cart');
     cart.removeCartItem(cart.products[0]);
     cart.validateEmptyCart();
@@ -250,7 +250,7 @@ describe('Cart', () => {
     cy.visit(`/product/${cart.products[0].code}`);
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
     cy.route({
-      url: `${baseEndPoint}/users/anonymous/carts/*/entries*`,
+      url: `${baseEndpoint}/users/anonymous/carts/*/entries*`,
       method: 'POST',
       status: 400,
       response: {
