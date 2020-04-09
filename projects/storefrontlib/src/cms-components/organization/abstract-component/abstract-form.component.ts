@@ -31,8 +31,10 @@ export class AbstractFormComponent {
 
   verifyAndSubmit(): void {
     this.submitClicked = true;
-    if (!this.form.invalid) {
+    if (this.form.valid) {
       this.submit.emit(this.form.value);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 
