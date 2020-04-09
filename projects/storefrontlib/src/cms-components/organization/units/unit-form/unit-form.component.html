@@ -28,7 +28,6 @@
             required
             placeholder="{{ 'orgUnitForm.name.placeholder' | cxTranslate }}"
             formControlName="name"
-            [class.is-invalid]="isNotValid('name')"
           />
           <cx-form-errors [control]="form.get('name')"></cx-form-errors>
         </label>

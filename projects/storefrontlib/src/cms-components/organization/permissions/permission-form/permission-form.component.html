@@ -1,17 +1,3 @@
-<ng-template
-  #validation
-  let-control="control"
-  let-translationParams="translationParams"
->
-  <span class="is-invalid">
-    <span *ngFor="let error of control.errors | keyvalue">
-      {{
-        'permissionForm.message.' + error.key | cxTranslate: translationParams
-      }}
-    </span>
-  </span>
-</ng-template>
-
 <div [formGroup]="form">
   <div class="row">
     <div class="col-md-12 col-lg-12">
@@ -33,19 +19,11 @@
                 bindLabel="name"
                 bindValue="code"
                 (change)="typeSelected($event)"
-                [class.invalid]="isNotValid('orderApprovalPermissionType')"
               >
               </ng-select>
-              <ng-container
-                *ngIf="isNotValid('orderApprovalPermissionType')"
-                [ngTemplateOutlet]="validation"
-                [ngTemplateOutletContext]="{
-                  control:
-                    form.controls.orderApprovalPermissionType['controls'][
-                      'code'
-                    ]
-                }"
-              ></ng-container>
+              <cx-form-errors
+                [control]="form.get('orderApprovalPermissionType.code')"
+              ></cx-form-errors>
             </label>
           </div>
         </ng-container>
@@ -62,15 +40,8 @@
             required
             placeholder="{{ 'permissionForm.code.placeholder' | cxTranslate }}"
             formControlName="code"
-            [class.is-invalid]="isNotValid('code')"
           />
-          <ng-container
-            *ngIf="isNotValid('code')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.code
-            }"
-          ></ng-container>
+          <cx-form-errors [control]="form.get('code')"></cx-form-errors>
         </label>
       </div>
 
@@ -94,13 +65,9 @@
                 [class.invalid]="isNotValid('orgUnit')"
               >
               </ng-select>
-              <ng-container
-                *ngIf="isNotValid('orgUnit')"
-                [ngTemplateOutlet]="validation"
-                [ngTemplateOutletContext]="{
-                  control: form.controls.orgUnit['controls']['uid']
-                }"
-              ></ng-container>
+              <cx-form-errors
+                [control]="form.get('orgUnit.uid')"
+              ></cx-form-errors>
             </label>
           </div>
         </ng-container>
@@ -116,16 +83,9 @@
             [searchable]="false"
             [clearable]="false"
             [items]="periodRange"
-            [class.invalid]="isNotValid('periodRange')"
           >
           </ng-select>
-          <ng-container
-            *ngIf="isNotValid('periodRange')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.periodRange
-            }"
-          ></ng-container>
+          <cx-form-errors [control]="form.get('periodRange')"></cx-form-errors>
         </label>
       </div>
 
@@ -146,16 +106,11 @@
                 [items]="currencies"
                 bindLabel="name"
                 bindValue="isocode"
-                [class.invalid]="isNotValid('currency')"
               >
               </ng-select>
-              <ng-container
-                *ngIf="isNotValid('currency')"
-                [ngTemplateOutlet]="validation"
-                [ngTemplateOutletContext]="{
-                  control: form.controls.currency['controls']['isocode']
-                }"
-              ></ng-container>
+              <cx-form-errors
+                [control]="form.get('currency.isocode')"
+              ></cx-form-errors>
             </label>
           </div>
         </ng-container>
@@ -173,15 +128,8 @@
               'permissionForm.threshold.placeholder' | cxTranslate
             }}"
             formControlName="threshold"
-            [class.is-invalid]="isNotValid('threshold')"
           />
-          <ng-container
-            *ngIf="isNotValid('threshold')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.threshold
-            }"
-          ></ng-container>
+          <cx-form-errors [control]="form.get('threshold')"></cx-form-errors>
         </label>
       </div>
     </div>
