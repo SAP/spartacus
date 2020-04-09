@@ -37,7 +37,6 @@ export class CartEffects {
   loadCart$: Observable<
     | CartActions.LoadCartFail
     | CartActions.LoadCartSuccess
-    | CartActions.ClearExpiredCoupons
     | CartActions.RemoveCart
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
@@ -94,15 +93,8 @@ export class CartEffects {
                   (err) => err.reason === 'invalid'
                 );
                 if (couponExpiredErrors.length > 0) {
-                  // clear coupons actions just wanted to reload cart again
-                  // no need to do it in refresh or keep that action
-                  // however removing this action will be a breaking change
-                  // remove that action in 2.0 release
-                  // @deprecated since 1.4
-                  return from([
-                    new CartActions.LoadCart({ ...payload }),
-                    new CartActions.ClearExpiredCoupons({}),
-                  ]);
+                  // Reload in case of expired coupon.
+                  return of(new CartActions.LoadCart({ ...payload }));
                 }
 
                 const cartNotFoundErrors = error.error.errors.filter(
