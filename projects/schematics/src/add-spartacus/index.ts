@@ -435,9 +435,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(),
-      // TODO:#7101 - test
       updateEnvironment(project, options),
-      // TODO:#7101 - test if environment was imported
       updateAppModule(options),
       installStyles(project),
       updateMainComponent(project, options),
