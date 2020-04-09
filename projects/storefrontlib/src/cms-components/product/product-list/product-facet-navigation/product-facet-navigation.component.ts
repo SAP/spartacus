@@ -76,7 +76,7 @@ export class ProductFacetNavigationComponent implements AfterViewInit {
   }
 
   /**
-   * Indicates that the facet naviation should open in a dialog. This is fully
+   * Indicates that the facet navigation should open in a dialog. This is fully
    * controlled by CSS, where the trigger button can be hidden (display:none)
    * for certain screen sizes.
    */

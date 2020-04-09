@@ -56,7 +56,7 @@ export class FacetService {
    * the visible values will decrease to the top values only.
    *
    * If the optional value argument is provided the expanded state will be set
-   * to true, regardless of the current `expanded` state.
+   * to this value, regardless of the current `expanded` state.
    */
   toggleExpand(facet: Facet, value?: boolean) {
     const state = this.getStateSnapshot(facet);
