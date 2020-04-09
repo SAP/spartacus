@@ -72,12 +72,12 @@ function addPackageJsonDependencies(): Rule {
 
       {
         type: NodeDependencyType.Default,
-        version: '^4.1.0',
+        version: '^6.0.0',
         name: '@ng-bootstrap/ng-bootstrap',
       },
       {
         type: NodeDependencyType.Default,
-        version: '^2.13.2',
+        version: '^4.0.0',
         name: '@ng-select/ng-select',
       },
 
