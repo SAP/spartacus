@@ -57,7 +57,6 @@ import {
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 import { Schema as SpartacusOptions } from './schema';
 
-const DELETE_ME = true;
 const DEFAULT_ENVIRONMENT_NAME = 'environment';
 
 function addPackageJsonDependencies(): Rule {
@@ -171,14 +170,9 @@ function updateEnvironment(
       project.architect?.build?.configurations?.production?.fileReplacements[0];
     const devEnvironmentPath = fileReplacements.replace;
     const prodEnvironmentPath = fileReplacements.with;
-    if (DELETE_ME) {
-      console.log('devEnvironmentPath: ', devEnvironmentPath);
-      console.log('prodEnvironmentPath: ', prodEnvironmentPath);
-    }
 
     const devChange = appendOccPrefixToEnv(host, devEnvironmentPath, options);
     const prodChange = appendOccPrefixToEnv(host, prodEnvironmentPath, options);
-
     commitChanges(host, devEnvironmentPath, [devChange]);
     commitChanges(host, prodEnvironmentPath, [prodChange]);
 
@@ -199,7 +193,7 @@ function appendOccPrefixToEnv(
   const source = getTsSourceFile(tree, path);
   const allNodes = getSourceNodes(source);
 
-  const lastProperty = allNodes
+  const lastPropertyInfo = allNodes
     .filter((n) => n.kind === ts.SyntaxKind.VariableDeclaration)
     .filter((n) => {
       const environmentObject = n
@@ -222,18 +216,33 @@ function appendOccPrefixToEnv(
         objectLiteralExpressionNode,
         ts.SyntaxKind.PropertyAssignment
       );
+      const commas = findNodes(
+        objectLiteralExpressionNode,
+        ts.SyntaxKind.CommaToken
+      );
       // TODO:#7101 - handle the case when there are no properties?
 
       // return the last one
-      return properties[properties.length - 1];
+      const lastProperty = properties[properties.length - 1];
+      const trailingComma = commas.length === properties.length;
+
+      return {
+        lastProperty,
+        trailingComma,
+      };
     })[0];
 
-  console.log('xxx: ', lastProperty.getText());
-  const toAdd = `\noccPrefix: '/occ/v2/',`;
+  let position = lastPropertyInfo.lastProperty.end;
+  if (lastPropertyInfo.trailingComma) {
+    position += 1;
+  }
+  const toAdd = `${
+    !lastPropertyInfo.trailingComma ? ',' : ''
+  }\n  occPrefix: '/occ/v2/',`;
 
-  // TODO:#7101 - what to do in case there's no lastProperty? throw an exception?
-  return lastProperty
-    ? new InsertChange(path, lastProperty.end, toAdd)
+  // TODO:#7101 - what to do in case there's no lastPropertyInfo? throw an exception?
+  return lastPropertyInfo
+    ? new InsertChange(path, position, toAdd)
     : new NoopChange();
 }
 
