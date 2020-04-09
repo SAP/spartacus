@@ -110,12 +110,12 @@ function addPackageJsonDependencies(): Rule {
       },
       {
         type: NodeDependencyType.Default,
-        version: angularVersion || '~9.1.0',
+        version: angularVersion,
         name: '@angular/service-worker',
       },
       {
         type: NodeDependencyType.Default,
-        version: angularVersion || '~9.1.0',
+        version: angularVersion,
         name: ANGULAR_LOCALIZE,
       },
       {
