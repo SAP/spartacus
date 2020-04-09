@@ -131,5 +131,7 @@ export const common = {
     cxPasswordsMustMatch: 'Password fields must match',
     cxEmailsMustMatch: 'Email fields must match',
     cxStarRatingEmpty: 'Rating field is required',
+    rangeUnderflow: 'Value must be after {{min}}',
+    rangeOverflow: 'Value must be before {{max}}',
   },
 };

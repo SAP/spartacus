@@ -24,15 +24,8 @@
             required
             placeholder="{{ 'budgetForm.code.placeholder' | cxTranslate }}"
             formControlName="code"
-            [class.is-invalid]="isNotValid('code')"
           />
-          <ng-container
-            *ngIf="isNotValid('code')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.code
-            }"
-          ></ng-container>
+          <cx-form-errors [control]="form.get('code')"></cx-form-errors>
         </label>
       </div>
 
@@ -47,15 +40,8 @@
             required
             placeholder="{{ 'budgetForm.name.placeholder' | cxTranslate }}"
             formControlName="name"
-            [class.is-invalid]="isNotValid('name')"
           />
-          <ng-container
-            *ngIf="isNotValid('name')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.name
-            }"
-          ></ng-container>
+          <cx-form-errors [control]="form.get('name')"></cx-form-errors>
         </label>
       </div>
 
@@ -76,16 +62,11 @@
                 [items]="businessUnits"
                 bindLabel="name"
                 bindValue="id"
-                [class.invalid]="isNotValid('orgUnit')"
               >
               </ng-select>
-              <ng-container
-                *ngIf="isNotValid('orgUnit')"
-                [ngTemplateOutlet]="validation"
-                [ngTemplateOutletContext]="{
-                  control: form.controls.orgUnit['controls']['uid']
-                }"
-              ></ng-container>
+              <cx-form-errors
+                [control]="form.get('orgUnit.uid')"
+              ></cx-form-errors>
             </label>
           </div>
         </ng-container>
@@ -102,14 +83,10 @@
             (change)="form.controls.endDate.updateValueAndValidity()"
             [invalid]="isNotValid('startDate')"
           ></cx-date-picker>
-          <ng-container
-            *ngIf="isNotValid('startDate')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.startDate,
-              translationParams: { date: form.controls.endDate.value | cxDate }
-            }"
-          ></ng-container>
+          <cx-form-errors
+            [control]="form.get('startDate')"
+            [translationParams]="{ max: form.controls.endDate.value | cxDate }"
+          ></cx-form-errors>
         </label>
       </div>
 
@@ -125,16 +102,12 @@
             [endOfDay]="true"
             [invalid]="isNotValid('endDate')"
           ></cx-date-picker>
-          <ng-container
-            *ngIf="isNotValid('endDate')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.endDate,
-              translationParams: {
-                date: form.controls.startDate.value | cxDate
-              }
+          <cx-form-errors
+            [control]="form.get('endDate')"
+            [translationParams]="{
+              min: form.controls.startDate.value | cxDate
             }"
-          ></ng-container>
+          ></cx-form-errors>
         </label>
       </div>
 
@@ -158,13 +131,9 @@
                 [class.invalid]="isNotValid('currency')"
               >
               </ng-select>
-              <ng-container
-                *ngIf="isNotValid('currency')"
-                [ngTemplateOutlet]="validation"
-                [ngTemplateOutletContext]="{
-                  control: form.controls.currency['controls']['isocode']
-                }"
-              ></ng-container>
+              <cx-form-errors
+                [control]="form.get('currency.isocode')"
+              ></cx-form-errors>
             </label>
           </div>
         </ng-container>
@@ -180,15 +149,8 @@
             class="form-control"
             placeholder="{{ 'budgetForm.amount.placeholder' | cxTranslate }}"
             formControlName="budget"
-            [class.is-invalid]="isNotValid('budget')"
           />
-          <ng-container
-            *ngIf="isNotValid('budget')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.budget
-            }"
-          ></ng-container>
+          <cx-form-errors [control]="form.get('budget')"></cx-form-errors>
         </label>
       </div>
     </div>

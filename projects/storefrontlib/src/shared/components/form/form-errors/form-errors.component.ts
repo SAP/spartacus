@@ -21,6 +21,9 @@ export class FormErrorsComponent {
   errors$: Observable<string[]>;
 
   @Input()
+  translationParams: { [key: string]: string };
+
+  @Input()
   set control(control: FormControl) {
     this._control = control;
 

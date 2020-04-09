@@ -66,11 +66,6 @@ export const organization = {
       label: 'Budget amount',
       placeholder: 'Amount',
     },
-    message: {
-      required: 'Value is required',
-      rangeOverflow: 'Date must be before {{date}}',
-      rangeUnderflow: 'Date must be after {{date}}',
-    },
   },
   permissionsList: {
     code: 'Code',
@@ -122,9 +117,6 @@ export const organization = {
     threshold: {
       label: 'Permission threshold',
       placeholder: 'Amount',
-    },
-    message: {
-      required: 'Value is required',
     },
   },
   costCentersList: {
@@ -178,9 +170,6 @@ export const organization = {
       placeholder: 'Select business unit',
     },
     currency: 'Currency',
-    message: {
-      required: 'Value is required',
-    },
   },
   orgUnitsList: {
     orgUnitManagement: 'Organization Units Management',
@@ -221,9 +210,6 @@ export const organization = {
     approvalProcess: {
       label: 'Approval process',
       placeholder: 'Select approval process',
-    },
-    message: {
-      required: 'Value is required',
     },
   },
   unitAssignRoles: {
@@ -347,9 +333,6 @@ export const organization = {
     businessUnits: {
       label: 'Parent business unit',
       placeholder: 'Select business unit',
-    },
-    message: {
-      required: 'Value is required',
     },
   },
   userGroupAssignPermissions: {
