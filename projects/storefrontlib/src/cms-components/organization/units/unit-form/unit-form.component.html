@@ -1,15 +1,3 @@
-<ng-template
-  #validation
-  let-control="control"
-  let-translationParams="translationParams"
->
-  <span class="is-invalid">
-    <span *ngFor="let error of control.errors | keyvalue">
-      {{ 'orgUnitForm.message.' + error.key | cxTranslate: translationParams }}
-    </span>
-  </span>
-</ng-template>
-
 <div [formGroup]="form">
   <div class="row">
     <div class="col-md-12 col-lg-12">
@@ -24,15 +12,8 @@
             required
             placeholder="{{ 'orgUnitForm.uid.placeholder' | cxTranslate }}"
             formControlName="uid"
-            [class.is-invalid]="isNotValid('uid')"
           />
-          <ng-container
-            *ngIf="isNotValid('uid')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.uid
-            }"
-          ></ng-container>
+          <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
         </label>
       </div>
 
@@ -49,13 +30,7 @@
             formControlName="name"
             [class.is-invalid]="isNotValid('name')"
           />
-          <ng-container
-            *ngIf="isNotValid('name')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.name
-            }"
-          ></ng-container>
+          <cx-form-errors [control]="form.get('name')"></cx-form-errors>
         </label>
       </div>
 
@@ -79,13 +54,9 @@
                 [class.invalid]="isNotValid('parentOrgUnit')"
               >
               </ng-select>
-              <ng-container
-                *ngIf="isNotValid('parentOrgUnit')"
-                [ngTemplateOutlet]="validation"
-                [ngTemplateOutletContext]="{
-                  control: form.controls.parentOrgUnit['controls']['uid']
-                }"
-              ></ng-container>
+              <cx-form-errors
+                [control]="form.get('parentOrgUnit.uid')"
+              ></cx-form-errors>
             </label>
           </div>
         </ng-container>
@@ -110,13 +81,9 @@
                 [class.invalid]="isNotValid('approvalProcess')"
               >
               </ng-select>
-              <ng-container
-                *ngIf="isNotValid('approvalProcess')"
-                [ngTemplateOutlet]="validation"
-                [ngTemplateOutletContext]="{
-                  control: form.controls.approvalProcess['controls']['code']
-                }"
-              ></ng-container>
+              <cx-form-errors
+                [control]="form.get('approvalProcess.code')"
+              ></cx-form-errors>
             </label>
           </div>
         </ng-container>

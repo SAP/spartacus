@@ -273,9 +273,6 @@ export const organization = {
     streetAddress: 'Street Address',
     aptSuite: 'Apt, Suite',
     selectOne: 'Select One...',
-    setAsDefault: 'Set as default',
-    titleRequired: 'Title is required.',
-    invalidAddress: 'Invalid Address',
   },
   usersList: {
     sorting: {
