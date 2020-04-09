@@ -153,7 +153,9 @@ export function siteContextChange(
   selectedOption: string,
   label: string
 ): void {
-  cy.visit(FULL_BASE_URL_EN_USD + pagePath);
+  if (pagePath !== null) {
+    cy.visit(FULL_BASE_URL_EN_USD + pagePath);
+  }
 
   let contextParam: string;
 
