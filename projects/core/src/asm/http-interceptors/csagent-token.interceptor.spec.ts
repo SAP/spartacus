@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -7,9 +7,12 @@ import {
 import { inject, TestBed } from '@angular/core/testing';
 import { AsmAuthService, OccConfig } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 import { UserToken } from '../../auth/models/token-types.model';
+import { defaultOccConfig } from '../../occ/config/default-occ-config';
+import { InterceptorUtil } from '../../occ/utils/interceptor-util';
 import { CustomerSupportAgentTokenInterceptor } from './csagent-token.interceptor';
+
+const OccUrl = `https://localhost:9002${defaultOccConfig.backend.occ.prefix}electronics/test`;
 
 const testToken = {
   access_token: 'xxx',
@@ -30,7 +33,7 @@ const MockAuthModuleConfig: OccConfig = {
   backend: {
     occ: {
       baseUrl: 'https://localhost:9002',
-      prefix: '/rest/v2/',
+      prefix: defaultOccConfig.backend.occ.prefix,
     },
   },
   context: {
@@ -68,15 +71,13 @@ describe('CustomerSupportAgentTokenInterceptor', () => {
         );
 
         http
-          .get('https://localhost:9002/rest/v2/electronics/test')
+          .get(OccUrl)
           .subscribe((result) => {
             expect(result).toBeTruthy();
           })
           .unsubscribe();
 
-        const mockReq: TestRequest = httpMock.expectOne(
-          'https://localhost:9002/rest/v2/electronics/test'
-        );
+        const mockReq: TestRequest = httpMock.expectOne(OccUrl);
 
         const authHeader: string = mockReq.request.headers.get('Authorization');
 
@@ -94,15 +95,13 @@ describe('CustomerSupportAgentTokenInterceptor', () => {
           true
         );
         http
-          .get('https://localhost:9002/rest/v2/electronics/test')
+          .get(OccUrl)
           .subscribe((result) => {
             expect(result).toBeTruthy();
           })
           .unsubscribe();
 
-        const mockReq: TestRequest = httpMock.expectOne(
-          'https://localhost:9002/rest/v2/electronics/test'
-        );
+        const mockReq: TestRequest = httpMock.expectOne(OccUrl);
         const authHeader: string = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(
           `${testToken.token_type} ${testToken.access_token}`
