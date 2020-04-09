@@ -35,7 +35,7 @@
           bindLabel="name"
           bindValue="roleId"
           [clearable]="false"
-          [ngModel]="roleId"
+          [ngModel]="role$ | async"
           (change)="changeRole($event)"
           [items]="[
             { name: 'usersList.admin' | cxTranslate, roleId: 'b2badmingroup' },
