@@ -4,7 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  Output
+  Output,
 } from '@angular/core';
 import { Facet } from '@spartacus/core';
 import { FocusConfig } from 'projects/storefrontlib/src/layout';
@@ -18,7 +18,7 @@ import { FacetService } from '../services/facet.service';
 @Component({
   selector: 'cx-facet-list',
   templateUrl: './facet-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FacetListComponent {
   /**
@@ -38,7 +38,7 @@ export class FacetListComponent {
     trap: true,
     block: true,
     focusOnEscape: true,
-    autofocus: 'cx-facet'
+    autofocus: 'cx-facet',
   };
 
   constructor(
@@ -64,7 +64,9 @@ export class FacetListComponent {
    *
    */
   isToggled(facet: Facet): Observable<boolean> {
-    return this.facetService.getState(facet).pipe(map(value => value.toggled));
+    return this.facetService
+      .getState(facet)
+      .pipe(map((value) => value.toggled));
   }
 
   /**

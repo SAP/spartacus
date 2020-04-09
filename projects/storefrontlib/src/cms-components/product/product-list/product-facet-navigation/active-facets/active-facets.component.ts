@@ -12,7 +12,7 @@ import { FacetService } from '../services/facet.service';
 @Component({
   selector: 'cx-active-facets',
   templateUrl: './active-facets.component.html',
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ActiveFacetsComponent {
   /** Active facets which are applied to the product results. */

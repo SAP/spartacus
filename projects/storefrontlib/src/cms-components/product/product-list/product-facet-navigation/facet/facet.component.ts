@@ -7,7 +7,7 @@ import {
   Input,
   QueryList,
   ViewChild,
-  ViewChildren
+  ViewChildren,
 } from '@angular/core';
 import { Facet, FacetValue } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -19,7 +19,7 @@ import { FacetService } from '../services/facet.service';
 @Component({
   selector: 'cx-facet',
   templateUrl: './facet.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FacetComponent {
   protected _facet: Facet;

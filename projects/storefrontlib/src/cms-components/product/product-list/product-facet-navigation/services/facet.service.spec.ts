@@ -15,7 +15,7 @@ const mockFacetValues: Facet[] = [
   { name: 'd' },
   { name: 'e' },
   { name: 'f' },
-  { name: 'g' }
+  { name: 'g' },
 ];
 
 describe('FacetService', () => {
@@ -29,9 +29,9 @@ describe('FacetService', () => {
         FacetService,
         {
           provide: ProductFacetService,
-          useClass: MockProductFacetService
-        }
-      ]
+          useClass: MockProductFacetService,
+        },
+      ],
     });
 
     service = TestBed.inject(FacetService);
@@ -55,12 +55,12 @@ describe('FacetService', () => {
       let result: FacetCollapseState;
       service
         .getState(facet1)
-        .subscribe(f => (result = f))
+        .subscribe((f) => (result = f))
         .unsubscribe();
 
       expect(result).toEqual({
         topVisible: 5,
-        maxVisible: 5
+        maxVisible: 5,
       });
     });
 
@@ -68,71 +68,53 @@ describe('FacetService', () => {
       let result: FacetCollapseState;
       service
         .getState(facet2)
-        .subscribe(f => (result = f))
+        .subscribe((f) => (result = f))
         .unsubscribe();
 
       expect(result).toEqual({
         topVisible: 3,
-        maxVisible: 3
+        maxVisible: 3,
       });
     });
   });
 
   describe('configure expandByDefault', () => {
     it('should collapse all facets by default for dialogMode (mobile)', () => {
-      service
-        .getFacetList(DialogMode.POP)
-        .subscribe()
-        .unsubscribe();
+      service.getFacetList(DialogMode.POP).subscribe().unsubscribe();
 
       let facetState1: FacetCollapseState;
-      service.getState(facet1).subscribe(state => (facetState1 = state));
+      service.getState(facet1).subscribe((state) => (facetState1 = state));
       expect(facetState1.expandByDefault).toBeFalsy();
     });
 
     it('should collapse all facets by default when dialogMode change to mobile', () => {
-      service
-        .getFacetList(DialogMode.INLINE)
-        .subscribe()
-        .unsubscribe();
-      service
-        .getFacetList(DialogMode.POP)
-        .subscribe()
-        .unsubscribe();
+      service.getFacetList(DialogMode.INLINE).subscribe().unsubscribe();
+      service.getFacetList(DialogMode.POP).subscribe().unsubscribe();
 
       let facetState1: FacetCollapseState;
-      service.getState(facet1).subscribe(state => (facetState1 = state));
+      service.getState(facet1).subscribe((state) => (facetState1 = state));
       expect(facetState1.expandByDefault).toBeFalsy();
     });
 
     it('should expand first 3 facets by default in inline mode (desktop)', () => {
-      service
-        .getFacetList(DialogMode.INLINE)
-        .subscribe()
-        .unsubscribe();
+      service.getFacetList(DialogMode.INLINE).subscribe().unsubscribe();
 
       let facetState3: FacetCollapseState;
       let facetState4: FacetCollapseState;
-      service.getState(facet3).subscribe(s => (facetState3 = s));
-      service.getState(facet4).subscribe(s => (facetState4 = s));
+      service.getState(facet3).subscribe((s) => (facetState3 = s));
+      service.getState(facet4).subscribe((s) => (facetState4 = s));
       expect(facetState3.expandByDefault).toBeTruthy();
       expect(facetState4.expandByDefault).toBeFalsy();
     });
 
     it('should expand first 3 facets when dialogMode changes to desktop', () => {
-      service
-        .getFacetList(DialogMode.POP)
-        .subscribe()
-        .unsubscribe();
-      service
-        .getFacetList(DialogMode.INLINE)
-        .subscribe()
-        .unsubscribe();
+      service.getFacetList(DialogMode.POP).subscribe().unsubscribe();
+      service.getFacetList(DialogMode.INLINE).subscribe().unsubscribe();
 
       let facetState3: FacetCollapseState;
       let facetState4: FacetCollapseState;
-      service.getState(facet3).subscribe(s => (facetState3 = s));
-      service.getState(facet4).subscribe(s => (facetState4 = s));
+      service.getState(facet3).subscribe((s) => (facetState3 = s));
+      service.getState(facet4).subscribe((s) => (facetState4 = s));
       expect(facetState3.expandByDefault).toBeTruthy();
       expect(facetState4.expandByDefault).toBeFalsy();
     });
@@ -145,7 +127,7 @@ describe('FacetService', () => {
       let result: FacetCollapseState;
       service
         .getState(facet1)
-        .subscribe(f => (result = f))
+        .subscribe((f) => (result = f))
         .unsubscribe();
       expect(result.maxVisible).toEqual(7);
     });
@@ -156,7 +138,7 @@ describe('FacetService', () => {
       let result: FacetCollapseState;
       service
         .getState(facet1)
-        .subscribe(f => (result = f))
+        .subscribe((f) => (result = f))
         .unsubscribe();
       expect(result.maxVisible).toEqual(5);
     });
@@ -167,7 +149,7 @@ describe('FacetService', () => {
       let result: FacetCollapseState;
       service
         .getState(facet1)
-        .subscribe(f => (result = f))
+        .subscribe((f) => (result = f))
         .unsubscribe();
       expect(result.expanded).toBeFalsy();
 
@@ -175,7 +157,7 @@ describe('FacetService', () => {
 
       service
         .getState(facet1)
-        .subscribe(f => (result = f))
+        .subscribe((f) => (result = f))
         .unsubscribe();
       expect(result.expanded).toBeTruthy();
     });
@@ -184,7 +166,7 @@ describe('FacetService', () => {
       let result: FacetCollapseState;
       service
         .getState(facet1)
-        .subscribe(f => (result = f))
+        .subscribe((f) => (result = f))
         .unsubscribe();
       expect(result.expanded).toBeFalsy();
 
@@ -193,7 +175,7 @@ describe('FacetService', () => {
 
       service
         .getState(facet1)
-        .subscribe(f => (result = f))
+        .subscribe((f) => (result = f))
         .unsubscribe();
       expect(result.expanded).toBeFalsy();
     });
@@ -205,13 +187,13 @@ describe('FacetService', () => {
 
       service
         .getState(facet1)
-        .subscribe(f => (result = f))
+        .subscribe((f) => (result = f))
         .unsubscribe();
       expect(result.expanded).toBeTruthy();
 
       service
         .getState(facet1)
-        .subscribe(f => (result = f))
+        .subscribe((f) => (result = f))
         .unsubscribe();
       expect(result.expanded).toBeTruthy();
     });

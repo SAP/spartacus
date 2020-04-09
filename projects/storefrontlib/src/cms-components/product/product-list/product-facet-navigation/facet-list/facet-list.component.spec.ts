@@ -3,7 +3,7 @@ import {
   Component,
   DebugElement,
   Directive,
-  Input
+  Input,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -17,7 +17,7 @@ import { FacetDialogComponent } from './facet-list.component';
 
 @Component({
   selector: 'cx-icon',
-  template: ''
+  template: '',
 })
 class MockIconComponent {
   @Input() type: ICON_TYPE;
@@ -25,14 +25,14 @@ class MockIconComponent {
 
 @Component({
   selector: 'cx-facet',
-  template: ''
+  template: '',
 })
 class MockFacetComponent {
   @Input() facet;
 }
 
 @Directive({
-  selector: '[cxFocus]'
+  selector: '[cxFocus]',
 })
 class MockKeyboadFocusDirective {
   @Input() cxFocus;
@@ -40,7 +40,7 @@ class MockKeyboadFocusDirective {
 
 const mockFacetList: FacetList = {
   facets: [{ name: 'facet-A' }],
-  activeFacets: [{ facetName: 'facet-B' }, { facetName: 'facet-C' }]
+  activeFacets: [{ facetName: 'facet-B' }, { facetName: 'facet-C' }],
 };
 
 class MockFacetService {
@@ -66,12 +66,12 @@ describe('FacetDialogComponent', () => {
         FacetDialogComponent,
         MockIconComponent,
         MockFacetComponent,
-        MockKeyboadFocusDirective
+        MockKeyboadFocusDirective,
       ],
-      providers: [{ provide: FacetService, useClass: MockFacetService }]
+      providers: [{ provide: FacetService, useClass: MockFacetService }],
     })
       .overrideComponent(FacetDialogComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   }));

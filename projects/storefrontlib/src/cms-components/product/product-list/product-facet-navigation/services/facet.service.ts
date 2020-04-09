@@ -10,7 +10,7 @@ import { ProductFacetService } from './product-facet.service';
  * Provides access to the facets as well as UI state for the facets.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FacetService {
   /**
@@ -24,8 +24,8 @@ export class FacetService {
   constructor(protected productFacetService: ProductFacetService) {}
 
   facetList$: Observable<FacetList> = this.productFacetService.facetList$.pipe(
-    tap(facetList => {
-      facetList.facets.forEach(facet => {
+    tap((facetList) => {
+      facetList.facets.forEach((facet) => {
         this.configureFacet(facet);
       });
     })
@@ -62,7 +62,7 @@ export class FacetService {
     const state = this.getStateSnapshot(facet);
 
     const toggledState = {
-      toggled: value ?? !state.toggled
+      toggled: value ?? !state.toggled,
     } as FacetCollapseState;
 
     if (!state.maxVisible) {
@@ -102,7 +102,7 @@ export class FacetService {
 
     // we do update the default expand state each time the facet is configured
     this.updateState(facet, {
-      toggled: this.getStateSnapshot(facet).toggled
+      toggled: this.getStateSnapshot(facet).toggled,
     } as FacetCollapseState);
   }
 
@@ -112,13 +112,13 @@ export class FacetService {
         facet.name,
         new BehaviorSubject({
           topVisible: facet.topValueCount,
-          maxVisible: facet.topValueCount
+          maxVisible: facet.topValueCount,
         })
       );
     } else if (forceInitialize) {
       this.updateState(facet, {
         topVisible: facet.topValueCount,
-        maxVisible: facet.topValueCount
+        maxVisible: facet.topValueCount,
       } as FacetCollapseState);
     }
   }

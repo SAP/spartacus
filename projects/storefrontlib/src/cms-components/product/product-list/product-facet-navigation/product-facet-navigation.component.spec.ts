@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
-  Input
+  Input,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -15,21 +15,21 @@ import { ProductFacetNavigationComponent } from './product-facet-navigation.comp
 
 @Component({
   selector: 'cx-icon',
-  template: ''
+  template: '',
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 @Component({
   selector: 'cx-active-facets',
-  template: ''
+  template: '',
 })
 class MockActiveFacetsComponent {
   @Input() facetList;
 }
 @Component({
   selector: 'cx-facet-dialog',
-  template: ''
+  template: '',
 })
 class MockFacetDialogComponent {
   @Input() dialogMode;
@@ -41,7 +41,7 @@ class MockBreakpointService {
 
 const mockFacetList: FacetList = {
   facets: [{ name: 'facet-A' }],
-  activeFacets: [{ facetName: 'facet-B' }]
+  activeFacets: [{ facetName: 'facet-B' }],
 };
 
 describe('ProductFacetNavigationComponent', () => {
@@ -57,17 +57,17 @@ describe('ProductFacetNavigationComponent', () => {
         ProductFacetNavigationComponent,
         MockActiveFacetsComponent,
         MockFacetDialogComponent,
-        MockCxIconComponent
+        MockCxIconComponent,
       ],
       providers: [
         {
           provide: BreakpointService,
-          useClass: MockBreakpointService
-        }
-      ]
+          useClass: MockBreakpointService,
+        },
+      ],
     })
       .overrideComponent(ProductFacetNavigationComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   }));
@@ -107,7 +107,7 @@ describe('ProductFacetNavigationComponent', () => {
 
     it('should resolve the dialog in POP mode', () => {
       let result: DialogMode;
-      component.dialogMode$.subscribe(mode => (result = mode)).unsubscribe();
+      component.dialogMode$.subscribe((mode) => (result = mode)).unsubscribe();
       expect(result).toEqual(DialogMode.POP);
     });
 
@@ -248,7 +248,7 @@ describe('ProductFacetNavigationComponent', () => {
 
     it('should resolve the dialog in INLINE mode', () => {
       let result: DialogMode;
-      component.dialogMode$.subscribe(mode => (result = mode)).unsubscribe();
+      component.dialogMode$.subscribe((mode) => (result = mode)).unsubscribe();
       expect(result).toEqual(DialogMode.INLINE);
     });
 

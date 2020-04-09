@@ -5,7 +5,7 @@ import { Breadcrumb, Facet } from '@spartacus/core';
  */
 export enum DialogMode {
   INLINE = 'INLINE',
-  POP = 'POP'
+  POP = 'POP',
 }
 /**
  * UI model that holds the full list of facet and active facets for

@@ -77,7 +77,7 @@ describe('ProductFacetService', () => {
         let result: FacetList;
         service
           .getFacetList()
-          .subscribe(facetList => (result = facetList))
+          .subscribe((facetList) => (result = facetList))
           .unsubscribe();
         expect(result.facets.length).toEqual(1);
       });
@@ -86,7 +86,7 @@ describe('ProductFacetService', () => {
         let result: FacetList;
         service
           .getFacetList()
-          .subscribe(facetList => (result = facetList))
+          .subscribe((facetList) => (result = facetList))
           .unsubscribe();
         expect(result.activeFacets.length).toEqual(1);
       });
@@ -95,10 +95,10 @@ describe('ProductFacetService', () => {
         let result: FacetList;
         service
           .getFacetList()
-          .subscribe(facetList => (result = facetList))
+          .subscribe((facetList) => (result = facetList))
           .unsubscribe();
         expect(
-          result.activeFacets.find(f => f.facetCode === 'allCategories')
+          result.activeFacets.find((f) => f.facetCode === 'allCategories')
         ).toBeFalsy();
       });
     });
@@ -140,7 +140,7 @@ describe('ProductFacetService', () => {
         let result: FacetList;
         service
           .getFacetList()
-          .subscribe(facetList => (result = facetList))
+          .subscribe((facetList) => (result = facetList))
           .unsubscribe();
         expect(result.facets.length).toEqual(1);
       });
@@ -178,7 +178,7 @@ describe('ProductFacetService', () => {
         let result: FacetList;
         service
           .getFacetList()
-          .subscribe(facetList => (result = facetList))
+          .subscribe((facetList) => (result = facetList))
           .unsubscribe();
         expect(result).toBeFalsy();
       });

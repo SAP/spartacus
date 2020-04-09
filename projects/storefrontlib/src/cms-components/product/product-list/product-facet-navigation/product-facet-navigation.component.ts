@@ -4,7 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
@@ -19,7 +19,7 @@ const DELAY = 200;
 @Component({
   selector: 'cx-product-facet-navigation',
   templateUrl: './product-facet-navigation.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductFacetNavigationComponent implements AfterViewInit {
   iconTypes = ICON_TYPE;

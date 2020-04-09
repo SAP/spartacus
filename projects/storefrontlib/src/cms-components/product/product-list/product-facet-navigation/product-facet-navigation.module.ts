@@ -15,12 +15,12 @@ import { ProductFacetNavigationComponent } from './product-facet-navigation.comp
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ProductRefinementComponent: {
-          component: ProductFacetNavigationComponent
-        }
-      }
-    })
+          component: ProductFacetNavigationComponent,
+        },
+      },
+    }),
   ],
   declarations: [ProductFacetNavigationComponent],
-  exports: [ProductFacetNavigationComponent]
+  exports: [ProductFacetNavigationComponent],
 })
 export class ProductFacetNavigationModule {}
