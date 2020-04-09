@@ -29,7 +29,7 @@ export class DeferLoaderService {
   /**
    * Defer loading till the element intersects the viewport.
    *
-   * We evalutes whether we instantly load the element for different reasons:
+   * We evaluate whether we instantly load the element for different reasons:
    * - we run in SSR mode
    * - there's no global strategy given
    * - the global loading strategy is set to INSTANT loading,

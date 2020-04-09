@@ -319,7 +319,7 @@ describe('File utils', () => {
 
   describe('insertHtmlComment', () => {
     it('should insert the comment with *ngIf', async () => {
-      const componentDeprecation = COMPONENT_DEPRECATION_DATA[1];
+      const componentDeprecation = COMPONENT_DEPRECATION_DATA[2];
       const result = insertHtmlComment(
         HTML_EXAMPLE_NGIF,
         (componentDeprecation.removedProperties || [])[0]
