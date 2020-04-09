@@ -75,7 +75,7 @@ export class MediaComponent implements OnChanges {
   /**
    * Creates the `Media` object
    */
-  private create(): void {
+  protected create(): void {
     this.media = this.mediaService.getMedia(
       this.container,
       this.format,
@@ -104,7 +104,7 @@ export class MediaComponent implements OnChanges {
     this.handleMissing();
   }
 
-  private handleMissing() {
+  protected handleMissing() {
     this.isLoading = false;
     this.isInitialized = true;
     this.isMissing = true;
