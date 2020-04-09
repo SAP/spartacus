@@ -19,6 +19,7 @@ import {
 import { Observable, of } from 'rxjs';
 import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { CustomerSelectionComponent } from './customer-selection.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();
@@ -84,7 +85,7 @@ describe('CustomerSelectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [CustomerSelectionComponent],
       providers: [
         { provide: AsmService, useClass: MockAsmService },

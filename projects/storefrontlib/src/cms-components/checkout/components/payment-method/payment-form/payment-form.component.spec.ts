@@ -21,6 +21,7 @@ import { ModalService } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';
 import createSpy = jasmine.createSpy;
+import { FormErrorsModule } from '../../../../../shared/index';
 
 @Component({
   selector: 'cx-spinner',
@@ -198,7 +199,12 @@ describe('PaymentFormComponent', () => {
     mockUserAddressService = new MockUserAddressService();
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [
         PaymentFormComponent,
         MockCardComponent,
@@ -464,7 +470,7 @@ describe('PaymentFormComponent', () => {
     expect(mockCheckoutDeliveryService.verifyAddress).toHaveBeenCalled();
   });
 
-  it('should call openSuggestedAddress', () => {
+  it('should call openSuggestedAddress', (done) => {
     spyOn(component, 'openSuggestedAddress').and.callThrough();
     spyOn(mockModalService, 'open').and.callThrough();
     spyOn(mockCheckoutDeliveryService, 'clearAddressVerificationResults');
@@ -474,6 +480,7 @@ describe('PaymentFormComponent', () => {
       expect(
         mockCheckoutDeliveryService.clearAddressVerificationResults
       ).toHaveBeenCalled();
+      done();
     });
   });
 
