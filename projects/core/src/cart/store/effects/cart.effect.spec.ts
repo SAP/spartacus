@@ -220,22 +220,19 @@ describe('Cart effect', () => {
         cart: testCart,
         tempCartId,
       });
-      const mergeCartCompletion = new DeprecatedCartActions.MergeCartSuccess({
+      const mergeCartCompletion = new CartActions.MergeCartSuccess({
         userId,
         cartId: testCart.code,
-      });
-      const mergeMultiCartCompletion = new CartActions.MergeMultiCartSuccess({
         oldCartId: 'testOldCartId',
-        cartId: testCart.code,
-        userId,
+        tempCartId: 'tempCartId',
+        extraData: undefined,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcde)', {
+      const expected = cold('-(bcd)', {
         b: createCartCompletion,
         c: setTempCartCompletion,
         d: mergeCartCompletion,
-        e: mergeMultiCartCompletion,
       });
 
       expect(cartEffects.createCart$).toBeObservable(expected);
@@ -244,7 +241,7 @@ describe('Cart effect', () => {
 
   describe('mergeCart$', () => {
     it('should merge old cart into the session cart', () => {
-      const action = new DeprecatedCartActions.MergeCart({
+      const action = new CartActions.MergeCart({
         userId: userId,
         cartId: cartId,
         tempCartId: 'temp-uuid',
@@ -297,7 +294,6 @@ describe('Cart effect', () => {
       'CartAddEntrySuccess',
       'CartUpdateEntrySuccess',
       'CartRemoveEntrySuccess',
-      'MergeCartSuccess',
       'CartRemoveVoucherSuccess',
     ];
 
