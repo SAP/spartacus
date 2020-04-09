@@ -19,11 +19,7 @@ import {
   getEnvironmentExportName,
   isImported,
 } from '@schematics/angular/utility/ast-utils';
-import {
-  Change,
-  InsertChange,
-  NoopChange,
-} from '@schematics/angular/utility/change';
+import { Change, InsertChange } from '@schematics/angular/utility/change';
 import {
   addPackageJsonDependency,
   NodeDependency,
@@ -220,7 +216,6 @@ function appendOccPrefixToEnv(
         objectLiteralExpressionNode,
         ts.SyntaxKind.CommaToken
       );
-      // TODO:#7101 - handle the case when there are no properties?
 
       // return the last one
       const lastProperty = properties[properties.length - 1];
@@ -240,10 +235,7 @@ function appendOccPrefixToEnv(
     !lastPropertyInfo.trailingComma ? ',' : ''
   }\n  occPrefix: '/occ/v2/',`;
 
-  // TODO:#7101 - what to do in case there's no lastPropertyInfo? throw an exception?
-  return lastPropertyInfo
-    ? new InsertChange(path, position, toAdd)
-    : new NoopChange();
+  return new InsertChange(path, position, toAdd);
 }
 
 function getStorefrontConfig(
