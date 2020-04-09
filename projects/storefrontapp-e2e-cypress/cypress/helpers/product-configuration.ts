@@ -19,7 +19,7 @@ export function clickOnConfigureCartEntryButton() {
  * @param uiType UI Type of the attribute of the target group. Will be used to verify that the next group is displayed
  */
 export function clickOnNextGroupButton(attributeName: string, uiType: string) {
-  cy.get(nextGroupButtonSelector).click({
+  cy.get(nextGroupButtonSelector).debug().click({
     force: true,
   });
   verifyAttributeIsDisplayed(attributeName, uiType);
@@ -187,7 +187,8 @@ export function navigateToOverviewPage() {
 }
 
 export function clickOnGroup(groupIndex: number) {
-  cy.get('.cx-config-menu-item')
+  cy.get('.cx-config-menu>li')
+    .debug()
     .eq(groupIndex)
     .children('a')
     .click({ force: true });

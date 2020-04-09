@@ -21,13 +21,13 @@ context('Textfield Configuration', () => {
   });
 
   describe('Navigate to Textfield Configuration Page', () => {
-    it('should be able to navigate from the product search result', () => {
+    it.skip('should be able to navigate from the product search result', () => {
       productSearch.searchForProduct(testProduct);
       configuration.clickOnConfigureButton();
       configuration.verifyConfigurationPageIsDisplayed();
     });
 
-    it('should be able to navigate from the product details page', () => {
+    it.skip('should be able to navigate from the product details page', () => {
       goToProductDetailsPage(testProduct);
       configuration.clickOnConfigureButton();
       configuration.verifyConfigurationPageIsDisplayed();
@@ -38,7 +38,7 @@ context('Textfield Configuration', () => {
     });
   });
 
-  describe('Configure Product and add to cart', () => {
+  describe.skip('Configure Product and add to cart', () => {
     it('should enter value and add textfield product to cart', () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
