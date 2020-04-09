@@ -54,7 +54,6 @@ export class UnitAddressFormComponent extends AbstractFormComponent
 
   constructor(
     protected fb: FormBuilder,
-    // protected orgUnitService: OrgUnitService,
     protected userService: UserService,
     protected userAddressService: UserAddressService
   ) {
