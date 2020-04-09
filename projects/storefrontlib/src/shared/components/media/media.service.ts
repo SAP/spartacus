@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Image, OccConfig } from '@spartacus/core';
-import { MediaConfig } from 'projects/storefrontlib/src/layout/config/media.config';
+import { MediaConfig } from '../../../layout/config/media.config';
 import { Media, MediaContainer, MediaFormats } from './media.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MediaService {
-  constructor(protected config: OccConfig) {}
+  constructor(protected config: OccConfig | MediaConfig) {}
 
   /**
    * Returns a `Media` object with the main media (`src`) and various media (`src`) for specific formats.
@@ -29,14 +29,13 @@ export class MediaService {
   }
 
   /**
-   * Media formats are read from configuration `MediaConfig.formats`. The configuration
+   * Media formats are read from configuration `MediaConfig.thresholds`. The configuration
    * contains the threshold for a given media format. The treshold is used to generate the
    * image `srcset`.
    *
    * The formats are sorted by threshold, so that the most efficient format.
    */
   protected get mediaFormats(): MediaFormats[] {
-    // Object((this.config as MediaConfig).media.thresholds).keys()
     const config = (this.config as MediaConfig).media.thresholds;
 
     return Object.keys(config)
@@ -45,10 +44,6 @@ export class MediaService {
         threshold: config[key],
       }))
       .sort((a, b) => (a.threshold > b.threshold ? 1 : -1));
-
-    // return (this.config as MediaConfig).media.thresholds.sort((a, b) =>
-    //   a.threshold > b.threshold ? 1 : -1
-    // );
   }
 
   /**
