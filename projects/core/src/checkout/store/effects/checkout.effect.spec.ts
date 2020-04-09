@@ -345,7 +345,7 @@ describe('Checkout effect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const removeCartCompletion = new CartActions.RemoveCart(cartId);
+      const removeCartCompletion = new CartActions.RemoveCart({ cartId });
       const placeOrderSuccessCompletion = new CheckoutActions.PlaceOrderSuccess(
         orderDetails
       );

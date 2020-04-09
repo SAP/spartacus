@@ -297,7 +297,7 @@ export class CheckoutEffects {
         .placeOrder(payload.userId, payload.cartId)
         .pipe(
           switchMap((data) => [
-            new CartActions.RemoveCart(payload.cartId),
+            new CartActions.RemoveCart({ cartId: payload.cartId }),
             new CheckoutActions.PlaceOrderSuccess(data),
           ]),
           catchError((error) =>
