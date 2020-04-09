@@ -72,10 +72,10 @@ export class OrgUnitService {
 
   loadAddresses(orgUnitId: string): void {
     this.withUserId(userId => {
+      // TODO: replace it after turn on loadAddresses$
       // this.store.dispatch(
       //   new OrgUnitActions.LoadAddresses({ userId, orgUnitId })
       // );
-      // TODO: replace it after turn on loadAddresses$
       this.store.dispatch(
         new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
       );

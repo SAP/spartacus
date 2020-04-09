@@ -187,8 +187,8 @@ export class UserGroupEffects {
       this.userGroupConnector
         .update(payload.userId, payload.userGroupId, payload.userGroup)
         .pipe(
+          // TODO: Workaround for empty PATCH response:
           // map(data => new UserGroupActions.UpdateUserGroupSuccess(data)),
-          // Workaround for empty PATCH response:
           map(() => new UserGroupActions.LoadUserGroup(payload)),
           catchError(error =>
             of(

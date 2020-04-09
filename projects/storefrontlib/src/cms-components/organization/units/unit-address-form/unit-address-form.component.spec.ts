@@ -144,7 +144,7 @@ describe('UnitAddressFormComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    // TODO:
+    // TODO: for fellows
     xit('should load titles', () => {
       component.ngOnInit();
       let titles: any;
@@ -157,7 +157,7 @@ describe('UnitAddressFormComponent', () => {
       expect(userService.getTitles).toHaveBeenCalled();
       expect(titles).toEqual(mockTitles);
     });
-    // TODO:
+    // TODO: for fellows
     xit('should load countries', () => {
       component.ngOnInit();
       let countries: any;
@@ -169,7 +169,7 @@ describe('UnitAddressFormComponent', () => {
       expect(userAddressService.getDeliveryCountries).toHaveBeenCalled();
       expect(countries).toEqual(mockCountries);
     });
-    // TODO:
+    // TODO: for fellows
     xit('should load regions', () => {
       component.ngOnInit();
       let regions: any;

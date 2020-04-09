@@ -210,6 +210,7 @@ describe('UserGroup Effects', () => {
   });
 
   describe('updateUserGroup$', () => {
+    // TODO: unlock after get correct response and fixed effect
     xit('should return UpdateUserGroupSuccess action', () => {
       const action = new UserGroupActions.UpdateUserGroup({
         userId,
