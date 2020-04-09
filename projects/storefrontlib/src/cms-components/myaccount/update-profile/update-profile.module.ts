@@ -10,6 +10,7 @@ import {
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { UpdateProfileFormComponent } from './components/update-profile-form.component';
 import { UpdateProfileComponent } from './update-profile.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { UpdateProfileComponent } from './update-profile.component';
     ReactiveFormsModule,
     SpinnerModule,
     I18nModule,
+    FormErrorsModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
