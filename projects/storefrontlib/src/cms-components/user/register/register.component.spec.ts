@@ -164,7 +164,7 @@ describe('RegisterComponent', () => {
     component = fixture.componentInstance;
 
     fixture.detectChanges();
-    controls = component.userRegistrationForm.controls;
+    controls = component.registerForm.controls;
   });
 
   it('should create', () => {
@@ -191,14 +191,14 @@ describe('RegisterComponent', () => {
 
       let titleList: Title[];
       component.titles$
-        .subscribe(data => {
+        .subscribe((data) => {
           titleList = data;
         })
         .unsubscribe();
       expect(titleList).toEqual(mockTitlesList);
     });
 
-    it('should fetch titles if the state is empty', done => {
+    it('should fetch titles if the state is empty', (done) => {
       spyOn(userService, 'loadTitles').and.stub();
       spyOn(userService, 'getTitles').and.returnValue(of([]));
 
@@ -230,82 +230,6 @@ describe('RegisterComponent', () => {
     });
   });
 
-  describe('form validate', () => {
-    it('form invalid when empty', () => {
-      spyOn(userService, 'getTitles').and.returnValue(of(mockTitlesList));
-
-      component.ngOnInit();
-
-      expect(component.userRegistrationForm.valid).toBeFalsy();
-    });
-
-    it('should contains error if repassword is different than password', () => {
-      component.ngOnInit();
-
-      controls['password'].setValue('test');
-      controls['passwordconf'].setValue('test1');
-
-      const isNotEqual = component.userRegistrationForm.hasError('NotEqual');
-      expect(isNotEqual).toBeTruthy();
-    });
-
-    it('should not contain error if repassword is the same as password', () => {
-      const form = mockRegisterFormData;
-      component.ngOnInit();
-
-      controls['password'].setValue(form.password);
-      controls['passwordconf'].setValue(form.password);
-
-      const isNotEqual = component.userRegistrationForm.hasError('NotEqual');
-      expect(isNotEqual).toBeFalsy();
-    });
-
-    it('form valid when filled', () => {
-      const form = mockRegisterFormData;
-      component.ngOnInit();
-
-      controls['titleCode'].setValue(form.titleCode);
-      controls['firstName'].setValue(form.firstName);
-      controls['lastName'].setValue(form.lastName);
-      controls['email'].setValue(form.email);
-      controls['termsandconditions'].setValue(form.termsandconditions);
-      controls['password'].setValue(form.password);
-      controls['passwordconf'].setValue(form.password);
-
-      expect(component.userRegistrationForm.valid).toBeTruthy();
-    });
-
-    it('form invalid when not all required fields filled', () => {
-      const form = mockRegisterFormData;
-      component.ngOnInit();
-
-      controls['titleCode'].setValue(form.titleCode);
-      controls['firstName'].setValue(form.firstName);
-      controls['lastName'].setValue(''); // this field is intentionally empty
-      controls['email'].setValue(form.email);
-      controls['termsandconditions'].setValue(form.termsandconditions);
-      controls['password'].setValue(form.password);
-      controls['passwordconf'].setValue(form.password);
-
-      expect(component.userRegistrationForm.valid).toBeFalsy();
-    });
-
-    it('form invalid when not terms not checked', () => {
-      const form = mockRegisterFormData;
-      component.ngOnInit();
-
-      controls['titleCode'].setValue(form.titleCode);
-      controls['firstName'].setValue(form.firstName);
-      controls['lastName'].setValue(form.lastName);
-      controls['email'].setValue(form.email);
-      controls['termsandconditions'].setValue(false); // we are checking this field
-      controls['password'].setValue(form.password);
-      controls['passwordconf'].setValue(form.password);
-
-      expect(component.userRegistrationForm.valid).toBeFalsy();
-    });
-  });
-
   describe('collectDataFromRegisterForm()', () => {
     it('should return correct register data', () => {
       const form = mockRegisterFormData;
@@ -325,7 +249,7 @@ describe('RegisterComponent', () => {
       spyOn(userService, 'register').and.stub();
 
       component.ngOnInit();
-      component.submit();
+      component.registerUser();
     });
 
     it('should submit form', () => {

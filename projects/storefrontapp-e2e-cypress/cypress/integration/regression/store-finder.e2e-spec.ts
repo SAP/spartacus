@@ -40,9 +40,7 @@ context('Store finder', () => {
 
   it('should allow to view all stores', () => {
     cy.getByText('View all stores').click();
-    cy.get('.country-header-link')
-      .eq(0)
-      .click();
+    cy.get('.country-header-link').eq(0).click();
     cy.get(resultListItem).should('have.length.greaterThan', 0);
   });
 

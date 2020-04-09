@@ -219,7 +219,7 @@ describe('CostCenterAssignBudgetsComponent', () => {
       component.ngOnInit();
 
       let budgetsList: any;
-      component.data$.subscribe(value => {
+      component.data$.subscribe((value) => {
         budgetsList = value;
       });
 

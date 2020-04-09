@@ -76,7 +76,7 @@ describe('PermissionService', () => {
       let permissionDetails: Permission;
       service
         .get(permissionCode)
-        .subscribe(data => {
+        .subscribe((data) => {
           permissionDetails = data;
         })
         .unsubscribe();
@@ -95,7 +95,7 @@ describe('PermissionService', () => {
       let permissionDetails: Permission;
       service
         .get(permissionCode)
-        .subscribe(data => {
+        .subscribe((data) => {
           permissionDetails = data;
         })
         .unsubscribe();
@@ -115,7 +115,7 @@ describe('PermissionService', () => {
       let permissions: EntitiesModel<Permission>;
       service
         .getList(params)
-        .subscribe(data => {
+        .subscribe((data) => {
           permissions = data;
         })
         .unsubscribe();
@@ -144,7 +144,7 @@ describe('PermissionService', () => {
       let permissions: EntitiesModel<Permission>;
       service
         .getList(params)
-        .subscribe(data => {
+        .subscribe((data) => {
           permissions = data;
         })
         .unsubscribe();

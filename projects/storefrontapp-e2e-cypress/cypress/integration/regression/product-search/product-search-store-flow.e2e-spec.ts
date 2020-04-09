@@ -1,7 +1,7 @@
 import * as productSearchStoreFlow from '../../../helpers/product-search-store-flow';
 context('Product search store flow', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
 

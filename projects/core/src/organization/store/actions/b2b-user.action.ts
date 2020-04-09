@@ -104,7 +104,7 @@ export class LoadB2BUserSuccess extends EntitySuccessAction {
   constructor(public payload: B2BUser[]) {
     super(
       B2B_USER_ENTITIES,
-      payload.map(orgUnitCustomer => orgUnitCustomer.uid)
+      payload.map((orgUnitCustomer) => orgUnitCustomer.uid)
     );
   }
 }

@@ -21,15 +21,15 @@ export class SearchPageMetaResolver extends PageMetaResolver
   protected total$: Observable<
     number
   > = this.productSearchService.getResults().pipe(
-    filter(data => !!data?.pagination),
-    map(results => results.pagination.totalResults)
+    filter((data) => !!data?.pagination),
+    map((results) => results.pagination.totalResults)
   );
 
   protected query$: Observable<
     string
   > = this.routingService
     .getRouterState()
-    .pipe(map(state => state.state.params['query']));
+    .pipe(map((state) => state.state.params['query']));
 
   constructor(
     protected routingService: RoutingService,

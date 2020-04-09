@@ -42,7 +42,7 @@ export class OrgUnitEffects {
           }
           return [new OrgUnitActions.LoadOrgUnitSuccess([orgUnit])];
         }),
-        catchError(error =>
+        catchError((error) =>
           of(
             new OrgUnitActions.LoadOrgUnitFail({
               orgUnitId,
@@ -60,13 +60,13 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_UNIT_NODES),
     map((action: OrgUnitActions.LoadOrgUnitNodes) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.orgUnitConnector.getList(payload.userId).pipe(
         map(
           (orgUnitsList: B2BUnitNode[]) =>
             new OrgUnitActions.LoadOrgUnitNodesSuccess(orgUnitsList)
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             new OrgUnitActions.LoadOrgUnitNodesFail({
               error: makeErrorSerializable(error),
@@ -83,10 +83,10 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ORG_UNIT),
     map((action: OrgUnitActions.CreateUnit) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.orgUnitConnector.create(payload.userId, payload.unit).pipe(
-        map(data => new OrgUnitActions.CreateUnitSuccess(data)),
-        catchError(error =>
+        map((data) => new OrgUnitActions.CreateUnitSuccess(data)),
+        catchError((error) =>
           of(
             new OrgUnitActions.CreateUnitFail({
               unitCode: payload.unit.uid,
@@ -104,12 +104,12 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ORG_UNIT),
     map((action: OrgUnitActions.UpdateUnit) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.orgUnitConnector
         .update(payload.userId, payload.unitCode, payload.unit)
         .pipe(
-          map(data => new OrgUnitActions.UpdateUnitSuccess(data)),
-          catchError(error =>
+          map((data) => new OrgUnitActions.UpdateUnitSuccess(data)),
+          catchError((error) =>
             of(
               new OrgUnitActions.UpdateUnitFail({
                 unitCode: payload.unit.uid,
@@ -132,7 +132,7 @@ export class OrgUnitEffects {
         map(
           (orgUnit: B2BUnitNode) => new OrgUnitActions.LoadTreeSuccess(orgUnit)
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             new OrgUnitActions.LoadTreeFail({
               error: makeErrorSerializable(error),
@@ -156,7 +156,7 @@ export class OrgUnitEffects {
           (approvalProcesses: B2BApprovalProcess[]) =>
             new OrgUnitActions.LoadApprovalProcessesSuccess(approvalProcesses)
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             new OrgUnitActions.LoadApprovalProcessesFail({
               error: makeErrorSerializable(error),
@@ -191,7 +191,7 @@ export class OrgUnitEffects {
               }),
             ];
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new OrgUnitActions.LoadAssignedUsersFail({
                 orgUnitId,
@@ -223,7 +223,7 @@ export class OrgUnitEffects {
                 selected: true,
               })
           ),
-          catchError(error =>
+          catchError((error) =>
             of(
               new OrgUnitActions.AssignRoleFail({
                 orgCustomerId,
@@ -253,7 +253,7 @@ export class OrgUnitEffects {
                 selected: false,
               })
           ),
-          catchError(error =>
+          catchError((error) =>
             of(
               new OrgUnitActions.UnassignRoleFail({
                 orgCustomerId,
@@ -271,12 +271,12 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ADDRESS),
     map((action: OrgUnitActions.CreateAddress) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.orgUnitConnector
         .createAddress(payload.userId, payload.orgUnitId, payload.address)
         .pipe(
-          map(data => new OrgUnitActions.CreateAddressSuccess(data)),
-          catchError(error =>
+          map((data) => new OrgUnitActions.CreateAddressSuccess(data)),
+          catchError((error) =>
             of(
               new OrgUnitActions.CreateAddressFail({
                 addressId: payload.address.id,
@@ -294,7 +294,7 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ADDRESS),
     map((action: OrgUnitActions.UpdateAddress) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.orgUnitConnector
         .updateAddress(
           payload.userId,
@@ -303,8 +303,8 @@ export class OrgUnitEffects {
           payload.address
         )
         .pipe(
-          map(data => new OrgUnitActions.UpdateAddressSuccess(data)),
-          catchError(error =>
+          map((data) => new OrgUnitActions.UpdateAddressSuccess(data)),
+          catchError((error) =>
             of(
               new OrgUnitActions.UpdateAddressFail({
                 addressId: payload.address.id,
@@ -322,12 +322,12 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ADDRESS),
     map((action: OrgUnitActions.DeleteAddress) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.orgUnitConnector
         .deleteAddress(payload.userId, payload.orgUnitId, payload.addressId)
         .pipe(
-          map(data => new OrgUnitActions.DeleteAddressSuccess(data)),
-          catchError(error =>
+          map((data) => new OrgUnitActions.DeleteAddressSuccess(data)),
+          catchError((error) =>
             of(
               new OrgUnitActions.DeleteAddressFail({
                 addressId: payload.addressId,
@@ -356,7 +356,7 @@ export class OrgUnitEffects {
             new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId }),
           ];
         }),
-        catchError(error =>
+        catchError((error) =>
           of(
             new OrgUnitActions.LoadAddressesFail({
               orgUnitId,

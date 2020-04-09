@@ -4,7 +4,7 @@ import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register'
 
 describe('Order History with no orders', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
     loginHelper.registerUser();
     verifyGlobalMessageAfterRegistration();

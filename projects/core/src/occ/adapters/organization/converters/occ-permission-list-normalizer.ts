@@ -20,7 +20,7 @@ export class OccPermissionListNormalizer
     if (target === undefined) {
       target = {
         ...(source as any),
-        values: source.orderApprovalPermissions.map(permission => ({
+        values: source.orderApprovalPermissions.map((permission) => ({
           ...this.converter.convert(permission, PERMISSION_NORMALIZER),
         })),
       };

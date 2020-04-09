@@ -76,7 +76,7 @@ describe('OccUserGroupAdapter', () => {
     it('should load userGroup details for given userGroup uid', () => {
       service.load(userId, userGroupId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'userGroup' + userGroupId
+        (req) => req.method === 'GET' && req.url === 'userGroup' + userGroupId
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -91,7 +91,7 @@ describe('OccUserGroupAdapter', () => {
     it('should load userGroup list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'userGroups'
+        (req) => req.method === 'GET' && req.url === 'userGroups'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -106,7 +106,7 @@ describe('OccUserGroupAdapter', () => {
     it('should create userGroup', () => {
       service.create(userId, userGroup).subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'POST' &&
           req.url === 'userGroups' &&
           req.body.uid === userGroup.uid
@@ -124,7 +124,7 @@ describe('OccUserGroupAdapter', () => {
     it('should update userGroup', () => {
       service.update(userId, userGroupId, userGroup).subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'PATCH' &&
           req.url === 'userGroup' + userGroupId &&
           req.body.uid === userGroup.uid
@@ -142,7 +142,8 @@ describe('OccUserGroupAdapter', () => {
     it('should delete userGroup', () => {
       service.delete(userId, userGroupId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'DELETE' && req.url === 'userGroup' + userGroupId
+        (req) =>
+          req.method === 'DELETE' && req.url === 'userGroup' + userGroupId
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -154,7 +155,7 @@ describe('OccUserGroupAdapter', () => {
     it('should load members list for userGroup', () => {
       service.loadAvailableOrgCustomers(userId, userGroupId, {}).subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'GET' && req.url === 'userGroupAvailableOrgCustomers'
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -170,7 +171,7 @@ describe('OccUserGroupAdapter', () => {
     it('should assign member to userGroup', () => {
       service.assignMember(userId, userGroupId, memberUid).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'POST' && req.url === 'userGroupMembers'
+        (req) => req.method === 'POST' && req.url === 'userGroupMembers'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -182,7 +183,7 @@ describe('OccUserGroupAdapter', () => {
     it('should unassign member from userGroup', () => {
       service.unassignMember(userId, userGroupId, memberUid).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'DELETE' && req.url === 'userGroupMember'
+        (req) => req.method === 'DELETE' && req.url === 'userGroupMember'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -194,7 +195,7 @@ describe('OccUserGroupAdapter', () => {
     it('should unassign all members from userGroup', () => {
       service.unassignAllMembers(userId, userGroupId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'DELETE' && req.url === 'userGroupMembers'
+        (req) => req.method === 'DELETE' && req.url === 'userGroupMembers'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -208,7 +209,7 @@ describe('OccUserGroupAdapter', () => {
         .loadAvailableOrderApprovalPermissions(userId, userGroupId, {})
         .subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'GET' &&
           req.url === 'userGroupAvailableOrderApprovalPermissions'
       );
@@ -227,7 +228,7 @@ describe('OccUserGroupAdapter', () => {
         .assignOrderApprovalPermission(userId, userGroupId, permissionUid)
         .subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'POST' &&
           req.url === 'userGroupOrderApprovalPermissions'
       );
@@ -243,7 +244,7 @@ describe('OccUserGroupAdapter', () => {
         .unassignOrderApprovalPermission(userId, userGroupId, permissionUid)
         .subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'DELETE' &&
           req.url === 'userGroupOrderApprovalPermission'
       );

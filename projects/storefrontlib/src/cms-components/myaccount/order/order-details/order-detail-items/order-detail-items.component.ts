@@ -44,9 +44,9 @@ export class OrderDetailItemsComponent implements OnInit {
     consignmentStatus: string[]
   ): Observable<Consignment[]> {
     return this.order$.pipe(
-      map(order => {
+      map((order) => {
         if (Boolean(order.consignments)) {
-          return order.consignments.filter(consignment =>
+          return order.consignments.filter((consignment) =>
             consignmentStatus.includes(consignment.status)
           );
         }
@@ -58,10 +58,10 @@ export class OrderDetailItemsComponent implements OnInit {
     ...consignmentStatus: string[]
   ): Observable<Consignment[]> {
     return this.order$.pipe(
-      map(order => {
+      map((order) => {
         if (Boolean(order.consignments)) {
           return order.consignments.filter(
-            consignment => !consignmentStatus.includes(consignment.status)
+            (consignment) => !consignmentStatus.includes(consignment.status)
           );
         }
       })

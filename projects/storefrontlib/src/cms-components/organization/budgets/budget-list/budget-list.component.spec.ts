@@ -199,7 +199,7 @@ describe('BudgetListComponent', () => {
       component.ngOnInit();
       let budgetsList: any;
       component.data$
-        .subscribe(value => {
+        .subscribe((value) => {
           budgetsList = value;
         })
         .unsubscribe();

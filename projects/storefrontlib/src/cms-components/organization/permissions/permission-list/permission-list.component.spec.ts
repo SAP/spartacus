@@ -215,7 +215,7 @@ describe('PermissionListComponent', () => {
       component.ngOnInit();
       let permissionsList: any;
       component.data$
-        .subscribe(value => {
+        .subscribe((value) => {
           permissionsList = value;
         })
         .unsubscribe();

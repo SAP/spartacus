@@ -132,7 +132,7 @@ describe('PermissionFormComponent', () => {
       component.ngOnInit();
       let currencies: any;
       component.currencies$
-        .subscribe(value => {
+        .subscribe((value) => {
           currencies = value;
         })
         .unsubscribe();
@@ -144,7 +144,7 @@ describe('PermissionFormComponent', () => {
       component.ngOnInit();
       let businessUnits: any;
       component.businessUnits$
-        .subscribe(value => {
+        .subscribe((value) => {
           businessUnits = value;
         })
         .unsubscribe();

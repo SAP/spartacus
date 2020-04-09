@@ -65,7 +65,7 @@ describe('OccPermissionAdapter', () => {
     it('should load permission details for given permission code', () => {
       service.load(userId, orderApprovalPermissionCode).subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'GET' &&
           req.url === 'permission' + orderApprovalPermissionCode
       );
@@ -82,7 +82,7 @@ describe('OccPermissionAdapter', () => {
     it('should load permission list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'permissions'
+        (req) => req.method === 'GET' && req.url === 'permissions'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -97,7 +97,7 @@ describe('OccPermissionAdapter', () => {
     it('should create permission', () => {
       service.create(userId, permission).subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'POST' &&
           req.url === 'permissions' &&
           req.body.code === permission.code
@@ -117,7 +117,7 @@ describe('OccPermissionAdapter', () => {
         .update(userId, orderApprovalPermissionCode, permission)
         .subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'PATCH' &&
           req.url === 'permission' + orderApprovalPermissionCode &&
           req.body.code === permission.code

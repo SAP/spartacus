@@ -64,7 +64,7 @@ describe('OccBudgetAdapter', () => {
     it('should load budget details for given budget code', () => {
       service.load(userId, budgetCode).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'budget' + budgetCode
+        (req) => req.method === 'GET' && req.url === 'budget' + budgetCode
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -77,7 +77,7 @@ describe('OccBudgetAdapter', () => {
     it('should load budget list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'budgets'
+        (req) => req.method === 'GET' && req.url === 'budgets'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -92,7 +92,7 @@ describe('OccBudgetAdapter', () => {
     it('should create budget', () => {
       service.create(userId, budget).subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'POST' &&
           req.url === 'budgets' &&
           req.body.code === budget.code
@@ -108,7 +108,7 @@ describe('OccBudgetAdapter', () => {
     it('should update budget', () => {
       service.update(userId, budgetCode, budget).subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'PATCH' &&
           req.url === 'budget' + budgetCode &&
           req.body.code === budget.code

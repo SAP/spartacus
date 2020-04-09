@@ -97,7 +97,7 @@ describe('CheckoutConfigService', () => {
         mockRoutingConfig[mockCheckoutSteps[activeStepIndex].routeName].paths[0]
     );
 
-    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake(route => {
+    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake((route) => {
       return mockRoutingConfig[route].paths[0];
     });
 
@@ -115,7 +115,7 @@ describe('CheckoutConfigService', () => {
         mockRoutingConfig[mockCheckoutSteps[activeStepIndex].routeName].paths[0]
     );
 
-    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake(route => {
+    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake((route) => {
       return mockRoutingConfig[route].paths[0];
     });
 
@@ -133,7 +133,7 @@ describe('CheckoutConfigService', () => {
         mockRoutingConfig[mockCheckoutSteps[activeStepIndex].routeName].paths[0]
     );
 
-    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake(route => {
+    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake((route) => {
       return mockRoutingConfig[route].paths[0];
     });
 

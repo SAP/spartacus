@@ -31,18 +31,20 @@ export class PermissionListComponent extends AbstractListingComponent
 
   ngOnInit(): void {
     this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
-      tap(queryParams => this.permissionsService.loadPermissions(queryParams)),
-      switchMap(queryParams =>
+      tap((queryParams) =>
+        this.permissionsService.loadPermissions(queryParams)
+      ),
+      switchMap((queryParams) =>
         this.permissionsService.getList(queryParams).pipe(
           filter(Boolean),
           map((permissionsList: EntitiesModel<Permission>) => ({
             sorts: permissionsList.sorts,
             pagination: permissionsList.pagination,
-            values: permissionsList.values.map(permission => ({
+            values: permissionsList.values.map((permission) => ({
               code: permission.code,
-              threshold: `${permission.threshold ||
-                ''} ${(permission.currency && permission.currency.symbol) ||
-                ''}`,
+              threshold: `${permission.threshold || ''} ${
+                (permission.currency && permission.currency.symbol) || ''
+              }`,
               orderType:
                 permission.orderApprovalPermissionType &&
                 permission.orderApprovalPermissionType.name,

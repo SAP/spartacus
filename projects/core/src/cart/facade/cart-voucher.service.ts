@@ -71,7 +71,7 @@ export class CartVoucherService {
     if (cartId) {
       return this.authService.getOccUserId().pipe(
         take(1),
-        map(userId => [userId, cartId])
+        map((userId) => [userId, cartId])
       );
     } else {
       return combineLatest([

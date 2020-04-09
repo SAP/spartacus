@@ -7,7 +7,7 @@ import {
 
 describe('Payment Methods', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     visitHomePage();
   });
 

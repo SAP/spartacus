@@ -13,6 +13,8 @@ import {
   GlobalMessageService,
   I18nTestingModule,
   UserPaymentService,
+  Region,
+  UserAddressService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
@@ -69,6 +71,18 @@ const mockCardTypes: CardType[] = [
   },
 ];
 
+const mockPayment: any = {
+  cardType: {
+    code: mockCardTypes[0].code,
+  },
+  accountHolderName: 'Test Name',
+  cardNumber: '1234123412341234',
+  expiryMonth: '02',
+  expiryYear: 2022,
+  cvn: '123',
+  defaultPayment: false,
+};
+
 @Component({
   selector: 'cx-billing-address-form',
   template: '',
@@ -107,6 +121,7 @@ class MockCheckoutPaymentService {
     return of({ loading: false });
   }
 }
+
 class MockCheckoutDeliveryService {
   getDeliveryAddress(): Observable<Address> {
     return of(null);
@@ -136,7 +151,7 @@ const mockSuggestedAddressModalRef: any = {
     enteredAddress: '',
     suggestedAddresses: '',
   },
-  result: new Promise(resolve => {
+  result: new Promise((resolve) => {
     return resolve(true);
   }),
 };
@@ -144,6 +159,12 @@ const mockSuggestedAddressModalRef: any = {
 class MockModalService {
   open(): any {
     return mockSuggestedAddressModalRef;
+  }
+}
+
+class MockUserAddressService {
+  getRegions(): Observable<Region[]> {
+    return of([]);
   }
 }
 
@@ -161,6 +182,7 @@ describe('PaymentFormComponent', () => {
   let mockGlobalMessageService: MockGlobalMessageService;
   let showSameAsShippingAddressCheckboxSpy: jasmine.Spy;
   let mockModalService: MockModalService;
+  let mockUserAddressService: MockUserAddressService;
 
   let controls: {
     payment: FormGroup['controls'];
@@ -173,6 +195,7 @@ describe('PaymentFormComponent', () => {
     mockUserPaymentService = new MockUserPaymentService();
     mockGlobalMessageService = new MockGlobalMessageService();
     mockModalService = new MockModalService();
+    mockUserAddressService = new MockUserAddressService();
 
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
@@ -195,6 +218,7 @@ describe('PaymentFormComponent', () => {
         },
         { provide: UserPaymentService, useValue: mockUserPaymentService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        { provide: UserAddressService, useValue: mockUserAddressService },
       ],
     })
       .overrideComponent(PaymentFormComponent, {
@@ -207,8 +231,8 @@ describe('PaymentFormComponent', () => {
     fixture = TestBed.createComponent(PaymentFormComponent);
     component = fixture.componentInstance;
     controls = {
-      payment: component.payment.controls,
-      billingAddress: component.billingAddress.controls,
+      payment: component.paymentForm.controls,
+      billingAddress: component.billingAddressForm.controls,
     };
 
     spyOn(component.setPaymentDetails, 'emit').and.callThrough();
@@ -234,7 +258,7 @@ describe('PaymentFormComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get supported card types if they do not exist', done => {
+  it('should call ngOnInit to get supported card types if they do not exist', (done) => {
     spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(of([]));
     component.ngOnInit();
     component.cardTypes$.subscribe(() => {
@@ -333,30 +357,48 @@ describe('PaymentFormComponent', () => {
     expect(component.openSuggestedAddress).toHaveBeenCalled();
   });
 
-  it('should call showSameAsShippingAddressCheckbox', () => {
+  it('should decide if shipping address can also be a billing address', () => {
     showSameAsShippingAddressCheckboxSpy.and.callThrough();
-    component.showSameAsShippingAddressCheckbox().subscribe(data => {
-      console.log(data);
-      expect(data).toBeTruthy();
+    const testIsocode = 'ABC';
+    component.shippingAddress$ = of({
+      country: {
+        isocode: testIsocode,
+      },
+    });
+    component.countries$ = of([]);
+
+    component.showSameAsShippingAddressCheckbox().subscribe((data) => {
+      expect(data).toEqual(false);
+    });
+
+    component.countries$ = of([
+      {
+        isocode: testIsocode,
+      },
+    ]);
+
+    component.showSameAsShippingAddressCheckbox().subscribe((data) => {
+      expect(data).toEqual(true);
     });
   });
 
   it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
-    component.payment.value.defaultPayment = false;
+    component.paymentForm.value.defaultPayment = false;
     component.toggleDefaultPaymentMethod();
-    expect(component.payment.value.defaultPayment).toBeTruthy();
+    expect(component.paymentForm.value.defaultPayment).toBeTruthy();
   });
 
   it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
-    component.payment.value.defaultPayment = true;
+    component.paymentForm.value.defaultPayment = true;
     component.toggleDefaultPaymentMethod();
-    expect(component.payment.value.defaultPayment).toBeFalsy();
+    expect(component.paymentForm.value.defaultPayment).toBeFalsy();
   });
 
   it('should call next()', () => {
+    component.paymentForm.setValue(mockPayment);
     component.next();
     expect(component.setPaymentDetails.emit).toHaveBeenCalledWith({
-      paymentDetails: component.payment.value,
+      paymentDetails: component.paymentForm.value,
       billingAddress: null,
     });
   });
@@ -369,18 +411,18 @@ describe('PaymentFormComponent', () => {
   it('should call paymentSelected(card)', () => {
     component.paymentSelected({ code: 'test select payment' });
     expect(
-      component.payment['controls'].cardType['controls'].code.value
+      component.paymentForm['controls'].cardType['controls'].code.value
     ).toEqual('test select payment');
   });
 
   it('should call monthSelected(month)', () => {
-    component.monthSelected({ id: 5, name: '05' });
-    expect(component.payment['controls'].expiryMonth.value).toEqual('05');
+    component.monthSelected('05');
+    expect(component.paymentForm['controls'].expiryMonth.value).toEqual('05');
   });
 
   it('should call yearSelected(year)', () => {
-    component.yearSelected({ id: 1, name: 2022 });
-    expect(component.payment['controls'].expiryYear.value).toEqual(2022);
+    component.yearSelected(2022);
+    expect(component.paymentForm['controls'].expiryYear.value).toEqual(2022);
   });
 
   it('should call getAddressCardContent(address)', () => {
@@ -525,16 +567,6 @@ describe('PaymentFormComponent', () => {
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
       expect(component.next).toHaveBeenCalledTimes(2);
-    });
-
-    it('should not be disabled', () => {
-      const isContinueBtnDisabled = () => {
-        fixture.detectChanges();
-        return getContinueBtn().nativeElement.disabled;
-      };
-
-      fixture.detectChanges();
-      expect(isContinueBtnDisabled()).toBeFalsy();
     });
 
     it('should check setAsDefaultField to determine whether setAsDefault checkbox displayed or not', () => {

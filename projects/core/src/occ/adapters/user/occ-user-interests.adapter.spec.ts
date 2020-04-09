@@ -71,7 +71,7 @@ describe('OccUserInterestsAdapter', () => {
       occUserInterestsAdapter
         .getInterests(userId, pageSize, page, sort)
         .subscribe();
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -96,7 +96,7 @@ describe('OccUserInterestsAdapter', () => {
         .getInterests(userId, pageSize, page, sort)
         .subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'GET';
         })
         .flush({});
@@ -123,9 +123,9 @@ describe('OccUserInterestsAdapter', () => {
 
       occUserInterestsAdapter
         .removeInterest(userId, mockRelation)
-        .subscribe(result => expect(result).toEqual(['']));
+        .subscribe((result) => expect(result).toEqual(['']));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'DELETE';
       });
 

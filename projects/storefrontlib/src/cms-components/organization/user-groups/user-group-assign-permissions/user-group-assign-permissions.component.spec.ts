@@ -216,7 +216,7 @@ describe('UserGroupAssignPermissionsComponent', () => {
       component.ngOnInit();
 
       let permissionsList: any;
-      component.data$.subscribe(value => {
+      component.data$.subscribe((value) => {
         permissionsList = value;
       });
 

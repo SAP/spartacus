@@ -14,7 +14,7 @@ export class PermissionEditComponent implements OnInit {
     string
   > = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['code']));
+    .pipe(map((routingData) => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,
@@ -23,15 +23,15 @@ export class PermissionEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.permission$ = this.permissionCode$.pipe(
-      tap(code => this.permissionsService.loadPermission(code)),
-      switchMap(code => this.permissionsService.get(code))
+      tap((code) => this.permissionsService.loadPermission(code)),
+      switchMap((code) => this.permissionsService.get(code))
     );
   }
 
   updatePermission(permission: Permission) {
     this.permissionCode$
       .pipe(take(1))
-      .subscribe(permissionCode =>
+      .subscribe((permissionCode) =>
         this.permissionsService.update(permissionCode, permission)
       );
     this.routingService.go({

@@ -1,10 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RoutingService, UserService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
@@ -16,9 +11,8 @@ import { CustomFormValidators } from '../../../shared/utils/validators/custom-fo
 export class ResetPasswordFormComponent implements OnInit, OnDestroy {
   token: string;
   subscription = new Subscription();
-  submited = false;
 
-  form: FormGroup = this.fb.group(
+  resetPasswordForm: FormGroup = this.fb.group(
     {
       password: [
         '',
@@ -26,7 +20,12 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
       ],
       repassword: ['', [Validators.required]],
     },
-    { validator: this.matchPassword }
+    {
+      validators: CustomFormValidators.passwordsMustMatch(
+        'password',
+        'repassword'
+      ),
+    }
   );
 
   constructor(
@@ -39,11 +38,11 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.routingService
         .getRouterState()
-        .subscribe(state => (this.token = state.state.queryParams['token']))
+        .subscribe((state) => (this.token = state.state.queryParams['token']))
     );
 
     this.subscription.add(
-      this.userService.isPasswordReset().subscribe(reset => {
+      this.userService.isPasswordReset().subscribe((reset) => {
         if (reset) {
           this.routingService.go({ cxRoute: 'login' });
         }
@@ -51,25 +50,18 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
     );
   }
 
+  resetPassword() {
+    if (this.resetPasswordForm.valid) {
+      const password = this.resetPasswordForm.get('password').value;
+      this.userService.resetPassword(this.token, password);
+    } else {
+      this.resetPasswordForm.markAllAsTouched();
+    }
+  }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
-    }
-  }
-
-  resetPassword() {
-    this.submited = true;
-    if (this.form.invalid) {
-      return;
-    }
-
-    const password = this.form.value['password'];
-    this.userService.resetPassword(this.token, password);
-  }
-
-  private matchPassword(ac: AbstractControl) {
-    if (ac.get('password').value !== ac.get('repassword').value) {
-      return { NotEqual: true };
     }
   }
 }

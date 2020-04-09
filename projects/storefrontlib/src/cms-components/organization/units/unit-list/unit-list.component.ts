@@ -28,7 +28,7 @@ export class ManageUnitsListComponent implements OnInit {
     this.orgUnitsService.loadTree();
     this.data$ = this.orgUnitsService.getTree().pipe(
       filter(Boolean),
-      map(node => ({
+      map((node) => ({
         title: '',
         children: [this.toNavigation(node)],
       }))
@@ -38,7 +38,7 @@ export class ManageUnitsListComponent implements OnInit {
   toNavigation(node: B2BUnitNode): NavigationNode {
     return {
       title: node.name,
-      children: node.children.map(children => this.toNavigation(children)),
+      children: node.children.map((children) => this.toNavigation(children)),
       url: this.semanticPathService.transform({
         cxRoute: 'orgUnitDetails',
         params: { uid: node.id },

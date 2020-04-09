@@ -29,7 +29,7 @@ function observableUpperCase(text: string) {
 describe('resolveObject', () => {
   describe('resolveValuesBy', () => {
     it('toUpperCase', () => {
-      resolveValuesBy(object1, observableUpperCase).subscribe(resolved => {
+      resolveValuesBy(object1, observableUpperCase).subscribe((resolved) => {
         expect(resolved).toEqual([
           { a: 'VALUE1' },
           { b: 'VALUE2' },
@@ -40,9 +40,9 @@ describe('resolveObject', () => {
     });
 
     it('translationService', () => {
-      resolveValuesBy(object1, text =>
+      resolveValuesBy(object1, (text) =>
         translationService.translate(text).pipe(take(1))
-      ).subscribe(resolved => {
+      ).subscribe((resolved) => {
         expect(resolved).toEqual([
           { a: '[value1:value1]' },
           { b: '[value2:value2]' },
@@ -55,7 +55,7 @@ describe('resolveObject', () => {
 
   describe('resolveObjectBy', () => {
     it('toUpperCase', () => {
-      resolveObjectBy(object1, observableUpperCase).subscribe(resolved => {
+      resolveObjectBy(object1, observableUpperCase).subscribe((resolved) => {
         expect(resolved).toEqual({
           a: 'VALUE1',
           b: 'VALUE2',
@@ -66,9 +66,9 @@ describe('resolveObject', () => {
     });
 
     it('translationService', () => {
-      resolveObjectBy(object1, text =>
+      resolveObjectBy(object1, (text) =>
         translationService.translate(text).pipe(take(1))
-      ).subscribe(resolved => {
+      ).subscribe((resolved) => {
         expect(resolved).toEqual({
           a: '[value1:value1]',
           b: '[value2:value2]',
@@ -81,20 +81,22 @@ describe('resolveObject', () => {
 
   describe('resolveKeyAndValueBy', () => {
     it('toUpperCase', () => {
-      resolveKeyAndValueBy(object1, observableUpperCase).subscribe(resolved => {
-        expect(resolved).toEqual([
-          { key: 'a', value: 'VALUE1' },
-          { key: 'b', value: 'VALUE2' },
-          { key: 'c', value: 'VALUE3' },
-          { key: 'd', value: 'VALUE4' },
-        ]);
-      });
+      resolveKeyAndValueBy(object1, observableUpperCase).subscribe(
+        (resolved) => {
+          expect(resolved).toEqual([
+            { key: 'a', value: 'VALUE1' },
+            { key: 'b', value: 'VALUE2' },
+            { key: 'c', value: 'VALUE3' },
+            { key: 'd', value: 'VALUE4' },
+          ]);
+        }
+      );
     });
 
     it('translationService', () => {
-      resolveKeyAndValueBy(object1, text =>
+      resolveKeyAndValueBy(object1, (text) =>
         translationService.translate(text).pipe(take(1))
-      ).subscribe(resolved => {
+      ).subscribe((resolved) => {
         expect(resolved).toEqual([
           { key: 'a', value: '[value1:value1]' },
           { key: 'b', value: '[value2:value2]' },

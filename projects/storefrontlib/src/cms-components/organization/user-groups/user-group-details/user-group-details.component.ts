@@ -14,7 +14,7 @@ export class UserGroupDetailsComponent implements OnInit {
     string
   > = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['code']));
+    .pipe(map((routingData) => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,
@@ -23,8 +23,8 @@ export class UserGroupDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userGroup$ = this.userGroupCode$.pipe(
-      tap(code => this.userGroupsService.loadUserGroup(code)),
-      switchMap(code => this.userGroupsService.get(code)),
+      tap((code) => this.userGroupsService.loadUserGroup(code)),
+      switchMap((code) => this.userGroupsService.get(code)),
       filter(Boolean),
       map((userGroup: UserGroup) => ({
         ...userGroup,

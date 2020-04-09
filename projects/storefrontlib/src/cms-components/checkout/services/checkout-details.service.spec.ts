@@ -108,7 +108,7 @@ describe('CheckoutDetailsService', () => {
     let checkoutDetails;
     service
       .getDeliveryAddress()
-      .subscribe(data => (checkoutDetails = data))
+      .subscribe((data) => (checkoutDetails = data))
       .unsubscribe();
     expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
     expect(checkoutDeliveryService.getDeliveryAddress).toHaveBeenCalled();
@@ -126,7 +126,7 @@ describe('CheckoutDetailsService', () => {
     let checkoutDetails;
     service
       .getSelectedDeliveryModeCode()
-      .subscribe(data => (checkoutDetails = data))
+      .subscribe((data) => (checkoutDetails = data))
       .unsubscribe();
     expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
     expect(
@@ -145,7 +145,7 @@ describe('CheckoutDetailsService', () => {
     let checkoutDetails;
     service
       .getPaymentDetails()
-      .subscribe(data => (checkoutDetails = data))
+      .subscribe((data) => (checkoutDetails = data))
       .unsubscribe();
     expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
     expect(checkoutPaymentService.getPaymentDetails).toHaveBeenCalled();
