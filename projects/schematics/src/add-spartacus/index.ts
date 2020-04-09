@@ -119,10 +119,10 @@ function addPackageJsonDependencies(): Rule {
         version: '^4.2.1',
         name: 'bootstrap',
       },
-      { type: NodeDependencyType.Default, version: '^15.0.6', name: 'i18next' },
+      { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },
       {
         type: NodeDependencyType.Default,
-        version: '^2.0.1',
+        version: '^3.2.2',
         name: 'i18next-xhr-backend',
       },
       {
