@@ -12,9 +12,9 @@ import { FacetListComponent } from './facet-list.component';
     I18nModule,
     IconModule,
     FacetModule,
-    KeyboardFocusModule
+    KeyboardFocusModule,
   ],
   declarations: [FacetListComponent],
-  exports: [FacetListComponent]
+  exports: [FacetListComponent],
 })
 export class FacetListModule {}

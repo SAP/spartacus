@@ -128,7 +128,7 @@ export class FacetService {
    * Updates the state of the facet in the local facet map.
    */
   protected updateState(facet: Facet, property: FacetCollapseState) {
-    const state = Object.assign(this.getStateSnapshot(facet), { ...property });
+    const state = { ...this.getStateSnapshot(facet), ...property };
     this.facetState.get(facet.name).next(state);
   }
 
