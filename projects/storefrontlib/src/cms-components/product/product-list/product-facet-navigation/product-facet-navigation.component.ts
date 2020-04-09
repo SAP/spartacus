@@ -52,9 +52,6 @@ export class ProductFacetNavigationComponent implements AfterViewInit {
     HTMLElement
   >;
 
-  /** Indicates that the dialog is loaded.  */
-  isLoaded: boolean;
-
   /**
    * Indicates that the dialog is opened.
    *
