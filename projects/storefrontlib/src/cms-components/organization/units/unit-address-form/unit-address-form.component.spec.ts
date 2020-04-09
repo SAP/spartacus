@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -106,6 +106,17 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+@Component({
+  selector: 'cx-form-errors',
+  template: '',
+})
+class MockFormErrorsComponent {
+  @Input()
+  translationParams;
+  @Input()
+  control;
+}
+
 describe('UnitAddressFormComponent', () => {
   let component: UnitAddressFormComponent;
   let fixture: ComponentFixture<UnitAddressFormComponent>;
@@ -121,7 +132,11 @@ describe('UnitAddressFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [UnitAddressFormComponent, MockUrlPipe],
+      declarations: [
+        UnitAddressFormComponent,
+        MockUrlPipe,
+        MockFormErrorsComponent,
+      ],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: UserService, useClass: MockUserService },
