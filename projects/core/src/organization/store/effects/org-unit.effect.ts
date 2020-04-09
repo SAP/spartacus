@@ -105,8 +105,8 @@ export class OrgUnitEffects {
       this.orgUnitConnector
         .update(payload.userId, payload.unitCode, payload.unit)
         .pipe(
+          // TODO: Workaround for empty PATCH response:
           // map(() => new OrgUnitActions.UpdateUnitSuccess(payload.unit)),
-          // Workaround for empty PATCH response:
           map(
             () =>
               new OrgUnitActions.LoadOrgUnit({
@@ -309,8 +309,8 @@ export class OrgUnitEffects {
           payload.address
         )
         .pipe(
+          // TODO: Workaround for empty PATCH response:
           // map(data => new OrgUnitActions.UpdateAddressSuccess(data)),
-          // Workaround for empty PATCH response:
           map(() => new OrgUnitActions.LoadAddresses(payload)),
           catchError(error =>
             of(
