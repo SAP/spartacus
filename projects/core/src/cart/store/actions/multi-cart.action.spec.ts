@@ -82,7 +82,7 @@ describe('MultiCart Actions', () => {
     });
   });
 
-  describe('ClearMultiCartState', () => {
+  describe('ClearCartState', () => {
     it('should clear whole multi cart state', () => {
       const action = new CartActions.ClearCartState();
       expect({ ...action }).toEqual({

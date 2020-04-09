@@ -158,9 +158,9 @@ describe('Wish List Effect', () => {
         customerId,
       });
 
-      const removeCartAction = new CartActions.RemoveCart(
-        getWishlistName(customerId)
-      );
+      const removeCartAction = new CartActions.RemoveCart({
+        cartId: getWishlistName(customerId),
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {

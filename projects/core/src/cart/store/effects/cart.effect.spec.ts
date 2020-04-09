@@ -118,9 +118,9 @@ describe('Cart effect', () => {
         userId,
         cartId: testCart.code,
       });
-      const removeCartCompletion = new CartActions.RemoveCart(
-        OCC_CART_ID_CURRENT
-      );
+      const removeCartCompletion = new CartActions.RemoveCart({
+        cartId: OCC_CART_ID_CURRENT,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -164,7 +164,7 @@ describe('Cart effect', () => {
           },
         })
       );
-      const removeCartCompletion = new CartActions.RemoveCart(cartId);
+      const removeCartCompletion = new CartActions.RemoveCart({ cartId });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {
         b: removeCartCompletion,

@@ -11,7 +11,7 @@ export class MultiCartEffects {
   setTempCart$ = this.actions$.pipe(
     ofType(CartActions.SET_TEMP_CART),
     map((action: CartActions.SetTempCart) => {
-      return new CartActions.RemoveCart(action.payload.tempCartId);
+      return new CartActions.RemoveCart({ cartId: action.payload.tempCartId });
     })
   );
 

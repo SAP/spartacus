@@ -84,7 +84,7 @@ export class WishListEffects {
                   customerId,
                   cartId: getCartIdByUserId(wishList, userId),
                 }),
-                new CartActions.RemoveCart(tempCartId),
+                new CartActions.RemoveCart({ cartId: tempCartId }),
               ];
             } else {
               return [

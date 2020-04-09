@@ -22,10 +22,6 @@ export function activeCartReducer(
     case CartActions.SET_ACTIVE_CART_ID:
       return action.payload;
     case CartActions.REMOVE_CART:
-      if (action.payload === state) {
-        return activeCartInitialState;
-      }
-      return state;
     case CartActions.DELETE_CART_SUCCESS:
       if (action.payload?.cartId === state) {
         return activeCartInitialState;

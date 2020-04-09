@@ -292,10 +292,10 @@ describe('Cart Actions', () => {
   describe('RemoveCart', () => {
     it('should create the action', () => {
       const cartId = 'cartId';
-      const action = new CartActions.RemoveCart(cartId);
+      const action = new CartActions.RemoveCart({ cartId });
       expect({ ...action }).toEqual({
         type: CartActions.REMOVE_CART,
-        payload: cartId,
+        payload: { cartId },
         meta: entityRemoveMeta(MULTI_CART_DATA, cartId),
       });
     });

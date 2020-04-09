@@ -131,14 +131,14 @@ describe('Multi Cart reducer', () => {
     describe('REMOVE_CART action', () => {
       it('should clear active cart id, when active cart is removed', () => {
         const initialState = 'cartCode';
-        const action = new CartActions.RemoveCart('cartCode');
+        const action = new CartActions.RemoveCart({ cartId: 'cartCode' });
         const state = fromMultiCart.activeCartReducer(initialState, action);
         expect(state).toEqual(fromMultiCart.activeCartInitialState);
       });
 
       it('should not change active cart id when non active cart is removed', () => {
         const initialState = 'otherCode';
-        const action = new CartActions.RemoveCart('cartCode');
+        const action = new CartActions.RemoveCart({ cartId: 'cartCode' });
         const state = fromMultiCart.activeCartReducer(initialState, action);
         expect(state).toEqual('otherCode');
       });

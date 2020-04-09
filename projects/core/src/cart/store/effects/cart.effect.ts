@@ -74,7 +74,9 @@ export class CartEffects {
                 if (payload.cartId === OCC_CART_ID_CURRENT) {
                   // Removing cart from entity object under `current` key as it is no longer needed.
                   // Current cart is loaded under it's code entity.
-                  actions.push(new CartActions.RemoveCart(OCC_CART_ID_CURRENT));
+                  actions.push(
+                    new CartActions.RemoveCart({ cartId: OCC_CART_ID_CURRENT })
+                  );
                 }
               } else {
                 actions = [
@@ -113,7 +115,9 @@ export class CartEffects {
                 ) {
                   // Clear cart is responsible for removing cart in `cart` store feature.
                   // Remove cart does the same thing, but in `multi-cart` store feature.
-                  return of(new CartActions.RemoveCart(payload.cartId));
+                  return of(
+                    new CartActions.RemoveCart({ cartId: payload.cartId })
+                  );
                 }
               }
               return of(

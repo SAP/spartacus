@@ -202,13 +202,8 @@ export class ClearExpiredCoupons implements Action {
  */
 export class RemoveCart extends EntityRemoveAction {
   readonly type = REMOVE_CART;
-  constructor(
-    /**
-     * Cart id to remove
-     */
-    public payload: string
-  ) {
-    super(MULTI_CART_DATA, payload);
+  constructor(public payload: { cartId: string }) {
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 

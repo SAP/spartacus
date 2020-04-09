@@ -51,9 +51,9 @@ describe('Multi Cart effect', () => {
     it('should dispatch RemoveCart just after setting', () => {
       const payload = { cart: testCart, tempCartId: 'tempCartId' };
       const action = new CartActions.SetTempCart(payload);
-      const removeTempCartCompletion = new CartActions.RemoveCart(
-        payload.tempCartId
-      );
+      const removeTempCartCompletion = new CartActions.RemoveCart({
+        cartId: payload.tempCartId,
+      });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {
         b: removeTempCartCompletion,
