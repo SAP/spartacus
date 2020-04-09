@@ -17,7 +17,7 @@ declare global {
     }
   }
 }
-Cypress.Commands.add('requirePaymentDone', auth => {
+Cypress.Commands.add('requirePaymentDone', (auth) => {
   const apiUrl = Cypress.env('API_URL');
   function getResponseUrl() {
     return cy.request({
@@ -65,7 +65,7 @@ Cypress.Commands.add('requirePaymentDone', auth => {
   }
 
   function convertToMap(paramList: { key; value }[]) {
-    return paramList.reduce(function(result, item) {
+    return paramList.reduce(function (result, item) {
       const key = item.key;
       result[key] = item.value;
       return result;
@@ -84,8 +84,8 @@ Cypress.Commands.add('requirePaymentDone', auth => {
 
   cy.server();
 
-  getResponseUrl().then(resp => {
-    doVerification(convertToMap(resp.body.parameters.entry)).then(respV => {
+  getResponseUrl().then((resp) => {
+    doVerification(convertToMap(resp.body.parameters.entry)).then((respV) => {
       const sidRe = /name="paySubscriptionCreateReply_subscriptionID" value="(.+)"/gm;
       const sid = sidRe.exec(respV.body)[1];
       const sidSigRe = /name="paySubscriptionCreateReply_subscriptionIDPublicSignature" value="(.+)"/gm;

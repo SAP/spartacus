@@ -179,7 +179,7 @@ describe('Navigation UI Component', () => {
       fixture.detectChanges();
       // mmm... no `> nav` available in By.css
       let rootNavElementCount = 0;
-      (<HTMLElement>element.nativeElement).childNodes.forEach(el => {
+      (<HTMLElement>element.nativeElement).childNodes.forEach((el) => {
         if (el.nodeName === 'NAV') {
           rootNavElementCount++;
         }

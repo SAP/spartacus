@@ -34,7 +34,7 @@ export function setSessionData(data) {
       token: { ...data, userId: USERID_CURRENT },
     },
   };
-  cy.window().then(win => {
+  cy.window().then((win) => {
     const storageKey = 'spartacus-local-data';
     let state;
     try {

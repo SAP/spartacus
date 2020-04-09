@@ -1,6 +1,5 @@
 import { standardUser } from '../sample-data/shared-users';
-import { config, retrieveAuthToken } from '../support/utils/login';
-import { login } from './auth-forms';
+import { waitForPage } from './checkout-flow';
 import * as alerts from './global-message';
 import { generateMail, randomString } from './user';
 
@@ -8,7 +7,7 @@ export const testUser = 'test-user-with-coupons@ydev.hybris.com';
 export const testPassword = 'Password123.';
 export const claimCouponUrl = '/my-account/coupon/claim/';
 export const loginContainUrl = '/login';
-export const myCouponsContainUrl = '/coupons';
+export const myCouponsContainUrl = '/my-account/coupons';
 export const validCouponCode = 'customerCoupon1';
 export const invalidCouponCode = 'invalidCoupon';
 export const CouponWithOpenCatalog = 'dragonboat';
@@ -16,6 +15,8 @@ export const CouponWithProductCategory = 'springfestival';
 export const CouponWithProducts = 'midautumn';
 export const PageSize = 10;
 export const NumberInPage2 = 1;
+
+export const pageUrl = '/rest/v2/electronics-spa';
 
 export function verifyPagingAndSorting() {
   const firstCouponStartDateAscending = 'customerCoupon1';
@@ -62,11 +63,6 @@ export function verifyMyCouponsAsAnonymous() {
 
 export function verifyClaimCouponSuccessAsAnonymous(couponCode: string) {
   claimCoupon(couponCode);
-  cy.location('pathname').should('contain', loginContainUrl);
-  login(
-    standardUser.registrationData.email,
-    standardUser.registrationData.password
-  );
   cy.location('pathname').should('contain', myCouponsContainUrl);
   cy.get('.cx-coupon-card').within(() => {
     cy.get('.cx-coupon-card-id').should('contain', couponCode);
@@ -74,14 +70,11 @@ export function verifyClaimCouponSuccessAsAnonymous(couponCode: string) {
 }
 
 export function verifyClaimCouponFailedAsAnonymous(couponCode: string) {
-  claimCoupon(couponCode);
-  cy.location('pathname').should('contain', loginContainUrl);
-  login(
-    standardUser.registrationData.email,
-    standardUser.registrationData.password
-  );
+  claimCoupon(couponCode, 400);
   cy.location('pathname').should('contain', myCouponsContainUrl);
-  alerts.getErrorAlert().should('exist');
+  cy.get('.cx-coupon-card').within(() => {
+    cy.get('.cx-coupon-card-id').should('not.contain', couponCode);
+  });
 }
 
 export function goMyCoupon() {
@@ -100,37 +93,42 @@ export function verifyMyCoupons() {
   verifyFindProduct(CouponWithProducts, 1);
 }
 
-export function claimCoupon(couponCode: string) {
+export function claimCoupon(
+  couponCode: string,
+  validCouponPostRequest: number = 201
+) {
+  // sometimes we need to wait for the document to load
+  cy.wait(1000);
+
+  const claimCouponPage = waitForPage(
+    claimCouponUrl + couponCode,
+    'getClaimedCouponPage'
+  );
+
+  const claimCouponsPostRequest = waitClaimCouponPostRequest(couponCode);
+
+  const getCoupons = waitClaimCouponGetRequest();
+
+  const couponsPage = waitForPage(myCouponsContainUrl, 'getCouponsPage');
+
   cy.visit(claimCouponUrl + couponCode);
+
+  cy.wait(`@${claimCouponPage}`).its('status').should('eq', 200);
+  cy.wait(`@${claimCouponsPostRequest}`)
+    .its('status')
+    .should('eq', validCouponPostRequest);
+
+  if (validCouponPostRequest === 400) {
+    alerts.getErrorAlert().should('exist');
+  }
+
+  cy.wait(`@${couponsPage}`).its('status').should('eq', 200);
+  cy.wait(`@${getCoupons}`).its('status').should('eq', 200);
 }
 
 export function createStandardUser() {
   standardUser.registrationData.email = generateMail(randomString(), true);
-}
-
-export function registerUser() {
-  createStandardUser();
-  retrieveTokenAndRegister();
-}
-
-export function retrieveTokenAndRegister() {
-  // User needs to be registered
-  retrieveAuthToken().then(response =>
-    cy.request({
-      method: 'POST',
-      url: config.newUserUrl,
-      body: {
-        firstName: standardUser.registrationData.firstName,
-        lastName: standardUser.registrationData.lastName,
-        password: standardUser.registrationData.password,
-        titleCode: standardUser.registrationData.titleCode,
-        uid: standardUser.registrationData.email,
-      },
-      headers: {
-        Authorization: `bearer ` + response.body.access_token,
-      },
-    })
-  );
+  cy.requireLoggedIn(standardUser);
 }
 
 export function verifyCouponsClaiming() {
@@ -153,13 +151,13 @@ export function verifyEnableDisableNotification() {
   verfifyNotificationDisable();
   cy.get('[type="checkbox"]:first')
     .should('be.enabled')
-    .then(el => {
+    .then((el) => {
       cy.wrap(el).check();
     });
   verfifyNotificationEnable();
   cy.get('[type="checkbox"]:first')
     .should('be.enabled')
-    .then(el => {
+    .then((el) => {
       cy.wrap(el).uncheck();
     });
   verfifyNotificationDisable();
@@ -168,7 +166,7 @@ export function verifyEnableDisableNotification() {
 export function verfifyNotificationEnable() {
   cy.get('[type="checkbox"]:first')
     .should('be.enabled')
-    .then(el => {
+    .then((el) => {
       cy.wrap(el).should('be.checked');
     });
 }
@@ -176,18 +174,20 @@ export function verfifyNotificationEnable() {
 export function verfifyNotificationDisable() {
   cy.get('[type="checkbox"]:first')
     .should('be.enabled')
-    .then(el => {
+    .then((el) => {
       cy.wrap(el).should('not.be.checked');
     });
 }
 
 export function verifyReadMore() {
-  cy.get('.cx-card-read-more:first').click();
+  cy.get('.cx-card-read-more:first').click({ force: true });
   cy.get('cx-coupon-dialog').should('exist');
   cy.get('.cx-dialog-header span').click();
 }
 
 export function verifyFindProduct(couponCode: string, productNumber: number) {
+  const productSearchPage = waitForPage('search', 'getProductSearchPage');
+
   cy.getByText(couponCode)
     .parent()
     .parent()
@@ -197,9 +197,29 @@ export function verifyFindProduct(couponCode: string, productNumber: number) {
         .should('contain', ' Find Products')
         .click();
     });
+
+  cy.wait(`@${productSearchPage}`).its('status').should('eq', 200);
+
   cy.get('cx-breadcrumb').within(() => {
-    cy.get('span:last a').should('contain', 'My Coupons');
+    cy.get('span:last a').should('contain', 'My coupons');
     cy.get('h1').should('contain', couponCode);
   });
   cy.get('cx-product-list-item').should('have.length', productNumber);
+}
+
+export function waitClaimCouponPostRequest(couponCode: string): string {
+  const aliasName = 'claimCoupon';
+  cy.server();
+  cy.route(
+    'POST',
+    `${pageUrl}/users/current/customercoupons/${couponCode}/claim*`
+  ).as(aliasName);
+  return `${aliasName}`;
+}
+
+export function waitClaimCouponGetRequest(): string {
+  const aliasName = 'getCoupons';
+  cy.server();
+  cy.route('GET', `${pageUrl}/users/current/customercoupons*`).as(aliasName);
+  return `${aliasName}`;
 }

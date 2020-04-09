@@ -5,7 +5,7 @@ import { apiUrl, login } from '../../support/utils/login';
 
 describe('Cart', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     visitHomePage();
   });
 
@@ -55,7 +55,7 @@ describe('Cart', () => {
     // Wait to make sure everything was processed, so there won't be any ngrx -> localStorage synchronization
     // Related issue: #4672
     cy.wait(2000);
-    cy.window().then(window => {
+    cy.window().then((window) => {
       const storage = JSON.parse(
         window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
       );
@@ -90,9 +90,7 @@ describe('Cart', () => {
       `${apiUrl}/rest/v2/electronics-spa/users/current/carts?fields=*`
     ).as('carts');
     cart.loginCartUser();
-    cy.wait('@carts')
-      .its('status')
-      .should('eq', 200);
+    cy.wait('@carts').its('status').should('eq', 200);
     cy.visit('/cart');
     cart.checkProductInCart(cart.products[0]);
 
@@ -112,9 +110,7 @@ describe('Cart', () => {
     cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts/*`).as(
       'cart'
     );
-    cy.wait('@cart')
-      .its('status')
-      .should('eq', 200);
+    cy.wait('@cart').its('status').should('eq', 200);
     cy.visit('/cart');
     cart.checkProductInCart(cart.products[0]);
 
@@ -131,7 +127,7 @@ describe('Cart', () => {
       cart.cartUser.registrationData.email,
       cart.cartUser.registrationData.password,
       false
-    ).then(res => {
+    ).then((res) => {
       expect(res.status).to.eq(200);
       // remove cart
       cy.request({
@@ -140,7 +136,7 @@ describe('Cart', () => {
         headers: {
           Authorization: `bearer ${res.body.access_token}`,
         },
-      }).then(response => {
+      }).then((response) => {
         expect(response.status).to.eq(200);
       });
     });
@@ -150,7 +146,7 @@ describe('Cart', () => {
       cart.cartUser.registrationData.email,
       cart.cartUser.registrationData.password,
       false
-    ).then(res => {
+    ).then((res) => {
       cy.request({
         // create cart
         method: 'POST',
@@ -158,7 +154,7 @@ describe('Cart', () => {
         headers: {
           Authorization: `bearer ${res.body.access_token}`,
         },
-      }).then(response => {
+      }).then((response) => {
         // add entry to cart
         return cy.request({
           method: 'POST',
@@ -185,9 +181,7 @@ describe('Cart', () => {
       `${apiUrl}/rest/v2/electronics-spa/users/current/carts/*?fields=*&lang=en&curr=USD`
     ).as('refresh_cart');
     cart.removeCartItem(cart.products[0]);
-    cy.wait('@refresh_cart')
-      .its('status')
-      .should('eq', 200);
+    cy.wait('@refresh_cart').its('status').should('eq', 200);
     cart.removeCartItem(cart.products[1]);
     cart.validateEmptyCart();
   });
@@ -198,7 +192,7 @@ describe('Cart', () => {
       cart.cartUser.registrationData.email,
       cart.cartUser.registrationData.password,
       false
-    ).then(res => {
+    ).then((res) => {
       expect(res.status).to.eq(200);
       // remove cart
       cy.request({
@@ -207,7 +201,7 @@ describe('Cart', () => {
         headers: {
           Authorization: `bearer ${res.body.access_token}`,
         },
-      }).then(response => {
+      }).then((response) => {
         expect(response.status).to.eq(200);
       });
     });
@@ -247,14 +241,10 @@ describe('Cart', () => {
     // cleanup
     cart.registerCartRefreshRoute();
     cart.removeCartItem(cart.products[0]);
-    cy.wait('@refresh_cart')
-      .its('status')
-      .should('eq', 200);
+    cy.wait('@refresh_cart').its('status').should('eq', 200);
 
     cart.removeCartItem(cart.products[1]);
-    cy.wait('@refresh_cart')
-      .its('status')
-      .should('eq', 200);
+    cy.wait('@refresh_cart').its('status').should('eq', 200);
 
     cart.validateEmptyCart();
   });
@@ -273,9 +263,7 @@ describe('Cart', () => {
       },
     }).as('addEntry');
     cart.addToCart();
-    cy.wait('@addEntry')
-      .its('status')
-      .should('eq', 200);
+    cy.wait('@addEntry').its('status').should('eq', 200);
     cy.get('cx-added-to-cart-dialog .modal-header').should(
       'not.contain',
       'Item(s) added to your cart'

@@ -10,15 +10,13 @@ import {
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
 import { CartActions } from '../store/actions/index';
-import { ADD_VOUCHER_PROCESS_ID, StateWithCart } from '../store/cart-state';
+import { ADD_VOUCHER_PROCESS_ID } from '../store/multi-cart-state';
 import { ActiveCartService } from './active-cart.service';
 
 @Injectable()
 export class CartVoucherService {
   constructor(
-    protected store: Store<
-      StateWithCart | fromProcessStore.StateWithProcess<void>
-    >,
+    protected store: Store<fromProcessStore.StateWithProcess<void>>,
     protected authService: AuthService,
     protected activeCartService: ActiveCartService
   ) {}
@@ -73,7 +71,7 @@ export class CartVoucherService {
     if (cartId) {
       return this.authService.getOccUserId().pipe(
         take(1),
-        map(userId => [userId, cartId])
+        map((userId) => [userId, cartId])
       );
     } else {
       return combineLatest([

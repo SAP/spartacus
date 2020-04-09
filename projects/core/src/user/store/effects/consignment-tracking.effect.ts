@@ -15,7 +15,7 @@ export class ConsignmentTrackingEffects {
   > = this.actions$.pipe(
     ofType(UserActions.LOAD_CONSIGNMENT_TRACKING),
     map((action: UserActions.LoadConsignmentTracking) => action.payload),
-    switchMap(payload => {
+    switchMap((payload) => {
       return this.userOrderConnector
         .getConsignmentTracking(
           payload.orderCode,
@@ -27,7 +27,7 @@ export class ConsignmentTrackingEffects {
             (tracking: ConsignmentTracking) =>
               new UserActions.LoadConsignmentTrackingSuccess(tracking)
           ),
-          catchError(error =>
+          catchError((error) =>
             of(
               new UserActions.LoadConsignmentTrackingFail(
                 makeErrorSerializable(error)

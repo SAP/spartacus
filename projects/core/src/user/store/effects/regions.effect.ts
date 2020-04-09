@@ -20,13 +20,13 @@ export class RegionsEffects {
     switchMap((countryCode: string) => {
       return this.siteConnector.getRegions(countryCode).pipe(
         map(
-          regions =>
+          (regions) =>
             new UserActions.LoadRegionsSuccess({
               entities: regions,
               country: countryCode,
             })
         ),
-        catchError(error =>
+        catchError((error) =>
           of(new UserActions.LoadRegionsFail(makeErrorSerializable(error)))
         )
       );

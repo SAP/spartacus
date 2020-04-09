@@ -15,6 +15,6 @@ export const navigation = {
   goToProduct(id): void {
     cy.visit(`/product/${id}`);
   },
-  requestsCount: alias =>
-    (<any>cy).state('requests').filter(a => a.alias === alias).length,
+  requestsCount: (alias) =>
+    (<any>cy).state('requests').filter((a) => a.alias === alias).length,
 };

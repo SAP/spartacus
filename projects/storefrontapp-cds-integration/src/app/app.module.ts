@@ -58,6 +58,7 @@ if (!environment.production) {
           },
         },
       },
+
       // we bring in static translations to be up and running soon right away
       i18n: {
         resources: translations,
@@ -66,7 +67,6 @@ if (!environment.production) {
       },
       features: {
         level: '1.5',
-        anonymousConsents: true,
       },
     }),
     JsonLdBuilderModule,

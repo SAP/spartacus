@@ -40,7 +40,7 @@ export class MediaService {
     const config = (this.config as MediaConfig).media.thresholds;
 
     return Object.keys(config)
-      .map(key => ({
+      .map((key) => ({
         code: key,
         threshold: config[key],
       }))
@@ -83,7 +83,7 @@ export class MediaService {
   protected findBestFormat(media: MediaContainer | Image): string {
     return this.mediaFormats
       .reverse()
-      .find(format => media.hasOwnProperty(format.code))?.code;
+      .find((format) => media.hasOwnProperty(format.code))?.code;
   }
 
   protected findRandomFormat(media: MediaContainer | Image): string {

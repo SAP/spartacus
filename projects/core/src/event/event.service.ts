@@ -79,7 +79,7 @@ export class EventService {
   private unregister<T>(eventType: Type<T>, source$: Observable<T>): void {
     const event = this.getEventMeta(eventType);
     const newSources: Observable<T>[] = event.sources$.value.filter(
-      s$ => s$ !== source$
+      (s$) => s$ !== source$
     );
     event.sources$.next(newSources);
   }
@@ -145,7 +145,7 @@ export class EventService {
     );
 
     if (isDevMode()) {
-      output$ = this.validateEventStream(output$, eventType);
+      output$ = this.getValidatedEventStream(output$, eventType);
     }
 
     this.eventsMeta.set(eventType, {
@@ -173,12 +173,12 @@ export class EventService {
    *
    * Should be used only in dev mode.
    */
-  private validateEventStream<T>(
+  private getValidatedEventStream<T>(
     source$: Observable<T>,
     eventType: Type<T>
   ): Observable<T> {
     return source$.pipe(
-      tap(event => {
+      tap((event) => {
         if (!(event instanceof eventType)) {
           console.warn(
             `EventService: The stream`,

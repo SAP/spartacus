@@ -28,7 +28,7 @@ export class TrapFocusService extends TabFocusService {
   ): void {
     const focusable: HTMLElement[] = this.findFocusable(host);
 
-    let index = focusable.findIndex(v => v === event.target) + increment;
+    let index = focusable.findIndex((v) => v === event.target) + increment;
 
     const shouldMoveFocus =
       (index >= 0 && index < focusable.length) ||
