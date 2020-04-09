@@ -9,6 +9,7 @@ export interface SiteContextState {
   languages: LanguagesState;
   currencies: CurrenciesState;
   baseSite: BaseSiteState;
+  checkoutGroup?: string;
 }
 
 export interface CurrencyEntities {

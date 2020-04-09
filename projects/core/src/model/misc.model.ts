@@ -80,6 +80,7 @@ export interface BaseStore {
   defaultCurrency?: Currency;
   languages?: Language[];
   defaultLanguage?: Language;
+  checkoutGroup?: string;
 }
 
 export interface BaseSite {

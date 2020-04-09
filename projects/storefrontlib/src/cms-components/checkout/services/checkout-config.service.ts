@@ -6,12 +6,12 @@ import {
   DeliveryModePreferences,
 } from '../config/checkout-config';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
+import {CheckoutFlowConfigService} from "./checkout-flow-config.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutConfigService {
-  steps: CheckoutStep[] = this.checkoutConfig.checkout.steps;
   private express: boolean = this.checkoutConfig.checkout.express;
   private guest: boolean = this.checkoutConfig.checkout.guest;
   private defaultDeliveryMode: Array<DeliveryModePreferences | string> =
@@ -19,11 +19,21 @@ export class CheckoutConfigService {
 
   constructor(
     private checkoutConfig: CheckoutConfig,
-    private routingConfigService: RoutingConfigService
+    private routingConfigService: RoutingConfigService,
+    private checkoutFlowConfigService: CheckoutFlowConfigService
   ) {}
 
+  protected getSteps() {
+    return this.checkoutFlowConfigService.getSteps()
+  }
+
+  protected getStep(index: number) {
+    const steps = this.getSteps();
+    return steps[index];
+  }
+
   getCheckoutStep(currentStepType: CheckoutStepType): CheckoutStep {
-    return this.steps[this.getCheckoutStepIndex('type', currentStepType)];
+    return this.getStep(this.getCheckoutStepIndex('type', currentStepType));
   }
 
   getCheckoutStepRoute(currentStepType: CheckoutStepType): string {
@@ -31,22 +41,22 @@ export class CheckoutConfigService {
   }
 
   getFirstCheckoutStepRoute(): string {
-    return this.steps[0].routeName;
+    return this.getStep(0).routeName;
   }
 
   getNextCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
     const stepIndex = this.getCurrentStepIndex(activatedRoute);
 
-    return stepIndex >= 0 && this.steps[stepIndex + 1]
-      ? this.getStepUrlFromStepRoute(this.steps[stepIndex + 1].routeName)
+    return stepIndex >= 0 && this.getStep(stepIndex + 1)
+      ? this.getStepUrlFromStepRoute(this.getStep(stepIndex + 1).routeName)
       : null;
   }
 
   getPreviousCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
     const stepIndex = this.getCurrentStepIndex(activatedRoute);
 
-    return stepIndex >= 0 && this.steps[stepIndex - 1]
-      ? this.getStepUrlFromStepRoute(this.steps[stepIndex - 1].routeName)
+    return stepIndex >= 0 && this.getStep(stepIndex - 1)
+      ? this.getStepUrlFromStepRoute(this.getStep(stepIndex - 1).routeName)
       : null;
   }
 
@@ -57,7 +67,7 @@ export class CheckoutConfigService {
 
     let stepIndex: number;
     let index = 0;
-    for (const step of this.steps) {
+    for (const step of this.getSteps()) {
       if (
         currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`
       ) {
@@ -147,7 +157,7 @@ export class CheckoutConfigService {
 
   private getCheckoutStepIndex(key: string, value: any): number | null {
     return key && value
-      ? this.steps.findIndex((step: CheckoutStep) => step[key].includes(value))
+      ? this.getSteps().findIndex((step: CheckoutStep) => step[key].includes(value))
       : null;
   }
 }
