@@ -7,6 +7,7 @@ import {
 import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { StorefrontConfig } from '../storefront-config';
 import { b2cLayoutConfig } from './config/b2c-layout-config';
+import { mediaConfig } from './config/default-media.config';
 import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
 import { StorefrontModule } from './storefront.module';
 
@@ -25,6 +26,7 @@ import { StorefrontModule } from './storefront.module';
       },
     }),
     provideDefaultConfig(b2cLayoutConfig),
+    provideDefaultConfig(mediaConfig),
     provideDefaultConfigFactory(defaultCmsContentConfig),
   ],
   exports: [StorefrontModule],

@@ -110,4 +110,44 @@ export const b2cLayoutConfig: LayoutConfig = {
       slots: ['RightContentSlot'],
     },
   },
+
+  // // consider moving to new MediaConfig
+  // mediaFormats: [
+  //   // banner formats
+
+  //   {
+  //     code: 'mobile',
+  //     threshold: 480,
+  //   },
+  //   {
+  //     code: 'tablet',
+  //     threshold: 770,
+  //   },
+  //   {
+  //     code: 'desktop',
+  //     threshold: 1140,
+  //   },
+  //   {
+  //     code: 'widescreen',
+  //     threshold: 1400,
+  //   },
+  //   // product related media
+
+  //   {
+  //     code: 'cartIcon',
+  //     threshold: 65,
+  //   },
+  //   {
+  //     code: 'thumbnail',
+  //     threshold: 96,
+  //   },
+  //   {
+  //     code: 'product',
+  //     threshold: 284,
+  //   },
+  //   {
+  //     code: 'zoom',
+  //     threshold: 515,
+  //   },
+  // ],
 };
