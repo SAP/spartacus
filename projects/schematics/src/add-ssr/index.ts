@@ -52,7 +52,7 @@ function addPackageJsonDependencies(): Rule {
       },
       {
         type: NodeDependencyType.Default,
-        version: `${ANGULAR_UNIVERSAL_EXPRESS_VERSION}`,
+        version: ANGULAR_UNIVERSAL_EXPRESS_VERSION,
         name: '@nguniversal/express-engine',
       },
       {
