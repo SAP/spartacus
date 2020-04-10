@@ -78,7 +78,7 @@ export class MediaService {
       this.resolveAbsoluteUrl(((media as any) as Image).url) ||
       this.resolveAbsoluteUrl(media[format]?.url) ||
       this.resolveAbsoluteUrl(media[this.findBestFormat(media)]?.url) ||
-      this.resolveAbsoluteUrl(media[this.findRandomFormat(media)]?.url)
+      this.resolveAbsoluteUrl(media[this.getFirstFormat(media)]?.url)
     );
   }
 
@@ -96,8 +96,11 @@ export class MediaService {
     return x ? x[0] : undefined;
   }
 
-  protected findRandomFormat(media: MediaContainer | Image): string {
-    return Object.keys(media)?.find(Boolean);
+  /**
+   * Returns the first media from the media container.
+   */
+  protected getFirstFormat(media: MediaContainer | Image): string {
+    return Object.keys(media).find((m) => Boolean(m));
   }
 
   /**
@@ -109,7 +112,7 @@ export class MediaService {
       ((media as any) as Image)?.altText ||
       media[format]?.altText ||
       media[this.findBestFormat(media)]?.altText ||
-      media[this.findRandomFormat(media)]?.altText
+      media[this.getFirstFormat(media)]?.altText
     );
   }
 
