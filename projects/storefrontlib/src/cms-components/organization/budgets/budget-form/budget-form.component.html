@@ -1,16 +1,4 @@
-<ng-template
-  #validation
-  let-control="control"
-  let-translationParams="translationParams"
->
-  <span class="is-invalid">
-    <span *ngFor="let error of control.errors | keyvalue">
-      {{ 'budgetForm.message.' + error.key | cxTranslate: translationParams }}
-    </span>
-  </span>
-</ng-template>
-
-<div [formGroup]="form">
+<form [formGroup]="form">
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="form-group">
@@ -171,4 +159,4 @@
       </a>
     </div>
   </div>
-</div>
+</form>
