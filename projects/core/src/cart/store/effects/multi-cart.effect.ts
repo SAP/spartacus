@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CheckoutActions } from '../../../checkout/store/actions';
 import { CartActions } from '../actions/index';
 
 @Injectable()
@@ -20,17 +19,8 @@ export class MultiCartEffects {
   processesIncrement$: Observable<
     CartActions.CartProcessesIncrement
   > = this.actions$.pipe(
-    ofType(
-      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE,
-      CartActions.CART_ADD_VOUCHER
-    ),
-    map(
-      (
-        action:
-          | CheckoutActions.ClearCheckoutDeliveryMode
-          | CartActions.CartAddVoucher
-      ) => action.payload
-    ),
+    ofType(CartActions.CART_ADD_VOUCHER),
+    map((action: CartActions.CartAddVoucher) => action.payload),
     map((payload) => new CartActions.CartProcessesIncrement(payload.cartId))
   );
 

@@ -12,7 +12,6 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CheckoutActions } from '../../../checkout/store/actions/index';
 import { Cart } from '../../../model/cart.model';
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
@@ -199,17 +198,8 @@ export class CartEffects {
   refresh$: Observable<
     CartActions.LoadCart | CartActions.CartProcessesDecrement
   > = this.actions$.pipe(
-    ofType(
-      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
-      CartActions.CART_ADD_VOUCHER_SUCCESS
-    ),
-    map(
-      (
-        action:
-          | CheckoutActions.ClearCheckoutDeliveryModeSuccess
-          | CartActions.CartAddVoucherSuccess
-      ) => action.payload
-    ),
+    ofType(CartActions.CART_ADD_VOUCHER_SUCCESS),
+    map((action: CartActions.CartAddVoucherSuccess) => action.payload),
     concatMap((payload) =>
       from([
         new CartActions.CartProcessesDecrement(payload.cartId),
