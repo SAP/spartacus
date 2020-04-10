@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -20,6 +20,7 @@ import { UnitAddressFormComponent } from './unit-address-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
+import { FormErrorsComponent } from '@spartacus/storefront';
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -106,17 +107,6 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-@Component({
-  selector: 'cx-form-errors',
-  template: '',
-})
-class MockFormErrorsComponent {
-  @Input()
-  translationParams;
-  @Input()
-  control;
-}
-
 describe('UnitAddressFormComponent', () => {
   let component: UnitAddressFormComponent;
   let fixture: ComponentFixture<UnitAddressFormComponent>;
@@ -135,7 +125,7 @@ describe('UnitAddressFormComponent', () => {
       declarations: [
         UnitAddressFormComponent,
         MockUrlPipe,
-        MockFormErrorsComponent,
+        FormErrorsComponent,
       ],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },

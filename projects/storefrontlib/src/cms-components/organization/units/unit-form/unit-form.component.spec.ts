@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform, Type } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,6 +19,7 @@ import { UnitFormComponent } from './unit-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
+import { FormErrorsComponent } from '@spartacus/storefront';
 
 const mockApprovalProcesses: B2BApprovalProcess[] = [
   { code: 'testCode', name: 'testName' },
@@ -87,17 +88,6 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-@Component({
-  selector: 'cx-form-errors',
-  template: '',
-})
-class MockFormErrorsComponent {
-  @Input()
-  translationParams;
-  @Input()
-  control;
-}
-
 describe('OrgUnitFormComponent', () => {
   let component: UnitFormComponent;
   let fixture: ComponentFixture<UnitFormComponent>;
@@ -112,7 +102,7 @@ describe('OrgUnitFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [UnitFormComponent, MockUrlPipe, MockFormErrorsComponent],
+      declarations: [UnitFormComponent, MockUrlPipe, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
