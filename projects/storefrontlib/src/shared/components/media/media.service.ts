@@ -7,10 +7,18 @@ import { Media, MediaContainer, MediaFormats } from './media.model';
   providedIn: 'root',
 })
 export class MediaService {
+  /**
+   * The media formats sorted by size. The media format representing the smallest
+   * size is sorted on top.
+   */
+  protected sortedFormats: MediaFormats[];
+
   constructor(
     protected occConfig: OccConfig,
     protected mediaConfig: MediaConfig
-  ) {}
+  ) {
+    this.sortFormats();
+  }
 
   /**
    * Returns a `Media` object with the main media (`src`) and various media (`src`) for specific formats.
@@ -32,19 +40,14 @@ export class MediaService {
   }
 
   /**
-   * Media formats are read from configuration `MediaConfig.thresholds`. The configuration
-   * contains the threshold for a given media format. The treshold is used to generate the
-   * image `srcset`.
-   *
-   * The formats are sorted by threshold, so that the most efficient format.
+   * Sorts the media formats during creation of this class to provide fast access to the media
+   * formats in a logical order.
    */
-  protected get mediaFormats(): MediaFormats[] {
-    const config = this.mediaConfig.media.thresholds;
-
-    return Object.keys(config)
+  protected sortFormats() {
+    this.sortedFormats = Object.keys(this.mediaConfig.mediaFormats)
       .map((key) => ({
         code: key,
-        threshold: config[key],
+        threshold: this.mediaConfig.mediaFormats[key].width,
       }))
       .sort((a, b) => (a.threshold > b.threshold ? 1 : -1));
   }
@@ -79,7 +82,7 @@ export class MediaService {
    * the highest resolution for the media.
    */
   protected findBestFormat(media: MediaContainer | Image): string {
-    return this.mediaFormats
+    return this.sortedFormats
       .reverse()
       .find((format) => media.hasOwnProperty(format.code))?.code;
   }
@@ -110,7 +113,7 @@ export class MediaService {
       return undefined;
     }
 
-    const srcset = this.mediaFormats.reduce((set, format) => {
+    const srcset = this.sortedFormats.reduce((set, format) => {
       if (!!media[format.code]) {
         if (set) {
           set += ', ';

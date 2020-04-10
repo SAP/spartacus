@@ -1,19 +1,31 @@
 import { MediaConfig } from '../../shared/components/media/media.config';
 
 export const mediaConfig: MediaConfig = {
-  media: {
-    thresholds: {
-      // banners
-      mobile: 400,
-      tablet: 770,
-      desktop: 1140,
-      widescreen: 1400,
-
-      // product media
-      cartIcon: 65,
-      thumbnail: 96,
-      product: 284,
-      zoom: 515,
+  mediaFormats: {
+    mobile: {
+      width: 400,
+    },
+    tablet: {
+      width: 770,
+    },
+    desktop: {
+      width: 1140,
+    },
+    widescreen: {
+      width: 1400,
+    },
+    // product media
+    cartIcon: {
+      width: 65,
+    },
+    thumbnail: {
+      width: 96,
+    },
+    product: {
+      width: 284,
+    },
+    zoom: {
+      width: 515,
     },
   },
 };
