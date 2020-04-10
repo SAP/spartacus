@@ -19,6 +19,7 @@ import { CostCenterFormComponent } from './cost-center-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
+import { FormErrorsComponent } from '@spartacus/storefront';
 
 const costCenterCode = 'b1';
 
@@ -99,7 +100,7 @@ describe('CostCenterFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [CostCenterFormComponent, MockUrlPipe],
+      declarations: [CostCenterFormComponent, MockUrlPipe, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -166,8 +167,8 @@ describe('CostCenterFormComponent', () => {
   describe('verifyCostCenter', () => {
     it('should not emit value if form is invalid', () => {
       spyOn(component.submitForm, 'emit');
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).not.toHaveBeenCalled();
     });
 
@@ -175,8 +176,8 @@ describe('CostCenterFormComponent', () => {
       spyOn(component.submitForm, 'emit');
       component.costCenterData = mockCostCenter;
       component.ngOnInit();
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).toHaveBeenCalledWith(
         component.form.value
       );

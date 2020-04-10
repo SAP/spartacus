@@ -20,6 +20,7 @@ import { UnitAddressFormComponent } from './unit-address-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
+import { FormErrorsComponent } from '@spartacus/storefront';
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -121,7 +122,11 @@ describe('UnitAddressFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [UnitAddressFormComponent, MockUrlPipe],
+      declarations: [
+        UnitAddressFormComponent,
+        MockUrlPipe,
+        FormErrorsComponent,
+      ],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: UserService, useClass: MockUserService },
@@ -202,8 +207,8 @@ describe('UnitAddressFormComponent', () => {
   describe('verifyAddress', () => {
     it('should not emit value if form is invalid', () => {
       spyOn(component.submitForm, 'emit');
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).not.toHaveBeenCalled();
     });
 
@@ -211,8 +216,8 @@ describe('UnitAddressFormComponent', () => {
       spyOn(component.submitForm, 'emit');
       component.addressData = mockAddress;
       component.ngOnInit();
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).toHaveBeenCalledWith(
         component.form.value
       );

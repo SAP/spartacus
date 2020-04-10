@@ -17,6 +17,7 @@ import { UserGroupFormComponent } from './user-group-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
+import { FormErrorsComponent } from '@spartacus/storefront';
 
 const uid = 'b1';
 
@@ -75,7 +76,7 @@ describe('UserGroupFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [UserGroupFormComponent, MockUrlPipe],
+      declarations: [UserGroupFormComponent, MockUrlPipe, FormErrorsComponent],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: UserGroupService, useClass: MockUserGroupService },
@@ -128,8 +129,8 @@ describe('UserGroupFormComponent', () => {
   describe('verifyUserGroup', () => {
     it('should not emit value if form is invalid', () => {
       spyOn(component.submitForm, 'emit');
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).not.toHaveBeenCalled();
     });
 
@@ -137,8 +138,8 @@ describe('UserGroupFormComponent', () => {
       spyOn(component.submitForm, 'emit');
       component.userGroupData = mockUserGroup;
       component.ngOnInit();
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).toHaveBeenCalledWith(
         component.form.value
       );

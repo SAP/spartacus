@@ -94,10 +94,10 @@ export class DatePickerComponent implements ControlValueAccessor, Validator {
       const validity = this.input.nativeElement.validity;
       const validators: { [key: string]: boolean } = {};
       if (validity.rangeOverflow) {
-        validators.rangeOverflow = true;
+        validators.cxDateMax = true;
       }
       if (validity.rangeUnderflow) {
-        validators.rangeUnderflow = true;
+        validators.cxDateMin = true;
       }
       return validators;
     }

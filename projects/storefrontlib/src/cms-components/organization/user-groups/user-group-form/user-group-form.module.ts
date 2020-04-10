@@ -6,6 +6,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule, OrgUnitService } from '@spartacus/core';
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { UserGroupFormComponent } from './user-group-form.component';
+import { FormErrorsModule } from '../../../../shared/components/form/form-errors/form-errors.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { UserGroupFormComponent } from './user-group-form.component';
     I18nModule,
     ReactiveFormsModule,
     DatePickerModule,
+    FormErrorsModule,
   ],
   declarations: [UserGroupFormComponent],
   exports: [UserGroupFormComponent],

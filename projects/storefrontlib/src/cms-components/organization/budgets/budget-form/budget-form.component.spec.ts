@@ -19,6 +19,7 @@ import { BudgetFormComponent } from './budget-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
+import { FormErrorsComponent } from '@spartacus/storefront';
 
 const budgetCode = 'b1';
 
@@ -106,7 +107,7 @@ describe('BudgetFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [BudgetFormComponent, MockUrlPipe],
+      declarations: [BudgetFormComponent, MockUrlPipe, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -173,8 +174,8 @@ describe('BudgetFormComponent', () => {
   describe('verifyBudget', () => {
     it('should not emit value if form is invalid', () => {
       spyOn(component.submitForm, 'emit');
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).not.toHaveBeenCalled();
     });
 
@@ -182,8 +183,8 @@ describe('BudgetFormComponent', () => {
       spyOn(component.submitForm, 'emit');
       component.budgetData = mockBudget;
       component.ngOnInit();
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).toHaveBeenCalledWith(
         component.form.value
       );
