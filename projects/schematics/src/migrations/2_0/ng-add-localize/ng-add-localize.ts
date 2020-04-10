@@ -20,7 +20,7 @@ function addPackageJsonDependencies(): Rule {
     const dependencies: NodeDependency[] = [
       {
         type: NodeDependencyType.Default,
-        version: angularVersion || '~9.1.0',
+        version: angularVersion,
         name: ANGULAR_LOCALIZE,
       },
     ];

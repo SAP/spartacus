@@ -11,6 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { PlaceOrderComponent } from './place-order.component';
 import { Observable, of } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormErrorsModule } from '../../../../shared/index';
 
 class MockCheckoutService {
   placeOrder(): void {}
@@ -38,7 +39,12 @@ describe('PlaceOrderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [MockUrlPipe, PlaceOrderComponent],
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },
