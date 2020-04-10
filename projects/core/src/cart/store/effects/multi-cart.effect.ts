@@ -15,8 +15,7 @@ export class MultiCartEffects {
     })
   );
 
-  // TODO: Change actions to extend Increment action instead of doing extra dispatch in this effect
-  // Change for 2.0 release
+  // TODO(#7241): Remove when we drop ADD_VOUCHER process and we sort out checkout and cart dependencies
   @Effect()
   processesIncrement$: Observable<
     CartActions.CartProcessesIncrement
