@@ -7,7 +7,10 @@ import { Media, MediaContainer, MediaFormats } from './media.model';
   providedIn: 'root',
 })
 export class MediaService {
-  constructor(protected config: OccConfig | MediaConfig) {}
+  constructor(
+    protected occConfig: OccConfig,
+    protected mediaConfig: MediaConfig
+  ) {}
 
   /**
    * Returns a `Media` object with the main media (`src`) and various media (`src`) for specific formats.
@@ -36,7 +39,7 @@ export class MediaService {
    * The formats are sorted by threshold, so that the most efficient format.
    */
   protected get mediaFormats(): MediaFormats[] {
-    const config = (this.config as MediaConfig).media.thresholds;
+    const config = this.mediaConfig.media.thresholds;
 
     return Object.keys(config)
       .map((key) => ({
@@ -143,8 +146,8 @@ export class MediaService {
    */
   protected getBaseUrl(): string {
     return (
-      (this.config as OccConfig).backend.media.baseUrl ||
-      (this.config as OccConfig).backend.occ.baseUrl ||
+      this.occConfig.backend.media.baseUrl ||
+      this.occConfig.backend.occ.baseUrl ||
       ''
     );
   }
