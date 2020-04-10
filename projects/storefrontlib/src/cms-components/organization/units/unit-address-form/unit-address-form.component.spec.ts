@@ -207,8 +207,8 @@ describe('UnitAddressFormComponent', () => {
   describe('verifyAddress', () => {
     it('should not emit value if form is invalid', () => {
       spyOn(component.submitForm, 'emit');
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).not.toHaveBeenCalled();
     });
 
@@ -216,8 +216,8 @@ describe('UnitAddressFormComponent', () => {
       spyOn(component.submitForm, 'emit');
       component.addressData = mockAddress;
       component.ngOnInit();
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).toHaveBeenCalledWith(
         component.form.value
       );

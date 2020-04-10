@@ -20,6 +20,7 @@ import { PermissionFormComponent } from './permission-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
+import { FormErrorsComponent } from '@spartacus/storefront';
 
 const permissionCode = 'b1';
 
@@ -105,7 +106,7 @@ describe('PermissionFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [PermissionFormComponent, MockUrlPipe],
+      declarations: [PermissionFormComponent, MockUrlPipe, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -172,8 +173,8 @@ describe('PermissionFormComponent', () => {
   describe('verifyPermission', () => {
     it('should not emit value if form is invalid', () => {
       spyOn(component.submitForm, 'emit');
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).not.toHaveBeenCalled();
     });
 
@@ -181,8 +182,8 @@ describe('PermissionFormComponent', () => {
       spyOn(component.submitForm, 'emit');
       component.permissionData = mockPermission;
       component.ngOnInit();
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).toHaveBeenCalledWith(
         component.form.value
       );
