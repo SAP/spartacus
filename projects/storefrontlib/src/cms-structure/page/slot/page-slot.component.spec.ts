@@ -54,7 +54,11 @@ class MockDynamicAttributeService {
   addDynamicAttributes() {}
 }
 
-class MockCmsMappingService {}
+class MockCmsMappingService {
+  isComponentEnabled() {
+    return true;
+  }
+}
 
 const MockSkipLinkConfig: SkipLinkConfig = { skipLinks: [] };
 

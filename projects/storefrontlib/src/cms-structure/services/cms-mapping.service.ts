@@ -1,5 +1,5 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { CmsConfig } from '@spartacus/core';
+import { CmsComponentMapping, CmsConfig } from '@spartacus/core';
 import { Route } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
 
@@ -10,16 +10,32 @@ import { isPlatformServer } from '@angular/common';
   providedIn: 'root',
 })
 export class CmsMappingService {
+  private missingComponents: string[] = [];
+
   constructor(
     private config: CmsConfig,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
+  public getComponentMapping(typeCode: string): CmsComponentMapping {
+    const componentConfig = this.config.cmsComponents?.[typeCode];
+
+    if (!componentConfig) {
+      if (!this.missingComponents.includes(typeCode)) {
+        this.missingComponents.push(typeCode);
+        console.warn(
+          `No component implementation found for the CMS component type '${typeCode}'.\n`,
+          `Make sure you implement a component and register it in the mapper.`
+        );
+      }
+    }
+
+    return componentConfig;
+  }
+
   isComponentEnabled(flexType: string): boolean {
     const isSSR = isPlatformServer(this.platformId);
-    const isComponentDisabledInSSR = (this.config.cmsComponents[flexType] || {})
-      .disableSSR;
-    return !(isSSR && isComponentDisabledInSSR);
+    return !(isSSR && this.getComponentMapping(flexType)?.disableSSR);
   }
 
   getRoutesForComponents(componentTypes: string[]): Route[] {
@@ -55,17 +71,14 @@ export class CmsMappingService {
   }
 
   private getRoutesForComponent(componentType: string): Route[] {
-    const mappingConfig = this.config.cmsComponents[componentType];
-    return (mappingConfig && mappingConfig.childRoutes) || [];
+    return this.getComponentMapping(componentType)?.childRoutes ?? [];
   }
 
   private getGuardsForComponent(componentType: string): any[] {
-    const mappingConfig = this.config.cmsComponents[componentType];
-    return (mappingConfig && mappingConfig.guards) || [];
+    return this.getComponentMapping(componentType)?.guards ?? [];
   }
 
   private getI18nKeysForComponent(componentType: string): string[] {
-    const mappingConfig = this.config.cmsComponents[componentType];
-    return (mappingConfig && mappingConfig.i18nKeys) || [];
+    return this.getComponentMapping(componentType)?.i18nKeys ?? [];
   }
 }

@@ -6,7 +6,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Renderer2,
 } from '@angular/core';
 import {
@@ -15,9 +14,8 @@ import {
   DynamicAttributeService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { ComponentLauncherMap } from './component-launcher-mapping';
-import { ComponentLauncherService } from './launchers/component-launcher.service';
-import { ComponentMapperService } from './services/component-mapper.service';
+import { CmsMappingService } from '../../services/cms-mapping.service';
+import { ComponentLauncherResolverService } from './services/component-launcher-resolver.service';
 
 @Directive({
   selector: '[cxComponentWrapper]',
@@ -37,17 +35,17 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   initializerSubscription: Subscription;
 
   constructor(
-    private componentMapper: ComponentMapperService,
-    private injector: Injector,
-    private cmsService: CmsService,
-    private dynamicAttributeService: DynamicAttributeService,
-    private renderer: Renderer2,
-    @Optional() protected launcherMap: ComponentLauncherMap
+    protected injector: Injector,
+    protected cmsMappingService: CmsMappingService,
+    protected cmsService: CmsService,
+    protected dynamicAttributeService: DynamicAttributeService,
+    protected renderer: Renderer2,
+    protected componentLauncherResolver: ComponentLauncherResolverService
   ) {}
 
   ngOnInit() {
     if (
-      this.componentMapper.shouldRenderComponent(
+      this.cmsMappingService.isComponentEnabled(
         this.cxComponentWrapper.flexType
       )
     ) {
@@ -70,20 +68,18 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   private getLauncher():
     | Observable<[ElementRef, ComponentRef<any>?]>
     | undefined {
-    const launcherServiceClass =
-      this.launcherMap &&
-      this.launcherMap[
-        this.componentMapper.getComponentType(this.cxComponentWrapper.flexType)
-      ];
+    const mapping = this.cmsMappingService.getComponentMapping(
+      this.cxComponentWrapper.flexType
+    );
 
-    if (launcherServiceClass) {
-      return this.injector
-        .get<ComponentLauncherService>(launcherServiceClass)
-        ?.getLauncher(
-          this.cxComponentWrapper.flexType,
-          this.cxComponentWrapper.uid,
-          this.injector
-        );
+    if (mapping) {
+      const launcherHandler = this.componentLauncherResolver.getLauncher(mapping);
+
+      return launcherHandler?.getLauncher(
+        this.cxComponentWrapper.flexType,
+        this.cxComponentWrapper.uid,
+        this.injector
+      );
     }
   }
 

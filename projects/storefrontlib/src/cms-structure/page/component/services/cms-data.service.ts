@@ -1,7 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { CmsComponentData } from '../../model';
-import { CmsComponent, CmsConfig } from '@spartacus/core';
-import { CmsService } from '../../../../../../core/src/cms/facade';
+import { CmsComponent, CmsConfig, CmsService } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',

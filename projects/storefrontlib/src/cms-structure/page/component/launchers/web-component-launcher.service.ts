@@ -8,24 +8,36 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ComponentLauncherService } from './component-launcher.service';
+import { ComponentLauncher } from './component-launcher';
 import { CmsDataService } from '../services/cms-data.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { ComponentMapperService } from '../services/component-mapper.service';
 import { CxApiService } from '../services/cx-api.service';
+import { CmsMappingService } from '../../../services/cms-mapping.service';
+import { CmsComponentMapping, Priority } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
 })
-export class WebComponentLauncherService implements ComponentLauncherService {
+export class WebComponentLauncherService implements ComponentLauncher {
   constructor(
-    private componentMapper: ComponentMapperService,
+    protected cmsMapping: CmsMappingService,
     private cmsData: CmsDataService,
     @Inject(DOCUMENT) protected document: any,
     @Inject(PLATFORM_ID) protected platform: any
   ) {}
 
   private loadedWebComponents: { [path: string]: any } = {};
+
+  hasMatch(componentMapping: CmsComponentMapping): boolean {
+    return (
+      typeof componentMapping.component === 'string' &&
+      componentMapping.component.includes('#')
+    );
+  }
+
+  getPriority(): Priority {
+    return Priority.LOW; // low, as it's a default matcher
+  }
 
   getLauncher(
     componentType: string,
@@ -82,9 +94,9 @@ export class WebComponentLauncherService implements ComponentLauncherService {
     renderer: Renderer2
   ): Promise<string> {
     return new Promise((resolve) => {
-      const [path, selector] = this.componentMapper
-        .getComponent(componentType)
-        .split('#');
+      const [path, selector] = this.cmsMapping
+        .getComponentMapping(componentType)
+        ?.component.split('#');
 
       let script = this.loadedWebComponents[path];
 

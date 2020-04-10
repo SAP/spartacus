@@ -6,21 +6,32 @@ import {
   Injector,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentLauncherService } from './component-launcher.service';
+import { ComponentLauncher } from './component-launcher';
 import { Observable } from 'rxjs';
 
 import { CmsDataService } from '../services/cms-data.service';
-import { ComponentMapperService } from '../services/component-mapper.service';
+import { CmsComponentMapping, Priority } from '@spartacus/core';
+import { CmsMappingService } from '../../../services/cms-mapping.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CmsComponentLauncherService implements ComponentLauncherService {
+export class CmsComponentLauncherService extends ComponentLauncher {
   constructor(
     protected componentFactoryResolver: ComponentFactoryResolver,
-    private componentMapper: ComponentMapperService,
+    protected cmsMapping: CmsMappingService,
     private cmsData: CmsDataService
-  ) {}
+  ) {
+    super();
+  }
+
+  hasMatch(componentMapping: CmsComponentMapping): boolean {
+    return typeof componentMapping.component === 'function';
+  }
+
+  getPriority(): Priority {
+    return Priority.FALLBACK;
+  }
 
   getLauncher(
     componentType: string,
@@ -50,16 +61,15 @@ export class CmsComponentLauncherService implements ComponentLauncherService {
               directiveInjector
             )
           );
+        observer.next([cmpRef.location, cmpRef]);
       }
-
-      observer.next([cmpRef.location, cmpRef]);
 
       return dispose;
     });
   }
 
   private getComponentFactoryByCode(typeCode: string): any {
-    const component = this.componentMapper.getComponent(typeCode);
+    const component = this.cmsMapping.getComponentMapping(typeCode)?.component;
     if (!component) {
       return null;
     }
