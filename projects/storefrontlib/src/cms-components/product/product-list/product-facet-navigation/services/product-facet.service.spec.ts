@@ -58,7 +58,7 @@ describe('ProductFacetService', () => {
         currentQuery: { query: { value: 'allCategories:123' } },
         facets: [{ name: 'facet-1' }],
         breadcrumbs: [
-          { facetName: 'active-facet-1' },
+          { facetCode: 'any-code', facetName: 'active-facet-1' },
           { facetCode: 'allCategories', facetValueCode: '123' },
         ],
       } as ProductSearchPage;
@@ -75,8 +75,7 @@ describe('ProductFacetService', () => {
 
       it('should return facets', () => {
         let result: FacetList;
-        service
-          .getFacetList()
+        service.facetList$
           .subscribe((facetList) => (result = facetList))
           .unsubscribe();
         expect(result.facets.length).toEqual(1);
@@ -84,8 +83,7 @@ describe('ProductFacetService', () => {
 
       it('should return active facets', () => {
         let result: FacetList;
-        service
-          .getFacetList()
+        service.facetList$
           .subscribe((facetList) => (result = facetList))
           .unsubscribe();
         expect(result.activeFacets.length).toEqual(1);
@@ -93,8 +91,7 @@ describe('ProductFacetService', () => {
 
       it('should not return active facets with category code', () => {
         let result: FacetList;
-        service
-          .getFacetList()
+        service.facetList$
           .subscribe((facetList) => (result = facetList))
           .unsubscribe();
         expect(
@@ -138,15 +135,14 @@ describe('ProductFacetService', () => {
 
       it('should return facets', () => {
         let result: FacetList;
-        service
-          .getFacetList()
+        service.facetList$
           .subscribe((facetList) => (result = facetList))
           .unsubscribe();
         expect(result.facets.length).toEqual(1);
       });
     });
 
-    describe('any page', () => {
+    describe('non product listing page', () => {
       const mockAnyPage = {
         state: {
           context: {
@@ -176,8 +172,7 @@ describe('ProductFacetService', () => {
 
       it('should not return result', () => {
         let result: FacetList;
-        service
-          .getFacetList()
+        service.facetList$
           .subscribe((facetList) => (result = facetList))
           .unsubscribe();
         expect(result).toBeFalsy();

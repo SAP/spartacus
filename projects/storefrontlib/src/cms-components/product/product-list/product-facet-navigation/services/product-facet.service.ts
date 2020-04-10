@@ -12,11 +12,16 @@ import { filter, map, pluck, switchMap } from 'rxjs/operators';
 import { ProductListComponentService } from '../../container/product-list-component.service';
 import { FacetList } from '../facet.model';
 
+/**
+ * Provides access to all the facets and active facets for the Product Listing Page.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class ProductFacetService {
-  readonly routeState$ = this.routing.getRouterState().pipe(pluck('state'));
+  protected readonly routeState$ = this.routing
+    .getRouterState()
+    .pipe(pluck('state'));
 
   protected readonly searchResult$: Observable<
     ProductSearchPage
@@ -34,6 +39,10 @@ export class ProductFacetService {
     protected productListComponentService: ProductListComponentService
   ) {}
 
+  /**
+   * Observes the facets and active facets for the given page. The facet data
+   * is provided in a `FacetList`.
+   */
   facetList$: Observable<FacetList> = this.searchResult$.pipe(
     map(
       (result: ProductSearchPage) =>
