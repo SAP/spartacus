@@ -6,11 +6,6 @@ export interface Media {
   alt?: string;
 }
 
-export interface MediaFormats {
-  code: string;
-  threshold: number;
-}
-
 export interface MediaContainer {
   [format: string]: Image;
 }

@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Image, OccConfig } from '@spartacus/core';
-import { MediaConfig } from './media.config';
-import { Media, MediaContainer, MediaFormats } from './media.model';
+import { MediaConfig, MediaFormatSize } from './media.config';
+import { Media, MediaContainer } from './media.model';
+
+/**
+ * internal interface to map the mediaFormat object to a list
+ */
 
 @Injectable({
   providedIn: 'root',
@@ -11,13 +15,13 @@ export class MediaService {
    * The media formats sorted by size. The media format representing the smallest
    * size is sorted on top.
    */
-  protected sortedFormats: MediaFormats[];
+  protected mediaFormats: Map<string, MediaFormatSize> = new Map();
 
   constructor(
     protected occConfig: OccConfig,
     protected mediaConfig: MediaConfig
   ) {
-    this.sortFormats();
+    this.buildFormatMap();
   }
 
   /**
@@ -40,16 +44,17 @@ export class MediaService {
   }
 
   /**
-   * Sorts the media formats during creation of this class to provide fast access to the media
-   * formats in a logical order.
+   * Ceates the media formats to provide fast access to the media formats in a
+   * logical order. The map contains the format key and the format size information.
    */
-  protected sortFormats() {
-    this.sortedFormats = Object.keys(this.mediaConfig.mediaFormats)
-      .map((key) => ({
-        code: key,
-        threshold: this.mediaConfig.mediaFormats[key].width,
-      }))
-      .sort((a, b) => (a.threshold > b.threshold ? 1 : -1));
+  protected buildFormatMap(): void {
+    this.mediaFormats = new Map(
+      Object.entries(
+        this.mediaConfig.mediaFormats
+      ).sort(([_o, oldFormat], [_n, format]) =>
+        oldFormat.width < format.width ? 1 : -1
+      )
+    );
   }
 
   /**
@@ -82,12 +87,15 @@ export class MediaService {
    * the highest resolution for the media.
    */
   protected findBestFormat(media: MediaContainer | Image): string {
-    return this.sortedFormats
+    const x = Array.from(this.mediaFormats)
       .reverse()
-      .find((format) => media.hasOwnProperty(format.code))?.code;
+      .find(([code, _size]) => {
+        media.hasOwnProperty(code);
+      });
+
+    return x ? x[0] : undefined;
   }
 
-  // refactor: this is just the first
   protected findRandomFormat(media: MediaContainer | Image): string {
     return Object.keys(media)?.find(Boolean);
   }
@@ -113,17 +121,20 @@ export class MediaService {
       return undefined;
     }
 
-    const srcset = this.sortedFormats.reduce((set, format) => {
-      if (!!media[format.code]) {
-        if (set) {
-          set += ', ';
+    const srcset = Array.from(this.mediaFormats).reduce(
+      (set, [format, formatSize]) => {
+        if (!!media[format]) {
+          if (set) {
+            set += ', ';
+          }
+          set += `${this.resolveAbsoluteUrl(media[format].url)} ${
+            formatSize.width
+          }w`;
         }
-        set += `${this.resolveAbsoluteUrl(media[format.code].url)} ${
-          format.threshold
-        }w`;
-      }
-      return set;
-    }, '');
+        return set;
+      },
+      ''
+    );
 
     return srcset === '' ? undefined : srcset;
   }
