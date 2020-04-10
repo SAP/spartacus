@@ -35,14 +35,23 @@ export class CartAddVoucher extends EntityLoadAction {
 
 export class CartAddVoucherFail extends EntityFailAction {
   readonly type = CART_ADD_VOUCHER_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload);
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      voucherId: string;
+      error: any;
+    }
+  ) {
+    super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload.error);
   }
 }
 
 export class CartAddVoucherSuccess extends EntitySuccessAction {
   readonly type = CART_ADD_VOUCHER_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {
+  constructor(
+    public payload: { userId: string; cartId: string; voucherId: string }
+  ) {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
 }
