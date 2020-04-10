@@ -16,6 +16,7 @@ import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../../checkout';
 import { LoginFormComponent } from './login-form.component';
 import createSpy = jasmine.createSpy;
+import { FormErrorsModule } from '../../../shared/index';
 
 @Pipe({
   name: 'cxUrl',
@@ -62,7 +63,12 @@ describe('LoginFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [LoginFormComponent, MockUrlPipe],
       providers: [
         WindowRef,
