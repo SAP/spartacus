@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="verifyAndSubmit()">
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="form-group">
@@ -145,7 +145,7 @@
   </div>
   <div class="row buttons">
     <div class="col-md-12 col-lg-6 mb-3">
-      <button class="btn btn-block btn-primary" (click)="verifyAndSubmit()">
+      <button class="btn btn-block btn-primary" type="submit">
         {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
       </button>
     </div>
