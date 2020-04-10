@@ -96,7 +96,6 @@ describe.only("Tabbing order - tests don't require user to be logged in", () => 
 
   describe('Header Sub Categories - Desktop', () => {
     context('Brands', () => {
-      // TODO: Test currently fails because navigation-ui works incorrectly
       it('should allow to navigate with tab key', () => {
         subCategoryTabbingOrder(config.headerCategoryBrands, 'Brands');
       });
@@ -111,8 +110,7 @@ describe.only("Tabbing order - tests don't require user to be logged in", () => 
       });
     });
 
-    context.skip('Accessories', () => {
-      // TODO: This test fails with the current navigation-ui implementation for unknown reasons.
+    context('Accessories', () => {
       // Better fixed after nav-ui refactor (#6743)
       it('should allow to navigate with tab key', () => {
         subCategoryTabbingOrder(

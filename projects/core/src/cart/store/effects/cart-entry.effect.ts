@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
+import { CartModification } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { withdrawOn } from '../../../util/withdraw-on';
@@ -35,19 +36,17 @@ export class CartEntryEffects {
         )
         .pipe(
           map(
-            (entry: any) =>
+            (cartModification: CartModification) =>
               new CartActions.CartAddEntrySuccess({
-                ...entry,
-                userId: payload.userId,
-                cartId: payload.cartId,
+                ...payload,
+                ...(cartModification as Required<CartModification>),
               })
           ),
           catchError((error) =>
             from([
               new CartActions.CartAddEntryFail({
+                ...payload,
                 error: makeErrorSerializable(error),
-                cartId: payload.cartId,
-                userId: payload.userId,
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
