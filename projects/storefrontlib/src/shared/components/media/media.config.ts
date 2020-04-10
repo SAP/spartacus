@@ -3,10 +3,8 @@ export abstract class MediaConfig {
     /**
      * Specifies the _threshold_ for a given format. The threshold is used to ...
      */
-    thresholds?: MediaThreshold;
+    thresholds?: {
+      [format: string]: number;
+    };
   };
-}
-
-export interface MediaThreshold {
-  [format: string]: number;
 }

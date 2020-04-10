@@ -1,4 +1,4 @@
-import { MediaConfig } from '../../layout/config/media.config';
+import { MediaConfig } from '../../shared/components/media/media.config';
 
 export const mediaConfig: MediaConfig = {
   media: {

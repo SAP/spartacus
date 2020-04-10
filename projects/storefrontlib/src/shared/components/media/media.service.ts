@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Image, OccConfig } from '@spartacus/core';
-import { MediaConfig } from '../../../layout/config/media.config';
+import { MediaConfig } from './media.config';
 import { Media, MediaContainer, MediaFormats } from './media.model';
 
 @Injectable({
@@ -81,6 +81,7 @@ export class MediaService {
       .find((format) => media.hasOwnProperty(format.code))?.code;
   }
 
+  // refactor: this is just the first
   protected findRandomFormat(media: MediaContainer | Image): string {
     return Object.keys(media)?.find(Boolean);
   }
