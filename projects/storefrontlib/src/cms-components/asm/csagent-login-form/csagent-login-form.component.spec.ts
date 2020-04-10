@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 describe('CSAgentLoginFormComponent', () => {
   let component: CSAgentLoginFormComponent;
@@ -18,7 +19,7 @@ describe('CSAgentLoginFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [CSAgentLoginFormComponent],
     }).compileComponents();
   }));
@@ -74,18 +75,16 @@ describe('CSAgentLoginFormComponent', () => {
     component.csAgentTokenLoading = true;
     component.ngOnInit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(el.query(By.css('div.spinner'))).toBeTruthy();
-      expect(el.query(By.css('form'))).toBeFalsy();
-    });
+
+    expect(el.query(By.css('div.spinner'))).toBeTruthy();
+    expect(el.query(By.css('form'))).toBeFalsy();
   });
   it('should not display spinner when login is not running', () => {
     component.csAgentTokenLoading = false;
     component.ngOnInit();
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(el.query(By.css('div.spinner'))).toBeFalsy();
-      expect(el.query(By.css('form'))).toBeTruthy();
-    });
+
+    expect(el.query(By.css('div.spinner'))).toBeFalsy();
+    expect(el.query(By.css('form'))).toBeTruthy();
   });
 });
