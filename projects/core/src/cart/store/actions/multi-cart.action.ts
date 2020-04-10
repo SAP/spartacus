@@ -43,6 +43,9 @@ export class CartProcessesDecrement extends EntityProcessesDecrementAction {
   }
 }
 
+/**
+ * Only sets active cart property with id of active cart. Then services take care of loading that cart.
+ */
 export class SetActiveCartId implements Action {
   readonly type = SET_ACTIVE_CART_ID;
   constructor(public payload: string) {}
