@@ -4,9 +4,16 @@ import { MediaConfig, MediaFormatSize } from './media.config';
 import { Media, MediaContainer } from './media.model';
 
 /**
- * internal interface to map the mediaFormat object to a list
+ * Service which generates media URLs. It leverage the MediaContainer and MediaFormats so that
+ * URLs and sizes are generated for the same media. This helps to improve performance across
+ * difference devices and layouts.
+ *
+ * Media formats are optional, but highly recommended. The format will help the browser to identify
+ * the right media for the right experience.
+ *
+ * The MediaService will generate absolute URLs in case relative URLs are provided for the Media. The
+ * baseUrl is read from the `occConfig.backend.media.baseUrl` or `occConfig.backend.occ.baseUrl`.
  */
-
 @Injectable({
   providedIn: 'root',
 })
@@ -15,129 +22,108 @@ export class MediaService {
    * The media formats sorted by size. The media format representing the smallest
    * size is sorted on top.
    */
-  protected mediaFormats: Map<string, MediaFormatSize> = new Map();
+  protected sortedFormats: { code: string; size: MediaFormatSize }[];
+  protected reversedFormats: { code: string; size: MediaFormatSize }[];
 
   constructor(
     protected occConfig: OccConfig,
     protected mediaConfig: MediaConfig
   ) {
-    this.buildFormatMap();
+    this.sortFormats();
   }
 
   /**
-   * Returns a `Media` object with the main media (`src`) and various media (`src`) for specific formats.
-   *
-   * @param container the `MediaContainer` that contains multiple media for different formats
-   * @param format the format code that is used to select a specific media
-   * @param alt the al text for the media
+   * Returns a `Media` object with the main media (`src`) and various media (`src`)
+   * for specific formats.
    */
   getMedia(
-    container: MediaContainer | Image,
+    mediaContainer: MediaContainer | Image,
     format?: string,
     alt?: string
   ): Media {
+    if (!mediaContainer) {
+      return;
+    }
+
+    const mainMedia: Image = mediaContainer.url
+      ? mediaContainer
+      : this.resolveMedia(mediaContainer as MediaContainer, format);
+
     return {
-      src: this.resolveSource(container, format),
-      srcset: this.resolveSrcSet(container),
-      alt: alt || this.getAlt(container, format),
+      src: this.resolveAbsoluteUrl(mainMedia?.url),
+      alt: alt || mainMedia?.altText,
+      srcset: this.resolveSrcSet(mediaContainer),
     };
   }
 
   /**
-   * Ceates the media formats to provide fast access to the media formats in a
+   * Creates the media formats to provide fast access to the media formats in a
    * logical order. The map contains the format key and the format size information.
    */
-  protected buildFormatMap(): void {
-    this.mediaFormats = new Map(
-      Object.entries(
-        this.mediaConfig.mediaFormats
-      ).sort(([_o, oldFormat], [_n, format]) =>
-        oldFormat.width < format.width ? 1 : -1
-      )
-    );
+  protected sortFormats(): void {
+    this.sortedFormats = Object.keys(this.mediaConfig.mediaFormats)
+      .map((key) => ({
+        code: key,
+        size: this.mediaConfig.mediaFormats[key],
+      }))
+      .sort((a, b) => (a.size.width > b.size.width ? 1 : -1));
+
+    this.reversedFormats = [].concat(this.sortedFormats).reverse();
   }
 
   /**
-   * Returns the main media for the given form. If there's no format given, or no media
-   * available for the format, we fallback to the best format available. If this still not
-   * resolves a media, a random media is returend.
-   *
-   * The main media is used for the main img `src` attribute. In many cases more specific media
-   * are assigned to the img `srcset` attribute, which the browser will use to load the most
-   * optimal media for the available media formats.
+   * Resolves the right media for the given format. The fo
    */
-  protected resolveSource(
-    media: MediaContainer | Image,
+  protected resolveMedia(media: MediaContainer, format?: string): Image {
+    return media[this.resolveFormat(media, format)];
+  }
+
+  /**
+   * Validates the format against the given mediaContainer. If there is no format available,
+   * or if the mediaContainer doesn't contain a media for the given media, the most optimal
+   * format is resolved. If even that is not possible, the first format is returned.
+   */
+  protected resolveFormat(
+    mediaContainer: MediaContainer,
     format?: string
   ): string {
-    if (!media) {
-      return;
+    if (format && mediaContainer[format]) {
+      return format;
     }
-
     return (
-      this.resolveAbsoluteUrl(((media as any) as Image).url) ||
-      this.resolveAbsoluteUrl(media[format]?.url) ||
-      this.resolveAbsoluteUrl(media[this.findBestFormat(media)]?.url) ||
-      this.resolveAbsoluteUrl(media[this.getFirstFormat(media)]?.url)
+      this.resolveBestFormat(mediaContainer) || Object.keys(mediaContainer)[0]
     );
   }
 
   /**
-   * Returns the media format code with the best threshold, which indicates
-   * the highest resolution for the media.
+   * Returns the media format code with the best size.
    */
-  protected findBestFormat(media: MediaContainer | Image): string {
-    const x = Array.from(this.mediaFormats)
-      .reverse()
-      .find(([code, _size]) => {
-        media.hasOwnProperty(code);
-      });
-
-    return x ? x[0] : undefined;
+  protected resolveBestFormat(media: MediaContainer | Image): string {
+    return this.reversedFormats.find((format) =>
+      media.hasOwnProperty(format.code)
+    )?.code;
   }
 
   /**
-   * Returns the first media from the media container.
-   */
-  protected getFirstFormat(media: MediaContainer | Image): string {
-    return Object.keys(media).find((m) => Boolean(m));
-  }
-
-  /**
-   * Returns the alt text for the media. This is used as a fallback, in case there's no
-   * alt text given by the caller of `getMedia`. The alt text is resolved from the media
-   */
-  protected getAlt(media: MediaContainer | Image, format?: string): string {
-    return (
-      ((media as any) as Image)?.altText ||
-      media[format]?.altText ||
-      media[this.findBestFormat(media)]?.altText ||
-      media[this.getFirstFormat(media)]?.altText
-    );
-  }
-
-  /**
-   * Returns a set of media for the available media formats.
+   * Returns a set of media for the available media formats. Additionally, the congiured media
+   * format width is added to the srcset, so that browsers can select the appropriate media.
    */
   protected resolveSrcSet(media: MediaContainer | Image): string {
     if (!media) {
       return undefined;
     }
 
-    const srcset = Array.from(this.mediaFormats).reduce(
-      (set, [format, formatSize]) => {
-        if (!!media[format]) {
-          if (set) {
-            set += ', ';
-          }
-          set += `${this.resolveAbsoluteUrl(media[format].url)} ${
-            formatSize.width
-          }w`;
+    const srcset = this.sortedFormats.reduce((set, format) => {
+      if (!!media[format.code]) {
+        if (set) {
+          set += ', ';
         }
-        return set;
-      },
-      ''
-    );
+        set += `${this.resolveAbsoluteUrl(media[format.code].url)} ${
+          format.size.width
+        }w`;
+      }
+      return set;
+    }, '');
 
     return srcset === '' ? undefined : srcset;
   }
