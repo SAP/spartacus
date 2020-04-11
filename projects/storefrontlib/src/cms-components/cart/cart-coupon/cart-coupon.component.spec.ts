@@ -18,6 +18,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 @Component({
   selector: 'cx-icon',
@@ -81,7 +82,12 @@ describe('CartCouponComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, FeaturesConfigModule],
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        FeaturesConfigModule,
+        FormErrorsModule,
+      ],
       declarations: [
         CartCouponComponent,
         MockAppliedCouponsComponent,
