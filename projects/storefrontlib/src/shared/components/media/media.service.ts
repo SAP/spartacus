@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Image, OccConfig } from '@spartacus/core';
-import { MediaConfig, MediaFormatSize } from './media.config';
-import { Media, MediaContainer } from './media.model';
+import { MediaConfig } from './media.config';
+import { Media, MediaContainer, MediaFormatSize } from './media.model';
 
 /**
- * Service which generates media URLs. It leverage the MediaContainer and MediaFormats so that
- * URLs and sizes are generated for the same media. This helps to improve performance across
- * difference devices and layouts.
+ * Service which generates media URLs. It leverage the MediaContainer and MediaFormats so
+ * that URLs and sizes are generated for the same media. This helps to improve performance
+ * across difference devices and layouts.
  *
- * Media formats are optional, but highly recommended. The format will help the browser to identify
- * the right media for the right experience.
+ * Media formats are optional, but highly recommended. The format will help the browser to
+ * identify the right media for the right experience.
  *
- * The MediaService will generate absolute URLs in case relative URLs are provided for the Media. The
- * baseUrl is read from the `occConfig.backend.media.baseUrl` or `occConfig.backend.occ.baseUrl`.
+ * The MediaService will generate absolute URLs in case relative URLs are provided for the Media.
+ * The baseUrl is read from the `occConfig.backend.media.baseUrl` or
+ * `occConfig.backend.occ.baseUrl`.
  */
 @Injectable({
   providedIn: 'root',
