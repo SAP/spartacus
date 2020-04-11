@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Image, OccConfig } from '@spartacus/core';
-import { LayoutConfig } from '../../../layout';
 import { StorefrontConfig } from '../../../storefront-config';
+import { MediaConfig } from './media.config';
 import { MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 
@@ -11,12 +11,20 @@ const MockConfig: StorefrontConfig = {
       baseUrl: 'base:',
     },
   },
-  media: {
-    thresholds: {
-      format400: 400,
-      format200: 200,
-      format600: 600,
-      format1: 1,
+};
+const MockMediaConfig: MediaConfig = {
+  mediaFormats: {
+    format400: {
+      width: 400,
+    },
+    format200: {
+      width: 400,
+    },
+    format600: {
+      width: 600,
+    },
+    format1: {
+      width: 1,
     },
   },
 };
@@ -79,8 +87,7 @@ describe('MediaService', () => {
       providers: [
         MediaService,
         { provide: OccConfig, useValue: MockConfig },
-
-        { provide: LayoutConfig, useValue: {} },
+        { provide: MediaConfig, useValue: MockMediaConfig },
       ],
     });
     mediaService = TestBed.inject(MediaService);
@@ -98,7 +105,7 @@ describe('MediaService', () => {
         );
       });
 
-      it('should return random media for unknown formats', () => {
+      it('should return the first media if there is no configured format', () => {
         expect(mediaService.getMedia(mockUnknownMediaContainer).src).toBe(
           'base:random1.url'
         );
