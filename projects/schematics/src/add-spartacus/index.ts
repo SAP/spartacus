@@ -85,12 +85,12 @@ function addPackageJsonDependencies(): Rule {
 
       {
         type: NodeDependencyType.Default,
-        version: '^4.1.0',
+        version: '^6.0.0',
         name: '@ng-bootstrap/ng-bootstrap',
       },
       {
         type: NodeDependencyType.Default,
-        version: '^2.13.2',
+        version: '^4.0.0',
         name: '@ng-select/ng-select',
       },
 
@@ -123,12 +123,12 @@ function addPackageJsonDependencies(): Rule {
       },
       {
         type: NodeDependencyType.Default,
-        version: angularVersion || '~9.1.0',
+        version: angularVersion,
         name: '@angular/service-worker',
       },
       {
         type: NodeDependencyType.Default,
-        version: angularVersion || '~9.1.0',
+        version: angularVersion,
         name: ANGULAR_LOCALIZE,
       },
       {
