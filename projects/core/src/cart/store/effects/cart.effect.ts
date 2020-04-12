@@ -12,6 +12,7 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { CheckoutActions } from '../../../checkout/store/actions';
 import { Cart } from '../../../model/cart.model';
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
@@ -219,7 +220,8 @@ export class CartEffects {
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_SUCCESS
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS,
+      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS
     ),
     map(
       (
@@ -228,6 +230,7 @@ export class CartEffects {
           | CartActions.CartUpdateEntrySuccess
           | CartActions.CartRemoveEntrySuccess
           | CartActions.CartRemoveVoucherSuccess
+          | CheckoutActions.ClearCheckoutDeliveryModeSuccess
       ) => action.payload
     ),
     map(
