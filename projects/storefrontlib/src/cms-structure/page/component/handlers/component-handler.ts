@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { CmsComponentMapping, Handler, Priority } from '@spartacus/core';
 
 export abstract class ComponentHandler implements Handler {
-  abstract launch(
+  abstract launcher(
     componentType: string,
     uid: string,
     directiveInjector: Injector

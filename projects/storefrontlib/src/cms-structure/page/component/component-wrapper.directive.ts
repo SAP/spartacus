@@ -2,23 +2,20 @@ import {
   ComponentRef,
   Directive,
   ElementRef,
-  Inject,
   Injector,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Renderer2,
 } from '@angular/core';
 import {
-  CmsComponentMapping,
   CmsService,
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CmsMappingService } from '../../services/cms-mapping.service';
-import { ComponentHandler } from './handlers/component-handler';
+import { ComponentHandlerService } from './services/component-handler.service';
 
 @Directive({
   selector: '[cxComponentWrapper]',
@@ -35,7 +32,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
    */
   cmpRef?: ComponentRef<any>;
 
-  launcherResource: Subscription;
+  private launcherResource?: Subscription;
 
   constructor(
     protected injector: Injector,
@@ -43,9 +40,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
-    @Optional()
-    @Inject(ComponentHandler)
-    protected handlers: ComponentHandler[]
+    protected componentHandler: ComponentHandlerService
   ) {}
 
   ngOnInit() {
@@ -63,32 +58,19 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       this.cxComponentWrapper.flexType
     );
 
-    const componentHandler = this.resolveHandler(componentMapping);
-
-    this.launcherResource = componentHandler
-      .launch(
+    this.launcherResource = this.componentHandler
+      .resolve(componentMapping)
+      ?.launcher(
         this.cxComponentWrapper.flexType,
         this.cxComponentWrapper.uid,
         this.injector
       )
-      .subscribe(
+      ?.subscribe(
         ([elementRef, componentRef]: [ElementRef, ComponentRef<any>]) => {
           this.cmpRef = componentRef;
           this.decorate(elementRef);
         }
       );
-  }
-
-  private resolveHandler(
-    componentMapping: CmsComponentMapping
-  ): ComponentHandler {
-    const matchedHandlers = this.handlers.filter((handler) =>
-      handler.hasMatch(componentMapping)
-    );
-    if (matchedHandlers.length > 1) {
-      matchedHandlers.sort((a, b) => a.getPriority() - b.getPriority());
-    }
-    return matchedHandlers[matchedHandlers.length - 1];
   }
 
   private decorate(elementRef: ElementRef) {

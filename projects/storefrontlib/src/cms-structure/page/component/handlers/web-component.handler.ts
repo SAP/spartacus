@@ -39,12 +39,12 @@ export class WebComponentHandler implements ComponentHandler {
     return Priority.LOW; // low, as it's a default matcher
   }
 
-  launch(
+  launcher(
     componentType: string,
     uid: string,
     directiveInjector: Injector
   ): Observable<[ElementRef]> {
-    return new Observable<any>((observer) => {
+    return new Observable<[ElementRef]>((observer) => {
       let webElement;
       let active = true;
 

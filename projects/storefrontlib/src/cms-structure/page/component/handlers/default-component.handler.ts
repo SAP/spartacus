@@ -33,12 +33,12 @@ export class DefaultComponentHandler extends ComponentHandler {
     return Priority.FALLBACK;
   }
 
-  launch(
+  launcher(
     componentType: string,
     uid: string,
     directiveInjector: Injector
   ): Observable<[ElementRef, ComponentRef<any>]> {
-    return new Observable<any>((observer) => {
+    return new Observable<[ElementRef, ComponentRef<any>]>((observer) => {
       let cmpRef: ComponentRef<any>;
 
       const dispose = () => {
