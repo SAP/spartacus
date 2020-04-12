@@ -58,6 +58,7 @@ class MockCmsMappingService {
   isComponentEnabled() {
     return true;
   }
+  getComponentMapping() {}
 }
 
 const MockSkipLinkConfig: SkipLinkConfig = { skipLinks: [] };

@@ -23,7 +23,7 @@ import {
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { CxApiService } from './services/cx-api.service';
-import { componentLauncherMapProvider } from './component-launcher-mapping';
+import { PageComponentModule } from '@spartacus/storefront';
 
 const testText = 'test text';
 
@@ -97,7 +97,7 @@ describe('ComponentWrapperDirective', () => {
 
   beforeEach(() => {
     testBedConfig = {
-      imports: [TestModule],
+      imports: [PageComponentModule, TestModule],
       declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         Renderer2,
@@ -108,7 +108,6 @@ describe('ComponentWrapperDirective', () => {
           useClass: MockDynamicAttributeService,
         },
         { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } },
-        componentLauncherMapProvider,
       ],
     };
   });

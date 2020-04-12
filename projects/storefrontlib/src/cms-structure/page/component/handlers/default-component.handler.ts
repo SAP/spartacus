@@ -16,14 +16,12 @@ import { CmsMappingService } from '../../../services/cms-mapping.service';
 @Injectable({
   providedIn: 'root',
 })
-export class DefaultComponentHandler extends ComponentHandler {
+export class DefaultComponentHandler implements ComponentHandler {
   constructor(
     protected componentFactoryResolver: ComponentFactoryResolver,
     protected cmsMapping: CmsMappingService,
     private cmsData: CmsDataService
-  ) {
-    super();
-  }
+  ) {}
 
   hasMatch(componentMapping: CmsComponentMapping): boolean {
     return typeof componentMapping.component === 'function';
