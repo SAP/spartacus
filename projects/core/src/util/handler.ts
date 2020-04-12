@@ -5,10 +5,7 @@ export enum Priority {
   HIGH = 5,
 }
 
-export interface MatchHandler {
-  hasMatch(...params): boolean;
-}
-
-export interface PriorityHandler {
-  getPriority(...params): Priority | number;
+export interface Handler {
+  hasMatch?(...params): boolean;
+  getPriority?(...params): Priority | number;
 }
