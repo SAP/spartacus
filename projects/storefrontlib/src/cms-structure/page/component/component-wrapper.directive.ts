@@ -2,20 +2,23 @@ import {
   ComponentRef,
   Directive,
   ElementRef,
+  Inject,
   Injector,
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Renderer2,
 } from '@angular/core';
 import {
+  CmsComponentMapping,
   CmsService,
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CmsMappingService } from '../../services/cms-mapping.service';
-import { ComponentLauncherResolverService } from './services/component-launcher-resolver.service';
+import { ComponentHandler } from './handlers/component-handler';
 
 @Directive({
   selector: '[cxComponentWrapper]',
@@ -32,7 +35,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
    */
   cmpRef?: ComponentRef<any>;
 
-  initializerSubscription: Subscription;
+  launcherResource: Subscription;
 
   constructor(
     protected injector: Injector,
@@ -40,7 +43,9 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
-    protected componentLauncherResolver: ComponentLauncherResolverService
+    @Optional()
+    @Inject(ComponentHandler)
+    protected handlers: ComponentHandler[]
   ) {}
 
   ngOnInit() {
@@ -49,51 +54,56 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         this.cxComponentWrapper.flexType
       )
     ) {
-      this.launch();
+      this.launchComponent();
     }
   }
 
-  private launch() {
-    this.initializerSubscription = this.getLauncher()?.subscribe(
-      ([elementRef, componentRef]: [ElementRef, ComponentRef<any>]) => {
-        this.cmpRef = componentRef;
-        // decorate element
-        if (this.cmsService.isLaunchInSmartEdit()) {
-          this.addSmartEditContract(elementRef.nativeElement);
-        }
-      }
-    );
-  }
-
-  private getLauncher():
-    | Observable<[ElementRef, ComponentRef<any>?]>
-    | undefined {
-    const mapping = this.cmsMappingService.getComponentMapping(
+  private launchComponent() {
+    const componentMapping = this.cmsMappingService.getComponentMapping(
       this.cxComponentWrapper.flexType
     );
 
-    if (mapping) {
-      const launcherHandler = this.componentLauncherResolver.getLauncher(mapping);
+    const componentHandler = this.resolveHandler(componentMapping);
 
-      return launcherHandler?.getLauncher(
+    this.launcherResource = componentHandler
+      .launch(
         this.cxComponentWrapper.flexType,
         this.cxComponentWrapper.uid,
         this.injector
+      )
+      .subscribe(
+        ([elementRef, componentRef]: [ElementRef, ComponentRef<any>]) => {
+          this.cmpRef = componentRef;
+          this.decorate(elementRef);
+        }
+      );
+  }
+
+  private resolveHandler(
+    componentMapping: CmsComponentMapping
+  ): ComponentHandler {
+    const matchedHandlers = this.handlers.filter((handler) =>
+      handler.hasMatch(componentMapping)
+    );
+    if (matchedHandlers.length > 1) {
+      matchedHandlers.sort((a, b) => a.getPriority() - b.getPriority());
+    }
+    return matchedHandlers[matchedHandlers.length - 1];
+  }
+
+  private decorate(elementRef: ElementRef) {
+    if (this.cmsService.isLaunchInSmartEdit()) {
+      this.dynamicAttributeService.addDynamicAttributes(
+        this.cxComponentWrapper.properties,
+        elementRef.nativeElement,
+        this.renderer
       );
     }
   }
 
-  private addSmartEditContract(element: Element) {
-    this.dynamicAttributeService.addDynamicAttributes(
-      this.cxComponentWrapper.properties,
-      element,
-      this.renderer
-    );
-  }
-
   ngOnDestroy() {
-    if (this.initializerSubscription) {
-      this.initializerSubscription.unsubscribe();
+    if (this.launcherResource) {
+      this.launcherResource.unsubscribe();
     }
   }
 }

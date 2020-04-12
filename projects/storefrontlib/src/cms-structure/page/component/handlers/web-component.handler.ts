@@ -8,7 +8,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ComponentLauncher } from './component-launcher';
+import { ComponentHandler } from './component-handler';
 import { CmsDataService } from '../services/cms-data.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { CxApiService } from '../services/cx-api.service';
@@ -18,7 +18,7 @@ import { CmsComponentMapping, Priority } from '@spartacus/core';
 @Injectable({
   providedIn: 'root',
 })
-export class WebComponentLauncherService implements ComponentLauncher {
+export class WebComponentHandler implements ComponentHandler {
   constructor(
     protected cmsMapping: CmsMappingService,
     private cmsData: CmsDataService,
@@ -39,7 +39,7 @@ export class WebComponentLauncherService implements ComponentLauncher {
     return Priority.LOW; // low, as it's a default matcher
   }
 
-  getLauncher(
+  launch(
     componentType: string,
     uid: string,
     directiveInjector: Injector
@@ -89,7 +89,7 @@ export class WebComponentLauncherService implements ComponentLauncher {
     });
   }
 
-  initWebComponent(
+  private initWebComponent(
     componentType: string,
     renderer: Renderer2
   ): Promise<string> {

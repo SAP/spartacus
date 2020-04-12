@@ -6,7 +6,7 @@ import {
   Injector,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentLauncher } from './component-launcher';
+import { ComponentHandler } from './component-handler';
 import { Observable } from 'rxjs';
 
 import { CmsDataService } from '../services/cms-data.service';
@@ -16,7 +16,7 @@ import { CmsMappingService } from '../../../services/cms-mapping.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CmsComponentLauncherService extends ComponentLauncher {
+export class DefaultComponentHandler extends ComponentHandler {
   constructor(
     protected componentFactoryResolver: ComponentFactoryResolver,
     protected cmsMapping: CmsMappingService,
@@ -33,7 +33,7 @@ export class CmsComponentLauncherService extends ComponentLauncher {
     return Priority.FALLBACK;
   }
 
-  getLauncher(
+  launch(
     componentType: string,
     uid: string,
     directiveInjector: Injector

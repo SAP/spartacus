@@ -1,21 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { ComponentLauncher } from './launchers/component-launcher';
-import { CmsComponentLauncherService } from './launchers/cms-component-launcher.service';
-import { WebComponentLauncherService } from './launchers/web-component-launcher.service';
+import { ComponentHandler } from './handlers/component-handler';
+import { DefaultComponentHandler } from './handlers/default-component.handler';
+import { WebComponentHandler } from './handlers/web-component.handler';
 
 @NgModule({
   imports: [CommonModule],
   providers: [
     {
-      provide: ComponentLauncher,
-      useExisting: CmsComponentLauncherService,
+      provide: ComponentHandler,
+      useExisting: DefaultComponentHandler,
       multi: true,
     },
     {
-      provide: ComponentLauncher,
-      useExisting: WebComponentLauncherService,
+      provide: ComponentHandler,
+      useExisting: WebComponentHandler,
       multi: true,
     },
   ],
