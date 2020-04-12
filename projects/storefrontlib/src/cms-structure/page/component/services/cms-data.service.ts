@@ -1,12 +1,16 @@
 import { Injectable, Injector } from '@angular/core';
 import { CmsComponentData } from '../../model';
-import { CmsComponent, CmsConfig, CmsService } from '@spartacus/core';
+import { CmsComponent, CmsService } from '@spartacus/core';
+import { CmsMappingService } from '../../../services/cms-mapping.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CmsDataService {
-  constructor(protected config: CmsConfig, protected injector: Injector) {}
+  constructor(
+    protected cmsMapping: CmsMappingService,
+    protected injector: Injector
+  ) {}
 
   public getCmsDataForComponent<T extends CmsComponent>(
     uid: string,
@@ -25,9 +29,8 @@ export class CmsDataService {
     uid: string,
     parentInjector?: Injector
   ): Injector {
-    // get rid of it
     const configProviders =
-      (this.config.cmsComponents[type] || {}).providers || [];
+      this.cmsMapping.getComponentMapping(type)?.providers ?? [];
     return Injector.create({
       providers: [
         {
