@@ -1,0 +1,9 @@
+<div class="cx-header">
+  <h3>{{ 'b2bUserForm.create' | cxTranslate }}</h3>
+</div>
+<cx-user-group-form
+  [actionBtnLabel]="'b2bUserForm.create' | cxTranslate"
+  [routerBackLink]="{ cxRoute: 'b2bUsers' }"
+  (submit)="createB2BUser($event)"
+>
+</cx-user-group-form>

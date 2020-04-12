@@ -1,0 +1,113 @@
+<ng-template
+  #validation
+  let-control="control"
+  let-translationParams="translationParams"
+>
+  <span class="is-invalid">
+    <span *ngFor="let error of control.errors | keyvalue">
+      {{
+        'b2bUserForm.message.' + error.key | cxTranslate: translationParams
+      }}
+    </span>
+  </span>
+</ng-template>
+
+<div [formGroup]="form">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <label>
+          <span class="label-content required">{{
+            'b2bUserForm.code.label' | cxTranslate
+          }}</span>
+          <input
+            class="form-control"
+            type="text"
+            required
+            placeholder="{{ 'b2bUserForm.code.placeholder' | cxTranslate }}"
+            formControlName="uid"
+            [class.is-invalid]="isNotValid('uid')"
+          />
+          <ng-container
+            *ngIf="isNotValid('uid')"
+            [ngTemplateOutlet]="validation"
+            [ngTemplateOutletContext]="{
+              control: form.controls.uid
+            }"
+          ></ng-container>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <span class="label-content required">{{
+            'b2bUserForm.name.label' | cxTranslate
+          }}</span>
+          <input
+            type="text"
+            class="form-control"
+            required
+            placeholder="{{ 'b2bUserForm.name.placeholder' | cxTranslate }}"
+            formControlName="name"
+            [class.is-invalid]="isNotValid('name')"
+          />
+          <ng-container
+            *ngIf="isNotValid('name')"
+            [ngTemplateOutlet]="validation"
+            [ngTemplateOutletContext]="{
+              control: form.controls.name
+            }"
+          ></ng-container>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <ng-container
+          *ngIf="businessUnits$ | async as businessUnits"
+          formGroupName="orgUnit"
+        >
+          <div *ngIf="businessUnits.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'b2bUserForm.businessUnits.label' | cxTranslate
+              }}</span>
+              <ng-select
+                formControlName="uid"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="businessUnits"
+                bindLabel="name"
+                bindValue="id"
+                [class.invalid]="isNotValid('orgUnit')"
+              >
+              </ng-select>
+              <ng-container
+                *ngIf="isNotValid('orgUnit')"
+                [ngTemplateOutlet]="validation"
+                [ngTemplateOutletContext]="{
+                  control: form.controls.orgUnit['controls']['uid']
+                }"
+              ></ng-container>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="row buttons">
+    <div class="col-md-12 col-lg-6 mb-3">
+      <button class="btn btn-block btn-primary" (click)="verifyAndSubmit()">
+        {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
+      </button>
+    </div>
+    <div class="col-md-12 col-lg-6 mb-3" *ngIf="showCancelBtn">
+      <a
+        class="btn btn-block btn-action"
+        (click)="back()"
+        [routerLink]="routerBackLink | cxUrl"
+      >
+        {{ cancelBtnLabel || ('common.cancel' | cxTranslate) }}
+      </a>
+    </div>
+  </div>
+</div>
