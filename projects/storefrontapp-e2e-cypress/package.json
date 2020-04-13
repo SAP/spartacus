@@ -7,7 +7,7 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "cy:run:ci": "cypress run --config-file cypress.ci.json --spec \"cypress/integration/!(vendor)/**/*(language-checkout-page|currency-checkout-page).e2e-spec.ts\"",
+    "cy:run:ci": "cypress run --config-file cypress.ci.json --spec \"cypress/integration/!(vendor)/**/*.e2e-spec.ts\"",
     "cy:run:ci:all": "cypress run --config-file cypress.ci.json",
     "cy:run:smoke": "cypress run --spec \"cypress/integration/smoke/**/*\"",
     "cy:run:smoke:ci": "cypress run --config-file cypress.ci.json --spec \"cypress/integration/smoke/**/*\"",
