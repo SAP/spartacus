@@ -41,6 +41,14 @@ describe('CmsMappingService', () => {
     expect(service).toBeTruthy();
   });
 
+  describe('getComponentMapping', () => {
+    it('should return component data', () => {
+      expect(service.getComponentMapping('exampleMapping1')).toBe(
+        mockConfig.cmsComponents.exampleMapping1
+      );
+    });
+  });
+
   describe('isComponentEnabled', () => {
     it('should return true for disableSrr not set', () => {
       expect(service.isComponentEnabled('exampleMapping1')).toBeTruthy();
