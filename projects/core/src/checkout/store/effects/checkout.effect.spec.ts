@@ -5,7 +5,6 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { AuthActions } from '../../../auth/store/actions/index';
-import * as DeprecatedCartActions from '../../../cart/store/actions/cart.action';
 import { CartActions } from '../../../cart/store/actions/index';
 import {
   CheckoutDeliveryConnector,
@@ -250,7 +249,7 @@ describe('Checkout effect', () => {
       const setDeliveryModeSuccess = new CheckoutActions.SetDeliveryModeSuccess(
         'testSelectedModeId'
       );
-      const loadCart = new DeprecatedCartActions.LoadCart({
+      const loadCart = new CartActions.LoadCart({
         userId,
         cartId,
       });
@@ -346,7 +345,7 @@ describe('Checkout effect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const removeCartCompletion = new CartActions.RemoveCart(cartId);
+      const removeCartCompletion = new CartActions.RemoveCart({ cartId });
       const placeOrderSuccessCompletion = new CheckoutActions.PlaceOrderSuccess(
         orderDetails
       );
