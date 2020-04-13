@@ -54,6 +54,10 @@ import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 import { Schema as SpartacusOptions } from './schema';
 
 const DEFAULT_ENVIRONMENT_NAME = 'environment';
+const DEFAULT_ENVIRONMENT_PATHS = {
+  replace: '/src/environments/environment.ts',
+  with: '/src/environments/environment.prod.ts',
+};
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -163,7 +167,8 @@ function updateEnvironment(
 ): Rule {
   return (host: Tree, _context: SchematicContext) => {
     const fileReplacements =
-      project.architect?.build?.configurations?.production?.fileReplacements[0];
+      project.architect?.build?.configurations?.production
+        ?.fileReplacements[0] || DEFAULT_ENVIRONMENT_PATHS;
     const devEnvironmentPath = fileReplacements.replace;
     const prodEnvironmentPath = fileReplacements.with;
 
