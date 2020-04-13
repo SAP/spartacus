@@ -19,6 +19,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { AddressFormComponent } from './address-form.component';
 import createSpy = jasmine.createSpy;
+import { FormErrorsModule } from '../../../../../shared/index';
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -133,7 +134,12 @@ describe('AddressFormComponent', () => {
     mockModalService = new MockModalService();
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [AddressFormComponent],
       providers: [
         { provide: ModalService, useValue: { open: () => {} } },
