@@ -28,6 +28,10 @@ export interface LaunchDialog {
      * Dialog type is used to apply CSS classes
      */
     dialogType?: DIALOG_TYPE;
+    /**
+     * Should the dialog have a backdrop that restricts scrolling and can close the dialog on click
+     */
+    backdrop?: boolean;
   };
 }
 

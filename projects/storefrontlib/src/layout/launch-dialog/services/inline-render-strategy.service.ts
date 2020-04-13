@@ -7,6 +7,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { BackdropComponent } from '../../../shared/components/backdrop/index';
 import { LaunchInlineDialog, LAUNCH_CALLER } from '../config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
@@ -33,13 +34,21 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
   ): Observable<ComponentRef<any>> {
     // Only render if a ViewContainerRef is provided
     if (vcr && this.shouldRender(caller, config)) {
+      let component: ComponentRef<any>;
+
       const template = this.componentFactoryResolver.resolveComponentFactory(
         config.component
       );
-      const component = vcr.createComponent(template);
 
       if (config.options?.dialogType) {
+        if (config.options?.backdrop) {
+          this.renderBackdrop(vcr);
+        }
+
+        component = vcr.createComponent(template);
         this.applyClasses(component, config.options?.dialogType);
+      } else {
+        component = vcr.createComponent(template);
       }
       this.renderedCallers.push({ caller, element: vcr.element, component });
 
@@ -57,5 +66,15 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
 
   match(config: LaunchInlineDialog) {
     return Boolean(config.inline);
+  }
+
+  protected renderBackdrop(
+    vcr: ViewContainerRef
+  ): ComponentRef<BackdropComponent> {
+    const backdropTemplate = this.componentFactoryResolver.resolveComponentFactory(
+      BackdropComponent
+    );
+    const backdrop = vcr.createComponent(backdropTemplate);
+    return backdrop;
   }
 }

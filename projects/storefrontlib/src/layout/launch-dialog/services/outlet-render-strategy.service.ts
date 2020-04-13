@@ -12,6 +12,7 @@ import {
   OutletService,
 } from '../../../cms-structure/outlet/index';
 import { OutletRendererService } from '../../../cms-structure/outlet/outlet-renderer.service';
+import { BackdropComponent } from '../../../shared/components/backdrop/index';
 import { LaunchOutletDialog, LAUNCH_CALLER } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
@@ -38,6 +39,11 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
     caller: LAUNCH_CALLER
   ): Observable<ComponentRef<any>> {
     if (this.shouldRender(caller, config)) {
+      // Add backdrop if the configuration is true
+      if (config.options?.backdrop) {
+        this.renderBackdrop(config);
+      }
+
       const template = this.componentFactoryResolver.resolveComponentFactory(
         config.component
       );
@@ -87,5 +93,16 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
     );
 
     super.remove(caller);
+  }
+
+  protected renderBackdrop(config: LaunchOutletDialog) {
+    const backdropTemplate = this.componentFactoryResolver.resolveComponentFactory(
+      BackdropComponent
+    );
+    this.outletService.add(
+      config.outlet,
+      backdropTemplate,
+      config.position ? config.position : OutletPosition.BEFORE
+    );
   }
 }

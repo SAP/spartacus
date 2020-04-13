@@ -18,6 +18,7 @@ export const DEFAULT_LAUNCH_CONFIG: LaunchConfig = {
       component: AnonymousConsentDialogComponent,
       options: {
         dialogType: DIALOG_TYPE.DIALOG,
+        backdrop: true,
       },
     },
   },
