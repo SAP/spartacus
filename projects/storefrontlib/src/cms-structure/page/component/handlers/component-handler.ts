@@ -9,6 +9,6 @@ export abstract class ComponentHandler implements Handler {
     directiveInjector: Injector
   ): Observable<[ElementRef, ComponentRef<any>?]>;
 
-  abstract hasMatch?(componentMapping: CmsComponentMapping): boolean;
+  abstract hasMatch(componentMapping: CmsComponentMapping): boolean;
   abstract getPriority?(): Priority;
 }
