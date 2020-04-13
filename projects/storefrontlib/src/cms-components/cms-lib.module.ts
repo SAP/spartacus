@@ -79,6 +79,10 @@ import {
   UserGroupEditModule,
   UserGroupAssignPermissionsModule,
   UserGroupAssignUsersModule,
+  B2BUserListModule,
+  B2BUserCreateModule,
+  B2BUserDetailsModule,
+  B2BUserEditModule,
 } from './organization/index';
 
 @NgModule({
@@ -155,6 +159,10 @@ import {
     UserGroupEditModule,
     UserGroupAssignPermissionsModule,
     UserGroupAssignUsersModule,
+    B2BUserListModule,
+    B2BUserCreateModule,
+    B2BUserDetailsModule,
+    B2BUserEditModule,
   ],
 })
 export class CmsLibModule {}

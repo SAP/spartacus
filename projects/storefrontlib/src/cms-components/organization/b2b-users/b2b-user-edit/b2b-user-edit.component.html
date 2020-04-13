@@ -1,0 +1,11 @@
+<div class="cx-header">
+  <h3>{{ 'b2bUserForm.edit' | cxTranslate }}</h3>
+</div>
+<cx-b2b-user-form
+  *ngIf="b2bUser$ | async as b2bUser"
+  [actionBtnLabel]="'b2bUserForm.update' | cxTranslate"
+  [b2bUserData]="b2bUser"
+  [routerBackLink]="{ cxRoute: 'b2bUsers' }"
+  (submit)="updateB2BUser($event)"
+>
+</cx-b2b-user-form>
