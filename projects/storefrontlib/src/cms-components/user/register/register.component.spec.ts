@@ -19,6 +19,7 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { RegisterComponent } from './register.component';
 import createSpy = jasmine.createSpy;
+import { FormErrorsModule } from '../../../shared/index';
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',
@@ -130,7 +131,12 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
       providers: [
         { provide: UserService, useClass: MockUserService },

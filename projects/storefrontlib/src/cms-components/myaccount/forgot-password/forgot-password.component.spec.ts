@@ -11,6 +11,7 @@ import {
 } from '@spartacus/core';
 
 import { ForgotPasswordComponent } from './forgot-password.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 class MockUserService {}
 class MockRoutingService {}
@@ -30,7 +31,12 @@ describe('ForgotPasswordComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [ForgotPasswordComponent, MockUrlPipe],
       providers: [
         { provide: UserService, useClass: MockUserService },
