@@ -20,8 +20,11 @@ import { CHECKOUT_GUARD_MIGRATIONS } from './data/checkout.guard.migration';
 import { CHECKOUT_SERVICE_MIGRATION } from './data/checkout.service.migration';
 import { CLIENT_AUTHENTICATION_TOKEN_SERVICE_MIGRATION } from './data/client-authentication-token.service.migration';
 import { CONFIGURABLE_ROUTES_SERVICE_MIGRATION } from './data/configurable-routes.service.migration';
+import { CONSENT_MANAGEMENT_COMPONENT_MIGRATION } from './data/consent-management.component.migration';
 import { CURRENT_PRODUCT_SERVICE_MIGRATION } from './data/current-product-service.migration';
+import { CUSTOMER_COUPON_SERVICE_MIGRATION } from './data/customer-coupon.service.migration';
 import { EXTERNAL_ROUTES_SERVICE_MIGRATION } from './data/external-routes.service.migration';
+import { FOOTER_NAVIGATION_COMPONENT_MIGRATION } from './data/footer-navigation.component.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
 import { MINI_CART_COMPONENT_MIGRATION } from './data/mini-cart.component.migration';
 import { NOT_CHECKOUT_AUTH_GUARD_MIGRATION } from './data/not-checkout-auth-guard.migration';
@@ -34,7 +37,9 @@ import { CATEGORY_PAGE_META_RESOLVER_MIGRATION } from './data/page-resolvers/cat
 import { CHECKOUT_PAGE_META_RESOLVER_MIGRATION } from './data/page-resolvers/checkout-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-resolvers/page-meta.service.migration';
 import { PRODUCT_PAGE_META_RESOLVER_MIGRATION } from './data/page-resolvers/product-page-meta.resolver.migration';
+import { PAYMENT_FORM_COMPONENT_MIGRATION } from './data/payment-form.component.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATIONS } from './data/payment-method.component.migration';
+import { PLACE_ORDER_COMPONENT_MIGRATION } from './data/place-order.component.migration';
 import { PRODUCT_CAROUSEL_COMPONENT_MIGRATION } from './data/product-carousel-component.migration';
 import { PRODUCT_SERVICE_MIGRATION } from './data/product-service.migration';
 import { PROMOTION_SERVICE_MIGRATION } from './data/promotion.service.migration';
@@ -46,6 +51,8 @@ import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating.component.mi
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
 import { USER_AUTHENTICATION_TOKEN_SERVICE_MIGRATION } from './data/user-authentication-token.service.migration';
 import { USER_CONSENT_SERVICE_MIGRATION } from './data/user-consent.service.migration';
+import { USER_INTERESTS_SERVICE_MIGRATION } from './data/user-interests.service.migration';
+import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-notification-preference.service.migration';
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
@@ -101,6 +108,13 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CURRENT_PRODUCT_SERVICE_MIGRATION,
   PRODUCT_SERVICE_MIGRATION,
   PRODUCT_CAROUSEL_COMPONENT_MIGRATION,
+  CONSENT_MANAGEMENT_COMPONENT_MIGRATION,
+  FOOTER_NAVIGATION_COMPONENT_MIGRATION,
   CONFIGURABLE_ROUTES_SERVICE_MIGRATION,
   EXTERNAL_ROUTES_SERVICE_MIGRATION,
+  PLACE_ORDER_COMPONENT_MIGRATION,
+  CUSTOMER_COUPON_SERVICE_MIGRATION,
+  USER_INTERESTS_SERVICE_MIGRATION,
+  USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION,
+  PAYMENT_FORM_COMPONENT_MIGRATION,
 ];

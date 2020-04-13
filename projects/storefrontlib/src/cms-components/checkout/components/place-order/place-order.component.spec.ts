@@ -7,17 +7,18 @@ import {
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { By } from '@angular/platform-browser';
 
 import { PlaceOrderComponent } from './place-order.component';
 import { Observable, of } from 'rxjs';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormErrorsModule } from '../../../../shared/index';
 
-const checkoutServiceStub = {
-  placeOrder(): void {},
+class MockCheckoutService {
+  placeOrder(): void {}
   getOrderDetails(): Observable<Order> {
     return of({});
-  },
-};
+  }
+}
 
 const routingServiceStub = {
   go(): void {},
@@ -33,13 +34,20 @@ class MockUrlPipe implements PipeTransform {
 describe('PlaceOrderComponent', () => {
   let component: PlaceOrderComponent;
   let fixture: ComponentFixture<PlaceOrderComponent>;
+  let controls: FormGroup['controls'];
+  let mockCheckoutService: MockCheckoutService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [MockUrlPipe, PlaceOrderComponent],
       providers: [
-        { provide: CheckoutService, useValue: checkoutServiceStub },
+        { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: RoutingService, useValue: routingServiceStub },
       ],
     }).compileComponents();
@@ -48,52 +56,28 @@ describe('PlaceOrderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PlaceOrderComponent);
     component = fixture.componentInstance;
+    mockCheckoutService = TestBed.inject(CheckoutService);
+
+    controls = component.checkoutSubmitForm.controls;
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('UI Place order button', () => {
-    const placeOrderChbx = () =>
-      fixture.debugElement.query(By.css('.form-check-input'));
+  it('should not place order when checkbox not checked', () => {
+    spyOn(mockCheckoutService, 'placeOrder').and.callThrough();
+    controls.termsAndConditions.setValue(false);
+    component.submitForm();
 
-    const placeOrderBtn = () =>
-      fixture.debugElement.query(By.css('.btn-block'));
-
-    it('should be disabled by default', () => {
-      fixture.detectChanges();
-
-      expect(placeOrderChbx().nativeElement.checked).toBeFalsy();
-      expect(placeOrderBtn().nativeElement.disabled).toBeTruthy();
-    });
-
-    it('should be enabled when TandC checkbox is selected', () => {
-      placeOrderChbx().nativeElement.click();
-
-      fixture.detectChanges();
-
-      expect(placeOrderChbx().nativeElement.checked).toBeTruthy();
-      expect(placeOrderBtn().nativeElement.disabled).toBeFalsy();
-    });
+    expect(mockCheckoutService.placeOrder).not.toHaveBeenCalled();
   });
 
-  it('should contain disabled place order button if terms not accepted', () => {
-    fixture.detectChanges();
-    const getPlaceOrderBtn = () =>
-      fixture.debugElement.query(By.css('.btn-primary')).nativeElement;
-    expect(getPlaceOrderBtn().disabled).toBe(true);
-  });
+  it('should place order when checkbox checked', () => {
+    spyOn(mockCheckoutService, 'placeOrder').and.callThrough();
+    controls.termsAndConditions.setValue(true);
+    component.submitForm();
 
-  it('should contain enabled place order button if terms accepted', () => {
-    const inputCheckbox = fixture.debugElement.query(
-      By.css('.cx-place-order-form .form-check-input')
-    ).nativeElement;
-    inputCheckbox.click();
-    fixture.detectChanges();
-
-    const getPlaceOrderBtn = () =>
-      fixture.debugElement.query(By.css('.btn-primary')).nativeElement;
-    expect(getPlaceOrderBtn().disabled).toBe(false);
+    expect(mockCheckoutService.placeOrder).toHaveBeenCalled();
   });
 });

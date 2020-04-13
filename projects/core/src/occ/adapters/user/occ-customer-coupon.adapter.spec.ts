@@ -3,18 +3,19 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../config/occ-config';
 import {
   CustomerCoupon,
   CustomerCoupon2Customer,
   CustomerCouponNotification,
   CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
+import { CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER } from '../../../user/connectors/customer-coupon/converters';
+import { ConverterService } from '../../../util/converter.service';
+import { OccConfig } from '../../config/occ-config';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 import { OccCustomerCouponAdapter } from './occ-customer-coupon.adapter';
 import { MockOccEndpointsService } from './unit-test.helper';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { ConverterService } from '../../../util/converter.service';
-import { CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER } from '../../../user/connectors/customer-coupon/converters';
 
 const userId = 'mockUseId';
 
@@ -118,6 +119,20 @@ describe('OccCustomerCouponAdapter', () => {
         currentPage.toString()
       );
       expect(mockReq.request.params.get('sort')).toEqual(sort);
+    });
+
+    it('should return empty result for anonymous user id', () => {
+      occCustomerCouponAdapter
+        .getCustomerCoupons(OCC_USER_ID_ANONYMOUS, pageSize, currentPage, sort)
+        .subscribe((result) => {
+          expect(result).toEqual({});
+        });
+
+      httpMock.expectNone(
+        occEnpointsService.getUrl('customerCoupons', {
+          userId: OCC_USER_ID_ANONYMOUS,
+        })
+      );
     });
   });
 
