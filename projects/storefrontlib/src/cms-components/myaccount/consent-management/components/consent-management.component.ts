@@ -2,13 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AnonymousConsentsConfig,
   AnonymousConsentsService,
-  ANONYMOUS_CONSENTS_FEATURE,
   AuthService,
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
-  isFeatureEnabled,
-  isFeatureLevel,
   UserConsentService,
 } from '@spartacus/core';
 import {
@@ -41,45 +38,12 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   requiredConsents: string[] = [];
 
-  isAnonymousConsentsEnabled = isFeatureEnabled(
-    this.anonymousConsentsConfig,
-    ANONYMOUS_CONSENTS_FEATURE
-  );
-
-  // TODO(issue:4989) Anonymous consents - remove
-  isLevel13 = isFeatureLevel(this.anonymousConsentsConfig, '1.3');
-
   constructor(
-    userConsentService: UserConsentService,
-    globalMessageService: GlobalMessageService,
-    anonymousConsentsConfig: AnonymousConsentsConfig,
-    anonymousConsentsService: AnonymousConsentsService,
-    authService: AuthService
-  );
-
-  /**
-   * @deprecated since version 1.3
-   * Instead, use:
-   ```ts
-   constructor(
-     userConsentService: UserConsentService,
-     globalMessageService: GlobalMessageService,
-     anonymousConsentsConfig : AnonymousConsentsConfig,
-     anonymousConsentsService : AnonymousConsentsService,
-     authService: AuthService,
-   ) 
-   ```
-   */
-  constructor(
-    userConsentService: UserConsentService,
-    globalMessageService: GlobalMessageService
-  );
-  constructor(
-    private userConsentService: UserConsentService,
-    private globalMessageService: GlobalMessageService,
-    private anonymousConsentsConfig?: AnonymousConsentsConfig,
-    private anonymousConsentsService?: AnonymousConsentsService,
-    private authService?: AuthService
+    protected userConsentService: UserConsentService,
+    protected globalMessageService: GlobalMessageService,
+    protected anonymousConsentsConfig: AnonymousConsentsConfig,
+    protected anonymousConsentsService: AnonymousConsentsService,
+    protected authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -125,10 +89,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
         }
       }),
       map(([templateList, anonymousTemplates]) => {
-        if (!this.isAnonymousConsentsEnabled) {
-          return templateList;
-        }
-
         if (Boolean(this.anonymousConsentsConfig.anonymousConsents)) {
           if (
             Boolean(
@@ -352,10 +312,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   private isRequiredConsent(template: ConsentTemplate): boolean {
-    if (!this.isAnonymousConsentsEnabled) {
-      return false;
-    }
-
     return (
       Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
       Boolean(
