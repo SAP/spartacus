@@ -34,11 +34,17 @@ describe('Cart-voucher Actions', () => {
     describe('AddVoucherFail', () => {
       it('should create the action', () => {
         const error = 'anError';
-        const action = new CartActions.CartAddVoucherFail(error);
+        const payload = {
+          error,
+          voucherId,
+          cartId,
+          userId,
+        };
+        const action = new CartActions.CartAddVoucherFail(payload);
 
         expect({ ...action }).toEqual({
           type: CartActions.CART_ADD_VOUCHER_FAIL,
-          payload: error,
+          payload,
           meta: entityFailMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, error),
         });
       });
@@ -46,13 +52,15 @@ describe('Cart-voucher Actions', () => {
 
     describe('AddVoucherSuccess', () => {
       it('should create the action', () => {
-        const action = new CartActions.CartAddVoucherSuccess({
+        const payload = {
           userId: 'userId',
           cartId: 'cartId',
-        });
+          voucherId,
+        };
+        const action = new CartActions.CartAddVoucherSuccess(payload);
         expect({ ...action }).toEqual({
           type: CartActions.CART_ADD_VOUCHER_SUCCESS,
-          payload: { userId: 'userId', cartId: 'cartId' },
+          payload,
           meta: entitySuccessMeta(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID),
         });
       });
