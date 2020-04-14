@@ -20,8 +20,6 @@
 
     button {
       @include button-reset();
-
-      text-decoration: underline;
     }
 
     cx-star-rating {
