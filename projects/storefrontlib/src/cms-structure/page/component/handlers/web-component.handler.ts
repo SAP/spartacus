@@ -14,6 +14,9 @@ import { CxApiService } from '../services/cx-api.service';
 import { CmsComponentMapping, Priority } from '@spartacus/core';
 import { CmsComponentData } from '../../model';
 
+/**
+ * Component handler responsible for launching cms web components.
+ */
 @Injectable({
   providedIn: 'root',
 })

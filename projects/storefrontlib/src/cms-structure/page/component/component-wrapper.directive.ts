@@ -19,6 +19,9 @@ import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentHandlerService } from './services/component-handler.service';
 import { CmsInjectorService } from './services/cms-injector.service';
 
+/**
+ * Directive used to facilitate instantiation of CMS driven dynamic components
+ */
 @Directive({
   selector: '[cxComponentWrapper]',
 })

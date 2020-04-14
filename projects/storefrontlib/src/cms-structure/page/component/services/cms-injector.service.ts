@@ -3,6 +3,12 @@ import { CmsComponentData } from '../../model';
 import { CmsComponent, CmsService } from '@spartacus/core';
 import { CmsMappingService } from '../../../services/cms-mapping.service';
 
+/**
+ * Used to prepare injector for CMS components.
+ *
+ * Injector will take into account configured providers and provides CmsComponentData
+ * for specified component's uid
+ */
 @Injectable({
   providedIn: 'root',
 })

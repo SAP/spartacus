@@ -12,6 +12,9 @@ import { ComponentHandler } from '../handlers/component-handler';
 import { CmsComponentMapping } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
+/**
+ * Responsible for obtaining component handler for specified component mapping
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -22,9 +25,14 @@ export class ComponentHandlerService {
     protected handlers: ComponentHandler[]
   ) {}
 
-  private invalidMappings = new Set<CmsComponentMapping>();
+  protected invalidMappings = new Set<CmsComponentMapping>();
 
-  resolve(componentMapping: CmsComponentMapping): ComponentHandler {
+  /**
+   * Get best matching component handler
+   *
+   * @param componentMapping
+   */
+  protected resolve(componentMapping: CmsComponentMapping): ComponentHandler {
     const matchedHandlers = (this.handlers ?? []).filter((handler) =>
       handler.hasMatch(componentMapping)
     );
@@ -47,6 +55,13 @@ export class ComponentHandlerService {
     return matchedHandlers[matchedHandlers.length - 1];
   }
 
+  /**
+   * Get launcher for specified component mapping
+   *
+   * @param componentMapping
+   * @param viewContainerRef
+   * @param elementInjector
+   */
   getLauncher(
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,

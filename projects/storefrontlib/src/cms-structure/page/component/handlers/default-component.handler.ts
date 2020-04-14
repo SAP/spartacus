@@ -10,6 +10,10 @@ import { ComponentHandler } from './component-handler';
 import { Observable } from 'rxjs';
 import { CmsComponentMapping, Priority } from '@spartacus/core';
 
+/**
+ * Default component handler used for dynamically launching cms components implemented
+ * as native Angular components.
+ */
 @Injectable({
   providedIn: 'root',
 })
