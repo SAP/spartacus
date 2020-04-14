@@ -62,14 +62,13 @@ export class FacetComponent {
     const host: HTMLElement = this.elementRef.nativeElement;
     const isLocked = this.keyboardFocus?.isLocked;
 
+    this.facetService.toggle(this.facet, this.isExpanded);
+
     if (!isLocked || this.isExpanded) {
-      this.facetService.toggleExpand(this.facet);
       host.focus();
       // we stop propagating the event as otherwise the focus on the host will trigger
       // an unlock event from the LockFocus directive.
       event.stopPropagation();
-    } else {
-      this.facetService.toggleExpand(this.facet, true);
     }
   }
 
@@ -99,6 +98,6 @@ export class FacetComponent {
   }
 
   getLinkParams(value: FacetValue) {
-    return this.facetService.getLinkParams(value.query.query.value);
+    return this.facetService.getLinkParams(value.query?.query.value);
   }
 }

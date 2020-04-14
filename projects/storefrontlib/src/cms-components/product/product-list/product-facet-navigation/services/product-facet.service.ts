@@ -43,7 +43,7 @@ export class ProductFacetService {
    * Observes the facets and active facets for the given page. The facet data
    * is provided in a `FacetList`.
    */
-  facetList$: Observable<FacetList> = this.searchResult$.pipe(
+  readonly facetList$: Observable<FacetList> = this.searchResult$.pipe(
     map(
       (result: ProductSearchPage) =>
         ({

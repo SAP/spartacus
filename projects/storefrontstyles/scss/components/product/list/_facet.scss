@@ -41,54 +41,56 @@ $intialExpandedFacetsLarge: 3 !default;
 
   @include media-breakpoint-down(md) {
     &:nth-of-type(-n + #{$intialExpandedFacets}) {
-      &.toggled {
+      &.collapsed {
         .collapse-icon,
         a,
         button:not(.heading) {
           display: none;
         }
       }
-      &:not(.toggled) .expand-icon {
+      &:not(.collapsed) .expand-icon {
         display: none;
       }
     }
     &:nth-of-type(n + #{$intialExpandedFacets + 1}) {
-      &:not(.toggled) {
+      &:not(.expanded) {
         .collapse-icon,
         a,
         button:not(.heading) {
           display: none;
         }
       }
-      &.toggled .expand-icon {
+      &.expanded .expand-icon {
         display: none;
       }
     }
   }
 
   @include media-breakpoint-up(lg) {
+    // first number of facets
     &:nth-of-type(-n + #{$intialExpandedFacetsLarge}) {
-      &.toggled {
+      &.collapsed {
         .collapse-icon,
         a,
         button:not(.heading) {
           display: none;
         }
       }
-      &:not(.toggled) .expand-icon {
+      &:not(.collapsed) .expand-icon {
         display: none;
       }
     }
 
+    // other facets lower in the list
     &:nth-of-type(n + #{$intialExpandedFacetsLarge + 1}) {
-      &:not(.toggled) {
+      &:not(.expanded) {
         .collapse-icon,
         a,
         button:not(.heading) {
           display: none;
         }
       }
-      &.toggled .expand-icon {
+      &.expanded .expand-icon {
         display: none;
       }
     }

@@ -25,6 +25,7 @@
     [facet]="facet"
     [cxFocus]="{ lock: true, trap: true, autofocus: 'a' }"
     (unlock)="expandFacetGroup(facet, facetRef)"
-    [class.toggled]="isToggled(facet) | async"
+    [class.expanded]="isExpanded(facet) | async"
+    [class.collapsed]="isCollapsed(facet) | async"
   ></cx-facet>
 </div>

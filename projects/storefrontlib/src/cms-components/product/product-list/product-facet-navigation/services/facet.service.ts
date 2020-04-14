@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { Facet } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { FacetCollapseState, FacetList } from '../facet.model';
+import { FacetCollapseState, FacetList, ToggleState } from '../facet.model';
 import { ProductFacetService } from './product-facet.service';
 
 /**
- * Provides access to the facets as well as UI state for the facets.
+ * Provides access to the facets as well as their UI state. The UI state
+ * represents user related changes on the facets, such as expanding or
+ * collapsing a facet group or expanding the number of _visible_ facet values.
  */
 @Injectable({
   providedIn: 'root',
@@ -18,29 +20,20 @@ export class FacetService {
    */
   protected facetState = new Map<string, BehaviorSubject<FacetCollapseState>>();
 
-  // will likely be dropped once we move to cxRoute
-  protected queryCodec: HttpUrlEncodingCodec = new HttpUrlEncodingCodec();
-
   constructor(protected productFacetService: ProductFacetService) {}
 
+  /**
+   * Observes the facets for the given page and configures the initial UI state.
+   *
+   * Facets are configured on each emission so that we keep the facet UI state.
+   * This is mainly done to keep the state during usage of the facet, but also
+   * benefitial when the facets are rebuild while using them.
+   */
   facetList$: Observable<FacetList> = this.productFacetService.facetList$.pipe(
     tap((facetList) => {
-      // facets are configured on each emission so that we keep the facet UI state
-      // this is mainly done to keep the state during usage of the facet, but also
-      // benefitial to keep the state when the facets are rebuild while using them.
-      facetList.facets.forEach((facet) => this.configureFacet(facet));
+      facetList.facets.forEach((facet) => this.initialize(facet));
     })
   );
-
-  /**
-   * Returns the UI state for the facet.
-   *
-   * The state is initialized using the `initialize` method.
-   */
-  protected getStateSnapshot(facet: Facet): FacetCollapseState {
-    this.initialize(facet);
-    return this.facetState.get(facet.name).value;
-  }
 
   /**
    * Returns the observed UI state for the facet.
@@ -53,21 +46,30 @@ export class FacetService {
   }
 
   /**
+   * Returns the UI state for the facet.
+   *
+   * The state is initialized using the `initialize` method.
+   */
+  protected getStateSnapshot(facet: Facet): FacetCollapseState {
+    return (this.getState(facet) as BehaviorSubject<FacetCollapseState>).value;
+  }
+
+  /**
    * Toggles the facet expanded state. If the expanded state becomes false,
    * the visible values will decrease to the top values only.
    *
    * If the optional value argument is provided the expanded state will be set
    * to this value, regardless of the current `expanded` state.
    */
-  toggleExpand(facet: Facet, value?: boolean) {
+  toggle(facet: Facet, isExpanded: boolean): void {
     const state = this.getStateSnapshot(facet);
 
     const toggledState = {
-      toggled: value ?? !state.toggled,
+      toggled: isExpanded ? ToggleState.COLLAPSED : ToggleState.EXPANDED,
     } as FacetCollapseState;
 
-    if (!state.maxVisible) {
-      toggledState.maxVisible = state.maxVisible = state.topVisible;
+    if (toggledState.toggled === ToggleState.COLLAPSED) {
+      toggledState.maxVisible = state.topVisible;
     }
 
     this.updateState(facet, toggledState);
@@ -91,44 +93,25 @@ export class FacetService {
   }
 
   /**
-   * Configures the intial state of the facets.
-   *
-   * We only initialize the facet configuration once, and let the user
-   * behaviour drive the future state of the facet.
+   * Persists the facet state and initializes the default values for the top
+   * and max visible values.
    */
-  protected configureFacet(facet: Facet) {
-    if (!this.hasState(facet)) {
-      this.initialize(facet, true);
-    }
-
-    // we do update the default expand state each time the facet is configured
-    this.updateState(facet, {
-      toggled: this.getStateSnapshot(facet).toggled,
-    } as FacetCollapseState);
-  }
-
-  protected initialize(facet: Facet, forceInitialize: boolean = false) {
+  protected initialize(facet: Facet): void {
     if (!this.hasState(facet)) {
       this.facetState.set(
         facet.name,
         new BehaviorSubject({
-          topVisible: facet.topValueCount,
-          maxVisible: facet.topValueCount,
-        })
+          topVisible: facet.topValueCount || 0,
+          maxVisible: facet.topValueCount || 0,
+        } as FacetCollapseState)
       );
-    } else if (forceInitialize) {
-      this.updateState(facet, {
-        topVisible: facet.topValueCount,
-        maxVisible: facet.topValueCount,
-      } as FacetCollapseState);
     }
   }
 
   /**
-   *
    * Updates the state of the facet in the local facet map.
    */
-  protected updateState(facet: Facet, property: FacetCollapseState) {
+  protected updateState(facet: Facet, property: FacetCollapseState): void {
     const state = { ...this.getStateSnapshot(facet), ...property };
     this.facetState.get(facet.name).next(state);
   }
@@ -138,6 +121,6 @@ export class FacetService {
   }
 
   getLinkParams(query: string) {
-    return { query: this.queryCodec.decodeValue(query) };
+    return { query: new HttpUrlEncodingCodec().decodeValue(query) };
   }
 }

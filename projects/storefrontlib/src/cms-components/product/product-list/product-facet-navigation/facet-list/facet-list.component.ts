@@ -11,7 +11,7 @@ import { FocusConfig } from 'projects/storefrontlib/src/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
-import { DialogMode, FacetList } from '../facet.model';
+import { DialogMode, FacetList, ToggleState } from '../facet.model';
 import { FacetComponent } from '../facet/facet.component';
 import { FacetService } from '../services/facet.service';
 
@@ -51,22 +51,27 @@ export class FacetListComponent {
    */
   expandFacetGroup(facet: Facet, ref: FacetComponent) {
     if (!ref.isExpanded) {
-      this.facetService.toggleExpand(facet);
+      // this.facetService.toggleExpand(facet);
+      this.facetService.toggle(facet, ref.isExpanded);
     }
   }
 
   /**
-   * Indicates that the facet group has been toggled, which means
-   * that it's either collapsed or expanded.
-   *
-   * The actual expanded/collapsed experience is driven by the CSS and
-   * could vary for different media queries.
-   *
+   * Indicates that the facet group has been expanded.
    */
-  isToggled(facet: Facet): Observable<boolean> {
+  isExpanded(facet: Facet): Observable<boolean> {
     return this.facetService
       .getState(facet)
-      .pipe(map((value) => value.toggled));
+      .pipe(map((value) => value.toggled === ToggleState.EXPANDED));
+  }
+
+  /**
+   * Indicates that the facet group has been collapsed.
+   */
+  isCollapsed(facet: Facet): Observable<boolean> {
+    return this.facetService
+      .getState(facet)
+      .pipe(map((value) => value.toggled === ToggleState.COLLAPSED));
   }
 
   /**
