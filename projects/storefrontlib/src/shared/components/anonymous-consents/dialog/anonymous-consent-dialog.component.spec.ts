@@ -14,9 +14,7 @@ import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.comp
 
 @Component({
   selector: 'cx-spinner',
-  template: `
-    <div>spinner</div>
-  `,
+  template: ` <div>spinner</div> `,
 })
 class MockCxSpinnerComponent {}
 
@@ -37,11 +35,6 @@ class MockConsentManagementFormComponent {
   consentTemplate: ConsentTemplate;
   @Input()
   requiredConsents: string[] = [];
-  @Input()
-  isAnonymousConsentsEnabled = false;
-  // TODO(issue:4989) Anonymous consents - remove
-  @Input()
-  isLevel13 = false;
   @Input()
   consent: AnonymousConsent;
 }

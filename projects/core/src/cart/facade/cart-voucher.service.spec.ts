@@ -77,23 +77,31 @@ describe('CartVoucherService', () => {
     });
 
     it('should return the error flag', () => {
-      store.dispatch(new CartActions.CartAddVoucherFail('error'));
+      store.dispatch(
+        new CartActions.CartAddVoucherFail({
+          error: 'error',
+          userId,
+          cartId: cart.code,
+          voucherId,
+        })
+      );
       service
         .getAddVoucherResultError()
-        .subscribe(result => expect(result).toEqual(true))
+        .subscribe((result) => expect(result).toEqual(true))
         .unsubscribe();
     });
 
     it('should return the success flag', () => {
       store.dispatch(
         new CartActions.CartAddVoucherSuccess({
-          userId: userId,
+          userId,
           cartId: cart.code,
+          voucherId,
         })
       );
       service
         .getAddVoucherResultSuccess()
-        .subscribe(result => expect(result).toEqual(true))
+        .subscribe((result) => expect(result).toEqual(true))
         .unsubscribe();
     });
 
@@ -108,7 +116,7 @@ describe('CartVoucherService', () => {
       let result = false;
       service
         .getAddVoucherResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);

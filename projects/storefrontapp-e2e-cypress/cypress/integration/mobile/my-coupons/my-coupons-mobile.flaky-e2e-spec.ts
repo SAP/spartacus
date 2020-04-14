@@ -3,10 +3,11 @@ import { visitHomePage } from '../../../helpers/checkout-flow';
 import * as myCoupons from '../../../helpers/my-coupons';
 import { formats } from '../../../sample-data/viewports';
 
-describe(`${formats.mobile.width +
-  1}p resolution - My coupons test for anonymous user`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - My coupons test for anonymous user`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
@@ -22,8 +23,9 @@ describe(`${formats.mobile.width +
     cartCoupon.applyMyCouponAsAnonymous(cartCoupon.myCouponCode2);
   });
 
-  describe(`${formats.mobile.width +
-    1}p resolution - claim coupon test for anonymous user`, () => {
+  describe(`${
+    formats.mobile.width + 1
+  }p resolution - claim coupon test for anonymous user`, () => {
     before(() => {
       cy.viewport(formats.mobile.width, formats.mobile.height);
       myCoupons.createStandardUser();
@@ -49,14 +51,15 @@ describe(`${formats.mobile.width +
   });
 });
 
-describe(`${formats.mobile.width +
-  1}p resolution - My coupons test for login user`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - My coupons test for login user`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
   beforeEach(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
       win.localStorage.clear();
     });
@@ -83,10 +86,11 @@ describe(`${formats.mobile.width +
   });
 });
 
-describe(`${formats.mobile.width +
-  1}p resolution - My coupons test for pagination and sort`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - My coupons test for pagination and sort`, () => {
   before(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
       win.localStorage.clear();
     });

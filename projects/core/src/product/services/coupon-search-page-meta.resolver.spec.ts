@@ -131,7 +131,7 @@ describe('CouponSearchPageResolver', () => {
       let result;
       service
         .resolveTitle()
-        .subscribe(title => (result = title))
+        .subscribe((title) => (result = title))
         .unsubscribe();
       expect(result).toEqual(
         'pageMetaResolver.search.findProductTitle count:3 coupon:coupon1'
@@ -144,7 +144,7 @@ describe('CouponSearchPageResolver', () => {
       let result: BreadcrumbMeta[];
       service
         .resolveBreadcrumbs()
-        .subscribe(breadcrumb => (result = breadcrumb))
+        .subscribe((breadcrumb) => (result = breadcrumb))
         .unsubscribe();
 
       expect(result.length).toEqual(1);
@@ -157,7 +157,7 @@ describe('CouponSearchPageResolver', () => {
       let result: BreadcrumbMeta[];
       service
         .resolveBreadcrumbs()
-        .subscribe(breadcrumb => (result = breadcrumb))
+        .subscribe((breadcrumb) => (result = breadcrumb))
         .unsubscribe();
 
       expect(result.length).toEqual(2);

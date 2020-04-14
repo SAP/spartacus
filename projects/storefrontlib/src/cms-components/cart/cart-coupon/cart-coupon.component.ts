@@ -20,7 +20,7 @@ import { map, tap } from 'rxjs/operators';
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;
-  form: FormGroup;
+  couponForm: FormGroup;
   cartIsLoading$: Observable<boolean>;
   cart$: Observable<Cart>;
   cartId: string;
@@ -87,24 +87,26 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
     this.cartIsLoading$ = this.activeCartService
       .isStable()
-      .pipe(map(loaded => !loaded));
+      .pipe(map((loaded) => !loaded));
 
     this.cartVoucherService.resetAddVoucherProcessingState();
 
-    this.form = this.formBuilder.group({
+    this.couponForm = this.formBuilder.group({
       couponCode: ['', [Validators.required]],
     });
 
+    // TODO(#7241): Replace process subscriptions with event listeners and drop process for ADD_VOUCHER
     this.subscription.add(
       this.cartVoucherService
         .getAddVoucherResultSuccess()
-        .subscribe(success => {
+        .subscribe((success) => {
           this.onSuccess(success);
         })
     );
 
+    // TODO(#7241): Replace process subscriptions with event listeners and drop process for ADD_VOUCHER
     this.subscription.add(
-      this.cartVoucherService.getAddVoucherResultError().subscribe(error => {
+      this.cartVoucherService.getAddVoucherResultError().subscribe((error) => {
         this.onError(error);
       })
     );
@@ -121,7 +123,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   onSuccess(success: boolean) {
     if (success) {
-      this.form.reset();
+      this.couponForm.reset();
       this.cartVoucherService.resetAddVoucherProcessingState();
     }
   }
@@ -132,21 +134,25 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   ): void {
     this.applicableCoupons = coupons || [];
     if (cart.appliedVouchers) {
-      cart.appliedVouchers.forEach(appliedVoucher => {
+      cart.appliedVouchers.forEach((appliedVoucher) => {
         this.applicableCoupons = this.applicableCoupons.filter(
-          coupon => coupon.couponId !== appliedVoucher.code
+          (coupon) => coupon.couponId !== appliedVoucher.code
         );
       });
     }
   }
 
   applyVoucher(): void {
-    if (!this.form.valid) {
-      this.form.markAsTouched();
-      return;
+    if (this.couponForm.valid) {
+      this.cartVoucherService.addVoucher(
+        this.couponForm.value.couponCode,
+        this.cartId
+      );
+    } else {
+      this.couponForm.markAllAsTouched();
     }
-    this.cartVoucherService.addVoucher(this.form.value.couponCode, this.cartId);
   }
+
   applyCustomerCoupon(couponId: string): void {
     this.cartVoucherService.addVoucher(couponId, this.cartId);
     this.couponBoxIsActive = false;

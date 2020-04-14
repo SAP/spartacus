@@ -31,12 +31,13 @@ describe('Multi Cart selectors', () => {
 
   function loadCart() {
     store.dispatch(
-      new CartActions.LoadMultiCartSuccess({
+      new CartActions.LoadCartSuccess({
         cart: testCart,
         userId: 'userId',
         extraData: {
           active: true,
         },
+        cartId: testCart.code,
       })
     );
   }
@@ -61,7 +62,7 @@ describe('Multi Cart selectors', () => {
       let result;
       store
         .pipe(select(MultiCartSelectors.getMultiCartState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({
         active: '',
@@ -96,7 +97,7 @@ describe('Multi Cart selectors', () => {
       let result;
       store
         .pipe(select(MultiCartSelectors.getMultiCartEntities))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({
         entities: {},
@@ -125,7 +126,7 @@ describe('Multi Cart selectors', () => {
         .pipe(
           select(MultiCartSelectors.getCartEntitySelectorFactory(testCart.code))
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({
         loading: false,
@@ -152,7 +153,7 @@ describe('Multi Cart selectors', () => {
       let result;
       store
         .pipe(select(MultiCartSelectors.getCartSelectorFactory(testCart.code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(undefined);
 
@@ -171,7 +172,7 @@ describe('Multi Cart selectors', () => {
             MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code)
           )
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 
@@ -192,7 +193,7 @@ describe('Multi Cart selectors', () => {
             )
           )
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 
@@ -211,7 +212,7 @@ describe('Multi Cart selectors', () => {
             MultiCartSelectors.getCartEntriesSelectorFactory(testCart.code)
           )
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 
@@ -233,7 +234,7 @@ describe('Multi Cart selectors', () => {
             )
           )
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(undefined);
 
@@ -248,7 +249,7 @@ describe('Multi Cart selectors', () => {
       let result;
       store
         .pipe(select(MultiCartSelectors.getActiveCartId))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual('');
 

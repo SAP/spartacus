@@ -153,12 +153,12 @@ describe('ProductFacetNavigationComponent', () => {
     it('should toggle facet after clicking the title', () => {
       const group = element.query(By.css('.cx-facet-group'));
       const trigger = group.children
-        .find(child =>
+        .find((child) =>
           child.nativeElement.className.includes('cx-facet-header')
         )
         .query(By.css('.cx-facet-header-link')).nativeElement;
       const getList = () =>
-        group.children.find(child =>
+        group.children.find((child) =>
           child.nativeElement.className.includes('cx-facet-list')
         );
       let list = getList();

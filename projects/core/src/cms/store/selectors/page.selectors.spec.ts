@@ -57,7 +57,7 @@ describe('Cms PageData Selectors', () => {
       let result: IndexType;
       store
         .pipe(select(CmsSelectors.getPageStateIndex))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       const expectedResult: IndexType = {
@@ -89,7 +89,7 @@ describe('Cms PageData Selectors', () => {
         .pipe(
           select(CmsSelectors.getPageStateIndexEntityLoaderState(pageContext))
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -110,7 +110,7 @@ describe('Cms PageData Selectors', () => {
       let result: LoaderState<string>;
       store
         .pipe(select(CmsSelectors.getPageStateIndexLoaderState(pageContext)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -127,7 +127,7 @@ describe('Cms PageData Selectors', () => {
       let result: LoaderState<string>;
       store
         .pipe(select(CmsSelectors.getPageStateIndexLoaderState(pageContext)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -146,7 +146,7 @@ describe('Cms PageData Selectors', () => {
       let result: string;
       store
         .pipe(select(CmsSelectors.getPageStateIndexValue(pageContext)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual('homepage');
@@ -160,7 +160,7 @@ describe('Cms PageData Selectors', () => {
       let result: { [id: string]: Page };
       store
         .pipe(select(CmsSelectors.getPageEntities))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({ homepage: page });
@@ -174,7 +174,7 @@ describe('Cms PageData Selectors', () => {
       let result: Page;
       store
         .pipe(select(CmsSelectors.getPageData(pageContext)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(page);
@@ -188,7 +188,7 @@ describe('Cms PageData Selectors', () => {
       let result: string[];
       store
         .pipe(select(CmsSelectors.getPageComponentTypes(pageContext)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual([
@@ -210,7 +210,7 @@ describe('Cms PageData Selectors', () => {
             CmsSelectors.getCurrentSlotSelectorFactory(pageContext, 'left')
           )
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({ components });

@@ -68,7 +68,7 @@ describe('NotCheckoutAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(false);
@@ -76,10 +76,7 @@ describe('NotCheckoutAuthGuard', () => {
 
     it('should redirect to homepage', () => {
       spyOn(routing, 'go');
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(routing.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     });
   });
@@ -95,7 +92,7 @@ describe('NotCheckoutAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(false);
@@ -103,10 +100,7 @@ describe('NotCheckoutAuthGuard', () => {
 
     it('should redirect to cart page', () => {
       spyOn(routing, 'go');
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(routing.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
     });
   });
@@ -123,7 +117,7 @@ describe('NotCheckoutAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(true);

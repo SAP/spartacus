@@ -243,7 +243,7 @@ describe('PaymentMethodComponent', () => {
     });
   });
 
-  it('should get existing payment methods if they do not exist for login user', done => {
+  it('should get existing payment methods if they do not exist for login user', (done) => {
     spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
     spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(of([]));
     component.ngOnInit();
@@ -254,7 +254,7 @@ describe('PaymentMethodComponent', () => {
     });
   });
 
-  it('should not get existing payment methods for guest user', done => {
+  it('should not get existing payment methods for guest user', (done) => {
     spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
     spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(of([]));
     spyOn(mockActiveCartService, 'isGuestCart').and.returnValue(true);
@@ -274,7 +274,7 @@ describe('PaymentMethodComponent', () => {
     component.ngOnInit();
     let paymentMethods: PaymentDetails[];
     component.existingPaymentMethods$
-      .subscribe(data => {
+      .subscribe((data) => {
         paymentMethods = data;
       })
       .unsubscribe();
@@ -285,7 +285,7 @@ describe('PaymentMethodComponent', () => {
   it('should call getCardContent() to get payment method card data', () => {
     component
       .getCardContent(mockPaymentDetails)
-      .subscribe(card => {
+      .subscribe((card) => {
         expect(card.title).toEqual('');
         expect(card.textBold).toEqual('Name');
         expect(card.text).toEqual([
@@ -372,7 +372,7 @@ describe('PaymentMethodComponent', () => {
     const getContinueBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-primary'))
-        .find(el => el.nativeElement.innerText === 'common.continue');
+        .find((el) => el.nativeElement.innerText === 'common.continue');
 
     it('should be enabled when payment method is selected', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
@@ -407,7 +407,7 @@ describe('PaymentMethodComponent', () => {
     const getBackBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'common.back');
+        .find((el) => el.nativeElement.innerText === 'common.back');
 
     it('should call "goPrevious" function after being clicked', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
@@ -469,7 +469,9 @@ describe('PaymentMethodComponent', () => {
     const getAddNewPaymentBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'paymentForm.addNewPayment');
+        .find(
+          (el) => el.nativeElement.innerText === 'paymentForm.addNewPayment'
+        );
     const getNewPaymentForm = () =>
       fixture.debugElement.query(By.css('cx-payment-form'));
 

@@ -31,6 +31,7 @@ export class StarRatingComponent implements OnInit {
   /**
    * Emits the given rating when the user clicks on a star.
    */
+  // tslint:disable-next-line:no-output-native
   @Output() change = new EventEmitter<number>();
 
   private initialRate = 0;

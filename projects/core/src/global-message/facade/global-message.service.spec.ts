@@ -51,7 +51,7 @@ describe('GlobalMessageService', () => {
   ));
 
   it('Should be able to get all messages', () => {
-    service.get().subscribe(results => {
+    service.get().subscribe((results) => {
       expect(results).toEqual(mockMessages);
     });
   });

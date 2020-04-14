@@ -41,7 +41,7 @@ export class NavigationUIComponent implements OnDestroy {
   /**
    * Indicates whether the navigation should support flyout.
    * If flyout is set to true, the
-   * nested child navitation nodes will only appear on hover or focus.
+   * nested child navigation nodes will only appear on hover or focus.
    */
   @Input() @HostBinding('class.flyout') flyout = true;
 
@@ -63,7 +63,7 @@ export class NavigationUIComponent implements OnDestroy {
   ) {
     this.subscriptions.add(
       this.router.events
-        .pipe(filter(event => event instanceof NavigationEnd))
+        .pipe(filter((event) => event instanceof NavigationEnd))
         .subscribe(() => this.clear())
     );
     this.subscriptions.add(
@@ -80,7 +80,7 @@ export class NavigationUIComponent implements OnDestroy {
       if (event.type === 'keydown') {
         this.back();
       } else {
-        this.openNodes = this.openNodes.filter(n => n !== node);
+        this.openNodes = this.openNodes.filter((n) => n !== node);
         this.renderer.removeClass(node, 'is-open');
       }
     } else {
@@ -114,9 +114,11 @@ export class NavigationUIComponent implements OnDestroy {
     this.focusAfterPreviousClicked(event);
   }
 
-  getDepth(node: NavigationNode, depth = 0): number {
+  getTotalDepth(node: NavigationNode, depth = 0): number {
     if (node.children && node.children.length > 0) {
-      return Math.max(...node.children.map(n => this.getDepth(n, depth + 1)));
+      return Math.max(
+        ...node.children.map((n) => this.getTotalDepth(n, depth + 1))
+      );
     } else {
       return depth;
     }
@@ -168,8 +170,8 @@ export class NavigationUIComponent implements OnDestroy {
   private alignWrappersToRightIfStickOut() {
     const navs = <HTMLCollection>this.elemRef.nativeElement.childNodes;
     Array.from(navs)
-      .filter(node => node.tagName === 'NAV')
-      .forEach(nav => this.alignWrapperToRightIfStickOut(<HTMLElement>nav));
+      .filter((node) => node.tagName === 'NAV')
+      .forEach((nav) => this.alignWrapperToRightIfStickOut(<HTMLElement>nav));
   }
 
   private updateClasses(): void {
@@ -184,9 +186,5 @@ export class NavigationUIComponent implements OnDestroy {
     });
 
     this.isOpen = this.openNodes.length > 0;
-  }
-
-  isTabbable(node: any) {
-    return this.flyout && node.children && node.children.length;
   }
 }

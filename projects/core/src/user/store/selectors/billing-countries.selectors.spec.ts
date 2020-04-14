@@ -37,7 +37,7 @@ describe('Billing Countries Selectors', () => {
       let result: Country[];
       store
         .pipe(select(UsersSelectors.getAllBillingCountries))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 

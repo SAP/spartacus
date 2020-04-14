@@ -1,6 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Order, OrderHistoryList } from '../../model/order.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
@@ -12,8 +11,8 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserOrderService } from './user-order.service';
 
 class MockAuthService {
-  getOccUserId(): Observable<string> {
-    return of(OCC_USER_ID_CURRENT);
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
   }
 }
 
@@ -57,7 +56,7 @@ describe('UserOrderService', () => {
     let order: Order;
     service
       .getOrderDetails()
-      .subscribe(data => {
+      .subscribe((data) => {
         order = data;
       })
       .unsubscribe();
@@ -93,7 +92,7 @@ describe('UserOrderService', () => {
     let orderList: OrderHistoryList;
     service
       .getOrderHistoryList(1)
-      .subscribe(data => {
+      .subscribe((data) => {
         orderList = data;
       })
       .unsubscribe();
@@ -110,7 +109,7 @@ describe('UserOrderService', () => {
     let orderListLoaded: boolean;
     service
       .getOrderHistoryListLoaded()
-      .subscribe(data => {
+      .subscribe((data) => {
         orderListLoaded = data;
       })
       .unsubscribe();
@@ -144,7 +143,7 @@ describe('UserOrderService', () => {
     );
     service
       .getConsignmentTracking()
-      .subscribe(r => expect(r).toEqual({ trackingID: '1234567890' }))
+      .subscribe((r) => expect(r).toEqual({ trackingID: '1234567890' }))
       .unsubscribe();
   });
 
@@ -187,7 +186,7 @@ describe('UserOrderService', () => {
     );
     service
       .getCancelOrderLoading()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
@@ -195,7 +194,7 @@ describe('UserOrderService', () => {
     store.dispatch(new UserActions.CancelOrderSuccess());
     service
       .getCancelOrderSuccess()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 

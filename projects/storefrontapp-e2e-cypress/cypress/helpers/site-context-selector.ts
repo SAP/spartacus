@@ -74,11 +74,11 @@ export const CHECKOUT_PAYMENT_DETAILS_PATH = '/checkout/payment-details';
 export const CHECKOUT_REVIEW_ORDER_PATH = '/checkout/review-order';
 
 export function doPlaceOrder() {
-  cy.window().then(win => {
+  cy.window().then((win) => {
     const savedState = JSON.parse(
       win.localStorage.getItem('spartacus-local-data')
     );
-    cy.requireProductAddedToCart(savedState.auth).then(resp => {
+    cy.requireProductAddedToCart(savedState.auth).then((resp) => {
       cy.requireShippingAddressAdded(user.address, savedState.auth);
       cy.requireShippingMethodSelected(savedState.auth);
       cy.requirePaymentDone(savedState.auth);
@@ -95,11 +95,9 @@ export function addressBookNextStep() {
     'getDeliveryPage'
   );
 
-  cy.get('cx-shipping-address .btn-primary').click({ force: true });
+  cy.get('cx-shipping-address .btn-primary').click();
 
-  cy.wait(`@${deliveryPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
 
 export function deliveryModeNextStep() {
@@ -112,11 +110,9 @@ export function deliveryModeNextStep() {
     'getPaymentPage'
   );
 
-  cy.get('cx-delivery-mode .btn-primary').click({ force: true });
+  cy.get('cx-delivery-mode .btn-primary').click();
 
-  cy.wait(`@${paymentPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
 }
 
 export function paymentDetailsNextStep() {
@@ -126,11 +122,9 @@ export function paymentDetailsNextStep() {
 
   const reviewPage = waitForPage(CHECKOUT_REVIEW_ORDER_PATH, 'getReviewPage');
 
-  cy.get('cx-payment-method .btn-primary').click({ force: true });
+  cy.get('cx-payment-method .btn-primary').click();
 
-  cy.wait(`@${reviewPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
 }
 
 export function createRoute(request: string, alias: string): void {
@@ -159,7 +153,9 @@ export function siteContextChange(
   selectedOption: string,
   label: string
 ): void {
-  cy.visit(FULL_BASE_URL_EN_USD + pagePath);
+  if (pagePath !== null) {
+    cy.visit(FULL_BASE_URL_EN_USD + pagePath);
+  }
 
   let contextParam: string;
 
@@ -176,15 +172,11 @@ export function siteContextChange(
       throw new Error(`Unsupported context label : ${label}`);
     }
   }
-  cy.wait(`@${alias}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${alias}`).its('status').should('eq', 200);
 
   cy.route('GET', `*${contextParam}=${selectedOption}*`).as('switchedContext');
   switchSiteContext(selectedOption, label);
-  cy.wait('@switchedContext')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@switchedContext').its('status').should('eq', 200);
 }
 
 export function verifySiteContextChangeUrl(

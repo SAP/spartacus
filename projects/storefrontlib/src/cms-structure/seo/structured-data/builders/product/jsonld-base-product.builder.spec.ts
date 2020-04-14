@@ -39,7 +39,7 @@ describe('JsonLdBaseProductBuilder', () => {
   it('should build simple product schema', () => {
     service
       .build(simpeProductMock)
-      .subscribe(schema => {
+      .subscribe((schema) => {
         expect(schema).toEqual({
           sku: '123',
           name: 'Product 123',
@@ -52,7 +52,7 @@ describe('JsonLdBaseProductBuilder', () => {
   it('should build full base product schema', () => {
     service
       .build(completeProductMock)
-      .subscribe(schema => {
+      .subscribe((schema) => {
         expect(schema).toEqual({
           sku: '456',
           name: 'Product 456',
