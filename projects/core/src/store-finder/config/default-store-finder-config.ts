@@ -6,5 +6,6 @@ export const defaultStoreFinderConfig: StoreFinderConfig = {
     apiKey: '',
     scale: 5,
     selectedMarkerScale: 17,
-  },
+    radius: 50000
+  }
 };

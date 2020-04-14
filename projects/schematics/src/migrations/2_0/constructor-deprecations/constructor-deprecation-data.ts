@@ -51,6 +51,7 @@ import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migr
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
 import { PLACE_ORDER_COMPONENT_MIGRATION } from './data/place-order.component.migration';
 import { PAYMENT_FORM_COMPONENT_MIGRATION } from './data/payment-form.component.migration';
+import { STORE_FINDER_SEARCH_RESULT_COMPONENT_MIGRATION } from './data/store-finder-search-result.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -107,4 +108,5 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_INTERESTS_SERVICE_MIGRATION,
   USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION,
   PAYMENT_FORM_COMPONENT_MIGRATION,
+  STORE_FINDER_SEARCH_RESULT_COMPONENT_MIGRATION,
 ];

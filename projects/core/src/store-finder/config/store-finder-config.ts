@@ -4,5 +4,6 @@ export abstract class StoreFinderConfig {
     apiKey: string;
     scale: number;
     selectedMarkerScale: number;
+    radius: number;
   };
 }

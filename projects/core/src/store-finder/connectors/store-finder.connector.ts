@@ -6,7 +6,7 @@ import { PointOfService } from '../../model/point-of-service.model';
 import { GeoPoint } from '../../model/misc.model';
 import {
   StoreCount,
-  StoreFinderSearchPage,
+  StoreFinderSearchPage
 } from '../../model/store-finder.model';
 
 @Injectable({ providedIn: 'root' })
@@ -16,9 +16,10 @@ export class StoreFinderConnector {
   search(
     query: string,
     searchConfig: StoreFinderSearchConfig,
-    longitudeLatitude?: GeoPoint
+    longitudeLatitude?: GeoPoint,
+    radius?: number
   ): Observable<StoreFinderSearchPage> {
-    return this.adapter.search(query, searchConfig, longitudeLatitude);
+    return this.adapter.search(query, searchConfig, longitudeLatitude, radius);
   }
 
   getCounts(): Observable<StoreCount[]> {

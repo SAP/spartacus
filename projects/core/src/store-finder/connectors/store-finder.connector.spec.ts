@@ -42,16 +42,18 @@ describe('StoreFinderConnector', () => {
     const searchConfig: StoreFinderSearchConfig = {
       sort: 'ASC',
     };
+    const radius = 50000;
 
     let result;
     service
-      .search('query', searchConfig, geoPoint)
+      .search('query', searchConfig, geoPoint, radius)
       .subscribe((res) => (result = res));
     expect(result).toBe('adapter.search result');
     expect(adapter.search).toHaveBeenCalledWith(
       'query',
       searchConfig,
-      geoPoint
+      geoPoint,
+      radius
     );
   });
 

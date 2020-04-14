@@ -2,7 +2,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, StoreFinderService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  StoreFinderService,
+  StoreFinderConfig,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { StoreFinderSearchResultComponent } from './store-finder-search-result.component';
 
@@ -23,6 +27,12 @@ const mockStoreFinderService = {
   findStoresAction: jasmine.createSpy().and.returnValue(of({})),
 };
 
+const mockStoreFinderConfig = {
+  googleMaps: {
+    radius: 50000,
+  },
+};
+
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderSearchResultComponent;
   let fixture: ComponentFixture<StoreFinderSearchResultComponent>;
@@ -37,6 +47,7 @@ describe('StoreFinderListComponent', () => {
       providers: [
         { provide: StoreFinderService, useValue: mockStoreFinderService },
         { provide: ActivatedRoute, useClass: ActivatedRouteMock },
+        { provide: StoreFinderConfig, useValue: mockStoreFinderConfig },
       ],
     }).compileComponents();
   }));
@@ -95,6 +106,7 @@ describe('StoreFinderListComponent', () => {
       { currentPage: pageNumber },
       { longitude: 0, latitude: 0 },
       null,
+      undefined,
       undefined
     );
   });
