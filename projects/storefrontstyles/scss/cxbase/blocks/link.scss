@@ -20,5 +20,6 @@ a {
   display: inline-block;
   &:hover {
     color: var(--cx-color-primary);
+    text-decoration: underline;
   }
 }

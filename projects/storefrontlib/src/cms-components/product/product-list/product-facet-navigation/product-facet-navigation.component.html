@@ -74,14 +74,14 @@
                 </div>
               </li>
               <li
-                class="cx-facet-toggle-btn"
+                class="cx-facet-toggle-btn cx-action-link"
                 (click)="showLess(facet.name)"
                 *ngIf="showAllPerFacetMap.get(facet.name)"
               >
                 {{ 'productList.showLess' | cxTranslate }}
               </li>
               <li
-                class="cx-facet-toggle-btn"
+                class="cx-facet-toggle-btn cx-action-link"
                 (click)="showMore(facet.name)"
                 *ngIf="
                   !showAllPerFacetMap.get(facet.name) &&
