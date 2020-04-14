@@ -18,12 +18,12 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   LoaderState,
-  UserPaymentService,
   Region,
   UserAddressService,
+  UserPaymentService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription, BehaviorSubject } from 'rxjs';
-import { map, tap, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Card } from '../../../../../shared/components/card/card.component'; // tslint:disable-line
 import {
   ModalRef,
@@ -40,7 +40,6 @@ import { SuggestedAddressDialogComponent } from '../../shipping-address/address-
 export class PaymentFormComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
 
-  private checkboxSub: Subscription;
   private addressVerifySub: Subscription;
   suggestedAddressModalRef: ModalRef;
   months: string[] = [];
@@ -53,6 +52,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   sameAsShippingAddress = true;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  showSameAsShippingAddressCheckbox$: Observable<boolean>;
 
   @Input()
   setAsDefaultField: boolean;
@@ -128,11 +128,22 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
     this.loading$ = this.checkoutPaymentService.getSetPaymentDetailsResultProcess();
 
-    this.checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
-      (shouldShowCheckbox: boolean) => {
-        // this operation makes sure the checkbox is not checked if not shown and vice versa
+    this.showSameAsShippingAddressCheckbox$ = combineLatest([
+      this.countries$,
+      this.shippingAddress$,
+    ]).pipe(
+      map(([countries, address]) => {
+        return (
+          address?.country &&
+          !!countries.filter(
+            (country: Country): boolean =>
+              country.isocode === address.country.isocode
+          ).length
+        );
+      }),
+      tap((shouldShowCheckbox) => {
         this.sameAsShippingAddress = shouldShowCheckbox;
-      }
+      })
     );
 
     // verify the new added address
@@ -204,25 +215,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
   toggleSameAsShippingAddress(): void {
     this.sameAsShippingAddress = !this.sameAsShippingAddress;
-  }
-
-  /**
-   * Check if the shipping address can also be a billing address
-   *
-   * @memberof PaymentFormComponent
-   */
-  showSameAsShippingAddressCheckbox(): Observable<boolean> {
-    return combineLatest([this.countries$, this.shippingAddress$]).pipe(
-      map(([countries, address]) => {
-        return (
-          address?.country &&
-          !!countries.filter(
-            (country: Country): boolean =>
-              country.isocode === address.country.isocode
-          ).length
-        );
-      })
-    );
   }
 
   getAddressCardContent(address: Address): Card {
@@ -319,9 +311,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.checkboxSub) {
-      this.checkboxSub.unsubscribe();
-    }
     if (this.addressVerifySub) {
       this.addressVerifySub.unsubscribe();
     }
