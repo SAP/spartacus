@@ -50,10 +50,7 @@
       }
 
       .cx-actions {
-        button.link {
-          font-weight: var(--cx-font-weight-normal);
-          text-decoration: underline;
-        }
+        justify-content: flex-start;
       }
     }
   }

@@ -166,6 +166,7 @@
 
       &:hover {
         text-decoration: underline;
+        color: var(--cx-color-primary);
       }
     }
   }
@@ -211,7 +212,6 @@
 
       button.link {
         @include type('8');
-        color: var(--cx-color-text);
       }
     }
   }
