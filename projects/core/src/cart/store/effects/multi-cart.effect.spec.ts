@@ -3,7 +3,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-import { CheckoutActions } from '../../../checkout/store/actions';
 import { Cart } from '../../../model/cart.model';
 import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
@@ -68,8 +67,7 @@ describe('Multi Cart effect', () => {
         userId: 'userId',
         cartId: 'cartId',
       };
-      const action5 = new CheckoutActions.ClearCheckoutDeliveryMode(payload);
-      const action6 = new CartActions.CartAddVoucher({
+      const action = new CartActions.CartAddVoucher({
         ...payload,
         voucherId: 'voucherId',
       });
@@ -77,13 +75,11 @@ describe('Multi Cart effect', () => {
       const processesIncrementCompletion = new CartActions.CartProcessesIncrement(
         payload.cartId
       );
-      actions$ = hot('-e-f', {
-        e: action5,
-        f: action6,
+      actions$ = hot('-b', {
+        b: action,
       });
-      const expected = cold('-5-6', {
-        5: processesIncrementCompletion,
-        6: processesIncrementCompletion,
+      const expected = cold('-1', {
+        1: processesIncrementCompletion,
       });
       expect(cartEffects.processesIncrement$).toBeObservable(expected);
     });
