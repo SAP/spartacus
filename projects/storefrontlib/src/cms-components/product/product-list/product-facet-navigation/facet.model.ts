@@ -22,7 +22,7 @@ export interface FacetCollapseState {
    * Whether the toggle results in an expanded or collapsed state, depends on the
    * experience, which is controlled in CSS.
    */
-  toggled?: ToggleState;
+  toggled?: FacetGroupCollapsedState;
 
   /**
    * The top number of facet values that will be visible.
@@ -35,7 +35,8 @@ export interface FacetCollapseState {
    */
   maxVisible?: number;
 }
-export enum ToggleState {
+
+export enum FacetGroupCollapsedState {
   EXPANDED = 'EXPANDED',
   COLLAPSED = 'COLLAPSED',
 }

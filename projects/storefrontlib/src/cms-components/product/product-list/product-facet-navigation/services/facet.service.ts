@@ -3,7 +3,11 @@ import { Injectable } from '@angular/core';
 import { Facet } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { FacetCollapseState, FacetList, ToggleState } from '../facet.model';
+import {
+  FacetCollapseState,
+  FacetGroupCollapsedState,
+  FacetList,
+} from '../facet.model';
 import { ProductFacetService } from './product-facet.service';
 
 /**
@@ -65,10 +69,12 @@ export class FacetService {
     const state = this.getStateSnapshot(facet);
 
     const toggledState = {
-      toggled: isExpanded ? ToggleState.COLLAPSED : ToggleState.EXPANDED,
+      toggled: isExpanded
+        ? FacetGroupCollapsedState.COLLAPSED
+        : FacetGroupCollapsedState.EXPANDED,
     } as FacetCollapseState;
 
-    if (toggledState.toggled === ToggleState.COLLAPSED) {
+    if (toggledState.toggled === FacetGroupCollapsedState.COLLAPSED) {
       toggledState.maxVisible = state.topVisible;
     }
 

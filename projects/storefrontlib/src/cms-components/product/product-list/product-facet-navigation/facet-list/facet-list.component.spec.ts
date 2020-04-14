@@ -14,8 +14,8 @@ import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import {
   DialogMode,
   FacetCollapseState,
+  FacetGroupCollapsedState,
   FacetList,
-  ToggleState,
 } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { FacetListComponent } from './facet-list.component';
@@ -150,7 +150,9 @@ describe('FacetListComponent', () => {
     describe('collapsed', () => {
       beforeEach(() => {
         spyOn(service, 'getState').and.returnValue(
-          of({ toggled: ToggleState.COLLAPSED } as FacetCollapseState)
+          of({
+            toggled: FacetGroupCollapsedState.COLLAPSED,
+          } as FacetCollapseState)
         );
       });
 
@@ -190,7 +192,9 @@ describe('FacetListComponent', () => {
     describe('expanded', () => {
       beforeEach(() => {
         spyOn(service, 'getState').and.returnValue(
-          of({ toggled: ToggleState.EXPANDED } as FacetCollapseState)
+          of({
+            toggled: FacetGroupCollapsedState.EXPANDED,
+          } as FacetCollapseState)
         );
       });
 

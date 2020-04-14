@@ -1,7 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Breadcrumb, Facet } from '@spartacus/core';
 import { of } from 'rxjs';
-import { FacetCollapseState, FacetList, ToggleState } from '../facet.model';
+import {
+  FacetCollapseState,
+  FacetGroupCollapsedState,
+  FacetList,
+} from '../facet.model';
 import { FacetService } from './facet.service';
 import { ProductFacetService } from './product-facet.service';
 
@@ -148,7 +152,7 @@ describe('FacetService', () => {
         .subscribe((f) => (result = f))
         .unsubscribe();
 
-      expect(result.toggled).toEqual(ToggleState.EXPANDED);
+      expect(result.toggled).toEqual(FacetGroupCollapsedState.EXPANDED);
     });
 
     it('should collapse', () => {
@@ -159,7 +163,7 @@ describe('FacetService', () => {
         .subscribe((f) => (result = f))
         .unsubscribe();
 
-      expect(result.toggled).toEqual(ToggleState.COLLAPSED);
+      expect(result.toggled).toEqual(FacetGroupCollapsedState.COLLAPSED);
     });
   });
 

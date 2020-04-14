@@ -11,7 +11,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
-import { DialogMode, FacetList, ToggleState } from '../facet.model';
+import {
+  DialogMode,
+  FacetGroupCollapsedState,
+  FacetList,
+} from '../facet.model';
 import { FacetComponent } from '../facet/facet.component';
 import { FacetService } from '../services/facet.service';
 
@@ -62,7 +66,9 @@ export class FacetListComponent {
   isExpanded(facet: Facet): Observable<boolean> {
     return this.facetService
       .getState(facet)
-      .pipe(map((value) => value.toggled === ToggleState.EXPANDED));
+      .pipe(
+        map((value) => value.toggled === FacetGroupCollapsedState.EXPANDED)
+      );
   }
 
   /**
@@ -71,7 +77,9 @@ export class FacetListComponent {
   isCollapsed(facet: Facet): Observable<boolean> {
     return this.facetService
       .getState(facet)
-      .pipe(map((value) => value.toggled === ToggleState.COLLAPSED));
+      .pipe(
+        map((value) => value.toggled === FacetGroupCollapsedState.COLLAPSED)
+      );
   }
 
   /**
