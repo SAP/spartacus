@@ -195,6 +195,7 @@ export class CartEffects {
     withdrawOn(this.contextChange$)
   );
 
+  // TODO(#7241): Remove when AddVoucherSuccess actions will extend processes actions
   @Effect()
   refresh$: Observable<
     CartActions.LoadCart | CartActions.CartProcessesDecrement
@@ -212,6 +213,7 @@ export class CartEffects {
     )
   );
 
+  // TODO: Switch to automatic cart reload on processes count reaching 0 for cart entity
   @Effect()
   refreshWithoutProcesses$: Observable<
     CartActions.LoadCart
