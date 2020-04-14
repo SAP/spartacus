@@ -7,6 +7,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  ViewContainerRef,
 } from '@angular/core';
 import {
   CmsService,
@@ -16,6 +17,7 @@ import {
 import { Subscription } from 'rxjs';
 import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentHandlerService } from './services/component-handler.service';
+import { CmsDataService } from './services/cms-data.service';
 
 @Directive({
   selector: '[cxComponentWrapper]',
@@ -35,12 +37,14 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   private launcherResource?: Subscription;
 
   constructor(
-    protected injector: Injector,
+    protected vcr: ViewContainerRef,
     protected cmsMappingService: CmsMappingService,
-    protected cmsService: CmsService,
+    protected injector: Injector,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
-    protected componentHandler: ComponentHandlerService
+    protected componentHandler: ComponentHandlerService,
+    protected cmsComponentInjector: CmsDataService,
+    protected cmsService: CmsService // TODO: remove, move responsibility to different place
   ) {}
 
   ngOnInit() {
@@ -58,12 +62,20 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       this.cxComponentWrapper.flexType
     );
 
+    if (!componentMapping) {
+      return;
+    }
+
     this.launcherResource = this.componentHandler
       .resolve(componentMapping)
       ?.launcher(
-        this.cxComponentWrapper.flexType,
-        this.cxComponentWrapper.uid,
-        this.injector
+        componentMapping,
+        this.vcr,
+        this.cmsComponentInjector.getInjectorForComponent(
+          this.cxComponentWrapper.flexType,
+          this.cxComponentWrapper.uid,
+          this.injector
+        )
       )
       ?.subscribe(
         ([elementRef, componentRef]: [ElementRef, ComponentRef<any>]) => {

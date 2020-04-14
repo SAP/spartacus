@@ -8,21 +8,12 @@ import {
 } from '@angular/core';
 import { ComponentHandler } from './component-handler';
 import { Observable } from 'rxjs';
-
-import { CmsDataService } from '../services/cms-data.service';
 import { CmsComponentMapping, Priority } from '@spartacus/core';
-import { CmsMappingService } from '../../../services/cms-mapping.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DefaultComponentHandler implements ComponentHandler {
-  constructor(
-    protected componentFactoryResolver: ComponentFactoryResolver,
-    protected cmsMapping: CmsMappingService,
-    private cmsData: CmsDataService
-  ) {}
-
   hasMatch(componentMapping: CmsComponentMapping): boolean {
     return typeof componentMapping.component === 'function';
   }
@@ -32,12 +23,14 @@ export class DefaultComponentHandler implements ComponentHandler {
   }
 
   launcher(
-    componentType: string,
-    uid: string,
-    directiveInjector: Injector
+    componentMapping: CmsComponentMapping,
+    viewContainerRef: ViewContainerRef,
+    elementInjector?: Injector
   ): Observable<[ElementRef, ComponentRef<any>]> {
     return new Observable<[ElementRef, ComponentRef<any>]>((observer) => {
       let cmpRef: ComponentRef<any>;
+
+      const injector = elementInjector ?? viewContainerRef.injector;
 
       const dispose = () => {
         if (cmpRef) {
@@ -45,20 +38,15 @@ export class DefaultComponentHandler implements ComponentHandler {
         }
       };
 
-      const factory = this.getComponentFactoryByCode(componentType);
+      const factory = this.getComponentFactoryByCode(
+        injector,
+        componentMapping.component
+      );
 
       if (factory) {
-        cmpRef = directiveInjector
-          .get(ViewContainerRef)
-          .createComponent(
-            factory,
-            undefined,
-            this.cmsData.getInjectorForComponent(
-              componentType,
-              uid,
-              directiveInjector
-            )
-          );
+        const vcRef = viewContainerRef;
+
+        cmpRef = vcRef.createComponent(factory, undefined, injector);
         observer.next([cmpRef.location, cmpRef]);
       }
 
@@ -66,22 +54,14 @@ export class DefaultComponentHandler implements ComponentHandler {
     });
   }
 
-  private getComponentFactoryByCode(typeCode: string): any {
-    const component = this.cmsMapping.getComponentMapping(typeCode)?.component;
+  private getComponentFactoryByCode(injector: Injector, component: any): any {
     if (!component) {
       return null;
     }
-    const factory = this.componentFactoryResolver.resolveComponentFactory(
-      component
-    );
+    const factory = injector
+      .get(ComponentFactoryResolver)
+      .resolveComponentFactory(component);
 
-    if (!factory) {
-      console.warn(
-        `No component factory found for the CMS component type '${typeCode}'.\n`,
-        `Make sure you add a component to the 'entryComponents' array in the NgModule.`
-      );
-      return null;
-    }
     return factory;
   }
 }

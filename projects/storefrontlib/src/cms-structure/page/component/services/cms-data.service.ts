@@ -12,7 +12,7 @@ export class CmsDataService {
     protected injector: Injector
   ) {}
 
-  public getCmsDataForComponent<T extends CmsComponent>(
+  private getCmsDataForComponent<T extends CmsComponent>(
     uid: string,
     parentInjector?: Injector
   ): CmsComponentData<T> {

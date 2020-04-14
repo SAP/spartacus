@@ -9,19 +9,16 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ComponentHandler } from './component-handler';
-import { CmsDataService } from '../services/cms-data.service';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { CxApiService } from '../services/cx-api.service';
-import { CmsMappingService } from '../../../services/cms-mapping.service';
 import { CmsComponentMapping, Priority } from '@spartacus/core';
+import { CmsComponentData } from '../../model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WebComponentHandler implements ComponentHandler {
   constructor(
-    protected cmsMapping: CmsMappingService,
-    private cmsData: CmsDataService,
     @Inject(DOCUMENT) protected document: any,
     @Inject(PLATFORM_ID) protected platform: any
   ) {}
@@ -40,15 +37,15 @@ export class WebComponentHandler implements ComponentHandler {
   }
 
   launcher(
-    componentType: string,
-    uid: string,
-    directiveInjector: Injector
+    componentMapping: CmsComponentMapping,
+    viewContainerRef: ViewContainerRef,
+    elementInjector?: Injector
   ): Observable<[ElementRef]> {
     return new Observable<[ElementRef]>((observer) => {
       let webElement;
       let active = true;
 
-      const renderer = directiveInjector.get(Renderer2);
+      const renderer = elementInjector.get(Renderer2);
 
       const disposeFunc = () => {
         active = false;
@@ -57,46 +54,44 @@ export class WebComponentHandler implements ComponentHandler {
         }
       };
 
-      this.initWebComponent(componentType, renderer).then((elementName) => {
-        if (elementName) {
-          webElement = renderer.createElement(elementName);
+      this.initWebComponent(componentMapping.component, renderer).then(
+        (elementName) => {
+          if (elementName) {
+            webElement = renderer.createElement(elementName);
 
-          const cmsComponentData = this.cmsData.getCmsDataForComponent(
-            uid,
-            directiveInjector
-          );
+            const cmsComponentData = (
+              elementInjector ?? viewContainerRef.injector
+            ).get(CmsComponentData);
 
-          webElement.cxApi = {
-            ...directiveInjector.get(CxApiService),
-            cmsComponentData,
-          };
+            webElement.cxApi = {
+              ...elementInjector.get(CxApiService),
+              cmsComponentData,
+            };
 
-          renderer.appendChild(
-            directiveInjector.get(ViewContainerRef).element.nativeElement
-              .parentElement,
-            webElement
-          );
+            renderer.appendChild(
+              viewContainerRef.element.nativeElement.parentElement,
+              webElement
+            );
 
-          observer.next([new ElementRef(webElement)]);
+            observer.next([new ElementRef(webElement)]);
 
-          if (!active) {
-            disposeFunc();
+            if (!active) {
+              disposeFunc();
+            }
           }
         }
-      });
+      );
 
       return disposeFunc;
     });
   }
 
   private initWebComponent(
-    componentType: string,
+    component: string,
     renderer: Renderer2
   ): Promise<string> {
     return new Promise((resolve) => {
-      const [path, selector] = this.cmsMapping
-        .getComponentMapping(componentType)
-        ?.component.split('#');
+      const [path, selector] = component.split('#');
 
       let script = this.loadedWebComponents[path];
 
