@@ -17,7 +17,7 @@ import {
 import { Subscription } from 'rxjs';
 import { CmsMappingService } from '../../services/cms-mapping.service';
 import { ComponentHandlerService } from './services/component-handler.service';
-import { CmsDataService } from './services/cms-data.service';
+import { CmsInjectorService } from './services/cms-injector.service';
 
 @Directive({
   selector: '[cxComponentWrapper]',
@@ -43,8 +43,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
-    protected cmsComponentInjector: CmsDataService,
-    protected cmsService: CmsService // TODO: remove, move responsibility to different place
+    protected cmsInjector: CmsInjectorService,
+    protected cmsService: CmsService // TODO: remove, move smartedit detection responsibility to different layer/service
   ) {}
 
   ngOnInit() {
@@ -67,11 +67,10 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     }
 
     this.launcherResource = this.componentHandler
-      .resolve(componentMapping)
-      ?.launcher(
+      .getLauncher(
         componentMapping,
         this.vcr,
-        this.cmsComponentInjector.getInjectorForComponent(
+        this.cmsInjector.getInjectorForComponent(
           this.cxComponentWrapper.flexType,
           this.cxComponentWrapper.uid,
           this.injector

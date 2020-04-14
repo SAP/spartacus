@@ -1,6 +1,16 @@
-import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
+import {
+  ComponentRef,
+  ElementRef,
+  Inject,
+  Injectable,
+  Injector,
+  isDevMode,
+  Optional,
+  ViewContainerRef,
+} from '@angular/core';
 import { ComponentHandler } from '../handlers/component-handler';
 import { CmsComponentMapping } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -35,5 +45,17 @@ export class ComponentHandlerService {
       }
     }
     return matchedHandlers[matchedHandlers.length - 1];
+  }
+
+  getLauncher(
+    componentMapping: CmsComponentMapping,
+    viewContainerRef: ViewContainerRef,
+    elementInjector?: Injector
+  ): Observable<[ElementRef, ComponentRef<any>?]> {
+    return this.resolve(componentMapping)?.launcher(
+      componentMapping,
+      viewContainerRef,
+      elementInjector
+    );
   }
 }

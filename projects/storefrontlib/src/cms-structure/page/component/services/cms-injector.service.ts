@@ -6,7 +6,7 @@ import { CmsMappingService } from '../../../services/cms-mapping.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CmsDataService {
+export class CmsInjectorService {
   constructor(
     protected cmsMapping: CmsMappingService,
     protected injector: Injector

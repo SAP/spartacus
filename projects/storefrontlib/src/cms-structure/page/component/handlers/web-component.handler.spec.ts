@@ -1,22 +1,28 @@
 import { TestBed } from '@angular/core/testing';
+import { WebComponentHandler } from './web-component.handler';
+import { CmsMappingService } from '../../../services/cms-mapping.service';
 
-// import { WebComponentLauncherService } from './web-component-launcher.service';
-// import { Renderer2 } from '@angular/core';
-// import { ComponentMapperService } from '../services/component-mapper.service';
-// import { ComponentMapperService } from './component-mapper.service';
-//
-// const createSpy = jasmine.createSpy;
+const mockCmsMappingService = jasmine.createSpyObj('CmsMappingService', [
+  'getComponentMapping',
+]);
 
-describe('WebComponentLauncherService', () => {
-  // let service: WebComponentLauncherService;
+fdescribe('WebComponentHandler', () => {
+  let handler: WebComponentHandler;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    // service = TestBed.inject(WebComponentLauncherService);
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: CmsMappingService,
+          useValue: mockCmsMappingService,
+        },
+      ],
+    });
+    handler = TestBed.inject(WebComponentHandler);
   });
 
   it('should be created', () => {
-    expect(true).toBeTruthy();
+    expect(handler).toBeTruthy();
   });
 
   // describe('initWebComponent', () => {
