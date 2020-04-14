@@ -4,12 +4,12 @@ import { ComponentHandlerService } from './component-handler.service';
 import { ComponentHandler } from '../handlers/component-handler';
 import { Injectable } from '@angular/core';
 import { CmsComponentMapping } from '@spartacus/core';
+import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
 @Injectable()
 class TestHandler implements ComponentHandler {
-  launcher() {
-    return undefined;
-  }
+  launcher = createSpy('launcher').and.returnValue(of());
 
   hasMatch(componentMapping: CmsComponentMapping): boolean {
     return componentMapping.component === 'test';
@@ -22,9 +22,10 @@ describe('ComponentHandlerService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        TestHandler,
         {
           provide: ComponentHandler,
-          useClass: TestHandler,
+          useExisting: TestHandler,
           multi: true,
         },
       ],
@@ -36,14 +37,28 @@ describe('ComponentHandlerService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('resolve', () => {
+  describe('getLauncher', () => {
     it('should match handler', () => {
-      expect(service.resolve({ component: 'test' })).toBeInstanceOf(
-        TestHandler
+      const testHandler = TestBed.inject(TestHandler);
+      const launcher = service.getLauncher(
+        { component: 'test' },
+        undefined,
+        undefined
+      );
+      expect(launcher).toBeTruthy();
+      expect(testHandler.launcher).toHaveBeenCalledWith(
+        { component: 'test' },
+        undefined,
+        undefined
       );
     });
     it('should return undefined if not matched', () => {
-      expect(service.resolve({ component: 'unknown' })).toBeUndefined();
+      const launcher = service.getLauncher(
+        { component: 'unknown' },
+        undefined,
+        undefined
+      );
+      expect(launcher).toBeUndefined();
     });
   });
 });
