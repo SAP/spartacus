@@ -11,9 +11,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
-import { DialogMode, FacetList } from '../facet.model';
+import {
+  DialogMode,
+  FacetCollapseState,
+  FacetList,
+  ToggleState,
+} from '../facet.model';
 import { FacetService } from '../services/facet.service';
-import { FacetDialogComponent } from './facet-list.component';
+import { FacetListComponent } from './facet-list.component';
 
 @Component({
   selector: 'cx-icon',
@@ -44,18 +49,17 @@ const mockFacetList: FacetList = {
 };
 
 class MockFacetService {
-  getFacetList() {
-    return of(mockFacetList);
-  }
+  facetList$ = of(mockFacetList);
+
   getState() {
     return of();
   }
   toggleExpand() {}
 }
 
-describe('FacetDialogComponent', () => {
-  let component: FacetDialogComponent;
-  let fixture: ComponentFixture<FacetDialogComponent>;
+describe('FacetListComponent', () => {
+  let component: FacetListComponent;
+  let fixture: ComponentFixture<FacetListComponent>;
   let element: DebugElement;
   let service: FacetService;
 
@@ -63,14 +67,14 @@ describe('FacetDialogComponent', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule],
       declarations: [
-        FacetDialogComponent,
+        FacetListComponent,
         MockIconComponent,
         MockFacetComponent,
         MockKeyboadFocusDirective,
       ],
       providers: [{ provide: FacetService, useClass: MockFacetService }],
     })
-      .overrideComponent(FacetDialogComponent, {
+      .overrideComponent(FacetListComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
@@ -82,7 +86,7 @@ describe('FacetDialogComponent', () => {
 
   describe('with facets', () => {
     beforeEach(() => {
-      fixture = TestBed.createComponent(FacetDialogComponent);
+      fixture = TestBed.createComponent(FacetListComponent);
       element = fixture.debugElement;
       component = fixture.componentInstance;
       component.dialogMode = DialogMode.INLINE;
@@ -96,11 +100,11 @@ describe('FacetDialogComponent', () => {
     it('should require dialog', () => {
       component.dialogMode = DialogMode.POP;
       fixture.detectChanges();
-      expect(component.requiresDialog).toBeTruthy();
+      expect(component.isDialog).toBeTruthy();
     });
 
     it('should not require dialog', () => {
-      expect(component.requiresDialog).toBeFalsy();
+      expect(component.isDialog).toBeFalsy();
     });
 
     it('should render facets', () => {
@@ -119,25 +123,19 @@ describe('FacetDialogComponent', () => {
       expect(component.expandFacetGroup).toHaveBeenCalled();
     });
 
-    it('should emit load when facetList is loaded', () => {
-      spyOn(component.load, 'emit').and.stub();
-      component.facetList$.subscribe().unsubscribe();
-      expect(component.load.emit).toHaveBeenCalled();
-    });
-
     describe('close dialog', () => {
       it('should emit close when clicking the close button', () => {
-        spyOn(component.close, 'emit').and.stub();
+        spyOn(component.closeDialog, 'emit').and.stub();
         component.dialogMode = DialogMode.POP;
         fixture.detectChanges();
 
         const header = element.query(By.css('button.close'));
         (header.nativeElement as HTMLElement).dispatchEvent(new Event('click'));
-        expect(component.close.emit).toHaveBeenCalled();
+        expect(component.closeDialog.emit).toHaveBeenCalled();
       });
 
       it('should emit close when handling escape', () => {
-        spyOn(component.close, 'emit').and.stub();
+        spyOn(component.closeDialog, 'emit').and.stub();
         component.dialogMode = DialogMode.POP;
         fixture.detectChanges();
 
@@ -145,41 +143,88 @@ describe('FacetDialogComponent', () => {
         (container.nativeElement as HTMLElement).dispatchEvent(
           new Event('esc')
         );
-        expect(component.close.emit).toHaveBeenCalled();
+        expect(component.closeDialog.emit).toHaveBeenCalled();
       });
     });
 
-    describe('expanded class on cx-facet', () => {
-      it('should not set expanded class when expanded state = false', () => {
+    describe('collapsed', () => {
+      beforeEach(() => {
+        spyOn(service, 'getState').and.returnValue(
+          of({ toggled: ToggleState.COLLAPSED } as FacetCollapseState)
+        );
+      });
+
+      it('should return true for isCollapsed()', () => {
+        let result: boolean;
+        component
+          .isCollapsed(mockFacetList.facets[0])
+          .subscribe((state) => (result = state))
+          .unsubscribe();
+        expect(result).toBeTruthy();
+      });
+
+      it('should return false for isExpanded()', () => {
+        let result: boolean;
+        component
+          .isExpanded(mockFacetList.facets[0])
+          .subscribe((state) => (result = state))
+          .unsubscribe();
+        expect(result).toBeFalsy();
+      });
+
+      it('should have collapsed class', () => {
+        fixture.detectChanges();
+        const el = element.queryAll(By.css('cx-facet'));
+        const e = el[0];
+        expect(e.nativeElement.classList).toContain('collapsed');
+      });
+
+      it('should not have expanded class', () => {
+        fixture.detectChanges();
         const el = element.queryAll(By.css('cx-facet'));
         const e = el[0];
         expect(e.nativeElement.classList).not.toContain('expanded');
       });
+    });
 
-      it('should set expanded class when expanded state = true ', () => {
-        spyOn(service, 'getState').and.returnValue(of({ expanded: true }));
+    describe('expanded', () => {
+      beforeEach(() => {
+        spyOn(service, 'getState').and.returnValue(
+          of({ toggled: ToggleState.EXPANDED } as FacetCollapseState)
+        );
+      });
+
+      it('should return false for isCollapsed()', () => {
+        let result: boolean;
+        component
+          .isCollapsed(mockFacetList.facets[0])
+          .subscribe((state) => (result = state))
+          .unsubscribe();
+        expect(result).toBeFalsy();
+      });
+
+      it('should return true for isExpanded()', () => {
+        let result: boolean;
+        component
+          .isExpanded(mockFacetList.facets[0])
+          .subscribe((state) => (result = state))
+          .unsubscribe();
+        expect(result).toBeTruthy();
+      });
+
+      it('should not have collapsed class', () => {
         fixture.detectChanges();
-
         const el = element.queryAll(By.css('cx-facet'));
         const e = el[0];
+        expect(e.nativeElement.classList).not.toContain('collapsed');
+      });
 
+      it('should have expanded class', () => {
+        fixture.detectChanges();
+        const el = element.queryAll(By.css('cx-facet'));
+        const e = el[0];
         expect(e.nativeElement.classList).toContain('expanded');
       });
-    });
-  });
-
-  describe('without facets', () => {
-    beforeEach(() => {
-      spyOn(service, 'getFacetList').and.returnValue(of({ facets: [] }));
-
-      fixture = TestBed.createComponent(FacetDialogComponent);
-      element = fixture.debugElement;
-      fixture.detectChanges();
-    });
-
-    it('should not render any facets', () => {
-      const facets = element.queryAll(By.css('cx-facet'));
-      expect(facets.length).toEqual(0);
     });
   });
 });

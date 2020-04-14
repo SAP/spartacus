@@ -69,7 +69,6 @@ describe('ProductFacetService', () => {
           of(mockCategoryPage as any)
         );
         (productListComponentService.model$ as any) = of(mockCategoryResult);
-
         service = TestBed.inject(ProductFacetService);
       });
 

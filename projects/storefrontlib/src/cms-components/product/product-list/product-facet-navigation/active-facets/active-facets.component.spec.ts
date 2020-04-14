@@ -8,6 +8,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetList } from '../facet.model';
 import { FacetService } from '../services/facet.service';
@@ -58,28 +59,28 @@ describe('ActiveFacetsComponent', () => {
   });
 
   it('should not render h4 when there are no active facets', () => {
-    component.facetList = null;
+    component.facetList$ = null;
     fixture.detectChanges();
     const header = element.queryAll(By.css('h4'));
     expect(header.length).toBeFalsy();
   });
 
   it('should not render anchor links when there are no active facets', () => {
-    component.facetList = null;
+    component.facetList$ = null;
     fixture.detectChanges();
     const header = element.queryAll(By.css('a'));
     expect(header.length).toEqual(0);
   });
 
   it('should render h4 when there are active facets', () => {
-    component.facetList = mockFacetList;
+    component.facetList$ = of(mockFacetList);
     fixture.detectChanges();
     const header = element.queryAll(By.css('h4'));
     expect(header).toBeTruthy();
   });
 
   it('should render an anchor links for every active facets', () => {
-    component.facetList = mockFacetList;
+    component.facetList$ = of(mockFacetList);
     fixture.detectChanges();
     const header = element.queryAll(By.css('a'));
     expect(header.length).toEqual(2);

@@ -10,6 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Facet, I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
+import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { FacetComponent } from './facet.component';
 
@@ -28,13 +29,25 @@ class MockKeyboadFocusDirective {
 }
 
 class MockFacetService {
-  getState$() {
-    return of();
+  getState() {
+    return of({
+      topVisible: 5,
+    } as FacetCollapseState);
   }
-  toggleExpand() {}
+  toggle() {}
   increaseVisibleValues() {}
   decreaseVisibleValues() {}
+  getLinkParams() {}
 }
+
+const MockFacet: Facet = {
+  name: 'f1',
+  values: [
+    {
+      name: 'v1',
+    },
+  ],
+};
 
 describe('FacetComponent', () => {
   let component: FacetComponent;
@@ -69,7 +82,7 @@ describe('FacetComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('isMultiSelect?', () => {
+  describe('isMultiSelect', () => {
     it('should set multiselect to true', () => {
       component.facet = { multiSelect: true } as Facet;
       fixture.detectChanges();
@@ -122,34 +135,15 @@ describe('FacetComponent', () => {
 
   describe('toggleGroup', () => {
     beforeEach(() => {
-      spyOn(facetService, 'toggleExpand').and.stub();
+      spyOn(facetService, 'toggle').and.stub();
+      component.facet = MockFacet;
+      fixture.detectChanges();
     });
 
     it('should expand the facet', () => {
       component.toggleGroup(new UIEvent('close'));
       fixture.detectChanges();
-      expect(facetService.toggleExpand).toHaveBeenCalledWith(component.facet);
-    });
-
-    it('should force expand on a locked facet', () => {
-      (element.nativeElement as HTMLElement).classList.add('is-locked');
-      component.toggleGroup(new UIEvent('close'));
-      fixture.detectChanges();
-      expect(facetService.toggleExpand).toHaveBeenCalledWith(
-        component.facet,
-        true
-      );
-    });
-
-    it('should not force expand on a locked facet when it is expanded already', () => {
-      (element.nativeElement as HTMLElement).classList.add('is-locked');
-      (element.nativeElement as HTMLElement).classList.add('expanded');
-      component.toggleGroup(new UIEvent('close'));
-      fixture.detectChanges();
-      expect(facetService.toggleExpand).not.toHaveBeenCalledWith(
-        component.facet,
-        true
-      );
+      expect(facetService.toggle).toHaveBeenCalledWith(component.facet, true);
     });
   });
 });
