@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CmsDataService } from './cms-data.service';
+import { CmsInjectorService } from './cms-injector.service';
 import { CmsMappingService } from '../../../services/cms-mapping.service';
 import { CmsService } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -13,8 +13,8 @@ const mockCmsService = {
   getComponentData: jasmine.createSpy().and.returnValue(of('data')),
 };
 
-describe('CmsDataService', () => {
-  let service: CmsDataService;
+describe('CmsInjectorService', () => {
+  let service: CmsInjectorService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,29 +29,16 @@ describe('CmsDataService', () => {
         },
       ],
     });
-    service = TestBed.inject(CmsDataService);
+    service = TestBed.inject(CmsInjectorService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getCmsDataForComponent', () => {
-    it('should return proper uid', () => {
-      const data = service.getCmsDataForComponent('sampleUid2');
-      expect(data.uid).toEqual('sampleUid2');
-    });
-
-    it('should return cms data', () => {
-      const data = service.getCmsDataForComponent('sampleUid');
-      expect(mockCmsService.getComponentData).toHaveBeenCalledWith('sampleUid');
-      expect(data.data$).toBeTruthy();
-    });
-  });
-
-  describe('getInjectorForComponent', () => {
+  describe('getInjector', () => {
     it('should return injector with CmsComponentData', () => {
-      const injector = service.getInjectorForComponent('aaa', 'sampleUid');
+      const injector = service.getInjector('aaa', 'sampleUid');
       const data = injector.get(CmsComponentData);
       expect(data).toBeTruthy();
       expect(data.uid).toEqual('sampleUid');
