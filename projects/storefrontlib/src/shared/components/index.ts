@@ -1,6 +1,6 @@
-export * from './backdrop/index';
 export * from './card/index';
 export * from './carousel/index';
+export * from './dialog/index';
 export * from './generic-link/index';
 export * from './item-counter/index';
 export * from './list-navigation/index';

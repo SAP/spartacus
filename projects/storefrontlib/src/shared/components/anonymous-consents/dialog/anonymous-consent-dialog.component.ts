@@ -1,6 +1,8 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
+  HostListener,
   OnDestroy,
   OnInit,
   Output,
@@ -42,11 +44,20 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   isLevel13 = isFeatureLevel(this.config, '1.3');
 
   @Output()
-  closeDialog: EventEmitter<boolean> = new EventEmitter();
+  closeDialog: EventEmitter<string> = new EventEmitter();
+
+  @HostListener('click', ['$event'])
+  handleClick(event: UIEvent): void {
+    // Close on click outside the dialog window
+    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
+      this.closeModal('Cross click');
+    }
+  }
 
   constructor(
     private config: AnonymousConsentsConfig,
-    private anonymousConsentsService: AnonymousConsentsService
+    private anonymousConsentsService: AnonymousConsentsService,
+    private el: ElementRef
   ) {
     if (Boolean(this.config.anonymousConsents)) {
       this.showLegalDescription = this.config.anonymousConsents.showLegalDescriptionInDialog;
@@ -62,8 +73,8 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     this.loading$ = this.anonymousConsentsService.getLoadTemplatesLoading();
   }
 
-  closeModal(_reason?: any): void {
-    this.closeDialog.emit(true);
+  closeModal(reason?: any): void {
+    this.closeDialog.emit(reason);
   }
 
   rejectAll(): void {
