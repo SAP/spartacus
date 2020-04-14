@@ -31,6 +31,7 @@ import * as ts from 'typescript';
 import {
   ANGULAR_LOCALIZE,
   B2C_STOREFRONT_MODULE,
+  DEFAULT_ENVIRONMENT_NAME,
   SPARTACUS_ASSETS,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
@@ -53,7 +54,6 @@ import {
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 import { Schema as SpartacusOptions } from './schema';
 
-const DEFAULT_ENVIRONMENT_NAME = 'environment';
 const DEFAULT_ENVIRONMENT_PATHS = {
   replace: '/src/environments/environment.ts',
   with: '/src/environments/environment.prod.ts',
