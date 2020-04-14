@@ -1,8 +1,13 @@
 import { Action } from '@ngrx/store';
+import { MULTI_CART_DATA } from '../../../cart/store/multi-cart-state';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
+import {
+  EntityProcessesDecrementAction,
+  EntityProcessesIncrementAction,
+} from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
 import {
   StateEntityLoaderActions,
   StateLoaderActions,
@@ -334,19 +339,25 @@ export class ClearCheckoutDeliveryAddressFail implements Action {
   constructor(public payload: any) {}
 }
 
-export class ClearCheckoutDeliveryMode implements Action {
+export class ClearCheckoutDeliveryMode extends EntityProcessesIncrementAction {
   readonly type = CLEAR_CHECKOUT_DELIVERY_MODE;
-  constructor(public payload: { userId: string; cartId: string }) {}
+  constructor(public payload: { userId: string; cartId: string }) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
-export class ClearCheckoutDeliveryModeSuccess implements Action {
+export class ClearCheckoutDeliveryModeSuccess extends EntityProcessesDecrementAction {
   readonly type = CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {}
+  constructor(public payload: { userId: string; cartId: string }) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
-export class ClearCheckoutDeliveryModeFail implements Action {
+export class ClearCheckoutDeliveryModeFail extends EntityProcessesDecrementAction {
   readonly type = CLEAR_CHECKOUT_DELIVERY_MODE_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: { userId: string; cartId: string; error: any }) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
 export type CheckoutAction =

@@ -1,9 +1,8 @@
-export const UTF_8 = 'utf-8';
-
 /***** Libraries versions start *****/
 
-export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '9.1.0';
-export const ANGULAR_UNIVERSAL_BUILDERS = '9.1.0';
+export const DEFAULT_ANGULAR_VERSION = '^9.1.0';
+export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '^9.1.0';
+export const ANGULAR_UNIVERSAL_BUILDERS = '^9.1.0';
 
 /***** Libraries versions end *****/
 
@@ -12,6 +11,7 @@ export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
 export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
+export const ANGULAR_LOCALIZE = '@angular/localize';
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
 export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
@@ -20,6 +20,7 @@ export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
+export const SPARTACUS_STYLES = '@spartacus/styles';
 
 export const NGRX_STORE = '@ngrx/store';
 /***** Imports end *****/
@@ -214,4 +215,6 @@ export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 /***** Misc start *****/
 export const CSS_DOCS_URL =
   'https://sap.github.io/cloud-commerce-spartacus-storefront-docs/deprecation-guide/css';
+export const UTF_8 = 'utf-8';
+export const DEFAULT_ENVIRONMENT_NAME = 'environment';
 /***** Misc end *****/
