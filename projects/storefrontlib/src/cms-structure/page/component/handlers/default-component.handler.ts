@@ -42,7 +42,7 @@ export class DefaultComponentHandler implements ComponentHandler {
         }
       };
 
-      const factory = this.getComponentFactoryByCode(
+      const factory = this.getComponentFactory(
         injector,
         componentMapping.component
       );
@@ -58,7 +58,7 @@ export class DefaultComponentHandler implements ComponentHandler {
     });
   }
 
-  private getComponentFactoryByCode(injector: Injector, component: any): any {
+  protected getComponentFactory(injector: Injector, component: any): any {
     if (!component) {
       return null;
     }
