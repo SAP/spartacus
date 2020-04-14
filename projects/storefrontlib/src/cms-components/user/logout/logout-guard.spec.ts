@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthService,
   CmsService,
-  FeatureConfigService,
   ProtectedRoutesService,
   RoutingService,
   SemanticPathService,
@@ -44,17 +43,10 @@ class MockProtectedRoutesService {
   }
 }
 
-class MockFeatureConfigService {
-  isLevel() {
-    return false;
-  }
-}
-
 describe('LogoutGuard', () => {
   let logoutGuard: LogoutGuard;
   let authService: AuthService;
   let routingService: RoutingService;
-  let featureConfigService: FeatureConfigService;
   let protectedRoutesService: ProtectedRoutesService;
 
   let zone: NgZone;
@@ -81,17 +73,12 @@ describe('LogoutGuard', () => {
           provide: ProtectedRoutesService,
           useClass: MockProtectedRoutesService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
       ],
     });
     authService = TestBed.inject(AuthService);
     logoutGuard = TestBed.inject(LogoutGuard);
     routingService = TestBed.inject(RoutingService);
     router = TestBed.inject(Router);
-    featureConfigService = TestBed.inject(FeatureConfigService);
     protectedRoutesService = TestBed.inject(ProtectedRoutesService);
 
     zone = TestBed.inject(NgZone);
@@ -117,20 +104,7 @@ describe('LogoutGuard', () => {
       expect(authService.logout).toHaveBeenCalled();
     });
 
-    // TODO(issue:5666) Deprecated since 1.4
-    it('should redirect to home page', () => {
-      spyOn(featureConfigService, 'isLevel').and.returnValue(false);
-      logoutGuard.canActivate().subscribe();
-
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'home',
-      });
-    });
-
-    // TODO(issue:5666) Deprecated since 1.4
     it('should redirect to home page if app not protected', () => {
-      spyOn(featureConfigService, 'isLevel').and.returnValue(true);
-
       spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
         false
       );
@@ -142,10 +116,7 @@ describe('LogoutGuard', () => {
       });
     });
 
-    // TODO(issue:5666) Deprecated since 1.4
     it('should redirect to login page if app protected', () => {
-      spyOn(featureConfigService, 'isLevel').and.returnValue(true);
-
       spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
         true
       );
