@@ -70,7 +70,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       .getLauncher(
         componentMapping,
         this.vcr,
-        this.cmsInjector.getInjectorForComponent(
+        this.cmsInjector.getInjector(
           this.cxComponentWrapper.flexType,
           this.cxComponentWrapper.uid,
           this.injector

@@ -12,7 +12,7 @@ export class CmsInjectorService {
     protected injector: Injector
   ) {}
 
-  private getCmsDataForComponent<T extends CmsComponent>(
+  private getCmsData<T extends CmsComponent>(
     uid: string,
     parentInjector?: Injector
   ): CmsComponentData<T> {
@@ -24,7 +24,7 @@ export class CmsInjectorService {
     };
   }
 
-  public getInjectorForComponent(
+  public getInjector(
     type: string,
     uid: string,
     parentInjector?: Injector
@@ -35,7 +35,7 @@ export class CmsInjectorService {
       providers: [
         {
           provide: CmsComponentData,
-          useValue: this.getCmsDataForComponent(uid),
+          useValue: this.getCmsData(uid),
         },
         ...configProviders,
       ],

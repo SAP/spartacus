@@ -17,14 +17,14 @@ export class CmsMappingService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  public getComponentMapping(typeCode: string): CmsComponentMapping {
-    const componentConfig = this.config.cmsComponents?.[typeCode];
+  public getComponentMapping(componentType: string): CmsComponentMapping {
+    const componentConfig = this.config.cmsComponents?.[componentType];
 
     if (!componentConfig) {
-      if (!this.missingComponents.includes(typeCode)) {
-        this.missingComponents.push(typeCode);
+      if (!this.missingComponents.includes(componentType)) {
+        this.missingComponents.push(componentType);
         console.warn(
-          `No component implementation found for the CMS component type '${typeCode}'.\n`,
+          `No component implementation found for the CMS component type '${componentType}'.\n`,
           `Make sure you implement a component and register it in the mapper.`
         );
       }
@@ -33,9 +33,9 @@ export class CmsMappingService {
     return componentConfig;
   }
 
-  isComponentEnabled(flexType: string): boolean {
+  isComponentEnabled(componentType: string): boolean {
     const isSSR = isPlatformServer(this.platformId);
-    return !(isSSR && this.getComponentMapping(flexType)?.disableSSR);
+    return !(isSSR && this.getComponentMapping(componentType)?.disableSSR);
   }
 
   getRoutesForComponents(componentTypes: string[]): Route[] {
