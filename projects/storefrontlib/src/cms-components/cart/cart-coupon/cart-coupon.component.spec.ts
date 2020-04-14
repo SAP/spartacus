@@ -18,6 +18,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 @Component({
   selector: 'cx-icon',
@@ -81,7 +82,12 @@ describe('CartCouponComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, FeaturesConfigModule],
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        FeaturesConfigModule,
+        FormErrorsModule,
+      ],
       declarations: [
         CartCouponComponent,
         MockAppliedCouponsComponent,
@@ -141,14 +147,16 @@ describe('CartCouponComponent', () => {
 
   it('should form is valid when inputting coupon code', () => {
     fixture.detectChanges();
-    expect(component.form.valid).toBeFalsy();
+    expect(component.couponForm.valid).toBeFalsy();
 
     input = el.query(By.css('.input-coupon-code')).nativeElement;
     input.value = 'couponCode1';
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    expect(component.form.controls['couponCode'].value).toBe('couponCode1');
+    expect(component.couponForm.controls['couponCode'].value).toBe(
+      'couponCode1'
+    );
   });
 
   it('should disable button when coupon is in process', () => {
@@ -184,7 +192,7 @@ describe('CartCouponComponent', () => {
     input = el.query(By.css('.input-coupon-code')).nativeElement;
     input.value = 'couponCode1';
     el.query(By.css('.apply-coupon-button')).nativeElement.click();
-    expect(component.form.controls['couponCode'].value).toBeNull();
+    expect(component.couponForm.controls['couponCode'].value).toBeNull();
   });
 
   it('should not list customer coupons when no customer coupons', () => {

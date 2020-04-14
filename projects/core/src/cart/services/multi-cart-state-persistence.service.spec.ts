@@ -54,19 +54,17 @@ describe('MultiCartStatePersistenceService', () => {
 
   it('state should be cleared on base site change', () => {
     service['onRead'](null);
-    expect(store.dispatch).toHaveBeenCalledTimes(2);
-    expect(store.dispatch).toHaveBeenCalledWith(new CartActions.ClearCart());
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CartActions.ClearMultiCartState()
+      new CartActions.ClearCartState()
     );
   });
 
   it('active cart should be updated on context change', () => {
     service['onRead']({ active: 'cartId' });
-    expect(store.dispatch).toHaveBeenCalledTimes(3);
-    expect(store.dispatch).toHaveBeenCalledWith(new CartActions.ClearCart());
+    expect(store.dispatch).toHaveBeenCalledTimes(2);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CartActions.ClearMultiCartState()
+      new CartActions.ClearCartState()
     );
     expect(store.dispatch).toHaveBeenCalledWith(
       new CartActions.SetActiveCartId('cartId')
@@ -96,7 +94,7 @@ describe('MultiCartStatePersistenceService', () => {
   it('should return active from cart state', () => {
     service['getCartState']()
       .pipe(take(1))
-      .subscribe(state => {
+      .subscribe((state) => {
         expect(state).toEqual({ active: '' });
       });
   });

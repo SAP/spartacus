@@ -18,6 +18,6 @@ declare global {
   }
 }
 
-Cypress.Commands.add('cxConfig', config => {
+Cypress.Commands.add('cxConfig', (config) => {
   cy.setCookie('cxConfigE2E', encodeURIComponent(JSON.stringify(config)));
 });

@@ -24,7 +24,7 @@ export class CartVoucherEffects {
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_VOUCHER),
     map((action: CartActions.CartAddVoucher) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.cartVoucherConnector
         .add(payload.userId, payload.cartId, payload.voucherId)
         .pipe(
@@ -35,13 +35,12 @@ export class CartVoucherEffects {
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
             return new CartActions.CartAddVoucherSuccess({
-              userId: payload.userId,
-              cartId: payload.cartId,
+              ...payload,
             });
           }),
-          catchError(error => {
+          catchError((error) => {
             if (error?.error?.errors) {
-              error.error.errors.forEach(err => {
+              error.error.errors.forEach((err) => {
                 if (err.message) {
                   this.messageService.add(
                     err.message,
@@ -51,7 +50,10 @@ export class CartVoucherEffects {
               });
             }
             return from([
-              new CartActions.CartAddVoucherFail(makeErrorSerializable(error)),
+              new CartActions.CartAddVoucherFail({
+                ...payload,
+                error: makeErrorSerializable(error),
+              }),
               new CartActions.CartProcessesDecrement(payload.cartId),
               new CartActions.LoadCart({
                 userId: payload.userId,
@@ -69,7 +71,7 @@ export class CartVoucherEffects {
   > = this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_VOUCHER),
     map((action: CartActions.CartRemoveVoucher) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.cartVoucherConnector
         .remove(payload.userId, payload.cartId, payload.voucherId)
         .pipe(
@@ -85,7 +87,7 @@ export class CartVoucherEffects {
               voucherId: payload.voucherId,
             });
           }),
-          catchError(error =>
+          catchError((error) =>
             from([
               new CartActions.CartRemoveVoucherFail({
                 error: makeErrorSerializable(error),

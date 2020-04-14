@@ -37,10 +37,7 @@ export function clickSearchIcon() {
 }
 
 export function assertFirstProduct() {
-  cy.get(productNameSelector)
-    .first()
-    .invoke('text')
-    .should('match', /\w+/);
+  cy.get(productNameSelector).first().invoke('text').should('match', /\w+/);
 }
 
 export function checkDistinctProductName(firstProduct: string) {
@@ -60,7 +57,7 @@ export function verifyProductSearch(
     .first()
     .invoke('text')
     .should('match', /\w+/)
-    .then(firstProduct => {
+    .then((firstProduct) => {
       // Navigate to next page
       nextPage();
       cy.get(pageLinkSelector).should('contain', '2');
@@ -82,7 +79,7 @@ export function verifyProductSearch(
 export function searchResult() {
   cy.server();
   createCameraQuery(QUERY_ALIAS.CAMERA);
-  cy.wait(`@${QUERY_ALIAS.CAMERA}`).then(xhr => {
+  cy.wait(`@${QUERY_ALIAS.CAMERA}`).then((xhr) => {
     const cameraResults = xhr.response.body.pagination.totalResults;
 
     cy.get(resultsTitleSelector).should(
@@ -100,24 +97,15 @@ export function searchResult() {
 }
 
 export function nextPage(): void {
-  cy.get(pageLinkSelector)
-    .next()
-    .first()
-    .click();
+  cy.get(pageLinkSelector).next().first().click();
 }
 
 export function choosePage(pageNumber: number): void {
-  cy.get('cx-pagination')
-    .contains(pageNumber)
-    .first()
-    .click();
+  cy.get('cx-pagination').contains(pageNumber).first().click();
 }
 
 export function previousPage(): void {
-  cy.get(pageLinkSelector)
-    .prev()
-    .first()
-    .click();
+  cy.get(pageLinkSelector).prev().first().click();
 }
 
 export function verifyNextPage(pageNumber: number): void {
@@ -151,12 +139,10 @@ export function filterUsingFacetFiltering() {
     .contains('Stores')
     .parents('.cx-facet-group')
     .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
+      cy.get('.cx-facet-checkbox').first().click({ force: true });
     });
 
-  cy.wait(`@${QUERY_ALIAS.FACET}`).then(xhr => {
+  cy.wait(`@${QUERY_ALIAS.FACET}`).then((xhr) => {
     const facetResults = xhr.response.body.pagination.totalResults;
     cy.get(resultsTitleSelector).should(
       'contain',
@@ -181,45 +167,35 @@ export function clearActiveFacet(mobile?: string) {
 export function sortByLowestPrice() {
   createProductSortQuery('price-asc', 'query_price_asc');
   cy.get(sortingOptionSelector).ngSelect('Price (lowest first)');
-  cy.wait('@query_price_asc')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@query_price_asc').its('status').should('eq', 200);
   cy.get(firstProductPriceSelector).should('contain', '$1.58');
 }
 
 export function sortByHighestPrice() {
   createProductSortQuery('price-desc', 'query_price_desc');
   cy.get(sortingOptionSelector).ngSelect('Price (highest first)');
-  cy.wait('@query_price_desc')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@query_price_desc').its('status').should('eq', 200);
   cy.get(firstProductPriceSelector).should('contain', '$6,030.71');
 }
 
 export function sortByNameAscending() {
   createProductSortQuery('name-asc', 'query_name_asc');
   cy.get(sortingOptionSelector).ngSelect('Name (ascending)');
-  cy.wait('@query_name_asc')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@query_name_asc').its('status').should('eq', 200);
   cy.get(firstProductNameSelector).should('contain', '10.2 Megapixel D-SLR');
 }
 
 export function sortByNameDescending() {
   createProductSortQuery('name-desc', 'query_name_desc');
   cy.get(sortingOptionSelector).ngSelect('Name (descending)');
-  cy.wait('@query_name_desc')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@query_name_desc').its('status').should('eq', 200);
   cy.get(firstProductNameSelector).should('contain', 'Wide Strap for EOS 450D');
 }
 
 export function sortByRelevance() {
   createProductSortQuery('relevance', 'query_relevance');
   cy.get(sortingOptionSelector).ngSelect('Relevance');
-  cy.wait('@query_relevance')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@query_relevance').its('status').should('eq', 200);
   cy.get(firstProductNameSelector).should('not.be.empty');
 }
 
@@ -231,7 +207,7 @@ export function sortByTopRated() {
 export function checkFirstItem(productName: string): void {
   cy.get('cx-product-list-item .cx-product-name')
     .first()
-    .then(firstProductName => {
+    .then((firstProductName) => {
       const clearHTMLProductName = productName.replace(/<(.|\n)*?>/g, '');
       cy.wrap(firstProductName).should('contain', clearHTMLProductName);
     });
@@ -242,9 +218,7 @@ export function clickFacet(header: string) {
     .contains(header)
     .parents('.cx-facet-group')
     .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
+      cy.get('.cx-facet-checkbox').first().click({ force: true });
     });
 }
 
@@ -303,7 +277,7 @@ export function createProductFacetQuery(
 }
 
 export function assertNumberOfProducts(alias: string, category: string) {
-  cy.get(alias).then(xhr => {
+  cy.get(alias).then((xhr) => {
     const body = xhr.response.body;
     const paginationTotalresults: number = body.pagination.totalResults;
     const productLengthInPage: number = body.products.length;

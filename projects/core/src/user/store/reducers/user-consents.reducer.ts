@@ -15,7 +15,7 @@ export function reducer(
 
     case UserActions.GIVE_USER_CONSENT_SUCCESS: {
       const updatedConsentTemplate = action.consentTemplate;
-      return state.map(consentTemplate =>
+      return state.map((consentTemplate) =>
         consentTemplate.id === updatedConsentTemplate.id
           ? updatedConsentTemplate
           : consentTemplate

@@ -16,7 +16,7 @@ export class ProductConnector {
 
   getMany(products: ScopedProductData[]): ScopedProductData[] {
     if (!this.adapter.loadMany) {
-      return products.map(product => ({
+      return products.map((product) => ({
         ...product,
         data$: this.adapter.load(product.code, product.scope),
       }));

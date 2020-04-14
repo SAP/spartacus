@@ -95,10 +95,10 @@ describe('SiteContextInterceptor', () => {
   it('should not add parameters: lang and curr to a request', inject(
     [HttpClient],
     (http: HttpClient) => {
-      http.get('/xxx').subscribe(result => {
+      http.get('/xxx').subscribe((result) => {
         expect(result).toBeTruthy();
       });
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -116,11 +116,11 @@ describe('SiteContextInterceptor', () => {
       currencyService.setActive(currencyJpy);
       http
         .get('https://localhost:9002/rest/v2/electronics/')
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toBeTruthy();
         });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
       expect(mockReq.request.params.get('lang')).toEqual(languageDe);

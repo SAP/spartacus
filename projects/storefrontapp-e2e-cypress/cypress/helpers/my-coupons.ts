@@ -113,9 +113,7 @@ export function claimCoupon(
 
   cy.visit(claimCouponUrl + couponCode);
 
-  cy.wait(`@${claimCouponPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${claimCouponPage}`).its('status').should('eq', 200);
   cy.wait(`@${claimCouponsPostRequest}`)
     .its('status')
     .should('eq', validCouponPostRequest);
@@ -124,12 +122,8 @@ export function claimCoupon(
     alerts.getErrorAlert().should('exist');
   }
 
-  cy.wait(`@${couponsPage}`)
-    .its('status')
-    .should('eq', 200);
-  cy.wait(`@${getCoupons}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${couponsPage}`).its('status').should('eq', 200);
+  cy.wait(`@${getCoupons}`).its('status').should('eq', 200);
 }
 
 export function createStandardUser() {
@@ -157,13 +151,13 @@ export function verifyEnableDisableNotification() {
   verfifyNotificationDisable();
   cy.get('[type="checkbox"]:first')
     .should('be.enabled')
-    .then(el => {
+    .then((el) => {
       cy.wrap(el).check();
     });
   verfifyNotificationEnable();
   cy.get('[type="checkbox"]:first')
     .should('be.enabled')
-    .then(el => {
+    .then((el) => {
       cy.wrap(el).uncheck();
     });
   verfifyNotificationDisable();
@@ -172,7 +166,7 @@ export function verifyEnableDisableNotification() {
 export function verfifyNotificationEnable() {
   cy.get('[type="checkbox"]:first')
     .should('be.enabled')
-    .then(el => {
+    .then((el) => {
       cy.wrap(el).should('be.checked');
     });
 }
@@ -180,7 +174,7 @@ export function verfifyNotificationEnable() {
 export function verfifyNotificationDisable() {
   cy.get('[type="checkbox"]:first')
     .should('be.enabled')
-    .then(el => {
+    .then((el) => {
       cy.wrap(el).should('not.be.checked');
     });
 }
@@ -204,9 +198,7 @@ export function verifyFindProduct(couponCode: string, productNumber: number) {
         .click();
     });
 
-  cy.wait(`@${productSearchPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${productSearchPage}`).its('status').should('eq', 200);
 
   cy.get('cx-breadcrumb').within(() => {
     cy.get('span:last a').should('contain', 'My coupons');

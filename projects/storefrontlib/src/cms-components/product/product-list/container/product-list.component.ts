@@ -34,13 +34,15 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.productListComponentService.clearSearchResults();
 
     this.subscription.add(
-      this.pageLayoutService.templateName$.pipe(take(1)).subscribe(template => {
-        this.viewMode$.next(
-          template === 'ProductGridPageTemplate'
-            ? ViewModes.Grid
-            : ViewModes.List
-        );
-      })
+      this.pageLayoutService.templateName$
+        .pipe(take(1))
+        .subscribe((template) => {
+          this.viewMode$.next(
+            template === 'ProductGridPageTemplate'
+              ? ViewModes.Grid
+              : ViewModes.List
+          );
+        })
     );
   }
 

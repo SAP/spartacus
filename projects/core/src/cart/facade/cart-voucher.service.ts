@@ -45,24 +45,44 @@ export class CartVoucherService {
     );
   }
 
+  // TODO(#7241): Remove when switching to event system for add voucher
+  /**
+   * Get add voucher process error flag
+   * @deprecated since 2.0
+   */
   getAddVoucherResultError(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessErrorFactory(ADD_VOUCHER_PROCESS_ID))
     );
   }
 
+  // TODO(#7241): Remove when switching to event system for add voucher
+  /**
+   * Get add voucher process success flag
+   * @deprecated since 2.0
+   */
   getAddVoucherResultSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessSuccessFactory(ADD_VOUCHER_PROCESS_ID))
     );
   }
 
+  // TODO(#7241): Remove when switching to event system for add voucher
+  /**
+   * Get add voucher process loading flag
+   * @deprecated since 2.0
+   */
   getAddVoucherResultLoading(): Observable<boolean> {
     return this.store.pipe(
       select(getProcessLoadingFactory(ADD_VOUCHER_PROCESS_ID))
     );
   }
 
+  // TODO(#7241): Remove when switching to event system for add voucher
+  /**
+   * Reset add voucher process
+   * @deprecated since 2.0
+   */
   resetAddVoucherProcessingState(): void {
     this.store.dispatch(new CartActions.CartResetAddVoucher());
   }
@@ -71,7 +91,7 @@ export class CartVoucherService {
     if (cartId) {
       return this.authService.getOccUserId().pipe(
         take(1),
-        map(userId => [userId, cartId])
+        map((userId) => [userId, cartId])
       );
     } else {
       return combineLatest([

@@ -21,7 +21,7 @@ export class ProtectedRoutesService {
   constructor(protected config: RoutingConfig) {
     if (this.shouldProtect) {
       // pre-process config for performance:
-      this.nonProtectedPaths = this.getNonProtectedPaths().map(path =>
+      this.nonProtectedPaths = this.getNonProtectedPaths().map((path) =>
         this.getSegments(path)
       );
     }
@@ -44,7 +44,7 @@ export class ProtectedRoutesService {
     urlSegments: string[],
     pathsSegments: string[][]
   ): boolean {
-    return pathsSegments.some(pathSegments =>
+    return pathsSegments.some((pathSegments) =>
       this.matchPath(urlSegments, pathSegments)
     );
   }

@@ -8,7 +8,7 @@
       }}
     </p>
 
-    <form [formGroup]="guestRegisterForm">
+    <form (ngSubmit)="submit()" [formGroup]="guestRegisterForm">
       <div class="form-group">
         <label>
           <span class="label-content">{{
@@ -16,24 +16,14 @@
           }}</span>
           <input
             class="form-control"
-            [class.is-invalid]="
-              guestRegisterForm.get('password').invalid &&
-              guestRegisterForm.get('password').dirty
-            "
             type="password"
             name="password"
             placeholder="{{ 'register.password.placeholder' | cxTranslate }}"
             formControlName="password"
           />
-          <div
-            class="invalid-feedback"
-            *ngIf="
-              guestRegisterForm.get('password').invalid &&
-              guestRegisterForm.get('password').dirty
-            "
-          >
-            <span>{{ 'register.passwordMinRequirements' | cxTranslate }}</span>
-          </div>
+          <cx-form-errors
+            [control]="guestRegisterForm.get('password')"
+          ></cx-form-errors>
         </label>
       </div>
 
@@ -44,36 +34,20 @@
           }}</span>
           <input
             class="form-control"
-            [class.is-invalid]="
-              guestRegisterForm.get('password').value !==
-              guestRegisterForm.get('passwordconf').value
-            "
             type="password"
-            name="confirmpassword"
+            name="passwordconf"
             placeholder="{{
               'register.confirmPassword.placeholder' | cxTranslate
             }}"
             formControlName="passwordconf"
           />
-          <div
-            class="invalid-feedback"
-            *ngIf="
-              guestRegisterForm.get('password').value !==
-                guestRegisterForm.get('passwordconf').value &&
-              guestRegisterForm.get('passwordconf').value
-            "
-          >
-            <span>{{ 'register.bothPasswordMustMatch' | cxTranslate }}</span>
-          </div>
+          <cx-form-errors
+            [control]="guestRegisterForm.get('passwordconf')"
+          ></cx-form-errors>
         </label>
       </div>
 
-      <button
-        type="submit"
-        (click)="submit()"
-        [disabled]="guestRegisterForm.invalid"
-        class="btn btn-block btn-primary"
-      >
+      <button type="submit" class="btn btn-block btn-primary">
         {{ 'common.submit' | cxTranslate }}
       </button>
     </form>

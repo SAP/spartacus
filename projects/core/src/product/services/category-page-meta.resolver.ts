@@ -99,9 +99,9 @@ export class CategoryPageMetaResolver extends PageMetaResolver
 
   protected hasProductListComponent(page: Page): boolean {
     return !!Object.keys(page.slots).find(
-      key =>
+      (key) =>
         !!page.slots[key].components.find(
-          comp =>
+          (comp) =>
             comp.typeCode === 'CMSProductListComponent' ||
             comp.typeCode === 'ProductGridComponent'
         )

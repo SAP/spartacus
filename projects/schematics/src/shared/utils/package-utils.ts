@@ -1,13 +1,15 @@
 import { Tree } from '@angular-devkit/schematics';
 import { version } from './../../../package.json';
+import { DEFAULT_ANGULAR_VERSION } from '../constants';
 
-export function getAngularVersion(tree: Tree): string {
+export function getAngularVersion(tree: Tree, useFallback = true): string {
   const buffer = tree.read('package.json');
+  let packageJsonVersion = '';
   if (buffer) {
     const packageJson = JSON.parse(buffer.toString('utf-8'));
-    return packageJson.dependencies['@angular/core'];
+    packageJsonVersion = packageJson.dependencies['@angular/core'];
   }
-  return '';
+  return packageJsonVersion || (useFallback ? DEFAULT_ANGULAR_VERSION : '');
 }
 
 export function getMajorVersionNumber(versionString: string): number {
@@ -28,8 +30,5 @@ export function getSpartacusSchematicsVersion(): string {
 }
 
 export function getSpartacusCurrentFeatureLevel(): string {
-  return version
-    .split('.')
-    .slice(0, 2)
-    .join('.');
+  return version.split('.').slice(0, 2).join('.');
 }

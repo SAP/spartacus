@@ -32,7 +32,7 @@ export class ProductIntroComponent implements AfterContentChecked {
     // Use translated label for Reviews tab reference
     this.translationService
       .translate('TabPanelContainer.tabs.ProductReviewsTabComponent')
-      .subscribe(reviewsTabLabel => {
+      .subscribe((reviewsTabLabel) => {
         const tabsComponent = this.getTabsComponent();
         const reviewsTab = this.getTabByLabel(reviewsTabLabel, tabsComponent);
         const reviewsComponent = this.getReviewsComponent();

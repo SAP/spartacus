@@ -11,6 +11,7 @@ import {
   MULTI_CART_FEATURE,
   StateWithMultiCart,
 } from '../store/multi-cart-state';
+import { getCartIdByUserId, getWishlistName } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 import { WishListService } from './wish-list.service';
 import createSpy = jasmine.createSpy;
@@ -104,16 +105,20 @@ describe('WishListService', () => {
   });
 
   describe('getWishListId', () => {
-    it('should return wish list id', done => {
+    it('should return wish list id', (done) => {
       let result;
-      service['getWishListId']().subscribe(id => {
+      service['getWishListId']().subscribe((id) => {
         result = id;
       });
 
       expect(result).toEqual('');
 
       store.dispatch(
-        new CartActions.LoadWishListSuccess({ cart: testCart, userId })
+        new CartActions.LoadWishListSuccess({
+          cart: testCart,
+          userId,
+          cartId: getCartIdByUserId(testCart, userId),
+        })
       );
 
       expect(result).toEqual(cartCode);
@@ -123,21 +128,29 @@ describe('WishListService', () => {
 
   describe('getWishList', () => {
     it('should create wish list if not loaded', () => {
-      const payload = { userId, customerId };
+      const payload = {
+        userId,
+        customerId,
+        tempCartId: getWishlistName(customerId),
+      };
       service.getWishList().subscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.LoadWishList(payload)
       );
     });
-    it('should return wish list if loaded', done => {
+    it('should return wish list if loaded', (done) => {
       spyOn(service, 'loadWishList');
       let result;
 
       store.dispatch(
-        new CartActions.LoadWishListSuccess({ cart: testCart, userId })
+        new CartActions.LoadWishListSuccess({
+          cart: testCart,
+          userId,
+          cartId: getCartIdByUserId(testCart, userId),
+        })
       );
-      service.getWishList().subscribe(cart => (result = cart));
+      service.getWishList().subscribe((cart) => (result = cart));
 
       expect(service.loadWishList).not.toHaveBeenCalled();
 
@@ -148,7 +161,11 @@ describe('WishListService', () => {
 
   describe('loadWishList', () => {
     it('should dispatch load wish list action', () => {
-      const payload = { userId, customerId };
+      const payload = {
+        userId,
+        customerId,
+        tempCartId: getWishlistName(customerId),
+      };
 
       service.loadWishList(userId, customerId);
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -160,7 +177,11 @@ describe('WishListService', () => {
   describe('addEntry', () => {
     it('should dispatch CartAddEntry if wish list exists', () => {
       store.dispatch(
-        new CartActions.LoadWishListSuccess({ cart: testCart, userId })
+        new CartActions.LoadWishListSuccess({
+          cart: testCart,
+          userId,
+          cartId: getCartIdByUserId(testCart, userId),
+        })
       );
       service.addEntry(productCode);
 
@@ -173,7 +194,11 @@ describe('WishListService', () => {
     });
 
     it('should call load wish list if not loaded', () => {
-      const payload = { userId, customerId };
+      const payload = {
+        userId,
+        customerId,
+        tempCartId: getWishlistName(customerId),
+      };
       service.addEntry(productCode);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -185,7 +210,11 @@ describe('WishListService', () => {
   describe('removeEntry', () => {
     it('should dispatch CartRemoveEntry if wish list exists', () => {
       store.dispatch(
-        new CartActions.LoadWishListSuccess({ cart: testCart, userId })
+        new CartActions.LoadWishListSuccess({
+          cart: testCart,
+          userId,
+          cartId: getCartIdByUserId(testCart, userId),
+        })
       );
       service.removeEntry(mockCartEntry);
       expect(multiCartService.removeEntry).toHaveBeenCalledWith(
@@ -196,7 +225,11 @@ describe('WishListService', () => {
     });
 
     it('should call load wish list if not loaded', () => {
-      const payload = { userId, customerId };
+      const payload = {
+        userId,
+        customerId,
+        tempCartId: getWishlistName(customerId),
+      };
       service.removeEntry(mockCartEntry);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -206,9 +239,9 @@ describe('WishListService', () => {
   });
 
   describe('getWishListLoading', () => {
-    it('should return if the wish list loading', done => {
+    it('should return if the wish list loading', (done) => {
       let result;
-      service.getWishListLoading().subscribe(loading => {
+      service.getWishListLoading().subscribe((loading) => {
         result = loading;
       });
 

@@ -3,7 +3,8 @@ import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { EventService } from '../../event/index';
+import { EventService } from '../../event/event.service';
+import { createFrom } from '../../util/create-from';
 import { ActionToEventMapping } from './action-to-event-mapping';
 
 /**
@@ -63,6 +64,8 @@ export class StateEventService {
     eventType: Type<T>,
     factory?: (action: any) => T
   ): T {
-    return factory ? factory(action) : new eventType(action.payload ?? {});
+    return factory
+      ? factory(action)
+      : createFrom(eventType, action.payload ?? {});
   }
 }

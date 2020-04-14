@@ -12,7 +12,7 @@ function clickHamburger() {
 
 describe(`${formats.mobile.width + 1}p resolution - Cart`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     visitHomePage();
   });
 
