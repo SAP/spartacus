@@ -307,7 +307,7 @@ describe('MultiCartService', () => {
         new CartActions.CartRemoveEntry({
           cartId: 'cartId',
           userId: 'userId',
-          entry: '0',
+          entryNumber: '0',
         })
       );
     });
@@ -321,8 +321,8 @@ describe('MultiCartService', () => {
         new CartActions.CartUpdateEntry({
           userId: 'userId',
           cartId: 'cartId',
-          entry: '0',
-          qty: 2,
+          entryNumber: '0',
+          quantity: 2,
         })
       );
     });
