@@ -277,16 +277,16 @@ export class CheckoutDeliveryService {
         .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
-      let cart;
+      let cartId;
       this.activeCartService
-        .getActive()
-        .subscribe((activeCart) => (cart = activeCart))
+        .getActiveCartId()
+        .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
-      if (cart && userId) {
+      if (cartId && userId) {
         this.checkoutStore.dispatch(
           new CheckoutActions.SetDeliveryAddress({
             userId,
-            cartId: cart.code,
+            cartId,
             address: address,
           })
         );
