@@ -35,18 +35,33 @@ export class CartAddVoucher extends EntityLoadAction {
 
 export class CartAddVoucherFail extends EntityFailAction {
   readonly type = CART_ADD_VOUCHER_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload);
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      voucherId: string;
+      error: any;
+    }
+  ) {
+    super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload.error);
   }
 }
 
 export class CartAddVoucherSuccess extends EntitySuccessAction {
   readonly type = CART_ADD_VOUCHER_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {
+  constructor(
+    public payload: { userId: string; cartId: string; voucherId: string }
+  ) {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
 }
 
+// TODO(#7241): Remove when switching to event system for vouchers
+/**
+ * Resets add voucher process
+ *
+ * @deprecated since 2.0
+ */
 export class CartResetAddVoucher extends EntityResetAction {
   readonly type = CART_RESET_ADD_VOUCHER;
   constructor() {
