@@ -37,6 +37,9 @@ import {
   URL_MATCHER_FACTORY_SERVICE,
   URL_MATCHER_SERVICE,
   WISHLIST_EFFECTS,
+  FORM_UTILS,
+  BILLING_ADDRESS_FORM_COMPONENT,
+  BILLING_ADDRESS_FORM_MODULE,
 } from '../../shared/constants';
 import { DeprecatedNode } from '../../shared/utils/file-utils';
 
@@ -215,5 +218,23 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: URL_MATCHER_FACTORY_SERVICE,
     importPath: SPARTACUS_CORE,
     comment: `'${URL_MATCHER_FACTORY_SERVICE}' was renamed to '${URL_MATCHER_SERVICE}' and its methods were renamed. For more details, see the migration docs.`,
+  },
+  // projects/storefrontlib/src/shared/utils/forms/form-utils.ts
+  {
+    node: FORM_UTILS,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${FORM_UTILS}' was removed. Its functionalities were moved to 'FormErrorsComponent'.`,
+  },
+  // projects/storefrontlib/src/cms-components/checkout/components/payment-method/billing-address-form/billing-address-form.component.ts
+  {
+    node: BILLING_ADDRESS_FORM_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${BILLING_ADDRESS_FORM_COMPONENT}' was removed. The form and the whole logic was moved to 'PaymentFormComponent'.`,
+  },
+  // projects/storefrontlib/src/cms-components/checkout/components/payment-method/billing-address-form/billing-address-form.module.ts
+  {
+    node: BILLING_ADDRESS_FORM_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${BILLING_ADDRESS_FORM_MODULE}' was removed. The form and the whole logic was moved to 'PaymentFormComponent'.`,
   },
 ];

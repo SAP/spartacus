@@ -5,7 +5,6 @@ import { from, Observable, of } from 'rxjs';
 import {
   catchError,
   concatMap,
-  exhaustMap,
   filter,
   groupBy,
   map,
@@ -21,7 +20,6 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { withdrawOn } from '../../../util/withdraw-on';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { getCartIdByUserId } from '../../utils/utils';
-import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
 import { getCartHasPendingProcessesSelectorFactory } from '../selectors/multi-cart.selector';
@@ -40,7 +38,6 @@ export class CartEffects {
     | CartActions.LoadCartFail
     | CartActions.LoadCartSuccess
     | CartActions.ClearExpiredCoupons
-    | DeprecatedCartActions.ClearCart
     | CartActions.RemoveCart
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
@@ -77,7 +74,9 @@ export class CartEffects {
                 if (payload.cartId === OCC_CART_ID_CURRENT) {
                   // Removing cart from entity object under `current` key as it is no longer needed.
                   // Current cart is loaded under it's code entity.
-                  actions.push(new CartActions.RemoveCart(OCC_CART_ID_CURRENT));
+                  actions.push(
+                    new CartActions.RemoveCart({ cartId: OCC_CART_ID_CURRENT })
+                  );
                 }
               } else {
                 actions = [
@@ -116,18 +115,17 @@ export class CartEffects {
                 ) {
                   // Clear cart is responsible for removing cart in `cart` store feature.
                   // Remove cart does the same thing, but in `multi-cart` store feature.
-                  return from([
-                    new DeprecatedCartActions.ClearCart(),
-                    new CartActions.RemoveCart(payload.cartId),
-                  ]);
+                  return of(
+                    new CartActions.RemoveCart({ cartId: payload.cartId })
+                  );
                 }
               }
-              return from([
+              return of(
                 new CartActions.LoadCartFail({
                   ...payload,
                   error: makeErrorSerializable(error),
-                }),
-              ]);
+                })
+              );
             })
           );
         })
@@ -138,8 +136,7 @@ export class CartEffects {
 
   @Effect()
   createCart$: Observable<
-    | DeprecatedCartActions.MergeCartSuccess
-    | CartActions.MergeMultiCartSuccess
+    | CartActions.MergeCartSuccess
     | CartActions.CreateCartSuccess
     | CartActions.CreateCartFail
     | CartActions.SetTempCart
@@ -154,15 +151,11 @@ export class CartEffects {
             const conditionalActions = [];
             if (payload.oldCartId) {
               conditionalActions.push(
-                new DeprecatedCartActions.MergeCartSuccess({
+                new CartActions.MergeCartSuccess({
+                  extraData: payload.extraData,
                   userId: payload.userId,
-                  cartId: cart.code,
-                })
-              );
-              conditionalActions.push(
-                new CartActions.MergeMultiCartSuccess({
-                  userId: payload.userId,
-                  cartId: cart.code,
+                  tempCartId: payload.tempCartId,
+                  cartId: getCartIdByUserId(cart, payload.userId),
                   oldCartId: payload.oldCartId,
                 })
               );
@@ -195,8 +188,8 @@ export class CartEffects {
 
   @Effect()
   mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.MERGE_CART),
-    map((action: DeprecatedCartActions.MergeCart) => action.payload),
+    ofType(CartActions.MERGE_CART),
+    map((action: CartActions.MergeCart) => action.payload),
     mergeMap((payload) => {
       return this.cartConnector.load(payload.userId, OCC_CART_ID_CURRENT).pipe(
         mergeMap((currentCart) => {
@@ -246,7 +239,6 @@ export class CartEffects {
     CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(
-      DeprecatedCartActions.MERGE_CART_SUCCESS,
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
@@ -257,7 +249,6 @@ export class CartEffects {
         action:
           | CartActions.CartAddEntrySuccess
           | CartActions.CartUpdateEntrySuccess
-          | DeprecatedCartActions.MergeCartSuccess
           | CartActions.CartRemoveEntrySuccess
           | CartActions.CartRemoveVoucherSuccess
       ) => action.payload
@@ -273,17 +264,14 @@ export class CartEffects {
 
   @Effect()
   resetCartDetailsOnSiteContextChange$: Observable<
-    DeprecatedCartActions.ResetCartDetails | CartActions.ResetMultiCartDetails
+    CartActions.ResetCartDetails
   > = this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
       SiteContextActions.CURRENCY_CHANGE
     ),
     mergeMap(() => {
-      return [
-        new DeprecatedCartActions.ResetCartDetails(),
-        new CartActions.ResetMultiCartDetails(),
-      ];
+      return [new CartActions.ResetCartDetails()];
     })
   );
 
@@ -328,20 +316,30 @@ export class CartEffects {
   );
 
   @Effect()
-  deleteCart$: Observable<any> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.DELETE_CART),
-    map((action: DeprecatedCartActions.DeleteCart) => action.payload),
-    exhaustMap((payload) =>
+  deleteCart$: Observable<
+    | CartActions.DeleteCartSuccess
+    | CartActions.DeleteCartFail
+    | CartActions.LoadCart
+  > = this.actions$.pipe(
+    ofType(CartActions.DELETE_CART),
+    map((action: CartActions.DeleteCart) => action.payload),
+    mergeMap((payload) =>
       this.cartConnector.delete(payload.userId, payload.cartId).pipe(
         map(() => {
-          return new DeprecatedCartActions.ClearCart();
+          return new CartActions.DeleteCartSuccess({ ...payload });
         }),
         catchError((error) =>
-          of(
-            new DeprecatedCartActions.DeleteCartFail(
-              makeErrorSerializable(error)
-            )
-          )
+          from([
+            new CartActions.DeleteCartFail({
+              ...payload,
+              error: makeErrorSerializable(error),
+            }),
+            // Error might happen in higher backend layer and cart could still be removed.
+            // When load fail with NotFound error then RemoveCart action will kick in and clear that cart in our state.
+            new CartActions.LoadCart({
+              ...payload,
+            }),
+          ])
         )
       )
     )

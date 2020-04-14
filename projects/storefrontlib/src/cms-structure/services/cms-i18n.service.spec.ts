@@ -40,9 +40,9 @@ describe('CmsI18nService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('loadChunksForComponents', () => {
+  describe('loadForComponents', () => {
     it('should load i18n chunks for given component types', () => {
-      service.loadChunksForComponents([]);
+      service.loadForComponents([]);
 
       expect(translation.loadChunks).toHaveBeenCalledWith([
         'chunkFor-key1',
