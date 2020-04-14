@@ -11,7 +11,7 @@ import { map } from 'rxjs/internal/operators/map';
 import { distinctUntilChanged, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
-import { FacetListComponent } from './facet-list';
+import { FacetListComponent } from './facet-list/facet-list.component';
 import { DialogMode } from './facet.model';
 
 @Component({

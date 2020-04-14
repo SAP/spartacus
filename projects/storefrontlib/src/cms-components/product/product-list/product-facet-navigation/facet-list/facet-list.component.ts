@@ -7,9 +7,9 @@ import {
   Output,
 } from '@angular/core';
 import { Facet } from '@spartacus/core';
-import { FocusConfig } from 'projects/storefrontlib/src/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { DialogMode, FacetList, ToggleState } from '../facet.model';
 import { FacetComponent } from '../facet/facet.component';
