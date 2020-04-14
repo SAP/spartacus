@@ -11,7 +11,7 @@
             [disabled]="loading$ | async"
           >
             <cx-icon [type]="iconTypes.HEART"></cx-icon>
-            <span class="button-text">{{
+            <span class="button-text cx-action-link">{{
               'addToWishList.remove' | cxTranslate
             }}</span>
           </button>
@@ -23,7 +23,7 @@
             [disabled]="loading$ | async"
           >
             <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
-            <span class="button-text">{{
+            <span class="button-text cx-action-link">{{
               'addToWishList.add' | cxTranslate
             }}</span>
           </button>
@@ -40,7 +40,7 @@
       [routerLink]="{ cxRoute: 'login' } | cxUrl"
     >
       <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
-      <span class="button-text">{{
+      <span class="button-text cx-action-link">{{
         'addToWishList.anonymous' | cxTranslate
       }}</span>
     </a>
