@@ -15,7 +15,7 @@ a {
 .cx-action-link {
   @include type('8');
   text-transform: uppercase;
-  text-decoration: underline;
+  text-decoration: none;
   cursor: pointer;
   display: inline-block;
   &:hover {
