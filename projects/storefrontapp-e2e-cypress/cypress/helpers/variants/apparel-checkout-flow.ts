@@ -5,7 +5,7 @@ export const APPAREL_BASESITE = 'apparel-uk-spa';
 export const APPAREL_CURRENCY = 'GBP';
 export const APPAREL_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-gross';
 
-export function configureApparelProduct() {
+export function configureProductWithVariants() {
   cy.cxConfig({
     context: {
       baseSite: ['apparel-uk-spa'],
@@ -28,7 +28,7 @@ export function addVariantOfSameProductToCart() {
 }
 
 export function visitProductWithoutVariantPage() {
-  configureApparelProduct();
+  configureProductWithVariants();
   cy.visit('apparel-uk-spa/en/GBP/product/300611156');
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[2].code);

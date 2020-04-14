@@ -1,13 +1,13 @@
+import * as checkout from '../../../helpers/checkout-flow';
 import {
   addMutipleProductWithoutVariantToCart,
   addVariantOfSameProductToCart,
   APPAREL_BASESITE,
   APPAREL_CURRENCY,
   APPAREL_DEFAULT_DELIVERY_MODE,
-  configureApparelProduct,
+  configureProductWithVariants,
   visitProductWithoutVariantPage,
-} from '../../../helpers/apparel/apparel-checkout-flow';
-import * as checkout from '../../../helpers/checkout-flow';
+} from '../../../helpers/variants/apparel-checkout-flow';
 import {
   cartWithTotalVariantProduct,
   products,
@@ -20,7 +20,7 @@ context('Apparel - checkout flow', () => {
   });
 
   beforeEach(() => {
-    configureApparelProduct();
+    configureProductWithVariants();
     cy.restoreLocalStorage();
   });
 

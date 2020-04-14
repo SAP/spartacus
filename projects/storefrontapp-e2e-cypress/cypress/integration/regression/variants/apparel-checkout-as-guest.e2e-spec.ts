@@ -1,17 +1,17 @@
 import { assertAddressForm } from '../../../helpers/address-book';
+import { login } from '../../../helpers/auth-forms';
+import * as guestCheckout from '../../../helpers/checkout-as-guest';
+import * as checkout from '../../../helpers/checkout-flow';
+import { validateUpdateProfileForm } from '../../../helpers/update-profile';
 import {
   addMutipleProductWithoutVariantToCart,
   addVariantOfSameProductToCart,
   APPAREL_BASESITE,
   APPAREL_CURRENCY,
   APPAREL_DEFAULT_DELIVERY_MODE,
-  configureApparelProduct,
+  configureProductWithVariants,
   visitProductWithoutVariantPage,
-} from '../../../helpers/apparel/apparel-checkout-flow';
-import { login } from '../../../helpers/auth-forms';
-import * as guestCheckout from '../../../helpers/checkout-as-guest';
-import * as checkout from '../../../helpers/checkout-flow';
-import { validateUpdateProfileForm } from '../../../helpers/update-profile';
+} from '../../../helpers/variants/apparel-checkout-flow';
 import {
   cartWithSingleVariantProduct,
   cartWithTotalVariantProduct,
@@ -26,7 +26,7 @@ context('Apparel - checkout as guest', () => {
   });
 
   beforeEach(() => {
-    configureApparelProduct();
+    configureProductWithVariants();
     cy.restoreLocalStorage();
   });
 
