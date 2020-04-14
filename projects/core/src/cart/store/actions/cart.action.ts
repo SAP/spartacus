@@ -30,8 +30,6 @@ export const MERGE_CART_SUCCESS = '[Cart] Merge Cart Success';
 
 export const RESET_CART_DETAILS = '[Cart] Reset Cart Details';
 
-export const CLEAR_EXPIRED_COUPONS = '[Cart] Clear Expired Coupon';
-
 export const REMOVE_CART = '[Cart] Remove Cart';
 
 export const DELETE_CART = '[Cart] Delete Cart';
@@ -191,11 +189,6 @@ export class ResetCartDetails extends ProcessesLoaderResetAction {
   }
 }
 
-export class ClearExpiredCoupons implements Action {
-  readonly type = CLEAR_EXPIRED_COUPONS;
-  constructor(public payload: any) {}
-}
-
 /**
  * Used for cleaning cart in local state, when we get information that it no longer exists in the backend.
  * For removing particular cart in both places use DeleteCart actions.
@@ -240,5 +233,4 @@ export type CartAction =
   | DeleteCart
   | DeleteCartSuccess
   | DeleteCartFail
-  | ClearExpiredCoupons
   | RemoveCart;

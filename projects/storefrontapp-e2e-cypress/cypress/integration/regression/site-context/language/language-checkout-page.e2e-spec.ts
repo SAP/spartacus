@@ -1,5 +1,6 @@
 import { manipulateCartQuantity } from '../../../../helpers/cart';
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
+import { apiUrl } from '../../../../support/utils/login';
 
 describe('Language switch - checkout page', () => {
   const checkoutShippingPath =
@@ -15,6 +16,7 @@ describe('Language switch - checkout page', () => {
       win.localStorage.clear();
     });
     cy.requireLoggedIn();
+    siteContextSelector.doPlaceOrder();
   });
 
   siteContextSelector.stub(
@@ -24,7 +26,6 @@ describe('Language switch - checkout page', () => {
 
   describe('populate cart, history, quantity', () => {
     it('should have basic data', () => {
-      siteContextSelector.doPlaceOrder();
       manipulateCartQuantity();
     });
   });
@@ -32,8 +33,14 @@ describe('Language switch - checkout page', () => {
   describe('checkout page', () => {
     it('should change language in the shipping address url', () => {
       // page being already tested in language-address-book
+      cy.route(
+        'PUT',
+        `${apiUrl}/rest/v2/electronics-spa/users/current/carts/*/addresses/delivery?*`
+      ).as('setAddress');
+      cy.visit(checkoutShippingPath);
+      cy.wait('@setAddress');
       siteContextSelector.verifySiteContextChangeUrl(
-        checkoutShippingPath,
+        null,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
