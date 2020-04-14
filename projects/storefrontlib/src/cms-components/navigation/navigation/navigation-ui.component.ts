@@ -80,7 +80,6 @@ export class NavigationUIComponent implements OnDestroy {
     const node = <HTMLElement>event.currentTarget;
     if (this.openNodes.includes(node)) {
       if (event.type === 'keydown') {
-        event.preventDefault();
         this.back();
       } else {
         this.openNodes = this.openNodes.filter((n) => n !== node);
