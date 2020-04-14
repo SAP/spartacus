@@ -1,5 +1,3 @@
-export const UTF_8 = 'utf-8';
-
 /***** Libraries versions start *****/
 
 export const DEFAULT_ANGULAR_VERSION = '^9.1.0';
@@ -217,4 +215,6 @@ export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 /***** Misc start *****/
 export const CSS_DOCS_URL =
   'https://sap.github.io/cloud-commerce-spartacus-storefront-docs/deprecation-guide/css';
+export const UTF_8 = 'utf-8';
+export const DEFAULT_ENVIRONMENT_NAME = 'environment';
 /***** Misc end *****/
