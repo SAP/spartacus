@@ -44,8 +44,9 @@ export class WebComponentHandler implements ComponentHandler {
     return new Observable<[ElementRef]>((observer) => {
       let webElement;
       let active = true;
+      const injector = elementInjector ?? viewContainerRef.injector;
 
-      const renderer = elementInjector.get(Renderer2);
+      const renderer = injector.get(Renderer2);
 
       const disposeFunc = () => {
         active = false;
@@ -59,12 +60,10 @@ export class WebComponentHandler implements ComponentHandler {
           if (elementName) {
             webElement = renderer.createElement(elementName);
 
-            const cmsComponentData = (
-              elementInjector ?? viewContainerRef.injector
-            ).get(CmsComponentData);
+            const cmsComponentData = injector.get(CmsComponentData, null);
 
             webElement.cxApi = {
-              ...elementInjector.get(CxApiService),
+              ...injector.get(CxApiService),
               cmsComponentData,
             };
 
