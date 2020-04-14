@@ -16,9 +16,9 @@ import {
   RoutingService,
   UserPaymentService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { Card } from '../../../../shared/components/card/card.component';
+import { CardComponent } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/index';
 import {
   CheckoutStep,
@@ -93,10 +93,10 @@ class MockCheckoutConfigService {
     return mockCheckoutStep;
   }
   getNextCheckoutStepUrl(): string {
-    return '';
+    return 'checkout/review-order';
   }
   getPreviousCheckoutStepUrl(): string {
-    return '';
+    return 'checkout/delivery-mode';
   }
 }
 
@@ -129,11 +129,6 @@ const mockAddress: Address = {
   country: { isocode: 'JP' },
 };
 
-const mockPaymentMethods: PaymentDetails[] = [
-  mockPaymentDetails,
-  mockPaymentDetails,
-];
-
 const mockActivatedRoute = {
   snapshot: {
     url: ['checkout', 'payment-method'],
@@ -157,27 +152,14 @@ class MockPaymentFormComponent {
 })
 class MockSpinnerComponent {}
 
-@Component({
-  selector: 'cx-card',
-  template: '',
-})
-class MockCardComponent {
-  @Input()
-  border: boolean;
-  @Input()
-  fitToContainer: boolean;
-  @Input()
-  content: Card;
-}
-
-describe('PaymentMethodComponent', () => {
+fdescribe('PaymentMethodComponent', () => {
   let component: PaymentMethodComponent;
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let mockUserPaymentService: UserPaymentService;
   let mockCheckoutPaymentService: CheckoutPaymentService;
   let mockRoutingService: RoutingService;
-  let mockRoutingConfigService: RoutingConfigService;
-  let mockActiveCartService: ActiveCartService;
+  // let mockRoutingConfigService: RoutingConfigService;
+  // let mockActiveCartService: ActiveCartService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -185,7 +167,8 @@ describe('PaymentMethodComponent', () => {
       declarations: [
         PaymentMethodComponent,
         MockPaymentFormComponent,
-        MockCardComponent,
+        CardComponent,
+        // MockCardComponent,
         MockSpinnerComponent,
         MockCxIconComponent,
       ],
@@ -215,8 +198,8 @@ describe('PaymentMethodComponent', () => {
     mockUserPaymentService = TestBed.inject(UserPaymentService);
     mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentService);
     mockRoutingService = TestBed.inject(RoutingService);
-    mockRoutingConfigService = TestBed.inject(RoutingConfigService);
-    mockActiveCartService = TestBed.inject(ActiveCartService);
+    // mockRoutingConfigService = TestBed.inject(RoutingConfigService);
+    // mockActiveCartService = TestBed.inject(ActiveCartService);
   }));
 
   beforeEach(() => {
@@ -229,348 +212,293 @@ describe('PaymentMethodComponent', () => {
   });
 
   describe('component behavior', () => {
-    it('should show loader during existing payment methods loading', () => {});
-    it('should select default payment method when nothing is selected', () => {});
-    it('should show form to add new payment method, when there are no existing methods', () => {});
-    it('should create and select new payment method and redirect', () => {});
-    it('should show form for creating new method after clicking new payment method button', () => {});
-    it('should have enabled button when there is selected method', () => {});
-    it('should display credit card info correctly', () => {});
-    it('should after each payment method selection change that in backend', () => {});
-    it('should not try to load methods for guest checkout', () => {});
-    it('should close form on change payment button click and not do anything', () => {});
-    it('should go to previous step after clicking goPreview', () => {});
-    it('should show selected card, when there was previously selected method', () => {});
-    it('should show errors on wrong card information', () => {});
-  });
-
-  it('should call addPaymentInfo() with new created payment info', () => {
-    component['deliveryAddress'] = mockAddress;
-    component.setPaymentDetails({
-      paymentDetails: mockPaymentDetails,
-      isNewPayment: true,
-      billingAddress: null,
-    });
-    expect(
-      mockCheckoutPaymentService.createPaymentDetails
-    ).toHaveBeenCalledWith({
-      ...mockPaymentDetails,
-      billingAddress: mockAddress,
-    });
-  });
-
-  it('should get existing payment methods if they do not exist for login user', (done) => {
-    spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
-    spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(of([]));
-    component.ngOnInit();
-
-    component.existingPaymentMethods$.subscribe(() => {
-      expect(mockUserPaymentService.loadPaymentMethods).toHaveBeenCalled();
-      done();
-    });
-  });
-
-  it('should not get existing payment methods for guest user', (done) => {
-    spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
-    spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(of([]));
-    spyOn(mockActiveCartService, 'isGuestCart').and.returnValue(true);
-    component.ngOnInit();
-
-    component.existingPaymentMethods$.subscribe(() => {
-      expect(mockUserPaymentService.loadPaymentMethods).not.toHaveBeenCalled();
-      done();
-    });
-    expect(component.isGuestCheckout).toBeTruthy();
-  });
-
-  it('should call ngOnInit to get existing payment methods if they exist', () => {
-    spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-      of(mockPaymentMethods)
-    );
-    component.ngOnInit();
-    let paymentMethods: PaymentDetails[];
-    component.existingPaymentMethods$
-      .subscribe((data) => {
-        paymentMethods = data;
-      })
-      .unsubscribe();
-    expect(paymentMethods).toBe(mockPaymentMethods);
-    expect(paymentMethods.length).toEqual(2);
-  });
-
-  it('should call getCardContent() to get payment method card data', () => {
-    component
-      .getCardContent(mockPaymentDetails)
-      .subscribe((card) => {
-        expect(card.title).toEqual('');
-        expect(card.textBold).toEqual('Name');
-        expect(card.text).toEqual([
-          '123456789',
-          `paymentCard.expires month:${mockPaymentDetails.expiryMonth} year:${mockPaymentDetails.expiryYear}`,
-        ]);
-      })
-      .unsubscribe();
-  });
-
-  it('should call selectPaymentMethod(paymentDetails)', () => {
-    component.selectPaymentMethod(mockPaymentDetails);
-    expect(component.selectedPayment).toEqual(mockPaymentDetails);
-  });
-
-  it('should call goNext() to submit request', () => {
-    spyOn(component, 'setPaymentDetails');
-    component.selectedPayment = mockPaymentDetails;
-    component.goNext();
-
-    expect(component.setPaymentDetails).toHaveBeenCalledWith({
-      paymentDetails: mockPaymentDetails,
-      isNewPayment: false,
-    });
-  });
-
-  it('should call showNewPaymentForm()', () => {
-    component.showNewPaymentForm();
-    expect(component.newPaymentFormManuallyOpened).toEqual(true);
-  });
-
-  it('should call hideNewPaymentForm()', () => {
-    component.hideNewPaymentForm();
-    expect(component.newPaymentFormManuallyOpened).toEqual(false);
-  });
-
-  it('should call goPrevious()', () => {
-    component['checkoutStepUrlPrevious'] = `/${
-      mockRoutingConfigService.getRouteConfig(mockCheckoutStep.routeName)
-        .paths[0]
-    }`;
-    component.goPrevious();
-
-    expect(mockRoutingService.go).toHaveBeenCalledWith(
-      component['checkoutStepUrlPrevious']
-    );
-  });
-
-  it('should automatically select default payment when there is no current selection', () => {
-    const mockDefaultPaymentDetails = {
-      ...mockPaymentDetails,
-      defaultPayment: true,
-    };
-
-    component
-      .getCardContent(mockDefaultPaymentDetails)
-      .subscribe(() => {
-        expect(component.selectedPayment).toBeTruthy();
-        expect(component.selectedPayment).toEqual(mockDefaultPaymentDetails);
-      })
-      .unsubscribe();
-  });
-
-  it('should NOT automatically select default payment when there is a current selection', () => {
-    component.selectedPayment = mockPaymentDetails;
-    const mockDefaultPaymentDetails = {
-      ...mockPaymentDetails,
-      defaultPayment: true,
-    };
-
-    component
-      .getCardContent(mockDefaultPaymentDetails)
-      .subscribe(() => {
-        expect(component.selectedPayment).toBeTruthy();
-        expect(component.selectedPayment).not.toEqual(
-          mockDefaultPaymentDetails
-        );
-        expect(component.selectedPayment).toEqual(mockPaymentDetails);
-      })
-      .unsubscribe();
-  });
-
-  describe('UI continue button', () => {
-    const getContinueBtn = () =>
-      fixture.debugElement
-        .queryAll(By.css('.btn-primary'))
-        .find((el) => el.nativeElement.innerText === 'common.continue');
-
-    it('should be enabled when payment method is selected', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
-      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of(mockPaymentMethods)
-      );
-
-      component.selectedPayment = mockPaymentDetails;
-      fixture.detectChanges();
-      expect(getContinueBtn().nativeElement.disabled).toEqual(false);
-    });
-
-    it('should call "goNext" function after being clicked', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
-      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of(mockPaymentMethods)
-      );
-
-      component.selectedPayment = mockPaymentDetails;
-      fixture.detectChanges();
-      spyOn(component, 'goNext');
-      getContinueBtn().nativeElement.click();
-      expect(component.goNext).toHaveBeenCalled();
-    });
-  });
-
-  describe('UI goPrevious button', () => {
-    const getBackBtn = () =>
-      fixture.debugElement
-        .queryAll(By.css('.btn-action'))
-        .find((el) => el.nativeElement.innerText === 'common.back');
-
-    it('should call "goPrevious" function after being clicked', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
-      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of(mockPaymentMethods)
-      );
-
-      fixture.detectChanges();
-      spyOn(component, 'goPrevious');
-      getBackBtn().nativeElement.click();
-      expect(component.goPrevious).toHaveBeenCalled();
-    });
-  });
-
-  describe('UI cards with payment methods', () => {
-    const getCards = () => fixture.debugElement.queryAll(By.css('cx-card'));
-
-    it('should represent all existng payment methods', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
-      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of(mockPaymentMethods)
-      );
-
-      fixture.detectChanges();
-      expect(getCards().length).toEqual(2);
-    });
-
-    it('should not display if there are no existng payment methods', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
-      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of([])
-      );
-
-      fixture.detectChanges();
-      expect(getCards().length).toEqual(0);
-    });
-
-    it('should not display if existng payment methods are loading', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
-      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of([])
-      );
-
-      fixture.detectChanges();
-      fixture.detectChanges();
-      expect(getCards().length).toEqual(0);
-    });
-  });
-
-  describe('UI new payment method form', () => {
-    const getAddNewPaymentBtn = () =>
-      fixture.debugElement
-        .queryAll(By.css('.btn-action'))
-        .find(
-          (el) => el.nativeElement.innerText === 'paymentForm.addNewPayment'
-        );
-    const getNewPaymentForm = () =>
-      fixture.debugElement.query(By.css('cx-payment-form'));
-
-    it('should render after user clicks "add new payment method" button', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
-      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of(mockPaymentMethods)
-      );
-
-      fixture.detectChanges();
-      getAddNewPaymentBtn().nativeElement.click();
-
-      fixture.detectChanges();
-      expect(getNewPaymentForm()).toBeTruthy();
-    });
-
-    it('should render on init if there are no existing payment methods', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
-      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of([])
-      );
-
-      fixture.detectChanges();
-
-      expect(getNewPaymentForm()).toBeTruthy();
-    });
-
-    it('should not render on init if there are some existing payment methods', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
-      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of(mockPaymentMethods)
-      );
-
-      fixture.detectChanges();
-
-      expect(getNewPaymentForm()).toBeFalsy();
-    });
-
-    it('should not render when existing payment methods are loading', () => {
+    it('should show loader during existing payment methods loading', () => {
+      // arrange
       spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(true)
       );
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([])
       );
+      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+        of(null)
+      );
 
+      // act
+      component.ngOnInit();
       fixture.detectChanges();
 
-      expect(getNewPaymentForm()).toBeFalsy();
-    });
-  });
-
-  describe('UI spinner', () => {
-    const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
-
-    it('should render only when existing payment methods are loading', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(true)
+      // assert
+      expect(fixture.debugElement.queryAll(By.css('cx-card')).length).toEqual(
+        0
       );
+      expect(fixture.debugElement.query(By.css('cx-spinner'))).toBeTruthy();
+      expect(fixture.debugElement.query(By.css('cx-payment-form'))).toBeFalsy();
+    });
+
+    it('should select default payment method when nothing is selected', () => {
+      // arrange
+      const mockPayments = [
+        {
+          id: 'non default method',
+          accountHolderName: 'Name',
+          cardNumber: '123456789',
+          cardType: {
+            code: 'Visa',
+            name: 'Visa',
+          },
+          expiryMonth: '01',
+          expiryYear: '2022',
+          cvn: '123',
+        },
+        {
+          id: 'default payment method',
+          accountHolderName: 'Name',
+          cardNumber: '123456789',
+          cardType: {
+            code: 'Visa',
+            name: 'Visa',
+          },
+          expiryMonth: '01',
+          expiryYear: '2022',
+          cvn: '123',
+          defaultPayment: true,
+        },
+      ];
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of([])
+        of(mockPayments)
+      );
+      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+        of(null)
       );
 
+      // act
+      component.ngOnInit();
       fixture.detectChanges();
-      expect(getSpinner()).toBeTruthy();
+
+      // assert
+      expect(mockCheckoutPaymentService.setPaymentDetails).toHaveBeenCalledWith(
+        mockPayments[1]
+      );
     });
 
-    it('should NOT render when the payment method is loaded', () => {
+    it('should show form to add new payment method, when there are no existing methods', () => {
+      // arrange
       spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of(mockPaymentMethods)
+        of([])
+      );
+      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+        of(null)
       );
 
+      // act
+      component.ngOnInit();
       fixture.detectChanges();
-      expect(getSpinner()).toBeFalsy();
+
+      // assert
+      expect(fixture.debugElement.queryAll(By.css('cx-card')).length).toEqual(
+        0
+      );
+      expect(fixture.debugElement.query(By.css('cx-spinner'))).toBeFalsy();
+      expect(
+        fixture.debugElement.query(By.css('cx-payment-form'))
+      ).toBeTruthy();
     });
+
+    it('should create and select new payment method and redirect', () => {
+      // arrange
+      const selectedPaymentMethod = new BehaviorSubject<PaymentDetails>(null);
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
+        of(false)
+      );
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
+        of([])
+      );
+      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+        selectedPaymentMethod.asObservable()
+      );
+
+      // act
+      component.ngOnInit();
+      fixture.detectChanges();
+      component.setPaymentDetails({
+        paymentDetails: mockPaymentDetails,
+        billingAddress: mockAddress,
+      });
+
+      // assert
+      expect(
+        mockCheckoutPaymentService.createPaymentDetails
+      ).toHaveBeenCalledWith({
+        ...mockPaymentDetails,
+        billingAddress: mockAddress,
+      });
+      selectedPaymentMethod.next(mockPaymentDetails);
+      expect(mockRoutingService.go).toHaveBeenCalledWith(
+        defaultStorefrontRoutesConfig.checkoutReviewOrder.paths[0]
+      );
+    });
+
+    it('should show form for creating new method after clicking new payment method button', () => {
+      // arrange
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
+        of(false)
+      );
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
+        of([mockPaymentDetails])
+      );
+      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+        of(null)
+      );
+
+      // act
+      component.ngOnInit();
+      fixture.detectChanges();
+      fixture.debugElement
+        .queryAll(By.css('button'))
+        .filter(
+          (btn) => btn.nativeElement.innerText === 'paymentForm.addNewPayment'
+        )[0]
+        .nativeElement.click();
+      fixture.detectChanges();
+
+      // assert
+      expect(fixture.debugElement.queryAll(By.css('cx-card')).length).toEqual(
+        0
+      );
+      expect(fixture.debugElement.query(By.css('cx-spinner'))).toBeFalsy();
+      expect(
+        fixture.debugElement.query(By.css('cx-payment-form'))
+      ).toBeTruthy();
+    });
+
+    it('should have enabled button when there is selected method', () => {
+      // arrange
+      const getContinueButton = () => {
+        return fixture.debugElement
+          .queryAll(By.css('button'))
+          .filter(
+            (btn) => btn.nativeElement.innerText === 'common.continue'
+          )[0];
+      };
+      const selectedPaymentMethod = new BehaviorSubject<PaymentDetails>(null);
+      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
+        of(false)
+      );
+      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
+        of([mockPaymentDetails])
+      );
+      spyOn(mockCheckoutPaymentService, 'getPaymentDetails').and.returnValue(
+        selectedPaymentMethod.asObservable()
+      );
+
+      // act
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      // assert
+      expect(getContinueButton().nativeElement.disabled).toBeTruthy();
+      selectedPaymentMethod.next(mockPaymentDetails);
+      fixture.detectChanges();
+      expect(getContinueButton().nativeElement.disabled).toBeFalsy();
+    });
+
+    it('should display credit card info correctly', () => {
+      const selectedPaymentMethod = {
+        id: 'selected payment method',
+        accountHolderName: 'Name',
+        cardNumber: '123456789',
+        cardType: {
+          code: 'Visa',
+          name: 'Visa',
+        },
+        expiryMonth: '01',
+        expiryYear: '2022',
+        cvn: '123',
+        defaultPayment: true,
+      };
+
+      expect(
+        component['createCard'](
+          selectedPaymentMethod,
+          {
+            textDefaultPaymentMethod: 'Default payment method',
+            textExpires: 'Expires',
+            textUseThisPayment: 'Use this payment',
+            textSelected: 'Selected',
+          },
+          selectedPaymentMethod
+        )
+      ).toEqual({
+        title: 'Default payment method',
+        textBold: 'Name',
+        text: ['123456789', 'Expires'],
+        img: 'CREDIT_CARD',
+        actions: [{ name: 'Use this payment', event: 'send' }],
+        header: 'Selected',
+      });
+    });
+    // it('should after each payment method selection change that in backend', () => {});
+    // it('should not try to load methods for guest checkout', () => {});
+    // it('should close form on change payment button click and not do anything', () => {});
+    // it('should go to previous step after clicking goPreview', () => {});
+    // it('should show selected card, when there was previously selected method', () => {});
+    // it('should show errors on wrong card information', () => {});
   });
+
+  // it('should not get existing payment methods for guest user', (done) => {
+  //   spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
+  //   spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(of([]));
+  //   spyOn(mockActiveCartService, 'isGuestCart').and.returnValue(true);
+  //   component.ngOnInit();
+
+  //   component.existingPaymentMethods$.subscribe(() => {
+  //     expect(mockUserPaymentService.loadPaymentMethods).not.toHaveBeenCalled();
+  //     done();
+  //   });
+  //   expect(component.isGuestCheckout).toBeTruthy();
+  // });
+
+  // it('should NOT automatically select default payment when there is a current selection', () => {
+  //   component.selectedPayment = mockPaymentDetails;
+  //   const mockDefaultPaymentDetails = {
+  //     ...mockPaymentDetails,
+  //     defaultPayment: true,
+  //   };
+
+  //   component
+  //     .getCardContent(mockDefaultPaymentDetails)
+  //     .subscribe(() => {
+  //       expect(component.selectedPayment).toBeTruthy();
+  //       expect(component.selectedPayment).not.toEqual(
+  //         mockDefaultPaymentDetails
+  //       );
+  //       expect(component.selectedPayment).toEqual(mockPaymentDetails);
+  //     })
+  //     .unsubscribe();
+  // });
+
+  // describe('UI goPrevious button', () => {
+  //   const getBackBtn = () =>
+  //     fixture.debugElement
+  //       .queryAll(By.css('.btn-action'))
+  //       .find((el) => el.nativeElement.innerText === 'common.back');
+
+  //   it('should call "goPrevious" function after being clicked', () => {
+  //     spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
+  //       of(false)
+  //     );
+  //     spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
+  //       of(mockPaymentMethods)
+  //     );
+
+  //     fixture.detectChanges();
+  //     spyOn(component, 'goPrevious');
+  //     getBackBtn().nativeElement.click();
+  //     expect(component.goPrevious).toHaveBeenCalled();
+  //   });
+  // });
 });

@@ -84,7 +84,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
     this.selectedMethod$ = this.checkoutPaymentService.getPaymentDetails().pipe(
       tap((paymentInfo) => {
-        console.log(paymentInfo);
         if (paymentInfo && !!Object.keys(paymentInfo).length) {
           if (this.allowRouting) {
             this.routingService.go(this.checkoutStepUrlNext);
@@ -145,8 +144,12 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             const defaultPaymentMethod = paymentMethods.find(
               (paymentMethod) => paymentMethod.payment.defaultPayment
             );
-            selectedMethod = defaultPaymentMethod.payment;
-            this.checkoutPaymentService.setPaymentDetails(selectedMethod);
+            if (defaultPaymentMethod) {
+              selectedMethod = defaultPaymentMethod.payment;
+            }
+            if (selectedMethod) {
+              this.checkoutPaymentService.setPaymentDetails(selectedMethod);
+            }
           }
           return paymentMethods.map((payment) => ({
             card: this.createCard(
