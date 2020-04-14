@@ -1,33 +1,67 @@
 import { TestBed } from '@angular/core/testing';
+import { DefaultComponentHandler } from './default-component.handler';
+import { CmsMappingService } from '../../../services/cms-mapping.service';
+import { Priority } from '@spartacus/core';
+import { Component, ViewContainerRef } from '@angular/core';
+import { take } from 'rxjs/operators';
 
-// import { CmsComponentLauncherService } from './cms-component-launcher.service';
+const mockCmsMappingService = {
+  getComponentMapping: () => ({ component: TestComponent }),
+};
 
-describe('CmsComponentLauncherService', () => {
-  // let service: CmsComponentLauncherService;
+@Component({
+  template: '',
+})
+class WrapperComponent {
+  constructor(public vcr: ViewContainerRef) {}
+}
+
+@Component({
+  template: 'testComponent',
+})
+class TestComponent {}
+
+describe('DefaultComponentHandler', () => {
+  let handler: DefaultComponentHandler;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    // service = TestBed.inject(CmsComponentLauncherService);
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: CmsMappingService,
+          useValue: mockCmsMappingService,
+        },
+      ],
+      declarations: [TestComponent, WrapperComponent],
+    }).compileComponents();
+    handler = TestBed.inject(DefaultComponentHandler);
   });
 
   it('should be created', () => {
-    expect(true).toBeTruthy();
+    expect(handler).toBeTruthy();
   });
 
-  // describe('getComponentFactoryByCode', () => {
-  //   beforeEach(() => {
-  //     service = TestBed.inject(ComponentMapperService);
-  //   });
-  //
-  //   it('should return component factory', () => {
-  //     const factory = service.getComponentFactoryByCode('CMSTestComponent');
-  //     console.log(factory);
-  //     expect(factory instanceof ComponentFactory).toBeTruthy();
-  //   });
-  //
-  //   it('should return null when mapping is not configured', () => {
-  //     const factory = service.getComponentFactoryByCode('Unknown');
-  //     expect(factory).toBeNull();
-  //   });
-  // });
+  describe('hasMatch', () => {
+    it('should match component class', () => {
+      expect(handler.hasMatch({ component: TestComponent })).toBeTruthy();
+    });
+  });
+
+  it('getPriority should return fallback', () => {
+    expect(handler.getPriority()).toEqual(Priority.FALLBACK);
+  });
+
+  it('should launch component', (done) => {
+    const fixture = TestBed.createComponent(WrapperComponent);
+    fixture.detectChanges();
+
+    handler
+      .launcher({ component: TestComponent }, fixture.componentInstance.vcr)
+      .pipe(take(1))
+      .subscribe(([elRef, cmpRef]) => {
+        expect(cmpRef.componentType).toBe(TestComponent);
+        expect(elRef.nativeElement.innerText).toBe('testComponent');
+        done();
+      });
+  });
 });
