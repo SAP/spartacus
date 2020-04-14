@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form (ngSubmit)="onSubmit()" [formGroup]="checkoutLoginForm">
   <div class="form-group">
     <label>
       <span class="label-content">{{
@@ -12,11 +12,10 @@
         placeholder="{{
           'checkoutLogin.emailAddress.placeholder' | cxTranslate
         }}"
-        [class.is-invalid]="isNotValid('email')"
       />
-      <div class="invalid-feedback" *ngIf="isNotValid('email')">
-        <span>{{ 'checkoutLogin.emailIsRequired' | cxTranslate }}</span>
-      </div>
+      <cx-form-errors
+        [control]="checkoutLoginForm.get('email')"
+      ></cx-form-errors>
     </label>
   </div>
 
@@ -33,11 +32,10 @@
         placeholder="{{
           'checkoutLogin.confirmEmail.placeholder' | cxTranslate
         }}"
-        [class.is-invalid]="isEmailConfirmInvalid()"
       />
-      <div class="invalid-feedback" *ngIf="isEmailConfirmInvalid()">
-        <span>{{ 'checkoutLogin.emailsMustMatch' | cxTranslate }}</span>
-      </div>
+      <cx-form-errors
+        [control]="checkoutLoginForm.get('emailConfirmation')"
+      ></cx-form-errors>
     </label>
   </div>
 

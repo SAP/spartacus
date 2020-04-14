@@ -68,6 +68,13 @@ export class ConfiguratorTextfieldEffects {
               ...entry,
               userId: payload.userId,
               cartId: payload.cartId,
+              productCode: payload.productCode,
+              quantity: entry.quantity,
+              deliveryModeChanged: entry.deliveryModeChanged,
+              entry: entry.entry,
+              quantityAdded: entry.quantityAdded,
+              statusCode: entry.statusCode,
+              statusMessage: entry.statusMessage,
             }),
           ];
         }),

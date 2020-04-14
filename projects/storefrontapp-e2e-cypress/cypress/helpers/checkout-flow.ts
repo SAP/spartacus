@@ -284,9 +284,9 @@ export function fillPaymentFormWithCheapProduct(
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('contain', cartWithCheapProduct.totalAndShipping);
-  const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
+  const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.wait(`@${reivewPage}`).its('status').should('eq', 200);
+  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
 }
 
 export function placeOrderWithCheapProduct() {
@@ -322,7 +322,7 @@ export function placeOrderWithCheapProduct() {
       'href',
       '/electronics-spa/en/USD/terms-and-conditions'
     );
-  cy.get('.form-check-input').check();
+  cy.get('input[formcontrolname="termsAndConditions"]').check();
   const orderConfirmationPage = waitForPage(
     '/order-confirmation',
     'getOrderConfirmationPage'

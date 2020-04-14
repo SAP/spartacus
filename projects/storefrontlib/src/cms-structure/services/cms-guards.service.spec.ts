@@ -5,10 +5,10 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
+import { ConfigModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsGuardsService } from './cms-guards.service';
 import { CmsMappingService } from './cms-mapping.service';
-import { ConfigModule, provideConfig } from '@spartacus/core';
 
 describe('CmsGuardsService', () => {
   let service: CmsGuardsService;
@@ -130,36 +130,6 @@ describe('CmsGuardsService', () => {
         )
         .subscribe((res) => (result = res));
       expect(result).toEqual(mockUrlTree);
-    });
-  });
-
-  describe('shouldForceRefreshPage', () => {
-    it('should return true if cmsPageLoadOnce flag is not enabled', () => {
-      TestBed.configureTestingModule({
-        providers: [
-          provideConfig({
-            features: {
-              cmsPageLoadOnce: false,
-            },
-          }),
-        ],
-      });
-      service = TestBed.inject(CmsGuardsService);
-      expect(service.shouldForceRefreshPage()).toBeTrue();
-    });
-
-    it('should return false if cmsPageLoadOnce flag is enabled', () => {
-      TestBed.configureTestingModule({
-        providers: [
-          provideConfig({
-            features: {
-              cmsPageLoadOnce: true,
-            },
-          }),
-        ],
-      });
-      service = TestBed.inject(CmsGuardsService);
-      expect(service.shouldForceRefreshPage()).toBeFalse();
     });
   });
 });
