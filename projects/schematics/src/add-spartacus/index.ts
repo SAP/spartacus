@@ -11,9 +11,15 @@ import {
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   appendHtmlElementToHead,
+  findNodes,
   getProjectStyleFile,
+  getSourceNodes,
 } from '@angular/cdk/schematics';
-import { isImported } from '@schematics/angular/utility/ast-utils';
+import {
+  getEnvironmentExportName,
+  isImported,
+} from '@schematics/angular/utility/ast-utils';
+import { Change, InsertChange } from '@schematics/angular/utility/change';
 import {
   addPackageJsonDependency,
   NodeDependency,
@@ -21,12 +27,21 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
+import * as ts from 'typescript';
 import {
+  ANGULAR_LOCALIZE,
   B2C_STOREFRONT_MODULE,
+  DEFAULT_ENVIRONMENT_NAME,
   SPARTACUS_ASSETS,
+  SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_STYLES,
 } from '../shared/constants';
-import { getIndexHtmlPath, getTsSourceFile } from '../shared/utils/file-utils';
+import {
+  commitChanges,
+  getIndexHtmlPath,
+  getTsSourceFile,
+} from '../shared/utils/file-utils';
 import {
   addImport,
   addToModuleImportsAndCommitChanges,
@@ -39,6 +54,11 @@ import {
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 import { Schema as SpartacusOptions } from './schema';
 
+const DEFAULT_ENVIRONMENT_PATHS = {
+  replace: '/src/environments/environment.ts',
+  with: '/src/environments/environment.prod.ts',
+};
+
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
@@ -49,32 +69,32 @@ function addPackageJsonDependencies(): Rule {
       {
         type: NodeDependencyType.Default,
         version: spartacusVersion,
-        name: '@spartacus/core',
+        name: SPARTACUS_CORE,
       },
       {
         type: NodeDependencyType.Default,
         version: spartacusVersion,
-        name: '@spartacus/storefront',
+        name: SPARTACUS_STOREFRONTLIB,
       },
       {
         type: NodeDependencyType.Default,
         version: spartacusVersion,
-        name: '@spartacus/assets',
+        name: SPARTACUS_ASSETS,
       },
       {
         type: NodeDependencyType.Default,
         version: spartacusVersion,
-        name: '@spartacus/styles',
+        name: SPARTACUS_STYLES,
       },
 
       {
         type: NodeDependencyType.Default,
-        version: '^4.1.0',
+        version: '^6.0.0',
         name: '@ng-bootstrap/ng-bootstrap',
       },
       {
         type: NodeDependencyType.Default,
-        version: '^2.13.2',
+        version: '^4.0.0',
         name: '@ng-select/ng-select',
       },
 
@@ -99,16 +119,21 @@ function addPackageJsonDependencies(): Rule {
         version: '^4.2.1',
         name: 'bootstrap',
       },
-      { type: NodeDependencyType.Default, version: '^15.0.6', name: 'i18next' },
+      { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },
       {
         type: NodeDependencyType.Default,
-        version: '^2.0.1',
+        version: '^3.2.2',
         name: 'i18next-xhr-backend',
       },
       {
         type: NodeDependencyType.Default,
-        version: angularVersion || '~8.2.5',
+        version: angularVersion,
         name: '@angular/service-worker',
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: angularVersion,
+        name: ANGULAR_LOCALIZE,
       },
       {
         type: NodeDependencyType.Default,
@@ -136,7 +161,92 @@ function installPackageJsonDependencies(): Rule {
   };
 }
 
-function getStorefrontConfig(options: SpartacusOptions): string {
+function updateEnvironment(
+  project: experimental.workspace.WorkspaceProject,
+  options: SpartacusOptions
+): Rule {
+  return (host: Tree, _context: SchematicContext) => {
+    const fileReplacements =
+      project.architect?.build?.configurations?.production
+        ?.fileReplacements[0] || DEFAULT_ENVIRONMENT_PATHS;
+    const devEnvironmentPath = fileReplacements.replace;
+    const prodEnvironmentPath = fileReplacements.with;
+
+    const devChange = appendOccPrefixToEnv(host, devEnvironmentPath, options);
+    const prodChange = appendOccPrefixToEnv(host, prodEnvironmentPath, options);
+    commitChanges(host, devEnvironmentPath, [devChange]);
+    commitChanges(host, prodEnvironmentPath, [prodChange]);
+
+    return host;
+  };
+}
+
+function appendOccPrefixToEnv(
+  tree: Tree,
+  path: string,
+  options: SpartacusOptions
+): Change {
+  const appModulePath = getMainAppModulePath(tree, options);
+  const appModuleSource = getTsSourceFile(tree, appModulePath);
+  const envName =
+    getEnvironmentExportName(appModuleSource) || DEFAULT_ENVIRONMENT_NAME;
+
+  const source = getTsSourceFile(tree, path);
+  const allNodes = getSourceNodes(source);
+
+  const lastPropertyInfo = allNodes
+    .filter((n) => n.kind === ts.SyntaxKind.VariableDeclaration)
+    .filter((n) => {
+      const environmentObject = n
+        .getChildren()
+        .filter(
+          (identifier) =>
+            identifier.kind === ts.SyntaxKind.Identifier &&
+            identifier.getText() === envName
+        );
+      return environmentObject.length !== 0;
+    })
+    .map(
+      (variableDeclarationNode) =>
+        variableDeclarationNode
+          .getChildren()
+          .filter((n) => n.kind === ts.SyntaxKind.ObjectLiteralExpression)[0]
+    )
+    .map((objectLiteralExpressionNode) => {
+      const properties = findNodes(
+        objectLiteralExpressionNode,
+        ts.SyntaxKind.PropertyAssignment
+      );
+      const commas = findNodes(
+        objectLiteralExpressionNode,
+        ts.SyntaxKind.CommaToken
+      );
+
+      // return the last one
+      const lastProperty = properties[properties.length - 1];
+      const trailingComma = commas.length === properties.length;
+
+      return {
+        lastProperty,
+        trailingComma,
+      };
+    })[0];
+
+  let position = lastPropertyInfo.lastProperty.end;
+  if (lastPropertyInfo.trailingComma) {
+    position += 1;
+  }
+  const toAdd = `${
+    !lastPropertyInfo.trailingComma ? ',' : ''
+  }\n  occPrefix: '/occ/v2/',`;
+
+  return new InsertChange(path, position, toAdd);
+}
+
+function getStorefrontConfig(
+  options: SpartacusOptions,
+  environmentImportName: string
+): string {
   const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
   const contextContent = !options.baseSite
     ? ''
@@ -147,7 +257,7 @@ function getStorefrontConfig(options: SpartacusOptions): string {
   return `{
       backend: {
         occ: {${options.useMetaTags ? '' : baseUrlPart}
-          prefix: '/rest/v2/'
+          prefix: ${environmentImportName}.occPrefix
         }
       },${contextContent}
       i18n: {
@@ -161,19 +271,23 @@ function getStorefrontConfig(options: SpartacusOptions): string {
     }`;
 }
 
+function getMainAppModulePath(host: Tree, options: SpartacusOptions): string {
+  // find app module
+  const projectTargets = getProjectTargets(host, options.project);
+
+  if (!projectTargets.build) {
+    throw new SchematicsException(`Project target "build" not found.`);
+  }
+
+  const mainPath = projectTargets.build.options.main;
+  return getAppModulePath(host, mainPath);
+}
+
 function updateAppModule(options: SpartacusOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
     context.logger.debug('Updating main module');
 
-    // find app module
-    const projectTargets = getProjectTargets(host, options.project);
-
-    if (!projectTargets.build) {
-      throw new SchematicsException(`Project target "build" not found.`);
-    }
-
-    const mainPath = projectTargets.build.options.main;
-    const modulePath = getAppModulePath(host, mainPath);
+    const modulePath = getMainAppModulePath(host, options);
     context.logger.debug(`main module path: ${modulePath}`);
     const moduleSource = getTsSourceFile(host, modulePath);
     if (
@@ -189,10 +303,23 @@ function updateAppModule(options: SpartacusOptions): Rule {
         SPARTACUS_STOREFRONTLIB
       );
 
+      const environmentImportName = getEnvironmentExportName(moduleSource);
+      if (!environmentImportName) {
+        addImport(
+          host,
+          modulePath,
+          DEFAULT_ENVIRONMENT_NAME,
+          '../environments/environment'
+        );
+      }
+
       addToModuleImportsAndCommitChanges(
         host,
         modulePath,
-        `${B2C_STOREFRONT_MODULE}.withConfig(${getStorefrontConfig(options)})`
+        `${B2C_STOREFRONT_MODULE}.withConfig(${getStorefrontConfig(
+          options,
+          environmentImportName || DEFAULT_ENVIRONMENT_NAME
+        )})`
       );
     }
 
@@ -313,6 +440,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(),
+      updateEnvironment(project, options),
       updateAppModule(options),
       installStyles(project),
       updateMainComponent(project, options),

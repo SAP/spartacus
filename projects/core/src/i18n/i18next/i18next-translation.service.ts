@@ -1,9 +1,9 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { Observable } from 'rxjs';
-import { TranslationService } from '../translation.service';
 import i18next from 'i18next';
+import { Observable } from 'rxjs';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
+import { TranslationService } from '../translation.service';
 
 @Injectable()
 export class I18nextTranslationService implements TranslationService {

@@ -1,9 +1,8 @@
-export const UTF_8 = 'utf-8';
-
 /***** Libraries versions start *****/
 
-export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '9.1.0';
-export const ANGULAR_UNIVERSAL_BUILDERS = '9.1.0';
+export const DEFAULT_ANGULAR_VERSION = '^9.1.0';
+export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '^9.1.0';
+export const ANGULAR_UNIVERSAL_BUILDERS = '^9.1.0';
 
 /***** Libraries versions end *****/
 
@@ -12,6 +11,7 @@ export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
 export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
+export const ANGULAR_LOCALIZE = '@angular/localize';
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
 export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
@@ -20,6 +20,7 @@ export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
+export const SPARTACUS_STYLES = '@spartacus/styles';
 
 export const NGRX_STORE = '@ngrx/store';
 /***** Imports end *****/
@@ -107,6 +108,9 @@ export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
+export const CONSENT_MANAGEMENT_COMPONENT = 'ConsentManagementComponent';
+export const ANONYMOUS_CONSENT_DIALOG_COMPONENT =
+  'AnonymousConsentDialogComponent';
 export const PRODUCT_IMAGES_COMPONENT = 'ProductImagesComponent';
 export const USER_CONSENT_SERVICE = 'UserConsentService';
 export const USER_ORDER_SERVICE = 'UserOrderService';
@@ -129,6 +133,8 @@ export const STAR_RATING_COMPONENT = 'StarRatingComponent';
 export const PRODUCT_SERVICE = 'ProductService';
 export const PRODUCT_LOADING_SERVICE = 'ProductLoadingService';
 export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
+export const FOOTER_NAVIGATION_COMPONENT = 'FooterNavigationComponent';
+export const NAVIGATION_SERVICE = 'NavigationService';
 export const URL_MATCHER_SERVICE = 'UrlMatcherService';
 export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
 export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
@@ -136,9 +142,11 @@ export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
 export const ASM_ENABLER_SERVICE = 'AsmEnablerService';
 export const OUTLET_SERVICE = 'OutletService';
 export const LAUNCH_DIALOG_SERVICE = 'LaunchComponentService';
+export const PLACE_ORDER_COMPONENT = 'PlaceOrderComponent';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';
 export const USER_NOTIFICATION_PREFERENCE_SERVICE =
   'UserNotificationPreferenceService';
+export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -178,6 +186,9 @@ export const PWA_CONFIGURATION_FACTORY = 'pwaConfigurationFactory';
 export const PWA_FACTORY = 'pwaFactory';
 export const GET_STRUCTURED_DATA_FACTORY = 'getStructuredDataFactory';
 export const SKIP_LINK_FACTORY = 'skipLinkFactory';
+export const FORM_UTILS = 'FormUtils';
+export const BILLING_ADDRESS_FORM_COMPONENT = 'BillingAddressFormComponent';
+export const BILLING_ADDRESS_FORM_MODULE = 'BillingAddressFormModule';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -205,4 +216,6 @@ export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 /***** Misc start *****/
 export const CSS_DOCS_URL =
   'https://sap.github.io/cloud-commerce-spartacus-storefront-docs/deprecation-guide/css';
+export const UTF_8 = 'utf-8';
+export const DEFAULT_ENVIRONMENT_NAME = 'environment';
 /***** Misc end *****/
