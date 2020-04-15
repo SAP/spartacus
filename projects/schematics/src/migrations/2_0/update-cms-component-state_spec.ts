@@ -175,7 +175,7 @@ const ALL_TEST_CASES_CLASS = `
       StateWithCms,
       CmsActions,
       PageContext,
-      StateEntityLoaderActions
+      StateUtils
     } from '@spartacus/core';
     import { Observable } from 'rxjs';
 

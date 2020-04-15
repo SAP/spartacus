@@ -1,12 +1,11 @@
 import { entityLoaderReducer } from './entity-loader.reducer';
-import { initialEntityState } from '../entity/entity.reducer';
 import {
   EntityFailAction,
   EntityLoadAction,
   EntityResetAction,
   EntitySuccessAction,
 } from './entity-loader.action';
-import { initialLoaderState } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 
 describe('EntityLoader reducer', () => {
   const TEST_ENTITY_TYPE = 'test';
@@ -16,7 +15,7 @@ describe('EntityLoader reducer', () => {
       const action = {} as any;
       const state = entityLoaderReducer(TEST_ENTITY_TYPE)(undefined, action);
 
-      const expectedState = initialEntityState;
+      const expectedState = StateUtils.initialEntityState;
 
       expect(state).toEqual(expectedState);
     });
@@ -261,8 +260,8 @@ describe('EntityLoader reducer', () => {
         );
         const expectedState = {
           entities: {
-            [TEST_ENTITIES_ID[0]]: initialLoaderState,
-            [TEST_ENTITIES_ID[1]]: initialLoaderState,
+            [TEST_ENTITIES_ID[0]]: StateUtils.initialLoaderState,
+            [TEST_ENTITIES_ID[1]]: StateUtils.initialLoaderState,
             'another entity': {
               loading: false,
               error: false,

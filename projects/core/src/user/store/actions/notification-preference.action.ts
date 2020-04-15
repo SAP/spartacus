@@ -1,4 +1,4 @@
-import { StateLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
@@ -29,21 +29,21 @@ export const RESET_NOTIFICATION_PREFERENCES =
 export const CLEAR_NOTIFICATION_PREFERENCES =
   '[User] Clear Notification Preferences';
 
-export class LoadNotificationPreferences extends StateLoaderActions.LoaderLoadAction {
+export class LoadNotificationPreferences extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_NOTIFICATION_PREFERENCES;
   constructor(public payload: string) {
     super(NOTIFICATION_PREFERENCES);
   }
 }
 
-export class LoadNotificationPreferencesFail extends StateLoaderActions.LoaderFailAction {
+export class LoadNotificationPreferencesFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_NOTIFICATION_PREFERENCES_FAIL;
   constructor(public payload: any) {
     super(NOTIFICATION_PREFERENCES, payload);
   }
 }
 
-export class LoadNotificationPreferencesSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class LoadNotificationPreferencesSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_NOTIFICATION_PREFERENCES_SUCCESS;
   constructor(public payload: NotificationPreference[]) {
     super(NOTIFICATION_PREFERENCES);
@@ -80,7 +80,7 @@ export class ResetNotificationPreferences extends EntityResetAction {
   }
 }
 
-export class ClearNotificationPreferences extends StateLoaderActions.LoaderResetAction {
+export class ClearNotificationPreferences extends StateUtils.LoaderResetAction {
   readonly type = CLEAR_NOTIFICATION_PREFERENCES;
   constructor() {
     super(NOTIFICATION_PREFERENCES);
