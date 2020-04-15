@@ -6,9 +6,21 @@ export enum DeliveryModePreferences {
   MOST_EXPENSIVE = 'MOST_EXPENSIVE',
 }
 
+export abstract class CheckoutGroup {
+    /**
+     * Set checkout group Id
+     */
+    groupId?: string;
+    /**
+     * Set checkout steps within the group as ordered array of pages.
+     */
+    steps?: Array<CheckoutStep>;
+}
+
 export abstract class CheckoutConfig {
   checkout?: {
     /**
+     * @deprecated groups configuration instead
      * Set checkout steps as ordered array of pages.
      */
     steps?: Array<CheckoutStep>;
@@ -24,5 +36,9 @@ export abstract class CheckoutConfig {
      * Allow for guest checkout.
      */
     guest?: boolean;
+    /**
+     * Configures available checkout groups
+     */
+    groups?: Array<CheckoutGroup>;
   };
 }
