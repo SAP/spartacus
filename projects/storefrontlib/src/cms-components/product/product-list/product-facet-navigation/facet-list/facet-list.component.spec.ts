@@ -12,7 +12,6 @@ import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import {
-  DialogMode,
   FacetCollapseState,
   FacetGroupCollapsedState,
   FacetList,
@@ -89,7 +88,7 @@ describe('FacetListComponent', () => {
       fixture = TestBed.createComponent(FacetListComponent);
       element = fixture.debugElement;
       component = fixture.componentInstance;
-      component.dialogMode = DialogMode.INLINE;
+      component.isDialog = false;
       fixture.detectChanges();
     });
 
@@ -98,7 +97,7 @@ describe('FacetListComponent', () => {
     });
 
     it('should require dialog', () => {
-      component.dialogMode = DialogMode.POP;
+      component.isDialog = true;
       fixture.detectChanges();
       expect(component.isDialog).toBeTruthy();
     });
@@ -113,7 +112,7 @@ describe('FacetListComponent', () => {
 
     it('should emit expandFacetGroup when handling unlock', () => {
       spyOn(component, 'expandFacetGroup').and.stub();
-      component.dialogMode = DialogMode.POP;
+      component.isDialog = true;
       fixture.detectChanges();
 
       const container = element.queryAll(By.css('cx-facet'));
@@ -126,7 +125,7 @@ describe('FacetListComponent', () => {
     describe('close dialog', () => {
       it('should emit close when clicking the close button', () => {
         spyOn(component.closeDialog, 'emit').and.stub();
-        component.dialogMode = DialogMode.POP;
+        component.isDialog = true;
         fixture.detectChanges();
 
         const header = element.query(By.css('button.close'));
@@ -136,7 +135,7 @@ describe('FacetListComponent', () => {
 
       it('should emit close when handling escape', () => {
         spyOn(component.closeDialog, 'emit').and.stub();
-        component.dialogMode = DialogMode.POP;
+        component.isDialog = true;
         fixture.detectChanges();
 
         const container = element.query(By.css('div'));
