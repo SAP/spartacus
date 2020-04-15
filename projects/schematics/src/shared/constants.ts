@@ -1,5 +1,3 @@
-export const UTF_8 = 'utf-8';
-
 /***** Libraries versions start *****/
 
 export const DEFAULT_ANGULAR_VERSION = '^9.1.0';
@@ -107,6 +105,7 @@ export const CONSENT_SERVICE = 'ConsentService';
 export const CDS_CONFIG = 'CdsConfig';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
+export const LOGOUT_GUARD = 'LogoutGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
@@ -126,6 +125,8 @@ export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
+
 export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
 export const REGISTER_COMPONENT = 'RegisterComponent';
 export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
@@ -217,4 +218,6 @@ export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 /***** Misc start *****/
 export const CSS_DOCS_URL =
   'https://sap.github.io/cloud-commerce-spartacus-storefront-docs/deprecation-guide/css';
+export const UTF_8 = 'utf-8';
+export const DEFAULT_ENVIRONMENT_NAME = 'environment';
 /***** Misc end *****/

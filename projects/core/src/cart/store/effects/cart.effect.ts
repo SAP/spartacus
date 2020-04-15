@@ -12,7 +12,7 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CheckoutActions } from '../../../checkout/store/actions/index';
+import { CheckoutActions } from '../../../checkout/store/actions';
 import { Cart } from '../../../model/cart.model';
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
@@ -37,7 +37,6 @@ export class CartEffects {
   loadCart$: Observable<
     | CartActions.LoadCartFail
     | CartActions.LoadCartSuccess
-    | CartActions.ClearExpiredCoupons
     | CartActions.RemoveCart
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
@@ -94,27 +93,15 @@ export class CartEffects {
                   (err) => err.reason === 'invalid'
                 );
                 if (couponExpiredErrors.length > 0) {
-                  // clear coupons actions just wanted to reload cart again
-                  // no need to do it in refresh or keep that action
-                  // however removing this action will be a breaking change
-                  // remove that action in 2.0 release
-                  // @deprecated since 1.4
-                  return from([
-                    new CartActions.LoadCart({ ...payload }),
-                    new CartActions.ClearExpiredCoupons({}),
-                  ]);
+                  // Reload in case of expired coupon.
+                  return of(new CartActions.LoadCart({ ...payload }));
                 }
 
                 const cartNotFoundErrors = error.error.errors.filter(
                   (err) => err.reason === 'notFound' || 'UnknownResourceError'
                 );
-                if (
-                  cartNotFoundErrors.length > 0 &&
-                  payload.extraData &&
-                  payload.extraData.active
-                ) {
-                  // Clear cart is responsible for removing cart in `cart` store feature.
-                  // Remove cart does the same thing, but in `multi-cart` store feature.
+                if (cartNotFoundErrors.length > 0) {
+                  // Remove cart as it doesn't exist on backend.
                   return of(
                     new CartActions.RemoveCart({ cartId: payload.cartId })
                   );
@@ -208,21 +195,13 @@ export class CartEffects {
     withdrawOn(this.contextChange$)
   );
 
+  // TODO(#7241): Remove when AddVoucherSuccess actions will extend processes actions
   @Effect()
   refresh$: Observable<
     CartActions.LoadCart | CartActions.CartProcessesDecrement
   > = this.actions$.pipe(
-    ofType(
-      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
-      CartActions.CART_ADD_VOUCHER_SUCCESS
-    ),
-    map(
-      (
-        action:
-          | CheckoutActions.ClearCheckoutDeliveryModeSuccess
-          | CartActions.CartAddVoucherSuccess
-      ) => action.payload
-    ),
+    ofType(CartActions.CART_ADD_VOUCHER_SUCCESS),
+    map((action: CartActions.CartAddVoucherSuccess) => action.payload),
     concatMap((payload) =>
       from([
         new CartActions.CartProcessesDecrement(payload.cartId),
@@ -234,6 +213,7 @@ export class CartEffects {
     )
   );
 
+  // TODO: Switch to automatic cart reload on processes count reaching 0 for cart entity
   @Effect()
   refreshWithoutProcesses$: Observable<
     CartActions.LoadCart
@@ -242,7 +222,8 @@ export class CartEffects {
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_SUCCESS
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS,
+      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS
     ),
     map(
       (
@@ -251,6 +232,7 @@ export class CartEffects {
           | CartActions.CartUpdateEntrySuccess
           | CartActions.CartRemoveEntrySuccess
           | CartActions.CartRemoveVoucherSuccess
+          | CheckoutActions.ClearCheckoutDeliveryModeSuccess
       ) => action.payload
     ),
     map(

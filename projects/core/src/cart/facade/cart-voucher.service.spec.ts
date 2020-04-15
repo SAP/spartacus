@@ -77,7 +77,14 @@ describe('CartVoucherService', () => {
     });
 
     it('should return the error flag', () => {
-      store.dispatch(new CartActions.CartAddVoucherFail('error'));
+      store.dispatch(
+        new CartActions.CartAddVoucherFail({
+          error: 'error',
+          userId,
+          cartId: cart.code,
+          voucherId,
+        })
+      );
       service
         .getAddVoucherResultError()
         .subscribe((result) => expect(result).toEqual(true))
@@ -87,8 +94,9 @@ describe('CartVoucherService', () => {
     it('should return the success flag', () => {
       store.dispatch(
         new CartActions.CartAddVoucherSuccess({
-          userId: userId,
+          userId,
           cartId: cart.code,
+          voucherId,
         })
       );
       service
