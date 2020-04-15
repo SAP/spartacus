@@ -35,8 +35,7 @@ let productConfiguration: Configurator.Configuration = {
   configId: 'a',
 };
 
-let payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters = {
-};
+let payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters = {};
 const cartModification: CartModification = {
   quantity: 1,
   quantityAdded: 1,
