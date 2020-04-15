@@ -103,8 +103,8 @@ export class ProductFacetNavigationComponent implements OnInit {
     this.isOpen = true;
 
     setTimeout(() => {
-      this.facetListRef.nativeElement.classList.add('active');
-      this.facetListRef.nativeElement.focus();
+      this.facetListRef?.nativeElement.classList.add('active');
+      this.facetListRef?.nativeElement.focus();
     }, this.TOGGLE_LAUNCH_DELAY);
   }
 

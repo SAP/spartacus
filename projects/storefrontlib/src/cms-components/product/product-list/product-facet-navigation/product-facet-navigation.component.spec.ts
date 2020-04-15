@@ -1,7 +1,13 @@
-import { Component, Input, Output } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { DialogMode } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
@@ -27,7 +33,7 @@ class MockActiveFacetsComponent {
 })
 class MockFacetListComponent {
   @Input() dialogMode;
-  @Output() closeDialog;
+  @Output() closeDialog = new EventEmitter();
 }
 
 class MockBreakpointService {
@@ -44,7 +50,7 @@ class MockBreakpointService {
 fdescribe('ProductFacetNavigationComponent', () => {
   let component: ProductFacetNavigationComponent;
   let fixture: ComponentFixture<ProductFacetNavigationComponent>;
-  // let element: DebugElement;
+  let element: DebugElement;
   let service: BreakpointService;
 
   beforeEach(async(() => {
@@ -69,48 +75,58 @@ fdescribe('ProductFacetNavigationComponent', () => {
     service = TestBed.inject(BreakpointService);
   });
 
-  describe('All', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(ProductFacetNavigationComponent);
-      component = fixture.componentInstance;
-      component.ngOnInit();
-      fixture.detectChanges();
-    });
-
-    it('should create', () => {
-      expect(component).toBeTruthy();
-    });
-
-    fit('should have inline dialogMode', async(async () => {
-      let result;
-      // spyOnProperty(component, 'hasTrigger').and.returnValue(false);
-
-      component.dialogMode$
-        .subscribe(async (dialogMode) => {
-          await fixture.whenStable();
-          fixture.detectChanges();
-          result = dialogMode;
-        })
-        .unsubscribe();
-      // await fixture.whenStable();
-
-      expect(result).toEqual(DialogMode.POP);
-    }));
-
-    xit('should set isOpen to false', () => {
-      component.isOpen = true;
-      component.ngOnInit();
-      component.dialogMode$.subscribe().unsubscribe();
-      expect(component.isOpen).toBeFalsy();
-    });
-
-    // it('should store the facetList', () => {
-    //   component.updateFacetList(mockFacetList);
-    //   expect(component.facetList).toEqual(mockFacetList);
-    // });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ProductFacetNavigationComponent);
+    component = fixture.componentInstance;
+    component.ngOnInit();
+    element = fixture.debugElement;
+    fixture.detectChanges();
   });
 
-  describe('Mobile', () => {
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe('facet list', () => {
+    it('should not have facet list when trigger button is visible', async(async () => {
+      await fixture.whenStable();
+
+      const facetList = element.query(By.css('cx-facet-list'));
+      expect(facetList).toBeNull();
+    }));
+
+    it('should open facet list when launched', async(async () => {
+      const button: HTMLElement = element.query(By.css('button')).nativeElement;
+      button.click();
+      expect(component.isOpen).toBeTruthy();
+    }));
+
+    it('should have facet list when launched', async(async () => {
+      await fixture.whenStable();
+
+      const button: HTMLElement = element.query(By.css('button')).nativeElement;
+      button.click();
+
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      const facetList = element.query(By.css('cx-facet-list')).nativeElement;
+      expect(facetList).toBeTruthy();
+    }));
+
+    it('should have facet list when trigger button is hidden', async(async () => {
+      const button: HTMLElement = element.query(By.css('button')).nativeElement;
+      button.style.display = 'none';
+
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      const facetList = element.query(By.css('cx-facet-list')).nativeElement;
+      expect(facetList).toBeTruthy();
+    }));
+  });
+
+  xdescribe('Mobile', () => {
     beforeEach(() => {
       spyOnProperty(service, 'breakpoint$').and.returnValue(of({}));
 
