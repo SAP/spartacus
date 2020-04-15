@@ -1,4 +1,5 @@
 @import '../../theme';
+
 %cx-consent-management {
   .cx-consent-action-links {
     text-align: right;
@@ -13,10 +14,6 @@
 
     .cx-action-link {
       margin: 0 0.35rem;
-    }
-
-    button {
-      @include button-reset();
     }
   }
 
